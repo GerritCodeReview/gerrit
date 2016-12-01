@@ -22,6 +22,24 @@
       "revId": "c417d22efad57166d0e4f8bffc4c598b6a924089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_d160e415",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-12-01T20:53:11Z",
+      "side": 1,
+      "message": "Oh, how do I do that using gr-rest-api-interface? I thought that the plugin would be doing the resolving.",
+      "parentUuid": "8d04bb4e_7193f8eb",
+      "revId": "c417d22efad57166d0e4f8bffc4c598b6a924089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

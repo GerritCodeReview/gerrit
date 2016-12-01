@@ -31,7 +31,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
@@ -106,6 +105,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -410,56 +410,94 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private <T extends CommentInput> void checkComments(RevisionResource revision,
-      Map<String, List<T>> in) throws BadRequestException, OrmException {
-    Iterator<? extends Map.Entry<String, List<T>>> mapItr =
-            in.entrySet().iterator();
-    Set<String> filePaths =
-        Sets.newHashSet(changeDataFactory.create(
-            db.get(), revision.getControl()).filePaths(
-                revision.getPatchSet()));
-    while (mapItr.hasNext()) {
-      Map.Entry<String, List<T>> ent = mapItr.next();
-      String path = ent.getKey();
-      if (!filePaths.contains(path) && !Patch.isMagic(path)) {
-        throw new BadRequestException(String.format(
-            "file %s not found in revision %s",
-            path, revision.getChange().currentPatchSetId()));
-      }
+      Map<String, List<T>> commentsPerPath)
+      throws BadRequestException, OrmException {
+    cleanUpComments(commentsPerPath);
+    ensureCommentsAreAddable(revision, commentsPerPath);
+  }
 
-      List<T> list = ent.getValue();
-      if (list == null) {
-        mapItr.remove();
+  private <T extends CommentInput> void cleanUpComments(
+      Map<String, List<T>> commentsPerPath) {
+    Iterator<List<T>> mapValueIterator = commentsPerPath.values().iterator();
+    while (mapValueIterator.hasNext()) {
+      List<T> comments = mapValueIterator.next();
+      if (comments == null) {
+        mapValueIterator.remove();
         continue;
       }
-      if (Patch.isMagic(path)) {
-        for (T comment : list) {
-          if (comment.side == Side.PARENT && comment.parent == null) {
-            throw new BadRequestException(
-                String.format("cannot comment on %s on auto-merge", path));
-          }
-        }
+
+      cleanUpComments(comments);
+
+      if (comments.isEmpty()) {
+        mapValueIterator.remove();
+      }
+    }
+  }
+
+  private <T extends CommentInput> void cleanUpComments(List<T> comments) {
+    Iterator<T> commentsIterator = comments.iterator();
+    while (commentsIterator.hasNext()) {
+      T comment = commentsIterator.next();
+      if (comment == null) {
+        commentsIterator.remove();
+        continue;
       }
 
-      Iterator<T> listItr = list.iterator();
-      while (listItr.hasNext()) {
-        T c = listItr.next();
-        if (c == null) {
-          listItr.remove();
-          continue;
-        }
-        if (c.line != null && c.line < 0) {
-          throw new BadRequestException(String.format(
-              "negative line number %d not allowed on %s",
-              c.line, path));
-        }
-        c.message = Strings.nullToEmpty(c.message).trim();
-        if (c.message.isEmpty()) {
-          listItr.remove();
-        }
+      comment.message = Strings.nullToEmpty(comment.message).trim();
+      if (comment.message.isEmpty()) {
+        commentsIterator.remove();
       }
-      if (list.isEmpty()) {
-        mapItr.remove();
+    }
+  }
+
+  private <T extends CommentInput> void ensureCommentsAreAddable(
+      RevisionResource revision, Map<String, List<T>> commentsPerPath)
+      throws OrmException, BadRequestException {
+    Set<String> revisionFilePaths = getAffectedFilePaths(revision);
+    for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
+      String path = entry.getKey();
+      PatchSet.Id patchSetId = revision.getChange().currentPatchSetId();
+      ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths,
+          patchSetId);
+
+      List<T> comments = entry.getValue();
+      for (T comment : comments) {
+        ensureLineIsNonNegative(comment.line, path);
+        ensureCommentNotOnMagicFilesOfAutoMerge(path, comment);
       }
+    }
+  }
+
+  private Set<String> getAffectedFilePaths(RevisionResource revision)
+      throws OrmException {
+    ChangeData changeData = changeDataFactory.create(db.get(),
+        revision.getControl());
+    return new HashSet<>(changeData.filePaths(revision.getPatchSet()));
+  }
+
+  private void ensurePathRefersToAvailableOrMagicFile(String path,
+      Set<String> availableFilePaths, PatchSet.Id patchSetId)
+      throws BadRequestException {
+    if (!availableFilePaths.contains(path) && !Patch.isMagic(path)) {
+      throw new BadRequestException(String.format(
+          "file %s not found in revision %s", path, patchSetId));
+    }
+  }
+
+  private void ensureLineIsNonNegative(Integer line, String path)
+      throws BadRequestException {
+    if (line != null && line < 0) {
+      throw new BadRequestException(String.format(
+          "negative line number %d not allowed on %s", line, path));
+    }
+  }
+
+  private <T extends CommentInput> void ensureCommentNotOnMagicFilesOfAutoMerge(
+      String path, T comment) throws BadRequestException {
+    if (Patch.isMagic(path) && comment.side == Side.PARENT
+        && comment.parent == null) {
+      throw new BadRequestException(
+          String.format("cannot comment on %s on auto-merge", path));
     }
   }
 

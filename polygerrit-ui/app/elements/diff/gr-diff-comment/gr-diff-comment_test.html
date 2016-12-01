@@ -182,6 +182,7 @@ limitations under the License.
 
   suite('gr-diff-comment draft tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
       stub('gr-rest-api-interface', {
@@ -219,6 +220,11 @@ limitations under the License.
         path: '/path/to/file',
         line: 5,
       };
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('button visibility states', function() {
@@ -332,6 +338,8 @@ limitations under the License.
       assert.isTrue(element.editing);
 
       element._messageText = '';
+      var eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
+
       // Save should be disabled on an empty message.
       var disabled = element.$$('.save').hasAttribute('disabled');
       assert.isTrue(disabled, 'save button should be disabled.');
@@ -345,16 +353,28 @@ limitations under the License.
       var numDiscardEvents = 0;
       element.addEventListener('comment-discard', function(e) {
         numDiscardEvents++;
-        if (numDiscardEvents == 3) {
+        assert.isFalse(eraseMessageDraftSpy.called);
+        if (numDiscardEvents === 2) {
           assert.isFalse(updateStub.called);
           done();
         }
       });
       MockInteractions.tap(element.$$('.cancel'));
-      MockInteractions.tap(element.$$('.discard'));
       element.flushDebouncer('fire-update');
       element._messageText = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.editTextarea, 27); // esc
+    });
+
+    test('draft discard removes message from storage', function(done) {
+      element._messageText = '';
+      var eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
+
+      var numDiscardEvents = 0;
+      element.addEventListener('comment-discard', function(e) {
+        assert.isTrue(eraseMessageDraftSpy.called);
+        done();
+      });
+      MockInteractions.tap(element.$$('.discard'));
     });
 
     test('ctrl+s saves comment', function(done) {

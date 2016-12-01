@@ -152,6 +152,24 @@
       "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_488edf50",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-01T17:37:22Z",
+      "side": 1,
+      "message": "I\u0027d still keep it here as a guard against unexpected behavior.\nNot feeling strongly, can remove.",
+      "parentUuid": "8d04bb4e_d19d8442",
+      "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

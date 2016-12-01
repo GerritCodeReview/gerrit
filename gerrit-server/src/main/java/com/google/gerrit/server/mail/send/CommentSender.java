@@ -481,7 +481,9 @@ public class CommentSender extends ReplyToChangeSender {
         Map<String, Object> commentData = new HashMap<>();
         commentData.put("lines", getLinesOfComment(comment, group.fileData));
         commentData.put("message", comment.message.trim());
-        commentData.put("messageBlocks", formatComment(comment.message));
+        List<CommentFormatter.Block> blocks =
+            CommentFormatter.parse(comment.message);
+        commentData.put("messageBlocks", commentBlocksToSoyData(blocks));
 
         // Set the prefix.
         String prefix = getCommentLinePrefix(comment);
@@ -519,11 +521,14 @@ public class CommentSender extends ReplyToChangeSender {
           commentData.put("isRobotComment", false);
         }
 
-        // Set parent comment info.
-        Optional<Comment> parent = getParent(comment);
-        if (parent.isPresent()) {
-          commentData.put("parentMessage",
-              getShortenedCommentMessage(parent.get()));
+        // If the comment has a quote, don't bother loading the parent message.
+        if (!hasQuote(blocks)) {
+          // Set parent comment info.
+          Optional<Comment> parent = getParent(comment);
+          if (parent.isPresent()) {
+            commentData.put("parentMessage",
+                getShortenedCommentMessage(parent.get()));
+          }
         }
 
         commentsList.add(commentData);
@@ -535,9 +540,9 @@ public class CommentSender extends ReplyToChangeSender {
     return commentGroups;
   }
 
-  private List<Map<String, Object>> formatComment(String comment) {
-    return CommentFormatter.parse(comment)
-        .stream()
+  private List<Map<String, Object>> commentBlocksToSoyData(
+      List<CommentFormatter.Block> blocks) {
+    return blocks.stream()
         .map(b -> {
           Map<String, Object> map = new HashMap<>();
           switch (b.type) {
@@ -551,7 +556,7 @@ public class CommentSender extends ReplyToChangeSender {
               break;
             case QUOTE:
               map.put("type", "quote");
-              map.put("text", b.text);
+              map.put("quotedBlocks", commentBlocksToSoyData(b.quotedBlocks));
               break;
             case LIST:
               map.put("type", "list");
@@ -561,6 +566,15 @@ public class CommentSender extends ReplyToChangeSender {
           return map;
         })
         .collect(Collectors.toList());
+  }
+
+  private boolean hasQuote(List<CommentFormatter.Block> blocks) {
+    for (CommentFormatter.Block block : blocks) {
+      if (block.type == CommentFormatter.BlockType.QUOTE) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private Repository getRepository() {
@@ -578,7 +592,8 @@ public class CommentSender extends ReplyToChangeSender {
       soyContext.put("commentFiles", getCommentGroupsTemplateData(repo));
     }
     soyContext.put("commentTimestamp", getCommentTimestamp());
-    soyContext.put("coverLetterBlocks", formatComment(getCoverLetter()));
+    soyContext.put("coverLetterBlocks",
+        commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {

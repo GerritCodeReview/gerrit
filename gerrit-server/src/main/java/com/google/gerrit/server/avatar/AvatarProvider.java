@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package com.google.gerrit.server.avatar;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.server.IdentifiedUser;
 
 /**
@@ -24,6 +25,7 @@ import com.google.gerrit.server.IdentifiedUser;
  */
 @ExtensionPoint
 public interface AvatarProvider {
+
   /**
    * Get avatar URL.
    *
@@ -47,4 +49,39 @@ public interface AvatarProvider {
    *         modification is not possible.
    */
   String getChangeAvatarUrl(IdentifiedUser forUser);
+
+  /**
+   * Set the avatar image URL for specified user and specified size.
+   * <p>
+   * It is the default method (not interface method declaration)
+   * for back compatibility with old code.
+   * </p>
+   * @param forUser   The user for which need to change the avatar image.
+   * @param url       The avatar image URL for the specified user.
+   * @param imageSize The avatar image size in pixels. If imageSize have
+   *                  a zero value this indicates to set URL for default
+   *                  size that provider determines.
+   * @throws Exception if an error occurred.
+   */
+  default void setUrl(IdentifiedUser forUser, String url, int imageSize)
+      throws Exception {
+    throw new NotImplementedException();
+  }
+
+  /**
+   * Indicates could be set avatar image URL or not.
+   * <p>
+   * It is the default method (not interface method declaration)
+   * for back compatibility with old code.
+   * </p>
+   * @return <ul>
+   *   <li>true  - avatar image URL could be set.</li>
+   *   <li>false - avatar image URL could not be set
+   *               (for example not Implemented).</li>
+   * </ul>
+   */
+  default boolean canSetUrl() {
+    return false;
+  }
+
 }

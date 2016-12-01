@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_ee071f81",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/AvatarImage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1031977
+      },
+      "writtenOn": "2016-12-01T00:11:37Z",
+      "side": 0,
+      "message": "I return it back.",
+      "parentUuid": "2df3cfac_0e6feb6a",
+      "range": {
+        "startLine": 87,
+        "startChar": 5,
+        "endLine": 87,
+        "endChar": 41
+      },
+      "revId": "43a6a5953f2c9c360b629d3f88efb7249acf097c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2df3cfac_4e79f333",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/AvatarImage.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-30T23:36:42Z",
       "side": 0,
       "message": "This change loses the conversion to \"self\".  It should possible to do the same using Account.Id.  Something like this (which I have not tested):\n\nhttp://paste.openstack.org/show/591040/",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 5
+      },
+      "revId": "43a6a5953f2c9c360b629d3f88efb7249acf097c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_2c6bf32c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/AvatarImage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1031977
+      },
+      "writtenOn": "2016-12-01T00:11:37Z",
+      "side": 0,
+      "message": "Conversion to \"self\" not need in this place.\nI have tested it.\nIt is my test site (while not production): https://gerrit.agromat.ua:8443/. You can see the work of it change.\nIn http://paste.openstack.org/show/591040/ you do the same, but with conversion to \"self\". But it not need. Unnecessary code. Unnecessary waste of CPU time.",
+      "parentUuid": "2df3cfac_4e79f333",
       "range": {
         "startLine": 89,
         "startChar": 4,

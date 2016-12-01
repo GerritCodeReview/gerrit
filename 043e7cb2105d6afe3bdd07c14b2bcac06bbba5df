@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_b17d6022",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-01T00:06:27Z",
+      "side": 1,
+      "message": "This mirrors the code in account-chip. I believe it has to do with tap being triggered by other kinds of taps, like focus+enter.",
+      "parentUuid": "105d44d4_a87753b0",
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_485d7f33",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip_test.html",
         "patchSetId": 3
@@ -70,6 +88,24 @@
       "writtenOn": "2016-11-30T22:40:26Z",
       "side": 1,
       "message": "flushAsynchronousOperations() makes code more readable and produces better error messages in Firefox.\nAlso, you wouldn\u0027t need done().",
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_907ad425",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-01T00:06:27Z",
+      "side": 1,
+      "message": "Can you explain this more? What better error messages are we talking about here?\n\nI actually disagree that it makes code more legible, I think that it separates the setup for the test nicely from the actual test itself. In any case, we use both nearly interchangeably all over the codebase.",
+      "parentUuid": "105d44d4_485d7f33",
       "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_51b19494",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T19:10:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_d1562476",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_d001fc6c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 7
@@ -48,6 +66,24 @@
       "writtenOn": "2016-12-01T19:02:25Z",
       "side": 1,
       "message": "The javadoc comment says initial must be \u003c\u003d max, so this can use Preconditions.checkArgument. That way it would produce a descriptive IAE instead of untyped exception.",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_71ac983c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T19:10:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d05c749_d001fc6c",
       "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_11a70c5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T19:10:08Z",
+      "side": 1,
+      "message": "By deriving from OutputStream directly we can throw any kind of IOException. SizeLimitExceededException is not an IOException.\n\nI looked around for a better match but there is no such thing yet. And I did not want to roll yet another class just describing the exception that we throw here.",
+      "parentUuid": "6d05c749_305cc89b",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_713f781b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 7
@@ -82,6 +136,24 @@
       "writtenOn": "2016-12-01T19:02:25Z",
       "side": 1,
       "message": "*puzzled* Is this used by multiple threads?",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_31a2104c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T19:10:08Z",
+      "side": 1,
+      "message": "no it was a mental leftover from looking at the ByteArrayImplementation. un-sync\u0027ed should be fine.",
+      "parentUuid": "8d04bb4e_713f781b",
       "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

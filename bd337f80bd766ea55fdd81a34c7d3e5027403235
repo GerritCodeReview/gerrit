@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d05c749_f059a0a6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-01T19:22:35Z",
+      "side": 1,
+      "message": "Here, when run with dom\u003dshadow, I\u0027m able to get AN element that LOOKS like the right one, but when #244 is executed, the selection isn\u0027t actually added correctly. I\u0027m thinking it\u0027s because I\u0027m somehow not getting the correct dom node and instead getting some shadow replica or something.",
+      "range": {
+        "startLine": 237,
+        "startChar": 6,
+        "endLine": 246,
+        "endChar": 50
+      },
+      "revId": "bd337f80bd766ea55fdd81a34c7d3e5027403235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

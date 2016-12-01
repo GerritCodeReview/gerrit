@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2df3cfac_8ed11bea",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T08:13:54Z",
+      "side": 1,
+      "message": "General comment:  There are quite a few long lines in this file.  Can you wrap them so it\u0027s easier to view in the side-by-side?\n\nI guess that\u0027s why Luca wants to view it in gitiles instead.\n\nAs an aside, perhaps it\u0027s time to think about the future of the documentation.  Do we want to continue using asciidoc, or move to markdown?\n\nMarkdown would make reviewing a lot easier, IMHO.",
+      "parentUuid": "2dc74f2e_0eaceb3a",
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_ee35df38",
         "filename": "Documentation/url-schema.txt",
         "patchSetId": 1

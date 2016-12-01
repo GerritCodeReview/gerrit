@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_90a3f481",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-01T01:19:21Z",
+      "side": 1,
+      "message": "Ah, that makes sense.",
+      "parentUuid": "ed9e1721_7c4bd9a1",
+      "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "105d44d4_28392302",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -113,6 +131,24 @@
       "side": 1,
       "message": "If project has non-standard labels.\nWithout this guard CodeReviewNaN will be the button label.",
       "parentUuid": "105d44d4_c8140f6e",
+      "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_d19d8442",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-01T01:19:21Z",
+      "side": 1,
+      "message": "If I read [1] correctly, it should be numeric even if it\u0027s customized. Although, we might use parseFloat to make it as general as possible.\n\n* [1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_value",
+      "parentUuid": "105d44d4_284da387",
       "revId": "2a144796e7960f11f7d9cc87b6595ea78053fecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

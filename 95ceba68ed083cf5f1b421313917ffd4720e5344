@@ -1,4 +1,206 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1480536941 -0800\nnonce AOr0K+T7W95MgDkCgMfapjvE8zpQHBF7xlq4oSgB8zh3+w8aPFEzsxY07G3v6yO5nKlkgrk8r0F3\n\n0000000000000000000000000000000000000000 95ceba68ed083cf5f1b421313917ffd4720e5344 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYPzNtAAoJECdUrmNLj+szLKoP/iGCqaa1tVB41hxYjF3KnAXi\nZEogBbhrrGXqGXwBZA62M1LRF1uFR2wcEUwQLfBJH6WjwLGnGKuSpYBTcrYlVcEs\nlYDhBz9uNaO5mghYvehbWayiSFMUwgT0IhNdzfwJ+wi/Y0hAFbzonuMCVeeTPUW7\neL6I3TZKk6w3Of1TcZJIyLBvaLwrY37S/nfkMN4ogsh3G45OMoBMc3PdjJElhqB7\nrHUXIrgKx6qvG+xoVZ4sHmoZeP90gq3HWHGCavkQP0va+TUv5l1hzgH1k8IVt0bL\n8bkLyduScebyjLqDN3N5Nai75jmkBFlAjX/YA12HyOrNFLNqNvoVHCzN7IsikHdw\nMXKcuzR8lcVy7G6rXpnQwUjBOAHJysgTMsbFPQvzZnCy8sPsd/6VuzlB49B8jCSy\nNcDEQgNDVN5Ip0T09OC+dwYkZdL6QpId/58YlZ9HrJKsosEM23+9sFJPLyKYnfed\nK7y1Mi8lkgDnoeXCVehFcEWY4QZw4vY+R8hhpPxdzFJ2RpESWBmMn+RnIw+GGFZF\nZONufELtLkBVxU1VO6CYeEikfpeofqNOwHRESCudtSyyBv44eBXHkauhKS7ZCxVU\n8Fofb+O5lm4uJNlKnSOP+spN7wTKxKtxqjXI5ZtKKIoSCtW1+HAZLLtD1gOMy/cy\nIxpY+V0JngwTUmDcmJLS\n\u003dCHN7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0ac35e_0f988555",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "untarred",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_6f8dd113",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "While we\u0027re in here, isn\u0027t there a constant for this?",
+      "range": {
+        "startLine": 223,
+        "startChar": 25,
+        "endLine": 223,
+        "endChar": 30
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_4f928d37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2df3cfac_ce9de342",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "Output size\n\nAnd is it worth adding the maximum value in the message?",
+      "range": {
+        "startLine": 23,
+        "startChar": 7,
+        "endLine": 23,
+        "endChar": 13
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2df3cfac_8ea3db81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "Use SizeLimitExceededException?\n\nAlso, missing period at the end of this sentence.",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 59
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_afa69991",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "\"which may be\"",
+      "range": {
+        "startLine": 31,
+        "startChar": 42,
+        "endLine": 31,
+        "endChar": 50
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_8fa3d581",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "What happens if initial exceeds max here?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 18
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2df3cfac_eea09f76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "optional: factor this and L49-51 to a small utility method?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_efa0a176",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T02:54:50Z",
+      "side": 1,
+      "message": "Not necessary if the SizeLimitExceededException is used?",
+      "range": {
+        "startLine": 154,
+        "startChar": 12,
+        "endLine": 154,
+        "endChar": 80
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

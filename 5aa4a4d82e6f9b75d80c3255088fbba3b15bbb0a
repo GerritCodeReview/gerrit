@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dc74f2e_ee35df38",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-01T08:00:48Z",
+      "side": 1,
+      "message": "Comment from Luca: Do we really need the \"+\" in front of the c? we know that the last part of the path is going to be /c/[0-9]+ right? Should be fairly easy to define a regex without having to use the \"+\"",
+      "range": {
+        "startLine": 21,
+        "startChar": 62,
+        "endLine": 21,
+        "endChar": 64
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_8e321b4e",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-01T08:00:48Z",
+      "side": 1,
+      "message": "Comment from Luca: I understand why we need to deprecate the ones with only Change-ID or Change-Number ... but do we really need to deprecate the other two that have project name in the URL?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_ae2fd7e2",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-01T08:00:48Z",
+      "side": 1,
+      "message": "Comment from Luca: Again, don\u0027t like the \u0027+\u0027 here if we do not really need it.",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_4ea2f34c",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-01T08:00:48Z",
+      "side": 1,
+      "message": "Comment from Luca: Hold on, not impossible but harder to implement. You would need to define a URL rewriting proxy anyway, possibly using the index change extension point to have an in-memory lookup table of change-number \u003e project, updated in real-time through a message bus. More complex for sure but NOT impossible.",
+      "range": {
+        "startLine": 60,
+        "startChar": 50,
+        "endLine": 60,
+        "endChar": 60
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_ccb58f82",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-01T08:00:48Z",
+      "side": 1,
+      "message": "Comment from Luca: This would actually achieve another goal: project renaming. A lot of people in the community would like to rename projects, and we could do it ONLY by making the primary key something else that isn\u0027t the project name.",
+      "range": {
+        "startLine": 70,
+        "startChar": 42,
+        "endLine": 70,
+        "endChar": 58
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_ecb2cb97",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-01T08:00:48Z",
+      "side": 1,
+      "message": "Comment from Luca: Not static, but immutable for sure.",
+      "range": {
+        "startLine": 72,
+        "startChar": 144,
+        "endLine": 72,
+        "endChar": 157
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_acbcc369",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-01T08:00:48Z",
+      "side": 1,
+      "message": "Comment from Luca: sharding more than load-balancing",
+      "range": {
+        "startLine": 75,
+        "startChar": 83,
+        "endLine": 75,
+        "endChar": 97
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_8cbf875e",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-01T08:00:48Z",
+      "side": 1,
+      "message": "Comment from Luca: s/controversial/innovative",
+      "range": {
+        "startLine": 75,
+        "startChar": 29,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

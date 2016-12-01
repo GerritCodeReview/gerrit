@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d05c749_50b18c94",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-01T19:39:00Z",
+      "side": 1,
+      "message": "This system for differentiating discards and cancels using the number of calls is odd. Sorry I didn\u0027t think of it before, but, can we instead test the erase behavior with separate tests for cancel and discard?",
+      "range": {
+        "startLine": 349,
+        "startChar": 8,
+        "endLine": 350,
+        "endChar": 37
+      },
+      "revId": "1e5be4c0b9ab612606db1092ee93538edf5f43d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

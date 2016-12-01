@@ -35,6 +35,24 @@
       "revId": "a97059f65238b8ad1887d10cf6dca0e784d51372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_9135bc3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T19:05:17Z",
+      "side": 1,
+      "message": "Well the error message exposed to the user now is the message from the LimitedByteArrayOutputStream, i.e. \"Output size exceeds maximum of LimitedByteArrayOutputStream\"\nwhich is not as good as \"created bundles too large\". IMO",
+      "parentUuid": "8d04bb4e_3145f0b7",
+      "revId": "a97059f65238b8ad1887d10cf6dca0e784d51372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

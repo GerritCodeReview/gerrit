@@ -435,6 +435,30 @@
       "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_90d134ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-01T18:07:00Z",
+      "side": 1,
+      "message": "Would it work better if the LimitedOutputStream were a wrapper of BAOS instead of a subclass? (similar to CountingOutputStream)",
+      "parentUuid": "4d0ac35e_cfb2fdc5",
+      "range": {
+        "startLine": 154,
+        "startChar": 12,
+        "endLine": 154,
+        "endChar": 80
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

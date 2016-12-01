@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_b0d438da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T18:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_0f988555",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0ac35e_6f8dd113",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
         "patchSetId": 5
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_71f13876",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T18:03:43Z",
+      "side": 1,
+      "message": "\u003e While we\u0027re in here, isn\u0027t there a constant for this?\n\n$ git grep \"\\\"zip\\\"\"\ngerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java:      .addParameterTrue(\"zip\")\ngerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java:    return submitPreview(\"zip\");\ntools/bzl/javadoc.bzl:    outputs \u003d {\"zip\" : \"%{name}.zip\"},\ntools/bzl/js.bzl:    \"zip\": \"%{name}.zip\",\ntools/bzl/js.bzl:    \"zip\": \"%{name}.zip\",\n\nI don\u0027t think we have a constant here. loading it via ArchiveFormat.ZIP.getSuffixes().iterator().next() sounds clumsy to me. So we could just introduce a constant in this class?",
+      "parentUuid": "4d0ac35e_6f8dd113",
+      "range": {
+        "startLine": 223,
+        "startChar": 25,
+        "endLine": 223,
+        "endChar": 30
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0ac35e_4f928d37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
         "patchSetId": 5
@@ -60,6 +108,24 @@
       "writtenOn": "2016-12-01T02:54:50Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_31f7b06f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ArchiveFormat.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T18:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_4f928d37",
       "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -183,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_511d14dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T18:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_afa69991",
+      "range": {
+        "startLine": 31,
+        "startChar": 42,
+        "endLine": 31,
+        "endChar": 50
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0ac35e_8fa3d581",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 5
@@ -206,6 +296,30 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_711818ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T18:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_8fa3d581",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 18
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2df3cfac_eea09f76",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 5
@@ -217,6 +331,30 @@
       "writtenOn": "2016-12-01T02:54:50Z",
       "side": 1,
       "message": "optional: factor this and L49-51 to a small utility method?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_911e5cd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-01T18:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2df3cfac_eea09f76",
       "range": {
         "startLine": 41,
         "startChar": 4,

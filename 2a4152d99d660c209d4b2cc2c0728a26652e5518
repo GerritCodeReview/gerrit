@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1480622707 -0800\nnonce AOr0K+QxuQ0rBJ0rs3snZWWlZuEr1znywT/hIZ3UP4HP1h2WDblNqCH6Uv9gUJjBm7lsyXhs4pVQ\n\n0000000000000000000000000000000000000000 2a4152d99d660c209d4b2cc2c0728a26652e5518 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYQIJzAAoJECdUrmNLj+szwr8P/0SxkP6Og83fhmejfBRIrrkQ\nAgshWbS5trYFFZYJiNT1RP5gP1+XyJ82RErYmhwiohMSHh0MgL+ZTsoK6RQKZRxf\nLMbWtcpMFf8kTMmeqToCln6hobiSCzNXEQMvrV7lv/+QCxuxUjyndI6XN5upCDGs\naLpbv+9HDPT4Q/9R+QjWwqewcq7jZCpm2tvU2hr14sFtHCKMJ1WNdRm4kLreHUGc\nIn2aq4r9CkEEYkqKEXZjpT1Y107cVowQMEBTJXgDqyCbdg4G8mJtOtGUp1M/Xuda\njnU3zotuy+RhlppXzdT3mkvLXyo4UE9ww6DCN7wzr0y8bPfTyq2GA7m5Oai8iVCs\np79u6QmnDmxpfECPWTMnOIAJY7wgKWQLGrHhUXAt3m7iHBKWA4VrEe9PG5JN0gIK\nTg/Cn+nNfIPVJqYltjDJM9Th2ZXGRP74RaV9UhgOR1sL7muPq4AC/2IZtbTL8N22\n3rjYNm78GoCr39XuPdtDT9uT1mgO+xvd7Acho/AEuXmm0YiKi38SjcuYdknMNcKU\n77b9k39aU8xGc5Ca6FdSMSvqBZUM11X2IFDepO9B8L4o/20SYUt3nrkaSu1+Wc95\n7fR9qhYSlCRvD6Ri+iRN9nQzv/fZcDEbkofjeURbvtk2wg0dY/mHeoveAYDoJ086\n59n915U64nlInFacgkX5\n\u003dVkm5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d05c749_707ad0db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-01T20:22:36Z",
+      "side": 1,
+      "message": "I didn\u0027t know that worked.\n\nPlease use java-style\n\n  public byte[] toByteArray() {\n\ninstead.",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 29
+      },
+      "revId": "2a4152d99d660c209d4b2cc2c0728a26652e5518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

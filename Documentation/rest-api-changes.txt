@@ -4029,7 +4029,7 @@ describes the published comment.
   }
 ----
 
-[[list-comments]]
+[[list-robot-comments]]
 === List Robot Comments
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments/'

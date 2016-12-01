@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "2df3cfac_4ee0d3af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T07:19:46Z",
+      "side": 1,
+      "message": "\u003e is it worth adding the maximum value\n\nIt would make it more complicated to check for the message, so let\u0027s scratch that idea.",
+      "parentUuid": "2df3cfac_ce9de342",
+      "range": {
+        "startLine": 23,
+        "startChar": 7,
+        "endLine": 23,
+        "endChar": 13
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2df3cfac_8ea3db81",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 5
@@ -100,6 +124,30 @@
       "writtenOn": "2016-12-01T02:54:50Z",
       "side": 1,
       "message": "Use SizeLimitExceededException?\n\nAlso, missing period at the end of this sentence.",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 59
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_2fe109b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T07:19:46Z",
+      "side": 1,
+      "message": "It would be better to expand this comment with a similar explanation as you gave in the other file. As it is now, it sounds like you\u0027ve explicitly chosen to use this exception.\n\nOr maybe it would be better to just throw a RuntimeException here?  At the call site there is an explicit check for the error message, so it shouldn\u0027t make much difference, right?",
+      "parentUuid": "2df3cfac_8ea3db81",
       "range": {
         "startLine": 29,
         "startChar": 5,
@@ -216,6 +264,30 @@
       "side": 1,
       "message": "The problem is the design of the super class ByteArrayOutputStream, which only throws run time exceptions (the indexoutofboundsexception)\nin case of a problem, i.e. when overriding the write methods I cannot add any non-runtime exception to be thrown.\n\nAnd that\u0027s why I picked the IndexOutOfBoundsException as it is consistent with its superclass, though less than ideal.",
       "parentUuid": "4d0ac35e_efa0a176",
+      "range": {
+        "startLine": 154,
+        "startChar": 12,
+        "endLine": 154,
+        "endChar": 80
+      },
+      "revId": "95ceba68ed083cf5f1b421313917ffd4720e5344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_cfb2fdc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T07:19:46Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "6d05c749_d09d7c42",
       "range": {
         "startLine": 154,
         "startChar": 12,

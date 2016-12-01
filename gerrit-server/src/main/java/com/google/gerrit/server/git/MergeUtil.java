@@ -107,7 +107,7 @@ public class MergeUtil {
     private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
     @Inject
-    public PluggableCommitMessageGenerator(
+    PluggableCommitMessageGenerator(
         DynamicSet<ChangeMessageModifier> changeMessageModifiers) {
       this.changeMessageModifiers = changeMessageModifiers;
     }

@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1480618600 -0800\nnonce AOr0K+T6MAZnNOituuTSHYZ9VpcOcuytlPRA4iOin5T+FHiY7f1Rqm0sbO8qwf1VQDjMKf3I4SNR\n\n0000000000000000000000000000000000000000 f0672c50eac1a91fb618094e1446130e599c3b11 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYQHJoAAoJECdUrmNLj+szFpwP/37LZ1PXxxegLGxPzzxMaqIl\nivSlqGvybyoUQwlEemDJcFdDEIOIodM5sOywJEmTFmE/lVlJlEjqFzYr7KFhpGKK\n/nc3xlfIO+mJVJR6h5C3ktrNQSggP2PWBIP21B5jCdX2VwjMCYd2gqpka9pSE3Yi\nge/4IO4qUbPFwuVyHSAiwPNDqolTUWdYT0QSqscEEN9shybiiRActQMsAe3L79Z3\nSyCPKvay4IBaQabOBMgTCu034ErJ98QEM96fHJ76nceMFZofnOQM7JZICL0q5voV\nl/uDKWsAoRrJ/N+86vSCobr+r+nDlUVHJxBtvFz5hpOcc21U8AVwBooYzCK3vskF\nCrEnSDV6YFKYX9rYiz6OFqrame6DjKFjVOJCUTM9MXl38GZf/KH9YzNZX8qQ2qPp\nixVVQ3NaGCYS4lICcQNBATuysY81mBd78XgbcvhgCqNJpyfk0dQGChssBuyfIob4\nOFCmtVIIzF3pePVOXJqLsMJ8vyiMf4br2gnsLN1jIgp1gOb5Fo8tNK9a9tECRIF6\ng+XcYhJCiCjKuSjSfucVak3LBO/1KQrupl0yX88t7JOf0ADGKRxkGEcn6KC0hkIv\nUhsvMSyijgZNJ4IGfTC19uTVkkh0djVplpKBFmkvcjzj7yqkp2jf6iL+dE79jOlq\nVdqAFf8rjZTg+ty3mMOw\n\u003d8V3q\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_d1562476",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-01T19:02:25Z",
+      "side": 1,
+      "message": "No callers use this any more, so it can be inlined",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_d001fc6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-01T19:02:25Z",
+      "side": 1,
+      "message": "The javadoc comment says initial must be \u003c\u003d max, so this can use Preconditions.checkArgument. That way it would produce a descriptive IAE instead of untyped exception.",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_305cc89b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-01T19:02:25Z",
+      "side": 1,
+      "message": "Should this use SizeLimitExceededException as David Pursehouse suggested?",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_713f781b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-01T19:02:25Z",
+      "side": 1,
+      "message": "*puzzled* Is this used by multiple threads?",
+      "revId": "f0672c50eac1a91fb618094e1446130e599c3b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

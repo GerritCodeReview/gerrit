@@ -53,6 +53,24 @@
       "revId": "a97059f65238b8ad1887d10cf6dca0e784d51372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_d12f44e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-01T19:06:48Z",
+      "side": 1,
+      "message": "I meant that using e.getMessage() as a sentinel is hacky.\n\nThrowing a specific exception type and catching it is a normal thing to do and not so hacky.",
+      "parentUuid": "8d04bb4e_9135bc3a",
+      "revId": "a97059f65238b8ad1887d10cf6dca0e784d51372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

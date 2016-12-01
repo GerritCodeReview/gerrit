@@ -1,0 +1,112 @@
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-dropdown">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+      .dropdown-trigger {
+        text-decoration: none;
+      }
+      .dropdown-content {
+        background-color: #fff;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+      }
+      button {
+        background: none;
+        border: none;
+        font: inherit;
+        padding: .3em 0;
+      }
+      gr-avatar {
+        height: 2em;
+        width: 2em;
+        vertical-align: middle;
+      }
+      ul {
+        list-style: none;
+      }
+      ul .accountName {
+        font-weight: bold;
+      }
+      li .accountInfo,
+      li a {
+        display: block;
+        padding: .85em 1em;
+      }
+      li a:link,
+      li a:visited {
+        color: #00e;
+        text-decoration: none;
+      }
+      li a:hover {
+        background-color: #6B82D6;
+        color: #fff;
+      }
+      .topContent {
+        display: block;
+        padding: .85em 1em;
+      }
+      .bold-text {
+        font-weight: bold;
+      }
+    </style>
+    <gr-button link class="dropdown-trigger" id="trigger"
+        on-tap="_showDropdownTapHandler">
+      <content></content>
+    </gr-button>
+    <iron-dropdown id="dropdown"
+        vertical-align="top"
+        vertical-offset="25"
+        horizontal-align="[[horizontalAlign]]"
+        on-tap="_handleDropdownTap">
+      <div class="dropdown-content">
+        <ul>
+          <template is="dom-if" if="[[topContent]]">
+            <div class="topContent">
+              <template
+                  is="dom-repeat"
+                  items="[[topContent]]"
+                  as="item"
+                  initial-count="75">
+                <div class$="[[_getClassIfBold(item.bold)]] top-item">
+                  [[item.text]]
+                </div>
+              </template>
+            </div>
+          </template>
+          <template
+              is="dom-repeat"
+              items="[[items]]"
+              as="link"
+              initial-count="75">
+            <li><a href$="[[_computeRelativeURL(link.url)]]">[[link.name]]</a>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </iron-dropdown>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-dropdown.js"></script>
+</dom-module>

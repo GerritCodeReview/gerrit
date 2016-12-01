@@ -15,23 +15,16 @@
   'use strict';
 
   Polymer({
-    is: 'gr-account-dropdown',
+    is: 'gr-dropdown',
 
     properties: {
-      account: Object,
-      _hasAvatars: Boolean,
-      links: {
-        type: Array,
-        value: [
-          {name: 'Settings', url: '/settings'},
-          {name: 'Switch account', url: '/switch-account'},
-          {name: 'Sign out', url: '/logout'},
-        ],
+      items: Array,
+      topContent: Object,
+      horizontalAlign: {
+        type: String,
+        value: 'left',
       },
-      topContent: {
-        type: Array,
-        computed: '_getTopContent(account)',
-      },
+      _hasAvatars: String,
     },
 
     attached: function() {
@@ -40,11 +33,25 @@
       }.bind(this));
     },
 
-    _getTopContent: function(account) {
-      return [
-        {text: account.name, bold: true},
-        {text: account.email},
-      ];
+    _handleDropdownTap: function(e) {
+      this.$.dropdown.close();
+    },
+
+    _showDropdownTapHandler: function(e) {
+      this.$.dropdown.open();
+    },
+
+    _getClassIfBold: function(bold) {
+      return bold ? 'bold-text' : '';
+    },
+
+    _computeURLHelper: function(host, path) {
+      return '//' + host + path;
+    },
+
+    _computeRelativeURL: function(path) {
+      var host = window.location.host;
+      return this._computeURLHelper(host, path);
     },
   });
 })();

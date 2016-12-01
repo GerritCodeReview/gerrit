@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dc7eb66_7579e833",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-01T19:28:53Z",
+      "side": 0,
+      "message": "Feels like you should test if data-value was set correctly to iron-autogrow-textarea instead.",
+      "revId": "fad7217d0b50b33b27fefbdef82cd76ee3f913d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

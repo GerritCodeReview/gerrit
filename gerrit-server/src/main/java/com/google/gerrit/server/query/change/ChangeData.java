@@ -765,11 +765,12 @@ public class ChangeData {
   }
 
   public Change reloadChange() throws OrmException {
-    notes = notesFactory.create(db, project, legacyId);
-    change = notes.getChange();
-    if (change == null) {
-      throw new OrmException("Unable to load change " + legacyId);
+    try {
+      notes = notesFactory.createChecked(db, project, legacyId);
+    } catch (NoSuchChangeException e) {
+      throw new OrmException("Unable to load change " + legacyId, e);
     }
+    change = notes.getChange();
     setPatchSets(null);
     return change;
   }

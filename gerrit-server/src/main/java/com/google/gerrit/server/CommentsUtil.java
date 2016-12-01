@@ -100,6 +100,8 @@ public class CommentsUtil {
               .compare(a.patchSet, b.patchSet, NULLS_FIRST)
               .compare(side(a), side(b))
               .compare(a.line, b.line, NULLS_FIRST)
+              .compare(a.inReplyTo, b.inReplyTo, NULLS_FIRST)
+              .compare(a.message, b.message)
               .compare(a.id, b.id)
               .result();
         }

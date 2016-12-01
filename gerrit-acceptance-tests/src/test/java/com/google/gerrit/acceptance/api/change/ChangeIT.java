@@ -1823,6 +1823,7 @@ public class ChangeIT extends AbstractDaemonTest {
           @Override
           public String onSubmit(String newCommitMessage, RevCommit original,
               RevCommit mergeTip, Branch.NameKey destination) {
+            assertThat(original.getName()).isNotEqualTo(mergeTip.getName());
             return newCommitMessage + "Custom: " + destination.get();
           }
         });

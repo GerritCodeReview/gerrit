@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0ac35e_8fd115ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-01T23:37:28Z",
+      "side": 1,
+      "message": "Please add a bit more information in the commit message about what is being changed/improved.  From this title I was expecting it to be a simple code style cleanup, but it\u0027s more of a refactoring.",
+      "revId": "924c77ca85fb065ce58b8742e6bfa06b8addf4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

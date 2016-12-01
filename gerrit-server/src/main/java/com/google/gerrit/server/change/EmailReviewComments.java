@@ -16,7 +16,11 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
+import com.google.common.collect.Multimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -48,6 +52,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   interface Factory {
     EmailReviewComments create(
         NotifyHandling notify,
+        @Nullable Multimap<RecipientType, Account.Id> accountsToNotify,
         ChangeNotes notes,
         PatchSet patchSet,
         IdentifiedUser user,
@@ -62,6 +67,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final ThreadLocalRequestContext requestContext;
 
   private final NotifyHandling notify;
+  private final Multimap<RecipientType, Account.Id> accountsToNotify;
   private final ChangeNotes notes;
   private final PatchSet patchSet;
   private final IdentifiedUser user;
@@ -77,6 +83,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
       @Assisted NotifyHandling notify,
+      @Assisted @Nullable Multimap<RecipientType, Account.Id> accountsToNotify,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet patchSet,
       @Assisted IdentifiedUser user,
@@ -88,6 +95,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
     this.notify = notify;
+    this.accountsToNotify = accountsToNotify;
     this.notes = notes;
     this.patchSet = patchSet;
     this.user = user;
@@ -112,6 +120,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       cm.setChangeMessage(message.getMessage(), message.getWrittenOn());
       cm.setComments(comments);
       cm.setNotify(notify);
+      cm.setAccountsToNotify(accountsToNotify);
       cm.send();
     } catch (Exception e) {
       log.error("Cannot email comments for " + patchSet.getId(), e);

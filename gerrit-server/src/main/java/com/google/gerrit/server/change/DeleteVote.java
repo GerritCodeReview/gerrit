@@ -73,6 +73,7 @@ public class DeleteVote
   private final IdentifiedUser.GenericFactory userFactory;
   private final VoteDeleted voteDeleted;
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
+  private final NotifyUtil notifyUtil;
 
   @Inject
   DeleteVote(Provider<ReviewDb> db,
@@ -82,7 +83,8 @@ public class DeleteVote
       ChangeMessagesUtil cmUtil,
       IdentifiedUser.GenericFactory userFactory,
       VoteDeleted voteDeleted,
-      DeleteVoteSender.Factory deleteVoteSenderFactory) {
+      DeleteVoteSender.Factory deleteVoteSenderFactory,
+      NotifyUtil notifyUtil) {
     this.db = db;
     this.batchUpdateFactory = batchUpdateFactory;
     this.approvalsUtil = approvalsUtil;
@@ -91,6 +93,7 @@ public class DeleteVote
     this.userFactory = userFactory;
     this.voteDeleted = voteDeleted;
     this.deleteVoteSenderFactory = deleteVoteSenderFactory;
+    this.notifyUtil = notifyUtil;
   }
 
   @Override
@@ -208,13 +211,15 @@ public class DeleteVote
       }
 
       IdentifiedUser user = ctx.getIdentifiedUser();
-      if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
+      if (NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
         try {
           ReplyToChangeSender cm = deleteVoteSenderFactory.create(
               ctx.getProject(), change.getId());
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
           cm.setNotify(input.notify);
+          cm.setAccountsToNotify(
+              notifyUtil.resolveAccounts(input.notifyDetails));
           cm.send();
         } catch (Exception e) {
           log.error("Cannot email update for change " + change.getId(), e);

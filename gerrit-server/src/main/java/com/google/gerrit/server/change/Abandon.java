@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -51,17 +53,20 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   private final ChangeJson.Factory json;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final AbandonOp.Factory abandonOpFactory;
+  private final NotifyUtil notifyUtil;
 
   @Inject
   Abandon(
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       BatchUpdate.Factory batchUpdateFactory,
-      AbandonOp.Factory abandonOpFactory) {
+      AbandonOp.Factory abandonOpFactory,
+      NotifyUtil notifyUtil) {
     this.dbProvider = dbProvider;
     this.json = json;
     this.batchUpdateFactory = batchUpdateFactory;
     this.abandonOpFactory = abandonOpFactory;
+    this.notifyUtil = notifyUtil;
   }
 
   @Override
@@ -71,27 +76,31 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     if (!control.canAbandon(dbProvider.get())) {
       throw new AuthException("abandon not permitted");
     }
-    Change change = abandon(control, input.message, input.notify);
+    Change change = abandon(control, input.message, input.notify,
+        notifyUtil.resolveAccounts(input.notifyDetails));
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
   public Change abandon(ChangeControl control)
       throws RestApiException, UpdateException {
-    return abandon(control, "", NotifyHandling.ALL);
+    return abandon(control, "", NotifyHandling.ALL, null);
   }
 
   public Change abandon(ChangeControl control, String msgTxt)
       throws RestApiException, UpdateException {
-    return abandon(control, msgTxt, NotifyHandling.ALL);
+    return abandon(control, msgTxt, NotifyHandling.ALL, null);
   }
 
   public Change abandon(ChangeControl control, String msgTxt,
-      NotifyHandling notifyHandling) throws RestApiException, UpdateException {
+      NotifyHandling notifyHandling,
+      Multimap<RecipientType, Account.Id> accountsToNotify)
+          throws RestApiException, UpdateException {
     CurrentUser user = control.getUser();
     Account account = user.isIdentifiedUser()
         ? user.asIdentifiedUser().getAccount()
         : null;
-    AbandonOp op = abandonOpFactory.create(account, msgTxt, notifyHandling);
+    AbandonOp op = abandonOpFactory.create(account, msgTxt, notifyHandling,
+        accountsToNotify);
     try (BatchUpdate u =
         batchUpdateFactory.create(
             dbProvider.get(),
@@ -113,7 +122,9 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
    */
   public void batchAbandon(Project.NameKey project, CurrentUser user,
       Collection<ChangeControl> controls, String msgTxt,
-      NotifyHandling notifyHandling) throws RestApiException, UpdateException {
+      NotifyHandling notifyHandling,
+      Multimap<RecipientType, Account.Id> accountsToNotify)
+          throws RestApiException, UpdateException {
     if (controls.isEmpty()) {
       return;
     }
@@ -132,7 +143,8 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
         }
         u.addOp(
             control.getId(),
-            abandonOpFactory.create(account, msgTxt, notifyHandling));
+            abandonOpFactory.create(account, msgTxt, notifyHandling,
+                accountsToNotify));
       }
       u.execute();
     }
@@ -141,13 +153,13 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   public void batchAbandon(Project.NameKey project, CurrentUser user,
       Collection<ChangeControl> controls, String msgTxt)
       throws RestApiException, UpdateException {
-    batchAbandon(project, user, controls, msgTxt, NotifyHandling.ALL);
+    batchAbandon(project, user, controls, msgTxt, NotifyHandling.ALL, null);
   }
 
   public void batchAbandon(Project.NameKey project, CurrentUser user,
       Collection<ChangeControl> controls)
       throws RestApiException, UpdateException {
-    batchAbandon(project, user, controls, "", NotifyHandling.ALL);
+    batchAbandon(project, user, controls, "", NotifyHandling.ALL, null);
   }
 
   @Override

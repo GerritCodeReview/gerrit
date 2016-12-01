@@ -14,18 +14,21 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.RecipientType;
 import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -71,6 +74,7 @@ public abstract class OutgoingEmail {
   private Address smtpFromAddress;
   private StringBuilder textBody;
   private StringBuilder htmlBody;
+  private Multimap<RecipientType, Account.Id> accountsToNotify;
   protected VelocityContext velocityContext;
   protected Map<String, Object> soyContext;
   protected Map<String, Object> soyContextEmailData;
@@ -89,7 +93,13 @@ public abstract class OutgoingEmail {
   }
 
   public void setNotify(NotifyHandling notify) {
-    this.notify = notify;
+    this.notify = checkNotNull(notify);
+  }
+
+  public void setAccountsToNotify(
+      Multimap<RecipientType, Account.Id> accountsToNotify) {
+    this.accountsToNotify = accountsToNotify != null
+        ? ImmutableListMultimap.copyOf(accountsToNotify) : null;
   }
 
   /**
@@ -98,7 +108,8 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
-    if (NotifyHandling.NONE.equals(notify)) {
+    if (NotifyHandling.NONE.equals(notify)
+        && (accountsToNotify == null || accountsToNotify.isEmpty())) {
       return;
     }
 
@@ -129,7 +140,9 @@ public abstract class OutgoingEmail {
           // on their behalf to others.
           //
           add(RecipientType.CC, fromId);
-        } else if (rcptTo.remove(fromId)) {
+        } else if ((accountsToNotify == null
+            || !accountsToNotify.containsValue(fromId))
+            && rcptTo.remove(fromId)) {
           // If they don't want a copy, but we queued one up anyway,
           // drop them from the recipient lists.
           //
@@ -195,6 +208,12 @@ public abstract class OutgoingEmail {
     headers.put(HDR_TO, new EmailHeader.AddressList());
     headers.put(HDR_CC, new EmailHeader.AddressList());
     setHeader("Message-ID", "");
+
+    if (accountsToNotify != null) {
+      for (RecipientType recipientType : accountsToNotify.keySet()) {
+        add(recipientType, accountsToNotify.get(recipientType));
+      }
+    }
 
     if (fromId != null) {
       // If we have a user that this message is supposedly caused by
@@ -378,7 +397,9 @@ public abstract class OutgoingEmail {
       return false;
     }
 
-    if (smtpRcptTo.size() == 1 && rcptTo.size() == 1 && rcptTo.contains(fromId)) {
+    if ((accountsToNotify == null || accountsToNotify.isEmpty())
+        && smtpRcptTo.size() == 1 && rcptTo.size() == 1
+        && rcptTo.contains(fromId)) {
       // If the only recipient is also the sender, don't bother.
       //
       return false;

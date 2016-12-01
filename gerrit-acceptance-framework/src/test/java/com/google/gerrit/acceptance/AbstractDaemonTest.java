@@ -892,6 +892,13 @@ public abstract class AbstractDaemonTest {
       .review(ReviewInput.approve());
   }
 
+  protected void recommend(String id) throws Exception {
+    gApi.changes()
+      .id(id)
+      .revision("current")
+      .review(ReviewInput.recommend());
+  }
+
   protected Map<String, ActionInfo> getActions(String id) throws Exception {
     return gApi.changes()
       .id(id)
@@ -1170,5 +1177,33 @@ public abstract class AbstractDaemonTest {
                   .collect(toList()))
           .containsExactlyElementsIn(Arrays.asList(expected));
     }
+  }
+
+  protected void assertNotifyTo(TestAccount expected) {
+    assertThat(sender.getMessages()).hasSize(1);
+    Message m = sender.getMessages().get(0);
+    assertThat(m.rcpt()).containsExactly(expected.emailAddress);
+    assertThat(
+        ((EmailHeader.AddressList) m.headers().get("To")).getAddressList())
+            .containsExactly(expected.emailAddress);
+    assertThat(m.headers().get("CC").isEmpty()).isTrue();
+  }
+
+  protected void assertNotifyCc(TestAccount expected) {
+    assertThat(sender.getMessages()).hasSize(1);
+    Message m = sender.getMessages().get(0);
+    assertThat(m.rcpt()).containsExactly(expected.emailAddress);
+    assertThat(m.headers().get("To").isEmpty()).isTrue();
+    assertThat(
+        ((EmailHeader.AddressList) m.headers().get("CC")).getAddressList())
+            .containsExactly(expected.emailAddress);
+  }
+
+  protected void assertNotifyBcc(TestAccount expected) {
+    assertThat(sender.getMessages()).hasSize(1);
+    Message m = sender.getMessages().get(0);
+    assertThat(m.rcpt()).containsExactly(expected.emailAddress);
+    assertThat(m.headers().get("To").isEmpty()).isTrue();
+    assertThat(m.headers().get("CC").isEmpty()).isTrue();
   }
 }

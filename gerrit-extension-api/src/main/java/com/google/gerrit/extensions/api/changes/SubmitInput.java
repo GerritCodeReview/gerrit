@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import java.util.Map;
+
 public class SubmitInput {
   /** Not used anymore, kept for backward compatibility */
   @Deprecated
@@ -22,4 +24,5 @@ public class SubmitInput {
   public String onBehalfOf;
 
   public NotifyHandling notify = NotifyHandling.ALL;
+  public Map<RecipientType, NotifyInfo> notifyDetails;
 }

@@ -16,12 +16,15 @@ package com.google.gerrit.server.edit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -165,9 +168,10 @@ public class ChangeEditUtil {
    * @throws UpdateException
    * @throws RestApiException
    */
-  public void publish(final ChangeEdit edit, NotifyHandling notify)
-      throws NoSuchChangeException, IOException, OrmException, RestApiException,
-      UpdateException {
+  public void publish(final ChangeEdit edit, NotifyHandling notify,
+      Multimap<RecipientType, Account.Id> accountsToNotify)
+          throws NoSuchChangeException, IOException, OrmException,
+          RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
@@ -185,7 +189,8 @@ public class ChangeEditUtil {
           ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
       PatchSetInserter inserter = patchSetInserterFactory
           .create(ctl, psId, squashed)
-          .setNotify(notify);
+          .setNotify(notify)
+          .setAccountsToNotify(accountsToNotify);
 
       StringBuilder message = new StringBuilder("Patch Set ")
         .append(inserter.getPatchSetId().get())

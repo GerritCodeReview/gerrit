@@ -15,8 +15,10 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -47,6 +49,7 @@ public class AbandonOp extends BatchUpdate.Op {
 
   private final String msgTxt;
   private final NotifyHandling notifyHandling;
+  private final Multimap<RecipientType, Account.Id> accountsToNotify;
   private final Account account;
 
   private Change change;
@@ -57,7 +60,8 @@ public class AbandonOp extends BatchUpdate.Op {
     AbandonOp create(
         @Assisted @Nullable Account account,
         @Assisted @Nullable String msgTxt,
-        @Assisted NotifyHandling notifyHandling);
+        @Assisted NotifyHandling notifyHandling,
+        @Assisted @Nullable Multimap<RecipientType, Account.Id> accountsToNotify);
   }
 
   @AssistedInject
@@ -68,7 +72,8 @@ public class AbandonOp extends BatchUpdate.Op {
       ChangeAbandoned changeAbandoned,
       @Assisted @Nullable Account account,
       @Assisted @Nullable String msgTxt,
-      @Assisted NotifyHandling notifyHandling) {
+      @Assisted NotifyHandling notifyHandling,
+      @Assisted @Nullable Multimap<RecipientType, Account.Id> accountsToNotify) {
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
@@ -77,6 +82,7 @@ public class AbandonOp extends BatchUpdate.Op {
     this.account = account;
     this.msgTxt = Strings.nullToEmpty(msgTxt);
     this.notifyHandling = notifyHandling;
+    this.accountsToNotify = accountsToNotify;
   }
 
   @Nullable
@@ -127,6 +133,7 @@ public class AbandonOp extends BatchUpdate.Op {
       }
       cm.setChangeMessage(message.getMessage(), ctx.getWhen());
       cm.setNotify(notifyHandling);
+      cm.setAccountsToNotify(accountsToNotify);
       cm.send();
     } catch (Exception e) {
       log.error("Cannot email update for change " + change.getId(), e);

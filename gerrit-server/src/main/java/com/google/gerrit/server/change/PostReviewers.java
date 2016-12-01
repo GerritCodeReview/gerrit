@@ -20,12 +20,14 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -102,6 +104,7 @@ public class PostReviewers
   private final ReviewerAdded reviewerAdded;
   private final NotesMigration migration;
   private final AccountCache accountCache;
+  private final NotifyUtil notifyUtil;
 
   @Inject
   PostReviewers(AccountsCollection accounts,
@@ -120,7 +123,8 @@ public class PostReviewers
       ReviewerJson json,
       ReviewerAdded reviewerAdded,
       NotesMigration migration,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      NotifyUtil notifyUtil) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.approvalsUtil = approvalsUtil;
@@ -138,6 +142,7 @@ public class PostReviewers
     this.reviewerAdded = reviewerAdded;
     this.migration = migration;
     this.accountCache = accountCache;
+    this.notifyUtil = notifyUtil;
   }
 
   @Override
@@ -181,24 +186,27 @@ public class PostReviewers
           .format(ChangeMessages.get().reviewerNotFoundUser, input.reviewer));
     }
     return putAccount(input.reviewer, reviewerFactory.create(rsrc, accountId),
-        input.state(), input.notify);
+        input.state(), input.notify,
+        notifyUtil.resolveAccounts(input.notifyDetails));
   }
 
   Addition ccCurrentUser(CurrentUser user, RevisionResource revision) {
     return new Addition(
         user.getUserName(), revision.getChangeResource(),
         ImmutableMap.of(user.getAccountId(), revision.getControl()),
-        CC, NotifyHandling.NONE);
+        CC, NotifyHandling.NONE, null);
   }
 
   private Addition putAccount(String reviewer, ReviewerResource rsrc,
-      ReviewerState state, NotifyHandling notify)
-      throws UnprocessableEntityException {
+      ReviewerState state, NotifyHandling notify,
+      Multimap<RecipientType, Account.Id> accountsToNotify)
+          throws UnprocessableEntityException {
     Account member = rsrc.getReviewerUser().getAccount();
     ChangeControl control = rsrc.getReviewerControl();
     if (isValidReviewer(member, control)) {
       return new Addition(reviewer, rsrc.getChangeResource(),
-          ImmutableMap.of(member.getId(), control), state, notify);
+          ImmutableMap.of(member.getId(), control), state, notify,
+          accountsToNotify);
     }
     if (member.isActive()) {
       throw new UnprocessableEntityException(
@@ -256,7 +264,7 @@ public class PostReviewers
     }
 
     return new Addition(input.reviewer, rsrc, reviewers, input.state(),
-        input.notify);
+        input.notify, notifyUtil.resolveAccounts(input.notifyDetails));
   }
 
   private boolean isValidReviewer(Account member, ChangeControl control) {
@@ -287,12 +295,13 @@ public class PostReviewers
     private final Map<Account.Id, ChangeControl> reviewers;
 
     protected Addition(String reviewer) {
-      this(reviewer, null, null, REVIEWER, null);
+      this(reviewer, null, null, REVIEWER, null, null);
     }
 
     protected Addition(String reviewer, ChangeResource rsrc,
         Map<Account.Id, ChangeControl> reviewers, ReviewerState state,
-        NotifyHandling notify) {
+        NotifyHandling notify,
+        Multimap<RecipientType, Account.Id> accountsToNotify) {
       result = new AddReviewerResult(reviewer);
       if (reviewers == null) {
         this.reviewers = ImmutableMap.of();
@@ -300,7 +309,7 @@ public class PostReviewers
         return;
       }
       this.reviewers = reviewers;
-      op = new Op(rsrc, reviewers, state, notify);
+      op = new Op(rsrc, reviewers, state, notify, accountsToNotify);
     }
 
     void gatherResults() throws OrmException {
@@ -331,6 +340,7 @@ public class PostReviewers
     final Map<Account.Id, ChangeControl> reviewers;
     final ReviewerState state;
     final NotifyHandling notify;
+    final Multimap<RecipientType, Account.Id> accountsToNotify;
     List<PatchSetApproval> addedReviewers;
     Collection<Account.Id> addedCCs;
 
@@ -338,11 +348,13 @@ public class PostReviewers
     private PatchSet patchSet;
 
     Op(ChangeResource rsrc, Map<Account.Id, ChangeControl> reviewers,
-        ReviewerState state, NotifyHandling notify) {
+        ReviewerState state, NotifyHandling notify,
+        Multimap<RecipientType, Account.Id> accountsToNotify) {
       this.rsrc = rsrc;
       this.reviewers = reviewers;
       this.state = state;
       this.notify = notify;
+      this.accountsToNotify = accountsToNotify;
     }
 
     @Override
@@ -380,7 +392,7 @@ public class PostReviewers
         }
         emailReviewers(rsrc.getChange(),
             Lists.transform(addedReviewers, r -> r.getAccountId()), addedCCs,
-            notify);
+            notify, accountsToNotify);
         if (!addedReviewers.isEmpty()) {
           List<Account> reviewers = Lists.transform(addedReviewers,
               psa -> accountCache.get(psa.getAccountId()).getAccount());
@@ -392,7 +404,8 @@ public class PostReviewers
   }
 
   public void emailReviewers(Change change, Collection<Account.Id> added,
-      Collection<Account.Id> copied, NotifyHandling notify) {
+      Collection<Account.Id> copied, NotifyHandling notify,
+      Multimap<RecipientType, Account.Id> accountsToNotify) {
     if (added.isEmpty() && copied.isEmpty()) {
       return;
     }
@@ -419,7 +432,11 @@ public class PostReviewers
 
     try {
       AddReviewerSender cm = addReviewerSenderFactory
-          .create(change.getProject(), change.getId(), notify);
+          .create(change.getProject(), change.getId());
+      if (notify != null) {
+        cm.setNotify(notify);
+      }
+      cm.setAccountsToNotify(accountsToNotify);
       cm.setFrom(userId);
       cm.addReviewers(toMail);
       cm.addExtraCC(toCopy);

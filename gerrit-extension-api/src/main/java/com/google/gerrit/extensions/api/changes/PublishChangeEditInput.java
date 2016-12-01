@@ -14,8 +14,11 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import java.util.Map;
+
 /** Input passed to {@code POST /changes/[id]/edit:publish/}. */
 public class PublishChangeEditInput {
   /** Who to send email notifications to after the change edit is published. */
   public NotifyHandling notify = NotifyHandling.ALL;
+  public Map<RecipientType, NotifyInfo> notifyDetails;
 }

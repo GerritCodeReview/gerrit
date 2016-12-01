@@ -79,6 +79,7 @@ public class DeleteReviewer
   private final Provider<IdentifiedUser> user;
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
   private final NotesMigration migration;
+  private final NotifyUtil notifyUtil;
 
   @Inject
   DeleteReviewer(Provider<ReviewDb> dbProvider,
@@ -90,7 +91,8 @@ public class DeleteReviewer
       ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
       DeleteReviewerSender.Factory deleteReviewerSenderFactory,
-      NotesMigration migration) {
+      NotesMigration migration,
+      NotifyUtil notifyUtil) {
     this.dbProvider = dbProvider;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -101,6 +103,7 @@ public class DeleteReviewer
     this.user = user;
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
     this.migration = migration;
+    this.notifyUtil = notifyUtil;
   }
 
   @Override
@@ -198,7 +201,7 @@ public class DeleteReviewer
 
     @Override
     public void postUpdate(Context ctx) {
-      if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
+      if (NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
         emailReviewers(ctx.getProject(), currChange, del, changeMessage);
       }
       reviewerDeleted.fire(currChange, currPs, reviewer,
@@ -262,6 +265,8 @@ public class DeleteReviewer
           cm.setChangeMessage(changeMessage.getMessage(),
               changeMessage.getWrittenOn());
           cm.setNotify(input.notify);
+          cm.setAccountsToNotify(
+              notifyUtil.resolveAccounts(input.notifyDetails));
           cm.send();
         } catch (Exception err) {
           log.error("Cannot email update for change " + change.getId(), err);

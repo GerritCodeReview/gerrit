@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -43,7 +45,8 @@ public class EmailMerge implements Runnable, RequestContext {
 
   public interface Factory {
     EmailMerge create(Project.NameKey project, Change.Id changeId,
-        Account.Id submitter, NotifyHandling notifyHandling);
+        Account.Id submitter, NotifyHandling notifyHandling,
+        @Nullable Multimap<RecipientType, Account.Id> accountsToNotify);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -56,6 +59,8 @@ public class EmailMerge implements Runnable, RequestContext {
   private final Change.Id changeId;
   private final Account.Id submitter;
   private final NotifyHandling notifyHandling;
+  private final Multimap<RecipientType, Account.Id> accountsToNotify;
+
   private ReviewDb db;
 
   @Inject
@@ -67,7 +72,8 @@ public class EmailMerge implements Runnable, RequestContext {
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted @Nullable Account.Id submitter,
-      @Assisted NotifyHandling notifyHandling) {
+      @Assisted NotifyHandling notifyHandling,
+      @Assisted @Nullable Multimap<RecipientType, Account.Id> accountsToNotify) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.schemaFactory = schemaFactory;
@@ -77,6 +83,7 @@ public class EmailMerge implements Runnable, RequestContext {
     this.changeId = changeId;
     this.submitter = submitter;
     this.notifyHandling = notifyHandling;
+    this.accountsToNotify = accountsToNotify;
   }
 
   public void sendAsync() {
@@ -92,6 +99,7 @@ public class EmailMerge implements Runnable, RequestContext {
         cm.setFrom(submitter);
       }
       cm.setNotify(notifyHandling);
+      cm.setAccountsToNotify(accountsToNotify);
       cm.send();
     } catch (Exception e) {
       log.error("Cannot email merged notification for " + changeId, e);

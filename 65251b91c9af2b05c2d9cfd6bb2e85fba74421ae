@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_d183c492",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-01T20:11:07Z",
+      "side": 1,
+      "message": "s/sinon/sandbox/ and on l.364",
+      "range": {
+        "startLine": 335,
+        "startChar": 33,
+        "endLine": 335,
+        "endChar": 38
+      },
+      "revId": "65251b91c9af2b05c2d9cfd6bb2e85fba74421ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

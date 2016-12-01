@@ -45,6 +45,29 @@
       "revId": "1509e7c705a0703e487a6bbabe78308b285c1176",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_d1bc646b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-01T19:21:56Z",
+      "side": 1,
+      "message": "Nit: Put the else on the same line as the }.",
+      "range": {
+        "startLine": 357,
+        "startChar": 8,
+        "endLine": 358,
+        "endChar": 13
+      },
+      "revId": "1509e7c705a0703e487a6bbabe78308b285c1176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

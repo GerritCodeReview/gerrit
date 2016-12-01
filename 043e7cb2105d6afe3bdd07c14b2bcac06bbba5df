@@ -109,6 +109,24 @@
       "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "105d44d4_88c857b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-01T00:38:23Z",
+      "side": 1,
+      "message": "Sure.\na) Legibility\n\n\u003e separates setup from the test\n\nThis looks ok in this case, but consider you have more than one async step you want to do.\n\nFor example, you set the data, and then flush to make Polymer async binding/rendering to happen, and then you press a button, and then flush again. In this case you would need to nest flush calls, which will eventually result in to callback hell.\n\nIn other words, flush() does not scale.\n\nNext, flush() creates async function, which is unnecessary complexity, while flushAsynchronousOperations() is blocking and makes reading/debugging more straightforward.\n\nb) Here\u0027s how failed assertion message looks in Firefox with this code:\nhttp://imgur.com/a/3JYYp\nHere\u0027s how it looks with flushAsynchronousOperations()\nhttp://imgur.com/D8wtOW8\n\nc) done();\nSince flushAsynchronousOperations() is blocking, you don\u0027t need done() which means less code and no async code.",
+      "parentUuid": "6d05c749_907ad425",
+      "revId": "043e7cb2105d6afe3bdd07c14b2bcac06bbba5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

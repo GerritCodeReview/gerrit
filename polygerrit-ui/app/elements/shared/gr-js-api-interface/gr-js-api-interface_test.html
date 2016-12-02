@@ -139,6 +139,17 @@ limitations under the License.
       assert.isTrue(errorStub.calledOnce);
     });
 
+    test('commitmsgchange event', function(done) {
+      var testMsg = 'Test CL commit message';
+      plugin.on(element.EventType.COMMIT_MSG_CHANGE, throwErrFn);
+      plugin.on(element.EventType.COMMIT_MSG_CHANGE, function(change, msg) {
+        assert.deepEqual(msg, testMsg);
+        assert.isTrue(errorStub.calledOnce);
+        done();
+      });
+      element.handleCommitMessage(null, testMsg);
+    });
+
     test('labelchange event', function(done) {
       var testChange = {_number: 42};
       plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);

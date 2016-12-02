@@ -18,18 +18,28 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
-public class TagResource extends ProjectResource {
+public class TagResource extends RefResource {
   public static final TypeLiteral<RestView<TagResource>> TAG_KIND =
       new TypeLiteral<RestView<TagResource>>() {};
 
-  private final TagInfo tag;
+  private final TagInfo tagInfo;
 
-  public TagResource(ProjectControl control, TagInfo tag) {
+  public TagResource(ProjectControl control, TagInfo tagInfo) {
     super(control);
-    this.tag = tag;
+    this.tagInfo = tagInfo;
   }
 
   public TagInfo getTagInfo() {
-    return tag;
+    return tagInfo;
+  }
+
+  @Override
+  public String getRef() {
+    return tagInfo.ref;
+  }
+
+  @Override
+  public String getRevision() {
+    return tagInfo.revision;
   }
 }

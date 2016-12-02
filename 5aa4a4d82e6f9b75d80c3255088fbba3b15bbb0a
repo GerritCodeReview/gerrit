@@ -165,6 +165,23 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_2c61b3bb",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2016-12-02T23:34:38Z",
+      "side": 1,
+      "message": "we could replace the global change number by a change number per project. This would have the following advantages:\n* incrementing the change number doesn\u0027t require synchronisation across servers\n* when sequence numbers are project-local renaming and copying projects should become easier",
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_ccb58f82",
         "filename": "Documentation/url-schema.txt",
         "patchSetId": 1

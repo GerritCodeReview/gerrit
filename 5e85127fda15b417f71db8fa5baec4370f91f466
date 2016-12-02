@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edbff7bf_54c5ccf3",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-02T22:24:48Z",
+      "side": 1,
+      "message": "Please move into closure.",
+      "revId": "5e85127fda15b417f71db8fa5baec4370f91f466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

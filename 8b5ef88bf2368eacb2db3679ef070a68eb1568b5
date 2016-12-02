@@ -110,6 +110,24 @@
       "revId": "8b5ef88bf2368eacb2db3679ef070a68eb1568b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_b16560c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-02T23:50:08Z",
+      "side": 1,
+      "message": "https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5051\n\nSorry for the delay, I\u0027m trying to land a couple different changes before the end of the week.",
+      "parentUuid": "8d04bb4e_315210fa",
+      "revId": "8b5ef88bf2368eacb2db3679ef070a68eb1568b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

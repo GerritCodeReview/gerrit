@@ -34,6 +34,52 @@
       "revId": "8eb6bf3024bfc0a8b920ea4d48583744f620aa12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_ae6277ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-02T12:09:15Z",
+      "side": 1,
+      "message": "nit: have both exceptions in the same (next) line for better readability",
+      "range": {
+        "startLine": 413,
+        "startChar": 44,
+        "endLine": 414,
+        "endChar": 20
+      },
+      "revId": "8eb6bf3024bfc0a8b920ea4d48583744f620aa12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_acd84381",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-02T12:09:15Z",
+      "side": 1,
+      "message": "you only call this once, so just inline it\nthere is also not much readability gain from having it in a separate method",
+      "range": {
+        "startLine": 453,
+        "startChar": 17,
+        "endLine": 453,
+        "endChar": 28
+      },
+      "revId": "8eb6bf3024bfc0a8b920ea4d48583744f620aa12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

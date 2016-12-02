@@ -20,7 +20,6 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gwt.core.client.JsArray;
 
 public class BranchInfo extends RefInfo {
-  public final native boolean canDelete() /*-{ return this['can_delete'] ? true : false; }-*/;
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions }-*/;
   public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 

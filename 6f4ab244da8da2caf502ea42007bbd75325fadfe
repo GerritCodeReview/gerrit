@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_d0345cf4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_f137e8f5",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_1148ac7b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
         "patchSetId": 10
@@ -31,6 +49,30 @@
       "writtenOn": "2016-12-02T14:58:58Z",
       "side": 1,
       "message": "AbstractSubmit is not an appropriate base class here, as it adds a bunch of redundant @Test methods that are already tested by SubmitByMergeIfNecessaryIT. I would suggest just moving this one method there, then you also don\u0027t end up wasting time setting up a test server just for this one method.",
+      "range": {
+        "startLine": 39,
+        "startChar": 37,
+        "endLine": 39,
+        "endChar": 51
+      },
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_11ac2cd4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_1148ac7b",
       "range": {
         "startLine": 39,
         "startChar": 37,
@@ -66,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_30432865",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_5142345d",
+      "range": {
+        "startLine": 42,
+        "startChar": 14,
+        "endLine": 42,
+        "endChar": 21
+      },
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_d13464f4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
         "patchSetId": 10
@@ -83,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_71a138dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_d13464f4",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_713db8d1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
         "patchSetId": 10
@@ -94,6 +178,24 @@
       "writtenOn": "2016-12-02T14:58:58Z",
       "side": 1,
       "message": "Unnecessary final",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_51a6b4f5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_713db8d1",
       "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -123,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_b1ba8006",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_31433065",
+      "range": {
+        "startLine": 62,
+        "startChar": 31,
+        "endLine": 62,
+        "endChar": 45
+      },
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0ac35e_2f0e29ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 10
@@ -134,6 +260,24 @@
       "writtenOn": "2016-12-02T03:53:42Z",
       "side": 1,
       "message": "nit: use the @return javadoc tag",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_d0e73c63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_2f0e29ab",
       "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_b1d1e062",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2df3cfac_ae4fb7d9",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 6
+      },
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_512eb4bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
         "patchSetId": 10
@@ -180,6 +348,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_301a0889",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_512eb4bc",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_912adc8b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
         "patchSetId": 10
@@ -191,6 +377,24 @@
       "writtenOn": "2016-12-02T14:58:58Z",
       "side": 1,
       "message": "Nit: long line",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_902ad48b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2016-12-02T18:24:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_912adc8b",
       "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

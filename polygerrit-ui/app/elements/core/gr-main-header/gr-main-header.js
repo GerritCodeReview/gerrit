@@ -36,7 +36,7 @@
     is: 'gr-main-header',
 
     hostAttributes: {
-      role: 'banner'
+      role: 'banner',
     },
 
     properties: {

@@ -244,6 +244,24 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_6ec32f9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-02T16:13:29Z",
+      "side": 1,
+      "message": "Yes, this is what I thought when I wrote the code. But then I thought of the possible extensions that are mentioned in the commit message, because each extension would result in another 3 options here, e.g. \n\n* --notify-group-to, --notify-group-cc,  --notify-group-bcc\n* --notify-external-to, --notify-external-cc, --notify-external-bcc\n* --notify-star-to, --notify-star-cc, --notify-star-bcc\n\nBut maybe we don\u0027t care?",
+      "parentUuid": "8d04bb4e_316850d1",
+      "revId": "0c3e6e8b140e7581a226c9deac947ce7a6479bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_b15ba03f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d05c749_5077ccb2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-02T19:30:13Z",
+      "side": 1,
+      "message": "Hmm, setting the topic to null removes it? I suspect it would be better to call the delete-topic endpoint [1]. Either by creating a new delete version of the `restAPI` method, or by switching the endpoint inside `setChangeTopic` so it calls delete-topic when the argument is `null`.\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#delete-topic",
+      "revId": "6ebeaace22be972fcd1f937a15957bb0be830a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

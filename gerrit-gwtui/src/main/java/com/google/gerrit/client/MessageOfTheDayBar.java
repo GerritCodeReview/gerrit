@@ -46,10 +46,10 @@ class MessageOfTheDayBar extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
 
     SafeHtmlBuilder b = new SafeHtmlBuilder();
-    if (motd.size() == 1) {
-      b.append(SafeHtml.asis(motd.get(0).html));
+    if (this.motd.size() == 1) {
+      b.append(SafeHtml.asis(this.motd.get(0).html));
     } else {
-      for (HostPageData.Message m : motd) {
+      for (HostPageData.Message m : this.motd) {
         b.openDiv();
         b.append(SafeHtml.asis(m.html));
         b.openElement("hr");

@@ -24,6 +24,7 @@
      */
 
     behaviors: [Gerrit.URLEncodingBehavior],
+
     properties: {
       /**
        * URL params passed from the router.
@@ -74,6 +75,11 @@
         type: Boolean,
         value: true,
       },
+    },
+
+    listeners: {
+      'next-page': '_handleNextPage',
+      'previous-page': '_handlePreviousPage',
     },
 
     attached: function() {
@@ -131,6 +137,18 @@
 
     _hideNextArrow: function(loading, changesPerPage) {
       return loading || !this._changes || this._changes.length < changesPerPage;
+    },
+
+    _handleNextPage() {
+      if (this._hideNextArrow(this._offset)) { return; }
+      page.show(this._computeNavLink(
+          this._query, this._offset, 1, this._changesPerPage));
+    },
+
+    _handlePreviousPage() {
+      if (this._hidePrevArrow(this._offset)) { return; }
+      page.show(this._computeNavLink(
+          this._query, this._offset, -1, this._changesPerPage));
     },
   });
 })();

@@ -17,6 +17,18 @@
   Polymer({
     is: 'gr-change-list',
 
+    /**
+     * Fired when next page key shortcut was pressed.
+     *
+     * @event next-page
+     */
+
+    /**
+     * Fired when previous page key shortcut was pressed.
+     *
+     * @event previous-page
+     */
+
     hostAttributes: {
       tabindex: 0,
     },
@@ -81,7 +93,9 @@
     keyBindings: {
       'j': '_handleJKey',
       'k': '_handleKKey',
+      'n shift+n ]': '_handleNKey',
       'o enter': '_handleEnterKey',
+      'p shift+p [': '_handlePKey',
     },
 
     attached: function() {
@@ -186,6 +200,20 @@
 
       e.preventDefault();
       page.show(this._changeURLForIndex(this.selectedIndex));
+    },
+
+    _handleNKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.fire('next-page');
+    },
+
+    _handlePKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.fire('previous-page');
     },
 
     _changeURLForIndex: function(index) {

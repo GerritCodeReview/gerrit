@@ -23,7 +23,36 @@
      * @event title-change
      */
 
-    behaviors: [Gerrit.URLEncodingBehavior],
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+      Gerrit.URLEncodingBehavior,
+    ],
+
+    keyBindings: {
+      'n shift+n ]': '_handleNKey',
+      'p shift+p [': '_handlePKey',
+    },
+
+    _handleNKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      if (this._hideNextArrow(this._offset)) { return; }
+
+      e.preventDefault();
+      page.show(this._computeNavLink(
+          this._query, this._offset, 1, this._changesPerPage));
+    },
+
+    _handlePKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      if (this._hidePrevArrow(this._offset)) { return; }
+
+      e.preventDefault();
+      page.show(this._computeNavLink(
+          this._query, this._offset, -1, this._changesPerPage));
+    },
+
     properties: {
       /**
        * URL params passed from the router.

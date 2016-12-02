@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_b1e8c0f6",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-02T23:23:07Z",
+      "side": 1,
+      "message": "This seems to reliably fail in Firefox.",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 68
+      },
+      "revId": "f8fb4c982d2e45747f265cc7f70b2ac2f1927119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

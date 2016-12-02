@@ -40,6 +40,24 @@
       "revId": "c417d22efad57166d0e4f8bffc4c598b6a924089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_701e508c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-12-02T15:23:37Z",
+      "side": 1,
+      "message": "That’s where it gets more complicated. Adding Viktar and Wyatt for recommendations.",
+      "parentUuid": "8d04bb4e_d160e415",
+      "revId": "c417d22efad57166d0e4f8bffc4c598b6a924089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

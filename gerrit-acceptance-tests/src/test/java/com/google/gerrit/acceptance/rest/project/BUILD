@@ -4,16 +4,16 @@ acceptance_tests(
   group = 'rest_project',
   srcs = glob(['*IT.java']),
   deps = [
-    ':branch',
     ':project',
+    ':refassert',
   ],
   labels = ['rest'],
 )
 
 java_library(
-  name = 'branch',
+  name = 'refassert',
   srcs = [
-    'BranchAssert.java',
+    'RefAssert.java',
   ],
   deps = [
     '//lib:truth',

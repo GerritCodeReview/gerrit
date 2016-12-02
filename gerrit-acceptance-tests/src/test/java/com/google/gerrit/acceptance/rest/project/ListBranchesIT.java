@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertBranches;
-import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertRefNames;
+import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
+import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -47,7 +47,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(createEmptyCommit = false)
   public void listBranchesOfEmptyProject() throws Exception {
-    assertBranches(ImmutableList.of(
+    assertRefs(ImmutableList.of(
           branch("HEAD", null, false),
           branch(RefNames.REFS_CONFIG,  null, false)),
         list().get());
@@ -57,7 +57,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   public void listBranches() throws Exception {
     String master = pushTo("refs/heads/master").getCommit().name();
     String dev = pushTo("refs/heads/dev").getCommit().name();
-    assertBranches(ImmutableList.of(
+    assertRefs(ImmutableList.of(
           branch("HEAD", "master", false),
           branch(RefNames.REFS_CONFIG,  null, false),
           branch("refs/heads/dev", dev, true),
@@ -72,7 +72,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     pushTo("refs/heads/dev");
     setApiUser(user);
     // refs/meta/config is hidden since user is no project owner
-    assertBranches(ImmutableList.of(
+    assertRefs(ImmutableList.of(
           branch("HEAD", "master", false),
           branch("refs/heads/master", master, false)),
         list().get());
@@ -85,7 +85,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     String dev = pushTo("refs/heads/dev").getCommit().name();
     setApiUser(user);
     // refs/meta/config is hidden since user is no project owner
-    assertBranches(ImmutableList.of(branch("refs/heads/dev", dev, false)),
+    assertRefs(ImmutableList.of(branch("refs/heads/dev", dev, false)),
         list().get());
   }
 

@@ -17,26 +17,26 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
-import com.google.gerrit.extensions.api.projects.BranchInfo;
+import com.google.gerrit.extensions.api.projects.RefInfo;
 
 import java.util.List;
 
-public class BranchAssert {
-  public static void assertBranches(List<BranchInfo> expectedBranches,
-      List<BranchInfo> actualBranches) {
-    assertRefNames(refs(expectedBranches), actualBranches);
-    for (int i = 0; i < expectedBranches.size(); i++) {
-      assertBranchInfo(expectedBranches.get(i), actualBranches.get(i));
+public class RefAssert {
+  public static void assertRefs(List<? extends RefInfo> expectedRefs,
+      List<? extends RefInfo> actualRefs) {
+    assertRefNames(refs(expectedRefs), actualRefs);
+    for (int i = 0; i < expectedRefs.size(); i++) {
+      assertRefInfo(expectedRefs.get(i), actualRefs.get(i));
     }
   }
 
   public static void assertRefNames(Iterable<String> expectedRefs,
-      Iterable<BranchInfo> actualBranches) {
-    Iterable<String> actualNames = refs(actualBranches);
+      Iterable<? extends RefInfo> actualRefs) {
+    Iterable<String> actualNames = refs(actualRefs);
     assertThat(actualNames).containsExactlyElementsIn(expectedRefs).inOrder();
   }
 
-  public static void assertBranchInfo(BranchInfo expected, BranchInfo actual) {
+  public static void assertRefInfo(RefInfo expected, RefInfo actual) {
     assertThat(actual.ref).isEqualTo(expected.ref);
     if (expected.revision != null) {
       assertThat(actual.revision).named("revision of " + actual.ref)
@@ -46,7 +46,7 @@ public class BranchAssert {
         .isEqualTo(toBoolean(expected.canDelete));
   }
 
-  private static Iterable<String> refs(Iterable<BranchInfo> infos) {
+  private static Iterable<String> refs(Iterable<? extends RefInfo> infos) {
     return Iterables.transform(infos, b -> b.ref);
   }
 

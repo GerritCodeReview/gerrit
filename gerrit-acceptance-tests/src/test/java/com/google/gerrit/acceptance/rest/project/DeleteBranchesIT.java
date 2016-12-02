@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertRefNames;
+import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;

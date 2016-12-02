@@ -76,6 +76,24 @@
       "revId": "c417d22efad57166d0e4f8bffc4c598b6a924089",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_b05b983f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-12-02T19:45:06Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not too knowledgeable about the constraints plugins and the API are subject to, but I see a few approaches for this. Maybe Viktar has more.\n\u003e \n\u003e * Rename the method to fetchServerInfo to avoid colliding with the documented function? Not sure if this is reasonable.\n\nI like this one the best because it is the easiest :)\nI could rename it to getConfig to match the one in gr-rest-api-interface.js\n\n\u003e * Request the server configuration at the top of the file (or at invocation of the Plugin constructor) and prevent plugins from being loaded completely until its resolved and can be provided synchronously.\n\u003e * Refactor the way plugins are loaded to happen only after the config is totally loaded by some setup phase and can be handed-down.\n\u003e * Fetch it synchronously. The native fetch API (and, of course, the native XMLHttpRequest) support blocking requests. However, AFAIK, this isn\u0027t supported by the polyfilled fetch we\u0027re using. Maybe resort to old-fashioned XMLHttpRequest\u0027s in this case? I believe, synchronous IO would also make the page unresponsive during the request.\n\u003e \n\u003e Broadly speaking, I think the most benefit is to be had if plugins can be adapted to load the data they need asynchronously, regardless of what the docs say.",
+      "parentUuid": "8d04bb4e_1111cc3b",
+      "revId": "c417d22efad57166d0e4f8bffc4c598b6a924089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

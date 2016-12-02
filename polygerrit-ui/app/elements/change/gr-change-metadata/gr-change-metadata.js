@@ -180,6 +180,7 @@
 
     _handleTopicRemoved: function() {
       this.set(['change', 'topic'], '');
+      this.$.restAPI.setChangeTopic(this.change.change_id, null);
     },
   });
 })();

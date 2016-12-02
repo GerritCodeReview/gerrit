@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
 
@@ -105,6 +106,31 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
           ImmutableList.of("refs/heads/does-not-exist")));
     }
     assertBranchesDeleted();
+  }
+
+  @Test
+  public void missingInput() throws Exception {
+    DeleteBranchesInput input = null;
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("branches must be specified");
+    project().deleteBranches(input);
+  }
+
+  @Test
+  public void missingBranchList() throws Exception {
+    DeleteBranchesInput input = new DeleteBranchesInput();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("branches must be specified");
+    project().deleteBranches(input);
+  }
+
+  @Test
+  public void emptyBranchList() throws Exception {
+    DeleteBranchesInput input = new DeleteBranchesInput();
+    input.branches = Lists.newArrayList();
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("branches must be specified");
+    project().deleteBranches(input);
   }
 
   private String errorMessageForBranches(List<String> branches) {

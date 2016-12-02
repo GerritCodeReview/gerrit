@@ -16,10 +16,11 @@ package com.google.gerrit.server.project;
 
 import static java.lang.String.format;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.IdentifiedUser;
@@ -72,13 +73,10 @@ public class DeleteBranches
 
   @Override
   public Response<?> apply(ProjectResource project, DeleteBranchesInput input)
-      throws OrmException, IOException, ResourceConflictException {
+      throws OrmException, IOException, RestApiException {
 
-    if (input == null) {
-      input = new DeleteBranchesInput();
-    }
-    if (input.branches == null) {
-      input.branches = Lists.newArrayListWithCapacity(1);
+    if (input == null || input.branches == null || input.branches.isEmpty()) {
+      throw new BadRequestException("branches must be specified");
     }
 
     try (Repository r = repoManager.openRepository(project.getNameKey())) {

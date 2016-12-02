@@ -14,32 +14,19 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.extensions.api.projects.TagInfo;
-import com.google.gerrit.extensions.restapi.RestView;
-import com.google.inject.TypeLiteral;
+public abstract class RefResource extends ProjectResource {
 
-public class TagResource extends RefResource {
-  public static final TypeLiteral<RestView<TagResource>> TAG_KIND =
-      new TypeLiteral<RestView<TagResource>>() {};
-
-  private final TagInfo tagInfo;
-
-  public TagResource(ProjectControl control, TagInfo tagInfo) {
+  public RefResource(ProjectControl control) {
     super(control);
-    this.tagInfo = tagInfo;
   }
 
-  public TagInfo getTagInfo() {
-    return tagInfo;
-  }
+  /**
+   * @return the ref's name
+   */
+  public abstract String getRef();
 
-  @Override
-  public String getRef() {
-    return tagInfo.ref;
-  }
-
-  @Override
-  public String getRevision() {
-    return tagInfo.revision;
-  }
+  /**
+   * @return the ref's revision
+   */
+  public abstract String getRevision();
 }

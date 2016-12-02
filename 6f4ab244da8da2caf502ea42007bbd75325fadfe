@@ -3,6 +3,126 @@
   "comments": [
     {
       "key": {
+        "uuid": "8d04bb4e_f137e8f5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-02T14:58:58Z",
+      "side": 1,
+      "message": "Nit: long line",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_1148ac7b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-02T14:58:58Z",
+      "side": 1,
+      "message": "AbstractSubmit is not an appropriate base class here, as it adds a bunch of redundant @Test methods that are already tested by SubmitByMergeIfNecessaryIT. I would suggest just moving this one method there, then you also don\u0027t end up wasting time setting up a test server just for this one method.",
+      "range": {
+        "startLine": 39,
+        "startChar": 37,
+        "endLine": 39,
+        "endChar": 51
+      },
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_5142345d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-02T14:58:58Z",
+      "side": 1,
+      "message": "testTgz (https://google.github.io/styleguide/javaguide.html#s5.3-camel-case)",
+      "range": {
+        "startLine": 42,
+        "startChar": 14,
+        "endLine": 42,
+        "endChar": 21
+      },
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_d13464f4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-02T14:58:58Z",
+      "side": 1,
+      "message": "Nit: extra blank line",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_713db8d1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-02T14:58:58Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_31433065",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/PreviewSubmitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-02T14:58:58Z",
+      "side": 1,
+      "message": "deb?",
+      "range": {
+        "startLine": 62,
+        "startChar": 31,
+        "endLine": 62,
+        "endChar": 45
+      },
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0ac35e_2f0e29ab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/LimitedByteArrayOutputStream.java",
         "patchSetId": 10
@@ -37,6 +157,40 @@
         "endLine": 66,
         "endChar": 6
       },
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_512eb4bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-02T14:58:58Z",
+      "side": 1,
+      "message": "Nit: static fields should be before non-static fields, and separated with a blank line.",
+      "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_912adc8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-02T14:58:58Z",
+      "side": 1,
+      "message": "Nit: long line",
       "revId": "6f4ab244da8da2caf502ea42007bbd75325fadfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

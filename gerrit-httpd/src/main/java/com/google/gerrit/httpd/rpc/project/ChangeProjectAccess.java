@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -76,13 +75,14 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
   }
 
   @Override
-  protected ProjectAccess updateProjectConfig(CurrentUser user,
+  protected ProjectAccess updateProjectConfig(ProjectControl projectControl,
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException {
     RevCommit commit = config.commit(md);
 
     gitRefUpdated.fire(config.getProject().getNameKey(), RefNames.REFS_CONFIG,
-        base, commit.getId(), user.asIdentifiedUser().getAccount());
+        base, commit.getId(),
+        projectControl.getUser().asIdentifiedUser().getAccount());
 
     projectCache.evict(config.getProject());
     return projectAccessFactory.create(projectName).call();

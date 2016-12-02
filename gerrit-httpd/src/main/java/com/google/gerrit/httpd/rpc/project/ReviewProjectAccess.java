@@ -19,6 +19,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -27,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -106,9 +107,20 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   }
 
   @Override
-  protected Change.Id updateProjectConfig(CurrentUser user,
+  protected Change.Id updateProjectConfig(ProjectControl projectControl,
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
-      throws IOException, OrmException {
+          throws IOException, OrmException, PermissionDeniedException {
+    RefControl refsMetaConfigControl =
+        projectControl.controlForRef(RefNames.REFS_CONFIG);
+    if (!refsMetaConfigControl.isVisible()) {
+      throw new PermissionDeniedException(
+          RefNames.REFS_CONFIG + " not visible");
+    }
+    if (!projectControl.isOwner() && !refsMetaConfigControl.canUpload()) {
+      throw new PermissionDeniedException(
+          "cannot upload to " + RefNames.REFS_CONFIG);
+    }
+
     md.setInsertChangeId(true);
     Change.Id changeId = new Change.Id(seq.nextChangeId());
     RevCommit commit =
@@ -120,9 +132,9 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
 
     try (RevWalk rw = new RevWalk(md.getRepository());
         ObjectInserter objInserter = md.getRepository().newObjectInserter();
-        BatchUpdate bu = updateFactory.create(
-          db, config.getProject().getNameKey(), user,
-          TimeUtil.nowTs())) {
+        BatchUpdate bu =
+            updateFactory.create(db, config.getProject().getNameKey(),
+                projectControl.getUser(), TimeUtil.nowTs())) {
       bu.setRepository(md.getRepository(), rw, objInserter);
       bu.insertChange(
           changeInserterFactory.create(changeId, commit, RefNames.REFS_CONFIG)

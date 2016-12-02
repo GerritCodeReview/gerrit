@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 public class BranchInfo extends RefInfo {
-  public Boolean canDelete;
   public Map<String, ActionInfo> actions;
   public List<WebLinkInfo> webLinks;
 }

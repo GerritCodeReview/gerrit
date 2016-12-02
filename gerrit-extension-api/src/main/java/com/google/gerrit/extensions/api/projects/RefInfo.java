@@ -17,4 +17,5 @@ package com.google.gerrit.extensions.api.projects;
 public class RefInfo {
   public String ref;
   public String revision;
+  public Boolean canDelete;
 }

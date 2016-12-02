@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_ec588b44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-02T09:39:56Z",
+      "side": 1,
+      "message": "values the",
+      "range": {
+        "startLine": 13,
+        "startChar": 30,
+        "endLine": 13,
+        "endChar": 40
+      },
+      "revId": "3df470772dc407cbc7d47dc7fa33e50dea4a2a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_ee539f2e",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-02T09:39:56Z",
+      "side": 1,
+      "message": "This is no longer needed since the type was changed.",
+      "range": {
+        "startLine": 309,
+        "startChar": 102,
+        "endLine": 309,
+        "endChar": 107
+      },
+      "revId": "3df470772dc407cbc7d47dc7fa33e50dea4a2a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

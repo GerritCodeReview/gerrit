@@ -22,6 +22,7 @@ public class RefInfo extends JavaScriptObject {
     return RefNames.shortName(ref());
   }
 
+  public final native boolean canDelete() /*-{ return this['can_delete'] ? true : false; }-*/;
   public final native String ref() /*-{ return this.ref; }-*/;
   public final native String revision() /*-{ return this.revision; }-*/;
 

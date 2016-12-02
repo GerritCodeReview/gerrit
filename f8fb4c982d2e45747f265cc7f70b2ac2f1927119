@@ -22,6 +22,24 @@
       "revId": "f8fb4c982d2e45747f265cc7f70b2ac2f1927119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_317b306a",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-02T23:58:39Z",
+      "side": 1,
+      "message": "Never mind, problem existed between keyboard and chair :)",
+      "parentUuid": "8d04bb4e_b1e8c0f6",
+      "revId": "f8fb4c982d2e45747f265cc7f70b2ac2f1927119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

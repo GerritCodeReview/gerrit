@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d05c749_f0ea402b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-02T18:19:55Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "42630c1f09221d541ec31d3cb21acc3edec425cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

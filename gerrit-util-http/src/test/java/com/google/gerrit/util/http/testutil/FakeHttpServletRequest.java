@@ -25,12 +25,12 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.Url;
 
-import org.apache.http.client.utils.DateUtils;
-
 import java.io.BufferedReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.Principal;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -55,6 +55,8 @@ import javax.servlet.http.Part;
 /** Simple fake implementation of {@link HttpServletRequest}. */
 public class FakeHttpServletRequest implements HttpServletRequest {
   public static final String SERVLET_PATH = "/b";
+  public static final DateTimeFormatter rfcDateformatter =
+      DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss ZZZ");
 
   private final Map<String, Object> attributes;
   private final ListMultimap<String, String> headers;
@@ -263,7 +265,8 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   @Override
   public long getDateHeader(String name) {
     String v = getHeader(name);
-    return v != null ? DateUtils.parseDate(v).getTime() : 0;
+    return v == null ? 0 :
+        rfcDateformatter.parse(v, Instant::from).getEpochSecond();
   }
 
   @Override

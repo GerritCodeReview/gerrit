@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -163,17 +162,17 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
         md.setMessage("Modify access rules\n");
       }
 
-      return updateProjectConfig(projectControl.getUser(), config, md,
+      return updateProjectConfig(projectControl, config, md,
           parentProjectUpdate);
     } catch (RepositoryNotFoundException notFound) {
       throw new NoSuchProjectException(projectName);
     }
   }
 
-  protected abstract T updateProjectConfig(CurrentUser user,
+  protected abstract T updateProjectConfig(ProjectControl projectControl,
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException,
-      OrmException;
+      OrmException, PermissionDeniedException;
 
   private void replace(ProjectConfig config, Set<String> toDelete,
       AccessSection section) throws NoSuchGroupException {

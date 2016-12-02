@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DeleteRef {
   private static final Logger log = LoggerFactory.getLogger(DeleteRef.class);
@@ -59,6 +60,7 @@ public class DeleteRef {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ProjectResource resource;
   private final List<String> refsToDelete;
+  private String prefix;
 
   @Singleton
   public static class Factory {
@@ -111,6 +113,11 @@ public class DeleteRef {
     return this;
   }
 
+  public DeleteRef prefix(String prefix) {
+    this.prefix = prefix;
+    return this;
+  }
+
   public void delete()
       throws OrmException, IOException, ResourceConflictException {
     if (!refsToDelete.isEmpty()) {
@@ -127,6 +134,9 @@ public class DeleteRef {
   private void deleteSingleRef(Repository r)
       throws IOException, ResourceConflictException {
     String ref = refsToDelete.get(0);
+    if (prefix != null && !ref.startsWith(prefix)) {
+      ref = prefix + ref;
+    }
     RefUpdate.Result result;
     RefUpdate u = r.updateRef(ref);
     u.setForceUpdate(true);
@@ -181,7 +191,13 @@ public class DeleteRef {
   private void deleteMultipleRefs(Repository r)
       throws OrmException, IOException, ResourceConflictException {
     BatchRefUpdate batchUpdate = r.getRefDatabase().newBatchUpdate();
-    for (String ref : refsToDelete) {
+    List<String> refs = prefix == null
+        ? refsToDelete
+        : refsToDelete.stream().map(
+            ref -> ref.startsWith(prefix)
+              ? ref
+              : prefix + ref).collect(Collectors.toList());
+    for (String ref : refs) {
       batchUpdate.addCommand(createDeleteCommand(resource, r, ref));
     }
     try (RevWalk rw = new RevWalk(r)) {

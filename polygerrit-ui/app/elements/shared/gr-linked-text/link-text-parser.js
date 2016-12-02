@@ -165,12 +165,27 @@ GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
       var result = match[0].replace(pattern,
           patterns[p].html || patterns[p].link);
 
+      // Skip portion of replacement string that is equal to original.
+      for (var i = 0; i < result.length; i++) {
+        if (result[i] !== match[0][i]) {
+          break;
+        }
+      }
+      result = result.slice(i);
+
       if (patterns[p].html) {
         this.addHTML(
-            result, susbtrIndex + match.index, match[0].length, outputArray);
+          result,
+          susbtrIndex + match.index + i,
+          match[0].length - i,
+          outputArray);
       } else if (patterns[p].link) {
-        this.addLink(match[0], result,
-            susbtrIndex + match.index, match[0].length, outputArray);
+        this.addLink(
+          match[0],
+          result,
+          susbtrIndex + match.index + i,
+          match[0].length - i,
+          outputArray);
       } else {
         throw Error('linkconfig entry ' + p +
             ' doesn’t contain a link or html attribute.');

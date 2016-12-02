@@ -128,6 +128,24 @@
       "revId": "8b5ef88bf2368eacb2db3679ef070a68eb1568b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_f16fe8a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-02T23:53:19Z",
+      "side": 1,
+      "message": "Cool! Thanks.",
+      "parentUuid": "8d04bb4e_b16560c9",
+      "revId": "8b5ef88bf2368eacb2db3679ef070a68eb1568b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -430,8 +430,9 @@ public class AccountManager {
               .contains(key))) {
         db.accountExternalIds().deleteKeys(filteredKeysByScheme);
       }
+      AuthResult link = link(to, who);
       byIdCache.evict(to);
-      return link(to, who);
+      return link;
     }
   }
 

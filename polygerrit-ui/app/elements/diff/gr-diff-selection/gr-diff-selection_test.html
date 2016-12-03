@@ -34,8 +34,8 @@ limitations under the License.
             <div class="contentText" data-side="left">ba ba</div>
             <div data-side="left">
               <div class="gr-diff-comment-thread">
-                <div class="message">
-                  <span>This is a comment</span>
+                <div class="gr-formatted-text message">
+                  <span class="gr-linked-text">This is a comment</span>
                 </div>
               </div>
             </div>
@@ -55,8 +55,8 @@ limitations under the License.
             <div class="contentText" data-side="right">more more more</div>
             <div data-side="right">
               <div class="gr-diff-comment-thread">
-                <div class="message">
-                  <span>This is a comment on the right</span>
+                <div class="gr-formatted-text message">
+                  <span class="gr-linked-text">This is a comment on the right</span>
                 </div>
               </div>
             </div>
@@ -68,8 +68,8 @@ limitations under the License.
             <div class="contentText" data-side="left">ga ga</div>
             <div data-side="left">
               <div class="gr-diff-comment-thread">
-                <div class="message">
-                  <span>This is a different comment</span>
+                <div class="gr-formatted-text message">
+                  <span class="gr-linked-text">This is a different comment</span>
                 </div>
               </div>
             </div>
@@ -213,13 +213,13 @@ limitations under the License.
       element.classList.remove('selected-right');
 
       var selection = window.getSelection();
+      selection.removeAllRanges();
       var range = document.createRange();
       range.setStart(element.querySelector('div.contentText').firstChild, 3);
       range.setEnd(
           element.querySelectorAll('div.contentText')[4].firstChild, 2);
       selection.addRange(range);
       assert.equal(element._getSelectedText('left'), 'ba\nzin\nga');
-      selection.removeAllRanges();
     });
 
     test('copies comments', function() {
@@ -227,14 +227,15 @@ limitations under the License.
       element.classList.add('selected-comment');
       element.classList.remove('selected-right');
       var selection = window.getSelection();
+      selection.removeAllRanges();
       var range = document.createRange();
-      range.setStart(element.querySelector('.message *').firstChild, 3);
+      range.setStart(
+          element.querySelector('.gr-formatted-text *').firstChild, 3);
       range.setEnd(
-          element.querySelectorAll('.message *')[2].firstChild, 16);
+          element.querySelectorAll('.gr-formatted-text *')[2].firstChild, 16);
       selection.addRange(range);
       assert.equal('s is a comment\nThis is a differ',
           element._getSelectedText('left', true));
-      selection.removeAllRanges();
     });
 
     test('defers to default behavior for textarea', function() {
@@ -257,6 +258,7 @@ limitations under the License.
       element.classList.remove('selected-left');
 
       var selection = window.getSelection();
+      selection.removeAllRanges();
       var range = document.createRange();
       range.setStart(
           element.querySelectorAll('div.contentText')[1].firstChild, 4);
@@ -264,7 +266,6 @@ limitations under the License.
           element.querySelectorAll('div.contentText')[1].firstChild, 10);
       selection.addRange(range);
       assert.equal(element._getSelectedText('right'), ' other');
-      selection.removeAllRanges();
     });
   });
 </script>

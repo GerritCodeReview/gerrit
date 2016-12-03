@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2df3cfac_4eb1f394",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-03T09:07:49Z",
+      "side": 1,
+      "message": "The list of tags needs to be converted using RefUtil.validateTagRef",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "cb739f58acbfe80c20bd4e8095a3274c90425a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,6 +26,7 @@ public class GitwebType {
   private String rootTree;
 
   private char pathSeparator = '/';
+  private boolean linkDrafts = true;
   private boolean urlEncode = true;
 
   /** @return name displayed in links. */
@@ -138,6 +139,20 @@ public class GitwebType {
    */
   public void setPathSeparator(char separator) {
     this.pathSeparator = separator;
+  }
+
+  /** @return whether to generate links to draft patch sets. */
+  public boolean getLinkDrafts() {
+    return linkDrafts;
+  }
+
+  /**
+   * Set whether to generate links to draft patch sets.
+   *
+   * @param linkDrafts new value.
+   */
+  public void setLinkDrafts(boolean linkDrafts) {
+    this.linkDrafts = linkDrafts;
   }
 
   /** @return whether to URL encode path segments. */

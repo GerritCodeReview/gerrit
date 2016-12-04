@@ -109,6 +109,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // Acceptance tests force --headless even when UIs are specified in config.
     assertThat(i.gerrit.webUis).isEmpty();
 
+    // gitweb
+    assertThat(i.gitweb).isNull();
+
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();
 
@@ -177,6 +180,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allUsers).isEqualTo(AllUsersNameProvider.DEFAULT);
     assertThat(i.gerrit.reportBugUrl).isNull();
     assertThat(i.gerrit.reportBugText).isNull();
+
+    // gitweb
+    assertThat(i.gitweb).isNull();
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();

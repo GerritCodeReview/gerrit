@@ -108,6 +108,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.reportBugUrl).isEqualTo("https://example.com/report");
     assertThat(i.gerrit.reportBugText).isEqualTo("REPORT BUG");
 
+    // gitweb
+    assertThat(i.gitweb).isNull();
+
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();
 
@@ -172,6 +175,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allUsers).isEqualTo(AllUsersNameProvider.DEFAULT);
     assertThat(i.gerrit.reportBugUrl).isNull();
     assertThat(i.gerrit.reportBugText).isNull();
+
+    // gitweb
+    assertThat(i.gitweb).isNull();
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();

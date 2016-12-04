@@ -25,6 +25,7 @@ import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.info.ActionInfo;
+import com.google.gerrit.client.info.GitwebInfo;
 import com.google.gerrit.client.info.WebLinkInfo;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
@@ -38,6 +39,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.core.client.JsArray;
@@ -52,6 +54,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -405,6 +408,8 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     }
 
     void populate(int row, BranchInfo k) {
+      GitwebInfo c = Gerrit.info().gitweb();
+
       if (k.canDelete()) {
         CheckBox sel = new CheckBox();
         sel.addValueChangeHandler(updateDeleteHandler);
@@ -427,6 +432,10 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       }
 
       FlowPanel actionsPanel = new FlowPanel();
+      if (c != null) {
+        actionsPanel.add(new Anchor(c.getLinkName(), false,
+            c.toBranch(new Branch.NameKey(getProjectKey(), k.ref()))));
+      }
       if (k.webLinks() != null) {
         for (WebLinkInfo webLink : Natives.asList(k.webLinks())) {
           actionsPanel.add(webLink.toAnchor());

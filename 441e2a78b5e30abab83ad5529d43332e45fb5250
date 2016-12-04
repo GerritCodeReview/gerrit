@@ -22,6 +22,29 @@
       "revId": "441e2a78b5e30abab83ad5529d43332e45fb5250",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2df3cfac_4eca9304",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-04T23:47:14Z",
+      "side": 1,
+      "message": "Remove the -Id suffix",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "441e2a78b5e30abab83ad5529d43332e45fb5250",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

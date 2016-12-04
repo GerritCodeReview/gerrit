@@ -1,55 +1,42 @@
 = Gerrit Code Review - /config/ REST API
-
 This page describes the config related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
-
 [[config-endpoints]]
 Config Endpoints
 ---------------
-
 [[get-version]]
 === Get Version
 --
 'GET /config/server/version'
 --
-
 Returns the version of the Gerrit server.
-
 .Request
 ----
   GET /config/server/version HTTP/1.0
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   "2.7"
 ----
-
 [[get-info]]
 === Get Server Info
 --
 'GET /config/server/info'
 --
-
 Returns the information about the Gerrit server configuration.
-
 .Request
 ----
   GET /config/server/info HTTP/1.0
 ----
-
 As result a link:#server-info[ServerInfo] entity is returned.
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "auth": {
@@ -137,63 +124,46 @@ As result a link:#server-info[ServerInfo] entity is returned.
     }
   }
 ----
-
 [[confirm-email]]
 === Confirm Email
 --
 'PUT /config/server/email.confirm'
 --
-
 Confirms that the user owns an email address.
-
 The email token must be provided in the request body inside
 an link:#email-confirmation-input[EmailConfirmationInput] entity.
-
 .Request
 ----
   PUT /config/server/email.confirm HTTP/1.0
   Content-Type: application/json; charset=UTF-8
-
   {
     "token": "Enim+QNbAo6TV8Hur8WwoUypI6apG7qBPvF+bw==$MTAwMDAwNDp0ZXN0QHRlc3QuZGU="
   }
 ----
-
 The response is "`204 No Content`".
-
 If the token is invalid or if it's the token of another user the
 request fails and the response is "`422 Unprocessable Entity`".
-
-
 [[list-caches]]
 === List Caches
 --
 'GET /config/server/caches/'
 --
-
 Lists the caches of the server. Caches defined by plugins are included.
-
 The caller must be a member of a group that is granted one of the
 following capabilities:
-
 * link:access-control.html#capability_viewCaches[View Caches]
 * link:access-control.html#capability_maintainServer[Maintain Server]
 * link:access-control.html#capability_administrateServer[Administrate Server]
-
 As result a map of link:#cache-info[CacheInfo] entities is returned.
-
 The entries in the map are sorted by cache name.
-
 .Request
 ----
   GET /config/server/caches/ HTTP/1.0
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "accounts": {
@@ -399,10 +369,8 @@ The entries in the map are sorted by cache name.
     }
   }
 ----
-
 It is possible to get different output formats by specifying the
 `format` option:
-
 * `LIST`:
 +
 Returns the cache names as JSON list.
@@ -418,7 +386,6 @@ The cache names are lexicographically sorted.
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   [
     "accounts",
@@ -446,7 +413,6 @@ The cache names are lexicographically sorted.
     "web_sessions"
   ]
 ----
-
 * `TEXT_LIST`:
 +
 Returns the cache names as a UTF-8 list that is base64 encoded. The
@@ -463,7 +429,6 @@ The cache names are lexicographically sorted.
 ----
   HTTP/1.1 200 OK
   Content-Type: text/plain; charset=UTF-8
-
   YWNjb3VudHMKYW...ViX3Nlc3Npb25z
 ----
 +
@@ -475,42 +440,33 @@ E.g. this could be used to flush all caches:
     curl --digest --user jdoe:TNAuLkXsIV7w -X POST http://gerrit/a/config/server/caches/$c/flush
   done
 ----
-
 [[cache-operations]]
 === Cache Operations
 --
 'POST /config/server/caches/'
 --
-
 Executes a cache operation that is specified in the request body in a
 link:#cache-operation-input[CacheOperationInput] entity.
-
 [[flush-all-caches]]
 ==== Flush All Caches
-
 .Request
 ----
   POST /config/server/caches/ HTTP/1.0
   Content-Type: application/json; charset=UTF-8
-
   {
     "operation": "FLUSH_ALL"
   }
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
 ----
-
 [[flush-several-caches]]
 ==== Flush Several Caches At Once
-
 .Request
 ----
   POST /config/server/caches/ HTTP/1.0
   Content-Type: application/json; charset=UTF-8
-
   {
     "operation": "FLUSH",
     "caches": [
@@ -519,39 +475,30 @@ link:#cache-operation-input[CacheOperationInput] entity.
     ]
   }
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
 ----
-
 [[get-cache]]
 === Get Cache
 --
 'GET /config/server/caches/link:#cache-name[\{cache-name\}]'
 --
-
 Retrieves information about a cache.
-
 The caller must be a member of a group that is granted one of the
 following capabilities:
-
 * link:access-control.html#capability_viewCaches[View Caches]
 * link:access-control.html#capability_maintainServer[Maintain Server]
 * link:access-control.html#capability_administrateServer[Administrate Server]
-
 As result a link:#cache-info[CacheInfo] entity is returned.
-
 .Request
 ----
   GET /config/server/caches/projects HTTP/1.0
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "name": "projects",
@@ -565,70 +512,54 @@ As result a link:#cache-info[CacheInfo] entity is returned.
     }
   }
 ----
-
 [[flush-cache]]
 === Flush Cache
 --
 'POST /config/server/caches/link:#cache-name[\{cache-name\}]/flush'
 --
-
 Flushes a cache.
-
 The caller must be a member of a group that is granted one of the
 following capabilities:
-
 * link:access-control.html#capability_flushCaches[Flush Caches] (any cache
   except "web_sessions")
 * link:access-control.html#capability_maintainServer[Maintain Server] (any cache
   including "web_sessions")
 * link:access-control.html#capability_administrateServer[Administrate Server]
   (any cache including "web_sessions")
-
 .Request
 ----
   POST /config/server/caches/projects/flush HTTP/1.0
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
 ----
-
 [[get-summary]]
 === Get Summary
 --
 'GET /config/server/summary'
 --
-
 Retrieves a summary of the current server state.
-
 The caller must be a member of a group that is granted the
 link:access-control.html#capability_administrateServer[Administrate
 Server] capability.
-
 The following options are supported:
-
 * `jvm`:
 +
 Includes a JVM summary.
-
 * `gc`:
 +
 Requests a Java garbage collection before computing the information
 about the Java memory heap.
-
 .Request
 ----
   GET /config/server/summary?jvm HTTP/1.0
 ----
-
 As result a link:#summary-info[SummaryInfo] entity is returned.
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "task_summary": {
@@ -677,31 +608,24 @@ As result a link:#summary-info[SummaryInfo] entity is returned.
     }
   }
 ----
-
 [[list-capabilities]]
 === List Capabilities
 --
 'GET /config/server/capabilities'
 --
-
 Lists the capabilities that are available in the system. There are two
 kinds of capabilities: core and plugin-owned capabilities.
-
 As result a map of link:#capability-info[CapabilityInfo] entities is
 returned.
-
 The entries in the map are sorted by capability ID.
-
 .Request
 ----
   GET /config/server/capabilities/ HTTP/1.0
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "accessDatabase": {
@@ -770,49 +694,37 @@ The entries in the map are sorted by capability ID.
     }
   }
 ----
-
 [[list-tasks]]
 === List Tasks
 --
 'GET /config/server/tasks/'
 --
-
 Lists the tasks from the background work queues that the Gerrit daemon
 is currently performing, or will perform in the near future.
-
 Gerrit contains an internal scheduler, similar to cron, that it uses to
 queue and dispatch both short and long term tasks.
-
 Tasks that are completed or canceled exit the queue very quickly once
 they enter this state, but it can be possible to observe tasks in these
 states.
-
 End-users may see a task only if they can also see the project the task
 is associated with. Tasks operating on other projects, or that do not
 have a specific project, are hidden.
-
 The caller must be a member of a group that is granted one of the
 following capabilities:
-
 * link:access-control.html#capability_viewQueue[View Queue]
 * link:access-control.html#capability_maintainServer[Maintain Server]
 * link:access-control.html#capability_administrateServer[Administrate Server]
-
 As result a list of link:#task-info[TaskInfo] entities is returned.
-
 The entries in the list are sorted by task state, remaining delay and
 command.
-
 .Request
 ----
   GET /config/server/tasks/ HTTP/1.0
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   [
     {
@@ -831,39 +743,30 @@ command.
     }
   ]
 ----
-
 [[get-task]]
 === Get Task
 --
 'GET /config/server/tasks/link:#task-id[\{task-id\}]'
 --
-
 Retrieves a task from the background work queue that the Gerrit daemon
 is currently performing, or will perform in the near future.
-
 End-users may see a task only if they can also see the project the task
 is associated with. Tasks operating on other projects, or that do not
 have a specific project, are hidden.
-
 The caller must be a member of a group that is granted one of the
 following capabilities:
-
 * link:access-control.html#capability_viewQueue[View Queue]
 * link:access-control.html#capability_maintainServer[Maintain Server]
 * link:access-control.html#capability_administrateServer[Administrate Server]
-
 As result a link:#task-info[TaskInfo] entity is returned.
-
 .Request
 ----
   GET /config/server/tasks/1e688bea HTTP/1.0
 ----
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "id": "1e688bea",
@@ -873,65 +776,50 @@ As result a link:#task-info[TaskInfo] entity is returned.
     "command": "Reload Submit Queue"
   }
 ----
-
 [[delete-task]]
 === Delete Task
 --
 'DELETE /config/server/tasks/link:#task-id[\{task-id\}]'
 --
-
 Kills a task from the background work queue that the Gerrit daemon
 is currently performing, or will perform in the near future.
-
 The caller must be a member of a group that is granted one of the
 following capabilities:
-
 * link:access-control.html#capability_kill[Kill Task]
 * link:access-control.html#capability_maintainServer[Maintain Server]
 * link:access-control.html#capability_administrateServer[Administrate Server]
-
 End-users may see a task only if they can also see the project the task
 is associated with. Tasks operating on other projects, or that do not
 have a specific project, are hidden.
-
 Members of a group granted one of the following capabilities may view
 all tasks:
-
 * link:access-control.html#capability_viewQueue[View Queue]
 * link:access-control.html#capability_maintainServer[Maintain Server]
 * link:access-control.html#capability_administrateServer[Administrate Server]
-
 .Request
 ----
   DELETE /config/server/tasks/1e688bea HTTP/1.0
 ----
-
 .Response
 ----
   HTTP/1.1 204 No Content
 ----
-
 [[get-top-menus]]
 === Get Top Menus
 --
 'GET /config/server/top-menus'
 --
-
 Returns the list of additional top menu entries.
-
 .Request
 ----
   GET /config/server/top-menus HTTP/1.0
 ----
-
 As response a list of the additional top menu entries as
 link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   [
     {
@@ -946,28 +834,22 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
     }
   ]
 ----
-
 [[get-user-preferences]]
 === Get Default User Preferences
 --
 'GET /config/server/preferences'
 --
-
 Returns the default user preferences for the server.
-
 .Request
 ----
   GET /a/config/server/preferences HTTP/1.0
 ----
-
 As response a link:rest-api-accounts.html#preferences-info[
 PreferencesInfo] is returned.
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "changes_per_page": 25,
@@ -1013,43 +895,33 @@ PreferencesInfo] is returned.
     "email_strategy": "ENABLED"
   }
 ----
-
 [[set-user-preferences]]
 === Set Default User Preferences
-
 --
 'PUT /config/server/preferences'
 --
-
 Sets the default user preferences for the server.
-
 The new user preferences must be provided in the request body as a
 link:rest-api-accounts.html#preferences-input[PreferencesInput]
 entity.
-
 To be allowed to set default preferences, a user must be a member of
 a group that is granted the
 link:access-control.html#capability_administrateServer[
 Administrate Server] capability.
-
 .Request
 ----
   PUT /a/config/server/preferences HTTP/1.0
   Content-Type: application/json; charset=UTF-8
-
   {
     "changes_per_page": 50
   }
 ----
-
 As response a link:rest-api-accounts.html#preferences-info[
 PreferencesInfo] is returned.
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "changes_per_page": 50,
@@ -1095,29 +967,22 @@ PreferencesInfo] is returned.
     "email_strategy": "ENABLED"
   }
 ----
-
 [[get-diff-preferences]]
 === Get Default Diff Preferences
-
 --
 'GET /config/server/preferences.diff'
 --
-
 Returns the default diff preferences for the server.
-
 .Request
 ----
   GET /a/config/server/preferences.diff HTTP/1.0
 ----
-
 As response a link:rest-api-accounts.html#diff-preferences-info[
 DiffPreferencesInfo] is returned.
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "context": 10,
@@ -1134,30 +999,23 @@ DiffPreferencesInfo] is returned.
     "ignore_whitespace": "IGNORE_NONE"
   }
 ----
-
 [[set-diff-preferences]]
 === Set Default Diff Preferences
-
 --
 'PUT /config/server/preferences.diff'
 --
-
 Sets the default diff preferences for the server.
-
 The new diff preferences must be provided in the request body as a
 link:rest-api-accounts.html#diff-preferences-input[
 DiffPreferencesInput] entity.
-
 To be allowed to set default diff preferences, a user must be a member
 of a group that is granted the
 link:access-control.html#capability_administrateServer[
 Administrate Server] capability.
-
 .Request
 ----
   PUT /a/config/server/preferences.diff HTTP/1.0
   Content-Type: application/json; charset=UTF-8
-
   {
     "context": 10,
     "tab_size": 8,
@@ -1173,15 +1031,12 @@ Administrate Server] capability.
     "ignore_whitespace": "IGNORE_NONE"
   }
 ----
-
 As response a link:rest-api-accounts.html#diff-preferences-info[
 DiffPreferencesInfo] is returned.
-
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Type: application/json; charset=UTF-8
-
   )]}'
   {
     "context": 10,
@@ -1198,34 +1053,24 @@ DiffPreferencesInfo] is returned.
     "ignore_whitespace": "IGNORE_NONE"
   }
 ----
-
-
 [[ids]]
 == IDs
-
 [[cache-name]]
 === \{cache-name\}
 The name of the cache.
-
 If the cache is defined by a plugin the cache name must include the
 plugin name: "<plugin-name>-<cache-name>".
-
 Gerrit core caches can optionally be prefixed with "gerrit":
 "gerrit-<cache-name>".
-
 [[task-id]]
 === \{task-id\}
 The ID of the task (hex string).
-
-
 [[json-entities]]
 == JSON Entities
-
 [[auth-info]]
 === AuthInfo
 The `AuthInfo` entity contains information about the authentication
 configuration of the Gerrit server.
-
 [options="header",cols="1,^1,5"]
 |==========================================
 |Field Name                   ||Description
@@ -1282,11 +1127,9 @@ link:config-gerrit.html#auth.type[authentication type] is `LDAP` and
 link:config-gerrit.html#auth.gitBasicAuth[basic authentication] is set to true.
 Can be `HTTP`, `LDAP` or `HTTP_LDAP`.
 |==========================================
-
 [[cache-info]]
 === CacheInfo
 The `CacheInfo` entity contains information about a cache.
-
 [options="header",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
@@ -1307,44 +1150,36 @@ returned with a standard time unit abbreviation (`ns`: nanoseconds,
 Information about the hit ratio as a link:#hit-ration-info[
 HitRatioInfo] entity.
 |==================================
-
 [[cache-operation-input]]
 === CacheOperationInput
 The `CacheOperationInput` entity contains information about an
 operation that should be executed on caches.
-
 [options="header",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
 |`operation`          ||
 The cache operation that should be executed:
-
 `FLUSH_ALL`: Flushes all caches, except the `web_sessions` cache.
-
 `FLUSH`: Flushes the specified caches.
 |`caches`             |optional|
 A list of cache names. This list defines the caches on which the
 specified operation should be executed. Whether this list must be
 specified depends on the operation being executed.
 |==================================
-
 [[capability-info]]
 === CapabilityInfo
 The `CapabilityInfo` entity contains information about a capability.
-
 [options="header",cols="1,6"]
 |=================================
 |Field Name           |Description
 |`id`                 |capability ID
 |`name`               |capability name
 |=================================
-
 [[change-config-info]]
 === ChangeConfigInfo
 The `ChangeConfigInfo` entity contains information about Gerrit
 configuration from the link:config-gerrit.html#change[change]
 section.
-
 [options="header",cols="1,^1,5"]
 |=============================
 |Field Name           ||Description
@@ -1370,12 +1205,10 @@ interface should poll for updates to the currently open change].
 link:config-gerrit.html#change.submitWholeTopic[A configuration if
 the whole topic is submitted].
 |=============================
-
 [[download-info]]
 === DownloadInfo
 The `DownloadInfo` entity contains information about supported download
 options.
-
 [options="header",cols="1,6"]
 |=======================
 |Field Name |Description
@@ -1386,12 +1219,10 @@ of link:#download-scheme-info[DownloadSchemeInfo] entity.
 List of supported archive formats. Possible values are `tgz`, `tar`,
 `tbz2` and `txz`.
 |=======================
-
 [[download-scheme-info]]
 === DownloadSchemeInfo
 The `DownloadSchemeInfo` entity contains information about a supported
 download scheme and its commands.
-
 [options="header",cols="1,^1,5"]
 |=================================
 |Field Name          ||Description
@@ -1407,7 +1238,6 @@ Download commands as a map which maps the command name to the download
 command. In the download command '${project}' is used as
 placeholder for the project name, and '${ref}' is used as
 placeholder for the (change) ref.
-
 Empty, if accessed anonymously and the download scheme requires
 authentication.
 |`clone_commands`    ||
@@ -1417,28 +1247,23 @@ placeholder for the project name and '${project-base-name}' as name
 for the project base name (e.g. for a project 'foo/bar' '${project}'
 is a placeholder for 'foo/bar' and '${project-base-name}' is a
 placeholder for 'bar').
-
 Empty, if accessed anonymously and the download scheme requires
 authentication.
 |=================================
-
 [[email-confirmation-input]]
 === EmailConfirmationInput
 The `EmailConfirmationInput` entity contains information for confirming
 an email address.
-
 [options="header",cols="1,6"]
 |=======================
 |Field Name |Description
 |`token`    |
 The token that was sent by mail to a newly registered email address.
 |=======================
-
 [[entries-info]]
 === EntriesInfo
 The `EntriesInfo` entity contains information about the entries in a
 cache.
-
 [options="header",cols="1,^1,5"]
 |==================================
 |Field Name ||Description
@@ -1451,12 +1276,10 @@ The space that is consumed by the cache on disk. The value is returned
 with a unit abbreviation (`k`: kilobytes, `m`: megabytes,
 `g`: gigabytes). Only set for disk caches.
 |==================================
-
 [[gerrit-info]]
 === GerritInfo
 The `GerritInfo` entity contains information about Gerrit
 configuration from the link:config-gerrit.html#gerrit[gerrit] section.
-
 [options="header",cols="1,^1,5"]
 |=================================
 |Field Name          ||Description
@@ -1483,11 +1306,58 @@ List of web UIs supported by the HTTP server. Possible values are `GWT`
 and `POLYGERRIT`.
 |=================================
 
+[[git-web-info]]
+=== GitwebInfo
+The `GitwebInfo` entity contains information about the
+link:config-gerrit.html#gitweb[gitweb] configuration.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name |Description
+|`url`      |
+The link:config-gerrit.html#gitweb.url[gitweb base URL].
+|`type`     |
+The link:config-gerrit.html#gitweb.type[gitweb type] as
+link:#git-web-type-info[GitwebTypeInfo] entity.
+|=======================
+
+[[git-web-type-info]]
+=== GitwebTypeInfo
+The `GitwebTypeInfo` entity contains information about the
+link:config-gerrit.html#gitweb[gitweb] configuration.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`name`          ||
+The link:config-gerrit.html#gitweb.linkname[gitweb link name].
+|`revision`      |optional|
+The link:config-gerrit.html#gitweb.revision[gitweb revision pattern].
+|`project`       |optional|
+The link:config-gerrit.html#gitweb.project[gitweb project pattern].
+|`branch`        |optional|
+The link:config-gerrit.html#gitweb.branch[gitweb branch pattern].
+|`root_tree`     |optional|
+The link:config-gerrit.html#gitweb.roottree[gitweb root tree pattern].
+|`file`          |optional|
+The link:config-gerrit.html#gitweb.file[gitweb file pattern].
+|`file_history`  |optional|
+The link:config-gerrit.html#gitweb.filehistory[gitweb file history
+pattern].
+|`path_separator`||
+The link:config-gerrit.html#gitweb.pathSeparator[gitweb path separator].
+|`link_drafts`   |optional|
+link:config-gerrit.html#gitweb.linkDrafts[Whether Gerrit should provide
+links to gitweb on draft patch set.]
+|`url_encode`    |optional|
+link:config-gerrit.html#gitweb.urlEncode[Whether Gerrit should encode
+the generated viewer URL.]
+|=============================
+
 [[hit-ration-info]]
 === HitRatioInfo
 The `HitRatioInfo` entity contains information about the hit ratio of a
 cache.
-
 [options="header",cols="1,^1,5"]
 |==================================
 |Field Name ||Description
@@ -1497,11 +1367,9 @@ Hit ratio for cache entries that are held in memory (0 \<= value \<= 100).
 Hit ratio for cache entries that are held on disk (0 \<= value \<= 100).
 Only set for disk caches.
 |==================================
-
 [[jvm-summary-info]]
 === JvmSummaryInfo
 The `JvmSummaryInfo` entity contains information about the JVM.
-
 [options="header",cols="1,^1,5"]
 |========================================
 |Field Name                 ||Description
@@ -1517,12 +1385,10 @@ The host on which Gerrit is running.
 |`current_working_directory`||The current working directory.
 |`site`                     ||The path to the review site.
 |========================================
-
 [[mem-summary-info]]
 === MemSummaryInfo
 The `MemSummaryInfo` entity contains information about the current
 memory usage.
-
 [options="header",cols="1,^1,5"]
 |============================
 |Field Name     ||Description
@@ -1544,24 +1410,20 @@ The maximal memory size. The value is returned with a unit abbreviation
 |`open_files`   |optional|
 The number of open files.
 |============================
-
 [[plugin-config-info]]
 === PluginConfigInfo
 The `PluginConfigInfo` entity contains information about Gerrit
 extensions by plugins.
-
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`has_avatars` |not set if `false`|
 Whether an avatar provider is registered.
 |===========================
-
 [[receive-info]]
 === ReceiveInfo
 The `ReceiveInfo` entity contains information about the configuration
 of git-receive-pack behavior on the server.
-
 [options="header",cols="1,^1,5"]
 |=======================================
 |Field Name        ||Description
@@ -1570,12 +1432,10 @@ Whether signed push validation support is enabled on the server; see the
 link:config-gerrit.html#receive.certNonceSeed[global configuration] for
 details.
 |=======================================
-
 [[server-info]]
 === ServerInfo
 The `ServerInfo` entity contains information about the configuration of
 the Gerrit server.
-
 [options="header",cols="1,^1,5"]
 |=======================================
 |Field Name                ||Description
@@ -1596,6 +1456,8 @@ link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
 |`note_db_enabled`         |not set if `false`|
 Whether the NoteDb storage backend is fully enabled.
+|`gitweb `                 |optional|
+Information about the link:config-gerrit.html#gitweb[gitweb]
 |`plugin `                 ||
 Information about Gerrit extensions by plugins as
 link:#plugin-config-info[PluginConfigInfo] entity.
@@ -1620,23 +1482,19 @@ Information about the configuration from the
 link:config-gerrit.html#user[user] section as link:#user-config-info[
 UserConfigInfo] entity.
 |=======================================
-
 [[sshd-info]]
 === SshdInfo
 The `SshdInfo` entity contains information about Gerrit
 configuration from the link:config-gerrit.html#sshd[sshd]
 section.
-
 This entity doesn't contain any data, but the presence of this (empty)
 entity in the link:#server-info[ServerInfo] entity means that SSHD is
 enabled on the server.
-
 [[suggest-info]]
 === SuggestInfo
 The `SuggestInfo` entity contains information about Gerrit
 configuration from the link:config-gerrit.html#suggest[suggest]
 section.
-
 [options="header",cols="1,6"]
 |=======================
 |Field Name |Description
@@ -1644,12 +1502,10 @@ section.
 The link:config-gerrit.html#suggest.from[number of characters] that a
 user must have typed before suggestions are provided.
 |=======================
-
 [[summary-info]]
 === SummaryInfo
 The `SummaryInfo` entity contains information about the current state
 of the server.
-
 [options="header",cols="1,^1,5"]
 |============================
 |Field Name     ||Description
@@ -1666,12 +1522,10 @@ ThreadSummaryInfo] entity.
 Summary about the JVM link:#jvm-summary-info[JvmSummaryInfo] entity.
 Only set if the `jvm` option was set.
 |============================
-
 [[task-info]]
 === TaskInfo
 The `TaskInfo` entity contains information about a task in a background
 work queue.
-
 [options="header",cols="1,^1,5"]
 |====================================
 |Field Name   ||Description
@@ -1687,12 +1541,10 @@ The remote name. May only be set for tasks that are associated with a
 project.
 |`project`    |optional|The project the task is associated with.
 |====================================
-
 [[task-summary-info]]
 === TaskSummaryInfo
 The `TaskSummaryInfo` entity contains information about the current
 tasks.
-
 [options="header",cols="1,^1,5"]
 |============================
 |Field Name     ||Description
@@ -1705,12 +1557,10 @@ Number of currently ready tasks.
 |`sleeping`     |optional|
 Number of currently sleeping tasks.
 |============================
-
 [[thread-summary-info]]
 === ThreadSummaryInfo
 The `ThreadSummaryInfo` entity contains information about the current
 threads.
-
 [options="header",cols="1,6"]
 |===========================
 |Field Name     |Description
@@ -1729,24 +1579,20 @@ the thread kind `Other`. Counts for the following thread states can be
 included: `NEW`, `RUNNABLE`, `BLOCKED`, `WAITING`, `TIMED_WAITING` and
 `TERMINATED`.
 |===========================
-
 [[top-menu-entry-info]]
 === TopMenuEntryInfo
 The `TopMenuEntryInfo` entity contains information about a top menu
 entry.
-
 [options="header",cols="1,6"]
 |=================================
 |Field Name           |Description
 |`name`               |Name of the top menu entry.
 |`items`              |List of link:#top-menu-item-info[menu items].
 |=================================
-
 [[top-menu-item-info]]
 === TopMenuItemInfo
 The `TopMenuItemInfo` entity contains information about a menu item in
 a top menu entry.
-
 [options="header",cols="1,^1,5"]
 |========================
 |Field Name ||Description
@@ -1755,12 +1601,10 @@ a top menu entry.
 |`target`   ||Target attribute of the menu item link.
 |`id`       |optional|The `id` attribute of the menu item link.
 |========================
-
 [[user-config-info]]
 === UserConfigInfo
 The `UserConfigInfo` entity contains information about Gerrit
 configuration from the link:config-gerrit.html#user[user] section.
-
 [options="header",cols="1,6"]
 |====================================
 |Field Name              |Description
@@ -1769,11 +1613,8 @@ link:config-gerrit.html#user.anonymousCoward[Username] that is
 displayed in the Gerrit Web UI and in e-mail notifications if the full
 name of the user is not set.
 |====================================
-
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
-
 SEARCHBOX
 ---------

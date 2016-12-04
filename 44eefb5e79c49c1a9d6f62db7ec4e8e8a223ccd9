@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_0c0077b3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2016-12-04T13:15:48Z",
+      "side": 1,
+      "message": "Does this really work? \u0027path\u0027 is not defined before. Probably you wanted to use \u0027params.path\u0027 like it was before a few lines below?",
+      "range": {
+        "startLine": 138,
+        "startChar": 57,
+        "endLine": 138,
+        "endChar": 61
+      },
+      "revId": "44eefb5e79c49c1a9d6f62db7ec4e8e8a223ccd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

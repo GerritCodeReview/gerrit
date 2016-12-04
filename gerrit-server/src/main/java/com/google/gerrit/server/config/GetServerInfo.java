@@ -80,6 +80,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final String anonymousCowardName;
+  private final GitwebConfig gitwebConfig;
   private final DynamicItem<AvatarProvider> avatar;
   private final boolean enableSignedPush;
   private final QueryDocumentationExecutor docSearcher;
@@ -102,6 +103,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       @AnonymousCowardName String anonymousCowardName,
+      GitwebConfig gitwebConfig,
       DynamicItem<AvatarProvider> avatar,
       @EnableSignedPush boolean enableSignedPush,
       QueryDocumentationExecutor docSearcher,
@@ -121,6 +123,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.anonymousCowardName = anonymousCowardName;
+    this.gitwebConfig = gitwebConfig;
     this.avatar = avatar;
     this.enableSignedPush = enableSignedPush;
     this.docSearcher = docSearcher;
@@ -141,6 +144,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
             archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
+    info.gitweb = getGitwebInfo(gitwebConfig);
     info.plugin = getPluginInfo();
     info.sshd = getSshdInfo(config);
     info.suggest = getSuggestInfo(config);
@@ -309,6 +313,17 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private boolean isNoteDbEnabled() {
     return migration.readChanges();
+  }
+
+  private GitwebInfo getGitwebInfo(GitwebConfig cfg) {
+    if (cfg.getUrl() == null || cfg.getGitwebType() == null) {
+      return null;
+    }
+
+    GitwebInfo info = new GitwebInfo();
+    info.url = cfg.getUrl();
+    info.type = cfg.getGitwebType();
+    return info;
   }
 
   private PluginConfigInfo getPluginInfo() {

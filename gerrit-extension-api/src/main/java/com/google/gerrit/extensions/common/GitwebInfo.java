@@ -14,19 +14,5 @@
 
 package com.google.gerrit.extensions.common;
 
-import java.util.Map;
-
-public class ServerInfo {
-  public AuthInfo auth;
-  public ChangeConfigInfo change;
-  public DownloadInfo download;
-  public GerritInfo gerrit;
-  public GitwebInfo gitweb;
-  public Boolean noteDbEnabled;
-  public PluginConfigInfo plugin;
-  public SshdInfo sshd;
-  public SuggestInfo suggest;
-  public Map<String, String> urlAliases;
-  public UserConfigInfo user;
-  public ReceiveInfo receive;
+public class GitwebInfo {
 }

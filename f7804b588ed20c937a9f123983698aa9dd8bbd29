@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_90b77420",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-05T20:23:42Z",
+      "side": 1,
+      "message": "Fixed. Seems the revisions array has a few objects with different signatures in it.",
+      "parentUuid": "6d05c749_50a6acf5",
+      "revId": "f7804b588ed20c937a9f123983698aa9dd8bbd29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_31205062",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 2
@@ -60,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_b113a020",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-05T20:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_31205062",
+      "revId": "f7804b588ed20c937a9f123983698aa9dd8bbd29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_10ac24d4",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
         "patchSetId": 2
@@ -71,6 +107,24 @@
       "writtenOn": "2016-12-05T19:43:59Z",
       "side": 1,
       "message": "I\u0027m curious why the container is needed.",
+      "revId": "f7804b588ed20c937a9f123983698aa9dd8bbd29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_f0b4001d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-05T20:23:42Z",
+      "side": 1,
+      "message": ".container {\n  display: flex;\n  align-items: center;\n }\n\nFixes some weird issues with alignment/placement of the \u003cinput\u003e being different from the \u003clabel\u003e.",
+      "parentUuid": "6d05c749_10ac24d4",
       "revId": "f7804b588ed20c937a9f123983698aa9dd8bbd29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

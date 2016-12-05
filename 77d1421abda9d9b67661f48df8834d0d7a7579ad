@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_512fd44f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-12-05T19:51:59Z",
+      "side": 1,
+      "message": "Choose a better name to help differentiate with setWebLinks()? Same for parent2().",
+      "range": {
+        "startLine": 143,
+        "startChar": 15,
+        "endLine": 143,
+        "endChar": 27
+      },
+      "revId": "77d1421abda9d9b67661f48df8834d0d7a7579ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

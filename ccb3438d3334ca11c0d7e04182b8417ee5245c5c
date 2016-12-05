@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2df3cfac_2e46279c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-05T13:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_91a0fe75",
+      "range": {
+        "startLine": 136,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 37
+      },
+      "revId": "ccb3438d3334ca11c0d7e04182b8417ee5245c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_4ead1381",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
         "patchSetId": 28

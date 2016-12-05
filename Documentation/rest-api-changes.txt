@@ -4740,8 +4740,7 @@ UUID of a draft comment.
 The name of the label.
 
 [[file-id]]
-\{file-id\}
-~~~~~~~~~~~~
+=== \{file-id\}
 The path of the file.
 
 [[revision-id]]

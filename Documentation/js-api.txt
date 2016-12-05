@@ -701,8 +701,7 @@ namespace by Gerrit Code Review. All top-level functions can be
 accessed through this name.
 
 [[Gerrit_css]]
-Gerrit.css()
-~~~~~~~~~~~~
+=== Gerrit.css()
 Creates a new unique CSS class and injects it into the document.
 The name of the class is returned and can be used by the plugin.
 See link:#Gerrit_html[`Gerrit.html()`] for an easy way to use
@@ -805,8 +804,7 @@ the current browser window will navigate to the non-Gerrit URL.
 The user can return to Gerrit with the back button.
 
 [[Gerrit_html]]
-Gerrit.html()
-~~~~~~~~~~~~~
+=== Gerrit.html()
 Parses an HTML fragment after performing template replacements.  If
 the HTML has a single root element or node that node is returned,
 otherwise it is wrapped inside a `<div>` and the div is returned.
@@ -900,8 +898,7 @@ screen.onUnload(function() { w.clear() });
 ----
 
 [[Gerrit_injectCss]]
-Gerrit.injectCss()
-~~~~~~~~~~~~~~~~~~
+=== Gerrit.injectCss()
 Injects CSS rules into the document by appending onto the end of the
 existing rule list.  CSS rules are global to the entire application
 and must be manually scoped by each plugin.  For an automatic scoping

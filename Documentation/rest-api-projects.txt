@@ -2408,8 +2408,7 @@ of parameter names to values.
 |======================================================
 
 [[config-parameter-info]]
-ConfigParameterInfo
-~~~~~~~~~~~~~~~~~~~
+=== ConfigParameterInfo
 The `ConfigParameterInfo` entity describes a project configuration
 parameter.
 

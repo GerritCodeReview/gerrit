@@ -1355,8 +1355,7 @@ should be included or deleted.
 |==========================
 
 [[members-input]]
-MembersInput
-~~~~~~~~~~~
+=== MembersInput
 The `MembersInput` entity contains information about accounts that should
 be added as members to a group or that should be deleted from the group.
 

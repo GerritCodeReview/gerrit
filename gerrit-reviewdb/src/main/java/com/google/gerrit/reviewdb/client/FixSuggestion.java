@@ -12,15 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.reviewdb.client;
 
 import java.util.List;
-import java.util.Map;
 
-public class RobotCommentInfo extends CommentInfo {
-  public String robotId;
-  public String robotRunId;
-  public String url;
-  public Map<String, String> properties;
-  public List<FixSuggestionInfo> fixSuggestions;
+public class FixSuggestion {
+  public String fixId;
+  public String description;
+  public List<FixReplacement> replacements;
+
+  public FixSuggestion(String fixId, String description,
+      List<FixReplacement> replacements) {
+    this.fixId = fixId;
+    this.description = description;
+    this.replacements = replacements;
+  }
+
+  @Override
+  public String toString() {
+    return "FixSuggestion{" +
+        "fixId='" + fixId + '\'' +
+        ", description='" + description + '\'' +
+        ", replacements=" + replacements +
+        '}';
+  }
 }

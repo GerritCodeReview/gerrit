@@ -51,6 +51,8 @@ import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -64,6 +66,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.FixReplacement;
+import com.google.gerrit.reviewdb.client.FixSuggestion;
 import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
@@ -73,6 +77,7 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -111,6 +116,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Singleton
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
@@ -507,17 +513,85 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String path = e.getKey();
       for (RobotCommentInput c : e.getValue()) {
-        if (c.robotId == null) {
-          throw new BadRequestException(String
-              .format("robotId is missing for robot comment on %s", path));
-        }
-        if (c.robotRunId == null) {
-          throw new BadRequestException(String
-              .format("robotRunId is missing for robot comment on %s", path));
-        }
+        ensureRobotIdIsSet(c.robotId, path);
+        ensureRobotRunIdIsSet(c.robotRunId, path);
+        ensureFixSuggestionsAreAddable(c.fixSuggestions, path);
       }
     }
     checkComments(revision, in);
+  }
+
+  private void ensureRobotIdIsSet(String robotId, String path)
+      throws BadRequestException {
+    if (robotId == null) {
+      throw new BadRequestException(String
+          .format("robotId is missing for robot comment on %s", path));
+    }
+  }
+
+  private void ensureRobotRunIdIsSet(String robotRunId, String path)
+      throws BadRequestException {
+    if (robotRunId == null) {
+      throw new BadRequestException(String
+          .format("robotRunId is missing for robot comment on %s", path));
+    }
+  }
+
+  private void ensureFixSuggestionsAreAddable(
+      List<FixSuggestionInfo> fixSuggestionInfos, String path)
+      throws BadRequestException {
+    if (fixSuggestionInfos == null) {
+      return;
+    }
+
+    for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
+      ensureDescriptionIsSet(path, fixSuggestionInfo.description);
+      ensureFixReplacementsAreAddable(path, fixSuggestionInfo.replacements);
+    }
+  }
+
+  private void ensureDescriptionIsSet(String path, String description)
+      throws BadRequestException {
+    if (description == null) {
+      throw new BadRequestException(String.format("A description is required "
+          + "for the suggested fix of the robot comment on %s", path));
+    }
+  }
+
+  private void ensureFixReplacementsAreAddable(String path,
+      List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
+    ensureReplacementsArePresent(path, fixReplacementInfos);
+
+    for (FixReplacementInfo fixReplacementInfo : fixReplacementInfos) {
+      ensureRangeIsSet(path, fixReplacementInfo.range);
+      ensureReplacementStringIsSet(path, fixReplacementInfo.replacement);
+    }
+  }
+
+  private void ensureReplacementsArePresent(String path,
+      List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
+    if (fixReplacementInfos == null || fixReplacementInfos.isEmpty()) {
+      throw new BadRequestException(String.format("At least one replacement is "
+          + "required for the suggested fix of the robot comment on %s", path));
+    }
+  }
+
+  private void ensureRangeIsSet(String path,
+      com.google.gerrit.extensions.client.Comment.Range range)
+      throws BadRequestException {
+    if (range == null) {
+      throw new BadRequestException(String.format("A range must be indicated "
+          + "for the replacement of the robot comment on %s", path));
+    }
+  }
+
+  private void ensureReplacementStringIsSet(String path, String replacement)
+      throws BadRequestException {
+    if (replacement == null) {
+      throw new BadRequestException(String.format("A content for replacement "
+          + "must be indicated for the replacement of the robot comment on %s",
+          path));
+    }
   }
 
   /**
@@ -718,7 +792,44 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           robotCommentInput.range);
       robotComment.tag = in.tag;
       setCommentRevId(robotComment, patchListCache, ctx.getChange(), ps);
+      robotComment.fixSuggestions = createFixSuggestions(ctx,
+          robotCommentInput.fixSuggestions);
       return robotComment;
+    }
+
+    private List<FixSuggestion> createFixSuggestions(ChangeContext ctx,
+        List<FixSuggestionInfo> fixSuggestionInfos) throws OrmException {
+      if (fixSuggestionInfos == null) {
+        return Collections.emptyList();
+      }
+
+      List<FixSuggestion> fixSuggestions = new ArrayList<>();
+      for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
+        fixSuggestions.add(createFixSuggestion(ctx, fixSuggestionInfo));
+      }
+      return fixSuggestions;
+    }
+
+    private FixSuggestion createFixSuggestion(ChangeContext ctx,
+        FixSuggestionInfo fixSuggestionInfo) throws OrmException {
+      List<FixReplacement> fixReplacements =
+          toFixReplacements(fixSuggestionInfo.replacements);
+      String fixId = ChangeUtil.messageUUID(ctx.getDb());
+      return new FixSuggestion(fixId, fixSuggestionInfo.description,
+          fixReplacements);
+    }
+
+    private List<FixReplacement> toFixReplacements(
+        List<FixReplacementInfo> fixReplacementInfos) {
+      return fixReplacementInfos.stream()
+          .map(this::toFixReplacement)
+          .collect(Collectors.toList());
+    }
+
+    private FixReplacement toFixReplacement(
+        FixReplacementInfo fixReplacementInfo) {
+      Comment.Range range = new Comment.Range(fixReplacementInfo.range);
+      return new FixReplacement(range, fixReplacementInfo.replacement);
     }
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)

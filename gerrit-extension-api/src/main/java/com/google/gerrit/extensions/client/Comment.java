@@ -57,6 +57,16 @@ public abstract class Comment {
     public int hashCode() {
       return Objects.hash(startLine, startCharacter, endLine, endCharacter);
     }
+
+    @Override
+    public String toString() {
+      return "Range{" +
+          "startLine=" + startLine +
+          ", startCharacter=" + startCharacter +
+          ", endLine=" + endLine +
+          ", endCharacter=" + endCharacter +
+          '}';
+    }
   }
 
   public short side() {

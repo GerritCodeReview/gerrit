@@ -14,13 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
-import java.util.List;
-import java.util.Map;
+import com.google.gerrit.extensions.client.Comment;
 
-public class RobotCommentInfo extends CommentInfo {
-  public String robotId;
-  public String robotRunId;
-  public String url;
-  public Map<String, String> properties;
-  public List<FixSuggestionInfo> fixSuggestions;
+public class FixReplacementInfo {
+  public Comment.Range range;
+  public String replacement;
 }

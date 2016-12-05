@@ -21,9 +21,13 @@ import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.FixReplacement;
+import com.google.gerrit.reviewdb.client.FixSuggestion;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
@@ -34,6 +38,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 class CommentJson {
 
@@ -147,7 +152,7 @@ class CommentJson {
       }
     }
 
-    private Range toRange(Comment.Range commentRange) {
+    protected Range toRange(Comment.Range commentRange) {
       Range range = null;
       if (commentRange != null) {
         range = new Range();
@@ -181,8 +186,38 @@ class CommentJson {
       rci.robotRunId = c.robotRunId;
       rci.url = c.url;
       rci.properties = c.properties;
+      rci.fixSuggestions = toFixSuggestionInfos(c.fixSuggestions);
       fillCommentInfo(c, rci, loader);
       return rci;
+    }
+
+    private List<FixSuggestionInfo> toFixSuggestionInfos(
+        List<FixSuggestion> fixSuggestions) {
+      if (fixSuggestions.isEmpty()) {
+        return null;
+      }
+
+      return fixSuggestions.stream()
+          .map(this::toFixSuggestionInfo)
+          .collect(Collectors.toList());
+    }
+
+    private FixSuggestionInfo toFixSuggestionInfo(FixSuggestion fixSuggestion) {
+      FixSuggestionInfo fixSuggestionInfo = new FixSuggestionInfo();
+      fixSuggestionInfo.fixId = fixSuggestion.fixId;
+      fixSuggestionInfo.description = fixSuggestion.description;
+      fixSuggestionInfo.replacements = fixSuggestion.replacements.stream()
+          .map(this::toFixReplacementInfo)
+          .collect(Collectors.toList());
+      return fixSuggestionInfo;
+    }
+
+    private FixReplacementInfo toFixReplacementInfo(
+        FixReplacement fixReplacement) {
+      FixReplacementInfo fixReplacementInfo = new FixReplacementInfo();
+      fixReplacementInfo.range = toRange(fixReplacement.range);
+      fixReplacementInfo.replacement = fixReplacement.replacement;
+      return fixReplacementInfo;
     }
 
     private RobotCommentFormatter() {

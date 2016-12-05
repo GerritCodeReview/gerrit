@@ -22,6 +22,30 @@
       "revId": "77d1421abda9d9b67661f48df8834d0d7a7579ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_71fc724f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-05T20:38:25Z",
+      "side": 1,
+      "message": "Hi, yep thanks, i will amend this once this patch is fixed so it really works.",
+      "parentUuid": "8d04bb4e_512fd44f",
+      "range": {
+        "startLine": 143,
+        "startChar": 15,
+        "endLine": 143,
+        "endChar": 27
+      },
+      "revId": "77d1421abda9d9b67661f48df8834d0d7a7579ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

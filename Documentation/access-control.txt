@@ -574,6 +574,12 @@ further refine access, but only for references that begin with
 `refs/heads/qa/`. See <<project_owners,project owners>> to find
 out more about this role.
 
+For the `All-Projects` root project any `Owner` access rights on
+'refs/*' is ignored since this permission would allow users to edit the
+global capabilities, which is identical with being able to administrate
+the Gerrit server (e.g. the user could assign the `Administrate Server`
+capability to the own account).
+
 
 [[category_push]]
 === Push

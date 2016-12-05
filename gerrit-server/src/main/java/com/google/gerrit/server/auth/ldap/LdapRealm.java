@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -70,6 +72,9 @@ class LdapRealm extends AbstractRealm {
   private final LoadingCache<String, Optional<Account.Id>> usernameCache;
   private final Set<AccountFieldName> readOnlyAccountFields;
   private final boolean fetchMemberOfEagerly;
+  private final String mandatoryGroup;
+  private final LdapGroupBackend groupBackend;
+
   private final Config config;
 
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
@@ -79,12 +84,14 @@ class LdapRealm extends AbstractRealm {
       Helper helper,
       AuthConfig authConfig,
       EmailExpander emailExpander,
+      LdapGroupBackend groupBackend,
       @Named(LdapModule.GROUP_CACHE) final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) final LoadingCache<String, Optional<Account.Id>> usernameCache,
       @GerritServerConfig final Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
     this.emailExpander = emailExpander;
+    this.groupBackend = groupBackend;
     this.usernameCache = usernameCache;
     this.membershipCache = membershipCache;
     this.config = config;
@@ -102,6 +109,7 @@ class LdapRealm extends AbstractRealm {
     }
 
     fetchMemberOfEagerly = optional(config, "fetchMemberOfEagerly", true);
+    mandatoryGroup = optional(config, "mandatoryGroup");
   }
 
   static SearchScope scope(final Config c, final String setting) {
@@ -263,8 +271,23 @@ class LdapRealm extends AbstractRealm {
         // in the middle of authenticating the user, its likely we will
         // need to know what access rights they have soon.
         //
-        if (fetchMemberOfEagerly) {
-          membershipCache.put(username, helper.queryForGroups(ctx, username, m));
+        if (fetchMemberOfEagerly || mandatoryGroup != null) {
+          Set<AccountGroup.UUID> groups = helper.queryForGroups(ctx, username, m);
+          if (mandatoryGroup != null) {
+            GroupReference mandatoryGroupRef =
+                GroupBackends.findExactSuggestion(groupBackend, mandatoryGroup);
+            if (mandatoryGroupRef == null) {
+              throw new AccountException("Could not identify mandatory group: " +
+                  mandatoryGroup);
+            }
+            if (!groups.contains(mandatoryGroupRef.getUUID())) {
+              throw new AccountException("Not member of mandatory LDAP group: " +
+                  mandatoryGroupRef.getName());
+            }
+          }
+          // Regardless if we enabled fetchMemberOfEagerly, we already have the
+          // groups and it would be a waste not to cache them.
+          membershipCache.put(username, groups);
         }
         return who;
       } finally {

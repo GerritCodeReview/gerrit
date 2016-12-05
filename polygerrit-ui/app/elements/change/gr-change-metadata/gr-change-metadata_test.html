@@ -175,11 +175,12 @@ limitations under the License.
       });
 
       test('clicking x on topic chip removes topic', function() {
-        sandbox.stub(element, '_handleTopicChanged');
+        var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic');
         flushAsynchronousOperations();
         var remove = element.$$('gr-linked-chip').$.remove;
         MockInteractions.tap(remove);
         assert.equal(element.change.topic, '');
+        assert.isTrue(topicStub.called);
       });
     });
   });

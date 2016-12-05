@@ -27,6 +27,10 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
@@ -37,6 +41,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -48,9 +53,15 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class CommitBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
+  public final native String url() /*-{ return this.url; }-*/;
+  public final native String revision() /*-{ return this.revision; }-*/;
+  public final native CommitBox type() /*-{ return this.type; }-*/;
 
   interface Style extends CssResource {
     String collapsed();
@@ -120,7 +131,7 @@ class CommitBox extends Composite {
       mergeCommit.setVisible(true);
     }
 
-    setParents(revInfo.commit().parents());
+    setParents(change.project(), revInfo.commit().parents());
   }
 
   void setParentNotCurrent(boolean parentNotCurrent) {
@@ -138,7 +149,14 @@ class CommitBox extends Composite {
     }
   }
 
-  private void setParents(JsArray<CommitInfo> commits) {
+  private void toAnchor(String href, String name) {
+    Anchor a = new Anchor();
+    a.setHref(href);
+    a.setText(name);
+    webLinkPanel.add(a);
+  }
+
+  private void setParents(String project, JsArray<CommitInfo> commits) {
     setVisible(firstParent, true);
     TableRowElement next = firstParent;
     TableRowElement previous = null;
@@ -146,16 +164,51 @@ class CommitBox extends Composite {
       if (next == firstParent) {
         CopyableLabel copyLabel = getCommitLabel(c);
         parentCommits.add(copyLabel);
+        addLinks(project, c, parentWebLinks);
       } else {
         next.appendChild(DOM.createTD());
         Element td1 = DOM.createTD();
         td1.appendChild(getCommitLabel(c).getElement());
         next.appendChild(td1);
+        FlowPanel linksPanel = new FlowPanel();
+        linksPanel.addStyleName(style.parentWebLink());
+        addLinks(project, c, linksPanel);
+        Element td2 = DOM.createTD();
+        td2.appendChild(linksPanel.getElement());
+        next.appendChild(td2);
         previous.getParentElement().insertAfter(next, previous);
       }
       previous = next;
       next = DOM.createTR().cast();
     }
+  }
+
+  public final String toRevision(String  project, String commit) {
+    ParameterizedString pattern = new ParameterizedString(type().revision());
+    Map<String, String> p = new HashMap<>();
+    p.put("project", encode(project));
+    p.put("commit", encode(commit));
+    return url() + pattern.replace(p);
+  }
+
+  public final String toRevision(Project.NameKey project, PatchSet ps) {
+    return toRevision(project.get(), ps.getRevision().get());
+  }
+
+  private void addLinks(String project, CommitInfo c, FlowPanel panel) {
+    Anchor a =
+        new Anchor(getLinkName(), toRevision(project, c.commit()));
+    a.setStyleName(style.parentWebLink());
+    panel.add(a);
+  }
+
+  /**
+   * Returns the name for gitweb links.
+   *
+   * @return the name for gitweb links
+   */
+  public final String getLinkName() {
+    return "(" + type().name() + ")";
   }
 
   private CopyableLabel getCommitLabel(CommitInfo c) {

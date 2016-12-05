@@ -46,6 +46,30 @@
       "revId": "cb739f58acbfe80c20bd4e8095a3274c90425a1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2df3cfac_4e7f33ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-05T08:57:47Z",
+      "side": 1,
+      "message": "No, not here.  validateTagRef will raise an exception for any tag name that\u0027s not valid, and we would need to pass that back in the error message, which is returned in the resource conflict exception.\n\nIt needs to be handled inside the delete method.",
+      "parentUuid": "edcc5755_6c801b1e",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "cb739f58acbfe80c20bd4e8095a3274c90425a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -246,17 +246,17 @@ default. Optional fields are:
 
 [[current-files]]
 --
-* `CURRENT_FILES`: list files modified by the commit, including
-  basic line counts inserted/deleted per file. Only valid when
-  the `CURRENT_REVISION` or `ALL_REVISIONS` option is selected.
+* `CURRENT_FILES`: list files modified by the commit and magic files,
+  including basic line counts inserted/deleted per file. Only valid
+  when the `CURRENT_REVISION` or `ALL_REVISIONS` option is selected.
 --
 
 [[all-files]]
 --
-* `ALL_FILES`: list files modified by the commit, including
-  basic line counts inserted/deleted per file. If only the
-  `CURRENT_REVISION` was requested then only that commit's
-  modified files will be output.
+* `ALL_FILES`: list files modified by the commit and magic files,
+  including basic line counts inserted/deleted per file. If only the
+  `CURRENT_REVISION` was requested then only that commit's modified
+  files will be output.
 --
 
 [[detailed-accounts]]
@@ -4132,6 +4132,18 @@ returned that describes the robot comment.
 --
 
 Lists the files that were modified, added or deleted in a revision.
+
+In addition the following magic files are included:
+
+* `/COMMIT_MSG`:
++
+The commit message and headers with the parent commit(s), the author
+information and the committer information.
+
+* `/MERGE_LIST` (for merge commits only):
++
+The list of commits that are being integrated into the destination
+branch by submitting the merge commit.
 
 .Request
 ----

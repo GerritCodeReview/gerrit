@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_0fc5c9f4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-05T16:14:44Z",
+      "side": 1,
+      "message": "remove this as it is checked implicitly by the following methods and if creation/retrieval fails you would just have one more method that failed (as the others would have failed too)",
+      "range": {
+        "startLine": 131,
+        "startChar": 14,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_91cebe43",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-05T16:14:44Z",
+      "side": 1,
+      "message": "given (change in the original error message too)",
+      "range": {
+        "startLine": 222,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 68
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_f1d142e8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-05T16:14:44Z",
+      "side": 1,
+      "message": "overwritten",
+      "range": {
+        "startLine": 298,
+        "startChar": 54,
+        "endLine": 298,
+        "endChar": 64
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_b1cbba32",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-05T16:14:44Z",
+      "side": 1,
+      "message": "MoreObjects.toStringHelper(this)\n        .add(\"Start Line\", startline)\n        .add(\"Start Character\", startCharacter)\n        ...\n        .toString()",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_afd595a3",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/FixReplacement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-05T16:14:44Z",
+      "side": 1,
+      "message": "MoreObjects.toStringHelper(this)\n        .add(....)\n        ....)\n        .toString()",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_510e16ac",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/FixSuggestion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-05T16:14:44Z",
+      "side": 1,
+      "message": "MoreObjects.toStringHelper(this)\n        .add(....)\n        ....\n        .toString()",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_2f920537",
+        "filename": "lib/jgit/org.eclipse.jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-05T07:52:56Z",
+      "side": 1,
+      "message": "Do we also need to change the Bazel build?",
+      "revId": "a4ae44f6331e3a72b589663796218324d213ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

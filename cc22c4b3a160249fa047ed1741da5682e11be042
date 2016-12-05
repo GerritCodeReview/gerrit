@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_90e5b420",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-05T23:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_11fb8ca0",
+      "revId": "cc22c4b3a160249fa047ed1741da5682e11be042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed9e1721_dcdeadc8",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
         "patchSetId": 6

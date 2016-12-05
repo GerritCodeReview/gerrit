@@ -2915,6 +2915,15 @@ LDAP group name and group ID, use the pattern `${cn} (${gidNumber})`.
 +
 Default is `cn`.
 
+[[ldap.mandatoryGroup]]ldap.mandatoryGroup::
++
+All users must be a member of this group to allow account creation or
+authentication.
++
+Setting mandatoryGroup implies enabling of `ldap.fetchMemberOfEagerly`
++
+By default, unset/false.
+
 [[ldap.localUsernameToLowerCase]]ldap.localUsernameToLowerCase::
 +
 Converts the local username, that is used to login into the Gerrit
@@ -2932,7 +2941,7 @@ Please be aware that the conversion of the local usernames to lower
 case can't be undone. For newly created accounts the local username
 will be directly stored in lower case.
 +
-By default, unset/false.
+By default, unset.
 
 [[ldap.authentication]]ldap.authentication::
 +

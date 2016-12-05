@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1480955580 +0100\nnonce AOr0K+TmPE6sP0rfpKDK8tJqjSMtQsFPAsZKafZqCAVE521TUbfwsLkdf1lxVQeZsEeS+emA1UoF\n\n0000000000000000000000000000000000000000 afe992c1430c3020ebf736218993206343d3103c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYRZa8AAoJEFG1/Zeg0O9RGRMH/Racsv/gfuaozpCVV3V6xeHb\nlSQPUpU/CdnPdOFwgY/zmX9K/sJ+unek+/7Iw1Qf8o3I0upj9U8w10UzENDQlvRV\n7lPWgCAUV0ea/wFIYymlOV5rBcdzdTCirq27Fd513W4m3NfrCzD0neBKCm4kjmq9\n4lAWZciDb/iXru+CWasnZH5zDOiWvTAceK1UvdfOKdrRb6TtKw0LNP4OL5BhVxYW\nSZKSi9jIpCD3t0xUfFi/jFeoDjTxkcUxuwuYDj3y6gxp3uLqSlc7ns+C8zpTuEEn\n5pQnaJGrtElYHmSv/SIcA2Jsl4OY+KnYmrqlFQD1oFLe99O15jdxsVrj72n25fI\u003d\n\u003dgn1f\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0ac35e_4fb1ed94",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-05T23:33:27Z",
+      "side": 1,
+      "message": "\"access right is ignored\" or \"access rights are ignored\".",
+      "range": {
+        "startLine": 577,
+        "startChar": 48,
+        "endLine": 578,
+        "endChar": 19
+      },
+      "revId": "afe992c1430c3020ebf736218993206343d3103c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_afb5f982",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-05T23:33:27Z",
+      "side": 1,
+      "message": "\"is the same as\" or \"is identical to\"",
+      "range": {
+        "startLine": 579,
+        "startChar": 27,
+        "endLine": 579,
+        "endChar": 44
+      },
+      "revId": "afe992c1430c3020ebf736218993206343d3103c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

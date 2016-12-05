@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_50a6acf5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-05T19:46:33Z",
+      "side": 1,
+      "message": "Seems to happen whenever I edit the description of a patch set that isn\u0027t the latest.",
+      "parentUuid": "6d05c749_30a7a8f5",
+      "revId": "f7804b588ed20c937a9f123983698aa9dd8bbd29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_31205062",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 2

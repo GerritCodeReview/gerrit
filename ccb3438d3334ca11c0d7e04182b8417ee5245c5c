@@ -69,6 +69,30 @@
       "revId": "ccb3438d3334ca11c0d7e04182b8417ee5245c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_2eac4782",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-05T09:01:31Z",
+      "side": 1,
+      "message": "Hi this error\n\n/home/paladox/gerrit4/gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java:194: error: illegal start of expression\n            ref -\u003e ref.startsWith(prefix)",
+      "parentUuid": "2df3cfac_ae633732",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 12
+      },
+      "revId": "ccb3438d3334ca11c0d7e04182b8417ee5245c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -446,6 +446,7 @@ public class ChangeInfo extends JavaScriptObject {
   public static class CommitInfo extends JavaScriptObject {
     public final native String commit() /*-{ return this.commit; }-*/;
     public final native JsArray<CommitInfo> parents() /*-{ return this.parents; }-*/;
+    public final native CommitInfo parents2() /*-{ return this.parents; }-*/;
     public final native GitPerson author() /*-{ return this.author; }-*/;
     public final native GitPerson committer() /*-{ return this.committer; }-*/;
     public final native String subject() /*-{ return this.subject; }-*/;

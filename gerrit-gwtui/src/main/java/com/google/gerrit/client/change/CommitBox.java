@@ -121,6 +121,8 @@ class CommitBox extends Composite {
     }
 
     setParents(revInfo.commit().parents());
+
+    setWebLinks2(revInfo);
   }
 
   void setParentNotCurrent(boolean parentNotCurrent) {
@@ -131,6 +133,15 @@ class CommitBox extends Composite {
 
   private void setWebLinks(RevisionInfo revInfo) {
     JsArray<WebLinkInfo> links = revInfo.commit().webLinks();
+    if (links != null) {
+      for (WebLinkInfo link : Natives.asList(links)) {
+        webLinkPanel.add(link.toAnchor());
+      }
+    }
+  }
+
+  private void setWebLinks2(RevisionInfo revInfo) {
+    JsArray<WebLinkInfo> links = revInfo.commit().parents2().webLinks();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
         webLinkPanel.add(link.toAnchor());

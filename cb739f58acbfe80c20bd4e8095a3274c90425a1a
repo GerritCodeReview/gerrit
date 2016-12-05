@@ -118,6 +118,30 @@
       "revId": "cb739f58acbfe80c20bd4e8095a3274c90425a1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_8fce9943",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTags.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-05T09:11:44Z",
+      "side": 1,
+      "message": "Oh thanks.",
+      "parentUuid": "2df3cfac_ce6a0303",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "cb739f58acbfe80c20bd4e8095a3274c90425a1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

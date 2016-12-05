@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "2df3cfac_4e55733d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4732,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-05T23:57:56Z",
+      "side": 1,
+      "message": "[unrelated] this is the old style section header markup. fixing it in a separate change.",
+      "range": {
+        "startLine": 4732,
+        "startChar": 0,
+        "endLine": 4732,
+        "endChar": 12
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_cfbcbd6b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5448,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-05T23:57:56Z",
+      "side": 1,
+      "message": "Link this to the [[fix-id]] above?",
+      "range": {
+        "startLine": 5448,
+        "startChar": 43,
+        "endLine": 5448,
+        "endChar": 72
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d0ac35e_2fcbc90b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5448,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-05T23:57:56Z",
+      "side": 1,
+      "message": "nit: move this one column to the left so it aligns with the previous line.",
+      "range": {
+        "startLine": 5448,
+        "startChar": 21,
+        "endLine": 5448,
+        "endChar": 22
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_0fc5c9f4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 1

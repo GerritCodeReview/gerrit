@@ -39,6 +39,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assume().that(notesMigration.enabled()).isTrue();
 
     PushOneCommit.Result r = createChange();
+
+    Map<String, List<RobotCommentInfo>> out = gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .robotComments();
+    assertThat(out).isEmpty();
+
     RobotCommentInput in = createRobotCommentInput();
     ReviewInput reviewInput = new ReviewInput();
     Map<String, List<RobotCommentInput>> robotComments = new HashMap<>();
@@ -50,7 +57,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
        .current()
        .review(reviewInput);
 
-    Map<String, List<RobotCommentInfo>> out = gApi.changes()
+    out = gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())
         .robotComments();

@@ -71,6 +71,236 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_6f19eda1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5452,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "FixReplacementInfo",
+      "range": {
+        "startLine": 5452,
+        "startChar": 55,
+        "endLine": 5452,
+        "endChar": 69
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_113f2e1c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6001,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "nit: align the columns for better readability",
+      "range": {
+        "startLine": 5992,
+        "startChar": 0,
+        "endLine": 6001,
+        "endChar": 28
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_ef04fd37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "Eclipse shows me the following warning here:\n\n\"Type safety: Unchecked cast from IterableSubject to ListSubject\u003cS,E\u003e\"\n\nShould it be suppressed?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 72
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_f135c238",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "Another Eclipse warning for this cast:\n\n\"Type safety: Unchecked cast from Iterable\u003ccapture#2-of ?\u003e to List\u003cE\u003e\"",
+      "range": {
+        "startLine": 48,
+        "startChar": 19,
+        "endLine": 48,
+        "endChar": 37
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_cf07c13a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "\u0027no element\u0027?",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_2f23e5cd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "Should this be named \u0027onlyElement\u0027 to have name consistency with Guava\u0027s Iterables.getOnlyElement(...)?",
+      "range": {
+        "startLine": 56,
+        "startChar": 11,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_91323e4e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "Also not liked by Eclipse.",
+      "range": {
+        "startLine": 65,
+        "startChar": 11,
+        "endLine": 65,
+        "endChar": 54
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_8f11b978",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "Also not liked by Eclipse.",
+      "range": {
+        "startLine": 81,
+        "startChar": 48,
+        "endLine": 81,
+        "endChar": 65
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_4ffd11fb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/FixSuggestionInfoSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "only",
+      "range": {
+        "startLine": 64,
+        "startChar": 35,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_af0ef551",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentInfoSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "only",
+      "range": {
+        "startLine": 66,
+        "startChar": 34,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_0fc5c9f4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 1
@@ -202,6 +432,69 @@
         "startChar": 4,
         "endLine": 37,
         "endChar": 12
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_0ff7091d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "Should this be RobotCommentInput, so that I can\u0027t accidentally pass in a wrong field?",
+      "range": {
+        "startLine": 524,
+        "startChar": 34,
+        "endLine": 524,
+        "endChar": 48
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_2ffc45fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "Maybe also validate that the range is valid, e.g. startLine \u003c\u003d endLine?",
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_cff02123",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T08:48:09Z",
+      "side": 1,
+      "message": "new ArrayList(fixSuggestionInfos.size())",
+      "range": {
+        "startLine": 806,
+        "startChar": 43,
+        "endLine": 806,
+        "endChar": 60
       },
       "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

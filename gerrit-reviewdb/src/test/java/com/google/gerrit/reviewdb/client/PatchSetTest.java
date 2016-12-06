@@ -64,7 +64,7 @@ public class PatchSetTest {
   }
 
   @Test
-  public void testSplitGroups() {
+  public void splitGroups() {
     assertThat(splitGroups("")).containsExactly("");
     assertThat(splitGroups("abcd")).containsExactly("abcd");
     assertThat(splitGroups("ab,cd")).containsExactly("ab", "cd").inOrder();
@@ -73,7 +73,7 @@ public class PatchSetTest {
   }
 
   @Test
-  public void testJoinGroups() {
+  public void joinGroups() {
     assertThat(joinGroups(ImmutableList.of(""))).isEqualTo("");
     assertThat(joinGroups(ImmutableList.of("abcd"))).isEqualTo("abcd");
     assertThat(joinGroups(ImmutableList.of("ab", "cd"))).isEqualTo("ab,cd");
@@ -82,7 +82,7 @@ public class PatchSetTest {
   }
 
   @Test
-  public void testToRefName() {
+  public void toRefName() {
     assertThat(new PatchSet.Id(new Change.Id(1), 23).toRefName())
         .isEqualTo("refs/changes/01/1/23");
     assertThat(new PatchSet.Id(new Change.Id(1234), 5).toRefName())

@@ -32,14 +32,14 @@ import java.io.InputStream;
 
 public class BasicSerializationTest {
   @Test
-  public void testReadVarInt32() throws IOException {
+  public void readVarInt32() throws IOException {
     assertEquals(0x00000000, readVarInt32(r(b(0))));
     assertEquals(0x00000003, readVarInt32(r(b(3))));
     assertEquals(0x000000ff, readVarInt32(r(b(0x80 | 0x7f, 0x01))));
   }
 
   @Test
-  public void testWriteVarInt32() throws IOException {
+  public void writeVarInt32() throws IOException {
     ByteArrayOutputStream out;
 
     out = new ByteArrayOutputStream();
@@ -56,7 +56,7 @@ public class BasicSerializationTest {
   }
 
   @Test
-  public void testReadFixInt64() throws IOException {
+  public void readFixInt64() throws IOException {
     assertEquals(0L, readFixInt64(r(b(0, 0, 0, 0, 0, 0, 0, 0))));
     assertEquals(3L, readFixInt64(r(b(0, 0, 0, 0, 0, 0, 0, 3))));
 
@@ -77,7 +77,7 @@ public class BasicSerializationTest {
   }
 
   @Test
-  public void testWriteFixInt64() throws IOException {
+  public void writeFixInt64() throws IOException {
     ByteArrayOutputStream out;
 
     out = new ByteArrayOutputStream(8);
@@ -106,7 +106,7 @@ public class BasicSerializationTest {
   }
 
   @Test
-  public void testReadString() throws IOException {
+  public void readString() throws IOException {
     assertNull(readString(r(b(0))));
     assertEquals("a", readString(r(b(1, 'a'))));
     assertEquals("coffee4",
@@ -114,7 +114,7 @@ public class BasicSerializationTest {
   }
 
   @Test
-  public void testWriteString() throws IOException {
+  public void writeString() throws IOException {
     ByteArrayOutputStream out;
 
     out = new ByteArrayOutputStream();

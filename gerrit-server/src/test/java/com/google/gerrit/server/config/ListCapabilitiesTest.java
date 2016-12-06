@@ -55,7 +55,7 @@ public class ListCapabilitiesTest {
   }
 
   @Test
-  public void testList() throws Exception {
+  public void list() throws Exception {
     Map<String, CapabilityInfo> m =
         injector.getInstance(ListCapabilities.class)
             .apply(new ConfigResource());

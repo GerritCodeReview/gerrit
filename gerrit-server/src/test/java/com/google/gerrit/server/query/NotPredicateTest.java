@@ -30,7 +30,7 @@ import java.util.List;
 
 public class NotPredicateTest extends PredicateTest {
   @Test
-  public void testNotNot() {
+  public void notNot() {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
     assertTrue(n instanceof NotPredicate);
@@ -39,7 +39,7 @@ public class NotPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testChildren() {
+  public void children() {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
     assertEquals(1, n.getChildCount());
@@ -47,7 +47,7 @@ public class NotPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testChildrenUnmodifiable() {
+  public void childrenUnmodifiable() {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
 
@@ -71,12 +71,12 @@ public class NotPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testToString() {
+  public void toString() {
     assertEquals("-author:bob", not(f("author", "bob")).toString());
   }
 
   @Test
-  public void testEquals() {
+  public void equals() {
     assertTrue(not(f("author", "bob")).equals(not(f("author", "bob"))));
     assertFalse(not(f("author", "bob")).equals(not(f("author", "alice"))));
     assertFalse(not(f("author", "bob")).equals(f("author", "bob")));
@@ -84,7 +84,7 @@ public class NotPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testHashCode() {
+  public void hashCode() {
     assertTrue(not(f("a", "b")).hashCode() == not(f("a", "b")).hashCode());
     assertFalse(not(f("a", "b")).hashCode() == not(f("a", "a")).hashCode());
   }

@@ -92,7 +92,7 @@ public class RefNamesTest {
   }
 
   @Test
-  public void testParseShardedRefsPart() throws Exception {
+  public void parseShardedRefsPart() throws Exception {
     assertThat(parseShardedRefPart("01/1")).isEqualTo(1);
     assertThat(parseShardedRefPart("01/1-drafts")).isEqualTo(1);
     assertThat(parseShardedRefPart("01/1-drafts/2")).isEqualTo(1);
@@ -115,7 +115,7 @@ public class RefNamesTest {
   }
 
   @Test
-  public void testParseRefSuffix() throws Exception {
+  public void parseRefSuffix() throws Exception {
     assertThat(parseRefSuffix("1/2/34")).isEqualTo(34);
     assertThat(parseRefSuffix("/34")).isEqualTo(34);
 

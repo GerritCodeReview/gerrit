@@ -401,7 +401,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  public void testGerritWorkflow() throws Exception {
+  public void gerritWorkflow() throws Exception {
     RevCommit initialHead = getRemoteHead();
 
     // We'll setup a master and a stable branch.

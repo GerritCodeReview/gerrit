@@ -30,7 +30,7 @@ import java.util.Collections;
 
 public class LibrariesTest {
   @Test
-  public void testCreate() throws Exception {
+  public void create() throws Exception {
     final SitePaths site = new SitePaths(Paths.get("."));
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
 

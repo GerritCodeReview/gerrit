@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class PatchListEntryTest {
   @Test
-  public void testEmpty1() {
+  public void empty1() {
     final String name = "empty-file";
     final PatchListEntry e = PatchListEntry.empty(name);
     assertNull(e.getOldName());

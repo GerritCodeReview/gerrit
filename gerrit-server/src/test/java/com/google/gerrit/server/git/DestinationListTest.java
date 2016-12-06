@@ -73,7 +73,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testParseSimple() throws Exception {
+  public void parseSimple() throws Exception {
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, F_SIMPLE, null);
     Set<Branch.NameKey> branches = dl.getDestinations(LABEL);
@@ -81,7 +81,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testParseWHeader() throws Exception {
+  public void parseWHeader() throws Exception {
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, HEADER + F_SIMPLE, null);
     Set<Branch.NameKey> branches = dl.getDestinations(LABEL);
@@ -89,7 +89,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testParseWComments() throws Exception {
+  public void parseWComments() throws Exception {
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, C1 + F_SIMPLE + C2, null);
     Set<Branch.NameKey> branches = dl.getDestinations(LABEL);
@@ -97,7 +97,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testParseFooComment() throws Exception {
+  public void parseFooComment() throws Exception {
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, "#" + L_FOO + L_BAR, null);
     Set<Branch.NameKey> branches = dl.getDestinations(LABEL);
@@ -106,7 +106,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testParsePaddedFronts() throws Exception {
+  public void parsePaddedFronts() throws Exception {
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, F_PAD_F, null);
     Set<Branch.NameKey> branches = dl.getDestinations(LABEL);
@@ -114,7 +114,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testParsePaddedEnds() throws Exception {
+  public void parsePaddedEnds() throws Exception {
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, F_PAD_E, null);
     Set<Branch.NameKey> branches = dl.getDestinations(LABEL);
@@ -122,7 +122,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testParseComplex() throws Exception {
+  public void parseComplex() throws Exception {
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, L_COMPLEX, null);
     Set<Branch.NameKey> branches = dl.getDestinations(LABEL);
@@ -137,7 +137,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testParse2Labels() throws Exception {
+  public void parse2Labels() throws Exception {
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, F_SIMPLE, null);
     Set<Branch.NameKey> branches = dl.getDestinations(LABEL);
@@ -151,7 +151,7 @@ public class DestinationListTest extends TestCase {
   }
 
   @Test
-  public void testAsText() throws Exception {
+  public void asText() throws Exception {
     String text = HEADER_PROPER + "#\n" + F_PROPER;
     DestinationList dl = new DestinationList();
     dl.parseLabel(LABEL, F_SIMPLE, null);

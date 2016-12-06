@@ -53,49 +53,49 @@ public class QueryListTest extends TestCase {
   public static final String F_PAD_E = L_FOO_PAD_E + L_BAR_PAD_E;
 
   @Test
-  public void testParseSimple() throws Exception {
+  public void parseSimple() throws Exception {
     QueryList ql = QueryList.parse(F_SIMPLE, null);
     assertThat(ql.getQuery(N_FOO)).isEqualTo(Q_P);
     assertThat(ql.getQuery(N_BAR)).isEqualTo(Q_B);
   }
 
   @Test
-  public void testParseWHeader() throws Exception {
+  public void parseWHeader() throws Exception {
     QueryList ql = QueryList.parse(HEADER + F_SIMPLE, null);
     assertThat(ql.getQuery(N_FOO)).isEqualTo(Q_P);
     assertThat(ql.getQuery(N_BAR)).isEqualTo(Q_B);
   }
 
   @Test
-  public void testParseWComments() throws Exception {
+  public void parseWComments() throws Exception {
     QueryList ql = QueryList.parse(C1 + F_SIMPLE + C2, null);
     assertThat(ql.getQuery(N_FOO)).isEqualTo(Q_P);
     assertThat(ql.getQuery(N_BAR)).isEqualTo(Q_B);
   }
 
   @Test
-  public void testParseFooComment() throws Exception {
+  public void parseFooComment() throws Exception {
     QueryList ql = QueryList.parse("#" + L_FOO + L_BAR, null);
     assertThat(ql.getQuery(N_FOO)).isNull();
     assertThat(ql.getQuery(N_BAR)).isEqualTo(Q_B);
   }
 
   @Test
-  public void testParsePaddedFronts() throws Exception {
+  public void parsePaddedFronts() throws Exception {
     QueryList ql = QueryList.parse(F_PAD_F, null);
     assertThat(ql.getQuery(N_FOO)).isEqualTo(Q_P);
     assertThat(ql.getQuery(N_BAR)).isEqualTo(Q_B);
   }
 
   @Test
-  public void testParsePaddedEnds() throws Exception {
+  public void parsePaddedEnds() throws Exception {
     QueryList ql = QueryList.parse(F_PAD_E, null);
     assertThat(ql.getQuery(N_FOO)).isEqualTo(Q_P);
     assertThat(ql.getQuery(N_BAR)).isEqualTo(Q_B);
   }
 
   @Test
-  public void testParseComplex() throws Exception {
+  public void parseComplex() throws Exception {
     QueryList ql = QueryList.parse(L_COMPLEX, null);
     assertThat(ql.getQuery(N_FOO)).isEqualTo(Q_COMPLEX);
   }
@@ -108,7 +108,7 @@ public class QueryListTest extends TestCase {
   }
 
   @Test
-  public void testAsText() throws Exception {
+  public void asText() throws Exception {
     String expectedText = HEADER + "#\n" + F_PROPER;
     QueryList ql = QueryList.parse(F_SIMPLE, null);
     String asText = ql.asText();

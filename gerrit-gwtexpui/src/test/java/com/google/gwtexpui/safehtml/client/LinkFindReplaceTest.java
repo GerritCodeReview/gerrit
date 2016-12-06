@@ -26,7 +26,7 @@ public class LinkFindReplaceTest {
   public ExpectedException exception = ExpectedException.none();
 
   @Test
-  public void testNoEscaping() {
+  public void noEscaping() {
     String find = "find";
     String link = "link";
     LinkFindReplace a = new LinkFindReplace(find, link);
@@ -36,7 +36,7 @@ public class LinkFindReplaceTest {
   }
 
   @Test
-  public void testBackreference() {
+  public void backreference() {
     LinkFindReplace l = new LinkFindReplace(
         "(bug|issue)\\s*([0-9]+)", "/bug?id=$2");
     assertThat(l.replace("issue 123"))
@@ -44,7 +44,7 @@ public class LinkFindReplaceTest {
   }
 
   @Test
-  public void testHasValidScheme() {
+  public void hasValidScheme() {
     assertThat(hasValidScheme("/absolute/path")).isTrue();
     assertThat(hasValidScheme("relative/path")).isTrue();
     assertThat(hasValidScheme("http://url/")).isTrue();
@@ -57,26 +57,26 @@ public class LinkFindReplaceTest {
   }
 
   @Test
-  public void testInvalidSchemeInReplace() {
+  public void invalidSchemeInReplace() {
     exception.expect(IllegalArgumentException.class);
     new LinkFindReplace("find", "javascript:alert(1)").replace("find");
   }
 
   @Test
-  public void testInvalidSchemeWithBackreference() {
+  public void invalidSchemeWithBackreference() {
     exception.expect(IllegalArgumentException.class);
     new LinkFindReplace(".*(script:[^;]*)", "java$1")
         .replace("Look at this script: alert(1);");
   }
 
   @Test
-  public void testReplaceEscaping() {
+  public void replaceEscaping() {
     assertThat(new LinkFindReplace("find", "a\"&'<>b").replace("find"))
       .isEqualTo("<a href=\"a&quot;&amp;&#39;&lt;&gt;b\">find</a>");
   }
 
   @Test
-  public void testHtmlInFind() {
+  public void htmlInFind() {
     String rawFind = "<b>&quot;bold&quot;</b>";
     LinkFindReplace a = new LinkFindReplace(rawFind, "/bold");
     assertThat(a.pattern().getSource()).isEqualTo(rawFind);

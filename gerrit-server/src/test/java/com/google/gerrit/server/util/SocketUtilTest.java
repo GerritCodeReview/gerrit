@@ -36,7 +36,7 @@ import java.net.UnknownHostException;
 
 public class SocketUtilTest extends GerritBaseTests {
   @Test
-  public void testIsIPv6() throws UnknownHostException {
+  public void isIPv6() throws UnknownHostException {
     final InetAddress ipv6 = getByName("1:2:3:4:5:6:7:8");
     assertTrue(ipv6 instanceof Inet6Address);
     assertTrue(isIPv6(ipv6));
@@ -47,14 +47,14 @@ public class SocketUtilTest extends GerritBaseTests {
   }
 
   @Test
-  public void testHostname() {
+  public void hostname() {
     assertEquals("*", hostname(new InetSocketAddress(80)));
     assertEquals("localhost", hostname(new InetSocketAddress("localhost", 80)));
     assertEquals("foo", hostname(createUnresolved("foo", 80)));
   }
 
   @Test
-  public void testFormat() throws UnknownHostException {
+  public void format() throws UnknownHostException {
     assertEquals("*:1234", SocketUtil.format(new InetSocketAddress(1234), 80));
     assertEquals("*", SocketUtil.format(new InetSocketAddress(80), 80));
 
@@ -73,7 +73,7 @@ public class SocketUtilTest extends GerritBaseTests {
   }
 
   @Test
-  public void testParse() {
+  public void parse() {
     assertEquals(new InetSocketAddress(1234), parse("*:1234", 80));
     assertEquals(new InetSocketAddress(80), parse("*", 80));
     assertEquals(new InetSocketAddress(1234), parse(":1234", 80));
@@ -96,21 +96,21 @@ public class SocketUtilTest extends GerritBaseTests {
   }
 
   @Test
-  public void testParseInvalidIPv6() {
+  public void parseInvalidIPv6() {
     exception.expect(IllegalArgumentException.class);
     exception.expectMessage("invalid IPv6: [:3");
     parse("[:3", 80);
   }
 
   @Test
-  public void testParseInvalidPort() {
+  public void parseInvalidPort() {
     exception.expect(IllegalArgumentException.class);
     exception.expectMessage("invalid port: localhost:A");
     parse("localhost:A", 80);
   }
 
   @Test
-  public void testResolve() throws UnknownHostException {
+  public void resolve() throws UnknownHostException {
     assertEquals(new InetSocketAddress(1234), resolve("*:1234", 80));
     assertEquals(new InetSocketAddress(80), resolve("*", 80));
     assertEquals(new InetSocketAddress(1234), resolve(":1234", 80));

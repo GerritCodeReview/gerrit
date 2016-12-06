@@ -25,14 +25,14 @@ import java.util.Collections;
 
 public class FieldPredicateTest extends PredicateTest {
   @Test
-  public void testToString() {
+  public void toString() {
     assertEquals("author:bob", f("author", "bob").toString());
     assertEquals("author:\"\"", f("author", "").toString());
     assertEquals("owner:\"A U Thor\"", f("owner", "A U Thor").toString());
   }
 
   @Test
-  public void testEquals() {
+  public void equals() {
     assertTrue(f("author", "bob").equals(f("author", "bob")));
     assertFalse(f("author", "bob").equals(f("author", "alice")));
     assertFalse(f("owner", "bob").equals(f("author", "bob")));
@@ -40,13 +40,13 @@ public class FieldPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testHashCode() {
+  public void hashCode() {
     assertTrue(f("a", "bob").hashCode() == f("a", "bob").hashCode());
     assertFalse(f("a", "bob").hashCode() == f("a", "alice").hashCode());
   }
 
   @Test
-  public void testNameValue() {
+  public void nameValue() {
     final String name = "author";
     final String value = "alice";
     final OperatorPredicate<String> f = f(name, value);
@@ -56,7 +56,7 @@ public class FieldPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testCopy() {
+  public void copy() {
     final OperatorPredicate<String> f = f("author", "alice");
     assertSame(f, f.copy(Collections.<Predicate<String>> emptyList()));
     assertSame(f, f.copy(f.getChildren()));

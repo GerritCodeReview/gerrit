@@ -62,14 +62,14 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
   }
 
   @Test
-  public void testHandles() {
+  public void handles() {
     assertTrue(backend.handles(ANONYMOUS_USERS));
     assertTrue(backend.handles(PROJECT_OWNERS));
     assertFalse(backend.handles(OTHER_UUID));
   }
 
   @Test
-  public void testGet() {
+  public void get() {
     assertEquals("Registered Users",
         backend.get(REGISTERED_USERS).getName());
     assertEquals("Project Owners",
@@ -78,14 +78,14 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
   }
 
   @Test
-  public void testSuggest() {
+  public void suggest() {
     assertTrue(backend.suggest("X", null).isEmpty());
     assertEquals(1, backend.suggest("project", null).size());
     assertEquals(1, backend.suggest("reg", null).size());
   }
 
   @Test
-  public void testSytemGroupMemberships() {
+  public void sytemGroupMemberships() {
     GroupMembership checker = backend.membershipsOf(user);
     assertTrue(checker.contains(REGISTERED_USERS));
     assertFalse(checker.contains(OTHER_UUID));
@@ -93,7 +93,7 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
   }
 
   @Test
-  public void testKnownGroups() {
+  public void knownGroups() {
     GroupMembership checker = backend.membershipsOf(user);
     Set<UUID> knownGroups = checker.getKnownGroups();
     assertEquals(2, knownGroups.size());
@@ -102,7 +102,7 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
   }
 
   @Test
-  public void testOtherMemberships() {
+  public void otherMemberships() {
     final AccountGroup.UUID handled = new AccountGroup.UUID("handled");
     final AccountGroup.UUID notHandled = new AccountGroup.UUID("not handled");
     final IdentifiedUser member = createNiceMock(IdentifiedUser.class);

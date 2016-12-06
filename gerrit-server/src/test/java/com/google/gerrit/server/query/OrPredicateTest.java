@@ -29,7 +29,7 @@ import java.util.List;
 
 public class OrPredicateTest extends PredicateTest {
   @Test
-  public void testChildren() {
+  public void children() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final Predicate<String> n = or(a, b);
@@ -39,7 +39,7 @@ public class OrPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testChildrenUnmodifiable() {
+  public void childrenUnmodifiable() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final Predicate<String> n = or(a, b);
@@ -75,7 +75,7 @@ public class OrPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testToString() {
+  public void toString() {
     final TestPredicate a = f("q", "alice");
     final TestPredicate b = f("q", "bob");
     final TestPredicate c = f("q", "charlie");
@@ -84,7 +84,7 @@ public class OrPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testEquals() {
+  public void equals() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final TestPredicate c = f("author", "charlie");
@@ -99,7 +99,7 @@ public class OrPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testHashCode() {
+  public void hashCode() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final TestPredicate c = f("author", "charlie");
@@ -110,7 +110,7 @@ public class OrPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testCopy() {
+  public void copy() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final TestPredicate c = f("author", "charlie");

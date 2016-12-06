@@ -21,7 +21,7 @@ import org.junit.Test;
 
 public class RemoteUserUtilTest {
   @Test
-  public void testExtractUsername() {
+  public void extractUsername() {
     assertThat(extractUsername(null)).isNull();
     assertThat(extractUsername("")).isNull();
     assertThat(extractUsername("Basic dXNlcjpwYXNzd29yZA=="))

@@ -62,13 +62,13 @@ public class PublicKeyStoreTest {
   }
 
   @Test
-  public void testKeyIdToString() throws Exception {
+  public void keyIdToString() throws Exception {
     PGPPublicKey key = validKeyWithoutExpiration().getPublicKey();
     assertEquals("46328A8C", keyIdToString(key.getKeyID()));
   }
 
   @Test
-  public void testKeyToString() throws Exception {
+  public void keyToString() throws Exception {
     PGPPublicKey key = validKeyWithoutExpiration().getPublicKey();
     assertEquals("46328A8C Testuser One <test1@example.com>"
           + " (04AE A7ED 2F82 1133 E5B1  28D1 ED06 25DC 4632 8A8C)",
@@ -76,7 +76,7 @@ public class PublicKeyStoreTest {
   }
 
   @Test
-  public void testKeyObjectId() throws Exception {
+  public void keyObjectId() throws Exception {
     PGPPublicKey key = validKeyWithoutExpiration().getPublicKey();
     String objId = keyObjectId(key.getKeyID()).name();
     assertEquals("ed0625dc46328a8c000000000000000000000000", objId);
@@ -85,7 +85,7 @@ public class PublicKeyStoreTest {
   }
 
   @Test
-  public void testGet() throws Exception {
+  public void get() throws Exception {
     TestKey key1 = validKeyWithoutExpiration();
     tr.branch(REFS_GPG_KEYS)
         .commit()
@@ -104,7 +104,7 @@ public class PublicKeyStoreTest {
   }
 
   @Test
-  public void testGetMultiple() throws Exception {
+  public void getMultiple() throws Exception {
     TestKey key1 = validKeyWithoutExpiration();
     TestKey key2 = validKeyWithExpiration();
     tr.branch(REFS_GPG_KEYS)

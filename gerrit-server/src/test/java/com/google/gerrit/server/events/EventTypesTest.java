@@ -34,7 +34,7 @@ public class EventTypesTest {
   }
 
   @Test
-  public void testEventTypeRegistration() {
+  public void eventTypeRegistration() {
     EventTypes.register(TestEvent.TYPE, TestEvent.class);
     EventTypes.register(AnotherTestEvent.TYPE, AnotherTestEvent.class);
     assertThat(EventTypes.getClass(TestEvent.TYPE)).isEqualTo(TestEvent.class);
@@ -43,7 +43,7 @@ public class EventTypesTest {
   }
 
   @Test
-  public void testGetClassForNonExistingType() {
+  public void getClassForNonExistingType() {
     Class<?> clazz = EventTypes.getClass("does-not-exist-event");
     assertThat(clazz).isNull();
   }

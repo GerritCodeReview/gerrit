@@ -48,13 +48,13 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGetNoAssignee() throws Exception {
+  public void getNoAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(getAssignee(r)).isNull();
   }
 
   @Test
-  public void testAddGetAssignee() throws Exception {
+  public void addGetAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(setAssignee(r, user.email)._accountId)
         .isEqualTo(user.getId().get());
@@ -62,7 +62,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testSetNewAssigneeWhenExists() throws Exception {
+  public void setNewAssigneeWhenExists() throws Exception {
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
     assertThat(setAssignee(r, user.email)._accountId)
@@ -70,7 +70,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGetPastAssignees() throws Exception {
+  public void getPastAssignees() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
@@ -83,7 +83,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAssigneeAddedAsReviewer() throws Exception {
+  public void assigneeAddedAsReviewer() throws Exception {
     ReviewerState state;
     // Assignee is added as CC, if back-end is reviewDb (that does not support
     // CC) CC is stored as REVIEWER
@@ -104,7 +104,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testSetAlreadyExistingAssignee() throws Exception {
+  public void setAlreadyExistingAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
     assertThat(setAssignee(r, user.email)._accountId)
@@ -112,7 +112,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testDeleteAssignee() throws Exception {
+  public void deleteAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(setAssignee(r, user.email)._accountId)
         .isEqualTo(user.getId().get());
@@ -121,7 +121,7 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testDeleteAssigneeWhenNoAssignee() throws Exception {
+  public void deleteAssigneeWhenNoAssignee() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(deleteAssignee(r)).isNull();
   }

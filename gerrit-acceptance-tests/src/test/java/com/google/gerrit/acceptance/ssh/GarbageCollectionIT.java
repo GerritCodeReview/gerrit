@@ -78,7 +78,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGcWithoutCapability_Error() throws Exception {
+  public void gcWithoutCapability_Error() throws Exception {
     userSshSession.exec("gerrit gc --all");
     assertThat(userSshSession.hasError()).isTrue();
     String error = userSshSession.getError();

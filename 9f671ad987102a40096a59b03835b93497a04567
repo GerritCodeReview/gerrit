@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_748da613",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-06T14:37:23Z",
+      "side": 1,
+      "message": "Sorry, Eclipse sucks.",
+      "parentUuid": "edcc5755_0f5ce908",
+      "revId": "9f671ad987102a40096a59b03835b93497a04567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0ac35e_efd8a1db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCache.java",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2016-12-06T14:34:59Z",
       "side": 1,
       "message": "AccountGroup.UUID  then the import at line 18 is not needed.",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 17
+      },
+      "revId": "9f671ad987102a40096a59b03835b93497a04567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_54922237",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-06T14:37:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_efd8a1db",
       "range": {
         "startLine": 25,
         "startChar": 13,

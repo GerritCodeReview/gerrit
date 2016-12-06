@@ -15,19 +15,20 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 
-import java.util.Set;
+import java.util.Collection;
 
 /** Tracks group inclusions in memory for efficient access. */
 public interface GroupIncludeCache {
   /** @return groups directly a member of the passed group. */
-  Set<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID group);
+  Collection<UUID> subgroupsOf(AccountGroup.UUID group);
 
   /** @return any groups the passed group belongs to. */
-  Set<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
+  Collection<UUID> parentGroupsOf(AccountGroup.UUID groupId);
 
   /** @return set of any UUIDs that are not internal groups. */
-  Set<AccountGroup.UUID> allExternalMembers();
+  Collection<UUID> allExternalMembers();
 
   void evictSubgroupsOf(AccountGroup.UUID groupId);
   void evictParentGroupsOf(AccountGroup.UUID groupId);

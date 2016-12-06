@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dc74f2e_b1bc1a6a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T09:14:35Z",
+      "side": 1,
+      "message": "should be USER, please fix capitalisation here and below",
+      "range": {
+        "startLine": 88,
+        "startChar": 14,
+        "endLine": 88,
+        "endChar": 18
+      },
+      "revId": "fc733e4f02f610b192015e422a03fb2ffce41e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_d1b52682",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T09:14:35Z",
+      "side": 1,
+      "message": "Should be updated to f9a49639a7b658353cf22b60cf8ccd1db97fef8a.",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "fc733e4f02f610b192015e422a03fb2ffce41e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

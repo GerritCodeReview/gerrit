@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2dc74f2e_91bf9e5e",
+        "filename": "gerrit-gwtexpui/src/test/java/com/google/gwtexpui/safehtml/client/LinkFindReplaceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T09:14:35Z",
+      "side": 0,
+      "message": "Why to change this?",
+      "revId": "b7944aedac76be9d5741d014e8074249156ce4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

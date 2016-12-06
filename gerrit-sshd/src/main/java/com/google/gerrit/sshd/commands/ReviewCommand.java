@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -108,6 +109,9 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--rebase", usage = "rebase the specified change(s)")
   private boolean rebaseChange;
 
+  @Option(name = "--move", usage = "move the specified change(s)", metaVar = "BRANCH")
+  private String moveToBranch;
+
   @Option(name = "--submit", aliases = "-s", usage = "submit the specified patch set(s)")
   private boolean submitChange;
 
@@ -167,6 +171,9 @@ public class ReviewCommand extends SshCommand {
       if (rebaseChange) {
         throw die("abandon and rebase actions are mutually exclusive");
       }
+      if (moveToBranch != null) {
+        throw die("abandon and move actions are mutually exclusive");
+      }
     }
     if (publishPatchSet) {
       if (restoreChange) {
@@ -200,6 +207,9 @@ public class ReviewCommand extends SshCommand {
       }
       if (rebaseChange) {
         throw die("json and rebase actions are mutually exclusive");
+      }
+      if (moveToBranch != null) {
+        throw die("json and move actions are mutually exclusive");
       }
       if (changeTag != null) {
         throw die("json and tag actions are mutually exclusive");
@@ -289,7 +299,7 @@ public class ReviewCommand extends SshCommand {
     review.labels.putAll(customLabels);
 
     // We don't need to add the review comment when abandoning/restoring.
-    if (abandonChange || restoreChange) {
+    if (abandonChange || restoreChange || moveToBranch != null) {
       review.message = null;
     }
 
@@ -306,6 +316,13 @@ public class ReviewCommand extends SshCommand {
         applyReview(patchSet, review);
       } else {
         applyReview(patchSet, review);
+      }
+
+      if (moveToBranch != null) {
+        MoveInput moveInput = new MoveInput();
+        moveInput.destinationBranch = moveToBranch;
+        moveInput.message = Strings.emptyToNull(changeComment);
+        changeApi(patchSet).move(moveInput);
       }
 
       if (rebaseChange) {

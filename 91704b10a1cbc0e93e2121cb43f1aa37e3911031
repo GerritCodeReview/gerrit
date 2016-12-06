@@ -104,6 +104,24 @@
       "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_f3ceca43",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-06T22:55:58Z",
+      "side": 1,
+      "message": "I can see Viktar\u0027s point. It\u0027s safer to get logic that\u0027s known to \"work\" in place, build some tests to verify, and *then* refactor it. No reason that last step can\u0027t occur in a later change.",
+      "parentUuid": "6d05c749_73dbfa0a",
+      "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d05c749_b3a60292",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-06T19:58:19Z",
+      "side": 1,
+      "message": "Nit: If the enum doesn\u0027t represent a wire format, consider using string values (e.g. \"OK\", \"REJECT\", etc.) to simplify debugging.",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 9
+      },
+      "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_53923637",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-06T19:58:19Z",
+      "side": 1,
+      "message": "Nit: These `!!` prefixes are not needed in `if` clauses because `if` already coerces to truthiness.",
+      "range": {
+        "startLine": 296,
+        "startChar": 10,
+        "endLine": 296,
+        "endChar": 12
+      },
+      "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_d428d2f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-06T19:58:19Z",
+      "side": 1,
+      "message": "This is a switch block that sometimes returns, sometimes breaks and sometimes falls-through. I\u0027d feel more comfortable if this were an if..else. What do you think?\n\nif (status \u003d\u003d\u003d LabelStatus.NEED) {\n  // More than one label is missing, so it\u0027s unclear which to quick\n  // approve, return -1.\n  if (result) { return null; }\n  result \u003d label;\n} else if (\n    status !\u003d\u003d LabelStatus.OK \u0026\u0026\n    status !\u003d\u003d LabelStatus.MAY \u0026\u0026 (\n      status \u003d\u003d\u003d LabelStatus.REJECT ||\n      status \u003d\u003d\u003d LabelStatus.IMPOSSIBLE)) {\n  return null;\n}",
+      "range": {
+        "startLine": 328,
+        "startChar": 8,
+        "endLine": 328,
+        "endChar": 25
+      },
+      "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -72,7 +72,7 @@ public class SchemaUpdaterTest {
   }
 
   @Test
-  public void testUpdate() throws OrmException, FileNotFoundException,
+  public void update() throws OrmException, FileNotFoundException,
       IOException {
     db.create();
 

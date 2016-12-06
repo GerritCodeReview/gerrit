@@ -68,12 +68,12 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testDefaultIsMIXED() {
+  public void defaultIsMIXED() {
     assertThat(create()).isInstanceOf(FromAddressGeneratorProvider.PatternGen.class);
   }
 
   @Test
-  public void testSelectUSER() {
+  public void selectUSER() {
     setFrom("USER");
     assertThat(create()).isInstanceOf(FromAddressGeneratorProvider.UserGen.class);
 
@@ -85,7 +85,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSER_FullyConfiguredUser() {
+  public void uSER_FullyConfiguredUser() {
     setFrom("USER");
 
     final String name = "A U. Thor";
@@ -101,7 +101,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSER_NoFullNameUser() {
+  public void uSER_NoFullNameUser() {
     setFrom("USER");
 
     final String email = "a.u.thor@test.example.com";
@@ -116,7 +116,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSER_NoPreferredEmailUser() {
+  public void uSER_NoPreferredEmailUser() {
     setFrom("USER");
 
     final String name = "A U. Thor";
@@ -131,7 +131,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSER_NullUser() {
+  public void uSER_NullUser() {
     setFrom("USER");
     replay(accountCache);
     final Address r = create().from(null);
@@ -142,7 +142,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSERAllowDomain() {
+  public void uSERAllowDomain() {
     setFrom("USER");
     setDomains(Arrays.asList("*.example.com"));
     final String name = "A U. Thor";
@@ -158,7 +158,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSERNoAllowDomain() {
+  public void uSERNoAllowDomain() {
     setFrom("USER");
     setDomains(Arrays.asList("example.com"));
     final String name = "A U. Thor";
@@ -174,7 +174,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSERAllowDomainTwice() {
+  public void uSERAllowDomainTwice() {
     setFrom("USER");
     setDomains(Arrays.asList("example.com"));
     setDomains(Arrays.asList("test.com"));
@@ -191,7 +191,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSERAllowDomainTwiceReverse() {
+  public void uSERAllowDomainTwiceReverse() {
     setFrom("USER");
     setDomains(Arrays.asList("test.com"));
     setDomains(Arrays.asList("example.com"));
@@ -208,7 +208,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testUSERAllowTwoDomains() {
+  public void uSERAllowTwoDomains() {
     setFrom("USER");
     setDomains(Arrays.asList("example.com", "test.com"));
     final String name = "A U. Thor";
@@ -224,7 +224,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testSelectSERVER() {
+  public void selectSERVER() {
     setFrom("SERVER");
     assertThat(create()).isInstanceOf(FromAddressGeneratorProvider.ServerGen.class);
 
@@ -236,7 +236,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testSERVER_FullyConfiguredUser() {
+  public void sERVER_FullyConfiguredUser() {
     setFrom("SERVER");
 
     final String name = "A U. Thor";
@@ -252,7 +252,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testSERVER_NullUser() {
+  public void sERVER_NullUser() {
     setFrom("SERVER");
     replay(accountCache);
     final Address r = create().from(null);
@@ -263,7 +263,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testSelectMIXED() {
+  public void selectMIXED() {
     setFrom("MIXED");
     assertThat(create()).isInstanceOf(FromAddressGeneratorProvider.PatternGen.class);
 
@@ -275,7 +275,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testMIXED_FullyConfiguredUser() {
+  public void mIXED_FullyConfiguredUser() {
     setFrom("MIXED");
 
     final String name = "A U. Thor";
@@ -291,7 +291,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testMIXED_NoFullNameUser() {
+  public void mIXED_NoFullNameUser() {
     setFrom("MIXED");
 
     final String email = "a.u.thor@test.example.com";
@@ -306,7 +306,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testMIXED_NoPreferredEmailUser() {
+  public void mIXED_NoPreferredEmailUser() {
     setFrom("MIXED");
 
     final String name = "A U. Thor";
@@ -321,7 +321,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testMIXED_NullUser() {
+  public void mIXED_NullUser() {
     setFrom("MIXED");
     replay(accountCache);
     final Address r = create().from(null);
@@ -332,7 +332,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testCUSTOM_FullyConfiguredUser() {
+  public void cUSTOM_FullyConfiguredUser() {
     setFrom("A ${user} B <my.server@email.address>");
 
     final String name = "A U. Thor";
@@ -348,7 +348,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testCUSTOM_NoFullNameUser() {
+  public void cUSTOM_NoFullNameUser() {
     setFrom("A ${user} B <my.server@email.address>");
 
     final String email = "a.u.thor@test.example.com";
@@ -363,7 +363,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   @Test
-  public void testCUSTOM_NullUser() {
+  public void cUSTOM_NullUser() {
     setFrom("A ${user} B <my.server@email.address>");
 
     replay(accountCache);

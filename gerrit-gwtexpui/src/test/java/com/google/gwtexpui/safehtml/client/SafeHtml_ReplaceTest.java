@@ -24,14 +24,14 @@ import java.util.List;
 
 public class SafeHtml_ReplaceTest {
   @Test
-  public void testReplaceEmpty() {
+  public void replaceEmpty() {
     SafeHtml o = html("A\nissue42\nB");
     assertThat(o.replaceAll(null)).isSameAs(o);
     assertThat(o.replaceAll(Collections.<FindReplace> emptyList())).isSameAs(o);
   }
 
   @Test
-  public void testReplaceOneLink() {
+  public void replaceOneLink() {
     SafeHtml o = html("A\nissue 42\nB");
     SafeHtml n = o.replaceAll(repls(
         new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
@@ -41,7 +41,7 @@ public class SafeHtml_ReplaceTest {
   }
 
   @Test
-  public void testReplaceNoLeadingOrTrailingText() {
+  public void replaceNoLeadingOrTrailingText() {
     SafeHtml o = html("issue 42");
     SafeHtml n = o.replaceAll(repls(
         new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
@@ -51,7 +51,7 @@ public class SafeHtml_ReplaceTest {
   }
 
   @Test
-  public void testReplaceTwoLinks() {
+  public void replaceTwoLinks() {
     SafeHtml o = html("A\nissue 42\nissue 9918\nB");
     SafeHtml n = o.replaceAll(repls(
         new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
@@ -64,7 +64,7 @@ public class SafeHtml_ReplaceTest {
   }
 
   @Test
-  public void testReplaceInOrder() {
+  public void replaceInOrder() {
     SafeHtml o = html("A\nissue 42\nReally GWTEXPUI-9918 is better\nB");
     SafeHtml n = o.replaceAll(repls(
         new RawFindReplace("(GWTEXPUI-(\\d+))",
@@ -80,7 +80,7 @@ public class SafeHtml_ReplaceTest {
   }
 
   @Test
-  public void testReplaceOverlappingAfterFirstChar() {
+  public void replaceOverlappingAfterFirstChar() {
     SafeHtml o = html("abcd");
     RawFindReplace ab = new RawFindReplace("ab", "AB");
     RawFindReplace bc = new RawFindReplace("bc", "23");
@@ -92,7 +92,7 @@ public class SafeHtml_ReplaceTest {
   }
 
   @Test
-  public void testReplaceOverlappingAtFirstCharLongestMatch() {
+  public void replaceOverlappingAtFirstCharLongestMatch() {
     SafeHtml o = html("abcd");
     RawFindReplace ab = new RawFindReplace("ab", "AB");
     RawFindReplace abc = new RawFindReplace("[^d][^d][^d]", "234");
@@ -102,7 +102,7 @@ public class SafeHtml_ReplaceTest {
   }
 
   @Test
-  public void testReplaceOverlappingAtFirstCharFirstMatch() {
+  public void replaceOverlappingAtFirstCharFirstMatch() {
     SafeHtml o = html("abcd");
     RawFindReplace ab1 = new RawFindReplace("ab", "AB");
     RawFindReplace ab2 = new RawFindReplace("[^cd][^cd]", "12");
@@ -112,7 +112,7 @@ public class SafeHtml_ReplaceTest {
   }
 
   @Test
-  public void testFailedSanitization() {
+  public void failedSanitization() {
     SafeHtml o = html("abcd");
     LinkFindReplace evil = new LinkFindReplace("(b)", "javascript:alert('$1')");
     LinkFindReplace ok = new LinkFindReplace("(b)", "/$1");

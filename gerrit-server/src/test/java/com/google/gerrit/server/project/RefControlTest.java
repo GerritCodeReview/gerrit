@@ -357,14 +357,14 @@ public class RefControlTest {
   }
 
   @Test
-  public void testOwnerProject() {
+  public void ownerProject() {
     allow(local, OWNER, ADMIN, "refs/*");
 
     assertAdminsAreOwnersAndDevsAreNot();
   }
 
   @Test
-  public void testDenyOwnerProject() {
+  public void denyOwnerProject() {
     allow(local, OWNER, ADMIN, "refs/*");
     deny(local, OWNER, DEVS, "refs/*");
 
@@ -372,7 +372,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBlockOwnerProject() {
+  public void blockOwnerProject() {
     allow(local, OWNER, ADMIN, "refs/*");
     block(local, OWNER, DEVS, "refs/*");
 
@@ -380,7 +380,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBranchDelegation1() {
+  public void branchDelegation1() {
     allow(local, OWNER, ADMIN, "refs/*");
     allow(local, OWNER, DEVS, "refs/heads/x/*");
 
@@ -397,7 +397,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBranchDelegation2() {
+  public void branchDelegation2() {
     allow(local, OWNER, ADMIN, "refs/*");
     allow(local, OWNER, DEVS, "refs/heads/x/*");
     allow(local, OWNER, fixers, "refs/heads/x/y/*");
@@ -426,7 +426,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritRead_SingleBranchDeniesUpload() {
+  public void inheritRead_SingleBranchDeniesUpload() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
@@ -440,7 +440,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBlockPushDrafts() {
+  public void blockPushDrafts() {
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
 
@@ -450,7 +450,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBlockPushDraftsUnblockAdmin() {
+  public void blockPushDraftsUnblockAdmin() {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/drafts/*");
     allow(parent, PUSH, ADMIN, "refs/drafts/*");
 
@@ -461,7 +461,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritRead_SingleBranchDoesNotOverrideInherited() {
+  public void inheritRead_SingleBranchDoesNotOverrideInherited() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     allow(parent, PUSH, REGISTERED_USERS, "refs/for/refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/foobar");
@@ -473,7 +473,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritDuplicateSections() throws Exception {
+  public void inheritDuplicateSections() throws Exception {
     allow(parent, READ, ADMIN, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
     assertCanRead(user(local, "a", ADMIN));
@@ -486,7 +486,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritRead_OverrideWithDeny() {
+  public void inheritRead_OverrideWithDeny() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
 
@@ -494,7 +494,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritRead_AppendWithDenyOfRef() {
+  public void inheritRead_AppendWithDenyOfRef() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/heads/*");
 
@@ -506,7 +506,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritRead_OverridesAndDeniesOfRef() {
+  public void inheritRead_OverridesAndDeniesOfRef() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
@@ -519,7 +519,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritSubmit_OverridesAndDeniesOfRef() {
+  public void inheritSubmit_OverridesAndDeniesOfRef() {
     allow(parent, SUBMIT, REGISTERED_USERS, "refs/*");
     deny(local, SUBMIT, REGISTERED_USERS, "refs/*");
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
@@ -531,7 +531,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testCannotUploadToAnyRef() {
+  public void cannotUploadToAnyRef() {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/for/refs/heads/*");
@@ -542,14 +542,14 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUsernamePatternCanUploadToAnyRef() {
+  public void usernamePatternCanUploadToAnyRef() {
     allow(local, PUSH, REGISTERED_USERS, "refs/heads/users/${username}/*");
     ProjectControl u = user(local, "a-registered-user");
     assertCanUpload(u);
   }
 
   @Test
-  public void testUsernamePatternNonRegex() {
+  public void usernamePatternNonRegex() {
     allow(local, READ, DEVS, "refs/sb/${username}/heads/*");
 
     ProjectControl u = user(local, "u", DEVS);
@@ -559,7 +559,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUsernamePatternWithRegex() {
+  public void usernamePatternWithRegex() {
     allow(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
     ProjectControl u = user(local, "d.v", DEVS);
@@ -569,7 +569,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUsernameEmailPatternWithRegex() {
+  public void usernameEmailPatternWithRegex() {
     allow(local, READ, DEVS, "^refs/sb/${username}/heads/.*");
 
     ProjectControl u = user(local, "d.v@ger-rit.org", DEVS);
@@ -579,7 +579,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testSortWithRegex() {
+  public void sortWithRegex() {
     allow(local, READ, DEVS, "^refs/heads/.*");
     allow(parent, READ, ANONYMOUS_USERS, "^refs/heads/.*-QA-.*");
 
@@ -590,7 +590,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBlockRule_ParentBlocksChild() {
+  public void blockRule_ParentBlocksChild() {
     allow(local, PUSH, DEVS, "refs/tags/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
     ProjectControl u = user(local, DEVS);
@@ -598,7 +598,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBlockRule_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
+  public void blockRule_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
     allow(local, PUSH, DEVS, "refs/tags/*");
     block(local, PUSH, ANONYMOUS_USERS, "refs/tags/*");
     block(parent, PUSH, ANONYMOUS_USERS, "refs/tags/*");
@@ -608,7 +608,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBlockLabelRange_ParentBlocksChild() {
+  public void blockLabelRange_ParentBlocksChild() {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(parent, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
@@ -622,7 +622,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBlockLabelRange_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
+  public void blockLabelRange_ParentBlocksChildEvenIfAlreadyBlockedInChild() {
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
     block(parent, LABEL + "Code-Review", -2, +2, DEVS,
@@ -639,7 +639,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testInheritSubmit_AllowInChildDoesntAffectUnblockInParent() {
+  public void inheritSubmit_AllowInChildDoesntAffectUnblockInParent() {
     block(parent, SUBMIT, ANONYMOUS_USERS, "refs/heads/*");
     allow(parent, SUBMIT, REGISTERED_USERS, "refs/heads/*");
     allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
@@ -649,7 +649,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockNoForce() {
+  public void unblockNoForce() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/*");
 
@@ -658,7 +658,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockForce() {
+  public void unblockForce() {
     PermissionRule r = block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     r.setForce(true);
     allow(local, PUSH, DEVS, "refs/heads/*").setForce(true);
@@ -668,7 +668,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockForceWithAllowNoForce_NotPossible() {
+  public void unblockForceWithAllowNoForce_NotPossible() {
     PermissionRule r = block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     r.setForce(true);
     allow(local, PUSH, DEVS, "refs/heads/*");
@@ -678,7 +678,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockMoreSpecificRef_Fails() {
+  public void unblockMoreSpecificRef_Fails() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master");
 
@@ -687,7 +687,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockMoreSpecificRefInLocal_Fails() {
+  public void unblockMoreSpecificRefInLocal_Fails() {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master");
 
@@ -696,7 +696,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockMoreSpecificRefWithExclusiveFlag() {
+  public void unblockMoreSpecificRefWithExclusiveFlag() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master", true);
 
@@ -705,7 +705,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockMoreSpecificRefInLocalWithExclusiveFlag_Fails() {
+  public void unblockMoreSpecificRefInLocalWithExclusiveFlag_Fails() {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master", true);
 
@@ -714,7 +714,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockOtherPermissionWithMoreSpecificRefAndExclusiveFlag_Fails() {
+  public void unblockOtherPermissionWithMoreSpecificRefAndExclusiveFlag_Fails() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/master");
     allow(local, SUBMIT, DEVS, "refs/heads/master", true);
@@ -724,7 +724,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockLargerScope_Fails() {
+  public void unblockLargerScope_Fails() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/master");
     allow(local, PUSH, DEVS, "refs/heads/*");
 
@@ -733,7 +733,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockInLocal_Fails() {
+  public void unblockInLocal_Fails() {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, fixers, "refs/heads/*");
 
@@ -742,7 +742,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockInParentBlockInLocal() {
+  public void unblockInParentBlockInLocal() {
     block(parent, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(parent, PUSH, DEVS, "refs/heads/*");
     block(local, PUSH, DEVS, "refs/heads/*");
@@ -752,7 +752,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockVisibilityByRegisteredUsers() {
+  public void unblockVisibilityByRegisteredUsers() {
     block(local, READ, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
@@ -763,7 +763,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockInLocalVisibilityByRegisteredUsers_Fails() {
+  public void unblockInLocalVisibilityByRegisteredUsers_Fails() {
     block(parent, READ, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
@@ -774,7 +774,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockForceEditTopicName() {
+  public void unblockForceEditTopicName() {
     block(local, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
@@ -785,7 +785,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockInLocalForceEditTopicName_Fails() {
+  public void unblockInLocalForceEditTopicName_Fails() {
     block(parent, EDIT_TOPIC_NAME, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, EDIT_TOPIC_NAME, DEVS, "refs/heads/*").setForce(true);
 
@@ -796,7 +796,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockRange() {
+  public void unblockRange() {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
@@ -807,7 +807,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockRangeOnMoreSpecificRef_Fails() {
+  public void unblockRangeOnMoreSpecificRef_Fails() {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/master");
 
@@ -818,7 +818,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockRangeOnLargerScope_Fails() {
+  public void unblockRangeOnLargerScope_Fails() {
     block(local, LABEL + "Code-Review", -1, +1, ANONYMOUS_USERS, "refs/heads/master");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
 
@@ -829,7 +829,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockInLocalRange_Fails() {
+  public void unblockInLocalRange_Fails() {
     block(parent, LABEL + "Code-Review", -1, 1, ANONYMOUS_USERS,
         "refs/heads/*");
     allow(local, LABEL + "Code-Review", -2, +2, DEVS, "refs/heads/*");
@@ -842,7 +842,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockRangeForChangeOwner() {
+  public void unblockRangeForChangeOwner() {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
@@ -853,7 +853,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testUnblockRangeForNotChangeOwner() {
+  public void unblockRangeForNotChangeOwner() {
     allow(local, LABEL + "Code-Review", -2, +2, CHANGE_OWNER, "refs/heads/*");
 
     ProjectControl u = user(local, DEVS);
@@ -864,7 +864,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testBlockOwner() {
+  public void blockOwner() {
     block(parent, OWNER, ANONYMOUS_USERS, "refs/*");
     allow(local, OWNER, DEVS, "refs/*");
 
@@ -872,7 +872,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testValidateRefPatternsOK() throws Exception {
+  public void validateRefPatternsOK() throws Exception {
     RefPattern.validate("refs/*");
     RefPattern.validate("^refs/heads/*");
     RefPattern.validate("^refs/tags/[0-9a-zA-Z-_.]+");
@@ -891,7 +891,7 @@ public class RefControlTest {
   }
 
   @Test
-  public void testValidateRefPatternNoDanglingCharacter() throws Exception {
+  public void validateRefPatternNoDanglingCharacter() throws Exception {
     RefPattern.validate("^refs/heads/tmp/sdk/[0-9]{3,3}_R[1-9][A-Z][0-9]{3,3}");
   }
 

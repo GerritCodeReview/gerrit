@@ -27,7 +27,7 @@ import org.junit.Test;
 
 public class ParameterParserTest {
   @Test
-  public void testConvertFormToJson() throws BadRequestException {
+  public void convertFormToJson() throws BadRequestException {
     JsonObject obj = ParameterParser.formToJson(
         ImmutableMap.of(
             "message", new String[]{"this.is.text"},

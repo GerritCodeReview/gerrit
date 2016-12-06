@@ -48,7 +48,7 @@ public class ColumnFormatterTest {
    * Test that only lines with at least one column of text emit output.
    */
   @Test
-  public void testEmptyLine() {
+  public void emptyLine() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
         new ColumnFormatter(comparator.getPrintWriter(), '\t');
@@ -67,7 +67,7 @@ public class ColumnFormatterTest {
    * Test that there is no output if no columns are ever added.
    */
   @Test
-  public void testEmptyOutput() {
+  public void emptyOutput() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
         new ColumnFormatter(comparator.getPrintWriter(), '\t');
@@ -82,7 +82,7 @@ public class ColumnFormatterTest {
    * the output immediately after the creation of the {@link ColumnFormatter}.
    */
   @Test
-  public void testNoNextLine() {
+  public void noNextLine() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
         new ColumnFormatter(comparator.getPrintWriter(), '\t');
@@ -95,7 +95,7 @@ public class ColumnFormatterTest {
    * (which of course shouldn't be escaped) is left alone.
    */
   @Test
-  public void testEscapingTakesPlace() {
+  public void escapingTakesPlace() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
         new ColumnFormatter(comparator.getPrintWriter(), '\t');
@@ -112,7 +112,7 @@ public class ColumnFormatterTest {
    * of columns in each line varies.
    */
   @Test
-  public void testMultiLineDifferentColumnCount() {
+  public void multiLineDifferentColumnCount() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
         new ColumnFormatter(comparator.getPrintWriter(), '\t');
@@ -131,7 +131,7 @@ public class ColumnFormatterTest {
    * Test that we get the correct output with a single column of input.
    */
   @Test
-  public void testOneColumn() {
+  public void oneColumn() {
     final PrintWriterComparator comparator = new PrintWriterComparator();
     final ColumnFormatter formatter =
         new ColumnFormatter(comparator.getPrintWriter(), '\t');

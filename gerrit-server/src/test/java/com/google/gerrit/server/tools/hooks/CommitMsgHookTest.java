@@ -64,7 +64,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testEmptyMessages() throws Exception {
+  public void emptyMessages() throws Exception {
     // Empty input must yield empty output so commit will abort.
     // Note we must consider different commit templates formats.
     //
@@ -85,7 +85,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testChangeIdAlreadySet() throws Exception {
+  public void changeIdAlreadySet() throws Exception {
     // If a Change-Id is already present in the footer, the hook must
     // not modify the message but instead must leave the identity alone.
     //
@@ -107,7 +107,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testTimeAltersId() throws Exception {
+  public void timeAltersId() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "Change-Id: I7fc3876fee63c766a2063df97fbe04a2dddd8d7c\n",//
@@ -127,7 +127,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testFirstParentAltersId() throws Exception {
+  public void firstParentAltersId() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "Change-Id: I7fc3876fee63c766a2063df97fbe04a2dddd8d7c\n",//
@@ -141,7 +141,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testDirCacheAltersId() throws Exception {
+  public void dirCacheAltersId() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "Change-Id: I7fc3876fee63c766a2063df97fbe04a2dddd8d7c\n",//
@@ -158,7 +158,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testSingleLineMessages() throws Exception {
+  public void singleLineMessages() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "Change-Id: I7fc3876fee63c766a2063df97fbe04a2dddd8d7c\n",//
@@ -184,7 +184,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testMultiLineMessagesWithoutFooter() throws Exception {
+  public void multiLineMessagesWithoutFooter() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "b\n" + //
@@ -210,7 +210,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testSingleLineMessagesWithSignedOffBy() throws Exception {
+  public void singleLineMessagesWithSignedOffBy() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "Change-Id: I7fc3876fee63c766a2063df97fbe04a2dddd8d7c\n" + //
@@ -226,7 +226,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testMultiLineMessagesWithSignedOffBy() throws Exception {
+  public void multiLineMessagesWithSignedOffBy() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "b\nc\nd\ne\n" + //
@@ -275,7 +275,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testNoteInMiddle() throws Exception {
+  public void noteInMiddle() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "NOTE: This\n" + //
@@ -289,7 +289,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testKernelStyleFooter() throws Exception {
+  public void kernelStyleFooter() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "Change-Id: I1bd787f9e7590a2ac82b02c404c955ffb21877c4\n" + //
@@ -306,7 +306,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testChangeIdAfterBugOrIssue() throws Exception {
+  public void changeIdAfterBugOrIssue() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "Bug: 42\n" + //
@@ -329,7 +329,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testCommitDashV() throws Exception {
+  public void commitDashV() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "Change-Id: I7fc3876fee63c766a2063df97fbe04a2dddd8d7c\n" + //
@@ -347,7 +347,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testWithEndingURL() throws Exception {
+  public void withEndingURL() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
         "http://example.com/ fixes this\n" + //
@@ -383,7 +383,7 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   @Test
-  public void testWithFalseTags() throws Exception {
+  public void withFalseTags() throws Exception {
     assertEquals("foo\n" + //
 	"\n" + //
 	"FakeLine:\n" + //

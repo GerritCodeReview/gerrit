@@ -78,7 +78,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   }
 
   @Test
-  public void testReadConfig() throws Exception {
+  public void readConfig() throws Exception {
     RevCommit rev = util.commit(util.tree( //
         util.file("groups", util.blob(group(developers))), //
         util.file("project.config", util.blob(""//
@@ -125,7 +125,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   }
 
   @Test
-  public void testReadConfigLabelDefaultValue() throws Exception {
+  public void readConfigLabelDefaultValue() throws Exception {
     RevCommit rev = util.commit(util.tree( //
         util.file("groups", util.blob(group(developers))), //
         util.file("project.config", util.blob(""//
@@ -142,7 +142,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   }
 
   @Test
-  public void testReadConfigLabelDefaultValueInRange() throws Exception {
+  public void readConfigLabelDefaultValueInRange() throws Exception {
     RevCommit rev = util.commit(util.tree( //
         util.file("groups", util.blob(group(developers))), //
         util.file("project.config", util.blob(""//
@@ -160,7 +160,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   }
 
   @Test
-  public void testReadConfigLabelDefaultValueNotInRange() throws Exception {
+  public void readConfigLabelDefaultValueNotInRange() throws Exception {
     RevCommit rev = util.commit(util.tree( //
         util.file("groups", util.blob(group(developers))), //
         util.file("project.config", util.blob(""//
@@ -179,7 +179,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   }
 
   @Test
-  public void testReadConfigLabelScores() throws Exception {
+  public void readConfigLabelScores() throws Exception {
     RevCommit rev = util.commit(util.tree( //
         util.file("groups", util.blob(group(developers))), //
         util.file("project.config", util.blob(""//
@@ -203,7 +203,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   }
 
   @Test
-  public void testEditConfig() throws Exception {
+  public void editConfig() throws Exception {
     RevCommit rev = util.commit(util.tree( //
         util.file("groups", util.blob(group(developers))), //
         util.file("project.config", util.blob(""//
@@ -256,7 +256,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   }
 
   @Test
-  public void testEditConfigMissingGroupTableEntry() throws Exception {
+  public void editConfigMissingGroupTableEntry() throws Exception {
     RevCommit rev = util.commit(util.tree( //
         util.file("groups", util.blob(group(developers))), //
         util.file("project.config", util.blob(""//

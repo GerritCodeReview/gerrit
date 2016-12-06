@@ -85,7 +85,7 @@ public class AuthorizedKeysTest {
   }
 
   @Test
-  public void testParseWindowsLineEndings() throws Exception {
+  public void parseWindowsLineEndings() throws Exception {
     List<Optional<AccountSshKey>> keys = new ArrayList<>();
     StringBuilder authorizedKeys = new StringBuilder();
     authorizedKeys.append(toWindowsLineEndings(addKey(keys, KEY1)));

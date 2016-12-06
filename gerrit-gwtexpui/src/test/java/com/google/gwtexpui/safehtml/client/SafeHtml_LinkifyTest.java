@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class SafeHtml_LinkifyTest {
   @Test
-  public void testLinkify_SimpleHttp1() {
+  public void linkify_SimpleHttp1() {
     final SafeHtml o = html("A http://go.here/ B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
@@ -30,7 +30,7 @@ public class SafeHtml_LinkifyTest {
   }
 
   @Test
-  public void testLinkify_SimpleHttps2() {
+  public void linkify_SimpleHttps2() {
     final SafeHtml o = html("A https://go.here/ B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
@@ -40,7 +40,7 @@ public class SafeHtml_LinkifyTest {
   }
 
   @Test
-  public void testLinkify_Parens1() {
+  public void linkify_Parens1() {
     final SafeHtml o = html("A (http://go.here/) B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
@@ -50,7 +50,7 @@ public class SafeHtml_LinkifyTest {
   }
 
   @Test
-  public void testLinkify_Parens() {
+  public void linkify_Parens() {
     final SafeHtml o = html("A http://go.here/#m() B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
@@ -60,7 +60,7 @@ public class SafeHtml_LinkifyTest {
   }
 
   @Test
-  public void testLinkify_AngleBrackets1() {
+  public void linkify_AngleBrackets1() {
     final SafeHtml o = html("A <http://go.here/> B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
@@ -70,7 +70,7 @@ public class SafeHtml_LinkifyTest {
   }
 
   @Test
-  public void testLinkify_TrailingPlainLetter() {
+  public void linkify_TrailingPlainLetter() {
     final SafeHtml o = html("A http://go.here/foo B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
@@ -80,7 +80,7 @@ public class SafeHtml_LinkifyTest {
   }
 
   @Test
-  public void testLinkify_TrailingDot() {
+  public void linkify_TrailingDot() {
     final SafeHtml o = html("A http://go.here/. B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
@@ -90,7 +90,7 @@ public class SafeHtml_LinkifyTest {
   }
 
   @Test
-  public void testLinkify_TrailingComma() {
+  public void linkify_TrailingComma() {
     final SafeHtml o = html("A http://go.here/, B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);
@@ -100,7 +100,7 @@ public class SafeHtml_LinkifyTest {
   }
 
   @Test
-  public void testLinkify_TrailingDotDot() {
+  public void linkify_TrailingDotDot() {
     final SafeHtml o = html("A http://go.here/.. B");
     final SafeHtml n = o.linkify();
     assertThat(o).isNotSameAs(n);

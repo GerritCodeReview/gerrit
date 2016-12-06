@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class QueryParserTest {
   @Test
-  public void testProjectBare() throws QueryParseException {
+  public void projectBare() throws QueryParseException {
     Tree r;
 
     r = parse("project:tools/gerrit");

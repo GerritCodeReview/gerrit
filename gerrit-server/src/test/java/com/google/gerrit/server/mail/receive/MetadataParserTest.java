@@ -27,7 +27,7 @@ import org.junit.Test;
 
 public class MetadataParserTest {
   @Test
-  public void testParseMetadataFromHeader() {
+  public void parseMetadataFromHeader() {
     // This tests if the metadata parser is able to parse metadata from the
     // email headers of the message.
     MailMessage.Builder b = MailMessage.builder();
@@ -56,7 +56,7 @@ public class MetadataParserTest {
   }
 
   @Test
-  public void testParseMetadataFromText() {
+  public void parseMetadataFromText() {
     // This tests if the metadata parser is able to parse metadata from the
     // the text body of the message.
     MailMessage.Builder b = MailMessage.builder();
@@ -88,7 +88,7 @@ public class MetadataParserTest {
   }
 
   @Test
-  public void testParseMetadataFromHTML() {
+  public void parseMetadataFromHTML() {
     // This tests if the metadata parser is able to parse metadata from the
     // the HTML body of the message.
     MailMessage.Builder b = MailMessage.builder();

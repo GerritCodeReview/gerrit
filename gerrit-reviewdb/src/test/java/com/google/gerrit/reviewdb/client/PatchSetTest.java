@@ -82,7 +82,7 @@ public class PatchSetTest {
   }
 
   @Test
-  public void testToRefName() {
+  public void toRefName() {
     assertThat(new PatchSet.Id(new Change.Id(1), 23).toRefName())
         .isEqualTo("refs/changes/01/1/23");
     assertThat(new PatchSet.Id(new Change.Id(1234), 5).toRefName())

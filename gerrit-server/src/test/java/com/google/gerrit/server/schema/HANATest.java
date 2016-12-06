@@ -32,7 +32,7 @@ public class HANATest {
   }
 
   @Test
-  public void testGetUrl() throws Exception {
+  public void getUrl() throws Exception {
     config.setString("database", null, "instance", "3");
     assertThat(hana.getUrl()).isEqualTo("jdbc:sap://my.host:30315");
 
@@ -41,7 +41,7 @@ public class HANATest {
   }
 
   @Test
-  public void testGetIndexScript() throws Exception {
+  public void getIndexScript() throws Exception {
     assertThat(hana.getIndexScript()).isSameAs(ScriptRunner.NOOP);
   }
 }

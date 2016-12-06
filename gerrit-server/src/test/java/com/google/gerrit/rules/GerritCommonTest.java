@@ -70,12 +70,12 @@ public class GerritCommonTest extends PrologTestCase {
   }
 
   @Test
-  public void testGerritCommon() {
+  public void gerritCommon() {
     runPrologBasedTests();
   }
 
   @Test
-  public void testReductionLimit() throws CompileException {
+  public void reductionLimit() throws CompileException {
     PrologEnvironment env = envFactory.create(machine);
     setUpEnvironment(env);
 

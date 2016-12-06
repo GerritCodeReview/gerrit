@@ -28,7 +28,7 @@ import org.junit.Test;
 public class EventDeserializerTest {
 
   @Test
-  public void testRefUpdatedEvent() {
+  public void refUpdatedEvent() {
     RefUpdatedEvent refUpdatedEvent = new RefUpdatedEvent();
 
     RefUpdateAttribute refUpdatedAttribute = new RefUpdateAttribute();

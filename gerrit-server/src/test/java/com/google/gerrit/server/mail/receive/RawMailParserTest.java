@@ -29,7 +29,7 @@ import org.junit.Test;
 
 public class RawMailParserTest extends GerritBaseTests {
   @Test
-  public void testParseEmail() throws Exception {
+  public void parseEmail() throws Exception {
     RawMailMessage[] messages = new RawMailMessage[] {
         new SimpleTextMessage(),
         new Base64HeaderMessage(),

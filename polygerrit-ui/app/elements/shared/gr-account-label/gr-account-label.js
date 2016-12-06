@@ -46,6 +46,9 @@
     },
 
     _computeEmailStr: function(account) {
+      if (!account) {
+        return '';
+      }
       if (account.name) {
         return '(' + account.email + ')';
       }

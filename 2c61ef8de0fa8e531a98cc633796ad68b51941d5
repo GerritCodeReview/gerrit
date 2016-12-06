@@ -148,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_d401f26c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-06T22:07:08Z",
+      "side": 1,
+      "message": "This is the kind of info I\u0027d like to see in the JSDoc comments. rev/commit/sha/num/patch are all used somewhat ambiguously.",
+      "parentUuid": "8d04bb4e_54c7c234",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_705c900a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5

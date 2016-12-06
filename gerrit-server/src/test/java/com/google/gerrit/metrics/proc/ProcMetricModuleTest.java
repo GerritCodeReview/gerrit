@@ -54,13 +54,13 @@ public class ProcMetricModuleTest {
   MetricRegistry registry;
 
   @Test
-  public void testConstantBuildLabel() {
+  public void constantBuildLabel() {
     Gauge<String> buildLabel = gauge("build/label");
     assertThat(buildLabel.getValue()).isEqualTo(Version.getVersion());
   }
 
   @Test
-  public void testProcUptime() {
+  public void procUptime() {
     Gauge<Long> birth = gauge("proc/birth_timestamp");
     assertThat(birth.getValue()).isAtMost(
         TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis()));
@@ -70,7 +70,7 @@ public class ProcMetricModuleTest {
   }
 
   @Test
-  public void testCounter0() {
+  public void counter0() {
     Counter0 cntr = metrics.newCounter(
         "test/count",
         new Description("simple test")
@@ -87,7 +87,7 @@ public class ProcMetricModuleTest {
   }
 
   @Test
-  public void testCounter1() {
+  public void counter1() {
     Counter1<String> cntr = metrics.newCounter(
         "test/count",
         new Description("simple test")
@@ -110,7 +110,7 @@ public class ProcMetricModuleTest {
   }
 
   @Test
-  public void testCounterPrefixFields() {
+  public void counterPrefixFields() {
     Counter1<String> cntr = metrics.newCounter(
         "test/count",
         new Description("simple test")
@@ -134,7 +134,7 @@ public class ProcMetricModuleTest {
   }
 
   @Test
-  public void testCallbackMetric0() {
+  public void callbackMetric0() {
     final CallbackMetric0<Long> cntr = metrics.newCallbackMetric(
         "test/count",
         Long.class,
@@ -161,13 +161,13 @@ public class ProcMetricModuleTest {
   }
 
   @Test
-  public void testInvalidName1() {
+  public void invalidName1() {
     exception.expect(IllegalArgumentException.class);
     metrics.newCounter("invalid name", new Description("fail"));
   }
 
   @Test
-  public void testInvalidName2() {
+  public void invalidName2() {
     exception.expect(IllegalArgumentException.class);
     metrics.newCounter("invalid/ name", new Description("fail"));
   }

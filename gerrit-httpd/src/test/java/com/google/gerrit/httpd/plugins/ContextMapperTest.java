@@ -29,7 +29,7 @@ public class ContextMapperTest {
   private static final String RESOURCE = "my-resource";
 
   @Test
-  public void testUnauthorized() throws Exception {
+  public void unauthorized() throws Exception {
     ContextMapper classUnderTest = new ContextMapper(CONTEXT);
 
     HttpServletRequest originalRequest =
@@ -47,7 +47,7 @@ public class ContextMapperTest {
   }
 
   @Test
-  public void testAuthorized() throws Exception {
+  public void authorized() throws Exception {
     ContextMapper classUnderTest = new ContextMapper(CONTEXT);
 
     HttpServletRequest originalRequest =

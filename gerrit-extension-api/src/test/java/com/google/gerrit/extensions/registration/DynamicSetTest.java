@@ -33,13 +33,13 @@ public class DynamicSetTest {
   // {@code assertThat(ds.contains(...)).isFalse() @} instead.
 
   @Test
-  public void testContainsWithEmpty() throws Exception {
+  public void containsWithEmpty() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
     assertThat(ds.contains(2)).isFalse(); //See above comment about ds.contains
   }
 
   @Test
-  public void testContainsTrueWithSingleElement() throws Exception {
+  public void containsTrueWithSingleElement() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
 
@@ -47,7 +47,7 @@ public class DynamicSetTest {
   }
 
   @Test
-  public void testContainsFalseWithSingleElement() throws Exception {
+  public void containsFalseWithSingleElement() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
 
@@ -55,7 +55,7 @@ public class DynamicSetTest {
   }
 
   @Test
-  public void testContainsTrueWithTwoElements() throws Exception {
+  public void containsTrueWithTwoElements() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
     ds.add(4);
@@ -64,7 +64,7 @@ public class DynamicSetTest {
   }
 
   @Test
-  public void testContainsFalseWithTwoElements() throws Exception {
+  public void containsFalseWithTwoElements() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
     ds.add(4);
@@ -73,7 +73,7 @@ public class DynamicSetTest {
   }
 
   @Test
-  public void testContainsDynamic() throws Exception {
+  public void containsDynamic() throws Exception {
     DynamicSet<Integer> ds = new DynamicSet<>();
     ds.add(2);
 

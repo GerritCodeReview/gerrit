@@ -33,7 +33,7 @@ import java.nio.file.Paths;
 
 public class SitePathsTest extends GerritBaseTests {
   @Test
-  public void testCreate_NotExisting() throws IOException {
+  public void create_NotExisting() throws IOException {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
     assertTrue(site.isNew);
@@ -42,7 +42,7 @@ public class SitePathsTest extends GerritBaseTests {
   }
 
   @Test
-  public void testCreate_Empty() throws IOException {
+  public void create_Empty() throws IOException {
     final Path root = random();
     try {
       Files.createDirectory(root);
@@ -56,7 +56,7 @@ public class SitePathsTest extends GerritBaseTests {
   }
 
   @Test
-  public void testCreate_NonEmpty() throws IOException {
+  public void create_NonEmpty() throws IOException {
     final Path root = random();
     final Path txt = root.resolve("test.txt");
     try {
@@ -73,7 +73,7 @@ public class SitePathsTest extends GerritBaseTests {
   }
 
   @Test
-  public void testCreate_NotDirectory() throws IOException {
+  public void create_NotDirectory() throws IOException {
     final Path root = random();
     try {
       Files.createFile(root);
@@ -85,7 +85,7 @@ public class SitePathsTest extends GerritBaseTests {
   }
 
   @Test
-  public void testResolve() throws IOException {
+  public void resolve() throws IOException {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
 

@@ -53,17 +53,17 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseNullAsEmpty() {
+  public void parseNullAsEmpty() {
     assertThat(CommentFormatter.parse(null)).isEmpty();
   }
 
   @Test
-  public void testParseEmpty() {
+  public void parseEmpty() {
     assertThat(CommentFormatter.parse("")).isEmpty();
   }
 
   @Test
-  public void testParseSimple() {
+  public void parseSimple() {
     String comment = "Para1";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -72,7 +72,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseMultilinePara() {
+  public void parseMultilinePara() {
     String comment = "Para 1\nStill para 1";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -81,7 +81,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseParaBreak() {
+  public void parseParaBreak() {
     String comment = "Para 1\n\nPara 2\n\nPara 3";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -92,7 +92,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseQuote() {
+  public void parseQuote() {
     String comment = "> Quote text";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -102,7 +102,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseExcludesEmpty() {
+  public void parseExcludesEmpty() {
     String comment = "Para 1\n\n\n\nPara 2";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -112,7 +112,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseQuoteLeadSpace() {
+  public void parseQuoteLeadSpace() {
     String comment = " > Quote text";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -122,7 +122,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseMultiLineQuote() {
+  public void parseMultiLineQuote() {
     String comment = "> Quote line 1\n> Quote line 2\n > Quote line 3\n";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -133,7 +133,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParsePre() {
+  public void parsePre() {
     String comment = "    Four space indent.";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -142,7 +142,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseOneSpacePre() {
+  public void parseOneSpacePre() {
     String comment = " One space indent.\n Another line.";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -151,7 +151,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseTabPre() {
+  public void parseTabPre() {
     String comment = "\tOne tab indent.\n\tAnother line.\n  Yet another!";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -160,7 +160,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseIntermediateLeadingWhitespacePre() {
+  public void parseIntermediateLeadingWhitespacePre() {
     String comment = "No indent.\n\tNonzero indent.\nNo indent again.";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -169,7 +169,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseStarList() {
+  public void parseStarList() {
     String comment = "* Item 1\n* Item 2\n* Item 3";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -180,7 +180,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseDashList() {
+  public void parseDashList() {
     String comment = "- Item 1\n- Item 2\n- Item 3";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -191,7 +191,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseMixedList() {
+  public void parseMixedList() {
     String comment = "- Item 1\n* Item 2\n- Item 3\n* Item 4";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -203,7 +203,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testParseMixedBlockTypes() {
+  public void parseMixedBlockTypes() {
     String comment = "Paragraph\nacross\na\nfew\nlines."
         + "\n\n"
         + "> Quote\n> across\n> not many lines."
@@ -235,7 +235,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testBulletList1() {
+  public void bulletList1() {
     String comment = "A\n\n* line 1\n* 2nd line";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -246,7 +246,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testBulletList2() {
+  public void bulletList2() {
     String comment = "A\n\n* line 1\n* 2nd line\n\nB";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -258,7 +258,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testBulletList3() {
+  public void bulletList3() {
     String comment = "* line 1\n* 2nd line\n\nB";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -269,7 +269,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testBulletList4() {
+  public void bulletList4() {
     String comment = "To see this bug, you have to:\n" //
         + "* Be on IMAP or EAS (not on POP)\n"//
         + "* Be very unlucky\n";
@@ -282,7 +282,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testBulletList5() {
+  public void bulletList5() {
     String comment = "To see this bug,\n" //
         + "you have to:\n" //
         + "* Be on IMAP or EAS (not on POP)\n"//
@@ -296,7 +296,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testDashList1() {
+  public void dashList1() {
     String comment = "A\n\n- line 1\n- 2nd line";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -307,7 +307,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testDashList2() {
+  public void dashList2() {
     String comment = "A\n\n- line 1\n- 2nd line\n\nB";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -319,7 +319,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testDashList3() {
+  public void dashList3() {
     String comment = "- line 1\n- 2nd line\n\nB";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -330,7 +330,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testPreformat1() {
+  public void preformat1() {
     String comment = "A\n\n  This is pre\n  formatted";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -340,7 +340,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testPreformat2() {
+  public void preformat2() {
     String comment = "A\n\n  This is pre\n  formatted\n\nbut this is not";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -351,7 +351,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testPreformat3() {
+  public void preformat3() {
     String comment = "A\n\n  Q\n    <R>\n  S\n\nB";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -362,7 +362,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testPreformat4() {
+  public void preformat4() {
     String comment = "  Q\n    <R>\n  S\n\nB";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -372,7 +372,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testQuote1() {
+  public void quote1() {
     String comment = "> I'm happy\n > with quotes!\n\nSee above.";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -384,7 +384,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testQuote2() {
+  public void quote2() {
     String comment = "See this said:\n\n > a quoted\n > string block\n\nOK?";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
@@ -397,7 +397,7 @@ public class CommentFormatterTest {
   }
 
   @Test
-  public void testNestedQuotes1() {
+  public void nestedQuotes1() {
     String comment = " > > prior\n > \n > next\n";
     List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 

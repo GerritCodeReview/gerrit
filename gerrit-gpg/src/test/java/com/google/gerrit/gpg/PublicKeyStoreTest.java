@@ -85,7 +85,7 @@ public class PublicKeyStoreTest {
   }
 
   @Test
-  public void testGet() throws Exception {
+  public void get() throws Exception {
     TestKey key1 = validKeyWithoutExpiration();
     tr.branch(REFS_GPG_KEYS)
         .commit()
@@ -104,7 +104,7 @@ public class PublicKeyStoreTest {
   }
 
   @Test
-  public void testGetMultiple() throws Exception {
+  public void getMultiple() throws Exception {
     TestKey key1 = validKeyWithoutExpiration();
     TestKey key2 = validKeyWithExpiration();
     tr.branch(REFS_GPG_KEYS)

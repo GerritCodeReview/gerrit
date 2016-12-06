@@ -24,7 +24,7 @@ public class StringUtilTest {
    * should be escaped.
    */
   @Test
-  public void testEscapeFirstChar() {
+  public void escapeFirstChar() {
     assertEquals(StringUtil.escapeString("\tLeading tab"), "\\tLeading tab");
   }
 
@@ -33,7 +33,7 @@ public class StringUtilTest {
    * should be escaped.
    */
   @Test
-  public void testEscapeLastChar() {
+  public void escapeLastChar() {
     assertEquals(StringUtil.escapeString("Trailing tab\t"), "Trailing tab\\t");
   }
 
@@ -42,7 +42,7 @@ public class StringUtilTest {
    * in the expected way.
    */
   @Test
-  public void testEscapeString() {
+  public void escapeString() {
     final String[] testPairs =
       { "", "",
         "plain string", "plain string",

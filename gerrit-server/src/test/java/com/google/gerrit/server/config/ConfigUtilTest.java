@@ -75,7 +75,7 @@ public class ConfigUtilTest {
   }
 
   @Test
-  public void testStoreLoadSection() throws Exception {
+  public void storeLoadSection() throws Exception {
     SectionInfo d = SectionInfo.defaults();
     SectionInfo in = new SectionInfo();
     in.missing = "42";
@@ -142,7 +142,7 @@ public class ConfigUtilTest {
   }
 
   @Test
-  public void testTimeUnit() {
+  public void timeUnit() {
     assertEquals(ms(0, MILLISECONDS), parse("0"));
     assertEquals(ms(2, MILLISECONDS), parse("2ms"));
     assertEquals(ms(200, MILLISECONDS), parse("200 milliseconds"));

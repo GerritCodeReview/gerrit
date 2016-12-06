@@ -52,14 +52,14 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGetNoHashtags() throws Exception {
+  public void getNoHashtags() throws Exception {
     // Get on a change with no hashtags returns an empty list.
     PushOneCommit.Result r = createChange();
     assertThatGet(r).isEmpty();
   }
 
   @Test
-  public void testAddSingleHashtag() throws Exception {
+  public void addSingleHashtag() throws Exception {
     PushOneCommit.Result r = createChange();
 
     // Adding a single hashtag returns a single hashtag.
@@ -75,7 +75,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAddMultipleHashtags() throws Exception {
+  public void addMultipleHashtags() throws Exception {
     PushOneCommit.Result r = createChange();
 
     // Adding multiple hashtags returns a sorted list of hashtags.
@@ -91,7 +91,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAddAlreadyExistingHashtag() throws Exception {
+  public void addAlreadyExistingHashtag() throws Exception {
     // Adding a hashtag that already exists on the change returns a sorted list
     // of hashtags without duplicates.
     PushOneCommit.Result r = createChange();
@@ -110,7 +110,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testHashtagsWithPrefix() throws Exception {
+  public void hashtagsWithPrefix() throws Exception {
     PushOneCommit.Result r = createChange();
 
     // Leading # is stripped from added tag.
@@ -150,7 +150,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testRemoveSingleHashtag() throws Exception {
+  public void removeSingleHashtag() throws Exception {
     // Removing a single tag from a change that only has that tag returns an
     // empty list.
     PushOneCommit.Result r = createChange();
@@ -169,7 +169,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testRemoveMultipleHashtags() throws Exception {
+  public void removeMultipleHashtags() throws Exception {
     // Removing multiple tags from a change that only has those tags returns an
     // empty list.
     PushOneCommit.Result r = createChange();
@@ -189,7 +189,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testRemoveNotExistingHashtag() throws Exception {
+  public void removeNotExistingHashtag() throws Exception {
     // Removing a single hashtag from change that has no hashtags returns an
     // empty list.
     PushOneCommit.Result r = createChange();
@@ -216,7 +216,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAddAndRemove() throws Exception {
+  public void addAndRemove() throws Exception {
     // Adding and remove hashtags in a single request performs correctly.
     PushOneCommit.Result r = createChange();
     addHashtags(r, "tag1", "tag2");
@@ -238,7 +238,7 @@ public class HashtagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testHashtagWithMixedCase() throws Exception {
+  public void hashtagWithMixedCase() throws Exception {
     PushOneCommit.Result r = createChange();
     addHashtags(r, "MyHashtag");
     assertThatGet(r).containsExactly("MyHashtag");

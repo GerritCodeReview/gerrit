@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class RawFindReplaceTest {
   @Test
-  public void testFindReplace() {
+  public void findReplace() {
     final String find = "find";
     final String replace = "replace";
     final RawFindReplace a = new RawFindReplace(find, replace);

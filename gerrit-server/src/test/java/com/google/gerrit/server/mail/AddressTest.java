@@ -23,63 +23,63 @@ import org.junit.Test;
 
 public class AddressTest extends GerritBaseTests {
   @Test
-  public void testParse_NameEmail1() {
+  public void parse_NameEmail1() {
     final Address a = Address.parse("A U Thor <author@example.com>");
     assertThat(a.name).isEqualTo("A U Thor");
     assertThat(a.email).isEqualTo("author@example.com");
   }
 
   @Test
-  public void testParse_NameEmail2() {
+  public void parse_NameEmail2() {
     final Address a = Address.parse("A <a@b>");
     assertThat(a.name).isEqualTo("A");
     assertThat(a.email).isEqualTo("a@b");
   }
 
   @Test
-  public void testParse_NameEmail3() {
+  public void parse_NameEmail3() {
     final Address a = Address.parse("<a@b>");
     assertThat(a.name).isNull();
     assertThat(a.email).isEqualTo("a@b");
   }
 
   @Test
-  public void testParse_NameEmail4() {
+  public void parse_NameEmail4() {
     final Address a = Address.parse("A U Thor<author@example.com>");
     assertThat(a.name).isEqualTo("A U Thor");
     assertThat(a.email).isEqualTo("author@example.com");
   }
 
   @Test
-  public void testParse_NameEmail5() {
+  public void parse_NameEmail5() {
     final Address a = Address.parse("A U Thor  <author@example.com>");
     assertThat(a.name).isEqualTo("A U Thor");
     assertThat(a.email).isEqualTo("author@example.com");
   }
 
   @Test
-  public void testParse_Email1() {
+  public void parse_Email1() {
     final Address a = Address.parse("author@example.com");
     assertThat(a.name).isNull();
     assertThat(a.email).isEqualTo("author@example.com");
   }
 
   @Test
-  public void testParse_Email2() {
+  public void parse_Email2() {
     final Address a = Address.parse("a@b");
     assertThat(a.name).isNull();
     assertThat(a.email).isEqualTo("a@b");
   }
 
   @Test
-  public void testParse_NewTLD() {
+  public void parse_NewTLD() {
     Address a = Address.parse("A U Thor <author@example.systems>");
     assertThat(a.name).isEqualTo("A U Thor");
     assertThat(a.email).isEqualTo("author@example.systems");
   }
 
   @Test
-  public void testParseInvalid() {
+  public void parseInvalid() {
     assertInvalid("");
     assertInvalid("a");
     assertInvalid("a<");
@@ -107,49 +107,49 @@ public class AddressTest extends GerritBaseTests {
   }
 
   @Test
-  public void testToHeaderString_NameEmail1() {
+  public void toHeaderString_NameEmail1() {
     assertThat(format("A", "a@a")).isEqualTo("A <a@a>");
   }
 
   @Test
-  public void testToHeaderString_NameEmail2() {
+  public void toHeaderString_NameEmail2() {
     assertThat(format("A B", "a@a")).isEqualTo("A B <a@a>");
   }
 
   @Test
-  public void testToHeaderString_NameEmail3() {
+  public void toHeaderString_NameEmail3() {
     assertThat(format("A B. C", "a@a")).isEqualTo("\"A B. C\" <a@a>");
   }
 
   @Test
-  public void testToHeaderString_NameEmail4() {
+  public void toHeaderString_NameEmail4() {
     assertThat(format("A B, C", "a@a")).isEqualTo("\"A B, C\" <a@a>");
   }
 
   @Test
-  public void testToHeaderString_NameEmail5() {
+  public void toHeaderString_NameEmail5() {
     assertThat(format("A \" C", "a@a")).isEqualTo("\"A \\\" C\" <a@a>");
   }
 
   @Test
-  public void testToHeaderString_NameEmail6() {
+  public void toHeaderString_NameEmail6() {
     assertThat(format("A \u20ac B", "a@a"))
       .isEqualTo("=?UTF-8?Q?A_=E2=82=AC_B?= <a@a>");
   }
 
   @Test
-  public void testToHeaderString_NameEmail7() {
+  public void toHeaderString_NameEmail7() {
     assertThat(format("A \u20ac B (Code Review)", "a@a"))
       .isEqualTo("=?UTF-8?Q?A_=E2=82=AC_B_=28Code_Review=29?= <a@a>");
   }
 
   @Test
-  public void testToHeaderString_Email1() {
+  public void toHeaderString_Email1() {
     assertThat(format(null, "a@a")).isEqualTo("a@a");
   }
 
   @Test
-  public void testToHeaderString_Email2() {
+  public void toHeaderString_Email2() {
     assertThat(format(null, "a,b@a")).isEqualTo("<a,b@a>");
   }
 

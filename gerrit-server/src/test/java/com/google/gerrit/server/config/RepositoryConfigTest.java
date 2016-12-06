@@ -40,13 +40,13 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testDefaultSubmitTypeWhenNotConfigured() {
+  public void defaultSubmitTypeWhenNotConfigured() {
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
         .isEqualTo(SubmitType.MERGE_IF_NECESSARY);
   }
 
   @Test
-  public void testDefaultSubmitTypeForStarFilter() {
+  public void defaultSubmitTypeForStarFilter() {
     configureDefaultSubmitType("*", SubmitType.CHERRY_PICK);
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someProject")))
         .isEqualTo(SubmitType.CHERRY_PICK);
@@ -65,7 +65,7 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testDefaultSubmitTypeForSpecificFilter() {
+  public void defaultSubmitTypeForSpecificFilter() {
     configureDefaultSubmitType("someProject", SubmitType.CHERRY_PICK);
     assertThat(repoCfg.getDefaultSubmitType(new NameKey("someOtherProject")))
         .isEqualTo(SubmitType.MERGE_IF_NECESSARY);
@@ -74,7 +74,7 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testDefaultSubmitTypeForStartWithFilter() {
+  public void defaultSubmitTypeForStartWithFilter() {
     configureDefaultSubmitType("somePath/somePath/*",
         SubmitType.REBASE_IF_NECESSARY);
     configureDefaultSubmitType("somePath/*", SubmitType.CHERRY_PICK);
@@ -100,12 +100,12 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testOwnerGroupsWhenNotConfigured() {
+  public void ownerGroupsWhenNotConfigured() {
     assertThat(repoCfg.getOwnerGroups(new NameKey("someProject"))).isEmpty();
   }
 
   @Test
-  public void testOwnerGroupsForStarFilter() {
+  public void ownerGroupsForStarFilter() {
     ImmutableList<String> ownerGroups = ImmutableList.of("group1", "group2");
     configureOwnerGroups("*", ownerGroups);
     assertThat(repoCfg.getOwnerGroups(new NameKey("someProject")))
@@ -113,7 +113,7 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testOwnerGroupsForSpecificFilter() {
+  public void ownerGroupsForSpecificFilter() {
     ImmutableList<String> ownerGroups = ImmutableList.of("group1", "group2");
     configureOwnerGroups("someProject", ownerGroups);
     assertThat(repoCfg.getOwnerGroups(new NameKey("someOtherProject")))
@@ -123,7 +123,7 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testOwnerGroupsForStartWithFilter() {
+  public void ownerGroupsForStartWithFilter() {
     ImmutableList<String> ownerGroups1 = ImmutableList.of("group1");
     ImmutableList<String> ownerGroups2 = ImmutableList.of("group2");
     ImmutableList<String> ownerGroups3 = ImmutableList.of("group3");
@@ -150,12 +150,12 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testBasePathWhenNotConfigured() {
+  public void basePathWhenNotConfigured() {
     assertThat((Object)repoCfg.getBasePath(new NameKey("someProject"))).isNull();
   }
 
   @Test
-  public void testBasePathForStarFilter() {
+  public void basePathForStarFilter() {
     String basePath = "/someAbsolutePath/someDirectory";
     configureBasePath("*", basePath);
     assertThat(repoCfg.getBasePath(new NameKey("someProject")).toString())
@@ -163,7 +163,7 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testBasePathForSpecificFilter() {
+  public void basePathForSpecificFilter() {
     String basePath = "/someAbsolutePath/someDirectory";
     configureBasePath("someProject", basePath);
     assertThat((Object) repoCfg.getBasePath(new NameKey("someOtherProject")))
@@ -173,7 +173,7 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testBasePathForStartWithFilter() {
+  public void basePathForStartWithFilter() {
     String basePath1 = "/someAbsolutePath1/someDirectory";
     String basePath2 = "someRelativeDirectory2";
     String basePath3 = "/someAbsolutePath3/someDirectory";
@@ -196,7 +196,7 @@ public class RepositoryConfigTest {
   }
 
   @Test
-  public void testAllBasePath() {
+  public void allBasePath() {
     ImmutableList<Path> allBasePaths = ImmutableList.of(
         Paths.get("/someBasePath1"),
         Paths.get("/someBasePath2"),

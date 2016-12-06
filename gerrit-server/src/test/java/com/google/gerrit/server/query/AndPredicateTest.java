@@ -29,7 +29,7 @@ import java.util.List;
 
 public class AndPredicateTest extends PredicateTest {
   @Test
-  public void testChildren() {
+  public void children() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final Predicate<String> n = and(a, b);
@@ -39,7 +39,7 @@ public class AndPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testChildrenUnmodifiable() {
+  public void childrenUnmodifiable() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final Predicate<String> n = and(a, b);

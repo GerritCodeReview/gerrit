@@ -20,12 +20,12 @@ import org.junit.Test;
 
 public class EncodePathSeparatorTest {
   @Test
-  public void testDefaultBehaviour() {
+  public void defaultBehaviour() {
     assertEquals("a/b", new GitwebType().replacePathSeparator("a/b"));
   }
 
   @Test
-  public void testExclamationMark() {
+  public void exclamationMark() {
     GitwebType gitwebType = new GitwebType();
     gitwebType.setPathSeparator('!');
     assertEquals("a!b", gitwebType.replacePathSeparator("a/b"));

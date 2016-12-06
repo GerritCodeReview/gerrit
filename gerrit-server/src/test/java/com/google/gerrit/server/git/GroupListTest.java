@@ -54,7 +54,7 @@ public class GroupListTest {
   }
 
   @Test
-  public void testByUUID() throws Exception {
+  public void byUUID() throws Exception {
     AccountGroup.UUID uuid =
         new AccountGroup.UUID("d96b998f8a66ff433af50befb975d0e2bb6e0999");
 
@@ -65,7 +65,7 @@ public class GroupListTest {
   }
 
   @Test
-  public void testPut() {
+  public void put() {
     AccountGroup.UUID uuid = new AccountGroup.UUID("abc");
     GroupReference groupReference = new GroupReference(uuid, "Hutzliputz");
 
@@ -77,7 +77,7 @@ public class GroupListTest {
   }
 
   @Test
-  public void testReferences() throws Exception {
+  public void references() throws Exception {
     Collection<GroupReference> result = groupList.references();
 
     assertEquals(2, result.size());
@@ -89,7 +89,7 @@ public class GroupListTest {
   }
 
   @Test
-  public void testUUIDs() throws Exception {
+  public void uUIDs() throws Exception {
     Set<AccountGroup.UUID> result = groupList.uuids();
 
     assertEquals(2, result.size());
@@ -99,7 +99,7 @@ public class GroupListTest {
   }
 
   @Test
-  public void testValidationError() throws Exception {
+  public void validationError() throws Exception {
     ValidationError.Sink sink = createMock(ValidationError.Sink.class);
     sink.error(anyObject(ValidationError.class));
     expectLastCall().times(2);
@@ -109,7 +109,7 @@ public class GroupListTest {
   }
 
   @Test
-  public void testRetainAll() throws Exception {
+  public void retainAll() throws Exception {
     AccountGroup.UUID uuid =
         new AccountGroup.UUID("d96b998f8a66ff433af50befb975d0e2bb6e0999");
     groupList.retainUUIDs(Collections.singleton(uuid));
@@ -120,7 +120,7 @@ public class GroupListTest {
   }
 
   @Test
-  public void testAsText() throws Exception {
+  public void asText() throws Exception {
     assertTrue(TEXT.equals(groupList.asText()));
   }
 }

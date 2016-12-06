@@ -300,7 +300,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testTopicChaining() throws Exception {
+  public void topicChaining() throws Exception {
     RevCommit initialHead = getRemoteHead();
     // Create two independent commits and push.
     RevCommit c1_1 = commitBuilder()
@@ -337,7 +337,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testNewBranchTwoChangesTogether() throws Exception {
+  public void newBranchTwoChangesTogether() throws Exception {
     Project.NameKey p1 = createProject("a-new-project", null, false);
     TestRepository<?> repo1 = cloneProject(p1);
 
@@ -379,7 +379,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testSubmissionIdSavedOnMergeInOneProject() throws Exception {
+  public void submissionIdSavedOnMergeInOneProject() throws Exception {
     // Create two commits and push.
     RevCommit c1_1 = commitBuilder()
         .add("a.txt", "1")

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_b10e5a52",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:15:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d091ec62_0b909d9e",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_3d6cef1e",
         "filename": "contrib/new-url-regex/Demo.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-11-22T12:52:58Z",
       "side": 1,
       "message": "add comment about #",
+      "range": {
+        "startLine": 28,
+        "startChar": 21,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_8fb4591c",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:15:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "104624f2_3d6cef1e",
       "range": {
         "startLine": 28,
         "startChar": 21,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_51fdb6fa",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:15:36Z",
+      "side": 1,
+      "message": "Yup, but that is in the proposal",
+      "parentUuid": "2df3cfac_4e929337",
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104624f2_dd970bd7",
         "filename": "contrib/new-url-regex/Demo.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2016-11-22T12:52:58Z",
       "side": 1,
       "message": "can you make this a map, and check that your scheme yields the desired result?",
+      "range": {
+        "startLine": 59,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 21
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_afb1152b",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:15:36Z",
+      "side": 1,
+      "message": "Not really as I am running this for three different example hosts. Also, this isn\u0027t a unit test, it\u0027s just for display purposes.",
+      "parentUuid": "104624f2_dd970bd7",
       "range": {
         "startLine": 59,
         "startChar": 13,
@@ -123,6 +213,30 @@
       "side": 1,
       "message": "Neither sso or rpc are in the list of uri schemes [1] so they may well be google internal.  However, git-repo already supports both of them [2,3] for some time.\n\n[1] http://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml\n[2] https://gerrit-review.googlesource.com/#/c/60000/\n[3] https://gerrit-review.googlesource.com/#/c/54170/",
       "parentUuid": "104624f2_fd9c47fd",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 10
+      },
+      "revId": "fc788b6fb0d6aa5a692b45abe0620f943964865f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_71023228",
+        "filename": "contrib/new-url-regex/Demo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:15:36Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "2df3cfac_6e8dcf13",
       "range": {
         "startLine": 76,
         "startChar": 6,

@@ -42,6 +42,16 @@ limitations under the License.
       element = fixture('basic');
     });
 
+    test('null guard', function() {
+      assert.doesNotThrow(function() {
+        element.account = null;
+      });
+    });
+
+    test('missing email', function() {
+      assert.equal('', element._computeEmailStr({name: 'foo'}));
+    });
+
     test('computed fields', function() {
       assert.equal(element._computeAccountTitle(
           {

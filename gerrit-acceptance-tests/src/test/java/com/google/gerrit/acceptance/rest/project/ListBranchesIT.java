@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefNames;
+import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;

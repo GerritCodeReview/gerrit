@@ -45,6 +45,30 @@
       "revId": "ff5bc2e7028b3e9c501bce455e0a46d7385cc6d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_af603514",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T07:53:44Z",
+      "side": 1,
+      "message": "Yes, I also prefer to avoid the \u0027test\u0027 prefix.",
+      "parentUuid": "4d0ac35e_2fa2a94b",
+      "range": {
+        "startLine": 47,
+        "startChar": 14,
+        "endLine": 47,
+        "endChar": 18
+      },
+      "revId": "ff5bc2e7028b3e9c501bce455e0a46d7385cc6d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_53e076af",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-06T22:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_f404f67e",
+      "revId": "5b805de2bb9df75fb78e3ed4e63b615d4ca5329a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_b3aba251",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-06T22:07:08Z",
       "side": 1,
       "message": "Does this return the string SHA? The return value should be described here.",
+      "revId": "5b805de2bb9df75fb78e3ed4e63b615d4ca5329a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_b3d442da",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-06T22:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d05c749_b3aba251",
       "revId": "5b805de2bb9df75fb78e3ed4e63b615d4ca5329a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

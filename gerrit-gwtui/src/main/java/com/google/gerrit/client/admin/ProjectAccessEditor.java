@@ -20,7 +20,9 @@ import com.google.gerrit.client.ui.ParentProjectBox;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.WebLinkInfoCommon;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style.Display;
@@ -152,7 +154,8 @@ public class ProjectAccessEditor extends Composite implements
   }
 
   private void setUpWebLinks() {
-    List<WebLinkInfoCommon> links = value.getFileHistoryLinks();
+    List<WebLinkInfoCommon> links = value.getFileHistoryLinks(new Branch.NameKey(value.getProjectName(),
+        RefNames.REFS_CONFIG), "project.config", c.getLinkName());
     if (!value.isConfigVisible() || links == null || links.isEmpty()) {
       history.getStyle().setDisplay(Display.NONE);
       return;

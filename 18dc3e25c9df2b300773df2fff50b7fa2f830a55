@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_d110e403",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-06T00:48:23Z",
+      "side": 1,
+      "message": "Not sure what happened. Fixed.",
+      "revId": "18dc3e25c9df2b300773df2fff50b7fa2f830a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

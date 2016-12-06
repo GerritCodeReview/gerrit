@@ -145,7 +145,7 @@
         // TODO(kaspern): Utilize gr-url-encoding-behavior.html when the router
         // is replaced with a Polymer counterpart.
         // @see Issue 4255 regarding double-encoding.
-        var path = encodeURIComponent(encodeURIComponent(path));
+        var path = encodeURIComponent(encodeURIComponent(params.path));
         // @see Issue 4577 regarding more readable URLs.
         path = path.replace(/%252F/g, '/');
         path = path.replace(/%2520/g, '+');

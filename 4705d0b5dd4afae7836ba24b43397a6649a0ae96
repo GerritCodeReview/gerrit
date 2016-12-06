@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_74ac863c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T23:51:38Z",
+      "side": 1,
+      "message": "We probably can do this:\n\n            \u003cgr-account-chip account\u003d\"[[message.reviewer||undefined]]\"\u003e\n\nbut I\u0027m not sure if that\u0027s a better way to be honest.\nOr you have something else in mind?",
+      "parentUuid": "6d05c749_531d16dc",
+      "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_d3b2a6c5",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 1

@@ -1211,9 +1211,9 @@ public class ChangeJson {
     info.message = commit.getFullMessage();
 
     if (addLinks) {
-      FluentIterable<WebLinkInfo> links =
+      List<WebLinkInfo> links =
           webLinks.getPatchSetLinks(project, commit.name());
-      info.webLinks = links.isEmpty() ? null : links.toList();
+      info.webLinks = links.isEmpty() ? null : links;
     }
 
     for (RevCommit parent : commit.getParents()) {
@@ -1222,9 +1222,9 @@ public class ChangeJson {
       i.commit = parent.name();
       i.subject = parent.getShortMessage();
       if (addLinks) {
-        FluentIterable<WebLinkInfo> parentLinks =
+        List<WebLinkInfo> parentLinks =
             webLinks.getPatchSetLinks(project, parent.name());
-        i.webLinks = parentLinks.isEmpty() ? null : parentLinks.toList();
+        i.webLinks = parentLinks.isEmpty() ? null : parentLinks;
       }
       info.parents.add(i);
     }

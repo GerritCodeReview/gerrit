@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -216,10 +215,10 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   }
 
   private List<WebLinkInfoCommon> getConfigFileLogLinks(String projectName) {
-    FluentIterable<WebLinkInfoCommon> links =
+    List<WebLinkInfoCommon> links =
         webLinks.getFileHistoryLinksCommon(projectName, RefNames.REFS_CONFIG,
             ProjectConfig.PROJECT_CONFIG);
-    return links.isEmpty() ? null : links.toList();
+    return links.isEmpty() ? null : links;
   }
 
   private Map<AccountGroup.UUID, GroupInfo> buildGroupInfo(List<AccessSection> local) {

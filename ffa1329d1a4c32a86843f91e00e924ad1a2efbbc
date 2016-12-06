@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_14bd3a9b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-12-06T18:38:27Z",
+      "side": 1,
+      "message": "This indentation is different from that in handleComment",
+      "range": {
+        "startLine": 135,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 8
+      },
+      "revId": "ffa1329d1a4c32a86843f91e00e924ad1a2efbbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

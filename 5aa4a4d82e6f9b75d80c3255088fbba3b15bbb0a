@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_941e4ad6",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-06T19:54:11Z",
+      "side": 1,
+      "message": "I didn\u0027t understand this at first. Now I understand better: the problem is not that \u0027/c/[0-9]*$\u0027 is hard to parse, but that there can be further resources named within a change\u0027s namespace.\n\nIt feels complicated. For a load balancer to pull out the repository name, it would need deep knowledge of gerrit\u0027s URL syntax.\n\nAs long as we\u0027re changing the parsing, I wonder if we could do something more dramatic, to always put the project name at the beginning:\n\n https://gerrit-review.googlesource.com/12345/ (old)\n https://gerrit-review.googlesource.com/platform/system/bt/+/12345/ (new)\n\nThat would apply to the REST API, too:\n\n https://gerrit-review.googlesource.com/changes/12345/detail (old)\n https://gerrit-review.googlesource.com/platform/system/bt/+/changes/12345/detail (new)\n\nThat is: always prefix the path with {project}/+/. The existing routing code would apply after stripping off that prefix.\n\nA similar approach is to prefix the path with {project}/+, to be more like gitiles:\n\n https://gerrit-review.googlesource.com/platform/system/bt/+changes/12345/detail",
+      "parentUuid": "edcc5755_6ffa4dc5",
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_8e321b4e",
         "filename": "Documentation/url-schema.txt",
         "patchSetId": 1
@@ -179,6 +197,24 @@
         "endLine": 38,
         "endChar": 29
       },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_b421ce14",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-06T19:54:11Z",
+      "side": 1,
+      "message": "An alternative way to make it consistent would be to go in the other direction: making the syntax consistently look more like that triplet-based form.\n\nThat is, allowing the following as {change-id}:\n\n 1. foo%2fbar~12345 (new)\n 2. foo%2fbar~master~I8473b95934b57326311a706c9c2bde9940 (old, not deprecated)\n 3. foo%2fbar~I8473b95934b57326311a706c9c2bde9940 (new, to replace (5))\n 4. 12345 (old, deprecated)\n 5. I8473b95934b57326311a706c9c2bde9940 (old, deprecated)\n\nSince none of these can include a slash, parsing would continue to work as before.",
+      "parentUuid": "2dc74f2e_11f72e1d",
       "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

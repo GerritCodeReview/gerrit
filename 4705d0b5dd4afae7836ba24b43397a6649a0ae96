@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_33e172b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-06T22:30:43Z",
+      "side": 1,
+      "message": "Actually, I don\u0027t believe the !account condition is needed, as this is a computed property in the first place.",
+      "parentUuid": "6d05c749_f3b52ab0",
+      "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_d3b2a6c5",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-06T22:22:20Z",
       "side": 1,
       "message": "What would happen if account.name is set but account.email is unset? Can that happen?",
+      "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_f45996a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-06T22:30:43Z",
+      "side": 1,
+      "message": "I don\u0027t think it can... An email IS a gerrit account, correct?",
+      "parentUuid": "6d05c749_d3b2a6c5",
       "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -46,6 +46,23 @@
       "revId": "8df55361f08e95d574ca3d82e9010f494231946b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_b40a6e88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-06T20:29:17Z",
+      "side": 1,
+      "message": "I\u0027d go ahead and convert these to use the stream API instead. The only reason I didn\u0027t do it in a previous pass is I wanted to avoid public interface changes.",
+      "revId": "8df55361f08e95d574ca3d82e9010f494231946b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_8f88d940",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2925,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T16:24:24Z",
+      "side": 1,
+      "message": "This is inconsistent with the change in line 2944 below.",
+      "range": {
+        "startLine": 2925,
+        "startChar": 12,
+        "endLine": 2925,
+        "endChar": 24
+      },
+      "revId": "f9c94b91f4eca21a1177dc81cff6aa04c0e41943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

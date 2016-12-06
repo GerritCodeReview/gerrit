@@ -112,7 +112,7 @@ public class IncludingGroupMembership implements GroupMembership {
     return r;
   }
 
-  private boolean search(Set<AccountGroup.UUID> ids) {
+  private boolean search(Iterable<AccountGroup.UUID> ids) {
     return user.getEffectiveGroups().containsAnyOf(ids);
   }
 

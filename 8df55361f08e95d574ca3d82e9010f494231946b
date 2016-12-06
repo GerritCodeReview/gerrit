@@ -22,6 +22,30 @@
       "revId": "8df55361f08e95d574ca3d82e9010f494231946b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_4f20b162",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2016-12-06T16:59:50Z",
+      "side": 1,
+      "message": "I can\u0027t see why we shouldn\u0027t remove it, looks like it\u0027s never been used.",
+      "parentUuid": "4d0ac35e_6fc5d1f4",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 132,
+        "endChar": 3
+      },
+      "revId": "8df55361f08e95d574ca3d82e9010f494231946b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

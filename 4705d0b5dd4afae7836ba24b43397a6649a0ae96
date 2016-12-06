@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_743f661b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T23:08:09Z",
+      "side": 1,
+      "message": "\u003e Is returning undefined like that or the empty string like this preferred?\n\nI am returning a string here for the sake of consistency, even though undefined would work too.\n\n\u003e Actually, I don\u0027t believe the !account condition is needed, as this is a computed property in the first place.\n\nI was surprised myself, but seems it gets evaluated with null and throws an exception.\ngr-message.html#149 uses message.reviewer, which may be null.",
+      "parentUuid": "6d05c749_33e172b7",
+      "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_d3b2a6c5",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 1
@@ -66,6 +84,42 @@
       "side": 1,
       "message": "I don\u0027t think it can... An email IS a gerrit account, correct?",
       "parentUuid": "6d05c749_d3b2a6c5",
+      "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_d42f32e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T23:08:09Z",
+      "side": 1,
+      "message": "Hmm, no, a user may not have an email - I\u0027ll add a guard just in case.",
+      "parentUuid": "8d04bb4e_f45996a6",
+      "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_13138ed5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T23:08:09Z",
+      "side": 1,
+      "message": "User may not have an email.",
+      "parentUuid": "8d04bb4e_f45996a6",
       "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

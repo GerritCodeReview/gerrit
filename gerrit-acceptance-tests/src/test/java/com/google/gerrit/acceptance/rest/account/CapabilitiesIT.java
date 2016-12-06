@@ -38,7 +38,7 @@ import org.junit.Test;
 public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
-  public void testCapabilitiesUser() throws Exception {
+  public void capabilitiesUser() throws Exception {
     Iterable<String> all = Iterables.filter(
         GlobalCapability.getAllNames(),
         c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c));
@@ -72,7 +72,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCapabilitiesAdmin() throws Exception {
+  public void capabilitiesAdmin() throws Exception {
     RestResponse r =
         adminRestSession.get("/accounts/self/capabilities");
     r.assertOK();

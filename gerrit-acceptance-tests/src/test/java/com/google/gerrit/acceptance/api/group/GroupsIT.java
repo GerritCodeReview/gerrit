@@ -130,14 +130,14 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateGroup() throws Exception {
+  public void createGroup() throws Exception {
     String newGroupName = name("newGroup");
     GroupInfo g = gApi.groups().create(newGroupName).get();
     assertGroupInfo(getFromCache(newGroupName), g);
   }
 
   @Test
-  public void testCreateDuplicateInternalGroupCaseSensitiveName_Conflict()
+  public void createDuplicateInternalGroupCaseSensitiveName_Conflict()
       throws Exception {
     String dupGroupName = name("dupGroup");
     gApi.groups().create(dupGroupName);
@@ -147,7 +147,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateDuplicateInternalGroupCaseInsensitiveName()
+  public void createDuplicateInternalGroupCaseInsensitiveName()
       throws Exception {
     String dupGroupName = name("dupGroupA");
     String dupGroupNameLowerCase = name("dupGroupA").toLowerCase();
@@ -158,7 +158,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateDuplicateSystemGroupCaseSensitiveName_Conflict()
+  public void createDuplicateSystemGroupCaseSensitiveName_Conflict()
       throws Exception {
     String newGroupName = "Registered Users";
     exception.expect(ResourceConflictException.class);
@@ -167,7 +167,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateDuplicateSystemGroupCaseInsensitiveName_Conflict()
+  public void createDuplicateSystemGroupCaseInsensitiveName_Conflict()
       throws Exception {
     String newGroupName = "registered users";
     exception.expect(ResourceConflictException.class);
@@ -176,7 +176,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateGroupWithProperties() throws Exception {
+  public void createGroupWithProperties() throws Exception {
     GroupInput in = new GroupInput();
     in.name = name("newGroup");
     in.description = "Test description";
@@ -189,14 +189,14 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateGroupWithoutCapability_Forbidden() throws Exception {
+  public void createGroupWithoutCapability_Forbidden() throws Exception {
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.groups().create(name("newGroup"));
   }
 
   @Test
-  public void testGetGroup() throws Exception {
+  public void getGroup() throws Exception {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
     testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);
     testGetGroup(adminGroup.getName(), adminGroup);
@@ -210,7 +210,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGroupName() throws Exception {
+  public void groupName() throws Exception {
     String name = name("group");
     gApi.groups().create(name);
 
@@ -229,7 +229,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGroupRename() throws Exception {
+  public void groupRename() throws Exception {
     String name = name("group");
     gApi.groups().create(name);
 
@@ -244,7 +244,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGroupDescription() throws Exception {
+  public void groupDescription() throws Exception {
     String name = name("group");
     gApi.groups().create(name);
 
@@ -266,7 +266,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGroupOptions() throws Exception {
+  public void groupOptions() throws Exception {
     String name = name("group");
     gApi.groups().create(name);
 
@@ -281,7 +281,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGroupOwner() throws Exception {
+  public void groupOwner() throws Exception {
     String name = name("group");
     GroupInfo info = gApi.groups().create(name).get();
     String adminUUID = getFromCache("Administrators").getGroupUUID().get();
@@ -395,7 +395,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testListAllGroups() throws Exception {
+  public void listAllGroups() throws Exception {
     List<String> expectedGroups = groupCache.all().stream()
           .map(a -> a.getName())
           .sorted()
@@ -406,7 +406,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testOnlyVisibleGroupsReturned() throws Exception {
+  public void onlyVisibleGroupsReturned() throws Exception {
     String newGroupName = name("newGroup");
     GroupInput in = new GroupInput();
     in.name = newGroupName;
@@ -427,14 +427,14 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testSuggestGroup() throws Exception {
+  public void suggestGroup() throws Exception {
     Map<String, GroupInfo> groups = gApi.groups().list().withSuggest("adm").getAsMap();
     assertThat(groups).containsKey("Administrators");
     assertThat(groups).hasSize(1);
   }
 
   @Test
-  public void testAllGroupInfoFieldsSetCorrectly() throws Exception {
+  public void allGroupInfoFieldsSetCorrectly() throws Exception {
     AccountGroup adminGroup = getFromCache("Administrators");
     Map<String, GroupInfo> groups =
         gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();

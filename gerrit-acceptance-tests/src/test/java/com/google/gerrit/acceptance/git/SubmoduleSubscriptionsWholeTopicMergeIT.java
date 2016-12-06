@@ -67,7 +67,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testSubscriptionUpdateOfManyChanges() throws Exception {
+  public void subscriptionUpdateOfManyChanges() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
     allowMatchingSubmoduleSubscription("subscribed-to-project", "refs/heads/master",
@@ -149,7 +149,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testSubscriptionUpdateIncludingChangeInSuperproject()
+  public void subscriptionUpdateIncludingChangeInSuperproject()
       throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
@@ -216,7 +216,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testUpdateManySubmodules() throws Exception {
+  public void updateManySubmodules() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub1 = createProjectWithPush("sub1");
     TestRepository<?> sub2 = createProjectWithPush("sub2");
@@ -264,7 +264,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testDoNotUseFastForward() throws Exception {
+  public void doNotUseFastForward() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project", false);
     TestRepository<?> sub = createProjectWithPush("sub", false);
 
@@ -292,7 +292,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testUseFastForwardWhenNoSubmodule() throws Exception {
+  public void useFastForwardWhenNoSubmodule() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project", false);
     TestRepository<?> sub = createProjectWithPush("sub", false);
 
@@ -314,7 +314,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testSameProjectSameBranchDifferentPaths() throws Exception {
+  public void sameProjectSameBranchDifferentPaths() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub = createProjectWithPush("sub");
 
@@ -347,7 +347,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testSameProjectDifferentBranchDifferentPaths() throws Exception {
+  public void sameProjectDifferentBranchDifferentPaths() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub = createProjectWithPush("sub");
 
@@ -391,7 +391,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testNonSubmoduleInSameTopic() throws Exception {
+  public void nonSubmoduleInSameTopic() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> sub = createProjectWithPush("sub");
     TestRepository<?> standAlone = createProjectWithPush("standalone");
@@ -431,7 +431,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testRecursiveSubmodules() throws Exception {
+  public void recursiveSubmodules() throws Exception {
     TestRepository<?> topRepo = createProjectWithPush("top-project");
     TestRepository<?> midRepo = createProjectWithPush("mid-project");
     TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
@@ -465,7 +465,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testTriangleSubmodules() throws Exception {
+  public void triangleSubmodules() throws Exception {
     TestRepository<?> topRepo = createProjectWithPush("top-project");
     TestRepository<?> midRepo = createProjectWithPush("mid-project");
     TestRepository<?> bottomRepo = createProjectWithPush("bottom-project");
@@ -535,19 +535,19 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testBranchCircularSubscription() throws Exception {
+  public void branchCircularSubscription() throws Exception {
     String changeId = prepareBranchCircularSubscription();
     gApi.changes().id(changeId).current().submit();
   }
 
   @Test
-  public void testBranchCircularSubscriptionPreview() throws Exception {
+  public void branchCircularSubscriptionPreview() throws Exception {
     String changeId = prepareBranchCircularSubscription();
     gApi.changes().id(changeId).current().submitPreview();
   }
 
   @Test
-  public void testProjectCircularSubscriptionWholeTopic() throws Exception {
+  public void projectCircularSubscriptionWholeTopic() throws Exception {
     TestRepository<?> superRepo = createProjectWithPush("super-project");
     TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
@@ -585,7 +585,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testProjectNoSubscriptionWholeTopic() throws Exception {
+  public void projectNoSubscriptionWholeTopic() throws Exception {
     TestRepository<?> repoA = createProjectWithPush("project-a");
     TestRepository<?> repoB = createProjectWithPush("project-b");
     // bootstrap the dev branch
@@ -637,7 +637,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT
   }
 
   @Test
-  public void testTwoProjectsMultipleBranchesWholeTopic() throws Exception {
+  public void twoProjectsMultipleBranchesWholeTopic() throws Exception {
     TestRepository<?> repoA = createProjectWithPush("project-a");
     TestRepository<?> repoB = createProjectWithPush("project-b");
     // bootstrap the dev branch

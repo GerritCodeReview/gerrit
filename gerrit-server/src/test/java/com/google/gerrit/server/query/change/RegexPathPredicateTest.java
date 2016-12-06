@@ -27,7 +27,7 @@ import java.util.Arrays;
 
 public class RegexPathPredicateTest {
   @Test
-  public void testPrefixOnlyOptimization() throws OrmException {
+  public void prefixOnlyOptimization() throws OrmException {
     RegexPathPredicate p = predicate("^a/b/.*");
     assertTrue(p.match(change("a/b/source.c")));
     assertFalse(p.match(change("source.c")));
@@ -37,7 +37,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void testPrefixReducesSearchSpace() throws OrmException {
+  public void prefixReducesSearchSpace() throws OrmException {
     RegexPathPredicate p = predicate("^a/b/.*\\.[ch]");
     assertTrue(p.match(change("a/b/source.c")));
     assertFalse(p.match(change("a/b/source.res")));
@@ -47,7 +47,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void testFileExtension_Constant() throws OrmException {
+  public void fileExtension_Constant() throws OrmException {
     RegexPathPredicate p = predicate("^.*\\.res");
     assertTrue(p.match(change("test.res")));
     assertTrue(p.match(change("foo/bar/test.res")));
@@ -55,7 +55,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void testFileExtension_CharacterGroup() throws OrmException {
+  public void fileExtension_CharacterGroup() throws OrmException {
     RegexPathPredicate p = predicate("^.*\\.[ch]");
     assertTrue(p.match(change("test.c")));
     assertTrue(p.match(change("test.h")));
@@ -63,7 +63,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void testEndOfString() throws OrmException {
+  public void endOfString() throws OrmException {
     assertTrue(predicate("^a$").match(change("a")));
     assertFalse(predicate("^a$").match(change("a$")));
 
@@ -72,7 +72,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void testExactMatch() throws OrmException {
+  public void exactMatch() throws OrmException {
     RegexPathPredicate p = predicate("^foo.c");
     assertTrue(p.match(change("foo.c")));
     assertFalse(p.match(change("foo.cc")));

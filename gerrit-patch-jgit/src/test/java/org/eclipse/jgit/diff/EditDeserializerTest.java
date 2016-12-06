@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class EditDeserializerTest {
   @Test
-  public void testDiffDeserializer() {
+  public void diffDeserializer() {
     assertNotNull("edit deserializer", new EditDeserializer());
   }
 }

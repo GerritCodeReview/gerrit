@@ -27,7 +27,7 @@ public class SafeHtml_WikifyListTest {
   }
 
   @Test
-  public void testBulletList1() {
+  public void bulletList1() {
     final SafeHtml o = html("A\n\n* line 1\n* 2nd line");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -40,7 +40,7 @@ public class SafeHtml_WikifyListTest {
   }
 
   @Test
-  public void testBulletList2() {
+  public void bulletList2() {
     final SafeHtml o = html("A\n\n* line 1\n* 2nd line\n\nB");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -54,7 +54,7 @@ public class SafeHtml_WikifyListTest {
   }
 
   @Test
-  public void testBulletList3() {
+  public void bulletList3() {
     final SafeHtml o = html("* line 1\n* 2nd line\n\nB");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -67,7 +67,7 @@ public class SafeHtml_WikifyListTest {
   }
 
   @Test
-  public void testBulletList4() {
+  public void bulletList4() {
     final SafeHtml o = html("To see this bug, you have to:\n" //
         + "* Be on IMAP or EAS (not on POP)\n"//
         + "* Be very unlucky\n");
@@ -82,7 +82,7 @@ public class SafeHtml_WikifyListTest {
   }
 
   @Test
-  public void testBulletList5() {
+  public void bulletList5() {
     final SafeHtml o = html("To see this bug,\n" //
         + "you have to:\n" //
         + "* Be on IMAP or EAS (not on POP)\n"//
@@ -98,7 +98,7 @@ public class SafeHtml_WikifyListTest {
   }
 
   @Test
-  public void testDashList1() {
+  public void dashList1() {
     final SafeHtml o = html("A\n\n- line 1\n- 2nd line");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -111,7 +111,7 @@ public class SafeHtml_WikifyListTest {
   }
 
   @Test
-  public void testDashList2() {
+  public void dashList2() {
     final SafeHtml o = html("A\n\n- line 1\n- 2nd line\n\nB");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -125,7 +125,7 @@ public class SafeHtml_WikifyListTest {
   }
 
   @Test
-  public void testDashList3() {
+  public void dashList3() {
     final SafeHtml o = html("- line 1\n- 2nd line\n\nB");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);

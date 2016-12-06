@@ -50,7 +50,7 @@ import java.util.List;
 public class UpgradeFrom2_0_xTest extends InitTestCase {
 
   @Test
-  public void testUpgrade() throws IOException, ConfigInvalidException {
+  public void upgrade() throws IOException, ConfigInvalidException {
     final Path p = newSitePath();
     final SitePaths site = new SitePaths(p);
     assertTrue(site.isNew);

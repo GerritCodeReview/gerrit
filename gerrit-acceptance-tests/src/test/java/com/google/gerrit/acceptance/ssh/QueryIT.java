@@ -41,7 +41,7 @@ public class QueryIT extends AbstractDaemonTest {
   private static Gson gson = new Gson();
 
   @Test
-  public void testBasicQueryJSON() throws Exception {
+  public void basicQueryJSON() throws Exception {
     String changeId1 = createChange().getChangeId();
     String changeId2 = createChange().getChangeId();
 
@@ -68,7 +68,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAllApprovalsOptionJSON() throws Exception {
+  public void allApprovalsOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
@@ -83,7 +83,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAllReviewersOptionJSON() throws Exception {
+  public void allReviewersOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
@@ -100,7 +100,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCommitMessageOptionJSON() throws Exception {
+  public void commitMessageOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     List<ChangeAttribute> changes =
         executeSuccessfulQuery("--commit-message " + changeId);
@@ -110,7 +110,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCurrentPatchSetOptionJSON() throws Exception {
+  public void currentPatchSetOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     amendChange(changeId);
 
@@ -133,7 +133,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPatchSetsOptionJSON() throws Exception {
+  public void patchSetsOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     amendChange(changeId);
     amendChange(changeId);
@@ -159,7 +159,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testFileOptionJSON() throws Exception {
+  public void fileOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
 
     List<ChangeAttribute> changes =
@@ -185,7 +185,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCommentOptionJSON() throws Exception {
+  public void commentOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
 
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
@@ -199,7 +199,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCommentOptionsInCurrentPatchSetJSON() throws Exception {
+  public void commentOptionsInCurrentPatchSetJSON() throws Exception {
     String changeId = createChange().getChangeId();
 
     ReviewInput review = new ReviewInput();
@@ -224,7 +224,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCommentOptionInPatchSetsJSON() throws Exception {
+  public void commentOptionInPatchSetsJSON() throws Exception {
     String changeId = createChange().getChangeId();
 
     ReviewInput review = new ReviewInput();
@@ -268,7 +268,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testDependenciesOptionJSON() throws Exception {
+  public void dependenciesOptionJSON() throws Exception {
     String changeId1 = createChange().getChangeId();
     String changeId2 = createChange().getChangeId();
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId1);
@@ -290,7 +290,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testSubmitRecordsOptionJSON() throws Exception {
+  public void submitRecordsOptionJSON() throws Exception {
     String changeId = createChange().getChangeId();
     List<ChangeAttribute> changes = executeSuccessfulQuery(changeId);
     assertThat(changes.size()).isEqualTo(1);
@@ -303,7 +303,7 @@ public class QueryIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testQueryWithNonVisibleCurrentPatchSet() throws Exception {
+  public void queryWithNonVisibleCurrentPatchSet() throws Exception {
     String changeId = createChange().getChangeId();
     amendChangeAsDraft(changeId);
     String query = "--current-patch-set --patch-sets " + changeId;

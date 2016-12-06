@@ -2238,7 +2238,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateMergePatchSet() throws Exception {
+  public void createMergePatchSet() throws Exception {
     PushOneCommit.Result start = pushTo("refs/heads/master");
     start.assertOkStatus();
     // create a change for master
@@ -2275,7 +2275,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateMergePatchSetInheritParent() throws Exception {
+  public void createMergePatchSetInheritParent() throws Exception {
     PushOneCommit.Result start = pushTo("refs/heads/master");
     start.assertOkStatus();
     // create a change for master

@@ -72,7 +72,7 @@ public class SchemaCreatorTest {
   }
 
   @Test
-  public void testGetCauses_CreateSchema() throws OrmException, SQLException,
+  public void getCauses_CreateSchema() throws OrmException, SQLException,
       IOException {
     // Initially the schema should be empty.
     String[] types = {"TABLE", "VIEW"};
@@ -108,7 +108,7 @@ public class SchemaCreatorTest {
   }
 
   @Test
-  public void testCreateSchema_LabelTypes() throws Exception {
+  public void createSchema_LabelTypes() throws Exception {
     List<String> labels = new ArrayList<>();
     for (LabelType label : getLabelTypes().getLabelTypes()) {
       labels.add(label.getName());
@@ -117,7 +117,7 @@ public class SchemaCreatorTest {
   }
 
   @Test
-  public void testCreateSchema_Label_CodeReview() throws Exception {
+  public void createSchema_Label_CodeReview() throws Exception {
     LabelType codeReview = getLabelTypes().byLabel("Code-Review");
     assertThat(codeReview).isNotNull();
     assertThat(codeReview.getName()).isEqualTo("Code-Review");

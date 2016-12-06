@@ -69,7 +69,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
   }
 
   @Test
-  public void testDefaultRepositoryLocation()
+  public void defaultRepositoryLocation()
       throws RepositoryCaseMismatchException, RepositoryNotFoundException,
       IOException {
     Project.NameKey someProjectKey = new Project.NameKey("someProject");
@@ -97,7 +97,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
   }
 
   @Test
-  public void testAlternateRepositoryLocation() throws IOException {
+  public void alternateRepositoryLocation() throws IOException {
     Path alternateBasePath = TempFileUtil.createTempDirectory().toPath();
     Project.NameKey someProjectKey = new Project.NameKey("someProject");
     reset(configMock);
@@ -130,7 +130,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest extends GerritBaseTests {
   }
 
   @Test
-  public void testListReturnRepoFromProperLocation() throws IOException {
+  public void listReturnRepoFromProperLocation() throws IOException {
     Project.NameKey basePathProject = new Project.NameKey("basePathProject");
     Project.NameKey altPathProject = new Project.NameKey("altPathProject");
     Project.NameKey misplacedProject1 =

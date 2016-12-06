@@ -33,14 +33,14 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testPushDraftChange_Blocked() throws Exception {
+  public void pushDraftChange_Blocked() throws Exception {
     // create draft by pushing to 'refs/drafts/'
     PushOneCommit.Result r = pushTo("refs/drafts/master");
     r.assertErrorStatus("cannot upload drafts");
   }
 
   @Test
-  public void testPushDraftChangeMagic_Blocked() throws Exception {
+  public void pushDraftChangeMagic_Blocked() throws Exception {
     // create draft by using 'draft' option
     PushOneCommit.Result r = pushTo("refs/for/master%draft");
     r.assertErrorStatus("cannot upload drafts");

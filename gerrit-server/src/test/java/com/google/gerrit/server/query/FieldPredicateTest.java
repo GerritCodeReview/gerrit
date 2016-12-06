@@ -46,7 +46,7 @@ public class FieldPredicateTest extends PredicateTest {
   }
 
   @Test
-  public void testNameValue() {
+  public void nameValue() {
     final String name = "author";
     final String value = "alice";
     final OperatorPredicate<String> f = f(name, value);

@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class SafeHtml_WikifyTest {
   @Test
-  public void testWikify_OneLine1() {
+  public void wikify_OneLine1() {
     final SafeHtml o = html("A  B");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -28,7 +28,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testWikify_OneLine2() {
+  public void wikify_OneLine2() {
     final SafeHtml o = html("A  B\n");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -36,7 +36,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testWikify_OneParagraph1() {
+  public void wikify_OneParagraph1() {
     final SafeHtml o = html("A\nB");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -44,7 +44,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testWikify_OneParagraph2() {
+  public void wikify_OneParagraph2() {
     final SafeHtml o = html("A\nB\n");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -52,7 +52,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testWikify_TwoParagraphs() {
+  public void wikify_TwoParagraphs() {
     final SafeHtml o = html("A\nB\n\nC\nD");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -60,7 +60,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testLinkify_SimpleHttp1() {
+  public void linkify_SimpleHttp1() {
     final SafeHtml o = html("A http://go.here/ B");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -70,7 +70,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testLinkify_SimpleHttps2() {
+  public void linkify_SimpleHttps2() {
     final SafeHtml o = html("A https://go.here/ B");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -80,7 +80,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testLinkify_Parens1() {
+  public void linkify_Parens1() {
     final SafeHtml o = html("A (http://go.here/) B");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -90,7 +90,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testLinkify_Parens() {
+  public void linkify_Parens() {
     final SafeHtml o = html("A http://go.here/#m() B");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -100,7 +100,7 @@ public class SafeHtml_WikifyTest {
   }
 
   @Test
-  public void testLinkify_AngleBrackets1() {
+  public void linkify_AngleBrackets1() {
     final SafeHtml o = html("A <http://go.here/> B");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);

@@ -64,7 +64,7 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
   }
 
   @Test
-  public void testProjectCreation() throws Exception {
+  public void projectCreation() throws Exception {
     Project.NameKey projectA = new Project.NameKey("projectA");
     try (Repository repo = repoManager.createRepository(projectA)) {
       assertThat(repo).isNotNull();
@@ -181,7 +181,7 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
   }
 
   @Test
-  public void testOpenRepositoryCreatedDirectlyOnDisk() throws Exception {
+  public void openRepositoryCreatedDirectlyOnDisk() throws Exception {
     Project.NameKey projectA = new Project.NameKey("projectA");
     createRepository(repoManager.getBasePath(projectA), projectA.get());
     try (Repository repo = repoManager.openRepository(projectA)) {
@@ -231,7 +231,7 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
   }
 
   @Test
-  public void testList() throws Exception {
+  public void list() throws Exception {
     Project.NameKey projectA = new Project.NameKey("projectA");
     createRepository(repoManager.getBasePath(projectA), projectA.get());
 

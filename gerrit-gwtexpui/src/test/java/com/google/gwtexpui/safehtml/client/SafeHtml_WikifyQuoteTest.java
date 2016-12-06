@@ -27,7 +27,7 @@ public class SafeHtml_WikifyQuoteTest {
   }
 
   @Test
-  public void testQuote1() {
+  public void quote1() {
     final SafeHtml o = html("> I'm happy\n > with quotes!\n\nSee above.");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -37,7 +37,7 @@ public class SafeHtml_WikifyQuoteTest {
   }
 
   @Test
-  public void testQuote2() {
+  public void quote2() {
     final SafeHtml o = html("See this said:\n\n > a quoted\n > string block\n\nOK?");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -48,7 +48,7 @@ public class SafeHtml_WikifyQuoteTest {
   }
 
   @Test
-  public void testNestedQuotes1() {
+  public void nestedQuotes1() {
     final SafeHtml o = html(" > > prior\n > \n > next\n");
     final SafeHtml n = o.wikify();
     assertThat(n.asString()).isEqualTo(quote(quote("prior") + "next\n"));

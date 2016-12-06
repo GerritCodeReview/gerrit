@@ -37,12 +37,12 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGcNonExistingProject_NotFound() throws Exception {
+  public void gcNonExistingProject_NotFound() throws Exception {
     POST("/projects/non-existing/gc").assertNotFound();
   }
 
   @Test
-  public void testGcNotAllowed_Forbidden() throws Exception {
+  public void gcNotAllowed_Forbidden() throws Exception {
     userRestSession
         .post("/projects/" + allProjects.get() + "/gc")
         .assertForbidden();

@@ -65,13 +65,13 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testIndexPredicate() throws Exception {
+  public void indexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("file:a");
     assertThat(rewrite(in)).isEqualTo(query(in));
   }
 
   @Test
-  public void testNonIndexPredicate() throws Exception {
+  public void nonIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameAs(out.getClass());
@@ -81,13 +81,13 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testIndexPredicates() throws Exception {
+  public void indexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("file:a file:b");
     assertThat(rewrite(in)).isEqualTo(query(in));
   }
 
   @Test
-  public void testNonIndexPredicates() throws Exception {
+  public void nonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("foo:a OR foo:b");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameAs(out.getClass());
@@ -97,7 +97,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testOneIndexPredicate() throws Exception {
+  public void oneIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameAs(out.getClass());
@@ -109,7 +109,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testThreeLevelTreeWithAllIndexPredicates() throws Exception {
+  public void threeLevelTreeWithAllIndexPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("-status:abandoned (file:a OR file:b)");
     assertThat(rewrite.rewrite(in, options(0, DEFAULT_MAX_QUERY_LIMIT)))
@@ -117,7 +117,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testThreeLevelTreeWithSomeIndexPredicates() throws Exception {
+  public void threeLevelTreeWithSomeIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("-foo:a (file:b OR file:c)");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isSameAs(AndChangeSource.class);
@@ -129,7 +129,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testMultipleIndexPredicates() throws Exception {
+  public void multipleIndexPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("file:a OR foo:b OR file:c OR foo:d");
     Predicate<ChangeData> out = rewrite(in);
@@ -143,7 +143,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testIndexAndNonIndexPredicates() throws Exception {
+  public void indexAndNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameAs(out.getClass());
@@ -155,7 +155,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testDuplicateCompoundNonIndexOnlyPredicates() throws Exception {
+  public void duplicateCompoundNonIndexOnlyPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("(status:new OR status:draft) bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
@@ -168,7 +168,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testDuplicateCompoundIndexOnlyPredicates() throws Exception {
+  public void duplicateCompoundIndexOnlyPredicates() throws Exception {
     Predicate<ChangeData> in =
         parse("(status:new OR file:a) bar:p file:b");
     Predicate<ChangeData> out = rewrite(in);
@@ -181,7 +181,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testOptionsArgumentOverridesAllLimitPredicates()
+  public void optionsArgumentOverridesAllLimitPredicates()
       throws Exception {
     Predicate<ChangeData> in = parse("limit:1 file:a limit:3");
     Predicate<ChangeData> out = rewrite(in, options(0, 5));
@@ -195,7 +195,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testStartIncreasesLimitInQueryButNotPredicate() throws Exception {
+  public void startIncreasesLimitInQueryButNotPredicate() throws Exception {
     int n = 3;
     Predicate<ChangeData> f = parse("file:a");
     Predicate<ChangeData> l = parse("limit:" + n);
@@ -209,7 +209,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testGetPossibleStatus() throws Exception {
+  public void getPossibleStatus() throws Exception {
     assertThat(status("file:a")).isEqualTo(EnumSet.allOf(Change.Status.class));
     assertThat(status("is:new")).containsExactly(NEW);
     assertThat(status("-is:new"))
@@ -225,7 +225,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testUnsupportedIndexOperator() throws Exception {
+  public void unsupportedIndexOperator() throws Exception {
     Predicate<ChangeData> in = parse("status:merged file:a");
     assertThat(rewrite(in)).isEqualTo(query(in));
 
@@ -240,7 +240,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testTooManyTerms() throws Exception {
+  public void tooManyTerms() throws Exception {
     String q = "file:a OR file:b OR file:c";
     Predicate<ChangeData> in = parse(q);
     assertEquals(query(in), rewrite(in));
@@ -258,7 +258,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   }
 
   @Test
-  public void testAddingStartToLimitDoesNotExceedBackendLimit() throws Exception {
+  public void addingStartToLimitDoesNotExceedBackendLimit() throws Exception {
     int max = CONFIG.maxLimit();
     assertEquals(options(0, max), convertOptions(options(0, max)));
     assertEquals(options(0, max), convertOptions(options(1, max)));

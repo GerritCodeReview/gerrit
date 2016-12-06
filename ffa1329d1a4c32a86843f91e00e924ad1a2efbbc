@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "edbff7bf_b4e54020",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T21:01:16Z",
+      "side": 1,
+      "message": "Few points here.\na) Is it a new message? I can\u0027t find it being already defined in Gerrit JS API\nb) It\u0027s actually dispatched not on commit change, but on commit edit\nc) There may be cases when it wouldn\u0027t be triggered, for example, if commit message was pushed through git push with TBR\u003d",
+      "revId": "ffa1329d1a4c32a86843f91e00e924ad1a2efbbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_14bd3a9b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 2

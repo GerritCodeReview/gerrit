@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_8f09b90d",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "I\u0027ve adapted it to a adhere a 80 chars per line limit.",
+      "parentUuid": "2dc74f2e_ceb58382",
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_ee35df38",
         "filename": "Documentation/url-schema.txt",
         "patchSetId": 1
@@ -84,6 +102,30 @@
       "writtenOn": "2016-12-01T08:00:48Z",
       "side": 1,
       "message": "Comment from Luca: Do we really need the \"+\" in front of the c? we know that the last part of the path is going to be /c/[0-9]+ right? Should be fairly easy to define a regex without having to use the \"+\"",
+      "range": {
+        "startLine": 21,
+        "startChar": 62,
+        "endLine": 21,
+        "endChar": 64
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_6ffa4dc5",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "I think yes, because we don\u0027t want to keep people from using /c in their project names.\n\nAlso the regex should run on a state-machine-based regular expression matcher (like RE2) which doesn\u0027t support negative lookaheads, so matching for the last concurrence of something is hard.",
+      "parentUuid": "2dc74f2e_ee35df38",
       "range": {
         "startLine": 21,
         "startChar": 62,
@@ -119,6 +161,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_11f72e1d",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "No, but I think this would be our change to have *one* consistent access pattern across all of Gerrit :) We are already touching a lot of URL-related code so making this consistent would be good I think.",
+      "parentUuid": "2dc74f2e_8e321b4e",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 29
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_ae2fd7e2",
         "filename": "Documentation/url-schema.txt",
         "patchSetId": 1
@@ -130,6 +196,30 @@
       "writtenOn": "2016-12-01T08:00:48Z",
       "side": 1,
       "message": "Comment from Luca: Again, don\u0027t like the \u0027+\u0027 here if we do not really need it.",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_d1f0c622",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "Same as above :)",
+      "parentUuid": "2dc74f2e_ae2fd7e2",
       "range": {
         "startLine": 44,
         "startChar": 23,
@@ -165,6 +255,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_4ff511d4",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_4ea2f34c",
+      "range": {
+        "startLine": 60,
+        "startChar": 50,
+        "endLine": 60,
+        "endChar": 60
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_2c61b3bb",
         "filename": "Documentation/url-schema.txt",
         "patchSetId": 1
@@ -176,6 +290,24 @@
       "writtenOn": "2016-12-02T23:34:38Z",
       "side": 1,
       "message": "we could replace the global change number by a change number per project. This would have the following advantages:\n* incrementing the change number doesn\u0027t require synchronisation across servers\n* when sequence numbers are project-local renaming and copying projects should become easier",
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_af06f5fa",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "Yes. We have discussed about that on the last hackathon in MTV and found the idea appealing. However, the notes branch is currently based on the change number and people clone it and rely on that. Changing this just for the sake of having a lower number in the URL seemed to be too little benefit.\n\nBut I am happy to discuss this further.",
+      "parentUuid": "edcc5755_2c61b3bb",
       "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -205,6 +337,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_f1edc245",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "edcc5755_ccb58f82",
+      "range": {
+        "startLine": 70,
+        "startChar": 42,
+        "endLine": 70,
+        "endChar": 58
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_ecb2cb97",
         "filename": "Documentation/url-schema.txt",
         "patchSetId": 1
@@ -216,6 +372,30 @@
       "writtenOn": "2016-12-01T08:00:48Z",
       "side": 1,
       "message": "Comment from Luca: Not static, but immutable for sure.",
+      "range": {
+        "startLine": 72,
+        "startChar": 144,
+        "endLine": 72,
+        "endChar": 157
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_91ea3e2b",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_ecb2cb97",
       "range": {
         "startLine": 72,
         "startChar": 144,
@@ -267,6 +447,54 @@
         "startChar": 29,
         "endLine": 75,
         "endChar": 42
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_2ff445d5",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": ":)",
+      "parentUuid": "edcc5755_8cbf875e",
+      "range": {
+        "startLine": 75,
+        "startChar": 29,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_b1e73a64",
+        "filename": "Documentation/url-schema.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T13:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_acbcc369",
+      "range": {
+        "startLine": 75,
+        "startChar": 83,
+        "endLine": 75,
+        "endChar": 97
       },
       "revId": "5aa4a4d82e6f9b75d80c3255088fbba3b15bbb0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_54b18294",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T23:58:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d05c749_b3a60292",
+      "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_53923637",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "I can see Viktar\u0027s point. It\u0027s safer to get logic that\u0027s known to \"work\" in place, build some tests to verify, and *then* refactor it. No reason that last step can\u0027t occur in a later change.",
       "parentUuid": "6d05c749_73dbfa0a",
+      "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_b4b54e83",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T23:58:21Z",
+      "side": 1,
+      "message": "Not feeling strongly, so went ahead and refactored it a bit.\nLet me know if this looks better.",
+      "parentUuid": "6d05c749_f3ceca43",
       "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

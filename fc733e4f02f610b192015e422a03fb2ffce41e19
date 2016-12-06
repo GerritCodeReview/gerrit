@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_f1db82d5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T09:25:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_b1bc1a6a",
+      "range": {
+        "startLine": 88,
+        "startChar": 14,
+        "endLine": 88,
+        "endChar": 18
+      },
+      "revId": "fc733e4f02f610b192015e422a03fb2ffce41e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_d1b52682",
         "filename": "plugins/replication",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Not sure if it should be updated at all, actually.  It\u0027ll be done automatically when the plugin change is merged.\n\nOr do we need to do it explicitly to get it in CI?",
       "parentUuid": "2dc74f2e_d1b52682",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "fc733e4f02f610b192015e422a03fb2ffce41e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_b1d5faa3",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-06T09:25:21Z",
+      "side": 1,
+      "message": "I think it should not be updated at all",
+      "parentUuid": "edcc5755_8f3779f7",
       "range": {
         "startLine": 1,
         "startChar": 18,

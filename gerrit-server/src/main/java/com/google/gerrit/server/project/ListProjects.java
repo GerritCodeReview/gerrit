@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GroupReference;
@@ -378,9 +377,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             log.warn("Unexpected error reading " + projectName, err);
             continue;
           }
-          FluentIterable<WebLinkInfo> links =
+          List<WebLinkInfo> links =
               webLinks.getProjectLinks(projectName.get());
-          info.webLinks = links.isEmpty() ? null : links.toList();
+          info.webLinks = links.isEmpty() ? null : links;
         }
 
         if (foundIndex++ < start) {

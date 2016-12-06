@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -191,10 +190,10 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
       info.actions.put(d.getId(), new ActionInfo(d));
     }
-    FluentIterable<WebLinkInfo> links =
+    List<WebLinkInfo> links =
         webLinks.getBranchLinks(
             refControl.getProjectControl().getProject().getName(), ref.getName());
-    info.webLinks = links.isEmpty() ? null : links.toList();
+    info.webLinks = links.isEmpty() ? null : links;
     return info;
   }
 }

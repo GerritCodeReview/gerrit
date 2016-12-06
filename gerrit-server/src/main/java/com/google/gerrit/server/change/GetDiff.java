@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -207,7 +206,7 @@ public class GetDiff implements RestReadView<FileResource> {
            ? resource.getRevision().getEdit().get().getRefName()
            : resource.getRevision().getPatchSet().getRefName();
 
-      FluentIterable<DiffWebLinkInfo> links =
+      List<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(state.getProject().getName(),
               resource.getPatchKey().getParentKey().getParentKey().get(),
               basePatchSet != null ? basePatchSet.getId().get() : null,
@@ -216,7 +215,7 @@ public class GetDiff implements RestReadView<FileResource> {
               resource.getPatchKey().getParentKey().get(),
               revB,
               ps.getNewName());
-      result.webLinks = links.isEmpty() ? null : links.toList();
+      result.webLinks = links.isEmpty() ? null : links;
 
       if (!webLinksOnly) {
         if (ps.isBinary()) {
@@ -281,9 +280,9 @@ public class GetDiff implements RestReadView<FileResource> {
 
   private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
       String file) {
-    FluentIterable<WebLinkInfo> links =
+    List<WebLinkInfo> links =
         webLinks.getFileLinks(project.getName(), rev, file);
-    return links.isEmpty() ? null : links.toList();
+    return links.isEmpty() ? null : links;
   }
 
   public GetDiff setBase(String base) {

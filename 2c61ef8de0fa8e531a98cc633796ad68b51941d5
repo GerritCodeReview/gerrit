@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d05c749_50f4ecd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T00:03:35Z",
+      "side": 1,
+      "message": "I wonder if this should happen after we ensure that user is logged in.",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_b0e8b8f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T00:03:35Z",
+      "side": 1,
+      "message": "This could be reduced to 3 lines, but Safari doesn\u0027t support Object.values 😩",
+      "range": {
+        "startLine": 539,
+        "startChar": 6,
+        "endLine": 545,
+        "endChar": 7
+      },
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_d0df3c50",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T00:03:35Z",
+      "side": 1,
+      "message": "Side note: getChangeDetail is costly, and if you only need patchsets, you could use GET /change/num",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_b109e0df",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T00:03:35Z",
+      "side": 1,
+      "message": "Shouldn\u0027t rev \u003d\u003d\u003d this._selectedPatchSet?\nThis is confusing.",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_705c900a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T00:03:35Z",
+      "side": 1,
+      "message": "Perhaps .then should go on a new line, since I was asked to do same thing at some point.",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_105704ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T00:03:35Z",
+      "side": 1,
+      "message": "I wonder if you could use :host instead of a wrapper for the same purpose.",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_305208fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T00:03:35Z",
+      "side": 1,
+      "message": "In other places in this file, we use \u0027set\u0027 instead of \u0027put\u0027, so I\u0027d vote for either using that or changing other instances.",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

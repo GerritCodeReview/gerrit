@@ -14,6 +14,35 @@
 (function() {
   'use strict';
 
+  /**
+   * @enum {number}
+   */
+  var LabelStatus = {
+    /**
+     * This label provides what is necessary for submission.
+     */
+    OK: 'OK',
+    /**
+     * This label prevents the change from being submitted.
+     */
+    REJECT: 'REJECT',
+    /**
+     * The label may be set, but it's neither necessary for submission
+     * nor does it block submission if set.
+     */
+    MAY: 'MAY',
+    /**
+     * The label is required for submission, but has not been satisfied.
+     */
+    NEED: 'NEED',
+    /**
+     * The label is required for submission, but is impossible to complete.
+     * The likely cause is access has not been granted correctly by the
+     * project owner or site administrator.
+     */
+    IMPOSSIBLE: 'IMPOSSIBLE',
+  };
+
   // TODO(davido): Add the rest of the change actions.
   var ChangeActions = {
     ABANDON: 'abandon',
@@ -263,59 +292,64 @@
       return actions;
     },
 
-    _getMaxScoreTextForLabel: function(label) {
-      if (!this.change ||
-          !this.change.permitted_labels ||
-          !this.change.permitted_labels[label] ||
-          !this.change.permitted_labels[label].length) {
-        return null;
+    _getLabelStatus: function(label) {
+      if (!!label.approved) {
+        return LabelStatus.OK;
+      } else if (!!label.rejected) {
+        return LabelStatus.REJECT;
+      } else if (!!label.optional) {
+        return LabelStatus.OPTIONAL;
+      } else {
+        return LabelStatus.NEED;
       }
-      return this.change.permitted_labels[label].slice(-1)[0];
-    },
-
-    _getMaxScoreForLabel: function(label) {
-      return parseInt(this._getMaxScoreTextForLabel(label), 10);
     },
 
     /**
-     * Get highest score for missing permitted label for current change.
+     * Get highest score for last missing permitted label for current change.
+     * Returns null if no labels permitted or more than one label missing.
      *
      * @return {{label: string, score: string}}
      */
     _getTopMissingApproval: function() {
-      var change = this.change;
-      if (!change || !change.labels || !change.permitted_labels) {
+      if (!this.change ||
+          !this.change.labels ||
+          !this.change.permitted_labels) {
         return null;
       }
-
-      // Use only labels that satisfy all of following:
-      // - label scoring is permitted.
-      // - label is not approved yet.
-      // - label score is less than max permitted.
-      var missingApprovals = Object.keys(change.labels)
-          .filter(function(label) {
-            return label in change.permitted_labels &&
-                !change.labels[label].approved &&
-                (change.labels[label].value == null ||
-                  change.labels[label].value <
-                    this._getMaxScoreForLabel(label));
-          }.bind(this))
-          .sort(function(a, b) {
-            // Sort descending by max permitted score.
-            return this._getMaxScoreForLabel(b) - this._getMaxScoreForLabel(a);
-          }.bind(this));
-      if (!missingApprovals.length) {
-        return null;
+      var result;
+      for (var label in this.change.labels) {
+        if (!(label in this.change.permitted_labels)) {
+          continue;
+        }
+        if (this.change.permitted_labels[label].length === 0) {
+          continue;
+        }
+        var status = this._getLabelStatus(this.change.labels[label]);
+        if (status === LabelStatus.NEED) {
+          if (result) {
+            // More than one label is missing, so it's unclear which to quick
+            // approve, return null;
+            return null;
+          }
+          result = label;
+        } else if (status === LabelStatus.REJECT ||
+                   status === LabelStatus.IMPOSSIBLE) {
+          return null;
+        }
       }
-      var score = this._getMaxScoreForLabel(missingApprovals[0]);
-      // Guard against votes that fail to parse as integers. (Shouldn't happen.)
-      if (isNaN(score) || score <= 0) {
-        return null;
+      if (result) {
+        var score = this.change.permitted_labels[result].slice(-1)[0];
+        var maxScore =
+            Object.keys(this.change.labels[result].values).slice(-1)[0];
+        if (score === maxScore) {
+          // Allow quick approve only for maximal score.
+          return {
+            label: result,
+            score: score,
+          };
+        }
       }
-      return {
-        label: missingApprovals[0],
-        score: this._getMaxScoreTextForLabel(missingApprovals[0]),
-      };
+      return null;
     },
 
     _getQuickApproveAction: function() {

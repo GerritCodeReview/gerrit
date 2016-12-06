@@ -505,10 +505,16 @@ limitations under the License.
         element.change = {
           current_revision: 'abc1234',
           labels: {
-            foo: {},
+            foo: {
+              values: {
+                '-1': '',
+                ' 0': '',
+                '+1': '',
+              },
+            },
           },
           permitted_labels: {
-            foo: ['-1', '0', '+1'],
+            foo: ['-1', ' 0', '+1'],
           },
         };
         flushAsynchronousOperations();
@@ -530,10 +536,11 @@ limitations under the License.
           labels: {
             foo: {
               approved: {},
+              values: {},
             },
           },
           permitted_labels: {
-            foo: [],
+            foo: [' 0', '+1'],
           },
         };
         flushAsynchronousOperations();
@@ -545,7 +552,7 @@ limitations under the License.
         element.change = {
           current_revision: 'abc1234',
           labels: {
-            foo: {},
+            foo: {values: {}},
           },
           permitted_labels: {
             bar: [],
@@ -568,12 +575,12 @@ limitations under the License.
         fireActionStub.restore();
       });
 
-      test('higher permitted score has priority', function() {
+      test('not added when multiple labels are required', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
-            foo: {},
-            bar: {},
+            foo: {values: {}},
+            bar: {values: {}},
           },
           permitted_labels: {
             foo: [' 0', '+1'],
@@ -582,15 +589,20 @@ limitations under the License.
         };
         flushAsynchronousOperations();
         var approveButton = element.$$('gr-button[data-action-key=\'review\']');
-        assert.equal(approveButton.getAttribute('data-label'), 'bar+2');
+        assert.isNull(approveButton);
       });
 
       test('button label for missing approval', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
-            foo: {},
-            bar: {approved: {}},
+            foo: {
+              values: {
+                ' 0': '',
+                '+1': '',
+              },
+            },
+            bar: {approved: {}, values: {}},
           },
           permitted_labels: {
             foo: [' 0', '+1'],
@@ -602,11 +614,18 @@ limitations under the License.
         assert.equal(approveButton.getAttribute('data-label'), 'foo+1');
       });
 
-      test('non-approving score', function() {
+      test('no quick approve if score is not maximal for a label', function() {
         element.change = {
           current_revision: 'abc1234',
           labels: {
-            bar: {value: 1},
+            bar: {
+              value: 1,
+              values: {
+                ' 0': '',
+                '+1': '',
+                '+2': '',
+              },
+            },
           },
           permitted_labels: {
             bar: [' 0', '+1'],
@@ -621,7 +640,14 @@ limitations under the License.
         element.change = {
           current_revision: 'abc1234',
           labels: {
-            bar: {value: 1},
+            bar: {
+              value: 1,
+              values: {
+                ' 0': '',
+                '+1': '',
+                '+2': '',
+              },
+            },
           },
           permitted_labels: {
             bar: [' 0', '+1', '+2'],

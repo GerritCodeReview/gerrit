@@ -45,6 +45,40 @@
       "revId": "3c4182132c53845fb6410315fbd16b17e9d56492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_0f8b8971",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/GenericHtmlParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T10:42:30Z",
+      "side": 1,
+      "message": "This method is not used.",
+      "revId": "3c4182132c53845fb6410315fbd16b17e9d56492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_2f90c59c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/HtmlParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T10:42:30Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "3c4182132c53845fb6410315fbd16b17e9d56492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

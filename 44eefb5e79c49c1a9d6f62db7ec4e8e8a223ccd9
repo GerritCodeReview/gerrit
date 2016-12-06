@@ -22,6 +22,24 @@
       "revId": "44eefb5e79c49c1a9d6f62db7ec4e8e8a223ccd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_33b852ab",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-06T20:21:05Z",
+      "side": 1,
+      "message": "You are correct. See fix: https://gerrit-review.googlesource.com/c/92503/",
+      "parentUuid": "edcc5755_0c0077b3",
+      "revId": "44eefb5e79c49c1a9d6f62db7ec4e8e8a223ccd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

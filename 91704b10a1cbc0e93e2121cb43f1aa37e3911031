@@ -68,6 +68,24 @@
       "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed5537ad_c492be39",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-06T20:55:08Z",
+      "side": 1,
+      "message": "This block is essentially a copy-paste from GWT UI\u0027s getMissingLabelIndex():\nhttps://gerrit.googlesource.com/gerrit/+/master/gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java#191\n\nThere are bunch of improvements that could be done here, but at the moment I\u0027m just trying to get code into a stable condition to avoid spawning more bugs.\nI\u0027d keep it this way at the moment, and at some point extract and refactor it heavily.",
+      "parentUuid": "8d04bb4e_d428d2f4",
+      "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

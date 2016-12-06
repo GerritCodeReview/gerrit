@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_2f42055d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/send/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-06T09:32:29Z",
+      "side": 1,
+      "message": "SERVER, and more cases below :-)",
+      "range": {
+        "startLine": 239,
+        "startChar": 14,
+        "endLine": 239,
+        "endChar": 20
+      },
+      "revId": "84f256e6d9dcce4383a90477692b4a8e61fe68c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

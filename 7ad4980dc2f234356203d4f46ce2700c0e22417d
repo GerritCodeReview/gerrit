@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2df3cfac_6e1e6f8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteRef.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T11:01:00Z",
+      "side": 1,
+      "message": "Should check if this can be done as an interface with assisted injection on the DeleteRef constructor.",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "7ad4980dc2f234356203d4f46ce2700c0e22417d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

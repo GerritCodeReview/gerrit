@@ -186,6 +186,22 @@
       }.bind(this), 1);
     },
 
+    _handleCommentFix: function(e) {
+      var comment = e.detail.comment;
+      var msg = comment.message;
+      var quoteStr = msg.split('\n').map(
+          function(line) { return '> ' + line; }).join('\n') + '\n\n';
+      var response = quoteStr + 'Please Fix';
+      var reply = this._newReply(comment.id, comment.line, response);
+      this.push('comments', reply);
+
+      // Allow the reply to render in the dom-repeat.
+      this.async(function() {
+        var commentEl = this._commentElWithDraftID(reply.__draftID);
+        commentEl.save();
+      }.bind(this), 1);
+    },
+
     _commentElWithDraftID: function(id) {
       var els = Polymer.dom(this.root).querySelectorAll('gr-diff-comment');
       for (var i = 0; i < els.length; i++) {

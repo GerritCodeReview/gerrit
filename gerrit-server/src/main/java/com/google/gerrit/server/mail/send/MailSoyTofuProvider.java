@@ -66,6 +66,8 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
     "RestoredHtml.soy",
     "Reverted.soy",
     "RevertedHtml.soy",
+    "SetAssignee.soy",
+    "SetAssigneeHtml.soy",
   };
 
   private final SitePaths site;

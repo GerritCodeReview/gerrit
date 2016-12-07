@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.inject.TypeLiteral;
 
-public class BranchResource extends ProjectResource {
+public class BranchResource extends RefResource {
   public static final TypeLiteral<RestView<BranchResource>> BRANCH_KIND =
       new TypeLiteral<RestView<BranchResource>>() {};
 
@@ -38,10 +38,12 @@ public class BranchResource extends ProjectResource {
     return new Branch.NameKey(getNameKey(), branchInfo.ref);
   }
 
+  @Override
   public String getRef() {
     return branchInfo.ref;
   }
 
+  @Override
   public String getRevision() {
     return branchInfo.revision;
   }

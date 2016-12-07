@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_d2b52482",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T16:30:05Z",
+      "side": 1,
+      "message": "We have another class named RangeSubject that is quite similar to this, added in [1].  Can we combine them to one class?\n\n[1] https://gerrit-review.googlesource.com/#/c/92634/",
+      "revId": "e619a75fc7d8e24a8136c7c4c787711f86fc7b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_f2b2a097",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T16:30:05Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 19,
+        "startChar": 31,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "e619a75fc7d8e24a8136c7c4c787711f86fc7b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_92bf9c5e",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T16:30:05Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 21,
+        "startChar": 31,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "e619a75fc7d8e24a8136c7c4c787711f86fc7b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_94878cf9",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T16:30:05Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 24,
+        "startChar": 31,
+        "endLine": 24,
+        "endChar": 36
+      },
+      "revId": "e619a75fc7d8e24a8136c7c4c787711f86fc7b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

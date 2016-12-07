@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_9335be3a",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-07T19:45:01Z",
+      "side": 1,
+      "message": "I see what you mean about omitting hyphens looking odd, but here\u0027s my reasoning for why we still don\u0027t use them.\n\n* We should match the format used in existing code. (Most important reason.)\n* Documentation comments without hyphens are customary in JavaDoc, and thus are not so unusual.\n* JSDoc is a formal language (rather than a natural one) and should not be expected to read like English.",
+      "parentUuid": "6d05c749_f359aaa6",
+      "revId": "e1fe9d823ca5e1d24716fb7788e5e120a7e15aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_73f13a76",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 7

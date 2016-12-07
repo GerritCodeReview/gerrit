@@ -601,6 +601,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_9136bea2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-07T13:01:21Z",
+      "side": 1,
+      "message": "OK, maybe in the long run it would be nice if the users gets an email reply saying that the Gerrit failed to process the email. This way at least the users that something went wrong.",
+      "parentUuid": "edcc5755_af97d531",
+      "range": {
+        "startLine": 130,
+        "startChar": 12,
+        "endLine": 131,
+        "endChar": 39
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_31982a04",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
         "patchSetId": 1

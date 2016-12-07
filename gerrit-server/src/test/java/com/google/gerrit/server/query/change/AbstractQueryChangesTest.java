@@ -1728,8 +1728,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     List<String> expectedPatterns = Lists.newArrayList(
         "repo:refs/users/*/edit-" + c + "/*");
+    expectedPatterns.add("All-Users:refs/starred-changes/" + cs + "/*");
     if (notesMigration.readChanges()) {
-      expectedPatterns.add("All-Users:refs/starred-changes/" + cs + "/*");
       expectedPatterns.add("All-Users:refs/draft-comments/" + cs + "/*");
     }
     assertThat(

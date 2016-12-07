@@ -1009,11 +1009,11 @@ public class ChangeField {
           result.add(RefStatePattern.create(
                   RefNames.REFS_USERS + "*/" + RefNames.EDIT_PREFIX + id + "/*")
               .toByteArray(project));
+          result.add(
+              RefStatePattern.create(
+                  RefNames.refsStarredChangesPrefix(id) + "*")
+              .toByteArray(args.allUsers));
           if (PrimaryStorage.of(input.change()) == PrimaryStorage.NOTE_DB) {
-            result.add(
-                RefStatePattern.create(
-                    RefNames.refsStarredChangesPrefix(id) + "*")
-                .toByteArray(args.allUsers));
             result.add(RefStatePattern.create(
                     RefNames.refsDraftCommentsPrefix(id) + "*")
                 .toByteArray(args.allUsers));

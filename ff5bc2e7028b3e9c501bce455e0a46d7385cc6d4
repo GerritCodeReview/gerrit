@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_31fcaafc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:44:52Z",
+      "side": 1,
+      "message": "As createChange() does more than just create an object, it should have an own line in my opinion.",
+      "parentUuid": "4d0ac35e_0fa7e55b",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 42
+      },
+      "revId": "ff5bc2e7028b3e9c501bce455e0a46d7385cc6d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0ac35e_2fa2a94b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Yes, I also prefer to avoid the \u0027test\u0027 prefix.",
       "parentUuid": "4d0ac35e_2fa2a94b",
+      "range": {
+        "startLine": 47,
+        "startChar": 14,
+        "endLine": 47,
+        "endChar": 18
+      },
+      "revId": "ff5bc2e7028b3e9c501bce455e0a46d7385cc6d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_0fef0902",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:44:52Z",
+      "side": 1,
+      "message": "Done\n\nI additionally removed the \u0027test\u0027 prefix of all tests which are added to this class within change https://gerrit-review.googlesource.com/92634 .",
+      "parentUuid": "edcc5755_af603514",
       "range": {
         "startLine": 47,
         "startChar": 14,

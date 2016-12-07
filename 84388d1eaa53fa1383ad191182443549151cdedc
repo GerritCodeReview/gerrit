@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_d2abe450",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-07T11:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_8f60f526",
+      "range": {
+        "startLine": 29,
+        "startChar": 34,
+        "endLine": 29,
+        "endChar": 49
+      },
+      "revId": "84388d1eaa53fa1383ad191182443549151cdedc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2df3cfac_0e19aba2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2016-12-07T10:59:19Z",
       "side": 1,
       "message": "does the sender need to get reset in this test?  or is it done in the base class?",
+      "range": {
+        "startLine": 64,
+        "startChar": 15,
+        "endLine": 64,
+        "endChar": 21
+      },
+      "revId": "84388d1eaa53fa1383ad191182443549151cdedc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_1175ee72",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-07T11:02:34Z",
+      "side": 1,
+      "message": "It\u0027s done by the base class before each test:\n  https://gerrit.googlesource.com/gerrit/+/refs/heads/master/gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java#299",
+      "parentUuid": "2df3cfac_0e19aba2",
       "range": {
         "startLine": 64,
         "startChar": 15,

@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_d36aa602",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-07T22:54:02Z",
+      "side": 1,
+      "message": "Bump",
+      "parentUuid": "6d05c749_53923637",
+      "revId": "91704b10a1cbc0e93e2121cb43f1aa37e3911031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_d428d2f4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1

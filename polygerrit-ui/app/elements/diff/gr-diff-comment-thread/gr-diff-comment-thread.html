@@ -25,7 +25,6 @@ limitations under the License.
         background-color: #ffd;
         border: 1px solid #bbb;
         display: block;
-        padding: 0 .7em;
         white-space: normal;
       }
     </style>
@@ -38,10 +37,11 @@ limitations under the License.
             draft="[[comment.__draft]]"
             show-actions="[[_showActions]]"
             project-config="[[projectConfig]]"
-            on-reply="_handleCommentReply"
             on-comment-discard="_handleCommentDiscard"
-            on-ack="_handleCommentAck"
-            on-done="_handleCommentDone"></gr-diff-comment>
+            on-create-ack-comment="_handleCommentAck"
+            on-create-done-comment="_handleCommentDone"
+            on-create-fix-comment="_handleCommentFix"
+            on-create-reply-comment="_handleCommentReply"></gr-diff-comment>
       </template>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -152,7 +152,7 @@ limitations under the License.
     test('reply', function(done) {
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('reply', function() {
+      commentEl.addEventListener('create-reply-comment', function() {
         var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
         });
@@ -161,13 +161,14 @@ limitations under the License.
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         done();
       });
-      commentEl.fire('reply', {comment: commentEl.comment}, {bubbles: false});
+      commentEl.fire('create-reply-comment', {comment: commentEl.comment},
+          {bubbles: false});
     });
 
     test('quote reply', function(done) {
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('reply', function() {
+      commentEl.addEventListener('create-reply-comment', function() {
         var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
         });
@@ -176,8 +177,8 @@ limitations under the License.
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         done();
       });
-      commentEl.fire('reply', {comment: commentEl.comment, quote: true},
-          {bubbles: false});
+      commentEl.fire('create-reply-comment', {comment: commentEl.comment,
+          quote: true}, {bubbles: false});
     });
 
     test('ack', function(done) {
@@ -185,7 +186,7 @@ limitations under the License.
       element.patchNum = '1';
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('ack', function() {
+      commentEl.addEventListener('create-ack-comment', function() {
         var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
         });
@@ -194,7 +195,8 @@ limitations under the License.
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         done();
       });
-      commentEl.fire('ack', {comment: commentEl.comment}, {bubbles: false});
+      commentEl.fire('create-ack-comment', {comment: commentEl.comment},
+          {bubbles: false});
     });
 
     test('done', function(done) {
@@ -202,7 +204,7 @@ limitations under the License.
       element.patchNum = '1';
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('done', function() {
+      commentEl.addEventListener('create-done-comment', function() {
         var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
         });
@@ -211,7 +213,27 @@ limitations under the License.
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         done();
       });
-      commentEl.fire('done', {comment: commentEl.comment}, {bubbles: false});
+      commentEl.fire('create-done-comment', {comment: commentEl.comment},
+          {bubbles: false});
+    });
+
+    test('please fix', function(done) {
+      element.changeNum = '42';
+      element.patchNum = '1';
+      var commentEl = element.$$('gr-diff-comment');
+      assert.ok(commentEl);
+      commentEl.addEventListener('create-fix-comment', function() {
+        var drafts = element._orderedComments.filter(function(c) {
+          return c.__draft == true;
+        });
+        assert.equal(drafts.length, 1);
+        assert.equal(
+            drafts[0].message, '> is this a crossover episode!?\n\nPlease Fix');
+        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+        done();
+      });
+      commentEl.fire('create-fix-comment', {comment: commentEl.comment},
+          {bubbles: false});
     });
 
     test('discard', function(done) {

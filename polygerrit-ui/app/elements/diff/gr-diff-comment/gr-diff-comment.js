@@ -22,19 +22,25 @@
     /**
      * Fired when the Reply action is triggered.
      *
-     * @event reply
+     * @event create-reply-comment
      */
 
     /**
      * Fired when the Ack action is triggered.
      *
-     * @event ack
+     * @event create-ack-comment
      */
 
     /**
      * Fired when the Done action is triggered.
      *
-     * @event done
+     * @event create-done-comment
+     */
+
+    /**
+     * Fired when the create fix comment action is triggered.
+     *
+     * @event create-fix-comment
      */
 
     /**
@@ -70,6 +76,11 @@
         notify: true,
         observer: '_commentChanged',
       },
+      isRobotComment: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       disabled: {
         type: Boolean,
         value: false,
@@ -85,8 +96,11 @@
         value: false,
         observer: '_editingChanged',
       },
+      hasChildren: Boolean,
       patchNum: String,
       showActions: Boolean,
+      _showHumanActions: Boolean,
+      _showRobotActions: Boolean,
       collapsed: {
         type: Boolean,
         value: true,
@@ -105,6 +119,8 @@
     observers: [
       '_commentMessageChanged(comment.message)',
       '_loadLocalDraft(changeNum, patchNum, comment)',
+      '_isRobotComment(comment)',
+      '_calculateActionstoShow(showActions, isRobotComment)',
     ],
 
     attached: function() {
@@ -119,6 +135,15 @@
 
     _computeShowHideText: function(collapsed) {
       return collapsed ? '◀' : '▼';
+    },
+
+    _calculateActionstoShow: function(showActions, isRobotComment) {
+      this._showHumanActions = showActions && !isRobotComment;
+      this._showRobotActions = showActions && isRobotComment;
+    },
+
+    _isRobotComment: function(comment) {
+      this.isRobotComment = !!comment.robot_id;
     },
 
     save: function() {
@@ -290,23 +315,29 @@
 
     _handleReply: function(e) {
       e.preventDefault();
-      this.fire('reply', this._getEventPayload(), {bubbles: false});
+      this.fire('create-reply-comment', this._getEventPayload(), {bubbles: false});
     },
 
     _handleQuote: function(e) {
       e.preventDefault();
       this.fire(
-          'reply', this._getEventPayload({quote: true}), {bubbles: false});
+          'create-reply-comment', this._getEventPayload({quote: true}), {bubbles: false});
+    },
+
+    _handleFix: function(e) {
+      e.preventDefault();
+      this.fire('create-fix-comment', this._getEventPayload({quote: true}),
+          {bubbles: false});
     },
 
     _handleAck: function(e) {
       e.preventDefault();
-      this.fire('ack', this._getEventPayload(), {bubbles: false});
+      this.fire('create-ack-comment', this._getEventPayload(), {bubbles: false});
     },
 
     _handleDone: function(e) {
       e.preventDefault();
-      this.fire('done', this._getEventPayload(), {bubbles: false});
+      this.fire('create-done-comment', this._getEventPayload(), {bubbles: false});
     },
 
     _handleEdit: function(e) {

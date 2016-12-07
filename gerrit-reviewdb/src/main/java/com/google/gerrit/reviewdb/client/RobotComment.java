@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -23,6 +24,7 @@ public class RobotComment extends Comment {
   public String robotRunId;
   public String url;
   public Map<String, String> properties;
+  public List<FixSuggestion> fixSuggestions;
 
   public RobotComment(Key key, Account.Id author, Timestamp writtenOn,
       short side, String message, String serverId, String robotId,
@@ -54,6 +56,8 @@ public class RobotComment extends Comment {
         .append("tag=").append(Objects.toString(tag, "")).append(',')
         .append("url=").append(url).append(',')
         .append("properties=").append(properties != null ? properties : "")
+        .append("fixSuggestions=")
+            .append(fixSuggestions != null ? fixSuggestions : "")
         .append('}')
         .toString();
   }

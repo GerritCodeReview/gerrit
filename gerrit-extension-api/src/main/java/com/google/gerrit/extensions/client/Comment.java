@@ -41,6 +41,15 @@ public abstract class Comment {
     public int endLine;
     public int endCharacter;
 
+    public boolean isValid() {
+      return startLine >= 0
+          && startCharacter >= 0
+          && endLine >= 0
+          && endCharacter >= 0
+          && startLine <= endLine
+          && (startLine != endLine || startCharacter <= endCharacter);
+    }
+
     @Override
     public boolean equals(Object o) {
       if (o instanceof Range) {
@@ -56,6 +65,16 @@ public abstract class Comment {
     @Override
     public int hashCode() {
       return Objects.hash(startLine, startCharacter, endLine, endCharacter);
+    }
+
+    @Override
+    public String toString() {
+      return "Range{" +
+          "startLine=" + startLine +
+          ", startCharacter=" + startCharacter +
+          ", endLine=" + endLine +
+          ", endCharacter=" + endCharacter +
+          '}';
     }
   }
 

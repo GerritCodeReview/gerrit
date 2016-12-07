@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
 import java.util.ArrayList;
@@ -103,6 +104,7 @@ public class ReviewInput {
     public String robotRunId;
     public String url;
     public Map<String, String> properties;
+    public List<FixSuggestionInfo> fixSuggestions;
   }
 
   public ReviewInput message(String msg) {

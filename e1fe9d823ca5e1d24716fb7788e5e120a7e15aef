@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_73ac9a3c",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-07T19:53:58Z",
+      "side": 1,
+      "message": "Yeah, it is a formal language. Hyphens are in the definition.\nhttp://usejsdoc.org/tags-param.html\n\nAnd are used by default in the rest of the official documentation.\nhttp://usejsdoc.org/about-getting-started.html\n\nIf we had a typo throughout the whole codebase, we\u0027d fix it, rather than ensuring contributions match the misspelling forevermore.\n\nI\u0027m not trying to be prickly, but I\u0027m right on this.",
+      "parentUuid": "6d05c749_9335be3a",
+      "revId": "e1fe9d823ca5e1d24716fb7788e5e120a7e15aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_73f13a76",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 7

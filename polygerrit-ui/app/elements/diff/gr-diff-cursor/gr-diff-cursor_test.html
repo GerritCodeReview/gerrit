@@ -70,6 +70,10 @@ limitations under the License.
         return Promise.resolve({baseComments: [], comments: []});
       });
 
+      sinon.stub(diffElement, '_getDiffRobotComments', function() {
+        return Promise.resolve({baseComments: [], comments: []});
+      });
+
       var setupDone = function() {
         cursorElement.moveToFirstChunk();
         done();

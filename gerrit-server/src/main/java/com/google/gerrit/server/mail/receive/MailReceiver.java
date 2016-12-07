@@ -22,6 +22,9 @@ import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -29,8 +32,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Callable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** MailReceiver implements base functionality for receiving emails. */
 public abstract class MailReceiver implements LifecycleListener {

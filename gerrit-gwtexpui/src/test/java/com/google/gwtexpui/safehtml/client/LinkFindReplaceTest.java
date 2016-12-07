@@ -16,8 +16,6 @@ package com.google.gwtexpui.safehtml.client;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gwtexpui.safehtml.client.LinkFindReplace;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

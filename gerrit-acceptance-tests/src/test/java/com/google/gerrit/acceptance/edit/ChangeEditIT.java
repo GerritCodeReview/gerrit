@@ -65,7 +65,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
-import org.apache.commons.codec.binary.StringUtils;
+import java.nio.charset.StandardCharsets;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -646,16 +646,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(modifier.modifyFile(edit.get(), FILE_NAME, RawInputUtil.create(CONTENT_NEW2)))
         .isEqualTo(RefUpdate.Result.FORCED);
-    edit = editUtil.byChange(change);
+    editUtil.byChange(change);
     RestResponse r = adminRestSession.getJsonAccept(urlEditFile());
     r.assertOK();
     assertThat(readContentFromJson(r)).isEqualTo(
-        StringUtils.newStringUtf8(CONTENT_NEW2));
+        new String(CONTENT_NEW2, StandardCharsets.UTF_8));
 
     r = adminRestSession.getJsonAccept(urlEditFile(true));
     r.assertOK();
     assertThat(readContentFromJson(r)).isEqualTo(
-        StringUtils.newStringUtf8(CONTENT_OLD));
+        new String(CONTENT_OLD, StandardCharsets.UTF_8));
   }
 
   @Test

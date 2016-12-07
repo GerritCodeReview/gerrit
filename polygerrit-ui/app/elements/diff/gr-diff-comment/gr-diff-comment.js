@@ -70,6 +70,11 @@
         notify: true,
         observer: '_commentChanged',
       },
+      isRobotComment: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       disabled: {
         type: Boolean,
         value: false,
@@ -85,8 +90,11 @@
         value: false,
         observer: '_editingChanged',
       },
+      hasChildren: Boolean,
       patchNum: String,
       showActions: Boolean,
+      _showHumanActions: Boolean,
+      _showRobotActions: Boolean,
       collapsed: {
         type: Boolean,
         value: true,
@@ -105,6 +113,8 @@
     observers: [
       '_commentMessageChanged(comment.message)',
       '_loadLocalDraft(changeNum, patchNum, comment)',
+      '_isRobotComment(comment)',
+      '_calculateActionstoShow(showActions, isRobotComment)',
     ],
 
     attached: function() {
@@ -119,6 +129,15 @@
 
     _computeShowHideText: function(collapsed) {
       return collapsed ? '◀' : '▼';
+    },
+
+    _calculateActionstoShow: function(showActions, isRobotComment) {
+      this._showHumanActions = showActions && !isRobotComment ? true : false;
+      this._showRobotActions = showActions && isRobotComment ? true : false;
+    },
+
+    _isRobotComment: function(comment) {
+      this.isRobotComment = comment.robot_id ? true : false;
     },
 
     save: function() {
@@ -299,6 +318,11 @@
           'reply', this._getEventPayload({quote: true}), {bubbles: false});
     },
 
+    _handleFix: function(e) {
+      e.preventDefault();
+      this.fire('fix', this._getEventPayload({quote: true}), {bubbles: false});
+    },
+
     _handleAck: function(e) {
       e.preventDefault();
       this.fire('ack', this._getEventPayload(), {bubbles: false});
@@ -360,6 +384,11 @@
             this.disabled = false;
             throw err;
           }.bind(this));
+    },
+
+    _handleNotHelpful: function(e) {
+      e.preventDefault();
+      this.fire('not-helpful-overlay', {comment: this.comment});
     },
 
     _saveDraft: function(draft) {

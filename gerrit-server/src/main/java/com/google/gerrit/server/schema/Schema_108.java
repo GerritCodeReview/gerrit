@@ -15,10 +15,9 @@
 package com.google.gerrit.server.schema;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -102,8 +101,10 @@ public class Schema_108 extends SchemaVersion {
       }
     }
 
-    Multimap<ObjectId, Ref> changeRefsBySha = ArrayListMultimap.create();
-    Multimap<ObjectId, PatchSet.Id> patchSetsBySha = ArrayListMultimap.create();
+    Multimap<ObjectId, Ref> changeRefsBySha =
+        MultimapBuilder.hashKeys().arrayListValues().build();
+    Multimap<ObjectId, PatchSet.Id> patchSetsBySha =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (Ref ref : refdb.getRefs(RefNames.REFS_CHANGES).values()) {
       ObjectId id = ref.getObjectId();
       if (ref.getObjectId() == null) {
@@ -154,7 +155,7 @@ public class Schema_108 extends SchemaVersion {
     SortedSet<NameKey> projects = repoManager.list();
     SortedSet<NameKey> nonExistentProjects = Sets.newTreeSet();
     SetMultimap<Project.NameKey, Change.Id> openByProject =
-        HashMultimap.create();
+        MultimapBuilder.hashKeys().hashSetValues().build();
     for (Change c : db.changes().all()) {
       Status status = c.getStatus();
       if (status != null && status.isClosed()) {

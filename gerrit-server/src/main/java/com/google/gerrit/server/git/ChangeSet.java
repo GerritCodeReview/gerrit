@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -85,7 +85,7 @@ public class ChangeSet {
   public Multimap<Branch.NameKey, ChangeData> changesByBranch()
       throws OrmException {
     ListMultimap<Branch.NameKey, ChangeData> ret =
-        ArrayListMultimap.create();
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : changeData.values()) {
       ret.put(cd.change().getDest(), cd);
     }

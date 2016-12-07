@@ -23,11 +23,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
@@ -280,7 +280,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // on author and timestamp.
     List<Event> events = new ArrayList<>();
     Multimap<Account.Id, DraftCommentEvent> draftCommentEvents =
-        ArrayListMultimap.create();
+        MultimapBuilder.hashKeys().arrayListValues().build();
 
     events.addAll(getHashtagsEvents(change, manager));
 

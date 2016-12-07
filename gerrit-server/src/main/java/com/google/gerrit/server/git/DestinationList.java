@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -27,7 +27,8 @@ import java.util.Set;
 
 public class DestinationList extends TabFile {
   public static final String DIR_NAME = "destinations";
-  private SetMultimap<String, Branch.NameKey> destinations = HashMultimap.create();
+  private SetMultimap<String, Branch.NameKey> destinations =
+      MultimapBuilder.hashKeys().hashSetValues().build();
 
   public Set<Branch.NameKey> getDestinations(String label) {
     return destinations.get(label);

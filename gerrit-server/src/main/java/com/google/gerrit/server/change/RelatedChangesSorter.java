@@ -19,11 +19,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -72,10 +72,10 @@ class RelatedChangesSorter {
 
     // Map of patch set -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =
-        ArrayListMultimap.create(in.size(), 3);
+        MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
     // Map of patch set -> immediate children.
     ListMultimap<PatchSetData, PatchSetData> children =
-        ArrayListMultimap.create(in.size(), 3);
+        MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
     // All other patch sets of the same change as startPs.
     List<PatchSetData> otherPatchSetsOfStart = new ArrayList<>();
 

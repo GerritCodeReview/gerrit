@@ -18,8 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.revwalk.RevFlag.UNINTERESTING;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -150,8 +148,8 @@ public class GroupCollector {
       Lookup groupLookup) {
     this.patchSetsBySha = patchSetsBySha;
     this.groupLookup = groupLookup;
-    groups = ArrayListMultimap.create();
-    groupAliases = HashMultimap.create();
+    groups = MultimapBuilder.hashKeys().arrayListValues().build();
+    groupAliases = MultimapBuilder.hashKeys().hashSetValues().build();
   }
 
   private static Multimap<ObjectId, PatchSet.Id> transformRefs(

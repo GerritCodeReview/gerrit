@@ -37,13 +37,13 @@ import static java.util.stream.Collectors.joining;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
@@ -175,7 +175,7 @@ class ChangeNotesParser {
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     changeMessagesByPatchSet = LinkedListMultimap.create();
-    comments = ArrayListMultimap.create();
+    comments = MultimapBuilder.hashKeys().arrayListValues().build();
     patchSets = Maps.newTreeMap(comparing(PatchSet.Id::get));
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
@@ -240,7 +240,8 @@ class ChangeNotesParser {
   }
 
   private Multimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
-    Multimap<PatchSet.Id, PatchSetApproval> result = ArrayListMultimap.create();
+    Multimap<PatchSet.Id, PatchSetApproval> result =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (PatchSetApproval a : approvals.values()) {
       if (!patchSets.containsKey(a.getPatchSetId())) {
         continue; // Patch set deleted or missing.

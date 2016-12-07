@@ -17,15 +17,16 @@ package com.google.gerrit.audit;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.CurrentUser;
 
 public class AuditEvent {
 
   public static final String UNKNOWN_SESSION_ID = "000000000000000000000000000";
-  protected static final Multimap<String, ?> EMPTY_PARAMS = HashMultimap.create();
+  protected static final Multimap<String, ?> EMPTY_PARAMS =
+      MultimapBuilder.hashKeys().hashSetValues().build();
 
   public final String sessionId;
   public final CurrentUser who;

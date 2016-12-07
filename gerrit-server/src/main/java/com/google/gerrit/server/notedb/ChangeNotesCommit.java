@@ -16,8 +16,8 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
 
@@ -118,7 +118,8 @@ public class ChangeNotesCommit extends RevCommit {
   public List<String> getFooterLineValues(FooterKey key) {
     if (footerLines == null) {
       List<FooterLine> src = getFooterLines();
-      footerLines = ArrayListMultimap.create(src.size(), 1);
+      footerLines =
+          MultimapBuilder.hashKeys(src.size()).arrayListValues(1).build();
       for (FooterLine fl : src) {
         footerLines.put(fl.getKey().toLowerCase(), fl.getValue());
       }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_4fad1181",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_317fcacb",
+      "range": {
+        "startLine": 42,
+        "startChar": 50,
+        "endLine": 42,
+        "endChar": 59
+      },
+      "revId": "3c4182132c53845fb6410315fbd16b17e9d56492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_6f6d6de0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-06T10:06:27Z",
       "side": 1,
       "message": "What about comments on the base for which the URL ends with \"@a\" + lineNbr?",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 9
+      },
+      "revId": "3c4182132c53845fb6410315fbd16b17e9d56492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_afbef5af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_6f6d6de0",
       "range": {
         "startLine": 91,
         "startChar": 8,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_6fb24de6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/GenericHtmlParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:20Z",
+      "side": 1,
+      "message": "It actually is. It implements a method defined in the parent class and needed for executing the test. All test methods are in the parent class but the parent class is annotated with @Ignore so only children run as tests.",
+      "parentUuid": "edcc5755_0f8b8971",
+      "revId": "3c4182132c53845fb6410315fbd16b17e9d56492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_2f90c59c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/HtmlParserTest.java",
         "patchSetId": 2
@@ -76,6 +142,24 @@
       "writtenOn": "2016-12-06T10:42:30Z",
       "side": 1,
       "message": "unused import",
+      "revId": "3c4182132c53845fb6410315fbd16b17e9d56492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_51a7f6f3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/mail/receive/HtmlParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_2f90c59c",
       "revId": "3c4182132c53845fb6410315fbd16b17e9d56492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

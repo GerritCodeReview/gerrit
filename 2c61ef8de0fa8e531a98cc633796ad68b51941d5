@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_13fc2e4e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-07T01:00:47Z",
+      "side": 1,
+      "message": "Ummm.. kind of..\n\nhttps://github.com/google/closure-library/blob/master/closure/goog/object/object.js#L232\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values\nThey are just different.\nI personally vote for conditional polyfills.",
+      "parentUuid": "6d05c749_70a770a2",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_d0df3c50",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -107,6 +125,24 @@
       "side": 1,
       "message": "This particular function is used to reload the entire change and load the most recent patchnum, so I don\u0027t think that\u0027s possible.",
       "parentUuid": "6d05c749_d0df3c50",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_f4bfd65c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-07T01:00:47Z",
+      "side": 1,
+      "message": "\u003e reload the entire change\n\nAhem. Well, there is a reload() already.. Is it a different kind of reload?",
+      "parentUuid": "6d05c749_50acec82",
       "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_4fc43153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T07:33:27Z",
+      "side": 1,
+      "message": "I remember seeing some other comments somewhere about removal of parent links (with it being intentional) but I can\u0027t remember where it was.\n\nAdding a new weblink type seems reasonable.  I don\u0027t think I\u0027ll have time to do it though.\n\nI\u0027ll abandon this commit.",
+      "parentUuid": "2dc74f2e_71c3129b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "f289a66f00266c9e879ccde789b1d66a9689f917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_f104e237",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1

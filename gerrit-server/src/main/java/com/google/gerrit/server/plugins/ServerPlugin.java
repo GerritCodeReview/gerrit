@@ -42,9 +42,9 @@ public class ServerPlugin extends Plugin {
   private final Path dataDir;
   private final String pluginCanonicalWebUrl;
   private final ClassLoader classLoader;
-  private Class<? extends Module> sysModule;
-  private Class<? extends Module> sshModule;
-  private Class<? extends Module> httpModule;
+  protected Class<? extends Module> sysModule;
+  protected Class<? extends Module> sshModule;
+  protected Class<? extends Module> httpModule;
 
   private Injector sysInjector;
   private Injector sshInjector;
@@ -61,13 +61,17 @@ public class ServerPlugin extends Plugin {
       Path dataDir,
       ClassLoader classLoader) throws InvalidPluginException {
     super(name, srcJar, pluginUser, snapshot,
-        Plugin.getApiType(getPluginManifest(scanner)));
+        scanner == null
+            ? ApiType.PLUGIN
+            : Plugin.getApiType(getPluginManifest(scanner)));
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
     this.scanner = scanner;
     this.dataDir = dataDir;
     this.classLoader = classLoader;
-    this.manifest = getPluginManifest(scanner);
-    loadGuiceModules(manifest, classLoader);
+    this.manifest = scanner == null ? null : getPluginManifest(scanner);
+    if (manifest != null) {
+      loadGuiceModules(manifest, classLoader);
+    }
   }
 
   private void loadGuiceModules(Manifest manifest, ClassLoader classLoader) throws InvalidPluginException {
@@ -92,7 +96,7 @@ public class ServerPlugin extends Plugin {
   }
 
   @SuppressWarnings("unchecked")
-  private static Class<? extends Module> load(String name, ClassLoader pluginLoader)
+  protected static Class<? extends Module> load(String name, ClassLoader pluginLoader)
       throws ClassNotFoundException {
     if (Strings.isNullOrEmpty(name)) {
       return null;

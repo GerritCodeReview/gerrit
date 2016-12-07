@@ -90,7 +90,8 @@ public abstract class Plugin {
     this.snapshot = snapshot;
     this.pluginUser = pluginUser;
     this.cacheKey = new Plugin.CacheKey(name);
-    this.disabled = srcPath.getFileName().toString().endsWith(".disabled");
+    this.disabled = srcPath != null
+        && srcPath.getFileName().toString().endsWith(".disabled");
   }
 
   public CleanupHandle getCleanupHandle() {

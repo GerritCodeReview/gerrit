@@ -21,7 +21,7 @@ import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
-import com.google.gerrit.acceptance.RangeSubject;
+import com.google.gerrit.extensions.client.RangeSubject;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 
 public class FixReplacementInfoSubject

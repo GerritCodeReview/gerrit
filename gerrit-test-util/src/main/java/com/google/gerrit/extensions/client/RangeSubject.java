@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance;
+package com.google.gerrit.extensions.client;
 
 import static com.google.common.truth.Truth.assertAbout;
 
@@ -21,7 +21,6 @@ import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
-import com.google.gerrit.extensions.client.Comment;
 
 public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
 
@@ -58,5 +57,19 @@ public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
 
   public IntegerSubject endCharacter() {
     return Truth.assertThat(actual().endCharacter).named("endCharacter");
+  }
+
+  public void isValid() {
+    isNotNull();
+    if (!actual().isValid()) {
+      fail("is valid");
+    }
+  }
+
+  public void isInvalid() {
+    isNotNull();
+    if (actual().isValid()) {
+      fail("is invalid");
+    }
   }
 }

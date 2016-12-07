@@ -1,6 +1,7 @@
 load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
 load("//tools/bzl:gwt.bzl", "gwt_module")
+load("//tools/bzl:junit.bzl", "junit_tests")
 
 SRC = "src/main/java/com/google/gerrit/extensions/"
 
@@ -45,6 +46,17 @@ java_library(
         "//lib:guava",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+    ],
+)
+
+junit_tests(
+    name = "api_tests",
+    srcs = glob(["src/test/java/**/*Test.java"]),
+    deps = [
+        ":api",
+        "//gerrit-test-util:test_util",
+        "//lib:truth",
+        "//lib/guice",
     ],
 )
 

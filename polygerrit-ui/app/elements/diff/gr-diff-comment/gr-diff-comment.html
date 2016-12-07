@@ -28,16 +28,19 @@ limitations under the License.
       :host {
         display: block;
         font-family: var(--font-family);
-        margin: .7em 0;
+        padding: .7em .7em;
         --iron-autogrow-textarea: {
           padding: 2px;
         };
       }
-      :host([disabled]) {
+      :host[disabled] {
         pointer-events: none;
       }
-      :host([disabled]) .container {
+      :host[disabled] .container {
         opacity: .5;
+      }
+      :host[is-robot-comment] {
+        background-color: #cfe8fc;
       }
       .header {
         cursor: pointer;
@@ -93,7 +96,7 @@ limitations under the License.
       .danger .action {
         margin-right: 0;
       }
-      .container:not(.draft) .actions :not(.reply):not(.quote):not(.ack):not(.done) {
+      .container:not(.draft) .actions .hideOnPublished {
         display: none;
       }
       .draft .reply,
@@ -123,6 +126,20 @@ limitations under the License.
       }
       .show-hide {
         margin-left: .4em;
+      }
+      .robotId {
+        color: #808080;
+        margin-bottom: .8em;
+        margin-top: -.4em;
+      }
+      .runIdInformation {
+        margin-bottom: .5em;
+      }
+      .robotRun {
+        margin-left: .5em;
+      }
+      .robotRunLink {
+        margin-left: .5em;
       }
       input.show-hide {
         display: none;
@@ -178,6 +195,11 @@ limitations under the License.
           </label>
         </div>
       </div>
+      <template is="dom-if" if="[[comment.robot_id]]">
+        <div class="robotId" hidden$="[[collapsed]]"">
+          [[comment.robot_id]]
+        </div>
+      </template>
       <iron-autogrow-textarea
           id="editTextarea"
           class="editMessage"
@@ -190,18 +212,35 @@ limitations under the License.
           content="[[comment.message]]"
           collapsed="[[collapsed]]"
           config="[[projectConfig.commentlinks]]"></gr-formatted-text>
-      <div class="actions" hidden$="[[!showActions]]">
+      <div hidden$="[[!comment.robot_run_id]]">
+        <div class="runIdInformation" hidden$=[[collapsed]]>
+          Run ID:
+          <a class="robotRunLink" href$="[[comment.url]]">
+            <span class="robotRun">[[comment.robot_run_id]]</span>
+          </a>
+        </div>
+      </div>
+      <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
         <gr-button class="action reply" on-tap="_handleReply">Reply</gr-button>
         <gr-button class="action quote" on-tap="_handleQuote">Quote</gr-button>
         <gr-button class="action ack" on-tap="_handleAck">Ack</gr-button>
-        <gr-button class="action done" on-tap="_handleDone">Done</gr-button>
-        <gr-button class="action edit" on-tap="_handleEdit">Edit</gr-button>
-        <gr-button class="action save" on-tap="_handleSave"
+        <gr-button class="action done" on-tap="_handleDone">
+          Done</gr-button>
+        <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
+            Edit</gr-button>
+        <gr-button class="action save hideOnPublished" on-tap="_handleSave"
             disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
-        <gr-button class="action cancel" on-tap="_handleCancel" hidden>Cancel</gr-button>
+        <gr-button class="action cancel hideOnPublished"
+            on-tap="_handleCancel" hidden>Cancel</gr-button>
         <div class="danger">
-          <gr-button class="action discard" on-tap="_handleDiscard">Discard</gr-button>
+          <gr-button class="action discard hideOnPublished"
+              on-tap="_handleDiscard">Discard</gr-button>
         </div>
+      </div>
+      <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
+        <gr-button class="action fix" on-tap="_handleFix">
+          Please Fix
+        </gr-button>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

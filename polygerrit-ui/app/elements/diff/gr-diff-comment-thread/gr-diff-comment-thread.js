@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var NEWLINE_PATTERN = '/\n/g';
+
   Polymer({
     is: 'gr-diff-comment-thread',
 
@@ -149,41 +151,50 @@
       }
     },
 
+    _createReplyComment: function(parent, content, opt_isEditing) {
+      var reply = this._newReply(parent.id, parent.line, content);
+
+      if (opt_isEditing) {
+        reply.__editing = true;
+      }
+
+      this.push('comments', reply);
+
+      if (!opt_isEditing) {
+        // Allow the reply to render in the dom-repeat.
+        this.async(function() {
+          var commentEl = this._commentElWithDraftID(reply.__draftID);
+          commentEl.save();
+        }, 1);
+      }
+    },
+
     _handleCommentReply: function(e) {
       var comment = e.detail.comment;
       var quoteStr;
       if (e.detail.quote) {
         var msg = comment.message;
-        var quoteStr = msg.split('\n').map(
-            function(line) { return '> ' + line; }).join('\n') + '\n\n';
+        quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       }
-      var reply = this._newReply(comment.id, comment.line, quoteStr);
-      reply.__editing = true;
-      this.push('comments', reply);
+      this._createReplyComment(comment, quoteStr, true);
     },
 
     _handleCommentAck: function(e) {
       var comment = e.detail.comment;
-      var reply = this._newReply(comment.id, comment.line, 'Ack');
-      this.push('comments', reply);
-
-      // Allow the reply to render in the dom-repeat.
-      this.async(function() {
-        var commentEl = this._commentElWithDraftID(reply.__draftID);
-        commentEl.save();
-      }.bind(this), 1);
+      this._createReplyComment(comment, 'Ack');
     },
 
     _handleCommentDone: function(e) {
       var comment = e.detail.comment;
-      var reply = this._newReply(comment.id, comment.line, 'Done');
-      this.push('comments', reply);
+      this._createReplyComment(comment, 'Done');
+    },
 
-      // Allow the reply to render in the dom-repeat.
-      this.async(function() {
-        var commentEl = this._commentElWithDraftID(reply.__draftID);
-        commentEl.save();
-      }.bind(this), 1);
+    _handleCommentFix: function(e) {
+      var comment = e.detail.comment;
+      var msg = comment.message;
+      var quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
+      var response = quoteStr + 'Please Fix';
+      this._createReplyComment(comment, response);
     },
 
     _commentElWithDraftID: function(id) {

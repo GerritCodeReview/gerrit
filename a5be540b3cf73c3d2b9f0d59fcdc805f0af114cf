@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_ef9ddd53",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "When you do commentsAsList() then this is put in the CommentInfo. Sorry that the comment here was misleading.",
+      "parentUuid": "2dc74f2e_1193aeec",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 73
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_916d5e1e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-06T11:11:41Z",
       "side": 1,
       "message": "[optional] name this \u0027createChangeWithReview\u0027",
+      "range": {
+        "startLine": 258,
+        "startChar": 17,
+        "endLine": 258,
+        "endChar": 36
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_cfa02189",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_916d5e1e",
       "range": {
         "startLine": 258,
         "startChar": 17,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_11a16edc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/ImapMailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_6f96cd9e",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 28
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_cf84a161",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 1
@@ -82,6 +154,24 @@
       "writtenOn": "2016-12-06T11:11:41Z",
       "side": 1,
       "message": "Check that the account is active before proceeding.\n\nAlso please add a test with a mail from an inactive account.",
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_31610abc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_cf84a161",
       "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_d1e8c6f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_11508e4d",
+      "range": {
+        "startLine": 143,
+        "startChar": 12,
+        "endLine": 143,
+        "endChar": 17
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_8fdbf97d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2016-12-06T11:11:41Z",
       "side": 1,
       "message": "Not sure if usage of this exception type is appropriate here, as it\u0027s on REST API level, but this is server code which is not invoked by any REST API.",
+      "range": {
+        "startLine": 176,
+        "startChar": 15,
+        "endLine": 176,
+        "endChar": 40
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_b28418f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_8fdbf97d",
       "range": {
         "startLine": 176,
         "startChar": 15,
@@ -180,6 +318,54 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_11164e34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_afd83581",
+      "range": {
+        "startLine": 186,
+        "startChar": 18,
+        "endLine": 186,
+        "endChar": 19
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_d27d2421",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_f1562248",
+      "range": {
+        "startLine": 185,
+        "startChar": 8,
+        "endLine": 186,
+        "endChar": 55
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_d159a678",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 1
@@ -191,6 +377,30 @@
       "writtenOn": "2016-12-06T11:11:41Z",
       "side": 1,
       "message": "nit: missing space after \u0027+\u0027",
+      "range": {
+        "startLine": 189,
+        "startChar": 19,
+        "endLine": 189,
+        "endChar": 20
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_526a945b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_d159a678",
       "range": {
         "startLine": 189,
         "startChar": 19,
@@ -226,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_7111d23a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_91631e21",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 226,
+        "endChar": 20
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_4fa751f4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 1
@@ -237,6 +471,30 @@
       "writtenOn": "2016-12-06T11:11:41Z",
       "side": 1,
       "message": "Why? I would expect that the last updated timestamp is updated.",
+      "range": {
+        "startLine": 234,
+        "startChar": 6,
+        "endLine": 234,
+        "endChar": 34
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_510cd621",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_4fa751f4",
       "range": {
         "startLine": 234,
         "startChar": 6,
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_d1ba0608",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_9186bea4",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 16
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_31558a3e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
         "patchSetId": 1
@@ -295,6 +577,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_af97d531",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "This should only happen when we have a temporary exception in Gerrit. E.g. when the DB connection times out, etc.\n\nIf the message has other problems (e.g. missing metadata) we\u0027ll delete it.\n\nThere is not retry count on the message because I think there shouldn\u0027t be one. Either the failure is temporary (OrmException) and we don\u0027t want to loose the message or it is permanent and we delete it in the processor.\n\nIn a future iteration, it might make sense to add some more logic to Pop3/ImapMailReceiver to only receive emails not older than x days, though.",
+      "parentUuid": "2dc74f2e_31558a3e",
+      "range": {
+        "startLine": 130,
+        "startChar": 12,
+        "endLine": 131,
+        "endChar": 39
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_31982a04",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
         "patchSetId": 1
@@ -306,6 +612,30 @@
       "writtenOn": "2016-12-06T11:11:41Z",
       "side": 1,
       "message": "nit: for constructors that are annotated with @Inject we list each argument in a separate line",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "a5be540b3cf73c3d2b9f0d59fcdc805f0af114cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_f1b7021f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/Pop3MailReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_31982a04",
       "range": {
         "startLine": 41,
         "startChar": 2,

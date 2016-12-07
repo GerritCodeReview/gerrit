@@ -61,11 +61,21 @@ java_sources(
 
 java_test(
   name = 'api_tests',
-  srcs = glob(['src/test/java/**/*.java']),
+  srcs = glob(['src/test/java/**/*Test.java']),
+  deps = [
+    ':api',
+    ':custom_truth_subjects',
+    '//lib:truth',
+    '//lib/guice:guice',
+  ],
+)
+
+java_library(
+  name = 'custom_truth_subjects',
+  srcs = glob(['src/test/java/**/*Subject.java']),
   deps = [
     ':api',
     '//lib:truth',
-    '//lib/guice:guice',
   ],
 )
 

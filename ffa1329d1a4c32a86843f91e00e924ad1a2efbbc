@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_b30a8288",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2016-12-07T13:55:03Z",
+      "side": 1,
+      "message": "\u003e Few points here.\n\u003e a) Is it a new message? I can\u0027t find it being already defined in Gerrit JS API\nYes this is a new message. Similarish to POST_REVERT below.\n\n\u003e b) It\u0027s actually dispatched not on commit change, but on commit edit\nThats true. Should I change to COMMIT_MSG_EDIT ?\n\n\u003e c) There may be cases when it wouldn\u0027t be triggered, for example, if commit message was pushed through git push with TBR\u003d\nYes that is true. But for Chromium, uploads are done via depot_tools which has built in detection for \u0027TBR\u003d\u0027 so it handles this case.",
+      "parentUuid": "edbff7bf_b4e54020",
+      "revId": "ffa1329d1a4c32a86843f91e00e924ad1a2efbbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_14bd3a9b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 2

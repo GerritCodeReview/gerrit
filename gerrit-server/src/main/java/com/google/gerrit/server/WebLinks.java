@@ -122,14 +122,7 @@ public class WebLinks {
    * @param file File name.
    * @return Links for file history
    */
-  public FluentIterable<WebLinkInfo> getFileHistoryLinks(String project,
-      String revision, String file) {
-    return filterLinks(
-        fileHistoryLinks,
-        webLink -> webLink.getFileHistoryWebLink(project, revision, file));
-  }
-
-  public FluentIterable<WebLinkInfoCommon> getFileHistoryLinksCommon(
+  public FluentIterable<WebLinkInfoCommon> getFileHistoryLinks(
       String project, String revision, String file) {
     return FluentIterable
         .from(fileHistoryLinks)

@@ -217,7 +217,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
   private List<WebLinkInfoCommon> getConfigFileLogLinks(String projectName) {
     FluentIterable<WebLinkInfoCommon> links =
-        webLinks.getFileHistoryLinksCommon(projectName, RefNames.REFS_CONFIG,
+        webLinks.getFileHistoryLinks(projectName, RefNames.REFS_CONFIG,
             ProjectConfig.PROJECT_CONFIG);
     return links.isEmpty() ? null : links.toList();
   }

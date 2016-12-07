@@ -265,7 +265,7 @@ public class PluginGuiceEnvironment {
     }
   }
 
-  void onStopPlugin(Plugin plugin) {
+  public void onStopPlugin(Plugin plugin) {
     for (StopPluginListener l : onStop) {
       l.onStopPlugin(plugin);
     }

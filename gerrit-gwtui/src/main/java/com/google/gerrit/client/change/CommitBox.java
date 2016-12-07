@@ -27,6 +27,7 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
@@ -47,6 +48,9 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gerrit.server.WebLinks;
+
+import java.util.List;
 
 class CommitBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitBox> {}
@@ -146,16 +150,29 @@ class CommitBox extends Composite {
       if (next == firstParent) {
         CopyableLabel copyLabel = getCommitLabel(c);
         parentCommits.add(copyLabel);
+        getConfigParentLinks(c);
       } else {
         next.appendChild(DOM.createTD());
         Element td1 = DOM.createTD();
         td1.appendChild(getCommitLabel(c).getElement());
         next.appendChild(td1);
+        FlowPanel linksPanel = new FlowPanel();
+        linksPanel.addStyleName(style.parentWebLink());
+        getConfigParentLinks(c);
+        Element td2 = DOM.createTD();
+        td2.appendChild(linksPanel.getElement());
+        next.appendChild(td2);
         previous.getParentElement().insertAfter(next, previous);
       }
       previous = next;
       next = DOM.createTR().cast();
     }
+  }
+
+  private List<WebLinkInfoCommon> getConfigParentLinks(CommitInfo commits) {
+    List<WebLinkInfoCommon> links =
+      webLinks.getParentLinks(c);
+    return links.isEmpty() ? null : links;
   }
 
   private CopyableLabel getCommitLabel(CommitInfo c) {

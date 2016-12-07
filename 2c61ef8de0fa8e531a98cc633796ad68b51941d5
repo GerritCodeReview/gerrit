@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "8d04bb4e_b4638e32",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-07T19:27:47Z",
+      "side": 1,
+      "message": "You\u0027re right. OOS of this change though, and just swapping it out causes a test to fail. Will address in a different change.",
+      "parentUuid": "8d04bb4e_f4bfd65c",
+      "revId": "2c61ef8de0fa8e531a98cc633796ad68b51941d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_b109e0df",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5

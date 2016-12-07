@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_f359aaa6",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-07T19:27:47Z",
+      "side": 1,
+      "message": "Ugh. I\u0027ll do it, but it seems totally illegible to me without them. We\u0027ve had this discussion before in code reviews, but with this specific documentation it\u0027s all in one line and thus just looks like a nonsensical sentence.\n\nhttps://gerrit-review.googlesource.com/c/86152/1/",
+      "parentUuid": "6d05c749_33f7b26f",
+      "revId": "e1fe9d823ca5e1d24716fb7788e5e120a7e15aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_73f13a76",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 7
@@ -36,6 +54,24 @@
       "writtenOn": "2016-12-07T01:00:47Z",
       "side": 1,
       "message": "Sorry, just noticed this - there\u0027s getChangeActionURL() helper method which seems useful.\nOr at least _changeBaseURL()",
+      "revId": "e1fe9d823ca5e1d24716fb7788e5e120a7e15aef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d05c749_134a6ec5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-07T19:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d05c749_73f13a76",
       "revId": "e1fe9d823ca5e1d24716fb7788e5e120a7e15aef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

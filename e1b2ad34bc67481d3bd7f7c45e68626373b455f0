@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher 5FAD9330 1481133889 -0800\nnonce AOr0K+R4wYinKUrExQ2OBomFCPOcCM/WovUs3EP6HDMw0Iqj/l7oy6zFz9YtMW+xsXhrk77X9udE\n\n0000000000000000000000000000000000000000 e1b2ad34bc67481d3bd7f7c45e68626373b455f0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYSE9BAAoJECdUrmNLj+szs4wP/0fBJknPomHkcPZPn5SHekTM\n0OFDCIFKZL0GE7u8H8cL2SajfcYfYet65qhXjKBNx9gqLfMK5yW4WPPiTd62+Pxc\nroeRIGSviCBFa/wfq64DpZ/nRUhPMc6OOSmSQcE3l3S4IrL6fEURabESwTlTEF8X\n3W+9UfPxfajpKsXp0kg/Ahj8+JdqwNfp5icri7b763UtexYrU1SDrpTha/v588RW\nZ858snqgOH8BZvjF3ynSvXbjuSI8b6KMGQvRB2nzA4vmbPX/P2vYRBb/K+P4rjIW\nwxT0cw3bDoF5dSvAUrYehk8Y+J2n97XWaqyjUCJ89wlwiod+13Sx5FwSBCF8waYV\nGZRShqWIpHbr6pGh5iy8VPjkHQr//L6JLjZrjL/ty/v5ZIdfn97iD/DJF7NbEeMM\nQGsnZ3e9JLu83fo1uvafdqNELcegETpEfHnMDR0frGceL6QgaUkvuiSoldxK6GNe\nRQlY+oLvtmjP97+CNINXEHTYWkobStf54mumTASjDnmXF1/5R8nUNIbpG9fS7lIP\nvOB1nqtSFQdRySNn5Oidb1Lzp5F7/NyXndZ2nM2xaoIZktc02p3E6ps5wC9khfWa\n+I6wXlNZzCF2TAx+deAh02Sj5zh6iwzan+htAI+zCGzWqzeQ2wcrhB2FdR526btT\nsG/xk/BMoB2cP4VDRJQ3\n\u003dX0vS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_14753aec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-07T18:39:18Z",
+      "side": 1,
+      "message": "optional: This constant is only used once, and its meaning would be even clearer if it were inlined there:\n\n this.maxBundleSize \u003d cfg.getInt(\"download\", \"maxBundleSize\", 100*1024*1024);",
+      "revId": "e1b2ad34bc67481d3bd7f7c45e68626373b455f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -38,6 +38,12 @@
      */
 
     /**
+     * Fired when the create fix comment action is triggered.
+     *
+     * @event create-fix-comment
+     */
+
+    /**
      * Fired when this comment is discarded.
      *
      * @event comment-discard
@@ -70,6 +76,11 @@
         notify: true,
         observer: '_commentChanged',
       },
+      isRobotComment: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       disabled: {
         type: Boolean,
         value: false,
@@ -85,8 +96,11 @@
         value: false,
         observer: '_editingChanged',
       },
+      hasChildren: Boolean,
       patchNum: String,
       showActions: Boolean,
+      _showHumanActions: Boolean,
+      _showRobotActions: Boolean,
       collapsed: {
         type: Boolean,
         value: true,
@@ -105,6 +119,8 @@
     observers: [
       '_commentMessageChanged(comment.message)',
       '_loadLocalDraft(changeNum, patchNum, comment)',
+      '_isRobotComment(comment)',
+      '_calculateActionstoShow(showActions, isRobotComment)',
     ],
 
     attached: function() {
@@ -119,6 +135,15 @@
 
     _computeShowHideText: function(collapsed) {
       return collapsed ? '◀' : '▼';
+    },
+
+    _calculateActionstoShow: function(showActions, isRobotComment) {
+      this._showHumanActions = showActions && !isRobotComment;
+      this._showRobotActions = showActions && isRobotComment;
+    },
+
+    _isRobotComment: function(comment) {
+      this.isRobotComment = comment.robot_id ? true : false;
     },
 
     save: function() {
@@ -297,6 +322,12 @@
       e.preventDefault();
       this.fire(
           'reply', this._getEventPayload({quote: true}), {bubbles: false});
+    },
+
+    _handleFix: function(e) {
+      e.preventDefault();
+      this.fire('create-fix-comment', this._getEventPayload({quote: true}),
+          {bubbles: false});
     },
 
     _handleAck: function(e) {

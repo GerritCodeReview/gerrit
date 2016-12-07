@@ -671,6 +671,12 @@
           opt_patchNum, opt_path);
     },
 
+    getDiffRobotComments: function(changeNum, basePatchNum, patchNum,
+        opt_path) {
+      return this._getDiffComments(changeNum, '/robotcomments', basePatchNum,
+          patchNum, opt_path);
+    },
+
     getDiffDrafts: function(changeNum, opt_basePatchNum, opt_patchNum,
         opt_path) {
       return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,

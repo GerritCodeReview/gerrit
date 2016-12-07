@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var NEWLINE_PATTERN = '/\n/g';
+
   Polymer({
     is: 'gr-diff-comment-thread',
 
@@ -154,17 +156,15 @@
       var quoteStr;
       if (e.detail.quote) {
         var msg = comment.message;
-        var quoteStr = msg.split('\n').map(
-            function(line) { return '> ' + line; }).join('\n') + '\n\n';
+        quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       }
       var reply = this._newReply(comment.id, comment.line, quoteStr);
       reply.__editing = true;
       this.push('comments', reply);
     },
 
-    _handleCommentAck: function(e) {
-      var comment = e.detail.comment;
-      var reply = this._newReply(comment.id, comment.line, 'Ack');
+    _createReplyComment: function(parent, content) {
+      var reply = this._newReply(parent.id, parent.line, content);
       this.push('comments', reply);
 
       // Allow the reply to render in the dom-repeat.
@@ -172,19 +172,26 @@
         var commentEl = this._commentElWithDraftID(reply.__draftID);
         commentEl.save();
       }.bind(this), 1);
+    },
+
+    _handleCommentAck: function(e) {
+      var comment = e.detail.comment;
+      this._createReplyComment(comment, 'Ack');
     },
 
     _handleCommentDone: function(e) {
       var comment = e.detail.comment;
-      var reply = this._newReply(comment.id, comment.line, 'Done');
-      this.push('comments', reply);
-
-      // Allow the reply to render in the dom-repeat.
-      this.async(function() {
-        var commentEl = this._commentElWithDraftID(reply.__draftID);
-        commentEl.save();
-      }.bind(this), 1);
+      this._createReplyComment(comment, 'Done');
     },
+
+    _handleCommentFix: function(e) {
+      var comment = e.detail.comment;
+      var msg = comment.message;
+      var quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
+      var response = quoteStr + 'Please Fix';
+      this._createReplyComment(comment, response);
+    },
+
 
     _commentElWithDraftID: function(id) {
       var els = Polymer.dom(this.root).querySelectorAll('gr-diff-comment');

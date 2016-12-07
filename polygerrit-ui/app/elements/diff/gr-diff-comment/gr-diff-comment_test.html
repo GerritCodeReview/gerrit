@@ -129,6 +129,13 @@ limitations under the License.
       MockInteractions.tap(element.$$('.done'));
     });
 
+    test('proper event fires on fix', function(done) {
+      element.addEventListener('create-fix-comment', function(e) {
+        done();
+      });
+      MockInteractions.tap(element.$$('.fix'));
+    });
+
     test('clicking on date link does not trigger nav', function() {
       var showStub = sinon.stub(page, 'show');
       var dateEl = element.$$('.date');
@@ -229,9 +236,12 @@ limitations under the License.
 
     test('button visibility states', function() {
       element.showActions = false;
-      assert.isTrue(element.$$('.actions').hasAttribute('hidden'));
+      assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
+      assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
+
       element.showActions = true;
-      assert.isFalse(element.$$('.actions').hasAttribute('hidden'));
+      assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
+      assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
       element.draft = true;
       assert.isTrue(isVisible(element.$$('.edit')), 'edit is visible');
@@ -242,6 +252,8 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
       assert.isFalse(isVisible(element.$$('.ack')), 'ack is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
+      assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
+      assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
       element.editing = true;
       assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
@@ -252,6 +264,8 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
       assert.isFalse(isVisible(element.$$('.ack')), 'ack is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
+      assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
+      assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
       element.draft = false;
       element.editing = false;
@@ -264,11 +278,26 @@ limitations under the License.
       assert.isTrue(isVisible(element.$$('.quote')), 'quote is visible');
       assert.isTrue(isVisible(element.$$('.ack')), 'ack is visible');
       assert.isTrue(isVisible(element.$$('.done')), 'done is visible');
+      assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
+      assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
       element.comment.id = 'foo';
       element.draft = true;
       element.editing = true;
       assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
+      assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
+      assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
+
+      element.isRobotComment = true;
+      element.draft = true;
+      assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
+      assert.isFalse(element.$$('.robotActions').hasAttribute('hidden'));
+
+      // It is not expected to see Robot comment drafts, but if they appear,
+      // they will behave the same as non-drafts.
+      element.draft = false;
+      assert.isTrue(element.$$('.humanActions').hasAttribute('hidden'));
+      assert.isFalse(element.$$('.robotActions').hasAttribute('hidden'));
     });
 
     test('collapsible drafts', function() {

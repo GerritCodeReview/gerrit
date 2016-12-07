@@ -25,7 +25,6 @@ limitations under the License.
         background-color: #ffd;
         border: 1px solid #bbb;
         display: block;
-        padding: 0 .7em;
         white-space: normal;
       }
     </style>
@@ -41,7 +40,8 @@ limitations under the License.
             on-reply="_handleCommentReply"
             on-comment-discard="_handleCommentDiscard"
             on-ack="_handleCommentAck"
-            on-done="_handleCommentDone"></gr-diff-comment>
+            on-done="_handleCommentDone"
+            on-create-fix-comment="_handleCommentFix"></gr-diff-comment>
       </template>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

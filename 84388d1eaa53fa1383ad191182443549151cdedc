@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1481104478 +0100\nnonce AOr0K+TbVzoAFcFBCw87YjrJRnHA+1L/dV2bQ6u7TX/ACvvbRsN/hIJn7W6E8pz9gbUKH1Xb01n4\n\n0000000000000000000000000000000000000000 84388d1eaa53fa1383ad191182443549151cdedc refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYR9xeAAoJEFG1/Zeg0O9Rh+wH/RBOu+/6sk6JpuGPfFbgdxGh\nvff9YHj33nT/lMurom4UdMjEFc1YYzLAc1ciaDoQylh6LLLSQJ33IhBq1MX4IP+P\nC6Yfi8c9UBnUTsQ669igaLjA9Gk9ql44m1dicCYTGxwM63saF1Exv5i5A7JlDHIV\n7H73ipC2FUqa8krVz/9ty+M1D1JH4CBxoBL1fqpNYmRmabvTcQlWZtrxT6eDdw/R\nrvzBe6qr+XIZaRfGn9HWnPUa/xOrwUeYiJWAGPLLrVnsb8Y8AuwtbGSkpcPhleNA\n5NZIRhmMbtRlrp4uaaH7ejWMD5URZd2M1d8qC54H1bmFIhO260G+gmY9/QwM8A0\u003d\n\u003dBAPS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d0ac35e_8f60f526",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T10:59:19Z",
+      "side": 1,
+      "message": "nit: wrong import order.  should be before TestTimeUtil.",
+      "range": {
+        "startLine": 29,
+        "startChar": 34,
+        "endLine": 29,
+        "endChar": 49
+      },
+      "revId": "84388d1eaa53fa1383ad191182443549151cdedc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2df3cfac_0e19aba2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AssigneeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T10:59:19Z",
+      "side": 1,
+      "message": "does the sender need to get reset in this test?  or is it done in the base class?",
+      "range": {
+        "startLine": 64,
+        "startChar": 15,
+        "endLine": 64,
+        "endChar": 21
+      },
+      "revId": "84388d1eaa53fa1383ad191182443549151cdedc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

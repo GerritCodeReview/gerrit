@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_6fe48df6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-07T01:39:32Z",
+      "side": 1,
+      "message": "Is it expected that there will only ever be one mandatory group? I.e. I wonder if people will have use cases for:\n\n- Users must be member of all of group1, group2, ... group N\n- Users must be member of at least one of group1, group2, etc.",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "daf41af4a38e3d3160fe294674b2486127b016ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

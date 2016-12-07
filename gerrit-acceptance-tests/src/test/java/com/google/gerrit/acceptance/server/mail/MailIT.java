@@ -78,7 +78,7 @@ public class MailIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testDelete() throws Exception {
+  public void delete() throws Exception {
     GreenMailUser user = mockPop3Server.setUser(USERNAME, USERNAME, PASSWORD);
     user.deliver(createSimpleMessage());
     assertThat(mockPop3Server.getReceivedMessages().length).isEqualTo(1);

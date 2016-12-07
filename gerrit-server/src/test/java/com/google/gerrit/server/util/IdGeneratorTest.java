@@ -37,7 +37,7 @@ public class IdGeneratorTest {
   }
 
   @Test
-  public void testFormat() {
+  public void format() {
     assertEquals("0000000f", IdGenerator.format(0xf));
     assertEquals("801234ab", IdGenerator.format(0x801234ab));
     assertEquals("deadbeef", IdGenerator.format(0xdeadbeef));

@@ -740,7 +740,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testHasEditPredicate() throws Exception {
+  public void hasEditPredicate() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(queryEdits()).hasSize(1);
 

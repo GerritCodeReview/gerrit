@@ -85,7 +85,7 @@ public class AllRequestFilterFilterProxyTest {
   }
 
   @Test
-  public void testNoFilters() throws Exception {
+  public void noFilters() throws Exception {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
@@ -107,7 +107,7 @@ public class AllRequestFilterFilterProxyTest {
   }
 
   @Test
-  public void testSingleFilterNoBubbling() throws Exception {
+  public void singleFilterNoBubbling() throws Exception {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock("config", FilterConfig.class);
@@ -134,7 +134,7 @@ public class AllRequestFilterFilterProxyTest {
   }
 
   @Test
-  public void testSingleFilterBubbling() throws Exception {
+  public void singleFilterBubbling() throws Exception {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
@@ -166,7 +166,7 @@ public class AllRequestFilterFilterProxyTest {
   }
 
   @Test
-  public void testTwoFiltersNoBubbling() throws Exception {
+  public void twoFiltersNoBubbling() throws Exception {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
@@ -199,7 +199,7 @@ public class AllRequestFilterFilterProxyTest {
   }
 
   @Test
-  public void testTwoFiltersBubbling() throws Exception {
+  public void twoFiltersBubbling() throws Exception {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
@@ -239,7 +239,7 @@ public class AllRequestFilterFilterProxyTest {
   }
 
   @Test
-  public void testPostponedLoading() throws Exception {
+  public void postponedLoading() throws Exception {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);
@@ -291,7 +291,7 @@ public class AllRequestFilterFilterProxyTest {
   }
 
   @Test
-  public void testDynamicUnloading() throws Exception {
+  public void dynamicUnloading() throws Exception {
     EasyMockSupport ems = new EasyMockSupport();
 
     FilterConfig config = ems.createMock(FilterConfig.class);

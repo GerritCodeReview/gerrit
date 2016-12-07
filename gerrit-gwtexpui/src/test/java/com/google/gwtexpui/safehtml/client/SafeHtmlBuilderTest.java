@@ -25,7 +25,7 @@ public class SafeHtmlBuilderTest {
   public ExpectedException exception = ExpectedException.none();
 
   @Test
-  public void testEmpty() {
+  public void empty() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b.isEmpty()).isTrue();
     assertThat(b.hasContent()).isFalse();
@@ -37,7 +37,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testToSafeHtml() {
+  public void toSafeHtml() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     b.append(1);
 
@@ -49,7 +49,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_boolean() {
+  public void append_boolean() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append(true));
     assertThat(b).isSameAs(b.append(false));
@@ -57,7 +57,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_char() {
+  public void append_char() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append('a'));
     assertThat(b).isSameAs(b.append('b'));
@@ -65,7 +65,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_int() {
+  public void append_int() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append(4));
     assertThat(b).isSameAs(b.append(2));
@@ -74,7 +74,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_long() {
+  public void append_long() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append(4L));
     assertThat(b).isSameAs(b.append(2L));
@@ -82,21 +82,21 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_float() {
+  public void append_float() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append(0.0f));
     assertThat(b.asString()).isEqualTo("0.0");
   }
 
   @Test
-  public void testAppend_double() {
+  public void append_double() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append(0.0));
     assertThat(b.asString()).isEqualTo("0.0");
   }
 
   @Test
-  public void testAppend_String() {
+  public void append_String() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append((String) null));
     assertThat(b.asString()).isEmpty();
@@ -106,7 +106,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_StringBuilder() {
+  public void append_StringBuilder() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append((StringBuilder) null));
     assertThat(b.asString()).isEmpty();
@@ -116,7 +116,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_StringBuffer() {
+  public void append_StringBuffer() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append((StringBuffer) null));
     assertThat(b.asString()).isEmpty();
@@ -126,7 +126,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_Object() {
+  public void append_Object() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append((Object) null));
     assertThat(b.asString()).isEmpty();
@@ -140,7 +140,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_CharSequence() {
+  public void append_CharSequence() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append((CharSequence) null));
     assertThat(b.asString()).isEmpty();
@@ -150,7 +150,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testAppend_SafeHtml() {
+  public void append_SafeHtml() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.append((SafeHtml) null));
     assertThat(b.asString()).isEmpty();
@@ -160,7 +160,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testHtmlSpecialCharacters() {
+  public void htmlSpecialCharacters() {
     assertThat(escape("&")).isEqualTo("&amp;");
     assertThat(escape("<")).isEqualTo("&lt;");
     assertThat(escape(">")).isEqualTo("&gt;");
@@ -178,21 +178,21 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testEntityNbsp() {
+  public void entityNbsp() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.nbsp());
     assertThat(b.asString()).isEqualTo("&nbsp;");
   }
 
   @Test
-  public void testTagBr() {
+  public void tagBr() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.br());
     assertThat(b.asString()).isEqualTo("<br />");
   }
 
   @Test
-  public void testTagTableTrTd() {
+  public void tagTableTrTd() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.openElement("table"));
     assertThat(b).isSameAs(b.openTr());
@@ -205,7 +205,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testTagDiv() {
+  public void tagDiv() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.openDiv());
     assertThat(b).isSameAs(b.append("d<a>ta"));
@@ -214,7 +214,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testTagAnchor() {
+  public void tagAnchor() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.openAnchor());
 
@@ -234,7 +234,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testTagHeightWidth() {
+  public void tagHeightWidth() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.openElement("img"));
     assertThat(b).isSameAs(b.setHeight(100));
@@ -244,7 +244,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testStyleName() {
+  public void styleName() {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
     assertThat(b).isSameAs(b.openSpan());
     assertThat(b).isSameAs(b.setStyleName("foo"));
@@ -255,7 +255,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testRejectJavaScript_AnchorHref() {
+  public void rejectJavaScript_AnchorHref() {
     final String href = "javascript:window.close();";
     exception.expect(RuntimeException.class);
     exception.expectMessage("javascript unsafe in href: " + href);
@@ -263,7 +263,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testRejectJavaScript_ImgSrc() {
+  public void rejectJavaScript_ImgSrc() {
     final String href = "javascript:window.close();";
     exception.expect(RuntimeException.class);
     exception.expectMessage("javascript unsafe in href: " + href);
@@ -271,7 +271,7 @@ public class SafeHtmlBuilderTest {
   }
 
   @Test
-  public void testRejectJavaScript_FormAction() {
+  public void rejectJavaScript_FormAction() {
     final String href = "javascript:window.close();";
     exception.expect(RuntimeException.class);
     exception.expectMessage("javascript unsafe in href: " + href);

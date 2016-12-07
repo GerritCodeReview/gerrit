@@ -27,12 +27,12 @@ public class SandboxTest extends AbstractDaemonTest {
   }
 
   @Test
-  public void testUserNotPresent1() throws Exception {
+  public void userNotPresent1() throws Exception {
     assertThat(gApi.accounts().query("sandboxuser").get()).isEmpty();
   }
 
   @Test
-  public void testUserNotPresent2() throws Exception {
+  public void userNotPresent2() throws Exception {
     assertThat(gApi.accounts().query("sandboxuser").get()).isEmpty();
   }
 }

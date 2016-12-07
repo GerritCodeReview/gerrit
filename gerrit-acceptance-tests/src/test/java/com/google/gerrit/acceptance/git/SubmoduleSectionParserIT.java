@@ -32,7 +32,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   private static final String THIS_SERVER = "http://localhost/";
 
   @Test
-  public void testFollowMasterBranch() throws Exception {
+  public void followMasterBranch() throws Exception {
     Project.NameKey p = createProject("a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -54,7 +54,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testFollowMatchingBranch() throws Exception {
+  public void followMatchingBranch() throws Exception {
     Project.NameKey p = createProject("a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -89,7 +89,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testFollowAnotherBranch() throws Exception {
+  public void followAnotherBranch() throws Exception {
     Project.NameKey p = createProject("a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -112,7 +112,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithAnotherURI() throws Exception {
+  public void withAnotherURI() throws Exception {
     Project.NameKey p = createProject("a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -135,7 +135,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithSlashesInProjectName() throws Exception {
+  public void withSlashesInProjectName() throws Exception {
     Project.NameKey p = createProject("project/with/slashes/a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -158,7 +158,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithSlashesInPath() throws Exception {
+  public void withSlashesInPath() throws Exception {
     Project.NameKey p = createProject("a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -181,7 +181,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithMoreSections() throws Exception {
+  public void withMoreSections() throws Exception {
     Project.NameKey p1 = createProject("a");
     Project.NameKey p2 = createProject("b");
     Config cfg = new Config();
@@ -211,7 +211,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithSubProjectFound() throws Exception {
+  public void withSubProjectFound() throws Exception {
     Project.NameKey p1 = createProject("a/b");
     Project.NameKey p2 = createProject("b");
     Config cfg = new Config();
@@ -241,7 +241,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithAnInvalidSection() throws Exception {
+  public void withAnInvalidSection() throws Exception {
     Project.NameKey p1 = createProject("a");
     Project.NameKey p2 = createProject("b");
     Project.NameKey p3 = createProject("d");
@@ -285,7 +285,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithSectionOfNonexistingProject() throws Exception {
+  public void withSectionOfNonexistingProject() throws Exception {
     Config cfg = new Config();
     cfg.fromText("\n"
         + "[submodule \"a\"]\n"
@@ -304,7 +304,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithSectionToOtherServer() throws Exception {
+  public void withSectionToOtherServer() throws Exception {
     Project.NameKey p1 = createProject("a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -323,7 +323,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithRelativeURI() throws Exception {
+  public void withRelativeURI() throws Exception {
     Project.NameKey p1 = createProject("a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -346,7 +346,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithDeepRelativeURI() throws Exception {
+  public void withDeepRelativeURI() throws Exception {
     Project.NameKey p1 = createProject("a");
     Config cfg = new Config();
     cfg.fromText(""
@@ -369,7 +369,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testWithOverlyDeepRelativeURI() throws Exception {
+  public void withOverlyDeepRelativeURI() throws Exception {
     Project.NameKey p1 = createProject("nested/a");
     Config cfg = new Config();
     cfg.fromText(""

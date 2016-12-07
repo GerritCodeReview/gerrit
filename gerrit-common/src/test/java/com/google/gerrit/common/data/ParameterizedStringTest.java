@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class ParameterizedStringTest {
   @Test
-  public void testEmptyString() {
+  public void emptyString() {
     final ParameterizedString p = new ParameterizedString("");
     assertEquals("", p.getPattern());
     assertEquals("", p.getRawPattern());
@@ -40,7 +40,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testAsis1() {
+  public void asis1() {
     final ParameterizedString p = ParameterizedString.asis("${bar}c");
     assertEquals("${bar}c", p.getPattern());
     assertEquals("${bar}c", p.getRawPattern());
@@ -54,7 +54,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplace1() {
+  public void replace1() {
     final ParameterizedString p = new ParameterizedString("${bar}c");
     assertEquals("${bar}c", p.getPattern());
     assertEquals("{0}c", p.getRawPattern());
@@ -70,7 +70,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplace2() {
+  public void replace2() {
     final ParameterizedString p = new ParameterizedString("a${bar}c");
     assertEquals("a${bar}c", p.getPattern());
     assertEquals("a{0}c", p.getRawPattern());
@@ -86,7 +86,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplace3() {
+  public void replace3() {
     final ParameterizedString p = new ParameterizedString("a${bar}");
     assertEquals("a${bar}", p.getPattern());
     assertEquals("a{0}", p.getRawPattern());
@@ -102,7 +102,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplace4() {
+  public void replace4() {
     final ParameterizedString p = new ParameterizedString("a${bar}c");
     assertEquals("a${bar}c", p.getPattern());
     assertEquals("a{0}c", p.getRawPattern());
@@ -117,7 +117,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceToLowerCase() {
+  public void replaceToLowerCase() {
     final ParameterizedString p = new ParameterizedString("${a.toLowerCase}");
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
@@ -138,7 +138,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceToUpperCase() {
+  public void replaceToUpperCase() {
     final ParameterizedString p = new ParameterizedString("${a.toUpperCase}");
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
@@ -159,7 +159,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceLocalName() {
+  public void replaceLocalName() {
     final ParameterizedString p = new ParameterizedString("${a.localPart}");
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
@@ -180,7 +180,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testUndefinedFunctionName() {
+  public void undefinedFunctionName() {
     ParameterizedString p =
         new ParameterizedString(
             "hi, ${userName.toUpperCase},your eamil address is '${email.toLowerCase.localPart}'.right?");
@@ -200,7 +200,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceToUpperCaseToLowerCase() {
+  public void replaceToUpperCaseToLowerCase() {
     final ParameterizedString p =
         new ParameterizedString("${a.toUpperCase.toLowerCase}");
     assertEquals(1, p.getParameterNames().size());
@@ -222,7 +222,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceToUpperCaseLocalName() {
+  public void replaceToUpperCaseLocalName() {
     final ParameterizedString p =
         new ParameterizedString("${a.toUpperCase.localPart}");
     assertEquals(1, p.getParameterNames().size());
@@ -244,7 +244,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceToUpperCaseAnUndefinedMethod() {
+  public void replaceToUpperCaseAnUndefinedMethod() {
     final ParameterizedString p =
         new ParameterizedString("${a.toUpperCase.anUndefinedMethod}");
     assertEquals(1, p.getParameterNames().size());
@@ -266,7 +266,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceLocalNameToUpperCase() {
+  public void replaceLocalNameToUpperCase() {
     final ParameterizedString p =
         new ParameterizedString("${a.localPart.toUpperCase}");
     assertEquals(1, p.getParameterNames().size());
@@ -288,7 +288,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceLocalNameToLowerCase() {
+  public void replaceLocalNameToLowerCase() {
     final ParameterizedString p =
         new ParameterizedString("${a.localPart.toLowerCase}");
     assertEquals(1, p.getParameterNames().size());
@@ -310,7 +310,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceLocalNameAnUndefinedMethod() {
+  public void replaceLocalNameAnUndefinedMethod() {
     final ParameterizedString p =
         new ParameterizedString("${a.localPart.anUndefinedMethod}");
     assertEquals(1, p.getParameterNames().size());
@@ -332,7 +332,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceToLowerCaseToUpperCase() {
+  public void replaceToLowerCaseToUpperCase() {
     final ParameterizedString p =
         new ParameterizedString("${a.toLowerCase.toUpperCase}");
     assertEquals(1, p.getParameterNames().size());
@@ -354,7 +354,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceToLowerCaseLocalName() {
+  public void replaceToLowerCaseLocalName() {
     final ParameterizedString p =
         new ParameterizedString("${a.toLowerCase.localPart}");
     assertEquals(1, p.getParameterNames().size());
@@ -376,7 +376,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceToLowerCaseAnUndefinedMethod() {
+  public void replaceToLowerCaseAnUndefinedMethod() {
     final ParameterizedString p =
         new ParameterizedString("${a.toLowerCase.anUndefinedMethod}");
     assertEquals(1, p.getParameterNames().size());
@@ -398,7 +398,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceSubmitTooltipWithVariables() {
+  public void replaceSubmitTooltipWithVariables() {
     ParameterizedString p = new ParameterizedString(
         "Submit patch set ${patchSet} into ${branch}");
     assertEquals(2, p.getParameterNames().size());
@@ -415,7 +415,7 @@ public class ParameterizedStringTest {
   }
 
   @Test
-  public void testReplaceSubmitTooltipWithoutVariables() {
+  public void replaceSubmitTooltipWithoutVariables() {
     ParameterizedString p = new ParameterizedString(
             "Submit patch set 40 into master");
     Map<String, String> params = ImmutableMap.of(

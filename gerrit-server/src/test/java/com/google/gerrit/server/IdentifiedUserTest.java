@@ -111,7 +111,7 @@ public class IdentifiedUserTest {
   }
 
   @Test
-  public void testEmailsExistence() {
+  public void emailsExistence() {
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[0])).isTrue();
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[1].toLowerCase())).isTrue();
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[1])).isTrue();

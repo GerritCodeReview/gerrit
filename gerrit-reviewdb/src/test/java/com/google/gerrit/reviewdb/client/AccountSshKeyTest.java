@@ -34,7 +34,7 @@ public class AccountSshKeyTest {
   private final Account.Id accountId = new Account.Id(1);
 
   @Test
-  public void testValidity() throws Exception {
+  public void validity() throws Exception {
     AccountSshKey key = new AccountSshKey(
         new AccountSshKey.Id(accountId, -1), KEY);
     assertThat(key.isValid()).isFalse();
@@ -45,7 +45,7 @@ public class AccountSshKeyTest {
   }
 
   @Test
-  public void testGetters() throws Exception {
+  public void getters() throws Exception {
     AccountSshKey key = new AccountSshKey(
         new AccountSshKey.Id(accountId, 1), KEY);
     assertThat(key.getSshPublicKey()).isEqualTo(KEY);
@@ -55,7 +55,7 @@ public class AccountSshKeyTest {
   }
 
   @Test
-  public void testKeyWithNewLines() throws Exception {
+  public void keyWithNewLines() throws Exception {
     AccountSshKey key = new AccountSshKey(
         new AccountSshKey.Id(accountId, 1), KEY_WITH_NEWLINES);
     assertThat(key.getSshPublicKey()).isEqualTo(KEY);

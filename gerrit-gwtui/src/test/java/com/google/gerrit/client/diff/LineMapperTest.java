@@ -24,7 +24,7 @@ import org.junit.Test;
 public class LineMapperTest {
 
   @Test
-  public void testAppendCommon() {
+  public void appendCommon() {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
     assertEquals(10, mapper.getLineA());
@@ -32,7 +32,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testAppendInsert() {
+  public void appendInsert() {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
     assertEquals(0, mapper.getLineA());
@@ -40,7 +40,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testAppendDelete() {
+  public void appendDelete() {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
     assertEquals(10, mapper.getLineA());
@@ -48,7 +48,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testFindInCommon() {
+  public void findInCommon() {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
     assertEquals(new LineOnOtherInfo(9, true),
@@ -58,7 +58,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testFindAfterCommon() {
+  public void findAfterCommon() {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
     assertEquals(new LineOnOtherInfo(10, true),
@@ -68,7 +68,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testFindInInsertGap() {
+  public void findInInsertGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
     assertEquals(new LineOnOtherInfo(-1, false),
@@ -76,7 +76,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testFindAfterInsertGap() {
+  public void findAfterInsertGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
     assertEquals(new LineOnOtherInfo(0, true),
@@ -86,7 +86,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testFindInDeleteGap() {
+  public void findInDeleteGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
     assertEquals(new LineOnOtherInfo(-1, false),
@@ -94,7 +94,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testFindAfterDeleteGap() {
+  public void findAfterDeleteGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
     assertEquals(new LineOnOtherInfo(0, true),
@@ -104,7 +104,7 @@ public class LineMapperTest {
   }
 
   @Test
-  public void testReplaceWithInsertInB() {
+  public void replaceWithInsertInB() {
     // 0 c c
     // 1 a b
     // 2 a b

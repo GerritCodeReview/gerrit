@@ -32,7 +32,7 @@ public class ScheduleConfigTest {
   private static final DateTime NOW = DateTime.parse("2014-06-13T10:00:00-00:00");
 
   @Test
-  public void testInitialDelay() throws Exception {
+  public void initialDelay() throws Exception {
     assertEquals(ms(1, HOURS), initialDelay("11:00", "1h"));
     assertEquals(ms(30, MINUTES), initialDelay("05:30", "1h"));
     assertEquals(ms(30, MINUTES), initialDelay("09:30", "1h"));
@@ -56,7 +56,7 @@ public class ScheduleConfigTest {
   }
 
   @Test
-  public void testCustomKeys() {
+  public void customKeys() {
     Config rc = new Config();
     rc.setString("a", "b", "i", "1h");
     rc.setString("a", "b", "s", "01:00");

@@ -27,7 +27,7 @@ public class SafeHtml_WikifyPreformatTest {
   }
 
   @Test
-  public void testPreformat1() {
+  public void preformat1() {
     final SafeHtml o = html("A\n\n  This is pre\n  formatted");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -40,7 +40,7 @@ public class SafeHtml_WikifyPreformatTest {
   }
 
   @Test
-  public void testPreformat2() {
+  public void preformat2() {
     final SafeHtml o = html("A\n\n  This is pre\n  formatted\n\nbut this is not");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -54,7 +54,7 @@ public class SafeHtml_WikifyPreformatTest {
   }
 
   @Test
-  public void testPreformat3() {
+  public void preformat3() {
     final SafeHtml o = html("A\n\n  Q\n    <R>\n  S\n\nB");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
@@ -69,7 +69,7 @@ public class SafeHtml_WikifyPreformatTest {
   }
 
   @Test
-  public void testPreformat4() {
+  public void preformat4() {
     final SafeHtml o = html("  Q\n    <R>\n  S\n\nB");
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);

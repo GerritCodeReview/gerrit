@@ -5,7 +5,6 @@ acceptance_tests(
     group = "edit",
     labels = ["edit"],
     deps = [
-        "//lib/commons:codec",
         "//lib/joda:joda-time",
     ],
 )

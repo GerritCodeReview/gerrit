@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.gerrit.reviewdb.client.Comment;
+
 import java.util.regex.Pattern;
 
 public class ParserUtil {

@@ -17,9 +17,11 @@ package com.google.gerrit.server.mail.receive;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.Comment;
-import java.util.List;
+
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.List;
 
 @Ignore
 public abstract class HtmlParserTest extends AbstractParserTest {

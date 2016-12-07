@@ -23,10 +23,10 @@ import com.google.common.base.Enums;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
@@ -253,7 +253,8 @@ public class WatchConfig extends VersionedMetaData
       cfg.unset(PROJECT, projectName, KEY_NOTIFY);
     }
 
-    Multimap<String, String> notifyValuesByProject = ArrayListMultimap.create();
+    Multimap<String, String> notifyValuesByProject =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches
         .entrySet()) {
       NotifyValue notifyValue =

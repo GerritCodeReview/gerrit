@@ -22,11 +22,10 @@ import static java.util.stream.Collectors.joining;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -155,7 +154,8 @@ public class StalenessChecker {
   public static SetMultimap<Project.NameKey, RefState> parseStates(
       Iterable<byte[]> states) {
     RefState.check(states != null, null);
-    SetMultimap<Project.NameKey, RefState> result = HashMultimap.create();
+    SetMultimap<Project.NameKey, RefState> result =
+        MultimapBuilder.hashKeys().hashSetValues().build();
     for (byte[] b : states) {
       RefState.check(b != null, null);
       String s = new String(b, UTF_8);
@@ -181,7 +181,7 @@ public class StalenessChecker {
       Iterable<byte[]> patterns) {
     RefStatePattern.check(patterns != null, null);
     ListMultimap<Project.NameKey, RefStatePattern> result =
-        ArrayListMultimap.create();
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (byte[] b : patterns) {
       RefStatePattern.check(b != null, null);
       String s = new String(b, UTF_8);

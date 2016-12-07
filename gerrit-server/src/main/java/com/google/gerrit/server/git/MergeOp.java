@@ -21,7 +21,6 @@ import static java.util.Comparator.comparing;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -699,7 +698,7 @@ public class MergeOp implements AutoCloseable {
         }
       }
       Multimap<ObjectId, PatchSet.Id> revisions =
-          HashMultimap.create(cds.size(), 1);
+          MultimapBuilder.hashKeys(cds.size()).hashSetValues(1).build();
       for (Map.Entry<String, Ref> e : or.repo.getRefDatabase().exactRef(
           refNames.toArray(new String[refNames.size()])).entrySet()) {
         revisions.put(

@@ -18,11 +18,11 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
@@ -216,7 +216,8 @@ public class AllChangesIndexer
     return new Callable<Void>() {
       @Override
       public Void call() throws Exception {
-        Multimap<ObjectId, ChangeData> byId = ArrayListMultimap.create();
+        Multimap<ObjectId, ChangeData> byId =
+            MultimapBuilder.hashKeys().arrayListValues().build();
         // TODO(dborowitz): Opening all repositories in a live server may be
         // wasteful; see if we can determine which ones it is safe to close
         // with RepositoryCache.close(repo).

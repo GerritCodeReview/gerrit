@@ -22,7 +22,6 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.Comparator.comparing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -31,6 +30,7 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
@@ -253,7 +253,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public ListMultimap<Project.NameKey, ChangeNotes> create(ReviewDb db,
         Predicate<ChangeNotes> predicate) throws IOException, OrmException {
-      ListMultimap<Project.NameKey, ChangeNotes> m = ArrayListMultimap.create();
+      ListMultimap<Project.NameKey, ChangeNotes> m =
+          MultimapBuilder.hashKeys().arrayListValues().build();
       if (args.migration.readChanges()) {
         for (Project.NameKey project : projectCache.all()) {
           try (Repository repo = args.repoManager.openRepository(project)) {

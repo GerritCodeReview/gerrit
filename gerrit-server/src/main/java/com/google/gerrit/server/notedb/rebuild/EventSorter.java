@@ -17,9 +17,8 @@ package com.google.gerrit.server.notedb.rebuild;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 
 import java.util.Collections;
@@ -67,8 +66,8 @@ class EventSorter {
     PriorityQueue<Event> todo = new PriorityQueue<>(out);
 
     // Populate waiting map after initial sort to preserve natural order.
-    waiting = ArrayListMultimap.create();
-    deps = HashMultimap.create();
+    waiting = MultimapBuilder.hashKeys().arrayListValues().build();
+    deps = MultimapBuilder.hashKeys().hashSetValues().build();
     for (Event e : todo) {
       for (Event d : e.deps) {
         deps.put(e, d);

@@ -18,9 +18,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -52,10 +52,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-/**
- * View of the draft comments for a single {@link Change} based on the log of
- * its drafts branch.
- */
+/** View of the draft comments for a single {@link Change} based on the log of its drafts branch. */
 public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private static final Logger log =
       LoggerFactory.getLogger(DraftCommentNotes.class);
@@ -146,7 +143,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     revisionNoteMap = RevisionNoteMap.parse(
         args.noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
         PatchLineComment.Status.DRAFT);
-    Multimap<RevId, Comment> cs = ArrayListMultimap.create();
+    Multimap<RevId, Comment> cs =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (Comment c : rn.getComments()) {
         cs.put(new RevId(c.revId), c);

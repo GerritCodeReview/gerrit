@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.common.BlameInfo;
 import com.google.gerrit.extensions.common.RangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -132,7 +132,8 @@ public class GetBlame implements RestReadView<FileResource> {
 
   private List<BlameInfo> blame(ObjectId id, String path,
       Repository repository, RevWalk revWalk) throws IOException {
-    ListMultimap<BlameInfo, RangeInfo> ranges = ArrayListMultimap.create();
+    ListMultimap<BlameInfo, RangeInfo> ranges =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     List<BlameInfo> result = new ArrayList<>();
     if (blameCache.findLastCommit(repository, id, path) == null) {
       return result;

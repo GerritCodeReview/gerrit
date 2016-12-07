@@ -18,10 +18,10 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -106,7 +106,7 @@ class WalkSorter {
   public Iterable<PatchSetData> sort(Iterable<ChangeData> in)
       throws OrmException, IOException {
     Multimap<Project.NameKey, ChangeData> byProject =
-        ArrayListMultimap.create();
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : in) {
       byProject.put(cd.change().getProject(), cd);
     }
@@ -152,7 +152,8 @@ class WalkSorter {
 
       Set<RevCommit> commits = byCommit.keySet();
       Multimap<RevCommit, RevCommit> children = collectChildren(commits);
-      Multimap<RevCommit, RevCommit> pending = ArrayListMultimap.create();
+      Multimap<RevCommit, RevCommit> pending =
+          MultimapBuilder.hashKeys().arrayListValues().build();
       Deque<RevCommit> todo = new ArrayDeque<>();
 
       RevFlag done = rw.newFlag("done");
@@ -196,7 +197,8 @@ class WalkSorter {
 
   private static Multimap<RevCommit, RevCommit> collectChildren(
       Set<RevCommit> commits) {
-    Multimap<RevCommit, RevCommit> children = ArrayListMultimap.create();
+    Multimap<RevCommit, RevCommit> children =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (RevCommit c : commits) {
       for (RevCommit p : c.getParents()) {
         if (commits.contains(p)) {
@@ -224,7 +226,7 @@ class WalkSorter {
   private Multimap<RevCommit, PatchSetData> byCommit(RevWalk rw,
       Collection<ChangeData> in) throws OrmException, IOException {
     Multimap<RevCommit, PatchSetData> byCommit =
-        ArrayListMultimap.create(in.size(), 1);
+        MultimapBuilder.hashKeys(in.size()).arrayListValues(1).build();
     for (ChangeData cd : in) {
       PatchSet maxPs = null;
       for (PatchSet ps : cd.patchSets()) {

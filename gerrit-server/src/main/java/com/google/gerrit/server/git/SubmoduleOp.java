@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -139,11 +139,11 @@ public class SubmoduleOp {
         "enableSuperProjectSubscriptions", true);
     this.orm = orm;
     this.updatedBranches = updatedBranches;
-    this.targets = HashMultimap.create();
+    this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
     this.affectedBranches = new HashSet<>();
     this.branchTips = new HashMap<>();
     this.branchGitModules = new HashMap<>();
-    this.branchesByProject = HashMultimap.create();
+    this.branchesByProject = MultimapBuilder.hashKeys().hashSetValues().build();
     this.sortedBranches = calculateSubscriptionMap();
   }
 

@@ -44,7 +44,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -52,6 +51,7 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
@@ -820,7 +820,8 @@ public class ChangeJson {
     }
 
     Set<String> labelNames = new HashSet<>();
-    Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
+    Multimap<Account.Id, PatchSetApproval> current =
+        MultimapBuilder.hashKeys().hashSetValues().build();
     for (PatchSetApproval a : cd.currentApprovals()) {
       allUsers.add(a.getAccountId());
       LabelType type = labelTypes.byLabel(a.getLabelId());

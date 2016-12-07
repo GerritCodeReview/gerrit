@@ -22,10 +22,10 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
@@ -201,9 +201,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.allUsersName = allUsersName;
     this.metrics = metrics;
     this.projectName = projectName;
-    changeUpdates = ArrayListMultimap.create();
-    draftUpdates = ArrayListMultimap.create();
-    robotCommentUpdates = ArrayListMultimap.create();
+    changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
+    draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
+    robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     toDelete = new HashSet<>();
   }
 

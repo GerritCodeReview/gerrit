@@ -35,10 +35,8 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -46,6 +44,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
@@ -2503,10 +2502,11 @@ public class ReceiveCommits {
   private void initChangeRefMaps() {
     if (refsByChange == null) {
       int estRefsPerChange = 4;
-      refsById = HashMultimap.create();
-      refsByChange = ArrayListMultimap.create(
-          allRefs.size() / estRefsPerChange,
-          estRefsPerChange);
+      refsById = MultimapBuilder.hashKeys().hashSetValues().build();
+      refsByChange =
+          MultimapBuilder.hashKeys(allRefs.size() / estRefsPerChange)
+              .arrayListValues(estRefsPerChange)
+              .build();
       for (Ref ref : allRefs.values()) {
         ObjectId obj = ref.getObjectId();
         if (obj != null) {

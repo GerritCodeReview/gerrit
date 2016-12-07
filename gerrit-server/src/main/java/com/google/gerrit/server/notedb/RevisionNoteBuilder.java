@@ -18,9 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.RevId;
 
@@ -113,7 +113,8 @@ class RevisionNoteBuilder {
   }
 
   private Multimap<Integer, Comment> buildCommentMap() {
-    Multimap<Integer, Comment> all = ArrayListMultimap.create();
+    Multimap<Integer, Comment> all =
+        MultimapBuilder.hashKeys().arrayListValues().build();
 
     for (Comment c : baseComments) {
       if (!delete.contains(c.key) && !put.containsKey(c.key)) {

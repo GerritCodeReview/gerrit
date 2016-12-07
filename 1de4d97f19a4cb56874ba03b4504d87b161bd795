@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_f2a86056",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T11:01:11Z",
+      "side": 1,
+      "message": "Will do it here since it\u0027s not really a big deal.",
+      "parentUuid": "2dc74f2e_f162a2bd",
+      "revId": "1de4d97f19a4cb56874ba03b4504d87b161bd795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d0ac35e_af633932",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2016-12-07T10:55:55Z",
       "side": 1,
       "message": "optional: import only UTF_8 statically",
+      "range": {
+        "startLine": 653,
+        "startChar": 50,
+        "endLine": 653,
+        "endChar": 55
+      },
+      "revId": "1de4d97f19a4cb56874ba03b4504d87b161bd795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_517b7668",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-07T11:01:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_af633932",
       "range": {
         "startLine": 653,
         "startChar": 50,

@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_f12aa28c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5448,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_cfbcbd6b",
+      "range": {
+        "startLine": 5448,
+        "startChar": 43,
+        "endLine": 5448,
+        "endChar": 72
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_d12d26a7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5448,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d0ac35e_2fcbc90b",
+      "range": {
+        "startLine": 5448,
+        "startChar": 21,
+        "endLine": 5448,
+        "endChar": 22
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_6f19eda1",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2016-12-06T08:48:09Z",
       "side": 1,
       "message": "FixReplacementInfo",
+      "range": {
+        "startLine": 5452,
+        "startChar": 55,
+        "endLine": 5452,
+        "endChar": 69
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_b1341af3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5452,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_6f19eda1",
       "range": {
         "startLine": 5452,
         "startChar": 55,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_51437663",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6001,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_113f2e1c",
+      "range": {
+        "startLine": 5992,
+        "startChar": 0,
+        "endLine": 6001,
+        "endChar": 28
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_ef04fd37",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
         "patchSetId": 1
@@ -128,6 +224,30 @@
       "writtenOn": "2016-12-06T08:48:09Z",
       "side": 1,
       "message": "Eclipse shows me the following warning here:\n\n\"Type safety: Unchecked cast from IterableSubject to ListSubject\u003cS,E\u003e\"\n\nShould it be suppressed?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 72
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_7148f27c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_ef04fd37",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_113deed1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_f135c238",
+      "range": {
+        "startLine": 48,
+        "startChar": 19,
+        "endLine": 48,
+        "endChar": 37
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_cf07c13a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
         "patchSetId": 1
@@ -174,6 +318,30 @@
       "writtenOn": "2016-12-06T08:48:09Z",
       "side": 1,
       "message": "\u0027no element\u0027?",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_9150fe23",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Truth will negate this message when writing out an error message. For instance, \"Not true that ... has an element at index 1\" will be generated.",
+      "parentUuid": "edcc5755_cf07c13a",
       "range": {
         "startLine": 51,
         "startChar": 16,
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_cf8ee14e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_2f23e5cd",
+      "range": {
+        "startLine": 56,
+        "startChar": 11,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_91323e4e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
         "patchSetId": 1
@@ -220,6 +412,30 @@
       "writtenOn": "2016-12-06T08:48:09Z",
       "side": 1,
       "message": "Also not liked by Eclipse.",
+      "range": {
+        "startLine": 65,
+        "startChar": 11,
+        "endLine": 65,
+        "endChar": 54
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_2f61a5bb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_91323e4e",
       "range": {
         "startLine": 65,
         "startChar": 11,
@@ -255,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_31426a5d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ListSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_8f11b978",
+      "range": {
+        "startLine": 81,
+        "startChar": 48,
+        "endLine": 81,
+        "endChar": 65
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_4ffd11fb",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/FixSuggestionInfoSubject.java",
         "patchSetId": 1
@@ -266,6 +506,30 @@
       "writtenOn": "2016-12-06T08:48:09Z",
       "side": 1,
       "message": "only",
+      "range": {
+        "startLine": 64,
+        "startChar": 35,
+        "endLine": 64,
+        "endChar": 41
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_516856d1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/FixSuggestionInfoSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_4ffd11fb",
       "range": {
         "startLine": 64,
         "startChar": 35,
@@ -301,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_716d52e0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentInfoSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_af0ef551",
+      "range": {
+        "startLine": 66,
+        "startChar": 34,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_0fc5c9f4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 1
@@ -312,6 +600,30 @@
       "writtenOn": "2016-12-05T16:14:44Z",
       "side": 1,
       "message": "remove this as it is checked implicitly by the following methods and if creation/retrieval fails you would just have one more method that failed (as the others would have failed too)",
+      "range": {
+        "startLine": 131,
+        "startChar": 14,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_8fe21914",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "You\u0027re right that it is implicitly checked by the following methods. However, I tried to follow the general recommendation that each test should only cover one aspect. The benefit is that if this test fails, you\u0027ll immediately know what is wrong. Furthermore, the other tests might be adjusted in the future without anyone caring whether they still implicitly check this aspect.\n\nThat\u0027s why I\u0027d rather keep this test.",
+      "parentUuid": "edcc5755_0fc5c9f4",
       "range": {
         "startLine": 131,
         "startChar": 14,
@@ -347,6 +659,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_afdfd550",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_91cebe43",
+      "range": {
+        "startLine": 222,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 68
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_f1d142e8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 1
@@ -358,6 +694,30 @@
       "writtenOn": "2016-12-05T16:14:44Z",
       "side": 1,
       "message": "overwritten",
+      "range": {
+        "startLine": 298,
+        "startChar": 54,
+        "endLine": 298,
+        "endChar": 64
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_4f52f1fa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc74f2e_f1d142e8",
       "range": {
         "startLine": 298,
         "startChar": 54,
@@ -393,6 +753,30 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_ef8b9d3b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "If I used this variant, I would need to add a dependency on Guava which doesn\u0027t work nicely with GWT. (Our GWT code depends on the module of this class.) For this reason, I decided to stick with the plain Java version.",
+      "parentUuid": "2dc74f2e_b1cbba32",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 5
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_afd595a3",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/FixReplacement.java",
         "patchSetId": 1
@@ -404,6 +788,30 @@
       "writtenOn": "2016-12-05T16:14:44Z",
       "side": 1,
       "message": "MoreObjects.toStringHelper(this)\n        .add(....)\n        ....)\n        .toString()",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_6f57ade9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/FixReplacement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Please see my remark on the other toString() method.",
+      "parentUuid": "edcc5755_afd595a3",
       "range": {
         "startLine": 28,
         "startChar": 4,
@@ -439,6 +847,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_31290a9b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/FixSuggestion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Please see my remark on the other toString() method.",
+      "parentUuid": "2dc74f2e_510e16ac",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 12
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_0ff7091d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -450,6 +882,30 @@
       "writtenOn": "2016-12-06T08:48:09Z",
       "side": 1,
       "message": "Should this be RobotCommentInput, so that I can\u0027t accidentally pass in a wrong field?",
+      "range": {
+        "startLine": 524,
+        "startChar": 34,
+        "endLine": 524,
+        "endChar": 48
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_d2d444db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Even if we passed in RobotCommentInput (and did the same for ensureRobotRunIdIsSet), nobody would prevent you from accidentally calling the wrong method (because of e.g. a typo). So, it wouldn\u0027t really make a difference.\n\nBy the way, we should have tests which ensure that we use the correct methods/fields.",
+      "parentUuid": "edcc5755_0ff7091d",
       "range": {
         "startLine": 524,
         "startChar": 34,
@@ -479,6 +935,24 @@
     },
     {
       "key": {
+        "uuid": "edcc5755_12dbac0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done.\n\nI added a test to RobotCommentsIT for that case.",
+      "parentUuid": "edcc5755_2ffc45fc",
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_cff02123",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -490,6 +964,30 @@
       "writtenOn": "2016-12-06T08:48:09Z",
       "side": 1,
       "message": "new ArrayList(fixSuggestionInfos.size())",
+      "range": {
+        "startLine": 806,
+        "startChar": 43,
+        "endLine": 806,
+        "endChar": 60
+      },
+      "revId": "53f24968818e4509f8e30e45c7f561b0ae31505d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_32e028af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-07T12:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_cff02123",
       "range": {
         "startLine": 806,
         "startChar": 43,

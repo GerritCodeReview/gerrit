@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_f3324a4e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-07T19:44:02Z",
+      "side": 1,
+      "message": "https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js#221\n\nLooks like this null value is manufactured by us. Why don\u0027t we try setting it to undefined instead so that computed bindings aren\u0027t triggered?\n\n(at this point this is just a philosophical discussion, I\u0027m sure this kind of change would cause lots of things to break)",
+      "parentUuid": "8d04bb4e_74ac863c",
+      "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_d3b2a6c5",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 1

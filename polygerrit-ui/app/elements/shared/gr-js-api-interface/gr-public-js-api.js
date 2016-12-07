@@ -108,6 +108,7 @@
 
   Gerrit.installGwt = function() {
     // NOOP since PolyGerrit doesn’t support GWT plugins.
+    Gerrit._pluginInstalled();
   };
 
   Gerrit._setPluginsCount = function(count) {

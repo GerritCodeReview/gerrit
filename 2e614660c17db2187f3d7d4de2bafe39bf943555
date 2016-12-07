@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d05c749_d3d586a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-07T21:46:05Z",
+      "side": 1,
+      "message": "Sorry, one more: remove these two hyphens also.",
+      "range": {
+        "startLine": 854,
+        "startChar": 33,
+        "endLine": 854,
+        "endChar": 34
+      },
+      "revId": "2e614660c17db2187f3d7d4de2bafe39bf943555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

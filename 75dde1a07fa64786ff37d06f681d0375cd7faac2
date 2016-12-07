@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edcc5755_321d88dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-07T13:01:21Z",
+      "side": 1,
+      "message": "Should this be\n\n  parsedComments.size() - 1\n\n?",
+      "range": {
+        "startLine": 192,
+        "startChar": 42,
+        "endLine": 192,
+        "endChar": 63
+      },
+      "revId": "75dde1a07fa64786ff37d06f681d0375cd7faac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -580,7 +580,7 @@
     },
 
     _switchToMostRecentPatchNum: function() {
-      this._getChangeDetail().then(function() {
+      this._reload().then(function() {
         var patchNum = this._allPatchSets[this._allPatchSets.length - 1];
         if (patchNum !== this._patchRange.patchNum) {
           this._changePatchNum(patchNum);

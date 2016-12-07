@@ -97,6 +97,7 @@ limitations under the License.
           actions: {},
         };
 
+        sandbox.stub(element.$.actions, 'reload');
         sandbox.stub(element.$.restAPI, '_getChangeDetail', function() {
           // Mock change obj.
           return Promise.resolve({

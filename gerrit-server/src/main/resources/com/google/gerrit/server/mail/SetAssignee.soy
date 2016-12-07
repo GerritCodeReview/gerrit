@@ -1,0 +1,71 @@
+/**
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template}
+
+/**
+ * The .SetAssignee template will determine the contents of the email related
+ * to a user being assigned to a change.
+ * @param change
+ * @param email
+ * @param fromName
+ * @param patchSet
+ * @param projectName
+ */
+{template .SetAssignee autoescape="strict" kind="text"}
+  Hello{sp}
+  {$email.assigneeName},
+
+  {\n}
+  {\n}
+
+  {$fromName} has assigned a change to you.
+
+  {sp}Please visit
+
+  {\n}
+  {\n}
+
+  {sp}{sp}{sp}{sp}{$email.changeUrl}
+
+  {\n}
+  {\n}
+
+  to view the change.
+
+  {\n}
+  {\n}
+
+  Change subject: {$change.subject}{\n}
+  ......................................................................{\n}
+
+  {\n}
+
+  {$email.changeDetail}{\n}
+
+  {if $email.sshHost}
+    {\n}
+    {sp}{sp}git pull ssh:{print '//'}{$email.sshHost}/{$projectName}
+        {sp}{$patchSet.refName}
+    {\n}
+  {/if}
+
+  {if $email.includeDiff}
+    {\n}
+    {$email.unifiedDiff}
+    {\n}
+  {/if}
+{/template}

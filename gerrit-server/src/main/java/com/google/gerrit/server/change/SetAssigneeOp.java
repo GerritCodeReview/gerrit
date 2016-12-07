@@ -32,16 +32,24 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.Context;
+import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 public class SetAssigneeOp extends BatchUpdate.Op {
+  private static final Logger log =
+      LoggerFactory.getLogger(SetAssigneeOp.class);
+
   public interface Factory {
     SetAssigneeOp create(String assignee);
   }
@@ -53,6 +61,8 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private final String assignee;
   private final String anonymousCowardName;
   private final AssigneeChanged assigneeChanged;
+  private final SetAssigneeSender.Factory setAssigneeSenderFactory;
+  private final Provider<IdentifiedUser> user;
 
   private Change change;
   private Account newAssignee;
@@ -63,8 +73,10 @@ public class SetAssigneeOp extends BatchUpdate.Op {
       ChangeMessagesUtil cmUtil,
       AccountInfoCacheFactory.Factory accountInfosFactory,
       DynamicSet<AssigneeValidationListener> validationListeners,
-      AssigneeChanged assigneeChanged,
       @AnonymousCowardName String anonymousCowardName,
+      AssigneeChanged assigneeChanged,
+      SetAssigneeSender.Factory setAssigneeSenderFactory,
+      Provider<IdentifiedUser> user,
       @Assisted String assignee) {
     this.accounts = accounts;
     this.cmUtil = cmUtil;
@@ -73,6 +85,8 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     this.assigneeChanged = assigneeChanged;
     this.anonymousCowardName = anonymousCowardName;
     this.assignee = checkNotNull(assignee);
+    this.setAssigneeSenderFactory = setAssigneeSenderFactory;
+    this.user = user;
   }
 
   @Override
@@ -138,6 +152,15 @@ public class SetAssigneeOp extends BatchUpdate.Op {
 
   @Override
   public void postUpdate(Context ctx) throws OrmException {
+    try {
+      SetAssigneeSender cm = setAssigneeSenderFactory
+          .create(change.getProject(), change.getId(), newAssignee.getId());
+      cm.setFrom(user.get().getAccountId());
+      cm.send();
+    } catch (Exception err) {
+      log.error("Cannot send email to new assignee of change " + change.getId(),
+          err);
+    }
     assigneeChanged.fire(change, ctx.getAccount(), oldAssignee, ctx.getWhen());
   }
 

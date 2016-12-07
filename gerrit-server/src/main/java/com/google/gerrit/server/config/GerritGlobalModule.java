@@ -143,6 +143,7 @@ import com.google.gerrit.server.mail.send.MailTemplates;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
+import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.mail.send.VelocityRuntimeProvider;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
@@ -259,6 +260,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectState.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
+    factory(SetAssigneeSender.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)

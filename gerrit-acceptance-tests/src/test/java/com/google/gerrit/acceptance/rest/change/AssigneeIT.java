@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.junit.AfterClass;
@@ -59,6 +60,10 @@ public class AssigneeIT extends AbstractDaemonTest {
     assertThat(setAssignee(r, user.email)._accountId)
         .isEqualTo(user.getId().get());
     assertThat(getAssignee(r)._accountId).isEqualTo(user.getId().get());
+
+    assertThat(sender.getMessages()).hasSize(1);
+    Message m = sender.getMessages().get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
   }
 
   @Test
@@ -66,7 +71,7 @@ public class AssigneeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     setAssignee(r, user.email);
     assertThat(setAssignee(r, user.email)._accountId)
-    .isEqualTo(user.getId().get());
+        .isEqualTo(user.getId().get());
   }
 
   @Test

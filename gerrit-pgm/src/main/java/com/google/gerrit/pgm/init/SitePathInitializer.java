@@ -127,6 +127,8 @@ public class SitePathInitializer {
     extractMailExample("RestoredHtml.soy");
     extractMailExample("Reverted.soy");
     extractMailExample("RevertedHtml.soy");
+    extractMailExample("SetAssignee.soy");
+    extractMailExample("SetAssigneeHtml.soy");
 
     if (!ui.isBatch()) {
       System.err.println();

@@ -22,6 +22,30 @@
       "revId": "daf41af4a38e3d3160fe294674b2486127b016ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_0fa709a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2016-12-07T09:42:19Z",
+      "side": 1,
+      "message": "Thanks for taking a look at this.\n\n\u003e Users must be member of all of group1, group2, ... group N\n\nThis does not feel that likely to me.\n\n\u003e Users must be member of at least one of group1, group2, etc.\n\nThis may happen. Though I choose to only support one group only for a few reasons:\n\n* We only have need to support one group and the related question we found in repo-discuss had the same requirement [1]\n\n* We don\u0027t want one ACL-system in gerrit.config and then one inside Gerrit. This should be a very basic feature to hinder account creation in certain circumstances. Typical use cases would be to stop external consultants or perhaps non engineers from accessing Gerrit or creating accounts.\n\nIf there is a demand on allowing several groups, the company could wrap all the AD-groups in one larger umbrella group (since there is a nice support for group hierarchy)\n\nThough, if we see a demand on support for many groups, someone can add it pretty easily add it if the need arises.\n\n[1] https://groups.google.com/d/msg/repo-discuss/L3qEd8ZioSQ/diJVje1UBgAJ\n\nNote that a suggestion/solution is already included in this thread, though is a complex one and the 1.2.840.113556.1.4.1941 rule is not available on all LDAP-flavours and can also be very slow on large AD-trees. I tried something similar on Sony for getting speed up on recursive groups, and we got a huge performance hit compared to using the cached group walking in use in Gerrit today.",
+      "parentUuid": "edcc5755_6fe48df6",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "daf41af4a38e3d3160fe294674b2486127b016ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -277,7 +277,7 @@ public class GitwebConfig {
     public WebLinkInfo getFileHistoryWebLink(String projectName,
         String revision, String fileName) {
       if (fileHistory != null) {
-        return link(revision
+        return link(fileHistory
             .replace("project", encode(projectName))
             .replace("branch", encode(revision))
             .replace("file", encode(fileName))

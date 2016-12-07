@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "6d05c749_13754eec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-07T22:39:34Z",
+      "side": 1,
+      "message": "Here\u0027s exact reproduction of the problem (kudos to Kasper)\nhttps://jsbin.com/qufunavope/1/edit?html,console,output",
+      "parentUuid": "8d04bb4e_14341a0f",
+      "revId": "4705d0b5dd4afae7836ba24b43397a6649a0ae96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d05c749_d3b2a6c5",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 1

@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -89,7 +88,7 @@ final class CreateGroupCommand extends SshCommand {
   private AddIncludedGroups addIncludedGroups;
 
   @Override
-  protected void run() throws Failure, OrmException, IOException {
+  protected void run() throws Failure, OrmException {
     try {
       GroupResource rsrc = createGroup();
 
@@ -105,8 +104,7 @@ final class CreateGroupCommand extends SshCommand {
     }
   }
 
-  private GroupResource createGroup()
-      throws RestApiException, OrmException, IOException {
+  private GroupResource createGroup() throws RestApiException, OrmException {
     GroupInput input = new GroupInput();
     input.description = groupDescription;
     input.visibleToAll = visibleToAll;
@@ -122,7 +120,7 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addMembers(GroupResource rsrc) throws RestApiException,
-      OrmException, IOException {
+      OrmException {
     AddMembers.Input input =
         AddMembers.Input.fromMembers(FluentIterable
             .from(initialMembers)

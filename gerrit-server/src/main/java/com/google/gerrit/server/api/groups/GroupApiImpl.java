@@ -44,7 +44,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -218,7 +217,7 @@ class GroupApiImpl implements GroupApi {
     try {
       addMembers.apply(
           rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
-    } catch (OrmException | IOException e) {
+    } catch (OrmException e) {
       throw new RestApiException("Cannot add group members", e);
     }
   }
@@ -228,7 +227,7 @@ class GroupApiImpl implements GroupApi {
     try {
       deleteMembers.apply(
           rsrc, AddMembers.Input.fromMembers(Arrays.asList(members)));
-    } catch (OrmException | IOException e) {
+    } catch (OrmException e) {
       throw new RestApiException("Cannot remove group members", e);
     }
   }

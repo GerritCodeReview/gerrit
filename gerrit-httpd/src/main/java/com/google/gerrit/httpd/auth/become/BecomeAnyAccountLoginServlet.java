@@ -219,7 +219,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private AuthResult create() throws IOException {
+  private AuthResult create() {
     String fakeId = AccountExternalId.SCHEME_UUID + UUID.randomUUID();
     try {
       return accountManager.authenticate(new AuthRequest(fakeId));

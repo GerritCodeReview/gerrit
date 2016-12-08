@@ -19,7 +19,7 @@
     LABEL_CHANGE: 'labelchange',
     SHOW_CHANGE: 'showchange',
     SUBMIT_CHANGE: 'submitchange',
-    COMMIT_MSG_CHANGE: 'commitmsgchange',
+    COMMIT_MSG_EDIT: 'commitmsgedit',
     COMMENT: 'comment',
     REVERT: 'revert',
     POST_REVERT: 'postrevert',
@@ -132,7 +132,7 @@
     },
 
     handleCommitMessage: function(change, msg) {
-      this._getEventCallbacks(EventType.COMMIT_MSG_CHANGE).forEach(
+      this._getEventCallbacks(EventType.COMMIT_MSG_EDIT).forEach(
           function(cb) {
             try {
               cb(change, msg);

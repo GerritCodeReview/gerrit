@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "ed6ff7a9_d4f07c75",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-08T19:57:16Z",
+      "side": 1,
+      "message": "IMO, it looks messy to have multiple if-blocks and return-statements to represent what is essentially a series of OR conditions.\n\nTo me...\n\n  if (this.shouldSuppressKeyboardShortcut(e) ||\n      this.modifierPressed(e)) { return; }\n\n...is cleaner than...\n\n  if (this.shouldSuppressKeyboardShortcut(e)) { return; }\n  if (this.modifierPressed(e)) { return; }",
+      "parentUuid": "ed6ff7a9_f4c65837",
+      "revId": "ca4fdcbfc9f6c6bc9ace20ada50d95f83a618b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_36a9b859",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

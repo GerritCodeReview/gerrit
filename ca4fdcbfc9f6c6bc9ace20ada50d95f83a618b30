@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "ed6ff7a9_f4c65837",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-08T18:40:17Z",
+      "side": 1,
+      "message": "I *could*, but then that line would need to be broken and indented for being \u003e 80ch. I think this way is much cleaner looking and legible, at no cost to vertical space or efficiency.",
+      "parentUuid": "ed6ff7a9_94b7e4bc",
+      "revId": "ca4fdcbfc9f6c6bc9ace20ada50d95f83a618b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_d6da4406",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-08T18:40:17Z",
+      "side": 1,
+      "message": "See my reply to Andy\u0027s comment above for the reason for this.\n\nThis *is* the solution on the keyboard-shortcut-behavior level.",
+      "parentUuid": "ed6ff7a9_34a9b059",
+      "revId": "ca4fdcbfc9f6c6bc9ace20ada50d95f83a618b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_36a9b859",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -54,6 +90,24 @@
         "endLine": 610,
         "endChar": 60
       },
+      "revId": "ca4fdcbfc9f6c6bc9ace20ada50d95f83a618b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_76b330cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-08T18:40:17Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t [Shift] a modifier? Is this redundant?\n\nDone",
+      "parentUuid": "2d7aef68_36a9b859",
       "revId": "ca4fdcbfc9f6c6bc9ace20ada50d95f83a618b30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

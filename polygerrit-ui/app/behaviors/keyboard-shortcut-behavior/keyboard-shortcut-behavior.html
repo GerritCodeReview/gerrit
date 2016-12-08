@@ -13,20 +13,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 
 <script>
 (function(window) {
   'use strict';
 
   var getKeyboardEvent = function(e) {
-    return Polymer.dom(e.detail ? e.detail.keyboardEvent : e).event;
+    return Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
   };
 
   var KeyboardShortcutBehaviorImpl = {
     modifierPressed: function(e) {
       e = getKeyboardEvent(e);
+      if (e.event) { e = e.event; }
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     },
 

@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
+import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -25,17 +26,13 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexDefinition;
-import com.google.gerrit.server.index.account.AccountIndexRewriter;
-import com.google.gerrit.server.index.account.AccountIndexer;
-import com.google.gerrit.server.index.account.AccountIndexerImpl;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexDefinition;
-import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.change.IndexRewriter;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -55,7 +52,7 @@ import java.util.Set;
  */
 public class IndexModule extends LifecycleModule {
   public enum IndexType {
-    LUCENE, ELASTICSEARCH
+    LUCENE
   }
 
   public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
@@ -89,12 +86,7 @@ public class IndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    bind(AccountIndexRewriter.class);
-    bind(AccountIndexCollection.class);
-    listener().to(AccountIndexCollection.class);
-    factory(AccountIndexerImpl.Factory.class);
-
-    bind(ChangeIndexRewriter.class);
+    bind(IndexRewriter.class);
     bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
@@ -109,24 +101,25 @@ public class IndexModule extends LifecycleModule {
             accounts,
             changes);
     Set<String> expected = FluentIterable.from(ALL_SCHEMA_DEFS)
-        .transform(SchemaDefinitions::getName)
-        .toSet();
+        .transform(new Function<SchemaDefinitions<?>, String>() {
+          @Override
+          public String apply(SchemaDefinitions<?> in) {
+            return in.getName();
+          }
+        }).toSet();
     Set<String> actual = FluentIterable.from(result)
-        .transform(IndexDefinition::getName)
-        .toSet();
+        .transform(new Function<IndexDefinition<?, ?, ?>, String>() {
+          @Override
+          public String apply(IndexDefinition<?, ?, ?> in) {
+            return in.getName();
+          }
+        }).toSet();
     if (!expected.equals(actual)) {
       throw new ProvisionException(
           "need index definitions for all schemas: "
           + expected + " != " + actual);
     }
     return result;
-  }
-
-  @Provides
-  @Singleton
-  AccountIndexer getAccountIndexer(AccountIndexerImpl.Factory factory,
-      AccountIndexCollection indexes) {
-    return factory.create(indexes);
   }
 
   @Provides

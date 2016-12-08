@@ -30,8 +30,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
-
 @Singleton
 public class PutUsername implements RestModifyView<AccountResource, Input> {
   public static class Input {
@@ -58,7 +56,7 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
   @Override
   public String apply(AccountResource rsrc, Input input) throws AuthException,
       MethodNotAllowedException, UnprocessableEntityException,
-      ResourceConflictException, OrmException, IOException {
+      ResourceConflictException, OrmException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to set username");

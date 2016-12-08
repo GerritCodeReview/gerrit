@@ -21,10 +21,8 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.groups.GroupInput;
-import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -52,9 +50,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -100,20 +95,10 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     this.name = name;
   }
 
-  public CreateGroup addOption(ListGroupsOption o) {
-    json.addOption(o);
-    return this;
-  }
-
-  public CreateGroup addOptions(Collection<ListGroupsOption> o) {
-    json.addOptions(o);
-    return this;
-  }
-
   @Override
   public GroupInfo apply(TopLevelResource resource, GroupInput input)
-      throws AuthException, BadRequestException, UnprocessableEntityException,
-      ResourceConflictException, OrmException, IOException {
+      throws BadRequestException, UnprocessableEntityException,
+      ResourceConflictException, OrmException {
     if (input == null) {
       input = new GroupInput();
     }
@@ -128,22 +113,9 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     args.visibleToAll = MoreObjects.firstNonNull(input.visibleToAll,
         defaultVisibleToAll);
     args.ownerGroupId = ownerId;
-    if (input.members != null && !input.members.isEmpty()) {
-      List<Account.Id> members = new ArrayList<>();
-      for (String nameOrEmailOrId : input.members) {
-        Account a = addMembers.findAccount(nameOrEmailOrId);
-        if (!a.isActive()) {
-          throw new UnprocessableEntityException(String.format(
-              "Account Inactive: %s", nameOrEmailOrId));
-        }
-        members.add(a.getId());
-      }
-      args.initialMembers = members;
-    } else {
-      args.initialMembers = ownerId == null
-          ? Collections.singleton(self.get().getAccountId())
-          : Collections.<Account.Id> emptySet();
-    }
+    args.initialMembers = ownerId == null
+        ? Collections.singleton(self.get().getAccountId())
+        : Collections.<Account.Id> emptySet();
 
     for (GroupCreationValidationListener l : groupCreationValidationListeners) {
       try {
@@ -166,7 +138,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   }
 
   private AccountGroup createGroup(CreateGroupArgs createGroupArgs)
-      throws OrmException, ResourceConflictException, IOException {
+      throws OrmException, ResourceConflictException {
 
     // Do not allow creating groups with the same name as system groups
     List<String> sysGroupNames = SystemGroupBackend.getNames();

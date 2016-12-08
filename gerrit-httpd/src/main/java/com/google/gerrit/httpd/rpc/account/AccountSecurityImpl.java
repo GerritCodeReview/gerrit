@@ -23,6 +23,10 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+<<<<<<< HEAD
+=======
+import java.util.Collections;
+>>>>>>> Revert "Reindex account whenever account is evicted from cache"
 import java.util.List;
 import java.util.Set;
 
@@ -51,4 +55,85 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final AsyncCallback<Set<AccountExternalId.Key>> callback) {
     deleteExternalIdsFactory.create(keys).to(callback);
   }
+<<<<<<< HEAD
+=======
+
+  @Override
+  public void updateContact(final String name, final String emailAddr,
+      final AsyncCallback<Account> callback) {
+    run(callback, new Action<Account>() {
+      @Override
+      public Account run(ReviewDb db) throws OrmException, Failure {
+        IdentifiedUser self = user.get();
+        final Account me = db.accounts().get(self.getAccountId());
+        final String oldEmail = me.getPreferredEmail();
+        if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
+          me.setFullName(Strings.emptyToNull(name));
+        }
+        if (!Strings.isNullOrEmpty(emailAddr)
+            && !self.hasEmailAddress(emailAddr)) {
+          throw new Failure(new PermissionDeniedException("Email address must be verified"));
+        }
+        me.setPreferredEmail(Strings.emptyToNull(emailAddr));
+        db.accounts().update(Collections.singleton(me));
+        if (!eq(oldEmail, me.getPreferredEmail())) {
+          byEmailCache.evict(oldEmail);
+          byEmailCache.evict(me.getPreferredEmail());
+        }
+        accountCache.evict(me.getId());
+        return me;
+      }
+    });
+  }
+
+  private static boolean eq(final String a, final String b) {
+    if (a == null && b == null) {
+      return true;
+    }
+    return a != null && a.equals(b);
+  }
+
+  @Override
+  public void enterAgreement(final String agreementName,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      @Override
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        ContributorAgreement ca = projectCache.getAllProjects().getConfig()
+            .getContributorAgreement(agreementName);
+        if (ca == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        if (ca.getAutoVerify() == null) {
+          throw new Failure(new IllegalStateException(
+              "cannot enter a non-autoVerify agreement"));
+        } else if (ca.getAutoVerify().getUUID() == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        AccountGroup group = groupCache.get(ca.getAutoVerify().getUUID());
+        if (group == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        Account account = user.get().getAccount();
+        hooks.doClaSignupHook(account, ca.getName());
+
+        final AccountGroupMember.Key key =
+            new AccountGroupMember.Key(account.getId(), group.getId());
+        AccountGroupMember m = db.accountGroupMembers().get(key);
+        if (m == null) {
+          m = new AccountGroupMember(key);
+          auditService.dispatchAddAccountsToGroup(account.getId(), Collections
+              .singleton(m));
+          db.accountGroupMembers().insert(Collections.singleton(m));
+          accountCache.evict(m.getAccountId());
+        }
+
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+>>>>>>> Revert "Reindex account whenever account is evicted from cache"
 }

@@ -24,7 +24,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,7 +60,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   }
 
   @Override
-  public Set<AccountExternalId.Key> call() throws OrmException, IOException {
+  public Set<AccountExternalId.Key> call() throws OrmException {
     final Map<AccountExternalId.Key, AccountExternalId> have = have();
 
     List<AccountExternalId> toDelete = new ArrayList<>();

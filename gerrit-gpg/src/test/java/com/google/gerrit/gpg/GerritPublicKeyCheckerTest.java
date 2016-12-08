@@ -66,7 +66,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -155,7 +154,7 @@ public class GerritPublicKeyCheckerTest {
     return userFactory.create(id);
   }
 
-  private IdentifiedUser reloadUser() throws IOException {
+  private IdentifiedUser reloadUser() {
     accountCache.evict(userId);
     user = userFactory.create(userId);
     return user;

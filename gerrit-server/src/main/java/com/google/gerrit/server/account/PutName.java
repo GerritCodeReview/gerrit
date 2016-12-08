@@ -32,7 +32,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -59,7 +58,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, MethodNotAllowedException,
-      ResourceNotFoundException, OrmException, IOException {
+      ResourceNotFoundException, OrmException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to change name");
@@ -68,8 +67,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   }
 
   public Response<String> apply(IdentifiedUser user, Input input)
-      throws MethodNotAllowedException, ResourceNotFoundException, OrmException,
-      IOException {
+      throws MethodNotAllowedException, ResourceNotFoundException, OrmException {
     if (input == null) {
       input = new Input();
     }

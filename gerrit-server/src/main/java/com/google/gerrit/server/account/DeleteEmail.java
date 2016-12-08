@@ -31,8 +31,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
-
 @Singleton
 public class DeleteEmail implements RestModifyView<AccountResource.Email, Input> {
   public static class Input {
@@ -55,8 +53,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   @Override
   public Response<?> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, MethodNotAllowedException, OrmException,
-      IOException {
+      ResourceConflictException, MethodNotAllowedException, OrmException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to delete email address");
@@ -66,8 +63,8 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   public Response<?> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, ResourceConflictException,
-      MethodNotAllowedException, OrmException, IOException {
-    if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
+      MethodNotAllowedException, OrmException {
+    if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
     AccountExternalId.Key key = new AccountExternalId.Key(

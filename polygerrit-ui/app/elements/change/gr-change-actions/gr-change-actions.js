@@ -488,7 +488,7 @@
           if (!this._canSubmitChange()) {
             return;
           }
-          /* falls through */ // required by JSHint
+        /* falls through */ // required by JSHint
         default:
           this._fireAction(this._prependSlash(key),
               this.revisionActions[key], true);

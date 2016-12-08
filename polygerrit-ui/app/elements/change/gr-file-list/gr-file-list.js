@@ -199,12 +199,18 @@
       return this.$.restAPI.getPreferences();
     },
 
-    _computePatchSets: function(revisions) {
+    _computePatchSets: function(revisionRecord) {
+      var revisions = revisionRecord.base;
       var patchNums = [];
       for (var commit in revisions) {
-        patchNums.push(revisions[commit]._number);
+        if (revisions.hasOwnProperty(commit)) {
+          patchNums.push({
+            num: revisions[commit]._number,
+            desc: revisions[commit].description,
+          });
+        }
       }
-      return patchNums.sort(function(a, b) { return a - b; });
+      return patchNums.sort(function(a, b) { return a.num - b.num; });
     },
 
     _computePatchSetDisabled: function(patchNum, currentPatchNum) {
@@ -617,7 +623,7 @@
     },
 
     _computePatchSetDescription: function(revisions, patchNum) {
-      var rev = this.getRevisionNumber(revisions, patchNum);
+      var rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ? rev.description : '';
     },
   });

@@ -104,12 +104,11 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
       if (subPath.endsWith("plugins")) {
         pluginsIdx = idx;
       }
-      if (subPath.endsWith(BAZELOUT)) {
+      if (subPath.endsWith(BAZELOUT) || subPath.endsWith(ECLIPSE)) {
         bazel = true;
         buckOutIdx = idx;
       }
-      // TODO(davido): Fix Bazel plugin test from Eclipse
-      if (subPath.endsWith(BUCKOUT) || subPath.endsWith(ECLIPSE)) {
+      if (subPath.endsWith(BUCKOUT)) {
         buckOutIdx = idx;
       }
       idx++;

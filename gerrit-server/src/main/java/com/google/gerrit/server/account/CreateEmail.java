@@ -40,8 +40,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 public class CreateEmail implements RestModifyView<AccountResource, EmailInput> {
   private static final Logger log = LoggerFactory.getLogger(CreateEmail.class);
 
@@ -78,7 +76,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   public Response<EmailInfo> apply(AccountResource rsrc, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
       ResourceNotFoundException, OrmException, EmailException,
-      MethodNotAllowedException, IOException {
+      MethodNotAllowedException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to add email address");
@@ -107,7 +105,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
       ResourceNotFoundException, OrmException, EmailException,
-      MethodNotAllowedException, IOException {
+      MethodNotAllowedException {
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }

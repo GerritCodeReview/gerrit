@@ -27,8 +27,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Provider;
 
-import java.io.IOException;
-
 /** Support for services which require a {@link ReviewDb} instance. */
 public class BaseServiceImplementation {
   private final Provider<ReviewDb> schema;
@@ -88,8 +86,6 @@ public class BaseServiceImplementation {
       handleOrmException(callback, ex);
     } catch (OrmException e) {
       handleOrmException(callback, e);
-    } catch (IOException e) {
-      callback.onFailure(e);
     } catch (Failure e) {
       if (e.getCause() instanceof NoSuchProjectException
           || e.getCause() instanceof NoSuchChangeException) {
@@ -136,6 +132,6 @@ public class BaseServiceImplementation {
      * @throws InvalidQueryException
      */
     T run(ReviewDb db) throws OrmException, Failure, NoSuchProjectException,
-        NoSuchGroupException, InvalidQueryException, IOException;
+        NoSuchGroupException, InvalidQueryException;
   }
 }

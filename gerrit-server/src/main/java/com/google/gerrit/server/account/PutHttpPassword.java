@@ -34,7 +34,6 @@ import com.google.inject.Singleton;
 
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collections;
@@ -70,9 +69,8 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Response<String> apply(AccountResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException,
-      ResourceConflictException, OrmException, IOException {
+  public Response<String> apply(AccountResource rsrc, Input input) throws AuthException,
+      ResourceNotFoundException, ResourceConflictException, OrmException {
     if (input == null) {
       input = new Input();
     }
@@ -103,8 +101,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   }
 
   public Response<String> apply(IdentifiedUser user, String newPassword)
-      throws ResourceNotFoundException, ResourceConflictException, OrmException,
-      IOException {
+      throws ResourceNotFoundException, ResourceConflictException, OrmException {
     if (user.getUserName() == null) {
       throw new ResourceConflictException("username must be set");
     }

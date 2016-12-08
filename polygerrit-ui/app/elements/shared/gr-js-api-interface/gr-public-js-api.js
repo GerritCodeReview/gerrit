@@ -111,10 +111,29 @@
     Gerrit._pluginInstalled();
   };
 
+  Gerrit._allPluginsPromise = null;
+  Gerrit._resolveAllPluginsLoaded = null;
+
+  Gerrit.awaitPluginsLoaded = function() {
+    if (!Gerrit._allPluginsPromise) {
+      if (Gerrit._arePluginsLoaded()) {
+        Gerrit._allPluginsPromise = Promise.resolve();
+      } else {
+        Gerrit._allPluginsPromise = new Promise(function(resolve) {
+          Gerrit._resolveAllPluginsLoaded = resolve;
+        });
+      }
+    }
+    return Gerrit._allPluginsPromise;
+  };
+
   Gerrit._setPluginsCount = function(count) {
     Gerrit._pluginsPending = count;
     if (Gerrit._arePluginsLoaded()) {
       document.createElement('gr-reporting').pluginsLoaded();
+      if (Gerrit._resolveAllPluginsLoaded) {
+        Gerrit._resolveAllPluginsLoaded();
+      }
     }
   };
 

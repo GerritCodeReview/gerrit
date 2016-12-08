@@ -47,23 +47,26 @@
     EventType: EventType,
 
     handleEvent: function(type, detail) {
-      switch (type) {
-        case EventType.HISTORY:
-          this._handleHistory(detail);
-          break;
-        case EventType.SHOW_CHANGE:
-          this._handleShowChange(detail);
-          break;
-        case EventType.COMMENT:
-          this._handleComment(detail);
-          break;
-        case EventType.LABEL_CHANGE:
-          this._handleLabelChange(detail);
-          break;
-        default:
-          console.warn('handleEvent called with unsupported event type:', type);
-          break;
-      }
+      Gerrit.awaitPluginsLoaded().then(function() {
+        switch (type) {
+          case EventType.HISTORY:
+            this._handleHistory(detail);
+            break;
+          case EventType.SHOW_CHANGE:
+            this._handleShowChange(detail);
+            break;
+          case EventType.COMMENT:
+            this._handleComment(detail);
+            break;
+          case EventType.LABEL_CHANGE:
+            this._handleLabelChange(detail);
+            break;
+          default:
+            console.warn('handleEvent called with unsupported event type:',
+                type);
+            break;
+        }
+      }.bind(this));
     },
 
     addElement: function(key, el) {

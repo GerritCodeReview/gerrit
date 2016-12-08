@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ad66dfce_9a69cd68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-08T14:24:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d8e0bb3_9d69c368",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e2c8d27f8b59280ec01f9aad8939713fcdbee641",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_34431e65",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefUtil.java",
         "patchSetId": 31
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-08T13:15:33Z",
       "side": 1,
       "message": "[optional] I find it a bit confusing a method called validate returns an updated version of the string it\u0027s validating.\n\nThis is subjective but I would probably have named it after the fact that it\u0027s normalizing the value.\n\nnormalizeTagRef?",
+      "range": {
+        "startLine": 106,
+        "startChar": 23,
+        "endLine": 106,
+        "endChar": 37
+      },
+      "revId": "e2c8d27f8b59280ec01f9aad8939713fcdbee641",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad66dfce_ba6e916b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-08T14:24:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d04bb4e_34431e65",
       "range": {
         "startLine": 106,
         "startChar": 23,

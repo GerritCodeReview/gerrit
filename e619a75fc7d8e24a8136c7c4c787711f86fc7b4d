@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_942b0cf0",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-08T10:42:26Z",
+      "side": 1,
+      "message": "I combined both classes but had to introduce a new Bazel/Buck package to reference the class both from gerrit-acceptance-tests and gerrit-extension-api.\n\nI would like to move the other custom Truth subjects to this new package, too. As that\u0027s unrelated, I\u0027ll create another change for that.",
+      "parentUuid": "edcc5755_d2b52482",
+      "revId": "e619a75fc7d8e24a8136c7c4c787711f86fc7b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edcc5755_f2b2a097",
         "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-12-07T16:30:05Z",
       "side": 1,
       "message": "unused",
+      "range": {
+        "startLine": 19,
+        "startChar": 31,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "e619a75fc7d8e24a8136c7c4c787711f86fc7b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dc74f2e_b42888f3",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-08T10:42:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc5755_f2b2a097",
       "range": {
         "startLine": 19,
         "startChar": 31,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "2dc74f2e_54f7e46d",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-08T10:42:26Z",
+      "side": 1,
+      "message": "We need it in the combined class.",
+      "parentUuid": "edcc5755_92bf9c5e",
+      "range": {
+        "startLine": 21,
+        "startChar": 31,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "e619a75fc7d8e24a8136c7c4c787711f86fc7b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc74f2e_94878cf9",
         "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2016-12-07T16:30:05Z",
       "side": 1,
       "message": "unused",
+      "range": {
+        "startLine": 24,
+        "startChar": 31,
+        "endLine": 24,
+        "endChar": 36
+      },
+      "revId": "e619a75fc7d8e24a8136c7c4c787711f86fc7b4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_121e4c8b",
+        "filename": "gerrit-extension-api/src/test/java/com/google/gerrit/extensions/client/RangeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2016-12-08T10:42:26Z",
+      "side": 1,
+      "message": "We need it in the combined class.",
+      "parentUuid": "2dc74f2e_94878cf9",
       "range": {
         "startLine": 24,
         "startChar": 31,

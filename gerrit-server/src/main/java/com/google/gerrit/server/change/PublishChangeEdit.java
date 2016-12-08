@@ -76,10 +76,13 @@ public class PublishChangeEdit implements
       implements RestModifyView<ChangeResource, PublishChangeEditInput> {
 
     private final ChangeEditUtil editUtil;
+    private final NotifyUtil notifyUtil;
 
     @Inject
-    Publish(ChangeEditUtil editUtil) {
+    Publish(ChangeEditUtil editUtil,
+        NotifyUtil notifyUtil) {
       this.editUtil = editUtil;
+      this.notifyUtil = notifyUtil;
     }
 
     @Override
@@ -101,7 +104,8 @@ public class PublishChangeEdit implements
       if (in == null) {
         in = new PublishChangeEditInput();
       }
-      editUtil.publish(edit.get(), in.notify);
+      editUtil.publish(edit.get(), in.notify,
+          notifyUtil.resolveAccounts(in.notifyDetails));
       return Response.none();
     }
   }

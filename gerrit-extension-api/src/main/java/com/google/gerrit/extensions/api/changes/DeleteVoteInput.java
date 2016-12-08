@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
+import java.util.Map;
+
 /** Input passed to {@code DELETE /changes/[id]/reviewers/[id]/votes/[label]}. */
 public class DeleteVoteInput {
   @DefaultInput
@@ -23,4 +25,5 @@ public class DeleteVoteInput {
 
   /** Who to send email notifications to after vote is deleted. */
   public NotifyHandling notify = NotifyHandling.ALL;
+  public Map<RecipientType, NotifyInfo> notifyDetails;
 }

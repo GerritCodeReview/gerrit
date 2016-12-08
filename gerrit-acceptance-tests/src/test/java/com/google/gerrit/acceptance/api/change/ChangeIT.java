@@ -43,6 +43,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
@@ -52,7 +53,9 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -1373,10 +1376,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
 
     setApiUser(user);
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .review(ReviewInput.recommend());
+    recommend(r.getChangeId());
 
     setApiUser(admin);
     sender.clear();
@@ -1425,10 +1425,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
 
     setApiUser(user);
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .review(ReviewInput.recommend());
+    recommend(r.getChangeId());
 
     setApiUser(admin);
     sender.clear();
@@ -1440,6 +1437,62 @@ public class ChangeIT extends AbstractDaemonTest {
         .reviewer(user.getId().toString())
         .deleteVote(in);
     assertThat(sender.getMessages()).hasSize(0);
+  }
+
+  @Test
+  public void deleteVoteNotifyAccount() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    DeleteVoteInput in = new DeleteVoteInput();
+    in.label = "Code-Review";
+    in.notify = NotifyHandling.NONE;
+
+    // notify unrelated account as TO
+    TestAccount user2 = accounts.user2();
+    setApiUser(user);
+    recommend(r.getChangeId());
+    setApiUser(admin);
+    sender.clear();
+    in.notifyDetails = new HashMap<>();
+    in.notifyDetails.put(RecipientType.TO,
+        new NotifyInfo(ImmutableList.of(user2.email)));
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .deleteVote(in);
+    assertNotifyTo(user2);
+
+    // notify unrelated account as CC
+    setApiUser(user);
+    recommend(r.getChangeId());
+    setApiUser(admin);
+    sender.clear();
+    in.notifyDetails = new HashMap<>();
+    in.notifyDetails.put(RecipientType.CC,
+        new NotifyInfo(ImmutableList.of(user2.email)));
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .deleteVote(in);
+    assertNotifyCc(user2);
+
+    // notify unrelated account as BCC
+    setApiUser(user);
+    recommend(r.getChangeId());
+    setApiUser(admin);
+    sender.clear();
+    in.notifyDetails = new HashMap<>();
+    in.notifyDetails.put(RecipientType.BCC,
+        new NotifyInfo(ImmutableList.of(user2.email)));
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .deleteVote(in);
+    assertNotifyBcc(user2);
   }
 
   @Test

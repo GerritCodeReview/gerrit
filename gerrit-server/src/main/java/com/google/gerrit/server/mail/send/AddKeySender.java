@@ -16,10 +16,10 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Joiner;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.RecipientType;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 

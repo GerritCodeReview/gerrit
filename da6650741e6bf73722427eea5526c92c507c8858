@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed6ff7a9_b4978027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-08T17:38:47Z",
+      "side": 1,
+      "message": "Are we ok with this?",
+      "range": {
+        "startLine": 13,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 51
+      },
+      "revId": "da6650741e6bf73722427eea5526c92c507c8858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

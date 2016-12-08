@@ -116,6 +116,7 @@ for n in sorted(graph.keys()):
   print("[[%s]]" % safename)
   print(name)
   print()
+  print("----")
   for d in sorted(graph[n]):
     if d.startswith("//lib:") or d.startswith("//lib/"):
       p = d[len("//lib:"):]
@@ -126,7 +127,6 @@ for n in sorted(graph.keys()):
     print("* " + p)
   print()
   print("[[%s_license]]" % safename)
-  print("----")
   with open(n[2:].replace(":", "/")) as fd:
     copyfileobj(fd, stdout)
   print()

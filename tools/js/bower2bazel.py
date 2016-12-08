@@ -144,6 +144,8 @@ def main(args):
   os.rename(opts.w + ".tmp", opts.w)
   os.rename(opts.b + ".tmp", opts.b)
 
+  sys.stderr.write("mortal remains under %s\n" % dir)
+
 
 def dump_workspace(data, seeds, out):
   out.write('load("//tools/bzl:js.bzl", "bower_archive")\n')

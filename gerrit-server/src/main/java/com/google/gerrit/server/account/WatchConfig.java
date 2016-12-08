@@ -250,7 +250,7 @@ public class WatchConfig extends VersionedMetaData
     Config cfg = readConfig(WATCH_CONFIG);
 
     for (String projectName : cfg.getSubsections(PROJECT)) {
-      cfg.unset(PROJECT, projectName, KEY_NOTIFY);
+      cfg.unsetSection(PROJECT, projectName);
     }
 
     Multimap<String, String> notifyValuesByProject = ArrayListMultimap.create();

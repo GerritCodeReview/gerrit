@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0d8e0bb3_9d69c368",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteTag.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-12-08T13:30:53Z",
+      "side": 1,
+      "message": "2016",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e2c8d27f8b59280ec01f9aad8939713fcdbee641",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_34431e65",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefUtil.java",
         "patchSetId": 31

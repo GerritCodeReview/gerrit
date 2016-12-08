@@ -21,12 +21,13 @@ limitations under the License.
   'use strict';
 
   var getKeyboardEvent = function(e) {
-    return Polymer.dom(e.detail ? e.detail.keyboardEvent : e).event;
+    return Polymer.dom(e.detail ? e.detail.keyboardEvent : e);
   };
 
   var KeyboardShortcutBehaviorImpl = {
     modifierPressed: function(e) {
       e = getKeyboardEvent(e);
+      if (e.event) { e = e.event; }
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     },
 

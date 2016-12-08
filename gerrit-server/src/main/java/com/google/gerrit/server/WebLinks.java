@@ -36,8 +36,6 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 @Singleton
 public class WebLinks {
   private static final Logger log = LoggerFactory.getLogger(WebLinks.class);
@@ -96,7 +94,7 @@ public class WebLinks {
    * @param commit SHA1 of commit.
    * @return Links for patch sets.
    */
-  public List<WebLinkInfo> getPatchSetLinks(Project.NameKey project,
+  public FluentIterable<WebLinkInfo> getPatchSetLinks(Project.NameKey project,
       String commit) {
     return filterLinks(
         patchSetLinks,
@@ -110,7 +108,7 @@ public class WebLinks {
    * @param file File name.
    * @return Links for files.
    */
-  public List<WebLinkInfo> getFileLinks(String project,
+  public FluentIterable<WebLinkInfo> getFileLinks(String project,
       String revision, String file) {
     return filterLinks(
         fileLinks,
@@ -124,7 +122,7 @@ public class WebLinks {
    * @param file File name.
    * @return Links for file history
    */
-  public List<WebLinkInfoCommon> getFileHistoryLinks(
+  public FluentIterable<WebLinkInfoCommon> getFileHistoryLinks(
       String project, String revision, String file) {
     return FluentIterable
         .from(fileHistoryLinks)
@@ -142,8 +140,7 @@ public class WebLinks {
               commonInfo.target = info.target;
               return commonInfo;
             })
-        .filter(INVALID_WEBLINK_COMMON)
-        .toList();
+        .filter(INVALID_WEBLINK_COMMON);
   }
 
   /**
@@ -158,7 +155,7 @@ public class WebLinks {
    * @param fileB File name of side B.
    * @return Links for file diffs.
    */
-  public List<DiffWebLinkInfo> getDiffLinks(final String project, final int changeId,
+  public FluentIterable<DiffWebLinkInfo> getDiffLinks(final String project, final int changeId,
       final Integer patchSetIdA, final String revisionA, final String fileA,
       final int patchSetIdB, final String revisionB, final String fileB) {
    return FluentIterable
@@ -167,8 +164,7 @@ public class WebLinks {
             webLink.getDiffLink(project, changeId,
                 patchSetIdA, revisionA, fileA,
                 patchSetIdB, revisionB, fileB))
-       .filter(INVALID_WEBLINK)
-       .toList();
+       .filter(INVALID_WEBLINK);
  }
 
   /**
@@ -176,7 +172,7 @@ public class WebLinks {
    * @param project Project name.
    * @return Links for projects.
    */
-  public List<WebLinkInfo> getProjectLinks(final String project) {
+  public FluentIterable<WebLinkInfo> getProjectLinks(final String project) {
     return filterLinks(
         projectLinks,
         webLink -> webLink.getProjectWeblink(project));
@@ -188,18 +184,17 @@ public class WebLinks {
    * @param branch Branch name
    * @return Links for branches.
    */
-  public List<WebLinkInfo> getBranchLinks(final String project, final String branch) {
+  public FluentIterable<WebLinkInfo> getBranchLinks(final String project, final String branch) {
     return filterLinks(
         branchLinks,
         webLink -> webLink.getBranchWebLink(project, branch));
   }
 
-  private <T extends WebLink> List<WebLinkInfo> filterLinks(DynamicSet<T> links,
+  private <T extends WebLink> FluentIterable<WebLinkInfo> filterLinks(DynamicSet<T> links,
       Function<T, WebLinkInfo> transformer) {
     return FluentIterable
         .from(links)
         .transform(transformer)
-        .filter(INVALID_WEBLINK)
-        .toList();
+        .filter(INVALID_WEBLINK);
   }
 }

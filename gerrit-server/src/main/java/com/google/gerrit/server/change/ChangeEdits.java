@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -489,7 +490,7 @@ public class ChangeEdits implements
       FileInfo r = new FileInfo();
       ChangeEdit edit = rsrc.getChangeEdit();
       Change change = edit.getChange();
-      List<DiffWebLinkInfo> links =
+      FluentIterable<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(change.getProject().get(),
               change.getChangeId(),
               edit.getBasePatchSet().getPatchSetId(),
@@ -498,7 +499,7 @@ public class ChangeEdits implements
               0,
               edit.getRefName(),
               rsrc.getPath());
-      r.webLinks = links.isEmpty() ? null : links;
+      r.webLinks = links.isEmpty() ? null : links.toList();
       return r;
     }
 

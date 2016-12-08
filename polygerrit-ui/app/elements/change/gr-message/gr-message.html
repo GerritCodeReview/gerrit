@@ -31,86 +31,47 @@ limitations under the License.
         display: block;
         position: relative;
       }
-      :host(:not([expanded])) {
-        cursor: pointer;
-      }
       gr-avatar {
         position: absolute;
         left: var(--default-horizontal-margin);
       }
-      .collapsed .contentContainer {
-        align-items: baseline;
-        color: #777;
-        display: flex;
-        white-space: nowrap;
-      }
-      .showAvatar.expanded .contentContainer {
+      .showAvatar .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 2.5em);
         padding: 10px 0;
       }
-      .showAvatar.collapsed .contentContainer {
-        margin-left: calc(var(--default-horizontal-margin) + 1.75em);
-      }
-      .hideAvatar.collapsed .contentContainer,
-      .hideAvatar.expanded .contentContainer {
+      .hideAvatar .contentContainer {
         margin-left: 0;
       }
-      .showAvatar.collapsed .contentContainer,
-      .hideAvatar.collapsed .contentContainer,
-      .hideAvatar.expanded .contentContainer {
+      .hideAvatar .contentContainer {
         padding: .75em 0;
       }
-      .collapsed gr-avatar {
-        top: .5em;
-        height: 1.75em;
-        width: 1.75em;
-      }
-      .expanded gr-avatar {
+      gr-avatar {
         top: 12px;
         height: 2.5em;
         width: 2.5em;
       }
-      .name {
+      :host[is-automated] gr-avatar {
+        height: 1.2em;
+        margin-left: .7em;
+        width: 1.2em;
+      }
+      :host:not([is-automated]) .name {
         font-weight: bold;
+      }
+      :host[is-automated] .name {
+        display: inline;
       }
       .message {
         max-width: 80ch;
       }
-      .collapsed .message {
-        overflow: hidden;
-        text-overflow: ellipsis;
+      :host[is-automated] .message {
+        display: inline-block;
       }
-      .collapsed .name,
-      .collapsed .content,
-      .collapsed .message,
-      gr-account-chip {
-        display: inline;
-      }
-      .collapsed gr-comment-list,
-      .collapsed .replyContainer,
-      .collapsed .hideOnCollapsed,
-      .hideOnOpen {
-        display: none;
-      }
-      .collapsed .hideOnOpen {
-        display: block;
-      }
-      .collapsed .content {
-        flex: 1;
-        margin-right: .25em;
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .collapsed .date {
-        position: static;
-      }
-      .collapsed .name {
-        color: var(--default-text-color);
-        margin-right: .4em;
-      }
-      .expanded .name {
+      .name {
         cursor: pointer;
+      }
+      .name:hover {
+        text-decoration: underline;
       }
       .date {
         color: #666;
@@ -121,37 +82,56 @@ limitations under the License.
       .replyContainer {
         padding: .5em 0 1em;
       }
+      gr-account-chip {
+        display: inline;
+      }
     </style>
-    <div class$="[[_computeClass(expanded, showAvatar)]]">
+    <div class$="[[_computeClass(showAvatar)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
-        <div class="name" on-tap="_handleNameTap">[[author.name]]</div>
+        <div class="name">[[author.name]]</div>
         <template is="dom-if" if="[[message.message]]">
-          <div class="content">
-            <div class="message hideOnOpen">[[message.message]]</div>
-            <gr-formatted-text
-                class="message hideOnCollapsed"
-                content="[[message.message]]"
-                config="[[projectConfig.commentlinks]]"></gr-formatted-text>
-            <gr-comment-list
-                comments="[[comments]]"
-                change-num="[[changeNum]]"
-                patch-num="[[message._revision_number]]"
-                project-config="[[projectConfig]]"></gr-comment-list>
-          </div>
-          <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
-            <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
+          <gr-formatted-text
+              class="message"
+              no-trailing-margin
+              content="[[message.message]]"
+              config="[[projectConfig.commentlinks]]"></gr-formatted-text>
+          <gr-comment-list
+              comments="[[comments]]"
+              change-num="[[changeNum]]"
+              patch-num="[[message._revision_number]]"
+              project-config="[[projectConfig]]"></gr-comment-list>
+        </template>
+
+        <template is="dom-if" if="[[_isReviewerAdd(message)]]">
+          added
+          <gr-account-chip account="[[message.reviewer]]"></gr-account-chip>
+          as a reviewer.
+        </template>
+
+        <template is="dom-if" if="[[_isReviewerRemove(message)]]">
+          removed
+          <gr-account-chip account="[[message.reviewer]]"></gr-account-chip>.
+        </template>
+
+        <template is="dom-if" if="[[_isCCAdd(message)]]">
+          CC'd
+          <gr-account-chip account="[[message.reviewer]]"></gr-account-chip>.
+        </template>
+
+        <template is="dom-if" if="[[message.id]]">
+          <a class="date"
+              href$="[[_computeMessageHash(message)]]"
+              on-tap="_handleLinkTap">
+            <gr-date-formatter date-str="[[_getMessageDate(message)]]">
+            </gr-date-formatter>
           </a>
         </template>
-        <template is="dom-if" if="[[message.reviewer]]">
-          <div class="content">
-            set reviewer status for
-            <gr-account-chip account="[[message.reviewer]]">
-            </gr-account-chip>
-            to [[message.state]].
-          </div>
-          <gr-date-formatter class="date" date-str="[[message.updated]]">
-          </gr-date-formatter>
+
+        <template is="dom-if" if="[[!message.id]]">
+          <gr-date-formatter
+              class="date"
+              date-str="[[_getMessageDate(message)]]"></gr-date-formatter>
         </template>
       </div>
       <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>

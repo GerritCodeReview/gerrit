@@ -34,10 +34,6 @@
         value: false,
       },
 
-      _expanded: {
-        type: Boolean,
-        value: false,
-      },
       _hideAutomated: {
         type: Boolean,
         value: false,
@@ -48,7 +44,6 @@
       var el = this.$$('[data-message-id="' + messageID + '"]');
       if (!el) { return; }
 
-      el.expanded = true;
       var top = el.offsetTop;
       for (var offsetParent = el.offsetParent;
            offsetParent;
@@ -106,15 +101,6 @@
       el.classList.add('highlighted');
     },
 
-    _handleExpandCollapseTap: function(e) {
-      e.preventDefault();
-      this._expanded = !this._expanded;
-      var messageEls = Polymer.dom(this.root).querySelectorAll('gr-message');
-      for (var i = 0; i < messageEls.length; i++) {
-        messageEls[i].expanded = this._expanded;
-      }
-    },
-
     _handleAutomatedMessageToggleTap: function(e) {
       e.preventDefault();
       this._hideAutomated = !this._hideAutomated;
@@ -132,10 +118,6 @@
         }
       }
       return false;
-    },
-
-    _computeExpandCollapseMessage: function(expanded) {
-      return expanded ? 'Collapse all' : 'Expand all';
     },
 
     _computeAutomatedToggleText: function(hideAutomated) {

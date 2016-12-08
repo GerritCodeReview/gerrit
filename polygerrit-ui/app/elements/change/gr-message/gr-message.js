@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  var STATUS_CHANGE_STATE = {
+    REVIEWER: 'REVIEWER',
+    CC: 'CC',
+    REMOVE: 'REMOVE',
+  };
+
   Polymer({
     is: 'gr-message',
 
@@ -29,10 +35,6 @@
      * @event reply
      */
 
-    listeners: {
-      'tap': '_handleTap',
-    },
-
     properties: {
       changeNum: Number,
       message: Object,
@@ -40,16 +42,8 @@
         type: Object,
         computed: '_computeAuthor(message)',
       },
-      comments: {
-        type: Object,
-        observer: '_commentsChanged',
-      },
+      comments: Object,
       config: Object,
-      expanded: {
-        type: Boolean,
-        value: true,
-        reflectToAttribute: true,
-      },
       hideAutomated: {
         type: Boolean,
         value: false,
@@ -62,6 +56,7 @@
       isAutomated: {
         type: Boolean,
         computed: '_computeIsAutomated(message)',
+        reflectToAttribute: true,
       },
       showAvatar: {
         type: Boolean,
@@ -69,7 +64,7 @@
       },
       showReplyButton: {
         type: Boolean,
-        computed: '_computeShowReplyButton(message, _loggedIn)',
+        computed: '_computeShowReplyButton(message, _loggedIn, isAutomated)',
       },
       projectConfig: Object,
       _loggedIn: {
@@ -95,23 +90,8 @@
       return !!(author && config && config.plugin && config.plugin.has_avatars);
     },
 
-    _computeShowReplyButton: function(message, loggedIn) {
-      return !!message.message && loggedIn;
-    },
-
-    _commentsChanged: function(value) {
-      this.expanded = Object.keys(value || {}).length > 0;
-    },
-
-    _handleTap: function(e) {
-      if (this.expanded) { return; }
-      this.expanded = true;
-    },
-
-    _handleNameTap: function(e) {
-      if (!this.expanded) { return; }
-      e.stopPropagation();
-      this.expanded = false;
+    _computeShowReplyButton: function(message, loggedIn, isAutomated) {
+      return !!message.message && loggedIn && !isAutomated;
     },
 
     _computeIsAutomated: function(message) {
@@ -123,11 +103,8 @@
       return hideAutomated && isAutomated;
     },
 
-    _computeClass: function(expanded, showAvatar) {
-      var classes = [];
-      classes.push(expanded ? 'expanded' : 'collapsed');
-      classes.push(showAvatar ? 'showAvatar' : 'hideAvatar');
-      return classes.join(' ');
+    _computeClass: function(showAvatar) {
+      return showAvatar ? 'showAvatar' : 'hideAvatar';
     },
 
     _computeMessageHash: function(message) {
@@ -151,6 +128,23 @@
     _handleReplyTap: function(e) {
       e.preventDefault();
       this.fire('reply', {message: this.message});
+    },
+
+    _isReviewerAdd: function(message) {
+      return message.reviewer && message.state === STATUS_CHANGE_STATE.REVIEWER;
+    },
+
+    _isReviewerRemove: function(message) {
+      return message.reviewer && message.state === STATUS_CHANGE_STATE.REMOVE;
+    },
+
+    _isCCAdd: function(message) {
+      return message.reviewer && message.state === STATUS_CHANGE_STATE.CC;
+    },
+
+    _getMessageDate: function(message) {
+      if (message.reviewer) { return message.updated; }
+      return message.date;
     },
   });
 })();

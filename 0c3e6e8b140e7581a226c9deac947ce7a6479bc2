@@ -508,6 +508,24 @@
     },
     {
       "key": {
+        "uuid": "ed9617c8_bcbcc19f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-08T15:44:00Z",
+      "side": 1,
+      "message": "Good point about notify-to etc.. I guess we can reuse these options as you say.\n\n\u003e For --notify-star-to, I\u0027m assuming that just means \"notify \n\u003e everybody who has starred this change by putting their \n\u003e email address on the To line\". ISTM that\u0027s not going to \n\u003e take an argument at all,\n\nIt should take the star label as input. E.g. notify all users that have starred the change with label \u0027foo\u0027, not just the default star.",
+      "parentUuid": "2d7aef68_9669ac68",
+      "revId": "0c3e6e8b140e7581a226c9deac947ce7a6479bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_b15ba03f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

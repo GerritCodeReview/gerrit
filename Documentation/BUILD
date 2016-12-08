@@ -54,6 +54,16 @@ license_map(
     visibility = ["//visibility:public"],
 )
 
+
+license_map(
+    name = "js_licenses",
+    targets = [
+        '//gerrit-gwtui:ui_module',
+        "//polygerrit-ui/app:polygerrit_ui",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 DOC_DIR = "Documentation"
 
 SRCS = glob(["*.txt"]) + [":licenses.txt"]

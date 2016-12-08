@@ -106,41 +106,37 @@ to be installed by the end-user.
 == Licenses
 """)
 
-  for n in sorted(graph.keys()):
-    if len(graph[n]) == 0:
-      continue
+for n in sorted(graph.keys()):
+  if len(graph[n]) == 0:
+    continue
 
-    name = n[len(LICENSE_PREFIX):]
-    safename = name.replace(".", "_")
-    print()
-    print("[[%s]]" % safename)
-    print("=== " + name)
-    print()
-    for d in sorted(graph[n]):
-      if d.startswith("//lib:") or d.startswith("//lib/"):
-        p = d[len("//lib:"):]
-      else:
-        p = d[d.index(":")+1:].lower()
-      if "__" in p:
-        p = p[:p.index("__")]
-      print("* " + p)
-    print()
-    print("[[%s_license]]" % safename)
-    print("----")
-    with open(n[2:].replace(":", "/")) as fd:
-      copyfileobj(fd, stdout)
-    print()
-    print("----")
-    print()
+  name = n[len(LICENSE_PREFIX):]
+  safename = name.replace(".", "_")
+  print()
+  print("[[%s]]" % safename)
+  print(name)
+  print()
+  for d in sorted(graph[n]):
+    if d.startswith("//lib:") or d.startswith("//lib/"):
+      p = d[len("//lib:"):]
+    else:
+      p = d[d.index(":")+1:].lower()
+    if "__" in p:
+      p = p[:p.index("__")]
+    print("* " + p)
+  print()
+  print("[[%s_license]]" % safename)
+  print("----")
+  with open(n[2:].replace(":", "/")) as fd:
+    copyfileobj(fd, stdout)
+  print()
+  print("----")
+  print()
 
+if args.asciidoctor:
   print(
 """
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
 """)
-
-else:
-  for k, vs in sorted(entries.items()):
-    for v in vs:
-      print(k, v)

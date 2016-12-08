@@ -16,6 +16,24 @@
       "revId": "e517a6b645952f40ee22a8a80a93272077fdfe14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edcc5755_9211dc78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/TestServerPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-08T11:23:01Z",
+      "side": 1,
+      "message": "Visibility. base class method is protected, but we need it public. Same applies for stop() method below.",
+      "parentUuid": "2dc74f2e_34f6d86f",
+      "revId": "e517a6b645952f40ee22a8a80a93272077fdfe14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

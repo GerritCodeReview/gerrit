@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
@@ -52,6 +55,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -254,6 +258,20 @@ public class AccountCacheImpl implements AccountCache {
             accountQueryProvider.get().oneByExternalId(key.get());
         return Optional.ofNullable(accountState)
             .map(s -> s.getAccount().getId());
+        List<AccountState> accountStates =
+            accountQueryProvider.get().byExternalId(key.get());
+        if (accountStates.size() == 1) {
+          return Optional.of(accountStates.get(0).getAccount().getId());
+        } else if (accountStates.size() > 0) {
+          StringBuilder msg = new StringBuilder();
+          msg.append("Ambiguous username ")
+              .append(username)
+              .append("for accounts: ");
+          Joiner.on(", ").appendTo(msg, Lists.transform(accountStates,
+              AccountState.ACCOUNT_ID_FUNCTION));
+          log.warn(msg.toString());
+        }
+        return Optional.absent();
       }
 
       try (ReviewDb db = schema.open()) {

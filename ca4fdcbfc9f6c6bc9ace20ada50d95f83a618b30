@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed6ff7a9_34a9b059",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-08T18:32:55Z",
+      "side": 1,
+      "message": "I\u0027m actually surprised you need to do that.\nI\u0027d expect iron-a11y-keys to handle modifiers, and if it\u0027s not happening, that\u0027s probably should be solved at the very least on keyboard-shortcut-behavior level.\nCould you explain why this is not happening?\nExample:\nhttps://beta.webcomponents.org/element/PolymerElements/iron-a11y-keys-behavior\nUses shift+tab, so it should ignore ctrl+tab or tab.",
+      "parentUuid": "ed6ff7a9_94b7e4bc",
+      "revId": "ca4fdcbfc9f6c6bc9ace20ada50d95f83a618b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_36a9b859",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

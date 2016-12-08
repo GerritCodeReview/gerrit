@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed6ff7a9_94b7e4bc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-08T18:03:47Z",
+      "side": 1,
+      "message": "Why not roll this into the previous if block so that there\u0027s only one.\n\nThe same applies to most modifications in this change.",
+      "revId": "ca4fdcbfc9f6c6bc9ace20ada50d95f83a618b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_36a9b859",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-08T18:03:47Z",
+      "side": 1,
+      "message": "Isn\u0027t [Shift] a modifier? Is this redundant?",
+      "range": {
+        "startLine": 610,
+        "startChar": 29,
+        "endLine": 610,
+        "endChar": 60
+      },
+      "revId": "ca4fdcbfc9f6c6bc9ace20ada50d95f83a618b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

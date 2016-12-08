@@ -97,7 +97,12 @@
 
       // Don’t preventDefault in this case because it will render the event
       // useless for other handlers (other gr-diff-comment-thread elements).
-      this._expandCollapseComments(e.detail.keyboardEvent.shiftKey);
+      if (e.detail.keyboardEvent.shiftKey) {
+        this._expandCollapseComments(true);
+      } else {
+        if (this.modifierPressed(e)) { return; }
+        this._expandCollapseComments(false);
+      }
     },
 
     _expandCollapseComments: function(actionIsCollapse) {

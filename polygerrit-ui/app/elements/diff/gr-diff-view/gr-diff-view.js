@@ -202,7 +202,8 @@
     },
 
     _handleEscKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this.$.diff.displayLine = false;
@@ -223,7 +224,8 @@
     },
 
     _handleUpKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this.$.diff.displayLine = true;
@@ -231,7 +233,8 @@
     },
 
     _handleDownKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this.$.diff.displayLine = true;
@@ -251,14 +254,16 @@
     },
 
     _handleLeftBracketKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, -1);
     },
 
     _handleRightBracketKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, 1);
@@ -271,6 +276,7 @@
       if (e.detail.keyboardEvent.shiftKey) {
         this.$.cursor.moveToNextCommentThread();
       } else {
+        if (this.modifierPressed(e)) { return; }
         this.$.cursor.moveToNextChunk();
       }
     },
@@ -282,6 +288,7 @@
       if (e.detail.keyboardEvent.shiftKey) {
         this.$.cursor.moveToPreviousCommentThread();
       } else {
+        if (this.modifierPressed(e)) { return; }
         this.$.cursor.moveToPreviousChunk();
       }
     },
@@ -295,6 +302,8 @@
         return;
       }
 
+      if (this.modifierPressed(e)) { return; }
+
       if (!this._loggedIn) { return; }
 
       this.set('changeViewState.showReplyDialog', true);
@@ -303,14 +312,16 @@
     },
 
     _handleUKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this._navToChangeView();
     },
 
     _handleCommaKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this._openPrefs();

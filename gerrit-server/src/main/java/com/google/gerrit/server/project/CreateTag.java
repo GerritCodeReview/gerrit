@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.base.Strings;
@@ -90,18 +89,8 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
     if (input.revision == null) {
       input.revision = Constants.HEAD;
     }
-    while (ref.startsWith("/")) {
-      ref = ref.substring(1);
-    }
-    if (ref.startsWith(R_REFS) && !ref.startsWith(R_TAGS)) {
-      throw new BadRequestException("invalid tag name \"" + ref + "\"");
-    }
-    if (!ref.startsWith(R_TAGS)) {
-      ref = R_TAGS + ref;
-    }
-    if (!Repository.isValidRefName(ref)) {
-      throw new BadRequestException("invalid tag name \"" + ref + "\"");
-    }
+
+    ref = RefUtil.normalizeTagRef(ref);
 
     RefControl refControl = resource.getControl().controlForRef(ref);
     try (Repository repo = repoManager.openRepository(resource.getNameKey())) {

@@ -1886,6 +1886,23 @@ As response a link:#tag-info[TagInfo] entity is returned that describes the tag.
   }
 ----
 
+[[delete-tag]]
+=== Delete Tag
+--
+'DELETE /projects/link:#project-name[\{project-name\}]/tags/link:#tag-id[\{tag-id\}]'
+--
+
+Deletes a tag.
+
+.Request
+----
+  DELETE /projects/MyProject/tags/v1.0 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
 
 [[commit-endpoints]]
 == Commit Endpoints

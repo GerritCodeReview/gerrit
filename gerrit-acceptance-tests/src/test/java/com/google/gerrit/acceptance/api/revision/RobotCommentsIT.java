@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.api.revision;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
-import static com.google.gerrit.acceptance.api.revision.RobotCommentInfoSubject.assertThatList;
+import static com.google.gerrit.extensions.common.RobotCommentInfoSubject.assertThatList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;

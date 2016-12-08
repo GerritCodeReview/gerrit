@@ -163,6 +163,10 @@ limitations under the License.
       .patchSetSelect {
         max-width: 25em;
       }
+      #messageList {
+        border-right: 1px solid #ddd;
+        max-width: 70em;
+      }
       @media screen and (max-width: 50em) {
         .header {
           align-items: flex-start;
@@ -215,6 +219,10 @@ limitations under the License.
         }
         .scrollable {
           @apply(--layout-scroll);
+        }
+        #messageList {
+          border-right: none;
+          max-width: 100%;
         }
       }
     </style>

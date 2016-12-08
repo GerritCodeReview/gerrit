@@ -62,56 +62,19 @@ limitations under the License.
       flushAsynchronousOperations();
     });
 
-    test('expand/collapse all', function() {
-      var allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
-      for (var i = 0; i < allMessageEls.length; i++) {
-        allMessageEls[i].expanded = false;
-      }
-      MockInteractions.tap(allMessageEls[1]);
-      assert.isTrue(allMessageEls[1].expanded);
-
-      MockInteractions.tap(element.$$('.header gr-button'));
-      allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
-      for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isTrue(allMessageEls[i].expanded);
-      }
-
-      MockInteractions.tap(element.$$('#collapse-messages'));
-      allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
-      for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isFalse(allMessageEls[i].expanded);
-      }
-    });
-
     test('hide messages does not appear when no automated messages',
         function() {
       assert.isOk(element.$$('#automatedMessageToggleContainer[hidden]'));
     });
 
     test('scroll to message', function() {
-      var allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
-      for (var i = 0; i < allMessageEls.length; i++) {
-        allMessageEls[i].expanded = false;
-      }
-
       var scrollToStub = sinon.stub(window, 'scrollTo');
       var highlightStub = sinon.stub(element, '_highlightEl');
 
       element.scrollToMessage('invalid');
 
-      for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isFalse(allMessageEls[i].expanded,
-            'expected gr-message ' + i + ' to not be expanded');
-      }
-
       var messageID = messages[1].id;
       element.scrollToMessage(messageID);
-      assert.isTrue(
-          element.$$('[data-message-id="' + messageID + '"]').expanded);
 
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);

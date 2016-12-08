@@ -490,6 +490,24 @@
     },
     {
       "key": {
+        "uuid": "2d7aef68_9669ac68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-08T15:03:56Z",
+      "side": 1,
+      "message": "Honestly, I think --notify-{group,external}-* shows a leaky abstraction and should not be necessary. Why does the user typing the command care whether foo@google.com is a user, a group, or an external email address? Long term we should support all three with --notify-to\u003dfoo@google.com. (Yes this means we will have to change the type of these @Options, but we can worry about that later.)\n\nFor --notify-star-to, I\u0027m assuming that just means \"notify everybody who has starred this change by putting their email address on the To line\". ISTM that\u0027s not going to take an argument at all, so there\u0027s no point trying to share option parsing code with the ones that do.",
+      "parentUuid": "2dc74f2e_6ec32f9b",
+      "revId": "0c3e6e8b140e7581a226c9deac947ce7a6479bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d04bb4e_b15ba03f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

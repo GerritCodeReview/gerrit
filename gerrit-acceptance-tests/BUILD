@@ -30,6 +30,7 @@ java_library2(
         "//lib:servlet-api-3_1-without-neverlink",
         "//lib/bouncycastle:bcpg",
         "//lib/bouncycastle:bcprov",
+        "//lib/commons:compress",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",

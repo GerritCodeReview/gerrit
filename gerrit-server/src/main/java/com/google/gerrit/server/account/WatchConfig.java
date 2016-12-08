@@ -238,6 +238,11 @@ public class WatchConfig extends VersionedMetaData
     return projectWatches;
   }
 
+  public void setProjectWatches(
+      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+    this.projectWatches = projectWatches;
+  }
+
   @Override
   protected boolean onSave(CommitBuilder commit)
       throws IOException, ConfigInvalidException {

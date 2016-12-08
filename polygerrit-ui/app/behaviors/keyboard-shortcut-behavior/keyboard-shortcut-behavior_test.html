@@ -42,6 +42,7 @@ limitations under the License.
   suite('keyboard-shortcut-behavior tests', function() {
     var element;
     var overlay;
+    var sandbox;
 
     suiteSetup(function() {
       // Define a Polymer element that uses this behavior.
@@ -58,6 +59,11 @@ limitations under the License.
     setup(function() {
       element = fixture('basic');
       overlay = fixture('within-overlay');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('doesn’t block kb shortcuts for non-whitelisted els', function(done) {
@@ -101,5 +107,25 @@ limitations under the License.
       MockInteractions.keyDownOn(divEl, 75, null, 'k');
     });
 
+    test('modifierPressed returns accurate values', function() {
+      var spy = sandbox.spy(element, 'modifierPressed');
+      element._handleKey = function(e) {
+        element.modifierPressed(e);
+      };
+      MockInteractions.keyDownOn(element, 75, 'shift', 'k');
+      assert.isTrue(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, null, 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, 'ctrl', 'k');
+      assert.isTrue(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, null, 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, 'meta', 'k');
+      assert.isTrue(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, null, 'k');
+      assert.isFalse(spy.lastCall.returnValue);
+      MockInteractions.keyDownOn(element, 75, 'alt', 'k');
+      assert.isTrue(spy.lastCall.returnValue);
+    });
   });
 </script>

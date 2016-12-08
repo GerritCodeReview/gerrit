@@ -111,10 +111,22 @@
     Gerrit._pluginInstalled();
   };
 
+  Gerrit.awaitPluginsLoaded = function() {
+    if (Gerrit._arePluginsLoaded()) {
+      return Promise.resolve();
+    } else {
+      return new Promise(function(resolve) {
+        Gerrit._pluginsLoadedListeners.push(resolve);
+      });
+    }
+  };
+
   Gerrit._setPluginsCount = function(count) {
     Gerrit._pluginsPending = count;
     if (Gerrit._arePluginsLoaded()) {
       document.createElement('gr-reporting').pluginsLoaded();
+      Gerrit._pluginsLoadedListeners
+          .forEach(function(listener) { listener(); });
     }
   };
 
@@ -125,6 +137,8 @@
   Gerrit._arePluginsLoaded = function() {
     return Gerrit._pluginsPending === 0;
   };
+
+  Gerrit._pluginsLoadedListeners = [];
 
   window.Gerrit = Gerrit;
 })(window);

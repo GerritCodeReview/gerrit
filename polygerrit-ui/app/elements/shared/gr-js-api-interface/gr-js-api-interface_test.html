@@ -45,6 +45,7 @@ limitations under the License.
       });
       element = fixture('basic');
       errorStub = sinon.stub(console, 'error');
+      Gerrit._setPluginsCount(1);
       Gerrit.install(function(p) { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
     });
@@ -75,10 +76,7 @@ limitations under the License.
     test('showchange event', function(done) {
       var testChange = {
         _number: 42,
-        revisions: {
-          def: {_number: 2},
-          abc: {_number: 1},
-        },
+        revisions: {def: {_number: 2}, abc: {_number: 1}},
       };
       plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
       plugin.on(element.EventType.SHOW_CHANGE, function(change, revision) {
@@ -89,6 +87,24 @@ limitations under the License.
       });
       element.handleEvent(element.EventType.SHOW_CHANGE,
           {change: testChange, patchNum: 1});
+    });
+
+    test('handleEvent awaits plugins load', function(done) {
+      var testChange = {
+        _number: 42,
+        revisions: {def: {_number: 2}, abc: {_number: 1}},
+      };
+      var spy = sinon.spy();
+      Gerrit._setPluginsCount(1);
+      plugin.on(element.EventType.SHOW_CHANGE, spy);
+      element.handleEvent(element.EventType.SHOW_CHANGE,
+          {change: testChange, patchNum: 1});
+      assert.isFalse(spy.called);
+      Gerrit._setPluginsCount(0);
+      flush(function() {
+        assert.isTrue(spy.called);
+        done();
+      });
     });
 
     test('comment event', function(done) {
@@ -185,7 +201,7 @@ limitations under the License.
     });
 
     test('_arePluginsLoaded', function() {
-      assert.isFalse(Gerrit._arePluginsLoaded());
+      assert.isTrue(Gerrit._arePluginsLoaded());
       Gerrit._setPluginsCount(1);
       assert.isFalse(Gerrit._arePluginsLoaded());
       Gerrit._setPluginsCount(0);

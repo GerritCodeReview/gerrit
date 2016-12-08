@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d04bb4e_d4e73263",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-08T05:08:57Z",
+      "side": 1,
+      "message": "Please add a comment saying when e.event might or might not be null.",
+      "revId": "e3594835a56da52f0b56697e4dd1d889b5b43fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_341afe88",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-08T05:08:57Z",
+      "side": 1,
+      "message": "Please interleave true and false asserts.",
+      "revId": "e3594835a56da52f0b56697e4dd1d889b5b43fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d04bb4e_141ffa78",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-08T05:08:57Z",
+      "side": 1,
+      "message": "If we don\u0027t test shadow DOM, this probably deserves a comment stating why.",
+      "revId": "e3594835a56da52f0b56697e4dd1d889b5b43fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

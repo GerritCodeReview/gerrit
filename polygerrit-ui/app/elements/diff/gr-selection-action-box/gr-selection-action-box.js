@@ -79,8 +79,8 @@
     },
 
     _handleCKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this._fireCreateComment();

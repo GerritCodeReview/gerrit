@@ -165,7 +165,8 @@
     },
 
     _handleJKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       var len = this._getAggregateGroupsLen(this.groups);
@@ -174,7 +175,8 @@
     },
 
     _handleKKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       if (this.selectedIndex === 0) { return; }
@@ -182,7 +184,8 @@
     },
 
     _handleEnterKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       page.show(this._changeURLForIndex(this.selectedIndex));

@@ -606,6 +606,7 @@
 
     _handleAKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.modifierPressed(e)) { return; }
       if (!this._loggedIn || e.detail.keyboardEvent.shiftKey) { return; }
       e.preventDefault();
       this._openReplyDialog();
@@ -613,6 +614,7 @@
 
     _handleDKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.modifierPressed(e)) { return; }
       e.preventDefault();
       this.$.downloadOverlay.open();
     },

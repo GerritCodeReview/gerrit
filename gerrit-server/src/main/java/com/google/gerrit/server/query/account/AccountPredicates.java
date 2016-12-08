@@ -35,12 +35,12 @@ public class AccountPredicates {
 
   static Predicate<AccountState> email(String email) {
     return new AccountPredicate(AccountField.EMAIL,
-        AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
+        AccountQueryBuilder.FIELD_EMAIL, email);
   }
 
   static Predicate<AccountState> equalsName(String name) {
     return new AccountPredicate(AccountField.NAME_PART,
-        AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
+        AccountQueryBuilder.FIELD_NAME, name);
   }
 
   public static Predicate<AccountState> isActive() {
@@ -53,7 +53,7 @@ public class AccountPredicates {
 
   static Predicate<AccountState> username(String username) {
     return new AccountPredicate(AccountField.USERNAME,
-        AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
+        AccountQueryBuilder.FIELD_USERNAME, username);
   }
 
   static class AccountPredicate extends IndexPredicate<AccountState> {

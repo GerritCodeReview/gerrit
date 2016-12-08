@@ -77,7 +77,7 @@ public class AccountField {
           // Additional values not currently added by getPersonParts.
           // TODO(dborowitz): Move to getPersonParts and remove this hack.
           if (fullName != null) {
-            parts.add(fullName.toLowerCase());
+            parts.add(fullName);
           }
           return parts;
         }

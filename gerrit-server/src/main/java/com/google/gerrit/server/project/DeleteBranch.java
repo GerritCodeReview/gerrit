@@ -17,10 +17,8 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.DeleteBranch.Input;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -28,107 +26,37 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.errors.LockFailedException;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 
 @Singleton
 public class DeleteBranch implements RestModifyView<BranchResource, Input> {
-  private static final Logger log = LoggerFactory.getLogger(DeleteBranch.class);
-  private static final int MAX_LOCK_FAILURE_CALLS = 10;
-  private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;
-
   public static class Input {
   }
 
-  private final Provider<IdentifiedUser> identifiedUser;
-  private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final GitReferenceUpdated referenceUpdated;
-  private final RefValidationHelper refDeletionValidator;
+  private final DeleteRef.Factory deleteRefFactory;
 
   @Inject
-  DeleteBranch(Provider<IdentifiedUser> identifiedUser,
-      GitRepositoryManager repoManager,
-      Provider<InternalChangeQuery> queryProvider,
-      GitReferenceUpdated referenceUpdated,
-      RefValidationHelper.Factory refHelperFactory) {
-    this.identifiedUser = identifiedUser;
-    this.repoManager = repoManager;
+  DeleteBranch(Provider<InternalChangeQuery> queryProvider,
+      DeleteRef.Factory deleteRefFactory) {
     this.queryProvider = queryProvider;
-    this.referenceUpdated = referenceUpdated;
-    this.refDeletionValidator =
-        refHelperFactory.create(ReceiveCommand.Type.DELETE);
+    this.deleteRefFactory = deleteRefFactory;
   }
 
   @Override
-  public Response<?> apply(BranchResource rsrc, Input input) throws AuthException,
-      ResourceConflictException, OrmException, IOException {
+  public Response<?> apply(BranchResource rsrc, Input input)
+      throws RestApiException, OrmException, IOException {
     if (!rsrc.getControl().controlForRef(rsrc.getBranchKey()).canDelete()) {
       throw new AuthException("Cannot delete branch");
     }
+
     if (!queryProvider.get().setLimit(1)
         .byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey()
           + " has open changes");
     }
 
-    try (Repository r = repoManager.openRepository(rsrc.getNameKey())) {
-      RefUpdate.Result result;
-      RefUpdate u = r.updateRef(rsrc.getRef());
-      u.setForceUpdate(true);
-      refDeletionValidator.validateRefOperation(
-          rsrc.getName(), identifiedUser.get(), u);
-      int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
-      for (;;) {
-        try {
-          result = u.delete();
-        } catch (LockFailedException e) {
-          result = RefUpdate.Result.LOCK_FAILURE;
-        } catch (IOException e) {
-          log.error("Cannot delete " + rsrc.getBranchKey(), e);
-          throw e;
-        }
-        if (result == RefUpdate.Result.LOCK_FAILURE
-            && --remainingLockFailureCalls > 0) {
-          try {
-            Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
-          } catch (InterruptedException ie) {
-            // ignore
-          }
-        } else {
-          break;
-        }
-      }
-
-      switch (result) {
-        case NEW:
-        case NO_CHANGE:
-        case FAST_FORWARD:
-        case FORCED:
-          referenceUpdated.fire(rsrc.getNameKey(), u, ReceiveCommand.Type.DELETE,
-              identifiedUser.get().getAccount());
-          break;
-
-        case REJECTED_CURRENT_BRANCH:
-          log.error("Cannot delete " + rsrc.getBranchKey() + ": " + result.name());
-          throw new ResourceConflictException("cannot delete current branch");
-
-        case IO_FAILURE:
-        case LOCK_FAILURE:
-        case NOT_ATTEMPTED:
-        case REJECTED:
-        case RENAMED:
-        default:
-          log.error("Cannot delete " + rsrc.getBranchKey() + ": " + result.name());
-          throw new ResourceConflictException("cannot delete branch: " + result.name());
-      }
-    }
+    deleteRefFactory.create(rsrc).ref(rsrc.getRef()).delete();
     return Response.none();
   }
 }

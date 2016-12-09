@@ -400,9 +400,13 @@
       contentText.setAttribute('data-side', opt_side);
     }
 
-    // If the html is equivalent to the text then it didn't get highlighted
-    // or escaped. Use textContent which is faster than innerHTML.
-    if (html === text) {
+    if (text === '') {
+      // If there's no text, we need to set the minimum height of the element
+      // to one line-height, so the line still shows up at all.
+      contentText.setAttribute('min-height', '15px');
+    } else if (html === text) {
+      // If the html is equivalent to the text then it didn't get highlighted
+      // or escaped. Use textContent which is faster than innerHTML.
       contentText.textContent = text;
     } else {
       contentText.innerHTML = html;

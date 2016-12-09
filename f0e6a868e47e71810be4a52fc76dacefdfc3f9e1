@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a7f239a_158ab4ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "Use past tense\n\n was",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_54902c2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "Too many \"often\"s.",
+      "range": {
+        "startLine": 9,
+        "startChar": 43,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_7495281c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "Use past tense\n\n made",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_358fb010",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "Use past perfect\n\n had\n\nor past imperfect\n\n were",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_d5a3dc82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "Use present tense rather than future.",
+      "range": {
+        "startLine": 11,
+        "startChar": 64,
+        "endLine": 11,
+        "endChar": 68
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_55902c2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "Unconstrained attribute selectors tend to be slow. You could make it better by constraining it with the class of the element with that attribute.\n\n  a.path[data-expanded] .fullFileName {\n\nOr, even further, with an child combinator:\n\n  a.path[data-expanded] \u003e .fullFileName {\n\nOr, best IMO, as noted below, use a class instead of a data-expanded attribute.\n\n  .path.expanded .fullFileName {",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 151,
+        "endChar": 21
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_b483c0ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "These can be combined.\n\n  selector 1,\n  selector 2 {\n    display: block;\n  }\n  selector 3,\n  selector 4 {\n    display: none;\n  }",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 179,
+        "endChar": 9
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_b583c0ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "This should be a class rather than an attribute. Particularly because it\u0027s used for CSS selectors only.",
+      "range": {
+        "startLine": 239,
+        "startChar": 12,
+        "endLine": 239,
+        "endChar": 48
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_148ab4ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T21:20:46Z",
+      "side": 1,
+      "message": "Instead of loading both into the DOM and switching which version is visible in CSS through queries, why not just modify `_computeFileDisplayName`to depend on the expanded state?\n\n\u003cdiv title$\u003d\"[[_computeFileDisplayName(file.__path)]]\"\u003e\n  [[_computeFileDisplayName(file.__path, file.__expanded)]]\n\u003c/div\u003e",
+      "range": {
+        "startLine": 241,
+        "startChar": 10,
+        "endLine": 248,
+        "endChar": 16
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

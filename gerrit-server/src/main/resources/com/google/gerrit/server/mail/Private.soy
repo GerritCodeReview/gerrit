@@ -63,9 +63,14 @@
     padding: 0 10px;
   {/let}
 
+  {let $pStyle kind="css"}
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  {/let}
+
   {foreach $block in $content}
     {if $block.type == 'paragraph'}
-      <p>{$block.text}</p>
+      <p style="{$pStyle}">{$block.text}</p>
     {elseif $block.type == 'quote'}
       <blockquote style="{$blockquoteStyle}">
         {call .WikiFormat}{param content: $block.quotedBlocks /}{/call}

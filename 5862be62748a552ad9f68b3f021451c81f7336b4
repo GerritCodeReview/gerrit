@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "0d8e0bb3_fd7e47cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-12-09T09:50:01Z",
+      "side": 1,
+      "message": "Does this upsert really succeed for the username? \nOn line 293 we get a duplicateNameError, and looking into \nchangeUserName.call(), we should error out with INVALID_STATE, if there is already a username for this account, if I am not mistaken.",
+      "revId": "5862be62748a552ad9f68b3f021451c81f7336b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a699be3_57e26cbd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 2

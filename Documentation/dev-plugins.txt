@@ -2106,6 +2106,12 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
 }
 ----
 
+ParentWebLinks will appear to the right of the SHA1 of the parent
+revisions in the UI. The implementation should in most use cases direct
+to the same external service as PatchSetWebLink; it is provided as a
+separate interface because not all users want to have links for the
+parent revisions.
+
 FileWebLinks will appear in the side-by-side diff screen on the right
 side of the patch selection on each side.
 

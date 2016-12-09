@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
+import com.google.gerrit.extensions.webui.ParentWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.AbstractModule;
@@ -74,6 +75,7 @@ public class GitwebConfig {
 
         if (!isNullOrEmpty(type.getRevision())) {
           DynamicSet.bind(binder(), PatchSetWebLink.class).to(GitwebLinks.class);
+          DynamicSet.bind(binder(), ParentWebLink.class).to(GitwebLinks.class);
         }
 
         if (!isNullOrEmpty(type.getProject())) {
@@ -240,7 +242,7 @@ public class GitwebConfig {
 
   @Singleton
   static class GitwebLinks implements BranchWebLink, FileHistoryWebLink,
-      FileWebLink, PatchSetWebLink, ProjectWebLink {
+      FileWebLink, PatchSetWebLink, ParentWebLink, ProjectWebLink {
     private final String url;
     private final GitwebType type;
     private final ParameterizedString branch;
@@ -308,6 +310,12 @@ public class GitwebConfig {
             .toString());
       }
       return null;
+    }
+
+    @Override
+    public WebLinkInfo getParentWebLink(String projectName, String commit) {
+      // For Gitweb treat parent revision links the same as patch set links
+      return getPatchSetWebLink(projectName, commit);
     }
 
     @Override

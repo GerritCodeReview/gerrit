@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
+import com.google.gerrit.extensions.webui.ParentWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.WebLink;
 import com.google.gerrit.reviewdb.client.Project;
@@ -73,6 +74,7 @@ public class WebLinks {
       };
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
+  private final DynamicSet<ParentWebLink> parentLinks;
   private final DynamicSet<FileWebLink> fileLinks;
   private final DynamicSet<FileHistoryWebLink> fileHistoryLinks;
   private final DynamicSet<DiffWebLink> diffLinks;
@@ -81,6 +83,7 @@ public class WebLinks {
 
   @Inject
   public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
+      DynamicSet<ParentWebLink> parentLinks,
       DynamicSet<FileWebLink> fileLinks,
       DynamicSet<FileHistoryWebLink> fileLogLinks,
       DynamicSet<DiffWebLink> diffLinks,
@@ -88,6 +91,7 @@ public class WebLinks {
       DynamicSet<BranchWebLink> branchLinks
       ) {
     this.patchSetLinks = patchSetLinks;
+    this.parentLinks = parentLinks;
     this.fileLinks = fileLinks;
     this.fileHistoryLinks = fileLogLinks;
     this.diffLinks = diffLinks;
@@ -110,6 +114,19 @@ public class WebLinks {
         return ((PatchSetWebLink)webLink).getPatchSetWebLink(project.get(), commit);
       }
     });
+  }
+
+  /**
+   *
+   * @param project Project name.
+   * @param revision SHA1 of the parent revision.
+   * @return Links for patch sets.
+   */
+  public List<WebLinkInfo> getParentLinks(Project.NameKey project,
+      String revision) {
+    return filterLinks(
+        parentLinks,
+        webLink -> webLink.getParentWebLink(project.get(), revision));
   }
 
   /**

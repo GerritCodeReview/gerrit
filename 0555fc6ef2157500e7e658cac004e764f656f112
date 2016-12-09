@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa77afbe_3478102f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-09T20:31:17Z",
+      "side": 1,
+      "message": "Almost.\n\n* Maybe prepend / if it\u0027s not there already\n* Convert @ in the token to #",
+      "revId": "0555fc6ef2157500e7e658cac004e764f656f112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

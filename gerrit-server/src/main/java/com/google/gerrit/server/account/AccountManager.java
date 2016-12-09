@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
@@ -28,8 +30,10 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.account.AccountIsVisibleToPredicate;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -343,6 +347,10 @@ public class AccountManager {
       log.error(errorMessage);
     }
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)) {
+      checkState(account.getId().equals(extId.getAccountId()),
+          "External ID doesn't belong to account %s, it belongs to account %s",
+          account.getId().get(), extId.getAccountId());
+
       // setting the given user name has failed, but the realm does not
       // allow the user to manually set a user name,
       // this means we would end with an account without user name

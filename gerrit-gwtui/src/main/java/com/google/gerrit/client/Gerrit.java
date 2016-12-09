@@ -542,8 +542,20 @@ public class Gerrit implements EntryPoint {
 
     if (info().gerrit().webUis().contains(UiType.POLYGERRIT)) {
       btmmenu.add(new InlineLabel(" | "));
-      Anchor a = new Anchor(
-          C.polyGerrit(), GWT.getHostPageBaseURL() + "?polygerrit=1");
+      UrlBuilder builder = new UrlBuilder();
+      builder.setProtocol(Location.getProtocol());
+      builder.setHost(Location.getHost());
+      String port = Location.getPort();
+      if (port != null && !port.isEmpty()) {
+        builder.setPort(Integer.parseInt(port));
+      }
+      String[] tokens = History.getToken().split("@", 2);
+      builder.setPath(tokens[0]);
+      if (tokens.length == 2) {
+        builder.setHash(tokens[1]);
+      }
+      builder.setParameter("polygerrit", "1");
+      Anchor a = new Anchor(C.polyGerrit(), builder.buildString());
       a.setStyleName("");
       btmmenu.add(a);
     }

@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1481279256 +0100\nnonce AOr0K+QelKdoZjnxud19K9gUJVy3t2J1H4Sn7gKVUIYrneUnsS3T39QrFDcKgaE8yPAjW8fthrTV\n\n0000000000000000000000000000000000000000 ca547ff308fc576e5821e56b16059953073e0abf refs/for/stable-2.13\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYSocYAAoJEFG1/Zeg0O9RjKcIAI7jQjkL2+zhfoCl4Q01YKJV\nYnDJi7rQSAktbzl6HWPVBjxYPBSa5dJIlKl7RnlwxK4DguhCCkrwv56j0x5dbKCN\nOpvmKGbt7ZPgukOyREGx6G754L/IDY/n0dHvwNKSK6qewErZGsh19aljjsk7M+4L\nPY8FX88ZJLXJYxZcvPRyc5sO/x50MruGjiWaBvf6Q+NuKQYq/sQFhgYnIcxCc4tt\nqHLTjWKbgyLrlTImEy556Y/oqJvNWKmioFX5cmi9oFHLK8Zq3+1DUh08o/YpsI0w\nk4f5LjSx2lNiEoKu52Rl/eY2/kVJxo8h3blpKuW/+7TvvW2/Ku5CKjTwhQZSfzg\u003d\n\u003d6/Iv\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a8227ce_766e9072",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-09T10:48:52Z",
+      "side": 1,
+      "message": "Should this be split into 3 different tests?",
+      "revId": "ca547ff308fc576e5821e56b16059953073e0abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a699be3_b7cc284f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-09T10:48:52Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we make assertions here?",
+      "revId": "ca547ff308fc576e5821e56b16059953073e0abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a8227ce_d67c4425",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-09T10:48:52Z",
+      "side": 1,
+      "message": "Avoid using typos in strings, as it would just generate warnings in Eclipse.\nWhy not calling \"Test User Oldname\" and then \"Test User Newname\" ?",
+      "range": {
+        "startLine": 362,
+        "startChar": 63,
+        "endLine": 362,
+        "endChar": 68
+      },
+      "revId": "ca547ff308fc576e5821e56b16059953073e0abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

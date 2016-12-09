@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed6ff7a9_9498c409",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T18:22:02Z",
+      "side": 1,
+      "message": "In response to your other comment, it now reuses promise objects (including the `Promise.resolve()`).\n\nPhilosophically, Promises are very low-overhead tools, and I my tendency would be to instantiate more of them to minimize internal state. As you say, not a big deal, though.",
+      "parentUuid": "2d7aef68_b64948d3",
+      "revId": "e9eb879d881386e3828f1b3d866a22b573197ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed6ff7a9_b44940d3",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-09T00:39:22Z",
       "side": 1,
       "message": "Would it work if you return same promise for subsequent calls?\nSomething like\n\nif (!Gerript._allPluginsPromise) {\n  Gerript._allPluginsPromise \u003d new Promise(function(resolve) {\n    Gerrit._resolveAllPluginsLoaded \u003d resolve;\n  }\n}\nreturn Gerript._allPluginsPromise;",
+      "revId": "e9eb879d881386e3828f1b3d866a22b573197ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_966fec19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T18:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed6ff7a9_b44940d3",
       "revId": "e9eb879d881386e3828f1b3d866a22b573197ab0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

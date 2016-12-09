@@ -43,10 +43,8 @@ final class IndexChangesCommand extends SshCommand {
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, null, false);
-    } catch (UnloggedFailure e) {
+    } catch (UnloggedFailure | OrmException e) {
       writeError("warning", e.getMessage());
-    } catch (OrmException e) {
-      throw new IllegalArgumentException("database is down", e);
     }
   }
 

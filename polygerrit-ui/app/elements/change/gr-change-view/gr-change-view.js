@@ -159,6 +159,8 @@
     _handleCommitMessageSave: function(e) {
       var message = e.detail.content;
 
+      this.$.jsAPI.handleCommitMessage(this._change, message);
+
       this.$.commitMessageEditor.disabled = true;
       this._saveCommitMessage(message).then(function(resp) {
         this.$.commitMessageEditor.disabled = false;

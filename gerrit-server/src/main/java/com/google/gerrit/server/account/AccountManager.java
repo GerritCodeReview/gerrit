@@ -352,7 +352,9 @@ public class AccountManager {
       // this is why the best we can do here is to fail early and cleanup
       // the database
       db.accounts().delete(Collections.singleton(account));
-      db.accountExternalIds().delete(Collections.singleton(extId));
+      if (account.getId().equals(extId.getAccountId())) {
+        db.accountExternalIds().delete(Collections.singleton(extId));
+      }
       throw new AccountUserNameException(errorMessage, e);
     }
   }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2d7aef68_f67e60cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T18:42:01Z",
+      "side": 1,
+      "message": "We now have a few functions that create a comment with predetermined content (e.g. `_handleCommentAck`, `_handleCommentDone`). They all have to do some weird stuff with async and so forth.\n\nCan we create a shared method that make a comment based on a string parameter for the content? Something like..\n\n  _createReplyComment: function(parent, content) {\n      var reply \u003d this._newReply(parent.id, parent.line, content);\n      this.push(\u0027comments\u0027, reply);\n\n      // Allow the reply to render in the dom-repeat.\n      this.async(function() {\n        var commentEl \u003d this._commentElWithDraftID(reply.__draftID);\n        commentEl.save();\n      }.bind(this), 1);\n  },\n\nThat way `_handleCommentFix` and its neighbors can focus on constructing the content string.",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 21
+      },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_36d298ed",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 2
@@ -13,6 +36,47 @@
       "writtenOn": "2016-12-09T00:25:47Z",
       "side": 1,
       "message": "Looks like this takes us up to three inline implementations of this logic, consider moving to polygerrit-ui/app/scripts/util.js in another change.",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_d67964e7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T18:42:01Z",
+      "side": 1,
+      "message": "I\u0027m unsure that this would belong in util.js.\n\nWhere are the other implementations? I wonder if there is some other common dependency that can carry a shared implementation? At the same time, this is really straightforward, and I\u0027m not sure it needs to be refactored.\n\nWhile we talk about refactoring consider also a regex-replace approach:\n\n  var NEWLINE_PATTERN \u003d /\\n/g;\n  var quotestr \u003d \u0027\u003e \u0027 + msg.replace(NEWLINE_PATTERN, \u0027\\n\u003e \u0027) + \u0027\\n\\n\u0027;",
+      "parentUuid": "2d7aef68_36d298ed",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_1664bc39",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T18:42:01Z",
+      "side": 1,
+      "message": "Can we give these a common class instead?",
+      "range": {
+        "startLine": 99,
+        "startChar": 38,
+        "endLine": 99,
+        "endChar": 93
+      },
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -35,6 +99,29 @@
         "startChar": 31,
         "endLine": 198,
         "endChar": 51
+      },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed6ff7a9_7457a872",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T18:42:01Z",
+      "side": 1,
+      "message": "Can this be done with hidden$\u003d\"[[comment.robot_run_id]]\" instead of a DOM if?",
+      "range": {
+        "startLine": 215,
+        "startChar": 6,
+        "endLine": 215,
+        "endChar": 56
       },
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -105,6 +192,29 @@
     },
     {
       "key": {
+        "uuid": "2d7aef68_3661b82a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T18:42:01Z",
+      "side": 1,
+      "message": "Remove these.\n\n  \u003ctruthiness-expression\u003e ? true : false ≡ \u003ctruthiness-expression\u003e",
+      "range": {
+        "startLine": 135,
+        "startChar": 61,
+        "endLine": 135,
+        "endChar": 76
+      },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_96444cbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2
@@ -145,6 +255,23 @@
         "endLine": 391,
         "endChar": 36
       },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_566e3419",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T18:42:01Z",
+      "side": 1,
+      "message": "Remove extra blank line.",
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

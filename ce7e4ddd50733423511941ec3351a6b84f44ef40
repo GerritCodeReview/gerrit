@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "fa77afbe_949d6443",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-12-09T23:30:25Z",
+      "side": 1,
+      "message": "Ah cool; on the other hand, it won\u0027t be automatically linkified in gitiles or in my terminal, which causes sad pandas.",
+      "parentUuid": "fa77afbe_d4a3dc82",
+      "revId": "ce7e4ddd50733423511941ec3351a6b84f44ef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a7f239a_15c5d42d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-12-09T22:31:52Z",
       "side": 1,
       "message": "This doesn\u0027t work for me on the example noted in the issue. It does work, however, if I assign the style instead of an attribute.\n\n  contentText.style.minHeight \u003d \u002715px\u0027;\n\nAs you note, though, this shouldn\u0027t be hard-coded to `15px`, since the font height in diffs is a user-configurable preference (and `12px` by default).\n\nSee my comment re. doing this with CSS.",
+      "revId": "ce7e4ddd50733423511941ec3351a6b84f44ef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_d5ae7c65",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2016-12-09T23:30:25Z",
+      "side": 1,
+      "message": "Sweet, thanks for the tip. I\u0027ve redone this using CSS, and can show that it works. However, setting min-height equal to the font size is the wrong thing: a 12pt font usually has a line-height of 14 or 15px, due to ascenders/descenders. In particular, as you can see here, the \"try\" line has a height of 14px, while the empty line has a height of 12px: https://screenshot.googleplex.com/vKzJfLD0HrF (The effect is more pronounced at larger sizes; a 16pt font has a line-height of ~49px.)\n\nThat\u0027s why I was trying to do it in JS, since JS should be able to actually calculate what the current line-height is (e.g. by consulting the height of the line number table cell) and actually set that value, rather than relying on an inaccurate constant.",
+      "parentUuid": "1a7f239a_15c5d42d",
       "revId": "ce7e4ddd50733423511941ec3351a6b84f44ef40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

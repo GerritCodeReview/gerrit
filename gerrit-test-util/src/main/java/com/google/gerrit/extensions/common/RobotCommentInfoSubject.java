@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.api.revision;
+package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
-import com.google.gerrit.acceptance.ListSubject;
-import com.google.gerrit.extensions.common.FixSuggestionInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.truth.ListSubject;
 
 import java.util.List;
 
-class RobotCommentInfoSubject
+public class RobotCommentInfoSubject
     extends Subject<RobotCommentInfoSubject, RobotCommentInfo> {
 
   private static final SubjectFactory<RobotCommentInfoSubject, RobotCommentInfo>

@@ -21,6 +21,7 @@ java_library2(
         "//gerrit-server:testutil",
         "//gerrit-server/src/main/prolog:common",
         "//gerrit-sshd:sshd",
+        "//gerrit-test-util:test_util",
         "//lib:args4j",
         "//lib:gson",
         "//lib:gwtjsonrpc",

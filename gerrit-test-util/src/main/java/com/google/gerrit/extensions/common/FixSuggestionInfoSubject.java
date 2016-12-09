@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.api.revision;
+package com.google.gerrit.extensions.common;
 
 import static com.google.common.truth.Truth.assertAbout;
 
@@ -21,9 +21,7 @@ import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
-import com.google.gerrit.acceptance.ListSubject;
-import com.google.gerrit.extensions.common.FixReplacementInfo;
-import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.truth.ListSubject;
 
 public class FixSuggestionInfoSubject
     extends Subject<FixSuggestionInfoSubject, FixSuggestionInfo> {

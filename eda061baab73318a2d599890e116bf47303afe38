@@ -17,6 +17,24 @@
       "revId": "eda061baab73318a2d599890e116bf47303afe38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d8e0bb3_5dc01be9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-09T08:53:26Z",
+      "side": 1,
+      "message": "Yes, I\u0027m already writing the next patch set.",
+      "parentUuid": "0d8e0bb3_fdb00794",
+      "revId": "eda061baab73318a2d599890e116bf47303afe38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

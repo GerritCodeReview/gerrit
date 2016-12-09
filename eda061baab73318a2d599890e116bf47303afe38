@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1481272868 +0100\nnonce AOr0K+RVYqRGevs4zvtfeGbq3ZYNRgT7ds2aqytEPCM+TL+5O/N7wn2DVz5GyaiDYHXuqmWSc1Oj\n\n0000000000000000000000000000000000000000 eda061baab73318a2d599890e116bf47303afe38 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYSm4kAAoJEFG1/Zeg0O9RLPAH+wb9rEMWVm4iJNRuz2r+8AC6\nZxUiIQc/5D7js3caM1TdMqDBBIMtMjoD99LL5ElE2AYu1vXuUnSmxpNfz/btiqij\nm9Yr1dGc69Cpo7P20gNflvpc7daBkXdXfpuzczBALduGHsvcnm2p2Dl2Y84VfOp7\nvaOU7CYbIx4Ti0U5Ee/A15/cBDeZ0MSiCrtrsiD6gVL/1zG7VCK7WIGvZsXUW4qM\nqAZQ46PRjtEI8gXxN2pK1bmV6niSJXlR0MCRbBrF+v9wu1G0ib3CkkIffrShS9VQ\noX/3L+C6JrKhjaz4QQ0+v1/+2+3yiP4IrCDOyL9dvsS94CP2I2cAAI/FIdXQD4k\u003d\n\u003dZGvy\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d8e0bb3_fdb00794",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2016-12-09T08:45:55Z",
+      "side": 1,
+      "message": "I think deleting the(partially created account) would still be correct. Only deleting the external id that  was determined to be a duplicate (so this is only happening when we arrive here after a DuplicateNameError) is wrong.",
+      "revId": "eda061baab73318a2d599890e116bf47303afe38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d7aef68_36d298ed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-09T00:25:47Z",
+      "side": 1,
+      "message": "Looks like this takes us up to three inline implementations of this logic, consider moving to polygerrit-ui/app/scripts/util.js in another change.",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_56cf1440",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-09T00:25:47Z",
+      "side": 1,
+      "message": "Should these be in quotes?",
+      "range": {
+        "startLine": 198,
+        "startChar": 31,
+        "endLine": 198,
+        "endChar": 51
+      },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed6ff7a9_f4df38f3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-09T00:25:47Z",
+      "side": 1,
+      "message": "[[!_showHumanActions]]",
+      "range": {
+        "startLine": 223,
+        "startChar": 49,
+        "endLine": 223,
+        "endChar": 71
+      },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_76cc104b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-09T00:25:47Z",
+      "side": 1,
+      "message": "[[!_showRobotActions]]",
+      "range": {
+        "startLine": 240,
+        "startChar": 49,
+        "endLine": 240,
+        "endChar": 71
+      },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_7657b072",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-09T00:25:47Z",
+      "side": 1,
+      "message": "Is this intended here?",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_96444cbc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-09T00:25:47Z",
+      "side": 1,
+      "message": "This might get confusing when there\u0027s also an \"apply fix\" button. Maybe name the event \"request-fix\"?",
+      "range": {
+        "startLine": 323,
+        "startChar": 17,
+        "endLine": 323,
+        "endChar": 20
+      },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed6ff7a9_944444bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-09T00:25:47Z",
+      "side": 1,
+      "message": "This event name should be unopinionated about what effect it should have, how about \"mark-not-helpful\"?",
+      "range": {
+        "startLine": 391,
+        "startChar": 17,
+        "endLine": 391,
+        "endChar": 36
+      },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed6ff7a9_34d290ed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-09T00:25:47Z",
+      "side": 1,
+      "message": "Line too long.",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

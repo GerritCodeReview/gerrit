@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad66dfce_5ab655bc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-09T02:00:52Z",
+      "side": 1,
+      "message": "This is rendering the link without the quote marks being encoded.  I.e. I see the link as:\n\n http://localhost:8080/#/q/owner:\"David+Pursehouse\"+status:open\n\ncompared to how it is for example on the owner field:\n\n http://localhost:8080/#/q/owner:%22David+Pursehouse%22+status:open\n\nLooking at how the owner link is rendered (see ChangeScreen#renderOwner) it\u0027s using InlineHyperlink, but I\u0027m not sure if we can use that here.  Either way, we need to make sure the text gets encoded properly.",
+      "range": {
+        "startLine": 322,
+        "startChar": 26,
+        "endLine": 322,
+        "endChar": 40
+      },
+      "revId": "4d2b69cd14aa16c5537ba40a3e406e6933ffa069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad66dfce_3aa9a159",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-09T02:00:52Z",
+      "side": 1,
+      "message": "html is a SafeHtmlBuilder, so all of this can be inlined to a single statement:\n\n  html.openElement(...)\n      .setAttribute(...)\n      ...\n      .closeElement();",
+      "range": {
+        "startLine": 319,
+        "startChar": 6,
+        "endLine": 323,
+        "endChar": 42
+      },
+      "revId": "4d2b69cd14aa16c5537ba40a3e406e6933ffa069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

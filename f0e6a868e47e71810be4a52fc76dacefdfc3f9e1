@@ -206,6 +206,52 @@
       "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_b59ae046",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-09T21:49:53Z",
+      "side": 1,
+      "message": "80ch limit please.",
+      "range": {
+        "startLine": 611,
+        "startChar": 0,
+        "endLine": 611,
+        "endChar": 81
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_55bb4ca7",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-09T21:49:53Z",
+      "side": 1,
+      "message": "I think this would be better off as a behavior.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

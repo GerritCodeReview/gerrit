@@ -59,6 +59,7 @@ import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
+import com.google.gerrit.extensions.webui.ParentWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
@@ -347,6 +348,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ExternalIncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
+    DynamicSet.setOf(binder(), ParentWebLink.class);
     DynamicSet.setOf(binder(), FileWebLink.class);
     DynamicSet.setOf(binder(), FileHistoryWebLink.class);
     DynamicSet.setOf(binder(), DiffWebLink.class);

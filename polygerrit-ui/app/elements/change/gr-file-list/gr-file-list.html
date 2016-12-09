@@ -145,6 +145,12 @@ limitations under the License.
       .patchSetSelect {
         max-width: 8em;
       }
+      .truncatedFileName {
+        display: none;
+      }
+      .expanded .fullFileName {
+        white-space: normal;
+      }
       @media screen and (max-width: 50em) {
         .row.selected {
           background-color: transparent;
@@ -158,6 +164,14 @@ limitations under the License.
         }
         .comments {
           min-width: initial;
+        }
+        .expanded .fullFileName,
+        .truncatedFileName {
+          display: block;
+        }
+        .expanded .truncatedFileName,
+        .fullFileName {
+          display: none;
         }
       }
     </style>
@@ -217,10 +231,15 @@ limitations under the License.
         <div class$="[[_computeClass('status', file.__path)]]">
           [[_computeFileStatus(file.status)]]
         </div>
-        <a class="path"
+        <a class$="[[_computePathClass(file.__expanded)]]"
             href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]">
-          <div title$="[[_computeFileDisplayName(file.__path)]]">
+          <div title$="[[_computeFileDisplayName(file.__path)]]"
+              class="fullFileName">
             [[_computeFileDisplayName(file.__path)]]
+          </div>
+          <div title$="[[_computeFileDisplayName(file.__path)]]"
+              class="truncatedFileName">
+            [[_computeTruncatedFileDisplayName(file.__path)]]
           </div>
           <div class="oldPath" hidden$="[[!file.old_path]]" hidden
               title$="[[file.old_path]]">

@@ -1221,6 +1221,11 @@ public class ChangeJson {
       CommitInfo i = new CommitInfo();
       i.commit = parent.name();
       i.subject = parent.getShortMessage();
+      if (addLinks) {
+        List<WebLinkInfo> parentLinks =
+            webLinks.getParentLinks(project, parent.name());
+        i.webLinks = parentLinks.isEmpty() ? null : parentLinks;
+      }
       info.parents.add(i);
     }
     return info;

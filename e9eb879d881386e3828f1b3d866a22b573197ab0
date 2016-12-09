@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d7aef68_b64948d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-09T00:39:22Z",
+      "side": 1,
+      "message": "Side note: You probably could save a bit of resources by checking Gerrit._arePluginsLoaded()\nNot a big deal at all, just creating a Promise for each event being sent through interface seems a bit of overkill.",
+      "revId": "e9eb879d881386e3828f1b3d866a22b573197ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed6ff7a9_b44940d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-09T00:39:22Z",
+      "side": 1,
+      "message": "Would it work if you return same promise for subsequent calls?\nSomething like\n\nif (!Gerript._allPluginsPromise) {\n  Gerript._allPluginsPromise \u003d new Promise(function(resolve) {\n    Gerrit._resolveAllPluginsLoaded \u003d resolve;\n  }\n}\nreturn Gerript._allPluginsPromise;",
+      "revId": "e9eb879d881386e3828f1b3d866a22b573197ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

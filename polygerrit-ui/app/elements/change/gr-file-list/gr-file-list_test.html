@@ -607,5 +607,21 @@ limitations under the License.
         done();
       });
     });
+
+    test('expanded attribute not set on path when not expanded',
+        function(done) {
+      element._files = [
+        {__path: '/COMMIT_MSG', __expanded: false},
+      ];
+      assert.isNotOk(element.$$('[data-expanded]'));
+    });
+
+    test('expanded attribute set on path when expanded', function() {
+      element._files = [
+        {__path: '/COMMIT_MSG', __expanded: true},
+      ];
+      flushAsynchronousOperations();
+      assert.isOk(element.$$('[data-expanded]'));
+    });
   });
 </script>

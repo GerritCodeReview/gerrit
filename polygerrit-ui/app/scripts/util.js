@@ -55,5 +55,15 @@
     return '';
   };
 
+  util.truncatePath = function(path) {
+    var pathPieces = path.split('/');
+
+    if (pathPieces.length < 2) {
+      return path;
+    }
+    // Character is an ellipsis.
+    return '\u2026/' + pathPieces.pop();
+  }
+
   window.util = util;
 })(window);

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa77afbe_d4a3dc82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T22:31:52Z",
+      "side": 1,
+      "message": "This can just be ...\n\n  Issue 5091\n\n... and it will be automatically linkified.",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "ce7e4ddd50733423511941ec3351a6b84f44ef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_15c5d42d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-09T22:31:52Z",
+      "side": 1,
+      "message": "This doesn\u0027t work for me on the example noted in the issue. It does work, however, if I assign the style instead of an attribute.\n\n  contentText.style.minHeight \u003d \u002715px\u0027;\n\nAs you note, though, this shouldn\u0027t be hard-coded to `15px`, since the font height in diffs is a user-configurable preference (and `12px` by default).\n\nSee my comment re. doing this with CSS.",
+      "revId": "ce7e4ddd50733423511941ec3351a6b84f44ef40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

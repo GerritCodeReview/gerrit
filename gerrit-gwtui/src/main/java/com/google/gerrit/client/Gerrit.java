@@ -543,7 +543,7 @@ public class Gerrit implements EntryPoint {
     if (info().gerrit().webUis().contains(UiType.POLYGERRIT)) {
       btmmenu.add(new InlineLabel(" | "));
       Anchor a = new Anchor(
-          C.polyGerrit(), GWT.getHostPageBaseURL() + "?polygerrit=1");
+          C.polyGerrit(), History.getToken() + "?polygerrit=1");
       a.setStyleName("");
       btmmenu.add(a);
     }

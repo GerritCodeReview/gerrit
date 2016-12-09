@@ -160,10 +160,10 @@ public class AccountManager {
           }
         }
       }
-      return null;
     }
 
     // We don't have at the moment an account_by_external_id cache
+    // or for whatever reason the account external id was not indexed
     // but by using the accounts cache we get the list of external_ids
     // without having to query the DB every time
     if (key.getScheme().equals(AccountExternalId.SCHEME_GERRIT)

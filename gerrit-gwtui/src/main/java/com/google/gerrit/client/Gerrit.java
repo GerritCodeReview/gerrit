@@ -138,6 +138,7 @@ public class Gerrit implements EntryPoint {
   private static ViewSite<Screen> body;
   private static String lastChangeListToken;
   private static String lastViewToken;
+  private static Anchor uiSwitcherLink;
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -175,6 +176,7 @@ public class Gerrit implements EntryPoint {
   public static void display(final String token) {
     if (body.getView() == null || !body.getView().displayToken(token)) {
       dispatcher.display(token);
+      updateUiLink(token);
     }
   }
 
@@ -201,6 +203,7 @@ public class Gerrit implements EntryPoint {
         LocalComments.saveInlineComments();
       }
       body.setView(view);
+      updateUiLink(token);
     }
   }
 
@@ -532,6 +535,23 @@ public class Gerrit implements EntryPoint {
     ApiGlue.fireEvent("history", token);
   }
 
+  private static String getUiSwitcherUrl(String token) {
+    UrlBuilder builder = new UrlBuilder();
+    builder.setProtocol(Location.getProtocol());
+    builder.setHost(Location.getHost());
+    String port = Location.getPort();
+    if (port != null && !port.isEmpty()) {
+      builder.setPort(Integer.parseInt(port));
+    }
+    String[] tokens = token.split("@", 2);
+    builder.setPath(tokens[0]);
+    if (tokens.length == 2) {
+      builder.setHash(tokens[1]);
+    }
+    builder.setParameter("polygerrit", "1");
+    return builder.buildString();
+  }
+
   private static void populateBottomMenu(RootPanel btmmenu, HostPageData hpd) {
     String vs = hpd.version;
     if (vs == null || vs.isEmpty()) {
@@ -542,10 +562,10 @@ public class Gerrit implements EntryPoint {
 
     if (info().gerrit().webUis().contains(UiType.POLYGERRIT)) {
       btmmenu.add(new InlineLabel(" | "));
-      Anchor a = new Anchor(
-          C.newUi(), GWT.getHostPageBaseURL() + "?polygerrit=1");
-      a.setStyleName("");
-      btmmenu.add(a);
+      String url = getUiSwitcherUrl(History.getToken());
+      uiSwitcherLink = new Anchor(C.newUi(), url);
+      uiSwitcherLink.setStyleName("");
+      btmmenu.add(uiSwitcherLink);
     }
 
     String reportBugUrl = info().gerrit().reportBugUrl();
@@ -561,6 +581,10 @@ public class Gerrit implements EntryPoint {
     }
     btmmenu.add(new InlineLabel(" | "));
     btmmenu.add(new InlineLabel(C.keyHelp()));
+  }
+
+  private static void updateUiLink(String token) {
+    uiSwitcherLink.setHref(getUiSwitcherUrl(token));
   }
 
   private void onModuleLoad2(HostPageData hpd) {

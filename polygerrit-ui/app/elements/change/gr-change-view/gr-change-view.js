@@ -607,26 +607,32 @@
     },
 
     _handleAKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (!this._loggedIn || e.detail.keyboardEvent.shiftKey) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e) ||
+          !this._loggedIn) { return; }
+
       e.preventDefault();
       this._openReplyDialog();
     },
 
     _handleDKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
       e.preventDefault();
       this.$.downloadOverlay.open();
     },
 
     _handleCapitalRKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
       e.preventDefault();
       this._switchToMostRecentPatchNum();
     },
 
     _handleUKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
       e.preventDefault();
       this._determinePageBack();
     },

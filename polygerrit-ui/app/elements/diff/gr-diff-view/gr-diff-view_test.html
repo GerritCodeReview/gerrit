@@ -558,20 +558,20 @@ limitations under the License.
     test('_shortenPath with long path should add ellipsis', function() {
       var path =
           'level1/level2/level3/level4/file.js';
-      var shortenedPath = element._shortenPath(path);
+      var shortenedPath = util.truncatePath(path);
       // The expected path is truncated with an ellipsis.
       var expectedPath = '\u2026/file.js';
       assert.equal(shortenedPath, expectedPath);
 
       var path = 'level2/file.js';
-      var shortenedPath = element._shortenPath(path);
+      var shortenedPath = util.truncatePath(path);
       assert.equal(shortenedPath, expectedPath);
     });
 
     test('_shortenPath with short path should not add ellipsis', function() {
       var path = 'file.js';
       var expectedPath = 'file.js';
-      var shortenedPath = element._shortenPath(path);
+      var shortenedPath = util.truncatePath(path);
       assert.equal(shortenedPath, expectedPath);
     });
 

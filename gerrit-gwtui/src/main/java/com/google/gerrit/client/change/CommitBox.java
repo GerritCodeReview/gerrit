@@ -56,6 +56,7 @@ class CommitBox extends Composite {
     String collapsed();
     String expanded();
     String clippy();
+    String parentWebLink();
   }
 
   @UiField Style style;
@@ -66,6 +67,7 @@ class CommitBox extends Composite {
   @UiField FlowPanel webLinkPanel;
   @UiField TableRowElement firstParent;
   @UiField FlowPanel parentCommits;
+  @UiField FlowPanel parentWebLinks;
   @UiField InlineHyperlink authorNameEmail;
   @UiField Element authorDate;
   @UiField InlineHyperlink committerNameEmail;
@@ -114,7 +116,7 @@ class CommitBox extends Composite {
         committerDate, change);
     text.setHTML(commentLinkProcessor.apply(
         new SafeHtmlBuilder().append(commit.message()).linkify()));
-    setWebLinks(revInfo);
+    setWebLinks(webLinkPanel, revInfo.commit());
 
     if (revInfo.commit().parents().length() > 1) {
       mergeCommit.setVisible(true);
@@ -129,11 +131,11 @@ class CommitBox extends Composite {
     parentNotCurrentText.setInnerText(parentNotCurrent ? "\u25CF" : "");
   }
 
-  private void setWebLinks(RevisionInfo revInfo) {
-    JsArray<WebLinkInfo> links = revInfo.commit().webLinks();
+  private void setWebLinks(FlowPanel panel, CommitInfo commit) {
+    JsArray<WebLinkInfo> links = commit.webLinks();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        webLinkPanel.add(link.toAnchor());
+        panel.add(link.toAnchor());
       }
     }
   }
@@ -146,11 +148,18 @@ class CommitBox extends Composite {
       if (next == firstParent) {
         CopyableLabel copyLabel = getCommitLabel(c);
         parentCommits.add(copyLabel);
+        setWebLinks(parentWebLinks, c);
       } else {
         next.appendChild(DOM.createTD());
         Element td1 = DOM.createTD();
         td1.appendChild(getCommitLabel(c).getElement());
         next.appendChild(td1);
+        FlowPanel linksPanel = new FlowPanel();
+        linksPanel.addStyleName(style.parentWebLink());
+        setWebLinks(linksPanel, c);
+        Element td2 = DOM.createTD();
+        td2.appendChild(linksPanel.getElement());
+        next.appendChild(td2);
         previous.getParentElement().insertAfter(next, previous);
       }
       previous = next;

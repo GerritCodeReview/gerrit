@@ -3,6 +3,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "0d8e0bb3_7dd6b7af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-09T09:40:06Z",
+      "side": 1,
+      "message": "Here the external ID is created with the ID of the new account. As far as I see it is nowhere updated. Hence checking later if it matches the ID of the new account would always return true.",
+      "revId": "5862be62748a552ad9f68b3f021451c81f7336b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a699be3_b7b508ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-09T09:40:06Z",
+      "side": 1,
+      "message": "Here we upsert the external ID. If the external ID belonged to another account, it\u0027s overwritten now. We would only get a duplicate key exception if this was an insert. But there was a reason to change it to upsert (see [1]).\n\n[1] https://gerrit-review.googlesource.com/50221",
+      "revId": "5862be62748a552ad9f68b3f021451c81f7336b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a699be3_57e26cbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-09T09:40:06Z",
+      "side": 1,
+      "message": "Here we set the username. extId has nothing to do with it.",
+      "revId": "5862be62748a552ad9f68b3f021451c81f7336b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a699be3_f7ab8052",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 2
@@ -14,6 +65,24 @@
       "writtenOn": "2016-12-09T09:33:05Z",
       "side": 1,
       "message": "We get the exception used here, so could check  if it is a DuplicateNameError?",
+      "revId": "5862be62748a552ad9f68b3f021451c81f7336b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a699be3_77e770cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-09T09:40:06Z",
+      "side": 1,
+      "message": "Not sure if I understand.",
+      "parentUuid": "5a699be3_f7ab8052",
       "revId": "5862be62748a552ad9f68b3f021451c81f7336b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

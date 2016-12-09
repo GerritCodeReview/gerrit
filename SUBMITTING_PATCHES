@@ -7,7 +7,6 @@ Short Version:
 
    git push https://gerrit.googlesource.com/gerrit HEAD:refs/for/master
 
-
 Long Version:
 
 I wanted a file describing how to submit patches for Gerrit,

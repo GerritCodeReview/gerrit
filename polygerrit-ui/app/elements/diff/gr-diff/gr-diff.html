@@ -138,8 +138,9 @@ limitations under the License.
       .content.remove.lightHighlight {
         background-color: var(--light-remove-highlight-color);
       }
-      .content .contentText {
-        min-height: var(--font-size);
+      .content .contentText:after {
+        /* Newline, to ensure all lines are one line-height tall. */
+        content: '\A';
       }
       .contextControl {
         background-color: #fef;

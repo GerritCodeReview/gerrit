@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a7f239a_f5d298e8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RobotComment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-10T00:10:48Z",
+      "side": 1,
+      "message": "Why not default new robot comments to unresolved\u003dtrue?",
+      "revId": "47451c3722fc57cfd1ded61b6e210596de751103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

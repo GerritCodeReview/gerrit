@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa77afbe_74f9a85c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-12-10T04:35:57Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 280,
+        "startChar": 41,
+        "endLine": 280,
+        "endChar": 45
+      },
+      "revId": "19fd7b4798972c17d28638f1b7679715e6c24c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_14ee3498",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-12-10T04:35:57Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 4
+      },
+      "revId": "19fd7b4798972c17d28638f1b7679715e6c24c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_34f3307d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-12-10T04:35:57Z",
+      "side": 1,
+      "message": "has",
+      "range": {
+        "startLine": 290,
+        "startChar": 45,
+        "endLine": 290,
+        "endChar": 49
+      },
+      "revId": "19fd7b4798972c17d28638f1b7679715e6c24c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_d4075c83",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2016-12-10T04:35:57Z",
+      "side": 1,
+      "message": "I feel like this is part of the prior example still, and its confusing me to now read it after your additional example. Should your new example go after this example?",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 63
+      },
+      "revId": "19fd7b4798972c17d28638f1b7679715e6c24c80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

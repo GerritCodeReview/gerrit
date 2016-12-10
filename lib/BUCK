@@ -310,3 +310,10 @@ maven_jar(
   sha1 = '198ea005f41219f038f4291f0b0e9f3259730e92',
   license = 'icu4j',
 )
+
+maven_jar(
+  name = 'errorprone',
+  id = 'com.google.errorprone:error_prone_ant:2.0.15',
+  sha1 = '607e3866e2ee25b74708c2898f84eac2f5452d2f',
+  license = 'Apache2.0',
+)

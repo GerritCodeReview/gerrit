@@ -41,8 +41,14 @@ def java_test(*args, **kwargs):
 
 # Munge kwargs to set Gerrit-specific defaults.
 def _munge_args(kwargs):
+  if read_config('sanitizers', 'error_prone'):
+    _set_error_prone(kwargs)
   _set_auto_value(kwargs)
   _set_extra_arguments(kwargs)
+
+def _set_error_prone(kwargs):
+  kwargs['javac_jar'] = '//lib:errorprone'
+  kwargs['compiler_class_name'] = 'com.google.errorprone.ErrorProneJavaCompiler'
 
 def _set_extra_arguments(kwargs):
   ext = 'extra_arguments'

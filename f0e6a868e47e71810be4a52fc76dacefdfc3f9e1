@@ -48,6 +48,78 @@
     },
     {
       "key": {
+        "uuid": "fa77afbe_b4274025",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa77afbe_54902c2d",
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_b5fe603f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_158ab4ff",
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_942a44ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_158ab4ff",
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_15695436",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_158ab4ff",
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa77afbe_7495281c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -117,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "1a7f239a_555fcc8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_d5a3dc82",
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a7f239a_55902c2d",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -134,6 +224,24 @@
         "endLine": 151,
         "endChar": 21
       },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_35f3307d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_55902c2d",
       "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -163,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "fa77afbe_d420bc11",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa77afbe_b483c0ec",
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a7f239a_b583c0ec",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -180,6 +306,24 @@
         "endLine": 239,
         "endChar": 48
       },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_d5075c83",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_b583c0ec",
       "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -209,6 +353,24 @@
     },
     {
       "key": {
+        "uuid": "fa77afbe_341c90df",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "For mobile, we actually end up using both when the file is expanded (it shows the full path then).",
+      "parentUuid": "fa77afbe_148ab4ff",
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a7f239a_b59ae046",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 1
@@ -232,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "1a7f239a_f504d880",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_b59ae046",
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a7f239a_55bb4ca7",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 1
@@ -249,6 +429,24 @@
         "endLine": 66,
         "endChar": 3
       },
+      "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_9501e46f",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-10T01:30:56Z",
+      "side": 1,
+      "message": "Any other opinions on this? I think it fits pretty well here-- it\u0027s basically just a way to manipulate a string in a few places across the app.",
+      "parentUuid": "1a7f239a_55bb4ca7",
       "revId": "f0e6a868e47e71810be4a52fc76dacefdfc3f9e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

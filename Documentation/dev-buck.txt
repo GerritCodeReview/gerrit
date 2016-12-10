@@ -685,6 +685,25 @@ Watchman can either be de-installed or disabled. See
 link:#buck-daemon[Using Buck daemon] section above how to temporarily
 disable `buckd`.
 
+== Error Prone integration
+
+link:http://errorprone.info[Error Prone] is a static analysis tool for
+Java that catches common programming mistakes at compile-time. It can
+be permanenty or instantly activated. For permanent activation, add these
+lines to your `.buckconfig.local` file in gerrit tree:
+
+```[sanitizers]
+      error_prone = 1
+```
+
+For instant activation, pass this config option to the `build` or `test`
+commands:
+
+
+```
+  buck build --config sanitizers.error_prone=1 gerrit
+```
+
 == Troubleshooting Buck
 
 In some cases problems with Buck itself need to be investigated. See for example

@@ -339,5 +339,78 @@ limitations under the License.
       assert.isTrue(sendStub.called);
       assert.notOk(element._cache[cacheKey]);
     });
+
+    var preferenceSetup = function(testJSON, loggedIn, smallScreen) {
+      sandbox.stub(element, 'getLoggedIn', function() {
+        return Promise.resolve(loggedIn);
+      });
+      sandbox.stub(element, '_isNarrowScreen', function() {
+        return smallScreen;
+      });
+      sandbox.stub(element, '_fetchSharedCacheURL', function() {
+        return Promise.resolve(testJSON);
+      });
+    };
+
+    test('getPreferences returns correctly on small screens logged in',
+        function(done) {
+
+      var testJSON = {diff_view: 'SIDE_BY_SIDE'};
+      var loggedIn = true;
+      var smallScreen = true;
+
+      preferenceSetup(testJSON, loggedIn, smallScreen);
+
+      element.getPreferences().then(function(obj) {
+        assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+        assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
+        done();
+      });
+    });
+
+    test('getPreferences returns correctly on small screens not logged in',
+          function(done) {
+
+      var testJSON = {diff_view: 'SIDE_BY_SIDE'};
+      var loggedIn = false;
+      var smallScreen = true;
+
+      preferenceSetup(testJSON, loggedIn, smallScreen);
+      element.getPreferences().then(function(obj) {
+        assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+        assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
+        done();
+      });
+    });
+
+    test('getPreferences returns correctly on larger screens logged in',
+        function(done) {
+      var testJSON = {diff_view: 'UNIFIED_DIFF'};
+      var loggedIn = true;
+      var smallScreen = false;
+
+      preferenceSetup(testJSON, loggedIn, smallScreen);
+
+      element.getPreferences().then(function(obj) {
+        assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
+        assert.equal(obj.diff_view, 'UNIFIED_DIFF');
+        done();
+      });
+    });
+
+    test('getPreferences returns correctly on larger screens not logged in',
+        function(done) {
+      var testJSON = {diff_view: 'UNIFIED_DIFF'};
+      var loggedIn = false;
+      var smallScreen = false;
+
+      preferenceSetup(testJSON, loggedIn, smallScreen);
+
+      element.getPreferences().then(function(obj) {
+        assert.equal(obj.default_diff_view, 'SIDE_BY_SIDE');
+        assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
+        done();
+      });
+    });
   });
 </script>

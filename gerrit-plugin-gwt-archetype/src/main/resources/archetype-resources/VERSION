@@ -1,5 +1,0 @@
-# Used by BUCK to include "Implementation-Version" in plugin Manifest.
-# If this file doesn't exist the output of 'git describe' is used
-# instead.
-PLUGIN_VERSION = '${version}'
-

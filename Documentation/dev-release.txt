@@ -129,11 +129,6 @@ version as parameter, e.g.:
   ./tools/version.py 2.5
 ----
 
-Also check and update the referenced `archetypeVersion` and the
-`archetypeRepository` in the `Documentation/dev-plugins.txt` file.
-If the referenced `archetypeVersion` will be available in the Maven central,
-delete the line with the `archetypeRepository`.
-
 Commit the changes and create the release tag on the new commit:
 
 ----
@@ -199,12 +194,6 @@ If no artifacts are uploaded, clean the `buck-out` folder and retry:
 +
 ----
   buck clean ; rm -rf buck-out
-----
-
-* Push the plugin Maven archetypes to Maven Central:
-+
-----
-  ./tools/plugin_archetype_deploy.sh
 ----
 
 * To where the artifacts are uploaded depends on the `GERRIT_VERSION` in
@@ -399,8 +388,8 @@ All new development that is done in the `master` branch will be included in the
 next Gerrit release. The Gerrit version should be set to the snapshot version
 for the next release.
 
-Use the `version` tool to set the version in the `VERSION` file and plugin
-archetypes' `pom.xml` files:
+Use the `version` tool to set the version in the `VERSION` file:
+:
 
 ----
  ./tools/version.py 2.11-SNAPSHOT

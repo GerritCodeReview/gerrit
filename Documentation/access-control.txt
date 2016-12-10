@@ -276,6 +276,29 @@ since there is an exclusive access right in place for the
 particular branch to a limited set of users, bypassing inherited
 rights and wildcards.
 
+Similarly, the inherited ACL may win if they have more specific
+reference, even if the project level ACL have an exclusive ACL
+set on a wildcard reference.  For example, if the parent project
+have:
+
+[options="header"]
+|==============================================================
+|Group           |Reference Name|Label      |Range   |Exclusive
+|QA Leads        |refs/heads/qa |Code-Review| -2..+2 |
+|==============================================================
+
+And the child project which inherits from it have:
+
+[options="header"]
+|==============================================================
+|Group           |Reference Name|Label      |Range   |Exclusive
+|Registered Users|refs/heads/*  |Code-Review| -1..+1 |X
+|Foo Leads       |refs/heads/*  |Code-Review| -2..+2 |X
+|==============================================================
+
+Then the members of `QA Leads` will have +2 access on the
+`refs/heads/qa` branch.
+
 In order to grant the ability to `Code-Review` to the members of
 `Foo Leads`, in `refs/heads/qa` then the following access rights
 would be needed:

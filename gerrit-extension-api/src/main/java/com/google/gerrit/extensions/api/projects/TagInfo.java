@@ -16,9 +16,6 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.common.GitPerson;
 
-import java.util.List;
-import java.util.Map;
-
 public class TagInfo extends RefInfo {
   public String object;
   public String message;

@@ -114,6 +114,9 @@ limitations under the License.
         margin-right: .5em;
         white-space: nowrap;
       }
+      .labelMessage {
+        color: #666;
+      }
       iron-selector {
         display: inline-flex;
       }
@@ -236,12 +239,12 @@ limitations under the License.
             config="[[projectConfig.commentlinks]]"></gr-formatted-text>
       </section>
       <section class="labelsContainer">
-        <template is="dom-repeat"
-            items="[[_labels]]" as="label">
+        <template is="dom-repeat" items="[[_labels]]" as="label">
           <div class="labelContainer">
             <span class="labelName">[[label.name]]</span>
             <iron-selector data-label$="[[label.name]]"
-                selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]">
+                selected="[[_computeIndexOfLabelValue(change.labels, permittedLabels, label)]]"
+                hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
               <template is="dom-repeat"
                   items="[[_computePermittedLabelValues(permittedLabels, label.name)]]"
                   as="value">
@@ -249,6 +252,10 @@ limitations under the License.
                     title$="[[_computeLabelValueTitle(change.labels, label.name, value)]]">[[value]]</gr-button>
               </template>
             </iron-selector>
+            <span class="labelMessage"
+                hidden$="[[_computeAnyPermittedLabelValues(permittedLabels, label.name)]]">
+              You don't have permission to edit this label.
+            </span>
           </div>
         </template>
       </section>

@@ -425,6 +425,10 @@
       return permittedLabels[label];
     },
 
+    _computeAnyPermittedLabelValues: function(permittedLabels, label) {
+      return permittedLabels.hasOwnProperty(label);
+    },
+
     _changeUpdated: function(changeRecord, owner, serverConfig) {
       this._rebuildReviewerArrays(changeRecord.base, owner, serverConfig);
     },

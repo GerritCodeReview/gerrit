@@ -93,7 +93,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
@@ -150,27 +149,21 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitToEmptyRepo() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
-    Map<Branch.NameKey, RevTree> actual;
-    try (BinaryResult request = submitPreview(change.getChangeId())) {
-      actual = fetchFromBundles(request);
-    }
+    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
     RevCommit headAfterSubmitPreview = getRemoteHead();
     assertThat(headAfterSubmitPreview).isEqualTo(initialHead);
     assertThat(actual).hasSize(1);
 
     submit(change.getChangeId());
     assertThat(getRemoteHead().getId()).isEqualTo(change.getCommit());
-    assertRevTrees(project, actual);
+    assertTrees(project, actual);
   }
 
   @Test
   public void submitSingleChange() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
-    Map<Branch.NameKey, RevTree> actual;
-    try (BinaryResult request = submitPreview(change.getChangeId())) {
-      actual = fetchFromBundles(request);
-    }
+    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change.getChangeId());
     RevCommit headAfterSubmit = getRemoteHead();
     assertThat(headAfterSubmit).isEqualTo(initialHead);
     assertRefUpdatedEvents();
@@ -185,7 +178,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
 
     submit(change.getChangeId());
-    assertRevTrees(project, actual);
+    assertTrees(project, actual);
   }
 
   @Test
@@ -205,57 +198,59 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     try (BinaryResult request = submitPreview(change4.getChangeId())) {
       assertThat(getSubmitType()).isEqualTo(SubmitType.CHERRY_PICK);
-      Map<Branch.NameKey, RevTree> s = fetchFromBundles(request);
       submit(change4.getChangeId());
-      assertRevTrees(project, s);
     } catch (RestApiException e) {
       switch (getSubmitType()) {
         case FAST_FORWARD_ONLY:
-          assertThat(e.getMessage()).isEqualTo(
-              "Failed to submit 3 changes due to the following problems:\n"
-                  + "Change "
-                  + change2.getChange().getId()
-                  + ": internal error: "
-                  + "change not processed by merge strategy\n"
-                  + "Change "
-                  + change3.getChange().getId()
-                  + ": internal error: "
-                  + "change not processed by merge strategy\n"
-                  + "Change "
-                  + change4.getChange().getId()
-                  + ": Project policy "
-                  + "requires all submissions to be a fast-forward. Please "
-                  + "rebase the change locally and upload again for review.");
+          assertThat(e.getMessage())
+              .isEqualTo(
+                  "Failed to submit 3 changes due to the following problems:\n"
+                      + "Change "
+                      + change2.getChange().getId()
+                      + ": internal error: "
+                      + "change not processed by merge strategy\n"
+                      + "Change "
+                      + change3.getChange().getId()
+                      + ": internal error: "
+                      + "change not processed by merge strategy\n"
+                      + "Change "
+                      + change4.getChange().getId()
+                      + ": Project policy "
+                      + "requires all submissions to be a fast-forward. Please "
+                      + "rebase the change locally and upload again for review.");
           break;
         case REBASE_IF_NECESSARY:
         case REBASE_ALWAYS:
           String change2hash = change2.getChange().currentPatchSet().getRevision().get();
-          assertThat(e.getMessage()).isEqualTo(
-              "Cannot rebase "
-                  + change2hash
-                  + ": The change could "
-                  + "not be rebased due to a conflict during merge.");
+          assertThat(e.getMessage())
+              .isEqualTo(
+                  "Cannot rebase "
+                      + change2hash
+                      + ": The change could "
+                      + "not be rebased due to a conflict during merge.");
           break;
         case MERGE_ALWAYS:
         case MERGE_IF_NECESSARY:
-          assertThat(e.getMessage()).isEqualTo(
-              "Failed to submit 3 changes due to the following problems:\n"
-                  + "Change "
-                  + change2.getChange().getId()
-                  + ": Change could not be "
-                  + "merged due to a path conflict. Please rebase the change "
-                  + "locally and upload the rebased commit for review.\n"
-                  + "Change "
-                  + change3.getChange().getId()
-                  + ": Change could not be "
-                  + "merged due to a path conflict. Please rebase the change "
-                  + "locally and upload the rebased commit for review.\n"
-                  + "Change "
-                  + change4.getChange().getId()
-                  + ": Change could not be "
-                  + "merged due to a path conflict. Please rebase the change "
-                  + "locally and upload the rebased commit for review.");
+          assertThat(e.getMessage())
+              .isEqualTo(
+                  "Failed to submit 3 changes due to the following problems:\n"
+                      + "Change "
+                      + change2.getChange().getId()
+                      + ": Change could not be "
+                      + "merged due to a path conflict. Please rebase the change "
+                      + "locally and upload the rebased commit for review.\n"
+                      + "Change "
+                      + change3.getChange().getId()
+                      + ": Change could not be "
+                      + "merged due to a path conflict. Please rebase the change "
+                      + "locally and upload the rebased commit for review.\n"
+                      + "Change "
+                      + change4.getChange().getId()
+                      + ": Change could not be "
+                      + "merged due to a path conflict. Please rebase the change "
+                      + "locally and upload the rebased commit for review.");
           break;
+        case CHERRY_PICK:
         default:
           fail("Should not reach here.");
           break;
@@ -276,10 +271,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result change4 = createChange("Change 4", "e", "e");
     // change 2 is not approved, but we ignore labels
     approve(change3.getChangeId());
-    Map<Branch.NameKey, RevTree> actual;
-    try (BinaryResult request = submitPreview(change4.getChangeId())) {
-      actual = fetchFromBundles(request);
-    }
+    Map<Branch.NameKey, ObjectId> actual = fetchFromSubmitPreview(change4.getChangeId());
     Map<String, Map<String, Integer>> expected = new HashMap<>();
     expected.put(project.get(), new HashMap<>());
     expected.get(project.get()).put("refs/heads/master", 3);
@@ -306,7 +298,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // now check we actually have the same content:
     approve(change2.getChangeId());
     submit(change4.getChangeId());
-    assertRevTrees(project, actual);
+    assertTrees(project, actual);
   }
 
   @Test
@@ -840,14 +832,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
     ChangeInfo change = gApi.changes().id(changeId).info();
     assertMerged(change.changeId);
-  }
-
-  protected BinaryResult submitPreview(String changeId) throws Exception {
-    return gApi.changes().id(changeId).current().submitPreview();
-  }
-
-  protected BinaryResult submitPreview(String changeId, String format) throws Exception {
-    return gApi.changes().id(changeId).current().submitPreview(format);
   }
 
   protected void assertSubmittable(String changeId) throws Exception {

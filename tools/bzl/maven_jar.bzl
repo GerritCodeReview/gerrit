@@ -54,12 +54,17 @@ def _generate_build_file(ctx, binjar, srcjar):
   if srcjar:
     srcjar_attr = 'srcjar = "%s",' % srcjar
   contents = """
-# DO NOT EDIT: automatically generated BUILD file for maven_archive rule {rule_name}
+# DO NOT EDIT: automatically generated BUILD file for maven_jar rule {rule_name}
 package(default_visibility = ['//visibility:public'])
 java_import(
     name = 'jar',
     {srcjar_attr}
     jars = ['{binjar}'],
+)
+java_import(
+    name = 'neverlink',
+    jars = ['{binjar}'],
+    neverlink = 1,
 )
 \n""".format(srcjar_attr = srcjar_attr,
               rule_name = ctx.name,

@@ -259,6 +259,17 @@ public class AccountManager {
 
     try {
       db.accounts().upsert(Collections.singleton(account));
+
+      AccountExternalId existingExtId =
+          db.accountExternalIds().get(extId.getKey());
+      if (existingExtId != null
+          && !existingExtId.getAccountId().equals(extId.getAccountId())) {
+        // external ID is assigned to another account, do not overwrite
+        db.accounts().delete(Collections.singleton(account));
+        throw new AccountException(
+            "Cannot assign external ID \"" + extId.getExternalId()
+                + "\" to account " + newId + "; external ID already in use.");
+      }
       db.accountExternalIds().upsert(Collections.singleton(extId));
     } finally {
       // If adding the account failed, it may be that it actually was the

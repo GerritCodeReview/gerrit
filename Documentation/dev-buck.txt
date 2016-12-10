@@ -685,6 +685,24 @@ Watchman can either be de-installed or disabled. See
 link:#buck-daemon[Using Buck daemon] section above how to temporarily
 disable `buckd`.
 
+== Error Prone integration
+
+link:http://errorprone.info[Error Prone] is a static analysis tool for
+Java that catches common programming mistakes at compile-time. It can
+be easily integrated with Buck, see this
+link:https://github.com/facebook/buck/issues/994[upstream issue].
+Download the `error_prone_all_in_one.jar` from the link in the issue,
+and add these lines to your `.buckconfig.local` file:
+
+``[tools]
+    javac_jar = lib/error_prone_2.13_all_in_one.jar
+    compiler_class_name = com.google.errorprone.ErrorProneJavaCompiler
+
+```
+
+Now invoking `buck build <rule>` as usual, would perform Error Prone
+checks and issue warnings and errors.
+
 == Troubleshooting Buck
 
 In some cases problems with Buck itself need to be investigated. See for example

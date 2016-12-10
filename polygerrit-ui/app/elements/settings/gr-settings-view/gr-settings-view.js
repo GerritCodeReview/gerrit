@@ -19,7 +19,7 @@
     'date_format',
     'time_format',
     'email_strategy',
-    'diff_view',
+    'diff_view_setting',
   ];
 
   Polymer({

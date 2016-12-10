@@ -81,7 +81,7 @@ limitations under the License.
         changes_per_page: 25,
         date_format: 'UK',
         time_format: 'HHMM_12',
-        diff_view: 'UNIFIED_DIFF',
+        diff_view_setting: 'UNIFIED_DIFF',
         email_strategy: 'ENABLED',
 
         my: [
@@ -157,7 +157,7 @@ limitations under the License.
       assert.equal(valueOf('Email Notifications', 'preferences')
           .firstElementChild.bindValue, preferences.email_strategy);
       assert.equal(valueOf('Diff View', 'preferences')
-          .firstElementChild.bindValue, preferences.diff_view);
+          .firstElementChild.bindValue, preferences.diff_view_setting);
 
       assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);
@@ -172,7 +172,7 @@ limitations under the License.
 
       stub('gr-rest-api-interface', {
         savePreferences: function(prefs) {
-          assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
+          assert.equal(prefs.diff_view_setting, 'SIDE_BY_SIDE');
           assertMenusEqual(prefs.my, preferences.my);
           return Promise.resolve();
         }

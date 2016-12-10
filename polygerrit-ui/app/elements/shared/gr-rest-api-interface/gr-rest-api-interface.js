@@ -14,7 +14,12 @@
 (function() {
   'use strict';
 
+  var DiffViewMode = {
+    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+    UNIFIED: 'UNIFIED_DIFF',
+  };
   var JSON_PREFIX = ')]}\'';
+  var MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   var PARENT_PATCH_NUM = 'PARENT';
 
   // Must be kept in sync with the ListChangesOption enum and protobuf.
@@ -295,12 +300,20 @@
     getPreferences: function() {
       return this.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
-          return this._fetchSharedCacheURL('/accounts/self/preferences');
+          return this._fetchSharedCacheURL('/accounts/self/preferences').then(
+              function(res){
+            res.diff_view_setting = res.diff_view;
+            if (this._isNarrowScreen()) {
+              res.diff_view = DiffViewMode.UNIFIED;
+            }
+            return Promise.resolve(res);
+          }.bind(this));
         }
 
         return Promise.resolve({
           changes_per_page: 25,
-          diff_view: 'SIDE_BY_SIDE',
+          diff_view: this._getInitialDiffViewMode(),
+          diff_view_setting: 'SIDE_BY_SIDE',
         });
       }.bind(this));
     },
@@ -342,6 +355,18 @@
           throw err;
         }.bind(this));
       return this._sharedFetchPromises[url];
+    },
+
+    _isNarrowScreen: function() {
+      return window.innerWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX;
+    },
+
+    _getInitialDiffViewMode: function() {
+      if (this._isNarrowScreen()) {
+        return DiffViewMode.UNIFIED;
+      } else {
+        return DiffViewMode.SIDE_BY_SIDE;
+      }
     },
 
     getChanges: function(changesPerPage, opt_query, opt_offset) {

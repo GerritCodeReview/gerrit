@@ -75,6 +75,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
   private Hyperlink prev;
   private Hyperlink next;
   private TagsTable tagTable;
+  private Button delTag;
   private Button addTag;
   private HintTextBox nameTxtBox;
   private HintTextBox irevTxtBox;
@@ -107,6 +108,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
   }
 
   private void updateForm() {
+    tagTable.updateDeleteButton();
     addTag.setEnabled(true);
     nameTxtBox.setEnabled(true);
     irevTxtBox.setEnabled(true);
@@ -169,8 +171,18 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
 
     tagTable = new TagsTable();
 
+    delTag = new Button(Util.C.buttonDeleteTag());
+    delTag.setStyleName(Gerrit.RESOURCES.css().branchTableDeleteButton());
+    delTag.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        tagTable.deleteChecked();
+      }
+    });
+
     HorizontalPanel buttons = new HorizontalPanel();
     buttons.setStyleName(Gerrit.RESOURCES.css().branchTablePrevNextLinks());
+    buttons.add(delTag);
     buttons.add(prev);
     buttons.add(next);
     add(tagTable);
@@ -274,6 +286,8 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
   }
 
   private class TagsTable extends NavigationTable<TagInfo> {
+    private ValueChangeHandler<Boolean> updateDeleteHandler;
+    boolean canDelete;
 
     TagsTable() {
       table.setWidth("");
@@ -285,6 +299,13 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
+
+      updateDeleteHandler = new ValueChangeHandler<Boolean>() {
+        @Override
+        public void onValueChange(ValueChangeEvent<Boolean> event) {
+          updateDeleteButton();
+        }
+      };
     }
 
     Set<String> getCheckedRefs() {
@@ -309,11 +330,70 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       }
     }
 
+    void deleteChecked() {
+      final Set<String> refs = getCheckedRefs();
+
+      SafeHtmlBuilder b = new SafeHtmlBuilder();
+      b.openElement("b");
+      b.append(Gerrit.C.tagDeletionConfirmationMessage());
+      b.closeElement("b");
+
+      b.openElement("p");
+      boolean first = true;
+      for (String ref : refs) {
+        if (!first) {
+          b.append(",").br();
+        }
+        b.append(ref);
+        first = false;
+      }
+      b.closeElement("p");
+
+      if (refs.isEmpty()) {
+        updateDeleteButton();
+        return;
+      }
+
+      delTag.setEnabled(false);
+      ConfirmationDialog confirmationDialog =
+          new ConfirmationDialog(Gerrit.C.tagDeletionDialogTitle(),
+              b.toSafeHtml(), new ConfirmationCallback() {
+        @Override
+        public void onOk() {
+          deleteTags(refs);
+        }
+
+        @Override
+        public void onCancel() {
+          tagTable.updateDeleteButton();
+        }
+      });
+      confirmationDialog.center();
+    }
+
+    private void deleteTags(final Set<String> tags) {
+      ProjectApi.deleteTags(getProjectKey(), tags,
+          new GerritCallback<VoidResult>() {
+            @Override
+            public void onSuccess(VoidResult result) {
+              query = new Query(match).start(start).run();
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+              query = new Query(match).start(start).run();
+              super.onFailure(caught);
+            }
+          });
+    }
+
     void display(List<TagInfo> tags) {
       displaySubset(tags, 0, tags.size());
     }
 
     void displaySubset(List<TagInfo> tags, int fromIndex, int toIndex) {
+      canDelete = false;
+
       while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
       }
@@ -327,7 +407,10 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
     }
 
     void populate(int row, TagInfo k) {
-      table.setText(row, 1, "");
+      CheckBox sel = new CheckBox();
+      sel.addValueChangeHandler(updateDeleteHandler);
+      table.setWidget(row, 1, sel);
+      canDelete = true;
 
       table.setWidget(row, 2, new InlineHTML(highlight(k.getShortName(), match)));
 
@@ -434,6 +517,25 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
       return p;
     }
 
+    boolean hasTagCanDelete() {
+      return canDelete;
+    }
+
+    void updateDeleteButton() {
+      boolean on = false;
+      for (int row = 1; row < table.getRowCount(); row++) {
+        Widget w = table.getWidget(row, 1);
+        if (w != null && w instanceof CheckBox) {
+          CheckBox sel = (CheckBox) w;
+          if (sel.getValue()) {
+            on = true;
+            break;
+          }
+        }
+      }
+      delTag.setEnabled(on);
+    }
+
     @Override
     protected void onOpenRow(int row) {
       if (row > 0) {
@@ -511,6 +613,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
         prev.setVisible(false);
       }
 
+      delTag.setVisible(tagTable.hasTagCanDelete());
       Set<String> checkedRefs = tagTable.getCheckedRefs();
       tagTable.setChecked(checkedRefs);
       updateForm();

@@ -82,6 +82,23 @@ public class ProjectApi {
     getRestApi(name, "tags", limit, start, match).get(cb);
   }
 
+  /**
+   * Delete tags. One call is fired to the server to delete all the
+   * tags.
+   */
+  public static void deleteTags(Project.NameKey name,
+      Set<String> refs, AsyncCallback<VoidResult> cb) {
+    if (refs.size() == 1) {
+      project(name).view("tags").id(refs.iterator().next()).delete(cb);
+    } else {
+      DeleteTagsInput d = DeleteTagsInput.create();
+      for (String ref : refs) {
+        d.addTag(ref);
+      }
+      project(name).view("tags:delete").post(d, cb);
+    }
+  }
+
   /** Create a new branch */
   public static void createBranch(
       Project.NameKey name, String ref, String revision, AsyncCallback<BranchInfo> cb) {
@@ -372,6 +389,20 @@ public class ProjectApi {
     protected HeadInput() {}
 
     final native void setRef(String r) /*-{ if(r)this.ref=r; }-*/;
+  }
+
+  private static class DeleteTagsInput extends JavaScriptObject {
+    static DeleteTagsInput create() {
+      DeleteTagsInput d = createObject().cast();
+      d.init();
+      return d;
+    }
+
+    protected DeleteTagsInput() {
+    }
+
+    final native void init() /*-{ this.tags = []; }-*/;
+    final native void addTag(String b) /*-{ this.tags.push(b); }-*/;
   }
 
   private static class DeleteBranchesInput extends JavaScriptObject {

@@ -35,6 +35,10 @@
       drafts: Object,
       revisions: Object,
       projectConfig: Object,
+      selectedIndex: {
+        type: Number,
+        notify: true,
+      },
       keyEventTarget: {
         type: Object,
         value: function() { return document.body; },
@@ -367,6 +371,7 @@
         this.$.diffCursor.moveDown();
       } else {
         this.$.fileCursor.next();
+        this.selectedIndex = this.$.fileCursor.index;
       }
     },
 
@@ -378,6 +383,7 @@
         this.$.diffCursor.moveUp();
       } else {
         this.$.fileCursor.previous();
+        this.selectedIndex = this.$.fileCursor.index;
       }
     },
 
@@ -496,10 +502,6 @@
           _patchChange.size_delta_deleted === 0;
     },
 
-    _computeFileSelected: function(index, selectedIndex) {
-      return index === selectedIndex;
-    },
-
     _computeFileStatus: function(status) {
       return status || 'M';
     },
@@ -570,7 +572,7 @@
 
         var files = Polymer.dom(this.root).querySelectorAll('.file-row');
         this.$.fileCursor.stops = files;
-        if (this.$.fileCursor.index === -1) { this.$.fileCursor.moveToStart(); }
+        this.$.fileCursor.setCursorAtIndex(this.selectedIndex);
       }.bind(this), 1);
     },
 

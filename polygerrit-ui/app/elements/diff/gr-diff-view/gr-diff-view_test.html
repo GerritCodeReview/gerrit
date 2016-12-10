@@ -501,37 +501,6 @@ limitations under the License.
       assert.equal(select.value, 'SIDE_BY_SIDE');
     });
 
-    test('unified view is always default on small screens', function() {
-      var resolvePrefs;
-      var prefsPromise = new Promise(function(resolve) {
-        resolvePrefs = resolve;
-      });
-
-      var getPreferencesStub = sandbox.stub(element.$.restAPI, 'getPreferences',
-          function() { return prefsPromise; });
-
-      // Attach a new gr-diff-view so we can intercept the preferences fetch.
-      var view = document.createElement('gr-diff-view');
-
-      view.changeViewState = {diffMode: null};
-
-      sandbox.stub(view, '_getWindowWidth', function() { return 800; });
-
-      var select = view.$.modeSelect;
-      fixture('blank').appendChild(view);
-      flushAsynchronousOperations();
-
-      // At this point the diff mode doesn't yet have the user's preference.
-      assert.equal(select.value, 'UNIFIED_DIFF');
-
-      // Receive the overriding preference.
-      resolvePrefs({diff_view: 'SIDE_BY_SIDE'});
-      flushAsynchronousOperations();
-
-      // On small screens, unified should override user perferences
-      assert.equal(select.value, 'UNIFIED_DIFF');
-    });
-
     test('_loadHash', function() {
       assert.isNotOk(element.$.cursor.initialLineNumber);
 

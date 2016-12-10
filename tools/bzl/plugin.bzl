@@ -10,6 +10,10 @@ load(
     "gwt_binary",
 )
 
+PLUGIN_DEPS = ["//gerrit-plugin-api:lib"]
+
+PLUGIN_TEST_DEPS = ["//gerrit-acceptance-framework:lib"]
+
 def gerrit_plugin(
     name,
     deps = [],

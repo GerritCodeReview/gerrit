@@ -9,7 +9,5 @@ java_library(
   name = 'main_lib',
   srcs = ['src/main/java/Main.java'],
   deps = ['//gerrit-launcher:launcher'],
-  source = '1.2',
-  target = '1.2',
   visibility = ['//tools/eclipse:classpath'],
 )

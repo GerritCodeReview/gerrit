@@ -12,15 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-sh_bang_template = (' && '.join([
-  "echo '#!/bin/bash -e' > $@",
-  'echo "# this script should run from the root of your workspace." >> $@',
-  'echo "" >> $@',
-  "echo 'if [[ \"$$VERBOSE\" ]]; then set -x ; fi' >> $@",
-  'echo "" >> $@',
-  'echo %s >> $@',
-  'echo "" >> $@',
-  'echo %s >> $@']))
+sh_bang_template = (" && ".join([
+    "echo '#!/bin/bash -e' > $@",
+    "echo \"# this script should run from the root of your workspace.\" >> $@",
+    "echo \"\" >> $@",
+    "echo 'if [[ \"$$VERBOSE\" ]]; then set -x ; fi' >> $@",
+    "echo \"\" >> $@",
+    "echo %s >> $@",
+    "echo \"\" >> $@",
+    "echo %s >> $@",
+]))
 
 def maven_package(
     version,

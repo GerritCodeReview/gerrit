@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ac48328_ad835dec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-11T23:29:32Z",
+      "side": 1,
+      "message": "Any reason not to bump to 1.8?",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "ba6d28596f012ebea64740df1c40236e419becb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ac7872e_2e8f6710",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-11T23:29:32Z",
+      "side": 1,
+      "message": "There are only 2 lines of relevant error message there.  I would rather just put those here in the commit message:\n\n Source option 1.2 is no longer supported. Use 1.6 or later.\n Target option 1.2 is no longer supported. Use 1.6 or later.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "ba6d28596f012ebea64740df1c40236e419becb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

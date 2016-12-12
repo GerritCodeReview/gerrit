@@ -342,6 +342,13 @@ link:dev-plugins.html[dev-plugins].
 * Update to the same GWT version in the `gwtjsonrpc` project, and release a
 new version.
 
+=== Finding starter projects to work on
+
+We have created a
+link:https://bugs.chromium.org/p/gerrit/issues/list?can=2&q=label%3AStarterProject[StarterProject]
+category in the issue tracker and try to assign easy hack projects to it. If in
+doubt, do not hesitate to ask on the developer mailing list.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

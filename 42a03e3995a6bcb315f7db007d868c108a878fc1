@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ad8730a_31b0308e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-12T09:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ac7872e_6ee7afcc",
+      "range": {
+        "startLine": 347,
+        "startChar": 8,
+        "endLine": 347,
+        "endChar": 15
+      },
+      "revId": "42a03e3995a6bcb315f7db007d868c108a878fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ac48328_0ddcf1ff",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7ad9ff0c_f0362041",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-12T09:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ac48328_0ddcf1ff",
+      "range": {
+        "startLine": 349,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 6
+      },
+      "revId": "42a03e3995a6bcb315f7db007d868c108a878fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ac48328_2de1adb4",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2016-12-12T08:50:12Z",
       "side": 1,
       "message": "on the",
+      "range": {
+        "startLine": 351,
+        "startChar": 36,
+        "endLine": 351,
+        "endChar": 38
+      },
+      "revId": "42a03e3995a6bcb315f7db007d868c108a878fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad8730a_d1b44484",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-12T09:13:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ac48328_2de1adb4",
       "range": {
         "startLine": 351,
         "startChar": 36,

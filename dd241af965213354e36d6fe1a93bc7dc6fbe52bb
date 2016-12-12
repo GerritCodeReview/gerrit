@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "babc5798_ea794732",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-12T18:55:51Z",
+      "side": 1,
+      "message": "Why do we even need selectedIndex then? Can\u0027t fileCursor persist index on file change, or until explicitly reset?\nNot a big deal though, just a code smell.",
+      "revId": "dd241af965213354e36d6fe1a93bc7dc6fbe52bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

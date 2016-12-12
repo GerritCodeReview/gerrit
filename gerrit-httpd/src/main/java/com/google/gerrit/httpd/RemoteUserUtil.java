@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import org.eclipse.jgit.util.Base64;
 
@@ -72,7 +73,7 @@ public class RemoteUserUtil {
 
     } else if (auth.startsWith("Basic ")) {
       auth = auth.substring("Basic ".length());
-      auth = new String(Base64.decode(auth));
+      auth = new String(Base64.decode(auth), UTF_8);
       final int c = auth.indexOf(':');
       return c > 0 ? auth.substring(0, c) : null;
 

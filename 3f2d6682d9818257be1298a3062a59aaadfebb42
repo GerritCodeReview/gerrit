@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1a7f239a_d5b43c84",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-12T20:29:59Z",
+      "side": 1,
+      "message": "Good point. This might make it really hard (or impossible) to adjust your settings on a mobile device.",
+      "parentUuid": "9a36b30e_e183a6eb",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "babc5798_8a868bfd",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2016-12-12T19:03:47Z",
       "side": 1,
       "message": "Feels like this changes rest-api-interface from a pure network level into an abstraction layer.\nIn reality, some time later we would need to:\n1. Put network-level code into pure network level element\n2. Rename gr-rest-api-interface to better illustrate it actually preserves state and has dependencies",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_b45980a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-12T20:29:59Z",
+      "side": 1,
+      "message": "This is another good point, and a good suggestion. For the time being, here are some additional ideas:\n\n* Instead of modifying `getPreferences`, we can additionally define `getPreferencesForDisplaySize` (or similar name). In this way, the name makes it a bit more clear that it\u0027s not a direct network call. The downside is that display size code must still remain inside GR-REST-API-INTERFACE.\n* Similar to the above point, create a GR-PREFERENCES (or similar name) component that encapsulates the display metrics and default values logic, and only uses the Rest API as a network layer.\n\nWhat do we think?",
+      "parentUuid": "babc5798_8a868bfd",
       "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

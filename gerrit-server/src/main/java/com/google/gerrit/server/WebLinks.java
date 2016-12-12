@@ -121,6 +121,22 @@ public class WebLinks {
   }
 
   /**
+   * @param project Project name.
+   * @param revision SHA1 of the parent revision.
+   * @return Links for patch sets.
+   */
+  public FluentIterable<WebLinkInfo> getParentLinks(final Project.NameKey project,
+      final String revision) {
+    return filterLinks(parentLinks, new Function<WebLink, WebLinkInfo>() {
+
+      @Override
+      public WebLinkInfo apply(WebLink webLink) {
+        return ((ParentWebLink)webLink).getParentWebLink(project.get(), revision);
+      }
+    });
+  }
+
+  /**
    *
    * @param project Project name.
    * @param revision SHA1 of revision.

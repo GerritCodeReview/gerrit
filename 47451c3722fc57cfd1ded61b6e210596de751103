@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa77afbe_945c8496",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T20:25:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_55f4ac65",
+      "revId": "47451c3722fc57cfd1ded61b6e210596de751103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa77afbe_f4d298e8",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-10T00:40:56Z",
       "side": 1,
       "message": "Same comment about trailing commas applies here as well.",
+      "revId": "47451c3722fc57cfd1ded61b6e210596de751103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_35b0108e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T20:25:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa77afbe_f4d298e8",
       "revId": "47451c3722fc57cfd1ded61b6e210596de751103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

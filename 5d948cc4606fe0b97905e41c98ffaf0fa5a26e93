@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa77afbe_144074a4",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T21:36:58Z",
+      "side": 1,
+      "message": "I would like to see this behavior put into a folder with its corresponding test file like the rest of the behaviors with tests before this is committed.",
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa77afbe_344570b5",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T21:36:58Z",
+      "side": 1,
+      "message": "Malformed JSDoc",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 7
+      },
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a04f34e_31697069",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T21:36:58Z",
+      "side": 1,
+      "message": "It seems like you not this function every time you use it. Why not just change it to hideColumn and not the function result instead?",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 71
+      },
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a057f49_30696869",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T21:36:58Z",
+      "side": 1,
+      "message": "Alphabetize this list please.",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 33
+      },
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_15c2b4ee",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T21:36:58Z",
+      "side": 1,
+      "message": "This may seem like a super-nit, but grouping of scripts and links visually is nice. Could you remove the extra spaces here and add one between the last script and the first link?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 51
+      },
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a04f34e_116eec70",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T21:36:58Z",
+      "side": 1,
+      "message": "Alphabetize imports.",
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_35c7b0ff",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-12T21:36:58Z",
+      "side": 1,
+      "message": "Alphabetize please.",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 33
+      },
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

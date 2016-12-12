@@ -16,6 +16,24 @@
       "revId": "dd241af965213354e36d6fe1a93bc7dc6fbe52bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "babc5798_0a8a9bff",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-12T19:12:15Z",
+      "side": 1,
+      "message": "Good point, worth explaining.\n\n`selectedIndex` is reflected up to the \"view state\" object so it persists across diff views. My first idea was just to 2-way-bind it in the `fileCursor` def,\n\n\u003cgr-cursor-manager\n    id\u003d\"fileCursor\"\n    ...\n    index\u003d\"{{selectedIndex}}\"\u003e...\n\nBut, problematically, the `index` of a cursor will be -1 while the cursor stops are being rendered. This would automatically overwrite the \"view state\" index and it would be lost. 😞\n\nInstead, we essentially want the two indices to be the same **except** when the file cursor is -1. The simplest way to do this is to just 2-way-sync them manually.\n\n* Sync-down (View State Index → File Cursor Index) when the files have been rendered. That\u0027s l.545.\n* Sync-up (View State Index ← File Cursor Index) when the cursor is intentionally moved. That\u0027s this line and l.386.\n\nThe file cursor itself doesn\u0027t persist across diff views because there wouldn\u0027t be a good element to host it. (It\u0027d have to be gr-app I think.) All we really want to persist is just the index, and thats\u0027s precisely what\u0027e encoded in the view state.",
+      "parentUuid": "babc5798_ea794732",
+      "revId": "dd241af965213354e36d6fe1a93bc7dc6fbe52bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

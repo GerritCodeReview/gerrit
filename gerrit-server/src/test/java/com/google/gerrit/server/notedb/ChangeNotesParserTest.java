@@ -448,6 +448,26 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "subject: This is a test change\n");
   }
 
+  @Test
+  public void currentPatchSet() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Current: true");
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Current: tRUe");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Current: false");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Current: blah");
+  }
+
   private RevCommit writeCommit(String body) throws Exception {
     ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return writeCommit(body, noteUtil.newIdent(

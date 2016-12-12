@@ -23,6 +23,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
@@ -144,6 +145,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String pushCert;
   private boolean isAllowWriteToNewtRef;
   private String psDescription;
+  private boolean currentPatchSet;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -440,6 +442,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.psState = psState;
   }
 
+  public void setCurrentPatchSet() {
+    this.currentPatchSet = true;
+  }
+
   public void setGroups(List<String> groups) {
     checkNotNull(groups, "groups may not be null");
     this.groups = groups;
@@ -566,6 +572,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     addPatchSetFooter(msg, ps);
+
+    if (currentPatchSet) {
+      addFooter(msg, FOOTER_CURRENT, Boolean.TRUE);
+    }
 
     if (psDescription != null) {
       addFooter(msg, FOOTER_PATCH_SET_DESCRIPTION, psDescription);
@@ -714,7 +724,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && psState == null
         && groups == null
         && tag == null
-        && psDescription == null;
+        && psDescription == null
+        && !currentPatchSet;
   }
 
   ChangeDraftUpdate getDraftUpdate() {

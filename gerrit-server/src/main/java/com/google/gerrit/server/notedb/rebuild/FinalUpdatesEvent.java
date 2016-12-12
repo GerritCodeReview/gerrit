@@ -14,7 +14,11 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
+
+import com.google.common.collect.ImmutableCollection;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
 
@@ -23,12 +27,15 @@ import java.util.Objects;
 class FinalUpdatesEvent extends Event {
   private final Change change;
   private final Change noteDbChange;
+  private final ImmutableCollection<PatchSet> patchSets;
 
-  FinalUpdatesEvent(Change change, Change noteDbChange) {
+  FinalUpdatesEvent(Change change, Change noteDbChange,
+      ImmutableCollection<PatchSet> patchSets) {
     super(change.currentPatchSetId(), change.getOwner(), change.getOwner(),
         change.getLastUpdatedOn(), change.getCreatedOn(), null);
     this.change = change;
     this.noteDbChange = noteDbChange;
+    this.patchSets = patchSets;
   }
 
   @Override
@@ -54,9 +61,18 @@ class FinalUpdatesEvent extends Event {
       // TODO(dborowitz): Parse intermediate values out from messages.
       update.setAssignee(change.getAssignee());
     }
+    if (!patchSets.isEmpty() && !highestNumberedPatchSetIsCurrent()) {
+      update.setCurrentPatchSet();
+    }
     if (!update.isEmpty()) {
       update.setSubjectForCommit("Final NoteDb migration updates");
     }
+  }
+
+  private boolean highestNumberedPatchSetIsCurrent() {
+    PatchSet.Id max =
+        patchSets.stream().map(PatchSet::getId).max(intKeyOrdering()).get();
+    return max.equals(change.currentPatchSetId());
   }
 
   @Override

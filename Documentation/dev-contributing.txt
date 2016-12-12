@@ -342,33 +342,6 @@ link:dev-plugins.html[dev-plugins].
 * Update to the same GWT version in the `gwtjsonrpc` project, and release a
 new version.
 
-=== Updating to new version of CodeMirror
-
-* Clone the git from https://github.com/codemirror/CodeMirror
-* Checkout the version needed
-* If the needed version is not a tagged version, use `git describe` to determine
-the version number:
-+
-----
- git describe --tags
-----
-
-* Create the release zip file:
-+
-----
- git archive --format=zip --prefix=codemirror-4.10.0-6-gd0a2dda/ d0a2dda > codemirror-4.10.0-6-gd0a2dda.zip
-----
-
-* Determine the sha1 hash of the zip file:
-+
-----
- openssl sha1 codemirror-4.10.0-6-gd0a2dda.zip
-----
-
-* Upload the zip file to the
-link:https://console.developers.google.com/project/164060093628/storage/gerrit-maven/[
-gerrit-maven] storage bucket
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

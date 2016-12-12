@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a7f239a_15ab9428",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-12T20:00:10Z",
+      "side": 1,
+      "message": "s/is/was/",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "babc5798_4a90932d",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 3
@@ -36,6 +59,24 @@
         "endLine": 234,
         "endChar": 52
       },
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a7f239a_75a68861",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-12T20:00:10Z",
+      "side": 1,
+      "message": "@Viktar, see my comments in the previous patch set. I argue against using an attribute. In particular, since such an attribute would be purely presentational (expanded or data-expanded attributes has no meaning on \u003cA\u003e tags) it\u0027s better to encode this as a class (which browsers are faster at styling).\n\nHowever, instead of the \"expanded-true\" and the (not used) \"expanded-false\" classes: I\u0027d prefer a computed function like ...\n\n  class$\u003d\"path [[_computeFileLinkClass(file)]]\"\n\n... where the function can return either the classname \"expanded\" or an empty string ...\n\n  _computeFileLinkClass: function(file) {\n    return file.__expanded ? \u0027expanded\u0027 : \u0027\u0027;\n  },\n\nIn this case, the CSS is simpler and less ambiguous. If the anchor has the \"expanded\" class then it\u0027s expanded.\n\nCompare with the dual \"expanded-true\" and \"expanded-false\" classes, where we introduce two ambiguous states, namely ...\n* ... when the anchor has both classes, OR ...\n* ... when the anchor has neither class.",
+      "parentUuid": "9a36b30e_21958e1d",
       "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

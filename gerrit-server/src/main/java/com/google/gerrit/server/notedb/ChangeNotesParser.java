@@ -18,6 +18,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
@@ -90,7 +91,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -137,6 +137,7 @@ class ChangeNotesParser {
   private final TreeMap<PatchSet.Id, PatchSet> patchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
+  private final List<PatchSet.Id> currentPatchSets;
   private final Map<ApprovalKey, PatchSetApproval> approvals;
   private final List<PatchSetApproval> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
@@ -157,7 +158,6 @@ class ChangeNotesParser {
   private String originalSubject;
   private String submissionId;
   private String tag;
-  private PatchSet.Id currentPatchSetId;
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   ChangeNotesParser(Change.Id changeId, ObjectId tip, ChangeNotesRevWalk walk,
@@ -179,6 +179,7 @@ class ChangeNotesParser {
     patchSets = Maps.newTreeMap(comparing(PatchSet.Id::get));
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
+    currentPatchSets = new ArrayList<>();
   }
 
   ChangeNotesState parseAll()
@@ -218,7 +219,7 @@ class ChangeNotesParser {
         lastUpdatedOn,
         ownerId,
         branch,
-        currentPatchSetId,
+        buildCurrentPatchSetId(),
         subject,
         topic,
         originalSubject,
@@ -237,6 +238,17 @@ class ChangeNotesParser {
         buildAllMessages(),
         buildMessagesByPatchSet(),
         comments);
+  }
+
+  private PatchSet.Id buildCurrentPatchSetId() {
+    // currentPatchSets are in parse order, i.e. newest first. Pick the first
+    // patch set that was marked as current, excluding deleted patch sets.
+    for (PatchSet.Id psId : currentPatchSets) {
+      if (patchSets.containsKey(psId)) {
+        return psId;
+      }
+    }
+    return null;
   }
 
   private Multimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
@@ -339,6 +351,7 @@ class ChangeNotesParser {
       parsePatchSet(psId, currRev, accountId, ts);
     }
     parseGroups(psId, commit);
+    parseCurrentPatchSet(psId, commit);
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -483,6 +496,28 @@ class ChangeNotesParser {
       return;
     }
     ps.setGroups(PatchSet.splitGroups(groupsStr));
+  }
+
+  private void parseCurrentPatchSet(PatchSet.Id psId, ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    // This commit implies a new current patch set if either it creates a new
+    // patch set, or sets the current field explicitly.
+    boolean current = false;
+    if (parseOneFooter(commit, FOOTER_COMMIT) != null) {
+      current = true;
+    } else {
+      String currentStr = parseOneFooter(commit, FOOTER_CURRENT);
+      if (Boolean.TRUE.toString().equalsIgnoreCase(currentStr)) {
+        current = true;
+      } else if (currentStr != null) {
+        // Only "true" is allowed; unsetting the current patch set makes no
+        // sense.
+        throw invalidFooter(FOOTER_CURRENT, currentStr);
+      }
+    }
+    if (current) {
+      currentPatchSets.add(psId);
+    }
   }
 
   private void parseHashtags(ChangeNotesCommit commit)
@@ -937,13 +972,7 @@ class ChangeNotesParser {
     // (or otherwise missing) patch sets. This is safer than trying to prevent
     // insertion, as it will also filter out items racily added after the patch
     // set was deleted.
-    NavigableSet<PatchSet.Id> all = patchSets.navigableKeySet();
-    if (!all.isEmpty()) {
-      currentPatchSetId = all.last();
-    } else {
-      currentPatchSetId = null;
-    }
-    changeMessagesByPatchSet.keys().retainAll(all);
+    changeMessagesByPatchSet.keys().retainAll(patchSets.keySet());
 
     int pruned = pruneEntitiesForMissingPatchSets(
         allChangeMessages, ChangeMessage::getPatchSetId, missing);

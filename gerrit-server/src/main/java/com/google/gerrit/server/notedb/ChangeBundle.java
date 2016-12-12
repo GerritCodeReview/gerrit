@@ -365,8 +365,7 @@ public class ChangeBundle {
   }
 
   private Predicate<PatchSet.Id> validPatchSetPredicate() {
-    Predicate<PatchSet.Id> upToCurrent = upToCurrentPredicate();
-    return p -> upToCurrent.apply(p) && patchSets.containsKey(p);
+    return patchSets::containsKey;
   }
 
   private Collection<ChangeMessage> filterChangeMessages() {
@@ -380,17 +379,8 @@ public class ChangeBundle {
         });
   }
 
-  private Predicate<PatchSet.Id> upToCurrentPredicate() {
-    PatchSet.Id current = change.currentPatchSetId();
-    if (current == null) {
-      return Predicates.alwaysFalse();
-    }
-    int max = current.get();
-    return p -> p.get() <= max;
-  }
-
   private Map<PatchSet.Id, PatchSet> filterPatchSets() {
-    return Maps.filterKeys(patchSets, upToCurrentPredicate());
+    return Maps.filterKeys(patchSets, validPatchSetPredicate());
   }
 
   private static void diffChanges(List<String> diffs, ChangeBundle bundleA,

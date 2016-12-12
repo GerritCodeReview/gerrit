@@ -770,39 +770,6 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
-  public void diffChangeMessagesIgnoresMessagesOnPatchSetGreaterThanCurrent()
-      throws Exception {
-    Change c = TestChanges.newChange(project, accountId);
-
-    PatchSet ps1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
-    ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
-    ps1.setUploader(accountId);
-    ps1.setCreatedOn(TimeUtil.nowTs());
-    PatchSet ps2 = new PatchSet(new PatchSet.Id(c.getId(), 2));
-    ps2.setRevision(new RevId("badc0feebadc0feebadc0feebadc0feebadc0fee"));
-    ps2.setUploader(accountId);
-    ps2.setCreatedOn(TimeUtil.nowTs());
-
-    assertThat(c.currentPatchSetId()).isEqualTo(ps1.getId());
-
-    ChangeMessage cm1 = new ChangeMessage(
-        new ChangeMessage.Key(c.getId(), "uuid1"),
-        accountId, TimeUtil.nowTs(), ps1.getId());
-    cm1.setMessage("a message");
-    ChangeMessage cm2 = new ChangeMessage(
-        new ChangeMessage.Key(c.getId(), "uuid2"),
-        accountId, TimeUtil.nowTs(), ps2.getId());
-    cm2.setMessage("other message");
-
-    ChangeBundle b1 = new ChangeBundle(c, messages(cm1, cm2),
-        patchSets(ps1, ps2), approvals(), comments(), reviewers(), REVIEW_DB);
-    ChangeBundle b2 = new ChangeBundle(c, messages(cm1), patchSets(ps1),
-        approvals(), comments(), reviewers(), NOTE_DB);
-    assertNoDiffs(b1, b2);
-    assertNoDiffs(b2, b1);
-  }
-
-  @Test
   public void diffPatchSetIdSets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     TestChanges.incrementPatchSet(c);
@@ -919,7 +886,7 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
-  public void diffIgnoresPatchSetsGreaterThanCurrent() throws Exception {
+  public void diffPatchSetsGreaterThanCurrent() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
 
     PatchSet ps1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
@@ -931,6 +898,13 @@ public class ChangeBundleTest extends GerritBaseTests {
     ps2.setUploader(accountId);
     ps2.setCreatedOn(TimeUtil.nowTs());
     assertThat(ps2.getId().get()).isGreaterThan(c.currentPatchSetId().get());
+
+    ChangeMessage cm1 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid1"),
+        accountId, TimeUtil.nowTs(), c.currentPatchSetId());
+    ChangeMessage cm2 = new ChangeMessage(
+        new ChangeMessage.Key(c.getId(), "uuid2"),
+        accountId, TimeUtil.nowTs(), c.currentPatchSetId());
 
     PatchSetApproval a1 = new PatchSetApproval(
         new PatchSetApproval.Key(
@@ -944,26 +918,44 @@ public class ChangeBundleTest extends GerritBaseTests {
         TimeUtil.nowTs());
 
     // Both ReviewDb.
-    ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps1),
+    ChangeBundle b1 = new ChangeBundle(c, messages(cm1), patchSets(ps1),
         approvals(a1), comments(), reviewers(), REVIEW_DB);
-    ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2),
-        approvals(a1, a2), comments(), reviewers(), REVIEW_DB);
-    assertNoDiffs(b1, b2);
+    ChangeBundle b2 = new ChangeBundle(c, messages(cm1, cm2),
+        patchSets(ps1, ps2), approvals(a1, a2), comments(), reviewers(),
+        REVIEW_DB);
+    assertDiffs(b1, b2,
+        "ChangeMessage.Key sets differ: [] only in A; [" + cm2.getKey()
+            + "] only in B",
+        "PatchSet.Id sets differ:"
+            + " [] only in A; [" + ps2.getId() + "] only in B",
+        "PatchSetApproval.Key sets differ:"
+            + " [] only in A; [" + a2.getKey() + "] only in B");
 
     // One NoteDb.
-    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(a1),
+    b1 = new ChangeBundle(c, messages(cm1), patchSets(ps1), approvals(a1),
         comments(), reviewers(), NOTE_DB);
-    b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2), approvals(a1, a2),
+    b2 = new ChangeBundle(c, messages(cm1, cm2), patchSets(ps1, ps2), approvals(a1, a2),
         comments(), reviewers(), REVIEW_DB);
-    assertNoDiffs(b1, b2);
-    assertNoDiffs(b2, b1);
+    assertDiffs(b1, b2,
+        "ChangeMessages differ for Change.Id " + c.getId() + "\n"
+            + "Only in B:\n  " + cm2,
+        "PatchSet.Id sets differ:"
+            + " [] only in A; [" + ps2.getId() + "] only in B",
+        "PatchSetApproval.Key sets differ:"
+            + " [] only in A; [" + a2.getKey() + "] only in B");
 
     // Both NoteDb.
-    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(a1),
+    b1 = new ChangeBundle(c, messages(cm1), patchSets(ps1), approvals(a1),
         comments(), reviewers(), NOTE_DB);
-    b2 = new ChangeBundle(c, messages(), patchSets(ps1, ps2), approvals(a1, a2),
+    b2 = new ChangeBundle(c, messages(cm1, cm2), patchSets(ps1, ps2), approvals(a1, a2),
         comments(), reviewers(), NOTE_DB);
-    assertNoDiffs(b1, b2);
+    assertDiffs(b1, b2,
+        "ChangeMessages differ for Change.Id " + c.getId() + "\n"
+            + "Only in B:\n  " + cm2,
+        "PatchSet.Id sets differ:"
+            + " [] only in A; [" + ps2.getId() + "] only in B",
+        "PatchSetApproval.Key sets differ:"
+            + " [] only in A; [" + a2.getKey() + "] only in B");
   }
 
   @Test

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "babc5798_4a90932d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-12T19:10:09Z",
+      "side": 1,
+      "message": "Probably a typo: double curlys",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a36b30e_21958e1d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-12T19:10:09Z",
+      "side": 1,
+      "message": "I suggest to use attribute instead:\n\n\u003ca \n  class$\u003d\"foo\"\n  expanded\u003d\"[[file.__expanded]]\"\u003e...\u003c/a\u003e\n\nAnd the selector for it would look like a.foo[expanded\u003d\"true\"]",
+      "range": {
+        "startLine": 234,
+        "startChar": 24,
+        "endLine": 234,
+        "endChar": 52
+      },
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "babc5798_6a95571c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-12T19:10:09Z",
+      "side": 1,
+      "message": "Fits to the previous line.",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

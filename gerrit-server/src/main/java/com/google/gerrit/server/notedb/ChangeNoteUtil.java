@@ -67,6 +67,7 @@ public class ChangeNoteUtil {
   public static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
+  public static final FooterKey FOOTER_CURRENT = new FooterKey("Current");
   public static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
   public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   public static final FooterKey FOOTER_LABEL = new FooterKey("Label");

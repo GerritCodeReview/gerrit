@@ -83,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "daf58b92_2b69f968",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-12T23:13:14Z",
+      "side": 1,
+      "message": "Attributes make a lot of sense for web components, so I personally don\u0027t think it\u0027s a bad idea to use them wider. But I do agree, that\u0027s perhaps not the best option.\n\n\u003e which browsers are faster at styling\n\nI believe this is a misconception as of end of 2016. Here\u0027s a small test I\u0027ve put together:\nhttp://jsbin.com/ciyicem/17/edit?html,js,output\n\nIt is slower, true, but it\u0027s not *slow*.\n\nExplicit string classes sound good to me as well.\n\nThe selection would be faster, true. Calculating the classes would take a bit of time, though, so it\u0027s not a clean win, but I\u0027m not feeling strongly one way or another.",
+      "parentUuid": "1a7f239a_75a68861",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "babc5798_6a95571c",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 3

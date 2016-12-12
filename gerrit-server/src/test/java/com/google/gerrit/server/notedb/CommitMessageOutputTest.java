@@ -356,6 +356,20 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         commit);
   }
 
+  @Test
+  public void currentPatchSet() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setCurrentPatchSet();
+    update.commit();
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Current: true\n",
+        update.getResult());
+  }
+
   private RevCommit parseCommit(ObjectId id) throws Exception {
     if (id instanceof RevCommit) {
       return (RevCommit) id;

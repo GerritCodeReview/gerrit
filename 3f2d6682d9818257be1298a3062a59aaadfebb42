@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "babc5798_aa834fec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-12T19:03:47Z",
+      "side": 1,
+      "message": "Is this intended?",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a36b30e_e183a6eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-12T19:03:47Z",
+      "side": 1,
+      "message": "Hmm, this looks suspicious.\nWould it work if someone requests user preferences for other purposes, for example for the Settings page?",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "babc5798_8a868bfd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-12T19:03:47Z",
+      "side": 1,
+      "message": "Feels like this changes rest-api-interface from a pure network level into an abstraction layer.\nIn reality, some time later we would need to:\n1. Put network-level code into pure network level element\n2. Rename gr-rest-api-interface to better illustrate it actually preserves state and has dependencies",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

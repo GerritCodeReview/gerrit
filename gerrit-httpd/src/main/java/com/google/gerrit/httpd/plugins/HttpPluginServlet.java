@@ -433,7 +433,8 @@ class HttpPluginServlet extends HttpServlet
     appendPluginInfoTable(md, scanner.getManifest().getMainAttributes());
 
     if (about != null) {
-      InputStreamReader isr = new InputStreamReader(scanner.getInputStream(about));
+      InputStreamReader isr = new InputStreamReader(
+          scanner.getInputStream(about), UTF_8);
       StringBuilder aboutContent = new StringBuilder();
       try (BufferedReader reader = new BufferedReader(isr)) {
         String line;

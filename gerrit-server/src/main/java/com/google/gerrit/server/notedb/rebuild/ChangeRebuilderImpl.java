@@ -23,6 +23,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -78,8 +79,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -93,9 +92,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public class ChangeRebuilderImpl extends ChangeRebuilder {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeRebuilderImpl.class);
-
   /**
    * The maximum amount of time between the ReviewDb timestamp of the first and
    * last events batched together into a single NoteDb update.
@@ -275,7 +271,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       throw new NoPatchSetsException(change.getId());
     }
 
-    PatchSet.Id currPsId = change.currentPatchSetId();
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
     List<Event> events = new ArrayList<>();
@@ -293,12 +288,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         Maps.newHashMapWithExpectedSize(bundle.getPatchSets().size());
 
     for (PatchSet ps : bundle.getPatchSets()) {
-      if (ps.getId().get() > currPsId.get()) {
-        log.info(
-            "Skipping patch set {}, which is higher than current patch set {}",
-            ps.getId(), currPsId);
-        continue;
-      }
       PatchSetEvent pse =
           new PatchSetEvent(change, ps, manager.getChangeRepo().rw);
       patchSetEvents.put(ps.getId(), pse);
@@ -342,7 +331,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       events.addAll(msgEvents);
     }
 
-    sortAndFillEvents(change, noteDbChange, events, minPsNum);
+    sortAndFillEvents(
+        change, noteDbChange, bundle.getPatchSets(), events, minPsNum);
 
     EventList<Event> el = new EventList<>();
     for (Event e : events) {
@@ -401,8 +391,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   private void sortAndFillEvents(Change change, Change noteDbChange,
+      ImmutableCollection<PatchSet> patchSets,
       List<Event> events, Integer minPsNum) {
-    Event finalUpdates = new FinalUpdatesEvent(change, noteDbChange);
+    Event finalUpdates = new FinalUpdatesEvent(change, noteDbChange, patchSets);
     events.add(finalUpdates);
     setPostSubmitDeps(events);
     new EventSorter(events).sort();

@@ -49,7 +49,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -73,6 +72,8 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -149,6 +150,9 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Inject
   private ChangeBundleReader bundleReader;
+
+  @Inject
+  private PatchSetInfoFactory patchSetInfoFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -850,28 +854,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void skipPatchSetsGreaterThanCurrentPatchSet() throws Exception {
-    PushOneCommit.Result r = createChange();
-    Change change = r.getChange().change();
-    Change.Id id = change.getId();
-
-    PatchSet badPs =
-        new PatchSet(new PatchSet.Id(id, change.currentPatchSetId().get() + 1));
-    badPs.setCreatedOn(TimeUtil.nowTs());
-    badPs.setUploader(new Account.Id(12345));
-    badPs.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
-    db.patchSets().insert(Collections.singleton(badPs));
-    indexer.index(db, change.getProject(), id);
-
-    checker.rebuildAndCheckChanges(id);
-
-    setNotesMigration(true, true);
-    ChangeNotes notes = notesFactory.create(db, project, id);
-    assertThat(notes.getPatchSets().keySet())
-        .containsExactly(change.currentPatchSetId());
-  }
-
-  @Test
   public void leadingSpacesInSubject() throws Exception {
     String subj = "   " + PushOneCommit.SUBJECT;
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
@@ -1141,6 +1123,43 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PatchSet ps = cd.currentPatchSet();
     assertThat(ps).isNotNull();
     assertThat(ps.getId()).isEqualTo(psId1);
+  }
+
+  @Test
+  public void highestNumberedPatchSetIsNotCurrent() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PatchSet.Id psId1 = r1.getPatchSetId();
+    Change.Id id = psId1.getParentKey();
+    PushOneCommit.Result r2 = amendChange(r1.getChangeId());
+    PatchSet.Id psId2 = r2.getPatchSetId();
+
+    try (BatchUpdate bu = batchUpdateFactory.create(db, project,
+          identifiedUserFactory.create(user.getId()), TimeUtil.nowTs())) {
+      bu.addOp(id, new BatchUpdate.Op() {
+        @Override
+        public boolean updateChange(ChangeContext ctx)
+            throws PatchSetInfoNotAvailableException {
+          ctx.getChange().setCurrentPatchSet(
+              patchSetInfoFactory.get(ctx.getDb(), ctx.getNotes(), psId1));
+          return true;
+        }
+      });
+      bu.execute();
+    }
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(psUtil.byChangeAsMap(db, notes).keySet())
+        .containsExactly(psId1, psId2);
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId1);
+
+    assertThat(db.changes().get(id).currentPatchSetId()).isEqualTo(psId1);
+
+    checker.rebuildAndCheckChanges(id);
+    setNotesMigration(true, true);
+
+    notes = notesFactory.create(db, project, id);
+    assertThat(psUtil.byChangeAsMap(db, notes).keySet())
+        .containsExactly(psId1, psId2);
+    assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId1);
   }
 
   private void assertChangesReadOnly(RestApiException e) throws Exception {

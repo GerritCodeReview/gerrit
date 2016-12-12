@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
@@ -124,7 +125,7 @@ public abstract class ChangeNotesState {
             status),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
-        ImmutableList.copyOf(patchSets.entrySet()),
+        sort(patchSets),
         ImmutableList.copyOf(approvals.entries()),
         reviewers,
         ImmutableList.copyOf(allPastReviewers),
@@ -133,6 +134,14 @@ public abstract class ChangeNotesState {
         ImmutableList.copyOf(allChangeMessages),
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
         ImmutableListMultimap.copyOf(publishedComments));
+  }
+
+  private static ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> sort(
+      Map<PatchSet.Id, PatchSet> patchSets) {
+    // TODO(dborowitz): Use toImmutableList collector.
+    return ReviewDbUtil.intKeyOrdering()
+        .onResultOf((Map.Entry<PatchSet.Id, PatchSet> e) -> e.getKey())
+        .immutableSortedCopy(patchSets.entrySet());
   }
 
 

@@ -2538,6 +2538,38 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getComments()).hasSize(numComments);
   }
 
+  @Test
+  public void currentPatchSet() throws Exception {
+    Change c = newChange();
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(1);
+
+    incrementPatchSet(c);
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);
+
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setPatchSetId(new PatchSet.Id(c.getId(), 1));
+    update.setCurrentPatchSet();
+    update.commit();
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(1);
+
+    incrementPatchSet(c);
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(3);
+
+    // Delete PS3, PS1 becomes current, as the most recent event explicitly set
+    // it to current.
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetState(PatchSetState.DELETED);
+    update.commit();
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(1);
+
+    // Delete PS1, PS2 becomes current.
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetId(new PatchSet.Id(c.getId(), 1));
+    update.setPatchSetState(PatchSetState.DELETED);
+    update.commit();
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);
+  }
+
   private boolean testJson() {
     return noteUtil.getWriteJson();
   }

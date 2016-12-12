@@ -135,6 +135,7 @@ public class MergedByPushOp extends BatchUpdate.Op {
       // we cannot reconstruct the submit records for when this change was
       // submitted, this is why we must fix the status
       update.fixStatus(Change.Status.MERGED);
+      update.setCurrentPatchSet();
     }
 
     StringBuilder msgBuf = new StringBuilder();

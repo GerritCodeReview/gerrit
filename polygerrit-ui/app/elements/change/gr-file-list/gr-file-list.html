@@ -208,7 +208,7 @@ limitations under the License.
         items="[[_shownFiles]]"
         as="file"
         initial-count="[[_fileListIncrement]]">
-      <div class="file-row row" selected$="[[_computeFileSelected(index, selectedIndex)]]">
+      <div class="file-row row">
         <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
           <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
               data-path$="[[file.__path]]" on-change="_handleReviewedChange"

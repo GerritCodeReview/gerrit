@@ -308,16 +308,19 @@ limitations under the License.
         assert.isFalse(items[2].classList.contains('selected'));
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.$.fileCursor.index, 1);
+        assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
         var showStub = sandbox.stub(page, 'show');
         assert.equal(element.$.fileCursor.index, 2);
+        assert.equal(element.selectedIndex, 2);
         MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
         assert(showStub.lastCall.calledWith('/c/42/2/myfile.txt'),
             'Should navigate to /c/42/2/myfile.txt');
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.$.fileCursor.index, 1);
+        assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 79, null, 'o');
         assert(showStub.lastCall.calledWith('/c/42/2/file_added_in_rev2.txt'),
             'Should navigate to /c/42/2/file_added_in_rev2.txt');
@@ -326,6 +329,7 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.$.fileCursor.index, 0);
+        assert.equal(element.selectedIndex, 0);
       });
 
       test('i key shows/hides selected inline diff', function() {

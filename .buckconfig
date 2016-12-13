@@ -19,6 +19,7 @@
 
 [java]
   jar_spool_mode = direct_to_jar
+  safe_annotation_processors = com.google.auto.value.processor.AutoAnnotationProcessor,com.google.auto.value.processor.AutoValueProcessor
   src_roots = java, resources, src
   source_level = 8
   target_level = 8

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_6dee7599",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-13T23:45:00Z",
+      "side": 1,
+      "message": "*shrug* I don\u0027t care that much.",
+      "parentUuid": "1af0039f_edcf0542",
+      "revId": "8a81cd1daeb09bc462d6b8e5f585cb1bc3365a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af0039f_8dd2c1e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 4
@@ -48,6 +66,23 @@
       "writtenOn": "2016-12-13T20:24:34Z",
       "side": 1,
       "message": "Nit: keep these sorted. (Looks like only TAG is currently violating that...)",
+      "revId": "8a81cd1daeb09bc462d6b8e5f585cb1bc3365a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_4df3b97b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-13T23:45:00Z",
+      "side": 1,
+      "message": "Because you didn\u0027t build support for this field in the old crappy custom notes format, this means on a server with notedb.changes.writeJson \u003d false, a comment created with unresolved \u003d true (e.g. via CommentsUtil) will get parsed out of NoteDb will end up with unresolved \u003d false.\n\nI think for the purposes of googlesource.com this is ok because we are using writeJson. For upstream, I think this means we need to start defaulting writeJson to true. (Or you can implement the field in the crappy notes format. Up to you, but I think changing the default for writeJson is easier :)",
       "revId": "8a81cd1daeb09bc462d6b8e5f585cb1bc3365a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

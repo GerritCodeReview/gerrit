@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_4ee1f3b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-13T19:32:08Z",
+      "side": 1,
+      "message": "This enum exists in at least five different files by my count. Maybe it would be wise to refactor it into a behavior?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a36b30e_e183a6eb",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -119,6 +142,70 @@
       "side": 1,
       "message": "This is another good point, and a good suggestion. For the time being, here are some additional ideas:\n\n* Instead of modifying `getPreferences`, we can additionally define `getPreferencesForDisplaySize` (or similar name). In this way, the name makes it a bit more clear that it\u0027s not a direct network call. The downside is that display size code must still remain inside GR-REST-API-INTERFACE.\n* Similar to the above point, create a GR-PREFERENCES (or similar name) component that encapsulates the display metrics and default values logic, and only uses the Rest API as a network layer.\n\nWhat do we think?",
       "parentUuid": "babc5798_8a868bfd",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_2ee2a7bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-13T19:32:08Z",
+      "side": 1,
+      "message": "^This seems like a really robust solution to this problem. My only worry is that it would slow down Becky\u0027s progress on the dogfood issues, but I\u0027m not entirely sure that\u0027s even a valid source for concern.\n\nMaybe this change could be submitted as a stopgap, and a feature request for the gr-preferences component with a launch milestone marker could be filed too? We\u0027ve done that with a few other things in the name of velocity.",
+      "parentUuid": "fa77afbe_b45980a5",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_2dbbcda8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-13T19:32:08Z",
+      "side": 1,
+      "message": "Sp.\n\nAlso I really like this approach, will definitely be using it more often in the future :)",
+      "range": {
+        "startLine": 343,
+        "startChar": 8,
+        "endLine": 343,
+        "endChar": 25
+      },
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_eecfff41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-13T19:32:08Z",
+      "side": 1,
+      "message": "Not sure deepEqual is needed here, and below.",
+      "range": {
+        "startLine": 365,
+        "startChar": 15,
+        "endLine": 365,
+        "endChar": 24
+      },
       "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

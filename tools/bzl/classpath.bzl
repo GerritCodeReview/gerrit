@@ -1,4 +1,3 @@
-
 def _classpath_collector(ctx):
     all = set()
     for d in ctx.attr.deps:
@@ -13,10 +12,11 @@ def _classpath_collector(ctx):
                     content="\n".join(sorted(as_strs)))
 
 classpath_collector = rule(
-    implementation = _classpath_collector,
     attrs = {
         "deps": attr.label_list(),
     },
-    outputs={
-        "runtime": "%{name}.runtime_classpath"
-    })
+    outputs = {
+        "runtime": "%{name}.runtime_classpath",
+    },
+    implementation = _classpath_collector,
+)

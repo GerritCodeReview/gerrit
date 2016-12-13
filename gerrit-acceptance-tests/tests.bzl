@@ -1,8 +1,8 @@
-load('//tools/bzl:junit.bzl', 'junit_tests')
+load("//tools/bzl:junit.bzl", "junit_tests")
 
 BOUNCYCASTLE = [
-  '//lib/bouncycastle:bcpkix-without-neverlink',
-  '//lib/bouncycastle:bcpg-without-neverlink',
+    "//lib/bouncycastle:bcpkix-without-neverlink",
+    "//lib/bouncycastle:bcpg-without-neverlink",
 ]
 
 def acceptance_tests(

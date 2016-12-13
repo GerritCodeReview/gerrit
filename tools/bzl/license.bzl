@@ -1,4 +1,3 @@
-
 def normalize_target_name(target):
   return target.replace("//", "").replace("/", "__").replace(":", "___")
 

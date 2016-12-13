@@ -14,74 +14,78 @@
 
 # Port of Buck native gwt_binary() rule. See discussion in context of
 # https://github.com/facebook/buck/issues/109
-load('//tools/bzl:genrule2.bzl', 'genrule2')
-load('//tools/bzl:java.bzl', 'java_library2')
+load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:java.bzl", "java_library2")
 
-jar_filetype = FileType(['.jar'])
+jar_filetype = FileType([".jar"])
 
 BROWSERS = [
-  'chrome',
-  'firefox',
-  'gecko1_8',
-  'safari',
-  'msie', 'ie8', 'ie9', 'ie10',
-  'edge',
+    "chrome",
+    "firefox",
+    "gecko1_8",
+    "safari",
+    "msie",
+    "ie8",
+    "ie9",
+    "ie10",
+    "edge",
 ]
+
 ALIASES = {
-  'chrome': 'safari',
-  'firefox': 'gecko1_8',
-  'msie': 'ie10',
-  'edge': 'gecko1_8',
+    "chrome": "safari",
+    "firefox": "gecko1_8",
+    "msie": "ie10",
+    "edge": "gecko1_8",
 }
 
-MODULE = 'com.google.gerrit.GerritGwtUI'
+MODULE = "com.google.gerrit.GerritGwtUI"
 
 GWT_COMPILER = "com.google.gwt.dev.Compiler"
 
-GWT_JVM_ARGS = ['-Xmx512m']
+GWT_JVM_ARGS = ["-Xmx512m"]
 
 GWT_COMPILER_ARGS = [
-  '-XdisableClassMetadata',
+    "-XdisableClassMetadata",
 ]
 
 GWT_COMPILER_ARGS_RELEASE_MODE = GWT_COMPILER_ARGS + [
-  '-XdisableCastChecking',
+    "-XdisableCastChecking",
 ]
 
 PLUGIN_DEPS_NEVERLINK = [
-  '//gerrit-plugin-api:lib-neverlink',
+    "//gerrit-plugin-api:lib-neverlink",
 ]
 
 GWT_PLUGIN_DEPS_NEVERLINK = [
-  '//gerrit-plugin-gwtui:gwtui-api-lib-neverlink',
-  '//lib/gwt:user-neverlink',
+    "//gerrit-plugin-gwtui:gwtui-api-lib-neverlink",
+    "//lib/gwt:user-neverlink",
 ]
 
 GWT_PLUGIN_DEPS = [
-  '//gerrit-plugin-gwtui:gwtui-api-lib',
+    "//gerrit-plugin-gwtui:gwtui-api-lib",
 ]
 
 GWT_TRANSITIVE_DEPS = [
-  '//lib/gwt:ant',
-  '//lib/gwt:colt',
-  '//lib/gwt:javax-validation',
-  '//lib/gwt:javax-validation_src',
-  '//lib/gwt:jsinterop-annotations',
-  '//lib/gwt:jsinterop-annotations_src',
-  '//lib/gwt:tapestry',
-  '//lib/gwt:w3c-css-sac',
-  '//lib/ow2:ow2-asm',
-  '//lib/ow2:ow2-asm-analysis',
-  '//lib/ow2:ow2-asm-commons',
-  '//lib/ow2:ow2-asm-tree',
-  '//lib/ow2:ow2-asm-util',
+    "//lib/gwt:ant",
+    "//lib/gwt:colt",
+    "//lib/gwt:javax-validation",
+    "//lib/gwt:javax-validation_src",
+    "//lib/gwt:jsinterop-annotations",
+    "//lib/gwt:jsinterop-annotations_src",
+    "//lib/gwt:tapestry",
+    "//lib/gwt:w3c-css-sac",
+    "//lib/ow2:ow2-asm",
+    "//lib/ow2:ow2-asm-analysis",
+    "//lib/ow2:ow2-asm-commons",
+    "//lib/ow2:ow2-asm-tree",
+    "//lib/ow2:ow2-asm-util",
 ]
 
 DEPS = GWT_TRANSITIVE_DEPS + [
-  '//gerrit-gwtexpui:CSS',
-  '//lib:gwtjsonrpc',
-  '//lib/gwt:dev',
-  '@jgit//jar:src',
+    "//gerrit-gwtexpui:CSS",
+    "//lib:gwtjsonrpc",
+    "//lib/gwt:dev",
+    "@jgit//jar:src",
 ]
 
 USER_AGENT_XML = """<module rename-to='gerrit_ui'>
@@ -202,27 +206,29 @@ def _get_transitive_closure(ctx):
   return deps
 
 gwt_binary = rule(
-  implementation = _gwt_binary_impl,
-  attrs = {
-    "user_agent": attr.string(),
-    "style": attr.string(default = "OBF"),
-    "optimize": attr.string(default = "9"),
-    "deps": attr.label_list(allow_files=jar_filetype),
-    "module": attr.string_list(default = [MODULE]),
-    "module_deps": attr.label_list(allow_files=jar_filetype),
-    "compiler_args": attr.string_list(),
-    "jvm_args": attr.string_list(),
-    "_jdk": attr.label(
-      default=Label("//tools/defaults:jdk")),
-    "_zip": attr.label(
-      default=Label("@bazel_tools//tools/zip:zipper"),
-      cfg = "host",
-      executable=True,
-      single_file=True),
-  },
-  outputs = {
-    "output": "%{name}.zip",
-  },
+    attrs = {
+        "user_agent": attr.string(),
+        "style": attr.string(default = "OBF"),
+        "optimize": attr.string(default = "9"),
+        "deps": attr.label_list(allow_files = jar_filetype),
+        "module": attr.string_list(default = [MODULE]),
+        "module_deps": attr.label_list(allow_files = jar_filetype),
+        "compiler_args": attr.string_list(),
+        "jvm_args": attr.string_list(),
+        "_jdk": attr.label(
+            default = Label("//tools/defaults:jdk"),
+        ),
+        "_zip": attr.label(
+            default = Label("@bazel_tools//tools/zip:zipper"),
+            cfg = "host",
+            executable = True,
+            single_file = True,
+        ),
+    },
+    outputs = {
+        "output": "%{name}.zip",
+    },
+    implementation = _gwt_binary_impl,
 )
 
 def gwt_genrule(suffix = ""):

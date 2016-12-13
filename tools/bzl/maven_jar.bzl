@@ -1,7 +1,10 @@
-GERRIT = 'GERRIT:'
-GERRIT_API = 'GERRIT_API:'
-MAVEN_CENTRAL = 'MAVEN_CENTRAL:'
-MAVEN_LOCAL = 'MAVEN_LOCAL:'
+GERRIT = "GERRIT:"
+
+GERRIT_API = "GERRIT_API:"
+
+MAVEN_CENTRAL = "MAVEN_CENTRAL:"
+
+MAVEN_LOCAL = "MAVEN_LOCAL:"
 
 def _maven_release(ctx, parts):
   """induce jar and url name from maven coordinates."""
@@ -54,12 +57,17 @@ def _generate_build_file(ctx, binjar, srcjar):
   if srcjar:
     srcjar_attr = 'srcjar = "%s",' % srcjar
   contents = """
-# DO NOT EDIT: automatically generated BUILD file for maven_archive rule {rule_name}
+# DO NOT EDIT: automatically generated BUILD file for maven_jar rule {rule_name}
 package(default_visibility = ['//visibility:public'])
 java_import(
     name = 'jar',
     {srcjar_attr}
     jars = ['{binjar}'],
+)
+java_import(
+    name = 'neverlink',
+    jars = ['{binjar}'],
+    neverlink = 1,
 )
 \n""".format(srcjar_attr = srcjar_attr,
               rule_name = ctx.name,
@@ -116,16 +124,17 @@ def _maven_jar_impl(ctx):
 
   _generate_build_file(ctx, binjar, srcjar)
 
-maven_jar=repository_rule(
-  implementation=_maven_jar_impl,
-  local=True,
-  attrs={
-    "artifact": attr.string(mandatory=True),
-    "sha1": attr.string(mandatory=True),
-    "src_sha1": attr.string(),
-    "_download_script": attr.label(default=Label("//tools:download_file.py")),
-    "repository": attr.string(default=MAVEN_CENTRAL),
-    "attach_source": attr.bool(default=True),
-    "unsign": attr.bool(default=False),
-    "exclude": attr.string_list(),
-  })
+maven_jar = repository_rule(
+    attrs = {
+        "artifact": attr.string(mandatory = True),
+        "sha1": attr.string(mandatory = True),
+        "src_sha1": attr.string(),
+        "_download_script": attr.label(default = Label("//tools:download_file.py")),
+        "repository": attr.string(default = MAVEN_CENTRAL),
+        "attach_source": attr.bool(default = True),
+        "unsign": attr.bool(default = False),
+        "exclude": attr.string_list(),
+    },
+    local = True,
+    implementation = _maven_jar_impl,
+)

@@ -5,6 +5,7 @@
 #
 
 load("//tools/bzl:js.bzl", "bower_archive")
+
 def load_bower_archives():
   bower_archive(
     name = "accessibility-developer-tools",

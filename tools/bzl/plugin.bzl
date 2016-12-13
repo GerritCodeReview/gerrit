@@ -1,12 +1,23 @@
-load('//tools/bzl:genrule2.bzl', 'genrule2')
-load('//tools/bzl:gwt.bzl', 'GWT_PLUGIN_DEPS',
-     'GWT_PLUGIN_DEPS_NEVERLINK', 'GWT_TRANSITIVE_DEPS',
-     'GWT_COMPILER_ARGS', 'PLUGIN_DEPS_NEVERLINK',
-     'GWT_JVM_ARGS', 'gwt_binary')
+load("//tools/bzl:genrule2.bzl", "genrule2")
+load(
+    "//tools/bzl:gwt.bzl",
+    "GWT_PLUGIN_DEPS",
+    "GWT_PLUGIN_DEPS_NEVERLINK",
+    "GWT_TRANSITIVE_DEPS",
+    "GWT_COMPILER_ARGS",
+    "PLUGIN_DEPS_NEVERLINK",
+    "GWT_JVM_ARGS",
+    "gwt_binary",
+)
+
+PLUGIN_DEPS = ["//gerrit-plugin-api:lib"]
+
+PLUGIN_TEST_DEPS = ["//gerrit-acceptance-framework:lib"]
 
 def gerrit_plugin(
     name,
     deps = [],
+    provided_deps = [],
     srcs = [],
     gwt_module = [],
     resources = [],
@@ -16,7 +27,7 @@ def gerrit_plugin(
     name = name + '__plugin',
     srcs = srcs,
     resources = resources,
-    deps = deps + GWT_PLUGIN_DEPS_NEVERLINK + PLUGIN_DEPS_NEVERLINK,
+    deps = provided_deps + deps + GWT_PLUGIN_DEPS_NEVERLINK + PLUGIN_DEPS_NEVERLINK,
     visibility = ['//visibility:public'],
   )
 

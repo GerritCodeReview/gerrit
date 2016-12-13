@@ -101,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1a7f239a_95bec460",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-13T00:14:36Z",
+      "side": 1,
+      "message": "+1 to the approach Wyatt described, it\u0027s used elsewhere in this project and seems to make the most sense too.",
+      "parentUuid": "1a7f239a_75a68861",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "babc5798_6a95571c",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 3

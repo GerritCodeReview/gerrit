@@ -29,7 +29,7 @@ public class RobotComment extends Comment {
   public RobotComment(Key key, Account.Id author, Timestamp writtenOn,
       short side, String message, String serverId, String robotId,
       String robotRunId) {
-    super(key, author, writtenOn, side, message, serverId);
+    super(key, author, writtenOn, side, message, serverId, false);
     this.robotId = robotId;
     this.robotRunId = robotRunId;
   }
@@ -54,6 +54,7 @@ public class RobotComment extends Comment {
         .append("range=").append(Objects.toString(range, "")).append(',')
         .append("revId=").append(revId != null ? revId : "").append(',')
         .append("tag=").append(Objects.toString(tag, "")).append(',')
+        .append("unresolved=").append(unresolved).append(',')
         .append("url=").append(url).append(',')
         .append("properties=").append(properties != null ? properties : "")
         .append("fixSuggestions=")

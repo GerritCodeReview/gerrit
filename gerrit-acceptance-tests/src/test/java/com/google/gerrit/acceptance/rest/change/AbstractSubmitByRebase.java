@@ -17,11 +17,13 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -57,8 +59,21 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "b.txt", "other content");
-    submit(change2.getChangeId());
+    approve(change2.getChangeId());
+
+    // submit(change2.getChangeId());
+    // Don't submit as admin, but rather as user.
+    this.deny(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*");
+    this.grant(Permission.SUBMIT, project, "refs/*", false, REGISTERED_USERS);
+    setApiUser(user);
+    // Fails with "AuthException: cannot add patch set".
+    gApi.changes().id(change2.getChangeId()).current().submit(new SubmitInput());
+
+    setApiUser(admin);
+
+
     assertRebase(testRepo, false);
+
     RevCommit headAfterSecondSubmit = getRemoteHead();
     assertThat(headAfterSecondSubmit.getParent(0))
         .isEqualTo(headAfterFirstSubmit);

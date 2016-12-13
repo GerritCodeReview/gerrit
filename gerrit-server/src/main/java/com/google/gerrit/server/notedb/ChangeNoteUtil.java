@@ -249,8 +249,16 @@ public class ChangeNoteUtil {
     boolean hasParent =
         (RawParseUtils.match(note, curr.value, PARENT.getBytes(UTF_8))) != -1;
     String parentUUID = null;
+    boolean unresolved = false;
     if (hasParent) {
       parentUUID = parseStringField(note, curr, changeId, PARENT);
+    }
+    boolean hasUnresolved =
+        (RawParseUtils.match(note, curr.value,
+        UNRESOLVED.getBytes(UTF_8))) != -1;
+    if (hasUnresolved) {
+      String unresolvedStr = parseStringField(note, curr, changeId, UNRESOLVED);
+      unresolved = Boolean.parseBoolean(unresolvedStr);
     }
 
     String uuid = parseStringField(note, curr, changeId, UUID);
@@ -277,7 +285,7 @@ public class ChangeNoteUtil {
             : (short) 1,
         message,
         serverId,
-        false);
+        unresolved);
     c.lineNbr = range.getEndLine();
     c.parentUuid = parentUUID;
     c.tag = tag;
@@ -590,6 +598,7 @@ public class ChangeNoteUtil {
       appendHeaderField(writer, PARENT, parent);
     }
 
+    appendHeaderField(writer, UNRESOLVED, Boolean.toString(c.unresolved));
     appendHeaderField(writer, UUID, c.key.uuid);
 
     if (c.tag != null) {

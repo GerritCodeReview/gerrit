@@ -251,7 +251,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
 
   protected Comment newComment(PatchSet.Id psId, String filename, String UUID,
       CommentRange range, int line, IdentifiedUser commenter, String parentUUID,
-      Timestamp t, String message, short side, String commitSHA1) {
+      Timestamp t, String message, short side, String commitSHA1,
+      boolean unresolved) {
     Comment c = new Comment(
         new Comment.Key(UUID, filename, psId.get()),
         commenter.getAccountId(),
@@ -259,7 +260,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         side,
         message,
         serverId,
-        false);
+        unresolved);
     c.lineNbr = line;
     c.parentUuid = parentUUID;
     c.revId = commitSHA1;

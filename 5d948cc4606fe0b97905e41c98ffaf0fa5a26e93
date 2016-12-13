@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_cdb5e9ac",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T19:55:31Z",
+      "side": 1,
+      "message": "oh I see. I guess that makes sense, since it\u0027s not being used elsewhere.",
+      "parentUuid": "1af0039f_8dabe153",
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a057f49_30696869",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 8

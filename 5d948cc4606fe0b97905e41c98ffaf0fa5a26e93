@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_6edcaf01",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T19:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa77afbe_144074a4",
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa77afbe_344570b5",
         "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
         "patchSetId": 8
@@ -36,6 +54,24 @@
         "endLine": 48,
         "endChar": 7
       },
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_0ee7ebcc",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T19:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa77afbe_344570b5",
       "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_4dca993f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T19:40:58Z",
+      "side": 1,
+      "message": "Not sure what you mean here? the function is how we determine if a column should be visible or not.",
+      "parentUuid": "9a04f34e_31697069",
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a057f49_30696869",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 8
@@ -82,6 +136,24 @@
         "endLine": 49,
         "endChar": 33
       },
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_aed5f7d3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T19:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a057f49_30696869",
       "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_0dc0911d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T19:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a04f34e_116eec70",
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a7f239a_35c7b0ff",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 8
@@ -145,6 +235,24 @@
         "endLine": 79,
         "endChar": 33
       },
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_8ed2bbe7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T19:40:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_35c7b0ff",
       "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

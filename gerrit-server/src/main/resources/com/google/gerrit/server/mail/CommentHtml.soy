@@ -18,10 +18,12 @@
 
 /**
  * @param commentFiles
- * @param coverLetter
- * @param coverLetterBlocks
+ * @param commentCount
  * @param email
  * @param fromName
+ * @param labels
+ * @param patchSet
+ * @param patchSetCommentBlocks
  */
 {template .CommentHtml autoescape="strict" kind="html"}
   {let $commentHeaderStyle kind="css"}
@@ -39,6 +41,24 @@
     padding-left: 20px;
   {/let}
 
+  {let $voteStyle kind="css"}
+    background-color: #aaa;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 0 2px;
+    padding: 4px;
+  {/let}
+
+  {let $positiveVoteStyle kind="css"}
+    {$voteStyle}
+    background-color: #d4ffd4;
+  {/let}
+
+  {let $negativeVoteStyle kind="css"}
+    {$voteStyle}
+    background-color: #ffd4d4;
+  {/let}
+
   <p>
     {$fromName} <strong>posted comments</strong> on this change.
   </p>
@@ -49,8 +69,26 @@
     </p>
   {/if}
 
-  {if $coverLetter}
-    {call .WikiFormat}{param content: $coverLetterBlocks /}{/call}
+  <p>
+    Patch set {$patchSet.patchSetId}:
+    {foreach $label in $labels}
+      {if $label.value > 0}<span style="{$positiveVoteStyle}">
+      {elseif $label.value < 0}<span style="{$negativeVoteStyle}">
+      {else}<span style="{$voteStyle}">{/if}
+        {$label.label}{sp}
+        {if $label.value > 0}+{/if}{$label.value}
+      </span>
+    {/foreach}
+  </p>
+
+  {if $patchSetCommentBlocks}
+    {call .WikiFormat}{param content: $patchSetCommentBlocks /}{/call}
+  {/if}
+
+  {if $commentCount == 1}
+    <p>(1 comment)</p>
+  {elseif $commentCount > 1}
+    <p>({$commentCount} comments)</p>
   {/if}
 
   <ul style="{$ulStyle}">

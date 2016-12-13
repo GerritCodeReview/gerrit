@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
 import com.google.common.collect.Multimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -56,7 +58,9 @@ public class EmailReviewComments implements Runnable, RequestContext {
         PatchSet patchSet,
         IdentifiedUser user,
         ChangeMessage message,
-        List<Comment> comments);
+        List<Comment> comments,
+        String patchSetComment,
+        List<LabelVote> labels);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -72,6 +76,8 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final IdentifiedUser user;
   private final ChangeMessage message;
   private final List<Comment> comments;
+  private final String patchSetComment;
+  private final List<LabelVote> labels;
   private ReviewDb db;
 
   @Inject
@@ -87,7 +93,9 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @Assisted PatchSet patchSet,
       @Assisted IdentifiedUser user,
       @Assisted ChangeMessage message,
-      @Assisted List<Comment> comments) {
+      @Assisted List<Comment> comments,
+      @Nullable @Assisted String patchSetComment,
+      @Assisted List<LabelVote> labels) {
     this.sendEmailsExecutor = executor;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
@@ -100,6 +108,8 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.user = user;
     this.message = message;
     this.comments = COMMENT_ORDER.sortedCopy(comments);
+    this.patchSetComment = patchSetComment;
+    this.labels = labels;
   }
 
   void sendAsync() {
@@ -118,6 +128,8 @@ public class EmailReviewComments implements Runnable, RequestContext {
           patchSetInfoFactory.get(notes.getProjectName(), patchSet));
       cm.setChangeMessage(message.getMessage(), message.getWrittenOn());
       cm.setComments(comments);
+      cm.setPatchSetComment(patchSetComment);
+      cm.setLabels(labels);
       cm.setNotify(notify);
       cm.setAccountsToNotify(accountsToNotify);
       cm.send();

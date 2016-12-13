@@ -184,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_ae07b783",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T22:25:32Z",
+      "side": 1,
+      "message": "Could we do Wyatt\u0027s first bullet point for now, and then maybe discuss this item as a team for a longer term plan?",
+      "parentUuid": "fa77afbe_b45980a5",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af0039f_2dbbcda8",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 1

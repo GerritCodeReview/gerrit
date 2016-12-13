@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_8dabe153",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-13T19:46:53Z",
+      "side": 1,
+      "message": "I\u0027m saying that it may make more sense if you change the fn definition of displayColumn to\n\n  hideColumn: function(columnToCheck, columnsToDisplay) {\n    return columnsToDisplay.indexOf(columnToCheck) \u003d\u003d\u003d -1;\n  },\n\nso that you don\u0027t have to ! the function return value every time you use it.",
+      "parentUuid": "1af0039f_4dca993f",
+      "revId": "5d948cc4606fe0b97905e41c98ffaf0fa5a26e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a057f49_30696869",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 8

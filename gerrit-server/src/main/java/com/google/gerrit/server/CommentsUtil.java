@@ -148,7 +148,7 @@ public class CommentsUtil {
     Comment c = new Comment(
         new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
         ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
-        true);
+        false);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
   }

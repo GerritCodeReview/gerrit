@@ -176,7 +176,8 @@ class UnifiedCommentManager extends CommentManager {
               getPath(),
               getStoredSideFromDisplaySide(side),
               to.line() + 1,
-              CommentRange.create(fromTo))).setEdit(true);
+              CommentRange.create(fromTo),
+              false)).setEdit(true);
       cm.setCursor(Pos.create(host.getCmLine(to.line(), side), to.ch()));
       cm.setSelection(cm.getCursor());
     } else {

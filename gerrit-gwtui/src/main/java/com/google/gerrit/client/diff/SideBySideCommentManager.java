@@ -87,7 +87,8 @@ class SideBySideCommentManager extends CommentManager {
               getStoredSideFromDisplaySide(cm.side()),
               getParentNumFromDisplaySide(cm.side()),
               line,
-              CommentRange.create(fromTo))).setEdit(true);
+              CommentRange.create(fromTo),
+              false)).setEdit(true);
       cm.setCursor(fromTo.to());
       cm.setSelection(cm.getCursor());
     } else {

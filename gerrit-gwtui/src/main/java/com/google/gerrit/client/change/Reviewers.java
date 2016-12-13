@@ -255,7 +255,9 @@ public class Reviewers extends Composite {
     Map<Integer, VotableInfo> d = new HashMap<>();
     for (String name : change.labels()) {
       LabelInfo label = change.label(name);
-      short labelMaxValue = LabelInfo.parseValue(label.maxValue());
+      Short labelMaxValue = label.valueSet().isEmpty()
+        ? null
+        : LabelInfo.parseValue(label.maxValue());
       if (label.all() != null) {
         for (ApprovalInfo ai : Natives.asList(label.all())) {
           int id = ai._accountId();
@@ -264,7 +266,8 @@ public class Reviewers extends Composite {
             ad = new VotableInfo();
             d.put(id, ad);
           }
-          if (ai.permittedVotingRange() != null
+          if (labelMaxValue != null
+              && ai.permittedVotingRange() != null
               && ai.permittedVotingRange().max() == labelMaxValue) {
             ad.votable(name + " (" + label.maxValue() + ") ");
           } else if (ai.hasValue()) {

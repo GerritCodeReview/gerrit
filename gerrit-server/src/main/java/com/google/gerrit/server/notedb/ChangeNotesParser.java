@@ -32,7 +32,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
-import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 
 import com.google.auto.value.AutoValue;
@@ -42,7 +41,6 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
@@ -94,7 +92,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Function;
 
@@ -134,7 +131,7 @@ class ChangeNotesParser {
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<SubmitRecord> submitRecords;
   private final Multimap<RevId, Comment> comments;
-  private final TreeMap<PatchSet.Id, PatchSet> patchSets;
+  private final Map<PatchSet.Id, PatchSet> patchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
   private final List<PatchSet.Id> currentPatchSets;
@@ -176,7 +173,7 @@ class ChangeNotesParser {
     allChangeMessages = new ArrayList<>();
     changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = MultimapBuilder.hashKeys().arrayListValues().build();
-    patchSets = Maps.newTreeMap(comparing(PatchSet.Id::get));
+    patchSets = new HashMap<>();
     deletedPatchSets = new HashSet<>();
     patchSetStates = new HashMap<>();
     currentPatchSets = new ArrayList<>();

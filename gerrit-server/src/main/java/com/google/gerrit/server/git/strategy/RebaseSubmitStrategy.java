@@ -168,6 +168,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             // Bypass approval copier since SubmitStrategyOp copy all approvals
             // later anyway.
             .setCopyApprovals(false)
+            // NOTE: this Validation is actually about new patchset creation.
             .setValidatePolicy(CommitValidators.Policy.NONE)
             // RebaseAlways should set always modify commit message like
             // Cherry-Pick strategy.
@@ -208,7 +209,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         rebaseOp.updateChange(ctx);
         newPs = rebaseOp.getPatchSet();
       } else {
-        // CherryPick
+        // In case of fast-forward, do the same as Cherry Pick strategy.
+        // NOTE: no user-ACL validation is done here.
         PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
         newPs = args.psUtil.insert(ctx.getDb(), ctx.getRevWalk(),
             ctx.getUpdate(newPatchSetId), newPatchSetId, newCommit, false,

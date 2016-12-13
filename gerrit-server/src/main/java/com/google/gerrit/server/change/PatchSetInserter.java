@@ -285,11 +285,11 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private void validate(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException,
       OrmException {
-    if (!origCtl.canAddPatchSet(ctx.getDb())) {
-      throw new AuthException("cannot add patch set");
-    }
     if (validatePolicy == CommitValidators.Policy.NONE) {
       return;
+    }
+    if (!origCtl.canAddPatchSet(ctx.getDb())) {
+      throw new AuthException("cannot add patch set");
     }
 
     String refName = getPatchSetId().toRefName();

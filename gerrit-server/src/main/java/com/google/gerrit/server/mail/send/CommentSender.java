@@ -31,6 +31,7 @@ import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -103,6 +104,8 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private List<Comment> inlineComments = Collections.emptyList();
+  private String patchSetComment = null;
+  private List<LabelVote> labels = Collections.emptyList();
   private final CommentsUtil commentsUtil;
 
   @Inject
@@ -124,6 +127,14 @@ public class CommentSender extends ReplyToChangeSender {
       }
     }
     changeData.setCurrentFilePaths(Ordering.natural().sortedCopy(paths));
+  }
+
+  public  void setPatchSetComment(String comment) {
+    this.patchSetComment = comment;
+  }
+
+  public  void setLabels(List<LabelVote> labels) {
+    this.labels = labels;
   }
 
   @Override
@@ -595,6 +606,10 @@ public class CommentSender extends ReplyToChangeSender {
       hasComments = !files.isEmpty();
     }
 
+    soyContext.put("patchSetCommentBlocks",
+        commentBlocksToSoyData(CommentFormatter.parse(patchSetComment)));
+    soyContext.put("labels", getLabelVoteSoyData(labels));
+    soyContext.put("commentCount", inlineComments.size());
     soyContext.put("commentTimestamp", getCommentTimestamp());
     soyContext.put("coverLetterBlocks",
         commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
@@ -621,6 +636,20 @@ public class CommentSender extends ReplyToChangeSender {
       log.warn(String.format("Side %d of file didn't exist", side), err);
       return "";
     }
+  }
+
+  private List<Map<String, Object>> getLabelVoteSoyData(List<LabelVote> votes) {
+    List<Map<String, Object>> result = new ArrayList<>();
+    for (LabelVote vote : votes) {
+      Map<String, Object> data = new HashMap<>();
+      data.put("label", vote.label());
+
+      // Soy needs the short to be cast as an int for it to get converted to the
+      // correct tamplate type.
+      data.put("value", (int) vote.value());
+      result.add(data);
+    }
+    return result;
   }
 
   private String getCommentTimestamp() {

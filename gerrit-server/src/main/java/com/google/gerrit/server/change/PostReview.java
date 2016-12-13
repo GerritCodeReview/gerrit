@@ -658,7 +658,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private PatchSet ps;
     private ChangeMessage message;
     private List<Comment> comments = new ArrayList<>();
-    private List<String> labelDelta = new ArrayList<>();
+    private List<LabelVote> labelDelta = new ArrayList<>();
     private Map<String, Short> approvals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
@@ -699,7 +699,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             ps,
             user,
             message,
-            comments).sendAsync();
+            comments,
+            in.message,
+            labelDelta).sendAsync();
       }
       commentAdded.fire(
           notes.getChange(), ps, user.getAccount(), message.getMessage(),
@@ -1198,8 +1200,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       String msg = Strings.nullToEmpty(in.message).trim();
 
       StringBuilder buf = new StringBuilder();
-      for (String d : labelDelta) {
-        buf.append(" ").append(d);
+      for (LabelVote d : labelDelta) {
+        buf.append(" ").append(d.format());
       }
       if (comments.size() == 1) {
         buf.append("\n\n(1 comment)");
@@ -1221,7 +1223,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private void addLabelDelta(String name, short value) {
-      labelDelta.add(LabelVote.create(name, value).format());
+      labelDelta.add(LabelVote.create(name, value));
     }
   }
 }

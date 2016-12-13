@@ -24,12 +24,12 @@ import java.sql.Timestamp;
 
 public class CommentInfo extends JavaScriptObject {
   public static CommentInfo create(String path, Side side,
-      int line, CommentRange range) {
-    return create(path, side, 0, line, range);
+      int line, CommentRange range, Boolean unresolved) {
+    return create(path, side, 0, line, range, unresolved);
   }
 
   public static CommentInfo create(String path, Side side, int parent,
-      int line, CommentRange range) {
+      int line, CommentRange range, boolean unresolved) {
     CommentInfo n = createObject().cast();
     n.path(path);
     n.side(side);
@@ -40,6 +40,7 @@ public class CommentInfo extends JavaScriptObject {
     } else if (line > 0) {
       n.line(line);
     }
+    n.unresolved(unresolved);
     return n;
   }
 
@@ -55,6 +56,7 @@ public class CommentInfo extends JavaScriptObject {
     } else if (r.hasLine()) {
       n.line(r.line());
     }
+    n.unresolved(r.unresolved());
     return n;
   }
 
@@ -72,6 +74,7 @@ public class CommentInfo extends JavaScriptObject {
     } else if (s.hasLine()) {
       n.line(s.line());
     }
+    n.unresolved(s.unresolved());
     return n;
   }
 
@@ -81,6 +84,7 @@ public class CommentInfo extends JavaScriptObject {
   public final native void range(CommentRange r) /*-{ this.range = r }-*/;
   public final native void inReplyTo(String i) /*-{ this.in_reply_to = i }-*/;
   public final native void message(String m) /*-{ this.message = m }-*/;
+  public final native void unresolved(boolean b) /*-{ this.unresolved = b }-*/;
 
   public final void side(Side side) {
     sideRaw(side.toString());
@@ -93,6 +97,7 @@ public class CommentInfo extends JavaScriptObject {
   public final native String id() /*-{ return this.id }-*/;
   public final native String inReplyTo() /*-{ return this.in_reply_to }-*/;
   public final native int patchSet() /*-{ return this.patch_set }-*/;
+  public final native boolean unresolved() /*-{ return this.unresolved }-*/;
 
   public final Side side() {
     String s = sideRaw();

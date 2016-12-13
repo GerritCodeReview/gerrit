@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_8d1da1dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T22:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a7f239a_15ab9428",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "babc5798_4a90932d",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 3
@@ -36,6 +54,24 @@
       "writtenOn": "2016-12-12T19:10:09Z",
       "side": 1,
       "message": "Probably a typo: double curlys",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_6d1795bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T22:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "babc5798_4a90932d",
       "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +191,42 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_2ef46765",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T22:11:37Z",
+      "side": 1,
+      "message": "I understand, I wouldn\u0027t keep the names as expanded-true/expanded-false if there was a function, I just thought it would be nice to avoid a function altogether by doing it that way. That\u0027s why I liked the attribute- no need for a function.",
+      "parentUuid": "3af307ad_ceccc350",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_ad205d10",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T22:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af307ad_ceccc350",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "babc5798_6a95571c",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 3
@@ -166,6 +238,24 @@
       "writtenOn": "2016-12-12T19:10:09Z",
       "side": 1,
       "message": "Fits to the previous line.",
+      "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_0d1251cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-13T22:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "babc5798_6a95571c",
       "revId": "22a3e77329520c143dfa167e807c0fe23aa62fa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

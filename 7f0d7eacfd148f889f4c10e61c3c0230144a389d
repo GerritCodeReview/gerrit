@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9abb13d1_997cfb24",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-13T04:07:59Z",
+      "side": 1,
+      "message": "Is this change related?",
+      "range": {
+        "startLine": 134,
+        "startChar": 25,
+        "endLine": 134,
+        "endChar": 39
+      },
+      "revId": "7f0d7eacfd148f889f4c10e61c3c0230144a389d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

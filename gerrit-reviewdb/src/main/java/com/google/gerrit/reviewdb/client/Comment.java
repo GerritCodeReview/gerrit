@@ -276,7 +276,7 @@ public class Comment {
         .append("range=").append(Objects.toString(range, "")).append(',')
         .append("revId=").append(revId != null ? revId : "").append(',')
         .append("tag=").append(Objects.toString(tag, "")).append(',')
-        .append("unresolved=").append(unresolved)
+        .append("unresolved=").append(Boolean.toString(unresolved))
         .append('}')
         .toString();
   }

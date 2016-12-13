@@ -196,7 +196,8 @@ abstract class CommentManager {
           getStoredSideFromDisplaySide(side),
           getParentNumFromDisplaySide(side),
           line,
-          null)).setEdit(true);
+          null,
+          false)).setEdit(true);
     }
   }
 

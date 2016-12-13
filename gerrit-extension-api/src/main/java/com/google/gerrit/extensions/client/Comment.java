@@ -34,6 +34,7 @@ public abstract class Comment {
   public String inReplyTo;
   public Timestamp updated;
   public String message;
+  public boolean unresolved;
 
   public static class Range {
     public int startLine;
@@ -101,7 +102,8 @@ public abstract class Comment {
           && Objects.equals(range, c.range)
           && Objects.equals(inReplyTo, c.inReplyTo)
           && Objects.equals(updated, c.updated)
-          && Objects.equals(message, c.message);
+          && Objects.equals(message, c.message)
+          && Objects.equals(unresolved, c.unresolved);
     }
     return false;
   }

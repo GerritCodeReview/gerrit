@@ -286,6 +286,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       throws AuthException, ResourceConflictException, IOException,
       OrmException {
     if (!origCtl.canAddPatchSet(ctx.getDb())) {
+      // Fails here.
       throw new AuthException("cannot add patch set");
     }
     if (validatePolicy == CommitValidators.Policy.NONE) {

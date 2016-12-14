@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_6e214fc5",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T23:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af0039f_6d7dd5d0",
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af0039f_ad669d42",
         "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
         "patchSetId": 12
@@ -65,6 +83,24 @@
         "endLine": 47,
         "endChar": 8
       },
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_4e2613df",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T23:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af0039f_ad669d42",
       "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -94,6 +130,42 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_8e075b3b",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T23:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1af0039f_4d82999e",
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_2d174d70",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T23:40:47Z",
+      "side": 1,
+      "message": "Since these functions are really the same, I added a separate function with the filter. I\u0027m keeping them separate so they make more sense when they are called, even though they are really the same.",
+      "parentUuid": "1af0039f_4d82999e",
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3af307ad_ce6de31f",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
         "patchSetId": 12
@@ -117,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_ee141f66",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T23:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af307ad_ce6de31f",
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3af307ad_2e9aa7ff",
         "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.html",
         "patchSetId": 12
@@ -134,6 +224,24 @@
         "endLine": 109,
         "endChar": 13
       },
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_0d1c1191",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T23:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af307ad_2e9aa7ff",
       "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

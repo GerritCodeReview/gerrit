@@ -108,7 +108,7 @@ genrule2(
 
 sh_test(
     name = "wct_test",
-    size = "large",
+    size = "enormous",
     srcs = ["wct_test.sh"],
     data = [
         "test/index.html",

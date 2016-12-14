@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af0039f_4d54593f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T22:21:44Z",
+      "side": 1,
+      "message": "Is strict equality with null important, or can it be undefined? Can this test just be\n\n if (!this.diffViewMode) {",
+      "range": {
+        "startLine": 144,
+        "startChar": 29,
+        "endLine": 144,
+        "endChar": 38
+      },
+      "revId": "06de4d69bbb8ca21f333735347f8bb66d30298b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_ae585773",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T22:21:44Z",
+      "side": 1,
+      "message": "As I interpret this...\n\n* diff_view is the name in the rest response AND is the key to the property we modify based on screen size.\n* diff_view_setting is the diff_view value as it originally appeared in the server response.\n\nIs this correct?\n\nNow that the settings page modifies diff_view_setting -- which isn\u0027t recognized by the server when we post it -- I can\u0027t edit the persistent diff view preference at all in the /settings page.\n\nI\u0027d suggest flipping the way these two keys work.\n\n* diff_view is the name in the rest response and isn\u0027t messed with based on screen size.\n* default_diff_view (alternatively diff_view_for_screen or similar) is the one that the diffs use to render and it\u0027s value can be based on the screen size.",
+      "range": {
+        "startLine": 315,
+        "startChar": 10,
+        "endLine": 316,
+        "endChar": 44
+      },
+      "revId": "06de4d69bbb8ca21f333735347f8bb66d30298b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

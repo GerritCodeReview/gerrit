@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_2df46d65",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T00:10:51Z",
+      "side": 1,
+      "message": "Well, adding it to here in one place allowed my to remove it in 2 others :)",
+      "parentUuid": "3af307ad_4ee1f3b3",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a36b30e_e183a6eb",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -214,6 +232,24 @@
       "side": 1,
       "message": "SGTM.\nAlternatively, instead of getPreferencesForDisplaySize it would be possible to do other way around - make getPreferences to return what\u0027s relevant to most of gr-rest-api-users, and have a getPreferencesDirect.",
       "parentUuid": "3af307ad_ae07b783",
+      "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_0d64115e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T00:10:51Z",
+      "side": 1,
+      "message": "I think I prefer the naming where the one that modifies the user\u0027s preferences had a more descriptive name.  There are other places in the app where the user\u0027s preferences are called, but don\u0027t use the view mode. I assume I should use the original function there? or should I use the new one everywhere other than settings/prefs?",
+      "parentUuid": "3af307ad_4e6e1340",
       "revId": "3f2d6682d9818257be1298a3062a59aaadfebb42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -51,9 +51,11 @@ junit_tests(
     size = "large",
     srcs = glob(["src/test/java/**/*Test.java"]),
     flaky = 1,
+    #TODO(davido): Re-enable the tests on the CI when they are fixed
     tags = [
         "elastic",
         "flaky",
+        "noci",
     ],
     deps = [
         ":elasticsearch",

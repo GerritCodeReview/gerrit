@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_0ecd2b20",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7aef68_f67e60cc",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a36b30e_61783630",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
       "writtenOn": "2016-12-12T18:42:49Z",
       "side": 1,
       "message": "Hm, would this do the same?\nvar quoteStr \u003d \u0027\u003e\u0027 + msg.replace(/\\n/g,\u0027\\n\u003e\u0027) + \u0027\\n\\n\u0027;",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_adb4dd82",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "See response to Wyatt\u0027s comment-- will do this with his constant.",
+      "parentUuid": "9a36b30e_61783630",
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -77,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_4db0d98e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Looks like this is similar to @viktar\u0027s comment, but I can use the pattern in both places, so i\u0027ll go with this approach.",
+      "parentUuid": "2d7aef68_d67964e7",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_1664bc39",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2
@@ -94,6 +148,24 @@
         "endLine": 99,
         "endChar": 93
       },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_8db12193",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7aef68_1664bc39",
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -123,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_edbee560",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Looks like they are in the docs, so I\u0027ll add.",
+      "parentUuid": "2d7aef68_56cf1440",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a36b30e_c17ca225",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2
@@ -134,6 +224,24 @@
       "writtenOn": "2016-12-12T18:42:49Z",
       "side": 1,
       "message": "Same as above:\nhidden$\u003d\"...\"",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_6ec2efef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a36b30e_c17ca225",
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -163,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_cdbb296f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "yes, as long as it\u0027s negated :)",
+      "parentUuid": "ed6ff7a9_7457a872",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed6ff7a9_f4df38f3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2
@@ -180,6 +306,24 @@
         "endLine": 223,
         "endChar": 71
       },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_4ec733fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed6ff7a9_f4df38f3",
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -209,6 +353,24 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_aedb37d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7aef68_76cc104b",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_7657b072",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2
@@ -220,6 +382,24 @@
       "writtenOn": "2016-12-09T00:25:47Z",
       "side": 1,
       "message": "Is this intended here?",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_8ed8fbda",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Yes, it is used for this style in gr-diff-comment.html:\n\n:host([is-robot-comment]){\n    background-color: #CFE8FC;\n }",
+      "parentUuid": "2d7aef68_7657b072",
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -243,6 +423,24 @@
         "endLine": 135,
         "endChar": 76
       },
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_2dc8ed0f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7aef68_3661b82a",
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -290,6 +488,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_0dcd3120",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a36b30e_a1799e33",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed6ff7a9_944444bc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 2
@@ -313,6 +529,24 @@
     },
     {
       "key": {
+        "uuid": "3af307ad_eed53fa1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Removing this, as it\u0027s not used yet.",
+      "parentUuid": "ed6ff7a9_944444bc",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_566e3419",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
         "patchSetId": 2
@@ -330,6 +564,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_6dc2f5ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7aef68_566e3419",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed6ff7a9_34d290ed",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
         "patchSetId": 2
@@ -341,6 +593,24 @@
       "writtenOn": "2016-12-09T00:25:47Z",
       "side": 1,
       "message": "Line too long.",
+      "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_ced203b7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-14T16:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed6ff7a9_34d290ed",
       "revId": "971339fec649a1d64980e3ad21e4863ccfb58c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

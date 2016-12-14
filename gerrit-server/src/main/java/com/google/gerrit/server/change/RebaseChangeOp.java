@@ -173,6 +173,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
         ctx.getRepository(), ctl.getChange().currentPatchSetId());
     patchSetInserter = patchSetInserterFactory
         .create(ctl, rebasedPatchSetId, rebasedCommit)
+        .setDescription("Rebase")
         .setDraft(originalPatchSet.isDraft())
         .setNotify(NotifyHandling.NONE)
         .setFireRevisionCreated(fireRevisionCreated)

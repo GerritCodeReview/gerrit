@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a04f34e_b139e034",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-14T05:49:57Z",
+      "side": 1,
+      "message": "Note for reviewers: Bazel team reported the breakage for: [1], in: [2].\n\n* [1] http://ci.bazel.build/job/gerrit\n* [2] http://paste.openstack.org/show/592248",
+      "revId": "dd7f60e6c942c314f0e8667edad99c025925d73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

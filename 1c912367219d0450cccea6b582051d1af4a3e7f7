@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3af307ad_ee709ff5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T19:57:15Z",
+      "side": 1,
+      "message": "This should be ...\n\n  Feature: Issue 4753",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_6d7dd5d0",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T19:57:15Z",
+      "side": 1,
+      "message": "This can be a tidy filter.\n\nreturn this.CHANGE_TABLE_COLUMNS.filter(function(column) {\n  return columns.indexOf(columns) \u003d\u003d\u003d\u003d -1;\n});",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 27
+      },
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_ad669d42",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T19:57:15Z",
+      "side": 1,
+      "message": "Remove extra space.",
+      "range": {
+        "startLine": 47,
+        "startChar": 7,
+        "endLine": 47,
+        "endChar": 8
+      },
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_4d82999e",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T19:57:15Z",
+      "side": 1,
+      "message": "This can be a filter also.",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 30
+      },
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_ce6de31f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T19:57:15Z",
+      "side": 1,
+      "message": "This is indented one level too far.",
+      "range": {
+        "startLine": 243,
+        "startChar": 10,
+        "endLine": 256,
+        "endChar": 11
+      },
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_2e9aa7ff",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T19:57:15Z",
+      "side": 1,
+      "message": "This file is not consistent in the way array literals are declared.\n\nLet\u0027s fix them to declare the open square-brace on the previous line, then each item of the array can be on its own line with one indentation layer, similar to how anonymous functions are passed.\n\nassert.deepEqual(element.changeTableItems, [\n  \u0027Subject\u0027,\n  \u0027Status\u0027,\n  \u0027Owner\u0027,\n  \u0027Project\u0027,\n  \u0027Branch\u0027,\n  \u0027Updated\u0027,\n]);",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 13
+      },
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

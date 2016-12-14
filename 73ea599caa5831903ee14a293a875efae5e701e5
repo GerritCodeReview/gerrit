@@ -16,6 +16,75 @@
       "revId": "73ea599caa5831903ee14a293a875efae5e701e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_2e4627c5",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T00:48:00Z",
+      "side": 1,
+      "message": "Maybe add a JSDoc that explains how it\u0027s truncated using little examples.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 38
+      },
+      "revId": "73ea599caa5831903ee14a293a875efae5e701e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_0d4b71cd",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T00:48:00Z",
+      "side": 1,
+      "message": "Nit: I\u0027d prefer ...\n\n  pathPieces[pathPieces.length - 1]\n\n... so that we don\u0027t bother mutating an array that isn\u0027t even used. Especially considering this will be executed repeatedly.",
+      "range": {
+        "startLine": 65,
+        "startChar": 23,
+        "endLine": 65,
+        "endChar": 39
+      },
+      "revId": "73ea599caa5831903ee14a293a875efae5e701e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af0039f_8d4f61dc",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-14T00:48:00Z",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "73ea599caa5831903ee14a293a875efae5e701e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

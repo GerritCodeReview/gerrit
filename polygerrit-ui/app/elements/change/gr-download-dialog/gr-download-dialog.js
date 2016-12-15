@@ -30,6 +30,7 @@
       loggedIn: {
         type: Boolean,
         value: false,
+        observer: '_loggedInChanged',
       },
 
       _schemes: {
@@ -49,15 +50,6 @@
       Gerrit.RESTClientBehavior,
     ],
 
-    attached: function() {
-      if (!this.loggedIn) { return; }
-      this.$.restAPI.getPreferences().then(function(prefs) {
-        if (prefs.download_scheme) {
-          this._selectedScheme = prefs.download_scheme;
-        }
-      }.bind(this));
-    },
-
     focus: function() {
       this.$.download.focus();
     },
@@ -68,6 +60,15 @@
         start: this.$.closeButton,
         end: links[links.length - 1],
       };
+    },
+
+    _loggedInChanged: function(loggedIn) {
+      if (!loggedIn) { return; }
+      this.$.restAPI.getPreferences().then(function(prefs) {
+        if (prefs.download_scheme) {
+          this._selectedScheme = prefs.download_scheme;
+        }
+      }.bind(this));
     },
 
     _computeDownloadCommands: function(change, patchNum, _selectedScheme) {

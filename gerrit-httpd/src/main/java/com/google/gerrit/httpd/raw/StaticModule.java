@@ -106,6 +106,8 @@ public class StaticModule extends ServletModule {
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
+  private static final String POLYGERRIT_SERVLET = "PolyGerritServlet";
+  private static final String POLYGERRITUI_SERVLET = "PolyGerritUiServlet";
   private static final String POLYGERRIT_INDEX_SERVLET =
       "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
@@ -252,7 +254,19 @@ public class StaticModule extends ServletModule {
   private class PolyGerritModule extends ServletModule {
     @Override
     public void configureServlets() {
-      for (String p : POLYGERRIT_INDEX_PATHS) {
+      serveRegex("^/").with(PolyGerritUiIndexServlet.class);
+      serveRegex("^/c/(.*)$").with(PolyGerritUiIndexServlet.class);
+      serveRegex("^/q/(.*)$").with(PolyGerritUiIndexServlet.class);
+      serveRegex("^/x/(.*)$").with(PolyGerritUiIndexServlet.class);
+      serveRegex("^/admin/(.*)$").with(PolyGerritUiIndexServlet.class);
+      serveRegex("^/dashboard/(.*)$").with(PolyGerritUiIndexServlet.class);
+      serveRegex("^/settings/(.*)$").with(PolyGerritUiIndexServlet.class);
+      // TODO(dborowitz): These fragments conflict with the REST API
+      // namespace, so they will need to use a different path.
+      // serveRegex("^/groups/(.*)$").with(PolyGerritUiIndexServlet.class);
+      // serveRegex("^/projects/(.*)$").with(PolyGerritUiIndexServlet.class);
+      Paths p = getPaths();
+      if (p.isDev != null) {
         // Skip XsrfCookieFilter for /, since that is already done in the GWT UI
         // path (UrlModule).
         if (!p.equals("/")) {
@@ -493,10 +507,10 @@ public class StaticModule extends ServletModule {
       // /polygerrit_ui in the war file, so we can just treat them as normal
       // assets.
       if (paths.isDev()) {
-        if (path.startsWith("/bower_components/")) {
+        if (path.match(new RegExp("^/bower_components/$"))) {
           bowerComponentServlet.service(reqWrapper, res);
           return;
-        } else if (path.startsWith("/fonts/")) {
+        } else if (path.match(new RegExp("^/fonts/$"))) {
           fontServlet.service(reqWrapper, res);
           return;
         }

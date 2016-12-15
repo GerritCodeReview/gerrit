@@ -84,6 +84,9 @@
         computed: '_computeLabels(change.labels.*, _account)',
       },
       _owner: Object,
+      _pendingConfirmationDetails: {
+        type: Object,
+      },
       _reviewers: Array,
       _reviewerPendingConfirmation: {
         type: Object,
@@ -419,6 +422,8 @@
       if (reviewer === null) {
         this.$.reviewerConfirmationOverlay.close();
       } else {
+        this._pendingConfirmationDetails = (
+            this._ccPendingConfirmation || this._reviewerPendingConfirmation);
         this.$.reviewerConfirmationOverlay.open();
       }
     },

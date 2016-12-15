@@ -194,12 +194,14 @@ limitations under the License.
       });
     }
 
-    test('reviewer confirmation', function(done) {
+    function testConfirmationDialog(done, cc) {
       var yesButton =
           element.$$('.reviewerConfirmationButtons gr-button:first-child');
       var noButton =
           element.$$('.reviewerConfirmationButtons gr-button:last-child');
 
+      element.serverConfig = {note_db_enabled: true};
+      element._ccPendingConfirmation = null;
       element._reviewerPendingConfirmation = null;
       flushAsynchronousOperations();
       assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
@@ -209,15 +211,36 @@ limitations under the License.
       var group = {
         id: 'id',
         name: 'name',
-        count: 10,
       };
-      element._reviewerPendingConfirmation = {
-        group: group,
-      };
+      if (cc) {
+        element._ccPendingConfirmation = {
+          group: group,
+          count: 10,
+        };
+      } else {
+        element._reviewerPendingConfirmation = {
+          group: group,
+          count: 10,
+        };
+      }
+      flushAsynchronousOperations();
+
+      if (cc) {
+        assert.deepEqual(
+            element._ccPendingConfirmation,
+            element._pendingConfirmationDetails);
+      } else {
+        assert.deepEqual(
+            element._reviewerPendingConfirmation,
+            element._pendingConfirmationDetails);
+      }
 
       observer.then(function() {
         assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
         observer = overlayObserver('closed');
+        assert.match(
+            element.$.reviewerConfirmationOverlay.innerText,
+            /Group name has 10 members/);
         MockInteractions.tap(noButton); // close the overlay
         return observer;
       }).then(function() {
@@ -226,14 +249,23 @@ limitations under the License.
         // We should be focused on account entry input.
         assert.equal(getActiveElement().id, 'input');
 
-        // No reviewer should have been added.
-        assert.deepEqual(element.$.reviewers.additions(), []);
+        // No reviewer/CC should have been added.
+        assert.equal(element.$$('#ccs').additions().length, 0);
+        assert.equal(element.$.reviewers.additions().length, 0);
 
         // Reopen confirmation dialog.
         observer = overlayObserver('opened');
-        element._reviewerPendingConfirmation = {
-          group: group,
-        };
+        if (cc) {
+          element._ccPendingConfirmation = {
+            group: group,
+            count: 10,
+          };
+        } else {
+          element._reviewerPendingConfirmation = {
+            group: group,
+            count: 10,
+          };
+        }
         return observer;
       }).then(function() {
         assert.isTrue(isVisible(element.$.reviewerConfirmationOverlay));
@@ -242,14 +274,16 @@ limitations under the License.
         return observer;
       }).then(function() {
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
+        var additions = cc ?
+          element.$$('#ccs').additions() :
+          element.$.reviewers.additions();
         assert.deepEqual(
-            element.$.reviewers.additions(),
+            additions,
             [
               {
                 group: {
                   id: 'id',
                   name: 'name',
-                  count: 10,
                   confirmed: true,
                   _group: true,
                   _pendingAdd: true,
@@ -260,6 +294,14 @@ limitations under the License.
         // We should be focused on account entry input.
         assert.equal(getActiveElement().id, 'input');
       }).then(done);
+    };
+
+    test('cc confirmation', function(done) {
+      testConfirmationDialog(done, true);
+    });
+
+    test('reviewer confirmation', function(done) {
+      testConfirmationDialog(done, false);
     });
 
     test('_getStorageLocation', function() {

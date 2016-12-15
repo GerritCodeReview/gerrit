@@ -130,6 +130,29 @@
       "revId": "dc35c5f5328ddced84d0698df67dcaa543351e19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_84634657",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T19:52:48Z",
+      "side": 1,
+      "message": "root comment",
+      "range": {
+        "startLine": 96,
+        "startChar": 5,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "dc35c5f5328ddced84d0698df67dcaa543351e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

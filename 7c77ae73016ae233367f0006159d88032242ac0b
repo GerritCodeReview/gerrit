@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a057f49_309a0800",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-15T07:39:03Z",
+      "side": 1,
+      "message": "getLabelVoteSoyData",
+      "range": {
+        "startLine": 641,
+        "startChar": 39,
+        "endLine": 641,
+        "endChar": 44
+      },
+      "revId": "7c77ae73016ae233367f0006159d88032242ac0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a057f49_109f04f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-15T07:39:03Z",
+      "side": 1,
+      "message": "nit: missing space",
+      "range": {
+        "startLine": 648,
+        "startChar": 30,
+        "endLine": 649,
+        "endChar": 28
+      },
+      "revId": "7c77ae73016ae233367f0006159d88032242ac0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

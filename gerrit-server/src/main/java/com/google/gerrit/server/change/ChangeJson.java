@@ -66,6 +66,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -517,7 +518,6 @@ public class ChangeJson {
                 ? permittedLabels(ctl, cd)
                 : ImmutableMap.of();
       }
-      out.removableReviewers = removableReviewers(ctl, out.labels.values());
 
       out.reviewers = new HashMap<>();
       for (Map.Entry<ReviewerStateInternal, Map<Account.Id, Timestamp>> e
@@ -525,6 +525,8 @@ public class ChangeJson {
         out.reviewers.put(e.getKey().asReviewerState(),
             toAccountInfo(e.getValue().keySet()));
       }
+
+      out.removableReviewers = removableReviewers(ctl, out);
     }
 
     if (has(REVIEWER_UPDATES)) {
@@ -1030,7 +1032,18 @@ public class ChangeJson {
   }
 
   private Collection<AccountInfo> removableReviewers(ChangeControl ctl,
-      Collection<LabelInfo> labels) {
+      ChangeInfo out) {
+    // Although this is called removableReviewers, this method also determines
+    // which CCs are removable.
+    //
+    // For reviewers, we need to look at each approval, because the reviewer
+    // should only be considered removable if *all* of their approvals can be
+    // removed. First, add all reviewers with *any* removable approval to the
+    // "removable" set. Along the way, if we encounter a non-removable approval,
+    // add the reviewer to the "fixed" set. Before we return, remove all members
+    // of "fixed" from "removable", because not all of their approvals can be
+    // removed.
+    Collection<LabelInfo> labels = out.labels.values();
     Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
     Set<Account.Id> removable = Sets.newHashSetWithExpectedSize(labels.size());
     for (LabelInfo label : labels) {
@@ -1046,6 +1059,24 @@ public class ChangeJson {
         }
       }
     }
+
+    // CCs are simpler than reviewers. They are removable if the ChangeControl
+    // would permit a non-negative approval by that account to be removed, in
+    // which case add them to removable. We don't need to add unremovable CCs to
+    // "fixed" because we only visit each CC once here.
+    Collection<AccountInfo> ccs = out.reviewers.get(ReviewerState.CC);
+    if (ccs != null) {
+      for (AccountInfo ai : ccs) {
+        Account.Id id = new Account.Id(ai._accountId);
+        if (ctl.canRemoveReviewer(id, 0)) {
+          removable.add(id);
+        }
+      }
+    }
+
+    // Subtract any reviewers with non-removable approvals from the "removable"
+    // set. This also subtracts any CCs that for some reason also hold
+    // unremovable approvals.
     removable.removeAll(fixed);
 
     List<AccountInfo> result = Lists.newArrayListWithCapacity(removable.size());

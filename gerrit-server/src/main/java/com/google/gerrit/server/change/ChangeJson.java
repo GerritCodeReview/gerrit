@@ -66,6 +66,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -517,7 +518,6 @@ public class ChangeJson {
                 ? permittedLabels(ctl, cd)
                 : ImmutableMap.of();
       }
-      out.removableReviewers = removableReviewers(ctl, out.labels.values());
 
       out.reviewers = new HashMap<>();
       for (Map.Entry<ReviewerStateInternal, Map<Account.Id, Timestamp>> e
@@ -525,6 +525,8 @@ public class ChangeJson {
         out.reviewers.put(e.getKey().asReviewerState(),
             toAccountInfo(e.getValue().keySet()));
       }
+
+      out.removableReviewers = removableReviewers(ctl, out);
     }
 
     if (has(REVIEWER_UPDATES)) {
@@ -1030,7 +1032,8 @@ public class ChangeJson {
   }
 
   private Collection<AccountInfo> removableReviewers(ChangeControl ctl,
-      Collection<LabelInfo> labels) {
+      ChangeInfo out) {
+    Collection<LabelInfo> labels = out.labels.values();
     Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
     Set<Account.Id> removable = Sets.newHashSetWithExpectedSize(labels.size());
     for (LabelInfo label : labels) {
@@ -1047,6 +1050,16 @@ public class ChangeJson {
       }
     }
     removable.removeAll(fixed);
+
+    Collection<AccountInfo> ccs = out.reviewers.get(ReviewerState.CC);
+    if (ccs != null) {
+      for (AccountInfo ai : ccs) {
+        Account.Id id = new Account.Id(ai._accountId);
+        if (ctl.canRemoveReviewer(id, 0)) {
+          removable.add(id);
+        }
+      }
+    }
 
     List<AccountInfo> result = Lists.newArrayListWithCapacity(removable.size());
     for (Account.Id id : removable) {

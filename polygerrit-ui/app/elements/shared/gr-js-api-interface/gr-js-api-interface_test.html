@@ -33,27 +33,30 @@ limitations under the License.
     var element;
     var plugin;
     var errorStub;
+    var sandbox;
+
     var throwErrFn = function() {
       throw Error('Unfortunately, this handler has stopped');
     };
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getAccount: function() {
           return Promise.resolve({name: 'Judy Hopps'});
         },
       });
       element = fixture('basic');
-      errorStub = sinon.stub(console, 'error');
+      errorStub = sandbox.stub(console, 'error');
       Gerrit._setPluginsCount(1);
       Gerrit.install(function(p) { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
     });
 
     teardown(function() {
+      sandbox.restore();
       element._removeEventCallbacks();
       plugin = null;
-      errorStub.restore();
     });
 
     test('url', function() {
@@ -94,7 +97,7 @@ limitations under the License.
         _number: 42,
         revisions: {def: {_number: 2}, abc: {_number: 1}},
       };
-      var spy = sinon.spy();
+      var spy = sandbox.spy();
       Gerrit._setPluginsCount(1);
       plugin.on(element.EventType.SHOW_CHANGE, spy);
       element.handleEvent(element.EventType.SHOW_CHANGE,
@@ -118,11 +121,10 @@ limitations under the License.
       element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
     });
 
-    test('revert event', function(done) {
+    test('revert event', function() {
       function appendToRevertMsg(c, revertMsg, originalMsg) {
         return revertMsg + '\n' + originalMsg.replace(/^/gm, '> ') + '\ninfo';
       }
-      done();
 
       assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'), 'test');
       assert.equal(errorStub.callCount, 0);
@@ -139,19 +141,18 @@ limitations under the License.
       assert.isTrue(errorStub.calledTwice);
     });
 
-    test('postrevert event', function(done) {
+    test('postrevert event', function() {
       function getLabels(c) {
         return {'Code-Review': 1};
       }
-      done();
 
       assert.deepEqual(element.getLabelValuesPostRevert(null), {});
       assert.equal(errorStub.callCount, 0);
 
       plugin.on(element.EventType.POST_REVERT, throwErrFn);
       plugin.on(element.EventType.POST_REVERT, getLabels);
-      assert.deepEqual(element.getLabelValuesPostRevert(null),
-                       {'Code-Review': 1});
+      assert.deepEqual(
+          element.getLabelValuesPostRevert(null), {'Code-Review': 1});
       assert.isTrue(errorStub.calledOnce);
     });
 
@@ -189,7 +190,7 @@ limitations under the License.
     });
 
     test('versioning', function() {
-      var callback = sinon.spy();
+      var callback = sandbox.spy();
       Gerrit.install(callback, '0.0pre-alpha');
       assert(callback.notCalled);
     });
@@ -222,6 +223,7 @@ limitations under the License.
     test('_pluginInstalled', function(done) {
       stub('gr-reporting', {
         pluginsLoaded: function() {
+          assert.equal(Gerrit._pluginsPending, 0);
           done();
         }
       });
@@ -232,18 +234,33 @@ limitations under the License.
     });
 
     test('install calls _pluginInstalled', function() {
-      var stub = sinon.stub(Gerrit, '_pluginInstalled');
+      sandbox.stub(Gerrit, '_pluginInstalled');
       Gerrit.install(function(p) { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      assert.isTrue(stub.calledOnce);
-      stub.restore();
+      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 
     test('install calls _pluginInstalled on error', function() {
-      var stub = sinon.stub(Gerrit, '_pluginInstalled');
+      sandbox.stub(Gerrit, '_pluginInstalled');
       Gerrit.install(function() {}, '0.0pre-alpha');
-      assert.isTrue(stub.calledOnce);
-      stub.restore();
+      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
-  });
+
+    test('installGwt calls _pluginInstalled', function() {
+      sandbox.stub(Gerrit, '_pluginInstalled');
+      Gerrit.installGwt();
+      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
+    });
+
+    test('installGwt returns a stub object', function() {
+      var plugin = Gerrit.installGwt();
+      sandbox.stub(console, 'warn');
+      assert.isAbove(Object.keys(plugin).length, 0);
+      Object.keys(plugin).forEach(function(name) {
+        console.warn.reset();
+        plugin[name]();
+        assert.isTrue(console.warn.calledOnce);
+      });
+    });
+});
 </script>

@@ -45,6 +45,29 @@
       "revId": "1caa35f830ac09c7a1adc2a6fa67751e6e2b725a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8ae6abcd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T19:10:21Z",
+      "side": 1,
+      "message": "Missing quotes around attribute value.",
+      "range": {
+        "startLine": 216,
+        "startChar": 46,
+        "endLine": 216,
+        "endChar": 59
+      },
+      "revId": "1caa35f830ac09c7a1adc2a6fa67751e6e2b725a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

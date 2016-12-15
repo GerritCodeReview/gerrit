@@ -114,44 +114,11 @@
     },
 
     _sortedComments: function(comments) {
-      comments.sort(function(c1, c2) {
+      return comments.sort(function(c1, c2) {
         var c1Date = c1.__date || util.parseDate(c1.updated);
         var c2Date = c2.__date || util.parseDate(c2.updated);
         return c1Date - c2Date;
-      });
-
-      var commentIDToReplies = {};
-      var topLevelComments = [];
-      for (var i = 0; i < comments.length; i++) {
-        var c = comments[i];
-        if (c.in_reply_to) {
-          if (commentIDToReplies[c.in_reply_to] == null) {
-            commentIDToReplies[c.in_reply_to] = [];
-          }
-          commentIDToReplies[c.in_reply_to].push(c);
-        } else {
-          topLevelComments.push(c);
-        }
-      }
-      var results = [];
-      for (var i = 0; i < topLevelComments.length; i++) {
-        this._visitComment(topLevelComments[i], commentIDToReplies, results);
-      }
-      for (var missingCommentId in commentIDToReplies) {
-        results = results.concat(commentIDToReplies[missingCommentId]);
-      }
-      return results;
-    },
-
-    _visitComment: function(parent, commentIDToReplies, results) {
-      results.push(parent);
-
-      var replies = commentIDToReplies[parent.id];
-      delete commentIDToReplies[parent.id];
-      if (!replies) { return; }
-      for (var i = 0; i < replies.length; i++) {
-        this._visitComment(replies[i], commentIDToReplies, results);
-      }
+      }).slice();
     },
 
     _handleCommentReply: function(e) {

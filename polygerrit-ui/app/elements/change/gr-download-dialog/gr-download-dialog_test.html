@@ -162,6 +162,22 @@ limitations under the License.
         assert.isFalse(el.hasAttribute('selected'));
       });
     });
+
+    test('loads scheme from preferences w/o initial login', function(done) {
+      stub('gr-rest-api-interface', {
+        getPreferences: function() {
+          return Promise.resolve({download_scheme: 'repo'});
+        },
+      });
+
+      element.loggedIn = true;
+
+      assert.isTrue(element.$.restAPI.getPreferences.called);
+      element.$.restAPI.getPreferences.lastCall.returnValue.then(function() {
+        assert.equal(element._selectedScheme, 'repo');
+        done();
+      });
+    });
   });
 
   suite('gr-download-dialog tests', function() {

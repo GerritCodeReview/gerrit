@@ -16,6 +16,47 @@
       "revId": "8824ce1e448a6cfb86ec0beddf5c0c412b3172ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a057f49_104a64a0",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-15T10:55:18Z",
+      "side": 0,
+      "message": "don\u0027t touch this file in this change",
+      "parentUuid": "7a057f49_d0845c9f",
+      "revId": "8824ce1e448a6cfb86ec0beddf5c0c412b3172ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a057f49_3045e890",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-15T10:55:18Z",
+      "side": 0,
+      "message": "keep the blank line, makes it more readable",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "8824ce1e448a6cfb86ec0beddf5c0c412b3172ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

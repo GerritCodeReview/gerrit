@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a057f49_f087e0a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-15T10:51:48Z",
+      "side": 1,
+      "message": "I never liked that magic.",
+      "revId": "08d647d706762e48871532f319a673da167cc5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a04f34e_1131cc1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-15T10:51:48Z",
+      "side": 1,
+      "message": "trailing spaces.",
+      "revId": "08d647d706762e48871532f319a673da167cc5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_0a375b3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T21:41:13Z",
+      "side": 1,
+      "message": "Super nit, but the tenses in this commit message seem mismatched. Perhaps this? \n\n\t\n  The download dialog checks the logged-in property to determine whether\n  it should check user preferences for a default download scheme. However,\n  it checks the flag before it is completely initialized (it starts out \n  with a value of false), resulting in the preferred scheme never being\n  selected.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "b2e10be63cc88523a302ca7706907b40601fdd81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

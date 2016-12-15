@@ -311,6 +311,8 @@ def pkg_cm():
       ),
       tools = [
         '@diff_match_patch//jar',
+        # dependency just for license tracking.
+        ':diff-match-patch',
         archive,
         "//lib:LICENSE-Apache2.0",
       ],

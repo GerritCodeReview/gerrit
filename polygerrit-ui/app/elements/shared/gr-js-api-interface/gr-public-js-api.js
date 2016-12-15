@@ -14,6 +14,16 @@
 (function(window) {
   'use strict';
 
+  var warnNotSupported = function(opt_name) {
+    console.warn('Plugin API method ' + (opt_name || '') + ' is not supported');
+  };
+
+  var stubbedMethods = ['_loadedGwt', 'screen', 'settingsScreen', 'panel'];
+  var GWT_PLUGIN_STUB = {};
+  stubbedMethods.forEach(function(name) {
+    GWT_PLUGIN_STUB[name] = warnNotSupported.bind(null, name);
+  });
+
   var API_VERSION = '0.1';
 
   // GWT JSNI uses $wnd to refer to window.
@@ -98,7 +108,13 @@
 
     // TODO(andybons): Polyfill currentScript for IE10/11 (edge supports it).
     var src = opt_src || (document.currentScript && document.currentScript.src);
-    callback(new Plugin(src));
+    var plugin = new Plugin(src);
+    try {
+      callback(plugin);
+    } catch (e) {
+      console.warn(plugin.getPluginName() + ' install failed: ' +
+          e.name + ': ' + e.message);
+    }
     Gerrit._pluginInstalled();
   };
 
@@ -106,9 +122,14 @@
     return document.createElement('gr-rest-api-interface').getLoggedIn();
   };
 
+  /**
+   * Polyfill GWT API dependencies to avoid runtime exceptions when loading
+   * GWT-compiled plugins.
+   * @deprecated Not supported in PolyGerrit.
+   */
   Gerrit.installGwt = function() {
-    // NOOP since PolyGerrit doesn’t support GWT plugins.
     Gerrit._pluginInstalled();
+    return GWT_PLUGIN_STUB;
   };
 
   Gerrit._allPluginsPromise = null;

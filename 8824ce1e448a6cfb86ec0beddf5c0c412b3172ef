@@ -57,6 +57,24 @@
       "revId": "8824ce1e448a6cfb86ec0beddf5c0c412b3172ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_f572b84f",
+        "filename": "lib/js/bower_components.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-12-15T12:44:46Z",
+      "side": 0,
+      "message": "updated the generation script.",
+      "parentUuid": "7a057f49_3045e890",
+      "revId": "8824ce1e448a6cfb86ec0beddf5c0c412b3172ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

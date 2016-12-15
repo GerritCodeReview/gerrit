@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_4a9b134d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-15T18:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_24a4128b",
+      "revId": "18c904f699bb2e5196863af96074df58835b8bad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad8d7b0_0a7abb26",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 4
@@ -36,6 +54,24 @@
       "writtenOn": "2016-12-15T18:12:16Z",
       "side": 1,
       "message": "It probably works this way, but it feels weird to put this after the async, since this is what the async is waiting for. What about:\n\n  if (opt_isEditing) { reply.__editing \u003d true; }\n  \n  this.push(\u0027comments\u0027, reply);\n  \n  if (!opt_isEditing) {\n    // Allow the reply to render in the dom-repeat.\n    this.async(function() {\n      var commentEl \u003d this._commentElWithDraftID(reply.__draftID);\n      commentEl.save();\n    }, 1);\n  }\n\nI don\u0027t feel too strongly about it, though.",
+      "revId": "18c904f699bb2e5196863af96074df58835b8bad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_04d3d6ee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-15T18:48:46Z",
+      "side": 1,
+      "message": "that\u0027s fine, I only did it that way to avoid two if statements.",
+      "parentUuid": "bad8d7b0_0a7abb26",
       "revId": "18c904f699bb2e5196863af96074df58835b8bad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_8abfcb91",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-15T18:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_6a87f7fa",
+      "revId": "18c904f699bb2e5196863af96074df58835b8bad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_04a1167b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
         "patchSetId": 4
@@ -70,6 +124,24 @@
       "writtenOn": "2016-12-15T18:12:16Z",
       "side": 1,
       "message": "This line, and a few below are now \u003e 80 characters.",
+      "revId": "18c904f699bb2e5196863af96074df58835b8bad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_eac48733",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-15T18:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_04a1167b",
       "revId": "18c904f699bb2e5196863af96074df58835b8bad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

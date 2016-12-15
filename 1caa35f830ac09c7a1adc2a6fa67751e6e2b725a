@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_aae1efb9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T19:08:53Z",
+      "side": 1,
+      "message": "I just noticed that this is a string instead of a regex. As a result it breaks when quoting multiline comments.\n\nThis should be \n\n  var NEWLINE_PATTERN \u003d /\\n/g;",
+      "range": {
+        "startLine": 17,
+        "startChar": 24,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "1caa35f830ac09c7a1adc2a6fa67751e6e2b725a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_c41b7ee7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T19:08:53Z",
+      "side": 1,
+      "message": "Can we add an additional version of this test for quoting multiline comments?",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 40
+      },
+      "revId": "1caa35f830ac09c7a1adc2a6fa67751e6e2b725a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

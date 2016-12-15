@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_4a5af399",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T21:09:33Z",
+      "side": 1,
+      "message": "I can see how that wasn\u0027t clear. Hopefully the new msg is more descriptive.",
+      "parentUuid": "bad8d7b0_8a634b57",
+      "revId": "9ee38b37221ea0fd47ab37fdfa1e98668e23bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_e4db1a08",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 2

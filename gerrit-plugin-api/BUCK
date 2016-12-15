@@ -57,6 +57,7 @@ java_library(
     '//lib/guice:javax-inject',
     '//lib/guice:multibindings',
     '//lib/guice:guice-servlet',
+    "//lib/httpcomponents:httpclient",
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet',
     '//lib/joda:joda-time',

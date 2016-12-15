@@ -72,21 +72,21 @@ public class StaticModule extends ServletModule {
    * Paths at which we should serve the main PolyGerrit application {@code
    * index.html}.
    * <p>
-   * Supports {@code "/*"} as a trailing wildcard.
+   * Supports {@code "/(.*)"} as a trailing wildcard.
    */
   public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
       ImmutableList.of(
           "/",
-          "/c/*",
-          "/q/*",
-          "/x/*",
-          "/admin/*",
-          "/dashboard/*",
-          "/settings/*");
+          "c/",
+          "q/",
+          "x/",
+          "admin/",
+          "dashboard/",
+          "settings/");
           // TODO(dborowitz): These fragments conflict with the REST API
           // namespace, so they will need to use a different path.
-          //"/groups/*",
-          //"/projects/*");
+          //"/groups/",
+          //"/projects/");
           //
 
   /**
@@ -96,16 +96,18 @@ public class StaticModule extends ServletModule {
    */
   private static final ImmutableList<String> POLYGERRIT_ASSET_PATHS =
       ImmutableList.of(
-          "/behaviors/*",
-          "/bower_components/*",
-          "/elements/*",
-          "/fonts/*",
-          "/scripts/*",
-          "/styles/*");
+          "behaviors/",
+          "bower_components/",
+          "elements/",
+          "fonts/",
+          "scripts/",
+          "styles/");
 
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
+  private static final String POLYGERRIT_SERVLET = "PolyGerritServlet";
+  private static final String POLYGERRITUI_SERVLET = "PolyGerritUiServlet";
   private static final String POLYGERRIT_INDEX_SERVLET =
       "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
@@ -252,7 +254,9 @@ public class StaticModule extends ServletModule {
   private class PolyGerritModule extends ServletModule {
     @Override
     public void configureServlets() {
-      for (String p : POLYGERRIT_INDEX_PATHS) {
+      serveRegex("^/" POLYGERRIT_INDEX_PATHS + "(.*)$").with(named(POLYGERRITUI_SERVLET));
+	  Paths path = getPaths();
+      for (String p : path.warFs) {
         // Skip XsrfCookieFilter for /, since that is already done in the GWT UI
         // path (UrlModule).
         if (!p.equals("/")) {
@@ -493,10 +497,10 @@ public class StaticModule extends ServletModule {
       // /polygerrit_ui in the war file, so we can just treat them as normal
       // assets.
       if (paths.isDev()) {
-        if (path.startsWith("/bower_components/")) {
+        if (path.match(new RegExp("^/bower_components/$"))) {
           bowerComponentServlet.service(reqWrapper, res);
           return;
-        } else if (path.startsWith("/fonts/")) {
+        } else if (path.match(new RegExp("^/fonts/$"))) {
           fontServlet.service(reqWrapper, res);
           return;
         }
@@ -595,7 +599,7 @@ public class StaticModule extends ServletModule {
     }
 
     private static boolean matchPath(Iterable<String> paths, String path) {
-      for (String p : paths) {
+      for (String p : serveRegex("^/" + paths + "(.*)$")) {
         if (p.endsWith("/*")) {
           if (path.regionMatches(0, p, 0, p.length() - 1)) {
             return true;

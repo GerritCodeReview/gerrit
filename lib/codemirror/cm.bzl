@@ -228,6 +228,13 @@ DIFF_MATCH_PATCH_TOP = ("META-INF/resources/webjars/google-diff-match-patch/%s" 
                         DIFF_MATCH_PATCH_VERSION)
 
 def pkg_cm():
+  # hack to make diff_match_patch appear as Apache licensed.
+  native.java_library(
+      name = "diff-match-patch",
+      runtime_deps = [ "@diff_match_patch//jar", ],
+      data = [ "//lib:LICENSE-Apache2.0" ],
+  )
+
   for archive, suffix, top, license in [
       ('@codemirror_original//jar', '', TOP, LICENSE),
       ('@codemirror_minified//jar', '_r', TOP_MINIFIED, LICENSE_MINIFIED)
@@ -311,6 +318,8 @@ def pkg_cm():
       ),
       tools = [
         '@diff_match_patch//jar',
+        # dependency just for license tracking.
+        ':diff-match-patch',
         archive,
         "//lib:LICENSE-Apache2.0",
       ],

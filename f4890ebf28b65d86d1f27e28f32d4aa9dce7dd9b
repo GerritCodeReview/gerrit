@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_eaaac722",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T23:38:39Z",
+      "side": 1,
+      "message": "Is there an issue to link here?",
+      "revId": "f4890ebf28b65d86d1f27e28f32d4aa9dce7dd9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_c4affe30",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T23:38:39Z",
+      "side": 1,
+      "message": "Why slice after sorting, rather than before? If you slice after, then isn\u0027t it the same as not slicing at all, since the sort method alters the underlying array?",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 17
+      },
+      "revId": "f4890ebf28b65d86d1f27e28f32d4aa9dce7dd9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,24 @@
       "revId": "b2e10be63cc88523a302ca7706907b40601fdd81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_84a50655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T22:22:28Z",
+      "side": 1,
+      "message": "I\u0027ve adjusted the wording. The tenses are slightly different because we use past-tense to describe the behavior that the change fixes, but it shifted awkwardly, so tried to make that clearer.",
+      "parentUuid": "bad8d7b0_0a375b3e",
+      "revId": "b2e10be63cc88523a302ca7706907b40601fdd81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

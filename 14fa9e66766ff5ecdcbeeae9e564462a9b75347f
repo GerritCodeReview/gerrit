@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_64b9eaa8",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentHtml.soy",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-15T18:22:58Z",
+      "side": 1,
+      "message": "If you look at LabelVote#appendTo, a vote of zero is spelled  \"-Code-Review\", to imply that the vote on that label is removed. Let\u0027s not get into the ontologies here; this change should be consistent with what it\u0027s replacing. If you want to discuss LabelVote formatting in general we can do that in a separate change.",
+      "revId": "14fa9e66766ff5ecdcbeeae9e564462a9b75347f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

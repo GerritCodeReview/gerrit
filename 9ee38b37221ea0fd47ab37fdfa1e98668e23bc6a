@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_a40c82b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T19:20:40Z",
+      "side": 1,
+      "message": "We\u0027re both right. In a meeting earlier last week, we decided to stop supporting threaded (tree-style) comments in PG in favor of the simplified Drive/Critique model, which is just single chronologically sorted thread. \n\nSo, whatever value the most recent comment has for \u0027unresolved\u0027 is the value that will determine whether the thread is resolved, but each individual comment will still have that value populated so as to keep a log of when it was changed and who it was changed by.\n\nI feel like this is the right way to approach this task vs. creating some sort of backend \u0027CommentThread\u0027 entity that tracks comment thread metadata, mostly because the computation is fairly simple for the FE to do and the GET for comments always contains the entirety of the comments. In other words, there\u0027s no situation that I can envision where the FE will be unable to do this computation, so we may as well do it there.",
+      "parentUuid": "bad8d7b0_2aafbf62",
+      "revId": "9ee38b37221ea0fd47ab37fdfa1e98668e23bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_e4db1a08",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_841186cb",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T19:20:40Z",
+      "side": 1,
+      "message": "It\u0027s a result of me tinkering with using a Boolean field to see if a 3-state solution to this problem was a good one. Reverted in the next PS.",
+      "parentUuid": "fac16fc3_e4db1a08",
+      "revId": "9ee38b37221ea0fd47ab37fdfa1e98668e23bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_64d0cae0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 2
@@ -59,6 +95,24 @@
       "writtenOn": "2016-12-15T18:49:13Z",
       "side": 1,
       "message": "I think we want to be a little more strict here and reject \"Unresolved: foobar\" with a parse exception; parseBoolean will return false for anything that is not equalsIgnoreCase(\"true\").\n\nUnfortunately I don\u0027t know of a library method to do exactly what I want, but it\u0027s easy to write a helper like:\n\n unresolved \u003d parseBooleanField(note, curr, changeId, UNRESOLVED);\n ...\n booelan parseBooleanField(byte[] note, MutableInteger curr, Change.Id changeId, String fieldName) {\n   String str \u003d parseStringField(note, curr, changeId, fieldName);\n   if (\"true\".equalsIgnoreCase(str)) {\n     return true;\n   } else if (\"false\".equalsIgnoreCase(str)) {\n     return false;\n  }\n  throw parseException(changeId, \"invalid boolean for %s: %s\", fieldName, str);\n }",
+      "revId": "9ee38b37221ea0fd47ab37fdfa1e98668e23bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_e4167abf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T19:20:40Z",
+      "side": 1,
+      "message": "SGTM. Done.",
+      "parentUuid": "fac16fc3_64d0cae0",
       "revId": "9ee38b37221ea0fd47ab37fdfa1e98668e23bc6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

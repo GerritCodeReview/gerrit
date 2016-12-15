@@ -34,6 +34,24 @@
       "revId": "58d11a948edee0edbf5e9c6e6c4693cd358d37fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_eeeb7f31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-15T02:08:59Z",
+      "side": 1,
+      "message": "DeleteReviewer double checks on a per-approval basis before removing any votes. Moving the removeAll call down makes total sense, though.",
+      "parentUuid": "3af307ad_aef17723",
+      "revId": "58d11a948edee0edbf5e9c6e6c4693cd358d37fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

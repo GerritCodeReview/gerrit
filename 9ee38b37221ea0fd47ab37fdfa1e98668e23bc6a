@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_2aafbf62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-15T18:49:13Z",
+      "side": 1,
+      "message": "Is this actually implemented in this change? If so, I missed it.\n\nAll I see in this change is an \"unresolved\" bit that gets returned in the JSON. It seems like it\u0027s up to the UI to inspect the thread and determine the state based on the combination across all comments in the thread. I\u0027m not (yet) convinced that the resolved state for the thread needs to be jammed into the UI.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "9ee38b37221ea0fd47ab37fdfa1e98668e23bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_e4db1a08",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-15T18:49:13Z",
+      "side": 1,
+      "message": "Why is this change necessary?",
+      "range": {
+        "startLine": 279,
+        "startChar": 38,
+        "endLine": 279,
+        "endChar": 54
+      },
+      "revId": "9ee38b37221ea0fd47ab37fdfa1e98668e23bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_64d0cae0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-15T18:49:13Z",
+      "side": 1,
+      "message": "I think we want to be a little more strict here and reject \"Unresolved: foobar\" with a parse exception; parseBoolean will return false for anything that is not equalsIgnoreCase(\"true\").\n\nUnfortunately I don\u0027t know of a library method to do exactly what I want, but it\u0027s easy to write a helper like:\n\n unresolved \u003d parseBooleanField(note, curr, changeId, UNRESOLVED);\n ...\n booelan parseBooleanField(byte[] note, MutableInteger curr, Change.Id changeId, String fieldName) {\n   String str \u003d parseStringField(note, curr, changeId, fieldName);\n   if (\"true\".equalsIgnoreCase(str)) {\n     return true;\n   } else if (\"false\".equalsIgnoreCase(str)) {\n     return false;\n  }\n  throw parseException(changeId, \"invalid boolean for %s: %s\", fieldName, str);\n }",
+      "revId": "9ee38b37221ea0fd47ab37fdfa1e98668e23bc6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

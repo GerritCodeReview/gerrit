@@ -9,19 +9,19 @@ load("//tools/bzl:js.bzl", "bower_component")
 def define_bower_components():
   bower_component(
     name = "accessibility-developer-tools",
-    license = "//lib:LICENSE-Apache2.0",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
     name = "async",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
     name = "chai",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
     name = "es6-promise",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-es6-promise",
     seed = True,
   )
   bower_component(
@@ -126,7 +126,7 @@ def define_bower_components():
   )
   bower_component(
     name = "iron-test-helpers",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
     deps = [ ":polymer" ],
     seed = True,
   )
@@ -140,11 +140,11 @@ def define_bower_components():
   )
   bower_component(
     name = "lodash",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
     name = "mocha",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
     name = "moment",
@@ -164,7 +164,7 @@ def define_bower_components():
   )
   bower_component(
     name = "page",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-page.js",
     seed = True,
   )
   bower_component(
@@ -175,25 +175,25 @@ def define_bower_components():
   )
   bower_component(
     name = "promise-polyfill",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-promise-polyfill",
     deps = [ ":polymer" ],
     seed = True,
   )
   bower_component(
     name = "sinon-chai",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
     name = "sinonjs",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
     name = "stacky",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
   )
   bower_component(
     name = "test-fixture",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
     seed = True,
   )
   bower_component(
@@ -202,7 +202,7 @@ def define_bower_components():
   )
   bower_component(
     name = "web-component-tester",
-    license = "//lib:LICENSE-polymer",
+    license = "//lib:LICENSE-DO_NOT_DISTRIBUTE",
     deps = [
       ":accessibility-developer-tools",
       ":async",

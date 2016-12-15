@@ -31,28 +31,31 @@ import tempfile
 import glob
 import bowerutil
 
-# Map license names to our canonical names.
-license_map = {
-  "http://polymer.github.io/LICENSE.txt": "polymer",
-  "Apache-2.0": "Apache2.0",
-
-  # TODO(hanwen): remove these, and add appropriate license files under //lib
-  "BSD": "polymer",
-  "MIT": "polymer",
-  "BSD-3-Clause": "polymer",
-}
-
 # list of licenses for packages that don't specify one in their bower.json file.
 package_licenses = {
   "es6-promise": "es6-promise",
   "fetch": "fetch",
+  "iron-a11y-announcer": "polymer",
+  "iron-a11y-keys-behavior": "polymer",
+  "iron-autogrow-textarea": "polymer",
+  "iron-behaviors": "polymer",
+  "iron-dropdown": "polymer",
+  "iron-fit-behavior": "polymer",
+  "iron-flex-layout": "polymer",
+  "iron-form-element-behavior": "polymer",
+  "iron-input": "polymer",
+  "iron-meta": "polymer",
+  "iron-overlay-behavior": "polymer",
+  "iron-resizable-behavior": "polymer",
+  "iron-selector": "polymer",
+  "iron-validatable-behavior": "polymer",
   "moment": "moment",
+  "neon-animation": "polymer",
   "page": "page.js",
-  "lodash": "polymer", # MIT, actually.
+  "polymer": "polymer",
   "promise-polyfill": "promise-polyfill",
-  "webcomponentsjs": "polymer",   # self-identifies as BSD.
-  "sinon-chai": "polymer", # WTFPL & BSD.
-  "sinonjs": "polymer", # BSD.
+  "web-animations-js": "Apache2.0",
+  "webcomponentsjs": "polymer",
 }
 
 
@@ -146,7 +149,7 @@ def main(args):
 
 
 def dump_workspace(data, seeds, out):
-  out.write('load("//tools/bzl:js.bzl", "bower_archive")\n')
+  out.write('load("//tools/bzl:js.bzl", "bower_archive")\n\n')
   out.write('def load_bower_archives():\n')
 
   for d in data:
@@ -161,7 +164,7 @@ def dump_workspace(data, seeds, out):
 
 
 def dump_build(data, seeds, out):
-  out.write('load("//tools/bzl:js.bzl", "bower_component")\n')
+  out.write('load("//tools/bzl:js.bzl", "bower_component")\n\n')
   out.write('def define_bower_components():\n')
   for d in data:
     out.write("  bower_component(\n")
@@ -194,21 +197,7 @@ def interpret_bower_json(seeds, ws_out, build_out):
 
     pkg["bazel-sha1"] = bowerutil.hash_bower_component(
       hashlib.sha1(), os.path.dirname(f)).hexdigest()
-    license = pkg.get("license", None)
-    if type(license) == type([]):
-      # WTF? Some package specify a list of licenses. ("GPL", "MIT")
-      pick = license[0]
-      sys.stderr.write("package %s has multiple licenses: %s, picking %s" % (pkg_name, ", ".join(license), pick))
-      license = pick
-
-    if license:
-      license = license_map.get(license, license)
-    else:
-      if pkg_name not in package_licenses:
-        msg = "package %s does not specify license: %s" % (pkg_name, pkg)
-        sys.stderr.write(msg)
-        raise Exception(msg)
-      license = package_licenses[pkg_name]
+    license = package_licenses.get(pkg_name, "DO_NOT_DISTRIBUTE")
 
     pkg["bazel-license"] = license
 

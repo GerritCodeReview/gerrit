@@ -103,6 +103,8 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.jcraft.jsch.JSchException;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -384,11 +386,21 @@ public abstract class AbstractDaemonTest {
     Context ctx = newRequestContext(user);
     atrScope.set(ctx);
     userSshSession = ctx.getSession();
-    userSshSession.open();
+    try {
+      userSshSession.open();
+    } catch (JSchException e) {
+      System.err.println("Can't open SSH connection. "
+          + "Tests that require SSH will fail.");
+    }
     ctx = newRequestContext(admin);
     atrScope.set(ctx);
     adminSshSession = ctx.getSession();
-    adminSshSession.open();
+    try {
+      adminSshSession.open();
+    } catch (JSchException e) {
+      System.err.println("Can't open SSH connection. "
+          + "Tests that require SSH will fail.");
+    }
     resourcePrefix = UNSAFE_PROJECT_NAME.matcher(
         description.getClassName() + "_"
         + description.getMethodName() + "_").replaceAll("");

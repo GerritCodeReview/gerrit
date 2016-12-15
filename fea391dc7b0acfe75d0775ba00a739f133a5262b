@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_ea89270c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T18:23:24Z",
+      "side": 1,
+      "message": "Use square braces.",
+      "range": {
+        "startLine": 190,
+        "startChar": 14,
+        "endLine": 190,
+        "endChar": 16
+      },
+      "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_c4c9be4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T18:23:24Z",
+      "side": 1,
+      "message": "If only the type is used, the property declaration can just be:\n\n  _pendingConfirmationDetails: Object,",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 8
+      },
+      "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_24aff262",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T18:23:24Z",
+      "side": 1,
+      "message": "Nit: I don\u0027t think these parens are needed.",
+      "range": {
+        "startLine": 425,
+        "startChar": 43,
+        "endLine": 425,
+        "endChar": 44
+      },
+      "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_04ac766a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T18:23:24Z",
+      "side": 1,
+      "message": "Is the regex assert to find the substring anywhere in the innerText? What about ...\n\nassert.notEqual(\n    element.$.reviewerConfirmationOverlay.textContent\n      .indexOf(\u0027Group name has 10 members\u0027),\n    -1);\n\n... just because regexes can be expensive, and this case doesn\u0027t really use any fancy regex tricks.\n\nWe also usually prefer textContent to innerText for performance reasons.",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 243,
+        "endChar": 41
+      },
+      "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_4484aef4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-15T17:50:12Z",
+      "side": 1,
+      "message": "What do you think about this:\n/**\n     * _getDiffViewMode: Get the diff view (side-by-side or unified) based on\n     * the current state.\n     *\n     * The expected behavior is to use the mode specified in the user\u0027s\n     * preferences unless they have manually chosen the alternative view or they\n     * are on a mobile device (determined by the gr-rest-api-interface). If the\n     * user navigates up to the change view, it should clear this choice and\n     * revert to the preference the next time a diff is viewed.\n     *\n     * @return {String}\n     */",
+      "parentUuid": "1af0039f_adf17d23",
+      "revId": "e568696d0833d5d815e719a018dd9f483e1321cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3af307ad_cee84338",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3
@@ -59,6 +77,24 @@
         "endLine": 575,
         "endChar": 7
       },
+      "revId": "e568696d0833d5d815e719a018dd9f483e1321cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ca77033e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-15T17:50:12Z",
+      "side": 1,
+      "message": "I believe the second case should always have something, but then maybe it can just be an else instead of an else if. will investigate.",
+      "parentUuid": "3af307ad_cee84338",
       "revId": "e568696d0833d5d815e719a018dd9f483e1321cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

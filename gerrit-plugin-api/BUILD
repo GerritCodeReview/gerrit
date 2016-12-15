@@ -46,7 +46,7 @@ EXPORTS = [
     "//lib:jsch",
     "//lib:mime-util",
     "//lib:protobuf",
-    "//lib:servlet-api-3_1",
+    "//lib:servlet-api-3_1-without-neverlink",
     "//lib:soy",
     "//lib:velocity",
 ]

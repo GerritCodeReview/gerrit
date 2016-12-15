@@ -1,0 +1,26 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_a4f3e27d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "Dec 15, 2016 11:38:09 AM",
+      "side": 1,
+      "message": "over the line",
+      "range": {
+        "startLine": 45,
+        "startChar": 78,
+        "endLine": 45,
+        "endChar": 86
+      },
+      "revId": "a6c76813aacee135aa6e54cd866e261bf5116eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

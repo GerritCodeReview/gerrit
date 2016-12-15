@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_e4895a0c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-15T18:12:16Z",
+      "side": 1,
+      "message": "Looks like _handleCommentReply still isn\u0027t using this, though.",
+      "parentUuid": "1af0039f_8d55a13b",
+      "revId": "662ead536d1b20b2b71e311a203aa6d1a8026852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3af307ad_2e458790",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 3

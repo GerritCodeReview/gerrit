@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_ea3f6717",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-15T21:15:51Z",
+      "side": 1,
+      "message": "Why not add to fixed as in the above block?\n\nA short comment about how CCs are different from REVIEWERs would be in order.",
+      "revId": "86214637d0d437c764f50a165bad86904441bedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "58d11a948edee0edbf5e9c6e6c4693cd358d37fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af307ad_aef17723",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2016-12-15T01:53:54Z",
+      "side": 1,
+      "message": "Huh, seems like it\u0027s not possible to be both a reviewer and cc-ed.\n\nCould that change some day?\n\nIf the \u0027removable.removeAll(fixed)\u0027 call were below this loop, that would be a comfort just in case.",
+      "parentUuid": "1af0039f_0d03712c",
+      "revId": "58d11a948edee0edbf5e9c6e6c4693cd358d37fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

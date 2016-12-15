@@ -521,6 +521,11 @@
       return path === COMMIT_MESSAGE_PATH ? 'Commit message' : path;
     },
 
+    _computeTruncatedFileDisplayName: function(path) {
+      return path === COMMIT_MESSAGE_PATH ?
+          'Commit message' : util.truncatePath(path);
+    },
+
     _formatBytes: function(bytes) {
       if (bytes == 0) return '+/-0 B';
       var bits = 1024;
@@ -552,6 +557,10 @@
         classes.push('invisible');
       }
       return classes.join(' ');
+    },
+
+    _computePathClass: function(expanded) {
+      return expanded ? 'path expanded' : 'path';
     },
 
     _computeShowHideText: function(expanded) {

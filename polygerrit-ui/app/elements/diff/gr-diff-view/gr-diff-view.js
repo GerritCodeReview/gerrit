@@ -504,17 +504,7 @@
 
     _computeTruncatedFileDisplayName: function(path) {
       return path === COMMIT_MESSAGE_PATH ?
-          'Commit message' : this._shortenPath(path);
-    },
-
-    _shortenPath: function(path) {
-      var pathPieces = path.split('/');
-
-      if (pathPieces.length < 2) {
-        return path;
-      }
-      // Character is an ellipsis.
-      return '\u2026/' + pathPieces.pop();
+          'Commit message' : util.truncatePath(path);
     },
 
     _computeFileSelected: function(path, currentPath) {

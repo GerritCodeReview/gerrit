@@ -189,6 +189,78 @@
       "revId": "dc35c5f5328ddced84d0698df67dcaa543351e19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_eaeda79b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T19:54:06Z",
+      "side": 1,
+      "message": "lvl2 comment 2b",
+      "parentUuid": "fac16fc3_e4683a35",
+      "revId": "dc35c5f5328ddced84d0698df67dcaa543351e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_c46d3e43",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T19:54:06Z",
+      "side": 1,
+      "message": "lvl2 comment 2a",
+      "parentUuid": "fac16fc3_e4683a35",
+      "revId": "dc35c5f5328ddced84d0698df67dcaa543351e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8af86b5b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T19:54:06Z",
+      "side": 1,
+      "message": "lvl2 comment 1b",
+      "parentUuid": "bad8d7b0_6a2b77f4",
+      "revId": "dc35c5f5328ddced84d0698df67dcaa543351e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_aaf3af7d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-15T19:54:06Z",
+      "side": 1,
+      "message": "lvl2 comment 1a",
+      "parentUuid": "bad8d7b0_6a2b77f4",
+      "revId": "dc35c5f5328ddced84d0698df67dcaa543351e19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

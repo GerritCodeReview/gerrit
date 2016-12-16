@@ -150,18 +150,25 @@ public class AccountManager {
 
   private AccountExternalId getAccountExternalId(ReviewDb db,
       AccountExternalId.Key key) throws OrmException {
+    System.out.println("Looking up AccountExternalId for " + key.get());
     if (accountIndexes.getSearchIndex() != null) {
+      System.out.println(
+          "Using search index " + accountIndexes.getSearchIndex());
       AccountState accountState =
           accountQueryProvider.get().oneByExternalId(key.get());
       if (accountState != null) {
+        System.out.println(
+            "Found account " + accountState.getAccount().getId());
         for (AccountExternalId extId : accountState.getExternalIds()) {
           if (extId.getKey().equals(key)) {
+            System.out.println("This account has the right external ID");
             return extId;
           }
         }
       }
       return null;
     }
+    System.out.println("Falling back to ReviewDb for external ID lookup");
 
     // We don't have at the moment an account_by_external_id cache
     // but by using the accounts cache we get the list of external_ids

@@ -20,6 +20,7 @@
     'time_format',
     'email_strategy',
     'diff_view',
+    'expand_inline_diffs',
   ];
 
   Polymer({
@@ -187,6 +188,11 @@
     _handleDiffPrefsChanged: function() {
       if (this._isLoading()) { return; }
       this._diffPrefsChanged = true;
+    },
+
+    _handleExpandInlineDiffsChanged: function() {
+      this.set('_localPrefs.expand_inline_diffs',
+          this.$.expandInlineDiffs.checked);
     },
 
     _handleMenuChanged: function() {

@@ -159,6 +159,8 @@ limitations under the License.
           .firstElementChild.bindValue, preferences.email_strategy);
       assert.equal(valueOf('Diff View', 'preferences')
           .firstElementChild.bindValue, preferences.diff_view);
+      assert.equal(valueOf('Expand Inline Diffs', 'preferences')
+          .firstElementChild.checked, false);
 
       assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);
@@ -166,7 +168,12 @@ limitations under the License.
       // Change the diff view element.
       var diffSelect = valueOf('Diff View', 'preferences').firstElementChild;
       diffSelect.bindValue = 'SIDE_BY_SIDE';
+
+      var expandInlineDiffs =
+          valueOf('Expand Inline Diffs', 'preferences').firstElementChild;
       diffSelect.fire('change');
+
+      MockInteractions.tap(expandInlineDiffs);
 
       assert.isTrue(element._prefsChanged);
       assert.isFalse(element._menuChanged);
@@ -175,6 +182,7 @@ limitations under the License.
         savePreferences: function(prefs) {
           assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
           assertMenusEqual(prefs.my, preferences.my);
+          assert.equal(prefs.expand_inline_diffs, true);
           return Promise.resolve();
         }
       });

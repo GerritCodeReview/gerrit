@@ -232,18 +232,45 @@
             }
           }
 
-          if (!el.children.length) {
-            content.push(el.textContent);
+          if (el.id === 'output' &&
+              !this._elementDescendedFromClass(el, 'collapsed')) {
+            content.push(this._getTextContentForRange(el, sel, range));
           }
         }
       }
 
-      if (range.endOffset) {
-        content[content.length - 1] =
-            content[content.length - 1].substring(0, range.endOffset);
-      }
-      content[0] = content[0].substring(range.startOffset);
       return content.join('\n');
+    },
+
+    /**
+     * Given a DOM node, a selection, and a selection range, recursively get all
+     * of the text content within that selection.
+     * Using a domNode that isn't in the selection returns an empty string.
+     *
+     * @param {Element} domNode The root DOM node.
+     * @param {Selection} sel The selection.
+     * @param {Range} range The selection range.
+     * @return {string} The text within the selection.
+     */
+    _getTextContentForRange: function(domNode, sel, range) {
+      if (!sel.containsNode(domNode, true)) { return ''; }
+
+      var text = '';
+      if (domNode instanceof Text) {
+        text = domNode.textContent;
+        if (domNode === range.endContainer) {
+          text = text.substring(0, range.endOffset);
+        }
+        if (domNode === range.startContainer) {
+          text = text.substring(range.startOffset);
+        }
+      } else {
+        for (var i = 0; i < domNode.childNodes.length; i++) {
+          text += this._getTextContentForRange(domNode.childNodes[i],
+              sel, range);
+        }
+      }
+      return text;
     },
   });
 })();

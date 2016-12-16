@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.reviewdb.client.GitBasicAuthPolicy;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
@@ -146,6 +147,16 @@ class ProjectBasicAuthFilter implements Filter {
       return false;
     }
 
+    GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
+    if (gitBasicAuthPolicy == GitBasicAuthPolicy.LDAP) {
+      if (!passwordMatchesTheUserGeneratedOne(who, username, password)) {
+        log.warn("Authentication failed for " + username
+            + ": password does not match the one stored in Gerrit");
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+    }
+
     AuthRequest whoAuth = AuthRequest.forUser(username);
     whoAuth.setPassword(password);
 
@@ -157,7 +168,8 @@ class ProjectBasicAuthFilter implements Filter {
       ws.setAccessPathOk(AccessPath.REST_API, true);
       return true;
     } catch (NoSuchUserException e) {
-      if (password.equals(who.getPassword(who.getUserName()))) {
+      if (gitBasicAuthPolicy == GitBasicAuthPolicy.LDAP ||
+        (password.equals(who.getPassword(who.getUserName())))) {
         WebSession ws = session.get();
         ws.setUserAccountId(who.getAccount().getId());
         ws.setAccessPathOk(AccessPath.GIT, true);

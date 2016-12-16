@@ -22,6 +22,30 @@
       "revId": "805a60f62bf840dfee50af5f873f66f304c924f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_353a7028",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-16T09:21:52Z",
+      "side": 1,
+      "message": "I was actually considering a @RequireSsh but didn\u0027t want to introduce yet another annotation. I thought I\u0027ll handle it on a class level. *SshTest.java will require SSH.\n\nWe actually only have a hand full of tests that require SSH.\n\nBut if you think @RequireSsh would be a nicer solution I\u0027m happy to go that way.",
+      "parentUuid": "1a1ba32a_d544dcba",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "805a60f62bf840dfee50af5f873f66f304c924f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,24 @@
       "revId": "8ea538f7db3b67252d7a465831ae2e9f622c1ed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_841d0680",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-16T18:57:28Z",
+      "side": 1,
+      "message": "SGTM. \n\n\u003e I should pass \u003cBODY\u003e or \u003cHTML\u003e here.\n\nYou totally could, it would be functional. I choose to pass in the span#output produced by gr-formatted-text to skip some unnecessary recursion.",
+      "parentUuid": "bad8d7b0_2af21f27",
+      "revId": "8ea538f7db3b67252d7a465831ae2e9f622c1ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

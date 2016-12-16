@@ -2,6 +2,72 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a1ba32a_b55e8091",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "Dec 16, 2016 12:13:48 AM",
+      "side": 1,
+      "message": "if the commit is a patchset of a merged change",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "a6c76813aacee135aa6e54cd866e261bf5116eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_95638457",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "Dec 16, 2016 12:13:48 AM",
+      "side": 1,
+      "message": "a patchset of a merged change",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "a6c76813aacee135aa6e54cd866e261bf5116eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_5428ccf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "Dec 16, 2016 12:13:48 AM",
+      "side": 1,
+      "message": "change the commit belongs to.",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 36
+      },
+      "revId": "a6c76813aacee135aa6e54cd866e261bf5116eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_a4f3e27d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
         "patchSetId": 6

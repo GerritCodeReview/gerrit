@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_2a2dffa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-16T18:47:06Z",
+      "side": 1,
+      "message": "\u003e Is there an issue to link here?\n\nThere isn\u0027t, but I suppose I could make one... Seems a bit unnecessary when the relevant change is already under review though. Will definitely amend the commit message to explain why this is happening.",
+      "parentUuid": "bad8d7b0_eaaac722",
+      "revId": "f4890ebf28b65d86d1f27e28f32d4aa9dce7dd9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_c4affe30",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 1
@@ -54,6 +72,24 @@
         "endLine": 121,
         "endChar": 17
       },
+      "revId": "f4890ebf28b65d86d1f27e28f32d4aa9dce7dd9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_24f25227",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-16T18:47:06Z",
+      "side": 1,
+      "message": "You\u0027re definitely right, this was a mistake. As far as I can tell, the comments array isn\u0027t used in any way that depends on its ordering, so this never caused any problems, but better to fix it anyway :)\n\nAlso added another line to the sort, just because sort order was occasionally indeterminate when two comments had the same date. Alphabetizing by message as a fallback exists only to provide a consistent ordering.",
+      "parentUuid": "fac16fc3_c4affe30",
       "revId": "f4890ebf28b65d86d1f27e28f32d4aa9dce7dd9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

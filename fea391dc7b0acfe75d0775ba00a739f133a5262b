@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_aac72fff",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-16T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_ea89270c",
+      "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_c4c9be4b",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 89,
         "endChar": 8
       },
+      "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_c4c6de00",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-16T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_c4c9be4b",
       "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_24dc12ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-16T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_24aff262",
+      "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_04ac766a",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 1
@@ -88,6 +142,24 @@
         "endLine": 243,
         "endChar": 41
       },
+      "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8acceb24",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-16T00:55:13Z",
+      "side": 1,
+      "message": "I prefer innerText because it collapses whitespace for me, but I\u0027m happy to use indexOf. Let me know if you\u0027d prefer another approach.",
+      "parentUuid": "fac16fc3_04ac766a",
       "revId": "fea391dc7b0acfe75d0775ba00a739f133a5262b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

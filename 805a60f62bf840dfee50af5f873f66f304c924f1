@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_d544dcba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-16T09:18:35Z",
+      "side": 1,
+      "message": "What do you mean by that? How you are triggering SSH free tests? We have similar concepts for pure memory tests and no HTTPD tests and use dedicated annotations for that:\n\n  @NoHttpd\n  public class ServerIT extends AbstractDaemonTest {\n    @Test\n    public void getVersion() throws Exception {\n      assertThat(gApi.config().server().getVersion())\n          .isEqualTo(Version.getVersion());\n    }\n  }\n\nWhy don\u0027t we introduce @NoSsshd (or the opposite @WithSshd if we want to disable SSHD per default and only enable it for minority of checks), and check in the beforeMethod method if Sshd was disabled for the whole unit tests class (or a method) and prevent the SSH initialization code path (including not booting those parts of Guice universe).",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "805a60f62bf840dfee50af5f873f66f304c924f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

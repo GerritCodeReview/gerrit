@@ -16,13 +16,6 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
-  var MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
-
-  var DiffViewMode = {
-    SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-    UNIFIED: 'UNIFIED_DIFF',
-  };
-
   var DiffSides = {
     LEFT: 'left',
     RIGHT: 'right',
@@ -125,16 +118,9 @@
       }.bind(this));
       if (this.changeViewState.diffMode === null) {
         // If screen size is small, always default to unified view.
-        if (this._getWindowWidth() < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX) {
-          this.set('changeViewState.diffMode', DiffViewMode.UNIFIED);
-        } else {
-          // Initialize with user's diff mode preference. Default to
-          // SIDE_BY_SIDE in the meantime.
-          this.set('changeViewState.diffMode', DiffViewMode.SIDE_BY_SIDE);
-          this.$.restAPI.getPreferences().then(function(prefs) {
-            this.set('changeViewState.diffMode', prefs.diff_view);
-          }.bind(this));
-        }
+        this.$.restAPI.getPreferences().then(function(prefs) {
+          this.set('changeViewState.diffMode', prefs.default_diff_view);
+        }.bind(this));
       }
 
       if (this._path) {
@@ -573,9 +559,10 @@
      * the current state.
      *
      * The expected behavior is to use the mode specified in the user's
-     * preferences unless they have manually chosen the alternative view. If the
-     * user navigates up to the change view, it should clear this choice and
-     * revert to the preference the next time a diff is viewed.
+     * preferences unless they have manually chosen the alternative view or they
+     * are on a mobile device. If the user navigates up to the change view, it
+     * should clear this choice and revert to the preference the next time a
+     * diff is viewed.
      *
      * Use side-by-side if the user is not logged in.
      *
@@ -584,11 +571,12 @@
     _getDiffViewMode: function() {
       if (this.changeViewState.diffMode) {
         return this.changeViewState.diffMode;
-      } else if (this._userPrefs && this._userPrefs.diff_view) {
-        return this.changeViewState.diffMode = this._userPrefs.diff_view;
+      } else if (this._userPrefs) {
+        return this.changeViewState.diffMode =
+            this._userPrefs.default_diff_view;
+      } else {
+        return 'SIDE_BY_SIDE';
       }
-
-      return DiffViewMode.SIDE_BY_SIDE;
     },
 
     _computeModeSelectHidden: function() {

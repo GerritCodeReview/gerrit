@@ -557,12 +557,10 @@ limitations under the License.
       element.$.fileCursor.setCursorAtIndex(0);
       flushAsynchronousOperations();
       var diffDisplay = element.diffs[0];
-      element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
-      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+      element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
       assert.equal(element.diffViewMode, 'SIDE_BY_SIDE');
       assert.equal(diffDisplay.viewMode, 'SIDE_BY_SIDE');
       element.set('diffViewMode', 'UNIFIED_DIFF');
-      assert.equal(element._getDiffViewMode(), 'UNIFIED_DIFF');
       assert.equal(diffDisplay.viewMode, 'UNIFIED_DIFF');
     });
 
@@ -583,7 +581,7 @@ limitations under the License.
       assert.equal(select.value, 'SIDE_BY_SIDE');
 
       // Receive the overriding preference.
-      resolvePrefs({diff_view: 'UNIFIED'});
+      resolvePrefs({default_diff_view: 'UNIFIED'});
       flushAsynchronousOperations();
       assert.equal(select.value, 'SIDE_BY_SIDE');
       document.getElementById('blank').restore();

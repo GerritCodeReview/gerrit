@@ -15,10 +15,21 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.elasticsearch.ElasticAccountIndex.ACCOUNTS_PREFIX;
+import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES_PREFIX;
+import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CLOSED_CHANGES;
+import static com.google.gerrit.elasticsearch.ElasticChangeIndex.OPEN_CHANGES;
 
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
+import com.google.gerrit.elasticsearch.ElasticAccountIndex.AccountMapping;
+import com.google.gerrit.elasticsearch.ElasticChangeIndex.ChangeMapping;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -100,8 +111,8 @@ final class ElasticTestUtils {
     return new ElasticNodeInfo(node, elasticDir, getHttpPort(node));
   }
 
-  static void deleteIndexes(Node node, String index) {
-    node.client().admin().indices().prepareDelete(index).execute();
+  static void deleteAllIndexes(ElasticNodeInfo nodeInfo) {
+    nodeInfo.node.client().admin().indices().prepareDelete("_all").execute();
   }
 
   static class NodeInfo {
@@ -110,6 +121,39 @@ final class ElasticTestUtils {
 
   static class Info {
     Map<String, NodeInfo> nodes;
+  }
+
+  static void createAllIndexes(ElasticNodeInfo nodeInfo) {
+    Schema<ChangeData> changeSchema =
+        ChangeSchemaDefinitions.INSTANCE.getLatest();
+    ChangeMapping openChangesMapping = new ChangeMapping(changeSchema);
+    ChangeMapping closedChangesMapping = new ChangeMapping(changeSchema);
+    openChangesMapping.closedChanges = null;
+    closedChangesMapping.openChanges = null;
+    nodeInfo.node
+        .client()
+        .admin()
+        .indices()
+        .prepareCreate(
+            String.format("%s%04d", CHANGES_PREFIX, changeSchema.getVersion()))
+        .addMapping(OPEN_CHANGES, gson.toJson(openChangesMapping))
+        .addMapping(CLOSED_CHANGES, gson.toJson(closedChangesMapping))
+        .execute()
+        .actionGet();
+
+    Schema<AccountState> accountSchema =
+        AccountSchemaDefinitions.INSTANCE.getLatest();
+    AccountMapping accountMapping = new AccountMapping(accountSchema);
+    nodeInfo.node
+        .client()
+        .admin()
+        .indices()
+        .prepareCreate(
+            String.format(
+                "%s%04d", ACCOUNTS_PREFIX, accountSchema.getVersion()))
+        .addMapping(ElasticAccountIndex.ACCOUNTS, gson.toJson(accountMapping))
+        .execute()
+        .actionGet();
   }
 
   private static String getHttpPort(Node node)

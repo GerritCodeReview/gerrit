@@ -59,7 +59,7 @@ limitations under the License.
       .jumpToFileContainer {
         display: inline-block;
       }
-      .mobileJumpToFileContainer {
+      .mobile {
         display: none;
       }
       .downArrow {
@@ -113,26 +113,45 @@ limitations under the License.
         color: #666;
       }
       .subHeader {
+        flex-wrap: wrap;
         margin: 0 var(--default-horizontal-margin) .75em;
+      }
+      .subHeader > div {
+        margin-top: .25em;
       }
       .prefsButton {
         text-align: right;
-      }
-      #modeSelect {
-        margin-left: .5em;
       }
       .separator {
         margin: 0 .25em;
       }
       @media screen and (max-width: 50em) {
+        header {
+          padding: .5em var(--default-horizontal-margin);
+        }
         .dash {
           display: none;
         }
+        .desktop {
+          display: none;
+        }
+        .fileNav {
+          align-items: flex-start;
+          display: flex;
+          margin: 0 .25em;
+        }
+        .fullFileName {
+          display: block;
+          font-size: .9em;
+          font-style: italic;
+          min-width: 50%;
+          padding: 0 .1em;
+          text-align: center;
+          width: 100%;
+          word-wrap: break-word;
+        }
         .reviewed {
           vertical-align: -.1em;
-        }
-        .jumpToFileContainer {
-          display: none;
         }
         .mobileJumpToFileContainer {
           display: block;
@@ -140,6 +159,15 @@ limitations under the License.
         }
         .mobileJumpToFileContainer select {
           width: 100%;
+        }
+        .mobileNavLink {
+          color: #000;
+          font-size: 1.5em;
+          font-weight: bold;
+          text-decoration: none;
+        }
+        .mobileNavLink:not([href]) {
+          color: #bbb;
         }
       }
     </style>
@@ -154,7 +182,7 @@ limitations under the License.
                type="checkbox"
                on-change="_handleReviewedChange"
                hidden$="[[!_loggedIn]]" hidden>
-        <div class="jumpToFileContainer">
+        <div class="jumpToFileContainer desktop">
           <gr-button link class="dropdown-trigger" id="trigger" on-tap="_showDropdownTapHandler">
             <span>[[_computeFileDisplayName(_path)]]</span>
             <span class="downArrow">&#9660;</span>
@@ -177,7 +205,7 @@ limitations under the License.
             </div>
           </iron-dropdown>
         </div>
-        <div class="mobileJumpToFileContainer">
+        <div class="mobileJumpToFileContainer mobile">
           <select on-change="_handleMobileSelectChange">
             <template is="dom-repeat" items="[[_fileList]]" as="path">
               <option
@@ -189,7 +217,7 @@ limitations under the License.
           </select>
         </div>
       </h3>
-      <div>
+      <div class="navLinks desktop">
         <a class="navLink"
            href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]">Prev</a>
         /
@@ -209,11 +237,13 @@ limitations under the License.
               available-patches="[[_computeAvailablePatches(_change.revisions)]]"
               revisions="[[_change.revisions]]">
           </gr-patch-range-select>
-          <span class="separator">/</span>
-          <a class="downloadLink"
-             href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
-            Download
-          </a>
+          <span class="download desktop">
+            <span class="separator">/</span>
+            <a class="downloadLink"
+               href$="[[_computeDownloadLink(_changeNum, _patchRange, _path)]]">
+              Download
+            </a>
+          </span>
         </div>
         <div>
           <select
@@ -225,11 +255,13 @@ limitations under the License.
             <option value="UNIFIED_DIFF">Unified</option>
           </select>
           <span hidden$="[[_computePrefsButtonHidden(_prefs, _loggedIn)]]">
-            <span
-                hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">/</span>
-            <gr-button link
-                class="prefsButton"
-                on-tap="_handlePrefsTap">Preferences</gr-button>
+            <span class="preferences desktop">
+              <span
+                  hidden$="[[_computeModeSelectHidden(_isImageDiff)]]">/</span>
+              <gr-button link
+                  class="prefsButton"
+                  on-tap="_handlePrefsTap">Preferences</gr-button>
+            </span>
           </span>
         </div>
       </div>
@@ -241,6 +273,14 @@ limitations under the License.
             on-save="_handlePrefsSave"
             on-cancel="_handlePrefsCancel"></gr-diff-preferences>
       </gr-overlay>
+      <div class="fileNav mobile">
+        <a class="mobileNavLink"
+           href$="[[_computeNavLinkURL(_path, _fileList, -1, 1)]]"><</a>
+        <div class="fullFileName mobile">[[_computeFileDisplayName(_path)]]
+        </div>
+        <a class="mobileNavLink"
+            href$="[[_computeNavLinkURL(_path, _fileList, 1, 1)]]">></a>
+      </div>
       <gr-diff
           id="diff"
           project="[[_change.project]]"

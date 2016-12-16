@@ -1238,7 +1238,8 @@ any account.
       {
         "url": "#/groups/self",
         "name": "Groups"
-      }
+      },
+      change_table: []
     ]
   }
 ----
@@ -1263,6 +1264,7 @@ link:#preferences-input[PreferencesInput] entity.
     "changes_per_page": 50,
     "show_site_header": true,
     "use_flash_clipboard": true,
+    "expand_inline_diffs": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -1295,6 +1297,10 @@ link:#preferences-input[PreferencesInput] entity.
         "url": "#/groups/self",
         "name": "Groups"
       }
+    ],
+    "change_table": [
+      "Subject",
+      "Owner"
     ]
   }
 ----
@@ -1313,6 +1319,7 @@ link:#preferences-info[PreferencesInfo] entity.
     "changes_per_page": 50,
     "show_site_header": true,
     "use_flash_clipboard": true,
+    "expand_inline_diffs": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -1345,6 +1352,10 @@ link:#preferences-info[PreferencesInfo] entity.
         "url": "#/groups/self",
         "name": "Groups"
       }
+    ],
+    "change_table": [
+      "Subject",
+      "Owner"
     ]
   }
 ----
@@ -2460,6 +2471,9 @@ Allowed values are `10`, `25`, `50`, `100`.
 Whether the site header should be shown.
 |`use_flash_clipboard`          |not set if `false`|
 Whether to use the flash clipboard widget.
+|`expand_inline_diffs`          |not set if `false`|
+Whether to expand diffs inline instead of opening as separate page
+(Polygerrit only).
 |`download_scheme`              |optional|
 The type of download URL the user prefers to use. May be any key from
 the `schemes` map in
@@ -2492,6 +2506,9 @@ inline edit feature.
 |`my`                           ||
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
+|`change_table`                           ||
+The columns to display in the change table (Polygerrit only). The default is
+empty, which will default columns as determined by the frontend.
 |`url_aliases`                  |optional|
 A map of URL path pairs, where the first URL path is an alias for the
 second URL path.
@@ -2522,6 +2539,9 @@ Allowed values are `10`, `25`, `50`, `100`.
 Whether the site header should be shown.
 |`use_flash_clipboard`          |optional|
 Whether to use the flash clipboard widget.
+|`expand_inline_diffs`          |not set if `false`|
+Whether to expand diffs inline instead of opening as separate page
+(Polygerrit only).
 |`download_scheme`              |optional|
 The type of download URL the user prefers to use.
 |`download_command`             |optional|
@@ -2552,6 +2572,9 @@ inline edit feature.
 |`my`                           |optional|
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
+|`change_table`                           ||
+The columns to display in the change table (Polygerrit only). The default is
+empty, which will default columns as determined by the frontend.
 |`url_aliases`                  |optional|
 A map of URL path pairs, where the first URL path is an alias for the
 second URL path.

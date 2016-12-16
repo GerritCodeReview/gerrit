@@ -132,6 +132,7 @@ public class GeneralPreferencesInfo {
   public DownloadCommand downloadCommand;
   public DateFormat dateFormat;
   public TimeFormat timeFormat;
+  public Boolean expandInlineDiffs;
   public Boolean highlightAssigneeInChangeTable;
   public Boolean relativeDateInChangeTable;
   public DiffView diffView;
@@ -196,6 +197,7 @@ public class GeneralPreferencesInfo {
     p.downloadCommand = DownloadCommand.CHECKOUT;
     p.dateFormat = DateFormat.STD;
     p.timeFormat = TimeFormat.HHMM_12;
+    p.expandInlineDiffs = false;
     p.highlightAssigneeInChangeTable = true;
     p.relativeDateInChangeTable = false;
     p.diffView = DiffView.SIDE_BY_SIDE;

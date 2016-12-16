@@ -216,7 +216,7 @@ public class LocalComments {
     } else {
       line = Integer.parseInt(elements[offset + 4]);
     }
-    CommentInfo info = CommentInfo.create(path, side, line, range);
+    CommentInfo info = CommentInfo.create(path, side, line, range, false);
     info.message(storage.getItem(key));
     if (key.startsWith("patchReply-")) {
       info.inReplyTo(elements[1]);

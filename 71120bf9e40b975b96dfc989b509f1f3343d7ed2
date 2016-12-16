@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_ea3927e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-16T20:52:17Z",
+      "side": 1,
+      "message": "I can\u0027t tell what\u0027s wrong with the placement of the search bar currently. Can you add a screenshot?",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "71120bf9e40b975b96dfc989b509f1f3343d7ed2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  var MAX_PATCHSET_DESCRIPTION_LENGTH = 500;
+  var EMPTY_PATCHSET_DESCRIPTION = '';
+
   Polymer({
     is: 'gr-change-view',
 
@@ -836,7 +839,9 @@
 
     _computePatchSetDescription: function(change, patchNum) {
       var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
-      return (rev && rev.description) ? rev.description : '';
+      return (rev && rev.description) ?
+          rev.description.substring(0, MAX_PATCHSET_DESCRIPTION_LENGTH) :
+          EMPTY_PATCHSET_DESCRIPTION;
     },
 
     _computeDescriptionPlaceholder: function(readOnly) {

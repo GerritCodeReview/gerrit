@@ -836,7 +836,7 @@
 
     _computePatchSetDescription: function(change, patchNum) {
       var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
-      return (rev && rev.description) ? rev.description : '';
+      return (rev && rev.description) ? rev.description.substring(0, 500) : '';
     },
 
     _computeDescriptionPlaceholder: function(readOnly) {

@@ -642,7 +642,7 @@
 
     _computePatchSetDescription: function(revisions, patchNum) {
       var rev = this.getRevisionByPatchNum(revisions, patchNum);
-      return (rev && rev.description) ? rev.description : '';
+      return (rev && rev.description) ? rev.description.substring(0, 500) : '';
     },
   });
 })();

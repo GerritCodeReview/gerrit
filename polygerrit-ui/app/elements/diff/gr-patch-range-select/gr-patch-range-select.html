@@ -30,6 +30,11 @@ limitations under the License.
       select {
         max-width: 8em;
       }
+      @media screen and (max-width: 50em) {
+        .filesWeblinks {
+          display: none;
+        }
+      }
     </style>
     Patch set:
     <span class="patchRange">
@@ -45,7 +50,7 @@ limitations under the License.
         </template>
       </select>
     </span>
-    <span is="dom-if" if="[[filesWeblinks.meta_a]]">
+    <span is="dom-if" if="[[filesWeblinks.meta_a]]" class="filesWeblinks">
       <template is="dom-repeat" items="[[filesWeblinks.meta_a]]" as="weblink">
         <a target="_blank"
            href$="[[weblink.url]]">[[weblink.name]]</a>
@@ -63,7 +68,7 @@ limitations under the License.
           </option>
         </template>
       </select>
-      <span is="dom-if" if="[[filesWeblinks.meta_b]]">
+      <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">
         <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
           <a target="_blank"
              href$="[[weblink.url]]">[[weblink.name]]</a>

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_1437743e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-16T13:54:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be hard to add a test for it: revoke user right on All-Projects, grant her create-project and create project foo. Before this change it should fail, after this change it should succeed.",
+      "revId": "53e0338083964d656e64b9871837e32a916dabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_55bc4c67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-16T13:54:30Z",
+      "side": 1,
+      "message": "Nit: blank after the comma.",
+      "range": {
+        "startLine": 84,
+        "startChar": 19,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "53e0338083964d656e64b9871837e32a916dabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_75bfc85d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-16T13:54:30Z",
+      "side": 1,
+      "message": "one to is enough.",
+      "range": {
+        "startLine": 91,
+        "startChar": 76,
+        "endLine": 91,
+        "endChar": 78
+      },
+      "revId": "53e0338083964d656e64b9871837e32a916dabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

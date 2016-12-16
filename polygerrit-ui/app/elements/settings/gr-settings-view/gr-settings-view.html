@@ -183,6 +183,16 @@ limitations under the License.
               </select>
             </span>
           </section>
+          <section>
+            <span class="title">Expand Inline Diffs</span>
+            <span class="value">
+              <input
+                  id="expandInlineDiffs"
+                  type="checkbox"
+                  checked$="{{_localPrefs.expand_inline_diffs}}"
+                  on-change="_handleExpandInlineDiffsChanged">
+            </span>
+          </section>
           <gr-button
               id="savePrefs"
               on-tap="_handleSavePreferences"

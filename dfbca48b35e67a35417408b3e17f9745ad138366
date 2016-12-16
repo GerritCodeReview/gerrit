@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_b544c094",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-16T23:50:37Z",
+      "side": 1,
+      "message": "Do we need to skip this step altogether if gitBasicAuthPolicy is HTTP? We do not want to trigger the LDAP authentication through the Account Manager isn\u0027t it?",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 70
+      },
+      "revId": "dfbca48b35e67a35417408b3e17f9745ad138366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_9549c4ae",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-16T23:50:37Z",
+      "side": 1,
+      "message": "Why do we want to allow non-existent users in case of LDAP?",
+      "range": {
+        "startLine": 171,
+        "startChar": 10,
+        "endLine": 171,
+        "endChar": 55
+      },
+      "revId": "dfbca48b35e67a35417408b3e17f9745ad138366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

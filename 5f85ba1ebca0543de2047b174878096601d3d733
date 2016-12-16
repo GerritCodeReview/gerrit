@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fa132f0f_f4c118eb",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-16T16:31:36Z",
+      "side": 1,
+      "message": "Is this documented in some place?",
+      "range": {
+        "startLine": 115,
+        "startChar": 59,
+        "endLine": 115,
+        "endChar": 65
+      },
+      "revId": "5f85ba1ebca0543de2047b174878096601d3d733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_b4c7a0ff",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
         "patchSetId": 3

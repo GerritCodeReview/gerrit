@@ -46,6 +46,30 @@
       "revId": "805a60f62bf840dfee50af5f873f66f304c924f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_94a54455",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-16T15:01:53Z",
+      "side": 1,
+      "message": "\u003e But if you think @RequireSsh would be a nicer solution I\u0027m happy to go that way.\n\nYes, there a should be a declarative way to require resources that tests need. Note, that it\u0027s fine and not a contradiction to define default behaviors, like we do already with\n\n* all tests are per default in-memory tests unless test method is annotated with @UseLocalDisk\n* all tests require per default HTTP daemon, unless a class is annotated with @NoHttpd\n\nSo what you want is either of these:\n\n* all tests require per default SSH daemon, unless a class is annotated with @NoSshd\n* all tests do not require per default SSH daemon, unless a class is annotated with @UseSshd",
+      "parentUuid": "1a1ba32a_353a7028",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "805a60f62bf840dfee50af5f873f66f304c924f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

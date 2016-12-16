@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_44602e15",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-16T16:36:17Z",
+      "side": 1,
+      "message": "In the Javadoc for the prepareDelete method.",
+      "parentUuid": "fa132f0f_f4c118eb",
+      "revId": "5f85ba1ebca0543de2047b174878096601d3d733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_b4c7a0ff",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
         "patchSetId": 3
@@ -43,6 +61,24 @@
         "endLine": 126,
         "endChar": 27
       },
+      "revId": "5f85ba1ebca0543de2047b174878096601d3d733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ea2007c4",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-16T16:36:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa132f0f_b4c7a0ff",
       "revId": "5f85ba1ebca0543de2047b174878096601d3d733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

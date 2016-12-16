@@ -35,7 +35,7 @@ limitations under the License.
             <div data-side="left">
               <div class="gr-diff-comment-thread">
                 <div class="gr-formatted-text message">
-                  <span class="gr-linked-text">This is a comment</span>
+                  <span id="output" class="gr-linked-text">This is a comment</span>
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@ limitations under the License.
             <div data-side="right">
               <div class="gr-diff-comment-thread">
                 <div class="gr-formatted-text message">
-                  <span class="gr-linked-text">This is a comment on the right</span>
+                  <span id="output" class="gr-linked-text">This is a comment on the right</span>
                 </div>
               </div>
             </div>
@@ -69,7 +69,7 @@ limitations under the License.
             <div data-side="left">
               <div class="gr-diff-comment-thread">
                 <div class="gr-formatted-text message">
-                  <span class="gr-linked-text">This is a different comment</span>
+                  <span id="output" class="gr-linked-text">This is <a>a</a> different comment 💩 unicode is fun</span>
                 </div>
               </div>
             </div>
@@ -232,9 +232,24 @@ limitations under the License.
       range.setStart(
           element.querySelector('.gr-formatted-text *').firstChild, 3);
       range.setEnd(
-          element.querySelectorAll('.gr-formatted-text *')[2].firstChild, 16);
+          element.querySelectorAll('.gr-formatted-text *')[2].childNodes[2], 7);
       selection.addRange(range);
       assert.equal('s is a comment\nThis is a differ',
+          element._getSelectedText('left', true));
+    });
+
+    test('respects astral chars in comments', function() {
+      element.classList.add('selected-left');
+      element.classList.add('selected-comment');
+      element.classList.remove('selected-right');
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      var range = document.createRange();
+      var nodes = element.querySelectorAll('.gr-formatted-text *');
+      range.setStart(nodes[2].childNodes[2], 13);
+      range.setEnd(nodes[2].childNodes[2], 23);
+      selection.addRange(range);
+      assert.equal('mment 💩 u',
           element._getSelectedText('left', true));
     });
 
@@ -266,6 +281,47 @@ limitations under the License.
           element.querySelectorAll('div.contentText')[1].firstChild, 10);
       selection.addRange(range);
       assert.equal(element._getSelectedText('right'), ' other');
+    });
+
+    suite('_getTextContentForRange', function() {
+      var selection;
+      var range;
+      var nodes;
+
+      setup(function() {
+        element.classList.add('selected-left');
+        element.classList.add('selected-comment');
+        element.classList.remove('selected-right');
+        selection = window.getSelection();
+        selection.removeAllRanges();
+        range = document.createRange();
+        nodes = element.querySelectorAll('.gr-formatted-text *');
+      });
+
+      test('multi level element contained in range', function() {
+        range.setStart(nodes[2].childNodes[0], 1);
+        range.setEnd(nodes[2].childNodes[2], 7);
+        selection.addRange(range);
+        assert.equal(element._getTextContentForRange(element, selection, range),
+          'his is a differ');
+      });
+
+
+      test('multi level element as startContainer of range', function() {
+        range.setStart(nodes[2].childNodes[1], 0);
+        range.setEnd(nodes[2].childNodes[2], 7);
+        selection.addRange(range);
+        assert.equal(element._getTextContentForRange(element, selection, range),
+          'a differ');
+      });
+
+      test('startContainer === endContainer', function() {
+        range.setStart(nodes[0].firstChild, 2);
+        range.setEnd(nodes[0].firstChild, 12);
+        selection.addRange(range);
+        assert.equal(element._getTextContentForRange(element, selection, range),
+          'is is a co');
+      });
     });
   });
 </script>

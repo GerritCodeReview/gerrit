@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_4a85d397",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-16T14:29:18Z",
+      "side": 1,
+      "message": "I see some actual diffs:\n\n @@ -1,14 +1,15 @@\n  \n +[[Apache2_0]]\n  Apache2.0\n  \n -----\n -* codemirror:addon_merge\n -* codemirror:diff-match-patch\n +* guice:guice\n  * guice:guice-assistedinject\n  * guice:guice_library\n  * guice:javax-inject\n  * guice:multibindings\n +* gwt:dev\n  * gwt:user\n +* gwt:user-neverlink\n  * jgit/org.eclipse.jgit:javaewah\n  * joda:joda-convert\n  * joda:joda-time\n \n\nAnd another one that I think is just an artifact of the bazel build rule structure:\n\n @@ -787,10 +822,15 @@\n  \n  ----\n  \n +\n +[[highlightjs]]\n  highlightjs\n  \n -----\n  * js:highlightjs\n +* js:highlightjs_files\n +\n +[[highlightjs_license]]\n +----\n  Copyright (c) 2006, Ivan Sagalaev\n  All rights reserved.\n  Redistribution and use in source and binary forms, with or without",
+      "revId": "03efc9183844117ee2baa9d85a62f4006ae28d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

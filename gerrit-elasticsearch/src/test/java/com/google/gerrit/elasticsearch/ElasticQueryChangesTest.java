@@ -14,13 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES_PREFIX;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CLOSED_CHANGES;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.OPEN_CHANGES;
-
-import com.google.gerrit.elasticsearch.ElasticChangeIndex.ChangeMapping;
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
-import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
@@ -37,9 +31,6 @@ import org.junit.Test;
 import java.util.concurrent.ExecutionException;
 
 public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
-  private static final String INDEX_NAME =
-      String.format("%s%04d", CHANGES_PREFIX,
-          ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion());
   private static ElasticNodeInfo nodeInfo;
 
   @BeforeClass
@@ -51,14 +42,14 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     }
     nodeInfo = ElasticTestUtils.startElasticsearchNode();
 
-    createIndexes();
+    ElasticTestUtils.createIndexes(nodeInfo);
   }
 
   @After
   public void cleanupIndex() {
     if (nodeInfo != null) {
-      ElasticTestUtils.deleteIndexes(nodeInfo.node, INDEX_NAME);
-      createIndexes();
+      ElasticTestUtils.deleteAllIndexes(nodeInfo);
+      ElasticTestUtils.createIndexes(nodeInfo);
     }
   }
 
@@ -78,26 +69,6 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port);
     return Guice.createInjector(
         new InMemoryModule(elasticsearchConfig, notesMigration));
-  }
-
-  private static void createIndexes() {
-    ChangeMapping openChangesMapping =
-        new ChangeMapping(ChangeSchemaDefinitions.INSTANCE.getLatest());
-    ChangeMapping closedChangesMapping =
-        new ChangeMapping(ChangeSchemaDefinitions.INSTANCE.getLatest());
-    openChangesMapping.closedChanges = null;
-    closedChangesMapping.openChanges = null;
-    nodeInfo.node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(INDEX_NAME)
-        .addMapping(OPEN_CHANGES,
-            ElasticTestUtils.gson.toJson(openChangesMapping))
-        .addMapping(CLOSED_CHANGES,
-            ElasticTestUtils.gson.toJson(closedChangesMapping))
-        .execute()
-        .actionGet();
   }
 
   @Test

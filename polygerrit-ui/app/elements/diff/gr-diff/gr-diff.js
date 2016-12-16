@@ -453,14 +453,24 @@
       }.bind(this));
     },
 
+    _getDiffRobotComments: function() {
+      return this.$.restAPI.getDiffRobotComments(
+          this.changeNum,
+          this.patchRange.basePatchNum,
+          this.patchRange.patchNum,
+          this.path);
+    },
+
     _getDiffCommentsAndDrafts: function() {
       var promises = [];
       promises.push(this._getDiffComments());
       promises.push(this._getDiffDrafts());
+      promises.push(this._getDiffRobotComments());
       return Promise.all(promises).then(function(results) {
         return Promise.resolve({
           comments: results[0],
           drafts: results[1],
+          robotComments: results[2],
         });
       }).then(this._normalizeDiffCommentsAndDrafts.bind(this));
     },
@@ -472,6 +482,9 @@
       }
       var baseDrafts = results.drafts.baseComments.map(markAsDraft);
       var drafts = results.drafts.comments.map(markAsDraft);
+
+      var baseRobotComments = results.robotComments.baseComments;
+      var robotComments = results.robotComments.comments;
       return Promise.resolve({
         meta: {
           path: this.path,
@@ -479,8 +492,10 @@
           patchRange: this.patchRange,
           projectConfig: this.projectConfig,
         },
-        left: results.comments.baseComments.concat(baseDrafts),
-        right: results.comments.comments.concat(drafts),
+        left: results.comments.baseComments.concat(baseDrafts)
+            .concat(baseRobotComments),
+        right: results.comments.comments.concat(drafts)
+            .concat(robotComments),
       });
     },
 

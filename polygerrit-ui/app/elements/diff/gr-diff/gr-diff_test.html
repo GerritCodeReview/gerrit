@@ -77,6 +77,19 @@ limitations under the License.
         });
       });
 
+      test('get robot comments', function(done) {
+        element.patchRange = {basePatchNum: 0, patchNum: 0};
+
+        var getDraftsStub = sinon.stub(element.$.restAPI,
+            'getDiffRobotComments');
+        element._getDiffDrafts().then(function(result) {
+          assert.deepEqual(result, {baseComments: [], comments: []});
+          sinon.assert.notCalled(getDraftsStub);
+          getDraftsStub.restore();
+          done();
+        });
+      });
+
       test('loads files weblinks', function(done) {
         var diffStub = sinon.stub(element.$.restAPI, 'getDiff').returns(
             Promise.resolve({
@@ -403,8 +416,23 @@ limitations under the License.
             {id: 'd2'},
           ],
         };
+
         var diffDraftsStub = sinon.stub(element, '_getDiffDrafts',
             function() { return Promise.resolve(drafts); });
+
+        var robotComments = {
+          baseComments: [
+            {id: 'br1'},
+            {id: 'br2'},
+          ],
+          comments: [
+            {id: 'r1'},
+            {id: 'r2'},
+          ],
+        };
+
+        var diffRobotCommentStub = sinon.stub(element, '_getDiffRobotComments',
+            function() { return Promise.resolve(robotComments); });
 
         element.changeNum = '42';
         element.patchRange = {
@@ -430,17 +458,22 @@ limitations under the License.
               {id: 'bc2'},
               {id: 'bd1', __draft: true},
               {id: 'bd2', __draft: true},
+              {id: 'br1'},
+              {id: 'br2'},
             ],
             right: [
               {id: 'c1'},
               {id: 'c2'},
               {id: 'd1', __draft: true},
               {id: 'd2', __draft: true},
+              {id: 'r1'},
+              {id: 'r2'},
             ],
           });
 
           diffCommentsStub.restore();
           diffDraftsStub.restore();
+          diffRobotCommentStub.restore();
           done();
         });
       });

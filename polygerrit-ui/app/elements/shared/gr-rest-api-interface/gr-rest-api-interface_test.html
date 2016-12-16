@@ -412,5 +412,21 @@ limitations under the License.
         done();
       });
     });
+
+    test('patch set descriptions get truncated', function(done) {
+      var longStr = _.times(150, _.constant('test')).join();
+      sandbox.stub(element, 'fetchJSON').returns(Promise.resolve({
+        revisions: {
+          a: {description: longStr},
+        }
+      }));
+
+      element._getChangeDetail().then(function(changeDetail) {
+        for (var rev in changeDetail.revisions) {
+          assert.isTrue(changeDetail.revisions[rev].description.length <= 500);
+        }
+        done();
+      });
+    });
   });
 </script>

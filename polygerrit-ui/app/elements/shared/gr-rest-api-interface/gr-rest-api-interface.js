@@ -21,6 +21,7 @@
   var JSON_PREFIX = ')]}\'';
   var MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   var PARENT_PATCH_NUM = 'PARENT';
+  var MAX_PATCHSET_DESCRIPTION_LENGTH = 500;
 
   // Must be kept in sync with the ListChangesOption enum and protobuf.
   var ListChangesOption = {
@@ -433,7 +434,19 @@
           this.getChangeActionURL(changeNum, null, '/detail'),
           opt_errFn,
           opt_cancelCondition,
-          {O: options});
+          {O: options})
+          .then(function(changeDetail) {
+            var revisions = changeDetail.revisions;
+            for (var revision in revisions) {
+              if (!revisions.hasOwnProperty(revision)) { continue; }
+              if (revisions[revision].description) {
+                revisions[revision].description =
+                    revisions[revision].description
+                    .substring(0, MAX_PATCHSET_DESCRIPTION_LENGTH);
+              }
+            }
+            return changeDetail;
+          });
     },
 
     getChangeCommitInfo: function(changeNum, patchNum) {

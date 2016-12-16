@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_2af21f27",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-16T18:05:22Z",
+      "side": 1,
+      "message": "From this comment and the title of the function, it\u0027s not so clear what makes `_getTextContent` different from regular `textContent`. Maybe call it `_getTextContentForRange`?\n\nThe fact that it\u0027s recursive is kind of an implementation detail, I argue either remove it or incorporate it into the complete sentence.\n\n/**\n * Given a DOM node and a selection range, recursively get all of the text\n * content within the range.\n\nThe domNode argument is documented to be the \"root DOM node\", but this makes it sound like I should pass \u003cBODY\u003e or \u003cHTML\u003e here. How should I choose which node to pass?",
+      "range": {
+        "startLine": 245,
+        "startChar": 4,
+        "endLine": 253,
+        "endChar": 47
+      },
+      "revId": "8ea538f7db3b67252d7a465831ae2e9f622c1ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

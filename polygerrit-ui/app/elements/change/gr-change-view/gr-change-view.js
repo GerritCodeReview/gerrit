@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  // Maximum length for patch set descriptions.
+  var PATCH_DESC_MAX_LENGTH = 500;
+
   Polymer({
     is: 'gr-change-view',
 
@@ -839,7 +842,8 @@
 
     _computePatchSetDescription: function(change, patchNum) {
       var rev = this.getRevisionByPatchNum(change.revisions, patchNum);
-      return (rev && rev.description) ? rev.description : '';
+      return (rev && rev.description) ?
+          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
     _computeDescriptionPlaceholder: function(readOnly) {

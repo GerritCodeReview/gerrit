@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  // Maximum length for patch set descriptions.
+  var PATCH_DESC_MAX_LENGTH = 500;
+
   Polymer({
     is: 'gr-patch-range-select',
 
@@ -73,7 +76,8 @@
 
     _computePatchSetDescription: function(revisions, patchNum) {
       var rev = this.getRevisionByPatchNum(revisions, patchNum);
-      return (rev && rev.description) ? rev.description : '';
+      return (rev && rev.description) ?
+          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
   });
 })();

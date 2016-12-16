@@ -270,7 +270,17 @@
       return this._computeCountString(drafts, patchNum, path, 'draft');
     },
 
-    _computeCountString: function(comments, patchNum, path, noun) {
+    _computeDraftsStringMobile: function(drafts, patchNum, path) {
+      var draftCount = this._computeCountString(drafts, patchNum, path);
+      return draftCount ? draftCount + 'd' : '';
+    },
+
+    _computeCommentsStringMobile: function(comments, patchNum, path) {
+      var commentCount = this._computeCountString(comments, patchNum, path);
+      return commentCount ? commentCount + 'c' : '';
+    },
+
+    _computeCountString: function(comments, patchNum, path, opt_noun) {
       if (!comments) { return ''; }
 
       var patchComments = (comments[path] || []).filter(function(c) {
@@ -278,7 +288,8 @@
       });
       var num = patchComments.length;
       if (num === 0) { return ''; }
-      return num + ' ' + noun + (num > 1 ? 's' : '');
+      if (!opt_noun) { return num; }
+      return num + ' ' + opt_noun + (num > 1 ? 's' : '');
     },
 
     _computeReviewed: function(file, _reviewed) {

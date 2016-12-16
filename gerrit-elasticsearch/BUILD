@@ -34,6 +34,7 @@ java_library(
     testonly = 1,
     srcs = glob(["src/test/java/**/ElasticTestUtils.java"]),
     deps = [
+        ":elasticsearch",
         "//gerrit-extension-api:api",
         "//gerrit-server:server",
         "//lib:gson",
@@ -51,11 +52,9 @@ junit_tests(
     size = "large",
     srcs = glob(["src/test/java/**/*Test.java"]),
     flaky = 1,
-    #TODO(davido): Re-enable the tests on the CI when they are fixed
     tags = [
         "elastic",
         "flaky",
-        "noci",
     ],
     deps = [
         ":elasticsearch",

@@ -1624,7 +1624,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void reindexIfStale() throws Exception {
-    Account.Id user = createAccount("user");
+    Account.Id user = createAccount("user1");
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
@@ -1650,7 +1650,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void refStateFields() throws Exception {
-    Account.Id user = createAccount("user");
+    Account.Id user = createAccount("user1");
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     String path = "file";

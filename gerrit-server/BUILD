@@ -18,6 +18,17 @@ java_library(
 )
 
 java_library(
+    name = "reviewer-predicate",
+    javacopts = ["-Xep:ReferenceEquality:ERROR"],
+    srcs = [":src/main/java/com/google/gerrit/server/query/change/IsReviewedPredicate.java"],
+    deps = [
+        ":server",
+        "//gerrit-reviewdb:server",
+        "//lib:gwtorm",
+    ],
+)
+
+java_library(
     name = "server",
     srcs = SRCS,
     resources = RESOURCES,

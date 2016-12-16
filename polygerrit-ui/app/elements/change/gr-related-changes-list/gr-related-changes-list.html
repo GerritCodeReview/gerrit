@@ -69,12 +69,25 @@ limitations under the License.
       .submittable {
         color: #1b5e20;
       }
-      .hidden {
+      .hidden,
+      .mobile {
         display: none;
+      }
+       @media screen and (max-width: 50em) {
+        .mobile {
+          display: block;
+        }
+        hr {
+          border: 0;
+          border-top: 1px solid #ddd;
+          height: 0;
+          margin-bottom: 1em;
+        }
       }
     </style>
     <div hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]">
+      <hr class="mobile">
       <section class="relatedChanges" hidden$="[[!_relatedResponse.changes.length]]" hidden>
         <h4>Relation chain</h4>
         <template

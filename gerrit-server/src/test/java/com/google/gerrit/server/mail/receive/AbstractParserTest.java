@@ -59,7 +59,7 @@ public class AbstractParserTest {
   protected static Comment newComment(String uuid, String file,
       String message, int line) {
     Comment c = new Comment(new Comment.Key(uuid, file, 1),
-        new Account.Id(0), new Timestamp(0l), (short) 0, message, "", false);
+        new Account.Id(0), new Timestamp(0L), (short) 0, message, "", false);
     c.lineNbr = line;
     return c;
   }

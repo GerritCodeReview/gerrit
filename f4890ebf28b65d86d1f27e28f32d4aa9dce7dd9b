@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa132f0f_54bc4c67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2016-12-16T16:16:16Z",
+      "side": 1,
+      "message": "or to put it more broadly: it\u0027s customary to explain in the commit message _why_ a change is done when it\u0027s not self-evident.",
+      "parentUuid": "bad8d7b0_eaaac722",
+      "revId": "f4890ebf28b65d86d1f27e28f32d4aa9dce7dd9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_c4affe30",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 1

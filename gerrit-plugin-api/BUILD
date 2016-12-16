@@ -26,6 +26,7 @@ EXPORTS = [
     "//lib/guice:guice-servlet",
     "//lib/guice:javax-inject",
     "//lib/guice:multibindings",
+    "//lib/httpcomponents:httpclient",
     "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
     "//lib/jgit/org.eclipse.jgit:jgit",
     "//lib/joda:joda-time",

@@ -34,6 +34,7 @@ java_library(
     testonly = 1,
     srcs = glob(["src/test/java/**/ElasticTestUtils.java"]),
     deps = [
+        ":elasticsearch",
         "//gerrit-extension-api:api",
         "//gerrit-server:server",
         "//lib:gson",

@@ -14,11 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.gerrit.elasticsearch.ElasticAccountIndex.ACCOUNTS_PREFIX;
-
-import com.google.gerrit.elasticsearch.ElasticAccountIndex.AccountMapping;
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
-import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.query.account.AbstractQueryAccountsTest;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
@@ -32,9 +28,6 @@ import org.junit.BeforeClass;
 import java.util.concurrent.ExecutionException;
 
 public class ElasticQueryAccountsTest extends AbstractQueryAccountsTest {
-  private static final String INDEX_NAME =
-      String.format("%s%04d", ACCOUNTS_PREFIX,
-          AccountSchemaDefinitions.INSTANCE.getLatest().getVersion());
   private static ElasticNodeInfo nodeInfo;
 
   @BeforeClass
@@ -45,21 +38,7 @@ public class ElasticQueryAccountsTest extends AbstractQueryAccountsTest {
       return;
     }
     nodeInfo = ElasticTestUtils.startElasticsearchNode();
-    createIndexes();
-  }
-
-  private static void createIndexes() {
-    AccountMapping accountMapping =
-        new AccountMapping(AccountSchemaDefinitions.INSTANCE.getLatest());
-    nodeInfo.node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(INDEX_NAME)
-        .addMapping(ElasticAccountIndex.ACCOUNTS,
-            ElasticTestUtils.gson.toJson(accountMapping))
-        .execute()
-        .actionGet();
+    ElasticTestUtils.createIndexes(nodeInfo);
   }
 
   @AfterClass
@@ -74,8 +53,8 @@ public class ElasticQueryAccountsTest extends AbstractQueryAccountsTest {
   @After
   public void cleanupIndex() {
     if (nodeInfo != null) {
-      ElasticTestUtils.deleteIndexes(nodeInfo.node, INDEX_NAME);
-      createIndexes();
+      ElasticTestUtils.deleteAllIndexes(nodeInfo);
+      ElasticTestUtils.createIndexes(nodeInfo);
     }
   }
 

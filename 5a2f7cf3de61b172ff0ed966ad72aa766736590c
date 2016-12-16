@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_4a6e731b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-16T01:52:52Z",
+      "side": 1,
+      "message": "Not sure if I\u0027m supposed to add a line break mid binding?",
+      "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

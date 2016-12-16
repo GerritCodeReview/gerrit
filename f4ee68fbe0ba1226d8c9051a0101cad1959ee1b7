@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_6a71b7f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-16T01:52:52Z",
+      "side": 0,
+      "message": "Note: this was causing the Safari bug. Not sure why label was in there, but removing fixes it.",
+      "revId": "f4ee68fbe0ba1226d8c9051a0101cad1959ee1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

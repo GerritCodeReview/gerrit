@@ -35,7 +35,7 @@ limitations under the License.
             <div data-side="left">
               <div class="gr-diff-comment-thread">
                 <div class="gr-formatted-text message">
-                  <span class="gr-linked-text">This is a comment</span>
+                  <span id="output" class="gr-linked-text">This is a comment</span>
                 </div>
               </div>
             </div>
@@ -56,7 +56,7 @@ limitations under the License.
             <div data-side="right">
               <div class="gr-diff-comment-thread">
                 <div class="gr-formatted-text message">
-                  <span class="gr-linked-text">This is a comment on the right</span>
+                  <span id="output" class="gr-linked-text">This is a comment on the right</span>
                 </div>
               </div>
             </div>
@@ -69,7 +69,7 @@ limitations under the License.
             <div data-side="left">
               <div class="gr-diff-comment-thread">
                 <div class="gr-formatted-text message">
-                  <span class="gr-linked-text">This is a different comment</span>
+                  <span id="output" class="gr-linked-text">This is <a>a</a> different comment</span>
                 </div>
               </div>
             </div>
@@ -232,7 +232,7 @@ limitations under the License.
       range.setStart(
           element.querySelector('.gr-formatted-text *').firstChild, 3);
       range.setEnd(
-          element.querySelectorAll('.gr-formatted-text *')[2].firstChild, 16);
+          element.querySelectorAll('.gr-formatted-text *')[2].childNodes[2], 7);
       selection.addRange(range);
       assert.equal('s is a comment\nThis is a differ',
           element._getSelectedText('left', true));

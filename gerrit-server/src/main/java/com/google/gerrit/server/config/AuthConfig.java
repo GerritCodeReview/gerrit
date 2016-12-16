@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.client.GitBasicAuthPolicy;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -35,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public class AuthConfig {
   private final AuthType authType;
+  private final GitBasicAuthPolicy gitBasicAuthPolicy;
   private final String httpHeader;
   private final String httpDisplaynameHeader;
   private final String httpEmailHeader;
@@ -59,6 +61,7 @@ public class AuthConfig {
   AuthConfig(@GerritServerConfig final Config cfg)
       throws XsrfException {
     authType = toType(cfg);
+    gitBasicAuthPolicy = toGitBasicAuthPolicy(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     httpDisplaynameHeader = cfg.getString("auth", null, "httpdisplaynameheader");
     httpEmailHeader = cfg.getString("auth", null, "httpemailheader");
@@ -116,9 +119,18 @@ public class AuthConfig {
     return cfg.getEnum("auth", null, "type", AuthType.OPENID);
   }
 
+  private static GitBasicAuthPolicy toGitBasicAuthPolicy(final Config cfg) {
+    return cfg.getEnum("auth", null, "gitBasicAuthPolicy", GitBasicAuthPolicy.LDAP);
+
+  }
+
   /** Type of user authentication used by this Gerrit server. */
   public AuthType getAuthType() {
     return authType;
+  }
+
+  public GitBasicAuthPolicy getGitBasicAuthPolicy() {
+    return gitBasicAuthPolicy;
   }
 
   public String getLoginHttpHeader() {

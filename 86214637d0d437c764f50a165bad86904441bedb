@@ -16,6 +16,24 @@
       "revId": "86214637d0d437c764f50a165bad86904441bedb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_6abff75d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2016-12-16T00:49:14Z",
+      "side": 1,
+      "message": "No need to add CCs to fixed because each CC is only visited once. I\u0027ve added some comments to explain how this method works and what its requirements are. I\u0027m not totally adverse to mirroring the else statement that adds reviewers with unremovable approvals to fixed, but technically it\u0027s not necessary.",
+      "parentUuid": "bad8d7b0_ea3f6717",
+      "revId": "86214637d0d437c764f50a165bad86904441bedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

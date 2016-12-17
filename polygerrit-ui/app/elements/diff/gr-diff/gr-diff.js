@@ -465,12 +465,16 @@
       var promises = [];
       promises.push(this._getDiffComments());
       promises.push(this._getDiffDrafts());
-      promises.push(this._getDiffRobotComments());
+      // TODO add back
+      // Bug introduced, temporarily removing
+      // promises.push(this._getDiffRobotComments());
       return Promise.all(promises).then(function(results) {
         return Promise.resolve({
           comments: results[0],
           drafts: results[1],
-          robotComments: results[2],
+          // TODO add back
+            // Bug introduced, temporarily removing
+          // robotComments: results[2],
         });
       }).then(this._normalizeDiffCommentsAndDrafts.bind(this));
     },
@@ -483,8 +487,12 @@
       var baseDrafts = results.drafts.baseComments.map(markAsDraft);
       var drafts = results.drafts.comments.map(markAsDraft);
 
-      var baseRobotComments = results.robotComments.baseComments;
-      var robotComments = results.robotComments.comments;
+      // TODO add back, remove two empty arrays added
+      // Bug introduced, temporarily changing
+      // var baseRobotComments = results.robotComments.baseComments;
+      // var robotComments = results.robotComments.comments;
+      var baseRobotComments = [];
+      var robotComments = [];
       return Promise.resolve({
         meta: {
           path: this.path,

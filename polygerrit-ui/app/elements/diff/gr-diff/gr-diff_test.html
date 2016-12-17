@@ -393,6 +393,7 @@ limitations under the License.
       });
 
       test('get comments and drafts', function(done) {
+        // TODO uncomment out robot comments from expected response
         var comments = {
           baseComments: [
             {id: 'bc1'},
@@ -458,16 +459,16 @@ limitations under the License.
               {id: 'bc2'},
               {id: 'bd1', __draft: true},
               {id: 'bd2', __draft: true},
-              {id: 'br1'},
-              {id: 'br2'},
+              // {id: 'br1'},
+              // {id: 'br2'},
             ],
             right: [
               {id: 'c1'},
               {id: 'c2'},
               {id: 'd1', __draft: true},
               {id: 'd2', __draft: true},
-              {id: 'r1'},
-              {id: 'r2'},
+              // {id: 'r1'},
+              // {id: 'r2'},
             ],
           });
 

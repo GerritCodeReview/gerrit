@@ -204,7 +204,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Before
   public void setTimeForTesting() {
-    resetTimeWithClockStep(1, MILLISECONDS);
+    resetTimeWithClockStep(1, SECONDS);
   }
 
   private void resetTimeWithClockStep(long clockStep, TimeUnit clockStepUnit) {

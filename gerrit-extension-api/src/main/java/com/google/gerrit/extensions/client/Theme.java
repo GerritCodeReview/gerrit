@@ -18,6 +18,7 @@ public enum Theme {
   // Light themes
   DEFAULT,
   DAY_3024,
+  DUOTONE_LIGHT,
   BASE16_LIGHT,
   ECLIPSE,
   ELEGANT,
@@ -40,6 +41,7 @@ public enum Theme {
   COBALT,
   COLORFORTH,
   DRACULA,
+  DUOTONE_DARK,
   ERLANG_DARK,
   HOPSCOTCH,
   ICECODER,
@@ -66,7 +68,6 @@ public enum Theme {
 
   public boolean isDark() {
     switch (this) {
-      case NIGHT_3024:
       case ABCDEF:
       case AMBIANCE:
       case BASE16_DARK:
@@ -75,6 +76,7 @@ public enum Theme {
       case COBALT:
       case COLORFORTH:
       case DRACULA:
+      case DUOTONE_DARK:
       case ERLANG_DARK:
       case HOPSCOTCH:
       case ICECODER:
@@ -86,6 +88,7 @@ public enum Theme {
       case MIDNIGHT:
       case MONOKAI:
       case NIGHT:
+      case NIGHT_3024:
       case PARAISO_DARK:
       case PASTEL_ON_DARK:
       case RAILSCASTS:
@@ -99,9 +102,10 @@ public enum Theme {
       case XQ_DARK:
       case ZENBURN:
         return true;
+      case BASE16_LIGHT:
       case DEFAULT:
       case DAY_3024:
-      case BASE16_LIGHT:
+      case DUOTONE_LIGHT:
       case ECLIPSE:
       case ELEGANT:
       case MDN_LIKE:

@@ -1,7 +1,7 @@
 workspace(name = "gerrit")
 
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
-load("//lib/codemirror:cm.bzl", "DIFF_MATCH_PATCH_VERSION")
+load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 
 ANTLR_VERS = "3.5.2"
 
@@ -850,18 +850,16 @@ maven_jar(
     sha1 = "9bfabe48876ec38f6cbaa6931bad05c64a9ea942",
 )
 
-CM_VERSION = "5.19.0"
-
 maven_jar(
     name = "codemirror_minified",
     artifact = "org.webjars.npm:codemirror-minified:" + CM_VERSION,
-    sha1 = "263bf4acb7c4429be3fe46908af240f9f629d51c",
+    sha1 = "3e8767c9293614968176fcf66cb873d6eb8b3051",
 )
 
 maven_jar(
     name = "codemirror_original",
     artifact = "org.webjars.npm:codemirror:" + CM_VERSION,
-    sha1 = "e9ab382c6be240d55f112051bba3f6c637b798ce",
+    sha1 = "879c49085a44f062554a4e4a9ac248b7083d37cf",
 )
 
 maven_jar(

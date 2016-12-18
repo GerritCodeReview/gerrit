@@ -194,14 +194,14 @@ public class ReviewersUtil {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       AccountIndex searchIndex = accountIndexes.getSearchIndex();
       if (searchIndex != null) {
-        return suggestAccountsFromIndex(suggestReviewers);
+        return suggestAccountsFromIndex(suggestReviewers, visibilityControl);
       }
       return suggestAccountsFromDb(suggestReviewers, visibilityControl);
     }
   }
 
   private List<Account.Id> suggestAccountsFromIndex(
-      SuggestReviewers suggestReviewers) throws OrmException {
+      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl) throws OrmException {
     try {
       Set<Account.Id> matches = new HashSet<>();
       QueryResult<AccountState> result = accountQueryProcessor
@@ -209,7 +209,9 @@ public class ReviewersUtil {
           .query(accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
       for (AccountState accountState : result.entities()) {
         Account.Id id = accountState.getAccount().getId();
-        matches.add(id);
+        if (visibilityControl.isVisibleTo(id)) {
+          matches.add(id);
+        }
       }
       return new ArrayList<>(matches);
     } catch (QueryParseException e) {

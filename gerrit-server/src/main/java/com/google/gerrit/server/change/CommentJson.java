@@ -18,6 +18,7 @@ import static com.google.gerrit.server.CommentsUtil.COMMENT_INFO_ORDER;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -193,8 +194,8 @@ class CommentJson {
     }
 
     private List<FixSuggestionInfo> toFixSuggestionInfos(
-        List<FixSuggestion> fixSuggestions) {
-      if (fixSuggestions.isEmpty()) {
+        @Nullable List<FixSuggestion> fixSuggestions) {
+      if (fixSuggestions == null || fixSuggestions.isEmpty()) {
         return null;
       }
 

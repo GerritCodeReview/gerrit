@@ -1,7 +1,7 @@
 workspace(name = "gerrit")
 
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
-load("//lib/codemirror:cm.bzl", "DIFF_MATCH_PATCH_VERSION")
+load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 
 ANTLR_VERS = "3.5.2"
 
@@ -849,8 +849,6 @@ maven_jar(
     artifact = "postgresql:postgresql:9.1-901-1.jdbc4",
     sha1 = "9bfabe48876ec38f6cbaa6931bad05c64a9ea942",
 )
-
-CM_VERSION = "5.19.0"
 
 maven_jar(
     name = "codemirror_minified",

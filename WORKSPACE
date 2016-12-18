@@ -849,7 +849,7 @@ maven_jar(
     sha1 = "9bfabe48876ec38f6cbaa6931bad05c64a9ea942",
 )
 
-CM_VERSION = "5.19.0"
+CM_VERSION = "5.21.1"
 
 maven_jar(
     name = "codemirror_minified",

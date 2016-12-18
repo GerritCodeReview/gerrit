@@ -36,7 +36,7 @@ CM_ADDONS = [
 ]
 
 # Available themes must be enumerated here,
-# in gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/Theme.java,
+# in gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Theme.java,
 # in gerrit-gwtui/src/main/java/net/codemirror/theme/Themes.java
 CM_THEMES = [
     "3024-day",
@@ -50,6 +50,8 @@ CM_THEMES = [
     "cobalt",
     "colorforth",
     "dracula",
+    "duotone-dark",
+    "duotone-light",
     "eclipse",
     "elegant",
     "erlang-dark",
@@ -212,11 +214,11 @@ CM_MODES = [
     "z80",
 ]
 
-VERSION = "5.19.0"
+CM_VERSION = "5.22.0"
 
-TOP = "META-INF/resources/webjars/codemirror/%s" % VERSION
+TOP = "META-INF/resources/webjars/codemirror/%s" % CM_VERSION
 
-TOP_MINIFIED = "META-INF/resources/webjars/codemirror-minified/%s" % VERSION
+TOP_MINIFIED = "META-INF/resources/webjars/codemirror-minified/%s" % CM_VERSION
 
 LICENSE = "//lib:LICENSE-codemirror-original"
 

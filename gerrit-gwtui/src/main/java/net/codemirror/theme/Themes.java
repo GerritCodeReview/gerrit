@@ -32,6 +32,8 @@ public interface Themes extends ClientBundle {
   @Source("cobalt.css") ExternalTextResource cobalt();
   @Source("colorforth.css") ExternalTextResource colorforth();
   @Source("dracula.css") ExternalTextResource dracula();
+  @Source("duotone_dark.css") ExternalTextResource duotone_dark();
+  @Source("duotone_light.css") ExternalTextResource duotone_light();
   @Source("eclipse.css") ExternalTextResource eclipse();
   @Source("elegant.css") ExternalTextResource elegant();
   @Source("erlang-dark.css") ExternalTextResource erlang_dark();

@@ -51,6 +51,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   private AccountGroup group1;
   private AccountGroup group2;
   private AccountGroup group3;
+  private AccountGroup.UUID anonymousUsers;
 
   private TestAccount user1;
   private TestAccount user2;
@@ -67,6 +68,9 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     user2 = user("user2", "First2 Last2", group2);
     user3 = user("user3", "First3 Last3", group1, group2);
     user4 = user("jdoe", "John Doe", "JDOE");
+
+    anonymousUsers = groups.parse("Anonymous Users").getGroupUUID();
+    allow(allProjects, "read", anonymousUsers, "refs/*");
   }
 
   @Test
@@ -140,6 +144,19 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void suggestReviewsPrivateProjectVisibility() throws Exception {
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers;
+
+    setApiUser(user3);
+    remove(allProjects, "read", anonymousUsers, "refs/*");
+    allow(allProjects, "read", group1.getGroupUUID(), "refs/*");
+    reviewers = suggestReviewers(changeId, user2.username, 2);
+    assertThat(reviewers).isEmpty();
+    remove(allProjects, "read", group1.getGroupUUID(), "refs/*");
+  }
+
+  @Test
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
   public void suggestReviewersViewAllAccounts() throws Exception {
     String changeId = createChange().getChangeId();
@@ -173,28 +190,28 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     List<SuggestedReviewerInfo> reviewers;
 
     reviewers = suggestReviewers(changeId, "first", 4);
-    assertThat(reviewers).hasSize(3);
+    assertThat(reviewers).hasSize(4);
 
     reviewers = suggestReviewers(changeId, "first1", 2);
-    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers).hasSize(2);
 
     reviewers = suggestReviewers(changeId, "last", 4);
-    assertThat(reviewers).hasSize(3);
+    assertThat(reviewers).hasSize(4);
 
     reviewers = suggestReviewers(changeId, "last1", 2);
-    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers).hasSize(2);
 
     reviewers = suggestReviewers(changeId, "fi la", 4);
-    assertThat(reviewers).hasSize(3);
+    assertThat(reviewers).hasSize(4);
 
     reviewers = suggestReviewers(changeId, "la fi", 4);
-    assertThat(reviewers).hasSize(3);
+    assertThat(reviewers).hasSize(4);
 
     reviewers = suggestReviewers(changeId, "first1 la", 2);
-    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers).hasSize(2);
 
     reviewers = suggestReviewers(changeId, "fi last1", 2);
-    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers).hasSize(2);
 
     reviewers = suggestReviewers(changeId, "first1 last2", 1);
     assertThat(reviewers).hasSize(0);
@@ -206,7 +223,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
 
     reviewers = suggestReviewers(changeId, "example.com", 7);
-    assertThat(reviewers).hasSize(6);
+    assertThat(reviewers).hasSize(7);
 
     reviewers = suggestReviewers(changeId, user1.email, 2);
     assertThat(reviewers).hasSize(1);

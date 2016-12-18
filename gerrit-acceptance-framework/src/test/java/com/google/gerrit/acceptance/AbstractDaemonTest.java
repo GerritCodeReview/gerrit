@@ -31,6 +31,7 @@ import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -680,9 +681,15 @@ public abstract class AbstractDaemonTest {
 
   protected void allow(String permission, AccountGroup.UUID id, String ref)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    allow(project, permission, id, ref);
+  }
+
+  protected void allow(Project.NameKey projectName, String permission, AccountGroup.UUID id, String ref)
+      throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(projectName).getConfig();
     Util.allow(cfg, permission, id, ref);
-    saveProjectConfig(project, cfg);
+    saveProjectConfig(projectName, cfg);
+    projectCache.evict(projectName);
   }
 
   protected void allowGlobalCapabilities(AccountGroup.UUID id,
@@ -711,6 +718,15 @@ public abstract class AbstractDaemonTest {
       Util.remove(cfg, capabilityName, id);
     }
     saveProjectConfig(allProjects, cfg);
+  }
+
+  protected void remove(Project.NameKey p, String permission,
+      AccountGroup.UUID id, String ref) throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
+    cfg.getAccessSection(ref, true).getPermission(permission)
+        .removeRule(new GroupReference(id, id.get()));
+    saveProjectConfig(p, cfg);
+    projectCache.evict(p);
   }
 
   protected void setUseContributorAgreements(InheritableBoolean value)

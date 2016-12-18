@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
@@ -139,6 +140,18 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name)
         .isEqualTo(user2.fullName);
+  }
+
+  @Test
+  public void suggestReviewsPrivateProjectVisibility() throws Exception {
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers;
+
+    setApiUser(user3);
+    block("read", ANONYMOUS_USERS, "refs/*");
+    allow("read", group1.getGroupUUID(), "refs/*");
+    reviewers = suggestReviewers(changeId, user2.username, 2);
+    assertThat(reviewers).isEmpty();
   }
 
   @Test

@@ -178,13 +178,14 @@ public class ReviewersUtil {
       throws OrmException {
     AccountIndex searchIndex = indexes.getSearchIndex();
     if (searchIndex != null) {
-      return suggestAccountsFromIndex(suggestReviewers);
+      return suggestAccountsFromIndex(suggestReviewers, visibilityControl);
     }
     return suggestAccountsFromDb(suggestReviewers, visibilityControl);
   }
 
   private Collection<AccountInfo> suggestAccountsFromIndex(
-      SuggestReviewers suggestReviewers) throws OrmException {
+      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl)
+      throws OrmException {
     try {
       Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
       QueryResult<AccountState> result = queryProcessor
@@ -192,7 +193,9 @@ public class ReviewersUtil {
           .query(queryBuilder.defaultQuery(suggestReviewers.getQuery()));
       for (AccountState accountState : result.entities()) {
         Account.Id id = accountState.getAccount().getId();
-        matches.put(id, accountLoader.get(id));
+        if (visibilityControl.isVisibleTo(id)) {
+          matches.put(id, accountLoader.get(id));
+        }
       }
 
       accountLoader.fill();

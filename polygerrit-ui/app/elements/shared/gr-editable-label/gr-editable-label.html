@@ -54,6 +54,7 @@ limitations under the License.
       <label
           hidden$="[[editing]]"
           class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
+          title$="[[_computeLabel(value, placeholder)]]"
           on-tap="_open">[[_computeLabel(value, placeholder)]]</label>
   </template>
   <script src="gr-editable-label.js"></script>

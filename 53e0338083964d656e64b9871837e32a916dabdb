@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_0ab59b14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-12-19T13:14:36Z",
+      "side": 1,
+      "message": "We cannot grant non-administrator users READ access on All-Projects. If we do this, every project would now inherit this READ access and they would become visible to every one.\n\nI know it\u0027s unlikely that someone creates a child project under a project he cannot see but I think to be consistent with the fact that user can have access(event be the owner) to a project without necessarily be able to see the parent, we should not block them to create projects under the same parent.\n\nA more likely use case when a user will create a project under a parent he cannot see is the following:\nCreating a project with no parent, Gerrit will automatically set All-Projects as its parent so from a user perspective, I get an error saying \"All-Projects not found\" even though I did not put anything in the create project form about All-Projects.\n\nI wanted to avoid doing special case about All-Project so that is why I proposed to skip parent visibility check for any project creation.",
+      "parentUuid": "fa132f0f_54660c02",
+      "range": {
+        "startLine": 14,
+        "startChar": 48,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "53e0338083964d656e64b9871837e32a916dabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_55bc4c67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
         "patchSetId": 3

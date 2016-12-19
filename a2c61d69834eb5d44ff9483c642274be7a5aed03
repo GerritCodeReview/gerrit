@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1481643198 -0500\nnonce AOr0K+QQC3RpFcr0uRB5MWpVlnBUkBWG+oPJA7rdapEvXS+KEHfnjSR67F2rSEZ0zBFiMkJ94U61\n\n0000000000000000000000000000000000000000 02a3caaf380e118bf7e202a4012ea210117ac7f5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYUBS+AAoJEF/XxZqaEoiMBNMP/jxxD/Dk2SQUgWnLEM/0+Hpp\nQnoSy12E6LTwMryNI4eSIOxJA8BoINzkp+qsn/6/eDS4xV3zSLq1wBo7GkRBe4DL\ntlTNZQcY9hY/QMqJ75es3ssQI/WXm0mUlYR4j4V9UMOwrAvo4vjbmFBQOlJLwFD3\nDGaSNyTc9NEaCM/K6j31Ykvi7UMqPIGjfOyX/Jk/LRrkAYYR+hmh56LEHNlELAvg\nKYLRfu4POzFCDyfX4LND+lewigTVrgufq4KaAemgyddq7OaxfqJoZYhjglP0k9zo\nu7OVtTtrrE7mOJzjcxa10jhnvAapPr1TXxGNWrtL45dcqESTzHwERmn38JxulfsV\nExHzmWOJtVKigJWwYXgdKQoTzNa0nzi7ua6q7gTgi/hB2B0oe1S2W7jyHTOzj9I6\nUsu+/JJHMNTxiDVV25sEBe6yVdmZ8DMk/whB387sfG84fLgZ7CCA0dg1k5wehxYl\n6GDumLYYg9pBreEzR5JbYNsghLnr5kbfMtluY7yD5tbaZk3dLSYQw2vAMZxUUEp0\n/fApjCHAwn1mp56wz4X+aksQFOdbXbvExNdgQPbnytpXLBV9QVUlXlbRy5Qotbxh\nCmqryCMHGScQkJvXoFXz6oozZdR409tiKOHi5BpQU4j2j67HXKtzHkWGCCne9DHO\n5Os+P2d7+ZNPB1EexPht\n\u003dVQHp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_35ea70f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-19T14:13:54Z",
+      "side": 1,
+      "message": "Does this filtering do anything? Filtering out entries from patchSets where the key of the entry is not contained as key in patchSets, seems like a No-Op.\n\nShould this be\n\n  return patchSets;\n\n?",
+      "range": {
+        "startLine": 383,
+        "startChar": 4,
+        "endLine": 383,
+        "endChar": 63
+      },
+      "revId": "a2c61d69834eb5d44ff9483c642274be7a5aed03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

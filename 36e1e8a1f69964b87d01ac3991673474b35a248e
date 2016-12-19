@@ -40,6 +40,24 @@
       "revId": "36e1e8a1f69964b87d01ac3991673474b35a248e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_eaef6701",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-19T17:53:04Z",
+      "side": 1,
+      "message": "I wonder if 500 makes a difference in place of 200 or even 100.\nWould anyone even notice?",
+      "parentUuid": "bad8d7b0_4a0af303",
+      "revId": "36e1e8a1f69964b87d01ac3991673474b35a248e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

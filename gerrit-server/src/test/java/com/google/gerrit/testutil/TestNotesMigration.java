@@ -14,6 +14,9 @@
 
 package com.google.gerrit.testutil;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Singleton;
 
@@ -22,6 +25,8 @@ import com.google.inject.Singleton;
 public class TestNotesMigration extends NotesMigration {
   private volatile boolean readChanges;
   private volatile boolean writeChanges;
+  private volatile PrimaryStorage changePrimaryStorage =
+      PrimaryStorage.REVIEW_DB;
   private volatile boolean failOnLoad;
 
   @Override
@@ -34,6 +39,11 @@ public class TestNotesMigration extends NotesMigration {
     // Unlike ConfigNotesMigration, read change numbers from NoteDb by default
     // when reads are enabled, to improve test coverage.
     return readChanges;
+  }
+
+  @Override
+  public PrimaryStorage changePrimaryStorage() {
+    return changePrimaryStorage;
   }
 
   // Increase visbility from superclass, as tests may want to check whether
@@ -68,6 +78,12 @@ public class TestNotesMigration extends NotesMigration {
     return this;
   }
 
+  public TestNotesMigration setChangePrimaryStorage(
+      PrimaryStorage changePrimaryStorage) {
+    this.changePrimaryStorage = checkNotNull(changePrimaryStorage);
+    return this;
+  }
+
   public TestNotesMigration setFailOnLoad(boolean failOnLoad) {
     this.failOnLoad = failOnLoad;
     return this;
@@ -82,16 +98,24 @@ public class TestNotesMigration extends NotesMigration {
       case READ_WRITE:
         setWriteChanges(true);
         setReadChanges(true);
+        setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
         break;
       case WRITE:
         setWriteChanges(true);
         setReadChanges(false);
+        setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
+        break;
+      case PRIMARY:
+        setWriteChanges(true);
+        setReadChanges(true);
+        setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
         break;
       case CHECK:
       case OFF:
       default:
         setWriteChanges(false);
         setReadChanges(false);
+        setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
         break;
     }
     return this;

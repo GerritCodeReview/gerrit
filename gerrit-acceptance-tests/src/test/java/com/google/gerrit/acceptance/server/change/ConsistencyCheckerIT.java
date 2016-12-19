@@ -50,6 +50,7 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.gerrit.testutil.TestChanges;
@@ -297,8 +298,10 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PatchSet ps = newPatchSet(psId, rev, adminId);
 
-    db.changes().insert(singleton(c));
-    db.patchSets().insert(singleton(ps));
+    if (notesMigration.changePrimaryStorage() == PrimaryStorage.REVIEW_DB) {
+      db.changes().insert(singleton(c));
+      db.patchSets().insert(singleton(ps));
+    }
     addNoteDbCommit(
         c.getId(),
         "Create change\n"
@@ -824,10 +827,12 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     Change c = new Change(ctl.getChange());
     PatchSet.Id psId = nextPatchSetId(ctl);
     c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
-
     PatchSet ps = newPatchSet(psId, rev, adminId);
-    db.patchSets().insert(singleton(ps));
-    db.changes().update(singleton(c));
+
+    if (PrimaryStorage.of(c) == PrimaryStorage.REVIEW_DB) {
+      db.patchSets().insert(singleton(ps));
+      db.changes().update(singleton(c));
+    }
 
     addNoteDbCommit(
         c.getId(),

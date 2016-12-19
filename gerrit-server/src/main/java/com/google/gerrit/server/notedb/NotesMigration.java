@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+
 /**
  * Holds the current state of the NoteDb migration.
  * <p>
@@ -70,6 +72,9 @@ public abstract class NotesMigration {
    * sequences.
    */
   public abstract boolean readChangeSequence();
+
+  /** @return default primary storage for new changes. */
+  public abstract PrimaryStorage changePrimaryStorage();
 
   public abstract boolean readAccounts();
 

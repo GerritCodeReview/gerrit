@@ -295,12 +295,12 @@ def pkg_cm():
 
     # Merge Addon bundled with diff-match-patch
     genrule2(
-      name = 'addon_merge%s' % suffix,
+      name = 'addon_merge_with_diff_match_patch%s' % suffix,
       cmd = ' && '.join([
           "echo '/** @license' >$@",
           'unzip -p $(location %s) %s/LICENSE >>$@' % (archive, top),
           "echo '*/\n' >>$@",
-          "echo '// The google-diff-match-patch library is from https://google-diff-match-patch.googlecode.com/svn-history/r106/trunk/javascript/diff_match_patch.js\n' >> $@",
+          "echo '// The google-diff-match-patch library is from https://repo1.maven.org/maven2/org/webjars/google-diff-match-patch/%s/google-diff-match-patch-%s.jar\n' >> $@" % (DIFF_MATCH_PATCH_VERSION, DIFF_MATCH_PATCH_VERSION),
           "echo '/** @license' >>$@",
           "echo 'LICENSE-Apache2.0' >>$@",
           "echo '*/' >>$@",
@@ -314,7 +314,7 @@ def pkg_cm():
         archive,
         "//lib:LICENSE-Apache2.0",
       ],
-      outs = ['addon_merge%s.js' % suffix],
+      outs = ['addon_merge_with_diff_match_patch%s.js' % suffix],
     )
 
     # Jar packaging
@@ -329,10 +329,10 @@ def pkg_cm():
            for n in CM_MODES]
         + ['cp $$ROOT/$(location :theme_%s%s) net/codemirror/theme/%s.css' % (n, suffix, n)
            for n in CM_THEMES]
-        + ['cp $$ROOT/$(location :addon_merge%s) net/codemirror/addon/merge_bundled.js' % suffix]
+        + ['cp $$ROOT/$(location :addon_merge_with_diff_match_patch%s) net/codemirror/addon/merge_bundled.js' % suffix]
         + ['zip -qr $$ROOT/$@ net/codemirror/{addon,lib,mode,theme}']),
       tools = [
-        ':addon_merge%s' % suffix,
+        ':addon_merge_with_diff_match_patch%s' % suffix,
         ':cm%s' % suffix,
         ':css%s' % suffix,
       ] + [

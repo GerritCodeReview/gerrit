@@ -217,6 +217,7 @@ class CommentJson {
     private FixReplacementInfo toFixReplacementInfo(
         FixReplacement fixReplacement) {
       FixReplacementInfo fixReplacementInfo = new FixReplacementInfo();
+      fixReplacementInfo.path = fixReplacement.path;
       fixReplacementInfo.range = toRange(fixReplacement.range);
       fixReplacementInfo.replacement = fixReplacement.replacement;
       return fixReplacementInfo;

@@ -49,6 +49,10 @@ public class FixReplacementInfoSubject
     super(failureStrategy, fixReplacementInfo);
   }
 
+  public StringSubject path() {
+    return Truth.assertThat(actual().path).named("path");
+  }
+
   public RangeSubject range() {
     return RangeSubject.assertThat(actual().range).named("range");
   }

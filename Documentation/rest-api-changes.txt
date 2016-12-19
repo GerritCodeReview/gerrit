@@ -5476,13 +5476,14 @@ should be modified. They should refer to non-overlapping regions.
 
 [[fix-replacement-info]]
 === FixReplacementInfo
-The `FixReplacementInfo` entity describes how the content of a file (which is
-further specified by the surrounding context) should be replaced by another
-content.
+The `FixReplacementInfo` entity describes how the content of a file should be
+replaced by another content.
 
 [options="header",cols="1,6"]
 |==========================
 |Field Name      |Description
+|`path`          |The path of the file which should be modified. Modifications
+are only allowed for the file on which the corresponding comment was placed.
 |`range`         |A <<comment-range,CommentRange>> indicating which content
 of the file should be replaced.
 |`replacement`   |The content which should be used instead of the current one.

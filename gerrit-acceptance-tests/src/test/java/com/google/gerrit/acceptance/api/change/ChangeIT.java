@@ -391,7 +391,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo c2 = gApi.changes().id(changeId).get();
     assertThat(c2.revisions.get(c2.currentRevision)._number).isEqualTo(2);
 
-    // ...and the committer should be correct
+    // ...and the committer and description should be correct
     ChangeInfo info = gApi.changes()
         .id(changeId).get(EnumSet.of(
             ListChangesOption.CURRENT_REVISION,
@@ -400,6 +400,9 @@ public class ChangeIT extends AbstractDaemonTest {
         info.currentRevision).commit.committer;
     assertThat(committer.name).isEqualTo(admin.fullName);
     assertThat(committer.email).isEqualTo(admin.email);
+    String description = info.revisions.get(
+        info.currentRevision).description;
+    assertThat(description).isEqualTo("Rebase");
 
     // Rebasing the second change again should fail
     exception.expect(ResourceConflictException.class);

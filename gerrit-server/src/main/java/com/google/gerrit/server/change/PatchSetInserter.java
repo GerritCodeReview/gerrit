@@ -92,6 +92,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   // Fields exposed as setters.
   private String message;
+  private String description;
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
   private boolean draft;
@@ -142,6 +143,11 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   public PatchSetInserter setMessage(String message) {
     this.message = message;
+    return this;
+  }
+
+  public PatchSetInserter setDescription(String description) {
+    this.description = description;
     return this;
   }
 
@@ -229,7 +235,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
       }
     }
     patchSet = psUtil.insert(db, ctx.getRevWalk(), ctx.getUpdate(psId),
-        psId, commit, draft, newGroups, null, null);
+        psId, commit, draft, newGroups, null, description);
 
     if (notify != NotifyHandling.NONE) {
       oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());

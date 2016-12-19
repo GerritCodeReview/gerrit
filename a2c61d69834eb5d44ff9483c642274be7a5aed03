@@ -23,6 +23,24 @@
       "revId": "a2c61d69834eb5d44ff9483c642274be7a5aed03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_04b59614",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-19T14:21:09Z",
+      "side": 1,
+      "message": "Indeed. Done.",
+      "parentUuid": "1a1ba32a_35ea70f2",
+      "revId": "a2c61d69834eb5d44ff9483c642274be7a5aed03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

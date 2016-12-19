@@ -244,10 +244,7 @@ def pkg_cm():
         ['unzip -p $(location %s) %s/addon/%s >>$@' % (archive, top, n)
          for n in CM_ADDONS]
       ),
-      tools = [
-        '@codemirror_original//jar',
-        '@codemirror_minified//jar',
-      ],
+      tools = [archive],
       outs = ['cm%s.js' % suffix],
     )
 
@@ -262,10 +259,7 @@ def pkg_cm():
         ['unzip -p $(location %s) %s/%s >>$@' % (archive, top, n)
          for n in CM_CSS]
       ),
-      tools = [
-        '@codemirror_original//jar',
-        '@codemirror_minified//jar',
-      ],
+      tools = [archive],
       outs = ['cm%s.css' % suffix],
     )
 
@@ -280,10 +274,7 @@ def pkg_cm():
             'unzip -p $(location %s) %s/mode/%s/%s.js >>$@' % (archive, top, n, n),
           ]
         ),
-        tools = [
-          '@codemirror_original//jar',
-          '@codemirror_minified//jar',
-        ],
+        tools = [archive],
         outs = ['mode_%s%s.js' % (n, suffix)],
       )
 
@@ -298,10 +289,7 @@ def pkg_cm():
             'unzip -p $(location %s) %s/theme/%s.css >>$@' % (archive, top, n)
           ]
         ),
-        tools = [
-          '@codemirror_original//jar',
-          '@codemirror_minified//jar',
-        ],
+        tools = [archive],
         outs = ['theme_%s%s.css' % (n, suffix)],
       )
 
@@ -323,8 +311,8 @@ def pkg_cm():
       ),
       tools = [
         '@diff_match_patch//jar',
-        '@codemirror_original//jar',
-        '@codemirror_minified//jar',
+        archive,
+        "//lib:LICENSE-Apache2.0",
       ],
       outs = ['addon_merge%s.js' % suffix],
     )

@@ -16,6 +16,24 @@
       "revId": "03efc9183844117ee2baa9d85a62f4006ae28d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_544bac76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-12-19T10:57:44Z",
+      "side": 1,
+      "message": "I don\u0027t know about gwt:dev and gwt:user-neverlink. They\u0027re there in the dependency graph. \n\n$ bazel query \u0027somepath(//gerrit-gwtui:ui_module,//lib/gwt:user-neverlink)\u0027\n//gerrit-gwtui:ui_module\n//gerrit-gwtui-common:client\n//lib/gwt:user-neverlink\n\n$ bazel query \u0027somepath(//gerrit-gwtui:ui_module,//lib/gwt:dev)\u0027\n//gerrit-gwtui:ui_module\n//gerrit-gwtexpui:CSS\n//lib/gwt:dev\n\nwe also quite clearly depend on Guice.\n\nI fixed the codemirror license in https://gerrit-review.googlesource.com/93185",
+      "parentUuid": "bad8d7b0_4a85d397",
+      "revId": "03efc9183844117ee2baa9d85a62f4006ae28d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

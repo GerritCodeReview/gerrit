@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_b5f5e0d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-12-19T12:59:33Z",
+      "side": 1,
+      "message": "Something is strange in your configuration. The Author is different than the Committer.",
+      "revId": "24bdd00bc725c0bb85bf0f74b6c37e2cb0f0a1ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

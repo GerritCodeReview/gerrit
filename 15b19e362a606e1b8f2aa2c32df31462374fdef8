@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "fa132f0f_f43918e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-19T09:16:11Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "1a1ba32a_15ce54c0",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "15b19e362a606e1b8f2aa2c32df31462374fdef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_54e9ec38",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 2

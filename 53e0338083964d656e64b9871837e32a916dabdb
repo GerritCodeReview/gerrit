@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_6ae41722",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-12-19T18:04:48Z",
+      "side": 1,
+      "message": "Done, I added a test",
+      "parentUuid": "fa132f0f_1437743e",
+      "revId": "53e0338083964d656e64b9871837e32a916dabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_55bc4c67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
         "patchSetId": 3
@@ -113,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_4ae15310",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-12-19T18:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_55bc4c67",
+      "range": {
+        "startLine": 84,
+        "startChar": 19,
+        "endLine": 84,
+        "endChar": 20
+      },
+      "revId": "53e0338083964d656e64b9871837e32a916dabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_75bfc85d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
         "patchSetId": 3
@@ -124,6 +166,30 @@
       "writtenOn": "2016-12-16T13:54:30Z",
       "side": 1,
       "message": "one to is enough.",
+      "range": {
+        "startLine": 91,
+        "startChar": 76,
+        "endLine": 91,
+        "endChar": 78
+      },
+      "revId": "53e0338083964d656e64b9871837e32a916dabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_aa50cfee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-12-19T18:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_75bfc85d",
       "range": {
         "startLine": 91,
         "startChar": 76,

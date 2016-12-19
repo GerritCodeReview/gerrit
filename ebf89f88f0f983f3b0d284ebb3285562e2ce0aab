@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_446caeb1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-19T20:26:32Z",
+      "side": 1,
+      "message": "\u003e I\u0027d like it if this method had its own unit tests.\n\nDone.\n\n\u003e ...why not drop the range argument\n\nI\u0027d actually rather not, since this fn is recursively called several layers deep. Adding the already calculated range as a param is my little way of unrolling this recursion a bit.",
+      "parentUuid": "fac16fc3_24ea52f2",
+      "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad8d7b0_2aea1ff2",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
         "patchSetId": 2
@@ -59,6 +77,24 @@
       "writtenOn": "2016-12-19T18:06:55Z",
       "side": 1,
       "message": "Instead of wrapping the whole function in an if, make this just return early.\n\n  if (!sel.containsNode(domNode, true)) { return; }\n\nIt may also be appropriate to throw an exception in this case. What happens if it\u0027s passed a root node and a selection that don\u0027t relate to each-other?\n\nThis line is indented too far.",
+      "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ca5f03fb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-19T20:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_2aea1ff2",
       "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +118,24 @@
         "endLine": 268,
         "endChar": 80
       },
+      "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_646f2aa8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-19T20:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_e4ef9a01",
       "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

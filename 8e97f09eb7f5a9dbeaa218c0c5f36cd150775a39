@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_74ece84a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-19T08:07:13Z",
+      "side": 0,
+      "message": "Why is the visibility control going away? We do need to consider it to suggest only the reviewers that can actually see that change, isn\u0027t it?",
+      "range": {
+        "startLine": 169,
+        "startChar": 54,
+        "endLine": 169,
+        "endChar": 73
+      },
+      "revId": "8e97f09eb7f5a9dbeaa218c0c5f36cd150775a39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_b59160a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-19T08:07:13Z",
+      "side": 0,
+      "message": "This should stay and used for filtering out the results.",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 192,
+        "endChar": 41
+      },
+      "revId": "8e97f09eb7f5a9dbeaa218c0c5f36cd150775a39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -165,7 +165,7 @@ limitations under the License.
         max-width: 8em;
       }
       gr-editable-label.descriptionLabel {
-        max-width: 15em;
+        max-width: 50em;
       }
       @media screen and (max-width: 50em) {
         .header {
@@ -219,6 +219,9 @@ limitations under the License.
         }
         .scrollable {
           @apply(--layout-scroll);
+        }
+        gr-editable-label.descriptionLabel {
+          max-width: 15em;
         }
       }
     </style>
@@ -309,6 +312,17 @@ limitations under the License.
                 </option>
               </template>
             </select>
+            /
+            <gr-commit-info
+                change="[[_change]]"
+                server-config="[[serverConfig]]"
+                commit-info="[[_commitInfo]]"></gr-commit-info>
+            <span class="downloadContainer">
+              /
+              <gr-button link
+                  class="download"
+                  on-tap="_handleDownloadTap">Download</gr-button>
+            </span>
             <span class="descriptionContainer">
               /
               <gr-editable-label
@@ -319,21 +333,11 @@ limitations under the License.
                   read-only="[[_descriptionReadOnly]]"
                   on-changed="_handleDescriptionChanged"></gr-editable-label>
             </span>
-            <span class="downloadContainer">
-              /
-              <gr-button link
-                  class="download"
-                  on-tap="_handleDownloadTap">Download</gr-button>
-            </span>
             <span class="latestPatchContainer">
               /
               <a href$="/c/[[_change._number]]">Go to latest patch set</a>
             </span>
           </div>
-          <gr-commit-info
-              change="[[_change]]"
-              server-config="[[serverConfig]]"
-              commit-info="[[_commitInfo]]"></gr-commit-info>
         </div>
         <gr-file-list id="fileList"
             change="[[_change]]"

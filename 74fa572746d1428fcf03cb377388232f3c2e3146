@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_1562d4bf",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-19T16:07:00Z",
+      "side": 1,
+      "message": "What makes this hack special compared to guava declaration?\n\n  java_library(\n      name \u003d \"guava\",\n      data \u003d [\"//lib:LICENSE-Apache2.0\"],\n      visibility \u003d [\"//visibility:public\"],\n      exports \u003d [\"@guava//jar\"],\n  )\n\nIf you want to avoid that \"hack\", now, that we use our own version of maven_jar anyway, we could easily expose license attribute there: [1].\n\n* [1] https://bazel.build/versions/master/docs/be/java.html#java_import",
+      "range": {
+        "startLine": 231,
+        "startChar": 2,
+        "endLine": 231,
+        "endChar": 60
+      },
+      "revId": "74fa572746d1428fcf03cb377388232f3c2e3146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_14ce54c0",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-19T16:07:00Z",
+      "side": 1,
+      "message": "Move it to BUILD instead.",
+      "range": {
+        "startLine": 232,
+        "startChar": 2,
+        "endLine": 232,
+        "endChar": 21
+      },
+      "revId": "74fa572746d1428fcf03cb377388232f3c2e3146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_74db487e",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-19T16:07:00Z",
+      "side": 1,
+      "message": "no comma.",
+      "range": {
+        "startLine": 234,
+        "startChar": 47,
+        "endLine": 234,
+        "endChar": 49
+      },
+      "revId": "74fa572746d1428fcf03cb377388232f3c2e3146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_94c1c495",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-19T15:32:40Z",
+      "side": 1,
+      "message": "[optional] Remove this.",
+      "range": {
+        "startLine": 607,
+        "startChar": 51,
+        "endLine": 607,
+        "endChar": 66
+      },
+      "revId": "4408b99c6bc6e947af61ed4a17d14ccad9c6f371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

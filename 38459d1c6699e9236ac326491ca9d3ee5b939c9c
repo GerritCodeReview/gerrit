@@ -17,6 +17,24 @@
       "revId": "38459d1c6699e9236ac326491ca9d3ee5b939c9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_6a6ff7a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-19T18:42:56Z",
+      "side": 1,
+      "message": "Good news is this code is gone in the latest patch set.",
+      "parentUuid": "c1283cc8_4ae433c8",
+      "revId": "38459d1c6699e9236ac326491ca9d3ee5b939c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

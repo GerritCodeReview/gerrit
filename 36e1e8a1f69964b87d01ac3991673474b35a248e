@@ -22,6 +22,24 @@
       "revId": "36e1e8a1f69964b87d01ac3991673474b35a248e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_4a0af303",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-19T17:48:59Z",
+      "side": 1,
+      "message": "Constantizing is done.\n\nAs for the value of 500, it comes from me eyeballing the width of my 2560*1600 display and giving it a little bit more. There is no valid use case I can see for a PS description that is longer than the max width of the screen, because it\u0027ll all be cut off by the viewport anyway.",
+      "parentUuid": "fac16fc3_84022626",
+      "revId": "36e1e8a1f69964b87d01ac3991673474b35a248e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

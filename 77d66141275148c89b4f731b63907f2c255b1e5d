@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_246532c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-19T18:25:10Z",
+      "side": 1,
+      "message": "Nit: I feel these are the wrong details to include in a commit message. They\u0027d fit better in the change discussion or on a linked issue IMO. In particular, it\u0027s not necessarily very helpful to call-out Critique UX in this Forum.\n\nI\u0027d rephrase this a bit to explain more from the user\u0027s perspective. Also show that the UX approach follows the \"Principle of Least Astonishment\". Something like, the following...\n\n  Sort inline comments in the order that the comments were written.\n  Formerly comments were sorted in tree order so that reply comments would\n  appear after their parent. However, this sorting could be confusing\n  because there would be no other indication that the comments were\n  associated to a parent. When comments are sorted chronologically, they\n  appear in the thread position a user would expect.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "77d66141275148c89b4f731b63907f2c255b1e5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ea5ac70c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-19T18:25:10Z",
+      "side": 1,
+      "message": "Add a test for this fallback?",
+      "revId": "77d66141275148c89b4f731b63907f2c255b1e5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

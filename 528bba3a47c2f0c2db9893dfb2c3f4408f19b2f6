@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_b43fa0ca",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-19T08:42:59Z",
+      "side": 1,
+      "message": "Unrelated, but it would be easier if we imported this definition from cm.bzl",
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_142ad490",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-19T08:42:59Z",
+      "side": 1,
+      "message": "This needs to be updated.",
+      "range": {
+        "startLine": 857,
+        "startChar": 12,
+        "endLine": 857,
+        "endChar": 52
+      },
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_7437c8f4",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-19T08:42:59Z",
+      "side": 1,
+      "message": "And this",
+      "range": {
+        "startLine": 863,
+        "startChar": 12,
+        "endLine": 863,
+        "endChar": 52
+      },
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_54344cee",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-19T08:42:59Z",
+      "side": 1,
+      "message": "Needs to be updated.",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_b5bcc00f",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-19T08:42:59Z",
+      "side": 1,
+      "message": "Needs to be updated.",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 50
+      },
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

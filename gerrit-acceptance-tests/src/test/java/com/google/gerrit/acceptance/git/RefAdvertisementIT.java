@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -447,8 +448,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void receivePackOmitsMissingObject() throws Exception {
-    // Use the tactic from ConsistencyCheckerIT to insert a new patch set with a
-    // missing object.
     String rev = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     try (Repository repo = repoManager.openRepository(project)) {
       TestRepository<?> tr = new TestRepository<>(repo);
@@ -457,9 +456,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       PatchSet.Id psId = new PatchSet.Id(c3.getId(), 2);
       c.setCurrentPatchSet(psId, subject, c.getOriginalSubject());
 
-      PatchSet ps = TestChanges.newPatchSet(psId, rev, admin.getId());
-      db.patchSets().insert(Collections.singleton(ps));
-      db.changes().update(Collections.singleton(c));
+      if (notesMigration.changePrimaryStorage() == PrimaryStorage.REVIEW_DB) {
+        PatchSet ps = TestChanges.newPatchSet(psId, rev, admin.getId());
+        db.patchSets().insert(Collections.singleton(ps));
+        db.changes().update(Collections.singleton(c));
+      }
 
       if (notesMigration.commitChangeWrites()) {
         PersonIdent committer = serverIdent.get();

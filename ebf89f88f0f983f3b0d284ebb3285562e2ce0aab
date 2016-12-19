@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_24ea52f2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-19T18:06:55Z",
+      "side": 1,
+      "message": "If we\u0027re already passing the selection, why not drop the range argument and have\n\n  var range \u003d sel.rangeAt(0);",
+      "range": {
+        "startLine": 254,
+        "startChar": 47,
+        "endLine": 254,
+        "endChar": 57
+      },
+      "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_a45002ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-19T18:06:55Z",
+      "side": 1,
+      "message": "I\u0027d like it if this method had its own unit tests.",
+      "range": {
+        "startLine": 254,
+        "startChar": 4,
+        "endLine": 254,
+        "endChar": 27
+      },
+      "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_2aea1ff2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-19T18:06:55Z",
+      "side": 1,
+      "message": "Instead of wrapping the whole function in an if, make this just return early.\n\n  if (!sel.containsNode(domNode, true)) { return; }\n\nIt may also be appropriate to throw an exception in this case. What happens if it\u0027s passed a root node and a selection that don\u0027t relate to each-other?\n\nThis line is indented too far.",
+      "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_e4ef9a01",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-19T18:06:55Z",
+      "side": 1,
+      "message": "Non blocking nit: I think wrapping lines is easier to read if the arguments are what overflow.\n\ntext +\u003d this._getTextContentForRange(domNode.childNodes[i], \n    sel, range);",
+      "range": {
+        "startLine": 267,
+        "startChar": 12,
+        "endLine": 268,
+        "endChar": 80
+      },
+      "revId": "ebf89f88f0f983f3b0d284ebb3285562e2ce0aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

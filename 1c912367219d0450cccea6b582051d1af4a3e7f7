@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1af0039f_ad0a1d43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af307ad_ee709ff5",
+      "revId": "1c912367219d0450cccea6b582051d1af4a3e7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1af0039f_6d7dd5d0",
         "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
         "patchSetId": 12

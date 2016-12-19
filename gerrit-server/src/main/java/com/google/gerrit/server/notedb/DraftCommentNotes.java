@@ -167,7 +167,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   }
 
   @Override
-  protected LoadHandle openHandle(Repository repo) throws IOException {
+  protected LoadHandle openHandle(Repository repo)
+      throws NoSuchChangeException, IOException {
     if (rebuildResult != null) {
       StagedResult sr = checkNotNull(rebuildResult.staged());
       return LoadHandle.create(
@@ -195,7 +196,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return null;
   }
 
-  private LoadHandle rebuildAndOpen(Repository repo) throws IOException {
+  private LoadHandle rebuildAndOpen(Repository repo)
+      throws NoSuchChangeException, IOException {
     Timer1.Context timer = args.metrics.autoRebuildLatency.start(CHANGES);
     try {
       Change.Id cid = getChangeId();

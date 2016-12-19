@@ -124,6 +124,10 @@ public class NoteDbChecker {
     }
   }
 
+  public void assertNoReviewDbChanges() throws Exception {
+    assertThat(getUnwrappedDb().changes().all().toList()).isEmpty();
+  }
+
   private List<ChangeBundle> readExpected(Stream<Change.Id> changeIds)
       throws Exception {
     boolean old = notesMigration.readChanges();

@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,9 +50,11 @@ public class ConfigNotesMigration extends NotesMigration {
   }
 
   private static final String NOTE_DB = "noteDb";
+
+  private static final String PRIMARY_STORAGE = "primaryStorage";
   private static final String READ = "read";
-  private static final String WRITE = "write";
   private static final String SEQUENCE = "sequence";
+  private static final String WRITE = "write";
 
   private static void checkConfig(Config cfg) {
     Set<String> keys = new HashSet<>();
@@ -81,6 +84,7 @@ public class ConfigNotesMigration extends NotesMigration {
   private final boolean writeChanges;
   private final boolean readChanges;
   private final boolean readChangeSequence;
+  private final PrimaryStorage changePrimaryStorage;
 
   private final boolean writeAccounts;
   private final boolean readAccounts;
@@ -97,6 +101,9 @@ public class ConfigNotesMigration extends NotesMigration {
     // undo: ReviewDb might hand out numbers that have already been assigned by
     // NoteDb. This decision for the default may be reevaluated later.
     readChangeSequence = cfg.getBoolean(NOTE_DB, CHANGES.key(), SEQUENCE, false);
+
+    changePrimaryStorage = cfg.getEnum(
+        NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
 
     writeAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), WRITE, false);
     readAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), READ, false);
@@ -115,6 +122,11 @@ public class ConfigNotesMigration extends NotesMigration {
   @Override
   public boolean readChangeSequence() {
     return readChangeSequence;
+  }
+
+  @Override
+  public PrimaryStorage changePrimaryStorage() {
+    return changePrimaryStorage;
   }
 
   @Override

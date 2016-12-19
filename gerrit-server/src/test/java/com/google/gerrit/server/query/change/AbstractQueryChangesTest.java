@@ -59,6 +59,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountManager;
@@ -78,6 +79,7 @@ import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -140,6 +142,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected InternalChangeQuery internalChangeQuery;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected PatchSetInserter.Factory patchSetFactory;
+  @Inject protected PatchSetUtil psUtil;
   @Inject protected ChangeControl.GenericFactory changeControlFactory;
   @Inject protected ChangeQueryProcessor queryProcessor;
   @Inject protected SchemaCreator schemaCreator;
@@ -1515,9 +1518,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 = createAccount("user2");
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
-    PatchSet ps1 = db.patchSets().get(change1.currentPatchSetId());
+    ChangeNotes notes1 =
+        notesFactory.create(db, change1.getProject(), change1.getId());
+    PatchSet ps1 = psUtil.get(db, notes1, change1.currentPatchSetId());
     Change change2 = insert(repo, newChange(repo));
-    PatchSet ps2 = db.patchSets().get(change2.currentPatchSetId());
+    ChangeNotes notes2 =
+        notesFactory.create(db, change2.getProject(), change2.getId());
+    PatchSet ps2 = psUtil.get(db, notes2, change2.currentPatchSetId());
 
     requestContext.setContext(newRequestContext(user1));
     assertQuery("has:edit");
@@ -1628,7 +1635,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
-    PatchSet ps = db.patchSets().get(change.currentPatchSetId());
+    ChangeNotes notes =
+        notesFactory.create(db, change.getProject(), change.getId());
+    PatchSet ps = psUtil.get(db, notes, change.currentPatchSetId());
 
     requestContext.setContext(newRequestContext(user));
     assertThat(changeEditModifier.createEdit(change, ps))
@@ -1650,6 +1659,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void refStateFields() throws Exception {
+    // This test method manages primary storage manually.
+    assume().that(notesMigration.changePrimaryStorage())
+        .isEqualTo(PrimaryStorage.REVIEW_DB);
     Account.Id user = createAccount("user");
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
@@ -1659,7 +1671,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change = insert(repo, newChangeForCommit(repo, commit));
     Change.Id id = change.getId();
     int c = id.get();
-    PatchSet ps = db.patchSets().get(change.currentPatchSetId());
+    ChangeNotes notes =
+        notesFactory.create(db, change.getProject(), change.getId());
+    PatchSet ps = psUtil.get(db, notes, change.currentPatchSetId());
     requestContext.setContext(newRequestContext(user));
 
     // Ensure one of each type of supported ref is present for the change. If

@@ -58,6 +58,24 @@
       "revId": "36e1e8a1f69964b87d01ac3991673474b35a248e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_e4431a11",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-19T21:28:54Z",
+      "side": 1,
+      "message": "From my eyeballing, 500 seems like a good number. We can revisit the issue if users complain, though.",
+      "parentUuid": "bad8d7b0_eaef6701",
+      "revId": "36e1e8a1f69964b87d01ac3991673474b35a248e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

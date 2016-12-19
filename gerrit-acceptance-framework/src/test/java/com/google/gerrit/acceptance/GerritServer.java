@@ -295,10 +295,7 @@ public class GerritServer {
 
   void stop() throws Exception {
     try {
-      if (NoteDbMode.get().equals(NoteDbMode.CHECK)) {
-        testInjector.getInstance(NoteDbChecker.class)
-            .rebuildAndCheckAllChanges();
-      }
+      checkNoteDbState();
     } finally {
       daemon.getLifecycleManager().stop();
       if (daemonService != null) {
@@ -307,6 +304,15 @@ public class GerritServer {
         daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
       }
       RepositoryCache.clear();
+    }
+  }
+
+  private void checkNoteDbState() throws Exception {
+    NoteDbMode mode = NoteDbMode.get();
+    if (mode == NoteDbMode.CHECK) {
+      testInjector.getInstance(NoteDbChecker.class).rebuildAndCheckAllChanges();
+    } else if (mode == NoteDbMode.PRIMARY) {
+      testInjector.getInstance(NoteDbChecker.class).assertNoReviewDbChanges();
     }
   }
 

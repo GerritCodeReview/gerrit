@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -174,7 +175,20 @@ public abstract class AbstractChangeNotes<T> {
     return ref != null ? ref.getObjectId() : null;
   }
 
-  protected LoadHandle openHandle(Repository repo) throws IOException {
+  /**
+   * Open a handle for reading this entity from a repository.
+   * <p>
+   * Implementations may override this method to provide auto-rebuilding
+   * behavior.
+   *
+   * @param repo open repository.
+   * @return handle for reading the entity.
+   *
+   * @throws NoSuchChangeException change does not exist.
+   * @throws IOException a repo-level error occurred.
+   */
+  protected LoadHandle openHandle(Repository repo)
+      throws NoSuchChangeException, IOException {
     return openHandle(repo, readRef(repo));
   }
 
@@ -182,7 +196,7 @@ public abstract class AbstractChangeNotes<T> {
     return LoadHandle.create(ChangeNotesCommit.newRevWalk(repo), id);
   }
 
-  public T reload() throws OrmException {
+  public T reload() throws NoSuchChangeException, OrmException {
     loaded = false;
     return load();
   }
@@ -215,7 +229,7 @@ public abstract class AbstractChangeNotes<T> {
 
   /** Set up the metadata, parsing any state from the loaded revision. */
   protected abstract void onLoad(LoadHandle handle)
-      throws IOException, ConfigInvalidException;
+      throws NoSuchChangeException, IOException, ConfigInvalidException;
 
   @SuppressWarnings("unchecked")
   protected final T self() {

@@ -29,6 +29,9 @@ public enum NoteDbMode {
   /** Reading and writing all data to NoteDb is enabled. */
   READ_WRITE,
 
+  /** Changes are created with their primary storage as NoteDb. */
+  PRIMARY,
+
   /**
    * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check
    * that the results match.

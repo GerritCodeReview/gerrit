@@ -1040,18 +1040,45 @@ public class BatchUpdate implements AutoCloseable {
     private ChangeContext newChangeContext(ReviewDb db, Repository repo,
         RevWalk rw, Change.Id id) throws OrmException {
       Change c = newChanges.get(id);
-      if (c == null) {
+      boolean isNew = c != null;
+      PrimaryStorage defaultStorage = notesMigration.changePrimaryStorage();
+      if (isNew) {
+        // New change: populate noteDbState.
+        checkState(c.getNoteDbState() == null,
+            "noteDbState should not be filled in by callers");
+        if (defaultStorage == PrimaryStorage.NOTE_DB) {
+          c.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
+        }
+      } else {
+        // Existing change.
         c = ChangeNotes.readOneReviewDbChange(db, id);
         if (c == null) {
-          logDebug("Failed to get change {} from unwrapped db", id);
-          throw new NoSuchChangeException(id);
+          if (defaultStorage == PrimaryStorage.REVIEW_DB) {
+            logDebug("Failed to get change {} from unwrapped db", id);
+            throw new NoSuchChangeException(id);
+          }
+          // Not in ReviewDb, but new changes are created with default primary
+          // storage as NOTE_DB, so we can assume that a missing change is
+          // NoteDb primary. Pass a synthetic change into ChangeNotes.Factory,
+          // which lets ChangeNotes take care of the existence check.
+          //
+          // TODO(dborowitz): This assumption is potentially risky, because
+          // it means once we turn this option on and start creating changes
+          // without writing anything to ReviewDb, we can't turn this option
+          // back off without making those changes inaccessible. The problem
+          // is we have no way of distinguishing a change that only exists in
+          // NoteDb because it only ever existed in NoteDb, from a change that
+          // only exists in NoteDb because it used to exist in ReviewDb and
+          // deleting from ReviewDb succeeded but deleting from NoteDb failed.
+          //
+          // TODO(dborowitz): We actually still have that problem anyway. Maybe
+          // we need a cutoff timestamp? Or maybe we need to start leaving
+          // tombstones in ReviewDb?
+          c = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
         }
         NoteDbChangeState.checkNotReadOnly(c, skewMs);
       }
-      // Pass in preloaded change to controlFor, to avoid:
-      //  - reading from a db that does not belong to this update
-      //  - attempting to read a change that doesn't exist yet
-      ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c);
+      ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c, !isNew);
       ChangeControl ctl = changeControlFactory.controlFor(notes, user);
       return new ChangeContext(ctl, new BatchUpdateReviewDb(db), repo, rw);
     }

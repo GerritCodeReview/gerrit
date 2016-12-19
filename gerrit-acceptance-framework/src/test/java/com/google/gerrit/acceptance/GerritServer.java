@@ -25,6 +25,8 @@ import com.google.gerrit.pgm.Init;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.ssh.NoSshModule;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testutil.FakeEmailSender;
@@ -62,6 +64,7 @@ public class GerritServer {
     static Description forTestClass(org.junit.runner.Description testDesc,
         String configName) {
       return new AutoValue_GerritServer_Description(
+          testDesc,
           configName,
           true, // @UseLocalDisk is only valid on methods.
           !has(NoHttpd.class, testDesc.getTestClass()),
@@ -75,6 +78,7 @@ public class GerritServer {
     static Description forTestMethod(org.junit.runner.Description testDesc,
         String configName) {
       return new AutoValue_GerritServer_Description(
+          testDesc,
           configName,
           testDesc.getAnnotation(UseLocalDisk.class) == null,
           testDesc.getAnnotation(NoHttpd.class) == null
@@ -97,6 +101,7 @@ public class GerritServer {
       return false;
     }
 
+    abstract org.junit.runner.Description testDescription();
     @Nullable abstract String configName();
     abstract boolean memory();
     abstract boolean httpd();
@@ -297,10 +302,7 @@ public class GerritServer {
 
   void stop() throws Exception {
     try {
-      if (NoteDbMode.get().equals(NoteDbMode.CHECK)) {
-        testInjector.getInstance(NoteDbChecker.class)
-            .rebuildAndCheckAllChanges();
-      }
+      checkNoteDbState();
     } finally {
       daemon.getLifecycleManager().stop();
       if (daemonService != null) {
@@ -309,6 +311,23 @@ public class GerritServer {
         daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
       }
       RepositoryCache.clear();
+    }
+  }
+
+  private void checkNoteDbState() throws Exception {
+    NoteDbMode mode = NoteDbMode.get();
+    if (mode != NoteDbMode.CHECK && mode != NoteDbMode.PRIMARY) {
+      return;
+    }
+    NoteDbChecker checker = testInjector.getInstance(NoteDbChecker.class);
+    OneOffRequestContext oneOffRequestContext =
+        testInjector.getInstance(OneOffRequestContext.class);
+    try (ManualRequestContext ctx = oneOffRequestContext.open()) {
+      if (mode == NoteDbMode.CHECK) {
+        checker.rebuildAndCheckAllChanges();
+      } else if (mode == NoteDbMode.PRIMARY) {
+        checker.assertNoReviewDbChanges(desc.testDescription());
+      }
     }
   }
 

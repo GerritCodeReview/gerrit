@@ -45,6 +45,30 @@
       "revId": "8e97f09eb7f5a9dbeaa218c0c5f36cd150775a39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_f422b8b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-19T08:19:48Z",
+      "side": 0,
+      "message": "OK, I agree that it\u0027s a bug when the account index is used, but it\u0027s unrelated to this change? [1] is fixing this and after rebasing this change onto it, all should be fine.\n\n[1] https://gerrit-review.googlesource.com/93270",
+      "parentUuid": "1a1ba32a_b59160a4",
+      "range": {
+        "startLine": 192,
+        "startChar": 6,
+        "endLine": 192,
+        "endChar": 41
+      },
+      "revId": "8e97f09eb7f5a9dbeaa218c0c5f36cd150775a39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

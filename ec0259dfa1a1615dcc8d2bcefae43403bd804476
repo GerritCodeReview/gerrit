@@ -17,6 +17,24 @@
       "revId": "ec0259dfa1a1615dcc8d2bcefae43403bd804476",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_aadbaf3a",
+        "filename": "lib/maven.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-19T21:52:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_0a063bcf",
+      "revId": "ec0259dfa1a1615dcc8d2bcefae43403bd804476",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -39,6 +39,7 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.runner.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,6 +123,25 @@ public class NoteDbChecker {
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef(RefNames.changeMetaRef(changeId))).isNull();
     }
+  }
+
+  public void assertNoReviewDbChanges(Description desc) throws Exception {
+    ReviewDb db = getUnwrappedDb();
+    assertThat(db.changes().all().toList())
+        .named("Changes in " + desc.getTestClass())
+        .isEmpty();
+    assertThat(db.changeMessages().all().toList())
+        .named("ChangeMessages in " + desc.getTestClass())
+        .isEmpty();
+    assertThat(db.patchSets().all().toList())
+        .named("PatchSets in " + desc.getTestClass())
+        .isEmpty();
+    assertThat(db.patchSetApprovals().all().toList())
+        .named("PatchSetApprovals in " + desc.getTestClass())
+        .isEmpty();
+    assertThat(db.patchComments().all().toList())
+        .named("PatchLineComments in " + desc.getTestClass())
+        .isEmpty();
   }
 
   private List<ChangeBundle> readExpected(Stream<Change.Id> changeIds)

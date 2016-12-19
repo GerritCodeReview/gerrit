@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_2a3e9f7b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-19T21:20:36Z",
+      "side": 1,
+      "message": "Add a note about how using a domNode that isn\u0027t in the selection returns an empty string.",
+      "revId": "f667158fdc9d73efef54a69bc4e28841d541b97b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_a4492237",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-19T21:20:36Z",
+      "side": 1,
+      "message": "Nit: remove these blank lines.",
+      "revId": "f667158fdc9d73efef54a69bc4e28841d541b97b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -124,7 +124,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
           // Bypass approval copier since SubmitStrategyOp copy all approvals
           // later anyway.
           .setCopyApprovals(false)
-          .setValidatePolicy(CommitValidators.Policy.NONE);
+          .setValidatePolicy(CommitValidators.Policy.NONE)
+          .setCheckAddPatchSetPermission(false);
       try {
         rebaseOp.updateRepo(ctx);
       } catch (MergeConflictException | NoSuchChangeException e) {

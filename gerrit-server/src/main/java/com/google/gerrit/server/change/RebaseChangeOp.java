@@ -65,6 +65,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
   private PersonIdent committerIdent;
   private boolean fireRevisionCreated = true;
   private CommitValidators.Policy validate;
+  private boolean checkAddPatchSetPermission = true;
   private boolean forceContentMerge;
   private boolean copyApprovals = true;
 
@@ -98,6 +99,12 @@ public class RebaseChangeOp extends BatchUpdate.Op {
 
   public RebaseChangeOp setValidatePolicy(CommitValidators.Policy validate) {
     this.validate = validate;
+    return this;
+  }
+
+  public RebaseChangeOp setCheckAddPatchSetPermission(
+      boolean checkAddPatchSetPermission) {
+    this.checkAddPatchSetPermission = checkAddPatchSetPermission;
     return this;
   }
 
@@ -153,6 +160,7 @@ public class RebaseChangeOp extends BatchUpdate.Op {
         .setSendMail(false)
         .setFireRevisionCreated(fireRevisionCreated)
         .setCopyApprovals(copyApprovals)
+        .setCheckAddPatchSetPermission(checkAddPatchSetPermission)
         .setMessage(
           "Patch Set " + rebasedPatchSetId.get()
           + ": Patch Set " + originalPatchSet.getId().get() + " was rebased");

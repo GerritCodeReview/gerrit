@@ -17,11 +17,14 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.getChangeId;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -33,6 +36,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.Submit.TestSubmitInput;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.Util;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -68,6 +73,24 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithRebase() throws Exception {
+    submitWithRebase(admin);
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitWithRebaseWithoutAddPatchSetPermission() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.block(cfg, Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/*");
+    Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(Util.codeReview().getName()), -2, 2,
+        REGISTERED_USERS, "refs/heads/*");
+    saveProjectConfig(project, cfg);
+
+    submitWithRebase(user);
+  }
+
+  private void submitWithRebase(TestAccount submitter) throws Exception {
+    setApiUser(submitter);
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change =
         createChange("Change 1", "a.txt", "content");
@@ -82,13 +105,13 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     RevCommit headAfterSecondSubmit = getRemoteHead();
     assertThat(headAfterSecondSubmit.getParent(0))
         .isEqualTo(headAfterFirstSubmit);
-    assertApproved(change2.getChangeId());
+    assertApproved(change2.getChangeId(), submitter);
     assertCurrentRevision(change2.getChangeId(), 2, headAfterSecondSubmit);
-    assertSubmitter(change2.getChangeId(), 1);
-    assertSubmitter(change2.getChangeId(), 2);
+    assertSubmitter(change2.getChangeId(), 1, submitter);
+    assertSubmitter(change2.getChangeId(), 2, submitter);
     assertPersonEquals(admin.getIdent(),
         headAfterSecondSubmit.getAuthorIdent());
-    assertPersonEquals(admin.getIdent(),
+    assertPersonEquals(submitter.getIdent(),
         headAfterSecondSubmit.getCommitterIdent());
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,

@@ -30,6 +30,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -460,11 +461,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertApproved(String changeId) throws Exception {
+    assertApproved(changeId, admin);
+  }
+
+  protected void assertApproved(String changeId, TestAccount user)
+      throws Exception {
     ChangeInfo c = get(changeId, DETAILED_LABELS);
     LabelInfo cr = c.labels.get("Code-Review");
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).value).isEqualTo(2);
-    assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
+    assertThat(new Account.Id(cr.all.get(0)._accountId))
+        .isEqualTo(user.getId());
   }
 
   protected void assertMerged(String changeId) throws RestApiException {
@@ -484,14 +491,19 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected void assertSubmitter(String changeId, int psId)
       throws Exception {
+    assertSubmitter(changeId, psId, admin);
+  }
+
+  protected void assertSubmitter(String changeId, int psId, TestAccount user)
+      throws Exception {
     Change c =
         getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
     ChangeNotes cn = notesFactory.createChecked(db, c);
-    PatchSetApproval submitter = approvalsUtil.getSubmitter(
-        db, cn, new PatchSet.Id(cn.getChangeId(), psId));
+    PatchSetApproval submitter = approvalsUtil.getSubmitter(db, cn,
+        new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter).isNotNull();
     assertThat(submitter.isLegacySubmit()).isTrue();
-    assertThat(submitter.getAccountId()).isEqualTo(admin.getId());
+    assertThat(submitter.getAccountId()).isEqualTo(user.getId());
   }
 
   protected void assertNoSubmitter(String changeId, int psId)

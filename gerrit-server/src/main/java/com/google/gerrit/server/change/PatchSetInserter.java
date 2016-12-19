@@ -95,6 +95,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private String message;
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
+  private boolean checkAddPatchSetPermission = true;
   private boolean draft;
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
@@ -151,6 +152,12 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   public PatchSetInserter setValidatePolicy(CommitValidators.Policy validate) {
     this.validatePolicy = checkNotNull(validate);
+    return this;
+  }
+
+  public PatchSetInserter setCheckAddPatchSetPermission(
+      boolean checkAddPatchSetPermission) {
+    this.checkAddPatchSetPermission = checkAddPatchSetPermission;
     return this;
   }
 
@@ -294,7 +301,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     CommitValidators cv = commitValidatorsFactory.create(
         origCtl.getRefControl(), sshInfo, ctx.getRepository());
 
-    if (!origCtl.canAddPatchSet(ctx.getDb())) {
+    if (checkAddPatchSetPermission && !origCtl.canAddPatchSet(ctx.getDb())) {
       throw new AuthException("cannot add patch set");
     }
 

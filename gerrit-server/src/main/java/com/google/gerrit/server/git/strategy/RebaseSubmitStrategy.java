@@ -169,6 +169,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
             // later anyway.
             .setCopyApprovals(false)
             .setValidatePolicy(CommitValidators.Policy.NONE)
+            .setCheckAddPatchSetPermission(false)
             // RebaseAlways should set always modify commit message like
             // Cherry-Pick strategy.
             .setDetailedCommitMessage(rebaseAlways)

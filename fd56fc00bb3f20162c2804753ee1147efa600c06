@@ -34,6 +34,24 @@
       "revId": "fd56fc00bb3f20162c2804753ee1147efa600c06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_6413aa0d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-19T22:36:43Z",
+      "side": 1,
+      "message": "\u003e astral symbols\n\nAdded a test for this, seems to work.",
+      "parentUuid": "fac16fc3_043bd68b",
+      "revId": "fd56fc00bb3f20162c2804753ee1147efa600c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

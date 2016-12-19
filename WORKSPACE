@@ -1,6 +1,7 @@
 workspace(name = "gerrit")
 
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
+load("//lib/codemirror:cm.bzl", "DIFF_MATCH_PATCH_VERSION")
 
 ANTLR_VERS = "3.5.2"
 
@@ -865,7 +866,7 @@ maven_jar(
 
 maven_jar(
     name = "diff_match_patch",
-    artifact = "org.webjars:google-diff-match-patch:20121119-1",
+    artifact = "org.webjars:google-diff-match-patch:" + DIFF_MATCH_PATCH_VERSION,
     attach_source = False,
     sha1 = "0cf1782dbcb8359d95070da9176059a5a9d37709",
 )

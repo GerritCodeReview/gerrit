@@ -23,7 +23,6 @@ maven_jar(
   visibility = [],
 )
 
-DIFF_MATCH_PATCH_VERSION = '20121119-1'
 DIFF_MATCH_PATCH_TOP = ('META-INF/resources/webjars/google-diff-match-patch/%s'
     % DIFF_MATCH_PATCH_VERSION)
 
@@ -95,12 +94,12 @@ for archive, suffix, top in [('codemirror-original', '', TOP), ('codemirror-mini
 
   # Merge Addon bundled with diff-match-patch
   genrule(
-    name = 'addon_merge%s' % suffix,
+    name = 'addon_merge_with_diff_match_patch%s' % suffix,
     cmd = ';'.join([
         "echo '/** @license' >$OUT",
         'unzip -p $(location :%s) %s/LICENSE >>$OUT' % (archive, top),
         "echo '*/\n' >>$OUT",
-        "echo '// The google-diff-match-patch library is from https://google-diff-match-patch.googlecode.com/svn-history/r106/trunk/javascript/diff_match_patch.js\n' >> $OUT",
+        "echo '// The google-diff-match-patch library is from https://repo1.maven.org/maven2/org/webjars/google-diff-match-patch/%s/google-diff-match-patch-%s.jar\n' >> $OUT" % (DIFF_MATCH_PATCH_VERSION, DIFF_MATCH_PATCH_VERSION),
         "echo '/** @license' >>$OUT",
         'cat $(location //lib:LICENSE-Apache2.0) >>$OUT',
         "echo '*/' >>$OUT",
@@ -109,7 +108,7 @@ for archive, suffix, top in [('codemirror-original', '', TOP), ('codemirror-mini
         'unzip -p $(location :%s) %s/addon/merge/merge.js >>$OUT' % (archive, top)
       ]
     ),
-    out = 'addon_merge%s.js' % suffix,
+    out = 'addon_merge_with_diff_match_patch%s.js' % suffix,
   )
 
   # Jar packaging
@@ -124,7 +123,7 @@ for archive, suffix, top in [('codemirror-original', '', TOP), ('codemirror-mini
          for n in CM_MODES]
       + ['cp $(location :theme_%s%s) net/codemirror/theme/%s.css' % (n, suffix, n)
          for n in CM_THEMES]
-      + ['cp $(location :addon_merge%s) net/codemirror/addon/merge_bundled.js' % suffix]
+      + ['cp $(location :addon_merge_with_diff_match_patch%s) net/codemirror/addon/merge_bundled.js' % suffix]
       + ['zip -qr $OUT net/codemirror/{addon,lib,mode,theme}']),
     out = 'codemirror%s.jar' % suffix,
   )

@@ -18,6 +18,8 @@ MAVEN_CENTRAL = 'MAVEN_CENTRAL:'
 MAVEN_LOCAL = 'MAVEN_LOCAL:'
 MAVEN_SNAPSHOT = 'MAVEN_SNAPSHOT:'
 
+DIFF_MATCH_PATCH_VERSION = "20121119-1"
+
 def define_license(name):
   n = 'LICENSE-' + name
   genrule(

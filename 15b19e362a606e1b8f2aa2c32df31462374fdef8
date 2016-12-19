@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_35d1d05e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-19T09:00:27Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "fa132f0f_b4184090",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "15b19e362a606e1b8f2aa2c32df31462374fdef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_941d4480",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-19T08:17:37Z",
       "side": 1,
       "message": "Can you add a test for this? :)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "15b19e362a606e1b8f2aa2c32df31462374fdef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_15ce54c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-19T09:00:27Z",
+      "side": 1,
+      "message": "Acttually this is a fix to be applied to the stable-2.13 branch. Let me cherry-pick there and abort this change.",
+      "parentUuid": "fa132f0f_941d4480",
       "range": {
         "startLine": 13,
         "startChar": 0,

@@ -15,10 +15,12 @@
 package com.google.gerrit.reviewdb.client;
 
 public class FixReplacement {
+  public String path;
   public Comment.Range range;
   public String replacement;
 
-  public FixReplacement(Comment.Range range, String replacement) {
+  public FixReplacement(String path, Comment.Range range, String replacement) {
+    this.path = path;
     this.range = range;
     this.replacement = replacement;
   }
@@ -26,7 +28,8 @@ public class FixReplacement {
   @Override
   public String toString() {
     return "FixReplacement{" +
-        "range=" + range +
+        "path='" + path + '\'' +
+        ", range=" + range +
         ", replacement='" + replacement + '\'' +
         '}';
   }

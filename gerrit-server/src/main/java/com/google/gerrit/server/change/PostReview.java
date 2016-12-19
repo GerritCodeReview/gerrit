@@ -521,82 +521,105 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Map<String, List<RobotCommentInput>> in)
           throws BadRequestException, OrmException {
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
-      String path = e.getKey();
+      String commentPath = e.getKey();
       for (RobotCommentInput c : e.getValue()) {
-        ensureRobotIdIsSet(c.robotId, path);
-        ensureRobotRunIdIsSet(c.robotRunId, path);
-        ensureFixSuggestionsAreAddable(c.fixSuggestions, path);
+        ensureRobotIdIsSet(c.robotId, commentPath);
+        ensureRobotRunIdIsSet(c.robotRunId, commentPath);
+        ensureFixSuggestionsAreAddable(c.fixSuggestions, commentPath);
       }
     }
     checkComments(revision, in);
   }
 
-  private void ensureRobotIdIsSet(String robotId, String path)
+  private void ensureRobotIdIsSet(String robotId, String commentPath)
       throws BadRequestException {
     if (robotId == null) {
       throw new BadRequestException(String
-          .format("robotId is missing for robot comment on %s", path));
+          .format("robotId is missing for robot comment on %s", commentPath));
     }
   }
 
-  private void ensureRobotRunIdIsSet(String robotRunId, String path)
+  private void ensureRobotRunIdIsSet(String robotRunId, String commentPath)
       throws BadRequestException {
     if (robotRunId == null) {
       throw new BadRequestException(String
-          .format("robotRunId is missing for robot comment on %s", path));
+          .format("robotRunId is missing for robot comment on %s",
+              commentPath));
     }
   }
 
   private void ensureFixSuggestionsAreAddable(
-      List<FixSuggestionInfo> fixSuggestionInfos, String path)
+      List<FixSuggestionInfo> fixSuggestionInfos, String commentPath)
       throws BadRequestException {
     if (fixSuggestionInfos == null) {
       return;
     }
 
     for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
-      ensureDescriptionIsSet(path, fixSuggestionInfo.description);
-      ensureFixReplacementsAreAddable(path, fixSuggestionInfo.replacements);
+      ensureDescriptionIsSet(commentPath, fixSuggestionInfo.description);
+      ensureFixReplacementsAreAddable(commentPath,
+          fixSuggestionInfo.replacements);
     }
   }
 
-  private void ensureDescriptionIsSet(String path, String description)
+  private void ensureDescriptionIsSet(String commentPath, String description)
       throws BadRequestException {
     if (description == null) {
       throw new BadRequestException(String.format("A description is required "
-          + "for the suggested fix of the robot comment on %s", path));
+          + "for the suggested fix of the robot comment on %s", commentPath));
     }
   }
 
-  private void ensureFixReplacementsAreAddable(String path,
+  private void ensureFixReplacementsAreAddable(String commentPath,
       List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
-    ensureReplacementsArePresent(path, fixReplacementInfos);
+    ensureReplacementsArePresent(commentPath, fixReplacementInfos);
 
     for (FixReplacementInfo fixReplacementInfo : fixReplacementInfos) {
-      ensureRangeIsSet(path, fixReplacementInfo.range);
-      ensureRangeIsValid(path, fixReplacementInfo.range);
-      ensureReplacementStringIsSet(path, fixReplacementInfo.replacement);
+      ensureReplacementPathIsSet(commentPath, fixReplacementInfo.path);
+      ensureReplacementPathRefersToFileOfComment(commentPath,
+          fixReplacementInfo.path);
+      ensureRangeIsSet(commentPath, fixReplacementInfo.range);
+      ensureRangeIsValid(commentPath, fixReplacementInfo.range);
+      ensureReplacementStringIsSet(commentPath, fixReplacementInfo.replacement);
     }
   }
 
-  private void ensureReplacementsArePresent(String path,
+  private void ensureReplacementsArePresent(String commentPath,
       List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     if (fixReplacementInfos == null || fixReplacementInfos.isEmpty()) {
       throw new BadRequestException(String.format("At least one replacement is "
-          + "required for the suggested fix of the robot comment on %s", path));
+          + "required for the suggested fix of the robot comment on %s",
+          commentPath));
     }
   }
 
-  private void ensureRangeIsSet(String path,
+  private void ensureReplacementPathIsSet(String commentPath,
+      String replacementPath) throws BadRequestException {
+    if (replacementPath == null) {
+      throw new BadRequestException(String.format("A file path must be given "
+          + "for the replacement of the robot comment on %s", commentPath));
+    }
+  }
+
+  private void ensureReplacementPathRefersToFileOfComment(String commentPath,
+      String replacementPath) throws BadRequestException {
+    if (!Objects.equals(commentPath, replacementPath)) {
+      throw new BadRequestException(String.format("At the moment, replacements "
+          + "may only be specified for the file %s on which the robot comment "
+          + "was added", commentPath));
+    }
+  }
+
+  private void ensureRangeIsSet(String commentPath,
       com.google.gerrit.extensions.client.Comment.Range range)
       throws BadRequestException {
     if (range == null) {
       throw new BadRequestException(String.format("A range must be given "
-          + "for the replacement of the robot comment on %s", path));
+          + "for the replacement of the robot comment on %s", commentPath));
     }
   }
 
-  private void ensureRangeIsValid(String path,
+  private void ensureRangeIsValid(String commentPath,
       com.google.gerrit.extensions.client.Comment.Range range)
       throws BadRequestException {
     if (range == null) {
@@ -606,16 +629,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       throw new BadRequestException(String.format("Range (%s:%s - %s:%s) is not"
           + " valid for the replacement of the robot comment on %s",
           range.startLine, range.startCharacter, range.endLine,
-          range.endCharacter, path));
+          range.endCharacter, commentPath));
     }
   }
 
-  private void ensureReplacementStringIsSet(String path, String replacement)
-      throws BadRequestException {
+  private void ensureReplacementStringIsSet(String commentPath,
+      String replacement) throws BadRequestException {
     if (replacement == null) {
       throw new BadRequestException(String.format("A content for replacement "
           + "must be indicated for the replacement of the robot comment on %s",
-          path));
+          commentPath));
     }
   }
 
@@ -864,7 +887,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private FixReplacement toFixReplacement(
         FixReplacementInfo fixReplacementInfo) {
       Comment.Range range = new Comment.Range(fixReplacementInfo.range);
-      return new FixReplacement(range, fixReplacementInfo.replacement);
+      return new FixReplacement(fixReplacementInfo.path, range,
+          fixReplacementInfo.replacement);
     }
 
     private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)

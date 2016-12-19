@@ -215,6 +215,44 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pathOfFixReplacementIsAcceptedAsIs() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion()
+        .onlyReplacement().path().isEqualTo(fixReplacementInfo.path);
+  }
+
+  @Test
+  public void pathOfFixReplacementIsMandatory() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    fixReplacementInfo.path = null;
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(String.format("A file path must be given for the "
+            + "replacement of the robot comment on %s",
+        withFixRobotCommentInput.path));
+    addRobotComment(changeId, withFixRobotCommentInput);
+  }
+
+  @Test
+  public void pathOfFixReplacementMustReferToFileOfComment() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    fixReplacementInfo.path = "anotherFile.txt";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(String.format("At the moment, replacements may only"
+        + " be specified for the file %s on which the robot comment was added",
+        withFixRobotCommentInput.path));
+    addRobotComment(changeId, withFixRobotCommentInput);
+  }
+
+  @Test
   public void rangeOfFixReplacementIsAcceptedAsIs() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
@@ -331,6 +369,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   private FixReplacementInfo createFixReplacementInfo() {
     FixReplacementInfo newFixReplacementInfo = new FixReplacementInfo();
+    newFixReplacementInfo.path = FILE_NAME;
     newFixReplacementInfo.replacement = "some replacement code";
     newFixReplacementInfo.range = createRange(3, 12, 15, 4);
     return newFixReplacementInfo;

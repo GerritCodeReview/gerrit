@@ -99,6 +99,7 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -1011,6 +1012,8 @@ public class ChangeIT extends AbstractDaemonTest {
   public void addReviewerWithNoteDbWhenDummyApprovalInReviewDbExists()
       throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
+    assume().that(notesMigration.changePrimaryStorage())
+        .isEqualTo(PrimaryStorage.REVIEW_DB);
 
     PushOneCommit.Result r = createChange();
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_8afa2bc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-19T17:53:04Z",
+      "side": 1,
+      "message": "(sighs)\nWe clearly need shared constants.",
+      "range": {
+        "startLine": 607,
+        "startChar": 69,
+        "endLine": 607,
+        "endChar": 72
+      },
+      "revId": "bec70f249a8588a3ee9ff25e6d4f9e8612f80f1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

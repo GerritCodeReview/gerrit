@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_f5ef5801",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-19T13:37:59Z",
+      "side": 1,
+      "message": "\u003e We cannot grant non-administrator users READ access on \n \u003e All-Projects. If we do this, every project would now \n \u003e inherit this READ access and they would become visible to \n \u003e every one.\n\nI see, at least you have this issue if your private projects don\u0027t BLOCK read access.\n\nStill removing the visibility check seems not very clean to me, but I don\u0027t have a better proposal for this either. Hence I will stay neutral to this change :)",
+      "parentUuid": "bad8d7b0_0ab59b14",
+      "range": {
+        "startLine": 14,
+        "startChar": 48,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "53e0338083964d656e64b9871837e32a916dabdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_55bc4c67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectsCollection.java",
         "patchSetId": 3

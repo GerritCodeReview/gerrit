@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_c41d3e4d",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_e425dada",
+      "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_043d96ed",
         "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
         "patchSetId": 13
@@ -42,6 +60,24 @@
         "endLine": 44,
         "endChar": 23
       },
+      "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_240372f2",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_043d96ed",
       "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_a4f5a2d3",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_643a8af7",
+      "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad8d7b0_aafd6ffc",
         "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
         "patchSetId": 13
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_ea18075f",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_aafd6ffc",
+      "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_44378e0b",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
         "patchSetId": 13
@@ -105,6 +177,24 @@
       "writtenOn": "2016-12-16T17:42:42Z",
       "side": 1,
       "message": "Fix the indentation in this file.",
+      "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ca1d434d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_44378e0b",
       "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_2a033ff2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_8a022b26",
+      "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_a4164270",
         "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.js",
         "patchSetId": 13
@@ -145,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_640d6a1a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_a4164270",
+      "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_841b469a",
         "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.html",
         "patchSetId": 13
@@ -156,6 +282,24 @@
       "writtenOn": "2016-12-16T17:42:42Z",
       "side": 1,
       "message": "Please fix indentation in this file.",
+      "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_0a00fbe1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-19T17:57:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_841b469a",
       "revId": "5062913c7c06c62e7f79ff4904c0df24942bb813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

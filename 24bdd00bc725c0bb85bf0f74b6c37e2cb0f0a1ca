@@ -16,6 +16,24 @@
       "revId": "24bdd00bc725c0bb85bf0f74b6c37e2cb0f0a1ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_d4905c9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-19T13:59:17Z",
+      "side": 1,
+      "message": "Yep, i use a different username on other gerrit website\u0027s.",
+      "parentUuid": "1a1ba32a_b5f5e0d3",
+      "revId": "24bdd00bc725c0bb85bf0f74b6c37e2cb0f0a1ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

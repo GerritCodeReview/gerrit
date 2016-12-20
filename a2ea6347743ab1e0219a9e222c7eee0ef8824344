@@ -58,6 +58,24 @@
       "revId": "a2ea6347743ab1e0219a9e222c7eee0ef8824344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_0dd3f5ee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-20T19:35:29Z",
+      "side": 1,
+      "message": "Looks like LESS/SASS is the only way in this case\nDoh.. %(",
+      "parentUuid": "bad8d7b0_2dafd962",
+      "revId": "a2ea6347743ab1e0219a9e222c7eee0ef8824344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

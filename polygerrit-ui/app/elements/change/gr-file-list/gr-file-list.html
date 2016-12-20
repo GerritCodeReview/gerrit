@@ -232,7 +232,8 @@ limitations under the License.
           [[_computeFileStatus(file.status)]]
         </div>
         <a class$="[[_computePathClass(file.__expanded)]]"
-            href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]">
+            href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]"
+            on-click="_handleFileClick">
           <div title$="[[_computeFileDisplayName(file.__path)]]"
               class="fullFileName">
             [[_computeFileDisplayName(file.__path)]]
@@ -265,7 +266,7 @@ limitations under the License.
             [[_formatPercentage(file.size, file.size_delta)]]
           </span>
         </div>
-        <div class="show-hide">
+        <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
           <label class="show-hide">
             <input type="checkbox" class="show-hide"
                 checked$="[[!file.__expanded]]" data-path$="[[file.__path]]"

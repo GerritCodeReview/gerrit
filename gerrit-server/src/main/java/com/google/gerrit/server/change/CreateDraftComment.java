@@ -108,11 +108,14 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
+      String parentUuid = Url.decode(in.inReplyTo);
+
       comment = commentsUtil.newComment(
-          ctx, in.path, ps.getId(), in.side(), in.message.trim());
-      comment.parentUuid = Url.decode(in.inReplyTo);
+          ctx, in.path, ps.getId(), in.side(), in.message.trim(),
+          in.unresolved, parentUuid);
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
+
       setCommentRevId(
           comment, patchListCache, ctx.getChange(), ps);
 

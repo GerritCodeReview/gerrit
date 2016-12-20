@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1482184319 -0500\nnonce AOr0K+TUciJFoodugIiAm759WUJzB68BUbu6cP4ZZQG2XkrlKLXm+sq81Te1UOrHdabQQsTVZCLC\n\n0000000000000000000000000000000000000000 7e0e28f9d3b583b8ae94b8ba15b84a28ab265364 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYWFZ/AAoJEF/XxZqaEoiM9ToP/RyQIUp3Mdhd39LbgiZDZOIx\nw4MpTy7WTJs9RT2Vp+zLBoUndtR/+dKozAjflL3xQ8GOy0q5huUfsGxU34WVDDgf\ndNDY4gMa/1b2msMgjl3wr0GF/k585VF0azCYaRSD9dJQ1Ppcy11iDWEdJMHjH5HC\nzNzOJK3ka3V+yQR6UMAUot5BtEzmhnkHr7bwS7iJialq92X9OtBFLAp2h5kMpKog\nBJYWKUVq+6SYw33KEmGuCO0B8SZ5Jm1G+9BNlw4EXk2Pr06T7FmmWY0fRJlx4+36\nuOD3utvCv9uFQSTR/JCwgFT1KE8MqlmPZtYafYye6RKytjCD+yJLbnaQVAAQFesN\n+D5jk3XaxHG444W8kp9mzPWbOW9SqDWyadyyDsPmgXzLklNUboSIGbJHr31BZxG4\n2kliwGpIpyTQ1ivUUDPbDMfCurABW7A7OZTi1k7KsYqEN/iOX3jtY9LE8r2cQ3Kd\nq/znulE9fbPxX8Tgq3fVmGXb1uOvraOeav8b1YAYFwNQs9ih5UssICnfwrQ2BWJf\nkELNk6SrC0rc0Kp2E73OyQffhv6eQmxDQ2pXWavptD7bWkXbY79XdzC2JlHsNzPZ\nZUW2+R8vkACJ+XCiUIeTZvFyG2HwBSL1P2qgGNa1epZFYvkOEPGJvuS6VKLpPE7H\n6YI6BFiaXbDhdVP7n66Q\n\u003dI/sA\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_b4f5e0d3",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-20T05:51:58Z",
+      "side": 1,
+      "message": "This comment should be removed. We use the same approach for 150 external dependencies.",
+      "range": {
+        "startLine": 231,
+        "startChar": 2,
+        "endLine": 231,
+        "endChar": 60
+      },
+      "revId": "7e0e28f9d3b583b8ae94b8ba15b84a28ab265364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

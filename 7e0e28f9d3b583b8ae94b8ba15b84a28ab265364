@@ -23,6 +23,24 @@
       "revId": "7e0e28f9d3b583b8ae94b8ba15b84a28ab265364",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_5499ec62",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-12-20T14:44:08Z",
+      "side": 1,
+      "message": "we don\u0027t usually introduce dependencies in rules where the dependency itself isn\u0027t used. \n\nUnused dependencies decrease parallelism and make for slower builds, so normally they are always deleted.",
+      "parentUuid": "fa132f0f_b4f5e0d3",
+      "revId": "7e0e28f9d3b583b8ae94b8ba15b84a28ab265364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

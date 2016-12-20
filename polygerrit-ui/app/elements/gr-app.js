@@ -118,6 +118,11 @@
     },
 
     _loadPlugins: function(plugins) {
+      var pluginBlacklist = ['plugins/reviewers'];
+      plugins = plugins.filter(function(pluginPath) {
+        var plugin = pluginPath.split('/', 2).join('/');
+        return pluginBlacklist.indexOf(plugin) === -1;
+      });
       Gerrit._setPluginsCount(plugins.length);
       for (var i = 0; i < plugins.length; i++) {
         var scriptEl = document.createElement('script');

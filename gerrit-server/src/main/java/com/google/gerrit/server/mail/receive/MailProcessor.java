@@ -224,12 +224,14 @@ public class MailProcessor {
         }
 
         Comment comment = commentsUtil.newComment(ctx, fileName,
-            psForComment.getId(), (short) side.ordinal(), c.message);
+            psForComment.getId(), (short) side.ordinal(), c.message,
+            false, null);
         comment.tag = tag;
         if (c.inReplyTo != null) {
           comment.parentUuid = c.inReplyTo.key.uuid;
           comment.lineNbr = c.inReplyTo.lineNbr;
           comment.range = c.inReplyTo.range;
+          comment.unresolved = c.inReplyTo.unresolved;
         }
         CommentsUtil.setCommentRevId(comment, patchListCache,
             ctx.getChange(), psForComment);

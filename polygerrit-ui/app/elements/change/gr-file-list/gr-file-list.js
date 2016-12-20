@@ -86,6 +86,10 @@
         type: Array,
         computed: '_computeFilesShown(_numFilesShown, _files.*)',
       },
+      _diffMode: {
+        type: String,
+        computed: '_getDiffViewMode(diffViewMode, _userPrefs)',
+      },
       // Caps the number of files that can be shown and have the 'show diffs' /
       // 'hide diffs' buttons still be functional.
       _maxFilesForBulkActions: {
@@ -596,6 +600,26 @@
 
     _updateSelected: function(patchRange) {
       this._diffAgainst = patchRange.basePatchNum;
+    },
+
+    /**
+     * _getDiffViewMode: Get the diff view (side-by-side or unified) based on
+     * the current state.
+     *
+     * The expected behavior is to use the mode specified in the user's
+     * preferences unless they have manually chosen the alternative view.
+     *
+     * Use side-by-side if there is no view mode or preferences.
+     *
+     * @return {String}
+     */
+    _getDiffViewMode: function() {
+      if (this.diffViewMode) {
+        return this.diffViewMode;
+      } else if (this._userPrefs) {
+        return this.diffViewMode = this._userPrefs.default_diff_view;
+      }
+      return 'SIDE_BY_SIDE';
     },
 
     _fileListActionsVisible: function(numFilesShown, maxFilesForBulkActions) {

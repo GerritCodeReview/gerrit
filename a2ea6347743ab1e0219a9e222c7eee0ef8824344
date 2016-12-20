@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_ad8f4910",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-20T15:43:05Z",
+      "side": 1,
+      "message": "Worth adding this to a shared var, since it\u0027s used in other places.",
+      "range": {
+        "startLine": 128,
+        "startChar": 36,
+        "endLine": 128,
+        "endChar": 40
+      },
+      "revId": "a2ea6347743ab1e0219a9e222c7eee0ef8824344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

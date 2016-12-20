@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_94f9c4a8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-20T09:59:02Z",
+      "side": 1,
+      "message": "When we set a limit that is equal to the expected size of the results, all these assertions make no sense anymore. This is why I have removed these limits in the predecessor change.",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 37
+      },
+      "revId": "6b455cfec46ddd1909379ecc080a8fcac8561d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_04b8f6c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:17:28Z",
+      "side": 1,
+      "message": "This should be \"relation chain\" shouldn\u0027t it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "c9a2d7eb8680df0de8b65b8af5a75cbb302c9918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_64c56a49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:17:28Z",
+      "side": 1,
+      "message": "This makes it sound like this change re-introduces the error.",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 26
+      },
+      "revId": "c9a2d7eb8680df0de8b65b8af5a75cbb302c9918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_aaad6f86",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:17:28Z",
+      "side": 1,
+      "message": "Can this just be \n\n  _getDiffViewMode(diffViewMode, _userPrefs)\n\nThen we could remove the _diffMode property.",
+      "range": {
+        "startLine": 287,
+        "startChar": 23,
+        "endLine": 287,
+        "endChar": 32
+      },
+      "revId": "c9a2d7eb8680df0de8b65b8af5a75cbb302c9918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_44c2ee42",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:17:28Z",
+      "side": 1,
+      "message": "Nit: Since they\u0027re passed as arguments, use diffViewMode and userPrefs parameters, rather than accessing them via `this.`.",
+      "range": {
+        "startLine": 616,
+        "startChar": 30,
+        "endLine": 616,
+        "endChar": 32
+      },
+      "revId": "c9a2d7eb8680df0de8b65b8af5a75cbb302c9918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

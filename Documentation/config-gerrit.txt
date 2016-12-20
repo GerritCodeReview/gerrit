@@ -1286,6 +1286,11 @@ Used on Gerrit slave installations. If set to true the Gerrit JVM is
 called with the '--slave' switch, enabling slave mode. If no value is
 set (or any other value), Gerrit defaults to master mode.
 
+[[container.startupTimeout]]container.startupTimeout::
++
+The timeout (in seconds) for Gerrit to startup and run.
+If not set, defaults to 90 seconds.
+
 [[container.user]]container.user::
 +
 Login name (or UID) of the operating system user the Gerrit JVM

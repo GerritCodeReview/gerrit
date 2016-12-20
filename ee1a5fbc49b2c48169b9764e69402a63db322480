@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_35f0b0ad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-20T09:26:24Z",
+      "side": 1,
+      "message": "\u003e This test relies on the \"side-effects\" of all the others :-O\n\nThe other tests should have no side effects :(\n\n \u003e As we added a new test with a new users\n\nWhere is it adding a new user? It shouldn\u0027t add a new user.\n\n \u003e but for this current change to stay \"green\" I need to add \n \u003e +1 to the asserted values :-(\n\nBut this test fails now, if it is executed standalone.",
+      "parentUuid": "1a1ba32a_d5da1c34",
+      "revId": "ee1a5fbc49b2c48169b9764e69402a63db322480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_95e0a4e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 3

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_2d219914",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-20T19:55:42Z",
+      "side": 1,
+      "message": "On second thought, I agree. I\u0027ve reverted to PS2 of this change. This *really* should be merged because it\u0027s kind of urgent that we fix this.",
+      "parentUuid": "fac16fc3_0705987a",
+      "revId": "d90f20f7c571acc3bd374bfc518d3f2a19a2137b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_27089494",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 4

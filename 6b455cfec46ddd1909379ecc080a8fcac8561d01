@@ -22,6 +22,30 @@
       "revId": "6b455cfec46ddd1909379ecc080a8fcac8561d01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_95cb8464",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T10:07:26Z",
+      "side": 1,
+      "message": "That was my thinking and I was tempted to hit my favorite button when I see tests that do not make a lot of sense:\n\nKEEP CALM and PRESS DELETE :-)",
+      "parentUuid": "fa132f0f_94f9c4a8",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 37
+      },
+      "revId": "6b455cfec46ddd1909379ecc080a8fcac8561d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

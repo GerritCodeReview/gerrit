@@ -28,6 +28,7 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -143,12 +144,33 @@ public class CommentsUtil {
     this.serverId = serverId;
   }
 
-  public Comment newComment(ChangeContext ctx, String path, PatchSet.Id psId,
-      short side, String message) throws OrmException {
+  public Comment newComment(ChangeContext ctx,
+      String path,
+      PatchSet.Id psId,
+      short side,
+      String message,
+      @Nullable Boolean unresolved,
+      @Nullable String parentUuid)
+      throws OrmException, UnprocessableEntityException {
+    if (unresolved == null) {
+      if (parentUuid == null) {
+        // Default to false if comment is not descended from another.
+        unresolved = false;
+      } else {
+        // Inherit unresolved value from inReplyTo comment if not specified.
+        Comment.Key key = new Comment.Key(parentUuid, path, psId.patchSetId);
+        Optional<Comment> parent = get(ctx.getDb(), ctx.getNotes(), key);
+        if (!parent.isPresent()) {
+          throw new UnprocessableEntityException(
+              "Invalid parentUuid supplied for comment");
+        }
+        unresolved = parent.get().unresolved;
+      }
+    }
     Comment c = new Comment(
         new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
         ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
-        false);
+        unresolved);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
   }

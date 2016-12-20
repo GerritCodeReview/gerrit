@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
@@ -103,16 +104,20 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException {
+        throws ResourceNotFoundException, OrmException,
+        UnprocessableEntityException {
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
+      String parentUuid = Url.decode(in.inReplyTo);
+
       comment = commentsUtil.newComment(
-          ctx, in.path, ps.getId(), in.side(), in.message.trim());
-      comment.parentUuid = Url.decode(in.inReplyTo);
+          ctx, in.path, ps.getId(), in.side(), in.message.trim(),
+          in.unresolved, parentUuid);
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
+
       setCommentRevId(
           comment, patchListCache, ctx.getChange(), ps);
 

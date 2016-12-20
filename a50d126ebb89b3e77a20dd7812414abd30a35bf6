@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_87a50855",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T23:22:27Z",
+      "side": 1,
+      "message": "Is it possible to have the description just take up the remaining horizontal space?",
+      "revId": "a50d126ebb89b3e77a20dd7812414abd30a35bf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

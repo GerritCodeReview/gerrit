@@ -16,6 +16,23 @@
       "revId": "d90f20f7c571acc3bd374bfc518d3f2a19a2137b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_27089494",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-20T19:40:06Z",
+      "side": 1,
+      "message": "There\u0027s a method for that.\nhttp://chaijs.com/api/assert/#method_isbelow\nAlso, you could mix short and long strings and use isAtMost",
+      "revId": "d90f20f7c571acc3bd374bfc518d3f2a19a2137b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

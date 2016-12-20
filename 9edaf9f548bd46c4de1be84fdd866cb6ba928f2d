@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_a7e124ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-12-20T16:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_3509d0e1",
+      "range": {
+        "startLine": 1291,
+        "startChar": 36,
+        "endLine": 1291,
+        "endChar": 55
+      },
+      "revId": "9edaf9f548bd46c4de1be84fdd866cb6ba928f2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_b422006b",
         "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-20T08:23:16Z",
       "side": 1,
       "message": "Is \"startup\" a single word? If yes, then all lowercase isn\u0027t it? At least it was in the gerrit documentation part.",
+      "range": {
+        "startLine": 291,
+        "startChar": 51,
+        "endLine": 291,
+        "endChar": 58
+      },
+      "revId": "9edaf9f548bd46c4de1be84fdd866cb6ba928f2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_87e6a8cd",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2016-12-20T16:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa132f0f_b422006b",
       "range": {
         "startLine": 291,
         "startChar": 51,

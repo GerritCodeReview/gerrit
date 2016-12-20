@@ -164,6 +164,9 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       // TODO(dborowitz): Can we support changing tags via PUT?
       e.tag = in.tag;
     }
+    if (in.unresolved != null) {
+      e.unresolved = in.unresolved;
+    }
     return e;
   }
 }

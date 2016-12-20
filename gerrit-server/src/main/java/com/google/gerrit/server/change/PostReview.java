@@ -694,7 +694,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException {
+        throws OrmException, ResourceConflictException,
+        UnprocessableEntityException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
@@ -729,7 +730,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           approvals, oldApprovals, ctx.getWhen());
     }
 
-    private boolean insertComments(ChangeContext ctx) throws OrmException {
+    private boolean insertComments(ChangeContext ctx)
+        throws OrmException, UnprocessableEntityException {
       Map<String, List<CommentInput>> map = in.comments;
       if (map == null) {
         map = Collections.emptyMap();
@@ -757,16 +759,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String parent = Url.decode(c.inReplyTo);
           Comment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
-            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message);
+            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message,
+                c.unresolved, parent);
           } else {
             e.writtenOn = ctx.getWhen();
             e.side = c.side();
             e.message = c.message;
           }
 
-          if (parent != null) {
-            e.parentUuid = parent;
-          }
           setCommentRevId(e, patchListCache, ctx.getChange(), ps);
           e.setLineNbrAndRange(c.line, c.range);
           e.tag = in.tag;

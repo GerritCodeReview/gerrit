@@ -34,7 +34,7 @@ public abstract class Comment {
   public String inReplyTo;
   public Timestamp updated;
   public String message;
-  public boolean unresolved;
+  public Boolean unresolved;
 
   public static class Range {
     public int startLine;

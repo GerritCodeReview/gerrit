@@ -141,7 +141,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
     if (notesMigration.readChanges()) {
       assertThat(m.body())
-          .contains(admin.fullName + " has uploaded a new change for review.");
+          .contains(admin.fullName + " has uploaded this change for review.");
     } else {
       assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
       assertThat(m.body()).contains("I'd like you to do a code review.");

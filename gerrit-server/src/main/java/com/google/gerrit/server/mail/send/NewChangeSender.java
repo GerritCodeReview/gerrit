@@ -88,6 +88,7 @@ public abstract class NewChangeSender extends ChangeEmail {
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
+    soyContext.put("ownerName", getNameFor(change.getOwner()));
     soyContextEmailData.put("reviewerNames", getReviewerNames());
   }
 

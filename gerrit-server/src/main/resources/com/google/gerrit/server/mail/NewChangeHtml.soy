@@ -19,6 +19,7 @@
 /**
  * @param email
  * @param fromName
+ * @param ownerName
  * @param patchSet
  * @param projectName
  */
@@ -34,7 +35,7 @@
       {/foreach}{sp}
       to <strong>review</strong> this change.
     {else}
-      {$fromName} uploaded this change for <strong>review</strong>.
+      {$ownerName} has uploaded this change for <strong>review</strong>.
     {/if}
   </p>
 

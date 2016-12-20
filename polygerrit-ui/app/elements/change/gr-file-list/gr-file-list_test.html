@@ -624,5 +624,19 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isOk(element.$$('.expanded'));
     });
+
+    test('_getDiffViewMode', function() {
+      // No user prefs or diff view mode set.
+      assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
+      // User prefs but no diff view mode set.
+      element.diffViewMode = null;
+      element._userPrefs = {default_diff_view: 'UNIFIED_DIFF'};
+      assert.equal(
+          element._getDiffViewMode(null, element._userPrefs), 'UNIFIED_DIFF');
+      // User prefs and diff view mode set.
+      element.diffViewMode = 'SIDE_BY_SIDE';
+      assert.equal(element._getDiffViewMode(
+          element.diffViewMode, element._userPrefs), 'SIDE_BY_SIDE');
+    });
   });
 </script>

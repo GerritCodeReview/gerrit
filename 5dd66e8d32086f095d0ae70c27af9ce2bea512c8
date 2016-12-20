@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_c71b80e7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-20T18:50:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_cad543fc",
+      "revId": "5dd66e8d32086f095d0ae70c27af9ce2bea512c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_04ed96d7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-19T23:50:41Z",
       "side": 1,
       "message": "Nit: Indent one more level, as well as l.315 and l.323.",
+      "revId": "5dd66e8d32086f095d0ae70c27af9ce2bea512c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_6db9d1a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-20T18:50:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_04ed96d7",
       "revId": "5dd66e8d32086f095d0ae70c27af9ce2bea512c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

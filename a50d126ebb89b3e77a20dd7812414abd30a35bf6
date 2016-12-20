@@ -34,6 +34,24 @@
       "revId": "a50d126ebb89b3e77a20dd7812414abd30a35bf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_87cce824",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2016-12-20T23:36:37Z",
+      "side": 1,
+      "message": "I disagree. It will look weird if we cut it off at a seemingly arbitrary point. Users will def ask questions and perhaps file bugs in this case.",
+      "parentUuid": "bad8d7b0_8df8855b",
+      "revId": "a50d126ebb89b3e77a20dd7812414abd30a35bf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

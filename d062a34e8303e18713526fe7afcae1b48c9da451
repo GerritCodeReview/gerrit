@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1482227904 +0100\nnonce AOr0K+QhkUUeAxCExksOjXWsFJPmDqJACWLkyeosZbpZt4KIYB/UyY964WpoAGOs01I1tddhS9b2\n\n0000000000000000000000000000000000000000 9b51298d05ff188a11ea973f5bd614a7777efbc3 refs/for/stable-2.13\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYWQDBAAoJEFG1/Zeg0O9R7OwIAJYQec/Dby9xuFIBOYmxKWrA\nNe/JUW81fZpCCx5Iaz2a6RsK7OLXb2WSFY2U2o2ExhnsuepUJ85+gz7O/x8PUpOU\nFbVglJXVDWMo8I4ewMTrV5ZY+a7ur0x3Tb7G30kD6in/ajrSKcKIKa3PGHrNIyK6\nni1U6OWPyJfULcw8ng8EirvYn0YZSEAS/lGE0Q+mPCjP8Fe1SvU8VVRlNJw48id3\ngyRWrWIbYofS0IYpllILac8TTJSMAUUWo9jMp2OZyEJfWykYuRSs2ybtAK8jFQcb\n6LVFSQHOM992b97VZVNjBsrIQJiRJPW2yMdjEN2STqlIZyypVTo34ZQdNzQPJko\u003d\n\u003dUawu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_140654cf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T10:15:38Z",
+      "side": 1,
+      "message": "This really still look like a \"magic numbers\" in a test.\nHere the number \"3\" doesn\u0027t really make the test readable at all ... because the three test users aren\u0027t created for this test but rather for the others.\n\nWhat is the purpose of the test? Showing that given N users you match the three ones that have \"first\" in their name? Then make this explicit without having the number \"3\" here alone :-)",
+      "range": {
+        "startLine": 178,
+        "startChar": 34,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "d062a34e8303e18713526fe7afcae1b48c9da451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

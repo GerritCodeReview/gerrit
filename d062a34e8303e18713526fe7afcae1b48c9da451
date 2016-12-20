@@ -47,6 +47,30 @@
       "revId": "d062a34e8303e18713526fe7afcae1b48c9da451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_35bb90c5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T10:29:02Z",
+      "side": 1,
+      "message": "Agreed, something for a master branch :-)",
+      "parentUuid": "fa132f0f_b4db203b",
+      "range": {
+        "startLine": 178,
+        "startChar": 34,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "d062a34e8303e18713526fe7afcae1b48c9da451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -412,5 +412,12 @@ limitations under the License.
         done();
       });
     });
+
+    test('savPreferences normalizes download scheme', function() {
+      var sendStub = sandbox.stub(element, 'send');
+      element.savePreferences({download_scheme: 'HTTP'});
+      assert.isTrue(sendStub.called);
+      assert.equal(sendStub.lastCall.args[2].download_scheme, 'http');
+    });
   });
 </script>

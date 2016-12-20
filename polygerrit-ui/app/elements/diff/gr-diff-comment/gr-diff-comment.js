@@ -321,7 +321,7 @@
 
     _handleQuote: function(e) {
       e.preventDefault();
-      this.fire( 'create-reply-comment', this._getEventPayload({quote: true}),
+      this.fire('create-reply-comment', this._getEventPayload({quote: true}),
           {bubbles: false});
     },
 

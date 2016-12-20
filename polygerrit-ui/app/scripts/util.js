@@ -57,13 +57,13 @@
 
   /**
    * Truncates URLs to display filename only
-   * @example
+   * Example
    * // returns '.../text.html'
    * util.truncatePath.('dir/text.html');
-   * @example
+   * Example
    * // returns 'text.html'
    * util.truncatePath.('text.html');
-   * @returns {String} Returns the truncated value of a URL.
+   * @return {String} Returns the truncated value of a URL.
    */
   util.truncatePath = function(path) {
     var pathPieces = path.split('/');

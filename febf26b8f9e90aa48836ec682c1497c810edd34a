@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_0ab8fbc4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:10:51Z",
+      "side": 1,
+      "message": "Would we be able to avoid the hidden$\u003d attributes if this dom-repeat instead loops over visibleChangeTableColumns? I\u0027m not certain that this would work.",
+      "range": {
+        "startLine": 47,
+        "startChar": 43,
+        "endLine": 47,
+        "endChar": 61
+      },
+      "revId": "febf26b8f9e90aa48836ec682c1497c810edd34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_2abb3fc5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:10:51Z",
+      "side": 1,
+      "message": "Can this be private?",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 13
+      },
+      "revId": "febf26b8f9e90aa48836ec682c1497c810edd34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_a4c6425a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:10:51Z",
+      "side": 1,
+      "message": "Nit: move the curly to the end of the previous line.",
+      "range": {
+        "startLine": 244,
+        "startChar": 10,
+        "endLine": 244,
+        "endChar": 11
+      },
+      "revId": "febf26b8f9e90aa48836ec682c1497c810edd34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_84cb4664",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 15
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:10:51Z",
+      "side": 1,
+      "message": "Nit: move to the next line. Also on l.299 and l.333.",
+      "range": {
+        "startLine": 270,
+        "startChar": 28,
+        "endLine": 270,
+        "endChar": 60
+      },
+      "revId": "febf26b8f9e90aa48836ec682c1497c810edd34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_44e78ef5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:10:51Z",
+      "side": 1,
+      "message": "Sp?",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 12
+      },
+      "revId": "febf26b8f9e90aa48836ec682c1497c810edd34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_c4d53efc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T00:10:51Z",
+      "side": 1,
+      "message": "How about\n\nreturn changeTableArray.map(function(item) {\n  return {column: item};\n});",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 217,
+        "endChar": 21
+      },
+      "revId": "febf26b8f9e90aa48836ec682c1497c810edd34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

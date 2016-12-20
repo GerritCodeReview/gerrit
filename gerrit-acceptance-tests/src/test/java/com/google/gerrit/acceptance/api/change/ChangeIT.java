@@ -793,7 +793,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
     assertThat(m.body())
-        .contains(admin.fullName + " has uploaded a new change for review");
+        .contains(admin.fullName + " has uploaded this change for review");
     assertThat(m.body())
         .contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertMailFrom(m, admin.email);

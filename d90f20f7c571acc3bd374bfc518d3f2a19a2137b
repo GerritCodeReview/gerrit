@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_0705987a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T19:39:32Z",
+      "side": 1,
+      "message": "I think it\u0027s wrong to do this in the API interface. This will make it impossible to get the full string, in case we want to use it in something that isn\u0027t a SELECT.\n\nIMO, this should be done when constructing the SELECT, since that\u0027s where limiting the string really matters.",
+      "revId": "d90f20f7c571acc3bd374bfc518d3f2a19a2137b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

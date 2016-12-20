@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -179,7 +180,8 @@ public class MailProcessor {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException {
+    public boolean updateChange(ChangeContext ctx) throws OrmException,
+        UnprocessableEntityException {
       PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
       if (ps == null) {
         throw new OrmException("patch set not found: " + psId);
@@ -224,12 +226,14 @@ public class MailProcessor {
         }
 
         Comment comment = commentsUtil.newComment(ctx, fileName,
-            psForComment.getId(), (short) side.ordinal(), c.message);
+            psForComment.getId(), (short) side.ordinal(), c.message,
+            false, null);
         comment.tag = tag;
         if (c.inReplyTo != null) {
           comment.parentUuid = c.inReplyTo.key.uuid;
           comment.lineNbr = c.inReplyTo.lineNbr;
           comment.range = c.inReplyTo.range;
+          comment.unresolved = c.inReplyTo.unresolved;
         }
         CommentsUtil.setCommentRevId(comment, patchListCache,
             ctx.getChange(), psForComment);

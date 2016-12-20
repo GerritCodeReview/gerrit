@@ -124,6 +124,7 @@ public final class PatchLineComment {
     plc.setRevId(new RevId(c.revId));
     plc.setStatus(status);
     plc.setRealAuthor(c.getRealAuthor().getId());
+    plc.setUnresolved(c.unresolved);
     return plc;
   }
 
@@ -323,6 +324,14 @@ public final class PatchLineComment {
     return tag;
   }
 
+  public void setUnresolved(Boolean unresolved) {
+    this.unresolved = unresolved;
+  }
+
+  public Boolean getUnresolved() {
+    return unresolved;
+  }
+
   public Comment asComment(String serverId) {
     Comment c = new Comment(key.asCommentKey(), author, writtenOn, side,
         message, serverId, unresolved);
@@ -349,7 +358,8 @@ public final class PatchLineComment {
           && Objects.equals(parentUuid, c.getParentUuid())
           && Objects.equals(range, c.getRange())
           && Objects.equals(revId, c.getRevId())
-          && Objects.equals(tag, c.getTag());
+          && Objects.equals(tag, c.getTag())
+          && Objects.equals(unresolved, c.getUnresolved());
     }
     return false;
   }

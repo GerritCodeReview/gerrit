@@ -44,7 +44,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -248,7 +247,7 @@ public class ApprovalsUtil {
     try {
       IdentifiedUser user = userFactory.create(accountId);
       return changeControlFactory.controlFor(notes, user).isVisible(db);
-    } catch (OrmException | NoSuchChangeException e) {
+    } catch (OrmException e) {
       log.warn(String.format("Failed to check if account %d can see change %d",
           accountId.get(), notes.getChangeId().get()), e);
       return false;

@@ -84,7 +84,7 @@ public class GetContent implements RestReadView<FileResource> {
   }
 
   private String getMessage(ChangeNotes notes)
-      throws NoSuchChangeException, OrmException, IOException {
+      throws OrmException, IOException {
     Change.Id changeId = notes.getChangeId();
     PatchSet ps = psUtil.current(db.get(), notes);
     if (ps == null) {
@@ -102,7 +102,7 @@ public class GetContent implements RestReadView<FileResource> {
   }
 
   private byte[] getMergeList(ChangeNotes notes)
-      throws NoSuchChangeException, OrmException, IOException {
+      throws OrmException, IOException {
     Change.Id changeId = notes.getChangeId();
     PatchSet ps = psUtil.current(db.get(), notes);
     if (ps == null) {

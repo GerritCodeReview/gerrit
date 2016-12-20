@@ -48,7 +48,6 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -421,8 +420,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     }
   }
 
-  private void fireCommentAddedEvent(final Context ctx)
-      throws NoSuchChangeException, OrmException {
+  private void fireCommentAddedEvent(Context ctx) throws OrmException {
     if (approvals.isEmpty()) {
       return;
     }

@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -93,8 +92,7 @@ public class RebaseUtil {
     abstract PatchSet patchSet();
   }
 
-  Base parseBase(RevisionResource rsrc, String base)
-      throws OrmException, NoSuchChangeException {
+  Base parseBase(RevisionResource rsrc, String base) throws OrmException {
     ReviewDb db = dbProvider.get();
 
     // Try parsing the base as a ref string.
@@ -137,7 +135,7 @@ public class RebaseUtil {
   }
 
   private ChangeControl controlFor(RevisionResource rsrc, Change.Id id)
-      throws OrmException, NoSuchChangeException {
+      throws OrmException {
     if (rsrc.getChange().getId().equals(id)) {
       return rsrc.getControl();
     }

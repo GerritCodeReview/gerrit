@@ -86,8 +86,7 @@ public class Schema_108 extends SchemaVersion {
   }
 
   private void updateProjectGroups(ReviewDb db, Repository repo, RevWalk rw,
-      Set<Change.Id> changes, UpdateUI ui)
-          throws OrmException, IOException, NoSuchChangeException {
+      Set<Change.Id> changes, UpdateUI ui) throws OrmException, IOException {
     // Match sorting in ReceiveCommits.
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -133,8 +132,7 @@ public class Schema_108 extends SchemaVersion {
   }
 
   private static void updateGroups(ReviewDb db, GroupCollector collector,
-      Multimap<ObjectId, PatchSet.Id> patchSetsBySha)
-          throws OrmException, NoSuchChangeException {
+      Multimap<ObjectId, PatchSet.Id> patchSetsBySha) throws OrmException {
     Map<PatchSet.Id, PatchSet> patchSets =
         db.patchSets().toMap(db.patchSets().get(patchSetsBySha.values()));
     for (Map.Entry<ObjectId, Collection<String>> e

@@ -144,11 +144,24 @@ public class CommentsUtil {
   }
 
   public Comment newComment(ChangeContext ctx, String path, PatchSet.Id psId,
-      short side, String message) throws OrmException {
+      short side, String message, Boolean unresolved, String parentUuid)
+      throws OrmException {
+    if (unresolved == null) {
+      // Inherit unresolved value from inReplyTo comment if not specified.
+      Comment.Key key = new Comment.Key(parentUuid, path, psId.patchSetId);
+      Optional<Comment> parent = this.get(ctx.getDb(), ctx.getNotes(),
+          key);
+      if (parent.isPresent()) {
+        unresolved = parent.get().unresolved;
+      } else {
+        // Default to false if comment is not descended from another.
+        unresolved = false;
+      }
+    }
     Comment c = new Comment(
         new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
         ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
-        false);
+        unresolved);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
   }

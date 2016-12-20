@@ -759,16 +759,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String parent = Url.decode(c.inReplyTo);
           Comment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
-            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message);
+            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message,
+                c.unresolved, parent);
           } else {
             e.writtenOn = ctx.getWhen();
             e.side = c.side();
             e.message = c.message;
           }
 
-          if (parent != null) {
-            e.parentUuid = parent;
-          }
           setCommentRevId(e, patchListCache, ctx.getChange(), ps);
           e.setLineNbrAndRange(c.line, c.range);
           e.tag = in.tag;

@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -227,7 +228,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void draftComment() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    putDraft(user, id, 1, "comment");
+    putDraft(user, id, 1, "comment", null);
     checker.rebuildAndCheckChanges(id);
   }
 
@@ -235,7 +236,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void draftAndPublishedComment() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    putDraft(user, id, 1, "draft comment");
+    putDraft(user, id, 1, "draft comment", null);
     putComment(user, id, 1, "published comment");
     checker.rebuildAndCheckChanges(id);
   }
@@ -244,7 +245,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void publishDraftComment() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    putDraft(user, id, 1, "draft comment");
+    putDraft(user, id, 1, "draft comment", null);
     publishDrafts(user, id);
     checker.rebuildAndCheckChanges(id);
   }
@@ -371,14 +372,14 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name());
 
-    putDraft(user, id, 1, "comment by user");
+    putDraft(user, id, 1, "comment by user", null);
     ObjectId userDraftsId = getMetaRef(
         allUsers, refsDraftComments(id, user.getId()));
     assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
         changeMetaId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
 
-    putDraft(admin, id, 2, "comment by admin");
+    putDraft(admin, id, 2, "comment by admin", null);
     ObjectId adminDraftsId = getMetaRef(
         allUsers, refsDraftComments(id, admin.getId()));
     assertThat(admin.getId().get()).isLessThan(user.getId().get());
@@ -387,7 +388,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         + "," + admin.getId() + "=" + adminDraftsId.name()
         + "," + user.getId() + "=" + userDraftsId.name());
 
-    putDraft(admin, id, 2, "revised comment by admin");
+    putDraft(admin, id, 2, "revised comment by admin", null);
     adminDraftsId = getMetaRef(
         allUsers, refsDraftComments(id, admin.getId()));
     assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(
@@ -565,7 +566,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    putDraft(user, id, 1, "comment by user");
+    putDraft(user, id, 1, "comment by user", null);
     assertChangeUpToDate(true, id);
 
     ObjectId oldMetaId =
@@ -573,7 +574,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // Add a draft behind NoteDb's back.
     setNotesMigration(false, false);
-    putDraft(user, id, 1, "second comment by user");
+    putDraft(user, id, 1, "second comment by user", null);
     setInvalidNoteDbState(id);
     assertDraftsUpToDate(false, id, user);
     assertThat(getMetaRef(allUsers, refsDraftComments(id, user.getId())))
@@ -608,7 +609,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    putDraft(user, id, 1, "comment by user");
+    putDraft(user, id, 1, "comment by user", null);
     assertChangeUpToDate(true, id);
 
     ObjectId oldMetaId =
@@ -616,7 +617,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     // Add a draft behind NoteDb's back.
     setNotesMigration(false, false);
-    putDraft(user, id, 1, "second comment by user");
+    putDraft(user, id, 1, "second comment by user", null);
 
     ReviewDb db = getUnwrappedDb();
     Change c = db.changes().get(id);
@@ -668,12 +669,12 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    putDraft(user, id, 1, "comment");
+    putDraft(user, id, 1, "comment", null);
     assertDraftsUpToDate(true, id, user);
 
     // Make a ReviewDb change behind NoteDb's back and ensure it's detected.
     setNotesMigration(false, false);
-    putDraft(user, id, 1, "comment");
+    putDraft(user, id, 1, "comment", null);
     setInvalidNoteDbState(id);
     assertDraftsUpToDate(false, id, user);
 
@@ -900,7 +901,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void rebuildDeletesOldDraftRefs() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    putDraft(user, id, 1, "comment");
+    putDraft(user, id, 1, "comment", null);
 
     Account.Id otherAccountId = new Account.Id(user.getId().get() + 1234);
     String otherDraftRef = refsDraftComments(id, otherAccountId);
@@ -1162,6 +1163,23 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId1);
   }
 
+  @Test
+  public void resolveCommentsInheritsValueFromParentWhenUnspecified()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putDraft(user, id, 1, "comment", true);
+    putDraft(user, id, 1, "newComment", null);
+
+    Map<String, List<CommentInfo>> comments =
+        gApi.changes().id(id.get()).current().drafts();
+    for (List<CommentInfo> cList: comments.values()) {
+      for (CommentInfo ci: cList) {
+        assertThat(ci.unresolved).isEqualTo(true);
+      }
+    }
+  }
+
   private void assertChangesReadOnly(RestApiException e) throws Exception {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);
@@ -1213,12 +1231,13 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private void putDraft(TestAccount account, Change.Id id, int line, String msg)
-      throws Exception {
+  private void putDraft(TestAccount account, Change.Id id, int line, String msg,
+      Boolean unresolved) throws Exception {
     DraftInput in = new DraftInput();
     in.line = line;
     in.message = msg;
     in.path = PushOneCommit.FILE_NAME;
+    in.unresolved = unresolved;
     AcceptanceTestRequestScope.Context old = setApiUser(account);
     try {
       gApi.changes().id(id.get()).current().createDraft(in);

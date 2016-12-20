@@ -135,7 +135,33 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1");
+      CommentInput comment =
+          newComment(file, Side.REVISION, line, "comment 1", null);
+      input.comments = new HashMap<>();
+      input.comments.put(comment.path, Lists.newArrayList(comment));
+      revision(r).review(input);
+      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      assertThat(result).isNotEmpty();
+      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      assertThat(comment).isEqualTo(infoToInput(file).apply(actual));
+      assertThat(comment).isEqualTo(infoToInput(file).apply(
+          getPublishedComment(changeId, revId, actual.id)));
+    }
+  }
+
+  @Test
+  public void postCommentWithUnresolved() throws Exception {
+    for (Integer line : lines) {
+      String file = "file";
+      String contents = "contents " + line;
+      PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+          "first subject", file, contents);
+      PushOneCommit.Result r = push.to("refs/for/master");
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput input = new ReviewInput();
+      CommentInput comment =
+          newComment(file, Side.REVISION, line, "comment 1", true);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
@@ -156,8 +182,9 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1");
-      CommentInput c2 = newComment(file, Side.PARENT, line, "auto-merge of ps-1");
+      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1", null);
+      CommentInput c2 =
+          newComment(file, Side.PARENT, line, "auto-merge of ps-1", null);
       CommentInput c3 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
       CommentInput c4 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
       input.comments = new HashMap<>();
@@ -176,7 +203,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       ReviewInput input = new ReviewInput();
-      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1");
+      CommentInput c1 = newComment(file, Side.REVISION, line, "ps-1", null);
       CommentInput c2 = newCommentOnParent(file, 1, line, "parent-1 of ps-1");
       CommentInput c3 = newCommentOnParent(file, 2, line, "parent-2 of ps-1");
       input.comments = new HashMap<>();
@@ -193,8 +220,8 @@ public class CommentsIT extends AbstractDaemonTest {
   public void postCommentOnCommitMessageOnAutoMerge() throws Exception {
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
     ReviewInput input = new ReviewInput();
-    CommentInput c =
-        newComment(Patch.COMMIT_MSG, Side.PARENT, 0, "comment on auto-merge");
+    CommentInput c = newComment(Patch.COMMIT_MSG, Side.PARENT, 0,
+        "comment on auto-merge", null);
     input.comments = new HashMap<>();
     input.comments.put(Patch.COMMIT_MSG, ImmutableList.of(c));
     exception.expect(BadRequestException.class);
@@ -216,7 +243,8 @@ public class CommentsIT extends AbstractDaemonTest {
     List<CommentInput> expectedComments = new ArrayList<>();
     for (Integer line : lines) {
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment " + line);
+      CommentInput comment =
+          newComment(file, Side.REVISION, line, "comment " + line, null);
       expectedComments.add(comment);
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
@@ -326,7 +354,8 @@ public class CommentsIT extends AbstractDaemonTest {
       Timestamp origLastUpdated = r.getChange().change().getLastUpdatedOn();
 
       ReviewInput input = new ReviewInput();
-      CommentInput comment = newComment(file, Side.REVISION, line, "comment 1");
+      CommentInput comment =
+          newComment(file, Side.REVISION, line, "comment 1", null);
       comment.updated = timestamp;
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
@@ -688,36 +717,39 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private static CommentInput newComment(String path, Side side, int line,
-      String message) {
+      String message, Boolean unresolved) {
     CommentInput c = new CommentInput();
-    return populate(c, path, side, null, line, message);
+    return populate(c, path, side, null, line, message, unresolved);
   }
 
   private static CommentInput newCommentOnParent(String path, int parent,
       int line, String message) {
     CommentInput c = new CommentInput();
-    return populate(c, path, Side.PARENT, Integer.valueOf(parent), line, message);
+    return populate(c, path, Side.PARENT, Integer.valueOf(parent), line,
+        message, null);
   }
 
   private DraftInput newDraft(String path, Side side, int line,
       String message) {
     DraftInput d = new DraftInput();
-    return populate(d, path, side, null, line, message);
+    return populate(d, path, side, null, line, message, null);
   }
 
   private DraftInput newDraftOnParent(String path, int parent, int line,
       String message) {
     DraftInput d = new DraftInput();
-    return populate(d, path, Side.PARENT, Integer.valueOf(parent), line, message);
+    return populate(d, path, Side.PARENT, Integer.valueOf(parent), line,
+        message, null);
   }
 
   private static <C extends Comment> C populate(C c, String path, Side side,
-      Integer parent, int line, String message) {
+      Integer parent, int line, String message, Boolean unresolved) {
     c.path = path;
     c.side = side;
     c.parent = parent;
     c.line = line != 0 ? line : null;
     c.message = message;
+    c.unresolved = unresolved;
     if (line != 0) {
       Comment.Range range = new Comment.Range();
       range.startLine = line;

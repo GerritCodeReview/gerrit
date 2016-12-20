@@ -23,6 +23,30 @@
       "revId": "d062a34e8303e18713526fe7afcae1b48c9da451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_b4db203b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-20T10:24:03Z",
+      "side": 1,
+      "message": "\u003e Here the number \"3\" doesn\u0027t really make the test readable \n \u003e at all ... because the three test users aren\u0027t created for \n \u003e this test but rather for the others.\n\nWell, actually they are created for this test :) ...and for each other test too.\n\n\n\u003e What is the purpose of the test? Showing that given N \n \u003e users you match the three ones that have \"first\" in their \n \u003e name?\n\nYes.\n\nI agree it can be made more readable, but this is probably something we can fix on master.",
+      "parentUuid": "fa132f0f_140654cf",
+      "range": {
+        "startLine": 178,
+        "startChar": 34,
+        "endLine": 178,
+        "endChar": 35
+      },
+      "revId": "d062a34e8303e18713526fe7afcae1b48c9da451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

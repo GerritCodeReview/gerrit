@@ -624,7 +624,6 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isOk(element.$$('.expanded'));
     });
-
     test('_getDiffViewMode', function() {
       // No user prefs or diff view mode set.
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
@@ -637,6 +636,36 @@ limitations under the License.
       element.diffViewMode = 'SIDE_BY_SIDE';
       assert.equal(element._getDiffViewMode(
           element.diffViewMode, element._userPrefs), 'SIDE_BY_SIDE');
+    });
+    test('expand_inline_diffs user preference', function() {
+      element._files = [
+        {__path: '/COMMIT_MSG', __expanded: false},
+      ];
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      flushAsynchronousOperations();
+      var fileRows =
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+      var commitMsg = fileRows[0].querySelector('a');
+
+      // Remove href attribute so the app doesn't route to a diff view
+      commitMsg.removeAttribute('href');
+      var hiddenChangeSpy = sandbox.spy(element, '_handleHiddenChange');
+
+      MockInteractions.tap(commitMsg);
+      flushAsynchronousOperations();
+      assert(hiddenChangeSpy.notCalled, 'file is opened as diff view');
+      assert.isNotOk(element.$$('.expanded'));
+
+      element._userPrefs = {expand_inline_diffs: true};
+      flushAsynchronousOperations();
+      MockInteractions.tap(commitMsg);
+      flushAsynchronousOperations();
+      assert(hiddenChangeSpy.calledOnce, 'file is expanded');
+      assert.isOk(element.$$('.expanded'));
     });
   });
 </script>

@@ -226,4 +226,23 @@ limitations under the License.
           firstSchemeButton.getAttribute('data-scheme'));
     });
   });
+
+  test('normalize scheme from preferences', function(done) {
+    stub('gr-rest-api-interface', {
+      getPreferences: function() {
+        return Promise.resolve({download_scheme: 'REPO'});
+      },
+    });
+    element = fixture('loggedIn');
+    element.change = getChangeObject();
+    element.patchNum = 1;
+    element.config = {
+      schemes: {'anonymous http': {}, http: {}, repo: {}, ssh: {}},
+      archives: ['tgz', 'tar', 'tbz2', 'txz'],
+    };
+    element.$.restAPI.getPreferences.lastCall.returnValue.then(function() {
+      assert.equal(element._selectedScheme, 'repo');
+      done();
+    });
+  });
 </script>

@@ -66,7 +66,8 @@
       if (!loggedIn) { return; }
       this.$.restAPI.getPreferences().then(function(prefs) {
         if (prefs.download_scheme) {
-          this._selectedScheme = prefs.download_scheme;
+          // Note (issue 5180): normalize the download scheme with lower-case.
+          this._selectedScheme = prefs.download_scheme.toLowerCase();
         }
       }.bind(this));
     },
@@ -74,7 +75,8 @@
     _computeDownloadCommands: function(change, patchNum, _selectedScheme) {
       var commandObj;
       for (var rev in change.revisions) {
-        if (change.revisions[rev]._number == patchNum) {
+        if (change.revisions[rev]._number == patchNum &&
+            change.revisions[rev].fetch.hasOwnProperty(_selectedScheme)) {
           commandObj = change.revisions[rev].fetch[_selectedScheme].commands;
           break;
         }

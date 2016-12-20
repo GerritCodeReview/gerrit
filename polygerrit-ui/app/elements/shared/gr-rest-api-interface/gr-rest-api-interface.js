@@ -212,6 +212,12 @@
     },
 
     savePreferences: function(prefs, opt_errFn, opt_ctx) {
+      // Note (Issue 5142): normalize the download scheme with lower case before
+      // saving.
+      if (prefs.download_scheme) {
+        prefs.download_scheme = prefs.download_scheme.toLowerCase();
+      }
+
       return this.send('PUT', '/accounts/self/preferences', prefs, opt_errFn,
           opt_ctx);
     },

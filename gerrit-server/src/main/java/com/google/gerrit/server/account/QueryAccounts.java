@@ -14,18 +14,27 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
+import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
@@ -33,10 +42,14 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
@@ -45,11 +58,18 @@ import java.util.Map;
 import java.util.Set;
 
 public class QueryAccounts implements RestReadView<TopLevelResource> {
+  private static final Logger log =
+      LoggerFactory.getLogger(QueryAccounts.class);
+
   private static final int MAX_SUGGEST_RESULTS = 100;
 
   private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder queryBuilder;
   private final AccountQueryProcessor queryProcessor;
+  private final ReviewDb db;
+  private final Provider<ChangesCollection> changes;
+  private final Provider<ChangeControl.GenericFactory> changeControlFactory;
+  private final Provider<IdentifiedUser.GenericFactory> identifiedUserFactory;
   private final boolean suggestConfig;
   private final int suggestFrom;
 
@@ -58,6 +78,8 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private int suggestLimit = 10;
   private String query;
   private Integer start;
+  private String change;
+  private ChangeNotes changeNotes;
   private EnumSet<ListAccountsOption> options;
 
   @Option(name = "--suggest", metaVar = "SUGGEST", usage = "suggest users")
@@ -99,14 +121,27 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     this.start = start;
   }
 
+  @Option(name = "--change", metaVar = "CHANGE", usage = "change for which to suggets accounts")
+  public void setChange(String change) {
+    this.change = change;
+  }
+
   @Inject
   QueryAccounts(AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder queryBuilder,
       AccountQueryProcessor queryProcessor,
+      ReviewDb db,
+      Provider<ChangesCollection> changes,
+      Provider<ChangeControl.GenericFactory> changeControlFactory,
+      Provider<IdentifiedUser.GenericFactory> identifiedUserFactory,
       @GerritServerConfig Config cfg) {
     this.accountLoaderFactory = accountLoaderFactory;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
+    this.db = db;
+    this.changes = changes;
+    this.changeControlFactory = changeControlFactory;
+    this.identifiedUserFactory = identifiedUserFactory;
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
     this.options = EnumSet.noneOf(ListAccountsOption.class);
 
@@ -130,6 +165,17 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       throws OrmException, BadRequestException, MethodNotAllowedException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
+    }
+
+    if (change != null) {
+      try {
+        changeNotes = changes.get()
+            .parse(TopLevelResource.INSTANCE, IdString.fromDecoded(change))
+            .getNotes();
+      } catch (ResourceNotFoundException e) {
+        throw new BadRequestException(
+            String.format("change %s not found", change));
+      }
     }
 
     if (suggest && (!suggestConfig || query.length() < suggestFrom)) {
@@ -176,8 +222,24 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
 
       accountLoader.fill();
 
+      Collection<AccountInfo> matchingAccounts = matches.values();
+      if (changeNotes != null) {
+        return matchingAccounts.stream().filter(a -> {
+          try {
+            return changeControlFactory.get().controlFor(changeNotes,
+                identifiedUserFactory.get().create(new Account.Id(a._accountId)))
+                .isVisible(db);
+          } catch (OrmException e) {
+            log.error(String.format(
+                "Failed to check visibility of change %s for account %d",
+                changeNotes.getChangeId().get(), a._accountId), e);
+            return false;
+          }
+        }).collect(toList());
+      }
+
       List<AccountInfo> sorted =
-          AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matches.values());
+          AccountInfoComparator.ORDER_NULLS_LAST.sortedCopy(matchingAccounts);
       if (!sorted.isEmpty() && result.more()) {
         sorted.get(sorted.size() - 1)._moreAccounts = true;
       }

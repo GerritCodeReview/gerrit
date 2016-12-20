@@ -150,6 +150,7 @@ public interface Accounts {
     private String query;
     private int limit;
     private int start;
+    private String change;
     private EnumSet<ListAccountsOption> options =
         EnumSet.noneOf(ListAccountsOption.class);
 
@@ -183,6 +184,15 @@ public interface Accounts {
      */
     public QueryRequest withStart(int start) {
       this.start = start;
+      return this;
+    }
+
+    /**
+     * Set change for which accounts should be queried.
+     * Optional; accounts are not limited for this change.
+     */
+    public QueryRequest withChange(String change) {
+      this.change = change;
       return this;
     }
 

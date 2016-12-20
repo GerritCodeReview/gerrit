@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.AgreementInfo;
+import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.GpgKeyInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -53,11 +54,21 @@ public class AccountApi {
 
   public static void suggest(String query, int limit,
       AsyncCallback<JsArray<AccountInfo>> cb) {
-    new RestApi("/accounts/")
+    suggest(query, limit, null, cb);
+  }
+
+  public static void suggest(String query, int limit, ChangeInfo change,
+      AsyncCallback<JsArray<AccountInfo>> cb) {
+    RestApi restApi = new RestApi("/accounts/")
       .addParameterTrue("suggest")
       .addParameter("q", query)
-      .addParameter("n", limit)
-      .background()
+      .addParameter("n", limit);
+
+    if (change != null) {
+      restApi.addParameter("change", change._number());
+    }
+
+    restApi.background()
       .get(cb);
   }
 

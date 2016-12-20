@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GerritConfigs;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
@@ -41,6 +42,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+@Sandboxed
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject
   private CreateGroup.Factory createGroupFactory;
@@ -172,49 +174,49 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers;
 
-    reviewers = suggestReviewers(changeId, "first", 4);
+    reviewers = suggestReviewers(changeId, "first");
     assertThat(reviewers).hasSize(3);
 
-    reviewers = suggestReviewers(changeId, "first1", 2);
+    reviewers = suggestReviewers(changeId, "first1");
     assertThat(reviewers).hasSize(1);
 
-    reviewers = suggestReviewers(changeId, "last", 4);
+    reviewers = suggestReviewers(changeId, "last");
     assertThat(reviewers).hasSize(3);
 
-    reviewers = suggestReviewers(changeId, "last1", 2);
+    reviewers = suggestReviewers(changeId, "last1");
     assertThat(reviewers).hasSize(1);
 
-    reviewers = suggestReviewers(changeId, "fi la", 4);
+    reviewers = suggestReviewers(changeId, "fi la");
     assertThat(reviewers).hasSize(3);
 
-    reviewers = suggestReviewers(changeId, "la fi", 4);
+    reviewers = suggestReviewers(changeId, "la fi");
     assertThat(reviewers).hasSize(3);
 
-    reviewers = suggestReviewers(changeId, "first1 la", 2);
+    reviewers = suggestReviewers(changeId, "first1 la");
     assertThat(reviewers).hasSize(1);
 
-    reviewers = suggestReviewers(changeId, "fi last1", 2);
+    reviewers = suggestReviewers(changeId, "fi last1");
     assertThat(reviewers).hasSize(1);
 
-    reviewers = suggestReviewers(changeId, "first1 last2", 1);
+    reviewers = suggestReviewers(changeId, "first1 last2");
     assertThat(reviewers).hasSize(0);
 
-    reviewers = suggestReviewers(changeId, name("user"), 7);
+    reviewers = suggestReviewers(changeId, name("user"));
     assertThat(reviewers).hasSize(6);
 
-    reviewers = suggestReviewers(changeId, user1.username, 2);
+    reviewers = suggestReviewers(changeId, user1.username);
     assertThat(reviewers).hasSize(1);
 
-    reviewers = suggestReviewers(changeId, "example.com", 7);
+    reviewers = suggestReviewers(changeId, "example.com");
     assertThat(reviewers).hasSize(6);
 
-    reviewers = suggestReviewers(changeId, user1.email, 2);
+    reviewers = suggestReviewers(changeId, user1.email);
     assertThat(reviewers).hasSize(1);
 
-    reviewers = suggestReviewers(changeId, user1.username + " example", 2);
+    reviewers = suggestReviewers(changeId, user1.username + " example");
     assertThat(reviewers).hasSize(1);
 
-    reviewers = suggestReviewers(changeId, user4.email.toLowerCase(), 2);
+    reviewers = suggestReviewers(changeId, user4.email.toLowerCase());
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.get(0).account.email).isEqualTo(user4.email);
   }
@@ -267,6 +269,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewer.group.name).isEqualTo(mediumGroup.getName());
     assertThat(reviewer.count).isEqualTo(2);
     assertThat(reviewer.confirm).isTrue();
+  }
+
+  private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
+      String query) throws Exception {
+    return gApi.changes()
+        .id(changeId)
+        .suggestReviewers(query)
+        .get();
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId,

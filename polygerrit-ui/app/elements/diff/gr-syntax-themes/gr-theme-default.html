@@ -19,77 +19,69 @@ limitations under the License.
       /**
        * @overview Highlight.js emits the following classes that do not have
        * styles here:
-       *    subst, symbol, class, function, doctag, meta-string, section,
-       *    builtin-name, bulletm, code, formula, quote, addition, deletion
+       *    subst, symbol, class, function, doctag, meta-string, section, name,
+       *    builtin-name, bulletm, code, formula, quote, addition, deletion,
+       *    attribute
        * @see {@link http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html}
        */
 
-      .gr-syntax-literal,
-      .gr-syntax-keyword,
-      .gr-syntax-selector-tag {
+      .gr-syntax-meta {
+         color: #FF1717;
+      }
+      .gr-syntax-keyword {
+        color: #7F0055;
         font-weight: bold;
-        color: #00f;
+        line-height: 1em;
       }
-      .gr-syntax-built_in {
-        color: #555;
+      .gr-syntax-number,
+      .gr-syntax-selector-class {
+        color: #164;
       }
-      .gr-syntax-type,
-      .gr-syntax-selector-pseudo,
+      .gr-syntax-variable {
+        color: black;
+      }
       .gr-syntax-template-variable {
-        color: #ff00e7;
+        color: #0000C0;
       }
-      .gr-syntax-number {
-        color: violet;
-      }
-      .gr-syntax-regexp,
-      .gr-syntax-variable,
-      .gr-syntax-selector-attr,
-      .gr-syntax-template-tag {
-        color: #FA8602;
+      .gr-syntax-comment {
+        color: #3F7F5F;
       }
       .gr-syntax-string,
       .gr-syntax-selector-id {
-        color: #018846;
+        color: #2A00FF;
       }
-      .gr-syntax-title {
-        color: teal;
-      }
-      .gr-syntax-params {
-        color: red;
-      }
-      .gr-syntax-comment {
-        color: #af72a9;
-      }
-      .gr-syntax-meta {
-        color: #0091AD;
-      }
-      .gr-syntax-meta-keyword {
-        color: #00426b;
-        font-weight: bold;
+      .gr-syntax-built_in {
+        color: #30a;
       }
       .gr-syntax-tag {
-        color: #DB7C00;
+        color: #170;
       }
-      .gr-syntax-name { /* XML/HTML Tag Name */
-        color: brown;
+      .gr-syntax-link,
+      .gr-syntax-meta-keyword {
+        color: #219;
       }
-      .gr-syntax-attr { /* XML/HTML Attribute */
-        color: #8C7250;
+      .gr-syntax-params,
+      .gr-syntax-type {
+        color: #00f;
       }
-      .gr-syntax-attribute { /* CSS Property */
-        color: #299596;
+      .gr-syntax-title {
+        color: #0000C0;
+      }
+      .gr-syntax-attr,
+      .gr-syntax-literal { /* XML/HTML Attribute */
+        color: #219;
+      }
+      .gr-syntax-selector-pseudo,
+      .gr-syntax-regexp,
+      .gr-syntax-selector-attr,
+      .gr-syntax-template-tag {
+        color: #FA8602;
       }
       .gr-syntax-emphasis {
         font-style: italic;
       }
       .gr-syntax-strong {
         font-weight: bold;
-      }
-      .gr-syntax-link {
-        color: blue;
-      }
-      .gr-syntax-selector-class {
-        color: #1F71FF;
       }
     </style>
   </template>

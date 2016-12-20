@@ -16,6 +16,29 @@
       "revId": "ee1a5fbc49b2c48169b9764e69402a63db322480",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_95e0a4e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-20T09:17:15Z",
+      "side": 1,
+      "message": "nit: missing blank after \u0027if\u0027",
+      "range": {
+        "startLine": 196,
+        "startChar": 8,
+        "endLine": 196,
+        "endChar": 10
+      },
+      "revId": "ee1a5fbc49b2c48169b9764e69402a63db322480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

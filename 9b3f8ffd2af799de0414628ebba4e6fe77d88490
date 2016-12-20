@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_55356c91",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T07:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_d5317cb4",
+      "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_d4f4dcd4",
         "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-12-20T07:05:55Z",
       "side": 1,
       "message": "saveProjectConfig is already evicting the project from the cache.",
+      "range": {
+        "startLine": 691,
+        "startChar": 4,
+        "endLine": 692,
+        "endChar": 36
+      },
+      "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_546c4cb1",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T07:57:48Z",
+      "side": 1,
+      "message": "Oh yes, removed.",
+      "parentUuid": "fa132f0f_d4f4dcd4",
       "range": {
         "startLine": 691,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "fa132f0f_b477a079",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T07:57:48Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "fa132f0f_f4ef5801",
+      "range": {
+        "startLine": 728,
+        "startChar": 4,
+        "endLine": 729,
+        "endChar": 26
+      },
+      "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_34ea70f2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2016-12-20T07:05:55Z",
       "side": 1,
       "message": "Use com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS instead.",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 68
+      },
+      "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_f4711885",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T07:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa132f0f_34ea70f2",
       "range": {
         "startLine": 72,
         "startChar": 4,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "fa132f0f_d4769c7a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T07:57:48Z",
+      "side": 1,
+      "message": "Yes, it is. Should suggestReviewsPrivateProjectVisibility fail for an exception, we do not want to impact the other tests.\n\nUnfortunately all those tests are using a global Gerrit context and have the danger to interfere between each other :-(",
+      "parentUuid": "fa132f0f_14e77428",
+      "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_3517100c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
         "patchSetId": 1
@@ -128,6 +236,53 @@
     },
     {
       "key": {
+        "uuid": "fa132f0f_348c3058",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T07:57:48Z",
+      "side": 1,
+      "message": "Tried last night, it didn\u0027t work at all :-( \nLet me try again ... just in case.",
+      "parentUuid": "1a1ba32a_3517100c",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 65
+      },
+      "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_b5f4c0ae",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T07:57:48Z",
+      "side": 1,
+      "message": "I really don\u0027t like this tests because it relies on the \"side-effects\" of all the others: each test should be independent and potentially runnable standalone and in parallel with the others.\n\nWill fix this test in a follow-up change :-)",
+      "range": {
+        "startLine": 188,
+        "startChar": 14,
+        "endLine": 188,
+        "endChar": 44
+      },
+      "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_74e4e821",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 1
@@ -139,6 +294,24 @@
       "writtenOn": "2016-12-20T07:05:55Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_14893448",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-20T07:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa132f0f_74e4e821",
       "revId": "9b3f8ffd2af799de0414628ebba4e6fe77d88490",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

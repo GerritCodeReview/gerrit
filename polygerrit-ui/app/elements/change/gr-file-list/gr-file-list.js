@@ -598,6 +598,26 @@
       this._diffAgainst = patchRange.basePatchNum;
     },
 
+    /**
+     * _getDiffViewMode: Get the diff view (side-by-side or unified) based on
+     * the current state.
+     *
+     * The expected behavior is to use the mode specified in the user's
+     * preferences unless they have manually chosen the alternative view.
+     *
+     * Use side-by-side if there is no view mode or preferences.
+     *
+     * @return {String}
+     */
+    _getDiffViewMode: function(diffViewMode, userPrefs) {
+      if (diffViewMode) {
+        return diffViewMode;
+      } else if (userPrefs) {
+        return this.diffViewMode = userPrefs.default_diff_view;
+      }
+      return 'SIDE_BY_SIDE';
+    },
+
     _fileListActionsVisible: function(numFilesShown, maxFilesForBulkActions) {
       return numFilesShown <= maxFilesForBulkActions;
     },

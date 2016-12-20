@@ -1029,7 +1029,7 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     private ChangeContext newChangeContext(ReviewDb db, Repository repo,
-        RevWalk rw, Change.Id id) throws OrmException, NoSuchChangeException {
+        RevWalk rw, Change.Id id) throws OrmException {
       Change c = newChanges.get(id);
       if (c == null) {
         c = ChangeNotes.readOneReviewDbChange(db, id);

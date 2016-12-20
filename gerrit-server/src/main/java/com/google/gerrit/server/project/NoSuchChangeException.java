@@ -15,16 +15,17 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwtorm.server.OrmException;
 
 /** Indicates the change does not exist. */
-public class NoSuchChangeException extends Exception {
+public class NoSuchChangeException extends OrmException {
   private static final long serialVersionUID = 1L;
 
-  public NoSuchChangeException(final Change.Id key) {
+  public NoSuchChangeException(Change.Id key) {
     this(key, null);
   }
 
-  public NoSuchChangeException(final Change.Id key, final Throwable why) {
+  public NoSuchChangeException(Change.Id key, Throwable why) {
     super(key.toString(), why);
   }
 }

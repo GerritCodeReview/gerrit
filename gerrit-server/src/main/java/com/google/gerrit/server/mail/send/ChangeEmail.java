@@ -36,7 +36,6 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -325,7 +324,7 @@ public abstract class ChangeEmail extends NotificationEmail {
           }
         }
       }
-    } catch (OrmException | NoSuchChangeException err) {
+    } catch (OrmException err) {
       // Just don't BCC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.

@@ -118,12 +118,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public ChangeNotes createChecked(ReviewDb db, Change c)
-        throws OrmException, NoSuchChangeException {
+        throws OrmException {
       return createChecked(db, c.getProject(), c.getId());
     }
 
     public ChangeNotes createChecked(ReviewDb db, Project.NameKey project,
-        Change.Id changeId) throws OrmException, NoSuchChangeException {
+        Change.Id changeId) throws OrmException {
       Change change = readOneReviewDbChange(db, changeId);
       if (change == null || !change.getProject().equals(project)) {
         throw new NoSuchChangeException(changeId);
@@ -131,8 +131,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, change).load();
     }
 
-    public ChangeNotes createChecked(Change.Id changeId)
-        throws OrmException, NoSuchChangeException {
+    public ChangeNotes createChecked(Change.Id changeId) throws OrmException {
       InternalChangeQuery query = queryProvider.get().noFields();
       List<ChangeData> changes = query.byLegacyChangeId(changeId);
       if (changes.isEmpty()) {

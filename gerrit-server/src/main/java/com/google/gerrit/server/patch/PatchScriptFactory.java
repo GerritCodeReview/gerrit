@@ -187,9 +187,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   @Override
-  public PatchScript call() throws OrmException, NoSuchChangeException,
-      LargeObjectException, AuthException,
-      InvalidChangeOperationException, IOException {
+  public PatchScript call() throws OrmException, LargeObjectException,
+      AuthException, InvalidChangeOperationException, IOException {
     if (parentNum < 0) {
       validatePatchSetId(psa);
     }

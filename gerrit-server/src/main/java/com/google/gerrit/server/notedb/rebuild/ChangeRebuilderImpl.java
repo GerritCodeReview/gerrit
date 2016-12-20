@@ -153,7 +153,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   @Override
   public Result rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException {
+      throws IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
     // Read change just to get project; this instance is then discarded so we
     // can read a consistent ChangeBundle inside a transaction.
@@ -179,7 +179,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   @Override
   public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException {
+      throws IOException, OrmException {
     db = ReviewDbUtil.unwrapDb(db);
     Change change =
         checkNoteDbState(ChangeNotes.readOneReviewDbChange(db, changeId));
@@ -195,8 +195,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   @Override
   public Result execute(ReviewDb db, Change.Id changeId,
-      NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
-      IOException {
+      NoteDbUpdateManager manager) throws OrmException, IOException {
     db = ReviewDbUtil.unwrapDb(db);
     Change change =
         checkNoteDbState(ChangeNotes.readOneReviewDbChange(db, changeId));

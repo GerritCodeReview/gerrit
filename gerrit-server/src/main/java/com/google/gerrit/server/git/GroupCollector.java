@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -101,8 +100,7 @@ public class GroupCollector {
   }
 
   private interface Lookup {
-    List<String> lookup(PatchSet.Id psId)
-        throws OrmException, NoSuchChangeException;
+    List<String> lookup(PatchSet.Id psId) throws OrmException;
   }
 
   private final Multimap<ObjectId, PatchSet.Id> patchSetsBySha;
@@ -119,8 +117,7 @@ public class GroupCollector {
         transformRefs(changeRefsById),
         new Lookup() {
           @Override
-          public List<String> lookup(PatchSet.Id psId)
-              throws OrmException, NoSuchChangeException {
+          public List<String> lookup(PatchSet.Id psId) throws OrmException {
             // TODO(dborowitz): Reuse open repository from caller.
             ChangeNotes notes =
                 notesFactory.createChecked(db, project, psId.getParentKey());
@@ -233,8 +230,7 @@ public class GroupCollector {
     }
   }
 
-  public SortedSetMultimap<ObjectId, String> getGroups()
-      throws OrmException, NoSuchChangeException {
+  public SortedSetMultimap<ObjectId, String> getGroups() throws OrmException {
     done = true;
     SortedSetMultimap<ObjectId, String> result = MultimapBuilder
         .hashKeys(groups.keySet().size())
@@ -265,8 +261,7 @@ public class GroupCollector {
   }
 
   private Set<String> resolveGroups(ObjectId forCommit,
-      Collection<String> candidates)
-          throws OrmException, NoSuchChangeException {
+      Collection<String> candidates) throws OrmException {
     Set<String> actual = Sets.newTreeSet();
     Set<String> done = Sets.newHashSetWithExpectedSize(candidates.size());
     Set<String> seen = Sets.newHashSetWithExpectedSize(candidates.size());
@@ -303,7 +298,7 @@ public class GroupCollector {
   }
 
   private Iterable<String> resolveGroup(ObjectId forCommit, String group)
-      throws OrmException, NoSuchChangeException {
+      throws OrmException {
     ObjectId id = parseGroup(forCommit, group);
     if (id != null) {
       PatchSet.Id psId = Iterables.getFirst(patchSetsBySha.get(id), null);

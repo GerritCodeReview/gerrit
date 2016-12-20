@@ -40,6 +40,24 @@
       "revId": "a2ea6347743ab1e0219a9e222c7eee0ef8824344",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_2dafd962",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-20T18:46:58Z",
+      "side": 1,
+      "message": ".. and apparently we can\u0027t use shared vars in media queries.",
+      "parentUuid": "fac16fc3_67d0cce0",
+      "revId": "a2ea6347743ab1e0219a9e222c7eee0ef8824344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_15edb4d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-20T09:33:06Z",
+      "side": 1,
+      "message": "\u003e Where is it adding a new user? It shouldn\u0027t add a new user.\n\nOK, I see the problem. It\u0027s the setUp() method which creates new users for each test method. Let me fix that and rebase your change on top of it.",
+      "parentUuid": "1a1ba32a_35f0b0ad",
+      "revId": "ee1a5fbc49b2c48169b9764e69402a63db322480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_95e0a4e4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
         "patchSetId": 3

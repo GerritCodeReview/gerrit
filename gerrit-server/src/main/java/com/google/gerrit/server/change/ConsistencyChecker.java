@@ -54,7 +54,6 @@ import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -409,7 +408,7 @@ public class ConsistencyChecker {
           if (!c.getDest().equals(change().getDest())) {
             continue;
           }
-        } catch (OrmException | NoSuchChangeException e) {
+        } catch (OrmException e) {
           warn(e);
           // Include this patch set; should cause an error below, which is good.
         }
@@ -536,8 +535,8 @@ public class ConsistencyChecker {
           db.get(), inserter.getChange(), ctl.getUser());
       insertPatchSetProblem.status = Status.FIXED;
       insertPatchSetProblem.outcome = "Inserted as patch set " + psId.get();
-    } catch (OrmException | IOException | NoSuchChangeException
-        | UpdateException | RestApiException e) {
+    } catch (OrmException | IOException | UpdateException
+        | RestApiException e) {
       warn(e);
       for (ProblemInfo pi : currProblems) {
         pi.status = Status.FIX_FAILED;

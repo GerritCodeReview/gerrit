@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -95,11 +94,10 @@ public class LabelNormalizer {
    *     type and permissions for the user. Approvals for unknown labels are not
    *     included in the output, nor are approvals where the user has no
    *     permissions for that label.
-   * @throws NoSuchChangeException
    * @throws OrmException
    */
   public Result normalize(Change change, Collection<PatchSetApproval> approvals)
-      throws NoSuchChangeException, OrmException {
+      throws OrmException {
     IdentifiedUser user = userFactory.create(change.getOwner());
     return normalize(
         changeFactory.controlFor(db.get(), change, user), approvals);

@@ -82,7 +82,7 @@ public class ChangeFinder {
   }
 
   public ChangeControl findOne(Change.Id id, CurrentUser user)
-      throws OrmException, NoSuchChangeException {
+      throws OrmException {
     List<ChangeControl> ctls = find(id, user);
     if (ctls.size() != 1) {
       throw new NoSuchChangeException(id);

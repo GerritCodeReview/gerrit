@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 
@@ -57,19 +56,17 @@ public abstract class ChangeRebuilder {
   }
 
   public abstract Result rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException;
+      throws IOException, OrmException;
 
   public abstract Result rebuild(NoteDbUpdateManager manager,
-      ChangeBundle bundle) throws NoSuchChangeException, IOException,
-      OrmException;
+      ChangeBundle bundle) throws IOException, OrmException;
 
   public abstract void buildUpdates(NoteDbUpdateManager manager,
       ChangeBundle bundle) throws IOException, OrmException;
 
   public abstract NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException;
+      throws IOException, OrmException;
 
   public abstract Result execute(ReviewDb db, Change.Id changeId,
-      NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
-      IOException;
+      NoteDbUpdateManager manager) throws OrmException, IOException;
 }

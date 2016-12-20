@@ -1633,13 +1633,13 @@ public class ReceiveCommits {
     try {
       changeEnt = notesFactory.createChecked(db, project.getNameKey(), changeId)
           .getChange();
-    } catch (OrmException e) {
-      logError("Cannot lookup existing change " + changeId, e);
-      reject(cmd, "database error");
-      return;
     } catch (NoSuchChangeException e) {
       logError("Change not found " + changeId, e);
       reject(cmd, "change " + changeId + " not found");
+      return;
+    } catch (OrmException e) {
+      logError("Cannot lookup existing change " + changeId, e);
+      reject(cmd, "database error");
       return;
     }
     if (!project.getNameKey().equals(changeEnt.getProject())) {
@@ -1910,7 +1910,7 @@ public class ReceiveCommits {
         update.groups = ImmutableList.copyOf((groups.get(update.commit)));
       }
       logDebug("Finished updating groups from GroupCollector");
-    } catch (OrmException | NoSuchChangeException e) {
+    } catch (OrmException e) {
       logError("Error collecting groups for changes", e);
       reject(magicBranch.cmd, "internal server error");
       return;

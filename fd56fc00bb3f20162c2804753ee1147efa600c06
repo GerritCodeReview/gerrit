@@ -52,6 +52,24 @@
       "revId": "fd56fc00bb3f20162c2804753ee1147efa600c06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8de6c5cd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-selection/gr-diff-selection.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-20T19:28:54Z",
+      "side": 1,
+      "message": "tl;dr: LGTM.\nThe test will break if endOffset falls on the astral character boundary, but I couldn\u0027t come up with a realistic situation when this happens.\nSeems browser is smart enough when it comes to calculating endPosition and accounts for astral symbols. (at least Chrome)",
+      "parentUuid": "fac16fc3_6413aa0d",
+      "revId": "fd56fc00bb3f20162c2804753ee1147efa600c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

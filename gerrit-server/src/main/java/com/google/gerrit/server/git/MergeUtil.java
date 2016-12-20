@@ -219,7 +219,7 @@ public class MergeUtil {
   public CodeReviewCommit createCherryPickFromCommit(Repository repo,
       ObjectInserter inserter, RevCommit mergeTip, RevCommit originalCommit,
       PersonIdent cherryPickCommitterIdent, String commitMsg,
-      CodeReviewRevWalk rw, int parentIndex)
+      CodeReviewRevWalk rw, int parentIndex, boolean ignoreIdenticalTree)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
       MergeIdenticalTreeException, MergeConflictException {
 
@@ -228,7 +228,7 @@ public class MergeUtil {
     m.setBase(originalCommit.getParent(parentIndex));
     if (m.merge(mergeTip, originalCommit)) {
       ObjectId tree = m.getResultTreeId();
-      if (tree.equals(mergeTip.getTree())) {
+      if (tree.equals(mergeTip.getTree()) && !ignoreIdenticalTree) {
         throw new MergeIdenticalTreeException("identical tree");
       }
 

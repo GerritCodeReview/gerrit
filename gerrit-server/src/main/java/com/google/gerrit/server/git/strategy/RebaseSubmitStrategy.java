@@ -146,13 +146,14 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         try {
           newCommit = args.mergeUtil.createCherryPickFromCommit(args.repo,
               args.inserter, args.mergeTip.getCurrentTip(), toMerge, committer,
-              cherryPickCmtMsg, args.rw, 0);
+              cherryPickCmtMsg, args.rw, 0, true);
         } catch (MergeConflictException mce) {
           // Unlike in Cherry-pick case, this should never happen.
           toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
           throw new IllegalStateException(
               "MergeConflictException on message edit must not happen");
         } catch (MergeIdenticalTreeException mie) {
+          // this should not happen
           toMerge.setStatusCode(SKIPPED_IDENTICAL_TREE);
           return;
         }
@@ -200,9 +201,10 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         OrmException, IOException  {
       if (newCommit == null) {
         checkState(!rebaseAlways, "RebaseAlways must never fast forward");
-        // Took the fast-forward option, nothing to do.
+        // otherwise, took the fast-forward option, nothing to do.
         return null;
       }
+
       PatchSet newPs;
       if (rebaseOp != null) {
         rebaseOp.updateChange(ctx);

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_07b2b895",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T23:31:33Z",
+      "side": 1,
+      "message": "Just a nitpicky suggestion *probably just ignore*: it would maybe feel less hefty using a constant repeatedly if the name doesn\u0027t feel so big. Maybe offload some of the descriptiveness into a comment.\n\n  // Maximum length for patch set descriptions.\n  var PATCH_DESC_MAX_LENGTH \u003d 500;",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "628f10d8bcb752b1ec0c9e9c6bccfb19258527b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ededc19b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T23:31:33Z",
+      "side": 1,
+      "message": "Nit: this constant is not super necessary IMO.",
+      "range": {
+        "startLine": 844,
+        "startChar": 10,
+        "endLine": 844,
+        "endChar": 36
+      },
+      "revId": "628f10d8bcb752b1ec0c9e9c6bccfb19258527b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_27b5347e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-20T23:31:33Z",
+      "side": 1,
+      "message": "This, and the 500 in gr-patch-range-select.js should be constants also.",
+      "range": {
+        "startLine": 607,
+        "startChar": 69,
+        "endLine": 607,
+        "endChar": 72
+      },
+      "revId": "628f10d8bcb752b1ec0c9e9c6bccfb19258527b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

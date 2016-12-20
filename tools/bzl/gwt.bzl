@@ -250,7 +250,7 @@ def gwt_genrule(suffix = ""):
       ' gerrit_ui/dbg_gerrit_ui.nocache.js;' +
       'unzip -qo $$ROOT/$(location :%s);' % opt +
       'mkdir -p $$(dirname $@);' +
-      'zip -qr $$ROOT/$@ .',
+      'zip -qrD $$ROOT/$@ .',
     outs = ['ui_optdbg' + suffix + '.zip'],
     visibility = ['//visibility:public'],
    )

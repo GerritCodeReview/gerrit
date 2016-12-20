@@ -288,6 +288,9 @@ test -z "$GERRIT_FDS" && GERRIT_FDS=128
 GERRIT_FDS=`expr $GERRIT_FDS + $GERRIT_FDS`
 test $GERRIT_FDS -lt 1024 && GERRIT_FDS=1024
 
+GERRIT_STARTUP_TIMEOUT=`get_config --get container.startUpTimeout`
+test -z "$GERRIT_STARTUP_TIMEOUT" && GERRIT_STARTUP_TIMEOUT=90  # seconds
+
 GERRIT_USER=`get_config --get container.user`
 
 #####################################################
@@ -434,7 +437,7 @@ case "$ACTION" in
         fi
     fi
 
-    TIMEOUT=90  # seconds
+    TIMEOUT="$GERRIT_STARTUP_TIMEOUT"
     sleep 1
     while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
       if test "x$RUN_ID" = "x`cat $GERRIT_RUN 2>/dev/null`" ; then
@@ -526,17 +529,18 @@ case "$ACTION" in
 
   check|status)
     echo "Checking arguments to Gerrit Code Review:"
-    echo "  GERRIT_SITE     =  $GERRIT_SITE"
-    echo "  GERRIT_CONFIG   =  $GERRIT_CONFIG"
-    echo "  GERRIT_PID      =  $GERRIT_PID"
-    echo "  GERRIT_TMP      =  $GERRIT_TMP"
-    echo "  GERRIT_WAR      =  $GERRIT_WAR"
-    echo "  GERRIT_FDS      =  $GERRIT_FDS"
-    echo "  GERRIT_USER     =  $GERRIT_USER"
-    echo "  JAVA            =  $JAVA"
-    echo "  JAVA_OPTIONS    =  $JAVA_OPTIONS"
-    echo "  RUN_EXEC        =  $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3"
-    echo "  RUN_ARGS        =  $RUN_ARGS"
+    echo "  GERRIT_SITE            =  $GERRIT_SITE"
+    echo "  GERRIT_CONFIG          =  $GERRIT_CONFIG"
+    echo "  GERRIT_PID             =  $GERRIT_PID"
+    echo "  GERRIT_TMP             =  $GERRIT_TMP"
+    echo "  GERRIT_WAR             =  $GERRIT_WAR"
+    echo "  GERRIT_FDS             =  $GERRIT_FDS"
+    echo "  GERRIT_USER            =  $GERRIT_USER"
+    echo "  GERRIT_STARTUP_TIMEOUT =  $GERRIT_STARTUP_TIMEOUT"
+    echo "  JAVA                   =  $JAVA"
+    echo "  JAVA_OPTIONS           =  $JAVA_OPTIONS"
+    echo "  RUN_EXEC               =  $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3"
+    echo "  RUN_ARGS               =  $RUN_ARGS"
     echo
 
     if test -f "$GERRIT_PID" ; then

@@ -16,6 +16,24 @@
       "revId": "a50d126ebb89b3e77a20dd7812414abd30a35bf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8df8855b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-20T23:25:48Z",
+      "side": 1,
+      "message": "I think that encourages a bad UX, actually. I think we ought to discourage people from writing long descriptions, as this is currently only represented in the dropdowns and opening a dropdown to have it expand to a huge width feels strange and isn\u0027t really very mobile-friendly.",
+      "parentUuid": "fac16fc3_87a50855",
+      "revId": "a50d126ebb89b3e77a20dd7812414abd30a35bf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

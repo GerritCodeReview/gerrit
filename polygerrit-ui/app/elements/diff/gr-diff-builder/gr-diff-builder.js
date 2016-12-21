@@ -408,9 +408,6 @@
       contentText.innerHTML = html;
     }
 
-    td.classList.add(line.highlights.length > 0 ?
-        'lightHighlight' : 'darkHighlight');
-
     this.layers.forEach(function(layer) {
       layer.annotate(contentText, line);
     });

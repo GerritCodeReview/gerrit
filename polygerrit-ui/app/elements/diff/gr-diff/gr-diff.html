@@ -27,11 +27,10 @@ limitations under the License.
   <template>
     <style>
       :host {
-        --light-remove-highlight-color: #fee;
-        --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);
-        --light-add-highlight-color: #efe;
-        --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
-
+        --light-remove-highlight-color: rgba(255, 0, 0, 0.1);
+        --dark-remove-highlight-color: rgba(255, 0, 0, 0.2);
+        --light-add-highlight-color: rgba(0, 255, 0, 0.1);
+        --dark-add-highlight-color: rgba(0, 255, 0, 0.2);
       }
       :host.no-left .sideBySide ::content .left,
       :host.no-left .sideBySide ::content .left + td,
@@ -125,17 +124,17 @@ limitations under the License.
         width: var(--content-width, 80ch);
       }
       .content.add .intraline,
-      .content.add.darkHighlight {
+      .delta.total .content.add {
         background-color: var(--dark-add-highlight-color);
       }
-      .content.add.lightHighlight {
+      .content.add {
         background-color: var(--light-add-highlight-color);
       }
       .content.remove .intraline,
-      .content.remove.darkHighlight {
+      .delta.total .content.remove {
         background-color: var(--dark-remove-highlight-color);
       }
-      .content.remove.lightHighlight {
+      .content.remove {
         background-color: var(--light-remove-highlight-color);
       }
       .content .contentText:after {

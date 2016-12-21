@@ -2,16 +2,8 @@ include_defs('//lib/maven.defs')
 
 VERSION = '1.9.2'
 
-java_library(
-  name = 'jsoup',
-  exported_deps = [
-    ':jsoup_library',
-  ],
-  visibility = ['PUBLIC'],
-)
-
 maven_jar(
-  name = 'jsoup_library',
+  name = 'jsoup',
   id = 'org.jsoup:jsoup:' + VERSION,
   sha1 = '5e3bda828a80c7a21dfbe2308d1755759c2fd7b4',
   license = 'jsoup',

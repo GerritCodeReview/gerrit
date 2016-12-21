@@ -185,9 +185,12 @@ maven_jar(
 
 maven_jar(
     name = "gwtorm_client",
-    artifact = "com.google.gerrit:gwtorm:1.16",
-    sha1 = "3e41b6d7bb352fa0539ce23b9bce97cf8c26c3bf",
-    src_sha1 = "f45b7bacc79a0e5a7f6cf799a2dba23cc5bca19b",
+    artifact = "com.google.gerrit:gwtorm:1.17",
+    # TODO(dborowitz): Remove when Maven bug is fixed:
+    # https://issues.sonatype.org/browse/MVNCENTRAL-1433
+    repository = GERRIT,
+    sha1 = "97bdc872f00388910c9af70771f07bbb32f1b949",
+    src_sha1 = "889e35d7295b1af49161a28daaea9905ffa76a63",
 )
 
 maven_jar(

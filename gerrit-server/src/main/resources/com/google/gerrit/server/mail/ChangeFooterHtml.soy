@@ -17,13 +17,14 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
+ * @param change
  * @param email
  */
 {template .ChangeFooterHtml autoescape="strict" kind="html"}
   {if $email.changeUrl or $email.settingsUrl}
     <p>
       {if $email.changeUrl}
-        To view, visit <a href="{$email.changeUrl}">this change</a>.
+        To view, visit <a href="{$email.changeUrl}">change {$change.changeNumber}</a>.
       {/if}
       {if $email.changeUrl and $email.settingsUrl}{sp}{/if}
       {if $email.settingsUrl}

@@ -280,6 +280,37 @@ limitations under the License.
       checkThreadProps(threadEl, '3', 'REVISION', [l3, r5]);
     });
 
+    suite('_isTotal', function() {
+      test('is total for add', function() {
+        var group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+        for (var idx = 0; idx < 10; idx++) {
+          group.addLine(new GrDiffLine(GrDiffLine.Type.ADD));
+        }
+        assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
+      });
+
+      test('is total for remove', function() {
+        var group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+        for (var idx = 0; idx < 10; idx++) {
+          group.addLine(new GrDiffLine(GrDiffLine.Type.REMOVE));
+        }
+        assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
+      });
+
+      test('not total for empty', function() {
+        var group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
+        assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
+      });
+
+      test('not total for non-delta', function() {
+        var group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+        for (var idx = 0; idx < 10; idx++) {
+          group.addLine(new GrDiffLine(GrDiffLine.Type.BOTH));
+        }
+        assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
+      });
+    });
+
     suite('intraline differences', function() {
       var el;
       var str;

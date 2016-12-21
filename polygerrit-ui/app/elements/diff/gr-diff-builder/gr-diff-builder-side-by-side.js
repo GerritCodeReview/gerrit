@@ -26,6 +26,9 @@
   GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group) {
     var sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
+    if (this._isTotal(group)) {
+      sectionEl.classList.add('total');
+    }
     var pairs = group.getSideBySidePairs();
     for (var i = 0; i < pairs.length; i++) {
       sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,

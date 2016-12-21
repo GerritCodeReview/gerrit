@@ -3,9 +3,9 @@
 filtered="$1.filtered"
 
 cat $1 \
-  | grep -v "//lib/bouncycastle:bcpg" \
-  | grep -v "//lib/bouncycastle:bcpkix" \
-  | grep -v "//lib/bouncycastle:bcprov" \
+  | grep -v "@bcpg//jar:jar" \
+  | grep -v "@bcpkix//jar:jar" \
+  | grep -v "@bcprov//jar:jar" \
   > $filtered
 
 if test -s $filtered

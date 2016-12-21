@@ -9,16 +9,18 @@ from collections import defaultdict
 from shutil import copyfileobj
 from sys import stdout, stderr
 import xml.etree.ElementTree as ET
+import re
 
 KNOWN_PROVIDED_DEPS = [
-  "//lib/bouncycastle:bcpg",
-  "//lib/bouncycastle:bcpkix",
-  "//lib/bouncycastle:bcprov",
+  "@bcpg//jar:jar",
+  "@bcpkix//jar:jar",
+  "@bcprov//jar:jar",
 ]
 
 DO_NOT_DISTRIBUTE = "//lib:LICENSE-DO_NOT_DISTRIBUTE"
 
 LICENSE_PREFIX = "//lib:LICENSE-"
+LICENSE_REGEX = re.compile('.*(//lib:LICENSE-.*)')
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--asciidoctor", action="store_true")
@@ -45,7 +47,9 @@ for xml in args.xmls:
         continue
 
       license_name = c.attrib["name"]
-      if LICENSE_PREFIX in license_name:
+      m = LICENSE_REGEX.match(license_name)
+      if m:
+        license_name = m.group(1)
         if rule_name in KNOWN_PROVIDED_DEPS:
           continue
 
@@ -119,6 +123,8 @@ for n in sorted(graph.keys()):
   for d in sorted(graph[n]):
     if d.startswith("//lib:") or d.startswith("//lib/"):
       p = d[len("//lib:"):]
+    elif d.startswith("@"):
+      p = d[1:d.find("//")]
     else:
       p = d[d.index(":")+1:].lower()
     if "__" in p:
@@ -127,7 +133,8 @@ for n in sorted(graph.keys()):
   print()
   print("[[%s_license]]" % safename)
   print("----")
-  with open(n[2:].replace(":", "/")) as fd:
+  file = n[2:].replace(":", "/")
+  with open(file) as fd:
     copyfileobj(fd, stdout)
   print()
   print("----")

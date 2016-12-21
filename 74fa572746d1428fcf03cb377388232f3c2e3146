@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "fa132f0f_1737763e",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-21T19:24:18Z",
+      "side": 1,
+      "message": "\u003e Why don\u0027t you have the license in the external package refer to\n \u003e\n \u003e   \"@gerrit//lib:license-FOO\"\n\nThis doesn\u0027t work. Given that BUILD file generated for guava external:\n\n  # DO NOT EDIT: automatically generated BUILD file for   \nmaven_jar rule guava\n  package(default_visibility \u003d [\u0027//visibility:public\u0027])\n  java_import(\n      name \u003d \u0027jar\u0027,\n      srcjar \u003d \"guava-20.0-src.jar\",\n      jars \u003d [\u0027guava-20.0.jar\u0027],\n      data \u003d [\u0027@gerrit//lib:LICENSE-Apache2.0\u0027],\n  )\n\nrunning bazel build failing with:\n\n  $ bazel build lib:guava\n  ERROR: \n  /home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/external/guava/jar/BUILD:4:1: \\\n  no such package \u0027@gerrit//lib\u0027: error loading package \u0027external\u0027: \\\n  The repository named \u0027gerrit\u0027 could not be resolved and referenced by \u0027@guava//jar:jar\u0027.\n  ERROR: Analysis of target \u0027//lib:guava\u0027 failed; build aborted.\n\nI used this patch: [1].\n\n* [1] http://paste.openstack.org/show/593062",
+      "parentUuid": "1a1ba32a_f8162dbf",
+      "range": {
+        "startLine": 231,
+        "startChar": 2,
+        "endLine": 231,
+        "endChar": 60
+      },
+      "revId": "74fa572746d1428fcf03cb377388232f3c2e3146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_14ce54c0",
         "filename": "lib/codemirror/cm.bzl",
         "patchSetId": 4

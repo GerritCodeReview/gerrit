@@ -98,6 +98,30 @@
       "revId": "24bdd00bc725c0bb85bf0f74b6c37e2cb0f0a1ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_17ac966a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2016-12-21T07:32:15Z",
+      "side": 1,
+      "message": "val.equals(\"+2\")",
+      "parentUuid": "fa132f0f_97942622",
+      "range": {
+        "startLine": 199,
+        "startChar": 41,
+        "endLine": 199,
+        "endChar": 45
+      },
+      "revId": "24bdd00bc725c0bb85bf0f74b6c37e2cb0f0a1ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

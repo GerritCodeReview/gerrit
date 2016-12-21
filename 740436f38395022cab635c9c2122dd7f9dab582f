@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fac16fc3_e77cbcd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-21T00:23:29Z",
+      "side": 1,
+      "message": "sp",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "740436f38395022cab635c9c2122dd7f9dab582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_6d5d5190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-21T00:23:29Z",
+      "side": 1,
+      "message": "s/selected/enabled/ ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "740436f38395022cab635c9c2122dd7f9dab582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_8777c8f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-21T00:23:29Z",
+      "side": 1,
+      "message": "Just curious: does...\n\nvar commitMsgFile \u003d Polymer.dom(element.root)\n    .querySelectorAll(\u0027.row:not(:header) a\u0027)[0];\n\n...work?",
+      "range": {
+        "startLine": 650,
+        "startChar": 6,
+        "endLine": 652,
+        "endChar": 53
+      },
+      "revId": "740436f38395022cab635c9c2122dd7f9dab582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

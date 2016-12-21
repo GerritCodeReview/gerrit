@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "fac16fc3_879ea8f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-21T01:26:40Z",
+      "side": 1,
+      "message": "In that case, let\u0027s talk about how I should refactor these constants out into a single file. \n\nI think that creating a new Polymer element called \u003cgr-patchset-constants\u003e (not tied to this name at all) and including it where relevant, referencing the constants by ID (this.$.patchsetContstants.DESIRED_CONSTANT) is the right way to go.\n\nThings I\u0027m not sure of:\n- What to call these files.\n- Whether they need to be web components or just immediately-invoked scripts, a la gr-range-normalizer.\n- What the file hierarchy should look like. Do we want another folder besides /elements/?",
+      "parentUuid": "fac16fc3_e7c15ceb",
+      "revId": "d90f20f7c571acc3bd374bfc518d3f2a19a2137b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_27089494",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 4

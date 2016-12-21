@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
@@ -31,9 +30,6 @@ public interface AccountExternalIdAccess extends
   @Query("WHERE key >= ? AND key <= ? ORDER BY key LIMIT ?")
   ResultSet<AccountExternalId> suggestByKey(AccountExternalId.Key keyA,
       AccountExternalId.Key keyB, int limit) throws OrmException;
-
-  @Query("WHERE accountId = ?")
-  ResultSet<AccountExternalId> byAccount(Account.Id id) throws OrmException;
 
   @Query("WHERE emailAddress >= ? AND emailAddress <= ? ORDER BY emailAddress LIMIT ?")
   ResultSet<AccountExternalId> suggestByEmailAddress(String emailA,

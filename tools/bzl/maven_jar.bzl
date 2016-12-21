@@ -63,6 +63,7 @@ java_import(
     name = 'jar',
     {srcjar_attr}
     jars = ['{binjar}'],
+    data = ['{license}'],
 )
 java_import(
     name = 'neverlink',
@@ -71,7 +72,10 @@ java_import(
 )
 \n""".format(srcjar_attr = srcjar_attr,
               rule_name = ctx.name,
-              binjar = binjar)
+              binjar = binjar,
+              # TODO(davido): This should be: @gerrit//lib:LICENSE-FOO.
+              # Change it, once Bazel supports it.
+              license = "@//lib:LICENSE-%s" % ctx.attr.license)
   if srcjar:
     contents += """
 java_import(
@@ -128,6 +132,7 @@ maven_jar = repository_rule(
     attrs = {
         "artifact": attr.string(mandatory = True),
         "sha1": attr.string(mandatory = True),
+        "license": attr.string(mandatory = True),
         "src_sha1": attr.string(),
         "_download_script": attr.label(default = Label("//tools:download_file.py")),
         "repository": attr.string(default = MAVEN_CENTRAL),

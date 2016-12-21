@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "fa132f0f_d744deba",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-12-21T17:11:34Z",
+      "side": 0,
+      "message": "https://github.com/bazelbuild/bazel/issues/1118",
+      "parentUuid": "1a1ba32a_58312146",
+      "revId": "bc174c6f8391a75a08d8c8d56e7d9673ce88bff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_b8a03545",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 23

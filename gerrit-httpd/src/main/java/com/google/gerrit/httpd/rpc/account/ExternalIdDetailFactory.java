@@ -20,12 +20,13 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,25 +35,27 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
     ExternalIdDetailFactory create();
   }
 
-  private final ReviewDb db;
   private final IdentifiedUser user;
   private final AuthConfig authConfig;
   private final DynamicItem<WebSession> session;
+  private final ExternalIdCache externalIdCache;
 
   @Inject
-  ExternalIdDetailFactory(final ReviewDb db, final IdentifiedUser user,
-      final AuthConfig authConfig, final DynamicItem<WebSession> session) {
-    this.db = db;
+  ExternalIdDetailFactory(IdentifiedUser user,
+      AuthConfig authConfig,
+      DynamicItem<WebSession> session,
+      ExternalIdCache externalIdCache) {
     this.user = user;
     this.authConfig = authConfig;
     this.session = session;
+    this.externalIdCache = externalIdCache;
   }
 
   @Override
   public List<AccountExternalId> call() throws OrmException {
-    final AccountExternalId.Key last = session.get().getLastLoginExternalId();
-    final List<AccountExternalId> ids =
-        db.accountExternalIds().byAccount(user.getAccountId()).toList();
+    AccountExternalId.Key last = session.get().getLastLoginExternalId();
+    List<AccountExternalId> ids =
+        new ArrayList<>(externalIdCache.byAccount(user.getAccountId()));
 
     for (final AccountExternalId e : ids) {
       e.setTrusted(authConfig.isIdentityTrustable(Collections.singleton(e)));

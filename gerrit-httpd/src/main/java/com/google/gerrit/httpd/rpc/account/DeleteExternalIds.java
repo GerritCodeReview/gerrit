@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -42,21 +43,24 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   private final ExternalIdDetailFactory detailFactory;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
+  private final ExternalIdCache externalIdCache;
 
   private final Set<AccountExternalId.Key> keys;
 
   @Inject
-  DeleteExternalIds(final ReviewDb db, final IdentifiedUser user,
-      final ExternalIdDetailFactory detailFactory,
-      final AccountByEmailCache byEmailCache, final AccountCache accountCache,
-
-      @Assisted final Set<AccountExternalId.Key> keys) {
+  DeleteExternalIds(ReviewDb db,
+      IdentifiedUser user,
+      ExternalIdDetailFactory detailFactory,
+      AccountByEmailCache byEmailCache,
+      AccountCache accountCache,
+      ExternalIdCache externalIdCache,
+      @Assisted Set<AccountExternalId.Key> keys) {
     this.db = db;
     this.user = user;
     this.detailFactory = detailFactory;
     this.byEmailCache = byEmailCache;
     this.accountCache = accountCache;
-
+    this.externalIdCache = externalIdCache;
     this.keys = keys;
   }
 
@@ -74,6 +78,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
 
     if (!toDelete.isEmpty()) {
       db.accountExternalIds().delete(toDelete);
+      externalIdCache.remove(toDelete);
       accountCache.evict(user.getAccountId());
       for (AccountExternalId e : toDelete) {
         byEmailCache.evict(e.getEmailAddress());

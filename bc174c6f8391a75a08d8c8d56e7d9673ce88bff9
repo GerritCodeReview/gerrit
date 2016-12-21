@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d747268e_3bbad7a2",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-21T17:44:36Z",
+      "side": 0,
+      "message": "IMHO this is not a blocker, since we don\u0027t regularly run coverage during CI, publish coverage reports anywhere, or enforce coverage metrics during review.\n\nPersonally, given that we aren\u0027t doing anything automatic, I find coverage useful primarily when writing tests to ensure I\u0027m covering new code I just wrote. For that, I just use my IDE, so coverage in buck/bazel is not really important to me.",
+      "parentUuid": "fa132f0f_d744deba",
+      "revId": "bc174c6f8391a75a08d8c8d56e7d9673ce88bff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_b8a03545",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 23

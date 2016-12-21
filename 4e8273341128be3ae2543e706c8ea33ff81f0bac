@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_0d565545",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-21T22:58:19Z",
+      "side": 1,
+      "message": "This looks like much change, but all that\u0027s happening here is removing the now-unused classes ...\n\n* lightHighlight\n* darkHighlight\n\n... and adding the `total` class in the place where it belongs.",
+      "revId": "4e8273341128be3ae2543e706c8ea33ff81f0bac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

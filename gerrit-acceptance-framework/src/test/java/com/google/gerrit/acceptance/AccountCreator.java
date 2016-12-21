@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -55,6 +56,7 @@ public class AccountCreator {
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
   private final AccountIndexer indexer;
+  private final ExternalIdCache externalIdCache;
 
   @Inject
   AccountCreator(SchemaFactory<ReviewDb> schema,
@@ -63,7 +65,8 @@ public class AccountCreator {
       SshKeyCache sshKeyCache,
       AccountCache accountCache,
       AccountByEmailCache byEmailCache,
-      AccountIndexer indexer) {
+      AccountIndexer indexer,
+      ExternalIdCache externalIdCache) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
     this.authorizedKeys = authorizedKeys;
@@ -72,6 +75,7 @@ public class AccountCreator {
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
     this.indexer = indexer;
+    this.externalIdCache = externalIdCache;
   }
 
   public synchronized TestAccount create(String username, String email,
@@ -89,11 +93,13 @@ public class AccountCreator {
       String httpPass = "http-pass";
       extUser.setPassword(httpPass);
       db.accountExternalIds().insert(Collections.singleton(extUser));
+      externalIdCache.onCreate(extUser);
 
       if (email != null) {
         AccountExternalId extMailto = new AccountExternalId(id, getEmailKey(email));
         extMailto.setEmailAddress(email);
         db.accountExternalIds().insert(Collections.singleton(extMailto));
+        externalIdCache.onCreate(extMailto);
       }
 
       Account a = new Account(id, TimeUtil.nowTs());

@@ -408,9 +408,6 @@
       contentText.innerHTML = html;
     }
 
-    td.classList.add(line.highlights.length > 0 ?
-        'lightHighlight' : 'darkHighlight');
-
     this.layers.forEach(function(layer) {
       layer.annotate(contentText, line);
     });
@@ -567,6 +564,18 @@
   GrDiffBuilder.prototype._getNextContentOnSide = function(content, side) {
     throw Error('Subclasses must implement _getNextContentOnSide');
   };
+
+  /**
+   * Determiens whether the given group is either totally an addition or totally
+   * a removal.
+   * @param {GrDiffGroup} group
+   * @return {Boolean}
+   */
+  GrDiffBuilder.prototype._isTotal = function(group) {
+    return group.type === GrDiffGroup.Type.DELTA &&
+        (!group.adds.length || !group.removes.length) &&
+        !(!group.adds.length && !group.removes.length);
+  }
 
   window.GrDiffBuilder = GrDiffBuilder;
 })(window, GrDiffGroup, GrDiffLine);

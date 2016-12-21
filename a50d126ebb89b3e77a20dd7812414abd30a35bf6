@@ -52,6 +52,24 @@
       "revId": "a50d126ebb89b3e77a20dd7812414abd30a35bf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ed3f8117",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-21T01:19:48Z",
+      "side": 1,
+      "message": "Working on this, I actually can\u0027t figure out how to make the content fill one line and only one line with CSS.  Because the \u003clabel\u003e within the gr-editable-label has max-width: 100%, the gr-editable-label has to have a width explicitly set in order to trigger the overflow.\n\nOne solution I\u0027ve found is to allow for multi-line editable labels, but I\u0027m not so sure we want to allow for this use case. Here\u0027s a screenshot of this solution on a change with a massive PS description:\nhttp://i.imgur.com/WSlkehT.png",
+      "parentUuid": "fac16fc3_87cce824",
+      "revId": "a50d126ebb89b3e77a20dd7812414abd30a35bf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

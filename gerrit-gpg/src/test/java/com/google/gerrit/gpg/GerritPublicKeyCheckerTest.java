@@ -41,6 +41,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -69,6 +70,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -94,6 +96,9 @@ public class GerritPublicKeyCheckerTest {
 
   @Inject
   private ThreadLocalRequestContext requestContext;
+
+  @Inject
+  private ExternalIdCache externalIdCache;
 
   private LifecycleManager lifecycle;
   private ReviewDb db;
@@ -229,8 +234,10 @@ public class GerritPublicKeyCheckerTest {
 
   @Test
   public void noExternalIds() throws Exception {
-    db.accountExternalIds().delete(
-        db.accountExternalIds().byAccount(user.getAccountId()));
+    Collection<AccountExternalId> extIds =
+        externalIdCache.byAccount(user.getAccountId());
+    db.accountExternalIds().delete(extIds);
+    externalIdCache.onRemove(extIds);
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();
@@ -248,9 +255,10 @@ public class GerritPublicKeyCheckerTest {
         checker.check(key.getPublicKey()), Status.BAD,
         "Key is not associated with any users");
 
-    db.accountExternalIds().insert(Collections.singleton(
-        new AccountExternalId(
-            user.getAccountId(), toExtIdKey(key.getPublicKey()))));
+    AccountExternalId extId = new AccountExternalId(user.getAccountId(),
+        toExtIdKey(key.getPublicKey()));
+    db.accountExternalIds().insert(Collections.singleton(extId));
+    externalIdCache.onCreate(extId);
     reloadUser();
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD,
@@ -427,6 +435,7 @@ public class GerritPublicKeyCheckerTest {
     assertThat(store.save(cb)).isAnyOf(NEW, FAST_FORWARD, FORCED);
 
     db.accountExternalIds().insert(newExtIds);
+    externalIdCache.onCreate(newExtIds);
     accountCache.evict(user.getAccountId());
   }
 
@@ -459,6 +468,7 @@ public class GerritPublicKeyCheckerTest {
       extId.setEmailAddress(email);
     }
     db.accountExternalIds().insert(Collections.singleton(extId));
+    externalIdCache.onCreate(extId);
     reloadUser();
   }
 }

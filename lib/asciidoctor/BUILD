@@ -41,7 +41,6 @@ java_library(
 
 java_library(
     name = "asciidoctor",
-    data = ["//lib:LICENSE-asciidoctor"],
     visibility = ["//visibility:public"],
     exports = ["@asciidoctor//jar"],
     runtime_deps = [":jruby"],
@@ -49,6 +48,5 @@ java_library(
 
 java_library(
     name = "jruby",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     exports = ["@jruby//jar"],
 )

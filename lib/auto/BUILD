@@ -12,7 +12,6 @@ java_plugin(
 
 java_library(
     name = "auto-value",
-    data = ["//lib:LICENSE-Apache2.0"],
     exported_plugins = [
         ":auto-annotation-plugin",
         ":auto-value-plugin",

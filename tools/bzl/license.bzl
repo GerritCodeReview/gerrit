@@ -15,7 +15,7 @@ def license_map(name, targets = [], opts = [], **kwargs):
 
       # Find everything that depends on a license file, but remove
       # the license files themselves from this list.
-      expression = 'rdeps(%s, filter("//lib:LICENSE.*", deps(%s)),1) - filter("//lib:LICENSE.*", deps(%s))' % (target, target, target),
+      expression = 'rdeps(%s, filter(".*LICENSE.*", deps(%s)),1) - filter(".*LICENSE.*", deps(%s))' % (target, target, target),
 
       # We are interested in the edges of the graph ({java_library,
       # license-file} tuples).  'query' provides this in the XML output.

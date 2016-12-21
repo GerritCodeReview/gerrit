@@ -99,6 +99,8 @@ limitations under the License.
           <li><a href="#Profile">Profile</a></li>
           <li><a href="#Preferences">Preferences</a></li>
           <li><a href="#DiffPreferences">Diff Preferences</a></li>
+          <li><a href="#Menu">Menu</a></li>
+          <li><a href="#ChangeTableColumns">Change Table Columns</a></li>
           <li><a href="#Notifications">Notifications</a></li>
           <li><a href="#EmailAddresses">Email Addresses</a></li>
           <li><a href="#HTTPCredentials">HTTP Credentials</a></li>
@@ -288,7 +290,7 @@ limitations under the License.
               on-tap="_handleSaveDiffPreferences"
               disabled$="[[!_diffPrefsChanged]]">Save Changes</gr-button>
         </fieldset>
-        <h2 class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
+        <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
         <fieldset id="menu">
           <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>
           <gr-button
@@ -296,7 +298,8 @@ limitations under the License.
               on-tap="_handleSaveMenu"
               disabled="[[!_menuChanged]]">Save Changes</gr-button>
         </fieldset>
-        <h2 class$="[[_computeHeaderClass(_changeTableChanged)]]">
+        <h2 id="ChangeTableColumns"
+            class$="[[_computeHeaderClass(_changeTableChanged)]]">
           Change Table Columns
         </h2>
         <fieldset id="changeTableColumns">

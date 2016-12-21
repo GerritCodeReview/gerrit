@@ -73,6 +73,7 @@ public class CreateAccount
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final AuditService auditService;
+  private final ExternalIdCache externalIdCache;
   private final String username;
 
   @Inject
@@ -87,6 +88,7 @@ public class CreateAccount
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       AuditService auditService,
+      ExternalIdCache externalIdCache,
       @Assisted String username) {
     this.db = db;
     this.currentUser = currentUser;
@@ -99,6 +101,7 @@ public class CreateAccount
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
     this.auditService = auditService;
+    this.externalIdCache = externalIdCache;
     this.username = username;
   }
 
@@ -153,6 +156,7 @@ public class CreateAccount
 
     try {
       db.accountExternalIds().insert(externalIds);
+      externalIdCache.onCreate(externalIds);
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw new ResourceConflictException(
           "username '" + username + "' already exists");
@@ -164,9 +168,11 @@ public class CreateAccount
       extMailto.setEmailAddress(input.email);
       try {
         db.accountExternalIds().insert(Collections.singleton(extMailto));
+        externalIdCache.onCreate(extMailto);
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
           db.accountExternalIds().delete(Collections.singleton(extUser));
+          externalIdCache.remove(extUser);
         } catch (OrmException cleanupError) {
           // Ignored
         }

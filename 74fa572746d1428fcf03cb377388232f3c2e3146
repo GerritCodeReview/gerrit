@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_f8162dbf",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-21T08:41:59Z",
+      "side": 1,
+      "message": "This is WIP patch I used in the example above to move license definition to maven_jar: [1]. (To install the LICENSE-Apache2.0 in external guava workplace directory, I just used quick und dirty copy statement from my home directory.) \n\nWith this patch, guava lib target worked with:\n  \n  $ bazel build lib:guava\n  INFO: Found 1 target...\n  Target //lib:guava up-to-date:\n    bazel-bin/lib/libguava.jar\n  INFO: Elapsed time: 0.591s, Critical Path: 0.53s\n\nOne advantage of this approch, to externalize the hosting of \n licenses: it would simplify fetching them for plugins. However, what if plugins define third party dependencies, not used in Gerrit core (say dozen of Atlassian\u0027s libraries in its-jira plugin, that say have their own licenses) should the plugin put them all into bazlets repository as well? \n\n* http://paste.openstack.org/show/592997",
+      "parentUuid": "1a1ba32a_9811f9cb",
+      "range": {
+        "startLine": 231,
+        "startChar": 2,
+        "endLine": 231,
+        "endChar": 60
+      },
+      "revId": "74fa572746d1428fcf03cb377388232f3c2e3146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_14ce54c0",
         "filename": "lib/codemirror/cm.bzl",
         "patchSetId": 4

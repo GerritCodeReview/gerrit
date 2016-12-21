@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_7834dd37",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-21T16:03:29Z",
+      "side": 0,
+      "message": "\"Split Point Report\" for GWT compilation wasn\u0027t implemented yet. @Shawn, you have added this to Buck build. Is it still used and should we implement it in Bazel build as well?",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 76
+      },
+      "revId": "bc174c6f8391a75a08d8c8d56e7d9673ce88bff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_58312146",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-21T16:03:29Z",
+      "side": 0,
+      "message": "Are coverage reports supported in Bazel?",
+      "range": {
+        "startLine": 336,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 77
+      },
+      "revId": "bc174c6f8391a75a08d8c8d56e7d9673ce88bff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_b8a03545",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-21T16:03:29Z",
+      "side": 0,
+      "message": "Have we tested this? Can someone behind a proxy check that it actually works in Bazel build?",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 26
+      },
+      "revId": "bc174c6f8391a75a08d8c8d56e7d9673ce88bff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

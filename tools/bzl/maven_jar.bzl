@@ -52,18 +52,21 @@ def _create_coordinates(fully_qualified_name):
       version = version,
   )
 
-def _generate_build_file(ctx, binjar, srcjar):
+def _generate_build_file(ctx, binjar, srcjar, license):
   srcjar_attr = ""
   if srcjar:
     srcjar_attr = 'srcjar = "%s",' % srcjar
   contents = """
 # DO NOT EDIT: automatically generated BUILD file for maven_jar rule {rule_name}
 package(default_visibility = ['//visibility:public'])
+
 java_import(
     name = 'jar',
     {srcjar_attr}
     jars = ['{binjar}'],
+    data = ['{license}'],
 )
+
 java_import(
     name = 'neverlink',
     jars = ['{binjar}'],
@@ -71,7 +74,8 @@ java_import(
 )
 \n""".format(srcjar_attr = srcjar_attr,
               rule_name = ctx.name,
-              binjar = binjar)
+              binjar = binjar,
+              license = "@//lib:LICENSE-%s" % license)
   if srcjar:
     contents += """
 java_import(
@@ -122,12 +126,13 @@ def _maven_jar_impl(ctx):
     if out.return_code:
       fail("failed %s: %s" % (args, out.stderr))
 
-  _generate_build_file(ctx, binjar, srcjar)
+  _generate_build_file(ctx, binjar, srcjar, ctx.attr.license)
 
 maven_jar = repository_rule(
     attrs = {
         "artifact": attr.string(mandatory = True),
         "sha1": attr.string(mandatory = True),
+        "license": attr.string(mandatory = True),
         "src_sha1": attr.string(),
         "_download_script": attr.label(default = Label("//tools:download_file.py")),
         "repository": attr.string(default = MAVEN_CENTRAL),

@@ -1,6 +1,5 @@
 java_library(
     name = "powermock-module-junit4",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
     exports = [
         ":powermock-module-junit4-common",
@@ -11,7 +10,6 @@ java_library(
 
 java_library(
     name = "powermock-module-junit4-common",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
     exports = [
         ":powermock-reflect",
@@ -22,7 +20,6 @@ java_library(
 
 java_library(
     name = "powermock-reflect",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
     exports = [
         "//lib:junit",
@@ -33,7 +30,6 @@ java_library(
 
 java_library(
     name = "powermock-api-easymock",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
     exports = [
         ":powermock-api-support",
@@ -44,7 +40,6 @@ java_library(
 
 java_library(
     name = "powermock-api-support",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
     exports = [
         ":powermock-core",
@@ -56,7 +51,6 @@ java_library(
 
 java_library(
     name = "powermock-core",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
     exports = [
         ":powermock-reflect",

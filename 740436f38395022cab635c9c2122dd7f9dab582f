@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_4d5a0d9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-21T01:18:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_6d5d5190",
+      "revId": "740436f38395022cab635c9c2122dd7f9dab582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_8777c8f0",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 3
@@ -65,6 +83,24 @@
         "endLine": 652,
         "endChar": 53
       },
+      "revId": "740436f38395022cab635c9c2122dd7f9dab582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fac16fc3_07647839",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-21T01:18:58Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to.\nFailed to execute \u0027matches\u0027 on \u0027Element\u0027: \u0027.row:not(:header) a\u0027 is not a valid selector.\n                \u003cunknown\u003e at /bower_components/polymer/polymer-mini.html:943\n     DomApi._queryElement at /bower_components/polymer/polymer-mini.html:656\n    DomApi._queryElements at /bower_components/polymer/polymer-mini.html:649\n            DomApi._query at /bower_components/polymer/polymer-mini.html:643\n  DomApi.querySelectorAll at /bower_components/polymer/polymer-mini.html:942\n      Context.\u003canonymous\u003e at gr-file-list_test.html:651",
+      "parentUuid": "fac16fc3_8777c8f0",
       "revId": "740436f38395022cab635c9c2122dd7f9dab582f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

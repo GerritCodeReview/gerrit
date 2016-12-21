@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_8d30851a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-21T23:11:56Z",
+      "side": 1,
+      "message": "This test is failing.\n\nactual.unresolved \u003d\u003d false, whereas comment.unresolved \u003d\u003d true.\n\nI\u0027m not sure why this is failing, especially because the resolvable comments bit seems to be properly settable and functioning as expected with my local server. Any clues?",
+      "range": {
+        "startLine": 152,
+        "startChar": 2,
+        "endLine": 175,
+        "endChar": 3
+      },
+      "revId": "c563f0e31e2842255200f816530eb3f852f79062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

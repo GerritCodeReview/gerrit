@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_6d639123",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-21T23:11:32Z",
+      "side": 1,
+      "message": "\u003e I think that creating a new Polymer element called \u003cgr-patchset-constants\u003e\n\nI\u0027m against the idea of creating a web-component to store constants. That seems to me to be significant overkill. If we want them in a shared file, I recommend just a vanilla JS file that declares a static object (similar to gr-annotation.js).\n\n\u003e In that case, let\u0027s talk about how I should refactor these constants out into a single file. \n\nI also feel that this doesn\u0027t need to hold up this change. Yes, it\u0027s something we need to develop a policy on, but having identically named constants to store the number 500 is not a big deal.",
+      "parentUuid": "fac16fc3_879ea8f0",
+      "revId": "d90f20f7c571acc3bd374bfc518d3f2a19a2137b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac16fc3_27089494",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 4

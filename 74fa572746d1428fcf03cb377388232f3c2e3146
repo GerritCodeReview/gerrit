@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_9811f9cb",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-21T08:27:54Z",
+      "side": 1,
+      "message": "The naive approach doesn\u0027t work: Passing license string to maven_jar:\n\n  maven_jar(\n    name \u003d \"guava\",\n    artifact \u003d \"com.google.guava:guava:\" + GUAVA_VERSION,\n    sha1 \u003d GUAVA_BIN_SHA1,\n    license \u003d \"Apache2.0\",\n  )\n\nand generating the BUILD file in maven_jar.bzl with external/guava/jar/BUILD:\n\n  # DO NOT EDIT: automatically generated BUILD file for maven_jar rule guava\n  package(default_visibility \u003d [\u0027//visibility:public\u0027])\n  java_import(\n      name \u003d \u0027jar\u0027,\n      srcjar \u003d \"guava-20.0-src.jar\",\n      jars \u003d [\u0027guava-20.0.jar\u0027],\n      deps \u003d [\u0027//lib:LICENSE-Apache2.0\u0027],\n  )\n\nfailing with:\n\n  $ bazel build lib:guava\n  ERROR: \n  /home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/external/guava/jar/BUILD:4:1: \\\n  no such package \u0027@guava//lib\u0027: BUILD file not found on package path and referenced by \u0027@guava//jar:jar\u0027.\n  ERROR: Analysis of target \u0027//lib:guava\u0027 failed; build aborted.\n\nThe problem, is that the license file is relocated to the external workspace and cannot be find (passed\u003d in gerrit/lib itself.\n\nUnless I\u0027m missing something, the only way to make it work is to install the license in each and every external library. For example, we could extract all licenses into bazlets repoitory, hosted on gerrit-review, and fetch and cache them all in ~/.gerritcodereview/licenses, and retrieve and install into external workspace (by creating hard link), so that the topology of guava would be:\n\n  $ ls -all  \n  /home/davido/.cache/bazel/_bazel_davido/27a001f4182820ef315d8d2d4f1edafe/external/guava/jar/\n  total 3832\n  drwxr-xr-x 2 davido users    4096 Dec 21 10:06 .\n  drwxr-xr-x 3 davido users    4096 Dec 21 09:31 ..\n  -rw-r--r-- 1 davido users     428 Dec 21 09:31 BUILD\n  -rw-r--r-- 3 davido users 2442625 Dec 13 22:31 guava-20.0.jar\n  -rw-r--r-- 3 davido users 1453695 Dec 13 22:31 guava-20.0-src.jar\n  -rw-r--r-- 1 davido users   11358 Dec 21 10:06 LICENSE-Apache2.0\n\n\nIn which case the generated rule in external repository should work:\n\n  # DO NOT EDIT: automatically generated BUILD file for maven_jar rule guava\n  package(default_visibility \u003d [\u0027//visibility:public\u0027])\n  exports_files(glob([\n      \"LICENSE-*\",\n  ]))\n  java_import(\n      name \u003d \u0027jar\u0027,\n      srcjar \u003d \"guava-20.0-src.jar\",\n      jars \u003d [\u0027guava-20.0.jar\u0027],\n      data \u003d [\u0027LICENSE-Apache2.0\u0027],\n  )\n\nNow, when I remove the own license from lib:guava:\n\n  java_library(\n      name \u003d \"guava\",\n      visibility \u003d [\"//visibility:public\"],\n      exports \u003d [\"@guava//jar\"],\n  )\n\nWe still do have the required dep on the license from the maven_jar:\n\n  $ bazel query \u0027deps(lib:guava)\u0027 | grep -i license\n  @guava//jar:LICENSE-Apache2.0\n\n\nor even:\n\n  $ bazel query \u0027deps(@guava//jar)\u0027 | grep -i license\n  @guava//jar:LICENSE-Apache2.0",
+      "parentUuid": "1a1ba32a_756fc8a7",
+      "range": {
+        "startLine": 231,
+        "startChar": 2,
+        "endLine": 231,
+        "endChar": 60
+      },
+      "revId": "74fa572746d1428fcf03cb377388232f3c2e3146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_14ce54c0",
         "filename": "lib/codemirror/cm.bzl",
         "patchSetId": 4

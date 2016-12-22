@@ -31,12 +31,14 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,7 +121,8 @@ class OAuthSessionOverOpenID {
   private void authenticateAndRedirect(HttpServletRequest req,
       HttpServletResponse rsp) throws IOException {
     com.google.gerrit.server.account.AuthRequest areq =
-        new com.google.gerrit.server.account.AuthRequest(user.getExternalId());
+        new com.google.gerrit.server.account.AuthRequest(
+            ExternalId.Key.parse(user.getExternalId()));
     AuthResult arsp = null;
     try {
       String claimedIdentifier = user.getClaimedIdentity();
@@ -164,7 +167,7 @@ class OAuthSessionOverOpenID {
           log.debug("Claimed account already exists: link to it.");
           try {
             accountManager.link(claimedId.get(), areq);
-          } catch (OrmException e) {
+          } catch (OrmException | ConfigInvalidException e) {
             log.error("Cannot link: " +  user.getExternalId()
                 + " to user identity:\n"
                 + "  Claimed ID: " + claimedId.get() + " is " + claimedIdentifier);
@@ -179,7 +182,7 @@ class OAuthSessionOverOpenID {
           log.debug("Linking \"{}\" to \"{}\"", user.getExternalId(),
               accountId);
           accountManager.link(accountId, areq);
-        } catch (OrmException e) {
+        } catch (OrmException | ConfigInvalidException e) {
           log.error("Cannot link: " + user.getExternalId()
               + " to user identity: " + accountId);
           rsp.sendError(HttpServletResponse.SC_FORBIDDEN);

@@ -14,12 +14,10 @@
 
 package com.google.gerrit.gpg.server;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -36,10 +34,9 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -119,7 +116,7 @@ public class GpgKeys implements
   }
 
   static byte[] parseFingerprint(String str,
-      Iterable<AccountExternalId> existingExtIds)
+      Iterable<ExternalId> existingExtIds)
       throws ResourceNotFoundException {
     str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
@@ -127,8 +124,8 @@ public class GpgKeys implements
       throw new ResourceNotFoundException(str);
     }
     byte[] fp = null;
-    for (AccountExternalId extId : existingExtIds) {
-      String fpStr = extId.getSchemeRest();
+    for (ExternalId extId : existingExtIds) {
+      String fpStr = extId.key().id();
       if (!fpStr.endsWith(str)) {
         continue;
       } else if (fp != null) {
@@ -158,8 +155,8 @@ public class GpgKeys implements
       checkVisible(self, rsrc);
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {
-        for (AccountExternalId extId : getGpgExtIds(rsrc)) {
-          String fpStr = extId.getSchemeRest();
+        for (ExternalId extId : getGpgExtIds(rsrc)) {
+          String fpStr = extId.key().id();
           byte[] fp = BaseEncoding.base16().decode(fpStr);
           boolean found = false;
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
@@ -207,15 +204,9 @@ public class GpgKeys implements
     }
   }
 
-  @VisibleForTesting
-  public static FluentIterable<AccountExternalId> getGpgExtIds(
-      ExternalIdCache externalIdCache, Account.Id accountId) {
-    return FluentIterable.from(externalIdCache.byAccount(accountId))
-        .filter(in -> in.isScheme(SCHEME_GPGKEY));
-  }
-
-  private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc) {
-    return getGpgExtIds(externalIdCache, rsrc.getUser().getAccountId());
+  private Iterable<ExternalId> getGpgExtIds(AccountResource rsrc) {
+    return externalIdCache.byAccount(rsrc.getUser().getAccountId(),
+        SCHEME_GPGKEY);
   }
 
   private static long keyId(byte[] fp) {

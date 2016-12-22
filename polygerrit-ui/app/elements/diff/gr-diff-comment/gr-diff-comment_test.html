@@ -147,6 +147,49 @@ limitations under the License.
       showStub.restore();
     });
 
+    test('message is not retrieved from storage when other editing is true',
+        function(done) {
+      var storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
+      var loadSpy = sandbox.spy(element, '_loadLocalDraft');
+
+      element.changeNum = 1;
+      element.patchNum = 1;
+      element.comment = {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        line: 5,
+        __otherEditing: true,
+      };
+      flush(function() {
+        assert.isTrue(loadSpy.called);
+        assert.isFalse(storageStub.called);
+        done();
+      });
+    });
+
+    test('message is retrieved from storage when there is no other editing',
+        function(done) {
+      var storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
+      var loadSpy = sandbox.spy(element, '_loadLocalDraft');
+
+      element.changeNum = 1;
+      element.patchNum = 1;
+      element.comment = {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        line: 5,
+      };
+      flush(function() {
+        assert.isTrue(loadSpy.called);
+        assert.isTrue(storageStub.called);
+        done();
+      });
+    });
+
     test('comment expand and collapse', function() {
       element.collapsed = true;
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),
@@ -436,6 +479,7 @@ limitations under the License.
             __editing: true,
             line: 5,
             path: '/path/to/file',
+            message: 'good news, everyone!',
           },
           patchNum: 1,
         },

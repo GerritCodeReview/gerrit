@@ -281,6 +281,9 @@
     _messageTextChanged: function(newValue, oldValue) {
       if (!this.comment || (this.comment && this.comment.id)) { return; }
 
+      // Keep comment.message in sync so that gr-diff-comment-thread is aware
+      // of the current message in the case that another comment is deleted.
+      this.comment.message = this._messageText || '';
       this.debounce('store', function() {
         var message = this._messageText;
 
@@ -356,7 +359,8 @@
 
     _handleCancel: function(e) {
       e.preventDefault();
-      if (this.comment.message == null || this.comment.message.length == 0) {
+      if (this.comment.message === null ||
+          this.comment.message.trim().length === 0) {
         this._fireDiscard();
         return;
       }
@@ -408,7 +412,11 @@
     _loadLocalDraft: function(changeNum, patchNum, comment) {
       // Only apply local drafts to comments that haven't been saved
       // remotely, and haven't been given a default message already.
-      if (!comment || comment.id || comment.message) {
+      //
+      // Don't get local draft if there is another comment that is currently
+      // in an editing state.
+      if (!comment || comment.id || comment.message || comment.__otherEditing) {
+        delete comment.__otherEditing;
         return;
       }
 

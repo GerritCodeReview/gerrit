@@ -218,7 +218,7 @@ public class StarredChangesUtil {
   }
 
   public void unstarAll(Project.NameKey project, Change.Id changeId)
-      throws OrmException, NoSuchChangeException {
+      throws OrmException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
@@ -315,7 +315,7 @@ public class StarredChangesUtil {
   }
 
   public ImmutableMultimap<Account.Id, String> byChangeFromIndex(
-      Change.Id changeId) throws OrmException, NoSuchChangeException {
+      Change.Id changeId) throws OrmException {
     Set<String> fields = ImmutableSet.of(
         ChangeField.ID.getName(),
         ChangeField.STAR.getName());

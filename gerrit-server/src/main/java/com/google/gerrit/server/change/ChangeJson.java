@@ -113,7 +113,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.QueryResult;
@@ -277,11 +276,11 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id)
-      throws OrmException, NoSuchChangeException {
+      throws OrmException {
     ChangeNotes notes;
     try {
       notes = notesFactory.createChecked(db.get(), project, id);
-    } catch (OrmException | NoSuchChangeException e) {
+    } catch (OrmException e) {
       if (!has(CHECK)) {
         throw e;
       }

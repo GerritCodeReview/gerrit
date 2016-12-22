@@ -55,7 +55,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -398,7 +397,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
                 IdentifiedUser user = userFactory.create(accountId);
                 return changeControlFactory.controlFor(notes, user)
                     .isVisible(db);
-              } catch (OrmException | NoSuchChangeException e) {
+              } catch (OrmException e) {
                 log.warn(
                     String.format(
                         "Failed to check if account %d can see change %d",
@@ -411,7 +410,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws OrmException, NoSuchChangeException {
+  public void postUpdate(Context ctx) throws OrmException {
     if (sendMail
         && (notify != NotifyHandling.NONE || !accountsToNotify.isEmpty())) {
       Runnable sender = new Runnable() {

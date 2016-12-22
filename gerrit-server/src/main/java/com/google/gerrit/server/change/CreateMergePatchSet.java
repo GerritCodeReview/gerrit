@@ -46,7 +46,6 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -104,8 +103,8 @@ public class CreateMergePatchSet implements
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource req, MergePatchSetInput in)
-      throws NoSuchChangeException, OrmException, IOException,
-      InvalidChangeOperationException, RestApiException, UpdateException {
+      throws OrmException, IOException, InvalidChangeOperationException,
+      RestApiException, UpdateException {
     if (in.merge == null) {
       throw new BadRequestException("merge field is required");
     }

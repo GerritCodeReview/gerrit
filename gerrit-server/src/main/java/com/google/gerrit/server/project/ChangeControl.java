@@ -58,13 +58,12 @@ public class ChangeControl {
     }
 
     public ChangeControl controlFor(ReviewDb db, Project.NameKey project,
-        Change.Id changeId, CurrentUser user)
-        throws NoSuchChangeException, OrmException {
+        Change.Id changeId, CurrentUser user) throws OrmException {
       return controlFor(notesFactory.create(db, project, changeId), user);
     }
 
     public ChangeControl controlFor(ReviewDb db, Change change,
-        CurrentUser user) throws NoSuchChangeException, OrmException {
+        CurrentUser user) throws OrmException {
       final Project.NameKey projectKey = change.getProject();
       try {
         return projectControl.controlFor(projectKey, user)
@@ -88,12 +87,12 @@ public class ChangeControl {
     }
 
     public ChangeControl validateFor(ReviewDb db, Change.Id changeId,
-        CurrentUser user) throws NoSuchChangeException, OrmException {
+        CurrentUser user) throws OrmException {
       return validateFor(db, notesFactory.createChecked(changeId), user);
     }
 
     public ChangeControl validateFor(ReviewDb db, ChangeNotes notes,
-        CurrentUser user) throws NoSuchChangeException, OrmException {
+        CurrentUser user) throws OrmException {
       ChangeControl c = controlFor(notes, user);
       if (!c.isVisible(db)) {
         throw new NoSuchChangeException(c.getId());

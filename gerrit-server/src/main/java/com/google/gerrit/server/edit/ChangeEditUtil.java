@@ -165,7 +165,6 @@ public class ChangeEditUtil {
    *        should be sent after the change edit is published.
    * @param accountsToNotify Accounts that should be notified after the change
    *        edit is published.
-   * @throws NoSuchChangeException
    * @throws IOException
    * @throws OrmException
    * @throws UpdateException
@@ -173,8 +172,7 @@ public class ChangeEditUtil {
    */
   public void publish(final ChangeEdit edit, NotifyHandling notify,
       Multimap<RecipientType, Account.Id> accountsToNotify)
-          throws NoSuchChangeException, IOException, OrmException,
-          RestApiException, UpdateException {
+      throws IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);

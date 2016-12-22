@@ -147,8 +147,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
     }
 
     @Override
-    protected Void impl(RequestContext ctx)
-        throws OrmException, IOException, NoSuchChangeException {
+    protected Void impl(RequestContext ctx) throws OrmException, IOException {
       // Reload change, as some time may have passed since GetChanges.
       ReviewDb db = ctx.getReviewDbProvider().get();
       try {

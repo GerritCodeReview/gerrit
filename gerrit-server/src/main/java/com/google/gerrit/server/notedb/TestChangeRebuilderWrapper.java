@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -55,7 +54,7 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
 
   @Override
   public Result rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException {
+      throws IOException, OrmException {
     if (failNextUpdate.getAndSet(false)) {
       throw new IOException("Update failed");
     }
@@ -68,8 +67,7 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
 
   @Override
   public Result rebuild(NoteDbUpdateManager manager,
-      ChangeBundle bundle) throws NoSuchChangeException, IOException,
-      OrmException {
+      ChangeBundle bundle) throws IOException, OrmException {
     // stealNextUpdate doesn't really apply in this case because the IOException
     // would normally come from the manager.execute() method, which isn't called
     // here.
@@ -78,15 +76,14 @@ public class TestChangeRebuilderWrapper extends ChangeRebuilder {
 
   @Override
   public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException {
+      throws IOException, OrmException {
     // Don't inspect stealNextUpdate; that happens in execute() below.
     return delegate.stage(db, changeId);
   }
 
   @Override
   public Result execute(ReviewDb db, Change.Id changeId,
-      NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
-      IOException {
+      NoteDbUpdateManager manager) throws OrmException, IOException {
     if (failNextUpdate.getAndSet(false)) {
       throw new IOException("Update failed");
     }

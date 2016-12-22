@@ -22,7 +22,6 @@ import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.GetContent;
 import com.google.gerrit.server.change.GetDiff;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -51,7 +50,7 @@ class FileApiImpl implements FileApi {
   public BinaryResult content() throws RestApiException {
     try {
       return getContent.apply(file);
-    } catch (NoSuchChangeException | IOException | OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot retrieve file content", e);
     }
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d747268e_7b957fcc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-22T18:39:28Z",
+      "side": 1,
+      "message": "typo in \u0027Determines\u0027",
+      "revId": "9e8b1840e6bcb67699756bfa4f5b8d43e94d82e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -65,4 +65,7 @@ public interface PatchLineCommentAccess extends
       + "' AND author = ?")
   ResultSet<PatchLineComment> draftByAuthor(Account.Id author)
       throws OrmException;
+
+  @Query
+  ResultSet<PatchLineComment> all() throws OrmException;
 }

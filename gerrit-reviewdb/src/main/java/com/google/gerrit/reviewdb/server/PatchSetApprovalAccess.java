@@ -39,4 +39,7 @@ public interface PatchSetApprovalAccess extends
   @Query("WHERE key.patchSetId = ? AND key.accountId = ?")
   ResultSet<PatchSetApproval> byPatchSetUser(PatchSet.Id patchSet,
       Account.Id account) throws OrmException;
+
+  @Query
+  ResultSet<PatchSetApproval> all() throws OrmException;
 }

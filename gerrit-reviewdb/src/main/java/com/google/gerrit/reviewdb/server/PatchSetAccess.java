@@ -29,4 +29,7 @@ public interface PatchSetAccess extends Access<PatchSet, PatchSet.Id> {
 
   @Query("WHERE id.changeId = ? ORDER BY id.patchSetId")
   ResultSet<PatchSet> byChange(Change.Id id) throws OrmException;
+
+  @Query
+  ResultSet<PatchSet> all() throws OrmException;
 }

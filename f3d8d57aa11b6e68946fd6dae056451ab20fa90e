@@ -175,6 +175,30 @@
       "revId": "f3d8d57aa11b6e68946fd6dae056451ab20fa90e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_77150a5f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SshMode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-22T15:03:11Z",
+      "side": 1,
+      "message": "But here values can only be NO or YES and both don\u0027t contain any \u0027_\u0027, so this should not be needed. For NoteDbMode it makes sense since the value can be READ_WRITE and users can set it as READ_WRITE or READ-WRITE.",
+      "parentUuid": "1a1ba32a_1808494b",
+      "range": {
+        "startLine": 36,
+        "startChar": 31,
+        "endLine": 36,
+        "endChar": 49
+      },
+      "revId": "f3d8d57aa11b6e68946fd6dae056451ab20fa90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

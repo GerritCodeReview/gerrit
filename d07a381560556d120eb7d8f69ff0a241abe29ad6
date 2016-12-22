@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_7737caf4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-22T19:49:06Z",
+      "side": 1,
+      "message": "This actually fixes a bug in the current code that this test revealed. When we run the Daemon without sshd, we bind a SshKeyCache that instantly throws an exception when called. However, we still call it here and try to add the result to keys.\n\nI\u0027ve adopted the cache and this to just return null and make it an optional here, which I think is perfectly valid.\n\nWhile the bugfix could go in a separate change I think it makes sense to submit it along with the test that uncovered it.",
+      "range": {
+        "startLine": 74,
+        "startChar": 13,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "d07a381560556d120eb7d8f69ff0a241abe29ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

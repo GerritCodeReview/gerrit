@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -57,6 +56,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,7 +131,6 @@ public class DeleteReviewer
     ChangeMessage changeMessage;
     Change currChange;
     PatchSet currPs;
-    List<PatchSetApproval> del = new ArrayList<>();
     Map<String, Short> newApprovals = new HashMap<>();
     Map<String, Short> oldApprovals = new HashMap<>();
 
@@ -161,6 +160,7 @@ public class DeleteReviewer
       msg.append("Removed reviewer " + reviewer.getFullName());
       StringBuilder removedVotesMsg = new StringBuilder();
       removedVotesMsg.append(" with the following votes:\n\n");
+      List<PatchSetApproval> del = new ArrayList<>();
       boolean votesRemoved = false;
       for (PatchSetApproval a : approvals(ctx, reviewerId)) {
         if (ctx.getControl().canRemoveReviewer(a)) {
@@ -197,7 +197,7 @@ public class DeleteReviewer
     @Override
     public void postUpdate(Context ctx) {
       if (NotifyUtil.shouldNotify(input.notify, input.notifyDetails)) {
-        emailReviewers(ctx.getProject(), currChange, del, changeMessage);
+        emailReviewers(ctx.getProject(), currChange, changeMessage);
       }
       reviewerDeleted.fire(currChange, currPs, reviewer,
           ctx.getAccount(),
@@ -241,31 +241,25 @@ public class DeleteReviewer
     }
 
     private void emailReviewers(Project.NameKey projectName, Change change,
-        List<PatchSetApproval> dels, ChangeMessage changeMessage) {
-
-      // The user knows they removed themselves, don't bother emailing them.
-      List<Account.Id> toMail = Lists.newArrayListWithCapacity(dels.size());
+        ChangeMessage changeMessage) {
       Account.Id userId = user.get().getAccountId();
-      for (PatchSetApproval psa : dels) {
-        if (!psa.getAccountId().equals(userId)) {
-          toMail.add(psa.getAccountId());
-        }
+      if (userId.equals(reviewer.getId())) {
+        // The user knows they removed themselves, don't bother emailing them.
+        return;
       }
-      if (!toMail.isEmpty()) {
-        try {
-          DeleteReviewerSender cm =
-              deleteReviewerSenderFactory.create(projectName, change.getId());
-          cm.setFrom(userId);
-          cm.addReviewers(toMail);
-          cm.setChangeMessage(changeMessage.getMessage(),
-              changeMessage.getWrittenOn());
-          cm.setNotify(input.notify);
-          cm.setAccountsToNotify(
-              notifyUtil.resolveAccounts(input.notifyDetails));
-          cm.send();
-        } catch (Exception err) {
-          log.error("Cannot email update for change " + change.getId(), err);
-        }
+      try {
+        DeleteReviewerSender cm =
+            deleteReviewerSenderFactory.create(projectName, change.getId());
+        cm.setFrom(userId);
+        cm.addReviewers(Collections.singleton(reviewer.getId()));
+        cm.setChangeMessage(changeMessage.getMessage(),
+            changeMessage.getWrittenOn());
+        cm.setNotify(input.notify);
+        cm.setAccountsToNotify(
+            notifyUtil.resolveAccounts(input.notifyDetails));
+        cm.send();
+      } catch (Exception err) {
+        log.error("Cannot email update for change " + change.getId(), err);
       }
     }
   }

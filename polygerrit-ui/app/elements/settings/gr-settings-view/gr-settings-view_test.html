@@ -43,6 +43,7 @@ limitations under the License.
     var preferences;
     var diffPreferences;
     var config;
+    var sandbox;
 
     function valueOf(title, fieldsetid) {
       var sections = element.$[fieldsetid].querySelectorAll('section');
@@ -65,11 +66,12 @@ limitations under the License.
     }
 
     function stubAddAccountEmail(statusCode) {
-      return sinon.stub(element.$.restAPI, 'addAccountEmail',
+      return sandbox.stub(element.$.restAPI, 'addAccountEmail',
           function() { return Promise.resolve({status: statusCode}); });
     }
 
     setup(function(done) {
+      sandbox = sinon.sandbox.create();
       account = {
         _account_id: 123,
         name: 'user name',
@@ -129,8 +131,12 @@ limitations under the License.
       element._loadingPromise.then(done);
     });
 
+    teardown(function() {
+      sandbox.restore();
+    });
+
     test('calls the title-change event', function() {
-      var titleChangedStub = sinon.stub();
+      var titleChangedStub = sandbox.stub();
 
       // Create a new view.
       var newElement = document.createElement('gr-settings-view');
@@ -340,6 +346,53 @@ limitations under the License.
         assert.isNotOk(element._lastSentVerificationEmail);
         done();
       });
+    });
+
+    test('emails are loaded without emailToken', function() {
+      sandbox.stub(element.$.emailEditor, 'loadData');
+      element.params = {};
+      element.attached();
+      assert.isTrue(element.$.emailEditor.loadData.calledOnce);
+    });
+
+    suite('when email verification token is provided', function() {
+      var resolveConfirm;
+
+      setup(function() {
+        sandbox.stub(element.$.emailEditor, 'loadData');
+        sandbox.stub(element.$.restAPI, 'confirmEmail', function() {
+          return new Promise(function(resolve) { resolveConfirm = resolve; });
+        });
+        element.params = {emailToken: 'foo'};
+        element.attached();
+      });
+
+      test('it is used to confirm email via rest API', function() {
+        assert.isTrue(element.$.restAPI.confirmEmail.calledOnce);
+        assert.isTrue(element.$.restAPI.confirmEmail.calledWith('foo'));
+      });
+
+      test('emails are not loaded initially', function() {
+        assert.isFalse(element.$.emailEditor.loadData.called);
+      });
+
+      test('user emails are loaded after email confirmed', function(done) {
+        element._loadingPromise.then(function() {
+          assert.isTrue(element.$.emailEditor.loadData.calledOnce);
+          done();
+        });
+        resolveConfirm();
+      });
+
+      test('show-alert is fired when email is confirmed', function(done) {
+        sandbox.spy(element, 'fire');
+        element._loadingPromise.then(function() {
+          assert.isTrue(element.fire.calledWith('show-alert', {message: 'bar'}));
+          done();
+        });
+        resolveConfirm('bar');
+      });
+
     });
   });
 </script>

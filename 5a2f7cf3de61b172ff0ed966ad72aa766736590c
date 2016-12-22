@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_cd79dda5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-22T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d747268e_5b81a398",
+      "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad8d7b0_ad6aa9cb",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 200,
         "endChar": 9
       },
+      "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8d6fe5db",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-22T18:25:56Z",
+      "side": 1,
+      "message": "Hmm, I think it\u0027s easier to keep track of with the mobile/desktop classes, partially because when looking through the HTML it\u0027s obvious what is what and what should be visible when. It\u0027s also not a super strong preference though, can see what everyone else thinks.",
+      "parentUuid": "bad8d7b0_ad6aa9cb",
       "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -77,6 +113,24 @@
       "side": 1,
       "message": "Does it still work if you do?",
       "parentUuid": "bad8d7b0_4a6e731b",
+      "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ed74a1ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-22T18:25:56Z",
+      "side": 1,
+      "message": "Seems to. changing.",
+      "parentUuid": "bad8d7b0_2d54f914",
       "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

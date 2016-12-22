@@ -199,6 +199,30 @@
       "revId": "f3d8d57aa11b6e68946fd6dae056451ab20fa90e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_f8f74d16",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SshMode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-22T15:05:21Z",
+      "side": 1,
+      "message": "True :)",
+      "parentUuid": "fa132f0f_77150a5f",
+      "range": {
+        "startLine": 36,
+        "startChar": 31,
+        "endLine": 36,
+        "endChar": 49
+      },
+      "revId": "f3d8d57aa11b6e68946fd6dae056451ab20fa90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

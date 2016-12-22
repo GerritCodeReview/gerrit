@@ -217,6 +217,12 @@ To run the tests against NoteDb backend:
   bazel test --test_env=GERRIT_NOTEDB=READ_WRITE //...
 ----
 
+To run only tests that do not use SSH:
+
+----
+  bazel test --test_env=GERRIT_USE_SSH=NO //...
+----
+
 == Dependencies
 
 Dependency JARs are normally downloaded as needed, but you can

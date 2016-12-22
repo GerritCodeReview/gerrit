@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.Side;
@@ -36,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @NoHttpd
+@UseSsh
 public class QueryIT extends AbstractDaemonTest {
 
   private static Gson gson = new Gson();

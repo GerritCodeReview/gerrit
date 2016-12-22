@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  public static final Class<Schema_139> C = Schema_139.class;
+  public static final Class<Schema_140> C = Schema_140.class;
 
   public static int getBinaryVersion() {
     return guessVersion(C);

@@ -18,8 +18,8 @@ import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
@@ -45,7 +45,7 @@ public class AccountField {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
           return Iterables.transform(
-              input.getExternalIds(), id -> id.getKey().get());
+              input.getExternalIds(), id -> id.key().toString());
         }
       };
 
@@ -58,9 +58,7 @@ public class AccountField {
           String fullName = input.getAccount().getFullName();
           Set<String> parts = SchemaUtil.getPersonParts(
               fullName,
-              Iterables.transform(
-                  input.getExternalIds(),
-                  AccountExternalId::getEmailAddress));
+              Iterables.transform(input.getExternalIds(), ExternalId::email));
 
           // Additional values not currently added by getPersonParts.
           // TODO(dborowitz): Move to getPersonParts and remove this hack.
@@ -95,7 +93,7 @@ public class AccountField {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
           return FluentIterable.from(input.getExternalIds())
-            .transform(AccountExternalId::getEmailAddress)
+            .transform(ExternalId::email)
             .append(
                 Collections.singleton(input.getAccount().getPreferredEmail()))
             .filter(Predicates.notNull())

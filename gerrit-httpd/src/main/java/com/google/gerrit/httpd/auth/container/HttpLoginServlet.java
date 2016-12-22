@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.container;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_EXTERNAL;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_EXTERNAL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.PageLinks;
@@ -23,17 +23,18 @@ import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -129,7 +130,7 @@ class HttpLoginServlet extends HttpServlet {
         log.debug("Associating external identity \"{}\" to user \"{}\"",
             remoteExternalId, user);
         updateRemoteExternalId(arsp, remoteExternalId);
-      } catch (AccountException | OrmException e) {
+      } catch (AccountException | OrmException | ConfigInvalidException e) {
         log.error("Unable to associate external identity \"" + remoteExternalId
             + "\" to user \"" + user + "\"", e);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -153,12 +154,10 @@ class HttpLoginServlet extends HttpServlet {
   }
 
   private void updateRemoteExternalId(AuthResult arsp, String remoteAuthToken)
-      throws AccountException, OrmException, IOException {
-    AccountExternalId remoteAuthExtId =
-        new AccountExternalId(arsp.getAccountId(), new AccountExternalId.Key(
-            SCHEME_EXTERNAL, remoteAuthToken));
-    accountManager.updateLink(arsp.getAccountId(),
-        new AuthRequest(remoteAuthExtId.getExternalId()));
+      throws AccountException, OrmException, IOException,
+      ConfigInvalidException {
+    accountManager.updateLink(arsp.getAccountId(), new AuthRequest(
+        ExternalId.Key.create(SCHEME_EXTERNAL, remoteAuthToken)));
   }
 
   private void replace(Document doc, String name, String value) {

@@ -14,14 +14,16 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gwtorm.server.SchemaFactory;
@@ -52,7 +54,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
       @Override
       protected void configure() {
         cache(CACHE_NAME, ListKey.class,
-            new TypeLiteral<Multimap<Account.Id, AccountExternalId>>() {})
+            new TypeLiteral<Multimap<Account.Id, ExternalId>>() {})
                 .maximumWeight(1).loader(Loader.class);
 
         bind(ExternalIdCacheImpl.class);
@@ -61,31 +63,30 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
     };
   }
 
-  private final LoadingCache<ListKey,
-      Multimap<Account.Id, AccountExternalId>> extIdsByAccount;
+  private final LoadingCache<ListKey, Multimap<Account.Id, ExternalId>> extIdsByAccount;
   private final Lock lock;
 
   @Inject
   ExternalIdCacheImpl(
       @Named(CACHE_NAME) LoadingCache<ListKey,
-          Multimap<Account.Id, AccountExternalId>> extIdsByAccount) {
+          Multimap<Account.Id, ExternalId>> extIdsByAccount) {
     this.extIdsByAccount = extIdsByAccount;
     this.lock = new ReentrantLock(true /* fair */);
   }
 
   @Override
-  public void onCreate(AccountExternalId extId) {
+  public void onCreate(ExternalId extId) {
     onCreate(Collections.singleton(extId));
   }
 
   @Override
-  public void onCreate(Iterable<AccountExternalId> extIds) {
+  public void onCreate(Iterable<ExternalId> extIds) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
+      Multimap<Account.Id, ExternalId> n = MultimapBuilder.hashKeys()
           .arrayListValues().build(extIdsByAccount.get(ListKey.ALL));
-      for (AccountExternalId extId : extIds) {
-        n.put(extId.getAccountId(), extId);
+      for (ExternalId extId : extIds) {
+        n.put(extId.accountId(), extId);
       }
       extIdsByAccount.put(ListKey.ALL, ImmutableMultimap.copyOf(n));
     } catch (ExecutionException e) {
@@ -96,18 +97,18 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onRemove(AccountExternalId extId) {
+  public void onRemove(ExternalId extId) {
     onRemove(Collections.singleton(extId));
   }
 
   @Override
-  public void onRemove(Iterable<AccountExternalId> extIds) {
+  public void onRemove(Iterable<ExternalId> extIds) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
+      Multimap<Account.Id, ExternalId> n = MultimapBuilder.hashKeys()
           .arrayListValues().build(extIdsByAccount.get(ListKey.ALL));
-      for (AccountExternalId extId : extIds) {
-        n.remove(extId.getAccountId(), extId);
+      for (ExternalId extId : extIds) {
+        n.remove(extId.accountId(), extId);
       }
       extIdsByAccount.put(ListKey.ALL, ImmutableMultimap.copyOf(n));
     } catch (ExecutionException e) {
@@ -118,20 +119,20 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onRemove(Account.Id accountId, AccountExternalId.Key extIdKey) {
+  public void onRemove(Account.Id accountId, ExternalId.Key extIdKey) {
     onRemove(accountId, Collections.singleton(extIdKey));
   }
 
   @Override
   public void onRemove(Account.Id accountId,
-      Iterable<AccountExternalId.Key> extIdKeys) {
+      Iterable<ExternalId.Key> extIdKeys) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
+      Multimap<Account.Id, ExternalId> n = MultimapBuilder.hashKeys()
           .arrayListValues().build(extIdsByAccount.get(ListKey.ALL));
-      for (AccountExternalId extId : byAccount(accountId)) {
-        for (AccountExternalId.Key extIdKey : extIdKeys) {
-          if (extIdKey.equals(extId.getKey())) {
+      for (ExternalId extId : byAccount(accountId)) {
+        for (ExternalId.Key extIdKey : extIdKeys) {
+          if (extIdKey.equals(extId.key())) {
             n.remove(accountId, extId);
             break;
           }
@@ -146,18 +147,25 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public void onUpdate(AccountExternalId updatedExtId) {
+  public void onUpdate(ExternalId updatedExtId) {
+    onUpdate(Collections.singleton(updatedExtId));
+  }
+
+  @Override
+  public void onUpdate(Iterable<ExternalId> updatedExtIds) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
+      Multimap<Account.Id, ExternalId> n = MultimapBuilder.hashKeys()
           .arrayListValues().build(extIdsByAccount.get(ListKey.ALL));
-      for (AccountExternalId extId : byAccount(updatedExtId.getAccountId())) {
-        if (updatedExtId.getKey().equals(extId.getKey())) {
-          n.remove(updatedExtId.getAccountId(), extId);
-          break;
+      for (ExternalId updatedExtId : updatedExtIds) {
+        for (ExternalId extId : byAccount(updatedExtId.accountId())) {
+          if (updatedExtId.key().equals(extId.key())) {
+            n.remove(updatedExtId.accountId(), extId);
+            break;
+          }
         }
+        n.put(updatedExtId.accountId(), updatedExtId);
       }
-      n.put(updatedExtId.getAccountId(), updatedExtId);
       extIdsByAccount.put(ListKey.ALL, ImmutableMultimap.copyOf(n));
     } catch (ExecutionException e) {
       log.warn("Cannot list avaliable projects", e);
@@ -167,7 +175,56 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public Collection<AccountExternalId> byAccount(Account.Id accountId) {
+  public void onReplace(Account.Id accountId, Iterable<ExternalId> toRemove,
+      Iterable<ExternalId> toAdd) {
+    ExternalIdsUpdate.checkSameAccount(Iterables.concat(toRemove, toAdd),
+        accountId);
+    lock.lock();
+    try {
+      Multimap<Account.Id, ExternalId> n = MultimapBuilder.hashKeys()
+          .arrayListValues().build(extIdsByAccount.get(ListKey.ALL));
+      for (ExternalId extId : toRemove) {
+        n.remove(extId.accountId(), extId);
+      }
+      for (ExternalId extId : toAdd) {
+        n.put(extId.accountId(), extId);
+      }
+      extIdsByAccount.put(ListKey.ALL, ImmutableMultimap.copyOf(n));
+    } catch (ExecutionException e) {
+      log.warn("Cannot list avaliable projects", e);
+    } finally {
+      lock.unlock();
+    }
+  }
+
+  @Override
+  public void onReplaceByKeys(Account.Id accountId,
+      Iterable<ExternalId.Key> toRemove, Iterable<ExternalId> toAdd) {
+    ExternalIdsUpdate.checkSameAccount(toAdd, accountId);
+    lock.lock();
+    try {
+      Multimap<Account.Id, ExternalId> n = MultimapBuilder.hashKeys()
+          .arrayListValues().build(extIdsByAccount.get(ListKey.ALL));
+      for (ExternalId extId : byAccount(accountId)) {
+        for (ExternalId.Key extIdKey : toRemove) {
+          if (extIdKey.equals(extId.key())) {
+            n.remove(accountId, extId);
+          }
+        }
+      }
+      for (ExternalId extId : toAdd) {
+        n.put(extId.accountId(), extId);
+      }
+      extIdsByAccount.put(ListKey.ALL, ImmutableMultimap.copyOf(n));
+    } catch (ExecutionException e) {
+      log.warn("Cannot list avaliable projects", e);
+    } finally {
+      lock.unlock();
+    }
+  }
+
+  @Override
+  public Collection<ExternalId> byAccount(Account.Id accountId) {
     try {
       return ImmutableSet
           .copyOf(extIdsByAccount.get(ListKey.ALL).get(accountId));
@@ -175,6 +232,13 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
       log.warn("Cannot list external ids", e);
       return Collections.emptySet();
     }
+  }
+
+  @Override
+  public Collection<ExternalId> byAccount(Account.Id accountId, String scheme) {
+    return byAccount(accountId).stream()
+        .filter(e -> e.key().isScheme(scheme))
+        .collect(toSet());
   }
 
   static class ListKey {
@@ -185,25 +249,27 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   static class Loader
-      extends CacheLoader<ListKey, Multimap<Account.Id, AccountExternalId>> {
+      extends CacheLoader<ListKey, Multimap<Account.Id, ExternalId>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final ExternalIds externalIds;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema) {
+    Loader(SchemaFactory<ReviewDb> schema,
+        ExternalIds externalIds) {
       this.schema = schema;
+      this.externalIds = externalIds;
     }
 
     @Override
-    public Multimap<Account.Id, AccountExternalId> load(ListKey key)
-        throws Exception {
+    public Multimap<Account.Id, ExternalId> load(ListKey key) throws Exception {
+      Multimap<Account.Id, ExternalId> extIdsByAccount =
+          MultimapBuilder.hashKeys().arrayListValues().build();
       try (ReviewDb db = schema.open()) {
-        Multimap<Account.Id, AccountExternalId> extIdsByAccount =
-            MultimapBuilder.hashKeys().arrayListValues().build();
-        for (AccountExternalId extId : db.accountExternalIds().all()) {
-          extIdsByAccount.put(extId.getAccountId(), extId);
+        for (ExternalId extId : externalIds.all(db)) {
+          extIdsByAccount.put(extId.accountId(), extId);
         }
-        return ImmutableMultimap.copyOf(extIdsByAccount);
       }
+      return ImmutableMultimap.copyOf(extIdsByAccount);
     }
   }
 }

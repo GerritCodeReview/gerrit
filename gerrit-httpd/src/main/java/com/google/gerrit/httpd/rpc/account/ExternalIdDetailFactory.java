@@ -15,18 +15,19 @@
 package com.google.gerrit.httpd.rpc.account;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,12 +54,13 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
 
   @Override
   public List<AccountExternalId> call() throws OrmException {
-    AccountExternalId.Key last = session.get().getLastLoginExternalId();
-    List<AccountExternalId> ids =
-        new ArrayList<>(externalIdCache.byAccount(user.getAccountId()));
+    ExternalId.Key last = session.get().getLastLoginExternalId();
 
-    for (final AccountExternalId e : ids) {
-      e.setTrusted(authConfig.isIdentityTrustable(Collections.singleton(e)));
+    List<AccountExternalId> ids = externalIdCache.byAccount(user.getAccountId())
+        .stream().map(e -> e.asAccountExternalId()).collect(toList());
+    for (AccountExternalId e : ids) {
+      e.setTrusted(authConfig
+          .isIdentityTrustable(Collections.singleton(ExternalId.from(e))));
 
       // The identity can be deleted only if its not the one used to
       // establish this web session, and if only if an identity was
@@ -67,7 +69,8 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
       if (e.isScheme(SCHEME_USERNAME)) {
         e.setCanDelete(false);
       } else {
-        e.setCanDelete(last != null && !last.equals(e.getKey()));
+        e.setCanDelete(
+            last != null && !last.equals(ExternalId.Key.from(e.getKey())));
       }
     }
     return ids;

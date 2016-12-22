@@ -362,6 +362,11 @@ public class ReviewDbWrapper implements ReviewDb {
         Account.Id account) throws OrmException {
       return delegate.byPatchSetUser(patchSet, account);
     }
+
+    @Override
+    public ResultSet<PatchSetApproval> all() throws OrmException {
+      return delegate.all();
+    }
   }
 
   public static class ChangeMessageAccessWrapper
@@ -559,6 +564,10 @@ public class ReviewDbWrapper implements ReviewDb {
       return delegate.byChange(id);
     }
 
+    @Override
+    public ResultSet<PatchSet> all() throws OrmException {
+      return delegate.all();
+    }
   }
 
   public static class PatchLineCommentAccessWrapper
@@ -694,6 +703,11 @@ public class ReviewDbWrapper implements ReviewDb {
     public ResultSet<PatchLineComment> draftByAuthor(Account.Id author)
         throws OrmException {
       return delegate.draftByAuthor(author);
+    }
+
+    @Override
+    public ResultSet<PatchLineComment> all() throws OrmException {
+      return delegate.all();
     }
   }
 }

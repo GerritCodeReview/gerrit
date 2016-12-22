@@ -31,8 +31,18 @@
      * @event title-change
      */
 
+    /**
+     * Fired with email confirmation text.
+     *
+     * @event show-alert
+     */
+
     properties: {
       prefs: {
+        type: Object,
+        value: function() { return {}; },
+      },
+      params: {
         type: Object,
         value: function() { return {}; },
       },
@@ -115,7 +125,6 @@
       var promises = [
         this.$.accountInfo.loadData(),
         this.$.watchedProjectsEditor.loadData(),
-        this.$.emailEditor.loadData(),
         this.$.groupList.loadData(),
         this.$.httpPass.loadData(),
       ];
@@ -137,6 +146,18 @@
           return this.$.sshEditor.loadData();
         }
       }.bind(this)));
+
+      if (this.params.emailToken) {
+        promises.push(this.$.restAPI.confirmEmail(this.params.emailToken).then(
+          function(message) {
+            if (message) {
+              this.fire('show-alert', {message: message});
+            }
+            this.$.emailEditor.loadData();
+          }.bind(this)));
+      } else {
+        promises.push(this.$.emailEditor.loadData());
+      }
 
       this._loadingPromise = Promise.all(promises).then(function() {
         this._loading = false;

@@ -64,7 +64,11 @@
         if (data.hash[0] !== '/') {
           data.hash = '/' + data.hash;
         }
-        page.redirect(data.hash);
+        var newUrl = data.hash;
+        if (newUrl.indexOf('/VE/') === 0) {
+          newUrl = '/settings' + data.hash;
+        }
+        page.redirect(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(function(loggedIn) {
@@ -169,6 +173,19 @@
 
       normalizePatchRangeParams(params);
       app.params = params;
+    });
+
+    page(/^\/settings\/VE\/(\S+)/, function(data) {
+      restAPI.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          app.params = {
+            view: 'gr-settings-view',
+            emailToken: data.params[0],
+          };
+        } else {
+          page.show('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
     });
 
     page(/^\/settings\/?/, function(data) {

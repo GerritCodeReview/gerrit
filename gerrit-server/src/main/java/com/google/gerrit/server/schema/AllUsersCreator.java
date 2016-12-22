@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.schema.AclUtil.block;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 
 import com.google.gerrit.common.Version;
@@ -46,6 +48,7 @@ public class AllUsersCreator {
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
+  private final GroupReference anonymous;
   private final GroupReference registered;
 
   private GroupReference admin;
@@ -58,6 +61,7 @@ public class AllUsersCreator {
     this.mgr = mgr;
     this.allUsersName = allUsersName;
     this.serverUser = serverUser;
+    this.anonymous = SystemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = SystemGroupBackend.getGroup(REGISTERED_USERS);
   }
 
@@ -108,6 +112,10 @@ public class AllUsersCreator {
       grant(config, defaults, Permission.PUSH, admin);
       defaults.getPermission(Permission.CREATE, true).setExclusiveGroup(true);
       grant(config, defaults, Permission.CREATE, admin);
+
+      AccessSection externalIds =
+          config.getAccessSection(RefNames.REFS_EXTERNAL_IDS, true);
+      block(config, externalIds, Permission.READ, anonymous);
 
       config.commit(md);
     }

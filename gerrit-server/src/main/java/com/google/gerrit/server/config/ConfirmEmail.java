@@ -30,6 +30,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
 import java.io.IOException;
 
 @Singleton
@@ -55,7 +57,7 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
   @Override
   public Response<?> apply(ConfigResource rsrc, Input input)
       throws AuthException, UnprocessableEntityException, AccountException,
-      OrmException, IOException {
+      OrmException, IOException, ConfigInvalidException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");

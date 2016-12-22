@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -56,13 +57,17 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.git.BatchUpdate;
+import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -98,6 +103,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject
   private Submit submitHandler;
+
+  @Inject
+  private IdentifiedUser.GenericFactory userFactory;
+
+  @Inject
+  private BatchUpdate.Factory updateFactory;
 
   private String systemTimeZone;
 
@@ -569,6 +580,90 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     List<RevCommit> log = getRemoteLog();
     assertThat(log).contains(stable.getCommit());
     assertThat(log).contains(mergeReview.getCommit());
+  }
+
+  @Test
+  public void submitChangeWithCommitThatWasAlreadyMerged() throws Exception {
+    // create and submit a change
+    PushOneCommit.Result change = createChange();
+    submit(change.getChangeId());
+    RevCommit headAfterSubmit = getRemoteHead();
+
+    // set the status of the change back to NEW to simulate a failed submit that
+    // merged the commit but failed to update the change status
+    setChangeStatusToNew(change);
+
+    // submitting the change again should detect that the commit was already
+    // merged and just fix the change status to be MERGED
+    submit(change.getChangeId());
+    assertThat(getRemoteHead()).isEqualTo(headAfterSubmit);
+  }
+
+  @Test
+  public void submitChangesWithCommitsThatWereAlreadyMerged() throws Exception {
+    // create and submit 2 changes
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    approve(change1.getChangeId());
+    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+      submit(change1.getChangeId());
+    }
+    submit(change2.getChangeId());
+    assertMerged(change1.getChangeId());
+    RevCommit headAfterSubmit = getRemoteHead();
+
+    // set the status of the changes back to NEW to simulate a failed submit that
+    // merged the commits but failed to update the change status
+    setChangeStatusToNew(change1, change2);
+
+    // submitting the changes again should detect that the commits were already
+    // merged and just fix the change status to be MERGED
+    submit(change1.getChangeId());
+    submit(change2.getChangeId());
+    assertThat(getRemoteHead()).isEqualTo(headAfterSubmit);
+  }
+
+  @Test
+  public void submitTopicWithCommitsThatWereAlreadyMerged() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    // create and submit 2 changes with the same topic
+    String topic = name("topic");
+    PushOneCommit.Result change1 = createChange("refs/for/master/" + topic);
+    PushOneCommit.Result change2 = createChange("refs/for/master/" + topic);
+    approve(change1.getChangeId());
+    submit(change2.getChangeId());
+    assertMerged(change1.getChangeId());
+    RevCommit headAfterSubmit = getRemoteHead();
+
+    // set the status of the second change back to NEW to simulate a failed
+    // submit that merged the commits but failed to update the change status of
+    // some changes in the topic
+    setChangeStatusToNew(change2);
+
+    // submitting the topic again should detect that the commits were already
+    // merged and just fix the change status to be MERGED
+    submit(change2.getChangeId());
+    assertThat(getRemoteHead()).isEqualTo(headAfterSubmit);
+  }
+
+  private void setChangeStatusToNew(PushOneCommit.Result... changes)
+      throws Exception {
+    for (PushOneCommit.Result change : changes) {
+      try (BatchUpdate bu = updateFactory.create(db, project,
+          userFactory.create(admin.id), TimeUtil.nowTs())) {
+        bu.addOp(change.getChange().getId(), new BatchUpdate.Op() {
+          @Override
+          public boolean updateChange(ChangeContext ctx) throws OrmException {
+            ctx.getChange().setStatus(Change.Status.NEW);
+            ctx.getUpdate(ctx.getChange().currentPatchSetId())
+                .setStatus(Change.Status.NEW);
+            return true;
+          }
+        });
+        bu.execute();
+      }
+    }
   }
 
   private void assertSubmitter(PushOneCommit.Result change) throws Exception {

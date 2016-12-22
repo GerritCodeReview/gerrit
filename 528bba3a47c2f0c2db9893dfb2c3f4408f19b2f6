@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "baaff7f4_d25fc4fa",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2016-12-22T20:14:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa132f0f_142ad490",
+      "range": {
+        "startLine": 857,
+        "startChar": 12,
+        "endLine": 857,
+        "endChar": 52
+      },
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_7437c8f4",
         "filename": "WORKSPACE",
         "patchSetId": 2
@@ -71,6 +95,30 @@
       "writtenOn": "2016-12-19T08:42:59Z",
       "side": 1,
       "message": "And this",
+      "range": {
+        "startLine": 863,
+        "startChar": 12,
+        "endLine": 863,
+        "endChar": 52
+      },
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baaff7f4_326570c8",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2016-12-22T20:14:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa132f0f_7437c8f4",
       "range": {
         "startLine": 863,
         "startChar": 12,
@@ -106,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "da102b08_736fe0a7",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2016-12-22T20:14:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa132f0f_54344cee",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_b5bcc00f",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 2
@@ -117,6 +189,30 @@
       "writtenOn": "2016-12-19T08:42:59Z",
       "side": 1,
       "message": "Needs to be updated.",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 50
+      },
+      "revId": "528bba3a47c2f0c2db9893dfb2c3f4408f19b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baaff7f4_f25ac80c",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2016-12-22T20:14:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_b5bcc00f",
       "range": {
         "startLine": 20,
         "startChar": 10,

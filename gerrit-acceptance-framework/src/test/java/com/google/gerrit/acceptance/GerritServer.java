@@ -30,6 +30,7 @@ import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.NoteDbChecker;
 import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gerrit.testutil.SshMode;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -136,6 +137,7 @@ public class GerritServer {
       }
     }, Paths.get(baseConfig.getString("gerrit", null, "tempSiteDir")));
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
+    daemon.setEnableSshd(SshMode.useSsh());
 
     final File site;
     ExecutorService daemonService = null;

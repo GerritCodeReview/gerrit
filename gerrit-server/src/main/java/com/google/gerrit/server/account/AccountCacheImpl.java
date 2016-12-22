@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -43,7 +44,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -143,9 +143,8 @@ public class AccountCacheImpl implements AccountCache {
   private static AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
     account.setActive(false);
-    Collection<AccountExternalId> ids = Collections.emptySet();
     Set<AccountGroup.UUID> anon = ImmutableSet.of();
-    return new AccountState(account, anon, ids,
+    return new AccountState(account, anon, Collections.emptySet(),
         new HashMap<ProjectWatchKey, Set<NotifyType>>());
   }
 
@@ -193,9 +192,6 @@ public class AccountCacheImpl implements AccountCache {
         return missing(who);
       }
 
-      Collection<AccountExternalId> externalIds =
-          externalIdCache.byAccount(who);
-
       Set<AccountGroup.UUID> internalGroups = new HashSet<>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
         final AccountGroup.Id groupId = g.getAccountGroupId();
@@ -214,7 +210,8 @@ public class AccountCacheImpl implements AccountCache {
         account.setGeneralPreferences(GeneralPreferencesInfo.defaults());
       }
 
-      return new AccountState(account, internalGroups, externalIds,
+      return new AccountState(account, internalGroups,
+          externalIdCache.byAccount(who),
           watchConfig.get().getProjectWatches(who));
     }
   }
@@ -229,11 +226,8 @@ public class AccountCacheImpl implements AccountCache {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      AccountExternalId.Key key = new AccountExternalId.Key( //
-          AccountExternalId.SCHEME_USERNAME, //
-          username);
       AccountState accountState =
-          accountQueryProvider.get().oneByExternalId(key.get());
+          accountQueryProvider.get().oneByExternalId(SCHEME_USERNAME, username);
       return Optional.ofNullable(accountState)
           .map(s -> s.getAccount().getId());
     }

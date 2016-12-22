@@ -15,6 +15,7 @@
 package com.google.gerrit.gpg.server;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
 
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -22,23 +23,23 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.DeleteGpgKey.Input;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.ExternalIdCache;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 
 import java.io.IOException;
-import java.util.Collections;
 
 public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   public static class Input {
@@ -48,31 +49,29 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
   private final AccountCache accountCache;
-  private final ExternalIdCache externalIdCache;
+  private final ExternalIdsUpdate.User externalIdsUpdateFactory;
 
   @Inject
   DeleteGpgKey(@GerritPersonIdent Provider<PersonIdent> serverIdent,
       Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider,
       AccountCache accountCache,
-      ExternalIdCache externalIdCache) {
+      ExternalIdsUpdate.User externalIdsUpdateFactory) {
     this.serverIdent = serverIdent;
     this.db = db;
     this.storeProvider = storeProvider;
     this.accountCache = accountCache;
-    this.externalIdCache = externalIdCache;
+    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
   }
 
   @Override
   public Response<?> apply(GpgKey rsrc, Input input)
       throws ResourceConflictException, PGPException, OrmException,
-      IOException {
+      IOException, ConfigInvalidException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
-    AccountExternalId.Key extIdKey = new AccountExternalId.Key(
-        AccountExternalId.SCHEME_GPGKEY,
-        BaseEncoding.base16().encode(key.getFingerprint()));
-    db.get().accountExternalIds().deleteKeys(Collections.singleton(extIdKey));
-    externalIdCache.onRemove(rsrc.getUser().getAccountId(), extIdKey);
+    externalIdsUpdateFactory.create().delete(db.get(),
+        rsrc.getUser().getAccountId(), ExternalId.Key.create(SCHEME_GPGKEY,
+            BaseEncoding.base16().encode(key.getFingerprint())));
     accountCache.evict(rsrc.getUser().getAccountId());
 
     try (PublicKeyStore store = storeProvider.get()) {

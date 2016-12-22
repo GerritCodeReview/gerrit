@@ -14,15 +14,14 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
@@ -40,13 +39,13 @@ public class AccountState {
 
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;
-  private final Collection<AccountExternalId> externalIds;
+  private final Collection<ExternalId> externalIds;
   private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(Account account,
       Set<AccountGroup.UUID> actualGroups,
-      Collection<AccountExternalId> externalIds,
+      Collection<ExternalId> externalIds,
       Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
     this.account = account;
     this.internalGroups = actualGroups;
@@ -63,8 +62,8 @@ public class AccountState {
   /**
    * Get the username, if one has been declared for this user.
    * <p>
-   * The username is the {@link AccountExternalId} using the scheme
-   * {@link AccountExternalId#SCHEME_USERNAME}.
+   * The username is the {@link ExternalId} using the scheme
+   * {@link ExternalId#SCHEME_USERNAME}.
    */
   public String getUserName() {
     return account.getUserName();
@@ -72,17 +71,17 @@ public class AccountState {
 
   /** @return the password matching the requested username; or null. */
   public String getPassword(String username) {
-    for (AccountExternalId id : getExternalIds()) {
-      if (id.isScheme(AccountExternalId.SCHEME_USERNAME)
-          && username.equals(id.getSchemeRest())) {
-        return id.getPassword();
+    for (ExternalId extId : getExternalIds()) {
+      if (extId.key().isScheme(SCHEME_USERNAME)
+          && username.equals(extId.key().id())) {
+        return extId.password();
       }
     }
     return null;
   }
 
   /** The external identities that identify the account holder. */
-  public Collection<AccountExternalId> getExternalIds() {
+  public Collection<ExternalId> getExternalIds() {
     return externalIds;
   }
 
@@ -96,20 +95,20 @@ public class AccountState {
     return internalGroups;
   }
 
-  public static String getUserName(Collection<AccountExternalId> ids) {
-    for (AccountExternalId id : ids) {
-      if (id.isScheme(SCHEME_USERNAME)) {
-        return id.getSchemeRest();
+  public static String getUserName(Collection<ExternalId> ids) {
+    for (ExternalId extId : ids) {
+      if (extId.key().isScheme(SCHEME_USERNAME)) {
+        return extId.key().id();
       }
     }
     return null;
   }
 
-  public static Set<String> getEmails(Collection<AccountExternalId> ids) {
+  public static Set<String> getEmails(Collection<ExternalId> ids) {
     Set<String> emails = new HashSet<>();
-    for (AccountExternalId id : ids) {
-      if (id.isScheme(SCHEME_MAILTO)) {
-        emails.add(id.getSchemeRest());
+    for (ExternalId extId : ids) {
+      if (extId.key().isScheme(SCHEME_MAILTO)) {
+        emails.add(extId.key().id());
       }
     }
     return emails;

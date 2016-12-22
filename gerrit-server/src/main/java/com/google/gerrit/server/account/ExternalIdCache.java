@@ -15,29 +15,40 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 import java.util.Collection;
 import java.util.Collections;
 
 /** Caches external ids of all accounts */
 public interface ExternalIdCache {
-  void onCreate(Iterable<AccountExternalId> extId);
-  void onRemove(Iterable<AccountExternalId> extId);
-  void onRemove(Account.Id accountId,
-      Iterable<AccountExternalId.Key> extIdKeys);
-  void onUpdate(AccountExternalId extId);
-  Collection<AccountExternalId> byAccount(Account.Id accountId);
+  void onCreate(Iterable<ExternalId> extId);
 
-  default void onCreate(AccountExternalId extId) {
+  void onRemove(Iterable<ExternalId> extId);
+  void onRemove(Account.Id accountId, Iterable<ExternalId.Key> extIdKeys);
+
+  void onUpdate(Iterable<ExternalId> extId);
+
+  void onReplace(Account.Id accountId, Iterable<ExternalId> toRemove,
+      Iterable<ExternalId> toAdd);
+  void onReplaceByKeys(Account.Id accountId, Iterable<ExternalId.Key> toRemove,
+      Iterable<ExternalId> toAdd);
+
+  Collection<ExternalId> byAccount(Account.Id accountId);
+  Collection<ExternalId> byAccount(Account.Id accountId, String scheme);
+
+  default void onCreate(ExternalId extId) {
     onCreate(Collections.singleton(extId));
   }
 
-  default void onRemove(AccountExternalId extId) {
+  default void onRemove(ExternalId extId) {
     onRemove(Collections.singleton(extId));
   }
 
-  default void onRemove(Account.Id accountId, AccountExternalId.Key extIdKey) {
+  default void onRemove(Account.Id accountId, ExternalId.Key extIdKey) {
     onRemove(accountId, Collections.singleton(extIdKey));
+  }
+
+  default void onUpdate(ExternalId updatedExtId) {
+    onUpdate(Collections.singleton(updatedExtId));
   }
 }

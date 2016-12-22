@@ -256,8 +256,8 @@ final class SetAccountCommand extends SshCommand {
         new AccountResource.SshKey(user, sshKey), null);
   }
 
-  private void addEmail(String email)
-      throws UnloggedFailure, RestApiException, OrmException, IOException {
+  private void addEmail(String email) throws UnloggedFailure, RestApiException,
+      OrmException, IOException, ConfigInvalidException {
     EmailInput in = new EmailInput();
     in.email = email;
     in.noConfirmation = true;
@@ -268,8 +268,8 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteEmail(String email)
-      throws RestApiException, OrmException, IOException {
+  private void deleteEmail(String email) throws RestApiException, OrmException,
+      IOException, ConfigInvalidException {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc);
       for (EmailInfo e : emails) {

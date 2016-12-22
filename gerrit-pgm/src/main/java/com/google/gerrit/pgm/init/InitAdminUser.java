@@ -23,12 +23,12 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -38,22 +38,27 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class InitAdminUser implements InitStep {
   private final ConsoleUI ui;
   private final InitFlags flags;
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
+  private final ExternalIdsOnInit externalIds;
   private SchemaFactory<ReviewDb> dbFactory;
 
   @Inject
   InitAdminUser(
       InitFlags flags,
       ConsoleUI ui,
-      VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory) {
+      VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory,
+      ExternalIdsOnInit externalIds) {
     this.flags = flags;
     this.ui = ui;
     this.authorizedKeysFactory = authorizedKeysFactory;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -84,21 +89,14 @@ public class InitAdminUser implements InitStep {
           AccountSshKey sshKey = readSshKey(id);
           String email = readEmail(sshKey);
 
-          AccountExternalId extUser =
-              new AccountExternalId(id, new AccountExternalId.Key(
-                  AccountExternalId.SCHEME_USERNAME, username));
-          if (!Strings.isNullOrEmpty(httpPassword)) {
-            extUser.setPassword(httpPassword);
-          }
-          db.accountExternalIds().insert(Collections.singleton(extUser));
+          List<ExternalId> extIds = new ArrayList<>(2);
+          extIds.add(ExternalId.createUsername(username, id, httpPassword));
 
           if (email != null) {
-            AccountExternalId extMailto =
-                new AccountExternalId(id, new AccountExternalId.Key(
-                    AccountExternalId.SCHEME_MAILTO, email));
-            extMailto.setEmailAddress(email);
-            db.accountExternalIds().insert(Collections.singleton(extMailto));
+            extIds.add(ExternalId.createEmail(id, email));
           }
+          externalIds.insert(db, "Add external IDs for initial admin user",
+              extIds);
 
           Account a = new Account(id, TimeUtil.nowTs());
           a.setFullName(name);
@@ -116,7 +114,7 @@ public class InitAdminUser implements InitStep {
             VersionedAuthorizedKeysOnInit authorizedKeys =
                 authorizedKeysFactory.create(id).load();
             authorizedKeys.addKey(sshKey.getSshPublicKey());
-            authorizedKeys.save("Added SSH key for initial admin user\n");
+            authorizedKeys.save("Add SSH key for initial admin user\n");
           }
         }
       }

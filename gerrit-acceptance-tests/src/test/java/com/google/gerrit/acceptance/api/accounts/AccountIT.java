@@ -39,6 +39,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -124,7 +125,11 @@ public class AccountIT extends AbstractDaemonTest {
   public void restoreExternalIds() throws Exception {
     db.accountExternalIds().delete(getExternalIds(admin));
     db.accountExternalIds().delete(getExternalIds(user));
-    db.accountExternalIds().insert(savedExternalIds);
+    if (savedExternalIds != null) {
+      // savedExternalIds is null when we don't run SSH tests and the assume in @Before in
+      // AbstractDaemonTest prevents this class' @Before method from being executed.
+      db.accountExternalIds().insert(savedExternalIds);
+    }
     accountCache.evict(admin.getId());
     accountCache.evict(user.getId());
   }
@@ -666,7 +671,9 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseSsh
   public void sshKeys() throws Exception {
+    //
     // The test account should initially have exactly one ssh key
     List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(1);

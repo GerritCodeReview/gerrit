@@ -15,18 +15,27 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 import java.util.Collection;
 
 /** Caches external ids of all accounts */
 public interface ExternalIdCache {
-  void onCreate(AccountExternalId extId);
-  void onCreate(Iterable<AccountExternalId> extId);
-  void remove(AccountExternalId extId);
-  void remove(Iterable<AccountExternalId> extId);
-  void remove(Account.Id accountId, AccountExternalId.Key extIdKey);
-  void remove(Account.Id accountId, Iterable<AccountExternalId.Key> extIdKeys);
-  void update(AccountExternalId extId);
-  Collection<AccountExternalId> byAccount(Account.Id accountId);
+  void onCreate(ExternalId extId);
+  void onCreate(Iterable<ExternalId> extId);
+
+  void remove(ExternalId extId);
+  void remove(Iterable<ExternalId> extId);
+  void remove(Account.Id accountId, ExternalId.Key extIdKey);
+  void remove(Account.Id accountId, Iterable<ExternalId.Key> extIdKeys);
+
+  void update(ExternalId extId);
+  void update(Iterable<ExternalId> extId);
+
+  void replace(Account.Id accountId, Iterable<ExternalId> toRemove,
+      Iterable<ExternalId> toAdd);
+  void replaceByKeys(Account.Id accountId, Iterable<ExternalId.Key> toRemove,
+      Iterable<ExternalId> toAdd);
+
+  Collection<ExternalId> byAccount(Account.Id accountId);
+  Collection<ExternalId> byAccount(Account.Id accountId, String scheme);
 }

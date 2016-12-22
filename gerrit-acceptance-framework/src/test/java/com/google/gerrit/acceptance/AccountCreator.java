@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.testutil.SshMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -112,9 +113,12 @@ public class AccountCreator {
         }
       }
 
-      KeyPair sshKey = genSshKey();
-      authorizedKeys.addKey(id, publicKey(sshKey, email));
-      sshKeyCache.evict(username);
+      KeyPair sshKey = null;
+      if (SshMode.useSsh()) {
+        sshKey = genSshKey();
+        authorizedKeys.addKey(id, publicKey(sshKey, email));
+        sshKeyCache.evict(username);
+      }
 
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);

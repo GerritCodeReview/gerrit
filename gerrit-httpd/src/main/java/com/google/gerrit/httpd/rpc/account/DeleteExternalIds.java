@@ -14,16 +14,21 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.ExternalIdCache;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +48,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   private final ExternalIdDetailFactory detailFactory;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
-  private final ExternalIdCache externalIdCache;
+  private final ExternalIdsUpdate.User externalIdsUpdateFactory;
 
   private final Set<AccountExternalId.Key> keys;
 
@@ -53,19 +58,20 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
       ExternalIdDetailFactory detailFactory,
       AccountByEmailCache byEmailCache,
       AccountCache accountCache,
-      ExternalIdCache externalIdCache,
+      ExternalIdsUpdate.User externalIdsUpdateFactory,
       @Assisted Set<AccountExternalId.Key> keys) {
     this.db = db;
     this.user = user;
     this.detailFactory = detailFactory;
     this.byEmailCache = byEmailCache;
     this.accountCache = accountCache;
-    this.externalIdCache = externalIdCache;
+    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.keys = keys;
   }
 
   @Override
-  public Set<AccountExternalId.Key> call() throws OrmException, IOException {
+  public Set<AccountExternalId.Key> call()
+      throws OrmException, IOException, ConfigInvalidException {
     final Map<AccountExternalId.Key, AccountExternalId> have = have();
 
     List<AccountExternalId> toDelete = new ArrayList<>();
@@ -77,8 +83,8 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
     }
 
     if (!toDelete.isEmpty()) {
-      db.accountExternalIds().delete(toDelete);
-      externalIdCache.onRemove(toDelete);
+      externalIdsUpdateFactory.create().delete(db,
+          toDelete.stream().map(e -> ExternalId.from(e)).collect(toSet()));
       accountCache.evict(user.getAccountId());
       for (AccountExternalId e : toDelete) {
         byEmailCache.evict(e.getEmailAddress());

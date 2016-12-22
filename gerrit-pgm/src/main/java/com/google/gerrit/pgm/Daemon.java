@@ -181,6 +181,11 @@ public class Daemon extends SiteProgram {
     this.serverStarted = serverStarted;
   }
 
+  @VisibleForTesting
+  public void setEnableSshd(boolean enable) {
+    sshd = enable;
+  }
+
   public void setEnableHttpd(boolean enable) {
     httpd = enable;
   }

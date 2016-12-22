@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_183de9ed",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2016-12-22T12:11:50Z",
+      "side": 1,
+      "message": "we shouldn\u0027t need to copy around files that are already in our repo.\n\naccording to Damien \"@gerrit//lib:license-xyz\" is being worked to get fixed, but in the meantime, you should be able to use \"@//lib:license-xyz\".\n\ncan you try that? Then we can have a more exact genquery  in license.bzl",
+      "range": {
+        "startLine": 141,
+        "startChar": 36,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "3a12d91cd20841964f0022ffd61a0b8dd4c64f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

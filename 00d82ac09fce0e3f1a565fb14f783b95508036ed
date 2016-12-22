@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_0d08154b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-12-22T14:51:59Z",
+      "side": 1,
+      "message": "Done, I added a separate test case for project creation with global capability. I Uploaded a separate change for that one.\n\nI also removed the @Sandboxed annotation and revoke the global capability in the test case.",
+      "parentUuid": "fa132f0f_94e0a4e4",
+      "range": {
+        "startLine": 264,
+        "startChar": 2,
+        "endLine": 264,
+        "endChar": 12
+      },
+      "revId": "00d82ac09fce0e3f1a565fb14f783b95508036ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_15b814c5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d747268e_3bc93714",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-12-22T14:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_15b814c5",
+      "range": {
+        "startLine": 267,
+        "startChar": 16,
+        "endLine": 267,
+        "endChar": 17
+      },
+      "revId": "00d82ac09fce0e3f1a565fb14f783b95508036ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_75c50849",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2016-12-20T10:30:58Z",
       "side": 1,
       "message": "Following the discussion on this change, the same problem arises, when a project is created without parent, and All-Projects is used as parent, and user doesn\u0027t have ACL for All-Projects. Can we add a test for this use case too?",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 40
+      },
+      "revId": "00d82ac09fce0e3f1a565fb14f783b95508036ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_edf78116",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2016-12-22T14:51:59Z",
+      "side": 1,
+      "message": "done, I changed this test case to use All-Projects as parent instead of creating one.",
+      "parentUuid": "1a1ba32a_75c50849",
       "range": {
         "startLine": 278,
         "startChar": 4,

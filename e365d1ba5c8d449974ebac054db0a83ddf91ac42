@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_cd271dc8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T17:39:09Z",
+      "side": 1,
+      "message": "Should this be a [[ one way binding ]] since the value is synchronized via `_handleExpandInlineDiffsChanged`?",
+      "range": {
+        "startLine": 192,
+        "startChar": 28,
+        "endLine": 192,
+        "endChar": 63
+      },
+      "revId": "e365d1ba5c8d449974ebac054db0a83ddf91ac42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

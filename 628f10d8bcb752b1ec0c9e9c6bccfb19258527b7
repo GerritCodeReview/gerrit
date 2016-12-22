@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "baaff7f4_d21d044d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-22T19:41:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_07b2b895",
+      "revId": "628f10d8bcb752b1ec0c9e9c6bccfb19258527b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad8d7b0_ededc19b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -65,6 +83,42 @@
         "endLine": 607,
         "endChar": 72
       },
+      "revId": "628f10d8bcb752b1ec0c9e9c6bccfb19258527b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baaff7f4_12002ce2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-22T19:41:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_27b5347e",
+      "revId": "628f10d8bcb752b1ec0c9e9c6bccfb19258527b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baaff7f4_3203b0f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-22T19:41:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fac16fc3_27b5347e",
       "revId": "628f10d8bcb752b1ec0c9e9c6bccfb19258527b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "9e8b1840e6bcb67699756bfa4f5b8d43e94d82e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8d96c597",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T18:42:11Z",
+      "side": 1,
+      "message": "Well spotted. Done.",
+      "parentUuid": "d747268e_7b957fcc",
+      "revId": "9e8b1840e6bcb67699756bfa4f5b8d43e94d82e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

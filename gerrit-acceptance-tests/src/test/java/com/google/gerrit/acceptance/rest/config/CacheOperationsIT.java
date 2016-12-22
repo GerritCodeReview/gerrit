@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.PostCaches;
@@ -29,6 +30,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+@UseSsh
 public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test

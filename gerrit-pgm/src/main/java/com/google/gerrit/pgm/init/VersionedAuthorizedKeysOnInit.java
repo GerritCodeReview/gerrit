@@ -71,7 +71,7 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
     AccountSshKey.Id keyId = new AccountSshKey.Id(accountId, seq);
     AccountSshKey key =
         new VersionedAuthorizedKeys.SimpleSshKeyCreator().create(keyId, pub);
-    keys.add(Optional.of(key));
+    keys.add(Optional.ofNullable(key));
     return key;
   }
 

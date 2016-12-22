@@ -22,6 +22,7 @@ import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_R
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 
+import com.google.gerrit.acceptance.UseSsh;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
@@ -29,6 +30,7 @@ import org.junit.Test;
 import java.util.Locale;
 
 @NoHttpd
+@UseSsh
 public class BanCommitIT extends AbstractDaemonTest {
 
   @Test

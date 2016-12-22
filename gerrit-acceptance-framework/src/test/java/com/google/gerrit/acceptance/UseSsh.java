@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.git;
+package com.google.gerrit.acceptance;
 
-import com.google.gerrit.acceptance.NoHttpd;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.gerrit.acceptance.UseSsh;
-import org.junit.Before;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-@NoHttpd
-@UseSsh
-public class SshPushForReviewIT extends AbstractPushForReview {
-  @Before
-  public void selectSshUrl() throws Exception {
-    selectProtocol(Protocol.SSH);
-  }
+@Target({TYPE, METHOD})
+@Retention(RUNTIME)
+public @interface UseSsh {
 }

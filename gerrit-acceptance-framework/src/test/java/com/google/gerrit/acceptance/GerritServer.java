@@ -65,6 +65,7 @@ public class GerritServer {
           true, // @UseLocalDisk is only valid on methods.
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
+          has(UseSsh.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
           null); // @GerritConfigs is only valid on methods.
 
@@ -79,6 +80,8 @@ public class GerritServer {
             && !has(NoHttpd.class, testDesc.getTestClass()),
           testDesc.getAnnotation(Sandboxed.class) != null ||
               has(Sandboxed.class, testDesc.getTestClass()),
+          testDesc.getAnnotation(UseSsh.class) != null ||
+              has(UseSsh.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class));
     }
@@ -97,6 +100,7 @@ public class GerritServer {
     abstract boolean memory();
     abstract boolean httpd();
     abstract boolean sandboxed();
+    abstract boolean useSsh();
     @Nullable abstract GerritConfig config();
     @Nullable abstract GerritConfigs configs();
 

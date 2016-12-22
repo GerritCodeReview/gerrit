@@ -140,6 +140,24 @@
       "revId": "740436f38395022cab635c9c2122dd7f9dab582f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d747268e_1b771bf4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T17:35:31Z",
+      "side": 1,
+      "message": "Oh, it likely failed because `:header` should have been `.header`.",
+      "parentUuid": "fac16fc3_07647839",
+      "revId": "740436f38395022cab635c9c2122dd7f9dab582f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

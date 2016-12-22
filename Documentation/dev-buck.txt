@@ -347,6 +347,12 @@ To run the tests against NoteDb backend:
   GERRIT_NOTEDB=READ_WRITE buck test
 ----
 
+To run only tests that do not use SSH:
+
+----
+  GERRIT_USE_SSH=NO buck test
+----
+
 == Dependencies
 
 Dependency JARs are normally downloaded automatically, but Buck can inspect

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
@@ -95,6 +96,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.SshMode;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gerrit.testutil.TestNotesMigration;
 import com.google.gson.Gson;
@@ -274,6 +276,7 @@ public abstract class AbstractDaemonTest {
 
   private String resourcePrefix;
   private List<Repository> toClose;
+  private boolean useSsh;
 
   @Rule
   public TestRule testRunner = new TestRule() {
@@ -304,6 +307,16 @@ public abstract class AbstractDaemonTest {
   @Before
   public void startEventRecorder() {
     eventRecorder = eventRecorderFactory.create(admin);
+  }
+
+  @Before
+  public void assumeSshIfRequired() {
+    if (useSsh) {
+      // If the test uses ssh, we use assume() to make sure ssh is enabled on
+      // the test suite. JUnit will skip tests annotated with @UseSsh if we
+      // disable them using the command line flag.
+      assume().that(SshMode.useSsh()).isTrue();
+    }
   }
 
   @After
@@ -379,20 +392,34 @@ public abstract class AbstractDaemonTest {
 
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);
-    initSsh(admin);
+
     db = reviewDbProvider.open();
-    Context ctx = newRequestContext(user);
-    atrScope.set(ctx);
-    userSshSession = ctx.getSession();
-    userSshSession.open();
-    ctx = newRequestContext(admin);
-    atrScope.set(ctx);
-    adminSshSession = ctx.getSession();
-    adminSshSession.open();
+
+    if (classDesc.useSsh() || methodDesc.useSsh()) {
+      useSsh = true;
+      if (SshMode.useSsh() && (adminSshSession == null ||
+          userSshSession == null)) {
+        // Create Ssh sessions
+        initSsh(admin);
+        Context ctx = newRequestContext(user);
+        atrScope.set(ctx);
+        userSshSession = ctx.getSession();
+        userSshSession.open();
+        ctx = newRequestContext(admin);
+        atrScope.set(ctx);
+        adminSshSession = ctx.getSession();
+        adminSshSession.open();
+      }
+    } else {
+      useSsh = false;
+    }
+
     resourcePrefix = UNSAFE_PROJECT_NAME.matcher(
         description.getClassName() + "_"
         + description.getMethodName() + "_").replaceAll("");
 
+    Context ctx = newRequestContext(admin);
+    atrScope.set(ctx);
     project = createProject(projectInput(description));
     testRepo = cloneProject(project, getCloneAsAccount(description));
   }
@@ -517,8 +544,12 @@ public abstract class AbstractDaemonTest {
       repo.close();
     }
     db.close();
-    adminSshSession.close();
-    userSshSession.close();
+    if (adminSshSession != null) {
+      adminSshSession.close();
+    }
+    if (userSshSession != null) {
+      userSshSession.close();
+    }
     if (server != commonServer) {
       server.stop();
     }

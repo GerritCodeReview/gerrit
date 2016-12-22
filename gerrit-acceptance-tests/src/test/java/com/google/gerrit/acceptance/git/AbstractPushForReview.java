@@ -80,13 +80,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
     // TODO(dborowitz): TEST.
     SSH, HTTP
   }
 
-  private String sshUrl;
   private LabelType patchSetLock;
 
   @BeforeClass
@@ -101,7 +101,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    sshUrl = adminSshSession.getUrl();
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     patchSetLock = Util.patchSetLock();
     cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
@@ -117,7 +116,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String url;
     switch (p) {
       case SSH:
-        url = sshUrl;
+        url = adminSshSession.getUrl();
         break;
       case HTTP:
         url = admin.getHttpUrl(server);

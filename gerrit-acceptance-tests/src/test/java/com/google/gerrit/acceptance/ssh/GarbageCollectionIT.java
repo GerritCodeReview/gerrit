@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
@@ -34,6 +35,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 @NoHttpd
+@UseSsh
 public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject

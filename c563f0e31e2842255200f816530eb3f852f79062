@@ -168,6 +168,24 @@
       "revId": "c563f0e31e2842255200f816530eb3f852f79062",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d747268e_db85b39b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-22T20:16:24Z",
+      "side": 1,
+      "message": "\u003e when exactly would an invalid but non-null parentUuid be supplied?\n\nThe REST API can be used directly without using any UI. It\u0027s public and we need to continue supporting it.\n\nBut an invalid parent UUID is an indication that the caller is holding it incorrectly, hence why I think throwing an exception (i.e. returning HTTP 422) is a fine behavior.",
+      "parentUuid": "baaff7f4_b20e801b",
+      "revId": "c563f0e31e2842255200f816530eb3f852f79062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

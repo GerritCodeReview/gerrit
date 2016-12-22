@@ -22,6 +22,80 @@
       "revId": "c563f0e31e2842255200f816530eb3f852f79062",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d747268e_dbbad36a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-22T15:02:19Z",
+      "side": 1,
+      "message": "I\u0027d mark both these new arguments as @Nullable",
+      "revId": "c563f0e31e2842255200f816530eb3f852f79062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_6d15515f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-22T15:02:19Z",
+      "side": 1,
+      "message": "Maybe short-circuit if parentUuid is null. get will certainly never find anything if it is, and I\u0027m not 100% sure it won\u0027t choke on a null UUID.",
+      "revId": "c563f0e31e2842255200f816530eb3f852f79062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_adfd89fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-22T15:02:19Z",
+      "side": 1,
+      "message": "Nits: unnecessary this, and can be one line.",
+      "range": {
+        "startLine": 152,
+        "startChar": 33,
+        "endLine": 152,
+        "endChar": 38
+      },
+      "revId": "c563f0e31e2842255200f816530eb3f852f79062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8d024526",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-22T15:02:19Z",
+      "side": 1,
+      "message": "Is it better to silently return null here rather than throwing an exception (UnprocessableEntityException?) if the caller passes an invalid parent UUID?",
+      "revId": "c563f0e31e2842255200f816530eb3f852f79062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

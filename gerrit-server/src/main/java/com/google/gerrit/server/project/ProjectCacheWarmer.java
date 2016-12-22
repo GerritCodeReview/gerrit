@@ -25,8 +25,11 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class ProjectCacheWarmer implements LifecycleListener {
@@ -50,9 +53,10 @@ public class ProjectCacheWarmer implements LifecycleListener {
           new ScheduledThreadPoolExecutor(config.getInt("cache", "projects",
               "loadThreads", cpus), new ThreadFactoryBuilder().setNameFormat(
               "ProjectCacheLoader-%d").build());
+      ExecutorService scheduler = Executors.newFixedThreadPool(1);
 
       log.info("Loading project cache");
-      pool.execute(new Runnable() {
+      scheduler.execute(new Runnable() {
         @Override
         public void run() {
           for (final Project.NameKey name : cache.all()) {
@@ -64,6 +68,12 @@ public class ProjectCacheWarmer implements LifecycleListener {
             });
           }
           pool.shutdown();
+          try {
+            pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+            log.info("Finished loading project cache");
+          } catch (InterruptedException e) {
+            log.warn("Interrupted while waiting for project cache to load");
+          }
         }
       });
     }

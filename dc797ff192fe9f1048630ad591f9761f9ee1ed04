@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_2d86b968",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-22T20:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d747268e_1ba55b54",
+      "revId": "dc797ff192fe9f1048630ad591f9761f9ee1ed04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d747268e_7baa9f23",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 3
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "d747268e_7b4e1fb4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-22T20:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d747268e_7baa9f23",
+      "revId": "dc797ff192fe9f1048630ad591f9761f9ee1ed04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad8d7b0_8d1b659a",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 3
@@ -59,6 +95,24 @@
         "endLine": 25,
         "endChar": 9
       },
+      "revId": "dc797ff192fe9f1048630ad591f9761f9ee1ed04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d747268e_5b536358",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-22T20:57:38Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯\nI\u0027m not going to argue about side effects vs functional style and what\u0027s proper in this case.",
+      "parentUuid": "bad8d7b0_8d1b659a",
       "revId": "dc797ff192fe9f1048630ad591f9761f9ee1ed04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

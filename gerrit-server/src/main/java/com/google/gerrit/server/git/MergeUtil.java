@@ -496,7 +496,8 @@ public class MergeUtil {
     }
 
     try {
-      return mergeTip == null || rw.isMergedInto(mergeTip, toMerge);
+      return mergeTip == null || rw.isMergedInto(mergeTip, toMerge)
+          || rw.isMergedInto(toMerge, mergeTip);
     } catch (IOException e) {
       throw new IntegrationException("Cannot fast-forward test during merge", e);
     }

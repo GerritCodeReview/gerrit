@@ -768,6 +768,48 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void changeNoParentToOneParent() throws Exception {
+    // create initial commit with no parent and push it as change, so that patch
+    // set 1 has no parent
+    RevCommit c =
+        testRepo.commit().message("Initial commit").insertChangeId().create();
+    String id = GitUtil.getChangeId(testRepo, c).get();
+    testRepo.reset(c);
+
+    PushResult pr = pushHead(testRepo, "refs/for/master", false);
+    assertPushOk(pr, "refs/for/master");
+
+    ChangeInfo change = gApi.changes().id(id).get();
+    assertThat(change.revisions.get(change.currentRevision).commit.parents)
+        .isEmpty();
+
+    // create another initial commit with no parent and push it directly into
+    // the remote repository
+    c = testRepo.amend(c.getId()).message("Initial Empty Commit").create();
+    testRepo.reset(c);
+    pr = pushHead(testRepo, "refs/heads/master", false);
+    assertPushOk(pr, "refs/heads/master");
+
+    // create a successor commit and push it as second patch set to the change,
+    // so that patch set 2 has 1 parent
+    RevCommit c2 = testRepo.commit().message("Initial commit").parent(c)
+        .insertChangeId(id.substring(1)).create();
+    testRepo.reset(c2);
+
+    pr = pushHead(testRepo, "refs/for/master", false);
+    assertPushOk(pr, "refs/for/master");
+
+    change = gApi.changes().id(id).get();
+    RevisionInfo rev = change.revisions.get(change.currentRevision);
+    assertThat(rev.commit.parents).hasSize(1);
+    assertThat(rev.commit.parents.get(0).commit).isEqualTo(c.name());
+
+    // check that change kind is correctly detected as REWORK
+    assertThat(rev.kind).isEqualTo(ChangeKind.REWORK);
+  }
+
+  @Test
   public void pushCommitOfOtherUser() throws Exception {
     // admin pushes commit of user
     PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo);

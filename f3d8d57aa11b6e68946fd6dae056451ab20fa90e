@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_173db6ed",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-22T14:54:04Z",
+      "side": 1,
+      "message": "nit: long lines",
+      "range": {
+        "startLine": 315,
+        "startChar": 6,
+        "endLine": 317,
+        "endChar": 14
+      },
+      "revId": "f3d8d57aa11b6e68946fd6dae056451ab20fa90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_773a2af7",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/LightweightPluginDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-22T14:54:04Z",
+      "side": 1,
+      "message": "nit: long lines",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 43
+      },
+      "revId": "f3d8d57aa11b6e68946fd6dae056451ab20fa90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_b8167570",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/LightweightPluginDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-22T14:54:04Z",
+      "side": 1,
+      "message": "Should this be inside the if above? Looks like calling this makes no sense if plugin is null.",
+      "revId": "f3d8d57aa11b6e68946fd6dae056451ab20fa90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_981bb99a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SshMode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-22T14:54:04Z",
+      "side": 1,
+      "message": "not needed?",
+      "range": {
+        "startLine": 36,
+        "startChar": 31,
+        "endLine": 36,
+        "endChar": 49
+      },
+      "revId": "f3d8d57aa11b6e68946fd6dae056451ab20fa90e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -239,6 +240,22 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertHead(newProjectName, "refs/heads/test");
     assertEmptyCommit(newProjectName, "refs/heads/test", "refs/heads/master",
         "refs/heads/release");
+  }
+
+  @Test
+  public void testCreateProjectWithCapability() throws Exception {
+    allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS,
+        GlobalCapability.CREATE_PROJECT);
+    try {
+      setApiUser(user);
+      ProjectInput in = new ProjectInput();
+      in.name = name("newProject");
+      ProjectInfo p = gApi.projects().create(in).get();
+      assertThat(p.name).isEqualTo(in.name);
+    } finally {
+      removeGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS,
+          GlobalCapability.CREATE_PROJECT);
+    }
   }
 
   @Test

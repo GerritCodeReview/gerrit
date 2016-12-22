@@ -134,5 +134,12 @@ limitations under the License.
         });
       });
     });
+
+    test('show alert', function() {
+      sandbox.stub(element, '_showAlert');
+      element.fire('show-alert', {message: 'foo'});
+      assert.isTrue(element._showAlert.calledOnce);
+      assert.isTrue(element._showAlert.lastCall.calledWithExactly('foo'));
+    });
   });
 </script>

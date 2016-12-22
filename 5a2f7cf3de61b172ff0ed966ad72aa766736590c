@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "d747268e_5b81a398",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T18:15:57Z",
+      "side": 1,
+      "message": "Nit: s/safari/Safari/",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ad6aa9cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T18:15:57Z",
+      "side": 1,
+      "message": "Instead of having `.mobile` and `.desktop` classes sprinkled around, I find it easier to understand the stylesheet if this just lists out the elements to hide or show in either case. In this case, only one element gets the `.mobile` class anyway.\n\n.downloadContainer,\ngr-commit-info {\n  display: none;\n}\n\nNot a blocking issue: I just feel it\u0027s easier to understand and maintain and would like to know what others think.",
+      "range": {
+        "startLine": 198,
+        "startChar": 8,
+        "endLine": 200,
+        "endChar": 9
+      },
+      "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad8d7b0_4a6e731b",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -13,6 +59,24 @@
       "writtenOn": "2016-12-16T01:52:52Z",
       "side": 1,
       "message": "Not sure if I\u0027m supposed to add a line break mid binding?",
+      "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_2d54f914",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T18:15:57Z",
+      "side": 1,
+      "message": "Does it still work if you do?",
+      "parentUuid": "bad8d7b0_4a6e731b",
       "revId": "5a2f7cf3de61b172ff0ed966ad72aa766736590c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

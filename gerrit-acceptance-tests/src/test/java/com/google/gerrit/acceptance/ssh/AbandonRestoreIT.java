@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 
 @NoHttpd
+@UseSsh
 public class AbandonRestoreIT extends AbstractDaemonTest {
 
   @Test

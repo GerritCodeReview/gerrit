@@ -18,11 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
 
 import org.junit.Test;
 
+@UseSsh
 public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test

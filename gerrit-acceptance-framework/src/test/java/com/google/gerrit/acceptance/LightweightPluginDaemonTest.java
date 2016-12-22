@@ -49,7 +49,12 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
 
   @After
   public void tearDown() {
-    plugin.stop(env);
+    if (plugin != null) {
+      // plugin will be null if the plugin test requires ssh, but the command line flag says we are
+      // running tests without ssh as the assume() statement in AbstractDaemonTest will prevent the
+      // execution of setUp() in this class
+      plugin.stop(env);
+    }
     env.onStopPlugin(plugin);
   }
 

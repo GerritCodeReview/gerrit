@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.common.ServerInfo;
@@ -129,6 +130,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseSsh
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
   public void serverConfigWithPlugin() throws Exception {
     Path plugins = tempSiteDir.newFolder("plugins").toPath();

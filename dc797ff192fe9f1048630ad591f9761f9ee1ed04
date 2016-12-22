@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d747268e_1ba55b54",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T00:03:15Z",
+      "side": 1,
+      "message": "Nit: indent.",
+      "revId": "dc797ff192fe9f1048630ad591f9761f9ee1ed04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d747268e_7baa9f23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T00:03:15Z",
+      "side": 1,
+      "message": "I don\u0027t think a function should be named like a constant. Consider something like...\n\nfunction warnNotSupported() {\n  // ...",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "dc797ff192fe9f1048630ad591f9761f9ee1ed04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8d1b659a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2016-12-22T00:03:15Z",
+      "side": 1,
+      "message": "IMO, a forEach would be more idiomatic, but not a big deal:\n\nvar GWT_PLUGIN_STUB \u003d {};\nstubbedMethods.forEach(function(name) {\n  GWT_PLUGIN_STUB[name] \u003d NOT_SUPPORTED.bind(null, name);\n});",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 9
+      },
+      "revId": "dc797ff192fe9f1048630ad591f9761f9ee1ed04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

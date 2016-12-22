@@ -17,16 +17,12 @@ package com.google.gerrit.testutil;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /** Fake implementation of {@link AccountCache} for testing. */
 public class FakeAccountCache implements AccountCache {
@@ -83,7 +79,6 @@ public class FakeAccountCache implements AccountCache {
 
   private static AccountState newState(Account account) {
     return new AccountState(account, ImmutableSet.<AccountGroup.UUID> of(),
-        ImmutableSet.<AccountExternalId> of(),
-        new HashMap<ProjectWatchKey, Set<NotifyType>>());
+        ImmutableSet.of(), new HashMap<>());
   }
 }

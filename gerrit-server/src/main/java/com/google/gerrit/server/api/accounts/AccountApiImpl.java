@@ -359,7 +359,8 @@ public class AccountApiImpl implements AccountApi {
         new AccountResource.Email(account.getUser(), input.email);
     try {
       createEmailFactory.create(input.email).apply(rsrc, input);
-    } catch (EmailException | OrmException | IOException e) {
+    } catch (EmailException | OrmException | IOException
+        | ConfigInvalidException e) {
       throw new RestApiException("Cannot add email", e);
     }
   }

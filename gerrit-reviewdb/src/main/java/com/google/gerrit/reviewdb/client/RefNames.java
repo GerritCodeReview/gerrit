@@ -34,6 +34,9 @@ public class RefNames {
   /** Configuration settings for a project {@code refs/meta/config} */
   public static final String REFS_CONFIG = "refs/meta/config";
 
+  /** Note tree listing external IDs */
+  public static final String REFS_EXTERNAL_IDS = "refs/meta/external-ids";
+
   /** Preference settings for a user {@code refs/users} */
   public static final String REFS_USERS = "refs/users/";
 

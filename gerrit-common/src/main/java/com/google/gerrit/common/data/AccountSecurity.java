@@ -25,6 +25,8 @@ import com.google.gwtjsonrpc.common.RpcImpl.Version;
 import java.util.List;
 import java.util.Set;
 
+// TODO(ekempin): Convert these RPCs to REST so that we can get rid of
+// AccountExternalId
 @RpcImpl(version = Version.V2_0)
 public interface AccountSecurity extends RemoteJsonService {
   @SignInRequired

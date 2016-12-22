@@ -20,13 +20,13 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.ExternalIdCache;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -42,8 +42,10 @@ import com.jcraft.jsch.KeyPair;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Singleton
@@ -57,7 +59,7 @@ public class AccountCreator {
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
   private final AccountIndexer indexer;
-  private final ExternalIdCache externalIdCache;
+  private final ExternalIdsUpdate.Server externalIdsUpdate;
 
   @Inject
   AccountCreator(SchemaFactory<ReviewDb> schema,
@@ -67,7 +69,7 @@ public class AccountCreator {
       AccountCache accountCache,
       AccountByEmailCache byEmailCache,
       AccountIndexer indexer,
-      ExternalIdCache externalIdCache) {
+      ExternalIdsUpdate.Server externalIdsUpdate) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
     this.authorizedKeys = authorizedKeys;
@@ -76,7 +78,7 @@ public class AccountCreator {
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
     this.indexer = indexer;
-    this.externalIdCache = externalIdCache;
+    this.externalIdsUpdate = externalIdsUpdate;
   }
 
   public synchronized TestAccount create(String username, String email,
@@ -88,20 +90,14 @@ public class AccountCreator {
     try (ReviewDb db = reviewDbProvider.open()) {
       Account.Id id = new Account.Id(db.nextAccountId());
 
-      AccountExternalId extUser =
-          new AccountExternalId(id, new AccountExternalId.Key(
-              AccountExternalId.SCHEME_USERNAME, username));
+      List<ExternalId> extIds = new ArrayList<>(2);
       String httpPass = "http-pass";
-      extUser.setPassword(httpPass);
-      db.accountExternalIds().insert(Collections.singleton(extUser));
-      externalIdCache.onCreate(extUser);
+      extIds.add(ExternalId.createUsername(username, id, httpPass));
 
       if (email != null) {
-        AccountExternalId extMailto = new AccountExternalId(id, getEmailKey(email));
-        extMailto.setEmailAddress(email);
-        db.accountExternalIds().insert(Collections.singleton(extMailto));
-        externalIdCache.onCreate(extMailto);
+        extIds.add(ExternalId.createEmail(id, email));
       }
+      externalIdsUpdate.create().insert(db, extIds);
 
       Account a = new Account(id, TimeUtil.nowTs());
       a.setFullName(fullName);
@@ -168,10 +164,6 @@ public class AccountCreator {
     return checkNotNull(
         accounts.get(username),
         "No TestAccount created for %s", username);
-  }
-
-  private AccountExternalId.Key getEmailKey(String email) {
-    return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
   }
 
   public static KeyPair genSshKey() throws JSchException {

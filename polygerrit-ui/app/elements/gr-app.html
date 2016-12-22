@@ -117,6 +117,7 @@ limitations under the License.
       </template>
       <template is="dom-if" if="[[_showSettingsView]]" restamp="true">
         <gr-settings-view
+            params="[[params]]"
             on-account-detail-update="_handleAccountDetailUpdate">
         </gr-settings-view>
       </template>

@@ -31,6 +31,7 @@
     attached: function() {
       this.listen(document, 'server-error', '_handleServerError');
       this.listen(document, 'network-error', '_handleNetworkError');
+      this.listen(document, 'show-alert', '_handleShowAlert');
     },
 
     detached: function() {
@@ -59,6 +60,10 @@
           }
         }.bind(this));
       }
+    },
+
+    _handleShowAlert: function(e) {
+      this._showAlert(e.detail.message);
     },
 
     _handleNetworkError: function(e) {

@@ -333,10 +333,10 @@ limitations under the License.
 
     test('saveDiffPreferences invalidates cache line', function() {
       var cacheKey = '/accounts/self/preferences.diff';
-      var sendStub = sandbox.stub(element, 'send');
+      sandbox.stub(element, 'send');
       element._cache[cacheKey] = {tab_size: 4};
       element.saveDiffPreferences({tab_size: 8});
-      assert.isTrue(sendStub.called);
+      assert.isTrue(element.send.called);
       assert.notOk(element._cache[cacheKey]);
     });
 
@@ -414,10 +414,17 @@ limitations under the License.
     });
 
     test('savPreferences normalizes download scheme', function() {
-      var sendStub = sandbox.stub(element, 'send');
+      sandbox.stub(element, 'send');
       element.savePreferences({download_scheme: 'HTTP'});
-      assert.isTrue(sendStub.called);
-      assert.equal(sendStub.lastCall.args[2].download_scheme, 'http');
+      assert.isTrue(element.send.called);
+      assert.equal(element.send.lastCall.args[2].download_scheme, 'http');
+    });
+
+    test('confirmEmail', function() {
+      sandbox.spy(element, 'send');
+      element.confirmEmail('foo');
+      assert.isTrue(element.send.calledWith(
+          'PUT', '/config/server/email.confirm', {token: 'foo'}));
     });
   });
 </script>

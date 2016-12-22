@@ -942,5 +942,15 @@
           this.getChangeActionURL(changeNum, patchNum, '/description'),
           {description: desc});
     },
+
+    confirmEmail: function(token) {
+      return this.send('PUT', '/config/server/email.confirm', {token: token})
+          .then(function(response) {
+            if (response.status === 204) {
+              return 'Email confirmed successfully.';
+            }
+            return null;
+          });
+    },
   });
 })();

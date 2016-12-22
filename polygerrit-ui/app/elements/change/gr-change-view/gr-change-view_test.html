@@ -612,6 +612,9 @@ limitations under the License.
       sandbox.stub(element.$.restAPI, 'getLoggedIn', function() {
         return Promise.resolve(true);
       });
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded', function() {
+        return Promise.resolve();
+      });
 
       element._patchRange = {
         basePatchNum: 'PARENT',
@@ -638,6 +641,7 @@ limitations under the License.
           done);
 
       element._maybeShowRevertDialog();
+      assert.isTrue(Gerrit.awaitPluginsLoaded.called);
     });
 
     suite('scroll related tests', function() {

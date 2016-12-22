@@ -17,14 +17,14 @@ package com.google.gerrit.httpd.auth.container;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.raw.HostPageServlet;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -130,9 +130,8 @@ class HttpAuthFilter implements Filter {
   }
 
   private static boolean correctUser(String user, WebSession session) {
-    AccountExternalId.Key id = session.getLastLoginExternalId();
-    return id != null
-        && id.equals(new AccountExternalId.Key(SCHEME_GERRIT, user));
+    ExternalId.Key id = session.getLastLoginExternalId();
+    return id != null && id.equals(ExternalId.Key.create(SCHEME_GERRIT, user));
   }
 
   String getRemoteUser(HttpServletRequest req) {

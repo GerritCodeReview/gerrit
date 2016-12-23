@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a1ba32a_9813b941",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-23T07:18:21Z",
+      "side": 1,
+      "message": "Is the else case on line 159 relevant for this?\n\n  daemon.setEnableHttpd(desc.httpd());\n\nis only set in memory test case. Do age sane for SSH test case the same?",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "d07a381560556d120eb7d8f69ff0a241abe29ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_7737caf4",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
         "patchSetId": 3

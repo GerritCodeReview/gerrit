@@ -22,6 +22,30 @@
       "revId": "3a12d91cd20841964f0022ffd61a0b8dd4c64f5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_b70e821b",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-23T05:36:39Z",
+      "side": 1,
+      "message": "Nice! Done.",
+      "parentUuid": "1a1ba32a_183de9ed",
+      "range": {
+        "startLine": 141,
+        "startChar": 36,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "3a12d91cd20841964f0022ffd61a0b8dd4c64f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

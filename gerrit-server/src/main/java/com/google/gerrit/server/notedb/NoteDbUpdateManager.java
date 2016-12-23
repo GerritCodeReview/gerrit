@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.ChainedReceiveCommands;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.git.InsertedObject;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -49,6 +51,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -175,6 +178,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
+  private final Provider<PersonIdent> serverIdent;
   private final GitRepositoryManager repoManager;
   private final NotesMigration migration;
   private final AllUsersName allUsersName;
@@ -189,13 +193,17 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private OpenRepo allUsersRepo;
   private Map<Change.Id, StagedResult> staged;
   private boolean checkExpectedState = true;
+  private String refLogMessage;
+  private PersonIdent refLogIdent;
 
   @AssistedInject
-  NoteDbUpdateManager(GitRepositoryManager repoManager,
+  NoteDbUpdateManager(@GerritPersonIdent Provider<PersonIdent> serverIdent,
+      GitRepositoryManager repoManager,
       NotesMigration migration,
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       @Assisted Project.NameKey projectName) {
+    this.serverIdent = serverIdent;
     this.repoManager = repoManager;
     this.migration = migration;
     this.allUsersName = allUsersName;
@@ -240,6 +248,16 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   public NoteDbUpdateManager setCheckExpectedState(boolean checkExpectedState) {
     this.checkExpectedState = checkExpectedState;
+    return this;
+  }
+
+  public NoteDbUpdateManager setRefLogMessage(String message) {
+    this.refLogMessage = message;
+    return this;
+  }
+
+  public NoteDbUpdateManager setRefLogIdent(PersonIdent ident) {
+    this.refLogIdent = ident;
     return this;
   }
 
@@ -435,12 +453,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  private static void execute(OpenRepo or) throws IOException {
+  private void execute(OpenRepo or) throws IOException {
     if (or == null || or.cmds.isEmpty()) {
       return;
     }
     or.flush();
     BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
+    bru.setRefLogMessage(
+        firstNonNull(refLogMessage, "Update NoteDb refs"), false);
+    bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
     bru.execute(or.rw, NullProgressMonitor.INSTANCE);

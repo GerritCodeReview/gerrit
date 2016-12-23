@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AccountInfo {
   public Integer _accountId;
@@ -27,5 +28,27 @@ public class AccountInfo {
 
   public AccountInfo(Integer id) {
     this._accountId = id;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null) {
+      return false;
+    }
+
+    AccountInfo accountInfo = (AccountInfo) o;
+
+    if (Objects.equals(this._accountId, accountInfo._accountId)
+        && Objects.equals(this.name, accountInfo.name)
+        && Objects.equals(this.email, accountInfo.email)
+        && Objects.equals(this.secondaryEmails, accountInfo.secondaryEmails)
+        && Objects.equals(this.username, accountInfo.username)
+        && Objects.equals(this._moreAccounts, accountInfo._moreAccounts)
+        && Objects.equals(this.avatars, accountInfo.avatars)
+        && Objects.equals(this.secondaryEmails, accountInfo.secondaryEmails)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

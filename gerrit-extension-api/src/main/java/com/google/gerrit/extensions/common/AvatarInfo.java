@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.Objects;
+
 public class AvatarInfo {
   /**
    * Size in pixels the UI prefers an avatar image to be.
@@ -28,4 +30,21 @@ public class AvatarInfo {
   public String url;
   public Integer height;
   public Integer width;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null) {
+      return false;
+    }
+
+    AvatarInfo avatarInfo = (AvatarInfo) o;
+
+    if (Objects.equals(url, avatarInfo.url)
+      && Objects.equals(height, avatarInfo.height)
+      && Objects.equals(width, avatarInfo.width)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

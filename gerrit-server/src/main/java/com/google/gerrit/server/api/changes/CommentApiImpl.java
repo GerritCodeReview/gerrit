@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.changes.CommentApi;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CommentResource;
+import com.google.gerrit.server.change.DeleteComment;
 import com.google.gerrit.server.change.GetComment;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -29,11 +30,13 @@ class CommentApiImpl implements CommentApi {
   }
 
   private final GetComment getComment;
+  private final DeleteComment deleteComment;
   private final CommentResource comment;
 
   @Inject
-  CommentApiImpl(GetComment getComment,
+  CommentApiImpl(GetComment getComment, DeleteComment deleteComment,
       @Assisted CommentResource comment) {
+    this.deleteComment = deleteComment;
     this.getComment = getComment;
     this.comment = comment;
   }
@@ -44,6 +47,15 @@ class CommentApiImpl implements CommentApi {
       return getComment.apply(comment);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve comment", e);
+    }
+  }
+
+  @Override
+  public void delete() throws RestApiException {
+    try {
+      deleteComment.apply(comment, null);
+    } catch (Exception e) {
+      throw new RestApiException("Delete the comment error", e);
     }
   }
 }

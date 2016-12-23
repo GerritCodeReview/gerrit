@@ -21,6 +21,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 public interface CommentApi {
   CommentInfo get() throws RestApiException;
 
+  void delete() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
@@ -28,6 +30,11 @@ public interface CommentApi {
   class NotImplemented implements CommentApi {
     @Override
     public CommentInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
   }

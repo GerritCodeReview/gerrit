@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1482442932 -0500\nnonce AHDV6GkAjXILrI1iPifVvJn0sEy+ZjegT+2xhdyvYqUhJwZ4aMLoIK+jKDJd4p1uKaoP51H+hUj8\n\n0000000000000000000000000000000000000000 efd99f63bf0e4821be5d7f573c07910165d43d25 refs/for/master%r\u003dekempin@google.com,r\u003djrn@google.com,r\u003dtparker@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYXEi0AAoJEF/XxZqaEoiM4KQQAM3J2CKalDKbGDZaL9FZQ4uS\nV2VyXCvp0MPtuc3bkkEysDgFkLZEuEBXYFCPHPmGJ1hSrK8pUUQDeKx99CPWzSyQ\n70+mkAAYlgWi/ChuXeN8ztzlUXuKsNG49A0KolyqYV9jI2u8IntYp1yDOLdeP33q\nATfDRqv4OxQ+AFL1bRWGO+aX9pm+YBtuD4weixX8GU3h54sdA+83z308g1hGl+wx\nzcSr9khZ0zB8EvE01gU2zzpwPdOgyN7Y2YNyWUSeJyL1UMde4nndvMrzW3hvRG+J\nMELgXm7NXO4aKu44YL7DEfl3zyhktdkZGYuey4dd7vrpRoe+RWQMZTeJzM1HSVN9\n+Az8Vvgy2sinRGUnphjja3xjviX63Oc6OZce5nRDGvRYHB4uhrYyNZGNTXo7qs6N\n5DyUCdMnmo+YEqk0LvgVa7xTJpyQAeoIthWHF07xEXg6VLnrjcf+h7qHrHvRs2Ol\nxgJY0ZyzfyoUeMss9vQu4wRiK8SsdPKUXRH8aHyAQYmTq0xYQxYtxfUI+FjjQqv7\na5apta3d6DVy21u/qIh/irUAOf1DlrQRSmSOuQZ3kZSFngQde7sRt93qMvF8zYZH\nFAxQA+sLL8R0JMpmUjdN6Jb6wf/rHnT+ov9t49Rtctbu9m2b1WeRDTgf9lbE3he6\n9I7/DT5M6DSPXdt6E9g4\n\u003dIj8d\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa132f0f_97a8a6c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-23T04:30:04Z",
+      "side": 1,
+      "message": "Are we planning to document this option at some point? I mean in 3.0 we wouldn\u0027t have it anyway.",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

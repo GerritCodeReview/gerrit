@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
-
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
@@ -185,10 +183,7 @@ public class DeleteReviewer
       } else {
         msg.append(".");
       }
-      if (PrimaryStorage.of(ctx.getChange()) == REVIEW_DB) {
-        // Avoid OrmConcurrencyException trying to update non-existent entities.
-        ctx.getDb().patchSetApprovals().delete(del);
-      }
+      ctx.getDb().patchSetApprovals().delete(del);
       ChangeUpdate update = ctx.getUpdate(currPs.getId());
       update.removeReviewer(reviewerId);
 

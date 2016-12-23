@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
@@ -45,7 +44,6 @@ import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
@@ -171,11 +169,8 @@ public class DeleteVote
       }
 
       ctx.getUpdate(psId).removeApprovalFor(accountId, label);
-      if (PrimaryStorage.of(ctx.getChange()) == REVIEW_DB) {
-        // Avoid OrmConcurrencyException trying to update non-existent entities.
-        ctx.getDb().patchSetApprovals().upsert(
-            Collections.singleton(deletedApproval(ctx)));
-      }
+      ctx.getDb().patchSetApprovals().upsert(
+          Collections.singleton(deletedApproval(ctx)));
 
       StringBuilder msg = new StringBuilder();
       msg.append("Removed ");

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -33,7 +32,6 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.BatchUpdateReviewDb;
-import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -155,10 +153,6 @@ class DeleteChangeOp extends BatchUpdate.Op {
 
   private void deleteChangeElementsFromDb(ChangeContext ctx, Change.Id id)
       throws OrmException {
-    if (PrimaryStorage.of(ctx.getChange()) != REVIEW_DB) {
-      return;
-    }
-    // Avoid OrmConcurrencyException trying to delete non-existent entities.
     // Only delete from ReviewDb here; deletion from NoteDb is handled in
     // BatchUpdate.
     ReviewDb db = unwrap(ctx.getDb());

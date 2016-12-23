@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_b85035ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-23T08:08:06Z",
+      "side": 1,
+      "message": "Another option is to name the artifacts self explaining: so instead call gwt-user and gwt-dev just user and dev, that is no problem until this change, while they appear with prefixed package name: gwt:usr and gwt:dev, we could name then in WORKSPACE gwt_user and gwt_dev, so that they appear in the licenses.txt file with these detailed names.",
+      "revId": "91011028ad0288f0f3c7c17e696d8dbf178971b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

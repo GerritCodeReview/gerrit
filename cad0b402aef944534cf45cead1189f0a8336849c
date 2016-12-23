@@ -22,6 +22,29 @@
       "revId": "cad0b402aef944534cf45cead1189f0a8336849c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa132f0f_37ea72f2",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-23T08:02:13Z",
+      "side": 1,
+      "message": "What\u0027s the point to pass here this var if the whole cox is passed anyway?",
+      "range": {
+        "startLine": 129,
+        "startChar": 44,
+        "endLine": 129,
+        "endChar": 60
+      },
+      "revId": "cad0b402aef944534cf45cead1189f0a8336849c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

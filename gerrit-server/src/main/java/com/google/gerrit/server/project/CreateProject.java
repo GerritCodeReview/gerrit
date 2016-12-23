@@ -163,7 +163,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
 
     String parentName = MoreObjects.firstNonNull(
         Strings.emptyToNull(input.parent), allProjects.get());
-    args.newParent = projectsCollection.get().parse(parentName).getControl();
+    args.newParent =
+        projectsCollection.get().parse(parentName, false).getControl();
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
     args.projectDescription = Strings.emptyToNull(input.description);

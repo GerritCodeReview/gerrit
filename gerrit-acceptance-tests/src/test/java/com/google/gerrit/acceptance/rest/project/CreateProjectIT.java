@@ -24,6 +24,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -244,6 +245,22 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testCreateProjectWithCapability() throws Exception {
+    allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS,
+        GlobalCapability.CREATE_PROJECT);
+    try {
+      setApiUser(user);
+      ProjectInput in = new ProjectInput();
+      in.name = name("newProject");
+      ProjectInfo p = gApi.projects().create(in).get();
+      assertThat(p.name).isEqualTo(in.name);
+    } finally {
+      removeGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS,
+          GlobalCapability.CREATE_PROJECT);
+    }
+  }
+
+  @Test
   public void testCreateProjectWithoutCapability_Forbidden() throws Exception {
     setApiUser(user);
     ProjectInput in = new ProjectInput();
@@ -257,6 +274,26 @@ public class CreateProjectIT extends AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     in.name = allProjects.get();
     assertCreateFails(in, ResourceConflictException.class);
+  }
+
+  @Test
+  public void testCreateProjectWithCreateProjectCapabilityAndParentNotVisible()
+      throws Exception {
+    Project parent = projectCache.get(allProjects).getProject();
+    parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
+    allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS,
+        GlobalCapability.CREATE_PROJECT);
+    try {
+      setApiUser(user);
+      ProjectInput in = new ProjectInput();
+      in.name = name("newProject");
+      ProjectInfo p = gApi.projects().create(in).get();
+      assertThat(p.name).isEqualTo(in.name);
+    } finally {
+      parent.setState(com.google.gerrit.extensions.client.ProjectState.ACTIVE);
+      removeGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS,
+          GlobalCapability.CREATE_PROJECT);
+    }
   }
 
   private AccountGroup.UUID groupUuid(String groupName) {

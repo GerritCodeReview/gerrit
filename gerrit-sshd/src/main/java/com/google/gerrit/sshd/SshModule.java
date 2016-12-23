@@ -43,16 +43,23 @@ import org.eclipse.jgit.lib.Config;
 import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends LifecycleModule {
   private final Map<String, String> aliases;
+  private final Map<String, String> directAliases;
 
   @Inject
   SshModule(@GerritServerConfig Config cfg) {
     aliases = new HashMap<>();
     for (String name : cfg.getNames("ssh-alias", true)) {
       aliases.put(name, cfg.getString("ssh-alias", null, name));
+    }
+
+    directAliases = new HashMap<>();
+    for (String name : cfg.getNames("ssh-direct-alias", true)) {
+      directAliases.put(name, cfg.getString("ssh-direct-alias", null, name));
     }
   }
 
@@ -109,6 +116,16 @@ public class SshModule extends LifecycleModule {
         cmd = Commands.named(cmd, dest[i]);
       }
       bind(Commands.key(gerrit, name))
+        .toProvider(new AliasCommandProvider(cmd));
+    }
+    for (Entry<String, String> e : directAliases.entrySet()) {
+      String name = e.getKey();
+      String[] dest = e.getValue().split("[ \\t]+");
+      CommandName cmd = Commands.named(dest[0]);
+      for (int i = 1; i < dest.length; i++) {
+        cmd = Commands.named(cmd, dest[i]);
+      }
+      bind(Commands.key(name))
         .toProvider(new AliasCommandProvider(cmd));
     }
   }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fa132f0f_37b8b20e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-23T05:18:03Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s great.",
+      "parentUuid": "bad8d7b0_0d08154b",
+      "range": {
+        "startLine": 264,
+        "startChar": 2,
+        "endLine": 264,
+        "endChar": 12
+      },
+      "revId": "00d82ac09fce0e3f1a565fb14f783b95508036ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_15b814c5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 4

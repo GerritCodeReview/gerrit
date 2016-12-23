@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_f818ed5e",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-23T07:32:58Z",
+      "side": 1,
+      "message": "I don\u0027t think it is, the variable will still be set in this case (I\u0027ve debugged it). It\u0027s just using AbstractProgram\u0027s main to parse some args.",
+      "parentUuid": "1a1ba32a_9813b941",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "d07a381560556d120eb7d8f69ff0a241abe29ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_7737caf4",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "\u003e I\u0027ve adopted the cache and this to just return null and \n \u003e make it an optional here, which I think is perfectly \n \u003e valid.\n\nI\u0027m not sure that adapting the cache like this is what we really want. This cache is not only used for tests, but also in production when SSH is disabled. In the production case we  want a failure if someone tries to create an SSH key, as just ignoring the key silently, gives the user the impression that the key was saved although it was not.",
       "parentUuid": "fa132f0f_7737caf4",
+      "range": {
+        "startLine": 74,
+        "startChar": 13,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "d07a381560556d120eb7d8f69ff0a241abe29ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_380385f2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2016-12-23T07:32:58Z",
+      "side": 1,
+      "message": "Ahhh sorry, I was being foolish. PS2 actually worked well (the reason the tests were failing is because we haven\u0027t merged https://gerrit-review.googlesource.com/#/c/93287/ yet)",
+      "parentUuid": "1a1ba32a_58af61c6",
       "range": {
         "startLine": 74,
         "startChar": 13,

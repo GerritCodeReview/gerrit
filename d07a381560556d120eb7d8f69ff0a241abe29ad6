@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_985579df",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-23T08:12:09Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think it is, the variable will still be set in this case (I\u0027ve debugged it).\n\nSomething went wong with my comment, probably auto correction feature. What I was trying to say: if this setting is only relevant for if case and not else case, then I would expect that we set it only in if case, near line 154 below, where also:\n\n  daemon.setEnableHttpd(desc.httpd());\n\nOr, if both guys must be set in both branches of that condition, then we should move setting of http enable invocation out of the if branch near line 140.",
+      "parentUuid": "1a1ba32a_f818ed5e",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "d07a381560556d120eb7d8f69ff0a241abe29ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_7737caf4",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/VersionedAuthorizedKeysOnInit.java",
         "patchSetId": 3

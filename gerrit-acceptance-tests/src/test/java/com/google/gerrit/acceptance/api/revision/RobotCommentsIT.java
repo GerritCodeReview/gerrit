@@ -89,6 +89,21 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addedRobotCommentsCanBeRetrievedByChange() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    RobotCommentInput in = createRobotCommentInput();
+    addRobotComment(changeId, in);
+
+    Map<String, List<RobotCommentInfo>> out = gApi.changes()
+        .id(changeId).robotComments();
+
+    assertThat(out).hasSize(1);
+    RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
+    assertRobotComment(comment, in, false);
+  }
+
+  @Test
   public void robotCommentsCanBeRetrievedAsList() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 

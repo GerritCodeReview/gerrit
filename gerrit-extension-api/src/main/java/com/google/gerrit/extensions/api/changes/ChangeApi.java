@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -176,6 +177,16 @@ public interface ChangeApi {
    * @throws RestApiException
    */
   Map<String, List<CommentInfo>> comments() throws RestApiException;
+
+  /**
+   * Get all robot comments on a change.
+   *
+   * @return robot comments in a map keyed by path; robot comments have the
+   *     {@code revision} field set to indicate their patch set.
+   *
+   * @throws RestApiException
+   */
+  Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException;
 
   /**
    * Get all draft comments for the current user on a change.
@@ -378,6 +389,12 @@ public interface ChangeApi {
 
     @Override
     public Map<String, List<CommentInfo>> comments() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<RobotCommentInfo>> robotComments()
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

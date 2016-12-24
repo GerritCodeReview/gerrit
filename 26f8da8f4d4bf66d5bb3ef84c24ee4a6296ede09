@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37f322ad_ae7b3729",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-24T12:45:09Z",
+      "side": 1,
+      "message": "I carn\u0027t find acceptance-framework_deploy.jar and i carn\u0027t seem to find the ones below that do _deploy.\n\nhttps://github.com/gerrit-review/gerrit/blob/8e97f09eb7f5a9dbeaa218c0c5f36cd150775a39/gerrit-acceptance-framework/BUILD\n\nI doint see _deploy in there ^^",
+      "range": {
+        "startLine": 48,
+        "startChar": 33,
+        "endLine": 48,
+        "endChar": 65
+      },
+      "revId": "26f8da8f4d4bf66d5bb3ef84c24ee4a6296ede09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

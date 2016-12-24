@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "37f322ad_ceb4c3b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-24T22:26:23Z",
+      "side": 1,
+      "message": "It encodes for me, see http://gerrit-new.wmflabs.org/#/c/15/1",
+      "parentUuid": "fa132f0f_9496e497",
+      "range": {
+        "startLine": 322,
+        "startChar": 26,
+        "endLine": 322,
+        "endChar": 40
+      },
+      "revId": "4d2b69cd14aa16c5537ba40a3e406e6933ffa069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad66dfce_3aa9a159",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
         "patchSetId": 17

@@ -503,14 +503,15 @@ public abstract class VersionedMetaData {
   }
 
   public List<PathInfo> getPathInfos(boolean recursive) throws IOException {
-    TreeWalk tw = new TreeWalk(reader);
-    tw.addTree(revision.getTree());
-    tw.setRecursive(recursive);
-    List<PathInfo> paths = new ArrayList<>();
-    while (tw.next()) {
-      paths.add(new PathInfo(tw));
+    try (TreeWalk tw = new TreeWalk(reader)) {
+      tw.addTree(revision.getTree());
+      tw.setRecursive(recursive);
+      List<PathInfo> paths = new ArrayList<>();
+      while (tw.next()) {
+        paths.add(new PathInfo(tw));
+      }
+      return paths;
     }
-    return paths;
   }
 
   protected static void set(Config rc, String section, String subsection,

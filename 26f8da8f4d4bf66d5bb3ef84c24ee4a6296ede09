@@ -22,6 +22,29 @@
       "revId": "26f8da8f4d4bf66d5bb3ef84c24ee4a6296ede09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_3b7d3f1f",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2016-12-24T12:50:10Z",
+      "side": 1,
+      "message": "Should we also unzip it so we get a jar?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 23
+      },
+      "revId": "26f8da8f4d4bf66d5bb3ef84c24ee4a6296ede09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

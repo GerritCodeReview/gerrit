@@ -24,6 +24,7 @@
 /buck-out
 /eclipse-out
 /extras
+/infer-out
 /local.properties
 *.pyc
 /gwt-unitCache

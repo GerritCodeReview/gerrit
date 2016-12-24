@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37f322ad_ce9b234a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-24T17:23:04Z",
+      "side": 1,
+      "message": "nit: missing space in name. this can be fixed in ~/.gitconfig",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "da3e4f13df92f3c30314847f57a8492d705545b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37f322ad_ee9edf3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-24T17:23:04Z",
+      "side": 1,
+      "message": "nit: Format should be:\n\n Bug: Issue 5053\n\nor\n\n Feature: Issue 5053",
+      "revId": "da3e4f13df92f3c30314847f57a8492d705545b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37f322ad_2ebaa7a2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-24T17:23:04Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "da3e4f13df92f3c30314847f57a8492d705545b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_5b847bf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-24T17:23:04Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "da3e4f13df92f3c30314847f57a8492d705545b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37f322ad_0ebfeb92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-24T17:23:04Z",
+      "side": 1,
+      "message": "robot comments",
+      "range": {
+        "startLine": 497,
+        "startChar": 45,
+        "endLine": 497,
+        "endChar": 53
+      },
+      "revId": "da3e4f13df92f3c30314847f57a8492d705545b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

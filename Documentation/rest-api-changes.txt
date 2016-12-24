@@ -1895,6 +1895,62 @@ the `patch_set` and `author` fields set.
   }
 ----
 
+[[list-change-robot-comments]]
+=== List Change Robot Comments
+--
+'GET /changes/link:#change-id[\{change-id\}]/robotcomments'
+--
+
+Lists the robot comments of all revisions of the change.
+
+Return a map that maps the file path to a list of
+link:#robot-comment-info[RobotCommentInfo] entries. The entries in the
+map are sorted by file path.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/robotcomments/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "unused import",
+        "updated": "2016-02-26 15:40:43.986000000",
+        "author": {
+          "_account_id": 1000110,
+          "name": "Code Analyzer",
+          "email": "code.analyzer@example.com"
+        },
+        "robotId": "importChecker",
+        "robotRunId": "76b1375aa8626ea7149792831fe2ed85e80d9e04"
+      },
+      {
+        "id": "TveXwFiA",
+        "line": 49,
+        "message": "wrong indention",
+        "updated": "2016-02-26 15:40:45.328000000",
+        "author": {
+          "_account_id": 1000110,
+          "name": "Code Analyzer",
+          "email": "code.analyzer@example.com"
+        },
+        "robotId": "styleChecker",
+        "robotRunId": "5c606c425dd45184484f9d0a2ffd725a7607839b"
+      }
+    ]
+  }
+----
+
 [[list-change-drafts]]
 === List Change Drafts
 --

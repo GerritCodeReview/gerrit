@@ -1,5 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
+load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 genrule(
@@ -41,4 +42,31 @@ pkg_war(
 pkg_war(
     name = "withdocs",
     doc = True,
+)
+
+API_DEPS = [
+  "//gerrit-acceptance-framework:acceptance-framework_deploy.jar",
+  "//gerrit-acceptance-framework:liblib-src.jar",
+  "//gerrit-acceptance-framework:acceptance-framework-javadoc",
+  "//gerrit-extension-api:extension-api_deploy.jar",
+  "//gerrit-extension-api:libapi-src.jar",
+  "//gerrit-extension-api:extension-api-javadoc",
+  "//gerrit-plugin-api:plugin-api_deploy.jar",
+  "//gerrit-plugin-api:plugin-api-sources_deploy.jar",
+  "//gerrit-plugin-api:plugin-api-javadoc",
+  "//gerrit-plugin-gwtui:gwtui-api_deploy.jar",
+  "//gerrit-plugin-gwtui:gwtui-api-source_deploy.jar",
+  "//gerrit-plugin-gwtui:gwtui-api-javadoc",
+]
+
+genrule2(
+    name = 'api',
+    srcs = API_DEPS,
+    testonly = 1,
+    cmd = ' && '.join([
+        'cp $(SRCS) $$TMP',
+        'cd $$TMP',
+        'zip -qr $$ROOT/$@ .',
+    ]),
+    outs = ['api.zip'],
 )

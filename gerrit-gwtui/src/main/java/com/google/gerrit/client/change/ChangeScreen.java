@@ -569,9 +569,10 @@ public class ChangeScreen extends Screen {
   }
 
   private void initEditMode(ChangeInfo info, String revision) {
-    if (Gerrit.isSignedIn() && info.status().isOpen()) {
+    if (Gerrit.isSignedIn()) {
       RevisionInfo rev = info.revision(revision);
-      if (isEditModeEnabled(info, rev)) {
+      boolean isOpen = info.status().isOpen();
+      if (isOpen && isEditModeEnabled(info, rev)) {
         editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
         addFile.setVisible(!editMode.isVisible());
         deleteFile.setVisible(!editMode.isVisible());
@@ -593,10 +594,12 @@ public class ChangeScreen extends Screen {
       }
 
       if (rev.isEdit()) {
-        if (info.hasEditBasedOnCurrentPatchSet()) {
-          publishEdit.setVisible(true);
-        } else {
-          rebaseEdit.setVisible(true);
+        if (isOpen) {
+          if (info.hasEditBasedOnCurrentPatchSet()) {
+            publishEdit.setVisible(true);
+          } else {
+            rebaseEdit.setVisible(true);
+          }
         }
         deleteEdit.setVisible(true);
       }

@@ -163,20 +163,21 @@ public class SwitchSecureStore extends SiteProgram {
 
   private String getNewSecureStoreClassName(Path secureStore)
       throws IOException {
-    JarScanner scanner = new JarScanner(secureStore);
-    List<String> newSecureStores =
-        scanner.findSubClassesOf(SecureStore.class);
-    if (newSecureStores.isEmpty()) {
-      throw new RuntimeException(String.format(
-          "Cannot find implementation of SecureStore interface in %s",
-          secureStore.toAbsolutePath()));
+    try (JarScanner scanner = new JarScanner(secureStore)) {
+      List<String> newSecureStores =
+          scanner.findSubClassesOf(SecureStore.class);
+      if (newSecureStores.isEmpty()) {
+        throw new RuntimeException(String.format(
+            "Cannot find implementation of SecureStore interface in %s",
+            secureStore.toAbsolutePath()));
+      }
+      if (newSecureStores.size() > 1) {
+        throw new RuntimeException(String.format(
+            "Found too many implementations of SecureStore:\n%s\nin %s", Joiner
+                .on("\n").join(newSecureStores), secureStore.toAbsolutePath()));
+      }
+      return Iterables.getOnlyElement(newSecureStores);
     }
-    if (newSecureStores.size() > 1) {
-      throw new RuntimeException(String.format(
-          "Found too many implementations of SecureStore:\n%s\nin %s", Joiner
-              .on("\n").join(newSecureStores), secureStore.toAbsolutePath()));
-    }
-    return Iterables.getOnlyElement(newSecureStores);
   }
 
   private String getCurrentSecureStoreClassName(SitePaths sitePaths) {

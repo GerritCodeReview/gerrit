@@ -53,7 +53,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-public class JarScanner implements PluginContentScanner {
+public class JarScanner implements PluginContentScanner, AutoCloseable {
   private static final int SKIP_ALL = ClassReader.SKIP_CODE
       | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private final JarFile jarFile;
@@ -129,6 +129,11 @@ public class JarScanner implements PluginContentScanner {
 
   public List<String> findSubClassesOf(Class<?> superClass) throws IOException {
     return findSubClassesOf(superClass.getName());
+  }
+
+  @Override
+  public void close() throws IOException {
+    jarFile.close();
   }
 
   private List<String> findSubClassesOf(String superClass) throws IOException {

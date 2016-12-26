@@ -310,13 +310,12 @@ public class BaseInit extends SiteProgram {
       return null;
     }
 
-    try {
-      Path secureStoreLib = Paths.get(secureStore);
-      if (!Files.exists(secureStoreLib)) {
-        throw new InvalidSecureStoreException(String.format(
-            "File %s doesn't exist", secureStore));
-      }
-      JarScanner scanner = new JarScanner(secureStoreLib);
+    Path secureStoreLib = Paths.get(secureStore);
+    if (!Files.exists(secureStoreLib)) {
+      throw new InvalidSecureStoreException(String.format(
+          "File %s doesn't exist", secureStore));
+    }
+    try (JarScanner scanner = new JarScanner(secureStoreLib)) {
       List<String> secureStores =
           scanner.findSubClassesOf(SecureStore.class);
       if (secureStores.isEmpty()) {

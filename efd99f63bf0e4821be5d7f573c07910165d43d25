@@ -3,6 +3,144 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a1ba32a_7bd057e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:06:32Z",
+      "side": 1,
+      "message": "For me at least it is unexpected, that with this option set, the data is still written to the database, e.g: [1], but the TX is rollbacked. Not sure, if it is expected at that point, but I think it would worth mentioning this behaviour in the commit message.\n\nNote: to get this stack trace, i disabled database entirely, as explained in detail in another comment.\n\n* [1] http://paste.openstack.org/show/593386",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_dbe08bb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:06:32Z",
+      "side": 1,
+      "message": "This option:\n\n  GERRIT_NOTEDB\u003dPRIMARY buck test\n\nshould be documented in Buck and Bazel development documentation. We should also consider to add primary storage NoteDb mode for GerritForge CI.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_8da1217e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:06:32Z",
+      "side": 1,
+      "message": "It wasn\u0027t added in this change, but i wonder in this idiom:\n\n  db.changes().beginTransaction(id);\n  try {\n    for (Op op : changeOps) {\n      dirty |\u003d op.updateChange(ctx);\n    }\n    [...] // further mutation operations\n    if (storage \u003d\u003d PrimaryStorage.REVIEW_DB) {\n      db.commit();\n    }\n  } finally {\n    db.rollback();\n  }\n\nwhy not to respect the primary storage mode:\n\n  if (storage \u003d\u003d PrimaryStorage.REVIEW_DB) {\n    db.rollback();\n  }\n\nfor starting the TX and rollback operations as well? Starting from this change?\n\nMoreover, I wonder if it could be avoided in near future to use BatchUpdateReviewDb in primary storage NoteDb code path for change entity group? One of missing bits seem to be sequence retrieval for change messages: [1].\n\n* [1] http://paste.openstack.org/show/593371",
+      "range": {
+        "startLine": 980,
+        "startChar": 10,
+        "endLine": 999,
+        "endChar": 11
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_1bd323ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:06:32Z",
+      "side": 1,
+      "message": "This idiom is spreaded across the code base: starting from this change (or in a follow-up change?) we could skip database read attempt in primary storage NoteDb mode:\n\n  Change change \u003d null;\n  if (storage \u003d\u003d PrimaryStorage.REVIEW_DB) {\n    change \u003d ChangeNotes.readOneReviewDbChange(db, id);\n  }\n  if (change \u003d\u003d null) {\n    change \u003d newNoteDbOnlyChange(project, id);\n  }",
+      "range": {
+        "startLine": 1054,
+        "startChar": 8,
+        "endLine": 1054,
+        "endChar": 54
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_4d90d92b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:06:32Z",
+      "side": 1,
+      "message": "Can this be re-considered now? I would expect that when I say:\n\n  noteDb.read \u003d true\n  noteDb.write \u003d true\n  noteDb.primaryStorage \u003d NOTE_DB\n\nthat sequences for change entity group are not read from the database. It\u0027s also confusing that tests default behave differently here.\n\nChangeMessage sequence implementation, that is not touching database, is missing.",
+      "range": {
+        "startLine": 102,
+        "startChar": 15,
+        "endLine": 102,
+        "endChar": 70
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_ada4dd8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:06:32Z",
+      "side": 1,
+      "message": "Should we add dedicated option for ChangeMessage sequence or was it a mistake to not respect the readChangeSequence configuration option for ChangeMessage sequence?",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 22
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_97a8a6c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
         "patchSetId": 3
@@ -14,6 +152,40 @@
       "writtenOn": "2016-12-23T04:30:04Z",
       "side": 1,
       "message": "Are we planning to document this option at some point? I mean in 3.0 we wouldn\u0027t have it anyway.",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_0d96d12a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:06:32Z",
+      "side": 1,
+      "message": "It\u0027s binary option, so helper method(s) coud help: isPrimaryStorageNoteDb() would simplifiy the checks in tests and productive code.",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_6d8b1503",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:06:32Z",
+      "side": 1,
+      "message": "One problem that generally arises with \"Post Mortem Analyse\" approach is that you never know how you got there: no rows in the database. We disabled the db during secondary index integration to avoid touching the database altogether when reading changes and expecting there is no any database interaction. I did similar database disabling approach for unit tests here, and it turns out, there are still some database operations including inserts and rollbacks at this point and reading database sequences (it\u0027s clear, it\u0027s not ready yet, though): [1].\n\nIdeally, we could set up partialy disabled ReviewDb for unit tests in primary storage NoteDb mode case, until accounts and Groups stuff is not migrated to NoteDb. So that database read (including sequence retrieval) and write operations only blocked for change entity group, but still work for account and group entities.\n\n* [1] http://paste.openstack.org/show/593381",
       "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

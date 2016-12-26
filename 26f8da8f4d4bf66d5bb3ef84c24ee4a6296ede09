@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_5bcd9b48",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:57:39Z",
+      "side": 1,
+      "message": "It\u0027s there. You just don\u0027t see them ;). The magic happens behind the scenes, by so caled implicit targets. The major difference between Buck and Bazel is that Bazel rules can produce multiple targets. Some of them are built only if requested. Check the documentation for java_binary rule: [1]. So that for plugin-api you can say all these:\n\n  $ bazel build gerrit-plugin-api:plugin-api\n  INFO: Found 1 target...\n  Target //gerrit-plugin-api:plugin-api up-to-date:\n    bazel-bin/gerrit-plugin-api/plugin-api.jar\n    bazel-bin/gerrit-plugin-api/plugin-api\n  INFO: Elapsed time: 0.598s, Critical Path: 0.46s\n\nShaded jar:\n\n  davido@linux-ucwl:~/projects/gerrit (notedb_primary *%)$ bazel build gerrit-plugin-api:plugin-api_deploy.jar\n  INFO: Found 1 target...\n  Target //gerrit-plugin-api:plugin-api_deploy.jar up-to-date:\n    bazel-bin/gerrit-plugin-api/plugin-api_deploy.jar\n  INFO: Elapsed time: 1.027s, Critical Path: 0.52s\n\nEven sources of the shaded jar:\n\n  davido@linux-ucwl:~/projects/gerrit (notedb_primary *%)$ bazel build gerrit-plugin-api:plugin-api_deploy-src.jar\n  INFO: Found 1 target...\n  Target //gerrit-plugin-api:plugin-api_deploy-src.jar up-to-date:\n    bazel-bin/gerrit-plugin-api/plugin-api_deploy-src.jar\n  INFO: Elapsed time: 0.732s, Critical Path: 0.43s\n\nNote, that we are not using //gerrit-plugin-api:plugin-api_deploy-src.jar that is given us for granted, because it includes the whole transitive closures of sources, around 28MB, becaue we are only interested for our own sources.\n\n* [1] https://bazel.build/versions/master/docs/be/java.html#java_binary_implicit_outputs",
+      "parentUuid": "37f322ad_ae7b3729",
+      "range": {
+        "startLine": 48,
+        "startChar": 33,
+        "endLine": 48,
+        "endChar": 65
+      },
+      "revId": "26f8da8f4d4bf66d5bb3ef84c24ee4a6296ede09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_3b7d3f1f",
         "filename": "BUILD",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-24T12:50:10Z",
       "side": 1,
       "message": "Should we also unzip it so we get a jar?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 23
+      },
+      "revId": "26f8da8f4d4bf66d5bb3ef84c24ee4a6296ede09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_bb0cafb5",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-26T19:57:39Z",
+      "side": 1,
+      "message": "No. Why bother? If someone need them she should download and extracted needed bits.",
+      "parentUuid": "1a1ba32a_3b7d3f1f",
       "range": {
         "startLine": 71,
         "startChar": 4,

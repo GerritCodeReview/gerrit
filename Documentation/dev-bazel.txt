@@ -74,16 +74,14 @@ The output executable WAR will be placed in:
 To build the extension, plugin and GWT API JAR files:
 
 ----
-  bazel build gerrit-plugin-api:plugin-api_deploy.jar
-  bazel build gerrit-extension-api:extension-api_deploy.jar
+  bazel build api
 ----
 
-Java binaries, Java sources and Java docs are generated into corresponding
-project directories, here as example for plugin API:
+The output archive that contains Java binaries, Java sources and
+Java docs will be placed in:
 
 ----
-  bazel-bin/gerrit-plugin-api/plugin-api_deploy.jar
-  bazel-bin/gerrit-extension-api/extension-api_deploy.jar
+  bazel-genfiles/api.zip
 ----
 
 Install {extension,plugin,gwt}-api to the local maven repository:

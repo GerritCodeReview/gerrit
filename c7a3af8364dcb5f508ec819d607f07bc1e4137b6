@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f0de9e_ed88a5b3",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-27T20:18:10Z",
+      "side": 1,
+      "message": "Run it through buildifier?",
+      "revId": "c7a3af8364dcb5f508ec819d607f07bc1e4137b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

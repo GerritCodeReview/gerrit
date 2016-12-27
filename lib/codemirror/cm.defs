@@ -48,6 +48,8 @@ CM_THEMES = [
   'cobalt',
   'colorforth',
   'dracula',
+  'duotone-dark',
+  'duotone-light',
   'eclipse',
   'elegant',
   'erlang-dark',

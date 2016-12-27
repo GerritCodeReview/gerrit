@@ -83,7 +83,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void testCreateProjectHttpWithUnreasonableName_BadRequest()
+  public void createProjectHttpWithUnreasonableName_BadRequest()
       throws Exception {
     adminRestSession
         .put("/projects/" + Url.encode(name("invalid/../name")))

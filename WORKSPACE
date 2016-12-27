@@ -134,17 +134,17 @@ load("//lib/jgit:jgit.bzl", "JGIT_VERS")
 maven_jar(
     name = "jgit",
     artifact = "org.eclipse.jgit:org.eclipse.jgit:" + JGIT_VERS,
-    repository = GERRIT,
-    sha1 = "34315f71bb9becf6ff75947a9c43c415b929ec21",
-    src_sha1 = "8320c18472870904eb7fb860af353fea818d07e4",
+    repository = MAVEN_CENTRAL,
+    sha1 = "b705df6cb4c0f4413e6ad52c6cd12011cc6fba4c",
+    src_sha1 = "6ec89bdedccdab092f395016ab761dcdb08f7ffc",
     unsign = True,
 )
 
 maven_jar(
     name = "jgit_servlet",
     artifact = "org.eclipse.jgit:org.eclipse.jgit.http.server:" + JGIT_VERS,
-    repository = GERRIT,
-    sha1 = "927990025d2970995dbb58f03763eeb776fec8fd",
+    repository = MAVEN_CENTRAL,
+    sha1 = "5cb46863efcb208a3a9f729c0b6fd00be0dae6ee",
     unsign = True,
 )
 
@@ -158,15 +158,15 @@ maven_jar(
 maven_jar(
     name = "jgit_archive",
     artifact = "org.eclipse.jgit:org.eclipse.jgit.archive:" + JGIT_VERS,
-    repository = GERRIT,
-    sha1 = "4a5d058915400c1ef497bfeeb5e87d235213e273",
+    repository = MAVEN_CENTRAL,
+    sha1 = "d44816c7b47746948485430e7372b15108b4bf2e",
 )
 
 maven_jar(
     name = "jgit_junit",
     artifact = "org.eclipse.jgit:org.eclipse.jgit.junit:" + JGIT_VERS,
-    repository = GERRIT,
-    sha1 = "8e3cb9b1f632fdfea76b04c286a2c0d8d260ebce",
+    repository = MAVEN_CENTRAL,
+    sha1 = "42bd9796a68b0de8abf1e0c23ebd4006bf9645e0",
     unsign = True,
 )
 

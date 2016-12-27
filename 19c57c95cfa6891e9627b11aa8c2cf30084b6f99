@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_7b7177f7",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-27T17:37:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_3b67ff41",
+      "range": {
+        "startLine": 137,
+        "startChar": 17,
+        "endLine": 137,
+        "endChar": 30
+      },
+      "revId": "19c57c95cfa6891e9627b11aa8c2cf30084b6f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_fbc107eb",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-12-27T14:21:17Z",
       "side": 1,
       "message": "Instead, remove this line and uncomment the following line.",
+      "revId": "19c57c95cfa6891e9627b11aa8c2cf30084b6f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_2d9bcd03",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-27T17:37:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_fbc107eb",
       "revId": "19c57c95cfa6891e9627b11aa8c2cf30084b6f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

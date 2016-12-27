@@ -1,5 +1,4 @@
 include_defs('//lib/jgit/jgit.bzl')
 include_defs('//lib/maven.defs')
 
-REPO = GERRIT
-#REPO = MAVEN_CENTRAL # Leave here even if set to MAVEN_CENTRAL.
+REPO = MAVEN_CENTRAL # Leave here even if set to MAVEN_CENTRAL.

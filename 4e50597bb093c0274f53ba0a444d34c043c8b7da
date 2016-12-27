@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_3bdc1fce",
+        "filename": "/MERGE_LIST",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-27T17:10:15Z",
+      "side": 0,
+      "message": "As far as I can see, this was already fixed on master in a different way so in the merge conflict I\u0027ve just taken the version from master.",
+      "range": {
+        "startLine": 3,
+        "startChar": 2,
+        "endLine": 3,
+        "endChar": 62
+      },
+      "revId": "4e50597bb093c0274f53ba0a444d34c043c8b7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

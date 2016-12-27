@@ -110,6 +110,24 @@
       "revId": "005a8fb45a13071171daa9eed1c64cf348576cda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8d7c055f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-27T23:31:34Z",
+      "side": 1,
+      "message": "Aha, this isn\u0027t super clear but I see what\u0027s happening.\nProblem is that _messageText is also set from comment.message, so it will be trimmed too. I\u0027m quite sure we don\u0027t want to modify comment message.\nIt seems that there is already trim #243, which is the check for message being empty for showing Save button. Maybe same/similar check can be used when firing a discard event too?",
+      "parentUuid": "d747268e_5b27e3ca",
+      "revId": "005a8fb45a13071171daa9eed1c64cf348576cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

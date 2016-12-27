@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_8d8be1ae",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-27T20:18:10Z",
+      "side": 1,
+      "message": "I would prefer not to start explicitly mention maven central repository in maven_jar rule. It\u0027s clear and obvious, that it\u0027s the default as can be seen in all other dependencies in this file: [1]. Instead repository attribute should only be used if it deviates from Central. So just remove it here? I know we did it differently in Buck file for JGit, but at very least put a comment here why you do it.\n\n* [1] https://github.com/gerrit-review/gerrit/blob/master/tools/bzl/maven_jar.bzl#L133",
+      "parentUuid": "1a1ba32a_3b67ff41",
+      "range": {
+        "startLine": 137,
+        "startChar": 17,
+        "endLine": 137,
+        "endChar": 30
+      },
+      "revId": "19c57c95cfa6891e9627b11aa8c2cf30084b6f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_fbc107eb",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_9b7733f1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-12-27T17:25:44Z",
+      "side": 1,
+      "message": "nit: don\u0027t import this; reference it explicitly where it\u0027s used.",
+      "revId": "62e77aca1e2318c9d59019e1090c06a7a8f7f6f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

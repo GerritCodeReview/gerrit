@@ -126,7 +126,10 @@
     },
 
     _createReplyComment: function(parent, content, opt_isEditing) {
-      var reply = this._newReply(parent.id, parent.line, content);
+      var reply = this._newReply(
+          this._orderedComments[this._orderedComments.length - 1].id,
+          parent.line,
+          content);
 
       if (opt_isEditing) {
         reply.__editing = true;

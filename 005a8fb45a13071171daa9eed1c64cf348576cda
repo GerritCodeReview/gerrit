@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d747268e_3b18178d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-27T20:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_2dea39f2",
+      "revId": "005a8fb45a13071171daa9eed1c64cf348576cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d747268e_7bf9ff0a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-27T17:54:47Z",
       "side": 1,
       "message": "You probably could add a break; after this one to stop iterating.",
+      "revId": "005a8fb45a13071171daa9eed1c64cf348576cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_8d5525df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-27T20:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d747268e_7bf9ff0a",
       "revId": "005a8fb45a13071171daa9eed1c64cf348576cda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
         "endLine": 286,
         "endChar": 71
       },
+      "revId": "005a8fb45a13071171daa9eed1c64cf348576cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d747268e_5b27e3ca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-27T20:13:38Z",
+      "side": 1,
+      "message": "I wasn\u0027t entirely sure but was doing it to play safe.\n\nWithout the trim(), the following test fails:\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment_test.html#364\n\nThe reason for this, is now, pressing the escape key does not trigger a discard event since the message is not empty, but instead it has space characters.\n\nSo, in order to preserve this behavior, we want to treat multiple spaces to be the same as an empty response, hence the trim.",
+      "parentUuid": "d747268e_5bfec3f4",
       "revId": "005a8fb45a13071171daa9eed1c64cf348576cda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

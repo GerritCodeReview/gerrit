@@ -14,6 +14,9 @@
 (function() {
   'use strict';
 
+  // Maximum length for patch set descriptions.
+  var PATCH_DESC_MAX_LENGTH = 500;
+
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
   Polymer({
@@ -633,7 +636,8 @@
 
     _computePatchSetDescription: function(revisions, patchNum) {
       var rev = this.getRevisionByPatchNum(revisions, patchNum);
-      return (rev && rev.description) ? rev.description : '';
+      return (rev && rev.description) ?
+          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
   });
 })();

@@ -127,12 +127,13 @@ limitations under the License.
       </div>
     </main>
     <footer role="contentinfo">
-      Powered by <a href="https://www.gerritcodereview.com/" target="_blank">Gerrit Code Review</a>
+      Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
+      target="_blank">Gerrit Code Review</a>
       ([[_version]])
       |
       <a class="feedback"
           href="https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue"
-          target="_blank">Report PolyGerrit Bug</a>
+          rel="noopener" target="_blank">Report PolyGerrit Bug</a>
       <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
         |
         <a id="gwtLink" href$="/?polygerrit=0#[[_path]]" rel="external">GWT UI</a>

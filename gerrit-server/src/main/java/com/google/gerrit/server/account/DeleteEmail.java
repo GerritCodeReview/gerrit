@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
@@ -43,19 +42,16 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
-  private final Provider<ReviewDb> dbProvider;
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
 
   @Inject
   DeleteEmail(Provider<CurrentUser> self,
       Realm realm,
-      Provider<ReviewDb> dbProvider,
       AccountManager accountManager,
       ExternalIds externalIds) {
     this.self = self;
     this.realm = realm;
-    this.dbProvider = dbProvider;
     this.accountManager = accountManager;
     this.externalIds = externalIds;
   }
@@ -79,8 +75,8 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
-    ExternalId extId = externalIds.get(dbProvider.get(),
-        ExternalId.Key.create(SCHEME_MAILTO, email));
+    ExternalId extId =
+        externalIds.get(ExternalId.Key.create(SCHEME_MAILTO, email));
     if (extId == null) {
       throw new ResourceNotFoundException(email);
     }

@@ -17,9 +17,7 @@ package com.google.gerrit.server.account;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Ints;
@@ -32,7 +30,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
-import java.util.Collection;
 import java.util.Set;
 
 @AutoValue
@@ -73,17 +70,6 @@ public abstract class ExternalId {
 
     public static ExternalId.Key from(AccountExternalId.Key externalIdKey) {
       return parse(externalIdKey.get());
-    }
-
-    public static Collection<ExternalId.Key> from(
-        Iterable<AccountExternalId.Key> externalIds) {
-      return FluentIterable.from(externalIds)
-          .transform(new Function<AccountExternalId.Key, ExternalId.Key>() {
-            @Override
-            public ExternalId.Key apply(AccountExternalId.Key externalId) {
-              return from(externalId);
-            }
-          }).toList();
     }
 
     /**
@@ -252,17 +238,6 @@ public abstract class ExternalId {
     return create(externalId.getKey().getScheme(), externalId.getSchemeRest(),
         externalId.getAccountId(), externalId.getEmailAddress(),
         externalId.getPassword());
-  }
-
-  public static Collection<ExternalId> from(
-      Iterable<AccountExternalId> externalIds) {
-    return FluentIterable.from(externalIds)
-        .transform(new Function<AccountExternalId, ExternalId>() {
-          @Override
-          public ExternalId apply(AccountExternalId externalId) {
-            return from(externalId);
-          }
-        }).toList();
   }
 
   public abstract Key key();

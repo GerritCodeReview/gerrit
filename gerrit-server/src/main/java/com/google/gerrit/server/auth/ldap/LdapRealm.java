@@ -341,8 +341,7 @@ class LdapRealm extends AbstractRealm {
     public Optional<Account.Id> load(String username) throws Exception {
       try (ReviewDb db = schema.open()) {
         return Optional.ofNullable(
-                externalIds.get(db,
-                    ExternalId.Key.create(SCHEME_GERRIT, username)))
+                externalIds.get(ExternalId.Key.create(SCHEME_GERRIT, username)))
             .map(ExternalId::accountId);
       }
     }

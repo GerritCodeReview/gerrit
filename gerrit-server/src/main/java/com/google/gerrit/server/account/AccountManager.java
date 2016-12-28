@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Tracks authentication related details for user accounts. */
@@ -90,22 +91,25 @@ public class AccountManager {
   }
 
   /**
-   * @return user identified by this external identity string, or null.
+   * @return user identified by this external identity string
    */
-  public Account.Id lookup(String externalId) throws AccountException {
+  public Optional<Account.Id> lookup(String externalId)
+      throws AccountException {
     try {
       if (accountIndexes.getSearchIndex() != null) {
         AccountState accountState =
             accountQueryProvider.get().oneByExternalId(externalId);
         return accountState != null
-            ? accountState.getAccount().getId()
-            : null;
+            ? Optional.of(accountState.getAccount().getId())
+            : Optional.empty();
       }
 
       try (ReviewDb db = schema.open()) {
         AccountExternalId ext =
             db.accountExternalIds().get(new AccountExternalId.Key(externalId));
-        return ext != null ? ext.getAccountId() : null;
+        return ext != null
+            ? Optional.of(ext.getAccountId())
+            : Optional.empty();
       }
     } catch (OrmException e) {
       throw new AccountException("Cannot lookup account " + externalId, e);

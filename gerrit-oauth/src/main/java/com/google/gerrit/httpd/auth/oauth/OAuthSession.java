@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Optional;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -165,10 +166,10 @@ class OAuthSession {
   private boolean authenticateWithIdentityClaimedDuringHandshake(
       AuthRequest req, HttpServletResponse rsp, String claimedIdentifier)
       throws AccountException, IOException {
-    Account.Id claimedId = accountManager.lookup(claimedIdentifier);
-    Account.Id actualId = accountManager.lookup(user.getExternalId());
-    if (claimedId != null && actualId != null) {
-      if (claimedId.equals(actualId)) {
+    Optional<Account.Id> claimedId = accountManager.lookup(claimedIdentifier);
+    Optional<Account.Id> actualId = accountManager.lookup(user.getExternalId());
+    if (claimedId.isPresent() && actualId.isPresent()) {
+      if (claimedId.get().equals(actualId.get())) {
         // Both link to the same account, that's what we expected.
         log.debug("OAuth2: claimed identity equals current id");
       } else {
@@ -176,23 +177,23 @@ class OAuthSession {
         // for what might be the same user.
         //
         log.error("OAuth accounts disagree over user identity:\n"
-            + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
-            + "\n" + "  Delgate ID: " + actualId + " is "
+            + "  Claimed ID: " + claimedId.get() + " is " + claimedIdentifier
+            + "\n" + "  Delgate ID: " + actualId.get() + " is "
             + user.getExternalId());
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return false;
       }
-    } else if (claimedId != null && actualId == null) {
+    } else if (claimedId.isPresent() && !actualId.isPresent()) {
       // Claimed account already exists: link to it.
       //
       log.info("OAuth2: linking claimed identity to {}",
-          claimedId.toString());
+          claimedId.get().toString());
       try {
-        accountManager.link(claimedId, req);
+        accountManager.link(claimedId.get(), req);
       } catch (OrmException e) {
         log.error("Cannot link: " +  user.getExternalId()
             + " to user identity:\n"
-            + "  Claimed ID: " + claimedId + " is " + claimedIdentifier);
+            + "  Claimed ID: " + claimedId.get() + " is " + claimedIdentifier);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return false;
       }

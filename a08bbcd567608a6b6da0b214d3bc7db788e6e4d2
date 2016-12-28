@@ -57,6 +57,24 @@
       "revId": "a08bbcd567608a6b6da0b214d3bc7db788e6e4d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d747268e_bbcf07bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T19:58:17Z",
+      "side": 1,
+      "message": "tl;dr: comments/threads are messy and smelly and crufty and need a major cleanup.\nI\u0027m ok with just fixing the bug and kicking cleanup down the road, but only if anybody else shares the responsibility, hence +1.\n\nI spent some time debugging this and seems Polymer does full refresh, so if you delete comment when you have multiple reply windows open, it removes items from the end rather than the one that was spliced.\n¯\\_(ツ)_/¯\n\nCurrently re-populating text is done with intermediate step of saving it locally.\nAlternatively, we could not only have __editing on comment, but __messateText (and it probably should be renamed)\n\nOn the other hand, locally loaded draft already changes comment.text, so that\u0027s probably means we don\u0027t have single source of truth here anyway.\n\nBest solution probably would be to just have one reply window, but that leads to a design discussion and worth syncing with Kasper just to make sure you\u0027re not doing same thing.",
+      "parentUuid": "bad8d7b0_adf469ae",
+      "revId": "a08bbcd567608a6b6da0b214d3bc7db788e6e4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

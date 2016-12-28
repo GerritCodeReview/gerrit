@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baaff7f4_95636657",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-28T18:47:36Z",
+      "side": 1,
+      "message": "Looks like this file is full of regular old non-strict inequality. We should probably fix that in a follow-up change at some point... Though maybe it can be pushed off until the ES6 migration, since I think that\u0027ll require a lot of code rewriting anyway.",
+      "range": {
+        "startLine": 228,
+        "startChar": 14,
+        "endLine": 228,
+        "endChar": 16
+      },
+      "revId": "a08bbcd567608a6b6da0b214d3bc7db788e6e4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

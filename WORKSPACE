@@ -701,6 +701,24 @@ maven_jar(
 )
 
 maven_jar(
+    name = "mockito",
+    artifact = "org.mockito:mockito-core:2.3.7",
+    sha1 = "321d06f541671ccdc8631f4659e3df71d8b165d7",
+)
+
+maven_jar(
+    name = "byte-buddy",
+    artifact = "net.bytebuddy:byte-buddy:1.5.5",
+    sha1 = "8557b6465cea17f3769678235e77d5cb076c1170",
+)
+
+maven_jar(
+  name = "objenesis2.4",
+  artifact = 'org.objenesis:objenesis:2.4',
+  sha1 = '2916b6c96b50c5b3ec4452ed99401db745aabb27',
+)
+
+maven_jar(
     name = "easymock",
     artifact = "org.easymock:easymock:3.1",  # When bumping the version
     sha1 = "3e127311a86fc2e8f550ef8ee4abe094bbcf7e7e",

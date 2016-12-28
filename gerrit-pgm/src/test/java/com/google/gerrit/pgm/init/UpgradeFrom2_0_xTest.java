@@ -15,11 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -38,6 +34,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,7 +70,8 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     final InMemorySecureStore secureStore = new InMemorySecureStore();
     final InitFlags flags = new InitFlags(site, secureStore,
         Collections.<String> emptyList(), false);
-    final ConsoleUI ui = createStrictMock(ConsoleUI.class);
+    final ConsoleUI ui = Mockito.mock(ConsoleUI.class);
+
     Section.Factory sections = new Section.Factory() {
       @Override
       public Section get(String name, String subsection) {
@@ -81,18 +79,16 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
       }
     };
 
-    expect(ui.yesno(
-        eq(true),
-        eq("Upgrade '%s'"),
-        eq(p.toAbsolutePath().normalize())))
-      .andReturn(true);
-    replay(ui);
+    Mockito.when(ui.yesno(true, "Upgrade '%s'",
+        p.toAbsolutePath().normalize())).thenReturn(true);
 
     UpgradeFrom2_0_x u = new UpgradeFrom2_0_x(site, flags, ui, sections);
     assertTrue(u.isNeedUpgrade());
     u.run();
     assertFalse(u.isNeedUpgrade());
-    verify(ui);
+
+    Mockito.verify(ui, Mockito.times(1)).yesno(true, "Upgrade "
+        + "'%s'", p.toAbsolutePath().normalize());
 
     for (String n : UpgradeFrom2_0_x.etcFiles) {
       if ("gerrit.config".equals(n) || "secure.config".equals(n)) {

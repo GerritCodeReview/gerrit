@@ -22,6 +22,63 @@
       "revId": "4e50597bb093c0274f53ba0a444d34c043c8b7da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_3b59bf77",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T07:55:51Z",
+      "side": 0,
+      "message": "Shouldn\u0027t this test be kept?",
+      "revId": "4e50597bb093c0274f53ba0a444d34c043c8b7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_2d2d8dc4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T07:55:51Z",
+      "side": 0,
+      "message": "Why is this test removed?",
+      "revId": "4e50597bb093c0274f53ba0a444d34c043c8b7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_1b568345",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T07:55:51Z",
+      "side": 0,
+      "message": "Should this modification be kept?",
+      "range": {
+        "startLine": 645,
+        "startChar": 8,
+        "endLine": 645,
+        "endChar": 21
+      },
+      "revId": "4e50597bb093c0274f53ba0a444d34c043c8b7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

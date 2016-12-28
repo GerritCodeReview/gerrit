@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1482938160 +0100\nnonce AHDV6GmLeFU4u82nRITe0kySvJbc6+oeBJGQALt8NgqvkymW7DympmEkcqlbTJoPR10YubYULvyq\n\n0000000000000000000000000000000000000000 07d457998de16a40753f94220f8cf3ede225d255 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYY9cwAAoJEFG1/Zeg0O9RnnEH/0x/mLZXu9ErW3D85ccCkZnH\nEhHyZbLXwix2lY7yI/7LtuHD085cBhffJYRUtr7Z3kKE+7yvv9hdR370zYX8Zcfk\nJLJh3TDtIdm7HxTnj9yr8s7sajNynKPcDf1jfiDLbTaZCUPks0/iDrdl60Eih5VN\nsWEKw5zVA0mHf5U0Oy1HAjDYaRx6P7JO1EIM3Webjh8L2ZyfnO8samS2J+2BRjVM\nfuHRklGGXJVN1jtnYAqhmONW+SfitMjmjnsg8ZmgS+6tEfYjIGLLfU0hkXs9b9t1\nfTfsf8No/BL1X4nhSbfkNz4wzcwbqczhqUneQNO81Fp1YWoyFK8rotT9zc8F+pg\u003d\n\u003dJA3Q\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_5b347bee",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/AccountExternalIdAccess.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T15:21:51Z",
+      "side": 1,
+      "message": "This is no longer used and should be removed.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 65
+      },
+      "revId": "2c966e396cd2a6ede23bf34eea9959dd18333ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_bb3f8fca",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/AccountExternalIdAccess.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T15:21:51Z",
+      "side": 1,
+      "message": "This is no longer used and should be removed.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "2c966e396cd2a6ede23bf34eea9959dd18333ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

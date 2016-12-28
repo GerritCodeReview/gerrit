@@ -152,6 +152,24 @@
       "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_edd5c104",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T21:44:49Z",
+      "side": 1,
+      "message": "Well, there certainly are cases when you need to say return a stub in a promise or something else non-trivial that calls for a ref.\nHowever, if you use spies that are plain deep, this might be a sign that you\u0027re testing internal behavior rather than the outer boundary.",
+      "parentUuid": "baaff7f4_b545cab9",
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

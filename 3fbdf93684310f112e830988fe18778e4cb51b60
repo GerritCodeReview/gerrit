@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1482836073 +0100\nnonce AHDV6GlAGxzBD6FDlphGFxUzgkfImEzoxvW674kONv6rEuJ7V7y3KGaSz54PKYCAWBYyuwPZ5Uy8\n\n0000000000000000000000000000000000000000 a1f36bf01df5d847e30869f8b256abda5ab6dcbc refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYYkhpAAoJEFG1/Zeg0O9RPrgH/3SXdZTGTnictm9qWSEQ4u+/\nu3mn/mXNfx1QL7ij1jPp6Oxh8O5wohq3yjXHaijqTnupEQvbJ3EltlT/AtvjXsvA\nGo43j0AbLWUBoCegwHWSz9tZ5Ck/SpzVwo/7nhZIAIaYCMMnCNALaPlVV0NH5Vn8\n6GPiMfUBh+0ok+AGMfEmzWVhLiSiV7ZhNGyX2OUQVrpAkbwI4H1A1RryJaJeDVM7\nHCz/QtA1Q4xVhy95gj1u7jqIuHIENRJMERp6morRqz0BzyG3nhO3L9YaI4XhmN5q\nN1xYx9C7BLVZnGA6h+I+i8M9nRaHqCPB2oCYwBg92KPiArKwOdMiS4Yksg6kp7o\u003d\n\u003dODTV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_fb22a7b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-28T14:27:54Z",
+      "side": 1,
+      "message": "Unrelated, but return type Optional\u003cAccount.Id\u003e would be better.",
+      "range": {
+        "startLine": 91,
+        "startChar": 9,
+        "endLine": 91,
+        "endChar": 19
+      },
+      "revId": "3fbdf93684310f112e830988fe18778e4cb51b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

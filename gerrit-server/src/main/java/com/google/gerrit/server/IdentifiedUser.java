@@ -424,6 +424,28 @@ public class IdentifiedUser extends CurrentUser {
     }
   }
 
+  /**
+   * Returns a materialized copy of the user with all dependencies.
+   *
+   * Invoke all providers and factories of dependent objects and store the
+   * references to a copy of the current identified user.
+   *
+   * @return copy of the identified user
+   */
+  public IdentifiedUser materializedCopy() {
+    final CapabilityControl capabilities = getCapabilities();
+    return new IdentifiedUser(new CapabilityControl.Factory() {
+
+      @Override
+      public CapabilityControl create(CurrentUser user) {
+        return capabilities;
+      }
+    }, authConfig, realm, anonymousCowardName,
+        Providers.of(canonicalUrl.get()), accountCache, groupBackend,
+        disableReverseDnsLookup, Providers.of(remotePeerProvider.get()), state,
+        realUser);
+  }
+
   private String getHost(final InetAddress in) {
     if (Boolean.FALSE.equals(disableReverseDnsLookup)) {
       return in.getCanonicalHostName();

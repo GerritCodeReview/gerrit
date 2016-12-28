@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_edfe618c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-28T19:26:55Z",
+      "side": 1,
+      "message": "I understand that this may be confusing, I\u0027ll try to document the behavior more clearly.\n\nHowever I really do not want to change the behavior that\u0027s in this code.\n\nTake a look at this change:\n\nhttps://gerrit-review.googlesource.com/93355\n\nThat\u0027s what we had to do to avoid calling into db.changes() *just* for delete calls. Imagine if we had to have that check for every single insert/update/upsert as well. It would be gross.\n\nSwapping out a ReviewDb implementation is another possibility, but it gets ugly pretty quickly. We have to support the state where some changes have NoteDb primary and some changes have ReviewDb primary. That means that the implementation of update(Colllection) has to first look up changes in that list to see which ones have ReviewDb primary, and call delegate.update() only for the ones that do.\n\nEventually we will swap out ReviewDb#changes, but only once we no longer need to support mixed ReviewDb/NoteDb primary in the same server.",
+      "parentUuid": "1a1ba32a_7bd057e0",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_dbe08bb3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

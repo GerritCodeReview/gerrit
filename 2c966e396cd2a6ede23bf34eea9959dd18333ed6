@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_1b516325",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/AccountExternalIdAccess.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T15:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_5b347bee",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 65
+      },
+      "revId": "2c966e396cd2a6ede23bf34eea9959dd18333ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_bb3f8fca",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/AccountExternalIdAccess.java",
         "patchSetId": 29
@@ -37,6 +61,30 @@
       "writtenOn": "2016-12-28T15:21:51Z",
       "side": 1,
       "message": "This is no longer used and should be removed.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 52
+      },
+      "revId": "2c966e396cd2a6ede23bf34eea9959dd18333ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_7b4e9788",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/AccountExternalIdAccess.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T15:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_bb3f8fca",
       "range": {
         "startLine": 38,
         "startChar": 2,

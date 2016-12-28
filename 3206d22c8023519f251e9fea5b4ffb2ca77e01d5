@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1482911365 +0100\nnonce AHDV6GkHZeGFyi6EkQDPoyZoJjOcqIfKSfTSKZOjrFCC1g/TDJ/Ktwjo22XLsvVpCagSiAA+zshQ\n\n0000000000000000000000000000000000000000 3206d22c8023519f251e9fea5b4ffb2ca77e01d5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYY26FAAoJEFG1/Zeg0O9RfTUH/2LhRUF1LipJawJ4Erf2sOTM\nC08zYHpkw48qCWm2zxPpjSsStuZfhReivzvQhZ15oaFNbKKUfYHmwkwS6iCe01OJ\n/JYYt53CJI1QbaDd94He+L7UgaRpU8xVHzhHYn4aVi601yL6dMux/yeApQ429Szx\nMIUrMsQeg5FuuqQE2J98p65tB3DKT4JaAuAVt+gPZYxseZ3idQ1XYggsP+g3+A5i\nthYASo+hH6KaEFDBTm1BLOQNFVmd8TZ2EWc91jtUhI6pf3bj7KmuG6z+9qspC+oG\neJlbMQXbRnW2BEvfPqd7TAI2CpGNlo5+tSbCRPao/U2fcTdHabDAlMAHCix+8Ac\u003d\n\u003dT3I1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f0de9e_cd37a90b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/CacheOperationsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-28T10:12:28Z",
+      "side": 1,
+      "message": "Add it here too? To be less verbose and not to miss checks, add a helper method in basis clads a lá:\n\n  RestResponse getAndCheck(String url)\n\n?",
+      "revId": "3206d22c8023519f251e9fea5b4ffb2ca77e01d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

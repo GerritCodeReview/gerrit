@@ -16,6 +16,24 @@
       "revId": "fc0b0d61f93626adae4ebfdf80d6722c9788d496",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_5b60fb14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeRobotComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-12-28T09:56:42Z",
+      "side": 1,
+      "message": "Done. As said in [1], we think it\u0027s better to provide users separate REST end points for inline and robot comments. \n\n[1]https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5053#c5",
+      "parentUuid": "1a1ba32a_bba02f45",
+      "revId": "fc0b0d61f93626adae4ebfdf80d6722c9788d496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

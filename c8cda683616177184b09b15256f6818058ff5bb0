@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_7b6977d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteWatchedProjects.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T15:56:30Z",
+      "side": 1,
+      "message": "Right, forgot to inline it here.\n\nDone.",
+      "parentUuid": "1a1ba32a_bb6aefcb",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 32
+      },
+      "revId": "c8cda683616177184b09b15256f6818058ff5bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_8d512128",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_139.java",
         "patchSetId": 31

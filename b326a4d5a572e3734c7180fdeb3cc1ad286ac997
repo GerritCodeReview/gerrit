@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baaff7f4_f568f234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-28T18:55:10Z",
+      "side": 1,
+      "message": "Could you put some more detail in this commit message?",
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baaff7f4_d56dee42",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-28T18:55:10Z",
+      "side": 1,
+      "message": "Do we not have tests for the router??",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 7
+      },
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baaff7f4_35539a88",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-28T18:55:10Z",
+      "side": 1,
+      "message": "Any reason in particular you choose to do it this way instead of using a reference variable for the stub?",
+      "range": {
+        "startLine": 335,
+        "startChar": 5,
+        "endLine": 340,
+        "endChar": 45
+      },
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

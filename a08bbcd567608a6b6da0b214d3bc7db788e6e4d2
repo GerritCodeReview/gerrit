@@ -22,6 +22,23 @@
       "revId": "a08bbcd567608a6b6da0b214d3bc7db788e6e4d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d747268e_9b832b58",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T19:12:07Z",
+      "side": 1,
+      "message": "Sorry for bringing this up so late in review, but I\u0027m wary of changing comment.message without server sync.\nAt the moment, it serves as \u0027what was received from server\u0027, and saved draft and currently entered text handled separately, while comment.message is only updated on save.",
+      "revId": "a08bbcd567608a6b6da0b214d3bc7db788e6e4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

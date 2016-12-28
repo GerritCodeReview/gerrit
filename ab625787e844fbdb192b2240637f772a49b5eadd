@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad8d7b0_2d17d90b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T00:41:28Z",
+      "side": 1,
+      "message": "this._messageText || \u0027\u0027;",
+      "range": {
+        "startLine": 286,
+        "startChar": 29,
+        "endLine": 286,
+        "endChar": 71
+      },
+      "revId": "ab625787e844fbdb192b2240637f772a49b5eadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_ed2ca160",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T00:41:28Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d",
+      "range": {
+        "startLine": 362,
+        "startChar": 31,
+        "endLine": 362,
+        "endChar": 33
+      },
+      "revId": "ab625787e844fbdb192b2240637f772a49b5eadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_cd31ddb4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T00:41:28Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d",
+      "range": {
+        "startLine": 363,
+        "startChar": 45,
+        "endLine": 363,
+        "endChar": 47
+      },
+      "revId": "ab625787e844fbdb192b2240637f772a49b5eadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,9 @@ limitations under the License.
 <dom-module id="gr-change-list-styles">
   <template>
     <style>
+      :host {
+        font-size: 13px;
+      }
       .headerRow {
         display: flex;
       }
@@ -121,20 +124,7 @@ limitations under the License.
           width: auto;
         }
       }
-      @media only screen and (min-width: 1240px) {
-        :host {
-          font-size: 12px;
-        }
-      }
-      @media only screen and (min-width: 1340px) {
-        :host {
-          font-size: 13px;
-        }
-      }
       @media only screen and (min-width: 1450px) {
-        :host {
-          font-size: 14px;
-        }
         .project {
           width: 20em;
         }

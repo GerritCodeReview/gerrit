@@ -177,7 +177,7 @@ public class AccountManager {
         toUpdate.setPreferredEmail(newEmail);
       }
 
-      externalIdsUpdateFactory.create().replace(db, extId,
+      externalIdsUpdateFactory.create().replace(extId,
           ExternalId.create(extId.key(), extId.accountId(), newEmail,
               extId.password()));
     }
@@ -240,7 +240,7 @@ public class AccountManager {
     try {
       db.accounts().upsert(Collections.singleton(account));
 
-      ExternalId existingExtId = externalIds.get(db, extId.key());
+      ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null
           && !existingExtId.accountId().equals(extId.accountId())) {
         // external ID is assigned to another account, do not overwrite
@@ -249,7 +249,7 @@ public class AccountManager {
             "Cannot assign external ID \"" + extId.key().get()
                 + "\" to account " + newId + "; external ID already in use.");
       }
-      externalIdsUpdateFactory.create().upsert(db, extId);
+      externalIdsUpdateFactory.create().upsert(extId);
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as
@@ -281,7 +281,7 @@ public class AccountManager {
       //
       IdentifiedUser user = userFactory.create(newId);
       try {
-        changeUserNameFactory.create(db, user, who.getUserName()).call();
+        changeUserNameFactory.create(user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {
         String message =
             "Cannot assign user name \"" + who.getUserName() + "\" to account "
@@ -342,7 +342,7 @@ public class AccountManager {
       // this is why the best we can do here is to fail early and cleanup
       // the database
       db.accounts().delete(Collections.singleton(account));
-      externalIdsUpdateFactory.create().delete(db, extId);
+      externalIdsUpdateFactory.create().delete(extId);
       throw new AccountUserNameException(errorMessage, e);
     }
   }
@@ -367,7 +367,7 @@ public class AccountManager {
         }
         update(db, who, extId);
       } else {
-        externalIdsUpdateFactory.create().insert(db,
+        externalIdsUpdateFactory.create().insert(
             ExternalId.createWithEmail(who.getExternalId(), to,
                 who.getEmailAddress()));
 
@@ -413,7 +413,7 @@ public class AccountManager {
           && (filteredExtIdsByScheme.size() > 1
               || !filteredExtIdsByScheme.stream().map(e -> e.key())
                   .collect(toSet()).contains(who.getExternalId()))) {
-        externalIdsUpdateFactory.create().delete(db, filteredExtIdsByScheme);
+        externalIdsUpdateFactory.create().delete(filteredExtIdsByScheme);
       }
       byIdCache.evict(to);
       return link(to, who);
@@ -439,7 +439,7 @@ public class AccountManager {
           throw new AccountException("Identity '"
               + who.getExternalId().get() + "' in use by another account");
         }
-        externalIdsUpdateFactory.create().delete(db, extId);
+        externalIdsUpdateFactory.create().delete(extId);
 
         if (who.getEmailAddress() != null) {
           Account a = db.accounts().get(from);

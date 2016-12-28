@@ -193,7 +193,7 @@ java_library(
 
 junit_tests(
     name = "query_tests",
-    size = "medium",
+    size = "large",
     srcs = QUERY_TESTS,
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [

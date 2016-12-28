@@ -264,8 +264,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   @Override
   public void buildUpdates(NoteDbUpdateManager manager, ChangeBundle bundle)
       throws IOException, OrmException {
-    manager.setCheckExpectedState(false)
-        .setRefLogMessage("Rebuilding change");
+    manager.setCheckExpectedState(false);
     Change change = new Change(bundle.getChange());
     if (bundle.getPatchSets().isEmpty()) {
       throw new NoPatchSetsException(change.getId());

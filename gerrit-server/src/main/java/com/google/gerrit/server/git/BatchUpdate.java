@@ -1053,10 +1053,6 @@ public class BatchUpdate implements AutoCloseable {
           .create(ctx.getProject())
           .setChangeRepo(ctx.getRepository(), ctx.getRevWalk(), null,
               new ChainedReceiveCommands(repo));
-      if (ctx.getUser().isIdentifiedUser()) {
-        updateManager.setRefLogIdent(
-            ctx.getUser().asIdentifiedUser().newRefLogIdent(ctx.getWhen(), tz));
-      }
       for (ChangeUpdate u : ctx.updates.values()) {
         updateManager.add(u);
       }

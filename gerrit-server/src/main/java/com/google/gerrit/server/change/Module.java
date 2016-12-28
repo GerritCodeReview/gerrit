@@ -63,6 +63,7 @@ public class Module extends RestApiModule {
     delete(CHANGE_KIND, "assignee").to(DeleteAssignee.class);
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);
     get(CHANGE_KIND, "comments").to(ListChangeComments.class);
+    get(CHANGE_KIND, "robotcomments").to(ListChangeRobotComments.class);
     get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
     get(CHANGE_KIND, "check").to(Check.class);
     post(CHANGE_KIND, "check").to(Check.class);

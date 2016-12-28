@@ -89,6 +89,32 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addedRobotCommentsCanBeRetrievedByChange() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    RobotCommentInput in = createRobotCommentInput();
+    addRobotComment(changeId, in);
+
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+        testRepo, changeId);
+    PushOneCommit.Result result = push.to("refs/for/master");
+
+    RobotCommentInput in2 = createRobotCommentInput();
+    addRobotComment(changeId, in2);
+
+    Map<String, List<RobotCommentInfo>> out =
+        gApi.changes().id(changeId).robotComments();
+
+    assertThat(out).hasSize(1);
+    assertThat(out.get(in.path)).hasSize(2);
+
+    RobotCommentInfo comment1 = out.get(in.path).get(0);
+    assertRobotComment(comment1, in, false);
+    RobotCommentInfo comment2 = out.get(in.path).get(1);
+    assertRobotComment(comment2, in2, false);
+  }
+
+  @Test
   public void robotCommentsCanBeRetrievedAsList() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 

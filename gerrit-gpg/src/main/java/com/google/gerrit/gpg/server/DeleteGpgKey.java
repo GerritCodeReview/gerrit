@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.DeleteGpgKey.Input;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.ExternalId;
@@ -46,19 +45,16 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   }
 
   private final Provider<PersonIdent> serverIdent;
-  private final Provider<ReviewDb> db;
   private final Provider<PublicKeyStore> storeProvider;
   private final AccountCache accountCache;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
 
   @Inject
   DeleteGpgKey(@GerritPersonIdent Provider<PersonIdent> serverIdent,
-      Provider<ReviewDb> db,
       Provider<PublicKeyStore> storeProvider,
       AccountCache accountCache,
       ExternalIdsUpdate.User externalIdsUpdateFactory) {
     this.serverIdent = serverIdent;
-    this.db = db;
     this.storeProvider = storeProvider;
     this.accountCache = accountCache;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
@@ -69,8 +65,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       throws ResourceConflictException, PGPException, OrmException,
       IOException, ConfigInvalidException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
-    externalIdsUpdateFactory.create().delete(db.get(),
-        rsrc.getUser().getAccountId(), ExternalId.Key.create(SCHEME_GPGKEY,
+    externalIdsUpdateFactory.create().delete(rsrc.getUser().getAccountId(),
+        ExternalId.Key.create(SCHEME_GPGKEY,
             BaseEncoding.base16().encode(key.getFingerprint())));
     accountCache.evict(rsrc.getUser().getAccountId());
 

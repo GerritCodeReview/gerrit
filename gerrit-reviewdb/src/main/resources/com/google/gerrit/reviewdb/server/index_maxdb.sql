@@ -19,14 +19,6 @@ ON accounts (full_name)
 
 
 -- *********************************************************************
--- AccountExternalIdAccess
---    covers:             byAccount
-CREATE INDEX account_external_ids_byAccount
-ON account_external_ids (account_id)
-#
-
-
--- *********************************************************************
 -- AccountGroupMemberAccess
 --    @PrimaryKey covers: byAccount
 CREATE INDEX account_group_members_byGroup

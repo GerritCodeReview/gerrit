@@ -23,9 +23,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -229,13 +227,10 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
 
   static class Loader extends
       CacheLoader<AllKey, ImmutableSetMultimap<Account.Id, ExternalId>> {
-    private final SchemaFactory<ReviewDb> schema;
     private final ExternalIds externalIds;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema,
-        ExternalIds externalIds) {
-      this.schema = schema;
+    Loader(ExternalIds externalIds) {
       this.externalIds = externalIds;
     }
 
@@ -244,10 +239,8 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
         throws Exception {
       Multimap<Account.Id, ExternalId> extIdsByAccount =
           MultimapBuilder.hashKeys().arrayListValues().build();
-      try (ReviewDb db = schema.open()) {
-        for (ExternalId extId : externalIds.all(db)) {
-          extIdsByAccount.put(extId.accountId(), extId);
-        }
+      for (ExternalId extId : externalIds.all()) {
+        extIdsByAccount.put(extId.accountId(), extId);
       }
       return ImmutableSetMultimap.copyOf(extIdsByAccount);
     }

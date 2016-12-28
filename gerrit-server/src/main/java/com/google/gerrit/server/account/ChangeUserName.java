@@ -19,7 +19,6 @@ import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -45,7 +44,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   /** Generic factory to change any user's username. */
   public interface Factory {
-    ChangeUserName create(ReviewDb db, IdentifiedUser user, String newUsername);
+    ChangeUserName create(IdentifiedUser user, String newUsername);
   }
 
   private final AccountCache accountCache;
@@ -54,7 +53,6 @@ public class ChangeUserName implements Callable<VoidResult> {
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
 
-  private final ReviewDb db;
   private final IdentifiedUser user;
   private final String newUsername;
 
@@ -64,7 +62,6 @@ public class ChangeUserName implements Callable<VoidResult> {
       ExternalIdCache externalIdCache,
       ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory,
-      @Assisted ReviewDb db,
       @Assisted IdentifiedUser user,
       @Nullable @Assisted String newUsername) {
     this.accountCache = accountCache;
@@ -72,7 +69,6 @@ public class ChangeUserName implements Callable<VoidResult> {
     this.externalIds = externalIds;
     this.externalIdCache = externalIdCache;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
-    this.db = db;
     this.user = user;
     this.newUsername = newUsername;
   }
@@ -100,12 +96,12 @@ public class ChangeUserName implements Callable<VoidResult> {
             password = i.password();
           }
         }
-        externalIdsUpdate.insert(db, ExternalId.create(key,
-            user.getAccountId(), null, password));
+        externalIdsUpdate.insert(
+            ExternalId.create(key, user.getAccountId(), null, password));
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //
-        ExternalId other = externalIds.get(db, key);
+        ExternalId other = externalIds.get(key);
         if (other != null && other.accountId().equals(user.getAccountId())) {
           return VoidResult.INSTANCE;
         }
@@ -118,7 +114,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
     // If we have any older user names, remove them.
     //
-    externalIdsUpdate.delete(db, old);
+    externalIdsUpdate.delete(old);
     for (ExternalId extId : old) {
       sshKeyCache.evict(extId.key().id());
       accountCache.evictByUsername(extId.key().id());

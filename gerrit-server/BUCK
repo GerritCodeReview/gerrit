@@ -125,6 +125,7 @@ java_library(
   provided_deps = TESTUTIL_DEPS,
   exported_deps = [
     '//lib/easymock:easymock',
+    '//lib/mockito:mockito',
     '//lib/powermock:powermock-api-easymock',
     '//lib/powermock:powermock-api-support',
     '//lib/powermock:powermock-core',

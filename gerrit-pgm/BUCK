@@ -175,9 +175,9 @@ java_test(
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:junit',
-    '//lib/easymock:easymock',
     '//lib/guice:guice',
     '//lib/jgit/org.eclipse.jgit:jgit',
     '//lib/jgit/org.eclipse.jgit.junit:junit',
+    '//lib/mockito:mockito',
   ],
 )

@@ -117,6 +117,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         "//lib/easymock",
+        "//lib/mockito",
         "//lib/powermock:powermock-api-easymock",
         "//lib/powermock:powermock-api-support",
         "//lib/powermock:powermock-core",
@@ -126,6 +127,7 @@ java_library(
     deps = TESTUTIL_DEPS + [
         "//lib/auto:auto-value",
         "//lib/easymock:easymock",
+        "//lib/mockito:mockito",
         "//lib/powermock:powermock-api-easymock",
         "//lib/powermock:powermock-api-support",
         "//lib/powermock:powermock-core",

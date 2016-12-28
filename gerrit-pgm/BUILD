@@ -162,10 +162,10 @@ junit_tests(
         "//gerrit-server:server",
         "//lib:guava",
         "//lib:junit",
-        "//lib/easymock",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/mockito",
     ],
 )
 

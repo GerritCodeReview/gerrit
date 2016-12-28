@@ -42,6 +42,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
     r.consume();
 
     r = adminRestSession.get("/config/server/caches/project_list");
+    r.assertOK();
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isNull();
   }
@@ -63,10 +64,12 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   @Test
   public void flush() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/caches/project_list");
+    r.assertOK();
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
 
     r = adminRestSession.get("/config/server/caches/projects");
+    r.assertOK();
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)1);
 
@@ -76,10 +79,12 @@ public class CacheOperationsIT extends AbstractDaemonTest {
     r.consume();
 
     r = adminRestSession.get("/config/server/caches/project_list");
+    r.assertOK();
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isNull();
 
     r = adminRestSession.get("/config/server/caches/projects");
+    r.assertOK();
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)1);
   }
@@ -103,6 +108,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   @Test
   public void flush_UnprocessableEntity() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/caches/projects");
+    r.assertOK();
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
 
@@ -112,6 +118,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
     r.consume();
 
     r = adminRestSession.get("/config/server/caches/projects");
+    r.assertOK();
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(cacheInfo.entries.mem).isGreaterThan((long)0);
   }

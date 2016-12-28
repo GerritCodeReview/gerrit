@@ -14,9 +14,6 @@
 
 package com.google.gerrit.pgm.init;
 
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertNotNull;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -24,6 +21,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Provider;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -32,9 +30,7 @@ public class LibrariesTest {
   @Test
   public void create() throws Exception {
     final SitePaths site = new SitePaths(Paths.get("."));
-    final ConsoleUI ui = createStrictMock(ConsoleUI.class);
-
-    replay(ui);
+    final ConsoleUI ui = Mockito.mock(ConsoleUI.class);
 
     Libraries lib = new Libraries(new Provider<LibraryDownloader>() {
       @Override
@@ -46,6 +42,6 @@ public class LibrariesTest {
     assertNotNull(lib.bouncyCastleProvider);
     assertNotNull(lib.mysqlDriver);
 
-    verify(ui);
+    Mockito.verifyZeroInteractions(ui);
   }
 }

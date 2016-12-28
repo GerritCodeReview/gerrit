@@ -1,0 +1,29 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'mockito',
+  id = 'org.mockito:mockito-core:2.3.7',
+  sha1 = '321d06f541671ccdc8631f4659e3df71d8b165d7',
+  license = 'Apache2.0',
+  deps = [
+    ':byte-buddy',
+    ':objenesis2.4',
+  ],
+)
+
+maven_jar(
+  name = 'byte-buddy',
+  id = 'net.bytebuddy:byte-buddy:1.5.5',
+  sha1 = '8557b6465cea17f3769678235e77d5cb076c1170',
+  license = 'DO_NOT_DISTRIBUTE',
+  attach_source = False,
+)
+
+maven_jar(
+  name = 'objenesis2.4',
+  id = 'org.objenesis:objenesis:2.4',
+  sha1 = '2916b6c96b50c5b3ec4452ed99401db745aabb27',
+  license = 'DO_NOT_DISTRIBUTE',
+  attach_source = False,
+)
+

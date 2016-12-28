@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
-
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -61,6 +58,10 @@ public class ExternalIdsBatchUpdate {
     this.serverIdent = serverIdent;
   }
 
+  public void insert(ExternalId extId) {
+    toAdd.add(extId);
+  }
+
   public void replace(ExternalId extIdToDelete, ExternalId extIdToAdd) {
     ExternalIdsUpdate
         .checkSameAccount(ImmutableSet.of(extIdToDelete, extIdToAdd));
@@ -68,14 +69,11 @@ public class ExternalIdsBatchUpdate {
     toDelete.add(extIdToDelete);
   }
 
-  public void commit(ReviewDb db, String commitMessage)
+  public void commit(String commitMessage)
       throws IOException, OrmException, ConfigInvalidException {
     if (toDelete.isEmpty() && toAdd.isEmpty()) {
       return;
     }
-
-    db.accountExternalIds().delete(toAccountExternalIds(toDelete));
-    db.accountExternalIds().insert(toAccountExternalIds(toAdd));
 
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);

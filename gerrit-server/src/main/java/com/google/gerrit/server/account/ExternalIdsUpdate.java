@@ -15,8 +15,6 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
-import static com.google.gerrit.server.account.ExternalId.Key.toAccountExternalIdKeys;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
@@ -26,7 +24,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
@@ -53,7 +50,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Updates externalIds in ReviewDb and NoteDb.
+ * Updates externalIds in NoteDb.
  *
  * In NoteDb external IDs are stored in the All-Users repository in a Git Notes
  * branch called refs/meta/external-ids where the sha1 of the external ID is
@@ -170,9 +167,8 @@ public class ExternalIdsUpdate {
    * If the external ID already exists, the insert fails with
    * {@link OrmDuplicateKeyException}.
    */
-  public void insert(ReviewDb db, ExternalId extId)
-      throws IOException, OrmException {
-    insert(db, Collections.singleton(extId));
+  public void insert(ExternalId extId) throws IOException, OrmException {
+    insert(Collections.singleton(extId));
   }
 
   /**
@@ -181,10 +177,8 @@ public class ExternalIdsUpdate {
    * If any of the external ID already exists, the insert fails with
    * {@link OrmDuplicateKeyException}.
    */
-  public synchronized void insert(ReviewDb db, Collection<ExternalId> extIds)
+  public synchronized void insert(Collection<ExternalId> extIds)
       throws IOException, OrmException {
-    db.accountExternalIds().insert(toAccountExternalIds(extIds));
-
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = repo.newObjectInserter()) {
@@ -207,9 +201,8 @@ public class ExternalIdsUpdate {
    * If the external ID already exists, it is overwritten, otherwise it is
    * inserted.
    */
-  public void upsert(ReviewDb db, ExternalId extId)
-      throws IOException, OrmException {
-    upsert(db, Collections.singleton(extId));
+  public void upsert(ExternalId extId) throws IOException {
+    upsert(Collections.singleton(extId));
   }
 
   /**
@@ -218,10 +211,8 @@ public class ExternalIdsUpdate {
    * If any of the external IDs already exists, it is overwritten. New external
    * IDs are inserted.
    */
-  public synchronized void upsert(ReviewDb db, Collection<ExternalId> extIds)
-      throws IOException, OrmException {
-    db.accountExternalIds().upsert(toAccountExternalIds(extIds));
-
+  public synchronized void upsert(Collection<ExternalId> extIds)
+      throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = repo.newObjectInserter()) {
@@ -245,9 +236,9 @@ public class ExternalIdsUpdate {
    * existing external ID that has the same key, but otherwise doesn't match the
    * specified external ID.
    */
-  public void delete(ReviewDb db, ExternalId extId)
-      throws IOException, ConfigInvalidException, OrmException {
-    delete(db, Collections.singleton(extId));
+  public void delete(ExternalId extId)
+      throws IOException, ConfigInvalidException {
+    delete(Collections.singleton(extId));
   }
 
   /**
@@ -257,10 +248,8 @@ public class ExternalIdsUpdate {
    * existing external ID that has the same key as any of the external IDs that
    * should be deleted, but otherwise doesn't match the that external ID.
    */
-  public synchronized void delete(ReviewDb db, Collection<ExternalId> extIds)
-      throws IOException, ConfigInvalidException, OrmException {
-    db.accountExternalIds().delete(toAccountExternalIds(extIds));
-
+  public synchronized void delete(Collection<ExternalId> extIds)
+      throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = repo.newObjectInserter()) {
@@ -284,9 +273,9 @@ public class ExternalIdsUpdate {
    * it belongs to another account the deletion fails with
    * {@link IllegalStateException}.
    */
-  public void delete(ReviewDb db, Account.Id accountId, ExternalId.Key extIdKey)
-      throws IOException, ConfigInvalidException, OrmException {
-    delete(db, accountId, Collections.singleton(extIdKey));
+  public void delete(Account.Id accountId, ExternalId.Key extIdKey)
+      throws IOException, ConfigInvalidException {
+    delete(accountId, Collections.singleton(extIdKey));
   }
 
   /**
@@ -296,11 +285,9 @@ public class ExternalIdsUpdate {
    * If any of the external IDs belongs to another account the deletion fails
    * with {@link IllegalStateException}.
    */
-  public synchronized void delete(ReviewDb db, Account.Id accountId,
+  public synchronized void delete(Account.Id accountId,
       Collection<ExternalId.Key> extIdKeys)
-          throws IOException, ConfigInvalidException, OrmException {
-    db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(extIdKeys));
-
+          throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = repo.newObjectInserter()) {
@@ -320,9 +307,9 @@ public class ExternalIdsUpdate {
   /**
    * Deletes all external IDs of the specified account.
    */
-  public void deleteAll(ReviewDb db, Account.Id accountId)
-      throws IOException, ConfigInvalidException, OrmException {
-    delete(db, externalIdCache.byAccount(accountId));
+  public void deleteAll(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
+    delete(externalIdCache.byAccount(accountId));
   }
 
   /**
@@ -331,13 +318,10 @@ public class ExternalIdsUpdate {
    * If any of the specified external IDs belongs to another account the
    * replacement fails with {@link IllegalStateException}.
    */
-  public synchronized void replace(ReviewDb db, Account.Id accountId,
+  public synchronized void replace(Account.Id accountId,
       Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
           throws IOException, ConfigInvalidException, OrmException {
     checkSameAccount(toAdd, accountId);
-
-    db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(toDelete));
-    db.accountExternalIds().insert(toAccountExternalIds(toAdd));
 
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
@@ -365,9 +349,9 @@ public class ExternalIdsUpdate {
    * If the specified external IDs belongs to different accounts the replacement
    * fails with {@link IllegalStateException}.
    */
-  public void replace(ReviewDb db, ExternalId toDelete, ExternalId toAdd)
+  public void replace(ExternalId toDelete, ExternalId toAdd)
       throws IOException, ConfigInvalidException, OrmException {
-    replace(db, Collections.singleton(toDelete), Collections.singleton(toAdd));
+    replace(Collections.singleton(toDelete), Collections.singleton(toAdd));
   }
 
   /**
@@ -376,7 +360,7 @@ public class ExternalIdsUpdate {
    * If the specified external IDs belong to different accounts the replacement
    * fails with {@link IllegalStateException}.
    */
-  public synchronized void replace(ReviewDb db, Collection<ExternalId> toDelete,
+  public synchronized void replace(Collection<ExternalId> toDelete,
       Collection<ExternalId> toAdd)
           throws IOException, ConfigInvalidException, OrmException {
     Account.Id accountId = checkSameAccount(Iterables.concat(toDelete, toAdd));
@@ -384,9 +368,6 @@ public class ExternalIdsUpdate {
       // toDelete and toAdd are empty -> nothing to do
       return;
     }
-
-    db.accountExternalIds().delete(toAccountExternalIds(toDelete));
-    db.accountExternalIds().insert(toAccountExternalIds(toAdd));
 
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);

@@ -40,7 +40,6 @@ import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -87,7 +86,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final Provider<PersonIdent> serverIdent;
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
@@ -99,7 +97,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
   @Inject
   PostGpgKeys(@GerritPersonIdent Provider<PersonIdent> serverIdent,
-      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
@@ -109,7 +106,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       ExternalIdCache externalIdCache,
       ExternalIdsUpdate.User externalIdsUpdate) {
     this.serverIdent = serverIdent;
-    this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
@@ -153,8 +149,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
       Set<ExternalId.Key> extIdKeysToRemove =
           toRemove.stream().map(fp -> toExtIdKey(fp.get())).collect(toSet());
-      externalIdsUpdate.create().replace(db.get(),
-          rsrc.getUser().getAccountId(), extIdKeysToRemove, newExtIds);
+      externalIdsUpdate.create().replace(rsrc.getUser().getAccountId(),
+          extIdKeysToRemove, newExtIds);
       accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }

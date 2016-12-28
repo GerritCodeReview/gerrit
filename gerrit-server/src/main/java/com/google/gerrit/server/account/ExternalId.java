@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
@@ -31,7 +30,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
-import java.util.Collection;
 import java.util.Set;
 
 @AutoValue
@@ -83,13 +81,6 @@ public abstract class ExternalId {
         return null;
       }
       return create(externalId.substring(0, c), externalId.substring(c + 1));
-    }
-
-    public static Collection<AccountExternalId.Key> toAccountExternalIdKeys(
-        Collection<ExternalId.Key> extIdKeys) {
-      return extIdKeys.stream()
-          .map(k -> k.asAccountExternalIdKey())
-          .collect(toSet());
     }
 
     public abstract String scheme();
@@ -245,13 +236,6 @@ public abstract class ExternalId {
     return create(externalId.getKey().getScheme(), externalId.getSchemeRest(),
         externalId.getAccountId(), externalId.getEmailAddress(),
         externalId.getPassword());
-  }
-
-  public static Collection<AccountExternalId> toAccountExternalIds(
-      Collection<ExternalId> extIds) {
-    return extIds.stream()
-        .map(e -> e.asAccountExternalId())
-        .collect(toSet());
   }
 
   public abstract Key key();

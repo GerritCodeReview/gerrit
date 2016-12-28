@@ -39,6 +39,24 @@
       "revId": "a08bbcd567608a6b6da0b214d3bc7db788e6e4d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_adf469ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2016-12-28T19:16:34Z",
+      "side": 1,
+      "message": "I see what you\u0027re saying, but I\u0027m not sure how to resolve this issue otherwise. Do you have any ideas? The server is unaware of unsaved drafts, and gr-comment-thread is otherwise not aware of changes in individual comments (because it doesn\u0027t know about messageText. So, when a comment is deleted and it comment splices change, it re-renders with the out of date text.  This was an attempt to keep that text up-to-date.",
+      "parentUuid": "d747268e_9b832b58",
+      "revId": "a08bbcd567608a6b6da0b214d3bc7db788e6e4d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

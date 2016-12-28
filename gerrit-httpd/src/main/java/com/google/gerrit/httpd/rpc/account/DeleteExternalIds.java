@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
@@ -43,7 +42,6 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
     DeleteExternalIds create(Set<AccountExternalId.Key> keys);
   }
 
-  private final ReviewDb db;
   private final IdentifiedUser user;
   private final ExternalIdDetailFactory detailFactory;
   private final AccountByEmailCache byEmailCache;
@@ -53,14 +51,12 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   private final Set<AccountExternalId.Key> keys;
 
   @Inject
-  DeleteExternalIds(ReviewDb db,
-      IdentifiedUser user,
+  DeleteExternalIds(IdentifiedUser user,
       ExternalIdDetailFactory detailFactory,
       AccountByEmailCache byEmailCache,
       AccountCache accountCache,
       ExternalIdsUpdate.User externalIdsUpdate,
       @Assisted Set<AccountExternalId.Key> keys) {
-    this.db = db;
     this.user = user;
     this.detailFactory = detailFactory;
     this.byEmailCache = byEmailCache;
@@ -83,7 +79,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
     }
 
     if (!toDelete.isEmpty()) {
-      externalIdsUpdate.create().delete(db,
+      externalIdsUpdate.create().delete(
           toDelete.stream().map(e -> ExternalId.from(e)).collect(toSet()));
       accountCache.evict(user.getAccountId());
       for (AccountExternalId e : toDelete) {

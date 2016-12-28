@@ -138,9 +138,9 @@ public class AccountIT extends AbstractDaemonTest {
       // savedExternalIds is null when we don't run SSH tests and the assume in
       // @Before in AbstractDaemonTest prevents this class' @Before method from
       // being executed.
-      externalIdsUpdate.delete(db, getExternalIds(admin));
-      externalIdsUpdate.delete(db, getExternalIds(user));
-      externalIdsUpdate.insert(db, savedExternalIds);
+      externalIdsUpdate.delete(getExternalIds(admin));
+      externalIdsUpdate.delete(getExternalIds(user));
+      externalIdsUpdate.insert(savedExternalIds);
     }
 
     accountCache.evict(admin.getId());
@@ -603,8 +603,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    externalIdsUpdate.insert(db,
-        ExternalId.create("foo", "myId", user.getId()));
+    externalIdsUpdate.insert(ExternalId.create("foo", "myId", user.getId()));
     accountCache.evict(user.getId());
 
     TestKey key = validKeyWithSecondUserId();
@@ -832,7 +831,7 @@ public class AccountIT extends AbstractDaemonTest {
   private void addExternalIdEmail(TestAccount account, String email)
       throws Exception {
     checkNotNull(email);
-    externalIdsUpdate.insert(db, ExternalId.createWithEmail(name("test"), email,
+    externalIdsUpdate.insert(ExternalId.createWithEmail(name("test"), email,
         account.getId(), email));
     // Clear saved AccountState and ExternalIds.
     accountCache.evict(account.getId());

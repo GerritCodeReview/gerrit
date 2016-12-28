@@ -132,12 +132,12 @@ public class CreateAccount
 
     ExternalId extUser =
         ExternalId.createUsername(username, id, input.httpPassword);
-    if (externalIds.get(db, extUser.key()) != null) {
+    if (externalIds.get(extUser.key()) != null) {
       throw new ResourceConflictException(
           "username '" + username + "' already exists");
     }
     if (input.email != null) {
-      if (externalIds.get(db,
+      if (externalIds.get(
           ExternalId.Key.create(SCHEME_MAILTO, input.email)) != null) {
         throw new UnprocessableEntityException(
             "email '" + input.email + "' already exists");
@@ -155,7 +155,7 @@ public class CreateAccount
 
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     try {
-      externalIdsUpdate.insert(db, extIds);
+      externalIdsUpdate.insert(extIds);
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw new ResourceConflictException(
           "username '" + username + "' already exists");
@@ -163,12 +163,11 @@ public class CreateAccount
 
     if (input.email != null) {
       try {
-        externalIdsUpdate.insert(db, ExternalId.createEmail(id, input.email));
+        externalIdsUpdate.insert(ExternalId.createEmail(id, input.email));
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
-          externalIdsUpdate.delete(db, extUser);
-        } catch (IOException | ConfigInvalidException
-            | OrmException cleanupError) {
+          externalIdsUpdate.delete(extUser);
+        } catch (IOException | ConfigInvalidException cleanupError) {
           // Ignored
         }
         throw new UnprocessableEntityException(

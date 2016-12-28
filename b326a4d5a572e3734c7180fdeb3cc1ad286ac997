@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "baaff7f4_954a46c7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-28T21:05:21Z",
+      "side": 1,
+      "message": "I\u0027ll defer to you... It seems weird to me that such an important component has no test coverage, but if it\u0027s a large amount of work I\u0027m inclined to just put it off til we make a more significant modification to it.",
+      "parentUuid": "bad8d7b0_6d13910d",
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baaff7f4_35539a88",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 2
@@ -113,6 +131,24 @@
       "side": 1,
       "message": "Not really - a bit more explicit I guess?\nassert.isTrue(element.send.called) clearly says what\u0027s expected, no need to look up what\u0027s sendStub.\nNo strong preference though.",
       "parentUuid": "baaff7f4_35539a88",
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baaff7f4_b545cab9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2016-12-28T21:05:21Z",
+      "side": 1,
+      "message": "Understood. I figured you may know something I don\u0027t about this testing suite :)\n\nI think for my own use I\u0027m going to stick to the ref var, as sometimes these stubs/spies are on props that are a few levels deep and I like to use the same approach for every instance of a problem when possible. This seems straightforward enough that it shouldn\u0027t matter, though.",
+      "parentUuid": "bad8d7b0_4d104dff",
       "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

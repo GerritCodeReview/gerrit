@@ -377,22 +377,50 @@ limitations under the License.
           element._computeCountString(comments, '1', '/COMMIT_MSG', 'comment'),
           '2 comments');
       assert.equal(
+          element._computeCommentsStringMobile(comments, '1', '/COMMIT_MSG'),
+          '2c');
+      assert.equal(
+          element._computeDraftsStringMobile(comments, '1', '/COMMIT_MSG'),
+          '2d');
+      assert.equal(
           element._computeCountString(comments, '1', 'myfile.txt', 'comment'),
           '1 comment');
       assert.equal(
+          element._computeCommentsStringMobile(comments, '1', 'myfile.txt'),
+          '1c');
+      assert.equal(
+          element._computeDraftsStringMobile(comments, '1', 'myfile.txt'),
+          '1d');
+      assert.equal(
           element._computeCountString(comments, '1',
-              'file_added_in_rev2.txt', 'comment'),
-          '');
+          'file_added_in_rev2.txt', 'comment'),'');
+      assert.equal(
+          element._computeCommentsStringMobile(comments, '1',
+          'file_added_in_rev2.txt'), '');
+      assert.equal(
+          element._computeDraftsStringMobile(comments, '1',
+          'file_added_in_rev2.txt'), '');
       assert.equal(
           element._computeCountString(comments, '2', '/COMMIT_MSG', 'comment'),
           '1 comment');
       assert.equal(
+          element._computeCommentsStringMobile(comments, '2', '/COMMIT_MSG'),
+          '1c');
+      assert.equal(
+          element._computeDraftsStringMobile(comments, '2', '/COMMIT_MSG'),
+          '1d');
+      assert.equal(
           element._computeCountString(comments, '2', 'myfile.txt', 'comment'),
           '2 comments');
       assert.equal(
+          element._computeCommentsStringMobile(comments, '2', 'myfile.txt'),
+          '2c');
+      assert.equal(
+          element._computeDraftsStringMobile(comments, '2', 'myfile.txt'),
+          '2d');
+      assert.equal(
           element._computeCountString(comments, '2',
-              'file_added_in_rev2.txt', 'comment'),
-          '');
+          'file_added_in_rev2.txt', 'comment'), '');
     });
 
     test('computed properties', function() {

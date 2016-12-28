@@ -150,8 +150,18 @@ limitations under the License.
       }
       .expanded .fullFileName {
         white-space: normal;
+        word-wrap: break-word;
+      }
+      .mobile {
+        display: none;
       }
       @media screen and (max-width: 50em) {
+        .desktop {
+          display: none;
+        }
+        .mobile {
+          display: block;
+        }
         .row.selected {
           background-color: transparent;
         }
@@ -247,11 +257,19 @@ limitations under the License.
             [[file.old_path]]
           </div>
         </a>
-        <div class="comments">
+        <div class="comments desktop">
           <span class="drafts">
             [[_computeDraftsString(drafts, patchRange.patchNum, file.__path)]]
           </span>
           [[_computeCommentsString(comments, patchRange.patchNum, file.__path)]]
+        </div>
+        <div class="comments mobile">
+          <span class="drafts">
+            [[_computeDraftsStringMobile(drafts, patchRange.patchNum,
+                file.__path)]]
+          </span>
+          [[_computeCommentsStringMobile(comments, patchRange.patchNum,
+              file.__path)]]
         </div>
         <div class$="[[_computeClass('stats', file.__path)]]">
           <span class="added" hidden$=[[file.binary]]>

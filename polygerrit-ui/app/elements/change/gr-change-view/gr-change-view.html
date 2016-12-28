@@ -167,7 +167,19 @@ limitations under the License.
       gr-editable-label.descriptionLabel {
         max-width: 15em;
       }
+      .mobile {
+        display: none;
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid #ddd;
+        height: 0;
+        margin-bottom: 1em;
+      }
       @media screen and (max-width: 50em) {
+        .mobile {
+          display: block;
+        }
         .header {
           align-items: flex-start;
           flex-direction: column;
@@ -183,7 +195,7 @@ limitations under the License.
           min-width: initial;
           width: 100vw;
         }
-        .downloadContainer {
+        .desktop {
           display: none;
         }
         .reply {
@@ -263,6 +275,7 @@ limitations under the License.
                 commit-message="[[_latestCommitMessage]]"
                 on-reload-change="_handleReloadChange"></gr-change-actions>
           </div>
+          <hr class="mobile">
           <div class="commitAndRelated">
             <div class="commitMessage">
               <gr-editable-content id="commitMessageEditor"
@@ -301,7 +314,7 @@ limitations under the License.
                 on-change="_handlePatchChange">
               <template is="dom-repeat" items="[[_allPatchSets]]"
                   as="patchNum">
-                <option value$="[[patchNum.num]]" label>
+                <option value$="[[patchNum.num]]">
                   [[patchNum.num]]
                   /
                   [[_computeLatestPatchNum(_allPatchSets)]]
@@ -319,7 +332,7 @@ limitations under the License.
                   read-only="[[_descriptionReadOnly]]"
                   on-changed="_handleDescriptionChanged"></gr-editable-label>
             </span>
-            <span class="downloadContainer">
+            <span class="downloadContainer desktop">
               /
               <gr-button link
                   class="download"
@@ -331,6 +344,7 @@ limitations under the License.
             </span>
           </div>
           <gr-commit-info
+              class="desktop"
               change="[[_change]]"
               server-config="[[serverConfig]]"
               commit-info="[[_commitInfo]]"></gr-commit-info>

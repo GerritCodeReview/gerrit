@@ -607,7 +607,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         if (manager == null) {
           return super.openHandle(repo, oldId); // May be null in tests.
         }
-        manager.setRefLogMessage("Auto-rebuilding change");
         r = manager.stageAndApplyDelta(change);
         try {
           rebuilder.execute(db, cid, manager);

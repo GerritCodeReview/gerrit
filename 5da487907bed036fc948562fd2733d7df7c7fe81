@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_9b6f33dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PostWatchedProjects.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-28T15:42:10Z",
+      "side": 0,
+      "message": "Here it was inlined.",
+      "range": {
+        "startLine": 121,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "5da487907bed036fc948562fd2733d7df7c7fe81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

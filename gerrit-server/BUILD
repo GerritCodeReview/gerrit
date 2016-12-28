@@ -68,7 +68,7 @@ java_library(
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/joda:joda-time",
-        "//lib/jsoup:jsoup",
+        "//lib/jsoup",
         "//lib/log:api",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
@@ -117,6 +117,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         "//lib/easymock",
+        "//lib/mockito",
         "//lib/powermock:powermock-api-easymock",
         "//lib/powermock:powermock-api-support",
         "//lib/powermock:powermock-core",
@@ -131,6 +132,7 @@ java_library(
         "//lib/powermock:powermock-core",
         "//lib/powermock:powermock-module-junit4",
         "//lib/powermock:powermock-module-junit4-common",
+        "//lib/mockito:mockito",
     ],
 )
 

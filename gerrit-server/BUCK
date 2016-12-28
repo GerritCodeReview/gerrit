@@ -130,6 +130,7 @@ java_library(
     '//lib/powermock:powermock-core',
     '//lib/powermock:powermock-module-junit4',
     '//lib/powermock:powermock-module-junit4-common',
+    '//lib/mockito:mockito',
   ],
   visibility = ['PUBLIC'],
 )

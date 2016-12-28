@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "17f0de9e_4d2c59c5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T10:10:34Z",
+      "side": 1,
+      "message": "Can you extend this so that we have a change with 2 patch sets that have robot comments?\n\nWe want to verify that this REST endpoint returns the robot comments of all patch sets, like this it would also succeed if it would return only robot comments from the current patch set.",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 38
+      },
+      "revId": "fc0b0d61f93626adae4ebfdf80d6722c9788d496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_8d3da1ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T10:10:34Z",
+      "side": 1,
+      "message": "comments",
+      "range": {
+        "startLine": 488,
+        "startChar": 44,
+        "endLine": 488,
+        "endChar": 59
+      },
+      "revId": "fc0b0d61f93626adae4ebfdf80d6722c9788d496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_db2a4baa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T10:10:34Z",
+      "side": 1,
+      "message": "robot comments",
+      "range": {
+        "startLine": 498,
+        "startChar": 45,
+        "endLine": 498,
+        "endChar": 53
+      },
+      "revId": "fc0b0d61f93626adae4ebfdf80d6722c9788d496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_bba02f45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeRobotComments.java",
         "patchSetId": 2
@@ -31,6 +100,24 @@
       "side": 1,
       "message": "Done. As said in [1], we think it\u0027s better to provide users separate REST end points for inline and robot comments. \n\n[1]https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5053#c5",
       "parentUuid": "1a1ba32a_bba02f45",
+      "revId": "fc0b0d61f93626adae4ebfdf80d6722c9788d496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_ed3a65f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeRobotComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-28T10:10:34Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "1a1ba32a_5b60fb14",
       "revId": "fc0b0d61f93626adae4ebfdf80d6722c9788d496",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

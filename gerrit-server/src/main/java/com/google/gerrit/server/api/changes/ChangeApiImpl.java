@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.change.GetTopic;
 import com.google.gerrit.server.change.Index;
 import com.google.gerrit.server.change.ListChangeComments;
 import com.google.gerrit.server.change.ListChangeDrafts;
+import com.google.gerrit.server.change.ListChangeRobotComments;
 import com.google.gerrit.server.change.Move;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
@@ -109,6 +111,7 @@ class ChangeApiImpl implements ChangeApi {
   private final GetPastAssignees getPastAssignees;
   private final DeleteAssignee deleteAssignee;
   private final ListChangeComments listComments;
+  private final ListChangeRobotComments listChangeRobotComments;
   private final ListChangeDrafts listDrafts;
   private final Check check;
   private final Index index;
@@ -140,6 +143,7 @@ class ChangeApiImpl implements ChangeApi {
       GetPastAssignees getPastAssignees,
       DeleteAssignee deleteAssignee,
       ListChangeComments listComments,
+      ListChangeRobotComments listChangeRobotComments,
       ListChangeDrafts listDrafts,
       Check check,
       Index index,
@@ -170,6 +174,7 @@ class ChangeApiImpl implements ChangeApi {
     this.getPastAssignees = getPastAssignees;
     this.deleteAssignee = deleteAssignee;
     this.listComments = listComments;
+    this.listChangeRobotComments = listChangeRobotComments;
     this.listDrafts = listDrafts;
     this.check = check;
     this.index = index;
@@ -480,6 +485,16 @@ class ChangeApiImpl implements ChangeApi {
       return listComments.apply(change);
     } catch (OrmException e) {
       throw new RestApiException("Cannot get comments", e);
+    }
+  }
+
+  @Override
+  public Map<String, List<RobotCommentInfo>> robotComments()
+      throws RestApiException {
+    try {
+      return listChangeRobotComments.apply(change);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get robot comments", e);
     }
   }
 

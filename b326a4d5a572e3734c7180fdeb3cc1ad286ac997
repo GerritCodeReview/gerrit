@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d747268e_dbd65354",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T20:32:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baaff7f4_f568f234",
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baaff7f4_d56dee42",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "bad8d7b0_6d13910d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T20:32:55Z",
+      "side": 1,
+      "message": "We do not. \nLet me know if this looks like a good time to start them - clearly will cause refactoring, since I don\u0027t see an easy straightforward way.",
+      "parentUuid": "baaff7f4_d56dee42",
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baaff7f4_35539a88",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 2
@@ -59,6 +95,24 @@
         "endLine": 340,
         "endChar": 45
       },
+      "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_4d104dff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2016-12-28T20:32:55Z",
+      "side": 1,
+      "message": "Not really - a bit more explicit I guess?\nassert.isTrue(element.send.called) clearly says what\u0027s expected, no need to look up what\u0027s sendStub.\nNo strong preference though.",
+      "parentUuid": "baaff7f4_35539a88",
       "revId": "b326a4d5a572e3734c7180fdeb3cc1ad286ac997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

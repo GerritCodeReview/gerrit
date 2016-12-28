@@ -189,6 +189,24 @@
       "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bad8d7b0_6d38b18d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2016-12-28T19:13:00Z",
+      "side": 1,
+      "message": "I considered that, but the reason I didn\u0027t take that approach was that it\u0027s a bit of work to build that partial ReviewDb properly. You have to keep track of which entities have been inserted and then throw the appropriate exception during commit(). Not impossible, but this was much easier, and in practice I didn\u0027t have a hard time tracking down the few failures there were.",
+      "parentUuid": "17f0de9e_6d8b1503",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

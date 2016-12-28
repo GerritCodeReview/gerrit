@@ -825,8 +825,9 @@ public class ReceiveCommits {
       return;
     }
 
-    try (BatchUpdate bu = batchUpdateFactory.create(db,
-          magicBranch.dest.getParentKey(), user, TimeUtil.nowTs());
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(db, magicBranch.dest.getParentKey(),
+            user.materializedCopy(), TimeUtil.nowTs());
         ObjectInserter ins = repo.newObjectInserter()) {
       bu.setRepository(repo, rp.getRevWalk(), ins)
           .updateChangesInParallel();

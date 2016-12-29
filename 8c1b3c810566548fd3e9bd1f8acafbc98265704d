@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1482940562 +0100\nnonce AHDV6Gl/1lRPVQPEFizxV1YgO8JeSB+h0+Im0qME+2uxiXA7vdW0NiMZqgtrrY8uoTUNyzxEw2gz\n\n0000000000000000000000000000000000000000 8c1b3c810566548fd3e9bd1f8acafbc98265704d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYY+CSAAoJEFG1/Zeg0O9RG9YIAJA0yM05f4qArZsG2BunBtgs\nQXftIWpyUqgw8jyvWG5mOAHX+xAZzsmRaIiTHwL50sZBzSnkWGMcWZBlTbb7eR39\nno/cDPnLKFRAtsuOkwX2ks45+amb9E5UBW/ojmdRmYoj+3caYb5Wp3n5awAneC0r\nSRGofqyPM3/LpdDJA8t7M4+4qPfYUllHBXI83YrvMNZTpalzqnVjYF7aVvN5KqAY\ncNn/cSKhr01z0G3Rm6x2+i0yI9lEFz2nKhlmVsyTuDAf7sUU35DL9heDJ0xgFNTV\nS7Ux70ZT5S7xabQuXFFoL3vSXoTCyWtSyQUmj7fF7TtjhSd5D3NJzP6LVVYTy2E\u003d\n\u003dMlB3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_5b6c7bb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-29T11:31:43Z",
+      "side": 1,
+      "message": "All these operations are update and clean up cache operations. Can\u0027t we combine them all with Account cache eviction operation? May be passing external account id and the operation what to do: CRUD enum. This would ensure that we not miss any places. And we already reindexing account index in this method.",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_bb778f79",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-29T11:31:43Z",
+      "side": 1,
+      "message": "This is the only operation we add. Can\u0027t we add this to existing AccountCache interface? This would avoid polluting the caller with yet another new cache implementation injection.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 63
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_6d18355c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-29T11:31:43Z",
+      "side": 1,
+      "message": "OK, Guava cache doesn\u0027t support Multimap. Is this is the way to overcome this and always to handle the whole cache at once? Why can\u0027t we use LoadingCache\u003cAccount.Id, Set\u003cAccountExternalId\u003e\u003e? We are using this data structure (well fast) in AccountByEmailCacheImpl.java:\n\n  LoadingCache\u003cString, Set\u003cAccount.Id\u003e\u003e cache;",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_3b653fc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-29T11:31:43Z",
+      "side": 1,
+      "message": "When mutating the cache we always rebuilding the whole cache?",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 7
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_0d137143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-29T11:31:43Z",
+      "side": 1,
+      "message": "We need this pseudo key to overcome guava LoadingCache not supporting Multimap, right? But wouldn\u0027t just using String ALL  \u003d \"A\bLL\", do the job?",
+      "range": {
+        "startLine": 180,
+        "startChar": 2,
+        "endLine": 185,
+        "endChar": 3
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_7b6fb7a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-29T11:31:43Z",
+      "side": 1,
+      "message": "We agreed on performing the amount index reindexing in accountCache eviction, to not adding in every place where account cache evicted the reindex invocation. Can\u0027t we somehow combine those operations? E.g. to pass to accountCache evict the account external id key?",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 44
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

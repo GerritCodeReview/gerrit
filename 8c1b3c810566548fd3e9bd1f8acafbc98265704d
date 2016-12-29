@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_2df74ddd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-29T13:25:33Z",
+      "side": 1,
+      "message": "\u003e Can\u0027t we combine them all with Account cache eviction \n\u003e operation? May be passing external account id and the\n\u003e operation what to do: CRUD enum.\n\nNot sure that account eviction is the right place for this, as accounts may also be evicted for other reasons than modifying the external IDs. Also we need old and new external IDs to update the external ID cache, passing all this into the account evictions seems not much cleaner.\n\nPlease note that we have those many methods here to ensure atomic update of the cache if several external IDs are updated at once (as opposed to just have onCreate(AccountExternalId) and onDelete(AccountExternalId)).\n\n\u003e This would ensure that we not miss any places.\n\nI agree that this is a pain since there are quite a few places that touch external IDs, but this change is only an intermediate step and it\u0027s already getting cleaned up in the follow-up change [1]. There we have only a single class that deals with updating external IDs (ExternalIdsUpdate) and this class takes care to update the external ID cache. So callers no longer need to worry about it. Maybe it would be cleaner to have it all in one change, but [1] is already now pretty large...\n\n[1] https://gerrit-review.googlesource.com/93409",
+      "parentUuid": "1a1ba32a_5b6c7bb1",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_bb778f79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
         "patchSetId": 6
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_1b896348",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-29T13:25:33Z",
+      "side": 1,
+      "message": "I guess we could, but AccountExternalId and AccountState are different entities, so I think it makes sense to have separate caches for them, e.g. SSH keys are also account-related, but they are also stored in an own cache and not in the account cache.",
+      "parentUuid": "1a1ba32a_bb778f79",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 63
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_6d18355c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 6
@@ -60,6 +108,30 @@
       "writtenOn": "2016-12-29T11:31:43Z",
       "side": 1,
       "message": "OK, Guava cache doesn\u0027t support Multimap. Is this is the way to overcome this and always to handle the whole cache at once? Why can\u0027t we use LoadingCache\u003cAccount.Id, Set\u003cAccountExternalId\u003e\u003e? We are using this data structure (well fast) in AccountByEmailCacheImpl.java:\n\n  LoadingCache\u003cString, Set\u003cAccount.Id\u003e\u003e cache;",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_0dfc11bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-29T13:25:33Z",
+      "side": 1,
+      "message": "\u003e OK, Guava cache doesn\u0027t support Multimap. Is this is the \n \u003e way to overcome this and always to handle the whole cache \n \u003e at once? Why can\u0027t we use LoadingCache\u003cAccount.Id,\n \u003e Set\u003cAccountExternalId\u003e\u003e?\n\nWe can\u0027t use LoadingCache\u003cAccount.Id, Set\u003cAccountExternalId\u003e\u003e since with NoteDb we are not able to load external IDs by account. As explained in the commit message we want to store external IDs in a git notes branch where the note name is the sha1 of the external ID and the account ID is only available in the note content:\n\n  sha1(externalId1) -\u003e (account1, email, password)\n  sha1(externalId2) -\u003e (account3, email, password)\n  sha1(externalId3) -\u003e (account2, email, password)\n  sha1(externalId4) -\u003e (account1, email, password)\n  ...\n\nSo to know that account1 has externalId1 and externalId4 we must parse all external IDs first. If we need to parse all external IDs for this it doesn\u0027t make sense to have a cache that loads external IDs by account, because then it means that we must parse all external IDs for each account. So instead we parse all external IDs only once and store them sorted by account ID in the cache. This cache is similar to how we cache the project list in the project cache.",
+      "parentUuid": "17f0de9e_6d18355c",
       "range": {
         "startLine": 64,
         "startChar": 16,
@@ -129,6 +201,30 @@
       "writtenOn": "2016-12-29T11:31:43Z",
       "side": 1,
       "message": "We agreed on performing the amount index reindexing in accountCache eviction, to not adding in every place where account cache evicted the reindex invocation. Can\u0027t we somehow combine those operations? E.g. to pass to accountCache evict the account external id key?",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 44
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_6df155e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-29T13:25:33Z",
+      "side": 1,
+      "message": "This is getting clean-up in the follow-up change [1]. With [1] callers no longer need to worry about updating the external ID cache manually.\n\n[1] https://gerrit-review.googlesource.com/93409",
+      "parentUuid": "1a1ba32a_7b6fb7a7",
       "range": {
         "startLine": 125,
         "startChar": 4,

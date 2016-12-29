@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_7b869737",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-29T13:44:48Z",
+      "side": 1,
+      "message": "Maybe this should really be done in one change. Do you think it would be better to squash it into [1]?",
+      "parentUuid": "17f0de9e_2df74ddd",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_bb778f79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
         "patchSetId": 6

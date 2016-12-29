@@ -62,6 +62,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.Cookie;
@@ -364,25 +365,26 @@ class OpenIdServiceImpl {
       // identity we have in our AuthRequest above. We still should have a
       // link between the two, so set one up if not present.
       //
-      Account.Id claimedId = accountManager.lookup(claimedIdentifier);
-      Account.Id actualId = accountManager.lookup(areq.getExternalId());
+      Optional<Account.Id> claimedId = accountManager.lookup(claimedIdentifier);
+      Optional<Account.Id> actualId =
+          accountManager.lookup(areq.getExternalId());
 
-      if (claimedId != null && actualId != null) {
-        if (claimedId.equals(actualId)) {
+      if (claimedId.isPresent() && actualId.isPresent()) {
+        if (claimedId.get().equals(actualId.get())) {
           // Both link to the same account, that's what we expected.
         } else {
           // This is (for now) a fatal error. There are two records
           // for what might be the same user.
           //
           log.error("OpenID accounts disagree over user identity:\n"
-              + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
-              + "\n" + "  Delgate ID: " + actualId + " is "
+              + "  Claimed ID: " + claimedId.get() + " is " + claimedIdentifier
+              + "\n" + "  Delgate ID: " + actualId.get() + " is "
               + areq.getExternalId());
           cancelWithError(req, rsp, "Contact site administrator");
           return;
         }
 
-      } else if (claimedId == null && actualId != null) {
+      } else if (!claimedId.isPresent() && actualId.isPresent()) {
         // Older account, the actual was already created but the claimed
         // was missing due to a bug in Gerrit. Link the claimed.
         //
@@ -390,14 +392,14 @@ class OpenIdServiceImpl {
             new com.google.gerrit.server.account.AuthRequest(claimedIdentifier);
         linkReq.setDisplayName(areq.getDisplayName());
         linkReq.setEmailAddress(areq.getEmailAddress());
-        accountManager.link(actualId, linkReq);
+        accountManager.link(actualId.get(), linkReq);
 
-      } else if (claimedId != null && actualId == null) {
+      } else if (claimedId.isPresent() && !actualId.isPresent()) {
         // Claimed account already exists, but it smells like the user has
         // changed their delegate to point to a different provider. Link
         // the new provider.
         //
-        accountManager.link(claimedId, areq);
+        accountManager.link(claimedId.get(), areq);
 
       } else {
         // Both are null, we are going to create a new account below.

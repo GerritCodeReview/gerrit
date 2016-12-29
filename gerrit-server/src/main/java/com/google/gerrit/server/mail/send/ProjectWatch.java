@@ -21,7 +21,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -66,32 +65,6 @@ public class ProjectWatch {
 
   /** Returns all watchers that are relevant */
   public final Watchers getWatchers(NotifyType type) throws OrmException {
-    Watchers matching;
-    if (args.accountIndexes.getSearchIndex() != null) {
-      matching = getWatchersFromIndex(type);
-    } else {
-      matching = getWatchersFromDb(type);
-    }
-
-    for (ProjectState state : projectState.tree()) {
-      for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
-        if (nc.isNotify(type)) {
-          try {
-            add(matching, nc);
-          } catch (QueryParseException e) {
-            log.warn("Project {} has invalid notify {} filter \"{}\": {}",
-                state.getProject().getName(), nc.getName(),
-                nc.getFilter(), e.getMessage());
-          }
-        }
-      }
-    }
-
-    return matching;
-  }
-
-  private Watchers getWatchersFromIndex(NotifyType type)
-      throws OrmException {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
@@ -120,28 +93,21 @@ public class ProjectWatch {
         }
       }
     }
-    return matching;
-  }
 
-  private Watchers getWatchersFromDb(NotifyType type)
-      throws OrmException {
-    Watchers matching = new Watchers();
-    Set<Account.Id> projectWatchers = new HashSet<>();
-
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(project)) {
-      if (add(matching, w, type)) {
-        // We only want to prevent matching All-Projects if this filter hits
-        projectWatchers.add(w.getAccountId());
+    for (ProjectState state : projectState.tree()) {
+      for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
+        if (nc.isNotify(type)) {
+          try {
+            add(matching, nc);
+          } catch (QueryParseException e) {
+            log.warn("Project {} has invalid notify {} filter \"{}\": {}",
+                state.getProject().getName(), nc.getName(),
+                nc.getFilter(), e.getMessage());
+          }
+        }
       }
     }
 
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(args.allProjectsName)) {
-      if (!projectWatchers.contains(w.getAccountId())) {
-        add(matching, w, type);
-      }
-    }
     return matching;
   }
 
@@ -231,25 +197,6 @@ public class ProjectWatch {
         // Otherwise, still return true to stop notifications for this user.
         if (watchedTypes.contains(type)) {
           matching.bcc.accounts.add(accountId);
-        }
-        return true;
-      }
-    } catch (QueryParseException e) {
-      // Ignore broken filter expressions.
-    }
-    return false;
-  }
-
-  private boolean add(Watchers matching, AccountProjectWatch w, NotifyType type)
-      throws OrmException {
-    IdentifiedUser user = args.identifiedUserFactory.create(w.getAccountId());
-
-    try {
-      if (filterMatch(user, w.getFilter())) {
-        // If we are set to notify on this type, add the user.
-        // Otherwise, still return true to stop notifications for this user.
-        if (w.isNotify(type)) {
-          matching.bcc.accounts.add(w.getAccountId());
         }
         return true;
       }

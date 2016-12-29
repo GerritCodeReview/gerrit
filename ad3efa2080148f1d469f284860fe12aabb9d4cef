@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_2d790d6e",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-12-29T15:49:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_9b27337b",
+      "revId": "ad3efa2080148f1d469f284860fe12aabb9d4cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_ad633dc4",
         "filename": "gerrit-pgm/BUILD",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_0d7ed155",
+        "filename": "gerrit-pgm/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-12-29T15:49:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ad633dc4",
+      "revId": "ad3efa2080148f1d469f284860fe12aabb9d4cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_ed6d45af",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2016-12-29T14:18:01Z",
       "side": 1,
       "message": "Move this update to keep the dependencies sorted alphabetically?",
+      "revId": "ad3efa2080148f1d469f284860fe12aabb9d4cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_6d73158e",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-12-29T15:49:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ed6d45af",
       "revId": "ad3efa2080148f1d469f284860fe12aabb9d4cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_4d78d966",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-12-29T15:49:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_cd6a0995",
+      "revId": "ad3efa2080148f1d469f284860fe12aabb9d4cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_db31abb4",
         "filename": "lib/mockito/BUCK",
         "patchSetId": 5
@@ -110,6 +182,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_8d892149",
+        "filename": "lib/mockito/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-12-29T15:49:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_db31abb4",
+      "range": {
+        "startLine": 5,
+        "startChar": 33,
+        "endLine": 5,
+        "endChar": 38
+      },
+      "revId": "ad3efa2080148f1d469f284860fe12aabb9d4cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_fb2c6760",
         "filename": "lib/mockito/BUCK",
         "patchSetId": 5
@@ -121,6 +217,24 @@
       "writtenOn": "2016-12-29T14:18:01Z",
       "side": 1,
       "message": "Is this correct? The LICENSE file in mockito-core-2.3.7.jar from [1] says that it is licensed under the MIT License.\n\n[1] http://repo1.maven.org/maven2/org/mockito/mockito-core/2.3.7/",
+      "revId": "ad3efa2080148f1d469f284860fe12aabb9d4cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_ad8cdd58",
+        "filename": "lib/mockito/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2016-12-29T15:49:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_fb2c6760",
       "revId": "ad3efa2080148f1d469f284860fe12aabb9d4cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -31,6 +31,7 @@ public class SshSession {
   private final TestAccount account;
   private Session session;
   private String error;
+  private int timeout = 30000; // 30 seconds timeout
 
   public SshSession(GerritServer server, TestAccount account) {
     this.addr = server.getSshdAddress();
@@ -100,6 +101,7 @@ public class SshSession {
           addr.getAddress().getHostAddress(),
           addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");
+      session.setTimeout(timeout);
       session.connect();
     }
     return session;
@@ -115,5 +117,21 @@ public class SshSession {
     b.append(":");
     b.append(session.getPort());
     return b.toString();
+  }
+
+  /**
+   * Return the the SSH session timeout in msec.
+   * @return
+   */
+  public int getTimeout() {
+    return timeout;
+  }
+
+  /**
+   * Set the SSH session timeout in msec.
+   * @param timeout
+   */
+  public void setTimeout(int timeout) {
+    this.timeout = timeout;
   }
 }

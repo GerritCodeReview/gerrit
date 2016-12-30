@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_b01f16d2",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/DeleteGpgKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_5090722b",
+      "range": {
+        "startLine": 59,
+        "startChar": 29,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_70ddaefb",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
         "patchSetId": 4
@@ -60,6 +84,30 @@
       "writtenOn": "2016-12-30T12:12:13Z",
       "side": 1,
       "message": "externalIdsUpdateFactory",
+      "range": {
+        "startLine": 98,
+        "startChar": 39,
+        "endLine": 98,
+        "endChar": 56
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_1ed311ef",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_70ddaefb",
       "range": {
         "startLine": 98,
         "startChar": 39,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_7ed045e0",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_50e232bb",
+      "range": {
+        "startLine": 454,
+        "startChar": 8,
+        "endLine": 454,
+        "endChar": 71
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_9ee601ce",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteExternalIds.java",
         "patchSetId": 4
@@ -106,6 +178,30 @@
       "writtenOn": "2016-12-30T12:12:13Z",
       "side": 1,
       "message": "externalIdsUpdateFactory.",
+      "range": {
+        "startLine": 51,
+        "startChar": 39,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_d026222a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteExternalIds.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_9ee601ce",
       "range": {
         "startLine": 51,
         "startChar": 39,
@@ -135,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_30f5e663",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/ExternalIdDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Done in AccountSecurity.",
+      "parentUuid": "17f0de9e_f0d07ee2",
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_d0cd824a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 4
@@ -146,6 +260,30 @@
       "writtenOn": "2016-12-30T12:12:13Z",
       "side": 1,
       "message": "externalIdsUpdateFactory.",
+      "range": {
+        "startLine": 68,
+        "startChar": 41,
+        "endLine": 68,
+        "endChar": 58
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_5ecd8948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_d0cd824a",
       "range": {
         "startLine": 68,
         "startChar": 41,
@@ -204,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_10fa6a51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_b0d6f6dd",
+      "range": {
+        "startLine": 125,
+        "startChar": 18,
+        "endLine": 125,
+        "endChar": 28
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_300cc6b3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsBatchUpdate.java",
         "patchSetId": 4
@@ -221,6 +383,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_50f4f263",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "As explained in the Javadoc of this class, this class is supposed to be used only in standalone programs and schema migrations where we don\u0027t have caches. If there is no external ID cache, we don\u0027t need to invalidate anything :)",
+      "parentUuid": "17f0de9e_300cc6b3",
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_0db411cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
         "patchSetId": 4
@@ -232,6 +412,30 @@
       "writtenOn": "2016-12-30T12:12:13Z",
       "side": 1,
       "message": "committerIndent? On line 522 it\u0027s used as parameter.",
+      "range": {
+        "startLine": 152,
+        "startChar": 28,
+        "endLine": 152,
+        "endChar": 39
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_be0c9db5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_0db411cd",
       "range": {
         "startLine": 152,
         "startChar": 28,
@@ -267,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_b008b694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "No, the usage of insert is intended here so that we get a duplicate key exception if such an external ID already exists.",
+      "parentUuid": "1a1ba32a_5bc2bb42",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 195,
+        "endChar": 14
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_ada21d8f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
         "patchSetId": 4
@@ -278,6 +506,30 @@
       "writtenOn": "2016-12-30T12:12:13Z",
       "side": 1,
       "message": "Isn\u0027t it what the methods on line 173 and 184 already doing? add a consumer of this method, what should I supposed to use when I want rot insert call insert or upsert?",
+      "range": {
+        "startLine": 205,
+        "startChar": 5,
+        "endLine": 205,
+        "endChar": 13
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_9005ba7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "Same semantics as with gwtorm. Insert fails with a duplicate key exception if the key is already used. Upsert overwrites the existing entry if it exists.",
+      "parentUuid": "17f0de9e_ada21d8f",
       "range": {
         "startLine": 205,
         "startChar": 5,
@@ -313,6 +565,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_9e11e1cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "I like upsert more as it\u0027s already used in gwtorm with the same semantics. For \u0027update\u0027 you may expect it to fail if the entity doesn\u0027t exist yet. \u0027upsert\u0027 makes it clear that it inserts the ID if the key is not in used yet and that it updates the ID if it already exists.",
+      "parentUuid": "17f0de9e_6da95575",
+      "range": {
+        "startLine": 232,
+        "startChar": 8,
+        "endLine": 232,
+        "endChar": 14
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_4dae197f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
         "patchSetId": 4
@@ -324,6 +600,30 @@
       "writtenOn": "2016-12-30T12:12:13Z",
       "side": 1,
       "message": "Isn\u0027t this is logically the same as the method on line: 334?",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 406,
+        "endChar": 5
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_f0023e72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2016-12-30T13:35:19Z",
+      "side": 1,
+      "message": "It\u0027s similar but slightly different as one method deletes existing external IDs by key and the other by entity. But yes, I guess this method can be rewritten to use the other.\n\nDone.",
+      "parentUuid": "17f0de9e_4dae197f",
       "range": {
         "startLine": 388,
         "startChar": 4,

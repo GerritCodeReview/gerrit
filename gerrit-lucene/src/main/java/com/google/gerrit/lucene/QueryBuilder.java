@@ -30,6 +30,7 @@ import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
+import com.google.gerrit.server.query.PostFilterPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import java.util.Date;
@@ -76,6 +77,8 @@ public class QueryBuilder<V> {
       return not(p);
     } else if (p instanceof IndexPredicate) {
       return fieldQuery((IndexPredicate<V>) p);
+    } else if (p instanceof PostFilterPredicate) {
+      return new MatchAllDocsQuery();
     } else {
       throw new QueryParseException("cannot create query for index: " + p);
     }

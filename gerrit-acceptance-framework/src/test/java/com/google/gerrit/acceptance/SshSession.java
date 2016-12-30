@@ -49,9 +49,10 @@ public class SshSession {
       channel.setCommand(command);
       channel.setInputStream(opt);
       InputStream in = channel.getInputStream();
+      InputStream err = channel.getErrStream();
       channel.connect();
 
-      Scanner s = new Scanner(channel.getErrStream()).useDelimiter("\\A");
+      Scanner s = new Scanner(err).useDelimiter("\\A");
       error = s.hasNext() ? s.next() : null;
 
       s = new Scanner(in).useDelimiter("\\A");

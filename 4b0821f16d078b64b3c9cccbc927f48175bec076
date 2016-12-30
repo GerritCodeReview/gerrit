@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_1e05d17a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-30T16:17:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_feed759b",
+      "range": {
+        "startLine": 17,
+        "startChar": 20,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "4b0821f16d078b64b3c9cccbc927f48175bec076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_def23977",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Index.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-30T16:05:27Z",
       "side": 1,
       "message": "nit: executor\n\nor `executors\u0027` if it\u0027s intended to be plural.",
+      "range": {
+        "startLine": 37,
+        "startChar": 40,
+        "endLine": 37,
+        "endChar": 49
+      },
+      "revId": "4b0821f16d078b64b3c9cccbc927f48175bec076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_9e63a157",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/Index.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-12-30T16:17:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_def23977",
       "range": {
         "startLine": 37,
         "startChar": 40,

@@ -1,4 +1,338 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483019103 +0100\nnonce AHDV6GnOJUEfbDT+l2X6yIzcpcmK2mxEspcl5GBcqWbgZhg4ZGiTsoqsOYFS15z9I1XrtyhlOyWA\n\n0000000000000000000000000000000000000000 feae13ecc6ea9ecd02702ccdcf62c6242725dc47 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYZRNfAAoJEFG1/Zeg0O9RPZgH/innTbKIDL+PjMc5iCXU2KC6\nVqcJHt1k3BKsFzGRVkufQKAdXlbMGSxWxaw7C8xpmGBy8c/OSbiLE7MrbZKSqtYT\n7yANT/kegeu4EoGNf+LionCC860yFDSieiPhwqSq0uJWSWZyNRPWaIlYKFErC0gf\n3FfcplnscwdxuPyPEI1wd+3aKyHirUt8gcJiebsBAzsAIfvGOCQD3eEeZToWl+Hq\n1tw303IadEnHt0N/lov3ZzLi7ue7L5ECW7cHEvYImiMIxn/kdeltgmt8qA5950zs\n0rmwhbJgRb3Ofk3uex2sLyQlrBsOzMgHAvUAbcSqp5u7exHgBGfun1IwCsUtCnE\u003d\n\u003deqGK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f0de9e_b0a4368e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "Here it\u0027s called correct.",
+      "range": {
+        "startLine": 121,
+        "startChar": 33,
+        "endLine": 121,
+        "endChar": 57
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_5090722b",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/DeleteGpgKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "externalIdsUpdateFactory",
+      "range": {
+        "startLine": 59,
+        "startChar": 29,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_70ddaefb",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "externalIdsUpdateFactory",
+      "range": {
+        "startLine": 98,
+        "startChar": 39,
+        "endLine": 98,
+        "endChar": 56
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_50e232bb",
+        "filename": "gerrit-gpg/src/test/java/com/google/gerrit/gpg/GerritPublicKeyCheckerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "ExternalId.createWithEmail() to not pass null for HTTP password. Otherwise why this method was added if it\u0027s not used?",
+      "range": {
+        "startLine": 454,
+        "startChar": 8,
+        "endLine": 454,
+        "endChar": 71
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_9ee601ce",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteExternalIds.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "externalIdsUpdateFactory.",
+      "range": {
+        "startLine": 51,
+        "startChar": 39,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_f0d07ee2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/ExternalIdDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "Add TODO, to convert it to REST and eliminate last usages of AccountExternalId?",
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_d0cd824a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "externalIdsUpdateFactory.",
+      "range": {
+        "startLine": 68,
+        "startChar": 41,
+        "endLine": 68,
+        "endChar": 58
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_fedbb507",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "Here was the right create method used.",
+      "range": {
+        "startLine": 231,
+        "startChar": 34,
+        "endLine": 231,
+        "endChar": 49
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_b0d6f6dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "gwtorm yes renders their value with get() method. I wonder if it\u0027s less disruptive to preserve this interface and route toString() through get() method?",
+      "range": {
+        "startLine": 125,
+        "startChar": 18,
+        "endLine": 125,
+        "endChar": 28
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_300cc6b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsBatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "Why we don\u0027t invalidate external id cache?",
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_0db411cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "committerIndent? On line 522 it\u0027s used as parameter.",
+      "range": {
+        "startLine": 152,
+        "startChar": 28,
+        "endLine": 152,
+        "endChar": 39
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_5bc2bb42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "upsert?",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 195,
+        "endChar": 14
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_ada21d8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "Isn\u0027t it what the methods on line 173 and 184 already doing? add a consumer of this method, what should I supposed to use when I want rot insert call insert or upsert?",
+      "range": {
+        "startLine": 205,
+        "startChar": 5,
+        "endLine": 205,
+        "endChar": 13
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_6da95575",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "update? If you call insert insert then you should call update update?",
+      "range": {
+        "startLine": 232,
+        "startChar": 8,
+        "endLine": 232,
+        "endChar": 14
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_4dae197f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-30T12:12:13Z",
+      "side": 1,
+      "message": "Isn\u0027t this is logically the same as the method on line: 334?",
+      "range": {
+        "startLine": 388,
+        "startChar": 4,
+        "endLine": 406,
+        "endChar": 5
+      },
+      "revId": "c33b7f1d9e27130a8c8d7d551fc770c48d7d6625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -159,6 +159,13 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   @Override
   protected Predicate<AccountState> defaultField(String query) {
+    if (query.startsWith("cansee:")) {
+      try {
+        return cansee(query.substring(7));
+      } catch (OrmException | QueryParseException e) {
+        // Ignore, fall back to default query
+      }
+    }
     Predicate<AccountState> defaultPredicate =
         AccountPredicates.defaultPredicate(query);
     if ("self".equalsIgnoreCase(query)) {

@@ -16,6 +16,7 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountSuggestOracle.AccountSuggestion;
@@ -28,9 +29,16 @@ import java.util.List;
 
 /** REST API based suggestion Oracle for assignee */
 public class AssigneeSuggestOracle extends SuggestAfterTypingNCharsOracle {
+
+  private ChangeInfo change;
+
+  public void setChange(ChangeInfo change) {
+    this.change = change;
+  }
+
   @Override
   protected void _onRequestSuggestions(Request req, Callback cb) {
-    AccountApi.suggest(req.getQuery(), req.getLimit(),
+    AccountApi.suggest(getQuery(req), req.getLimit(),
         new GerritCallback<JsArray<AccountInfo>>() {
           @Override
           public void onSuccess(JsArray<AccountInfo> result) {
@@ -47,5 +55,15 @@ public class AssigneeSuggestOracle extends SuggestAfterTypingNCharsOracle {
             cb.onSuggestionsReady(req, new Response(r));
           }
         });
+  }
+
+  private String getQuery(Request req) {
+    StringBuilder query = new StringBuilder();
+    query.append(req.getQuery());
+    if (change !=  null) {
+      query.append(" cansee:")
+          .append(change._number());
+    }
+    return query.toString();
   }
 }

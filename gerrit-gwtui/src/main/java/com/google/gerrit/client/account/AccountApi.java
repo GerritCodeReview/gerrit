@@ -27,6 +27,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtorm.client.KeyUtil;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,7 +56,7 @@ public class AccountApi {
       AsyncCallback<JsArray<AccountInfo>> cb) {
     new RestApi("/accounts/")
       .addParameterTrue("suggest")
-      .addParameter("q", query)
+      .addParameterRaw("q", KeyUtil.encode(query))
       .addParameter("n", limit)
       .background()
       .get(cb);

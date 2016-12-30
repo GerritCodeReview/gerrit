@@ -198,6 +198,14 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   protected Predicate<AccountState> defaultField(String query) {
     Predicate<AccountState> defaultPredicate =
         AccountPredicates.defaultPredicate(args.schema(), checkedCanSeeSecondaryEmails(), query);
+    if (query.startsWith("cansee:")) {
+      try {
+        return cansee(query.substring(7));
+      } catch (OrmException | QueryParseException | PermissionBackendException e) {
+        // Ignore, fall back to default query
+      }
+    }
+
     if ("self".equalsIgnoreCase(query) || "me".equalsIgnoreCase(query)) {
       try {
         return Predicate.or(defaultPredicate, AccountPredicates.id(self()));

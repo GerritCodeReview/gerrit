@@ -19,12 +19,23 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.access.AccessSectionInfo;
+import com.google.gerrit.extensions.api.access.PermissionInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
+import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.accounts.Accounts.QueryRequest;
+import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -63,6 +74,7 @@ import org.junit.rules.TestName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -283,6 +295,22 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   @Test
+  public void byCansee() throws Exception {
+    String domain = name("test.com");
+    AccountInfo user1 = newAccountWithEmail("account1", "account1@" + domain);
+    AccountInfo user2 = newAccountWithEmail("account2", "account2@" + domain);
+    AccountInfo user3 = newAccountWithEmail("account3", "account3@" + domain);
+
+    Project.NameKey p = createProject(name("p"));
+    ChangeInfo c = createChange(p);
+    assertQuery("name:" + domain + " cansee:" + c.changeId, user1, user2, user3);
+
+    GroupInfo group = createGroup(name("group"), user1, user2);
+    blockRead(p, group);
+    assertQuery("name:" + domain + " cansee:" + c.changeId, user3);
+  }
+
+  @Test
   public void byWatchedProject() throws Exception {
     Project.NameKey p = createProject(name("p"));
     Project.NameKey p2 = createProject(name("p2"));
@@ -445,8 +473,44 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected Project.NameKey createProject(String name) throws RestApiException {
-    gApi.projects().create(name);
+    ProjectInput in = new ProjectInput();
+    in.name = name;
+    in.createEmptyCommit = true;
+    gApi.projects().create(in);
     return new Project.NameKey(name);
+  }
+
+  protected void blockRead(Project.NameKey project, GroupInfo group)
+      throws RestApiException {
+    ProjectAccessInput in = new ProjectAccessInput();
+    in.add = new HashMap<>();
+
+    AccessSectionInfo a = new AccessSectionInfo();
+    PermissionInfo p = new PermissionInfo(null, null);
+    p.rules = ImmutableMap.of(group.id,
+        new PermissionRuleInfo(PermissionRuleInfo.Action.BLOCK, false));
+    a.permissions = ImmutableMap.of(Permission.READ, p);
+    in.add = ImmutableMap.of("refs/*", a);
+
+    gApi.projects().name(project.get()).access(in);
+  }
+
+  protected ChangeInfo createChange(Project.NameKey project)
+      throws RestApiException {
+    ChangeInput in = new ChangeInput();
+    in.subject = "A change";
+    in.project = project.get();
+    in.branch = "master";
+    return gApi.changes().create(in).get();
+  }
+
+  protected GroupInfo createGroup(String name, AccountInfo... members)
+      throws RestApiException {
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.members = Arrays.asList(members).stream()
+        .map(a -> String.valueOf(a._accountId)).collect(toList());
+    return gApi.groups().create(in).get();
   }
 
   protected void watch(AccountInfo account, Project.NameKey project,

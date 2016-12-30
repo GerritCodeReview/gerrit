@@ -19,13 +19,17 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -49,11 +53,24 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
       new QueryBuilder.Definition<>(AccountQueryBuilder.class);
 
   public static class Arguments {
+    final Provider<ReviewDb> db;
+    final ChangeFinder changeFinder;
+    final ChangeControl.GenericFactory changeControlFactory;
+    final IdentifiedUser.GenericFactory userFactory;
+
     private final Provider<CurrentUser> self;
 
     @Inject
-    public Arguments(Provider<CurrentUser> self) {
+    public Arguments(Provider<CurrentUser> self,
+        Provider<ReviewDb> db,
+        ChangeFinder changeFinder,
+        ChangeControl.GenericFactory changeControlFactory,
+        IdentifiedUser.GenericFactory userFactory) {
       this.self = self;
+      this.db = db;
+      this.changeFinder = changeFinder;
+      this.changeControlFactory = changeControlFactory;
+      this.userFactory = userFactory;
     }
 
     IdentifiedUser getIdentifiedUser() throws QueryParseException {
@@ -83,6 +100,18 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   AccountQueryBuilder(Arguments args) {
     super(mydef);
     this.args = args;
+  }
+
+  @Operator
+  public Predicate<AccountState> cansee(String change)
+      throws QueryParseException, OrmException {
+    ChangeControl changeControl =
+        args.changeFinder.findOne(change, args.getUser());
+    if (changeControl == null || !changeControl.isVisible(args.db.get())) {
+      throw error(String.format("change %s not found", change));
+    }
+
+    return AccountPredicates.cansee(args, changeControl.getNotes());
   }
 
   @Operator

@@ -14,21 +14,39 @@
 
 package com.google.gerrit.server.index.account;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexedQuery;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.query.DataSource;
+import com.google.gerrit.server.query.Matchable;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gwtorm.server.OrmException;
 
 public class IndexedAccountQuery extends IndexedQuery<Account.Id, AccountState>
-    implements DataSource<AccountState> {
+    implements DataSource<AccountState>, Matchable<AccountState> {
 
   public IndexedAccountQuery(Index<Account.Id, AccountState> index,
       Predicate<AccountState> pred, QueryOptions opts)
           throws QueryParseException {
     super(index, pred, opts.convertForBackend());
+  }
+
+  @Override
+  public boolean match(AccountState accountState) throws OrmException {
+    Predicate<AccountState> pred = getChild(0);
+    checkState(pred.isMatchable(),
+        "match invoked, but child predicate %s " + "doesn't implement %s", pred,
+        Matchable.class.getName());
+    return pred.asMatchable().match(accountState);
+  }
+
+  @Override
+  public int getCost() {
+    return 1;
   }
 }

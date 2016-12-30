@@ -21,6 +21,7 @@ import com.google.gerrit.server.index.IntegerRangePredicate;
 import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
+import com.google.gerrit.server.query.AnyPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -46,6 +47,8 @@ public class ElasticQueryBuilder {
       return not(p);
     } else if (p instanceof IndexPredicate) {
       return fieldQuery((IndexPredicate<T>) p);
+    } else if (p instanceof AnyPredicate) {
+      return QueryBuilders.matchAllQuery();
     } else {
       throw new QueryParseException("cannot create query for index: " + p);
     }

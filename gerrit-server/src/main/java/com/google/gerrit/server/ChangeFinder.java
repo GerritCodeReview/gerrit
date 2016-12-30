@@ -40,6 +40,15 @@ public class ChangeFinder {
     this.queryProvider = queryProvider;
   }
 
+  public ChangeControl findOne(String id, CurrentUser user)
+      throws OrmException {
+    List<ChangeControl> ctls = find(id, user);
+    if (ctls.size() != 1) {
+      return null;
+    }
+    return ctls.get(0);
+  }
+
   /**
    * Find changes matching the given identifier.
    *

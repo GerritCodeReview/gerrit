@@ -27,6 +27,7 @@ import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
+import com.google.gerrit.server.query.AnyPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -71,6 +72,8 @@ public class QueryBuilder<V> {
       return not(p);
     } else if (p instanceof IndexPredicate) {
       return fieldQuery((IndexPredicate<V>) p);
+    } else if (p instanceof AnyPredicate) {
+      return new MatchAllDocsQuery();
     } else {
       throw new QueryParseException("cannot create query for index: " + p);
     }

@@ -108,6 +108,13 @@ public class DeleteVote
     }
     ReviewerResource r = rsrc.getReviewer();
     Change change = r.getChange();
+
+    if (input.patchSet != 0
+        && input.patchSet != change.currentPatchSetId().get()) {
+      // can't delete a vote if it's not on current patch set
+      throw new RestApiException("Cannot delete the vote of a stale patch set");
+    }
+
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
           change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
       bu.addOp(change.getId(),

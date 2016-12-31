@@ -118,6 +118,10 @@ class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
   }
 
   @Override
+  public void stop() {
+  }
+
+  @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p,
       QueryOptions opts) throws QueryParseException {
     return new QuerySource(p, opts);

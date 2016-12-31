@@ -57,4 +57,8 @@ public class DummyChangeIndex implements ChangeIndex {
   public int getMaxLimit() {
     return Integer.MAX_VALUE;
   }
+
+  @Override
+  public void stop() {
+  }
 }

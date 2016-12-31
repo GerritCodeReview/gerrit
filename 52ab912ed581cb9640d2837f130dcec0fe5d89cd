@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483019103 +0100\nnonce AHDV6GnOJUEfbDT+l2X6yIzcpcmK2mxEspcl5GBcqWbgZhg4ZGiTsoqsOYFS15z9I1XrtyhlOyWA\n\n0000000000000000000000000000000000000000 feae13ecc6ea9ecd02702ccdcf62c6242725dc47 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYZRNfAAoJEFG1/Zeg0O9RPZgH/innTbKIDL+PjMc5iCXU2KC6\nVqcJHt1k3BKsFzGRVkufQKAdXlbMGSxWxaw7C8xpmGBy8c/OSbiLE7MrbZKSqtYT\n7yANT/kegeu4EoGNf+LionCC860yFDSieiPhwqSq0uJWSWZyNRPWaIlYKFErC0gf\n3FfcplnscwdxuPyPEI1wd+3aKyHirUt8gcJiebsBAzsAIfvGOCQD3eEeZToWl+Hq\n1tw303IadEnHt0N/lov3ZzLi7ue7L5ECW7cHEvYImiMIxn/kdeltgmt8qA5950zs\n0rmwhbJgRb3Ofk3uex2sLyQlrBsOzMgHAvUAbcSqp5u7exHgBGfun1IwCsUtCnE\u003d\n\u003deqGK\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f0de9e_70aace23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2016-12-31T16:52:28Z",
+      "side": 1,
+      "message": "Still wonder why this class is needed and and why it cannot be replaced with String ALL \u003d \"ALL\".",
+      "range": {
+        "startLine": 180,
+        "startChar": 15,
+        "endLine": 180,
+        "endChar": 22
+      },
+      "revId": "52ab912ed581cb9640d2837f130dcec0fe5d89cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

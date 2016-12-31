@@ -5303,6 +5303,11 @@ vote.
 |`label`         |optional|
 The label for which the vote should be deleted. +
 If set, must match the label in the URL.
+|`patch_set`     |optional|
+The patch set number of the vote. You cannot delete the vote of a stale patch
+set, but by providing it you can prevent deleting the vote (same label) from a
+newer patch set by mistake. +
+If not set, the default is current patch set.
 |`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent
 after the vote is deleted. +

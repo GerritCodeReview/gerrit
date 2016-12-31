@@ -23,6 +23,9 @@ public class DeleteVoteInput {
   @DefaultInput
   public String label;
 
+  /** Specify the patchSet number of the target vote to delete. */
+  public int patchSet;
+
   /** Who to send email notifications to after vote is deleted. */
   public NotifyHandling notify = NotifyHandling.ALL;
   public Map<RecipientType, NotifyInfo> notifyDetails;

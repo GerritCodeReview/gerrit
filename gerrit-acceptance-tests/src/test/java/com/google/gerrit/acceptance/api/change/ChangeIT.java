@@ -82,6 +82,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -1397,6 +1398,82 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(msg.body()).contains(
         "Removed Code-Review+1 by "
             + user.fullName + " <" + user.email + ">" + "\n");
+
+    Map<String, Short> m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .votes();
+
+    // Dummy 0 approval on the change to block vote copying to this patch set.
+    assertThat(m).containsExactly("Code-Review", Short.valueOf((short)0));
+
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+
+    ChangeMessageInfo message = Iterables.getLast(c.messages);
+    assertThat(message.author._accountId).isEqualTo(admin.getId().get());
+    assertThat(message.message).isEqualTo(
+        "Removed Code-Review+1 by User <user@example.com>\n");
+    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+        .containsExactlyElementsIn(
+            ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
+  @Test
+  public void deleteVoteWithStalePatchSetId() throws Exception {
+    PushOneCommit.Result r = createChange(); // patch set 1
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    // patch set 2
+    amendChange(r.getChangeId());
+
+    // code-review
+    setApiUser(user);
+    recommend(r.getChangeId());
+
+    // check if it's blocked to delete a vote of a stale patch set.
+    DeleteVoteInput input = new DeleteVoteInput();
+    input.label = "Code-Review";
+    input.patchSet = 1; // a stale patch set number (current = 2).
+
+    exception.expect(RestApiException.class);
+    exception.expectMessage("Cannot delete the vote of a stale patch set");
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .deleteVote(input);
+  }
+
+  @Test
+  public void deleteVoteWithCurrentPatchSetId() throws Exception {
+    PushOneCommit.Result r = createChange(); // patch set 1
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    // patch set 2
+    amendChange(r.getChangeId());
+
+    // code-review
+    setApiUser(user);
+    recommend(r.getChangeId());
+
+    // check if it's blocked to delete a vote of a stale patch set.
+    DeleteVoteInput input = new DeleteVoteInput();
+    input.label = "Code-Review";
+    input.patchSet = 2; // a stale patch set number (current = 2).
+
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .deleteVote(input);
 
     Map<String, Short> m = gApi.changes()
         .id(r.getChangeId())

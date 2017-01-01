@@ -208,7 +208,7 @@ junit_tests(
 
 junit_tests(
     name = "server_tests",
-    size = "medium",
+    size = "large",
     srcs = glob(
         ["src/test/java/**/*.java"],
         exclude = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,

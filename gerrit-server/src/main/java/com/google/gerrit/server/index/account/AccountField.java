@@ -56,7 +56,7 @@ public class AccountField {
         @Override
         public Iterable<String> get(AccountState input, FillArgs args) {
           String fullName = input.getAccount().getFullName();
-          Set<String> parts = SchemaUtil.getPersonParts(
+          Set<String> parts = SchemaUtil.getNameParts(
               fullName,
               Iterables.transform(
                   input.getExternalIds(),

@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -30,6 +31,7 @@ import static org.junit.Assert.fail;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -46,6 +48,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -58,8 +61,10 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ETagView;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -1053,6 +1058,71 @@ public class RevisionIT extends AbstractDaemonTest {
     oldETag = checkETag(getRevisionActions, r2, oldETag);
   }
 
+  @Test
+  public void deleteVoteOnNonCurrentPatchSet() throws Exception {
+    PushOneCommit.Result r = createChange(); // patch set 1
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    // patch set 2
+    amendChange(r.getChangeId());
+
+    // code-review
+    setApiUser(user);
+    recommend(r.getChangeId());
+
+    // check if it's blocked to delete a vote on a non-current patch set.
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage("Cannot delete vote on non-current patch set");
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().getName())
+        .reviewer(user.getId().toString())
+        .deleteVote("Code-Review");
+  }
+
+  @Test
+  public void deleteVoteOnCurrentPatchSet() throws Exception {
+    PushOneCommit.Result r = createChange(); // patch set 1
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    // patch set 2
+    amendChange(r.getChangeId());
+
+    // code-review
+    setApiUser(user);
+    recommend(r.getChangeId());
+
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .reviewer(user.getId().toString())
+        .deleteVote("Code-Review");
+
+    Map<String, Short> m = gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .reviewer(user.getId().toString())
+        .votes();
+
+    assertThat(m).containsExactly("Code-Review", Short.valueOf((short)0));
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    ChangeMessageInfo message = Iterables.getLast(c.messages);
+    assertThat(message.author._accountId).isEqualTo(admin.getId().get());
+    assertThat(message.message).isEqualTo(
+        "Removed Code-Review+1 by User <user@example.com>\n");
+    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
   private PushOneCommit.Result updateChange(PushOneCommit.Result r,
       String content) throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
@@ -1177,5 +1247,10 @@ public class RevisionIT extends AbstractDaemonTest {
         .filter(a -> a._accountId == accountId)
         .findFirst()
         .get();
+  }
+
+  private static Iterable<Account.Id> getReviewers(
+      Collection<AccountInfo> r) {
+    return Iterables.transform(r, a -> new Account.Id(a._accountId));
   }
 }

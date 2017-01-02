@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -108,6 +109,13 @@ public class DeleteVote
     }
     ReviewerResource r = rsrc.getReviewer();
     Change change = r.getChange();
+
+    if (r.getRevisionResource() != null
+        && !r.getRevisionResource().isCurrent()) {
+      throw new MethodNotAllowedException(
+          "Cannot delete vote on non-current patch set");
+    }
+
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
           change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
       bu.addOp(change.getId(),

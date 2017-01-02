@@ -47,6 +47,10 @@ public class ReadOnlyChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public void stop() {
+  }
+
+  @Override
   public void replace(ChangeData obj) throws IOException {
     // do nothing
   }

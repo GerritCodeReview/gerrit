@@ -2474,6 +2474,79 @@ As response "`204 No Content`" is returned.
   HTTP/1.1 204 No Content
 ----
 
+[[get-hashtags]]
+=== Get Hashtags
+--
+'GET /changes/link:#change-id[\{change-id\}]/hashtags'
+--
+
+Gets the hashtags associated with a change.
+
+[NOTE] Hashtags are only available when NoteDb is enabled.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/hashtags HTTP/1.0
+----
+
+As response the change's hashtags are returned as a list of strings.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    "hashtag1",
+    "hashtag2"
+  ]
+----
+
+[[set-hashtags]]
+=== Set Hashtags
+--
+'POST /changes/link:#change-id[\{change-id\}]/hashtags'
+--
+
+Adds and/or removes hashtags from a change.
+
+[NOTE] Hashtags are only available when NoteDb is enabled.
+
+The hashtags to add or remove must be provided in the request body inside a
+link:#hashtags-input[HashtagsInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/hashtags HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "add" : [
+      "hashtag3"
+    ],
+    "remove" : [
+      "hashtag2"
+    ]
+  }
+----
+
+As response the change's hashtags are returned as a list of strings.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    "hashtag1",
+    "hashtag3"
+  ]
+----
+
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 
@@ -4687,79 +4760,6 @@ describes the resulting cherry picked change.
       "name": "John Doe"
     }
   }
-----
-
-[[get-hashtags]]
-=== Get Hashtags
---
-'GET /changes/link:#change-id[\{change-id\}]/hashtags'
---
-
-Gets the hashtags associated with a change.
-
-[NOTE] Hashtags are only available when NoteDb is enabled.
-
-.Request
-----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/hashtags HTTP/1.0
-----
-
-As response the change's hashtags are returned as a list of strings.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  [
-    "hashtag1",
-    "hashtag2"
-  ]
-----
-
-[[set-hashtags]]
-=== Set Hashtags
---
-'POST /changes/link:#change-id[\{change-id\}]/hashtags'
---
-
-Adds and/or removes hashtags from a change.
-
-[NOTE] Hashtags are only available when NoteDb is enabled.
-
-The hashtags to add or remove must be provided in the request body inside a
-link:#hashtags-input[HashtagsInput] entity.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/hashtags HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "add" : [
-      "hashtag3"
-    ],
-    "remove" : [
-      "hashtag2"
-    ]
-  }
-----
-
-As response the change's hashtags are returned as a list of strings.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  [
-    "hashtag1",
-    "hashtag3"
-  ]
 ----
 
 [[ids]]

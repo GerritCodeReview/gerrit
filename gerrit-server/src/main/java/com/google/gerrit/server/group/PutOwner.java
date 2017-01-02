@@ -33,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -60,7 +61,7 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
   public GroupInfo apply(GroupResource resource, Input input)
       throws ResourceNotFoundException, MethodNotAllowedException,
       AuthException, BadRequestException, UnprocessableEntityException,
-      OrmException {
+      OrmException, IOException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();

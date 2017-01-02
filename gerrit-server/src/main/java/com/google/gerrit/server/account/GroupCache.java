@@ -18,6 +18,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
+import java.io.IOException;
+
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
   AccountGroup get(AccountGroup.Id groupId);
@@ -36,10 +38,10 @@ public interface GroupCache {
   ImmutableList<AccountGroup> all();
 
   /** Notify the cache that a new group was constructed. */
-  void onCreateGroup(AccountGroup.NameKey newGroupName);
+  void onCreateGroup(AccountGroup.NameKey newGroupName) throws IOException;
 
-  void evict(AccountGroup group);
+  void evict(AccountGroup group) throws IOException;
 
-  void evictAfterRename(final AccountGroup.NameKey oldName,
-      final AccountGroup.NameKey newName);
+  void evictAfterRename(AccountGroup.NameKey oldName,
+      AccountGroup.NameKey newName) throws IOException;
 }

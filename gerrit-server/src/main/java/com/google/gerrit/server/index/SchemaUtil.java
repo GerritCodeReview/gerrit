@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -90,24 +91,30 @@ public class SchemaUtil {
     if (person == null) {
       return ImmutableSet.of();
     }
-    return getPersonParts(
+    return getNameParts(
         person.getName(),
         Collections.singleton(person.getEmailAddress()));
   }
 
-  public static Set<String> getPersonParts(String name,
-      Iterable<String> emails) {
-    Splitter at = Splitter.on('@');
+  public static Set<String> getNameParts(String name) {
+    return getNameParts(name, null);
+  }
+
+  public static Set<String> getNameParts(String name,
+      @Nullable Iterable<String> emails) {
     Splitter s = Splitter.on(CharMatcher.anyOf("@.- ")).omitEmptyStrings();
     HashSet<String> parts = new HashSet<>();
-    for (String email : emails) {
-      if (email == null) {
-        continue;
+    if (emails != null) {
+      Splitter at = Splitter.on('@');
+      for (String email : emails) {
+        if (email == null) {
+          continue;
+        }
+        String lowerEmail = email.toLowerCase();
+        parts.add(lowerEmail);
+        Iterables.addAll(parts, at.split(lowerEmail));
+        Iterables.addAll(parts, s.split(lowerEmail));
       }
-      String lowerEmail = email.toLowerCase();
-      parts.add(lowerEmail);
-      Iterables.addAll(parts, at.split(lowerEmail));
-      Iterables.addAll(parts, s.split(lowerEmail));
     }
     if (name != null) {
       Iterables.addAll(parts, s.split(name.toLowerCase()));

@@ -33,6 +33,10 @@ public class Commands {
     return key(named(name));
   }
 
+  public static Key<Command> aliasKey(String name) {
+    return Key.get(Command.class, aliased(name));
+  }
+
   public static Key<Command> key(final CommandName name) {
     return Key.get(Command.class, name);
   }
@@ -138,6 +142,11 @@ public class Commands {
     public String toString() {
       return "CommandName[" + nameOf(this) + "]";
     }
+  }
+
+  @AutoAnnotation
+  private static GlobalAliasCommandName aliased(String value) {
+    return new AutoAnnotation_Commands_aliased(value);
   }
 
   private Commands() {

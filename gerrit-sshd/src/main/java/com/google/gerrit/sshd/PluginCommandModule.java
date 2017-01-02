@@ -51,4 +51,13 @@ public abstract class PluginCommandModule extends CommandModule {
     alias(command, name, clazz);
   }
 
+  protected void globalAlias(String from, Class<? extends BaseCommand> clazz) {
+    CommandMetaData meta = clazz.getAnnotation(CommandMetaData.class);
+    if (meta == null) {
+      throw new IllegalStateException("no CommandMetaData annotation found");
+    }
+    CommandName to = Commands.named(command, meta.name());
+    bind(Commands.aliasKey(from))
+      .toProvider(new AliasCommandProvider(to));
+  }
 }

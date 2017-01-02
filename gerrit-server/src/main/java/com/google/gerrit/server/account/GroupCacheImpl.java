@@ -21,11 +21,13 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
@@ -33,6 +35,7 @@ import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -76,17 +79,20 @@ public class GroupCacheImpl implements GroupCache {
   private final LoadingCache<String, Optional<AccountGroup>> byName;
   private final LoadingCache<String, Optional<AccountGroup>> byUUID;
   private final SchemaFactory<ReviewDb> schema;
+  private final Provider<GroupIndexer> indexer;
 
   @Inject
   GroupCacheImpl(
       @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId,
       @Named(BYNAME_NAME) LoadingCache<String, Optional<AccountGroup>> byName,
       @Named(BYUUID_NAME) LoadingCache<String, Optional<AccountGroup>> byUUID,
-      SchemaFactory<ReviewDb> schema) {
+      SchemaFactory<ReviewDb> schema,
+      Provider<GroupIndexer> indexer) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
     this.schema = schema;
+    this.indexer = indexer;
   }
 
   @Override
@@ -101,7 +107,7 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void evict(final AccountGroup group) {
+  public void evict(final AccountGroup group) throws IOException {
     if (group.getId() != null) {
       byId.invalidate(group.getId());
     }
@@ -111,17 +117,19 @@ public class GroupCacheImpl implements GroupCache {
     if (group.getGroupUUID() != null) {
       byUUID.invalidate(group.getGroupUUID().get());
     }
+    indexer.get().index(group.getGroupUUID());
   }
 
   @Override
   public void evictAfterRename(final AccountGroup.NameKey oldName,
-      final AccountGroup.NameKey newName) {
+      final AccountGroup.NameKey newName) throws IOException {
     if (oldName != null) {
       byName.invalidate(oldName.get());
     }
     if (newName != null) {
       byName.invalidate(newName.get());
     }
+    indexer.get().index(get(newName).getGroupUUID());
   }
 
   @Override
@@ -161,8 +169,10 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   @Override
-  public void onCreateGroup(AccountGroup.NameKey newGroupName) {
+  public void onCreateGroup(AccountGroup.NameKey newGroupName)
+      throws IOException {
     byName.invalidate(newGroupName.get());
+    indexer.get().index(get(newGroupName).getGroupUUID());
   }
 
   private static AccountGroup missing(AccountGroup.Id key) {

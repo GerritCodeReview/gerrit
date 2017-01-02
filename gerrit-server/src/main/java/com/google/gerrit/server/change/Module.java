@@ -36,6 +36,7 @@ public class Module extends RestApiModule {
     bind(ChangesCollection.class);
     bind(Revisions.class);
     bind(Reviewers.class);
+    bind(RevisionReviewers.class);
     bind(DraftComments.class);
     bind(Comments.class);
     bind(RobotComments.class);
@@ -113,6 +114,11 @@ public class Module extends RestApiModule {
     post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
     get(REVISION_KIND, "archive").to(GetArchive.class);
     get(REVISION_KIND, "mergelist").to(GetMergeList.class);
+
+    child(REVISION_KIND, "reviewers").to(RevisionReviewers.class);
+    child(REVIEWER_KIND, "votes").to(Votes.class);
+    delete(VOTE_KIND).to(DeleteVote.class);
+    post(VOTE_KIND, "delete").to(DeleteVote.class);
 
     child(REVISION_KIND, "drafts").to(DraftComments.class);
     put(REVISION_KIND, "drafts").to(CreateDraftComment.class);

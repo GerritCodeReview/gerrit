@@ -30,9 +30,11 @@ public class ReviewerResource implements RestResource {
 
   public interface Factory {
     ReviewerResource create(ChangeResource change, Account.Id id);
+    ReviewerResource create(RevisionResource revision, Account.Id id);
   }
 
   private final ChangeResource change;
+  private final RevisionResource revision;
   private final IdentifiedUser user;
 
   @AssistedInject
@@ -40,11 +42,25 @@ public class ReviewerResource implements RestResource {
       @Assisted ChangeResource change,
       @Assisted Account.Id id) {
     this.change = change;
+    this.revision = null;
+    this.user = userFactory.create(id);
+  }
+
+  @AssistedInject
+  ReviewerResource(IdentifiedUser.GenericFactory userFactory,
+      @Assisted RevisionResource revision,
+      @Assisted Account.Id id) {
+    this.revision = revision;
+    this.change = revision.getChangeResource();
     this.user = userFactory.create(id);
   }
 
   public ChangeResource getChangeResource() {
     return change;
+  }
+
+  public RevisionResource getRevisionResource() {
+    return revision;
   }
 
   public Change.Id getChangeId() {

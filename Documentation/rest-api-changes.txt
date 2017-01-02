@@ -4762,6 +4762,48 @@ As response the change's hashtags are returned as a list of strings.
   ]
 ----
 
+[[delete-revision-vote]]
+=== Delete Revision Vote
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]
+/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]/votes/link:#label-id[\{label-id\}]' +
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]
+/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]/votes/link:#label-id[\{label-id\}]/delete'
+--
+
+Deletes a single vote from a revision. The deletion will be possible only
+if the revision is the current revision. By this endpoint you can prevent deleting
+the vote (with same label) from a newer patch set by mistake.
+
+Note, that even when the last vote of a reviewer is removed the reviewer itself is still listed on the change.
+
+Options can be provided in the request body as a link:#delete-vote-input[DeleteVoteInput] entity.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/reviewers/John%20Doe/votes/Code-Review HTTP/1.0
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/reviewers/John%20Doe/votes/Code-Review/delete HTTP/1.0
+----
+
+Please note that some proxies prohibit request bodies for DELETE
+requests. In this case, if you want to specify options, use a POST
+request:
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/reviewers/John%20Doe/votes/Code-Review/delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "notify": "NONE"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[ids]]
 == IDs
 

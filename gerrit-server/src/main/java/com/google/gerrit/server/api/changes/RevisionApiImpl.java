@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.RobotCommentApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -63,6 +64,7 @@ import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.Reviewed;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.RevisionReviewers;
 import com.google.gerrit.server.change.RobotComments;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.change.TestSubmitType;
@@ -89,6 +91,8 @@ class RevisionApiImpl implements RevisionApi {
 
   private final GitRepositoryManager repoManager;
   private final Changes changes;
+  private final RevisionReviewers revisionReviewers;
+  private final ReviewerApiImpl.Factory reviewerApi;
   private final CherryPick cherryPick;
   private final DeleteDraftPatchSet deleteDraft;
   private final Rebase rebase;
@@ -125,6 +129,8 @@ class RevisionApiImpl implements RevisionApi {
   @Inject
   RevisionApiImpl(GitRepositoryManager repoManager,
       Changes changes,
+      RevisionReviewers revisionReviewers,
+      ReviewerApiImpl.Factory reviewerApi,
       CherryPick cherryPick,
       DeleteDraftPatchSet deleteDraft,
       Rebase rebase,
@@ -159,6 +165,8 @@ class RevisionApiImpl implements RevisionApi {
       @Assisted RevisionResource r) {
     this.repoManager = repoManager;
     this.changes = changes;
+    this.revisionReviewers = revisionReviewers;
+    this.reviewerApi = reviewerApi;
     this.cherryPick = cherryPick;
     this.deleteDraft = deleteDraft;
     this.rebase = rebase;
@@ -278,6 +286,16 @@ class RevisionApiImpl implements RevisionApi {
       return changes.id(cherryPick.apply(revision, in)._number);
     } catch (OrmException | IOException | UpdateException e) {
       throw new RestApiException("Cannot cherry pick", e);
+    }
+  }
+
+  @Override
+  public ReviewerApi reviewer(String id) throws RestApiException {
+    try {
+      return reviewerApi.create(
+          revisionReviewers.parse(revision, IdString.fromDecoded(id)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse reviewer", e);
     }
   }
 

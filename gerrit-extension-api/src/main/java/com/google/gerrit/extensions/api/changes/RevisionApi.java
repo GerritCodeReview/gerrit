@@ -48,6 +48,7 @@ public interface RevisionApi {
   ChangeApi rebase(RebaseInput in) throws RestApiException;
   boolean canRebase() throws RestApiException;
 
+  ReviewerApi reviewer(String id) throws RestApiException;
   void setReviewed(String path, boolean reviewed) throws RestApiException;
   Set<String> reviewed() throws RestApiException;
 
@@ -159,6 +160,11 @@ public interface RevisionApi {
 
     @Override
     public boolean canRebase() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ReviewerApi reviewer(String id) throws RestApiException {
       throw new NotImplementedException();
     }
 

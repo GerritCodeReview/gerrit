@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
@@ -28,8 +29,11 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson;
-import com.google.gerrit.server.group.ListGroups;
+import com.google.gerrit.server.group.QueryGroups;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
+import com.google.gerrit.server.query.group.GroupQueryBuilder;
+import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -59,7 +63,7 @@ public class ListGroupsCommand extends SshCommand {
     parseCommandLine(impl);
   }
 
-    private static class MyListGroups extends ListGroups {
+    private static class MyListGroups extends QueryGroups {
     @Option(name = "--verbose", aliases = {"-v"},
         usage = "verbose output format with tab-separated columns for the " +
             "group name, UUID, description, owner group name, " +
@@ -67,19 +71,23 @@ public class ListGroupsCommand extends SshCommand {
     private boolean verboseOutput;
 
     @Inject
-    MyListGroups(final GroupCache groupCache,
-        final GroupControl.Factory groupControlFactory,
-        final GroupControl.GenericFactory genericGroupControlFactory,
-        final Provider<IdentifiedUser> identifiedUser,
-        final IdentifiedUser.GenericFactory userFactory,
-        final GetGroups accountGetGroups,
-        final GroupJson json,
-        GroupBackend groupBackend) {
+    MyListGroups(GroupCache groupCache,
+        GroupControl.Factory groupControlFactory,
+        GroupControl.GenericFactory genericGroupControlFactory,
+        GroupIndexCollection indexes,
+        GroupQueryBuilder queryBuilder,
+        GroupQueryProcessor queryProcessor,
+        Provider<IdentifiedUser> identifiedUser,
+        IdentifiedUser.GenericFactory userFactory,
+        GetGroups accountGetGroups,
+        GroupJson json, GroupBackend groupBackend) {
       super(groupCache, groupControlFactory, genericGroupControlFactory,
-          identifiedUser, userFactory, accountGetGroups, json, groupBackend);
+          indexes, queryBuilder, queryProcessor, identifiedUser, userFactory,
+          accountGetGroups, json, groupBackend);
     }
 
-    void display(final PrintWriter out) throws OrmException, BadRequestException {
+    void display(final PrintWriter out)
+        throws OrmException, BadRequestException, MethodNotAllowedException {
       final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
       for (final GroupInfo info : get()) {
         formatter.addColumn(MoreObjects.firstNonNull(info.name, "n/a"));

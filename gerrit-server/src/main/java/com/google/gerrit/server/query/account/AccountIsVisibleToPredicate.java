@@ -14,26 +14,13 @@
 
 package com.google.gerrit.server.query.account;
 
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.query.IsVisibleToPredicate;
-import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
 
 public class AccountIsVisibleToPredicate
     extends IsVisibleToPredicate<AccountState> {
-  private static String describe(CurrentUser user) {
-    if (user.isIdentifiedUser()) {
-      return user.getAccountId().toString();
-    }
-    if (user instanceof SingleGroupUser) {
-      return "group:" + user.getEffectiveGroups().getKnownGroups() //
-          .iterator().next().toString();
-    }
-    return user.toString();
-  }
-
   private final AccountControl accountControl;
 
   AccountIsVisibleToPredicate(AccountControl accountControl) {

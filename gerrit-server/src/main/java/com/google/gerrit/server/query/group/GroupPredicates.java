@@ -12,21 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.index.group;
+package com.google.gerrit.server.query.group;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.index.Index;
-import com.google.gerrit.server.index.IndexDefinition;
+import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.group.GroupPredicates;
 
-public interface GroupIndex extends Index<AccountGroup.UUID, AccountGroup> {
-  public interface Factory extends
-      IndexDefinition.IndexFactory<AccountGroup.UUID, AccountGroup, GroupIndex> {
+public class GroupPredicates {
+  public static Predicate<AccountGroup> uuid(AccountGroup.UUID uuid) {
+    return new GroupPredicate(GroupField.UUID,
+        GroupQueryBuilder.FIELD_UUID, uuid.get());
   }
 
-  @Override
-  default Predicate<AccountGroup> keyPredicate(AccountGroup.UUID uuid) {
-    return GroupPredicates.uuid(uuid);
+  static class GroupPredicate extends IndexPredicate<AccountGroup> {
+    GroupPredicate(FieldDef<AccountGroup, ?> def, String value) {
+      super(def, value);
+    }
+
+    GroupPredicate(FieldDef<AccountGroup, ?> def, String name, String value) {
+      super(def, name, value);
+    }
+  }
+
+  private GroupPredicates() {
   }
 }

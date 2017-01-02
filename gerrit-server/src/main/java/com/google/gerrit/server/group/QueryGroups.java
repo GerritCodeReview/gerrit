@@ -151,7 +151,7 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
   }
 
   @Option(name = "-o", usage = "Output options per group")
-  void addOption(ListGroupsOption o) {
+  public void addOption(ListGroupsOption o) {
     options.add(o);
   }
 

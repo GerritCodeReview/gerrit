@@ -208,6 +208,29 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_302de6c4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T15:26:38Z",
+      "side": 1,
+      "message": "As discussed offline, the ReviewerApi, which is already used on change level, shouldn\u0027t be reused on revision level. Better define a new RevisionReviewerApi which has only the methods that we want to expose on revision level.",
+      "range": {
+        "startLine": 167,
+        "startChar": 11,
+        "endLine": 167,
+        "endChar": 22
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_fe20d5c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
         "patchSetId": 5

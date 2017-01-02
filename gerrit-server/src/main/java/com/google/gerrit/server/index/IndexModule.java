@@ -36,6 +36,7 @@ import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexDefinition;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.inject.Injector;
@@ -101,6 +102,9 @@ public class IndexModule extends LifecycleModule {
     bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
+
+    bind(GroupIndexCollection.class);
+    listener().to(GroupIndexCollection.class);
   }
 
   @Provides

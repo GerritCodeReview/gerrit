@@ -29,7 +29,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupsCollection;
-import com.google.gerrit.server.group.ListGroups;
+import com.google.gerrit.server.group.QueryGroups;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -44,7 +44,7 @@ class GroupsImpl implements Groups {
   private final AccountsCollection accounts;
   private final GroupsCollection groups;
   private final ProjectsCollection projects;
-  private final Provider<ListGroups> listGroups;
+  private final Provider<QueryGroups> listGroups;
   private final Provider<CurrentUser> user;
   private final CreateGroup.Factory createGroup;
   private final GroupApiImpl.Factory api;
@@ -54,7 +54,7 @@ class GroupsImpl implements Groups {
       AccountsCollection accounts,
       GroupsCollection groups,
       ProjectsCollection projects,
-      Provider<ListGroups> listGroups,
+      Provider<QueryGroups> listGroups,
       Provider<CurrentUser> user,
       CreateGroup.Factory createGroup,
       GroupApiImpl.Factory api) {
@@ -108,7 +108,7 @@ class GroupsImpl implements Groups {
   private SortedMap<String, GroupInfo> list(ListRequest req)
       throws RestApiException {
     TopLevelResource tlr = TopLevelResource.INSTANCE;
-    ListGroups list = listGroups.get();
+    QueryGroups list = listGroups.get();
     list.setOptions(req.getOptions());
 
     for (String project : req.getProjects()) {

@@ -36,7 +36,10 @@ import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexDefinition;
+import com.google.gerrit.server.index.group.GroupIndexer;
+import com.google.gerrit.server.index.group.GroupIndexerImpl;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -101,6 +104,10 @@ public class IndexModule extends LifecycleModule {
     bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);
+
+    bind(GroupIndexCollection.class);
+    listener().to(GroupIndexCollection.class);
+    factory(GroupIndexerImpl.Factory.class);
   }
 
   @Provides
@@ -143,6 +150,13 @@ public class IndexModule extends LifecycleModule {
     // Bind default indexer to interactive executor; callers who need a
     // different executor can use the factory directly.
     return factory.create(executor, indexes);
+  }
+
+  @Provides
+  @Singleton
+  GroupIndexer getGroupIndexer(GroupIndexerImpl.Factory factory,
+      GroupIndexCollection indexes) {
+    return factory.create(indexes);
   }
 
   @Provides

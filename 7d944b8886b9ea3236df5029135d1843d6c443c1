@@ -1,0 +1,319 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_de2a39aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "better: to support deleting a vote on a revision",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_3e408d73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "deleting",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_1e3dd1ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "This is an internal issue that is not visible from outside of Google. It shouldn\u0027t be mentioned in an open source commit. Please remove this line.",
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_5e37490b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4775,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "nit: long line, please wrap at 80 chars (except examples)",
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_d085829b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4775,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "By using this...",
+      "range": {
+        "startLine": 4775,
+        "startChar": 41,
+        "endLine": 4775,
+        "endChar": 48
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_be165d70",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4780,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "nit: long lines",
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_1049caaa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "better: \"deleteVoteOnNonCurrentPatchSet\"",
+      "range": {
+        "startLine": 1062,
+        "startChar": 14,
+        "endLine": 1062,
+        "endChar": 43
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_de2519d2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "Be concrete and define which subtype of RestApiException is expected.",
+      "range": {
+        "startLine": 1077,
+        "startChar": 21,
+        "endLine": 1077,
+        "endChar": 37
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_704e4eb4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "better: \"deleteVoteOnCurrentPatchSet\"",
+      "range": {
+        "startLine": 1088,
+        "startChar": 14,
+        "endLine": 1088,
+        "endChar": 45
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_3e0b6d4b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "Not sure if I understand this comment. Remove it?",
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_fe20d5c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "This comment is not needed and can be removed. The reader gets the same information from the error message below.",
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_5e12a978",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "This should be a concrete subtype of RestApiException so that the users gets a proper HTTP error code. I would suggest MethodNotAllowedException in this case.",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 32
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_3044c694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "Better: \"Cannot delete vote on non-current patch set\"\n\n\u0027stale\u0027 sounds like it\u0027s a temporary condition and like the patch set may recover from it.",
+      "range": {
+        "startLine": 115,
+        "startChar": 34,
+        "endLine": 115,
+        "endChar": 77
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_7e15e55e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListRevisionReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "I\u0027m not entirely happy with the implementation of this REST endpoint. Since the REST endpoint is on revision level it makes the impression that it would return accounts which have been reviewer on that revision, but in fact it returns the current reviewers of the change. So the result may unexpectedly contain new reviewers which have been added on later patch sets or some reviewers may be missing because they have been deleted in the meantime.\n\nImplementing this REST endpoint correctly is difficult since we know only the current reviewers and don\u0027t have the information about historic reviewers of the change (at least with ReviewDb, for NoteDb we may be able to implement this).\n\nSince we need this REST endpoint only to support deleting a vote on the current revision, I would propose to limit this REST endpoint to the current revision. Means, leave the implementation as it is, but throw a MethodNotAllowedException if it is invoked for a non-current revision.",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 3
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_1e08314b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T14:55:23Z",
+      "side": 1,
+      "message": "Please document these new REST endpoints too.",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 50
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

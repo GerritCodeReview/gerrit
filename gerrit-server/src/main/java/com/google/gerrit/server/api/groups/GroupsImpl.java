@@ -20,6 +20,7 @@ import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapa
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups;
+import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.ListGroups;
+import com.google.gerrit.server.group.QueryGroups;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -37,6 +39,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.SortedMap;
 
 @Singleton
@@ -45,6 +48,7 @@ class GroupsImpl implements Groups {
   private final GroupsCollection groups;
   private final ProjectsCollection projects;
   private final Provider<ListGroups> listGroups;
+  private final Provider<QueryGroups> queryGroups;
   private final Provider<CurrentUser> user;
   private final CreateGroup.Factory createGroup;
   private final GroupApiImpl.Factory api;
@@ -55,6 +59,7 @@ class GroupsImpl implements Groups {
       GroupsCollection groups,
       ProjectsCollection projects,
       Provider<ListGroups> listGroups,
+      Provider<QueryGroups> queryGroups,
       Provider<CurrentUser> user,
       CreateGroup.Factory createGroup,
       GroupApiImpl.Factory api) {
@@ -62,6 +67,7 @@ class GroupsImpl implements Groups {
     this.groups = groups;
     this.projects = projects;
     this.listGroups = listGroups;
+    this.queryGroups = queryGroups;
     this.user = user;
     this.createGroup = createGroup;
     this.api = api;
@@ -143,6 +149,37 @@ class GroupsImpl implements Groups {
       return list.apply(tlr);
     } catch (OrmException e) {
       throw new RestApiException("Cannot list groups", e);
+    }
+  }
+
+  @Override
+  public QueryRequest query() {
+    return new QueryRequest() {
+      @Override
+      public List<GroupInfo> get() throws RestApiException {
+        return GroupsImpl.this.query(this);
+      }
+    };
+  }
+
+  @Override
+  public QueryRequest query(String query) {
+    return query().withQuery(query);
+  }
+
+  private List<GroupInfo> query(QueryRequest r)
+    throws RestApiException {
+    try {
+      QueryGroups myQueryGroups = queryGroups.get();
+      myQueryGroups.setQuery(r.getQuery());
+      myQueryGroups.setLimit(r.getLimit());
+      myQueryGroups.setStart(r.getStart());
+      for (ListGroupsOption option : r.getOptions()) {
+        myQueryGroups.addOption(option);
+      }
+      return myQueryGroups.apply(TopLevelResource.INSTANCE);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot query groups", e);
     }
   }
 }

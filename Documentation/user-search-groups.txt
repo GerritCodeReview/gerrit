@@ -1,0 +1,36 @@
+= Gerrit Code Review - Searching Groups
+
+[[search-operators]]
+== Search Operators
+
+Operators act as restrictions on the search. As more operators
+are added to the same query string, they further restrict the
+returned results.
+
+[[uuid]]
+uuid:'UUID'::
++
+Matches groups that have the UUID 'UUID'.
+
+== Magical Operators
+
+[[is-visible]]
+is:visible::
++
+Magical internal flag to prove the current user has access to read
+the change. This flag is always added to any query.
+
+[[limit]]
+limit:'CNT'::
++
+Limit the returned results to no more than 'CNT' records. This is
+automatically set to the page size configured in the current user's
+preferences. Including it in a web query may lead to unpredictable
+results with regards to pagination.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

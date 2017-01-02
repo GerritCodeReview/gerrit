@@ -25,6 +25,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -37,7 +38,12 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupComparator;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.group.GroupQueryBuilder;
+import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -58,7 +64,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /** List groups visible to the calling user. */
-public class ListGroups implements RestReadView<TopLevelResource> {
+public class QueryGroups implements RestReadView<TopLevelResource> {
 
   protected final GroupCache groupCache;
 
@@ -66,6 +72,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final Set<AccountGroup.UUID> groupsToInspect = new HashSet<>();
   private final GroupControl.Factory groupControlFactory;
   private final GroupControl.GenericFactory genericGroupControlFactory;
+  private final GroupIndexCollection indexes;
+  private final GroupQueryBuilder queryBuilder;
+  private final GroupQueryProcessor queryProcessor;
   private final Provider<IdentifiedUser> identifiedUser;
   private final IdentifiedUser.GenericFactory userFactory;
   private final GetGroups accountGetGroups;
@@ -81,6 +90,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private int start;
   private String matchSubstring;
   private String suggest;
+  private String query;
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
@@ -135,6 +145,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.suggest = suggest;
   }
 
+  @Option(name = "--query", usage = "a group query")
+  public void setQuery(String query) {
+    this.query = query;
+  }
+
   @Option(name = "-o", usage = "Output options per group")
   void addOption(ListGroupsOption o) {
     options.add(o);
@@ -146,17 +161,23 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  protected ListGroups(final GroupCache groupCache,
-      final GroupControl.Factory groupControlFactory,
-      final GroupControl.GenericFactory genericGroupControlFactory,
-      final Provider<IdentifiedUser> identifiedUser,
-      final IdentifiedUser.GenericFactory userFactory,
-      final GetGroups accountGetGroups,
+  protected QueryGroups(GroupCache groupCache,
+      GroupControl.Factory groupControlFactory,
+      GroupControl.GenericFactory genericGroupControlFactory,
+      GroupIndexCollection indexes,
+      GroupQueryBuilder queryBuilder,
+      GroupQueryProcessor queryProcessor,
+      Provider<IdentifiedUser> identifiedUser,
+      IdentifiedUser.GenericFactory userFactory,
+      GetGroups accountGetGroups,
       GroupJson json,
       GroupBackend groupBackend) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.genericGroupControlFactory = genericGroupControlFactory;
+    this.indexes = indexes;
+    this.queryBuilder = queryBuilder;
+    this.queryProcessor = queryProcessor;
     this.identifiedUser = identifiedUser;
     this.userFactory = userFactory;
     this.accountGetGroups = accountGetGroups;
@@ -178,7 +199,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Override
   public SortedMap<String, GroupInfo> apply(TopLevelResource resource)
-      throws OrmException, BadRequestException {
+      throws OrmException, BadRequestException, MethodNotAllowedException {
     SortedMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(
@@ -189,9 +210,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return output;
   }
 
-  public List<GroupInfo> get() throws OrmException, BadRequestException {
+  public List<GroupInfo> get()
+      throws OrmException, BadRequestException, MethodNotAllowedException {
     if (!Strings.isNullOrEmpty(suggest)) {
       return suggestGroups();
+    }
+
+    if (!Strings.isNullOrEmpty(query)) {
+      return query();
     }
 
     if (owned) {
@@ -205,6 +231,42 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
 
     return getAllGroups();
+  }
+
+  private List<GroupInfo> query()
+      throws BadRequestException, MethodNotAllowedException, OrmException {
+    if (conflictingQueryParameters()) {
+      throw new BadRequestException(
+          "You should only have no more than one --start and -n with --query");
+    }
+
+    GroupIndex searchIndex = indexes.getSearchIndex();
+    if (searchIndex == null) {
+      throw new MethodNotAllowedException("no group index");
+    }
+
+    if (start != 0) {
+      queryProcessor.setStart(start);
+    }
+
+    if (limit != 0) {
+      queryProcessor.setLimit(limit);
+    }
+
+    try {
+      List<AccountGroup> result =
+          queryProcessor.query(queryBuilder.parse(query)).entities();
+
+      ArrayList<GroupInfo> groupInfos =
+          Lists.newArrayListWithCapacity(result.size());
+      for (AccountGroup group : result) {
+        groupInfos.add(json.addOptions(options)
+            .format(GroupDescriptions.forAccountGroup(group)));
+      }
+      return groupInfos;
+    } catch (QueryParseException e) {
+      throw new BadRequestException(e.getMessage());
+    }
   }
 
   private List<GroupInfo> getAllGroups() throws OrmException {
@@ -285,6 +347,40 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       return true;
     }
     if (!Strings.isNullOrEmpty(matchSubstring)) {
+      return true;
+    }
+    if (query != null) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean conflictingQueryParameters() {
+    if (Strings.isNullOrEmpty(query)) {
+      return false;
+    }
+    if (projects.size() > 1) {
+      return true;
+    }
+    if (visibleToAll) {
+      return true;
+    }
+    if (user != null) {
+      return true;
+    }
+    if (owned) {
+      return true;
+    }
+    if (!groupsToInspect.isEmpty()) {
+      return true;
+    }
+    if (!Strings.isNullOrEmpty(matchSubstring)) {
+      return true;
+    }
+    if (suggest != null) {
+      return true;
+    }
+    if (!projects.isEmpty()) {
       return true;
     }
     return false;

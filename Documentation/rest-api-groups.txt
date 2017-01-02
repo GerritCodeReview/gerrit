@@ -182,13 +182,47 @@ When using this option, the `project` or `p` option can be used to
 name the current project, to allow context-dependent suggestions.
 
 Not compatible with `visible-to-all`, `owned`, `user`, `match`, `q`,
-or `S`.
+`S`, or `query`.
 (Attempts to use one of those options combined with `suggest` will
 error out.)
 
 .Request
 ----
   GET /groups/?suggest=ad&p=All-Projects HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "Administrators": {
+      "url": "#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "options": {},
+      "description": "Gerrit Site Administrators",
+      "group_id": 1,
+      "owner": "Administrators",
+      "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b"
+    }
+  }
+----
+
+[[query-group]]
+==== Query Group
+
+Queries groups visible to the caller. The
+link:user-search-groups.html#_search_operators[query string] must be
+provided by the `query` parameter. The `start` and `n` parameters can
+be used to skip/limit the results. Other options are not compatible and
+using any of them in combination with `query` results in an error.
+
+.Request
+----
+  GET /groups/?query=uuid:59b92f35489e62c80d1ab1bf0c2d17843038df8b HTTP/1.0
 ----
 
 .Response

@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_b065563b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T08:38:38Z",
+      "side": 1,
+      "message": "OK. I modified the commit message to make it clearer that some cleanup to this will come with the follow-up change.",
+      "parentUuid": "17f0de9e_4dd579fb",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "8c1b3c810566548fd3e9bd1f8acafbc98265704d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_bb778f79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
         "patchSetId": 6

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index;
 
-import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
@@ -23,6 +22,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.account.AccountField;
+import com.google.gerrit.server.index.group.GroupField;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -47,9 +48,9 @@ public final class IndexUtils {
 
   public static Set<String> accountFields(QueryOptions opts) {
     Set<String> fs = opts.fields();
-    return fs.contains(ID.getName())
+    return fs.contains(AccountField.ID.getName())
         ? fs
-        : Sets.union(fs, ImmutableSet.of(ID.getName()));
+        : Sets.union(fs, ImmutableSet.of(AccountField.ID.getName()));
   }
 
   public static Set<String> changeFields(QueryOptions opts) {
@@ -66,6 +67,13 @@ public final class IndexUtils {
     }
     return Sets.union(fs,
         ImmutableSet.of(LEGACY_ID.getName(), PROJECT.getName()));
+  }
+
+  public static Set<String> groupFields(QueryOptions opts) {
+    Set<String> fs = opts.fields();
+    return fs.contains(GroupField.UUID.getName())
+        ? fs
+        : Sets.union(fs, ImmutableSet.of(GroupField.UUID.getName()));
   }
 
   private IndexUtils() {

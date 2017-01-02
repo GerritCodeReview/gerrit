@@ -36,6 +36,8 @@ import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.group.GroupIndexDefinition;
+import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -61,7 +63,8 @@ public class IndexModule extends LifecycleModule {
   public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
       ImmutableList.<SchemaDefinitions<?>> of(
           AccountSchemaDefinitions.INSTANCE,
-          ChangeSchemaDefinitions.INSTANCE);
+          ChangeSchemaDefinitions.INSTANCE,
+          GroupSchemaDefinitions.INSTANCE);
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
@@ -103,10 +106,12 @@ public class IndexModule extends LifecycleModule {
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
       AccountIndexDefinition accounts,
-      ChangeIndexDefinition changes) {
+      ChangeIndexDefinition changes,
+      GroupIndexDefinition groups) {
     Collection<IndexDefinition<?, ?, ?>> result =
         ImmutableList.<IndexDefinition<?, ?, ?>> of(
             accounts,
+            groups,
             changes);
     Set<String> expected = FluentIterable.from(ALL_SCHEMA_DEFS)
         .transform(SchemaDefinitions::getName)

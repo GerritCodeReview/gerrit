@@ -47,6 +47,30 @@
       "revId": "52ab912ed581cb9640d2837f130dcec0fe5d89cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_be993d0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T08:22:59Z",
+      "side": 1,
+      "message": "Renamed it to AllKey.",
+      "parentUuid": "1a1ba32a_fe7c55d6",
+      "range": {
+        "startLine": 180,
+        "startChar": 15,
+        "endLine": 180,
+        "endChar": 22
+      },
+      "revId": "52ab912ed581cb9640d2837f130dcec0fe5d89cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

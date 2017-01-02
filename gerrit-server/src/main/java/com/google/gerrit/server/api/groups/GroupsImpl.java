@@ -20,6 +20,7 @@ import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapa
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups;
+import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -143,6 +144,37 @@ class GroupsImpl implements Groups {
       return list.apply(tlr);
     } catch (OrmException e) {
       throw new RestApiException("Cannot list groups", e);
+    }
+  }
+
+  @Override
+  public QueryRequest query() {
+    return new QueryRequest() {
+      @Override
+      public SortedMap<String, GroupInfo> get() throws RestApiException {
+        return GroupsImpl.this.query(this);
+      }
+    };
+  }
+
+  @Override
+  public QueryRequest query(String query) {
+    return query().withQuery(query);
+  }
+
+  private SortedMap<String, GroupInfo> query(QueryRequest r)
+    throws RestApiException {
+    try {
+      QueryGroups myQueryGroups = queryGroups.get();
+      myQueryGroups.setQuery(r.getQuery());
+      myQueryGroups.setLimit(r.getLimit());
+      myQueryGroups.setStart(r.getStart());
+      for (ListGroupsOption option : r.getOptions()) {
+        myQueryGroups.addOption(option);
+      }
+      return myQueryGroups.apply(TopLevelResource.INSTANCE);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot query groups", e);
     }
   }
 }

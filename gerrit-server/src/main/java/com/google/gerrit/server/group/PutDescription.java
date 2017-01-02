@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -51,7 +52,7 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
   @Override
   public Response<String> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException,
-      ResourceNotFoundException, OrmException {
+      ResourceNotFoundException, OrmException, IOException {
     if (input == null) {
       input = new Input(); // Delete would set description to null.
     }

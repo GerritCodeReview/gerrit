@@ -143,7 +143,7 @@ class GroupApiImpl implements GroupApi {
       putName.apply(rsrc, in);
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException(name, e);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot put group name", e);
     }
   }
@@ -163,7 +163,7 @@ class GroupApiImpl implements GroupApi {
     in.owner = owner;
     try {
       putOwner.apply(rsrc, in);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot put group owner", e);
     }
   }
@@ -179,7 +179,7 @@ class GroupApiImpl implements GroupApi {
     in.description = description;
     try {
       putDescription.apply(rsrc, in);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot put group description", e);
     }
   }
@@ -193,7 +193,7 @@ class GroupApiImpl implements GroupApi {
   public void options(GroupOptionsInfo options) throws RestApiException {
     try {
       putOptions.apply(rsrc, options);
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot put group options", e);
     }
   }

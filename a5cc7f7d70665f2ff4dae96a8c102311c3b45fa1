@@ -22,6 +22,30 @@
       "revId": "a5cc7f7d70665f2ff4dae96a8c102311c3b45fa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_50819298",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-02T08:26:09Z",
+      "side": 1,
+      "message": "OK. I will modify like that.",
+      "parentUuid": "17f0de9e_707c8ed4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "a5cc7f7d70665f2ff4dae96a8c102311c3b45fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

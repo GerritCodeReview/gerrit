@@ -34,10 +34,6 @@ import com.google.inject.ProvisionException;
  * Parses a query string meant to be applied to account objects.
  */
 public class AccountQueryBuilder extends QueryBuilder<AccountState> {
-  public interface ChangeOperatorFactory
-      extends OperatorFactory<AccountState, AccountQueryBuilder> {
-  }
-
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";

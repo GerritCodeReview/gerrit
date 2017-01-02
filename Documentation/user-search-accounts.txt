@@ -1,6 +1,6 @@
 = Gerrit Code Review - Searching Accounts
 
-== Basic Change Search
+== Basic Account Search
 
 Similar to many popular search engines on the web, just enter some
 text and let Gerrit figure out the meaning:
@@ -57,7 +57,7 @@ Matches accounts that have the username 'USERNAME'.
 is:visible::
 +
 Magical internal flag to prove the current user has access to read
-the change. This flag is always added to any query.
+the account. This flag is always added to any query.
 
 [[is-active-magic]]
 is:active::

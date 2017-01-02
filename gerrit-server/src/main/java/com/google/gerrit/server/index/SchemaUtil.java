@@ -90,12 +90,16 @@ public class SchemaUtil {
     if (person == null) {
       return ImmutableSet.of();
     }
-    return getPersonParts(
+    return getNameParts(
         person.getName(),
         Collections.singleton(person.getEmailAddress()));
   }
 
-  public static Set<String> getPersonParts(String name,
+  public static Set<String> getNameParts(String name) {
+    return getNameParts(name, Collections.emptySet());
+  }
+
+  public static Set<String> getNameParts(String name,
       Iterable<String> emails) {
     Splitter at = Splitter.on('@');
     Splitter s = Splitter.on(CharMatcher.anyOf("@.- ")).omitEmptyStrings();

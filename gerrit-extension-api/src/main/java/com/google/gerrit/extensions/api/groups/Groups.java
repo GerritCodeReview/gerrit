@@ -52,6 +52,25 @@ public interface Groups {
   /** @return new request for listing groups. */
   ListRequest list();
 
+  /**
+   * Queries groups.
+   * <p>
+   * Example code:
+   * {@code query().withQuery("uuid:085178e5de6302324675715ca22f4027538253ba").get()}
+   *
+   * @return API for setting parameters and getting result.
+   */
+  QueryRequest query();
+
+  /**
+   * Queries groups.
+   * <p>
+   * Shortcut API for {@code query().withQuery(String)}.
+   *
+   * @see #query()
+   */
+  QueryRequest query(String query);
+
   abstract class ListRequest {
     private final EnumSet<ListGroupsOption> options =
         EnumSet.noneOf(ListGroupsOption.class);
@@ -182,6 +201,84 @@ public interface Groups {
   }
 
   /**
+   * API for setting parameters and getting result.
+   * Used for {@code query()}.
+   *
+   * @see #query()
+   */
+  abstract class QueryRequest {
+    private String query;
+    private int limit;
+    private int start;
+    private EnumSet<ListGroupsOption> options =
+        EnumSet.noneOf(ListGroupsOption.class);
+
+    /**
+     * Executes query and returns the matched groups as list.
+     */
+    public abstract List<GroupInfo> get() throws RestApiException;
+
+    /**
+     * Set query.
+     *
+     * @param query needs to be in human-readable form.
+     */
+    public QueryRequest withQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
+    /**
+     * Set limit for returned list of groups.
+     * Optional; server-default is used when not provided.
+     */
+    public QueryRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    /**
+     * Set number of groups to skip.
+     * Optional; no groups are skipped when not provided.
+     */
+    public QueryRequest withStart(int start) {
+      this.start = start;
+      return this;
+    }
+
+    public QueryRequest withOption(ListGroupsOption options) {
+      this.options.add(options);
+      return this;
+    }
+
+    public QueryRequest withOptions(ListGroupsOption... options) {
+      this.options.addAll(Arrays.asList(options));
+      return this;
+    }
+
+    public QueryRequest withOptions(EnumSet<ListGroupsOption> options) {
+      this.options = options;
+      return this;
+    }
+
+    public String getQuery() {
+      return query;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+
+    public int getStart() {
+      return start;
+    }
+
+    public EnumSet<ListGroupsOption> getOptions() {
+      return options;
+    }
+  }
+
+  /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
@@ -203,6 +300,16 @@ public interface Groups {
 
     @Override
     public ListRequest list() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public QueryRequest query() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public QueryRequest query(String query) {
       throw new NotImplementedException();
     }
   }

@@ -42,7 +42,7 @@ public class GroupsCollection implements
     RestCollection<TopLevelResource, GroupResource>,
     AcceptsCreate<TopLevelResource> {
   private final DynamicMap<RestView<GroupResource>> views;
-  private final Provider<ListGroups> list;
+  private final Provider<QueryGroups> list;
   private final CreateGroup.Factory createGroup;
   private final GroupControl.Factory groupControlFactory;
   private final GroupBackend groupBackend;
@@ -50,7 +50,7 @@ public class GroupsCollection implements
 
   @Inject
   GroupsCollection(final DynamicMap<RestView<GroupResource>> views,
-      final Provider<ListGroups> list,
+      final Provider<QueryGroups> list,
       final CreateGroup.Factory createGroup,
       final GroupControl.Factory groupControlFactory,
       final GroupBackend groupBackend,

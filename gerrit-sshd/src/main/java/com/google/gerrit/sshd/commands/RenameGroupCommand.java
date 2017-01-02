@@ -28,6 +28,8 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 
+import java.io.IOException;
+
 @CommandMetaData(name = "rename-group", description = "Rename an account group")
 public class RenameGroupCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of the group to be renamed")
@@ -50,7 +52,8 @@ public class RenameGroupCommand extends SshCommand {
       PutName.Input input = new PutName.Input();
       input.name = newGroupName;
       putName.apply(rsrc, input);
-    } catch (RestApiException | OrmException | NoSuchGroupException e) {
+    } catch (RestApiException | OrmException | IOException
+        | NoSuchGroupException e) {
       throw die(e);
     }
   }

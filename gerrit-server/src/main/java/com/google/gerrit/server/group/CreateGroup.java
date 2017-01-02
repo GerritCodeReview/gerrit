@@ -41,6 +41,7 @@ import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -69,6 +70,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   private final PersonIdent serverIdent;
   private final ReviewDb db;
   private final GroupCache groupCache;
+  private final GroupIndexer indexer;
   private final GroupsCollection groups;
   private final GroupJson json;
   private final DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners;
@@ -82,6 +84,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       @GerritPersonIdent PersonIdent serverIdent,
       ReviewDb db,
       GroupCache groupCache,
+      GroupIndexer indexer,
       GroupsCollection groups,
       GroupJson json,
       DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners,
@@ -92,6 +95,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     this.serverIdent = serverIdent;
     this.db = db;
     this.groupCache = groupCache;
+    this.indexer = indexer;
     this.groups = groups;
     this.json = json;
     this.groupCreationValidationListeners = groupCreationValidationListeners;
@@ -210,6 +214,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     addMembers.addMembers(groupId, createGroupArgs.initialMembers);
 
     groupCache.onCreateGroup(createGroupArgs.getGroup());
+    indexer.index(uuid);
 
     return group;
   }

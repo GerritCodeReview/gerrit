@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.DummyChangeIndex;
+import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
 
@@ -36,6 +38,13 @@ public class DummyIndexModule extends AbstractModule {
     }
   }
 
+  private static class DummyGroupIndexFactory implements GroupIndex.Factory {
+    @Override
+    public GroupIndex create(Schema<AccountGroup> schema) {
+      throw new UnsupportedOperationException();
+    }
+  }
+
   @Override
   protected void configure() {
     install(new IndexModule(1));
@@ -43,5 +52,6 @@ public class DummyIndexModule extends AbstractModule {
     bind(Index.class).toInstance(new DummyChangeIndex());
     bind(AccountIndex.Factory.class).toInstance(new DummyAccountIndexFactory());
     bind(ChangeIndex.Factory.class).toInstance(new DummyChangeIndexFactory());
+    bind(GroupIndex.Factory.class).toInstance(new DummyGroupIndexFactory());
   }
 }

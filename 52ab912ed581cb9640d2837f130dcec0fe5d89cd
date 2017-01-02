@@ -23,6 +23,30 @@
       "revId": "52ab912ed581cb9640d2837f130dcec0fe5d89cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_fe7c55d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-02T07:33:55Z",
+      "side": 1,
+      "message": "I guess it could be String ALL \u003d \"ALL\". However I prefer ListKey because it\u0027s consistent with ProjectCacheImpl where we also define an extra ListKey class instead of using String LIST \u003d \"LIST\". But maybe here in ExternalIdCacheImpl ListKey should be renamed to AllKey, as it\u0027s not exactly a list that we are storing here.",
+      "parentUuid": "17f0de9e_70aace23",
+      "range": {
+        "startLine": 180,
+        "startChar": 15,
+        "endLine": 180,
+        "endChar": 22
+      },
+      "revId": "52ab912ed581cb9640d2837f130dcec0fe5d89cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

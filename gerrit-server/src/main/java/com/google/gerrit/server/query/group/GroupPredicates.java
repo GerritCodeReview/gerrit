@@ -20,10 +20,22 @@ import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.query.Predicate;
 
+import java.util.Locale;
+
 public class GroupPredicates {
   public static Predicate<AccountGroup> uuid(AccountGroup.UUID uuid) {
     return new GroupPredicate(GroupField.UUID,
         GroupQueryBuilder.FIELD_UUID, uuid.get());
+  }
+
+  public static Predicate<AccountGroup> inname(String name) {
+    return new GroupPredicate(GroupField.NAME_PART,
+        GroupQueryBuilder.FIELD_INNAME, name.toLowerCase(Locale.US));
+  }
+
+  public static Predicate<AccountGroup> name(String name) {
+    return new GroupPredicate(GroupField.NAME,
+        GroupQueryBuilder.FIELD_NAME, name.toLowerCase(Locale.US));
   }
 
   static class GroupPredicate extends IndexPredicate<AccountGroup> {

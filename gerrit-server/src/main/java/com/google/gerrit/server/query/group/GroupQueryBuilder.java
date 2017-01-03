@@ -27,6 +27,8 @@ import com.google.inject.Inject;
  */
 public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   public static final String FIELD_UUID = "uuid";
+  public static final String FIELD_INNAME = "inname";
+  public static final String FIELD_NAME = "name";
   public static final String FIELD_LIMIT = "limit";
 
   private static final QueryBuilder.Definition<AccountGroup, GroupQueryBuilder> mydef =
@@ -40,6 +42,19 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   @Operator
   public Predicate<AccountGroup> uuid(String uuid) {
     return GroupPredicates.uuid(new AccountGroup.UUID(uuid));
+  }
+
+  @Operator
+  public Predicate<AccountGroup> inname(String namePart) {
+    if (namePart.isEmpty()) {
+      return name(namePart);
+    }
+    return GroupPredicates.inname(namePart);
+  }
+
+  @Operator
+  public Predicate<AccountGroup> name(String name) {
+    return GroupPredicates.name(name);
   }
 
   @Operator

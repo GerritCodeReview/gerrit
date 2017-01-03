@@ -194,8 +194,10 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     String query =
         "uuid:" + group1.id + " OR uuid:" + group2.id + " OR uuid:" + group3.id;
     List<GroupInfo> result = assertQuery(query, group1, group2, group3);
+    assertThat(result.get(result.size() - 1)._moreGroups).isNull();
 
-    assertQuery(newQuery(query).withLimit(2), result.subList(0, 2));
+    result = assertQuery(newQuery(query).withLimit(2), result.subList(0, 2));
+    assertThat(result.get(result.size() - 1)._moreGroups).isTrue();
   }
 
   @Test

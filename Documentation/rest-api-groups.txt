@@ -255,6 +255,10 @@ results as a map.
   ]
 ----
 
+If the number of groups matching the query exceeds either the internal
+limit or a supplied `limit` query parameter, the last group object has
+a `_more_groups: true` JSON field set.
+
 [[group-query-limit]]
 ==== Group Limit
 The `/groups/?expectList&query=<query>` URL also accepts a limit
@@ -1348,6 +1352,10 @@ permits users to apply to join the group, or manage their membership.
 |`group_id`    |only for internal groups|The numeric ID of the group.
 |`owner`       |only for internal groups|The name of the owner group.
 |`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
+|`_more_groups`|optional, only for internal groups, not set if `false`|
+Whether the query would deliver more results if not limited. +
+Only set on the last group that is returned by a
+link:#query-groups[group query].
 |`members`     |optional, only for internal groups|
 A list of link:rest-api-accounts.html#account-info[AccountInfo]
 entities describing the direct members. +

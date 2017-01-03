@@ -25,6 +25,7 @@ public class GroupInfo extends GroupBaseInfo {
   public Integer groupId;
   public String owner;
   public String ownerId;
+  public Boolean _moreGroups;
 
   // These fields are only supplied for internal groups, and only if requested.
   public List<AccountInfo> members;

@@ -47,6 +47,30 @@
       "revId": "cf86b15f1dfbbcf5566d97c353d3a73c85ad15f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_de90799d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T07:39:22Z",
+      "side": 1,
+      "message": "The other one:\n\n  davido@wizball:~/projects/gerrit (master %\u003e)$ git grep indices | wc -l\n  26\n  davido@wizball:~/projects/gerrit (master %\u003e)$ git grep indexes | wc -l\n  121",
+      "parentUuid": "17f0de9e_3018468d",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "cf86b15f1dfbbcf5566d97c353d3a73c85ad15f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

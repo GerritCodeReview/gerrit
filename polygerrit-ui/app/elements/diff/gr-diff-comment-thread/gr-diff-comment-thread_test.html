@@ -355,5 +355,35 @@ limitations under the License.
       assert.isTrue(expandCollapseStub.lastCall.calledWith(true));
       expandCollapseStub.restore();
     });
+
+    test('comment in_reply_to is either null or most recent comment id',
+        function() {
+      var comments = [
+        {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          in_reply_to: 'sallys_confession',
+          updated: '2015-12-25 15:00:20.396000000',
+        }, {
+          id: 'sallys_confession',
+          in_reply_to: 'nonexistent_comment',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:20.396000000',
+        }, {
+          id: 'sally_to_dr_finklestein',
+          in_reply_to: 'nonexistent_comment',
+          message: 'i’m running away',
+          updated: '2015-10-31 09:00:20.396000000',
+        }, {
+          id: 'sallys_defiance',
+          message: 'i will poison you so i can get away',
+          updated: '2015-10-31 15:00:20.396000000',
+        }];
+      element.set('comments', comments);
+      element._createReplyComment(comments[3], 'dummy', true);
+      flushAsynchronousOperations();
+      assert.equal(element._orderedComments.length, 5);
+      assert.equal(element._orderedComments[4].in_reply_to, 'jacks_reply');
+    });
   });
 </script>

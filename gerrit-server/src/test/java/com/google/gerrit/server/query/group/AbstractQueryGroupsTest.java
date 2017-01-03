@@ -61,6 +61,7 @@ import org.junit.rules.TestName;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 @Ignore
 public abstract class AbstractQueryGroupsTest extends GerritServerTests {
@@ -183,6 +184,32 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
     GroupInfo group = createGroup(name("group"));
     assertQuery("uuid:" + group.id, group);
+  }
+
+  @Test
+  public void byName() throws Exception {
+    assertQuery("name:non-existing");
+
+    GroupInfo group = createGroup(name("group"));
+    assertQuery("name:" + group.name, group);
+    assertQuery("name:" + group.name.toUpperCase(Locale.US), group);
+
+    // only exact match
+    GroupInfo groupWithHyphen = createGroup(name("group-with-hyphen"));
+    createGroup(name("group-no-match-with-hyphen"));
+    assertQuery("name:" + groupWithHyphen.name, groupWithHyphen);
+  }
+
+  @Test
+  public void byInname() throws Exception {
+    GroupInfo group1 = createGroup("group-" + testName.getMethodName());
+    GroupInfo group2 = createGroup("group-" + testName.getMethodName() + "-2");
+    GroupInfo group3 = createGroup("group-" + testName.getMethodName() + "3");
+    assertQuery("inname:" + testName.getMethodName(), group1, group2, group3);
+    assertQuery("inname:" + testName.getMethodName().toUpperCase(Locale.US),
+        group1, group2, group3);
+    assertQuery("inname:" + testName.getMethodName().toLowerCase(Locale.US),
+        group1, group2, group3);
   }
 
   @Test

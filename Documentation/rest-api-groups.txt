@@ -232,7 +232,7 @@ results as a map.
 
 .Request
 ----
-  GET /groups/?expectList&query=uuid:59b92f35489e62c80d1ab1bf0c2d17843038df8b HTTP/1.0
+  GET /groups/?expectList&query=inname:test HTTP/1.0
 ----
 
 .Response
@@ -244,13 +244,22 @@ results as a map.
   )]}'
   [
     {
-      "url": "#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "url": "#/admin/groups/uuid-68236a40ca78de8be630312d8ba50250bc5638ae",
       "options": {},
-      "description": "Gerrit Site Administrators",
-      "group_id": 1,
-      "owner": "Administrators",
+      "description": "Group for running tests on MyProject",
+      "group_id": 20,
+      "owner": "MyProject-Test-Group",
       "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
-      "id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b"
+      "id": "68236a40ca78de8be630312d8ba50250bc5638ae"
+    },
+    {
+      "url": "#/admin/groups/uuid-99a534526313324a2667025c3f4e089199b736aa",
+      "options": {},
+      "description": "Testers for ProjectX",
+      "group_id": 17,
+      "owner": "ProjectX-Testers",
+      "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "id": "99a534526313324a2667025c3f4e089199b736aa"
     }
   ]
 ----

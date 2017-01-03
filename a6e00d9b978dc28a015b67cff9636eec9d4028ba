@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483457667 +0100\nnonce AHDV6GnSY8OjH2/w4RtBQg8k7djQmzoNcEKsAP4zKNfrmJ6oiZP4UGEZ3U3CFtPXG5RuTbBwVB3f\n\n0000000000000000000000000000000000000000 fc342c1f283e24b8ffac2c089cc64e17ff6fb006 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYa8SDAAoJEFG1/Zeg0O9RsgcIAKHZK1C7rKRRxzIjlwsZNex/\nu6TnSzmhllu8FZ7bLv3czl4eNRL+qtbFZvzqHSswUqhzxOaSzZaOD3x0yiAgdRg5\nX+XwHlXuzk8hLmZHohywR3NyCBRRChmG8YDBNYaOYIY84K+SWLJXbB/j2z9HTU8r\n6c7sozMAU0jkrbTs8btuUFGc/JwV2k4orCkKiDq1HzRLHpuLE9HdFbsWlGXa0P+P\nqrluS9uKZVd8+mY6uchdSfKB6FEgFv1sIVzRlsOmAuHbB3nwzaSpKO1tLZYFeOLN\nEQewf2tZeCMRSYkkigDoCir2STRd0RyH0gVADuZo4wLtwCZ4untSrHW/7UgORoU\u003d\n\u003dmT9E\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f0de9e_b0ea76ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T20:19:48Z",
+      "side": 1,
+      "message": "Another option, that wouldn\u0027t use nulls with collecions is to use:\n\n  getNameParts(name, Collections.emptySet():\n\ninstead.",
+      "range": {
+        "startLine": 100,
+        "startChar": 30,
+        "endLine": 100,
+        "endChar": 34
+      },
+      "revId": "a6e00d9b978dc28a015b67cff9636eec9d4028ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_90e77a28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T20:19:48Z",
+      "side": 1,
+      "message": "reindexGroups",
+      "range": {
+        "startLine": 82,
+        "startChar": 29,
+        "endLine": 82,
+        "endChar": 43
+      },
+      "revId": "a6e00d9b978dc28a015b67cff9636eec9d4028ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_f0e4fe24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T20:19:48Z",
+      "side": 1,
+      "message": "A no op? I see that AllAccountsIndexer and in AllChangesIndexer also use similar verboseWriter !\u003d null condition. Isnt\u0027t the verboseWriter is unconditionaly created in base class and is never null? Moreover, there is a setter method, that is also never assigned null value:\n\n  siteIndexer.setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE);",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 44
+      },
+      "revId": "a6e00d9b978dc28a015b67cff9636eec9d4028ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

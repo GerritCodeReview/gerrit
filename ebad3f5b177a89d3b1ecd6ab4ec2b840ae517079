@@ -1,4 +1,154 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483457667 +0100\nnonce AHDV6GnSY8OjH2/w4RtBQg8k7djQmzoNcEKsAP4zKNfrmJ6oiZP4UGEZ3U3CFtPXG5RuTbBwVB3f\n\n0000000000000000000000000000000000000000 fc342c1f283e24b8ffac2c089cc64e17ff6fb006 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYa8SDAAoJEFG1/Zeg0O9RsgcIAKHZK1C7rKRRxzIjlwsZNex/\nu6TnSzmhllu8FZ7bLv3czl4eNRL+qtbFZvzqHSswUqhzxOaSzZaOD3x0yiAgdRg5\nX+XwHlXuzk8hLmZHohywR3NyCBRRChmG8YDBNYaOYIY84K+SWLJXbB/j2z9HTU8r\n6c7sozMAU0jkrbTs8btuUFGc/JwV2k4orCkKiDq1HzRLHpuLE9HdFbsWlGXa0P+P\nqrluS9uKZVd8+mY6uchdSfKB6FEgFv1sIVzRlsOmAuHbB3nwzaSpKO1tLZYFeOLN\nEQewf2tZeCMRSYkkigDoCir2STRd0RyH0gVADuZo4wLtwCZ4untSrHW/7UgORoU\u003d\n\u003dmT9E\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_7e38458d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T21:00:39Z",
+      "side": 1,
+      "message": "Why can\u0027t we decide it depending on presence of query parameter and need another one unused?",
+      "range": {
+        "startLine": 32,
+        "startChar": 48,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_5e358991",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T21:00:39Z",
+      "side": 1,
+      "message": "This statement is confusing. QueryGroup REST doesn\u0027t used expectList at all. Ut currently only used in GroupsCollection to implement the switch, which is probably not nbeeded, sa there is query that is not used in ListGroup REST endpoint.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 54
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_f06d1eaf",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/NeedsParams.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T21:00:39Z",
+      "side": 1,
+      "message": "I would rather extract this file and adaptation in RestApiServlet in its own change.",
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_9ef9e1a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T21:00:39Z",
+      "side": 1,
+      "message": "isQuery?",
+      "range": {
+        "startLine": 52,
+        "startChar": 18,
+        "endLine": 52,
+        "endChar": 28
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_bef49dae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T21:00:39Z",
+      "side": 1,
+      "message": "Now, that you removed the Singleton, this endpoint is bound in request mode, so that the all providers are not needed, here and below.",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 14
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_b06396c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T21:00:39Z",
+      "side": 1,
+      "message": "params.containsKey(\"query\")?",
+      "range": {
+        "startLine": 74,
+        "startChar": 22,
+        "endLine": 74,
+        "endChar": 54
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_90601ab9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T21:00:39Z",
+      "side": 1,
+      "message": "i wouldn\u0027t emphasize here what kind of dta structure we are returning, but mostly whether we are listing or quering.",
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

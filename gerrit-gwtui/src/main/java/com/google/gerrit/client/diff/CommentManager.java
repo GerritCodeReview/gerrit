@@ -130,7 +130,7 @@ abstract class CommentManager {
   }
 
   Side getStoredSideFromDisplaySide(DisplaySide side) {
-    if (side == DisplaySide.A && base.isBaseOrAutoMerge() || base.isParent()) {
+    if (side == DisplaySide.A && (base.isBaseOrAutoMerge() || base.isParent())) {
       return Side.PARENT;
     }
     return Side.REVISION;

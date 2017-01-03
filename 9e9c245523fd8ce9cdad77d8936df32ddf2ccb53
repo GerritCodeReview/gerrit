@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483425488 +0100\nnonce AHDV6GlFMPQUdZeWq4wBHTl+R5NtT2372ZBm2ZcldlYKbOeWvFbjPVZ/eXvI0mWIibx3jdQlncvU\n\n0000000000000000000000000000000000000000 2b70dbeaff16e45a0e36abc93b4e6af53aaee82b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYa0bRAAoJEFG1/Zeg0O9R9foIAIa6Mld3JwjQAV7vF/uaYnPL\naIPYl3DBTGgArQqsU+lEBKfcaaif+llFOkJCaW6yxiq+BOn9cJmg+xiQO/2mEDsf\nFI/0tZGnAgu2xnjnrgXbzp4XdbjYg2x7COSZFSarXFM7zuuPe9sQPuHWy7Y11dq5\nSsaIv+VQir/AtG29ywbx0ECujPqiOtA351otrI9o4Hmc3Kl0QHnYRHYFYPMqoaa/\ncseGHwDzDqvLNURHxJf719tgGGg2tZeC15ysiQu5425RPvrLC1IKMtlEDY4/LfJh\nXWXShzeDtI4HtYC7ZFeWlsG3Xo3cb72Kk2boqEjNt0dFDWCjRvIeL1teMdprn+Q\u003d\n\u003dtA9u\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f0de9e_70f92e0b",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneGroupIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T06:43:06Z",
+      "side": 1,
+      "message": "On second thought, now, that we moved to Java 8 and given that most index implementations going to have empty stop methods anyway, it was probably a mistake to not provide a default method implementation in Index interface:\n\n  default void stop() {}",
+      "range": {
+        "startLine": 191,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 3
+      },
+      "revId": "9e9c245523fd8ce9cdad77d8936df32ddf2ccb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

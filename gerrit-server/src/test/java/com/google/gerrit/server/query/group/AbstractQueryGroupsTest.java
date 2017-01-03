@@ -181,6 +181,24 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
+  public void byName() throws Exception {
+    GroupInfo group = createGroup(name("group"));
+    assertQuery("name:" + group.name, group);
+
+    // only exact match
+    GroupInfo groupWithHyphen = createGroup(name("group-with-hyphen"));
+    createGroup(name("group-no-match-with-hyphen"));
+    assertQuery("name:" + groupWithHyphen.name, groupWithHyphen);
+  }
+
+  @Test
+  public void byInname() throws Exception {
+    GroupInfo group1 = createGroup(name("group"));
+    GroupInfo group2 = createGroup(name("group2"));
+    assertQuery("inname:" + testName.getMethodName(), group1, group2);
+  }
+
+  @Test
   public void withLimit() throws Exception {
     GroupInfo group1 = createGroup(name("group1"));
     GroupInfo group2 = createGroup(name("group2"));
@@ -310,6 +328,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     if (name == null) {
       return null;
     }
-    return name + "_" + testName.getMethodName().toLowerCase();
+    return name + "-" + testName.getMethodName().toLowerCase();
   }
 }

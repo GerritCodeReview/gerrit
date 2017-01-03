@@ -10,6 +10,17 @@ Operators act as restrictions on the search. As more operators
 are added to the same query string, they further restrict the
 returned results.
 
+[[inname]]
+inname:'NAMEPART'::
++
+Matches groups that have a name part that starts with 'NAMEPART'
+(case-insensitive).
+
+[[name]]
+name:'NAME'::
++
+Matches groups that have the name 'name' (case-insensitive).
+
 [[uuid]]
 uuid:'UUID'::
 +

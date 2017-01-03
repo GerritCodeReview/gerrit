@@ -23,6 +23,30 @@
       "revId": "cf86b15f1dfbbcf5566d97c353d3a73c85ad15f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_3018468d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-03T07:15:51Z",
+      "side": 1,
+      "message": "Yes, I\u0027m never sure which version we prefer.",
+      "parentUuid": "17f0de9e_f0ecfe4b",
+      "range": {
+        "startLine": 11,
+        "startChar": 34,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "cf86b15f1dfbbcf5566d97c353d3a73c85ad15f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

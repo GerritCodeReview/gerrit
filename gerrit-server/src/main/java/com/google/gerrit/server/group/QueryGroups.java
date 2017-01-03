@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -117,14 +118,18 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
     }
 
     try {
-      List<AccountGroup> result =
-          queryProcessor.query(queryBuilder.parse(query)).entities();
+      QueryResult<AccountGroup> result =
+          queryProcessor.query(queryBuilder.parse(query));
+      List<AccountGroup> groups = result.entities();
 
       ArrayList<GroupInfo> groupInfos =
-          Lists.newArrayListWithCapacity(result.size());
+          Lists.newArrayListWithCapacity(groups.size());
       json.addOptions(options);
-      for (AccountGroup group : result) {
+      for (AccountGroup group : groups) {
         groupInfos.add(json.format(GroupDescriptions.forAccountGroup(group)));
+      }
+      if (!groupInfos.isEmpty() && result.more()) {
+        groupInfos.get(groupInfos.size() - 1)._moreGroups = true;
       }
       return groupInfos;
     } catch (QueryParseException e) {

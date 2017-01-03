@@ -56,7 +56,7 @@ public interface Groups {
    * Queries groups.
    * <p>
    * Example code:
-   * {@code query().withQuery("uuid:085178e5de6302324675715ca22f4027538253ba").get()}
+   * {@code query().withQuery("inname:test").withLimit(10).get()}
    *
    * @return API for setting parameters and getting result.
    */

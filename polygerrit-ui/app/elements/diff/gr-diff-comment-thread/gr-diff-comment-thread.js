@@ -131,6 +131,15 @@
           parent.line,
           content);
 
+      // If there is currently a comment in an editing state, add an attribute
+      // so that the gr-diff-comment knows not to populate the draft text.
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].__editing) {
+          reply.__otherEditing = true;
+          break;
+        }
+      }
+
       if (opt_isEditing) {
         reply.__editing = true;
       }
@@ -226,6 +235,21 @@
       this.splice('comments', idx, 1);
       if (this.comments.length == 0) {
         this.fire('thread-discard', {lastComment: comment});
+      }
+
+      // Check to see if there are any other open comments getting edited and
+      // set the local storage value to its message value.
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].__editing) {
+          var commentLocation = {
+            changeNum: this.changeNum,
+            patchNum: this.patchNum,
+            path: this.comments[i].path,
+            line: this.comments[i].line,
+          };
+          return this.$.storage.setDraftComment(commentLocation,
+              this.comments[i].message);
+        }
       }
     },
 

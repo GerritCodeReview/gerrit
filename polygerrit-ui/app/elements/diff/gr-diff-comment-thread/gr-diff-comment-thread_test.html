@@ -288,6 +288,170 @@ limitations under the License.
       draftEl.fire('comment-discard', null, {bubbles: false});
     });
 
+    test('first editing comment does not add __otherEditing attribute',
+        function(done) {
+      var commentEl = element.$$('gr-diff-comment');
+      element.comments = [{
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:33.843000000',
+        __draft: true,
+      }];
+      flushAsynchronousOperations();
+
+      commentEl.addEventListener('create-reply-comment', function() {
+        var editing = element._orderedComments.filter(function(c) {
+          return c.__editing == true;
+        });
+        assert.equal(editing.length, 1);
+        assert.equal(!!editing[0].__otherEditing, false);
+        done();
+      });
+      commentEl.fire('create-reply-comment', {comment: commentEl.comment},
+          {bubbles: false});
+    });
+
+    test('two editing comments adds __otherEditing attribute', function(done) {
+      var commentEl = element.$$('gr-diff-comment');
+      element.comments = [{
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:33.843000000',
+        __editing: true,
+        __draft: true,
+      }];
+      flushAsynchronousOperations();
+
+      commentEl.addEventListener('create-reply-comment', function() {
+        var editing = element._orderedComments.filter(function(c) {
+          return c.__editing == true;
+        });
+        assert.equal(editing.length, 2);
+        assert.equal(editing[1].__otherEditing, true);
+        done();
+      });
+      commentEl.fire('create-reply-comment', {comment: commentEl.comment},
+          {bubbles: false});
+    });
+
+    test('When editing other comments, local storage set after discard',
+        function(done) {
+      element.changeNum = '42';
+      element.patchNum = '1';
+      element.comments = [{
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        in_reply_to: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:31.843000000',
+      },
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        __draftID: '1',
+        in_reply_to: 'baf0414d_60047215',
+        line: 5,
+        message: 'yes',
+        updated: '2015-12-08 19:48:32.843000000',
+        __draft: true,
+        __editing: true,
+      },
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        __draftID: '2',
+        in_reply_to: 'baf0414d_60047215',
+        line: 5,
+        message: 'no',
+        updated: '2015-12-08 19:48:33.843000000',
+        __draft: true,
+        __editing: true,
+      }];
+      var storageStub = sinon.stub(element.$.storage, 'setDraftComment');
+      flushAsynchronousOperations();
+
+      var draftEl =
+          Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
+      assert.ok(draftEl);
+      draftEl.addEventListener('comment-discard', function() {
+        assert.isTrue(storageStub.called);
+        storageStub.restore();
+        done();
+      });
+      draftEl.fire('comment-discard', null, {bubbles: false});
+    });
+
+    test('When not editing other comments, local storage not set after discard',
+        function(done) {
+      element.changeNum = '42';
+      element.patchNum = '1';
+      element.comments = [{
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        id: 'baf0414d_60047215',
+        line: 5,
+        message: 'is this a crossover episode!?',
+        updated: '2015-12-08 19:48:31.843000000',
+      },
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        __draftID: '1',
+        in_reply_to: 'baf0414d_60047215',
+        line: 5,
+        message: 'yes',
+        updated: '2015-12-08 19:48:32.843000000',
+        __draft: true,
+        __editing: true,
+      },
+      {
+        author: {
+          name: 'Mr. Peanutbutter',
+          email: 'tenn1sballchaser@aol.com',
+        },
+        __draftID: '2',
+        in_reply_to: 'baf0414d_60047215',
+        line: 5,
+        message: 'no',
+        updated: '2015-12-08 19:48:33.843000000',
+        __draft: true,
+      }];
+      var storageStub = sinon.stub(element.$.storage, 'setDraftComment');
+      flushAsynchronousOperations();
+
+      var draftEl =
+          Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
+      assert.ok(draftEl);
+      draftEl.addEventListener('comment-discard', function() {
+        assert.isFalse(storageStub.called);
+        storageStub.restore();
+        done();
+      });
+      draftEl.fire('comment-discard', null, {bubbles: false});
+    });
+
     test('comment-update', function() {
       var commentEl = element.$$('gr-diff-comment');
       var updatedComment = {

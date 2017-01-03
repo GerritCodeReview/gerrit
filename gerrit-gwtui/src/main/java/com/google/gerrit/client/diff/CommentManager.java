@@ -24,6 +24,7 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.user.client.Window;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Pos;
@@ -130,7 +131,7 @@ abstract class CommentManager {
   }
 
   Side getStoredSideFromDisplaySide(DisplaySide side) {
-    if (side == DisplaySide.A && base.isBaseOrAutoMerge() || base.isParent()) {
+    if (side == DisplaySide.A && (base.isBaseOrAutoMerge() || base.isParent())) {
       return Side.PARENT;
     }
     return Side.REVISION;

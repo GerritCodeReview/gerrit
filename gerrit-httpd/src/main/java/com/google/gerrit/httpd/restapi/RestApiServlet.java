@@ -74,6 +74,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.NeedsParams;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -245,6 +246,7 @@ public class RestApiServlet extends HttpServlet {
     long responseBytes = -1;
     Object result = null;
     Multimap<String, String> params = LinkedHashMultimap.create();
+    Multimap<String, String> config = LinkedHashMultimap.create();
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
@@ -257,6 +259,8 @@ public class RestApiServlet extends HttpServlet {
       checkCors(req, res);
       checkUserSession(req);
 
+      ParameterParser.splitQueryString(req.getQueryString(), config, params);
+
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
       CapabilityUtils.checkRequiresCapability(globals.currentUser,
@@ -265,6 +269,10 @@ public class RestApiServlet extends HttpServlet {
       viewData = new ViewData(null, null);
 
       if (path.isEmpty()) {
+        if (rc instanceof NeedsParams) {
+          ((NeedsParams)rc).setParams(params);
+        }
+
         if (isRead(req)) {
           viewData = new ViewData(null, rc.list());
         } else if (rc instanceof AcceptsPost && "POST".equals(req.getMethod())) {
@@ -357,8 +365,6 @@ public class RestApiServlet extends HttpServlet {
         return;
       }
 
-      Multimap<String, String> config = LinkedHashMultimap.create();
-      ParameterParser.splitQueryString(req.getQueryString(), config, params);
       if (!globals.paramParser.get().parse(viewData.view, params, req, res)) {
         return;
       }

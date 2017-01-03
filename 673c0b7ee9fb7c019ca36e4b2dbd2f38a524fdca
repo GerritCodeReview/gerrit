@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_1e0031e2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-01-03T11:39:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad8d7b0_10d30cef",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "673c0b7ee9fb7c019ca36e4b2dbd2f38a524fdca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bad8d7b0_70d088e0",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-01-02T17:29:57Z",
       "side": 1,
       "message": "I read this test as being brittle about specifics of implementation of the alias construct.\n\nIt might be cleaner to use a new type annotation. For example define a GlobalCommandName that the plugin module binds instead of CommandName when its trying to offer these global names. Then the loop filter here is just looking for the GlobalCommandName annotation on the Command type bindings. It doesn\u0027t need to concern itself with the details of the provider type.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 69
+      },
+      "revId": "673c0b7ee9fb7c019ca36e4b2dbd2f38a524fdca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_10c1ca93",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-01-03T11:39:14Z",
+      "side": 1,
+      "message": "Agree that it is to implementation specific ;) introduced new annotation called GlobalAliasCommandName (sounds closer to its purpose but it is not carved in stone so comments are welcomed)",
+      "parentUuid": "bad8d7b0_70d088e0",
       "range": {
         "startLine": 81,
         "startChar": 0,

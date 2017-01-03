@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f0de9e_b0b8b60e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommandProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-01-03T13:42:40Z",
+      "side": 1,
+      "message": "it will be easier to cherry-pick it to stable-2.13 ;)",
+      "range": {
+        "startLine": 53,
+        "startChar": 37,
+        "endLine": 53,
+        "endChar": 42
+      },
+      "revId": "69a92f6794ab1f19a0448bfcf05f51a4e3a73a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

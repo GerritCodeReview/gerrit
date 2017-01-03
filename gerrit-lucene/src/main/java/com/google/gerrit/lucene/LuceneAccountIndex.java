@@ -205,8 +205,4 @@ public class LuceneAccountIndex
     // to reindex when those change.
     return accountCache.get(id);
   }
-
-  @Override
-  public void stop() {
-  }
 }

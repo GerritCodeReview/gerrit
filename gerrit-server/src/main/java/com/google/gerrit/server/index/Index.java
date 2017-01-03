@@ -38,7 +38,7 @@ public interface Index<K, V> {
   Schema<V> getSchema();
 
   /** Stop and await termination of all executor threads */
-  void stop();
+  default void stop() {}
 
   /** Close this index. */
   void close();

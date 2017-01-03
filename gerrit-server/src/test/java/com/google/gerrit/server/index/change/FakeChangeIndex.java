@@ -108,8 +108,4 @@ public class FakeChangeIndex implements ChangeIndex {
   public void markReady(boolean ready) {
     throw new UnsupportedOperationException();
   }
-
-  @Override
-  public void stop() {
-  }
 }

@@ -97,8 +97,4 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     }
     super.add(doc, values);
   }
-
-  @Override
-  public void stop() {
-  }
 }

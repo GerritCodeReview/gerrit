@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483433423 +0100\nnonce AHDV6GlmHxeO/VDNeu5J7y21GCZEp0IYSca8Iwl9w36XXRUa9YcYu0fKZWjS7ItbqJ3mGUNryoN/\n\n0000000000000000000000000000000000000000 29bf5e2431f679bc490925ec11a468e83c50dad0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYa2XPAAoJEFG1/Zeg0O9RZEAH/R3Co0Cv8sp8yKspnGz0FiDq\nSyIMGhatu7pGDg8YwUXu0TVNkAZxPoHLainaVYj9lyQG9bj0t+47Zq9Km5QuDV0s\nwsKAfJtwMUCAKsvbfr57opLvNc/JrTJLldwCjKYFsVtUrVgf2Uc8AmwZo0rD9lVe\nccEGmAYa26lZHGYjPmSXJGn5YLanFnFYNvCYmw2dAjDGHQ+39S+BPpstBqfhyqHt\nMDHHUYkxOhnJITv/fNzHbUmNAhixCynJA4B36krBOoQ9I7lJc6Nxb0HJjCd6GcXh\n5jRZPFWzqn+Ub2YVUmqszlcv8C8u4TSk8WqpRTavlQdIQjh0RBiWnLgwaSzv+C4\u003d\n\u003dxJFl\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1ba32a_be0e5d1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/QueryGroups.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-03T08:55:28Z",
+      "side": 1,
+      "message": "The query results should be returned as a list. It is bad to return the query results as map, as this results in a different order than the order in which the results were returned from the index. Also the last entry in the result list should have a boolean _moreGroups field to know whether there are more results, but such a field doesn\u0027t work well if the result is a map.",
+      "range": {
+        "startLine": 201,
+        "startChar": 2,
+        "endLine": 211,
+        "endChar": 3
+      },
+      "revId": "b03041970616c653b4a2ef0be2785b819fccc7d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

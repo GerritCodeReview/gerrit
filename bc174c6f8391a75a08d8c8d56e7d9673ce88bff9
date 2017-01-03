@@ -128,6 +128,30 @@
       "revId": "bc174c6f8391a75a08d8c8d56e7d9673ce88bff9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_f067defd",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-03T09:06:49Z",
+      "side": 0,
+      "message": "That would be great, and you would save bandwidth on your provider side ;-)",
+      "parentUuid": "1a1ba32a_3ed1ad5e",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 26
+      },
+      "revId": "bc174c6f8391a75a08d8c8d56e7d9673ce88bff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

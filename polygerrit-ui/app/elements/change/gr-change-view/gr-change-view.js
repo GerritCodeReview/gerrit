@@ -710,6 +710,15 @@
           }.bind(this));
     },
 
+    _updateRebaseAction: function(revisionActions) {
+      if (revisionActions &&
+          revisionActions.rebase){
+        this._rebaseOnCurrent = !!revisionActions.rebase.enabled;
+        revisionActions.rebase.enabled = true;
+      }
+      return revisionActions;
+    },
+
     _getChangeDetail: function() {
       return this.$.restAPI.getChangeDetail(this._changeNum,
           this._handleGetChangeDetailError.bind(this)).then(
@@ -735,7 +744,8 @@
                     currentRevision.commit.commit = latestRevisionSha;
                   }
                   this._commitInfo = currentRevision.commit;
-                  this._currentRevisionActions = currentRevision.actions;
+                  this._currentRevisionActions =
+                      this._updateRebaseAction(currentRevision.actions);
                   // TODO: Fetch and process files.
                 }
               }.bind(this));

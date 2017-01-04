@@ -19,6 +19,7 @@ import static com.google.gerrit.server.git.strategy.CommitMergeStatus.SKIPPED_ID
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.server.ChangeUtil;
@@ -93,7 +94,7 @@ public class CherryPick extends SubmitStrategy {
 
     @Override
     protected void updateRepoImpl(RepoContext ctx)
-        throws IntegrationException, IOException {
+        throws IntegrationException, IOException, ResourceConflictException {
       // If there is only one parent, a cherry-pick can be done by taking the
       // delta relative to that one parent and redoing that on the current merge
       // tip.

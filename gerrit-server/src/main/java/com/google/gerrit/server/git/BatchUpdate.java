@@ -62,6 +62,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -204,8 +205,11 @@ public class BatchUpdate implements AutoCloseable {
       return BatchUpdate.this.getObjectInserter();
     }
 
-    public void addRefUpdate(ReceiveCommand cmd) throws IOException {
+    public void addRefUpdate(ReceiveCommand cmd)
+        throws IOException, ResourceConflictException {
       initRepository();
+      refUpdateValidatorFactory.create(cmd.getType())
+          .validateRefOperation(project, getIdentifiedUser(), cmd);
       commands.add(cmd);
     }
 
@@ -506,6 +510,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Metrics metrics;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration notesMigration;
+  private final RefValidationHelper.Factory refUpdateValidatorFactory;
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
 
@@ -545,6 +550,7 @@ public class BatchUpdate implements AutoCloseable {
       Metrics metrics,
       NoteDbUpdateManager.Factory updateManagerFactory,
       NotesMigration notesMigration,
+      RefValidationHelper.Factory refUpdateValidatorFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
@@ -556,6 +562,7 @@ public class BatchUpdate implements AutoCloseable {
     this.changeUpdateExector = changeUpdateExector;
     this.changeUpdateFactory = changeUpdateFactory;
     this.gitRefUpdated = gitRefUpdated;
+    this.refUpdateValidatorFactory = refUpdateValidatorFactory;
     this.indexer = indexer;
     this.metrics = metrics;
     this.notesMigration = notesMigration;

@@ -166,8 +166,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         rebaseOp = args.rebaseFactory.create(
               toMerge.getControl(), origPs, args.mergeTip.getCurrentTip().name())
             .setFireRevisionCreated(false)
-            // Bypass approval copier since SubmitStrategyOp copy all approvals
-            // later anyway.
+            // Bypass approval copier since SubmitStrategyOp copies
+            // all approvals later anyway.
             .setCopyApprovals(false)
             .setValidatePolicy(CommitValidators.Policy.NONE)
             .setCheckAddPatchSetPermission(false)
@@ -202,7 +202,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         OrmException, IOException  {
       if (newCommit == null) {
         checkState(!rebaseAlways, "RebaseAlways must never fast forward");
-        // otherwise, took the fast-forward option, nothing to do.
+        // otherwise, we took the fast-forward route, nothing to do.
         return null;
       }
 

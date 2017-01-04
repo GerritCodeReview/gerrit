@@ -175,7 +175,7 @@ class DeleteChangeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public void updateRepo(RepoContext ctx) throws IOException {
+  public void updateRepo(RepoContext ctx) throws IOException, ResourceConflictException {
     String prefix = new PatchSet.Id(id, 1).toRefName();
     prefix = prefix.substring(0, prefix.length() - 1);
     for (Ref ref

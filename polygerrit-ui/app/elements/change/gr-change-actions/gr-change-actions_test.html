@@ -98,6 +98,14 @@ limitations under the License.
       return element.reload();
     });
 
+    test('revision actions do not include rebase', function() {
+      assert.isTrue(element._revisionActionValues.length === 3);
+    });
+
+    test('rebase action is stored', function() {
+      assert.isTrue(!!element._rebaseAction);
+    });
+
     test('hide revision action', function(done) {
       flush(function() {
         var buttonEl = element.$$('[data-action-key="submit"]');
@@ -163,6 +171,21 @@ limitations under the License.
         assert.isFalse(element.hidden);
         done();
       });
+    });
+
+    test('rebase button is never disabled', function() {
+      var rebaseButton = element.$.rebaseButton;
+      assert.isFalse(rebaseButton.hasAttribute('disabled'));
+      // remove enabled attribute
+      element._rebaseAction = {
+        rebase: {
+          method: 'POST',
+          label: 'Rebase',
+          title: 'Rebase onto tip of branch or parent change',
+        },
+      };
+      flushAsynchronousOperations();
+      assert.isFalse(rebaseButton.hasAttribute('disabled'));
     });
 
     test('delete buttons have explicit labels', function(done) {

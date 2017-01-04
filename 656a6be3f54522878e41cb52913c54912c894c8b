@@ -17,6 +17,24 @@
       "revId": "656a6be3f54522878e41cb52913c54912c894c8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b176f0_b754683f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T15:54:25Z",
+      "side": 1,
+      "message": "Ah, you caught me here. I omitted this assertion because I knew it would not work, but then I forgot that I still wanted to handle this case. To test this the query must be\n\n  description:\"\"\n\nas just an operator without value such as\n\n  description:\n\nfails earlier when parsing the query with a cryptic message. That should probably be fixed as well, but it\u0027s a generic problem which affects all operators and all indexes, hence I\u0027m ignoring it for this change.\n\nDone",
+      "parentUuid": "b7847225_2a771ff4",
+      "revId": "656a6be3f54522878e41cb52913c54912c894c8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -106,7 +106,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.owned = owned;
   }
 
-  @Option(name = "-q", usage = "group to inspect")
+  @Option(name = "--query", aliases = {"-q"}, usage = "group to inspect")
   public void addGroup(AccountGroup.UUID id) {
     groupsToInspect.add(id);
   }

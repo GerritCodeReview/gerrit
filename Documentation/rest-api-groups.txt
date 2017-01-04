@@ -211,6 +211,77 @@ error out.)
   }
 ----
 
+[[query-groups]]
+=== Query Groups
+--
+'GET /groups/?expectList&query=<query>'
+--
+
+Queries internal groups visible to the caller. The
+link:user-search-groups.html#_search_operators[query string] must be
+provided by the `query` parameter. The `start` and `limit` parameters
+can be used to skip/limit results.
+
+As result a list of link:#group-info[GroupInfo] entities is returned.
+
+[[expectList]]
+The `expectList` parameter is mandatory to indicate that the results
+should be returned as list. If it is missing the request is handled by
+the link:#list-groups[List Groups] REST endpoint which returns the
+results as a map.
+
+.Request
+----
+  GET /groups/?expectList&query=uuid:59b92f35489e62c80d1ab1bf0c2d17843038df8b HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "url": "#/admin/groups/uuid-59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "options": {},
+      "description": "Gerrit Site Administrators",
+      "group_id": 1,
+      "owner": "Administrators",
+      "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b"
+    }
+  ]
+----
+
+[[group-query-limit]]
+==== Group Limit
+The `/groups/?expectList&query=<query>` URL also accepts a limit
+integer in the `limit` parameter. This limits the results to `limit`
+groups.
+
+Query the first 25 groups in group list.
+----
+  GET /groups/?expectList&query=<query>&limit=25 HTTP/1.0
+----
+
+The `/groups/` URL also accepts a start integer in the `start`
+parameter. The results will skip `start` groups from group list.
+
+Query 25 groups starting from index 50.
+----
+  GET /groups/?expectList&query=<query>&limit=25&start=50 HTTP/1.0
+----
+
+[[group-query-options]]
+==== Group Options
+Additional fields can be obtained by adding `o` parameters, each option
+requires more lookups and slows down the query response time to the
+client so they are generally disabled by default. The supported fields
+are described in the context of the link:#group-options[List Groups]
+REST endpoint.
+
 [[get-group]]
 === Get Group
 --

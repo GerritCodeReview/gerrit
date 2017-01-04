@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.common.collect.Multimap;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
@@ -22,6 +23,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.NeedsParams;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -35,32 +37,41 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
-@Singleton
 public class GroupsCollection implements
     RestCollection<TopLevelResource, GroupResource>,
-    AcceptsCreate<TopLevelResource> {
+    AcceptsCreate<TopLevelResource>, NeedsParams {
   private final DynamicMap<RestView<GroupResource>> views;
   private final Provider<ListGroups> list;
+  private final Provider<QueryGroups> queryGroups;
   private final CreateGroup.Factory createGroup;
   private final GroupControl.Factory groupControlFactory;
   private final GroupBackend groupBackend;
   private final Provider<CurrentUser> self;
 
+  private boolean expectList;
+
   @Inject
-  GroupsCollection(final DynamicMap<RestView<GroupResource>> views,
-      final Provider<ListGroups> list,
-      final CreateGroup.Factory createGroup,
-      final GroupControl.Factory groupControlFactory,
-      final GroupBackend groupBackend,
-      final Provider<CurrentUser> self) {
+  GroupsCollection(DynamicMap<RestView<GroupResource>> views,
+      Provider<ListGroups> list,
+      Provider<QueryGroups> queryGroups,
+      CreateGroup.Factory createGroup,
+      GroupControl.Factory groupControlFactory,
+      GroupBackend groupBackend,
+      Provider<CurrentUser> self) {
     this.views = views;
     this.list = list;
+    this.queryGroups = queryGroups;
     this.createGroup = createGroup;
     this.groupControlFactory = groupControlFactory;
     this.groupBackend = groupBackend;
     this.self = self;
+  }
+
+  @Override
+  public void setParams(Multimap<String, String> params) {
+    // The --expectList option is defined in QueryGroups
+    this.expectList = params.containsKey("expectList");
   }
 
   @Override
@@ -73,6 +84,12 @@ public class GroupsCollection implements
       throw new ResourceNotFoundException();
     }
 
+    if (expectList) {
+      // QueryGroups returns the matching groups as a list
+      return queryGroups.get();
+    }
+
+    // ListGroups returns the matching groups as a map
     return list.get();
   }
 

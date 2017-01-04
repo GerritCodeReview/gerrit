@@ -54,7 +54,7 @@ limitations under the License.
       <header><content select=".header"></content></header>
       <main><content select=".main"></content></main>
       <footer>
-        <gr-button primary on-tap="_handleConfirmTap">
+        <gr-button primary on-tap="_handleConfirmTap" disabled="[[disabled]]">
           [[confirmLabel]]
         </gr-button>
         <gr-button on-tap="_handleCancelTap">Cancel</gr-button>

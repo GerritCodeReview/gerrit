@@ -33,7 +33,11 @@
       confirmLabel: {
         type: String,
         value: 'Confirm',
-      }
+      },
+      disabled: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     hostAttributes: {

@@ -21,6 +21,7 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.SingleVersionModule;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -51,12 +52,16 @@ public class ElasticIndexModule extends LifecycleModule {
   protected void configure() {
     install(
         new FactoryModuleBuilder()
+        .implement(AccountIndex.class, ElasticAccountIndex.class)
+        .build(AccountIndex.Factory.class));
+    install(
+        new FactoryModuleBuilder()
             .implement(ChangeIndex.class, ElasticChangeIndex.class)
             .build(ChangeIndex.Factory.class));
     install(
         new FactoryModuleBuilder()
-            .implement(AccountIndex.class, ElasticAccountIndex.class)
-            .build(AccountIndex.Factory.class));
+        .implement(GroupIndex.class, ElasticGroupIndex.class)
+        .build(GroupIndex.Factory.class));
 
     install(new IndexModule(threads));
     install(new SingleVersionModule(singleVersions));

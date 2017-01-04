@@ -27,6 +27,11 @@ name:'NAME'::
 +
 Matches groups that have the name 'NAME' (case-insensitive).
 
+[[owner]]
+owner:'UUID'::
++
+Matches groups that are owned by a group that has the UUID 'UUID'.
+
 [[uuid]]
 uuid:'UUID'::
 +

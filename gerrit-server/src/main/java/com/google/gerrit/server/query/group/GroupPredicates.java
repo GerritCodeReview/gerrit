@@ -43,6 +43,11 @@ public class GroupPredicates {
         GroupQueryBuilder.FIELD_NAME, name.toLowerCase(Locale.US));
   }
 
+  public static Predicate<AccountGroup> owner(String owner) {
+    return new GroupPredicate(GroupField.OWNER_UUID,
+        GroupQueryBuilder.FIELD_OWNER, owner);
+  }
+
   static class GroupPredicate extends IndexPredicate<AccountGroup> {
     GroupPredicate(FieldDef<AccountGroup, ?> def, String value) {
       super(def, value);

@@ -45,6 +45,7 @@ import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -479,6 +480,32 @@ public class GroupsIT extends AbstractDaemonTest {
       }
       lastDate = auditEvent.date;
     }
+  }
+
+  // reindex is tested by {@link AbstractQueryGroupsTest#reindex}
+  @Test
+  public void reindexPermissions() throws Exception {
+    TestAccount groupOwner = accounts.user2();
+    GroupInput in = new GroupInput();
+    in.name = name("group");
+    in.members = Collections.singleton(groupOwner).stream()
+        .map(u -> u.id.toString()).collect(toList());
+    in.visibleToAll = true;
+    GroupInfo group = gApi.groups().create(in).get();
+
+    // admin can reindex any group
+    setApiUser(admin);
+    gApi.groups().id(group.id).index();
+
+    // group owner can reindex own group (group is owned by itself)
+    setApiUser(groupOwner);
+    gApi.groups().id(group.id).index();
+
+    // user cannot reindex any group
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to index group");
+    gApi.groups().id(group.id).index();
   }
 
   private void assertAuditEvent(GroupAuditEventInfo info, Type expectedType,

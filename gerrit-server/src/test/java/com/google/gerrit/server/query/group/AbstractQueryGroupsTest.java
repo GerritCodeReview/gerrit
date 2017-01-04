@@ -226,6 +226,18 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
+  public void byOwner() throws Exception {
+    assertQuery("owner:non-existing");
+
+    GroupInfo ownerGroup = createGroup(name("owner-group"));
+    GroupInfo group = createGroupWithOwner(name("group"), ownerGroup);
+    createGroup(name("group2"));
+
+    // ownerGroup owns itself
+    assertQuery("owner:" + ownerGroup.id, group, ownerGroup);
+  }
+
+  @Test
   public void withLimit() throws Exception {
     GroupInfo group1 = createGroup(name("group1"));
     GroupInfo group2 = createGroup(name("group2"));
@@ -291,6 +303,14 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     in.description = description;
     in.members = Arrays.asList(members).stream()
         .map(a -> String.valueOf(a._accountId)).collect(toList());
+    return gApi.groups().create(in).get();
+  }
+
+  protected GroupInfo createGroupWithOwner(String name, GroupInfo ownerGroup)
+      throws RestApiException {
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.ownerId = ownerGroup.id;
     return gApi.groups().create(in).get();
   }
 

@@ -30,6 +30,7 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   public static final String FIELD_DESCRIPTION = "description";
   public static final String FIELD_INNAME = "inname";
   public static final String FIELD_NAME = "name";
+  public static final String FIELD_OWNER = "owner";
   public static final String FIELD_LIMIT = "limit";
 
   private static final QueryBuilder.Definition<AccountGroup, GroupQueryBuilder> mydef =
@@ -61,6 +62,11 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   @Operator
   public Predicate<AccountGroup> name(String name) {
     return GroupPredicates.name(name);
+  }
+
+  @Operator
+  public Predicate<AccountGroup> owner(String owner) {
+    return GroupPredicates.owner(owner);
   }
 
   @Operator

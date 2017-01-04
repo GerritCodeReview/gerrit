@@ -128,6 +128,7 @@
         type: Boolean,
         value: true,
       },
+      _rebaseAction: Object,
       _revisionActionValues: {
         type: Array,
         computed: '_computeRevisionActionValues(revisionActions.*, ' +
@@ -277,7 +278,17 @@
     _computeRevisionActionValues: function(actionsChangeRecord,
         primariesChangeRecord, additionalActionsChangeRecord) {
       return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, ActionType.REVISION);
+          additionalActionsChangeRecord, ActionType.REVISION).
+          filter(function(action) {
+            // If the rebase action exists, save it to its own variable for
+            // separate use. The enabled attribute will be treated differently
+            // so it will be handled outside of the dom-repeat. Then filter out
+            // of the results.
+            if (action.label === 'Rebase') {
+              this._rebaseAction = action;
+            }
+            return action.label !== 'Rebase';
+          }.bind(this));
     },
 
     _computeChangeActionValues: function(actionsChangeRecord,

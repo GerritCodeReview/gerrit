@@ -31,6 +31,9 @@ limitations under the License.
       label {
         cursor: pointer;
       }
+      .info {
+        font-style: italic;
+      }
       .parentRevisionContainer label,
       .parentRevisionContainer input[type="text"] {
         display: block;
@@ -47,12 +50,16 @@ limitations under the License.
     <gr-confirm-dialog
         confirm-label="Rebase"
         on-confirm="_handleConfirmTap"
-        on-cancel="_handleCancelTap">
+        on-cancel="_handleCancelTap"
+        disabled="[[!valueSelected]]">
       <div class="header">Confirm rebase</div>
       <div class="main">
         <div class="parentRevisionContainer">
           <label for="parentInput">
-            Parent revision (optional)
+            Parent revision
+            <span id="optionalText" hidden$="[[!rebaseOnCurrent]]"> (optional)
+            </span>
+            <span hidden$="[[rebaseOnCurrent]]"> (not current branch)</span>
           </label>
           <input is="iron-input"
               type="text"
@@ -62,11 +69,18 @@ limitations under the License.
         </div>
         <div class="clearParentContainer">
           <input id="clearParent"
+              hidden$="[[!rebaseOnCurrent]]"
               type="checkbox"
-              on-tap="_handleClearParentTap">
-          <label for="clearParent">
+              on-tap="_handleClearParentTap"
+              disabled="[[!rebaseOnCurrent]]">
+          <label id="clearParentLabel" for="clearParent"
+              hidden$="[[!rebaseOnCurrent]]">
             Rebase on top of current branch (clear parent revision).
           </label>
+          <p id="rebaseUpToDateInfo" class="info" for="clearParent"
+              hidden$="[[rebaseOnCurrent]]">
+            Already up to date with current branch.
+          </p>
         </div>
       </div>
     </gr-confirm-dialog>

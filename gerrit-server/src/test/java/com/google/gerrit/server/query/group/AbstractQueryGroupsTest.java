@@ -243,6 +243,17 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
+  public void byIsVisibleToAll() throws Exception {
+    assertQuery("is:visibleToAll");
+
+    GroupInfo groupThatIsVisibleToAll =
+        createGroupThatIsVisibleToAll(name("group-that-is-visible-to-all"));
+    createGroup(name("group"));
+
+    assertQuery("is:visibleToAll", groupThatIsVisibleToAll);
+  }
+
+  @Test
   public void withLimit() throws Exception {
     GroupInfo group1 = createGroup(name("group1"));
     GroupInfo group2 = createGroup(name("group2"));
@@ -316,6 +327,14 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     GroupInput in = new GroupInput();
     in.name = name;
     in.ownerId = ownerGroup.id;
+    return gApi.groups().create(in).get();
+  }
+
+  protected GroupInfo createGroupThatIsVisibleToAll(String name)
+      throws RestApiException {
+    GroupInput in = new GroupInput();
+    in.name = name;
+    in.visibleToAll = true;
     return gApi.groups().create(in).get();
   }
 

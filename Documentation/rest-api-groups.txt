@@ -791,6 +791,24 @@ newest audit event comes first.
   ]
 ----
 
+[[index-group]]
+=== Index Group
+--
+'POST /groups/link:#group-id[\{group-id\}]/index'
+--
+
+Adds or updates the internal group in the secondary index.
+
+.Request
+----
+  POST /groups/fdda826a0815859ab48d22a05a43472f0f55f89a/index HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[group-member-endpoints]]
 == Group Member Endpoints
 

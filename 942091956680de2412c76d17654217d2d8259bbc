@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483532702 +0100\nnonce AHDV6GkCfcwBpFJYdIWthTaMonQG5K6x4vHBNcpkNf7Kfniq++agh0DN92OYXANeEeCiRx2YDW+n\n\n0000000000000000000000000000000000000000 6ebde5018b9cb79a69bd92b3eb3adfde4f7cd360 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYbOmeAAoJEFG1/Zeg0O9R+isIALmK+lW6DZrhwyhL/p7AdPuV\n10E1lUkOabOBefoVVbsDtUgupiIcEsC290AR6Ovq+Rx8BKKMdUgc+uR8Ev+B2HZf\nzm3Q7XnKG8M7nCymAiWW7EQvQY5PBanRz1qLVe299VcV0udprPdROhfsTGaTQtsV\nk+pKxb/MVXOYRBnH0a4PTHbH3vYOTSumYRLjYAh4Rw/S3TncGG7KUZ+GB+u47KXC\nMeUBZQlRvtf5rZrfY++pR4G4RVWv4teSOE0SeG2/8Jo9pwqplJ78E0UKl6YIAuXe\nBgKMjqJKaZvbyqjMDZDJbBMuBgAeln27FrvBU4JJhNSiqwQAmD/0+ObEBBvlSDg\u003d\n\u003dLDM3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7847225_ead347ba",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-04T14:55:41Z",
+      "side": 1,
+      "message": "Alternative name for this operator is: contains?",
+      "range": {
+        "startLine": 229,
+        "startChar": 22,
+        "endLine": 229,
+        "endChar": 28
+      },
+      "revId": "942091956680de2412c76d17654217d2d8259bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

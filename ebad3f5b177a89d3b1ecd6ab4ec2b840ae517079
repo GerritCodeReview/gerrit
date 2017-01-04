@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "57b176f0_d7855cf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:53:00Z",
+      "side": 1,
+      "message": "We could decide it based on the presence of the query parameter. Actually this is what I implemented first before I changed it to expectList.\n\nI saw 2 reasons for this:\n\n1. It allows us to use \u0027-q\u0027 as alias for \u0027--query\u0027:\nUnfortunately ListGroups already uses \u0027-q\u0027 for something else. So if we would just check for \u0027--query\u0027 I think it would be confusing for users that\n\n- GET /accounts/?query\u003d... and GET /accounts/?q\u003d... are the same\n- GET /changes/?query\u003d... and GET /changes/?q\u003d... are the same\n- but GET /groups/?query\u003d... and GET /groups/?q\u003d... are NOT the same.\n\n2. If we want to move more the functionality from ListGroups to QueryGroups we would need to check for further parameters and not just \u0027--query\u0027",
+      "parentUuid": "1a1ba32a_7e38458d",
+      "range": {
+        "startLine": 32,
+        "startChar": 48,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_5e358991",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -60,6 +84,24 @@
       "writtenOn": "2017-01-03T21:00:39Z",
       "side": 1,
       "message": "I would rather extract this file and adaptation in RestApiServlet in its own change.",
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b176f0_3796982b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/NeedsParams.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:53:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_f06d1eaf",
       "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -112,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "57b176f0_17919432",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:53:00Z",
+      "side": 1,
+      "message": "I think it still makes a difference, since ListGroups and QueryGroups are both no singletons either.\n\nIf there are no providers, it means that for each GET /groups/ request both classes, ListGroups and QueryGroups, are instantiated, but only one of them is used. Also non of these classes needs to be instantiated for GET /group/\u003cgroup-id\u003e/ since then the list() method is not invoked at all.",
+      "parentUuid": "1a1ba32a_bef49dae",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 14
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_b06396c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
         "patchSetId": 10
@@ -146,6 +212,24 @@
       "writtenOn": "2017-01-03T21:00:39Z",
       "side": 1,
       "message": "i wouldn\u0027t emphasize here what kind of dta structure we are returning, but mostly whether we are listing or quering.",
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b176f0_f78260e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:53:00Z",
+      "side": 1,
+      "message": "If we continue to use \u0027expectList\u0027 I think it makes sense to emphasize it here. If we decide to base the switch on \u0027--query\u0027 then I agree that its not needed.\n\nWith \u0027expectList\u0027 it makes sense to emphasize that ListGroups aka \u0027list\u0027 returns a map, although the name suggests something else. Otherwise someone would ask why not to use \u0027list\u0027 if expectList \u003d\u003d true.",
+      "parentUuid": "17f0de9e_90601ab9",
       "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

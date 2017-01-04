@@ -23,6 +23,30 @@
       "revId": "6ebde5018b9cb79a69bd92b3eb3adfde4f7cd360",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_6a9af7fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/group/GroupQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T15:26:16Z",
+      "side": 1,
+      "message": "is:visible is already used as magic operator which is applied to any query to filter out groups which are not visible to the calling user (GroupIsVisibleToPredicate). It\u0027s not an actual operator, but a magic operator, which is also documented in user-search-groups.txt. This is consistent with how is:visible is used and documented for the account and the change index.",
+      "parentUuid": "b7847225_8a656b3b",
+      "range": {
+        "startLine": 74,
+        "startChar": 9,
+        "endLine": 74,
+        "endChar": 21
+      },
+      "revId": "6ebde5018b9cb79a69bd92b3eb3adfde4f7cd360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

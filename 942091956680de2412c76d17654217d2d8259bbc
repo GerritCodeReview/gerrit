@@ -23,6 +23,30 @@
       "revId": "942091956680de2412c76d17654217d2d8259bbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_4a9533cc",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T15:21:41Z",
+      "side": 1,
+      "message": "I was choosing \u0027name\u0027 and \u0027inname\u0027 as operator names to be consistent with the existing \u0027topic\u0027 and \u0027intopic\u0027 change operators which behave somewhat similar.",
+      "parentUuid": "b7847225_ead347ba",
+      "range": {
+        "startLine": 229,
+        "startChar": 22,
+        "endLine": 229,
+        "endChar": 28
+      },
+      "revId": "942091956680de2412c76d17654217d2d8259bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57b176f0_57ef8c92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "[optional] you may format this as (please note, we accept long lines for examples):\n\nRight now deleting a vote is done by:\n\n  DELETE /changes/{change-id}/reviewers/{account-id}/votes/{label-id}\n\nA new REST endpoint is added as:\n\n  DELETE /changes/{change-id}/revisions/{revision-id}/reviewers/{account-id}/votes/{label-id}",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_8aad6b6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "nit: long lines",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 75
+      },
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_cab763b4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4776,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "remove \u0027here\u0027",
+      "range": {
+        "startLine": 4776,
+        "startChar": 52,
+        "endLine": 4776,
+        "endChar": 56
+      },
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_eab427b2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4776,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "the current revision",
+      "range": {
+        "startLine": 4776,
+        "startChar": 22,
+        "endLine": 4776,
+        "endChar": 38
+      },
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b176f0_170c34b3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4822,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b176f0_5716acc2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4841,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "missing comma here",
+      "range": {
+        "startLine": 4841,
+        "startChar": 16,
+        "endLine": 4841,
+        "endChar": 17
+      },
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_0a0c1bb3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4842,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "this comma should be removed",
+      "range": {
+        "startLine": 4842,
+        "startChar": 25,
+        "endLine": 4842,
+        "endChar": 26
+      },
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b176f0_17f51463",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "Remove \u0027Id\u0027",
+      "range": {
+        "startLine": 1062,
+        "startChar": 44,
+        "endLine": 1062,
+        "endChar": 46
+      },
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b176f0_37fa1852",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "Remove \u0027Id\u0027",
+      "range": {
+        "startLine": 1088,
+        "startChar": 41,
+        "endLine": 1088,
+        "endChar": 43
+      },
+      "revId": "c7cfceb1eed59cdff355e33b8e8b9041e9257c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "777afaf7_c8b76fb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-01-04T18:47:38Z",
+      "side": 1,
+      "message": "Add footer for the original commit in master (cherry picked from commit b8983698a5540010e9beacfd6123c20caeebb026)",
+      "revId": "d9b5373da8ac2ee6e0948413248afa245af27c58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

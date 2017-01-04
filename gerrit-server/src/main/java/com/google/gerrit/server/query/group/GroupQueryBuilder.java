@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.query.group;
 
+import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.inject.Inject;
 
 /**
@@ -24,6 +27,7 @@ import com.google.inject.Inject;
  */
 public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   public static final String FIELD_UUID = "uuid";
+  public static final String FIELD_LIMIT = "limit";
 
   private static final QueryBuilder.Definition<AccountGroup, GroupQueryBuilder> mydef =
       new QueryBuilder.Definition<>(GroupQueryBuilder.class);
@@ -36,5 +40,15 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   @Operator
   public Predicate<AccountGroup> uuid(String uuid) {
     return GroupPredicates.uuid(new AccountGroup.UUID(uuid));
+  }
+
+  @Operator
+  public Predicate<AccountGroup> limit(String query)
+      throws QueryParseException {
+    Integer limit = Ints.tryParse(query);
+    if (limit == null) {
+      throw error("Invalid limit: " + query);
+    }
+    return new LimitPredicate<>(FIELD_LIMIT, limit);
   }
 }

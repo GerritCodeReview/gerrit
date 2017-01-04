@@ -10,6 +10,12 @@ Operators act as restrictions on the search. As more operators
 are added to the same query string, they further restrict the
 returned results.
 
+[[description]]
+description:'DESCRIPTION'::
++
+Matches groups that have a description that contains 'DESCRIPTION'
+(case-insensitive).
+
 [[inname]]
 inname:'NAMEPART'::
 +

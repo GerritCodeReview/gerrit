@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b7847225_6ac91748",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:21:20Z",
+      "side": 1,
+      "message": "I meant only to replace the range that was marked by the comment, but not the full subject. I think something like \"Add a new REST endpoint to support deleting a vote on a revision\" would be good.",
+      "parentUuid": "1a1ba32a_9e028126",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "7d944b8886b9ea3236df5029135d1843d6c443c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_3e408d73",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

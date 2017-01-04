@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "b7847225_ea318748",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T10:18:19Z",
+      "side": 1,
+      "message": "It would be an error as ListGroups doesn\u0027t support --query.",
+      "parentUuid": "b7847225_8a3acb24",
+      "range": {
+        "startLine": 32,
+        "startChar": 48,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_5e358991",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

@@ -333,9 +333,7 @@ public class AllChangesIndexer
               cd.setCurrentFilePaths(paths);
               indexer.index(cd);
               done.update(1);
-              if (verboseWriter != null) {
-                verboseWriter.println("Reindexed change " + cd.getId());
-              }
+              verboseWriter.println("Reindexed change " + cd.getId());
             } catch (Exception e) {
               fail("Failed to index change " + cd.getId(), true, e);
             }
@@ -398,9 +396,7 @@ public class AllChangesIndexer
         log.warn(error);
       }
 
-      if (verboseWriter != null) {
-        verboseWriter.println(error);
-      }
+      verboseWriter.println(error);
     }
   }
 }

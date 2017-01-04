@@ -97,9 +97,7 @@ public class AllAccountsIndexer
               try {
                 accountCache.evict(id);
                 index.replace(accountCache.get(id));
-                if (verboseWriter != null) {
-                  verboseWriter.println("Reindexed " + desc);
-                }
+                verboseWriter.println("Reindexed " + desc);
                 done.incrementAndGet();
               } catch (Exception e) {
                 failed.incrementAndGet();

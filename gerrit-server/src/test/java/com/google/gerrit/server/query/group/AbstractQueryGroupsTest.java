@@ -249,6 +249,18 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
+  public void byDefaultField() throws Exception {
+    GroupInfo group1 = createGroup(name("foo-group"));
+    GroupInfo group2 = createGroup(name("group2"));
+    GroupInfo group3 = createGroupWithDescription(name("group3"),
+        "decription that contains foo and the UUID of group2: " + group2.id);
+
+    assertQuery("non-existing");
+    assertQuery("foo", group1, group3);
+    assertQuery(group2.id, group2, group3);
+  }
+
+  @Test
   public void withLimit() throws Exception {
     GroupInfo group1 = createGroup(name("group1"));
     GroupInfo group2 = createGroup(name("group2"));

@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "b7847225_8a3acb24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-04T10:16:35Z",
+      "side": 1,
+      "message": "OK, I see. What is when we pass query, but forget the expectList?\n\n  GET /groups/?query\u003d\u003cquery\u003e\n\nWould it be ignored? Error?",
+      "parentUuid": "57b176f0_d7855cf4",
+      "range": {
+        "startLine": 32,
+        "startChar": 48,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_5e358991",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -166,6 +190,30 @@
       "side": 1,
       "message": "I think it still makes a difference, since ListGroups and QueryGroups are both no singletons either.\n\nIf there are no providers, it means that for each GET /groups/ request both classes, ListGroups and QueryGroups, are instantiated, but only one of them is used. Also non of these classes needs to be instantiated for GET /group/\u003cgroup-id\u003e/ since then the list() method is not invoked at all.",
       "parentUuid": "1a1ba32a_bef49dae",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 14
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_aa378f3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-04T10:16:35Z",
+      "side": 1,
+      "message": "Right. Missed it.",
+      "parentUuid": "57b176f0_17919432",
       "range": {
         "startLine": 56,
         "startChar": 6,

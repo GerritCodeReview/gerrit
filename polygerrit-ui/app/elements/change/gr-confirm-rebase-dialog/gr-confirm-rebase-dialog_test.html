@@ -38,14 +38,36 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('controls', function() {
+    test('controls with rebase on current available', function() {
+      element.rebaseOnCurrent = true;
+      flushAsynchronousOperations();
+      // The correct content is hidden/displayed regarding the ability to rebase
+      // on top of the current branch.
+      assert.isFalse(element.$.clearParentLabel.hasAttribute('hidden'));
+      assert.isTrue(element.$.rebaseUpToDateInfo.hasAttribute('hidden'));
+      assert.isFalse(element.$.optionalText.hasAttribute('hidden'));
+
       assert.isFalse(element.$.parentInput.hasAttribute('disabled'));
+      assert.isFalse(element.$.clearParent.hasAttribute('disabled'));
       assert.isFalse(element.$.clearParent.checked);
       element.base = 'something great';
       MockInteractions.tap(element.$.clearParent);
       assert.isTrue(element.$.parentInput.hasAttribute('disabled'));
       assert.isTrue(element.$.clearParent.checked);
       assert.equal(element.base, '');
+    });
+
+    test('controls without rebase on current available', function() {
+      // The correct content is hidden/displayed regarding the ability to rebase
+      // on top of the current branch.
+      assert.isTrue(element.$.clearParentLabel.hasAttribute('hidden'));
+      assert.isFalse(element.$.rebaseUpToDateInfo.hasAttribute('hidden'));
+      assert.isTrue(element.$.optionalText.hasAttribute('hidden'));
+
+      assert.isFalse(element.$.parentInput.hasAttribute('disabled'));
+      assert.isTrue(element.$.clearParent.hasAttribute('disabled'));
+      assert.isTrue(element.$.clearParentLabel.hasAttribute('hidden'));
+      assert.isFalse(element.$.rebaseUpToDateInfo.hasAttribute('hidden'));
     });
   });
 </script>

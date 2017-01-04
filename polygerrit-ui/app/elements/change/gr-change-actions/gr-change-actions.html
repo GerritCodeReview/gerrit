@@ -88,10 +88,19 @@ limitations under the License.
               data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
               on-tap="_handleActionTap"></gr-button>
         </template>
+         <gr-button id="rebaseButton" title$="[[_rebaseAction.title]]"
+              hidden$="[[_computeActionHidden(_rebaseAction.__key, _hiddenRevisionActions.*)]]"
+              primary$="[[_rebaseAction.__primary]]"
+              data-action-key$="[[_rebaseAction.__key]]"
+              data-action-type$="[[_rebaseAction.__type]]"
+              data-label$="[[_rebaseAction.label]]"
+              data-loading-label$="[[_computeLoadingLabel(_rebaseAction.__key)]]"
+              on-tap="_handleActionTap"></gr-button>
       </section>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-rebase-dialog id="confirmRebase"
+          rebase-on-current="[[_rebaseAction.enabled]]"
           class="confirmDialog"
           on-confirm="_handleRebaseConfirm"
           on-cancel="_handleConfirmDialogCancel"

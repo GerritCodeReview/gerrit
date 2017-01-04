@@ -32,6 +32,10 @@
     properties: {
       base: String,
       clearParent: Boolean,
+      rebaseOnCurrent: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     _handleConfirmTap: function(e) {

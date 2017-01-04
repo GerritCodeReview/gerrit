@@ -122,6 +122,30 @@
     },
     {
       "key": {
+        "uuid": "b7847225_8ab3ab9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T10:36:47Z",
+      "side": 1,
+      "message": "\u003e and we cannot change/depreacte it?\n\nWe can mark it as deprecated, but I think we should not change it in an incompatible way. If it was deprecated for long enough, we can probably get rid of it one day, but we don\u0027t have an agreed process for incompatible API changes yet.\nIn any case before marking it as deprecated would need to support all that functionality in the new REST endpoint.\nBut yes, I would be glad if we could remove it :)\n\n \u003e we could consider to name new --query option as --query2/-q2\n\nThat\u0027s maybe a good proposal. Looks cleaner to me than the expectList parameter.",
+      "parentUuid": "57b176f0_17a0b443",
+      "range": {
+        "startLine": 32,
+        "startChar": 48,
+        "endLine": 32,
+        "endChar": 58
+      },
+      "revId": "ebad3f5b177a89d3b1ecd6ab4ec2b840ae517079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_5e358991",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

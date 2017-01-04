@@ -38,6 +38,10 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @deprecated use {@link LightweightPluginDaemonTest} instead.
+ */
+@Deprecated
 public abstract class PluginDaemonTest extends AbstractDaemonTest {
 
   private static final String BUCKLC = "buck";

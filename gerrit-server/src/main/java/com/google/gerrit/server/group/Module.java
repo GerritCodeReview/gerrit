@@ -39,6 +39,7 @@ public class Module extends RestApiModule {
     get(GROUP_KIND).to(GetGroup.class);
     put(GROUP_KIND).to(PutGroup.class);
     get(GROUP_KIND, "detail").to(GetDetail.class);
+    post(GROUP_KIND, "index").to(Index.class);
     post(GROUP_KIND, "members").to(AddMembers.class);
     post(GROUP_KIND, "members.add").to(AddMembers.class);
     post(GROUP_KIND, "members.delete").to(DeleteMembers.class);

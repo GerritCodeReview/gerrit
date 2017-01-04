@@ -60,6 +60,7 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -299,6 +300,26 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
     setAnonymous();
     assertQuery("uuid:" + group.id);
+  }
+
+  // reindex permissions are tested by {@link GroupsIT#reindexPermissions}
+  @Test
+  public void reindex() throws Exception {
+    GroupInfo group1 = createGroupWithDescription(name("group"), "barX");
+
+    // update group in the database so that group index is stale
+    String newDescription = "barY";
+    AccountGroup group =
+        db.accountGroups().get(new AccountGroup.Id(group1.groupId));
+    group.setDescription(newDescription);
+    db.accountGroups().update(Collections.singleton(group));
+
+    assertQuery("description:" + group1.description, group1);
+    assertQuery("description:" + newDescription);
+
+    gApi.groups().id(group1.id).index();
+    assertQuery("description:" + group1.description);
+    assertQuery("description:" + newDescription, group1);
   }
 
   private Account.Id createAccount(String username, String fullName,

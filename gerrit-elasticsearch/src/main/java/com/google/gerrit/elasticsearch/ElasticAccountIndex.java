@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -124,7 +123,7 @@ class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
   }
 
   @Override
-  protected Builder addActions(Builder builder, Id c) {
+  protected Builder addActions(Builder builder, Account.Id c) {
     return builder.addAction(delete(ACCOUNTS, c));
   }
 
@@ -180,7 +179,7 @@ class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
             JsonArray json = obj.getAsJsonArray("hits");
             results = Lists.newArrayListWithCapacity(json.size());
             for (int i = 0; i < json.size(); i++) {
-              results.add(toChangeData(json.get(i)));
+              results.add(toAccountState(json.get(i)));
             }
           }
         } else {
@@ -213,19 +212,16 @@ class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
       return search.toString();
     }
 
-    private AccountState toChangeData(JsonElement json) {
+    private AccountState toAccountState(JsonElement json) {
       JsonElement source = json.getAsJsonObject().get("_source");
       if (source == null) {
         source = json.getAsJsonObject().get("fields");
       }
-      return toAccountState(source);
-    }
 
-    private AccountState toAccountState(JsonElement element) {
       Account.Id id = new Account.Id(
-          element.getAsJsonObject().get(ID.getName()).getAsInt());
+          source.getAsJsonObject().get(ID.getName()).getAsInt());
       // Use the AccountCache rather than depending on any stored fields in the
-      // document (of which there shouldn't be any. The most expensive part to
+      // document (of which there shouldn't be any). The most expensive part to
       // compute anyway is the effective group IDs, and we don't have a good way
       // to reindex when those change.
       return accountCache.get(id);

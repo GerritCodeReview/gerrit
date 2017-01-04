@@ -30,8 +30,22 @@
      */
 
     properties: {
-      base: String,
-      clearParent: Boolean,
+      base: {
+        type: String,
+      },
+      clearParent: {
+        type: Boolean,
+        value: false
+
+      },
+      rebaseOnCurrent: {
+        type: Boolean,
+        value: false,
+      },
+      valueSelected: {
+        type: Boolean,
+        computed: '_updateValueSelected(base, clearParent)',
+      },
     },
 
     _handleConfirmTap: function(e) {
@@ -51,6 +65,14 @@
       }
       this.$.parentInput.disabled = clear;
       this.clearParent = clear;
+    },
+
+    _updateValueSelected: function(base, clearParent) {
+      if (base.length > 0 || clearParent) {
+        return true;
+      } else {
+        return false;
+      }
     },
   });
 })();

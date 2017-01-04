@@ -3,12 +3,26 @@
 Group queries only match internal groups. External groups and system
 groups are not included in the query result.
 
+== Basic Group Search
+
+Similar to many popular search engines on the web, just enter some
+text and let Gerrit figure out the meaning:
+
+[options="header"]
+|=============================================================
+|Description                      | Examples
+|Name                             | Foo-Verifiers
+|UUID                             | 6a1e70e1a88782771a91808c8af9bbb7a9871389
+|Description                      | deprecated
+|=============================================================
+
 [[search-operators]]
 == Search Operators
 
 Operators act as restrictions on the search. As more operators
 are added to the same query string, they further restrict the
-returned results.
+returned results. Search can also be performed by typing only a text
+with no operator, which will match against a variety of fields.
 
 [[description]]
 description:'DESCRIPTION'::

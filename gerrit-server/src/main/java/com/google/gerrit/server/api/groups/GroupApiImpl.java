@@ -34,6 +34,7 @@ import com.google.gerrit.server.group.GetName;
 import com.google.gerrit.server.group.GetOptions;
 import com.google.gerrit.server.group.GetOwner;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.Index;
 import com.google.gerrit.server.group.ListIncludedGroups;
 import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.group.PutDescription;
@@ -71,6 +72,7 @@ class GroupApiImpl implements GroupApi {
   private final DeleteIncludedGroups deleteGroups;
   private final GetAuditLog getAuditLog;
   private final GroupResource rsrc;
+  private final Index index;
 
   @AssistedInject
   GroupApiImpl(
@@ -91,6 +93,7 @@ class GroupApiImpl implements GroupApi {
       AddIncludedGroups addGroups,
       DeleteIncludedGroups deleteGroups,
       GetAuditLog getAuditLog,
+      Index index,
       @Assisted GroupResource rsrc) {
     this.getGroup = getGroup;
     this.getDetail = getDetail;
@@ -109,6 +112,7 @@ class GroupApiImpl implements GroupApi {
     this.addGroups = addGroups;
     this.deleteGroups = deleteGroups;
     this.getAuditLog = getAuditLog;
+    this.index = index;
     this.rsrc = rsrc;
   }
 
@@ -268,6 +272,15 @@ class GroupApiImpl implements GroupApi {
       return getAuditLog.apply(rsrc);
     } catch (OrmException e) {
       throw new RestApiException("Cannot get audit log", e);
+    }
+  }
+
+  @Override
+  public void index() throws RestApiException {
+    try {
+      index.apply(rsrc, new Index.Input());
+    } catch (IOException e) {
+      throw new RestApiException("Cannot index group", e);
     }
   }
 }

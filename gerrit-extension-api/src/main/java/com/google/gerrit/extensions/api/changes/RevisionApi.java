@@ -119,42 +119,42 @@ public interface RevisionApi {
    **/
   class NotImplemented implements RevisionApi {
     @Override
-    public void delete() throws RestApiException {
+    public void delete() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void review(ReviewInput in) throws RestApiException {
+    public void review(ReviewInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void submit() throws RestApiException {
+    public void submit() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void submit(SubmitInput in) throws RestApiException {
+    public void submit(SubmitInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void publish() throws RestApiException {
+    public void publish() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
+    public ChangeApi cherryPick(CherryPickInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeApi rebase() throws RestApiException {
+    public ChangeApi rebase() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeApi rebase(RebaseInput in) throws RestApiException {
+    public ChangeApi rebase(RebaseInput in) {
       throw new NotImplementedException();
     }
 
@@ -164,42 +164,42 @@ public interface RevisionApi {
     }
 
     @Override
-    public RevisionReviewerApi reviewer(String id) throws RestApiException {
+    public RevisionReviewerApi reviewer(String id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void setReviewed(String path, boolean reviewed) throws RestApiException {
+    public void setReviewed(String path, boolean reviewed) {
       throw new NotImplementedException();
     }
 
     @Override
-    public Set<String> reviewed() throws RestApiException {
+    public Set<String> reviewed() {
       throw new NotImplementedException();
     }
 
     @Override
-    public MergeableInfo mergeable() throws RestApiException {
+    public MergeableInfo mergeable() {
       throw new NotImplementedException();
     }
 
     @Override
-    public MergeableInfo mergeableOtherBranches() throws RestApiException {
+    public MergeableInfo mergeableOtherBranches() {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, FileInfo> files(String base) throws RestApiException {
+    public Map<String, FileInfo> files(String base) {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, FileInfo> files(int parentNum) throws RestApiException {
+    public Map<String, FileInfo> files(int parentNum) {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, FileInfo> files() throws RestApiException {
+    public Map<String, FileInfo> files() {
       throw new NotImplementedException();
     }
 
@@ -209,110 +209,107 @@ public interface RevisionApi {
     }
 
     @Override
-    public Map<String, List<CommentInfo>> comments() throws RestApiException {
+    public Map<String, List<CommentInfo>> comments() {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, List<RobotCommentInfo>> robotComments()
-        throws RestApiException {
+    public Map<String, List<RobotCommentInfo>> robotComments() {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<CommentInfo> commentsAsList() throws RestApiException {
+    public List<CommentInfo> commentsAsList() {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<CommentInfo> draftsAsList() throws RestApiException {
+    public List<CommentInfo> draftsAsList() {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<RobotCommentInfo> robotCommentsAsList()
-        throws RestApiException {
+    public List<RobotCommentInfo> robotCommentsAsList() {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+    public Map<String, List<CommentInfo>> drafts() {
       throw new NotImplementedException();
     }
 
     @Override
-    public DraftApi createDraft(DraftInput in) throws RestApiException {
+    public DraftApi createDraft(DraftInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public DraftApi draft(String id) throws RestApiException {
+    public DraftApi draft(String id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public CommentApi comment(String id) throws RestApiException {
+    public CommentApi comment(String id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public RobotCommentApi robotComment(String id) throws RestApiException {
+    public RobotCommentApi robotComment(String id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public BinaryResult patch() throws RestApiException {
+    public BinaryResult patch() {
       throw new NotImplementedException();
     }
 
     @Override
-    public BinaryResult patch(String path) throws RestApiException {
+    public BinaryResult patch(String path) {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, ActionInfo> actions() throws RestApiException {
+    public Map<String, ActionInfo> actions() {
       throw new NotImplementedException();
     }
 
     @Override
-    public SubmitType submitType() throws RestApiException {
+    public SubmitType submitType() {
       throw new NotImplementedException();
     }
 
     @Override
-    public BinaryResult submitPreview() throws RestApiException {
+    public BinaryResult submitPreview() {
       throw new NotImplementedException();
     }
 
     @Override
-    public BinaryResult submitPreview(String format) throws RestApiException {
+    public BinaryResult submitPreview(String format) {
       throw new NotImplementedException();
     }
 
     @Override
-    public SubmitType testSubmitType(TestSubmitRuleInput in)
-        throws RestApiException {
+    public SubmitType testSubmitType(TestSubmitRuleInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public MergeListRequest getMergeList() throws RestApiException {
+    public MergeListRequest getMergeList() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void description(String description) throws RestApiException {
+    public void description(String description) {
       throw new NotImplementedException();
     }
 
     @Override
-    public String description() throws RestApiException {
+    public String description() {
       throw new NotImplementedException();
     }
 
     @Override
-    public String etag() throws RestApiException {
+    public String etag() {
       throw new NotImplementedException();
     }
   }

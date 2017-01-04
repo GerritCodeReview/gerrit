@@ -237,208 +237,205 @@ public interface ChangeApi {
     }
 
     @Override
-    public RevisionApi current() throws RestApiException {
+    public RevisionApi current() {
       throw new NotImplementedException();
     }
 
     @Override
-    public RevisionApi revision(int id) throws RestApiException {
+    public RevisionApi revision(int id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ReviewerApi reviewer(String id) throws RestApiException {
+    public ReviewerApi reviewer(String id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public RevisionApi revision(String id) throws RestApiException {
+    public RevisionApi revision(String id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void abandon() throws RestApiException {
+    public void abandon() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void abandon(AbandonInput in) throws RestApiException {
+    public void abandon(AbandonInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void restore() throws RestApiException {
+    public void restore() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void restore(RestoreInput in) throws RestApiException {
+    public void restore(RestoreInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void move(String destination) throws RestApiException {
+    public void move(String destination) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void move(MoveInput in) throws RestApiException {
+    public void move(MoveInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeApi revert() throws RestApiException {
+    public ChangeApi revert() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeApi revert(RevertInput in) throws RestApiException {
+    public ChangeApi revert(RevertInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void publish() throws RestApiException {
+    public void publish() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void delete() throws RestApiException {
+    public void delete() {
       throw new NotImplementedException();
     }
 
     @Override
-    public String topic() throws RestApiException {
+    public String topic() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void topic(String topic) throws RestApiException {
+    public void topic(String topic) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void addReviewer(AddReviewerInput in) throws RestApiException {
+    public void addReviewer(AddReviewerInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void addReviewer(String in) throws RestApiException {
+    public void addReviewer(String in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+    public SuggestedReviewersRequest suggestReviewers() {
       throw new NotImplementedException();
     }
 
     @Override
-    public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
+    public SuggestedReviewersRequest suggestReviewers(String query) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException {
+    public ChangeInfo get(EnumSet<ListChangesOption> options) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeInfo get() throws RestApiException {
+    public ChangeInfo get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeInfo info() throws RestApiException {
+    public ChangeInfo info() {
       throw new NotImplementedException();
     }
 
     @Override
-    public EditInfo getEdit() throws RestApiException {
+    public EditInfo getEdit() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void setHashtags(HashtagsInput input) throws RestApiException {
+    public void setHashtags(HashtagsInput input) {
       throw new NotImplementedException();
     }
 
     @Override
-    public Set<String> getHashtags() throws RestApiException {
+    public Set<String> getHashtags() {
       throw new NotImplementedException();
     }
 
     @Override
-    public AccountInfo setAssignee(AssigneeInput input)
-        throws RestApiException {
+    public AccountInfo setAssignee(AssigneeInput input) {
       throw new NotImplementedException();
     }
 
     @Override
-    public AccountInfo getAssignee() throws RestApiException {
+    public AccountInfo getAssignee() {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<AccountInfo> getPastAssignees() throws RestApiException {
+    public List<AccountInfo> getPastAssignees() {
       throw new NotImplementedException();
     }
 
     @Override
-    public AccountInfo deleteAssignee() throws RestApiException {
+    public AccountInfo deleteAssignee() {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, List<CommentInfo>> comments() throws RestApiException {
+    public Map<String, List<CommentInfo>> comments() {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, List<RobotCommentInfo>> robotComments()
-        throws RestApiException {
+    public Map<String, List<RobotCommentInfo>> robotComments() {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+    public Map<String, List<CommentInfo>> drafts() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeInfo check() throws RestApiException {
+    public ChangeInfo check() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeInfo check(FixInput fix) throws RestApiException {
+    public ChangeInfo check(FixInput fix) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void index() throws RestApiException {
+    public void index() {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<ChangeInfo> submittedTogether() throws RestApiException {
+    public List<ChangeInfo> submittedTogether() {
       throw new NotImplementedException();
     }
 
     @Override
     public SubmittedTogetherInfo submittedTogether(
-        EnumSet<SubmittedTogetherOption> options) throws RestApiException {
+        EnumSet<SubmittedTogetherOption> options) {
       throw new NotImplementedException();
     }
 
     @Override
     public SubmittedTogetherInfo submittedTogether(
         EnumSet<ListChangesOption> a,
-        EnumSet<SubmittedTogetherOption> b) throws RestApiException {
+        EnumSet<SubmittedTogetherOption> b) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChangeInfo createMergePatchSet(MergePatchSetInput in)
-        throws RestApiException {
+    public ChangeInfo createMergePatchSet(MergePatchSetInput in) {
       throw new NotImplementedException();
     }
   }

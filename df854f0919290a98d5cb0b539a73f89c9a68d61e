@@ -23,6 +23,30 @@
       "revId": "df854f0919290a98d5cb0b539a73f89c9a68d61e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_0a917b32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:50:58Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, this actually sounds better to me.\n\nDone.",
+      "parentUuid": "17f0de9e_10554ade",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 28
+      },
+      "revId": "df854f0919290a98d5cb0b539a73f89c9a68d61e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

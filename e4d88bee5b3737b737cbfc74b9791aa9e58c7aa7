@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "b7847225_ca85a3f4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneGroupIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:50:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_d0e10213",
+      "range": {
+        "startLine": 68,
+        "startChar": 42,
+        "endLine": 68,
+        "endChar": 44
+      },
+      "revId": "e4d88bee5b3737b737cbfc74b9791aa9e58c7aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_be493d37",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneGroupIndex.java",
         "patchSetId": 4
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "57b176f0_77773041",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneGroupIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:50:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_be493d37",
+      "range": {
+        "startLine": 106,
+        "startChar": 35,
+        "endLine": 106,
+        "endChar": 37
+      },
+      "revId": "e4d88bee5b3737b737cbfc74b9791aa9e58c7aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_9e4e013b",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneGroupIndex.java",
         "patchSetId": 4
@@ -60,6 +108,30 @@
       "writtenOn": "2017-01-03T20:20:17Z",
       "side": 1,
       "message": "Closing paren.",
+      "range": {
+        "startLine": 195,
+        "startChar": 48,
+        "endLine": 195,
+        "endChar": 49
+      },
+      "revId": "e4d88bee5b3737b737cbfc74b9791aa9e58c7aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_ea8267e9",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneGroupIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:50:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_9e4e013b",
       "range": {
         "startLine": 195,
         "startChar": 48,

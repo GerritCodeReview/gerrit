@@ -83,6 +83,11 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
     throw error("Invalid query");
   }
 
+  @Override
+  protected Predicate<AccountGroup> defaultField(String query) {
+    return GroupPredicates.defaultPredicate(query);
+  }
+
   @Operator
   public Predicate<AccountGroup> limit(String query)
       throws QueryParseException {
@@ -92,4 +97,5 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
     }
     return new LimitPredicate<>(FIELD_LIMIT, limit);
   }
+
 }

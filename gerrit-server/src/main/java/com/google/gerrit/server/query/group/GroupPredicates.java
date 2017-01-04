@@ -48,6 +48,10 @@ public class GroupPredicates {
         GroupQueryBuilder.FIELD_OWNER, owner);
   }
 
+  public static Predicate<AccountGroup> isVisibleToAll() {
+    return new GroupPredicate(GroupField.IS_VISIBLE_TO_ALL, "1");
+  }
+
   static class GroupPredicate extends IndexPredicate<AccountGroup> {
     GroupPredicate(FieldDef<AccountGroup, ?> def, String value) {
       super(def, value);

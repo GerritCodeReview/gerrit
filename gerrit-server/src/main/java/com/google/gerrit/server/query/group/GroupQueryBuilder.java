@@ -70,6 +70,14 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
+  public Predicate<AccountGroup> is(String value) throws QueryParseException {
+    if ("visibleToAll".equalsIgnoreCase(value)) {
+      return GroupPredicates.isVisibleToAll();
+    }
+    throw error("Invalid query");
+  }
+
+  @Operator
   public Predicate<AccountGroup> limit(String query)
       throws QueryParseException {
     Integer limit = Ints.tryParse(query);

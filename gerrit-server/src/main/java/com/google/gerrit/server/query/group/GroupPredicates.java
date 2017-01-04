@@ -28,6 +28,11 @@ public class GroupPredicates {
         GroupQueryBuilder.FIELD_UUID, uuid.get());
   }
 
+  public static Predicate<AccountGroup> description(String description) {
+    return new GroupPredicate(GroupField.DESCRIPTION,
+        GroupQueryBuilder.FIELD_DESCRIPTION, description);
+  }
+
   public static Predicate<AccountGroup> inname(String name) {
     return new GroupPredicate(GroupField.NAME_PART,
         GroupQueryBuilder.FIELD_INNAME, name.toLowerCase(Locale.US));

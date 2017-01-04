@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.QueryRequest;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -214,6 +215,22 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   @Test
+  public void byDescription() throws Exception {
+    GroupInfo group1 =
+        createGroupWithDescription(name("group1"), "This is a test group.");
+    GroupInfo group2 =
+        createGroupWithDescription(name("group2"), "ANOTHER TEST GROUP.");
+    createGroupWithDescription(name("group3"), "Maintainers of project foo.");
+    assertQuery("description:test", group1, group2);
+
+    assertQuery("description:non-existing");
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("description operator requires a value");
+    assertQuery("description:\"\"");
+  }
+
+  @Test
   public void withLimit() throws Exception {
     GroupInfo group1 = createGroup(name("group1"));
     GroupInfo group2 = createGroup(name("group2"));
@@ -269,8 +286,14 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   protected GroupInfo createGroup(String name, AccountInfo... members)
       throws RestApiException {
+    return createGroupWithDescription(name, null, members);
+  }
+
+  protected GroupInfo createGroupWithDescription(String name,
+      String description, AccountInfo... members) throws RestApiException {
     GroupInput in = new GroupInput();
     in.name = name;
+    in.description = description;
     in.members = Arrays.asList(members).stream()
         .map(a -> String.valueOf(a._accountId)).collect(toList());
     return gApi.groups().create(in).get();

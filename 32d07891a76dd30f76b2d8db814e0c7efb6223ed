@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57b176f0_97512481",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:40:33Z",
+      "side": 1,
+      "message": "These lines are the same as lines 92 - 94. I guess those can be removed here.",
+      "range": {
+        "startLine": 119,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 51
+      },
+      "revId": "32d07891a76dd30f76b2d8db814e0c7efb6223ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57b176f0_b74e28de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionReviewers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:40:33Z",
+      "side": 1,
+      "message": "I think also in the method you should check rsrc.isCurrent() and if not fail with MethodNotAllowedException.",
+      "revId": "32d07891a76dd30f76b2d8db814e0c7efb6223ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_2a639f59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Votes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T09:40:33Z",
+      "side": 1,
+      "message": "I think also in the method you should check rsrc.isCurrent() and if not fail with MethodNotAllowedException.",
+      "revId": "32d07891a76dd30f76b2d8db814e0c7efb6223ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

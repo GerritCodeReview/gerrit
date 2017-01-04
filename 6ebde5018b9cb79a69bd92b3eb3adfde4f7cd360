@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483532702 +0100\nnonce AHDV6GkCfcwBpFJYdIWthTaMonQG5K6x4vHBNcpkNf7Kfniq++agh0DN92OYXANeEeCiRx2YDW+n\n\n0000000000000000000000000000000000000000 6ebde5018b9cb79a69bd92b3eb3adfde4f7cd360 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYbOmeAAoJEFG1/Zeg0O9R+isIALmK+lW6DZrhwyhL/p7AdPuV\n10E1lUkOabOBefoVVbsDtUgupiIcEsC290AR6Ovq+Rx8BKKMdUgc+uR8Ev+B2HZf\nzm3Q7XnKG8M7nCymAiWW7EQvQY5PBanRz1qLVe299VcV0udprPdROhfsTGaTQtsV\nk+pKxb/MVXOYRBnH0a4PTHbH3vYOTSumYRLjYAh4Rw/S3TncGG7KUZ+GB+u47KXC\nMeUBZQlRvtf5rZrfY++pR4G4RVWv4teSOE0SeG2/8Jo9pwqplJ78E0UKl6YIAuXe\nBgKMjqJKaZvbyqjMDZDJbBMuBgAeln27FrvBU4JJhNSiqwQAmD/0+ObEBBvlSDg\u003d\n\u003dLDM3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7847225_8a656b3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/group/GroupQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-04T15:08:41Z",
+      "side": 1,
+      "message": "Can we support less verbose version as synonym, just \"visible\" too?",
+      "range": {
+        "startLine": 74,
+        "startChar": 9,
+        "endLine": 74,
+        "endChar": 21
+      },
+      "revId": "6ebde5018b9cb79a69bd92b3eb3adfde4f7cd360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

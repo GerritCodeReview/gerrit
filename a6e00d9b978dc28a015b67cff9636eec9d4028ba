@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "b7847225_6a775741",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SchemaUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_b0ea76ee",
+      "range": {
+        "startLine": 100,
+        "startChar": 30,
+        "endLine": 100,
+        "endChar": 34
+      },
+      "revId": "a6e00d9b978dc28a015b67cff9636eec9d4028ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_90e77a28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
         "patchSetId": 4
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "57b176f0_57722c52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_90e77a28",
+      "range": {
+        "startLine": 82,
+        "startChar": 29,
+        "endLine": 82,
+        "endChar": 43
+      },
+      "revId": "a6e00d9b978dc28a015b67cff9636eec9d4028ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_f0e4fe24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
         "patchSetId": 4
@@ -60,6 +108,30 @@
       "writtenOn": "2017-01-03T20:19:48Z",
       "side": 1,
       "message": "A no op? I see that AllAccountsIndexer and in AllChangesIndexer also use similar verboseWriter !\u003d null condition. Isnt\u0027t the verboseWriter is unconditionaly created in base class and is never null? Moreover, there is a setter method, that is also never assigned null value:\n\n  siteIndexer.setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE);",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 44
+      },
+      "revId": "a6e00d9b978dc28a015b67cff9636eec9d4028ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7847225_8a7bab29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-04T08:50:13Z",
+      "side": 1,
+      "message": "Yes, looks like this is not needed.\n\nDone.\n\nFixed it for AllAccountsIndexer and AllChangesIndexer in [1].\n\n[1] https://gerrit-review.googlesource.com/93590",
+      "parentUuid": "17f0de9e_f0e4fe24",
       "range": {
         "startLine": 102,
         "startChar": 16,

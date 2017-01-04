@@ -121,49 +121,47 @@ public interface ProjectApi {
    **/
   class NotImplemented implements ProjectApi {
     @Override
-    public ProjectApi create() throws RestApiException {
+    public ProjectApi create() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ProjectApi create(ProjectInput in) throws RestApiException {
+    public ProjectApi create(ProjectInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ProjectInfo get() throws RestApiException {
+    public ProjectInfo get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public String description() throws RestApiException {
+    public String description() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ProjectAccessInfo access() throws RestApiException {
+    public ProjectAccessInfo access() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ConfigInfo config() throws RestApiException {
+    public ConfigInfo config() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ConfigInfo config(ConfigInput in) throws RestApiException {
+    public ConfigInfo config(ConfigInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ProjectAccessInfo access(ProjectAccessInput p)
-      throws RestApiException {
+    public ProjectAccessInfo access(ProjectAccessInput p) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void description(DescriptionInput in)
-        throws RestApiException {
+    public void description(DescriptionInput in) {
       throw new NotImplementedException();
     }
 
@@ -183,32 +181,32 @@ public interface ProjectApi {
     }
 
     @Override
-    public List<ProjectInfo> children(boolean recursive) throws RestApiException {
+    public List<ProjectInfo> children(boolean recursive) {
       throw new NotImplementedException();
     }
 
     @Override
-    public ChildProjectApi child(String name) throws RestApiException {
+    public ChildProjectApi child(String name) {
       throw new NotImplementedException();
     }
 
     @Override
-    public BranchApi branch(String ref) throws RestApiException {
+    public BranchApi branch(String ref) {
       throw new NotImplementedException();
     }
 
     @Override
-    public TagApi tag(String ref) throws RestApiException {
+    public TagApi tag(String ref) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteBranches(DeleteBranchesInput in) throws RestApiException {
+    public void deleteBranches(DeleteBranchesInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteTags(DeleteTagsInput in) throws RestApiException {
+    public void deleteTags(DeleteTagsInput in) {
       throw new NotImplementedException();
     }
   }

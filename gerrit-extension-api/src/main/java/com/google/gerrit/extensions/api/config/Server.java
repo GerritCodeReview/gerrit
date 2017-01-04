@@ -41,36 +41,34 @@ public interface Server {
    **/
   class NotImplemented implements Server {
     @Override
-    public String getVersion() throws RestApiException {
+    public String getVersion() {
       throw new NotImplementedException();
     }
 
     @Override
-    public ServerInfo getInfo() throws RestApiException {
+    public ServerInfo getInfo() {
       throw new NotImplementedException();
     }
 
     @Override
-    public GeneralPreferencesInfo getDefaultPreferences()
-        throws RestApiException {
+    public GeneralPreferencesInfo getDefaultPreferences() {
       throw new NotImplementedException();
     }
 
     @Override
     public GeneralPreferencesInfo setDefaultPreferences(
-        GeneralPreferencesInfo in) throws RestApiException {
+        GeneralPreferencesInfo in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffPreferencesInfo getDefaultDiffPreferences()
-        throws RestApiException {
+    public DiffPreferencesInfo getDefaultDiffPreferences() {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in)
-        throws RestApiException {
+    public DiffPreferencesInfo setDefaultDiffPreferences(
+        DiffPreferencesInfo in) {
       throw new NotImplementedException();
     }
   }

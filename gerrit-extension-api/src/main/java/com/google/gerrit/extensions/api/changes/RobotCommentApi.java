@@ -28,7 +28,7 @@ public interface RobotCommentApi {
    **/
   class NotImplemented implements RobotCommentApi {
     @Override
-    public RobotCommentInfo get() throws RestApiException {
+    public RobotCommentInfo get() {
       throw new NotImplementedException();
     }
   }

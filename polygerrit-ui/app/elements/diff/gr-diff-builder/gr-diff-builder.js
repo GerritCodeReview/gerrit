@@ -575,7 +575,7 @@
     return group.type === GrDiffGroup.Type.DELTA &&
         (!group.adds.length || !group.removes.length) &&
         !(!group.adds.length && !group.removes.length);
-  }
+  };
 
   window.GrDiffBuilder = GrDiffBuilder;
 })(window, GrDiffGroup, GrDiffLine);

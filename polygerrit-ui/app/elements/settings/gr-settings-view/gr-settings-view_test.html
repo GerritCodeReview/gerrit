@@ -387,7 +387,8 @@ limitations under the License.
       test('show-alert is fired when email is confirmed', function(done) {
         sandbox.spy(element, 'fire');
         element._loadingPromise.then(function() {
-          assert.isTrue(element.fire.calledWith('show-alert', {message: 'bar'}));
+          assert.isTrue(
+              element.fire.calledWith('show-alert', {message: 'bar'}));
           done();
         });
         resolveConfirm('bar');

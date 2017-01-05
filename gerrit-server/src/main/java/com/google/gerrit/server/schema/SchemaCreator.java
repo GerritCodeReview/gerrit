@@ -24,6 +24,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -46,6 +47,7 @@ public class SchemaCreator {
   private final AllUsersCreator allUsersCreator;
   private final PersonIdent serverUser;
   private final DataSourceType dataSourceType;
+  private final GroupIndexCollection indexCollection;
 
   private AccountGroup admin;
   private AccountGroup batch;
@@ -55,20 +57,23 @@ public class SchemaCreator {
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
-      DataSourceType dst) {
-    this(site.site_path, ap, auc, au, dst);
+      DataSourceType dst,
+      GroupIndexCollection ic) {
+    this(site.site_path, ap, auc, au, dst, ic);
   }
 
   public SchemaCreator(@SitePath Path site,
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
-      DataSourceType dst) {
+      DataSourceType dst,
+      GroupIndexCollection ic) {
     site_path = site;
     allProjectsCreator = ap;
     allUsersCreator = auc;
     serverUser = au;
     dataSourceType = dst;
+    indexCollection = ic;
   }
 
   public void create(final ReviewDb db) throws OrmException, IOException,
@@ -82,6 +87,7 @@ public class SchemaCreator {
     sVer.versionNbr = SchemaVersion.getBinaryVersion();
     db.schemaVersion().insert(Collections.singleton(sVer));
 
+    createDefaultGroups(db);
     initSystemConfig(db);
     allProjectsCreator
       .setAdministrators(GroupReference.forGroup(admin))
@@ -91,6 +97,30 @@ public class SchemaCreator {
       .setAdministrators(GroupReference.forGroup(admin))
       .create();
     dataSourceType.getIndexScript().run(db);
+  }
+
+  private void createDefaultGroups(ReviewDb db)
+      throws OrmException, IOException {
+    admin = newGroup(db, "Administrators", null);
+    admin.setDescription("Gerrit Site Administrators");
+    db.accountGroups().insert(Collections.singleton(admin));
+    db.accountGroupNames()
+        .insert(Collections.singleton(new AccountGroupName(admin)));
+    index(admin);
+
+    batch = newGroup(db, "Non-Interactive Users", null);
+    batch.setDescription("Users who perform batch actions on Gerrit");
+    batch.setOwnerGroupUUID(admin.getGroupUUID());
+    db.accountGroups().insert(Collections.singleton(batch));
+    db.accountGroupNames()
+        .insert(Collections.singleton(new AccountGroupName(batch)));
+    index(batch);
+  }
+
+  private void index(AccountGroup group) throws IOException {
+    if (indexCollection.getSearchIndex() != null) {
+      indexCollection.getSearchIndex().replace(group);
+    }
   }
 
   private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)
@@ -104,27 +134,14 @@ public class SchemaCreator {
         uuid);
   }
 
-  private SystemConfig initSystemConfig(final ReviewDb c) throws OrmException {
-    admin = newGroup(c, "Administrators", null);
-    admin.setDescription("Gerrit Site Administrators");
-    c.accountGroups().insert(Collections.singleton(admin));
-    c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(admin)));
-
-    batch = newGroup(c, "Non-Interactive Users", null);
-    batch.setDescription("Users who perform batch actions on Gerrit");
-    batch.setOwnerGroupUUID(admin.getGroupUUID());
-    c.accountGroups().insert(Collections.singleton(batch));
-    c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(batch)));
-
-    final SystemConfig s = SystemConfig.create();
+  private SystemConfig initSystemConfig(ReviewDb db) throws OrmException {
+    SystemConfig s = SystemConfig.create();
     try {
       s.sitePath = site_path.toRealPath().normalize().toString();
     } catch (IOException e) {
       s.sitePath = site_path.toAbsolutePath().normalize().toString();
     }
-    c.systemConfig().insert(Collections.singleton(s));
+    db.systemConfig().insert(Collections.singleton(s));
     return s;
   }
 }

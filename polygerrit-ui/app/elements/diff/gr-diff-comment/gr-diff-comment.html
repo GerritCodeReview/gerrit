@@ -109,7 +109,8 @@ limitations under the License.
         display: inline;
       }
       .draft:not(.editing) .save,
-      .draft:not(.editing) .cancel {
+      .draft:not(.editing) .cancel,
+      .draft:not(.editing) .resolve {
         display: none;
       }
       .editing .message,
@@ -169,6 +170,13 @@ limitations under the License.
       #container.collapsed gr-formatted-text,
       #container.collapsed iron-autogrow-textarea {
         display: none;
+      }
+      .resolve {
+        margin: auto;
+      }
+      .resolve label {
+        color: #333;
+        font-size: 12px;
       }
     </style>
     <div id="container"

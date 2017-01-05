@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -56,7 +57,13 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
 
   @Override
   public VoteResource parse(ReviewerResource reviewer, IdString id)
-      throws ResourceNotFoundException, OrmException, AuthException {
+      throws ResourceNotFoundException, OrmException, AuthException,
+      MethodNotAllowedException {
+    if (!reviewer.getRevisionResource().isCurrent()) {
+      throw new MethodNotAllowedException(
+          "Cannot access on non-current patch set");
+    }
+
     return new VoteResource(reviewer, id.get());
   }
 
@@ -73,7 +80,14 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
     }
 
     @Override
-    public Map<String, Short> apply(ReviewerResource rsrc) throws OrmException {
+    public Map<String, Short> apply(ReviewerResource rsrc)
+        throws OrmException, MethodNotAllowedException {
+      if (rsrc.getRevisionResource() != null
+          && !rsrc.getRevisionResource().isCurrent()) {
+        throw new MethodNotAllowedException(
+            "Cannot list votes on non-current patch set");
+      }
+
       Map<String, Short> votes = new TreeMap<>();
       Iterable<PatchSetApproval> byPatchSetUser = approvalsUtil.byPatchSetUser(
           db.get(),

@@ -45,6 +45,10 @@
 
       _showActions: Boolean,
       _orderedComments: Array,
+      _unresolved: {
+        type: Boolean,
+        notify: true,
+      },
     },
 
     behaviors: [
@@ -56,7 +60,7 @@
     },
 
     observers: [
-      '_commentsChanged(comments.splices)',
+      '_commentsChanged(comments.*)',
     ],
 
     keyBindings: {
@@ -92,6 +96,11 @@
 
     _commentsChanged: function(changeRecord) {
       this._orderedComments = this._sortedComments(this.comments);
+      this._unresolved = this._getLastComment().unresolved;
+    },
+
+    _getLastComment: function() {
+      return this._orderedComments[this._orderedComments.length - 1] || {};
     },
 
     _handleEKey: function(e) {
@@ -125,11 +134,13 @@
       });
     },
 
-    _createReplyComment: function(parent, content, opt_isEditing) {
+    _createReplyComment: function(parent, content, opt_isEditing,
+        opt_unresolved) {
       var reply = this._newReply(
           this._orderedComments[this._orderedComments.length - 1].id,
           parent.line,
-          content);
+          content,
+          opt_unresolved);
 
       // If there is currently a comment in an editing state, add an attribute
       // so that the gr-diff-comment knows not to populate the draft text.
@@ -162,17 +173,17 @@
         var msg = comment.message;
         quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       }
-      this._createReplyComment(comment, quoteStr, true);
+      this._createReplyComment(comment, quoteStr, true, comment.unresolved);
     },
 
     _handleCommentAck: function(e) {
       var comment = e.detail.comment;
-      this._createReplyComment(comment, 'Ack');
+      this._createReplyComment(comment, 'Ack', false, comment.unresolved);
     },
 
     _handleCommentDone: function(e) {
       var comment = e.detail.comment;
-      this._createReplyComment(comment, 'Done');
+      this._createReplyComment(comment, 'Done', false, false);
     },
 
     _handleCommentFix: function(e) {
@@ -180,7 +191,7 @@
       var msg = comment.message;
       var quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       var response = quoteStr + 'Please Fix';
-      this._createReplyComment(comment, response);
+      this._createReplyComment(comment, response, false, true);
     },
 
     _commentElWithDraftID: function(id) {
@@ -193,11 +204,14 @@
       return null;
     },
 
-    _newReply: function(inReplyTo, opt_lineNum, opt_message) {
+    _newReply: function(inReplyTo, opt_lineNum, opt_message, opt_unresolved) {
       var d = this._newDraft(opt_lineNum);
       d.in_reply_to = inReplyTo;
       if (opt_message != null) {
         d.message = opt_message;
+      }
+      if (opt_unresolved !== undefined) {
+        d.unresolved = opt_unresolved;
       }
       return d;
     },
@@ -261,7 +275,9 @@
         console.error('Comment update for another comment thread.');
         return;
       }
-      this.comments[index] = comment;
+      // Change ref to ensure _commentsChanged is properly triggered.
+      this.set(['comments', 'index'], {});
+      this.set(['comments', 'index'], comment);
     },
 
     _indexOf: function(comment, arr) {
@@ -273,6 +289,10 @@
         }
       }
       return -1;
+    },
+
+    _computeHostClass: function(unresolved) {
+      return unresolved ? 'unresolved' : '';
     },
   });
 })();

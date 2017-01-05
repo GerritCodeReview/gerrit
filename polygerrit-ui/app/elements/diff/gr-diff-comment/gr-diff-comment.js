@@ -114,6 +114,11 @@
         value: '',
         observer: '_messageTextChanged',
       },
+
+      resolved: {
+        type: Boolean,
+        observer: '_toggleResolved',
+      },
     },
 
     observers: [
@@ -131,6 +136,14 @@
 
     detached: function() {
       this.cancelDebouncer('fire-update');
+    },
+
+    _commentChangedDeep: function(param) {
+      console.log(param);
+    },
+
+    _resolvedStateChanged: function(unresolved) {
+      this.set('resolved', !unresolved);
     },
 
     _computeShowHideText: function(collapsed) {
@@ -186,6 +199,7 @@
 
     _commentChanged: function(comment) {
       this.editing = !!comment.__editing;
+      this.resolved = !comment.unresolved;
       if (this.editing) { // It's a new draft/reply, notify.
         this._fireUpdate();
       }
@@ -354,6 +368,7 @@
 
     _handleSave: function(e) {
       e.preventDefault();
+      this.set('comment.__editing', false);
       this.save();
     },
 
@@ -438,6 +453,15 @@
 
     _handleMouseLeave: function(e) {
       this.fire('comment-mouse-out', this._getEventPayload());
+    },
+
+    _handleToggleResolved: function() {
+      this.resolved = !this.resolved;
+    },
+
+    _toggleResolved: function(resolved) {
+      this.comment.unresolved = !resolved;
+      this.fire('comment-update', this._getEventPayload());
     },
   });
 })();

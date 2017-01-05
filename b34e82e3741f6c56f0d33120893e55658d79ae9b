@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77b83af6_b81599b6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-01-05T17:49:06Z",
+      "side": 1,
+      "message": "better name would be authenticate :)",
+      "range": {
+        "startLine": 69,
+        "startChar": 22,
+        "endLine": 69,
+        "endChar": 31
+      },
+      "revId": "b34e82e3741f6c56f0d33120893e55658d79ae9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

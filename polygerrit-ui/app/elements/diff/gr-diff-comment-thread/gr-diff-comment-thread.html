@@ -23,13 +23,18 @@ limitations under the License.
   <template>
     <style>
       :host {
-        background-color: #ffd;
         border: 1px solid #bbb;
         display: block;
         white-space: normal;
       }
+      #container {
+        background-color: #fcfad6;
+      }
+      #container.unresolved {
+        background-color: #fcfaa6;
+      }
     </style>
-    <div id="container">
+    <div id="container" class$="[[_computeHostClass(_unresolved)]]">
       <template id="commentList" is="dom-repeat" items="[[_orderedComments]]" as="comment">
         <gr-diff-comment
             comment="{{comment}}"

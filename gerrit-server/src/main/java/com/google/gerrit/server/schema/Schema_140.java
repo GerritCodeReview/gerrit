@@ -12,25 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.schema;
 
-import static com.google.common.truth.Truth.assertThat;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-import org.junit.Test;
-
-import java.util.regex.Pattern;
-
-public class ChangeUtilTest {
-  @Test
-  public void changeMessageUuid() throws Exception {
-    Pattern pat = Pattern.compile("^[0-9a-f]{8}_[0-9a-f]{8}$");
-    assertThat("abcd1234_0987fedc").matches(pat);
-
-    String id1 = ChangeUtil.messageUuid();
-    assertThat(id1).matches(pat);
-
-    String id2 = ChangeUtil.messageUuid();
-    assertThat(id2).isNotEqualTo(id1);
-    assertThat(id2).matches(pat);
+/** Remove ChangeMessage sequence. */
+public class Schema_140 extends SchemaVersion {
+  @Inject
+  Schema_140(Provider<Schema_139> prior) {
+    super(prior);
   }
 }

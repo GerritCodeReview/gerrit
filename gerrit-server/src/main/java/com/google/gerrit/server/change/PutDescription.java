@@ -117,7 +117,7 @@ public class PutDescription implements RestModifyView<RevisionResource,
       ctx.getDb().patchSets().update(Collections.singleton(ps));
 
       ChangeMessage cmsg =
-          ChangeMessagesUtil.newMessage(ctx.getDb(), psId, ctx.getUser(),
+          ChangeMessagesUtil.newMessage(psId, ctx.getUser(),
               ctx.getWhen(), summary, ChangeMessagesUtil.TAG_SET_DESCRIPTION);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
       return true;

@@ -162,9 +162,4 @@ public class DisabledReviewDb implements ReviewDb {
   public int nextChangeId() {
     throw new Disabled();
   }
-
-  @Override
-  public int nextChangeMessageId() {
-    throw new Disabled();
-  }
 }

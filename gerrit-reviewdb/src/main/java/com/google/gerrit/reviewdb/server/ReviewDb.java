@@ -17,7 +17,6 @@ package com.google.gerrit.reviewdb.server;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.Relation;
@@ -118,12 +117,4 @@ public interface ReviewDb extends Schema {
   @Sequence(startWith = FIRST_CHANGE_ID)
   @Deprecated
   int nextChangeId() throws OrmException;
-
-  /**
-   * Next id for a block of {@link ChangeMessage} records.
-   *
-   * @see com.google.gerrit.server.ChangeUtil#messageUUID(ReviewDb)
-   */
-  @Sequence
-  int nextChangeMessageId() throws OrmException;
 }

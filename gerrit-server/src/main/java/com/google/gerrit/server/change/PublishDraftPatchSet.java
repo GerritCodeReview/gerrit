@@ -235,7 +235,7 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
         } else {
           sendReplacePatchSet(ctx);
         }
-      } catch (EmailException | OrmException e) {
+      } catch (EmailException e) {
         log.error("Cannot send email for publishing draft " + psId, e);
       }
     }
@@ -250,10 +250,9 @@ public class PublishDraftPatchSet implements RestModifyView<RevisionResource, In
       cm.send();
     }
 
-    private void sendReplacePatchSet(Context ctx)
-        throws EmailException, OrmException {
+    private void sendReplacePatchSet(Context ctx) throws EmailException {
       ChangeMessage msg = ChangeMessagesUtil.newMessage(
-          ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(),
+          psId, ctx.getUser(), ctx.getWhen(),
           "Uploaded patch set " + psId.get() + ".",
           ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
       ReplacePatchSetSender cm =

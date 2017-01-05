@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.account;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexDefinition;
@@ -27,7 +28,7 @@ public class AccountIndexDefinition
   AccountIndexDefinition(
       AccountIndexCollection indexCollection,
       AccountIndex.Factory indexFactory,
-      AllAccountsIndexer allAccountsIndexer) {
+      @Nullable AllAccountsIndexer allAccountsIndexer) {
     super(AccountSchemaDefinitions.INSTANCE, indexCollection, indexFactory,
         Providers.of(allAccountsIndexer));
   }

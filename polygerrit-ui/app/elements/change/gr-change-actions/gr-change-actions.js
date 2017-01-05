@@ -278,7 +278,7 @@
     _computeRevisionActionValues: function(actionsChangeRecord,
         primariesChangeRecord, additionalActionsChangeRecord) {
       return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, ActionType.REVISION).
+          additionalActionsChangeRecord, ActionType.REVISION);
           filter(function(action) {
             // If the rebase action exists, save it to its own variable for
             // separate use. The enabled attribute will be treated differently
@@ -642,7 +642,8 @@
             }
             break;
           default:
-            this.fire('reload-change', null, {bubbles: false});
+            this.fire('reload-change', {action: action.__key},
+                {bubbles: false});
             break;
         }
       }.bind(this));

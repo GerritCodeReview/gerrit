@@ -684,8 +684,13 @@
       }.bind(this));
     },
 
-    _handleReloadChange: function() {
-      this._reload();
+    _handleReloadChange: function(e) {
+      this._reload().then(function() {
+        // If the change was rebased, we need to reload the related changes.
+        if (e.detail.action === 'rebase'){
+          this._performPostLoadTasks();
+        }
+      }.bind(this));
     },
 
     _handleGetChangeDetailError: function(response) {

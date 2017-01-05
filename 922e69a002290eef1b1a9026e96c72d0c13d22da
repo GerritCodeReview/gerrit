@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "77b83af6_18000569",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-05T23:52:32Z",
+      "side": 1,
+      "message": "It would be better to make the subject describe the actual fix, i.e. fix DeleteTask to return appropriate status on failure",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "922e69a002290eef1b1a9026e96c72d0c13d22da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17d8de6b_4d38192d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

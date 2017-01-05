@@ -40,6 +40,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -81,7 +82,7 @@ public class ElasticGroupIndex
 
   private final Gson gson;
   private final GroupMapping mapping;
-  private final GroupCache groupCache;
+  private final Provider<GroupCache> groupCache;
   private final ElasticQueryBuilder queryBuilder;
 
   @AssistedInject
@@ -89,7 +90,7 @@ public class ElasticGroupIndex
       @GerritServerConfig Config cfg,
       FillArgs fillArgs,
       SitePaths sitePaths,
-      GroupCache groupCache,
+      Provider<GroupCache> groupCache,
       @Assisted Schema<AccountGroup> schema) {
     super(cfg, fillArgs, sitePaths, schema, GROUPS_PREFIX);
     this.groupCache = groupCache;
@@ -221,7 +222,7 @@ public class ElasticGroupIndex
           source.getAsJsonObject().get(GroupField.UUID.getName()).getAsString());
       // Use the GroupCache rather than depending on any stored fields in the
       // document (of which there shouldn't be any).
-      return groupCache.get(uuid);
+      return groupCache.get().get(uuid);
     }
   }
 }

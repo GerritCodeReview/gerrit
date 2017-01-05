@@ -5315,6 +5315,10 @@ Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review.
 NOTE: To apply different tags on on different votes/comments multiple
 invocations of the REST call are required.
+|`unresolved`        |optional|
+Whether or not the comment must be addressed by the user. The state of
+resolution of a comment thread is stored in the last comment in that thread
+chronologically.
 |===========================
 
 [[comment-input]]
@@ -5357,6 +5361,10 @@ comment is deleted.
 Value of the `tag` field. Only allowed on link:#create-draft[draft comment] +
 inputs; for published comments, use the `tag` field in +
 link#review-input[ReviewInput]
+|`unresolved`        |optional|
+Whether or not the comment must be addressed by the user. This value will
+default to false if the comment is an orphan, or the value of the `in_reply_to`
+comment if it is supplied.
 |===========================
 
 [[comment-range]]

@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1483640119 -0500\nnonce AHDV6Gl8xHXtCFVycw/3lbHR4yFrPObj9QCy0nXx1zvAWju+dGLfhTB4pPOOteHa0Tto4mmVqsQI\n\n0000000000000000000000000000000000000000 37e0ecc86886a2b57242d0af6fb4a41fa119c8fa refs/for/master%topic\u003dmessage-uuid,r\u003dsop@google.com,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYbo03AAoJEF/XxZqaEoiMU+4P/3otCwbYC3/5OZlxTngoJsLb\n6e1rm4Qyi+D/EPQjN+4moylZg4w5NsJ2diaqtXqC0wWGnBQEVyeKDRVpwd6BrkmK\nSAa0RbkU4yKosBdFyDEKYCbYjVVc4QAbgSdKWzeBOnzc+R23ZHnD27FnqvY1qXWf\nuPqTI7+KwdyzjSdBgWqMo1njnERAj4ObijVUSiGyGd4HhIIXDz8gzhDQG9WNcoKg\n9M+g2YpYhGxmNoQW7EFFzZ/Hq6J2+HlzcnOlSGT+8Q1g1lxmtwhdvly8a/9xiE0R\nozA7tdDEyw/AdX+23kJD0OvptWVcDQoM3p0IV+yrQ1mFxK+R4odeUERsW0+SEL/G\nLlTOcu6qGOtDf0EOkcg9qwdp9buCseZVYw01WHF18Emw+aDdzvw6sPT+pAzJUCtF\nCnZMrGcjWD1NP00qWjHIm6bguTdCw2H8+/Mn6/nvARQr0jeNUIoj5z7p2vM36uIO\n3s0Y9MfkrSpRpCMY5TN9Qw3yIplBEjazCmQeX/SfcoLbJ8WHGeCruwl7oDiaigfM\nLYke7MebbaXZ0HpO2grTEXFoP3g6wVSccJSi94PUEMPunFGIqDEKiwnrRpK5NX81\nRmGqya6R63DKqh6m6BS0UzuhNzWJinuZxyLZsKQViKoVDImMzsN2o2IDnuW6wVHe\n/R6fb5tD5YMoNQSiWid/\n\u003dlMnL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "77b83af6_581d5dd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-05T20:47:13Z",
+      "side": 1,
+      "message": "It\u0027s plural because of change_messages and patch_comments? In case we would like to use it for something different as change entities, we could move this into IdGenerator class.",
+      "range": {
+        "startLine": 46,
+        "startChar": 64,
+        "endLine": 46,
+        "endChar": 65
+      },
+      "revId": "37e0ecc86886a2b57242d0af6fb4a41fa119c8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_8d6cc145",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-05T20:47:13Z",
+      "side": 1,
+      "message": "Optionally, we could make the name more generic, like getUuid() (instead commentUuid()).",
+      "range": {
+        "startLine": 147,
+        "startChar": 12,
+        "endLine": 147,
+        "endChar": 48
+      },
+      "revId": "37e0ecc86886a2b57242d0af6fb4a41fa119c8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

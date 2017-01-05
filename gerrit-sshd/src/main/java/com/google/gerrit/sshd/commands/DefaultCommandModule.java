@@ -21,6 +21,7 @@ import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
 import com.google.gerrit.sshd.SuExec;
+import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
 
 
 /** Register the commands a Gerrit server supports. */
@@ -122,6 +123,8 @@ public class DefaultCommandModule extends CommandModule {
     command(logging, ListLoggingLevelCommand.class);
     alias(logging, "ls", ListLoggingLevelCommand.class);
     alias(logging, "set", SetLoggingLevelCommand.class);
+
+    install(new LfsPluginAuthCommand.Module());
   }
 
   private boolean sshEnabled() {

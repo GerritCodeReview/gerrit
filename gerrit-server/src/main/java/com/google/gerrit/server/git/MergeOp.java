@@ -462,6 +462,8 @@ public class MergeOp implements AutoCloseable {
     for (Branch.NameKey branch : branches) {
       OpenRepo or = openRepo(branch.getParentKey());
       if (or != null) {
+        // REMOVE THIS: this validation runs before strategies get a chance to
+        // create new commit (Cherry Pick, Rebase *).
         toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
       }
     }
@@ -485,6 +487,7 @@ public class MergeOp implements AutoCloseable {
       //
       // If you happen across one of these, the correct fix is to convert the
       // inner IntegrationException to a ResourceConflictException.
+      // REMOVE THIS: use ResourceConflictException.
       String msg;
       if (e.getCause() instanceof IntegrationException) {
         msg = e.getCause().getMessage();

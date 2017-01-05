@@ -138,6 +138,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         firstNonNull(tipBefore, ObjectId.zeroId()),
         tipAfter,
         getDest().get());
+    this.args.refUpdateValidatorFactory.create(command.getType())
+        .validateRefOperation(getProject(), this.args.caller, command);
     ctx.addRefUpdate(command);
     args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }

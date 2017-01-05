@@ -25,18 +25,27 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.git.ChangeMessageModifier;
+import com.google.gerrit.server.git.validators.RefOperationValidationListener;
+import com.google.gerrit.server.git.validators.ValidationMessage;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
   @Inject
   private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
+  @Inject
+  private DynamicSet<RefOperationValidationListener> refValidators;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -118,6 +127,75 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
         .containsExactly("refs/heads/master");
     assertThat(getCurrentCommit(change2).getFooterLines("Custom-Parent"))
         .containsExactly("refs/heads/master");
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void validateRefOperations() throws Exception {
+    RevCommit base = getRemoteHead();
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+
+    ArrayList<RefReceivedEvent> events = new ArrayList<>();
+
+    RegistrationHandle handle =
+        refValidators.add(new RefOperationValidationListener() {
+          @Override
+          public List<ValidationMessage> onRefOperation(RefReceivedEvent event)
+              throws ValidationException {
+            events.add(event);
+            if (events.size() == 3) {
+              // Each change results in 1 event to update refs/heads/master.
+              // TODO(tandrii): new patchset insertions also do ref modification,
+              // but are not validated.
+              throw new ValidationException("change3 is rejected");
+            }
+            return Collections.emptyList();
+          }
+        });
+
+    PushOneCommit.Result change3 = null;
+    try {
+      approve(change1.getChangeId());
+      submit(change2.getChangeId());
+
+      testRepo = cloneProject(project); // Essentially, git pull.
+      change3 = createChange();
+      try{
+        submit(change3.getChangeId());
+        assertThat("unreachable").isNull();
+      }
+      catch (Exception e) {
+        assertThat(e.getMessage()).contains("change3 is rejected");
+      }
+    } finally {
+      handle.remove();
+    }
+    // Validation listener is no longer active, change3 can be submitted.
+    submit(change3.getChangeId());
+
+    RevCommit commit1 = getCurrentCommit(change1);
+    RevCommit commit2 = getCurrentCommit(change2);
+
+//    assertRefEvent(events.get(0), change1.getPatchSet().getRefName(),
+//        ReceiveCommand.Type.CREATE, ObjectId.zeroId(), commit1);
+    assertRefEvent(events.get(0), "refs/heads/master",
+        ReceiveCommand.Type.UPDATE, base, commit1);
+
+//    assertRefEvent(events.get(2), change2.getPatchSet().getRefName(),
+//        ReceiveCommand.Type.CREATE, ObjectId.zeroId(), commit2);
+    assertRefEvent(events.get(1), "refs/heads/master",
+        ReceiveCommand.Type.UPDATE, commit1, commit2);
+
+    assertThat(events.size()).isEqualTo(3);
+  }
+
+  private void assertRefEvent(RefReceivedEvent event, String refName, ReceiveCommand.Type type, ObjectId oldId, ObjectId newId){
+    ReceiveCommand cmd = event.command;
+    assertThat(cmd.getRefName()).isEqualTo(refName);
+    assertThat(cmd.getType()).isEqualTo(type);
+    assertThat(cmd.getOldId().getName()).isEqualTo(oldId.getName());
+    assertThat(cmd.getNewId().getName()).isEqualTo(newId.getName());
   }
 
   private void assertLatestRevisionHasFooters(PushOneCommit.Result change)

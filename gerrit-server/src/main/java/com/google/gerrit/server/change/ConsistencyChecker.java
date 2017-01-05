@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -510,7 +511,7 @@ public class ConsistencyChecker {
           // PatchSetInserter will reinsert the same ref, making it a no-op.
           bu.addOp(ctl.getId(), new BatchUpdate.Op() {
             @Override
-            public void updateRepo(RepoContext ctx) throws IOException {
+            public void updateRepo(RepoContext ctx) throws IOException, ResourceConflictException {
               ctx.addRefUpdate(new ReceiveCommand(
                   commit, ObjectId.zeroId(), psIdToDelete.toRefName()));
             }

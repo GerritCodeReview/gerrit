@@ -43,6 +43,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -65,8 +66,8 @@ import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
 import io.searchbox.core.search.sort.Sort.Sorting;
 
-class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
-    implements AccountIndex {
+public class ElasticAccountIndex extends
+    AbstractElasticIndex<Account.Id, AccountState> implements AccountIndex {
   static class AccountMapping {
     MappingProperties accounts;
 
@@ -83,7 +84,7 @@ class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
 
   private final Gson gson;
   private final AccountMapping mapping;
-  private final AccountCache accountCache;
+  private final Provider<AccountCache> accountCache;
   private final ElasticQueryBuilder queryBuilder;
 
   @AssistedInject
@@ -91,7 +92,7 @@ class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
       @GerritServerConfig Config cfg,
       FillArgs fillArgs,
       SitePaths sitePaths,
-      AccountCache accountCache,
+      Provider<AccountCache> accountCache,
       @Assisted Schema<AccountState> schema) {
     super(cfg, fillArgs, sitePaths, schema, ACCOUNTS_PREFIX);
     this.accountCache = accountCache;
@@ -228,7 +229,7 @@ class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
       // document (of which there shouldn't be any. The most expensive part to
       // compute anyway is the effective group IDs, and we don't have a good way
       // to reindex when those change.
-      return accountCache.get(id);
+      return accountCache.get().get(id);
     }
   }
 }

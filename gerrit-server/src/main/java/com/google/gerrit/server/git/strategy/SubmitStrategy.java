@@ -50,6 +50,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -118,6 +119,7 @@ public abstract class SubmitStrategy {
     final ProjectCache projectCache;
     final PersonIdent serverIdent;
     final RebaseChangeOp.Factory rebaseFactory;
+    final RefValidationHelper.Factory refUpdateValidatorFactory;
     final TagCache tagCache;
 
     final Branch.NameKey destBranch;
@@ -158,6 +160,7 @@ public abstract class SubmitStrategy {
         @GerritPersonIdent PersonIdent serverIdent,
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
+        RefValidationHelper.Factory refUpdateValidatorFactory,
         TagCache tagCache,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commits,
@@ -188,6 +191,7 @@ public abstract class SubmitStrategy {
       this.psUtil = psUtil;
       this.projectCache = projectCache;
       this.rebaseFactory = rebaseFactory;
+      this.refUpdateValidatorFactory = refUpdateValidatorFactory;
       this.tagCache = tagCache;
 
       this.serverIdent = serverIdent;

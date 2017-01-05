@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Type;
 
 public class RefValidationHelper {
@@ -42,11 +43,14 @@ public class RefValidationHelper {
 
   public void validateRefOperation(String projectName, IdentifiedUser user,
       RefUpdate update) throws ResourceConflictException {
+    validateRefOperation(new Project.NameKey(projectName), user,
+        RefOperationValidators.getCommand(update, operationType));
+  }
+
+  public void validateRefOperation(Project.NameKey projectName, IdentifiedUser user,
+      ReceiveCommand cmd) throws ResourceConflictException {
     RefOperationValidators refValidators =
-        refValidatorsFactory.create(
-            new Project(new Project.NameKey(projectName)),
-            user,
-            RefOperationValidators.getCommand(update, operationType));
+        refValidatorsFactory.create(new Project(projectName), user, cmd);
     try {
       refValidators.validateForRefOperation();
     } catch (ValidationException e) {

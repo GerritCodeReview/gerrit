@@ -109,7 +109,8 @@ limitations under the License.
         display: inline;
       }
       .draft:not(.editing) .save,
-      .draft:not(.editing) .cancel {
+      .draft:not(.editing) .cancel,
+      .draft:not(.editing) .resolve {
         display: none;
       }
       .editing .message,
@@ -169,6 +170,13 @@ limitations under the License.
       #container.collapsed gr-formatted-text,
       #container.collapsed iron-autogrow-textarea {
         display: none;
+      }
+      .resolve {
+        margin: auto;
+      }
+      .resolve label {
+        color: #333;
+        font-size: 12px;
       }
     </style>
     <div id="container"
@@ -232,6 +240,12 @@ limitations under the License.
             disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
         <gr-button class="action cancel hideOnPublished"
             on-tap="_handleCancel" hidden>Cancel</gr-button>
+        <div class="action resolve hideOnPublished">
+          <input type="checkbox"
+              checked$="[[resolved]]"
+              on-change="_handleToggleResolved">
+          <label>Resolved</label>
+        </div>
         <div class="danger">
           <gr-button class="action discard hideOnPublished"
               on-tap="_handleDiscard">Discard</gr-button>

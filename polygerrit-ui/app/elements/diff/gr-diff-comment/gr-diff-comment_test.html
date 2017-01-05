@@ -129,13 +129,6 @@ limitations under the License.
       MockInteractions.tap(element.$$('.done'));
     });
 
-    test('proper event fires on fix', function(done) {
-      element.addEventListener('create-fix-comment', function(e) {
-        done();
-      });
-      MockInteractions.tap(element.$$('.fix'));
-    });
-
     test('clicking on date link does not trigger nav', function() {
       var showStub = sinon.stub(page, 'show');
       var dateEl = element.$$('.date');
@@ -295,6 +288,8 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
       assert.isFalse(isVisible(element.$$('.ack')), 'ack is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
+      assert.isFalse(isVisible(element.$$('.resolve')),
+          'resolve is not visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
@@ -307,6 +302,7 @@ limitations under the License.
       assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
       assert.isFalse(isVisible(element.$$('.ack')), 'ack is not visible');
       assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
+      assert.isTrue(isVisible(element.$$('.resolve')), 'resolve is visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
@@ -480,6 +476,7 @@ limitations under the License.
             line: 5,
             path: '/path/to/file',
             message: 'good news, everyone!',
+            unresolved: false,
           },
           patchNum: 1,
         },
@@ -537,6 +534,21 @@ limitations under the License.
       assert(showStub.lastCall.calledWithExactly(dest, null, false),
           'Should navigate to ' + dest + ' without triggering nav');
       showStub.restore();
+    });
+
+    test('proper event fires on resolve', function(done) {
+      element.addEventListener('comment-update', function(e) {
+        assert.isTrue(e.detail.comment.unresolved);
+        done();
+      });
+      MockInteractions.tap(element.$$('.resolve input'));
+    });
+
+    test('resolved comment state indicated by checkbox', function() {
+      element.comment = {unresolved: false};
+      assert.isTrue(element.$$('.resolve input').checked);
+      element.comment = {unresolved: true};
+      assert.isFalse(element.$$('.resolve input').checked);
     });
   });
 </script>

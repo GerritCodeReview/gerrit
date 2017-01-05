@@ -456,7 +456,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
         public boolean updateChange(ChangeContext ctx) throws OrmException {
           PatchSet.Id psId = ctx.getChange().currentPatchSetId();
           ChangeMessage cm = new ChangeMessage(
-              new ChangeMessage.Key(id, ChangeUtil.messageUUID(ctx.getDb())),
+              new ChangeMessage.Key(id, ChangeUtil.messageUuid()),
                   ctx.getAccountId(), ctx.getWhen(), psId);
           cm.setMessage(msg);
           ctx.getDb().changeMessages().insert(Collections.singleton(cm));
@@ -1259,7 +1259,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   private ChangeMessage insertMessage(Change.Id id, PatchSet.Id psId,
       Account.Id author, Timestamp ts, String message) throws Exception {
     ChangeMessage msg = new ChangeMessage(
-        new ChangeMessage.Key(id, ChangeUtil.messageUUID(db)),
+        new ChangeMessage.Key(id, ChangeUtil.messageUuid()),
         author, ts, psId);
     msg.setMessage(message);
     db.changeMessages().insert(Collections.singleton(msg));

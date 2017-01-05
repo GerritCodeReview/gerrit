@@ -17,10 +17,8 @@ package com.google.gerrit.server;
 import static java.util.Comparator.comparingInt;
 
 import com.google.common.collect.Ordering;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.util.IdGenerator;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Ref;
@@ -28,14 +26,15 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.Map;
+import java.util.Random;
 
 @Singleton
 public class ChangeUtil {
-  private static final Object uuidLock = new Object();
-  private static final int SEED = 0x2418e6f9;
-  private static int uuidPrefix;
-  private static int uuidSeq;
+  private static final Random UUID_RANDOM = new SecureRandom();
+  private static final BaseEncoding UUID_ENCODING =
+      BaseEncoding.base16().lowerCase();
 
   private static final int SUBJECT_MAX_LENGTH = 80;
   private static final String SUBJECT_CROP_APPENDIX = "...";
@@ -44,28 +43,12 @@ public class ChangeUtil {
   public static final Ordering<PatchSet> PS_ID_ORDER =
       Ordering.from(comparingInt(PatchSet::getPatchSetId));
 
-  /**
-   * Generate a new unique identifier for change message entities.
-   *
-   * @param db the database connection, used to increment the change message
-   *        allocation sequence.
-   * @return the new unique identifier.
-   * @throws OrmException the database couldn't be incremented.
-   */
-  public static String messageUUID(ReviewDb db) throws OrmException {
-    int p;
-    int s;
-    synchronized (uuidLock) {
-      if (uuidSeq == 0) {
-        uuidPrefix = db.nextChangeMessageId();
-        uuidSeq = Integer.MAX_VALUE;
-      }
-      p = uuidPrefix;
-      s = uuidSeq--;
-    }
-    String u = IdGenerator.format(IdGenerator.mix(SEED, p));
-    String l = IdGenerator.format(IdGenerator.mix(p, s));
-    return u + '_' + l;
+  /** @return a new unique identifier for change message entities. */
+  public static String messageUuid() {
+    byte[] buf = new byte[8];
+    UUID_RANDOM.nextBytes(buf);
+    return UUID_ENCODING.encode(buf, 0, 4) + '_'
+        + UUID_ENCODING.encode(buf, 4, 8);
   }
 
   public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs,

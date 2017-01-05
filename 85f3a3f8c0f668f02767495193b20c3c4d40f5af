@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57bdf6e4_d7bedc94",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-05T19:12:10Z",
+      "side": 1,
+      "message": "Nit: Caps + punctuation preferred.",
+      "range": {
+        "startLine": 179,
+        "startChar": 6,
+        "endLine": 179,
+        "endChar": 33
+      },
+      "revId": "85f3a3f8c0f668f02767495193b20c3c4d40f5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

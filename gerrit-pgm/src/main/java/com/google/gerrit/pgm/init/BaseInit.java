@@ -131,10 +131,18 @@ public class BaseInit extends SiteProgram {
       init.initializer.run();
       init.flags.deleteOnFailure = false;
 
-      run = createSiteRun(init);
-      run.upgradeSchema();
+      Injector sysInjector = createSysInjector(init);
+      IndexManagerOnInit indexManager =
+          sysInjector.getInstance(IndexManagerOnInit.class);
+      try {
+        indexManager.start();
+        run = createSiteRun(init);
+        run.upgradeSchema();
 
-      init.initializer.postRun(createSysInjector(init));
+        init.initializer.postRun(sysInjector);
+      } finally {
+        indexManager.stop();
+      }
     } catch (Exception | Error failure) {
       if (init.flags.deleteOnFailure) {
         recursiveDelete(getSitePath());
@@ -347,7 +355,6 @@ public class BaseInit extends SiteProgram {
     final SchemaUpdater schemaUpdater;
     final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
-    final IndexManagerOnInit indexManager;
 
     @Inject
     SiteRun(ConsoleUI ui,
@@ -355,50 +362,43 @@ public class BaseInit extends SiteProgram {
         InitFlags flags,
         SchemaUpdater schemaUpdater,
         SchemaFactory<ReviewDb> schema,
-        GitRepositoryManager repositoryManager,
-        IndexManagerOnInit indexManager) {
+        GitRepositoryManager repositoryManager) {
       this.ui = ui;
       this.site = site;
       this.flags = flags;
       this.schemaUpdater = schemaUpdater;
       this.schema = schema;
       this.repositoryManager = repositoryManager;
-      this.indexManager = indexManager;
     }
 
     void upgradeSchema() throws OrmException {
       final List<String> pruneList = new ArrayList<>();
-      try {
-        indexManager.start();
-        schemaUpdater.update(new UpdateUI() {
-          @Override
-          public void message(String msg) {
-            System.err.println(msg);
-            System.err.flush();
-          }
+      schemaUpdater.update(new UpdateUI() {
+        @Override
+        public void message(String msg) {
+          System.err.println(msg);
+          System.err.flush();
+        }
 
-          @Override
-          public boolean yesno(boolean def, String msg) {
-            return ui.yesno(def, msg);
-          }
+        @Override
+        public boolean yesno(boolean def, String msg) {
+          return ui.yesno(def, msg);
+        }
 
-          @Override
-          public boolean isBatch() {
-            return ui.isBatch();
-          }
+        @Override
+        public boolean isBatch() {
+          return ui.isBatch();
+        }
 
-          @Override
-          public void pruneSchema(StatementExecutor e, List<String> prune) {
-            for (String p : prune) {
-              if (!pruneList.contains(p)) {
-                pruneList.add(p);
-              }
+        @Override
+        public void pruneSchema(StatementExecutor e, List<String> prune) {
+          for (String p : prune) {
+            if (!pruneList.contains(p)) {
+              pruneList.add(p);
             }
           }
-        });
-      } finally {
-        indexManager.stop();
-      }
+        }
+      });
 
       if (!pruneList.isEmpty()) {
         StringBuilder msg = new StringBuilder();

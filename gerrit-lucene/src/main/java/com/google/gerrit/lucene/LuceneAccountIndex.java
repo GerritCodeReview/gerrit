@@ -31,6 +31,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.apache.lucene.document.Document;
@@ -77,7 +78,7 @@ public class LuceneAccountIndex
 
   private final GerritIndexWriterConfig indexWriterConfig;
   private final QueryBuilder<AccountState> queryBuilder;
-  private final AccountCache accountCache;
+  private final Provider<AccountCache> accountCache;
 
   private static Directory dir(Schema<AccountState> schema, Config cfg,
       SitePaths sitePaths) throws IOException {
@@ -93,7 +94,7 @@ public class LuceneAccountIndex
   LuceneAccountIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      AccountCache accountCache,
+      Provider<AccountCache> accountCache,
       @Assisted Schema<AccountState> schema) throws IOException {
     super(schema, sitePaths, dir(schema, cfg, sitePaths), ACCOUNTS, null,
         new GerritIndexWriterConfig(cfg, ACCOUNTS), new SearcherFactory());
@@ -203,6 +204,6 @@ public class LuceneAccountIndex
     // document (of which there shouldn't be any. The most expensive part to
     // compute anyway is the effective group IDs, and we don't have a good way
     // to reindex when those change.
-    return accountCache.get(id);
+    return accountCache.get().get(id);
   }
 }

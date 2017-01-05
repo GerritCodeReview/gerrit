@@ -15,14 +15,20 @@
 package com.google.gerrit.pgm.init.index;
 
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.index.SchemaDefinitions;
 import com.google.gerrit.server.index.SingleVersionModule;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.index.account.AccountIndexDefinition;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.server.index.account.AllAccountsIndexer;
 import com.google.gerrit.server.index.group.AllGroupsIndexer;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexDefinition;
@@ -41,8 +47,26 @@ import java.util.Set;
 public class IndexModuleOnInit extends AbstractModule {
   static final String INDEX_MANAGER = "IndexModuleOnInit/IndexManager";
 
+  private static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
+      ImmutableList.<SchemaDefinitions<?>> of(
+          AccountSchemaDefinitions.INSTANCE,
+          GroupSchemaDefinitions.INSTANCE);
+
   @Override
   protected void configure() {
+    // The AccountIndex implementations (LuceneAccountIndex and
+    // ElasticAccountIndex) need AccountCache only for reading from the index.
+    // On init we only want to write to the index, hence we don't need the
+    // account cache.
+    bind(AccountCache.class).toProvider(Providers.of(null));
+
+    // AccountIndexDefinition wants to have AllAccountsIndexer but it is only
+    // used by the Reindex program and the OnlineReindexer which are both not
+    // used during init, hence we don't need AllAccountsIndexer.
+    bind(AllAccountsIndexer.class).toProvider(Providers.of(null));
+
+    bind(AccountIndexCollection.class);
+
     // The GroupIndex implementations (LuceneGroupIndex and ElasticGroupIndex)
     // need GroupCache only for reading from the index. On init we only want to
     // write to the index, hence we don't need the group cache.
@@ -64,12 +88,14 @@ public class IndexModuleOnInit extends AbstractModule {
 
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
+      AccountIndexDefinition accounts,
       GroupIndexDefinition groups) {
     Collection<IndexDefinition<?, ?, ?>> result =
         ImmutableList.<IndexDefinition<?, ?, ?>> of(
+            accounts,
             groups);
     Set<String> expected =
-        FluentIterable.of(GroupSchemaDefinitions.INSTANCE)
+        FluentIterable.from(ALL_SCHEMA_DEFS)
         .transform(SchemaDefinitions::getName)
         .toSet();
     Set<String> actual = FluentIterable.from(result)

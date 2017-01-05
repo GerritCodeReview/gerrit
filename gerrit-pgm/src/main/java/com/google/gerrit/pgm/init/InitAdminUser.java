@@ -29,6 +29,8 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -38,13 +40,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class InitAdminUser implements InitStep {
   private final ConsoleUI ui;
   private final InitFlags flags;
   private final VersionedAuthorizedKeysOnInit.Factory authorizedKeysFactory;
   private SchemaFactory<ReviewDb> dbFactory;
+  private AccountIndexCollection indexCollection;
 
   @Inject
   InitAdminUser(
@@ -63,6 +69,11 @@ public class InitAdminUser implements InitStep {
   @Inject(optional = true)
   void set(SchemaFactory<ReviewDb> dbFactory) {
     this.dbFactory = dbFactory;
+  }
+
+  @Inject(optional = true)
+  void set(AccountIndexCollection indexCollection) {
+    this.indexCollection = indexCollection;
   }
 
   @Override
@@ -84,12 +95,14 @@ public class InitAdminUser implements InitStep {
           AccountSshKey sshKey = readSshKey(id);
           String email = readEmail(sshKey);
 
+          List<AccountExternalId> extIds = new ArrayList<>(2);
           AccountExternalId extUser =
               new AccountExternalId(id, new AccountExternalId.Key(
                   AccountExternalId.SCHEME_USERNAME, username));
           if (!Strings.isNullOrEmpty(httpPassword)) {
             extUser.setPassword(httpPassword);
           }
+          extIds.add(extUser);
           db.accountExternalIds().insert(Collections.singleton(extUser));
 
           if (email != null) {
@@ -97,6 +110,7 @@ public class InitAdminUser implements InitStep {
                 new AccountExternalId(id, new AccountExternalId.Key(
                     AccountExternalId.SCHEME_MAILTO, email));
             extMailto.setEmailAddress(email);
+            extIds.add(extMailto);
             db.accountExternalIds().insert(Collections.singleton(extMailto));
           }
 
@@ -105,11 +119,11 @@ public class InitAdminUser implements InitStep {
           a.setPreferredEmail(email);
           db.accounts().insert(Collections.singleton(a));
 
-          AccountGroupName adminGroup = db.accountGroupNames().get(
+          AccountGroupName adminGroupName = db.accountGroupNames().get(
               new AccountGroup.NameKey("Administrators"));
           AccountGroupMember m =
               new AccountGroupMember(new AccountGroupMember.Key(id,
-                  adminGroup.getId()));
+                  adminGroupName.getId()));
           db.accountGroupMembers().insert(Collections.singleton(m));
 
           if (sshKey != null) {
@@ -118,6 +132,13 @@ public class InitAdminUser implements InitStep {
             authorizedKeys.addKey(sshKey.getSshPublicKey());
             authorizedKeys.save("Added SSH key for initial admin user\n");
           }
+
+          AccountGroup adminGroup =
+              db.accountGroups().get(adminGroupName.getId());
+          AccountState as = new AccountState(a,
+              Collections.singleton(adminGroup.getGroupUUID()), extIds,
+              new HashMap<>());
+          indexCollection.getSearchIndex().replace(as);
         }
       }
     }

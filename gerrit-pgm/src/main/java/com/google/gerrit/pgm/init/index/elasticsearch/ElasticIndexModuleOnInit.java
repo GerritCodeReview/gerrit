@@ -14,8 +14,10 @@
 
 package com.google.gerrit.pgm.init.index.elasticsearch;
 
+import com.google.gerrit.elasticsearch.ElasticAccountIndex;
 import com.google.gerrit.elasticsearch.ElasticGroupIndex;
 import com.google.gerrit.pgm.init.index.IndexModuleOnInit;
+import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -24,6 +26,11 @@ public class ElasticIndexModuleOnInit extends AbstractModule {
 
   @Override
   protected void configure() {
+    install(
+        new FactoryModuleBuilder()
+        .implement(AccountIndex.class, ElasticAccountIndex.class)
+        .build(AccountIndex.Factory.class));
+
     install(
         new FactoryModuleBuilder()
         .implement(GroupIndex.class, ElasticGroupIndex.class)

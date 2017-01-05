@@ -50,6 +50,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.SubmoduleException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -138,6 +139,8 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         firstNonNull(tipBefore, ObjectId.zeroId()),
         tipAfter,
         getDest().get());
+    this.args.refUpdateValidatorFactory.create(command.getType())
+        .validateRefOperation(getProject(), this.args.caller, command);
     ctx.addRefUpdate(command);
     args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }

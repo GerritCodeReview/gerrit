@@ -127,7 +127,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
 
     @Override
-    public void updateRepo(RepoContext ctx) throws IOException {
+    public void updateRepo(RepoContext ctx) throws IOException, ResourceConflictException {
       if (deleteChangeOp != null) {
         deleteChangeOp.updateRepo(ctx);
         return;

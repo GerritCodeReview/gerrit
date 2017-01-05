@@ -62,6 +62,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -204,7 +205,8 @@ public class BatchUpdate implements AutoCloseable {
       return BatchUpdate.this.getObjectInserter();
     }
 
-    public void addRefUpdate(ReceiveCommand cmd) throws IOException {
+    public void addRefUpdate(ReceiveCommand cmd)
+        throws IOException, ResourceConflictException {
       initRepository();
       commands.add(cmd);
     }

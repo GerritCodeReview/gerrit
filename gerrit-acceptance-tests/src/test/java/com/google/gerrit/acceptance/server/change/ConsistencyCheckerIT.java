@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -881,7 +882,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     try (BatchUpdate bu = newUpdate(adminId)) {
       bu.addOp(ctl.getId(), new BatchUpdate.Op() {
         @Override
-        public void updateRepo(RepoContext ctx) throws IOException {
+        public void updateRepo(RepoContext ctx) throws IOException, ResourceConflictException {
           ctx.addRefUpdate(new ReceiveCommand(oldId, newId, dest));
         }
 

@@ -631,7 +631,10 @@
             }
             break;
           default:
-            this.fire('reload-change', null, {bubbles: false});
+            this.dispatchEvent(
+                new CustomEvent('reload-change',
+                {detail: {action: action.__key}}), {bubbles: false});
+
             break;
         }
       }.bind(this));

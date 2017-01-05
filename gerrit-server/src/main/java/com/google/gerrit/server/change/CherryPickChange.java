@@ -290,7 +290,7 @@ public class CherryPickChange {
           .append(" as commit ")
           .append(cherryPickCommit.name());
       ChangeMessage changeMessage = ChangeMessagesUtil.newMessage(
-          ctx.getDb(), psId, ctx.getUser(), ctx.getWhen(), sb.toString(),
+          psId, ctx.getUser(), ctx.getWhen(), sb.toString(),
           ChangeMessagesUtil.TAG_CHERRY_PICK_CHANGE);
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
       return true;

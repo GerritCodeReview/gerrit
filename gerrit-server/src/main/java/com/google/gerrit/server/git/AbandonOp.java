@@ -111,7 +111,7 @@ public class AbandonOp extends BatchUpdate.Op {
     return true;
   }
 
-  private ChangeMessage newMessage(ChangeContext ctx) throws OrmException {
+  private ChangeMessage newMessage(ChangeContext ctx) {
     StringBuilder msg = new StringBuilder();
     msg.append("Abandoned");
     if (!Strings.nullToEmpty(msgTxt).trim().isEmpty()) {

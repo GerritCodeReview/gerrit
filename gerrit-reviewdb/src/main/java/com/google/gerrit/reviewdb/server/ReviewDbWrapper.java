@@ -159,11 +159,6 @@ public class ReviewDbWrapper implements ReviewDb {
     return delegate.nextChangeId();
   }
 
-  @Override
-  public int nextChangeMessageId() throws OrmException {
-    return delegate.nextChangeMessageId();
-  }
-
   public static class ChangeAccessWrapper implements ChangeAccess {
     protected final ChangeAccess delegate;
 

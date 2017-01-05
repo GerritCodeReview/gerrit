@@ -123,7 +123,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       return true;
     }
 
-    private ChangeMessage newMessage(ChangeContext ctx) throws OrmException {
+    private ChangeMessage newMessage(ChangeContext ctx) {
       StringBuilder msg = new StringBuilder();
       msg.append("Restored");
       if (!Strings.nullToEmpty(input.message).trim().isEmpty()) {

@@ -41,12 +41,14 @@ java_sources(
 
 java_library(
   name = 'init',
-  srcs = glob([SRCS + 'init/*.java']),
+  srcs = glob([SRCS + 'init/**/*.java']),
   resources = glob([RSRCS + 'init/*']),
   deps = DEPS + [
     ':init-api',
     ':util',
     '//gerrit-common:annotations',
+    '//gerrit-elasticsearch:elasticsearch',
+    '//gerrit-lucene:lucene',
     '//lib:args4j',
     '//lib:derby',
     '//lib:gwtjsonrpc',

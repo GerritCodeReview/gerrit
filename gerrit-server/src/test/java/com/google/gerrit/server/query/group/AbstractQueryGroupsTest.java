@@ -186,6 +186,9 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
     GroupInfo group = createGroup(name("group"));
     assertQuery("uuid:" + group.id, group);
+
+    GroupInfo admins = gApi.groups().id("Administrators").get();
+    assertQuery("uuid:" + admins.id, admins);
   }
 
   @Test

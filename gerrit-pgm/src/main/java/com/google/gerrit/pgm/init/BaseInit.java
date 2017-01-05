@@ -28,12 +28,16 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
+import com.google.gerrit.pgm.init.index.IndexManagerOnInit;
+import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
+import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
@@ -343,48 +347,58 @@ public class BaseInit extends SiteProgram {
     final SchemaUpdater schemaUpdater;
     final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
+    final IndexManagerOnInit indexManager;
 
     @Inject
-    SiteRun(final ConsoleUI ui, final SitePaths site, final InitFlags flags,
-        final SchemaUpdater schemaUpdater,
-        final SchemaFactory<ReviewDb> schema,
-        final GitRepositoryManager repositoryManager) {
+    SiteRun(ConsoleUI ui,
+        SitePaths site,
+        InitFlags flags,
+        SchemaUpdater schemaUpdater,
+        SchemaFactory<ReviewDb> schema,
+        GitRepositoryManager repositoryManager,
+        IndexManagerOnInit indexManager) {
       this.ui = ui;
       this.site = site;
       this.flags = flags;
       this.schemaUpdater = schemaUpdater;
       this.schema = schema;
       this.repositoryManager = repositoryManager;
+      this.indexManager = indexManager;
     }
 
     void upgradeSchema() throws OrmException {
       final List<String> pruneList = new ArrayList<>();
-      schemaUpdater.update(new UpdateUI() {
-        @Override
-        public void message(String msg) {
-          System.err.println(msg);
-          System.err.flush();
-        }
+      try {
+        indexManager.start();
+        schemaUpdater.update(new UpdateUI() {
+          @Override
+          public void message(String msg) {
+            System.err.println(msg);
+            System.err.flush();
+          }
 
-        @Override
-        public boolean yesno(boolean def, String msg) {
-          return ui.yesno(def, msg);
-        }
+          @Override
+          public boolean yesno(boolean def, String msg) {
+            return ui.yesno(def, msg);
+          }
 
-        @Override
-        public boolean isBatch() {
-          return ui.isBatch();
-        }
+          @Override
+          public boolean isBatch() {
+            return ui.isBatch();
+          }
 
-        @Override
-        public void pruneSchema(StatementExecutor e, List<String> prune) {
-          for (String p : prune) {
-            if (!pruneList.contains(p)) {
-              pruneList.add(p);
+          @Override
+          public void pruneSchema(StatementExecutor e, List<String> prune) {
+            for (String p : prune) {
+              if (!pruneList.contains(p)) {
+                pruneList.add(p);
+              }
             }
           }
-        }
-      });
+        });
+      } finally {
+        indexManager.stop();
+      }
 
       if (!pruneList.isEmpty()) {
         StringBuilder msg = new StringBuilder();
@@ -426,7 +440,18 @@ public class BaseInit extends SiteProgram {
           bind(InitFlags.class).toInstance(init.flags);
         }
       });
-      sysInjector = createDbInjector(SINGLE_USER).createChildInjector(modules);
+      Injector dbInjector = createDbInjector(SINGLE_USER);
+      switch (IndexModule.getIndexType(dbInjector)) {
+        case LUCENE:
+          modules.add(new LuceneIndexModuleOnInit());
+          break;
+        case ELASTICSEARCH:
+          modules.add(new ElasticIndexModuleOnInit());
+          break;
+        default:
+          throw new IllegalStateException("unsupported index.type");
+      }
+      sysInjector = dbInjector.createChildInjector(modules);
     }
     return sysInjector;
   }

@@ -30,6 +30,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.apache.lucene.document.Document;
@@ -75,7 +76,7 @@ public class LuceneGroupIndex extends
 
   private final GerritIndexWriterConfig indexWriterConfig;
   private final QueryBuilder<AccountGroup> queryBuilder;
-  private final GroupCache groupCache;
+  private final Provider<GroupCache> groupCache;
 
   private static Directory dir(Schema<AccountGroup> schema, Config cfg,
       SitePaths sitePaths) throws IOException {
@@ -91,7 +92,7 @@ public class LuceneGroupIndex extends
   LuceneGroupIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      GroupCache groupCache,
+      Provider<GroupCache> groupCache,
       @Assisted Schema<AccountGroup> schema) throws IOException {
     super(schema, sitePaths, dir(schema, cfg, sitePaths), GROUPS, null,
         new GerritIndexWriterConfig(cfg, GROUPS), new SearcherFactory());
@@ -193,6 +194,6 @@ public class LuceneGroupIndex extends
         new AccountGroup.UUID(doc.getField(UUID.getName()).stringValue());
     // Use the GroupCache rather than depending on any stored fields in the
     // document (of which there shouldn't be any).
-    return groupCache.get(uuid);
+    return groupCache.get().get(uuid);
   }
 }

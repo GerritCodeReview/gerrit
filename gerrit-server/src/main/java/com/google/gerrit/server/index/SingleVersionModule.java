@@ -33,7 +33,7 @@ import java.util.Set;
 
 @Singleton
 public class SingleVersionModule extends LifecycleModule {
-  static final String SINGLE_VERSIONS = "IndexModule/SingleVersions";
+  public static final String SINGLE_VERSIONS = "IndexModule/SingleVersions";
 
   private final Map<String, Integer> singleVersions;
 
@@ -50,7 +50,7 @@ public class SingleVersionModule extends LifecycleModule {
   }
 
   @Singleton
-  static class SingleVersionListener implements LifecycleListener {
+  public static class SingleVersionListener implements LifecycleListener {
     private final Set<String> disabled;
     private final Collection<IndexDefinition<?, ?, ?>> defs;
     private final Map<String, Integer> singleVersions;

@@ -20,12 +20,14 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -77,6 +79,23 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   private boolean created;
 
   @Inject
+  InMemoryDatabase(Injector injector) throws OrmException {
+    // Don't inject SchemaCreator directly.
+    // SchemaCreator needs to get GroupIndexCollection injected, but
+    // GroupIndexCollection was not bound yet. Creating a child injector with a
+    // binding for GroupIndexCollection to create an instance of SchemaCreator
+    // prevents that Guice creates a just-in-time binding for
+    // GroupIndexCollection in the root injector. If a binding for
+    // GroupIndexCollection is created in the root injector then IndexModule
+    // fails to create this binding later, because it already exists.
+    this(injector.createChildInjector(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(GroupIndexCollection.class);
+      }
+    }).getInstance(SchemaCreator.class));
+  }
+
   InMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
     this.schemaCreator = schemaCreator;
 

@@ -40,13 +40,14 @@ java_library(
 
 java_library(
     name = "init",
-    srcs = glob([SRCS + "init/*.java"]),
+    srcs = glob([SRCS + "init/**/*.java"]),
     resources = glob([RSRCS + "init/*"]),
     visibility = ["//visibility:public"],
     deps = DEPS + [
         ":init-api",
         ":util",
         "//gerrit-common:annotations",
+        '//gerrit-elasticsearch:elasticsearch',
         "//gerrit-launcher:launcher",  # We want this dep to be provided_deps
         "//gerrit-lucene:lucene",
         "//lib:args4j",

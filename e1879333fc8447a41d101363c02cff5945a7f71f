@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_8d45e1b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-05T23:14:17Z",
+      "side": 1,
+      "message": "Oh, I totally missed that it is for user operations only.\nSo, if I create a new extension point for *only* SubmitStrategy ref update on destination branch (but not on new PatchSet Insertion), will that be good?",
+      "parentUuid": "57bdf6e4_57d40cd5",
+      "revId": "e1879333fc8447a41d101363c02cff5945a7f71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_54abec53",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -76,6 +94,24 @@
       "writtenOn": "2017-01-05T22:35:59Z",
       "side": 1,
       "message": "Yes. All 4 ref updates happen in a single BatchRefUpdate, and this is very much by design. As a consequence, if you have a step to validate the ref updates before executing the BatchRefUpdate, it will not see any sort of partially-applied state, since BatchRefUpdate is designed to be atomic.\n\nHowever, I can see where a validator would want to be able to see the other changes that are about to be executed. Honestly, this sounds like an argument that RefOperationValidationListener is the wrong interface to be using, and maybe what we want is a different extension point.",
+      "revId": "e1879333fc8447a41d101363c02cff5945a7f71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_ad409da7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-05T23:14:17Z",
+      "side": 1,
+      "message": "I will go with a new extension point then.",
+      "parentUuid": "f7cb4a92_d4e7fcca",
       "revId": "e1879333fc8447a41d101363c02cff5945a7f71f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

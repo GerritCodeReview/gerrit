@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_4d4ff9db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-05T20:59:40Z",
+      "side": 1,
+      "message": "| That\u0027s what we had to do to avoid calling into db.changes() *just* for delete calls. Imagine if we had to have that check for every single insert/update/upsert as well. It would be gross.\n\nI agree. All what I\u0027m asking for is to clarify the commit message and emphasize, that even when \"all changes are migrated to NoteDb\" already (ot new site is started with primary storage NoteDb) there is no way to avoid No-Op reads from and Write-And-Rollback to the database.\n\nTo summarize this discussion: The current situation is an intermediate step that is done that way to not pollute the  code with ugly hacks, yet supporting mixed storages to make zero downtime migration possible. Once that migration is done, all changes are in the NoteDb this is going to be cleaned up. No No-Op reads from and no Write-And-Rollback to the database.",
+      "parentUuid": "bad8d7b0_edfe618c",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_dbe08bb3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

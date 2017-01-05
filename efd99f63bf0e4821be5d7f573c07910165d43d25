@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "57bdf6e4_57abec53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T21:08:44Z",
+      "side": 1,
+      "message": "\u003e To summarize this discussion: The current situation is an intermediate step that is done that way to not pollute the  code with ugly hacks, yet supporting mixed storages to make zero downtime migration possible. Once that migration is done, all changes are in the NoteDb this is going to be cleaned up. No No-Op reads from and no Write-And-Rollback to the database.\n\nExactly. We\u0027re on the same page here.\n\nOne slight clarification:\n\n\u003e Eventually we will swap out ReviewDb#changes\n\nThis is referring to the migration state where no NoteDb change writes are happening at all. We will still be making calls to db.changes().update(...), but the ChangeAccess implementation will be a complete no-op and will not write to the db even if it\u0027s rolled back.",
+      "parentUuid": "17d8de6b_4d4ff9db",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_dbe08bb3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

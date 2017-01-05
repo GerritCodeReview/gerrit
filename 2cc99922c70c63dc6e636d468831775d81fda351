@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1483656605 -0500\nnonce AHDV6Gmr/e62PuwQXIdV95qeDJJanEnudkouH1isaxy/0rAh+zhKtSYxy8dxXG8ebksDVaUlmV/O\n\n0000000000000000000000000000000000000000 eb51624c3c3c29579c5a02743f02f770128a33d0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYbs2dAAoJEF/XxZqaEoiMrMEQAMoXzFxI43jvRUgqosQVWZAp\n1XEVa7gtlTu7SQ71/mAqD1ahhGSGrutquH5tVC99JqW3nL12sgZJqobegNWyJdVZ\noA4zMn7G2Iryj9fza9dbiVVO/uBlVZKBruGrjRJVzhvWEafeLivvJrTmzujp5gsT\n3+0Uv0Yi6bmU5iltRDRNSpRTcPRfZ1SOOrsFItwI/s5/a0d7tHf4XBa3YWu/Smtw\n3/HURoc9cpwQx9FX1JTo4aqohQvLThkplugi84dkb+Hsa66wuQsgUjQ//kEGyqae\nY5tvS8siQQuQzwkPZOHwgLjyDizp1wlbhRGJ25yGVOr4P3LdNLmMNc6JNL/QsPVX\nhYe27CJEQNgwjYaS2CvzAQ8armvX6w5X16rjmisNFCHUUoyg+udU1aAzeeDF09kJ\nANF0WnV/lrp72ESx1AFGgUGO6xTimucYw0iE3OMLJ1U3h0RHaNTq8hvoXvMN/Xc/\n+4ZfU32KY8nhQAD0llejo5WLprUHMZUE+0d3hETpy3id1dMLLC+woJ7XTuo33b4C\nUEKiWK6m5nSdomwIQM9qJo3LtYG/sqqVX6+65lvbUWMakUel/jQPoQMSQCt2Mzil\nW0WaxN406hkDFcxn7B12mAC9lFLe0tMY9h9CfDf5kdtEdBneMG1/wJTvkM2iy62+\nzn44SUveDZhre0jxhYpB\n\u003dZmdH\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "17d8de6b_ed9fc504",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/ChangeUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-05T23:55:39Z",
+      "side": 1,
+      "message": "Is it worth adding a default implementation for all these methods in ReviewDb?",
+      "revId": "2cc99922c70c63dc6e636d468831775d81fda351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57bdf6e4_57d40cd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T22:35:59Z",
+      "side": 1,
+      "message": "This seems to me to be a major behavior change rather than just correcting an oversight. config-validation.txt says RefOperationValidationListener is for \"user ref operations\", meaning explicit ref updates that the user is executing. This is a completely different thing from internal ref updates performed by Gerrit.\n\nI completely understand your use case, and I\u0027m not necessarily rejecting this change, I just think it\u0027s not what this thing was created for.",
+      "revId": "e1879333fc8447a41d101363c02cff5945a7f71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57bdf6e4_37d198e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T22:35:59Z",
+      "side": 1,
+      "message": "Nit: no trailing punctuation on subject lines",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "e1879333fc8447a41d101363c02cff5945a7f71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_54abec53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T22:35:59Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "e1879333fc8447a41d101363c02cff5945a7f71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_d4e7fcca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T22:35:59Z",
+      "side": 1,
+      "message": "Yes. All 4 ref updates happen in a single BatchRefUpdate, and this is very much by design. As a consequence, if you have a step to validate the ref updates before executing the BatchRefUpdate, it will not see any sort of partially-applied state, since BatchRefUpdate is designed to be atomic.\n\nHowever, I can see where a validator would want to be able to see the other changes that are about to be executed. Honestly, this sounds like an argument that RefOperationValidationListener is the wrong interface to be using, and maybe what we want is a different extension point.",
+      "revId": "e1879333fc8447a41d101363c02cff5945a7f71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

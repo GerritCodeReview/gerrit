@@ -642,7 +642,8 @@
             }
             break;
           default:
-            this.fire('reload-change', null, {bubbles: false});
+            this.fire('reload-change', {action: action.__key},
+                {bubbles: false});
             break;
         }
       }.bind(this));

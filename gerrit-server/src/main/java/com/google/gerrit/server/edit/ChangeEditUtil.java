@@ -203,6 +203,7 @@ public class ChangeEditUtil {
           change.getProject(), repo, prior, squashed);
       if (kind == ChangeKind.NO_CODE_CHANGE) {
         message.append("Commit message was updated.");
+        inserter.setDescription("Edit commit message");
       } else {
         message.append("Published edit on patch set ")
           .append(basePatchSet.getPatchSetId())

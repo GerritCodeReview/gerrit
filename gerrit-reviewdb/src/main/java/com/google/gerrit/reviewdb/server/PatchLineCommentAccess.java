@@ -65,4 +65,8 @@ public interface PatchLineCommentAccess extends
       + "' AND author = ?")
   ResultSet<PatchLineComment> draftByAuthor(Account.Id author)
       throws OrmException;
+///
+///
+///
+///
 }

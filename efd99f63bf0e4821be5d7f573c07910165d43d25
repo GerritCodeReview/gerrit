@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "57bdf6e4_178334f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T15:53:08Z",
+      "side": 1,
+      "message": "\u003e for starting the TX and rollback operations as well?\n\nIt\u0027s definitely necessary to start the transaction when NoteDb is primary, otherwise the db.changes().update() calls will happen immediately, rather than being rolled back. If we avoided those calls as well, it would work, but as I said elsewhere that gets real ugly.\n\n\u003e Moreover, I wonder if it could be avoided in near future to use BatchUpdateReviewDb in primary storage NoteDb code path for change entity group?\n\nYeah, I will consider this as a future cleanup. However, I\u0027m not yet sure whether it\u0027s worth trying too hard to clean up the codepaths related to mixed-NoteDb/ReviewDb-primary  in a single server, as opposed to forging ahead with the mode that turns off ReviewDb entirely for changes.",
+      "parentUuid": "17f0de9e_8da1217e",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_1bd323ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 3
@@ -113,6 +131,24 @@
         "endLine": 1054,
         "endChar": 54
       },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_5479ac2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T15:53:08Z",
+      "side": 1,
+      "message": "Just because the *default* primary storage is NoteDb doesn\u0027t mean that *all* changes have ReviewDb as their primary storage. We still need to try to read the change from ReviewDb in case it does exist in ReviewDb, and the noteDbState field in ReviewDb indicates that ReviewDb is primary.\n\nA later migration phase, not yet written, will assume all changes have NoteDb primary, in which case we will skip the ReviewDb read. But we can\u0027t flip that flag until all old changes have been migrated to NoteDb primary.",
+      "parentUuid": "1a1ba32a_1bd323ef",
       "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -142,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "f7cb4a92_34863000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T15:53:08Z",
+      "side": 1,
+      "message": "Good question. I like the idea that sequence \u003d true when default storage is NoteDb, but I don\u0027t think we want to just unconditionally make sequence \u003d (storage \u003d\u003d NOTE_DB). As this comment notes, once you turn on sequences from NoteDb, you cannot go back to sequences from ReviewDb. But you *should* be able to switch primary storage back and forth several times with no problems. Tying sequences to primary storage breaks this assumption.",
+      "parentUuid": "17f0de9e_4d90d92b",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_ada4dd8d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
         "patchSetId": 3
@@ -165,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "f7cb4a92_148334f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T15:53:08Z",
+      "side": 1,
+      "message": "You are right, I completely forgot that ChangeMessage UUIDs come from a database sequence.  I haven\u0027t thought about this at all yet, but I\u0027ll tackle it this week. Thanks for pointing it out.\n\n(This is a separate migration unrelated to this change.)",
+      "parentUuid": "17f0de9e_ada4dd8d",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa132f0f_97a8a6c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
         "patchSetId": 3
@@ -176,6 +248,24 @@
       "writtenOn": "2016-12-23T04:30:04Z",
       "side": 1,
       "message": "Are we planning to document this option at some point? I mean in 3.0 we wouldn\u0027t have it anyway.",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57bdf6e4_37863800",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-05T15:53:08Z",
+      "side": 1,
+      "message": "We will document it at the same time that we document all the other config options used by this class, which may or may not be never :)",
+      "parentUuid": "fa132f0f_97a8a6c5",
       "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

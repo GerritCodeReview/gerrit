@@ -444,6 +444,32 @@ limitations under the License.
       assert.isTrue(reloadStub.calledTwice);
     });
 
+    test('related changes are updated after rebase', function(done) {
+      var reloadStub = sandbox.stub(element, '_reload',
+          function() { return Promise.resolve(); });
+
+      sandbox.stub(element, '_performPostLoadTasks');
+      var e = {detail: {action: 'rebase'}};
+      var result = element._handleReloadChange(e);
+      result.then(function() {
+        assert.isTrue(element._performPostLoadTasks.called);
+        done();
+      });
+    });
+
+    test('related changes are not updated after other action', function(done) {
+      var reloadStub = sandbox.stub(element, '_reload',
+          function() { return Promise.resolve(); });
+
+      sandbox.stub(element, '_performPostLoadTasks');
+      var e = {detail: {action: 'abandon'}};
+      var result = element._handleReloadChange(e);
+      result.then(function() {
+        assert.isFalse(element._performPostLoadTasks.called);
+        done();
+      });
+    });
+
     test('change status new', function() {
       element._changeNum = '1';
       element._patchRange = {

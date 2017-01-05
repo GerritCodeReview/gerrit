@@ -114,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "77b83af6_38d189e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-05T16:22:47Z",
+      "side": 1,
+      "message": "Ah right. I had strong impression during review of this series, that I was missing something very important. And the answer is: I entirely forgot about mixed mode where some changes were already migrated and some not. Thanks for clarifying. May be it could emphasized more clearly somewhere to avoid further confusion.",
+      "parentUuid": "57bdf6e4_178334f0",
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_1bd323ef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 3

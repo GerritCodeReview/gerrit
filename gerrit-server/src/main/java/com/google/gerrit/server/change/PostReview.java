@@ -846,13 +846,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           robotCommentInput.range);
       robotComment.tag = in.tag;
       setCommentRevId(robotComment, patchListCache, ctx.getChange(), ps);
-      robotComment.fixSuggestions = createFixSuggestionsFromInput(ctx,
-          robotCommentInput.fixSuggestions);
+      robotComment.fixSuggestions =
+          createFixSuggestionsFromInput(robotCommentInput.fixSuggestions);
       return robotComment;
     }
 
-    private List<FixSuggestion> createFixSuggestionsFromInput(ChangeContext ctx,
-        List<FixSuggestionInfo> fixSuggestionInfos) throws OrmException {
+    private List<FixSuggestion> createFixSuggestionsFromInput(
+        List<FixSuggestionInfo> fixSuggestionInfos) {
       if (fixSuggestionInfos == null) {
         return Collections.emptyList();
       }
@@ -860,17 +860,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<FixSuggestion> fixSuggestions =
           new ArrayList<>(fixSuggestionInfos.size());
       for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
-        fixSuggestions.add(
-            createFixSuggestionFromInput(ctx, fixSuggestionInfo));
+        fixSuggestions.add(createFixSuggestionFromInput(fixSuggestionInfo));
       }
       return fixSuggestions;
     }
 
-    private FixSuggestion createFixSuggestionFromInput(ChangeContext ctx,
-        FixSuggestionInfo fixSuggestionInfo) throws OrmException {
+    private FixSuggestion createFixSuggestionFromInput(
+        FixSuggestionInfo fixSuggestionInfo) {
       List<FixReplacement> fixReplacements =
           toFixReplacements(fixSuggestionInfo.replacements);
-      String fixId = ChangeUtil.messageUUID(ctx.getDb());
+      String fixId = ChangeUtil.messageUuid();
       return new FixSuggestion(fixId, fixSuggestionInfo.description,
           fixReplacements);
     }
@@ -1235,7 +1234,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       message = ChangeMessagesUtil.newMessage(
-          ctx.getDb(), psId, user, ctx.getWhen(),
+          psId, user, ctx.getWhen(),
           "Patch Set " + psId.get() + ":" + buf, in.tag);
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), message);
       return true;

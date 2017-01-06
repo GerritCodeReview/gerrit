@@ -165,7 +165,7 @@ limitations under the License.
         max-width: 8em;
       }
       gr-editable-label.descriptionLabel {
-        max-width: 15em;
+        max-width: 100%;
       }
       .mobile {
         display: none;
@@ -175,6 +175,9 @@ limitations under the License.
         border-top: 1px solid #ddd;
         height: 0;
         margin-bottom: 1em;
+      }
+      .patchInfo-header-wrapper {
+        width: 100%;
       }
       @media screen and (max-width: 50em) {
         .mobile {
@@ -302,7 +305,7 @@ limitations under the License.
       <section class$="patchInfo [[_computePatchInfoClass(_patchRange.patchNum,
           _allPatchSets)]]">
         <div class="patchInfo-header">
-          <div>
+          <div class="patchInfo-header-wrapper">
             <label class="patchSelectLabel" for="patchSetSelect">
               Patch set
             </label>
@@ -322,6 +325,21 @@ limitations under the License.
                 </option>
               </template>
             </select>
+            /
+            <gr-commit-info
+                change="[[_change]]"
+                server-config="[[serverConfig]]"
+                commit-info="[[_commitInfo]]"></gr-commit-info>
+            <span class="latestPatchContainer">
+              /
+              <a href$="/c/[[_change._number]]">Go to latest patch set</a>
+            </span>
+            <span class="downloadContainer desktop">
+              /
+              <gr-button link
+                  class="download"
+                  on-tap="_handleDownloadTap">Download</gr-button>
+            </span>
             <span class="descriptionContainer">
               /
               <gr-editable-label
@@ -332,22 +350,7 @@ limitations under the License.
                   read-only="[[_descriptionReadOnly]]"
                   on-changed="_handleDescriptionChanged"></gr-editable-label>
             </span>
-            <span class="downloadContainer desktop">
-              /
-              <gr-button link
-                  class="download"
-                  on-tap="_handleDownloadTap">Download</gr-button>
-            </span>
-            <span class="latestPatchContainer">
-              /
-              <a href$="/c/[[_change._number]]">Go to latest patch set</a>
-            </span>
           </div>
-          <gr-commit-info
-              class="desktop"
-              change="[[_change]]"
-              server-config="[[serverConfig]]"
-              commit-info="[[_commitInfo]]"></gr-commit-info>
         </div>
         <gr-file-list id="fileList"
             change="[[_change]]"

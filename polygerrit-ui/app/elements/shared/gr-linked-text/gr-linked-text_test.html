@@ -175,6 +175,36 @@ limitations under the License.
       assert.equal(element.$.output.innerHTML, 'foo:baz');
     });
 
+    test('R=email labels link correctly', function() {
+      element.content = 'R=test@google.com';
+      assert.equal(element.$.output.innerHTML,
+          'R=<a href="mailto:test@google.com" target="_blank" ' +
+          'class="style-scope gr-linked-text">test@google.com</a>');
+
+      element.content ='R=test@google.com R=test@google.com';
+      assert.equal(element.$.output.innerHTML,
+          'R=<a href="mailto:test@google.com" target="_blank" ' +
+          'class="style-scope gr-linked-text">test@google.com</a>' +' '+
+          'R=<a href="mailto:test@google.com" target="_blank" ' +
+          'class="style-scope gr-linked-text">test@google.com</a>');
+    });
+
+    test('R=email catches multiples', function() {
+      element.content ='R=test@google.com R=test@google.com';
+      assert.equal(element.$.output.innerHTML,
+          'R=<a href="mailto:test@google.com" target="_blank" ' +
+          'class="style-scope gr-linked-text">test@google.com</a>' +' '+
+          'R=<a href="mailto:test@google.com" target="_blank" ' +
+          'class="style-scope gr-linked-text">test@google.com</a>');
+    });
+
+    test('R= email space remains', function() {
+      element.content ='R= test@google.com';
+      assert.equal(element.$.output.innerHTML,
+          'R= <a href="mailto:test@google.com" target="_blank" ' +
+          'class="style-scope gr-linked-text">test@google.com</a>');
+    });
+
     test('overlapping links', function() {
       element.config = {
         b1: {

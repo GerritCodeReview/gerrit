@@ -918,9 +918,10 @@ class ChangeNotesParser {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = noteUtil.parseIdent(ident, id);
-    reviewerUpdates.add(
-        ReviewerStatusUpdate.create(ts, ownerId, accountId, state));
-    if (!reviewers.containsRow(accountId)) {
+    // FIXME: Create/save/generate same ID every time?
+    reviewerUpdates.add(ReviewerStatusUpdate.create(
+        java.util.UUID.randomUUID().toString(), ts, ownerId, accountId, state));
+     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);
     }
   }

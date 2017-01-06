@@ -241,7 +241,8 @@ limitations under the License.
     <div class="container" hidden$="{{_loading}}">
       <div class="header">
         <span class="header-title">
-          <gr-change-star change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
+          <gr-change-star id="changeStar"
+              change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
           <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
        --><span class="changeStatus">[[_computeChangeStatus(_change, _patchRange.patchNum)]]</span><!--
        -->:

@@ -127,6 +127,7 @@
       'shift+r': '_handleCapitalRKey',
       'a': '_handleAKey',
       'd': '_handleDKey',
+      's': '_handleSKey',
       'u': '_handleUKey',
     },
 
@@ -634,6 +635,13 @@
 
       e.preventDefault();
       this._switchToMostRecentPatchNum();
+    },
+
+    _handleSKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.$.changeStar.toggleStar();
     },
 
     _handleUKey: function(e) {

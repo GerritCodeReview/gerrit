@@ -439,7 +439,10 @@
           this.getChangeActionURL(changeNum, null, '/detail'),
           opt_errFn,
           opt_cancelCondition,
-          {O: options});
+          {O: options}).then(function(result){
+            console.log(result);
+            return result;
+          });
     },
 
     getChangeCommitInfo: function(changeNum, patchNum) {

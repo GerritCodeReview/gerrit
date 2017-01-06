@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17461ef2_7d1d97d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-06T19:11:04Z",
+      "side": 1,
+      "message": "Am I right that this is independent of the above portion?",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37496202_bee1d9b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-06T19:11:04Z",
+      "side": 1,
+      "message": "Looks like this isn\u0027t indented right.",
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17461ef2_5d20db10",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-06T19:11:04Z",
+      "side": 1,
+      "message": "Is there a strong reason not to do this on the server side?\nAlso, alternative approach would be to always enable rebase action if it exists in gr-rest-api-interface. I\u0027d prefer that since this would keep server responses monkeypatching in one place.",
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

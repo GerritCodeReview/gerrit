@@ -387,6 +387,10 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isFalse(linkEls[0].hasAttribute('href'));
       assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/glados.txt');
+      element._path = 'not_a_real_file';
+      flushAsynchronousOperations();
+      assert.equal(linkEls[0].getAttribute('href'), '/c/42/10/wheatley.md');
+      assert.equal(linkEls[1].getAttribute('href'), '/c/42/10/chell.go');
     });
 
     test('download link', function() {

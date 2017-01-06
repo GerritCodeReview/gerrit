@@ -353,7 +353,10 @@
       if (!path || fileList.length === 0) { return null; }
 
       var idx = fileList.indexOf(path);
-      if (idx === -1) { return null; }
+      if (idx === -1) {
+        var file = direction > 0 ? fileList[0] : fileList[fileList.length - 1];
+        return this._getDiffURL(this._changeNum, this._patchRange, file);
+      }
 
       idx += direction;
       // Redirect to the change view if opt_noUp isn’t truthy and idx falls

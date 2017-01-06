@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57bdf6e4_97f3c47c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-06T02:13:50Z",
+      "side": 1,
+      "message": "Would it make more sense to pass orderedComments as a parameter to _getLastComment here? (and then have that function take a param)",
+      "revId": "0a95a190d2c73b316312c9d780fb7674e5045a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_d4101cc8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-06T02:13:50Z",
+      "side": 1,
+      "message": "I didn\u0027t troubleshoot why, but I pulled the change and it seems like this checkbox defaults to being checked when a new comment is added (none there yet). I think it should default to unresolved, since when an initial comment is added, it usually indicates that there is an issue.",
+      "revId": "0a95a190d2c73b316312c9d780fb7674e5045a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

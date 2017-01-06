@@ -22,6 +22,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.template.soy.SoyFileSet;
+import com.google.template.soy.shared.SoyAstCache;
 import com.google.template.soy.tofu.SoyTofu;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ import java.nio.file.Path;
 /** Configures Soy Tofu object for rendering email templates. */
 @Singleton
 public class MailSoyTofuProvider implements Provider<SoyTofu> {
+  long seconds = 0;
 
   // Note: will fail to construct the tofu object if this array is empty.
   private static final String[] TEMPLATES = {
@@ -71,15 +73,18 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
   };
 
   private final SitePaths site;
+  private final SoyAstCache cache;
 
   @Inject
   MailSoyTofuProvider(SitePaths site) {
     this.site = site;
+    cache = new SoyAstCache();
   }
 
   @Override
   public SoyTofu get() throws ProvisionException {
     SoyFileSet.Builder builder = SoyFileSet.builder();
+    builder.setSoyAstCache(cache);
     for (String name : TEMPLATES) {
       addTemplate(builder, name);
     }

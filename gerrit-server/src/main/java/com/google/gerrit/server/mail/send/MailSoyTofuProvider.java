@@ -22,6 +22,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.template.soy.SoyFileSet;
+import com.google.template.soy.shared.SoyAstCache;
 import com.google.template.soy.tofu.SoyTofu;
 
 import java.io.IOException;
@@ -71,15 +72,19 @@ public class MailSoyTofuProvider implements Provider<SoyTofu> {
   };
 
   private final SitePaths site;
+  private final SoyAstCache cache;
 
   @Inject
-  MailSoyTofuProvider(SitePaths site) {
+  MailSoyTofuProvider(SitePaths site,
+      SoyAstCache cache) {
     this.site = site;
+    this.cache = cache;
   }
 
   @Override
   public SoyTofu get() throws ProvisionException {
     SoyFileSet.Builder builder = SoyFileSet.builder();
+    builder.setSoyAstCache(cache);
     for (String name : TEMPLATES) {
       addTemplate(builder, name);
     }

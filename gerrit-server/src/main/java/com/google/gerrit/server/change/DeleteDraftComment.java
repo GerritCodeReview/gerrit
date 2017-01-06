@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -27,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.change.DeleteDraftComment.Input;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.UpdateException;
@@ -42,10 +42,7 @@ import java.util.Optional;
 
 @Singleton
 public class DeleteDraftComment
-    implements RestModifyView<DraftCommentResource, Input> {
-  static class Input {
-  }
-
+    implements RestModifyView<DraftCommentResource, DeleteCommentInput> {
   private final Provider<ReviewDb> db;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
@@ -66,7 +63,8 @@ public class DeleteDraftComment
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
+  public Response<CommentInfo> apply(DraftCommentResource rsrc,
+      DeleteCommentInput input)
       throws RestApiException, UpdateException {
     try (BatchUpdate bu = updateFactory.create(
         db.get(), rsrc.getChange().getProject(), rsrc.getControl().getUser(),

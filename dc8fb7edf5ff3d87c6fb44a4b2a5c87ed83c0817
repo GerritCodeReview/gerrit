@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57bdf6e4_578c0cc6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-06T23:33:28Z",
+      "side": 1,
+      "message": "Ideally, this should be configurable, since it\u0027s not needed for most of the projects.",
+      "revId": "dc8fb7edf5ff3d87c6fb44a4b2a5c87ed83c0817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

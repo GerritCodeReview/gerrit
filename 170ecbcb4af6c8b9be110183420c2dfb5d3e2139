@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_2d702df4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T12:33:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "574096d3_1fd1e3e4",
+      "revId": "170ecbcb4af6c8b9be110183420c2dfb5d3e2139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "773bda5a_4000ee69",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-01-06T12:09:05Z",
       "side": 1,
       "message": "Indentation was correct here, IMO.  The isEmpty() call is on the assertThat(...) while the previous ones are on gApi.changes() which is inside assertThat(...)",
+      "range": {
+        "startLine": 543,
+        "startChar": 4,
+        "endLine": 547,
+        "endChar": 19
+      },
+      "revId": "170ecbcb4af6c8b9be110183420c2dfb5d3e2139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_0d6d711c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T12:33:44Z",
+      "side": 1,
+      "message": "I see. Then the IntelliJ auto-formater shouldn\u0027t always try to reform this automatically.",
+      "parentUuid": "773bda5a_4000ee69",
       "range": {
         "startLine": 543,
         "startChar": 4,

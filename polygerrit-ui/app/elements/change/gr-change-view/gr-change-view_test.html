@@ -144,6 +144,16 @@ limitations under the License.
           'Add a patch set description');
     });
 
+    test('_prepareCommitMsgForLinkify', function() {
+      var commitMessage = 'R=test@google.com';
+      var result = element._prepareCommitMsgForLinkify(commitMessage);
+      assert.equal(result, 'R=\u200Btest@google.com');
+
+      commitMessage = 'R=test@google.com R=test@google.com';
+      var result = element._prepareCommitMsgForLinkify(commitMessage);
+      assert.equal(result, 'R=\u200Btest@google.com R=\u200Btest@google.com');
+    }),
+
     test('_handleDescriptionChanged', function() {
       var putDescStub = sandbox.stub(element.$.restAPI, 'setDescription')
           .returns(Promise.resolve({ok: true}));

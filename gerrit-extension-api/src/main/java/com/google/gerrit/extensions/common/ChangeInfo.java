@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.EventInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 
@@ -55,6 +56,7 @@ public class ChangeInfo {
   public Collection<AccountInfo> removableReviewers;
   public Map<ReviewerState, Collection<AccountInfo>> reviewers;
   public Collection<ReviewerUpdateInfo> reviewerUpdates;
+  public Collection<EventInfo> events;
   public Collection<ChangeMessageInfo> messages;
 
   public String currentRevision;

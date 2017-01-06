@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "f7cb4a92_946ce445",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbPrimaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T17:54:55Z",
+      "side": 1,
+      "message": "Prior to the migration, we don\u0027t know the exact value of noteDbState, since it\u0027s of the form \"R,\u003cchange meta SHA-1\u003e\". After the migration we do know the exact value of noteDbState, since the this form doesn\u0027t include a meta SHA-1. So I wrote the more specific assertion.\n\nBut I see your point that symmetry makes it easier to follow. Anyway, the fact that PS \u003d NDB implies state \u003d \"N\" is more or less an implementation detail of NoteDbChangeState, which also has its own tests. So I\u0027ll just change the second assertion to use PrimaryStorage.of",
+      "parentUuid": "57bdf6e4_57388c2c",
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_74094897",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbPrimaryIT.java",
         "patchSetId": 9
@@ -43,6 +61,24 @@
         "endLine": 278,
         "endChar": 77
       },
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_74526885",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbPrimaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T17:54:55Z",
+      "side": 1,
+      "message": "This is testing that the migration leaves the state in a read-write state, and that the system basically functions after the migration. Without this, we didn\u0027t really have much in the way of tests of the write codepath when NoteDb is primary, so this is a simple sanity check. (This is less of a concern now that I wrote https://gerrit-review.googlesource.com/90682, which vastly improves test coverage.)",
+      "parentUuid": "f7cb4a92_74094897",
       "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -118,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "57bdf6e4_57b1ac90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T17:54:55Z",
+      "side": 1,
+      "message": "\u003e The current description is a bit confusing because OR groups updating noteDbState \u0026 ReviewDb as a single step, in which case they should never be out of sync,\n\nThis is correct. A BatchUpdate performs exactly one transaction on the change entity group, and that transaction includes any ReviewDb updates as well as the update to the noteDbState field of the Change entity. Similarly, because it can read inside the transaction, it can correctly abort if the noteDbState indicates the change was read-only.\n\n\u003e but ensureRebuilt talks about rebuilding noteDbState, so it appears they can be out-of-sync.\n\nSimilar to the previous case, ChangeRebuilderImpl performs a single transactional write on the change entity group. The difference from the previous case is that a rebuild isn\u0027t doing any writes to the entity group ReviewDb *except* to update noteDbState. Again, it\u0027s doing all this in a single transaction.\n\n\u003e Which is it?\n\nBoth are correct :)",
+      "parentUuid": "f7cb4a92_d4625c54",
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57bdf6e4_d7a49c59",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
         "patchSetId": 9
@@ -158,6 +212,24 @@
         "endLine": 176,
         "endChar": 0
       },
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57bdf6e4_77b4b082",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T17:54:55Z",
+      "side": 1,
+      "message": "Yes, the user can ignore the error. Our experience is that since our ReviewDb writes have always been frustratingly flaky, users are conditioned to try again on pretty much any 500. I can expand this comment.",
+      "parentUuid": "57bdf6e4_b7a92830",
       "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

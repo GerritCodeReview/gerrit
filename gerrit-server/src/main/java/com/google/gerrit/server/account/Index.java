@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.Index.Input;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -43,7 +42,7 @@ public class Index implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
-      throws IOException, AuthException, OrmException {
+      throws IOException, AuthException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to index account");

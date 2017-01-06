@@ -443,7 +443,7 @@ public class AccountApiImpl implements AccountApi {
   public void index() throws RestApiException {
     try {
       index.apply(account, new Index.Input());
-    } catch (IOException | OrmException e) {
+    } catch (IOException e) {
       throw new RestApiException("Cannot index account", e);
     }
   }

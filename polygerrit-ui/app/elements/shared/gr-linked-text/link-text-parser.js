@@ -121,6 +121,9 @@ GrLinkTextParser.prototype.hasOverlap =
 };
 
 GrLinkTextParser.prototype.parse = function(text) {
+  // Replace 'R=' with 'R= ' so that linkify doesn't think it's part of the
+  // email address.
+  text = text.replace(/R=/g, 'R= ');
   linkify(text, {
     callback: this.parseChunk.bind(this),
   });
@@ -135,6 +138,9 @@ GrLinkTextParser.prototype.parseChunk = function(text, href) {
 };
 
 GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
+  // After linkify is done, remove the added space after "R=".
+  text = text.replace(/R= /g, 'R=');
+
   // The outputArray is used to store all of the matches found for all patterns.
   var outputArray = [];
   for (var p in patterns) {

@@ -76,6 +76,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
+import com.google.gerrit.extensions.common.ReviewerUpdateInfo.ReviewerUpdateItemInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -94,6 +95,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
@@ -138,6 +140,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,6 +148,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
+@SuppressWarnings("unused")
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
 
@@ -168,6 +172,8 @@ public class ChangeJson {
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(ALL_REVISIONS, MESSAGES);
+
+  private static final long REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000; // 6 seconds.
 
   public interface Factory {
     ChangeJson create(Set<ListChangesOption> options);
@@ -197,6 +203,8 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final Provider<CommentJson> commentJson;
+  private final CommentsUtil commentsUtil;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -227,6 +235,8 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+      Provider<CommentJson> commentJson,
+      CommentsUtil commentsUtil,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -251,6 +261,8 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
+    this.commentJson = commentJson;
+    this.commentsUtil = commentsUtil;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -541,6 +553,7 @@ public class ChangeJson {
     } else {
       src = null;
     }
+
     if (needMessages) {
       out.messages = messages(ctl, cd, src);
     }
@@ -571,13 +584,49 @@ public class ChangeJson {
       throws OrmException {
     List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
+    Timestamp prevUpdateDate = null;
+    ReviewerUpdateInfo update = null;
+    HashMap<Account.Id, ReviewerUpdateItemInfo> items = new HashMap<>();
+    HashMap<Account.Id, ReviewerState> lastStates = new HashMap<>();
     for (ReviewerStatusUpdate c : reviewerUpdates) {
-      ReviewerUpdateInfo change = new ReviewerUpdateInfo();
-      change.updated = c.date();
-      change.state = c.state().asReviewerState();
-      change.updatedBy = accountLoader.get(c.updatedBy());
-      change.reviewer = accountLoader.get(c.reviewer());
-      result.add(change);
+      if (prevUpdateDate == null || c.date().getTime()
+          - prevUpdateDate.getTime() > REVIEWER_UPDATE_THRESHOLD_MILLIS) {
+        if (!items.isEmpty()) {
+          for (Iterator<Map.Entry<Account.Id, ReviewerUpdateItemInfo>> it =
+              items.entrySet().iterator(); it.hasNext();) {
+            Map.Entry<Account.Id, ReviewerUpdateItemInfo> s = it.next();
+            if (lastStates.get(s.getKey()) == s.getValue().state) {
+              it.remove();
+            } else {
+              lastStates.put(s.getKey(), s.getValue().state);
+            }
+          }
+          if (!items.isEmpty()) {
+            update.updates = new ArrayList<>(items.values());
+            result.add(update);
+          }
+        }
+        update = new ReviewerUpdateInfo();
+        update.id = c.id();
+        update.date = c.date();
+        update.author = accountLoader.get(c.updatedBy());
+        prevUpdateDate = c.date();
+        items = new HashMap<>();
+      }
+      items.put(c.reviewer(),
+          new ReviewerUpdateItemInfo(accountLoader.get(c.reviewer()),
+              c.state().asReviewerState(), lastStates.get(c.reviewer())));
+    }
+    for (Iterator<Map.Entry<Account.Id, ReviewerUpdateItemInfo>> it =
+           items.entrySet().iterator(); it.hasNext();) {
+      Map.Entry<Account.Id, ReviewerUpdateItemInfo> s = it.next();
+      if (lastStates.get(s.getKey()) == s.getValue().state) {
+        it.remove();
+      }
+    }
+    if (update != null && !items.isEmpty()) {
+      update.updates = new ArrayList<>(items.values());
+      result.add(update);
     }
     return result;
   }

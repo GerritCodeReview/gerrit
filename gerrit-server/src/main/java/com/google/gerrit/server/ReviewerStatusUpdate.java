@@ -14,21 +14,40 @@
 
 package com.google.gerrit.server;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.auto.value.AutoValue;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+
+import org.eclipse.jgit.lib.ObjectId;
 
 import java.sql.Timestamp;
 
 /** Change to a reviewer's status. */
 @AutoValue
 public abstract class ReviewerStatusUpdate {
-  public static ReviewerStatusUpdate create(
+  public static ReviewerStatusUpdate create(ObjectId commitId, Id reviewerId,
       Timestamp ts, Account.Id updatedBy, Account.Id reviewer,
       ReviewerStateInternal state) {
-    return new AutoValue_ReviewerStatusUpdate(ts, updatedBy, reviewer, state);
+    return new AutoValue_ReviewerStatusUpdate(
+        generateId(commitId, reviewerId, state), ts, updatedBy, reviewer,
+        state);
   }
 
+  public static String generateId(ObjectId commitId, Id reviewerId,
+      ReviewerStateInternal state) {
+    Hasher h = Hashing.md5().newHasher();
+    h.putString(commitId.name(), UTF_8);
+    h.putInt(reviewerId.get());
+    h.putInt(state.ordinal());
+    return h.hash().toString();
+  }
+
+  public abstract String id();
   public abstract Timestamp date();
   public abstract Account.Id updatedBy();
   public abstract Account.Id reviewer();

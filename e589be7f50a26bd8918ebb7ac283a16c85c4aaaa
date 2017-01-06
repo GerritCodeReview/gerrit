@@ -1,4 +1,222 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483426089 +0100\nnonce AHDV6GkSHkJ8UcLq1F02cFf2koVUitmL0qxybYpKiju71fXtR+j1ufVLtGGoXGgjw+8s1TmDpdEr\n\n0000000000000000000000000000000000000000 e9e4a69c2e99af78e2d12ee9f9aa3b1df28ea033 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYa0kpAAoJEFG1/Zeg0O9RXMIIAINXnxA4fnoZaLQg8iVJ00ZY\nx6mntW4LY1uvjS0eOgLsdZDKF3kQ14aOiUYZqsG+BgzokE9ovtRBMlM5cNt8U2R6\nJaXO/UhXvP016uvzWO3UvtQxs4M7q3n/148HpiEYHJWnvhaoPBN6c9P9BcLMFMdI\nuENDaSyVJnxlGEymXLJIclTOttyzWZlmMIVJVFkHESMJEGxA1fenPZv9amGccGUK\nHiqi7XKF+EkYOwP916h56cjSdu/ZTP/BonR4dgiVZtpagrxCvAvVXPysWl8MqYgq\nE6LkOZspf64YStMSO+atRhvqJsCVLDNhkBsPU505YHKO+ze57vP5NDgLs34SJE0\u003d\n\u003d83vd\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7cb4a92_343bd0fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "I don\u0027t expect you to do anything about it at this point, but this really annoys me. I wish we had the time to write a more-general NoteMap that does directory sharding but allows arbitrary characters in strings.",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_1438d4f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "ISTM the approach of manual cache invalidation is only necessary while external IDs still exist in ReviewDb. Once we move entirely to NoteDb for external IDs, you can just include the SHA-1 of the note branch in the cache key, like we do for ChangeNotesCache. Then the cache is immutable and we no longer have to worry about invalidation.",
+      "range": {
+        "startLine": 18,
+        "startChar": 52,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57bdf6e4_f79a00fe",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "Maybe better as a list to avoid calling toExtIdKey on each iteration:\n\n List\u003cAccountExternalId.Key\u003e extIdKeysToRemove \u003d toRemove.stream()\n     .map(fp -\u003e toExtIdKey(fp.get()))\n     .collect(toList());",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_f4155867",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "Why does this need to be an interface? Do we expect multiple implementations?",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_d41a5c95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "If you want to keep this an interface, then perhaps add default implementations for the Iterable versions that loop and delegate to the non-Iterable versions (or vice versa)",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_b41fe083",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "In most cases you only ever call extIdsByAccount.get while holding the lock; does this really need to be a LoadingCache rather than just a single non-final Multimap field?",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_9424e4d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "If you make this ImmutableSetMultimap then its get method will return an ImmutableSet and you don\u0027t have to do ImmutableSet.copyOf when getting.\n\nI guess maybe the downside of using ISM here is that it takes up more space than ILM? But then you have to do more copying, so it\u0027s not obviously a win.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 14
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57bdf6e4_d79ffceb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "external IDs",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_740a6846",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "external IDs",
+      "range": {
+        "startLine": 142,
+        "startChar": 38,
+        "endLine": 142,
+        "endChar": 46
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57bdf6e4_b79488d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "external IDs",
+      "range": {
+        "startLine": 163,
+        "startChar": 38,
+        "endLine": 163,
+        "endChar": 46
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_54076c3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T22:02:30Z",
+      "side": 1,
+      "message": "This seems wasteful. If you make it a non-LoadingCache then you can pass an already-open ReviewDb into the public methods and avoid reopening. Makes the interface uglier though, I admit.",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

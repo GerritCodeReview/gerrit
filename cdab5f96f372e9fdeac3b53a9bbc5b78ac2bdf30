@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_3bb53f7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "OK. I will add ReviewDb support in latter patchset of this change.",
+      "parentUuid": "1a1ba32a_1b37a33e",
+      "range": {
+        "startLine": 14,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 58
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_5b311b46",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "private",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_8deda1d9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_5b311b46",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +124,48 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_cde7a9f5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ad3a1d24",
+      "range": {
+        "startLine": 273,
+        "startChar": 21,
+        "endLine": 273,
+        "endChar": 37
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_edea65bd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_4d4619c4",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_7b34d737",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -93,6 +177,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "repo must be closed after use",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_bbc66f5a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_7b34d737",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_4db13991",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ed34253b",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 325,
+        "endChar": 55
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_8d37613e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_2dc62d5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_8d37613e",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_3b3a5f28",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -150,6 +294,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Can you just inline this, I think that makes it easier to read the tests. Alternatively find a better name for this method.",
+      "range": {
+        "startLine": 717,
+        "startChar": 2,
+        "endLine": 728,
+        "endChar": 3
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_6dd0350d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_3b3a5f28",
       "range": {
         "startLine": 717,
         "startChar": 2,
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_fbd0e70d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_0de89199",
+      "range": {
+        "startLine": 742,
+        "startChar": 1,
+        "endLine": 743,
+        "endChar": 51
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_6dddd5fb",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -196,6 +388,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Statement unnecessarily nested within else clause.\n\nFor the Gerrit project we agreed to not nest the else block if it is not needed. This is why this results in a warning in Eclipse.",
+      "range": {
+        "startLine": 758,
+        "startChar": 5,
+        "endLine": 765,
+        "endChar": 7
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_9bcbb364",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_6dddd5fb",
       "range": {
         "startLine": 758,
         "startChar": 5,
@@ -231,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_0dcb7164",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_bbf30f7e",
+      "range": {
+        "startLine": 788,
+        "startChar": 6,
+        "endLine": 795,
+        "endChar": 9
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_4de299bb",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
         "patchSetId": 1
@@ -248,6 +488,24 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_3b3edf7b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_4de299bb",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_8dd3e1ed",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountInfo.java",
         "patchSetId": 1
@@ -259,6 +517,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "If you implement equals(Object) you also must implement hashCode().",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_7b38578d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_8dd3e1ed",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -288,6 +564,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_1b3b238c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_add69ddd",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_9bf8d35b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AvatarInfo.java",
         "patchSetId": 1
@@ -305,6 +605,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_ad15fd04",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AvatarInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_9bf8d35b",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_edd0a5e2",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AvatarInfo.java",
         "patchSetId": 1
@@ -316,6 +634,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Statement unnecessarily nested within else clause.",
+      "range": {
+        "startLine": 46,
+        "startChar": 3,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_4d31f9b2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AvatarInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_edd0a5e2",
       "range": {
         "startLine": 46,
         "startChar": 3,
@@ -374,6 +716,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_9bf9f3a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/CommentApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_0d4c11e2",
+      "range": {
+        "startLine": 58,
+        "startChar": 33,
+        "endLine": 58,
+        "endChar": 59
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_db440bbb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentResource.java",
         "patchSetId": 1
@@ -385,6 +751,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "nit: format this as\n\n  RevisionResource getRevisionResource() {\n    return rev;\n  }",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_8d12c118",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CommentResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_db440bbb",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -408,6 +792,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_ed1f051f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_fb3f4717",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_2d474dc3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 1
@@ -419,6 +821,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Since this class has ChangeNotesCommentUpdate as a member and ChangeNotesCommentUpdate carries a state, this class can\u0027t be singleton. If it is singleton and 2 threads concurrently try to delete a comment, they would interfere and both use/update the state of the same ChangeNotesCommentUpdate instance.",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_cd1cc92d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_2d474dc3",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -448,6 +868,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_2d4bcd2d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_6d683532",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_cd5849a1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 1
@@ -465,6 +909,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_0d5091d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_cd5849a1",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_8d4e41de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 1
@@ -476,6 +938,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Rather list the concrete exception types that can occur.",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 22
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_2dbeed60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_8d4e41de",
       "range": {
         "startLine": 45,
         "startChar": 13,
@@ -557,6 +1043,78 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_0dbb3171",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ed5b859a",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_783b812b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_4d6d7940",
+      "range": {
+        "startLine": 47,
+        "startChar": 27,
+        "endLine": 47,
+        "endChar": 41
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_edc8e511",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ad517d80",
+      "range": {
+        "startLine": 47,
+        "startChar": 61,
+        "endLine": 47,
+        "endChar": 69
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_0d637159",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 1
@@ -568,6 +1126,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Please document the new REST endpoint in rest-api-changes.txt",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_5838bd2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_0d637159",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -597,6 +1173,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_5b10fbfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_3b089f94",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 45
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_1b05e37a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -608,6 +1208,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "nit: for constructors that are annotated with @Inject we list each parameter in an own line",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 80
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_ed38a58d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_1b05e37a",
       "range": {
         "startLine": 57,
         "startChar": 2,
@@ -666,6 +1290,54 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_7b13370d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_cdcde94a",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 37
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_4d4a9926",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_0d11b1c9",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 8
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_7b021774",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -683,6 +1355,24 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_1b0683cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_7b021774",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_5bff5b3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -694,6 +1384,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Never throw Exception in production code (if it\u0027s not necessary), but instead throw the concrete exception types.",
+      "range": {
+        "startLine": 67,
+        "startChar": 25,
+        "endLine": 67,
+        "endChar": 41
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_dbda4b34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_5bff5b3c",
       "range": {
         "startLine": 67,
         "startChar": 25,
@@ -729,6 +1443,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_8d3be188",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_2d0c6db3",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 29
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_9b63b357",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -740,6 +1478,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "private",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 8
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_ed11c505",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_9b63b357",
       "range": {
         "startLine": 81,
         "startChar": 2,
@@ -775,6 +1537,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_3bf09fad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_bb5e6f91",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 27
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_7b5df78f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -792,6 +1578,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_8d0481c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_7b5df78f",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_6d1675c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -803,6 +1607,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Don\u0027t throw Exception, but concrete Exception types.",
+      "range": {
+        "startLine": 95,
+        "startChar": 13,
+        "endLine": 95,
+        "endChar": 22
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_1bede3d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_6d1675c3",
       "range": {
         "startLine": 95,
         "startChar": 13,
@@ -838,6 +1666,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_2ddd8d2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_4d1bb9e7",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 5
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_cd26892a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -849,6 +1701,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "you must ensure that the repository is closed after use",
+      "range": {
+        "startLine": 104,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 54
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_0de251ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_cd26892a",
       "range": {
         "startLine": 104,
         "startChar": 16,
@@ -907,6 +1783,54 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_5be75bf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_3b537f88",
+      "range": {
+        "startLine": 109,
+        "startChar": 59,
+        "endLine": 109,
+        "endChar": 68
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_6dd7950e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ad1fbdd1",
+      "range": {
+        "startLine": 109,
+        "startChar": 57,
+        "endLine": 109,
+        "endChar": 59
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_db6d2b43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -918,6 +1842,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Use checkNotNull(..) for this.",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 5
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_7bea17c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_db6d2b43",
       "range": {
         "startLine": 111,
         "startChar": 4,
@@ -953,6 +1901,30 @@
     },
     {
       "key": {
+        "uuid": "77b83af6_38350935",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_8d1c81de",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 72
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_1b504378",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -964,6 +1936,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Should this result in a ResourceNotFoundException exception to the user?",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_adf05daf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_1b504378",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -993,6 +1983,30 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_adc2dded",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done. Options are added in PS2 to control just overwriting the comment\u0027s message with \"delete reason\" or removing all the data of the comment.",
+      "parentUuid": "17f0de9e_8d05a17e",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 74
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_9b4a93c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1004,6 +2018,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "I\u0027m not sure if it\u0027s a good idea to update the meta ref outside of BatchUpdate. The problem is that we store the NoteDb state (commit SHA1 of all NoteDb meta branches that are relevant for a change) inside ReviewDb. Each time NoteDb is updated it checks that the NoteDb state matches the expected NoteDb state that we have stored in ReviewDb. If it mismatches the update to NoteDb cannot be done and the NoteDb state will be rebuilt from ReviewDb. This means if you do not update the NoteDb state in ReviewDb when you modify the change meta branch, your updates will be lost on the next change update (due to auto rebuilding the NoteDb state).\n\nInstead of updating the NoteDb state in ReviewDb here too, I would rather try to change your code to be a BatchUpdate.Op that can be executed by BatchUpdate and then let BatchUpdate take care to handle the NoteDb state in ReviewDb.",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_1832454d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "I have tried to implement it as a BatchUpdate.Op, but it seems very complicate and may not worth doing so.\n\n- Can\u0027t use \u0027ChangeUpate\u0027, as it will update both reviewDb and noteDb. And when it updates noteDb, it will add a new commit rather than rewrite the history. \n\n- To wrap this function with BatchUpdate, then we may have to added \u0027ChangeCommentUpdate\u0027 to \u0027BatchUpdate.java\u0027 and modify\nmany steps of the original code. As this functionality will not be used frequently I think it\u0027s better to keep it out as long as we can make it safe and reliable.\n\nSo finally I decided to improve this implementation. If we still have to implement it as a BatchUpdate.Op, I may have a try again.",
+      "parentUuid": "1a1ba32a_9b4a93c7",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -1033,6 +2065,30 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_6ddd15c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ed29c5fa",
+      "range": {
+        "startLine": 142,
+        "startChar": 2,
+        "endLine": 142,
+        "endChar": 8
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_2d5e2d93",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1044,6 +2100,24 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Calling dispose() shouldn\u0027t be needed.",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_fbd58704",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_2d5e2d93",
       "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -1067,6 +2141,24 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_ad07bdcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "The first commit should always be the commit create the change (no comment).",
+      "parentUuid": "17f0de9e_6def9593",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_0dfa5151",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1084,6 +2176,24 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_4dda59d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_0dfa5151",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_fbed879b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1095,6 +2205,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Statement unnecessarily nested within else clause.",
+      "range": {
+        "startLine": 165,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 5
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_4ddc592f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_fbed879b",
       "range": {
         "startLine": 165,
         "startChar": 4,
@@ -1130,6 +2264,30 @@
     },
     {
       "key": {
+        "uuid": "17f0de9e_0df9b1a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_4df45964",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 5
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_ad085d94",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1147,6 +2305,24 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_9be0d3e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ad085d94",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_fb68e734",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1158,6 +2334,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Can\u0027t you do this transformation with Java 8, so that it\u0027s not needed to have an extra toCommentUUIDMap(...) method for this?\n\ne.g.:\n\n  Map\u003cString, Comment\u003e commentByUUID \u003d getCommitPublishedComments(repo,\n      changeId, noteUtil, notesArgs, commitList.get(i).getId()).entries()\n          .stream().collect(\n              Collectors.toMap(e -\u003e e.getValue().key.uuid, e -\u003e e.getValue()));",
+      "range": {
+        "startLine": 273,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 53
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1ba32a_db036bc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_fb68e734",
       "range": {
         "startLine": 273,
         "startChar": 6,
@@ -1193,6 +2393,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_3b09bfe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_bb45cfb9",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 5
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_ed026572",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1204,6 +2428,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "You should also set a ref log ident and a ref log message.",
+      "range": {
+        "startLine": 291,
+        "startChar": 4,
+        "endLine": 292,
+        "endChar": 65
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_0dd451a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_ed026572",
       "range": {
         "startLine": 291,
         "startChar": 4,
@@ -1233,6 +2481,24 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_2dd70dab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_cdffa93a",
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1ba32a_dbf24b77",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1256,6 +2522,30 @@
     },
     {
       "key": {
+        "uuid": "1a1ba32a_fbfe278c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ba32a_dbf24b77",
+      "range": {
+        "startLine": 301,
+        "startChar": 4,
+        "endLine": 302,
+        "endChar": 72
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_2df58d63",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
         "patchSetId": 1
@@ -1267,6 +2557,30 @@
       "writtenOn": "2016-12-27T10:16:41Z",
       "side": 1,
       "message": "Can you find better names for this class and its fields?",
+      "range": {
+        "startLine": 339,
+        "startChar": 2,
+        "endLine": 347,
+        "endChar": 3
+      },
+      "revId": "cdab5f96f372e9fdeac3b53a9bbc5b78ac2bdf30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17f0de9e_6d45d516",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesCommentUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-06T11:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f0de9e_2df58d63",
       "range": {
         "startLine": 339,
         "startChar": 2,

@@ -16,6 +16,7 @@
 
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;
+  var REVIEWERS_REGEX = /R=/g;
 
   Polymer({
     is: 'gr-change-view',
@@ -178,7 +179,7 @@
         this.$.commitMessageEditor.disabled = false;
         if (!resp.ok) { return; }
 
-        this._latestCommitMessage = message;
+        this._latestCommitMessage = this._prepareCommitMsgForLinkify(message);
         this._editingCommitMessage = false;
         this._reloadWindow();
       }.bind(this)).catch(function(err) {
@@ -756,6 +757,10 @@
       return revisionActions;
     },
 
+    _prepareCommitMsgForLinkify: function(msg) {
+      return msg.replace(REVIEWERS_REGEX, 'R=\u200B');
+    },
+
     _getChangeDetail: function() {
       return this.$.restAPI.getChangeDetail(this._changeNum,
           this._handleGetChangeDetailError.bind(this)).then(
@@ -768,7 +773,8 @@
                 var latestRevisionSha = this._getLatestRevisionSHA(change);
                 var currentRevision = change.revisions[latestRevisionSha];
                 if (currentRevision.commit && currentRevision.commit.message) {
-                  this._latestCommitMessage = currentRevision.commit.message;
+                  this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+                      currentRevision.commit.message);
                 } else {
                   this._latestCommitMessage = null;
                 }
@@ -799,7 +805,8 @@
       return this.$.restAPI.getChangeCommitInfo(this._changeNum,
           this._computeLatestPatchNum(this._allPatchSets)).then(
               function(commitInfo) {
-                this._latestCommitMessage = commitInfo.message;
+                this._latestCommitMessage =
+                    this._prepareCommitMsgForLinkify(commitInfo.message);
               }.bind(this));
     },
 

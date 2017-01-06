@@ -175,6 +175,18 @@ limitations under the License.
       assert.equal(element.$.output.innerHTML, 'foo:baz');
     });
 
+    test('R=email labels link correctly', function() {
+      element.content = 'R=\u200Btest@google.com';
+      assert.equal(element.$.output.textContent, 'R=\u200Btest@google.com');
+      assert.equal(element.$.output.innerHTML.match(/(R=\u200B<a)/g).length, 1);
+    });
+
+    test('R= email space remains', function() {
+      element.content ='R= test@google.com';
+      assert.equal(element.$.output.textContent, 'R= test@google.com');
+      assert.equal(element.$.output.innerHTML.match(/(R=<a)/g), null);
+    });
+
     test('overlapping links', function() {
       element.config = {
         b1: {

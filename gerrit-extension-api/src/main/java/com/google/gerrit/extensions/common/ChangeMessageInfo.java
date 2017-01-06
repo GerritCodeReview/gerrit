@@ -14,13 +14,10 @@
 
 package com.google.gerrit.extensions.common;
 
-import java.sql.Timestamp;
+import com.google.gerrit.extensions.client.EventInfo;
 
-public class ChangeMessageInfo {
-  public String id;
-  public String tag;
+public class ChangeMessageInfo extends EventInfo {
   public AccountInfo author;
-  public Timestamp date;
   public String message;
   public Integer _revisionNumber;
 }

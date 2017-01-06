@@ -33,9 +33,11 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.EVENTS_LOG;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
+
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
@@ -65,12 +67,14 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
+import com.google.gerrit.extensions.client.EventInfo;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -78,6 +82,7 @@ import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
@@ -95,6 +100,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
@@ -198,6 +204,8 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final Provider<CommentJson> commentJson;
+  private final CommentsUtil commentsUtil;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -228,6 +236,8 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+      Provider<CommentJson> commentJson,
+      CommentsUtil commentsUtil,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -252,6 +262,8 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
+    this.commentJson = commentJson;
+    this.commentsUtil = commentsUtil;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -542,6 +554,11 @@ public class ChangeJson {
     } else {
       src = null;
     }
+
+    if (has(EVENTS_LOG)) {
+      out.events = events(ctl, cd, src);
+    }
+
     if (needMessages) {
       out.messages = messages(ctl, cd, src);
     }
@@ -574,9 +591,9 @@ public class ChangeJson {
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
     for (ReviewerStatusUpdate c : reviewerUpdates) {
       ReviewerUpdateInfo change = new ReviewerUpdateInfo();
-      change.updated = c.date();
+      change.date = c.date();
       change.state = c.state().asReviewerState();
-      change.updatedBy = accountLoader.get(c.updatedBy());
+      change.author = accountLoader.get(c.updatedBy());
       change.reviewer = accountLoader.get(c.reviewer());
       result.add(change);
     }
@@ -587,6 +604,30 @@ public class ChangeJson {
     return SubmitRecord.findOkRecord(
             cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT))
         .isPresent();
+  }
+
+  private Collection<EventInfo> events(ChangeControl ctl, ChangeData cd,
+      Map<PatchSet.Id, PatchSet> src) throws OrmException {
+    Collection<EventInfo> result = new ArrayList<>();
+    Collection<ChangeMessageInfo> messages = messages(ctl, cd, src);
+    Collection<ReviewerUpdateInfo> reviewerUpdates = reviewerUpdates(cd);
+    List<RobotCommentInfo> robotComments = commentJson.get()
+      .setFillAccounts(true)
+      .setFillPatchSet(true)
+      .newRobotCommentFormatter()
+      .formatAsList(commentsUtil.robotCommentsByChange(cd.notes()));
+    List<CommentInfo> comments = commentJson.get()
+      .setFillAccounts(true)
+      .setFillPatchSet(true)
+      .newCommentFormatter()
+      .formatAsList(commentsUtil.publishedByChange(db.get(), cd.notes()));
+    // TODO: join into single log
+    // TODO: introduce reviewer updates grouping
+    result.addAll(messages);
+    result.addAll(reviewerUpdates);
+    result.addAll(robotComments);
+    result.addAll(comments);
+    return result;
   }
 
   private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {

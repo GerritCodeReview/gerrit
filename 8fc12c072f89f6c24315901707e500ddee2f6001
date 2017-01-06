@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483519773 +0100\nnonce AHDV6GkdSTSDjymmX/xI3lyFMHwOKKntThJO57G9ZN/fJNWjWBe67Hv5PVN1JTRKpiV6DqKGcHeW\n\n0000000000000000000000000000000000000000 92f150939b2721e9130ef2ff94675e85a0bf014d refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYbLcdAAoJEFG1/Zeg0O9Rk5MH/AyMml/da+ES2NyglfTPjwNA\nwp94diIiWnzoS+VSgoK19f48Oj4sNaJFihcvJuC2egUj8rI57hsXaTHn6JqWKDZH\nefJjPq46d0TiAZ6EUAIxMwiGtKQbtQwskOffj+xuUJL0naHbiZ+3liLwn8JuI6Mw\ncA4ruYL8rQApNDR5J1Fu4LCJeSk6dwLLfx2DRBxxTF0B+zskFlzoMGyZAxrfYZ62\nqXTVYWVge4zksOo+nw2EqEl9tgZCL79zmwUbzwnVXbVOsTNUFz0R9HC4ghnJmsDx\n9st7Q+qMEU7bxKe097LQ431UH9He9d8sJk36PLa8z3GXnidNIwD2lvbe6+jrG1E\u003d\n\u003dPhKk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "574096d3_df67fb93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/group/AllGroupsIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-06T01:11:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be SiteIndexer.Result?",
+      "range": {
+        "startLine": 77,
+        "startChar": 17,
+        "endLine": 77,
+        "endChar": 23
+      },
+      "revId": "8fc12c072f89f6c24315901707e500ddee2f6001",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

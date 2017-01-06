@@ -16,6 +16,24 @@
       "revId": "dc8fb7edf5ff3d87c6fb44a4b2a5c87ed83c0817",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_94fd04f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-06T23:50:21Z",
+      "side": 1,
+      "message": "Quote from logan@ in the initial bug report:\n\n\u003e It probably doesn\u0027t need to be configurable.\n\u003e \n\u003e In perforce these are called \"tags,\" and they are similar to footers. We can probably expect to see R\u003d, BUG\u003d, and CC\u003d. Maybe also TBR\u003d. Except for BUG\u003d, these are all lists of usernames or email addresses. Chrome developers put these into their commit messages and then omit flags to git cl upload, because it can refer who the intended reviewers are, etc., from these tags.\n\u003e \n\u003e I\u0027m not sure how hard it would be to somehow omit the tag prefixes from the autolinkification process, but we should explore that before recommending a change in user behavior or git cl upload.\n\nRe: this fix, I think it seems incorrect to support conventions from another system, especially at the consequence of possibly breaking email hyperlinking if someone does legitimately have an email address with \u0027R\u003d\u0027 or \u0027TBR\u003d\u0027 in it. I think that\u0027s more relevant to us as an open source project.",
+      "parentUuid": "57bdf6e4_578c0cc6",
+      "revId": "dc8fb7edf5ff3d87c6fb44a4b2a5c87ed83c0817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

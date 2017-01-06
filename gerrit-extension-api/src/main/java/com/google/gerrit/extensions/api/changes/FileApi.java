@@ -96,27 +96,27 @@ public interface FileApi {
    **/
   class NotImplemented implements FileApi {
     @Override
-    public BinaryResult content() throws RestApiException {
+    public BinaryResult content() {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffInfo diff() throws RestApiException {
+    public DiffInfo diff() {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffInfo diff(String base) throws RestApiException {
+    public DiffInfo diff(String base) {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffInfo diff(int parent) throws RestApiException {
+    public DiffInfo diff(int parent) {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffRequest diffRequest() throws RestApiException {
+    public DiffRequest diffRequest() {
       throw new NotImplementedException();
     }
   }

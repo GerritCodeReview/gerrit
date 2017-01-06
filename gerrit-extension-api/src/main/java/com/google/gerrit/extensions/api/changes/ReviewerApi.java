@@ -33,27 +33,27 @@ public interface ReviewerApi {
    **/
   class NotImplemented implements ReviewerApi {
     @Override
-    public Map<String, Short> votes() throws RestApiException {
+    public Map<String, Short> votes() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteVote(String label) throws RestApiException {
+    public void deleteVote(String label) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteVote(DeleteVoteInput input) throws RestApiException {
+    public void deleteVote(DeleteVoteInput input) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void remove() throws RestApiException {
+    public void remove() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void remove(DeleteReviewerInput input) throws RestApiException {
+    public void remove(DeleteReviewerInput input) {
       throw new NotImplementedException();
     }
   }

@@ -85,150 +85,144 @@ public interface AccountApi {
    **/
   class NotImplemented implements AccountApi {
     @Override
-    public AccountInfo get() throws RestApiException {
+    public AccountInfo get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public boolean getActive() throws RestApiException {
+    public boolean getActive() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void setActive(boolean active) throws RestApiException {
+    public void setActive(boolean active) {
       throw new NotImplementedException();
     }
 
     @Override
-    public String getAvatarUrl(int size) throws RestApiException {
+    public String getAvatarUrl(int size) {
       throw new NotImplementedException();
     }
 
     @Override
-    public GeneralPreferencesInfo getPreferences() throws RestApiException {
+    public GeneralPreferencesInfo getPreferences() {
       throw new NotImplementedException();
     }
 
     @Override
-    public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
-        throws RestApiException {
+    public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffPreferencesInfo getDiffPreferences() throws RestApiException {
+    public DiffPreferencesInfo getDiffPreferences() {
       throw new NotImplementedException();
     }
 
     @Override
-    public DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in)
-        throws RestApiException {
+    public DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public EditPreferencesInfo getEditPreferences() throws RestApiException {
+    public EditPreferencesInfo getEditPreferences() {
       throw new NotImplementedException();
     }
 
     @Override
-    public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in)
-        throws RestApiException {
+    public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<ProjectWatchInfo> getWatchedProjects()
-        throws RestApiException {
+    public List<ProjectWatchInfo> getWatchedProjects() {
       throw new NotImplementedException();
     }
 
     @Override
     public List<ProjectWatchInfo> setWatchedProjects(
-        List<ProjectWatchInfo> in) throws RestApiException {
+        List<ProjectWatchInfo> in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteWatchedProjects(List<ProjectWatchInfo> in)
-        throws RestApiException {
+    public void deleteWatchedProjects(List<ProjectWatchInfo> in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void starChange(String changeId) throws RestApiException {
+    public void starChange(String changeId) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void unstarChange(String changeId) throws RestApiException {
+    public void unstarChange(String changeId) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void setStars(String changeId, StarsInput input)
-        throws RestApiException {
+    public void setStars(String changeId, StarsInput input) {
       throw new NotImplementedException();
     }
 
     @Override
-    public SortedSet<String> getStars(String changeId) throws RestApiException {
+    public SortedSet<String> getStars(String changeId) {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<ChangeInfo> getStarredChanges() throws RestApiException {
+    public List<ChangeInfo> getStarredChanges() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void addEmail(EmailInput input) throws RestApiException {
+    public void addEmail(EmailInput input) {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<SshKeyInfo> listSshKeys() throws RestApiException {
+    public List<SshKeyInfo> listSshKeys() {
       throw new NotImplementedException();
     }
 
     @Override
-    public SshKeyInfo addSshKey(String key) throws RestApiException {
+    public SshKeyInfo addSshKey(String key) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteSshKey(int seq) throws RestApiException {
+    public void deleteSshKey(int seq) {
       throw new NotImplementedException();
     }
 
     @Override
     public Map<String, GpgKeyInfo> putGpgKeys(List<String> add,
-        List<String> remove) throws RestApiException {
+        List<String> remove) {
       throw new NotImplementedException();
     }
 
     @Override
-    public GpgKeyApi gpgKey(String id) throws RestApiException {
+    public GpgKeyApi gpgKey(String id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException {
+    public Map<String, GpgKeyInfo> listGpgKeys() {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<AgreementInfo> listAgreements() throws RestApiException {
+    public List<AgreementInfo> listAgreements() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void signAgreement(String agreementName) throws RestApiException {
+    public void signAgreement(String agreementName) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void index() throws RestApiException {
+    public void index() {
       throw new NotImplementedException();
     }
   }

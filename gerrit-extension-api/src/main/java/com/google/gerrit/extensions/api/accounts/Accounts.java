@@ -224,48 +224,47 @@ public interface Accounts {
    **/
   class NotImplemented implements Accounts {
     @Override
-    public AccountApi id(String id) throws RestApiException {
+    public AccountApi id(String id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public AccountApi id(int id) throws RestApiException {
+    public AccountApi id(int id) {
       throw new NotImplementedException();
     }
 
     @Override
-    public AccountApi self() throws RestApiException {
+    public AccountApi self() {
       throw new NotImplementedException();
     }
 
     @Override
-    public AccountApi create(String username) throws RestApiException {
+    public AccountApi create(String username) {
       throw new NotImplementedException();
     }
 
     @Override
-    public AccountApi create(AccountInput input) throws RestApiException {
+    public AccountApi create(AccountInput input) {
       throw new NotImplementedException();
     }
 
     @Override
-    public SuggestAccountsRequest suggestAccounts() throws RestApiException {
+    public SuggestAccountsRequest suggestAccounts() {
       throw new NotImplementedException();
     }
 
     @Override
-    public SuggestAccountsRequest suggestAccounts(String query)
-      throws RestApiException {
+    public SuggestAccountsRequest suggestAccounts(String query) {
       throw new NotImplementedException();
     }
 
     @Override
-    public QueryRequest query() throws RestApiException {
+    public QueryRequest query() {
       throw new NotImplementedException();
     }
 
     @Override
-    public QueryRequest query(String query) throws RestApiException {
+    public QueryRequest query(String query) {
       throw new NotImplementedException();
     }
   }

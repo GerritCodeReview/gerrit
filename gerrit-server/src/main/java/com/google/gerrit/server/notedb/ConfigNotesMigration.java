@@ -115,7 +115,7 @@ public class ConfigNotesMigration extends NotesMigration {
   }
 
   @Override
-  protected boolean writeChanges() {
+  public boolean writeChanges() {
     return writeChanges;
   }
 

@@ -22,12 +22,24 @@ public interface CommentApi {
   CommentInfo get() throws RestApiException;
 
   /**
+   * Delete a published comment of a revision. Based on the options provided
+   * in the input, the comment's message will be overwritten or the whole
+   * comment will be deleted permanently.
+   */
+  void delete(DeleteCommentInput input) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
   class NotImplemented implements CommentApi {
     @Override
     public CommentInfo get() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete(DeleteCommentInput input) {
       throw new NotImplementedException();
     }
   }

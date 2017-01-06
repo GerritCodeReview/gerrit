@@ -6041,24 +6041,62 @@ The labels of the review as a map that maps the label names to the
 voting values.
 |===========================
 
-[[review-update-info]]
-=== ReviewerUpdateInfo
-The `ReviewerUpdateInfo` entity contains information about updates to
-change's reviewers set.
+[[event-info]]
+=== EventInfo
+The `EventInfo` entity contains information about an update to the
+change such as reviewer updates, comments, messages.
 
-[options="header",cols="1,6"]
+[options="header",cols="1,4"]
 |===========================
 |Field Name     |Description
-|`updated`|
-Timestamp of the update.
-|`updated_by`|
-The account which modified state of the reviewer in question as
+|`id`|
+Unique string for generating links to the entity.
+|`tag`|
+Value of the `tag` field from link:#review-input[ReviewInput] set
+while posting the review.
+NOTE: To apply different tags on on different votes/comments multiple
+invocations of the REST call are required.
+|`date`|
+The time and date describing when the event took place.
+|`type`|
+Type of entity, one of `REVIEWER_UPDATE`, etc.
+|===========================
+
+[[review-update-info]]
+=== ReviewerUpdateInfo
+The `ReviewerUpdateInfo` entity describes a batch of updates to reviewers.
+
+The `ReviewerUpdateInfo` entity has contains all fields from
+link:#event-info[EventInfo], plus:
+
+* `type` field value is set to `REVIEWER_UPDATE`.
+* additional fields provided below.
+
+[options="header",cols="1,2"]
+|===========================
+|Field Name     |Description
+|`author`|
+The account which modified made this reviewer update as
 link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`updates`|
+A list of link:#reviewer-update-item-info[ReviewerUpdateItemInfo] entities
+representing the change to a user's reviewer state performed.
+|===========================
+
+[[reviewer-update-item-info]]
+=== ReviewerUpdateItemInfo
+The `ReviewerUpdateItemInfo` entity describes an update to reviewer state.
+
+[options="header",cols="1,2"]
+|===========================
+|Field Name     |Description
 |`reviewer`|
-The reviewer account added or removed from the change as an
+The account which made this reviewer update as
 link:rest-api-accounts.html#account-info[AccountInfo] entity.
-|`state`|
-The reviewer state, one of `REVIEWER`, `CC` or `REMOVED`.
+|`state`||
+Reviewer state, one of `CC`, `REVIEWER`, or `REMOVED`.
+|`prevState`|optional|
+Previous reviewer state, one of `CC`, `REVIEWER`, or `REMOVED`.
 |===========================
 
 [[review-input]]

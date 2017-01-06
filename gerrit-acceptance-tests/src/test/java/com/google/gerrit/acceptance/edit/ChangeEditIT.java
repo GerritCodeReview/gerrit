@@ -396,6 +396,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
         ListChangesOption.CURRENT_REVISION);
     assertThat(info.revisions.get(info.currentRevision).commit.message)
         .isEqualTo(msg);
+    assertThat(info.revisions.get(info.currentRevision).description)
+        .isEqualTo("Edit commit message");
 
     assertChangeMessages(change,
         ImmutableList.of("Uploaded patch set 1.",

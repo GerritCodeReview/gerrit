@@ -368,7 +368,7 @@ class ChangeNotesParser {
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
-        parseReviewer(ts, state, line);
+        parseReviewer(commit, ts, state, line);
       }
       // Don't update timestamp when a reviewer was added, matching RevewDb
       // behavior.
@@ -911,15 +911,19 @@ class ChangeNotesParser {
     return noteUtil.parseIdent(commit.getAuthorIdent(), id);
   }
 
-  private void parseReviewer(Timestamp ts, ReviewerStateInternal state,
+  private void parseReviewer(ChangeNotesCommit commit,
+      Timestamp ts, ReviewerStateInternal state,
       String line) throws ConfigInvalidException {
     PersonIdent ident = RawParseUtils.parsePersonIdent(line);
     if (ident == null) {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = noteUtil.parseIdent(ident, id);
-    reviewerUpdates.add(
-        ReviewerStatusUpdate.create(ts, ownerId, accountId, state));
+
+    // FIXME: Create/save/generate same ID every time?
+    reviewerUpdates.add(ReviewerStatusUpdate.create(
+        commit.getId().abbreviate(10).name(), ts, ownerId, accountId, state));
+
     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);
     }

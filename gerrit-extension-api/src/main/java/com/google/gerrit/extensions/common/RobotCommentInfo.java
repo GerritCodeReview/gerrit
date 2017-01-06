@@ -23,4 +23,8 @@ public class RobotCommentInfo extends CommentInfo {
   public String url;
   public Map<String, String> properties;
   public List<FixSuggestionInfo> fixSuggestions;
+
+  public RobotCommentInfo() {
+    this.type = EventInfoType.COMMENT;
+  }
 }

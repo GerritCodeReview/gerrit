@@ -22,6 +22,24 @@
       "revId": "7cc1379cc4c3c0f5abbb61ab4ee9abe951621103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_74d708dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-06T00:46:51Z",
+      "side": 1,
+      "message": "...and there were (copied the second one and didn\u0027t change it!). Thanks for the catch.",
+      "parentUuid": "57bdf6e4_77203011",
+      "revId": "7cc1379cc4c3c0f5abbb61ab4ee9abe951621103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

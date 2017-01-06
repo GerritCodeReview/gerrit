@@ -34,6 +34,24 @@
       "revId": "3963a8d61eb088ca097d1162c7d40c410b7e8d0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_b84d99b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/MailSoyTofuProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-06T18:44:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57bdf6e4_b7c248ee",
+      "revId": "3963a8d61eb088ca097d1162c7d40c410b7e8d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f7cb4a92_743b882b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-06T18:30:20Z",
+      "side": 1,
+      "message": "Yeah, I understand, but then the function would work to get the last element of any array which is not its desired purpose.",
+      "parentUuid": "57bdf6e4_d7cdbc1f",
+      "revId": "0a95a190d2c73b316312c9d780fb7674e5045a5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_d4101cc8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2

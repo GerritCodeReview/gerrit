@@ -131,6 +131,8 @@
     attached: function() {
       if (this.editing) {
         this.collapsed = false;
+      } else if (this.comment) {
+        this.collapsed = this.comment.collapsed;
       }
     },
 

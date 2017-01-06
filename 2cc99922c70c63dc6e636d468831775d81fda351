@@ -17,6 +17,24 @@
       "revId": "2cc99922c70c63dc6e636d468831775d81fda351",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_b4eec094",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/ChangeUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T14:20:16Z",
+      "side": 1,
+      "message": "Good point, but I don\u0027t think it\u0027s worth it in this particular case. There are only like 3 subclasses of ReviewDb, so the copy/paste effort is not so great. In this case I think that not having a compilation error due to omitting a method is actually a benefit, because it forces you to remember to implement it. If you were reviewing the implementation of ReviewDbWrapper, would you be able to tell if a method was accidentally omitted?",
+      "parentUuid": "17d8de6b_ed9fc504",
+      "revId": "2cc99922c70c63dc6e636d468831775d81fda351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57bdf6e4_571d2cd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-06T00:54:02Z",
+      "side": 1,
+      "message": "MAJOR nit here, but you could just do \n\n  element._handleReloadChange(e).then(function() {\n\nwhich is still \u003c80ch and would save a vertical line. Feel free to ignore me though.",
+      "range": {
+        "startLine": 466,
+        "startChar": 6,
+        "endLine": 467,
+        "endChar": 30
+      },
+      "revId": "feb061d00db06d426c8c0c5ccf5994691c79eba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

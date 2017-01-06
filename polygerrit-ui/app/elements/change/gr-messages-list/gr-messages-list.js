@@ -106,13 +106,17 @@
       el.classList.add('highlighted');
     },
 
-    _handleExpandCollapseTap: function(e) {
-      e.preventDefault();
-      this._expanded = !this._expanded;
+    handleExpandCollapse: function(expand) {
+      this._expanded = expand;
       var messageEls = Polymer.dom(this.root).querySelectorAll('gr-message');
       for (var i = 0; i < messageEls.length; i++) {
-        messageEls[i].expanded = this._expanded;
+        messageEls[i].expanded = expand;
       }
+    },
+
+    _handleExpandCollapseTap: function(e) {
+      e.preventDefault();
+      this.handleExpandCollapse(!this._expanded);
     },
 
     _handleAutomatedMessageToggleTap: function(e) {

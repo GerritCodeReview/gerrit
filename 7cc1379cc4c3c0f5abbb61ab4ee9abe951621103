@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57bdf6e4_77203011",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-06T00:43:46Z",
+      "side": 1,
+      "message": "For these tests, you should use a call to done() to ensure there aren\u0027t any silent failures.",
+      "range": {
+        "startLine": 454,
+        "startChar": 6,
+        "endLine": 456,
+        "endChar": 9
+      },
+      "revId": "7cc1379cc4c3c0f5abbb61ab4ee9abe951621103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

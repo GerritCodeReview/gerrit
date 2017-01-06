@@ -128,6 +128,8 @@
       'a': '_handleAKey',
       'd': '_handleDKey',
       'u': '_handleUKey',
+      'x': '_handleXKey',
+      'z': '_handleZKey',
     },
 
     attached: function() {
@@ -641,6 +643,20 @@
 
       e.preventDefault();
       this._determinePageBack();
+    },
+
+    _handleXKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.$.messageList.handleExpandCollapse(true);
+    },
+
+    _handleZKey: function(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+
+      e.preventDefault();
+      this.$.messageList.handleExpandCollapse(false);
     },
 
     _determinePageBack: function() {

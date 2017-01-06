@@ -23,12 +23,12 @@ import java.sql.Timestamp;
 /** Change to a reviewer's status. */
 @AutoValue
 public abstract class ReviewerStatusUpdate {
-  public static ReviewerStatusUpdate create(
-      Timestamp ts, Account.Id updatedBy, Account.Id reviewer,
-      ReviewerStateInternal state) {
-    return new AutoValue_ReviewerStatusUpdate(ts, updatedBy, reviewer, state);
+  public static ReviewerStatusUpdate create(String id, Timestamp ts,
+      Account.Id updatedBy, Account.Id reviewer, ReviewerStateInternal state) {
+    return new AutoValue_ReviewerStatusUpdate(id, ts, updatedBy, reviewer, state);
   }
 
+  public abstract String id();
   public abstract Timestamp date();
   public abstract Account.Id updatedBy();
   public abstract Account.Id reviewer();

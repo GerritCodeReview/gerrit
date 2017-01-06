@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.client;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public abstract class Comment {
+public abstract class Comment extends EventInfo {
   /**
    * Patch set number containing this commit.
    * <p>
@@ -25,7 +25,6 @@ public abstract class Comment {
    */
   public Integer patchSet;
 
-  public String id;
   public String path;
   public Side side;
   public Integer parent;
@@ -43,11 +42,8 @@ public abstract class Comment {
     public int endCharacter;
 
     public boolean isValid() {
-      return startLine >= 0
-          && startCharacter >= 0
-          && endLine >= 0
-          && endCharacter >= 0
-          && startLine <= endLine
+      return startLine >= 0 && startCharacter >= 0 && endLine >= 0
+          && endCharacter >= 0 && startLine <= endLine
           && (startLine != endLine || startCharacter <= endCharacter);
     }
 
@@ -70,12 +66,9 @@ public abstract class Comment {
 
     @Override
     public String toString() {
-      return "Range{" +
-          "startLine=" + startLine +
-          ", startCharacter=" + startCharacter +
-          ", endLine=" + endLine +
-          ", endCharacter=" + endCharacter +
-          '}';
+      return "Range{" + "startLine=" + startLine + ", startCharacter="
+          + startCharacter + ", endLine=" + endLine + ", endCharacter="
+          + endCharacter + '}';
     }
   }
 
@@ -88,17 +81,11 @@ public abstract class Comment {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o != null && getClass() == o.getClass()) {
+    if (super.equals(o)) {
       Comment c = (Comment) o;
       return Objects.equals(patchSet, c.patchSet)
-          && Objects.equals(id, c.id)
-          && Objects.equals(path, c.path)
-          && Objects.equals(side, c.side)
-          && Objects.equals(parent, c.parent)
-          && Objects.equals(line, c.line)
+          && Objects.equals(path, c.path) && Objects.equals(side, c.side)
+          && Objects.equals(parent, c.parent) && Objects.equals(line, c.line)
           && Objects.equals(range, c.range)
           && Objects.equals(inReplyTo, c.inReplyTo)
           && Objects.equals(updated, c.updated)
@@ -110,7 +97,7 @@ public abstract class Comment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(patchSet, id, path, side, parent, line, range,
-        inReplyTo, updated, message);
+    return Objects.hash(super.hashCode(), patchSet, path, side, parent, line,
+        range, inReplyTo, updated, message);
   }
 }

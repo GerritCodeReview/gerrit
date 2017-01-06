@@ -107,13 +107,15 @@ class ChangeNotesParser {
   @AutoValue
   abstract static class ApprovalKey {
     abstract PatchSet.Id psId();
+
     abstract Account.Id accountId();
+
     abstract String label();
 
     private static ApprovalKey create(PatchSet.Id psId, Account.Id accountId,
         String label) {
-      return new AutoValue_ChangeNotesParser_ApprovalKey(
-          psId, accountId, label);
+      return new AutoValue_ChangeNotesParser_ApprovalKey(psId, accountId,
+          label);
     }
   }
 
@@ -179,8 +181,7 @@ class ChangeNotesParser {
     currentPatchSets = new ArrayList<>();
   }
 
-  ChangeNotesState parseAll()
-      throws ConfigInvalidException, IOException {
+  ChangeNotesState parseAll() throws ConfigInvalidException, IOException {
     // Don't include initial parse in timer, as this might do more I/O to page
     // in the block containing most commits. Later reads are not guaranteed to
     // avoid I/O, but often should.
@@ -208,33 +209,16 @@ class ChangeNotesParser {
   }
 
   private ChangeNotesState buildState() {
-    return ChangeNotesState.create(
-        tip.copy(),
-        id,
-        new Change.Key(changeId),
-        createdOn,
-        lastUpdatedOn,
-        ownerId,
-        branch,
-        buildCurrentPatchSetId(),
-        subject,
-        topic,
-        originalSubject,
-        submissionId,
-        assignee != null ? assignee.orElse(null) : null,
-        status,
+    return ChangeNotesState.create(tip.copy(), id, new Change.Key(changeId),
+        createdOn, lastUpdatedOn, ownerId, branch, buildCurrentPatchSetId(),
+        subject, topic, originalSubject, submissionId,
+        assignee != null ? assignee.orElse(null) : null, status,
 
-        Sets.newLinkedHashSet(Lists.reverse(pastAssignees)),
-        hashtags,
-        patchSets,
-        buildApprovals(),
-        ReviewerSet.fromTable(Tables.transpose(reviewers)),
-        allPastReviewers,
-        buildReviewerUpdates(),
-        submitRecords,
-        buildAllMessages(),
-        buildMessagesByPatchSet(),
-        comments);
+        Sets.newLinkedHashSet(Lists.reverse(pastAssignees)), hashtags,
+        patchSets, buildApprovals(),
+        ReviewerSet.fromTable(Tables.transpose(reviewers)), allPastReviewers,
+        buildReviewerUpdates(), submitRecords, buildAllMessages(),
+        buildMessagesByPatchSet(), comments);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -270,8 +254,8 @@ class ChangeNotesParser {
     List<ReviewerStatusUpdate> result = new ArrayList<>();
     HashMap<Account.Id, ReviewerStateInternal> lastState = new HashMap<>();
     for (ReviewerStatusUpdate u : Lists.reverse(reviewerUpdates)) {
-      if (!Objects.equals(ownerId, u.reviewer()) &&
-          lastState.get(u.reviewer()) != u.state()) {
+      if (!Objects.equals(ownerId, u.reviewer())
+          && lastState.get(u.reviewer()) != u.state()) {
         result.add(u);
         lastState.put(u.reviewer(), u.state());
       }
@@ -284,8 +268,8 @@ class ChangeNotesParser {
   }
 
   private Multimap<PatchSet.Id, ChangeMessage> buildMessagesByPatchSet() {
-    for (Collection<ChangeMessage> v :
-        changeMessagesByPatchSet.asMap().values()) {
+    for (Collection<ChangeMessage> v : changeMessagesByPatchSet.asMap()
+        .values()) {
       Collections.reverse((List<ChangeMessage>) v);
     }
     return changeMessagesByPatchSet;
@@ -469,8 +453,7 @@ class ChangeNotesParser {
         return;
       }
       throw new ConfigInvalidException(
-          String.format(
-              "Multiple revisions parsed for patch set %s: %s and %s",
+          String.format("Multiple revisions parsed for patch set %s: %s and %s",
               psId.get(), patchSets.get(psId).getRevision(), rev.name()));
     }
     ps.setRevision(new RevId(rev.name()));
@@ -581,8 +564,9 @@ class ChangeNotesParser {
     } else if (statusLines.size() > 1) {
       throw expectedOneFooter(FOOTER_STATUS, statusLines);
     }
-    Change.Status status = Enums.getIfPresent(
-        Change.Status.class, statusLines.get(0).toUpperCase()).orNull();
+    Change.Status status = Enums
+        .getIfPresent(Change.Status.class, statusLines.get(0).toUpperCase())
+        .orNull();
     if (status == null) {
       throw invalidFooter(FOOTER_STATUS, statusLines.get(0));
     }
@@ -619,7 +603,8 @@ class ChangeNotesParser {
     }
     String withParens = psIdLine.substring(s + 1);
     if (withParens.startsWith("(") && withParens.endsWith(")")) {
-      PatchSetState state = Enums.getIfPresent(PatchSetState.class,
+      PatchSetState state = Enums
+          .getIfPresent(PatchSetState.class,
               withParens.substring(1, withParens.length() - 1).toUpperCase())
           .orNull();
       if (state != null) {
@@ -651,9 +636,8 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseChangeMessage(PatchSet.Id psId,
-      Account.Id accountId, Account.Id realAccountId,
-      ChangeNotesCommit commit, Timestamp ts) {
+  private void parseChangeMessage(PatchSet.Id psId, Account.Id accountId,
+      Account.Id realAccountId, ChangeNotesCommit commit, Timestamp ts) {
     byte[] raw = commit.getRawBuffer();
     int size = raw.length;
     Charset enc = RawParseUtils.parseEncoding(raw);
@@ -671,9 +655,9 @@ class ChangeNotesParser {
     int changeMessageStart;
 
     if (raw[subjectEnd] == '\n') {
-      changeMessageStart = subjectEnd + 2; //\n\n ends paragraph
+      changeMessageStart = subjectEnd + 2; // \n\n ends paragraph
     } else if (raw[subjectEnd] == '\r') {
-      changeMessageStart = subjectEnd + 4; //\r\n\r\n ends paragraph
+      changeMessageStart = subjectEnd + 4; // \r\n\r\n ends paragraph
     } else {
       return;
     }
@@ -698,11 +682,11 @@ class ChangeNotesParser {
       return;
     }
 
-    String changeMsgString = RawParseUtils.decode(enc, raw,
-        changeMessageStart, changeMessageEnd + 1);
+    String changeMsgString = RawParseUtils.decode(enc, raw, changeMessageStart,
+        changeMessageEnd + 1);
     ChangeMessage changeMessage = new ChangeMessage(
-        new ChangeMessage.Key(psId.getParentKey(), commit.name()),
-        accountId, ts, psId);
+        new ChangeMessage.Key(psId.getParentKey(), commit.name()), accountId,
+        ts, psId);
     changeMessage.setMessage(changeMsgString);
     changeMessage.setTag(tag);
     changeMessage.setRealAuthor(realAccountId);
@@ -710,13 +694,11 @@ class ChangeNotesParser {
     allChangeMessages.add(changeMessage);
   }
 
-  private void parseNotes()
-      throws IOException, ConfigInvalidException {
+  private void parseNotes() throws IOException, ConfigInvalidException {
     ObjectReader reader = walk.getObjectReader();
     ChangeNotesCommit tipCommit = walk.parseCommit(tip);
-    revisionNoteMap = RevisionNoteMap.parse(
-        noteUtil, id, reader, NoteMap.read(reader, tipCommit),
-        PatchLineComment.Status.PUBLISHED);
+    revisionNoteMap = RevisionNoteMap.parse(noteUtil, id, reader,
+        NoteMap.read(reader, tipCommit), PatchLineComment.Status.PUBLISHED);
     Map<RevId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<RevId, ChangeRevisionNote> e : rns.entrySet()) {
@@ -751,16 +733,15 @@ class ChangeNotesParser {
 
   private PatchSetApproval parseAddApproval(PatchSet.Id psId,
       Account.Id committerId, Account.Id realAccountId, Timestamp ts,
-      String line)
-      throws ConfigInvalidException {
+      String line) throws ConfigInvalidException {
     // There are potentially 3 accounts involved here:
-    //  1. The account from the commit, which is the effective IdentifiedUser
-    //     that produced the update.
-    //  2. The account in the label footer itself, which is used during submit
-    //     to copy other users' labels to a new patch set.
-    //  3. The account in the Real-user footer, indicating that the whole
-    //     update operation was executed by this user on behalf of the effective
-    //     user.
+    // 1. The account from the commit, which is the effective IdentifiedUser
+    // that produced the update.
+    // 2. The account in the label footer itself, which is used during submit
+    // to copy other users' labels to a new patch set.
+    // 3. The account in the Real-user footer, indicating that the whole
+    // update operation was executed by this user on behalf of the effective
+    // user.
     Account.Id effectiveAccountId;
     String labelVoteStr;
     int s = line.indexOf(' ');
@@ -788,19 +769,13 @@ class ChangeNotesParser {
       throw pe;
     }
 
-    PatchSetApproval psa = new PatchSetApproval(
-        new PatchSetApproval.Key(
-            psId,
-            effectiveAccountId,
-            new LabelId(l.label())),
-        l.value(),
-        ts);
+    PatchSetApproval psa = new PatchSetApproval(new PatchSetApproval.Key(psId,
+        effectiveAccountId, new LabelId(l.label())), l.value(), ts);
     psa.setTag(tag);
     if (!Objects.equals(realAccountId, committerId)) {
       psa.setRealAccountId(realAccountId);
     }
-    ApprovalKey k =
-        ApprovalKey.create(psId, effectiveAccountId, l.label());
+    ApprovalKey k = ApprovalKey.create(psId, effectiveAccountId, l.label());
     if (!approvals.containsKey(k)) {
       approvals.put(k, psa);
     }
@@ -835,17 +810,13 @@ class ChangeNotesParser {
 
     // Store an actual 0-vote approval in the map for a removed approval, for
     // several reasons:
-    //  - This is closer to the ReviewDb representation, which leads to less
-    //    confusion and special-casing of NoteDb.
-    //  - More importantly, ApprovalCopier needs an actual approval in order to
-    //    block copying an earlier approval over a later delete.
+    // - This is closer to the ReviewDb representation, which leads to less
+    // confusion and special-casing of NoteDb.
+    // - More importantly, ApprovalCopier needs an actual approval in order to
+    // block copying an earlier approval over a later delete.
     PatchSetApproval remove = new PatchSetApproval(
-        new PatchSetApproval.Key(
-            psId,
-            effectiveAccountId,
-            new LabelId(label)),
-        (short) 0,
-        ts);
+        new PatchSetApproval.Key(psId, effectiveAccountId, new LabelId(label)),
+        (short) 0, ts);
     if (!Objects.equals(realAccountId, committerId)) {
       remove.setRealAccountId(realAccountId);
     }
@@ -881,8 +852,9 @@ class ChangeNotesParser {
         }
         rec.labels.add(label);
 
-        label.status = Enums.getIfPresent(
-            SubmitRecord.Label.Status.class, line.substring(0, c)).orNull();
+        label.status = Enums
+            .getIfPresent(SubmitRecord.Label.Status.class, line.substring(0, c))
+            .orNull();
         checkFooter(label.status != null, FOOTER_SUBMITTED_WITH, line);
         int c2 = line.indexOf(": ", c + 2);
         if (c2 >= 0) {
@@ -918,8 +890,9 @@ class ChangeNotesParser {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = noteUtil.parseIdent(ident, id);
-    reviewerUpdates.add(
-        ReviewerStatusUpdate.create(ts, ownerId, accountId, state));
+    // FIXME: Create/save/generate same ID every time?
+    reviewerUpdates.add(ReviewerStatusUpdate.create(
+        java.util.UUID.randomUUID().toString(), ts, ownerId, accountId, state));
     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);
     }
@@ -938,8 +911,7 @@ class ChangeNotesParser {
 
   private void updatePatchSetStates() {
     Set<PatchSet.Id> missing = new TreeSet<>(ReviewDbUtil.intKeyOrdering());
-    for (Iterator<PatchSet> it = patchSets.values().iterator();
-        it.hasNext();) {
+    for (Iterator<PatchSet> it = patchSets.values().iterator(); it.hasNext();) {
       PatchSet ps = it.next();
       if (ps.getRevision().equals(PARTIAL_PATCH_SET)) {
         missing.add(ps.getId());
@@ -971,23 +943,21 @@ class ChangeNotesParser {
     // set was deleted.
     changeMessagesByPatchSet.keys().retainAll(patchSets.keySet());
 
-    int pruned = pruneEntitiesForMissingPatchSets(
-        allChangeMessages, ChangeMessage::getPatchSetId, missing);
-    pruned += pruneEntitiesForMissingPatchSets(
-        comments.values(), c -> new PatchSet.Id(id, c.key.patchSetId), missing);
-    pruned += pruneEntitiesForMissingPatchSets(
-        approvals.values(), PatchSetApproval::getPatchSetId, missing);
+    int pruned = pruneEntitiesForMissingPatchSets(allChangeMessages,
+        ChangeMessage::getPatchSetId, missing);
+    pruned += pruneEntitiesForMissingPatchSets(comments.values(),
+        c -> new PatchSet.Id(id, c.key.patchSetId), missing);
+    pruned += pruneEntitiesForMissingPatchSets(approvals.values(),
+        PatchSetApproval::getPatchSetId, missing);
 
     if (!missing.isEmpty()) {
-      log.warn(
-          "ignoring {} additional entities due to missing patch sets: {}",
+      log.warn("ignoring {} additional entities due to missing patch sets: {}",
           pruned, missing);
     }
   }
 
-  private <T> int pruneEntitiesForMissingPatchSets(
-      Iterable<T> ents, Function<T, PatchSet.Id> psIdFunc,
-      Set<PatchSet.Id> missing) {
+  private <T> int pruneEntitiesForMissingPatchSets(Iterable<T> ents,
+      Function<T, PatchSet.Id> psIdFunc, Set<PatchSet.Id> missing) {
     int pruned = 0;
     for (Iterator<T> it = ents.iterator(); it.hasNext();) {
       PatchSet.Id psId = psIdFunc.apply(it.next());
@@ -1021,8 +991,8 @@ class ChangeNotesParser {
 
   private ConfigInvalidException expectedOneFooter(FooterKey footer,
       List<String> actual) {
-    return parseException("missing or multiple %s: %s",
-        footer.getName(), actual);
+    return parseException("missing or multiple %s: %s", footer.getName(),
+        actual);
   }
 
   private ConfigInvalidException invalidFooter(FooterKey footer,

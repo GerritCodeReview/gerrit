@@ -76,6 +76,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
+import com.google.gerrit.extensions.common.ReviewerUpdateInfo.ReviewerUpdateItemInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -94,6 +95,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
@@ -145,6 +147,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
+@SuppressWarnings("unused")
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
 
@@ -168,6 +171,8 @@ public class ChangeJson {
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(ALL_REVISIONS, MESSAGES);
+
+  private static final long REVIEWER_UPDATE_THRESHOLD = 6000; // 6 seconds.
 
   public interface Factory {
     ChangeJson create(Set<ListChangesOption> options);
@@ -197,6 +202,8 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final Provider<CommentJson> commentJson;
+  private final CommentsUtil commentsUtil;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -227,6 +234,8 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+      Provider<CommentJson> commentJson,
+      CommentsUtil commentsUtil,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -251,6 +260,8 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
+    this.commentJson = commentJson;
+    this.commentsUtil = commentsUtil;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -541,6 +552,7 @@ public class ChangeJson {
     } else {
       src = null;
     }
+
     if (needMessages) {
       out.messages = messages(ctl, cd, src);
     }
@@ -571,12 +583,28 @@ public class ChangeJson {
       throws OrmException {
     List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
+    ReviewerStatusUpdate lastUpdate = null;
+    ReviewerUpdateInfo change = null;
+    HashMap<Account.Id, ReviewerUpdateItemInfo> states = new HashMap<>();
     for (ReviewerStatusUpdate c : reviewerUpdates) {
-      ReviewerUpdateInfo change = new ReviewerUpdateInfo();
-      change.updated = c.date();
-      change.state = c.state().asReviewerState();
-      change.updatedBy = accountLoader.get(c.updatedBy());
-      change.reviewer = accountLoader.get(c.reviewer());
+      if (lastUpdate == null || c.date().getTime()
+          - lastUpdate.date().getTime() > REVIEWER_UPDATE_THRESHOLD) {
+        if (!states.isEmpty()) {
+          change.updates = new ArrayList<>(states.values());
+          result.add(change);
+        }
+        change = new ReviewerUpdateInfo();
+        change.id = c.id();
+        change.date = c.date();
+        change.author = accountLoader.get(c.updatedBy());
+        lastUpdate = c;
+        states = new HashMap<>();
+      }
+      states.put(c.reviewer(), new ReviewerUpdateItemInfo(
+          accountLoader.get(c.reviewer()), c.state().asReviewerState()));
+    }
+    if (change != null) {
+      change.updates = new ArrayList<>(states.values());
       result.add(change);
     }
     return result;

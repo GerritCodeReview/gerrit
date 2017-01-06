@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77b83af6_78ddc1c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "773bda5a_e0e262bd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "773bda5a_00e8a699",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2017-01-06T02:42:44Z",
       "side": 1,
       "message": "Should be part of the following change.",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 24
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_f8c8b111",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "773bda5a_00e8a699",
       "range": {
         "startLine": 78,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_ad941dd1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Not sure was following how it was done in branches. I\u0027ve removed it now.",
+      "parentUuid": "773bda5a_a0dc5a00",
+      "range": {
+        "startLine": 86,
+        "startChar": 27,
+        "endLine": 86,
+        "endChar": 32
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "773bda5a_c0e15eb7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
         "patchSetId": 16
@@ -82,6 +154,30 @@
       "writtenOn": "2017-01-06T02:42:44Z",
       "side": 1,
       "message": "is this needed?",
+      "range": {
+        "startLine": 156,
+        "startChar": 26,
+        "endLine": 156,
+        "endChar": 31
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_d8cded1f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Nope doint think so.",
+      "parentUuid": "773bda5a_c0e15eb7",
       "range": {
         "startLine": 156,
         "startChar": 26,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_8d996109",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "773bda5a_60d732dc",
+      "range": {
+        "startLine": 310,
+        "startChar": 6,
+        "endLine": 310,
+        "endChar": 24
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "773bda5a_80d4b6d6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
         "patchSetId": 16
@@ -128,6 +248,30 @@
       "writtenOn": "2017-01-06T02:42:44Z",
       "side": 1,
       "message": "This is not relevant for tags.",
+      "range": {
+        "startLine": 330,
+        "startChar": 8,
+        "endLine": 332,
+        "endChar": 9
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_6d8f55bd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "773bda5a_80d4b6d6",
       "range": {
         "startLine": 330,
         "startChar": 8,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "77b83af6_b8c239ee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "574096d3_3f9ce741",
+      "range": {
+        "startLine": 342,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 7
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "574096d3_dfb93baf",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
         "patchSetId": 16
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "77b83af6_98c775fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "574096d3_dfb93baf",
+      "range": {
+        "startLine": 481,
+        "startChar": 5,
+        "endLine": 493,
+        "endChar": 13
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "574096d3_ffbe7f94",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
         "patchSetId": 16
@@ -197,6 +389,30 @@
       "writtenOn": "2017-01-06T02:42:44Z",
       "side": 1,
       "message": "Should be in the following change",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 42
+      },
+      "revId": "117af693bb144daa873ffaf3f7bef02f07c2d4e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_58dafdd2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-06T13:23:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "574096d3_ffbe7f94",
       "range": {
         "startLine": 23,
         "startChar": 2,

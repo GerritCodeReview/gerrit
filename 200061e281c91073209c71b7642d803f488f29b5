@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37496202_5ed775db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-06T19:15:03Z",
+      "side": 1,
+      "message": "Side note: eww.. we should inline svg into css class at some point.",
+      "revId": "200061e281c91073209c71b7642d803f488f29b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

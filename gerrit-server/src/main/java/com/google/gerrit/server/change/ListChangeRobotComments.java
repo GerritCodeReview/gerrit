@@ -55,4 +55,3 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
         .format(commentsUtil.robotCommentsByChange(cd.notes()));
   }
 }
-

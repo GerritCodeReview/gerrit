@@ -76,6 +76,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
+import com.google.gerrit.extensions.common.ReviewerUpdateInfo.ReviewerUpdateItemInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -94,6 +95,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
@@ -138,6 +140,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,6 +148,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
+@SuppressWarnings("unused")
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
 
@@ -168,6 +172,9 @@ public class ChangeJson {
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(ALL_REVISIONS, MESSAGES);
+
+  // Time threshold for sequential reviewer updates to be grouped.
+  private static final long REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000;
 
   public interface Factory {
     ChangeJson create(Set<ListChangesOption> options);
@@ -197,6 +204,8 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final Provider<CommentJson> commentJson;
+  private final CommentsUtil commentsUtil;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -227,6 +236,8 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
+      Provider<CommentJson> commentJson,
+      CommentsUtil commentsUtil,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -251,6 +262,8 @@ public class ChangeJson {
     this.changeKindCache = changeKindCache;
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
+    this.commentJson = commentJson;
+    this.commentsUtil = commentsUtil;
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
@@ -528,7 +541,9 @@ public class ChangeJson {
     }
 
     if (has(REVIEWER_UPDATES)) {
-      out.reviewerUpdates = reviewerUpdates(cd);
+      out.reviewerUpdates = new ReviewerUpdatesBuilder()
+        .add(cd.reviewerUpdates())
+        .build();
     }
 
     boolean needMessages = has(MESSAGES);
@@ -541,6 +556,7 @@ public class ChangeJson {
     } else {
       src = null;
     }
+
     if (needMessages) {
       out.messages = messages(ctl, cd, src);
     }
@@ -567,19 +583,88 @@ public class ChangeJson {
     return out;
   }
 
-  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd)
-      throws OrmException {
-    List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
-    List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
-    for (ReviewerStatusUpdate c : reviewerUpdates) {
-      ReviewerUpdateInfo change = new ReviewerUpdateInfo();
-      change.updated = c.date();
-      change.state = c.state().asReviewerState();
-      change.updatedBy = accountLoader.get(c.updatedBy());
-      change.reviewer = accountLoader.get(c.reviewer());
-      result.add(change);
+  /**
+   * Helper class for grouping reviewer updates.
+   * Sequential updates within {@link #REVIEWER_UPDATE_THRESHOLD_MILLIS}
+   * are grouped into collection, only keeping last state within the timeframe.
+   * Updates, that don't result in actual status change, are discarded.
+   * Example:
+   *  - User A added as reviewer, results in an reviewer update
+   *  - User A was removed and re-added within threshold - update is discarded.
+   */
+  private class ReviewerUpdatesBuilder {
+
+    /**
+     * Current update group.
+     */
+    private ReviewerUpdateInfo update;
+
+    /**
+     * Current batch of update times.
+     */
+    private HashMap<Account.Id, ReviewerUpdateItemInfo> items;
+
+    /**
+     * Current reviewer states, excluding current batch.
+     */
+    private HashMap<Account.Id, ReviewerState> states;
+
+    private List<ReviewerUpdateInfo> result;
+
+    public ReviewerUpdatesBuilder() {
+      result = new ArrayList<>();
+      states = new HashMap<>();
     }
-    return result;
+
+    private void startBatch(ReviewerStatusUpdate u) {
+      update = new ReviewerUpdateInfo();
+      update.id = u.id();
+      update.date = u.date();
+      update.author = accountLoader.get(u.updatedBy());
+      items = new HashMap<>();
+    }
+
+    private void completeBatch() {
+      if (items == null) {
+        return;
+      }
+      List<ReviewerUpdateItemInfo> updates = items.entrySet()
+          .stream()
+          .filter(u -> u.getValue().state != states.get(u.getKey()))
+          .peek(u -> states.put(u.getKey(), u.getValue().state))
+          .map(Map.Entry::getValue)
+          .collect(toList());
+      if (updates.size() > 0) {
+        update.updates = updates;
+        result.add(update);
+      }
+    }
+
+    public ReviewerUpdatesBuilder add(List<ReviewerStatusUpdate> us) {
+      for (ReviewerStatusUpdate u : us) {
+        add(u);
+      }
+      return this;
+    }
+
+    public ReviewerUpdatesBuilder add(ReviewerStatusUpdate u) {
+      if (update == null) {
+        startBatch(u);
+      } else if (u.date().getTime()
+          - update.date.getTime() > REVIEWER_UPDATE_THRESHOLD_MILLIS) {
+        completeBatch();
+        startBatch(u);
+      }
+      items.put(u.reviewer(),
+          new ReviewerUpdateItemInfo(accountLoader.get(u.reviewer()),
+              u.state().asReviewerState(), states.get(u.reviewer())));
+      return this;
+    }
+
+    public Collection<ReviewerUpdateInfo> build() {
+      completeBatch();
+      return result;
+    }
   }
 
   private boolean submittable(ChangeData cd) throws OrmException {

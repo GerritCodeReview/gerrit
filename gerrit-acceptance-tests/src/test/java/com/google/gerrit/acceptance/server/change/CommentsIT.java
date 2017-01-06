@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 
@@ -25,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -32,6 +34,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -41,6 +44,9 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.AbstractChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -69,6 +75,15 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Inject
   private FakeEmailSender email;
+
+  @Inject
+  private GitRepositoryManager gitRepoManager;
+
+  @Inject
+  private ChangeNoteUtil noteUtil;
+
+  @Inject
+  private AbstractChangeNotes.Args notesArgs;
 
   private final Integer[] lines = {0, 1};
 
@@ -648,6 +663,169 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(drafts.get(0).tag).isEqualTo("tag2");
   }
 
+  @Test
+  public void deleteCommentByUser() throws Exception {
+    String fileName = "file";
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, fileName, FILE_CONTENT);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+
+    CommentInput targetComment = addComment(changeId, fileName,
+        "My password: abc123");
+
+    Map<String, List<CommentInfo>> before = getPublishedComments(changeId,
+        revId);
+
+    CommentInfo targetCommentInfo = before.get(targetComment.path).get(0);
+
+    assertThat(before.size()).isEqualTo(1);
+    assertThat(before.get(fileName)).hasSize(1);
+
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allow to delete comment");
+
+    DeleteCommentInput input = new DeleteCommentInput();
+    input.reason = "contains confidential information";
+    input.removeAllData = false;
+    setApiUser(user);
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(revId)
+        .comment(targetCommentInfo.id).delete(input);
+  }
+
+  @Test
+  public void deleteCommentByAdminOverwriteMsg() throws Exception {
+    String fileName = "file";
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, fileName, FILE_CONTENT);
+    PushOneCommit.Result result = push.to("refs/for/master"); // ps1
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+
+    // comment 1 (target)
+    CommentInput comment1 = addComment(changeId, fileName,
+        "My password: abc123");
+    // comment 2
+    CommentInput comment2 = addComment(changeId, fileName, "nit: long line");
+
+    PushOneCommit push2 = pushFactory.create(db, user.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, fileName, FILE_CONTENT, changeId);
+    push2.to("refs/for/master"); // ps2
+
+    // comment 3
+    CommentInput comment3 = addComment(changeId, fileName, "repo");
+
+    Map<String, List<CommentInfo>> before = getPublishedComments(changeId);
+
+    assertThat(before).hasSize(1);
+    assertThat(before.get(fileName)).hasSize(3);
+
+    CommentInfo targetCommentInfo = before.get(comment1.path).get(0);
+
+    DeleteCommentInput input = new DeleteCommentInput();
+    input.reason = "contains confidential information";
+    input.removeAllData = false; // just overwrite the comment's message
+    String expectMsg = "comment removed by '" + admin.username
+        + "' because '" + input.reason + "'";
+    setApiUser(admin);
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(revId)
+        .comment(targetCommentInfo.id).delete(input);
+
+    // comment 4, make sure that comments can still be added correctly
+    CommentInput comment4 = addComment(changeId, fileName, "too much space");
+
+    List<CommentInput> expectedComments = new ArrayList<>();
+    comment1.message = expectMsg;
+    expectedComments.add(comment1);
+    expectedComments.add(comment2);
+    expectedComments.add(comment3);
+    expectedComments.add(comment4);
+
+    Map<String, List<CommentInfo>> after = getPublishedComments(changeId);
+
+    assertThat(after).hasSize(1);
+    assertThat(after.get(fileName)).hasSize(4);
+
+    List<CommentInfo> actualComments = after.get(fileName);
+    assertThat(Lists.transform(actualComments, infoToInput(fileName)))
+        .containsExactlyElementsIn(expectedComments);
+  }
+
+  @Test
+  public void deleteCommentByAdminRemoveAllData() throws Exception {
+    String fileName = "file";
+    PushOneCommit push = pushFactory.create(db, user.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, fileName, FILE_CONTENT);
+    PushOneCommit.Result result = push.to("refs/for/master"); // ps1
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+
+    // comment 1 (target)
+    CommentInput comment1 = addComment(changeId, fileName,
+        "My password: abc123");
+    // comment 2
+    CommentInput comment2 = addComment(changeId, fileName, "nit: long line");
+
+    PushOneCommit push2 = pushFactory.create(db, user.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, fileName, FILE_CONTENT, changeId);
+    push2.to("refs/for/master"); // ps2
+
+    // comment 3
+    CommentInput comment3 = addComment(changeId, fileName, "repo");
+
+    Map<String, List<CommentInfo>> before = getPublishedComments(changeId);
+
+    assertThat(before).hasSize(1);
+    assertThat(before.get(fileName)).hasSize(3);
+
+    CommentInfo targetCommentInfo = before.get(comment1.path).get(0);
+
+    DeleteCommentInput input = new DeleteCommentInput();
+    input.reason = "contains confidential information";
+    input.removeAllData = true; // remove all the data of the comment
+
+    setApiUser(admin);
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(revId)
+        .comment(targetCommentInfo.id).delete(input);
+
+    // comment 4, make sure that comments can still be added correctly
+    CommentInput comment4 = addComment(changeId, fileName, "too much space");
+
+    List<CommentInput> expectedComments = new ArrayList<>();
+    expectedComments.add(comment2);
+    expectedComments.add(comment3);
+    expectedComments.add(comment4);
+
+    Map<String, List<CommentInfo>> after = getPublishedComments(changeId);
+
+    assertThat(after).hasSize(1);
+    assertThat(after.get(fileName)).hasSize(3);
+
+    List<CommentInfo> actualComments = after.get(fileName);
+    assertThat(Lists.transform(actualComments, infoToInput(fileName)))
+        .containsExactlyElementsIn(expectedComments);
+  }
+
+  private CommentInput addComment(String changeId, String fileName,
+      String message) throws Exception {
+    ReviewInput input = new ReviewInput();
+    CommentInput comment = newComment(fileName, Side.REVISION, 0,
+        message, false);
+    input.comments = new HashMap<>();
+    input.comments.put(comment.path, Lists.newArrayList(comment));
+    gApi.changes()
+        .id(changeId)
+        .current().review(input);
+    return comment;
+  }
+
   private static String extractComments(String msg) {
     // Extract lines between start "....." and end "-- ".
     Pattern p = Pattern.compile(".*[.]{5}\n+(.*)\\n+-- \n.*", Pattern.DOTALL);
@@ -693,7 +871,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private void deleteDraft(String changeId, String revId, String uuid)
       throws Exception {
-    gApi.changes().id(changeId).revision(revId).draft(uuid).delete();
+    gApi.changes().id(changeId).revision(revId).draft(uuid).delete(null);
   }
 
   private CommentInfo getPublishedComment(String changeId, String revId,
@@ -704,6 +882,11 @@ public class CommentsIT extends AbstractDaemonTest {
   private Map<String, List<CommentInfo>> getPublishedComments(String changeId,
       String revId) throws Exception {
     return gApi.changes().id(changeId).revision(revId).comments();
+  }
+
+  private Map<String, List<CommentInfo>> getPublishedComments(String changeId)
+      throws Exception {
+    return gApi.changes().id(changeId).comments();
   }
 
   private Map<String, List<CommentInfo>> getDraftComments(String changeId,

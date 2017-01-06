@@ -107,7 +107,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
             db.patchComments().draftByChangeFileAuthor(id, din.path, admin.id))
         .isEmpty();
 
-    gApi.changes().id(id.get()).current().draft(di.id).delete();
+    gApi.changes().id(id.get()).current().draft(di.id).delete(null);
     assertThat(gApi.changes().id(id.get()).current().drafts()).isEmpty();
   }
 

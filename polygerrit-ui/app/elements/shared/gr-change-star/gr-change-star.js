@@ -34,7 +34,7 @@
       return classes.join(' ');
     },
 
-    _handleStarTap: function() {
+    toggleStar: function() {
       var newVal = !this.change.starred;
       this.set('change.starred', newVal);
       this._xhrPromise = this.$.restAPI.saveChangeStarred(this.change._number,

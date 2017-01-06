@@ -4158,6 +4158,29 @@ describes the published comment.
   }
 ----
 
+[[delete-comment]]
+=== Delete Comment
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]'
+--
+
+Deletes a published comment of a revision. It can overwrite the comment's
+message or delete all the data of the comment from the database permanently
+depending on the options provided in the request body as a
+link:#delete-comment-input[DeleteCommentInput] entity.
+
+Note that it can only be deleted by administrators.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/comments/TvcXrmjM HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[list-robot-comments]]
 === List Robot Comments
 --
@@ -5406,6 +5429,22 @@ The subject of the commit (header line of the commit message).
 Links to the commit in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
 |===========================
+
+[[delete-comment-input]]
+=== DeleteCommentInput
+The `DeleteCommentInput` entity contains options for the deletion of a comment.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`reason`         |optional|
+The reason why the comment should be deleted. +
+If not set, the default is empty.
+|`remove_all_data`        |optional|
+If false, only the comment's message will be overwritten. +
+If true, the whole comment will be removed from the database permanently. +
+If not set, the default is false.
+|=============================
 
 [[delete-reviewer-input]]
 === DeleteReviewerInput

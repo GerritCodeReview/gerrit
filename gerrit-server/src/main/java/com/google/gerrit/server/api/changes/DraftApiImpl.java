@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -67,7 +68,7 @@ class DraftApiImpl implements DraftApi {
   }
 
   @Override
-  public void delete() throws RestApiException {
+  public void delete(DeleteCommentInput input) throws RestApiException {
     try {
       deleteDraft.apply(draft, null);
     } catch (UpdateException e) {

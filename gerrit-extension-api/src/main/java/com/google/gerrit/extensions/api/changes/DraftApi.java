@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface DraftApi extends CommentApi {
   CommentInfo update(DraftInput in) throws RestApiException;
-  void delete() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -34,7 +33,7 @@ public interface DraftApi extends CommentApi {
     }
 
     @Override
-    public void delete() {
+    public void delete(DeleteCommentInput input) {
       throw new NotImplementedException();
     }
   }

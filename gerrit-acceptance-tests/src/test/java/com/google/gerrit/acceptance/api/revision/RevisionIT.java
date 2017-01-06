@@ -931,7 +931,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .email)
       .isEqualTo(admin.email);
 
-    draftApi.delete();
+    draftApi.delete(null);
     assertThat(gApi.changes()
         .id(r.getChangeId())
         .revision(r.getCommit().name())

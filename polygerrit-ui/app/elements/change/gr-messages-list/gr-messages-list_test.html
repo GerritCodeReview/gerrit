@@ -86,6 +86,29 @@ limitations under the License.
       }
     });
 
+    test('expand/collapse from external keypress', function() {
+      element.handleExpandCollapse(true);
+      var allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        assert.isTrue(allMessageEls[i].expanded);
+      }
+
+      // Expand/collapse all text also changes.
+      assert.equal(element.$$('#collapse-messages').textContent.trim(),
+        'Collapse all');
+
+      element.handleExpandCollapse(false);
+      var allMessageEls =
+          Polymer.dom(element.root).querySelectorAll('gr-message');
+      for (var i = 0; i < allMessageEls.length; i++) {
+        assert.isFalse(allMessageEls[i].expanded);
+      }
+      // Expand/collapse all text also changes.
+      assert.equal(element.$$('#collapse-messages').textContent.trim(),
+        'Expand all');
+    });
+
     test('hide messages does not appear when no automated messages',
         function() {
       assert.isOk(element.$$('#automatedMessageToggleContainer[hidden]'));

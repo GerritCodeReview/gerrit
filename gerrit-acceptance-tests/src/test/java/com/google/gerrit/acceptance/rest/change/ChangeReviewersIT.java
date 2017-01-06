@@ -36,11 +36,15 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
+import com.google.gerrit.extensions.common.ReviewerUpdateInfo.ReviewerUpdateItemInfo;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gson.stream.JsonReader;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -49,8 +53,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
+
+  @Before
+  public void setUp() throws Exception {
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @After
+  public void tearDown() {
+    TestTimeUtil.useSystemTime();
+  }
+
   @Test
   public void addGroupAsReviewer() throws Exception {
     // Set up two groups, one that is too large too add as reviewer, and one
@@ -586,42 +602,126 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     in.state = CC;
     addReviewer(changeId, in);
 
+    TestTimeUtil.incrementClock(10, TimeUnit.SECONDS);
+    // Test point 1: user added to CC
+
     in.state = REVIEWER;
     addReviewer(changeId, in);
 
-    gApi.changes().id(changeId).current().review(ReviewInput.dislike());
+    TestTimeUtil.incrementClock(10, TimeUnit.SECONDS);
+    // Test point 2: user added to Reviewers
 
-    setApiUser(user);
-    // NoteDb adds reviewer to a change on every review.
-    gApi.changes().id(changeId).current().review(ReviewInput.dislike());
+    // SET AND REVERT - NO RESULT!
 
+    // Add user to CC and immediately remove.
+    in.state = CC;
+    addReviewer(changeId, in);
     deleteReviewer(changeId, user).assertNoContent();
 
-    ChangeInfo c = gApi.changes().id(changeId).get();
-    assertThat(c.reviewerUpdates).isNotNull();
-    assertThat(c.reviewerUpdates).hasSize(3);
+    // Also add user2 to CC.
+    TestAccount user2 = accounts.user2();
+    in.reviewer = user2.email;
+    in.state = CC;
+    addReviewer(changeId, in);
+    // Test point 3: user is removed, user2 added to CC
 
-    Iterator<ReviewerUpdateInfo> it = c.reviewerUpdates.iterator();
-    ReviewerUpdateInfo reviewerChange = it.next();
+    TestTimeUtil.incrementClock(10, TimeUnit.SECONDS);
+
+    in.state = REVIEWER;
+    addReviewer(changeId, in);
+    deleteReviewer(changeId, user2).assertNoContent();
+    // Test point 4: user2 removed by admin
+
+    setApiUser(user);
+    gApi.changes().id(changeId).current().review(ReviewInput.dislike());
+    // Test point 5: User added to reviewers by user action.
+
+    TestTimeUtil.incrementClock(10, TimeUnit.SECONDS);
+
+    deleteReviewer(changeId, user).assertNoContent();
+    in.reviewer = user.email;
+    in.state = REVIEWER;
+    addReviewer(changeId, in);
+    // Test point 6: User removed and then restored as a reviewer.
+
+    ChangeInfo c = gApi.changes().id(changeId).get();
+    assertThat(c.reviewerUpdates).hasSize(5);
+
+    Iterator<ReviewerUpdateInfo> logIterator = c.reviewerUpdates.iterator();
+    ReviewerUpdateInfo reviewerUpdate = logIterator.next();
+    Iterator<ReviewerUpdateItemInfo> it = reviewerUpdate.updates.iterator();
+    ReviewerUpdateItemInfo reviewerChange = it.next();
+
+    // 1: user was added to CC.
+    assertThat(reviewerUpdate.author._accountId).isEqualTo(
+        admin.getId().get());
+    assertThat(reviewerUpdate.updates).hasSize(1);
+    assertThat(reviewerUpdate.id).isNotNull();
+    assertThat(reviewerChange.prevState).isNull();
     assertThat(reviewerChange.state).isEqualTo(CC);
     assertThat(reviewerChange.reviewer._accountId).isEqualTo(
         user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
-        admin.getId().get());
 
+    reviewerUpdate = logIterator.next();
+    it = reviewerUpdate.updates.iterator();
     reviewerChange = it.next();
+
+    // 2: user added to reviewers.
+    assertThat(reviewerUpdate.author._accountId).isEqualTo(
+        admin.getId().get());
+    assertThat(reviewerUpdate.id).isNotNull();
+    assertThat(reviewerUpdate.updates).hasSize(1);
     assertThat(reviewerChange.state).isEqualTo(REVIEWER);
+    assertThat(reviewerChange.prevState).isEqualTo(CC);
     assertThat(reviewerChange.reviewer._accountId).isEqualTo(
         user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
-        admin.getId().get());
 
+    reviewerUpdate = logIterator.next();
+    it = reviewerUpdate.updates.iterator();
     reviewerChange = it.next();
+
+    // 3: user removed, user2 added to CC.
+    assertThat(reviewerUpdate.author._accountId).isEqualTo(
+        admin.getId().get());
+    assertThat(reviewerUpdate.id).isNotNull();
+    assertThat(reviewerUpdate.updates).hasSize(2);
+    assertThat(reviewerChange.prevState).isEqualTo(REVIEWER);
     assertThat(reviewerChange.state).isEqualTo(REMOVED);
     assertThat(reviewerChange.reviewer._accountId).isEqualTo(
         user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
+    reviewerChange = it.next();
+    assertThat(reviewerChange.state).isEqualTo(CC);
+    assertThat(reviewerChange.prevState).isNull();
+    assertThat(reviewerChange.reviewer._accountId).isEqualTo(
+        user2.getId().get());
+
+    reviewerUpdate = logIterator.next();
+    it = reviewerUpdate.updates.iterator();
+    reviewerChange = it.next();
+
+    // 4: user2 removed by admin.
+    assertThat(reviewerUpdate.author._accountId).isEqualTo(
         admin.getId().get());
+    assertThat(reviewerUpdate.id).isNotNull();
+    assertThat(reviewerUpdate.updates).hasSize(1);
+    assertThat(reviewerChange.state).isEqualTo(REMOVED);
+    assertThat(reviewerChange.prevState).isEqualTo(CC);
+    assertThat(reviewerChange.reviewer._accountId).isEqualTo(
+        user2.getId().get());
+
+    reviewerUpdate = logIterator.next();
+    it = reviewerUpdate.updates.iterator();
+    reviewerChange = it.next();
+
+    // 5: user added to reviewers by user action.
+    assertThat(reviewerUpdate.author._accountId).isEqualTo(
+        user.getId().get());
+    assertThat(reviewerUpdate.id).isNotNull();
+    assertThat(reviewerUpdate.updates).hasSize(1);
+    assertThat(reviewerChange.state).isEqualTo(REVIEWER);
+    assertThat(reviewerChange.prevState).isEqualTo(REMOVED);
+    assertThat(reviewerChange.reviewer._accountId).isEqualTo(
+        user.getId().get());
   }
 
   @Test

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57bdf6e4_b7c248ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/MailSoyTofuProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-06T18:28:07Z",
+      "side": 1,
+      "message": "Not related to this change, but I wonder if we should also consider using JGit\u0027s FileSnapshot to cache based on mtime.",
+      "revId": "3963a8d61eb088ca097d1162c7d40c410b7e8d0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

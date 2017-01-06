@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -31,7 +32,9 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
+import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 
@@ -323,18 +326,7 @@ public class IdentifiedUser extends CurrentUser {
     }
     user = user + "|" + "account-" + ua.getId().toString();
 
-    String host = null;
-    SocketAddress remotePeer = remotePeerProvider.get();
-    if (remotePeer instanceof InetSocketAddress) {
-      InetSocketAddress sa = (InetSocketAddress) remotePeer;
-      InetAddress in = sa.getAddress();
-      host = in != null ? getHost(in) : sa.getHostName();
-    }
-    if (host == null || host.isEmpty()) {
-      host = "unknown";
-    }
-
-    return new PersonIdent(name, user + "@" + host, when, tz);
+    return new PersonIdent(name, user + "@" + guessHost(), when, tz);
   }
 
   public PersonIdent newCommitterIdent(final Date when, final TimeZone tz) {
@@ -444,6 +436,25 @@ public class IdentifiedUser extends CurrentUser {
         Providers.of(canonicalUrl.get()), accountCache, groupBackend,
         disableReverseDnsLookup, Providers.of(remotePeerProvider.get()), state,
         realUser);
+  }
+
+  private String guessHost() {
+    String host = null;
+    SocketAddress remotePeer = null;
+    try {
+      remotePeer = remotePeerProvider.get();
+    } catch (OutOfScopeException | ProvisionException e) {
+      // Leave null.
+    }
+    if (remotePeer instanceof InetSocketAddress) {
+      InetSocketAddress sa = (InetSocketAddress) remotePeer;
+      InetAddress in = sa.getAddress();
+      host = in != null ? getHost(in) : sa.getHostName();
+    }
+    if (Strings.isNullOrEmpty(host)) {
+      return "unknown";
+    }
+    return host;
   }
 
   private String getHost(final InetAddress in) {

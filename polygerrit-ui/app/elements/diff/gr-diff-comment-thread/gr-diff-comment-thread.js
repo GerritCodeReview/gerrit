@@ -14,6 +14,7 @@
 (function() {
   'use strict';
 
+  var UNRESOLVED_EXPAND_COUNT = 5;
   var NEWLINE_PATTERN = /\n/g;
 
   Polymer({
@@ -71,6 +72,7 @@
       this._getLoggedIn().then(function(loggedIn) {
         this._showActions = loggedIn;
       }.bind(this));
+      this._setInitialExpandedState();
     },
 
     addOrEditDraft: function(opt_lineNum) {
@@ -123,6 +125,23 @@
       comments.forEach(function(comment) {
         comment.collapsed = actionIsCollapse;
       });
+    },
+
+    /**
+     * Sets the initial state of the comment thread to have the last
+     * {UNRESOLVED_EXPAND_COUNT} comments expanded by default if the
+     * thread is unresolved.
+     */
+    _setInitialExpandedState: function() {
+      for (var i = 0; i < this._orderedComments.length; i++) {
+        var comment = this._orderedComments[i];
+        if (this._orderedComments.length - i - 1 < UNRESOLVED_EXPAND_COUNT &&
+            this._unresolved) {
+          comment.collapsed = false;
+        } else {
+          comment.collapsed = true;
+        }
+      }
     },
 
     _sortedComments: function(comments) {

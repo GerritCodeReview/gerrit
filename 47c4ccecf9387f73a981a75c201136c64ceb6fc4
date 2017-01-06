@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483532702 +0100\nnonce AHDV6GkCfcwBpFJYdIWthTaMonQG5K6x4vHBNcpkNf7Kfniq++agh0DN92OYXANeEeCiRx2YDW+n\n\n0000000000000000000000000000000000000000 6ebde5018b9cb79a69bd92b3eb3adfde4f7cd360 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYbOmeAAoJEFG1/Zeg0O9R+isIALmK+lW6DZrhwyhL/p7AdPuV\n10E1lUkOabOBefoVVbsDtUgupiIcEsC290AR6Ovq+Rx8BKKMdUgc+uR8Ev+B2HZf\nzm3Q7XnKG8M7nCymAiWW7EQvQY5PBanRz1qLVe299VcV0udprPdROhfsTGaTQtsV\nk+pKxb/MVXOYRBnH0a4PTHbH3vYOTSumYRLjYAh4Rw/S3TncGG7KUZ+GB+u47KXC\nMeUBZQlRvtf5rZrfY++pR4G4RVWv4teSOE0SeG2/8Jo9pwqplJ78E0UKl6YIAuXe\nBgKMjqJKaZvbyqjMDZDJbBMuBgAeln27FrvBU4JJhNSiqwQAmD/0+ObEBBvlSDg\u003d\n\u003dLDM3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "773bda5a_60a5f287",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/Groups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-06T01:36:05Z",
+      "side": 1,
+      "message": "Should be \"Query\" to be consistent with other javadoc",
+      "range": {
+        "startLine": 56,
+        "startChar": 5,
+        "endLine": 56,
+        "endChar": 12
+      },
+      "revId": "47c4ccecf9387f73a981a75c201136c64ceb6fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "574096d3_5f7c4b21",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/Groups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-06T01:36:05Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 66,
+        "startChar": 5,
+        "endLine": 66,
+        "endChar": 12
+      },
+      "revId": "47c4ccecf9387f73a981a75c201136c64ceb6fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "773bda5a_80a2767f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/Groups.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-06T01:36:05Z",
+      "side": 1,
+      "message": "Execute",
+      "range": {
+        "startLine": 217,
+        "startChar": 7,
+        "endLine": 217,
+        "endChar": 15
+      },
+      "revId": "47c4ccecf9387f73a981a75c201136c64ceb6fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

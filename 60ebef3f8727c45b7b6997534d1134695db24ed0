@@ -16,6 +16,24 @@
       "revId": "60ebef3f8727c45b7b6997534d1134695db24ed0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57bdf6e4_7766f046",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-06T19:36:01Z",
+      "side": 1,
+      "message": "Good call.",
+      "parentUuid": "17461ef2_9dee6395",
+      "revId": "60ebef3f8727c45b7b6997534d1134695db24ed0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

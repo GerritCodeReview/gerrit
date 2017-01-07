@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1483728655 -0500\nnonce AHDV6GkTzNFnibmshRGw3zzehV0CA72DD8E9L2bsB6NbbMs1qagOcondMn7sQD9DJBVTgK9agsHx\n\n0000000000000000000000000000000000000000 7b5a764775cf1a9dd595d9a491d8cb8923d0261c refs/for/master%r\u003dandybons@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYb+cPAAoJEF/XxZqaEoiMPS4QALI0me2jLGFXfirg4F0Kinyp\nlk+xuchQwJtKGmuVU9QS6Mb4VEDcPGoGcqs82949S9+VZDZR26bKcrKZElvL18P1\n14kpNbLH/e0yrNlGI4codzkOtL3mdHjaJhA2VgVGPLr1V3nXO1iRBAr5L8jX8wk9\nZpx/7hjlRKQEuAI/hQ2cbdRsBOBpkS8U+qHB6DQQh4hQNOtoCi7cHQ4mJ73m+LgL\nmrd2U4zjfMTV707QBipaPMLQwu3sDnUiR9klPiVMId3u5MicqNAvZpMeDMd3RUje\nBwD5a1yjWsqn9e3d5V/7emojGLPM8EhRqromf6yhsEXyWSfsgzRFg7pD3FVAd97O\nI+f3LZitWFavP68V4nph5wV8aQgvWvDCYzXZKCY0fy9Le7FwwD2UoD6mMOJdkObx\nkZ7AGFB+6/dV3V2Ja5DqtkdoWeULLpFXTDifPWjYegCRnnkcHSz2d8UPK4xxo3VB\nl1tCC4NDdA7JtrB3S7JijiYvd5rSRJEFu/5Irf9s6sjiDvjUqxmrm7W3b2aFBgL6\nudpK+wVPmJ7qBzk5pZY1F6vS7+BDpHLm9pFBQiP2X3rPxFZfzzq0LoHQk0J/95SP\nZ6kzneCTydPKr87n3GOg39C0fO4JXp/iN/GeqLB5YkAvkvK89+6H4G0iX57h/Bmz\n+fgEg53Zvg3yhzpUuJE8\n\u003dRx2X\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "17d8de6b_4df0191e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-07T10:08:45Z",
+      "side": 1,
+      "message": "I guess this related to this fix: [1], that can be now reverted, as we would like to avoid having two differents scope propagation mechanisms?\n\n* [1] https://gerrit-review.googlesource.com/#/c/93455/",
+      "revId": "7b5a764775cf1a9dd595d9a491d8cb8923d0261c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

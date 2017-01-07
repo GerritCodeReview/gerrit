@@ -1675,6 +1675,32 @@ can contain a list of link:#project-watch-info[ProjectWatchInfo] entities.
   HTTP/1.1 204 No Content
 ----
 
+[[delete-account-external-ids]]
+=== Delete Account External IDs
+--
+'DELETE /accounts/link:#account-id[\{account-id\}]/external_ids'
+--
+
+Delete a list of external ids for an account. The request body contains a
+link:#delete-account-external-ids-input[DeleteAccountExternalIdsInput] entity.
+
+.Request
+----
+  DELETE /a/accounts/self/external_ids HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "_external_id_list": [
+      "mailto:john@example.com"
+    ]
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[default-star-endpoints]]
 == Default Star Endpoints
 
@@ -2098,6 +2124,17 @@ for an account.
 |`name`     |optional|The new full name of the account. +
 If not set or if set to an empty string, the account name is deleted.
 |=============================
+
+[[delete-account-external-ids-input]]
+=== DeleteAccountExternalIdsInput
+The `DeleteAccountExternalIdsInput` entity contains a list of external ids for
+an account.
+
+[options="header",cols="1,5"]
+|============================
+|Field Name             |Description
+|`_external_id_list`    |The list of external ids for an account to be deleted.
+|============================
 
 [[capability-info]]
 === CapabilityInfo

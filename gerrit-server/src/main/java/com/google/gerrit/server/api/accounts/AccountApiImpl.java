@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.accounts.DeleteAccountExternalIdsInput;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.DeleteActive;
+import com.google.gerrit.server.account.DeleteAccountExternalIds;
 import com.google.gerrit.server.account.DeleteSshKey;
 import com.google.gerrit.server.account.DeleteWatchedProjects;
 import com.google.gerrit.server.account.GetActive;
@@ -93,6 +95,7 @@ public class AccountApiImpl implements AccountApi {
   private final GetWatchedProjects getWatchedProjects;
   private final PostWatchedProjects postWatchedProjects;
   private final DeleteWatchedProjects deleteWatchedProjects;
+  private final DeleteAccountExternalIds deleteAccountExternalIds;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
   private final Stars stars;
@@ -124,6 +127,7 @@ public class AccountApiImpl implements AccountApi {
       GetWatchedProjects getWatchedProjects,
       PostWatchedProjects postWatchedProjects,
       DeleteWatchedProjects deleteWatchedProjects,
+      DeleteAccountExternalIds deleteAccountExternalIds,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
       Stars stars,
@@ -155,6 +159,7 @@ public class AccountApiImpl implements AccountApi {
     this.getWatchedProjects = getWatchedProjects;
     this.postWatchedProjects = postWatchedProjects;
     this.deleteWatchedProjects = deleteWatchedProjects;
+    this.deleteAccountExternalIds = deleteAccountExternalIds;
     this.starredChangesCreate = starredChangesCreate;
     this.starredChangesDelete = starredChangesDelete;
     this.stars = stars;
@@ -291,6 +296,16 @@ public class AccountApiImpl implements AccountApi {
       deleteWatchedProjects.apply(account, in);
     } catch (OrmException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot delete watched projects", e);
+    }
+  }
+
+  @Override
+  public void deleteAccountExternalIds(DeleteAccountExternalIdsInput input)
+      throws RestApiException {
+    try {
+      deleteAccountExternalIds.apply(account, input);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot delete external ids", e);
     }
   }
 

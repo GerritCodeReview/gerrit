@@ -57,6 +57,9 @@ public interface AccountApi {
   void deleteWatchedProjects(List<ProjectWatchInfo> in)
       throws RestApiException;
 
+  void deleteAccountExternalIds(DeleteAccountExternalIdsInput input)
+      throws RestApiException;
+
   void starChange(String changeId) throws RestApiException;
   void unstarChange(String changeId) throws RestApiException;
   void setStars(String changeId, StarsInput input) throws RestApiException;
@@ -147,6 +150,11 @@ public interface AccountApi {
 
     @Override
     public void deleteWatchedProjects(List<ProjectWatchInfo> in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteAccountExternalIds(DeleteAccountExternalIdsInput input) {
       throw new NotImplementedException();
     }
 

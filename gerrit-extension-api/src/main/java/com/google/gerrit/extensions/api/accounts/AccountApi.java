@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -56,6 +57,8 @@ public interface AccountApi {
       throws RestApiException;
   void deleteWatchedProjects(List<ProjectWatchInfo> in)
       throws RestApiException;
+
+  List<AccountExternalIdInfo> getAccountExternalIds() throws RestApiException;
 
   void starChange(String changeId) throws RestApiException;
   void unstarChange(String changeId) throws RestApiException;
@@ -147,6 +150,11 @@ public interface AccountApi {
 
     @Override
     public void deleteWatchedProjects(List<ProjectWatchInfo> in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<AccountExternalIdInfo> getAccountExternalIds() {
       throw new NotImplementedException();
     }
 

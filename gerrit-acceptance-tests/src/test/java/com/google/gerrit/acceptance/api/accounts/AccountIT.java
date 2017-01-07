@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -61,6 +62,7 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.GetAccountExternalIds;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.config.AllUsersName;
@@ -97,6 +99,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AccountIT extends AbstractDaemonTest {
   @ConfigSuite.Default
@@ -728,6 +731,29 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to index account");
     gApi.accounts().id(admin.username).index();
+  }
+
+  @Test
+  public void getAccountExternalIds() throws Exception {
+    List<AccountExternalIdInfo> expectIdInfos = getExternalIds(user)
+        .stream()
+        .map(GetAccountExternalIds::toInfo)
+        .collect(Collectors.toList());
+    Collections.sort(expectIdInfos);
+
+    setApiUser(user);
+    List<AccountExternalIdInfo> actualIdInfos =
+        gApi.accounts()
+            .id(user.username)
+            .getAccountExternalIds();
+
+    assertThat(actualIdInfos).hasSize(expectIdInfos.size());
+    for (int i = 0;i < actualIdInfos.size(); ++i) {
+      assertThat(actualIdInfos.get(i).accountId)
+          .isEqualTo(expectIdInfos.get(i).accountId);
+      assertThat(actualIdInfos.get(i).externalId)
+          .isEqualTo(expectIdInfos.get(i).externalId);
+    }
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

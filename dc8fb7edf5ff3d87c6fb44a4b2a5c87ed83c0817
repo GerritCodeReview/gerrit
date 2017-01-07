@@ -34,6 +34,24 @@
       "revId": "dc8fb7edf5ff3d87c6fb44a4b2a5c87ed83c0817",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7cb4a92_54f08c1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-07T00:00:50Z",
+      "side": 1,
+      "message": "Good point, Kasper. Such emails will be indeed parsed/processed incorrectly.\nHowever, it doesn\u0027t seems like something realistic, so I guess we can use this temporarily and come back and build something more robust when it breaks.",
+      "parentUuid": "f7cb4a92_94fd04f9",
+      "revId": "dc8fb7edf5ff3d87c6fb44a4b2a5c87ed83c0817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

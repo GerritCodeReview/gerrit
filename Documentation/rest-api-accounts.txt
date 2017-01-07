@@ -1675,6 +1675,41 @@ can contain a list of link:#project-watch-info[ProjectWatchInfo] entities.
   HTTP/1.1 204 No Content
 ----
 
+[[get-account-external-ids]]
+=== Get Account External IDs
+--
+'GET /accounts/link:#account-id[\{account-id\}]/external_ids'
+--
+
+Retrieves the external ids of a user account.
+
+.Request
+----
+  GET /a/accounts/self/external_ids HTTP/1.0
+----
+
+As result the external ids of the user are returned as a list of
+link:#account-external-id-info[AccountExternalIdInfo] entities.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "_external_id": "ldapuser/john",
+      "_account_id": 1000096,
+      "email": "john.doe@example.com",
+      "password": "ETxgpih8xrNs",
+      "trusted": true,
+      "_can_delete": false
+    }
+  ]
+----
+
 [[default-star-endpoints]]
 == Default Star Endpoints
 
@@ -2098,6 +2133,22 @@ for an account.
 |`name`     |optional|The new full name of the account. +
 If not set or if set to an empty string, the account name is deleted.
 |=============================
+
+[[account-external-id-info]]
+=== AccountExternalIdInfo
+The `AccountExternalIdInfo` entity contains information for an external id of
+an account.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name        ||Description
+|`_external_id`    ||The account external id.
+|`_account_id`     ||The numeric ID of the account.
+|`email`           |optional|The email address for the external id.
+|`password`        |optional|The password for the external id.
+|`trusted`         ||If true the external id is trusted.
+|`_can_delete`     ||If true the external id can be deleted.
+|============================
 
 [[capability-info]]
 === CapabilityInfo

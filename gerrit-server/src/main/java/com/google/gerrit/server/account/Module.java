@@ -63,6 +63,7 @@ public class Module extends RestApiModule {
     post(ACCOUNT_KIND, "watched.projects").to(PostWatchedProjects.class);
     post(ACCOUNT_KIND, "watched.projects:delete")
         .to(DeleteWatchedProjects.class);
+    get(ACCOUNT_KIND, "external_ids").to(GetAccountExternalIds.class);
 
     get(SSH_KEY_KIND).to(GetSshKey.class);
     delete(SSH_KEY_KIND).to(DeleteSshKey.class);

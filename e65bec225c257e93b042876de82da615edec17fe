@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17d8de6b_4d29399a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2017-01-08T13:11:15Z",
+      "side": 1,
+      "message": "Again: Comparing to +2/-2 etc looks wrong. This should depend on the maximum/minimum value, and whether this label is required or optional, and if it blocks or not...",
+      "revId": "e65bec225c257e93b042876de82da615edec17fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

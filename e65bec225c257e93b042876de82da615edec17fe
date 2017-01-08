@@ -16,6 +16,24 @@
       "revId": "e65bec225c257e93b042876de82da615edec17fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_0d33310a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-08T14:11:35Z",
+      "side": 1,
+      "message": "Oh how can I do that please?",
+      "parentUuid": "17d8de6b_4d29399a",
+      "revId": "e65bec225c257e93b042876de82da615edec17fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

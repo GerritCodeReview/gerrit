@@ -51,6 +51,12 @@ limitations under the License.
     });
 
     suite('keyboard shortcuts', function() {
+      test('S should toggle the CL star', function() {
+        var starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
+        MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+        assert(starStub.called);
+      });
+
       test('U should navigate to / if no backPage set', function() {
         var showStub = sandbox.stub(page, 'show');
         MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a5661c_6b86e100",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:37:11Z",
+      "side": 1,
+      "message": "Why not all such comments?",
+      "range": {
+        "startLine": 9,
+        "startChar": 66,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "be9e43a9b5b7351cb0c2aab7c402e040b6b4da5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a5661c_4b8325ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:37:11Z",
+      "side": 1,
+      "message": "Why five?",
+      "revId": "be9e43a9b5b7351cb0c2aab7c402e040b6b4da5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a5661c_ab90c92f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:37:11Z",
+      "side": 1,
+      "message": "Nit: declare this var outside the for loop.",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 137,
+        "endChar": 19
+      },
+      "revId": "be9e43a9b5b7351cb0c2aab7c402e040b6b4da5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a5661c_8b950d20",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:37:11Z",
+      "side": 1,
+      "message": "Nit: can just assign the bool with the if condition.\n\ncomment.collapsed \u003d\n    this._orderedComments.length - i - 1 \u003e\u003d UNRESOLVED_EXPAND_COUNT ||\n    !this._unresolved;",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 143,
+        "endChar": 9
+      },
+      "revId": "be9e43a9b5b7351cb0c2aab7c402e040b6b4da5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b77d5255_e271464e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-09T17:26:21Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "range": {
+        "startLine": 124,
+        "startChar": 75,
+        "endLine": 124,
+        "endChar": 76
+      },
+      "revId": "6ee125b2f9461faef55dbd34fb93a0864c8ed128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

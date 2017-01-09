@@ -90,6 +90,11 @@
         type: Object,
         observer: '_reviewerPendingConfirmationUpdated',
       },
+      _previewFormatting: {
+        type: Boolean,
+        value: false,
+        observer: '_handleHeightChanged',
+      },
     },
 
     FocusTarget: FocusTarget,
@@ -471,7 +476,7 @@
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
     },
 
-    _handleTextareaChanged: function(e) {
+    _handleHeightChanged: function(e) {
       // If the textarea resizes, we need to re-fit the overlay.
       this.debounce('autogrow', function() {
         this.fire('autogrow');

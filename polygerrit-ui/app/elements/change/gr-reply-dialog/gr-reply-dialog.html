@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -93,6 +94,12 @@ limitations under the License.
       iron-autogrow-textarea {
         padding: 0;
         font-family: var(--monospace-font-family);
+      }
+      .previewContainer gr-formatted-text {
+        background: #f6f6f6;
+        max-height: 20vh;
+        overflow-y: scroll;
+        padding: 1em;
       }
       .message {
         border: none;
@@ -214,8 +221,18 @@ limitations under the License.
             rows="4"
             max-rows="15"
             bind-value="{{draft}}"
-            on-bind-value-changed="_handleTextareaChanged">
+            on-bind-value-changed="_handleHeightChanged">
         </iron-autogrow-textarea>
+      </section>
+      <section class="previewContainer">
+        <label>
+          <input type="checkbox" checked="{{_previewFormatting::change}}">
+          Preview formating
+        </label>
+        <gr-formatted-text
+            content="[[draft]]"
+            hidden$="[[!_previewFormatting]]"
+            config="[[projectConfig.commentlinks]]"></gr-formatted-text>
       </section>
       <section class="labelsContainer">
         <template is="dom-repeat"

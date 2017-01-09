@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "178e1eb3_dd67cb61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T22:51:46Z",
+      "side": 1,
+      "message": "This title is confusing: it seems to describe an implementation detail rather than changed behavior.",
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "178e1eb3_9d5d4398",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T22:51:46Z",
+      "side": 1,
+      "message": "In what cases?",
+      "range": {
+        "startLine": 10,
+        "startChar": 57,
+        "endLine": 11,
+        "endChar": 5
+      },
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5756d6ee_8fe255bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T22:51:46Z",
+      "side": 1,
+      "message": "This word appearing in a commit message, as well as the fact that there are two features listed, make me suspect this should be two changes.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 4
+      },
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5756d6ee_afe719cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T22:51:46Z",
+      "side": 1,
+      "message": "In what way does this change support the assignee field?",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "178e1eb3_bd62ff52",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T22:51:46Z",
+      "side": 1,
+      "message": "Function properties are certainly uncommon, and it looks like this is never assigned except in tests. Is this needed for this change?",
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

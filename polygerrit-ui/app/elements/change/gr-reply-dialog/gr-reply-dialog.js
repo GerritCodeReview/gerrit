@@ -23,6 +23,11 @@
     REVIEWERS: 'reviewers',
   };
 
+  var ReviewerTypes = {
+    REVIEWER: 'REVIEWER',
+    CC: 'CC',
+  };
+
   Polymer({
     is: 'gr-reply-dialog',
 
@@ -95,6 +100,13 @@
         value: false,
         observer: '_handleHeightChanged',
       },
+      _reviewersPendingRemove: {
+        type: Object,
+        value: {
+          CC: [],
+          REVIEWER: [],
+        },
+      },
     },
 
     FocusTarget: FocusTarget,
@@ -105,6 +117,8 @@
 
     observers: [
       '_changeUpdated(change.reviewers.*, change.owner, serverConfig)',
+      '_ccsChanged(_ccs.splices)',
+      '_reviewersChanged(_reviewers.splices)',
     ],
 
     attached: function() {
@@ -144,6 +158,76 @@
       selectorEl.selectIndex(selectorEl.indexOf(item));
     },
 
+    _ccsChanged: function(splices) {
+      if (splices && splices.indexSplices) {
+        this._processReviewerChange(splices.indexSplices, ReviewerTypes.CC);
+      }
+    },
+
+    _reviewersChanged: function(splices) {
+      if (splices && splices.indexSplices) {
+        this._processReviewerChange(splices.indexSplices,
+            ReviewerTypes.REVIEWER);
+      }
+    },
+
+    _processReviewerChange: function(indexSplices, type) {
+      indexSplices.forEach(function(splice) {
+        splice.removed.forEach(function(account) {
+          if (!this._reviewersPendingRemove[type]) {
+            console.err('Invalid type ' + type + ' for reviewer.');
+            return;
+          }
+          this._reviewersPendingRemove[type].push(account);
+        }.bind(this));
+      }.bind(this));
+    },
+
+    /**
+     * Resets the state of the _reviewersPendingRemove object, and removes
+     * accounts if necessary.
+     *
+     * @param {Boolean} isCancel true if the action is a cancel.
+     */
+    _purgeReviewersPendingRemove: function(isCancel) {
+      var reviewerArr;
+      for (var type in this._reviewersPendingRemove) {
+        if (this._reviewersPendingRemove.hasOwnProperty(type)) {
+          if (!isCancel) {
+            reviewerArr = this._reviewersPendingRemove[type];
+            for (var i = 0; i < reviewerArr.length; i++) {
+              this._removeAccount(reviewerArr[i], type);
+            }
+          }
+          this._reviewersPendingRemove[type] = [];
+        }
+      }
+    },
+
+    /**
+     * Removes an account from the change, both on the backend and the client.
+     * Does nothing if the account is a pending addition.
+     *
+     * @param {Object} account
+     * @param {ReviewerTypes} type
+     */
+    _removeAccount: function(account, type) {
+      if (account._pendingAdd) { return; }
+
+      return this.$.restAPI.removeChangeReviewer(this.change._number,
+          account._account_id).then(function(response) {
+        if (!response.ok) { return response; }
+
+        var reviewers = this.change.reviewers[type] || [];
+        for (var i = 0; i < reviewers.length; i++) {
+          if (reviewers[i]._account_id == account._account_id) {
+            this.splice(['change', 'reviewers', type], i, 1);
+            break;
+          }
+        }
+      }.bind(this));
+    },
+
     _mapReviewer: function(reviewer) {
       var reviewerId;
       var confirmed;
@@ -161,6 +245,7 @@
         drafts: 'PUBLISH_ALL_REVISIONS',
         labels: {},
       };
+
       for (var label in this.permittedLabels) {
         if (!this.permittedLabels.hasOwnProperty(label)) { continue; }
 
@@ -341,17 +426,21 @@
     },
 
     _changeUpdated: function(changeRecord, owner, serverConfig) {
+      this._rebuildReviewerArrays(changeRecord.base, owner, serverConfig);
+    },
+
+    _rebuildReviewerArrays: function(change, owner, serverConfig) {
       this._owner = owner;
 
       var reviewers = [];
       var ccs = [];
 
-      for (var key in changeRecord.base) {
+      for (var key in change) {
         if (key !== 'REVIEWER' && key !== 'CC') {
           console.warn('unexpected reviewer state:', key);
           continue;
         }
-        changeRecord.base[key].forEach(function(entry) {
+        change[key].forEach(function(entry) {
           if (entry._account_id === owner._account_id) {
             return;
           }
@@ -409,11 +498,16 @@
     _cancelTapHandler: function(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
+      this._purgeReviewersPendingRemove(true);
+      this._rebuildReviewerArrays(this.change.reviewers, this._owner,
+          this.serverConfig);
     },
 
     _sendTapHandler: function(e) {
       e.preventDefault();
-      this.send();
+      this.send().then(function() {
+        this._purgeReviewersPendingRemove();
+      }.bind(this));
     },
 
     _saveReview: function(review, opt_errFn) {

@@ -250,6 +250,20 @@ limitations under the License.
       assert.equal(element.accounts.length, 1);
     });
 
+    test('max-count', function() {
+      element.maxCount = 1;
+      var acct = makeAccount();
+      element._handleAdd({
+        detail: {
+          value: {
+            account: acct,
+          },
+        },
+      });
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.entry.hasAttribute('hidden'));
+    });
+
     suite('keyboard interactions', function() {
 
       test('backspace at text input start removes last account', function() {

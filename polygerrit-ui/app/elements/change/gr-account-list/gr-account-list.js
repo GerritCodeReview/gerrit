@@ -31,7 +31,7 @@
         value: null,
         notify: true,
       },
-      readonly:  {
+      readonly: {
         type: Boolean,
         value: false,
       },
@@ -40,6 +40,10 @@
        * undefined, all values are removable.
        */
       removableValues: Array,
+      maxCount: {
+        type: Number,
+        value: 0,
+      },
     },
 
     listeners: {
@@ -197,6 +201,10 @@
           return {account: account};
         }
       });
+    },
+
+    _computeEntryHidden: function(maxCount, accountsRecord, readonly) {
+      return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
     },
   });
 })();

@@ -41,11 +41,47 @@
         type: Boolean,
         computed: '_computeShowLabelStatus(change)',
       },
+      /**
+       * Groups are not valid assignees.
+       */
+      _filterAssigneeSuggestion: {
+        type: Function,
+        value: function() {
+          return function(suggestion) { return !!suggestion.account; };
+        },
+      },
+
+      _assignee: Array,
     },
 
     behaviors: [
       Gerrit.RESTClientBehavior,
     ],
+
+    observers: [
+      '_changeChanged(change)',
+      '_assigneeChanged(_assignee.*)',
+    ],
+
+    _changeChanged: function(change) {
+      this._assignee = change.assignee ? [change.assignee] : [];
+    },
+
+    _assigneeChanged: function(assigneeRecord) {
+      if (!this.change) { return; }
+      var assignee = assigneeRecord.base;
+      if (assignee.length) {
+        var acct = assignee[0];
+        if (this.change.assignee &&
+            acct._account_id === this.change.assignee._account_id) { return; }
+        this.set(['change', 'assignee'], acct);
+        this.$.restAPI.setAssignee(this.change.change_id, acct._account_id);
+      } else {
+        if (!this.change.assignee) { return; }
+        this.set(['change', 'assignee'], undefined);
+        this.$.restAPI.deleteAssignee(this.change.change_id);
+      }
+    },
 
     _computeHideStrategy: function(change) {
       return !this.changeIsOpen(change.status);

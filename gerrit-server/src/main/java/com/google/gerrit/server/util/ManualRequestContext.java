@@ -26,14 +26,20 @@ import com.google.inject.util.Providers;
  * providers.
  */
 public class ManualRequestContext implements RequestContext, AutoCloseable {
-  private final CurrentUser user;
+  private final Provider<CurrentUser> userProvider;
   private final Provider<ReviewDb> db;
   private final ThreadLocalRequestContext requestContext;
   private final RequestContext old;
 
   public ManualRequestContext(CurrentUser user, SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext) throws OrmException {
-    this.user = user;
+    this(Providers.of(user), schemaFactory, requestContext);
+  }
+
+  public ManualRequestContext(Provider<CurrentUser> userProvider,
+      SchemaFactory<ReviewDb> schemaFactory,
+      ThreadLocalRequestContext requestContext) throws OrmException {
+    this.userProvider = userProvider;
     this.db = Providers.of(schemaFactory.open());
     this.requestContext = requestContext;
     old = requestContext.setContext(this);
@@ -41,7 +47,7 @@ public class ManualRequestContext implements RequestContext, AutoCloseable {
 
   @Override
   public CurrentUser getUser() {
-    return user;
+    return userProvider.get();
   }
 
   @Override

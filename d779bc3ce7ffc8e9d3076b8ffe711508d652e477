@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a5661c_eb8ad1fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:45:30Z",
+      "side": 1,
+      "message": "This feels like a vague title. Would...\n\n  Display comment resolve state\n\n... be accurate?",
+      "revId": "d779bc3ce7ffc8e9d3076b8ffe711508d652e477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "379162cf_be6cb977",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:45:30Z",
+      "side": 1,
+      "message": "Nit: s/api/API/",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "d779bc3ce7ffc8e9d3076b8ffe711508d652e477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a5661c_cb8f150c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:45:30Z",
+      "side": 1,
+      "message": "Is this needed? Since comment font-sizes scale with the font-size preference, I suspect this should be something like...\n\n  font-size: var(--font-size, 12px);",
+      "range": {
+        "startLine": 179,
+        "startChar": 19,
+        "endLine": 179,
+        "endChar": 23
+      },
+      "revId": "d779bc3ce7ffc8e9d3076b8ffe711508d652e477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

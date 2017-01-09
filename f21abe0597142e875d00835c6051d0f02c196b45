@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77b83af6_183805fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "the notation for todos we use is:\n\n(in commit messages)\nTODO(xchangcheng): Some text\n\n(in code)\n// TODO(xchangcheng): Some text",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_58079d3c",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "this will be duplicate information\n\nin pure REST style, you would have to either leave this out or do\n\n{ \n   account_id : 123,\n   exernal_ids : [\n       { external_id: \u0027abc\u0027, email : \u0027abc\u0027 },\n       { external_id: \u0027abc\u0027, email : \u0027abc\u0027 },\n   ]\n}\n\nI would leave it out here, as there are other ways to retrieve the account ID and it\u0027s just used internally to associate an external id with an account. in addition, the user has provided the account ID in the request path, so the client has this info already",
+      "range": {
+        "startLine": 1704,
+        "startChar": 6,
+        "endLine": 1704,
+        "endChar": 29
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_d81a8d95",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "never let the client retrieve a user\u0027s password",
+      "range": {
+        "startLine": 1706,
+        "startChar": 7,
+        "endLine": 1706,
+        "endChar": 15
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_b81fd983",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "use .sorted(...) on the stream instead",
+      "range": {
+        "startLine": 742,
+        "startChar": 4,
+        "endLine": 742,
+        "endChar": 15
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_ed40e55a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "assertThat(actualIdInfo).containsExactlyElementsIn(expectedInfos).inOrder();",
+      "range": {
+        "startLine": 751,
+        "startChar": 0,
+        "endLine": 756,
+        "endChar": 5
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_cd452969",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountExternalIdInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "nit: line length",
+      "range": {
+        "startLine": 19,
+        "startChar": 78,
+        "endLine": 19,
+        "endChar": 81
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_8d3f21c7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountExternalIdInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "see the comments on the structure in the docs file",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_ad3addd6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountExternalIdInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "return MoreObjects.toStringHelper(this)\n        .add(\"ExternalId\", externalId)\n        .add(...)\n        .toString();",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_982415d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAccountExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "see TODO notation comments",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 16
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_4d52592c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAccountExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "can you get a DynamicItem\u003cWebSession\u003e webSession injected?\nIt seems like RestApiServlet can and this is called earlier on the request path, so I think you should be able to get an instance here as well.",
+      "range": {
+        "startLine": 64,
+        "startChar": 9,
+        "endLine": 64,
+        "endChar": 69
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_780a6146",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAccountExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "put this somewhere in your test code.\n\nwe actually try to keep @VisibleForTesting usage minimal to reduce the mix between prod and test code and I think this can just go in a test file",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 3
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_2d4f0d84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:44:15Z",
+      "side": 1,
+      "message": "we dont use _ here\nuse a . instead (see watched.projects)",
+      "range": {
+        "startLine": 66,
+        "startChar": 31,
+        "endLine": 66,
+        "endChar": 32
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

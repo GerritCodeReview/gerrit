@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "178e1eb3_1d521384",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-09T22:57:43Z",
+      "side": 1,
+      "message": "I\u0027ll amend it to be more clear.",
+      "parentUuid": "178e1eb3_dd67cb61",
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "178e1eb3_9d5d4398",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 11,
         "endChar": 5
       },
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5756d6ee_efe121b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-09T22:57:43Z",
+      "side": 1,
+      "message": "Honestly, I don\u0027t know how to better phrase this. As of right now, the account list is only used in the reply dialog for modifying local copies of arrays of accounts. This change makes it so that I can respond to individual modifications of those arrays when they happen.",
+      "parentUuid": "178e1eb3_9d5d4398",
       "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "178e1eb3_3d4fcfdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-09T22:57:43Z",
+      "side": 1,
+      "message": "While I see your point, this change is so small that breaking it into two separate ones seems unnecessary.",
+      "parentUuid": "5756d6ee_8fe255bc",
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5756d6ee_afe719cb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "5756d6ee_0fd745dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-09T22:57:43Z",
+      "side": 1,
+      "message": "The modifications made in this change are required to address both issues. Namely, now the account-list is usable outside of just the reply dialog.",
+      "parentUuid": "5756d6ee_afe719cb",
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "178e1eb3_bd62ff52",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 2
@@ -99,6 +171,24 @@
       "writtenOn": "2017-01-09T22:51:46Z",
       "side": 1,
       "message": "Function properties are certainly uncommon, and it looks like this is never assigned except in tests. Is this needed for this change?",
+      "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "178e1eb3_fd6c8746",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-09T22:57:43Z",
+      "side": 1,
+      "message": "It\u0027s going to be used in two descendant changes that directly address the issues linked in the commit message. I was working on both of the issues separately, and realized that they both required code that did this.",
+      "parentUuid": "178e1eb3_bd62ff52",
       "revId": "0412c4c57452bdc69bffaa29a31b427dbe7d0a7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

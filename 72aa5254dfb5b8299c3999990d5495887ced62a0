@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77b83af6_987895a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-09T17:24:19Z",
+      "side": 1,
+      "message": "Good approach.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "72aa5254dfb5b8299c3999990d5495887ced62a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_cd12c93e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-09T17:24:19Z",
+      "side": 1,
+      "message": "agreed",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 52
+      },
+      "revId": "72aa5254dfb5b8299c3999990d5495887ced62a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_ad177d2c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-09T17:24:19Z",
+      "side": 1,
+      "message": "CONFIGURED",
+      "range": {
+        "startLine": 44,
+        "startChar": 44,
+        "endLine": 44,
+        "endChar": 55
+      },
+      "revId": "72aa5254dfb5b8299c3999990d5495887ced62a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_585b1d3e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-09T17:24:19Z",
+      "side": 1,
+      "message": "I think that moving this into the run() method would make the code a bit cleaner. The NOT_IMPLEMENTED will not be needed as you can just \"throw new Failure\" when auth.get() is null.",
+      "range": {
+        "startLine": 63,
+        "startChar": 38,
+        "endLine": 63,
+        "endChar": 48
+      },
+      "revId": "72aa5254dfb5b8299c3999990d5495887ced62a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "379162cf_7e8311ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-09T18:18:34Z",
+      "side": 1,
+      "message": "Yes it would.",
+      "parentUuid": "d7a5661c_eb8ad1fd",
+      "revId": "d779bc3ce7ffc8e9d3076b8ffe711508d652e477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "379162cf_be6cb977",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "178e1eb3_7d8317ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-09T18:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "379162cf_be6cb977",
+      "revId": "d779bc3ce7ffc8e9d3076b8ffe711508d652e477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a5661c_cb8f150c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
         "patchSetId": 2
@@ -59,6 +95,24 @@
         "endLine": 179,
         "endChar": 23
       },
+      "revId": "d779bc3ce7ffc8e9d3076b8ffe711508d652e477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "178e1eb3_5d865b00",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-09T18:18:34Z",
+      "side": 1,
+      "message": "I copied the font size from gr-button, which is hard-set to 12px. Should that be changed?",
+      "parentUuid": "d7a5661c_cb8f150c",
       "revId": "d779bc3ce7ffc8e9d3076b8ffe711508d652e477",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

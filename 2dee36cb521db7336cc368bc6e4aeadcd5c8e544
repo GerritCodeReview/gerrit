@@ -342,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "17d8de6b_0d7e917f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T13:57:04Z",
+      "side": 1,
+      "message": "You can rebase this onto https://gerrit-review.googlesource.com/#/c/84252/ and use what Dave implemented there",
+      "parentUuid": "17d8de6b_ed9225a7",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77b83af6_58f0bd1d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
         "patchSetId": 1

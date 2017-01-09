@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5756d6ee_0f7ca520",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T19:53:19Z",
+      "side": 1,
+      "message": "Consider adding a JSDoc to make it clear that `expand` should be a boolean.",
+      "revId": "efb8d38c8a6878aac1529c892da2ccbfe87be9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

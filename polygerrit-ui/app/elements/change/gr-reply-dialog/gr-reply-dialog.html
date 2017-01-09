@@ -168,7 +168,8 @@ limitations under the License.
           <div class="peopleListLabel">Reviewers</div>
           <gr-account-list
               id="reviewers"
-              accounts="[[_reviewers]]"
+              accounts="{{_reviewers}}"
+              removable-values="[[change.removable_reviewers]]"
               change="[[change]]"
               filter="[[filterReviewerSuggestion]]"
               pending-confirmation="{{_reviewerPendingConfirmation}}"
@@ -180,7 +181,7 @@ limitations under the License.
             <div class="peopleListLabel">CC</div>
             <gr-account-list
                 id="ccs"
-                accounts="[[_ccs]]"
+                accounts="{{_ccs}}"
                 change="[[change]]"
                 filter="[[filterReviewerSuggestion]]"
                 pending-confirmation="{{_ccPendingConfirmation}}"

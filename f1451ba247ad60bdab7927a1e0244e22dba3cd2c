@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "379162cf_3e798931",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-09T18:15:21Z",
+      "side": 1,
+      "message": "Sort of. Before, the rebase button would only let you open the dialog if you could perform a rebase on top of the current branch. The submit button did just that if you did not select an option. Now, if you can\u0027t do a rebase on the current branch, and the button isn\u0027t disabled, it will error out on the server side.",
+      "parentUuid": "17461ef2_7d1d97d7",
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37496202_bee1d9b7",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
         "patchSetId": 6
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "178e1eb3_1d7cd320",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-09T18:15:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37496202_bee1d9b7",
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17461ef2_5d20db10",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 6
@@ -53,6 +89,24 @@
       "writtenOn": "2017-01-06T19:11:04Z",
       "side": 1,
       "message": "Is there a strong reason not to do this on the server side?\nAlso, alternative approach would be to always enable rebase action if it exists in gr-rest-api-interface. I\u0027d prefer that since this would keep server responses monkeypatching in one place.",
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "178e1eb3_fd764743",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-09T18:15:21Z",
+      "side": 1,
+      "message": "Dave may be able to better answer the first question. I asked about this in the gerrit hangout a while back and he said it may be an option, but GWT is currently doing something like this at the moment.  \n\nIf we always enable rebase action, then also in the rest api interface we would need to add another flag to show a rebase on current branch is available. This would be ok too.",
+      "parentUuid": "17461ef2_5d20db10",
       "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

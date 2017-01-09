@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a5661c_ab672994",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:19:11Z",
+      "side": 1,
+      "message": "Consider upgrading to a `.dispatchEvent` call for Polymer 2.0 compatibility (assuming it works like this).\n\n  this.dispatchEvent(\n      new CustomEvent(\u0027reload-change\u0027, {detail: {action: action.__key}}),\n      {bubbles: true});\n\n* [1] https://www.polymer-project.org/2.0/docs/upgrade",
+      "range": {
+        "startLine": 645,
+        "startChar": 12,
+        "endLine": 646,
+        "endChar": 34
+      },
+      "revId": "055d9703204b586c5d3542693c416d2844d3e1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a5661c_eb71314e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-09T17:19:11Z",
+      "side": 1,
+      "message": "This method does more than just reload the related changes. Is it possible to run something more focused, like...\n\n  this.$.relatedChanges.reload();",
+      "range": {
+        "startLine": 691,
+        "startChar": 15,
+        "endLine": 691,
+        "endChar": 36
+      },
+      "revId": "055d9703204b586c5d3542693c416d2844d3e1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

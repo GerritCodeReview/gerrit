@@ -17,6 +17,18 @@
   Polymer({
     is: 'gr-account-list',
 
+    /**
+     * Fired when an item is added.
+     *
+     * @event account-add
+     */
+
+    /**
+     * Fired when an item is removed.
+     *
+     * @event account-remove
+     */
+
     properties: {
       accounts: {
         type: Array,
@@ -30,7 +42,11 @@
         value: null,
         notify: true,
       },
-      readonly: Boolean,
+      readonly:  {
+        type: Boolean,
+        value: false,
+      },
+      canRemoveValue: Function,
     },
 
     listeners: {
@@ -64,6 +80,7 @@
         this.push('accounts', group);
       }
       this.pendingConfirmation = null;
+      this.fire('account-add', reviewer);
     },
 
     confirmGroup: function(group) {
@@ -85,7 +102,11 @@
     },
 
     _computeRemovable: function(account) {
-      return !this.readonly && !!account._pendingAdd;
+      if (this.readonly) { return false; }
+      if (this.canRemoveValue) {
+        return this.canRemoveValue(account) || !!account._pendingAdd;
+      }
+      return !!account._pendingAdd;
     },
 
     _handleRemove: function(e) {
@@ -106,6 +127,7 @@
         }
         if (matches) {
           this.splice('accounts', i, 1);
+          this.fire('account-remove', toRemove);
           return;
         }
       }

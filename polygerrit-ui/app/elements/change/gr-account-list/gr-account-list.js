@@ -31,7 +31,7 @@
         value: null,
         notify: true,
       },
-      readonly:  {
+      readonly: {
         type: Boolean,
         value: false,
       },
@@ -40,6 +40,11 @@
        * undefined, all values are removable.
        */
       removableValues: Array,
+
+      singleton: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     listeners: {
@@ -197,6 +202,10 @@
           return {account: account};
         }
       });
+    },
+
+    _computeEntryHidden: function(singleton, accountsRecord, readonly) {
+      return (singleton && accountsRecord.base.length) || readonly;
     },
   });
 })();

@@ -41,6 +41,10 @@ limitations under the License.
     var setDraftCommentStub;
     var eraseDraftCommentStub;
 
+    var lastId = 0;
+    var makeAccount = function() { return {_account_id: lastId++}; };
+    var makeGroup = function() { return {id: lastId++}; };
+
     setup(function() {
       sandbox = sinon.sandbox.create();
 
@@ -381,14 +385,6 @@ limitations under the License.
     });
 
     test('filterReviewerSuggestion', function() {
-      var counter = 0;
-      function makeAccount() {
-        return {_account_id: counter++};
-      }
-      function makeGroup() {
-        return {id: counter++};
-      }
-
       var owner = makeAccount();
       var reviewer1 = makeAccount();
       var reviewer2 = makeGroup();
@@ -476,7 +472,7 @@ limitations under the License.
             ' 0': 'No score',
             '+1': 'Verified'
           },
-          default_value: 0
+          default_value: 0,
         },
         'Code-Review': {
           values: {
@@ -486,7 +482,7 @@ limitations under the License.
             '+1': 'Looks good to me, but someone else must approve',
             '+2': 'Looks good to me, approved'
           },
-          default_value: 0
+          default_value: 0,
         }
       };
 
@@ -509,6 +505,34 @@ limitations under the License.
       assert.isOk(verifiedBtn._tooltip);
       verifiedBtn._handleHideTooltip();
       assert.isNotOk(verifiedBtn._tooltip);
+    });
+
+    var mockIndexSplices = function(toRemove) {
+      return [{
+        removed: [toRemove],
+      }];
+    };
+
+    test('_processReviewerChange', function() {
+      var stub = sandbox.stub(element, '_removeAccount');
+      element._processReviewerChange(mockIndexSplices({}), 'REVIEWER');
+      assert.isTrue(stub.calledOnce);
+    });
+
+
+    test('_removeAccount', function(done) {
+      sandbox.stub(element.$.restAPI, 'removeChangeReviewer')
+          .returns(Promise.resolve({ok: true}));
+      var arr = [makeAccount(), makeAccount()];
+      element.change.reviewers = {
+        REVIEWER: arr.slice(),
+      };
+
+      element._removeAccount(arr[1], 'REVIEWER').then(function() {
+        assert.equal(element.change.reviewers.REVIEWER.length, 1);
+        assert.deepEqual(element.change.reviewers.REVIEWER, arr.slice(0, 1));
+        done();
+      });
     });
   });
 </script>

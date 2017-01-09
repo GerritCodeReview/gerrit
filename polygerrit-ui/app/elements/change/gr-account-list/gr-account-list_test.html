@@ -81,6 +81,10 @@ limitations under the License.
     test('addition and removal of account/group chips', function() {
       flushAsynchronousOperations();
       sandbox.stub(element, '_computeRemovable').returns(true);
+      var addEventStub = sandbox.stub();
+      element.addEventListener('account-add', addEventStub);
+      var removeEventStub = sandbox.stub();
+      element.addEventListener('account-remove', removeEventStub);
       // Existing accounts are listed.
       var chips = getChips();
       assert.equal(chips.length, 2);
@@ -97,6 +101,7 @@ limitations under the License.
         },
       });
       flushAsynchronousOperations();
+      assert.isTrue(addEventStub.called);
       chips = getChips();
       assert.equal(chips.length, 3);
       assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -106,6 +111,7 @@ limitations under the License.
       // Removed accounts are taken out of the list.
       element.fire('remove', {account: existingReviewer1});
       flushAsynchronousOperations();
+      assert.isTrue(removeEventStub.called);
       chips = getChips();
       assert.equal(chips.length, 2);
       assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -158,6 +164,10 @@ limitations under the License.
       newAccount._pendingAdd = true;
       element.readonly = false;
       assert.isFalse(element._computeRemovable(existingReviewer1));
+      assert.isTrue(element._computeRemovable(newAccount));
+
+      element.canRemoveValue = function() { return true; }
+      assert.isTrue(element._computeRemovable(existingReviewer1));
       assert.isTrue(element._computeRemovable(newAccount));
 
       element.readonly = true;
@@ -237,10 +247,13 @@ limitations under the License.
 
     test('removeAccount fails if account is not removable', function() {
       element.readonly = true;
+      var eventStub = sandbox.stub();
+      element.addEventListener('account-remove', eventStub);
       var acct = makeAccount();
       element.accounts = [acct];
       element._removeAccount(acct);
       assert.equal(element.accounts.length, 1);
+      assert.isFalse(eventStub.called);
     });
 
     suite('keyboard interactions', function() {

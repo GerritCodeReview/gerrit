@@ -182,6 +182,41 @@ limitations under the License.
         assert.equal(element.change.topic, '');
         assert.isTrue(topicStub.called);
       });
+
+      suite('assignee field', function() {
+        var dummyAccount = {
+          _account_id: 1,
+          name: 'bojack',
+        };
+        var deleteStub;
+        var setStub;
+        setup(function() {
+          deleteStub = sandbox.stub(element.$.restAPI, 'deleteAssignee');
+          setStub = sandbox.stub(element.$.restAPI, 'setAssignee');
+        });
+
+        test('changing change recomputes _assignee', function() {
+          assert.isFalse(!!element._assignee.length);
+          var change = element.change;
+          change.assignee = dummyAccount;
+          element._changeChanged(change);
+          assert.deepEqual(element._assignee[0], dummyAccount);
+        });
+
+        test('modifying _assignee calls API', function() {
+          assert.isFalse(!!element._assignee.length);
+          element.set('_assignee', [dummyAccount]);
+          assert.isTrue(setStub.calledOnce);
+          assert.deepEqual(element.change.assignee, dummyAccount);
+          element.set('_assignee', [dummyAccount]);
+          assert.isTrue(setStub.calledOnce);
+          element.set('_assignee', []);
+          assert.isTrue(deleteStub.calledOnce);
+          assert.equal(element.change.assignee, undefined);
+          element.set('_assignee', []);
+          assert.isTrue(deleteStub.calledOnce);
+        });
+      });
     });
   });
 </script>

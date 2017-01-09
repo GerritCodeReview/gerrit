@@ -952,5 +952,16 @@
             return null;
           });
     },
+
+    setAssignee: function(changeNum, assignee) {
+      return this.send('PUT',
+          this.getChangeActionURL(changeNum, null, '/assignee'),
+          {assignee: assignee});
+    },
+
+    deleteAssignee: function(changeNum) {
+      return this.send('DELETE',
+          this.getChangeActionURL(changeNum, null, '/assignee'));
+    },
   });
 })();

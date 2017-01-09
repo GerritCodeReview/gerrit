@@ -107,6 +107,18 @@ limitations under the License.
     </section>
     <template is="dom-if" if="[[_showReviewersByState]]">
       <section>
+        <span class="title">Assignee</span>
+        <span class="value">
+          <gr-account-list max-count="1"
+              id="assigneeValue"
+              placeholder="Add assignee..."
+              accounts="{{_assignee}}"
+              filter="[[_filterAssigneeSuggestion]]"
+              change="[[change]]"
+              readonly="[[!mutable]]"></gr-account-list>
+        </span>
+      </section>
+      <section>
         <span class="title">Reviewers</span>
         <span class="value">
           <gr-reviewer-list
@@ -126,6 +138,18 @@ limitations under the License.
       </section>
     </template>
     <template is="dom-if" if="[[!_showReviewersByState]]">
+      <section>
+        <span class="title">Assignee</span>
+        <span class="value">
+          <gr-account-list max-count="1"
+              id="assigneeValue"
+              placeholder="Add assignee..."
+              accounts="{{_assignee}}"
+              filter="[[_filterAssigneeSuggestion]]"
+              change="[[change]]"
+              readonly="[[!mutable]]"></gr-account-list>
+        </span>
+      </section>
       <section>
         <span class="title">Reviewers</span>
         <span class="value">

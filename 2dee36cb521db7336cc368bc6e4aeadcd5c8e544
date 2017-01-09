@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77b83af6_3814e963",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "TODO(xchangcheng): candelete ...",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_18112574",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1693,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "do not name this field,\n\nthis can just be a list directly.\n\nfor future reference, if this would require naming, do not name it \u0027*_list\u0027 but pluralize it instead: external_ids",
+      "range": {
+        "startLine": 1693,
+        "startChar": 5,
+        "endLine": 1693,
+        "endChar": 22
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_0d4c518b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 2128,
+        "startChar": 0,
+        "endLine": 2137,
+        "endChar": 10
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_cd6e49df",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "List\u003cString\u003e",
+      "range": {
+        "startLine": 60,
+        "startChar": 32,
+        "endLine": 60,
+        "endChar": 61
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_ed6905d9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "List\u003cString\u003e",
+      "range": {
+        "startLine": 157,
+        "startChar": 41,
+        "endLine": 157,
+        "endChar": 70
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_f8fe71f5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/DeleteAccountExternalIdsInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_ad73fdc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "nit: order alphabetically",
+      "range": {
+        "startLine": 42,
+        "startChar": 29,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_d803ad2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "same order as above",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_98fd35f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "we don\u0027t use final in method bodies",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 9
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_b8f8f908",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 11
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_6d5e3530",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "this should not be necessary",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 27
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_2d682dcd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "put this in l.69 and evict the email, leave the account eviction here",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 49
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17d8de6b_8d7841a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "this is inefficient, because you iterate twice. use use .iterator here to populate your Map",
+      "range": {
+        "startLine": 89,
+        "startChar": 67,
+        "endLine": 89,
+        "endChar": 73
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_78f3812c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "try to get a DynamicItem\u003cWebSession\u003e injected",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b83af6_58f0bd1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-09T08:42:48Z",
+      "side": 1,
+      "message": "external.ids",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 38
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -280,6 +280,30 @@
     },
     {
       "key": {
+        "uuid": "37288269_8667aa94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAccountExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-09T23:09:15Z",
+      "side": 1,
+      "message": "Yes.  Changcheng and I had an offline discussion over email and he will take over my change to add the extra bits (tests, docs, API) from this one.",
+      "parentUuid": "17d8de6b_2d814d4f",
+      "range": {
+        "startLine": 64,
+        "startChar": 9,
+        "endLine": 64,
+        "endChar": 69
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77b83af6_780a6146",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAccountExternalIds.java",
         "patchSetId": 2

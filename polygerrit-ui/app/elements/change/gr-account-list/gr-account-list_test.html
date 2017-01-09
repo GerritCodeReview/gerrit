@@ -157,8 +157,15 @@ limitations under the License.
       var newAccount = makeAccount();
       newAccount._pendingAdd = true;
       element.readonly = false;
+      element.removableValues = [];
       assert.isFalse(element._computeRemovable(existingReviewer1));
       assert.isTrue(element._computeRemovable(newAccount));
+
+
+      element.removableValues = [existingReviewer1];
+      assert.isTrue(element._computeRemovable(existingReviewer1));
+      assert.isTrue(element._computeRemovable(newAccount));
+      assert.isFalse(element._computeRemovable(existingReviewer2));
 
       element.readonly = true;
       assert.isFalse(element._computeRemovable(existingReviewer1));

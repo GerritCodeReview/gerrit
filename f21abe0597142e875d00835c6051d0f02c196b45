@@ -232,6 +232,30 @@
     },
     {
       "key": {
+        "uuid": "773bda5a_6052d285",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAccountExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-09T13:15:32Z",
+      "side": 1,
+      "message": "WebSession is not available outside of gerrit-httpd.  I solved it in my change by passing the external ID through a property on the current user.",
+      "parentUuid": "17d8de6b_4d52592c",
+      "range": {
+        "startLine": 64,
+        "startChar": 9,
+        "endLine": 64,
+        "endChar": 69
+      },
+      "revId": "f21abe0597142e875d00835c6051d0f02c196b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77b83af6_780a6146",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAccountExternalIds.java",
         "patchSetId": 2

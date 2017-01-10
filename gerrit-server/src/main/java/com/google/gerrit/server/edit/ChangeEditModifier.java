@@ -14,13 +14,9 @@
 
 package com.google.gerrit.server.edit;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Strings;
-import com.google.common.io.ByteStreams;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -33,6 +29,12 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
+import com.google.gerrit.server.edit.tree.DeleteFileModification;
+import com.google.gerrit.server.edit.tree.RenameFileModification;
+import com.google.gerrit.server.edit.tree.RestoreFileModification;
+import com.google.gerrit.server.edit.tree.TreeCreator;
+import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -43,20 +45,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEditor;
-import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
-import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
-import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -67,14 +60,11 @@ import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Utility functions to manipulate change edits.
@@ -87,12 +77,6 @@ import java.util.concurrent.atomic.AtomicReference;
 @Singleton
 public class ChangeEditModifier {
 
-  private enum TreeOperation {
-    CHANGE_ENTRY,
-    DELETE_ENTRY,
-    RENAME_ENTRY,
-    RESTORE_ENTRY
-  }
   private final TimeZone tz;
   private final GitRepositoryManager gitManager;
   private final ChangeIndexer indexer;
@@ -286,7 +270,7 @@ public class ChangeEditModifier {
   public RefUpdate.Result modifyFile(ChangeEdit edit,
       String file, RawInput content) throws AuthException,
       InvalidChangeOperationException, IOException {
-    return modify(TreeOperation.CHANGE_ENTRY, edit, file, null, content);
+    return modify(edit, new ChangeFileContentModification(file, content));
   }
 
   /**
@@ -302,7 +286,7 @@ public class ChangeEditModifier {
   public RefUpdate.Result deleteFile(ChangeEdit edit,
       String file) throws AuthException, InvalidChangeOperationException,
       IOException {
-    return modify(TreeOperation.DELETE_ENTRY, edit, file, null, null);
+    return modify(edit, new DeleteFileModification(file));
   }
 
   /**
@@ -319,7 +303,8 @@ public class ChangeEditModifier {
   public RefUpdate.Result renameFile(ChangeEdit edit, String file,
       String newFile) throws AuthException, InvalidChangeOperationException,
       IOException {
-    return modify(TreeOperation.RENAME_ENTRY, edit, file, newFile, null);
+    RevCommit editCommit = edit.getEditCommit();
+    return modify(edit, new RenameFileModification(editCommit, file, newFile));
   }
 
   /**
@@ -335,12 +320,13 @@ public class ChangeEditModifier {
   public RefUpdate.Result restoreFile(ChangeEdit edit,
       String file) throws AuthException, InvalidChangeOperationException,
       IOException {
-    return modify(TreeOperation.RESTORE_ENTRY, edit, file, null, null);
+    RevCommit editCommit = edit.getEditCommit();
+    return modify(edit, new RestoreFileModification(editCommit, file));
   }
 
-  private RefUpdate.Result modify(TreeOperation op, ChangeEdit edit,
-      String file, @Nullable String newFile, @Nullable RawInput content)
-      throws AuthException, IOException, InvalidChangeOperationException {
+  private RefUpdate.Result modify(ChangeEdit edit,
+      TreeModification treeModification) throws AuthException, IOException,
+      InvalidChangeOperationException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -348,19 +334,14 @@ public class ChangeEditModifier {
     Project.NameKey project = edit.getChange().getProject();
     try (Repository repo = gitManager.openRepository(project);
         RevWalk rw = new RevWalk(repo);
-        ObjectInserter inserter = repo.newObjectInserter();
-        ObjectReader reader = repo.newObjectReader()) {
+        ObjectInserter inserter = repo.newObjectInserter()) {
       String refName = edit.getRefName();
       RevCommit prevEdit = edit.getEditCommit();
-      ObjectId newTree = writeNewTree(
-          op,
-          rw,
-          inserter,
-          prevEdit,
-          reader,
-          file,
-          newFile,
-          content);
+
+      TreeCreator treeCreator = new TreeCreator(prevEdit.getTree());
+      treeCreator.addTreeModification(treeModification);
+      ObjectId newTree = treeCreator.createNewTreeAndGetId(repo);
+
       if (ObjectId.equals(newTree, prevEdit.getTree())) {
         throw new InvalidChangeOperationException("no changes were made");
       }
@@ -370,20 +351,6 @@ public class ChangeEditModifier {
       inserter.flush();
       return update(repo, me, refName, rw, prevEdit, commit, now);
     }
-  }
-
-  private static ObjectId toBlob(ObjectInserter ins, @Nullable RawInput content)
-      throws IOException {
-    if (content == null) {
-      return null;
-    }
-
-    long len = content.getContentLength();
-    InputStream in = content.getInputStream();
-    if (len < 0) {
-      return ins.insert(OBJ_BLOB, ByteStreams.toByteArray(in));
-    }
-    return ins.insert(OBJ_BLOB, len, in);
   }
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
@@ -419,115 +386,6 @@ public class ChangeEditModifier {
       throw new IOException("update failed: " + ru);
     }
     return res;
-  }
-
-  private static ObjectId writeNewTree(
-      TreeOperation op,
-      RevWalk rw,
-      final ObjectInserter ins,
-      RevCommit prevEdit,
-      ObjectReader reader,
-      String fileName,
-      @Nullable String newFile,
-      @Nullable final RawInput content)
-      throws InvalidChangeOperationException, IOException {
-    DirCache newTree = readTree(reader, prevEdit);
-    DirCacheEditor dce = newTree.editor();
-    switch (op) {
-      case DELETE_ENTRY:
-        dce.add(new DeletePath(fileName));
-        break;
-
-      case RENAME_ENTRY:
-        rw.parseHeaders(prevEdit);
-        TreeWalk tw =
-            TreeWalk.forPath(rw.getObjectReader(), fileName, prevEdit.getTree());
-        if (tw != null) {
-          dce.add(new DeletePath(fileName));
-          addFileToCommit(newFile, dce, tw);
-        }
-        break;
-
-      case CHANGE_ENTRY:
-        checkNotNull(content, "new content required");
-
-        final AtomicReference<IOException> ioe =
-            new AtomicReference<>(null);
-        final AtomicReference<InvalidChangeOperationException> icoe =
-            new AtomicReference<>(null);
-        dce.add(new PathEdit(fileName) {
-          @Override
-          public void apply(DirCacheEntry ent) {
-            try {
-              if (ent.getFileMode() == FileMode.GITLINK) {
-                ent.setLength(0);
-                ent.setLastModified(0);
-                ent.setObjectId(ObjectId.fromString(
-                    ByteStreams.toByteArray(content.getInputStream()), 0));
-              } else {
-                if (ent.getRawMode() == 0) {
-                  ent.setFileMode(FileMode.REGULAR_FILE);
-                }
-                ent.setObjectId(toBlob(ins, content));
-              }
-            } catch (IOException e) {
-              ioe.set(e);
-            } catch (InvalidObjectIdException e) {
-              icoe.set(new InvalidChangeOperationException(
-                  "Invalid object id in submodule link: " + e.getMessage()));
-              icoe.get().initCause(e);
-            }
-          }
-        });
-        if (ioe.get() != null) {
-          throw ioe.get();
-        }
-        if (icoe.get() != null) {
-          throw icoe.get();
-        }
-        break;
-
-      case RESTORE_ENTRY:
-        if (prevEdit.getParentCount() == 0) {
-          dce.add(new DeletePath(fileName));
-          break;
-        }
-
-        RevCommit base = prevEdit.getParent(0);
-        rw.parseHeaders(base);
-        tw = TreeWalk.forPath(rw.getObjectReader(), fileName, base.getTree());
-        if (tw == null) {
-          dce.add(new DeletePath(fileName));
-          break;
-        }
-
-        addFileToCommit(fileName, dce, tw);
-        break;
-    }
-    dce.finish();
-    return newTree.writeTree(ins);
-  }
-
-  private static void addFileToCommit(String newFile, DirCacheEditor dce,
-      TreeWalk tw) {
-    final FileMode mode = tw.getFileMode(0);
-    final ObjectId oid = tw.getObjectId(0);
-    dce.add(new PathEdit(newFile) {
-      @Override
-      public void apply(DirCacheEntry ent) {
-        ent.setFileMode(mode);
-        ent.setObjectId(oid);
-      }
-    });
-  }
-
-  private static DirCache readTree(ObjectReader reader, RevCommit prevEdit)
-      throws IOException {
-    DirCache dc = DirCache.newInCore();
-    DirCacheBuilder b = dc.builder();
-    b.addTree(new byte[0], DirCacheEntry.STAGE_0, reader, prevEdit.getTree());
-    b.finish();
-    return dc;
   }
 
   private PersonIdent getCommitterIdent(IdentifiedUser user, Timestamp when) {

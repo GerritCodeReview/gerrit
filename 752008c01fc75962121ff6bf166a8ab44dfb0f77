@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c38a09db_c181e2e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-10T22:20:37Z",
+      "side": 1,
+      "message": "Nit: put the max-count attributes on their own lines.",
+      "range": {
+        "startLine": 112,
+        "startChar": 27,
+        "endLine": 112,
+        "endChar": 40
+      },
+      "revId": "752008c01fc75962121ff6bf166a8ab44dfb0f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8390110b_1f888307",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-10T22:20:37Z",
+      "side": 1,
+      "message": "Nit: no need to coerce to a boolean in a filter predicate.",
+      "range": {
+        "startLine": 50,
+        "startChar": 47,
+        "endLine": 50,
+        "endChar": 49
+      },
+      "revId": "752008c01fc75962121ff6bf166a8ab44dfb0f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

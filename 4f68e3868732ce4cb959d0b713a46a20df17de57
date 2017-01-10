@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "178e1eb3_7d32374e",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-10T00:22:57Z",
+      "side": 1,
+      "message": "As we discussed, if this array gets `notify: true` we could just allow host elements to listen to splices and the add/remove events would not be needed.",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 8
+      },
+      "revId": "4f68e3868732ce4cb959d0b713a46a20df17de57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "178e1eb3_fd4567b6",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-10T00:22:57Z",
+      "side": 1,
+      "message": "Consider converting this and the `fire` on l.138 to `dispatchEvent` for Polymer 2.0.\n\n  this.dispatchEvent(new CustomEvent(\u0027account-add\u0027, reviewer));",
+      "revId": "4f68e3868732ce4cb959d0b713a46a20df17de57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37288269_e6c85e47",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/ChildCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-10T12:44:32Z",
+      "side": 1,
+      "message": "This javadoc has been messed up. Eclipse now gives an error:\n\n  Javadoc: Invalid param tag type parameter name",
+      "range": {
+        "startLine": 20,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 38
+      },
+      "revId": "68bf0a1b27c2a0ded2e8d0fa7f38316e0705d103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d793a6d8_fbc80f47",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/RestCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-10T12:44:32Z",
+      "side": 1,
+      "message": "Broken javadoc",
+      "range": {
+        "startLine": 56,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "68bf0a1b27c2a0ded2e8d0fa7f38316e0705d103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

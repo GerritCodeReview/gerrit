@@ -250,11 +250,3 @@ In $site_path/etc/secure.config:
 
 Visit SAP HANA's link:http://help.sap.com/hana_appliance/[documentation] for
 further information regarding using SAP HANA.
-
-
-GERRIT
-------
-Part of link:index.html[Gerrit Code Review]
-
-SEARCHBOX
----------

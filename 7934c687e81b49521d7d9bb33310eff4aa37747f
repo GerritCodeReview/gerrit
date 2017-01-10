@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "632b1d7f_ae8497f8",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-10T20:23:32Z",
+      "side": 1,
+      "message": "Could this be confusing? Maybe...\n\n  Report a bug in the new UI",
+      "range": {
+        "startLine": 141,
+        "startChar": 43,
+        "endLine": 141,
+        "endChar": 64
+      },
+      "revId": "7934c687e81b49521d7d9bb33310eff4aa37747f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

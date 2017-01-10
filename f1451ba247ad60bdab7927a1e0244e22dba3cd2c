@@ -110,6 +110,24 @@
       "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03198172_d39e7444",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-10T19:37:34Z",
+      "side": 1,
+      "message": "This is probably the right long-term way.\nProbably would be fine to get this is, and refactor later - but please file a follow-up bug if you decide to do so.",
+      "parentUuid": "178e1eb3_fd764743",
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

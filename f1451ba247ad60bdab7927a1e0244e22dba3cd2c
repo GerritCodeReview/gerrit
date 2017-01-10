@@ -128,6 +128,24 @@
       "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234a0571_446cee71",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-10T20:37:10Z",
+      "side": 1,
+      "message": "The fundamental issue is that the action map only gives you a set of \"here are a list URLs that you can call on this change/revision\", and it lacks the expressiveness to describe what rebase is doing here. There is no way in the action map to say \"if you POST to this URL with no body, it will fail, but if you set this specific field in the body content, it will succeed.\" So it\u0027s up to the client code to understand the special case for rebase. Maybe we can eventually extend it somehow, but today, the number of custom actions in the GWT code is not so high that we\u0027ve thought it would be worth it.\n\nThe other alternative is to use some other thing that is not an ActionInfo to express the state of a rebase specifically. I haven\u0027t thought much about going down that route.",
+      "parentUuid": "03198172_d39e7444",
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8390110b_ffa59f89",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-10T23:11:41Z",
+      "side": 1,
+      "message": "I wonder if this could be simplified with display:flex...\nUp to you, of course.",
+      "revId": "f8f88ade27b12fca117f78909331f2671dc9ea29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

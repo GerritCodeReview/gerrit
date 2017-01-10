@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "8390110b_5f67eb8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-10T21:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234a0571_a484c2f8",
+      "revId": "58573d084c268680138a2dfe56376ed781372c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "234a0571_8481c6e8",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
         "patchSetId": 1
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "c38a09db_2171ae49",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-10T21:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234a0571_8481c6e8",
+      "revId": "58573d084c268680138a2dfe56376ed781372c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "234a0571_648eca19",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 1
@@ -53,6 +89,24 @@
       "writtenOn": "2017-01-10T20:56:51Z",
       "side": 1,
       "message": "It\u0027d be clearer to say that groups aren\u0027t valid assignees.",
+      "revId": "58573d084c268680138a2dfe56376ed781372c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8390110b_7f6c2f72",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-10T21:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "234a0571_648eca19",
       "revId": "58573d084c268680138a2dfe56376ed781372c4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

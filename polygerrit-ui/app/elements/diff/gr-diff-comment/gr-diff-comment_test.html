@@ -129,13 +129,6 @@ limitations under the License.
       MockInteractions.tap(element.$$('.done'));
     });
 
-    test('proper event fires on fix', function(done) {
-      element.addEventListener('create-fix-comment', function(e) {
-        done();
-      });
-      MockInteractions.tap(element.$$('.fix'));
-    });
-
     test('clicking on date link does not trigger nav', function() {
       var showStub = sinon.stub(page, 'show');
       var dateEl = element.$$('.date');
@@ -480,6 +473,7 @@ limitations under the License.
             line: 5,
             path: '/path/to/file',
             message: 'good news, everyone!',
+            unresolved: false,
           },
           patchNum: 1,
         },

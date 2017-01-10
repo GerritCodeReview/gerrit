@@ -21,6 +21,7 @@
       accounts: {
         type: Array,
         value: function() { return []; },
+        notify: true,
       },
       change: Object,
       filter: Function,
@@ -30,7 +31,15 @@
         value: null,
         notify: true,
       },
-      readonly: Boolean,
+      readonly:  {
+        type: Boolean,
+        value: false,
+      },
+      /**
+       * Array of values (groups/accounts) that are removable. When this prop is
+       * undefined, all values are removable.
+       */
+      removableValues: Array,
     },
 
     listeners: {
@@ -85,7 +94,16 @@
     },
 
     _computeRemovable: function(account) {
-      return !this.readonly && !!account._pendingAdd;
+      if (this.readonly) { return false; }
+      if (this.removableValues) {
+        for (var i = 0; i < this.removableValues.length; i++) {
+          if (this.removableValues[i]._account_id === account._account_id) {
+            return true;
+          }
+        }
+        return !!account._pendingAdd;
+      }
+      return true;
     },
 
     _handleRemove: function(e) {

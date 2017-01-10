@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "234a0571_a484c2f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-10T20:56:51Z",
+      "side": 1,
+      "message": "After the first line in imperative mode, the remainder of the commit message should be declarative (\"Adds singleton mode...\", etc.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "58573d084c268680138a2dfe56376ed781372c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234a0571_8481c6e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-10T20:56:51Z",
+      "side": 1,
+      "message": "\"Singleton\" means something significantly different to me in programming, so this property name confuses me. How about instead a nullable integer property specifying a maximum length, which can be set to 1 for single-entry account lists?",
+      "revId": "58573d084c268680138a2dfe56376ed781372c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "234a0571_648eca19",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-10T20:56:51Z",
+      "side": 1,
+      "message": "It\u0027d be clearer to say that groups aren\u0027t valid assignees.",
+      "revId": "58573d084c268680138a2dfe56376ed781372c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

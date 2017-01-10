@@ -16,6 +16,24 @@
       "revId": "f003813db693a5b8eb616b21e2d442d061a340fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c33cc9c2_718e9819",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-10T19:49:25Z",
+      "side": 1,
+      "message": "It\u0027s going to be used in two descendant changes that directly address the issues linked in the commit message. I was working on both of the issues separately, and realized that they both required code that did this.",
+      "parentUuid": "e3370dd9_5293943f",
+      "revId": "f003813db693a5b8eb616b21e2d442d061a340fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

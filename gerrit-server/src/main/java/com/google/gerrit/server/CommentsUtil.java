@@ -166,7 +166,7 @@ public class CommentsUtil {
       }
     }
     Comment c = new Comment(
-        new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
+        new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
         ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
         unresolved);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
@@ -175,9 +175,9 @@ public class CommentsUtil {
 
   public RobotComment newRobotComment(ChangeContext ctx, String path,
       PatchSet.Id psId, short side, String message, String robotId,
-      String robotRunId) throws OrmException {
+      String robotRunId) {
     RobotComment c = new RobotComment(
-        new Comment.Key(ChangeUtil.messageUUID(ctx.getDb()), path, psId.get()),
+        new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
         ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
         robotId, robotRunId);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);

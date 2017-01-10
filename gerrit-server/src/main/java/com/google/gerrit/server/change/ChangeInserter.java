@@ -381,7 +381,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         db, update, labelTypes, patchSet, ctx.getControl(), approvals);
     if (message != null) {
       changeMessage = ChangeMessagesUtil.newMessage(
-          db, patchSet.getId(), ctx.getUser(), patchSet.getCreatedOn(),
+          patchSet.getId(), ctx.getUser(), patchSet.getCreatedOn(),
           message, ChangeMessagesUtil.TAG_UPLOADED_PATCH_SET);
       cmUtil.addChangeMessage(db, update, changeMessage);
     }

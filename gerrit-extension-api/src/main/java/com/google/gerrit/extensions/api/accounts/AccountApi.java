@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -78,6 +79,8 @@ public interface AccountApi {
   void signAgreement(String agreementName) throws RestApiException;
 
   void index() throws RestApiException;
+
+  List<AccountExternalIdInfo> getExternalIds() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -223,6 +226,11 @@ public interface AccountApi {
 
     @Override
     public void index() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<AccountExternalIdInfo> getExternalIds() {
       throw new NotImplementedException();
     }
   }

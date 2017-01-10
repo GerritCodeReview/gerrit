@@ -42,6 +42,8 @@ public interface GerritConstants extends Constants {
   String branchDeletionDialogTitle();
   String branchDeletionConfirmationMessage();
 
+  String newUi();
+
   String notSignedInTitle();
   String notSignedInBody();
 
@@ -130,6 +132,4 @@ public interface GerritConstants extends Constants {
 
   String searchDropdownChanges();
   String searchDropdownDoc();
-
-  String polyGerrit();
 }

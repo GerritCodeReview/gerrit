@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3370dd9_9281fce8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-10T19:42:18Z",
+      "side": 1,
+      "message": "Those two objects have to be merged:\n\nnew CustomEvent(\u0027reload-change\u0027, {detail: {...}, bubbles: false});",
+      "range": {
+        "startLine": 636,
+        "startChar": 16,
+        "endLine": 636,
+        "endChar": 67
+      },
+      "revId": "3376150a398e5b7de91b61cc4dc6f96febd68cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3370dd9_728e9819",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-10T19:42:18Z",
+      "side": 1,
+      "message": "Variable not used.",
+      "range": {
+        "startLine": 483,
+        "startChar": 10,
+        "endLine": 483,
+        "endChar": 20
+      },
+      "revId": "3376150a398e5b7de91b61cc4dc6f96febd68cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03198172_9398fc56",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-10T19:42:18Z",
+      "side": 1,
+      "message": "Variable not used.",
+      "range": {
+        "startLine": 495,
+        "startChar": 10,
+        "endLine": 495,
+        "endChar": 20
+      },
+      "revId": "3376150a398e5b7de91b61cc4dc6f96febd68cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

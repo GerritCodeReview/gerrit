@@ -146,6 +146,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
 
+  protected Injector injector;
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
   protected Account.Id userId;
@@ -158,13 +159,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Before
   public void setUpInjector() throws Exception {
     lifecycle = new LifecycleManager();
-    Injector injector = createInjector();
+    injector = createInjector();
     lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
+    setUpDatabase();
+  }
 
+  protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();
     schemaCreator.create(db);
+
     userId = accountManager.authenticate(AuthRequest.forUser("user"))
         .getAccountId();
     Account userAccount = db.accounts().get(userId);

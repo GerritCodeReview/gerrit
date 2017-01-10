@@ -95,6 +95,8 @@ public class Module extends RestApiModule {
     get(STAR_KIND).to(Stars.Get.class);
     post(STAR_KIND).to(Stars.Post.class);
 
+    get(ACCOUNT_KIND, "external.ids").to(GetExternalIds.class);
+
     factory(CreateAccount.Factory.class);
     factory(CreateEmail.Factory.class);
   }

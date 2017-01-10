@@ -135,11 +135,3 @@ Verify that the ssh connection works for you.
 
   user@host:~$
 ----
-
-
-GERRIT
-------
-Part of link:index.html[Gerrit Code Review]
-
-SEARCHBOX
----------

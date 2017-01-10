@@ -36,11 +36,9 @@ limitations under the License.
     </style>
     <gr-dropdown items=[[links]] top-content=[[topContent]]
         horizontal-align="right">
-      <gr-button link class="dropdown-trigger" id="trigger">
         <span hidden$="[[_hasAvatars]]" hidden>[[account.name]]</span>
         <gr-avatar account="[[account]]" hidden$="[[!_hasAvatars]]" hidden
             image-size="56"></gr-avatar>
-      </gr-button>
     </gr-dropdown>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

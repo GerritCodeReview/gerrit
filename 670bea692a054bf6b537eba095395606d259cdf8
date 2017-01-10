@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "632b1d7f_4ebad3b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-10T20:39:37Z",
+      "side": 1,
+      "message": "With this change, the `rebaseOnCurrent` property has been declared in GR-CONFIRM-REBASE dialog, but it should also be declared in GR-CHANGE-ACTIONS and GR-CHANGE-VIEW because it\u0027s used in bindings by those elements as well..",
+      "range": {
+        "startLine": 270,
+        "startChar": 16,
+        "endLine": 270,
+        "endChar": 56
+      },
+      "revId": "670bea692a054bf6b537eba095395606d259cdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c33cc9c2_b19be052",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-10T20:39:37Z",
+      "side": 1,
+      "message": "Nit: this line does not need to be wrapped.",
+      "range": {
+        "startLine": 714,
+        "startChar": 6,
+        "endLine": 715,
+        "endChar": 34
+      },
+      "revId": "670bea692a054bf6b537eba095395606d259cdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "632b1d7f_4e93f33f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-10T20:39:37Z",
+      "side": 1,
+      "message": "This should just return the if condition...\n\n  return base.length || clearParent;\n\n... Or, if it needs to be coerced to a bool...\n\n  return !!(base.length || clearParent);",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 7
+      },
+      "revId": "670bea692a054bf6b537eba095395606d259cdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.AgreementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -49,6 +50,7 @@ import com.google.gerrit.server.account.GetAgreements;
 import com.google.gerrit.server.account.GetAvatar;
 import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GetEditPreferences;
+import com.google.gerrit.server.account.GetExternalIds;
 import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetWatchedProjects;
@@ -110,6 +112,7 @@ public class AccountApiImpl implements AccountApi {
   private final PutActive putActive;
   private final DeleteActive deleteActive;
   private final Index index;
+  private final GetExternalIds getExternalIds;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -141,6 +144,7 @@ public class AccountApiImpl implements AccountApi {
       PutActive putActive,
       DeleteActive deleteActive,
       Index index,
+      GetExternalIds getExternalIds,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -172,6 +176,7 @@ public class AccountApiImpl implements AccountApi {
     this.putActive = putActive;
     this.deleteActive = deleteActive;
     this.index = index;
+    this.getExternalIds = getExternalIds;
   }
 
   @Override
@@ -446,5 +451,10 @@ public class AccountApiImpl implements AccountApi {
     } catch (IOException e) {
       throw new RestApiException("Cannot index account", e);
     }
+  }
+
+  @Override
+  public List<AccountExternalIdInfo> getExternalIds() throws RestApiException {
+      return getExternalIds.apply(account);
   }
 }

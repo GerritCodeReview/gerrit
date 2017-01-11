@@ -111,6 +111,11 @@
         type: Boolean,
         computed: '_computeDescriptionReadOnly(_loggedIn, _change, _account)',
       },
+      _replyDisabled: {
+        type: Boolean,
+        value: true,
+        computed: '_computeReplyDisabled(serverConfig)',
+      },
     },
 
     behaviors: [
@@ -919,5 +924,7 @@
     _computeDescriptionReadOnly: function(loggedIn, change, account) {
       return !(loggedIn && (account._account_id === change.owner._account_id));
     },
+
+    _computeReplyDisabled: function() { return false; }
   });
 })();

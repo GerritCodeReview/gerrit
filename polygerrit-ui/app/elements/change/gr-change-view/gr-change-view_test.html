@@ -781,5 +781,11 @@ limitations under the License.
         assert.equal(element.$.replyDialog.quote, '> quote text\n\n');
       });
     });
+
+    test('reply button is disabled until server config is loaded', function() {
+      assert.isTrue(element._replyDisabled);
+      element.serverConfig = {};
+      assert.isFalse(element._replyDisabled);
+    });
   });
 </script>

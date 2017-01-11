@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "833c91f3_1f08a3a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T20:56:49Z",
+      "side": 1,
+      "message": "\u003e salted hashed passwords\n\nI guess the reason we don\u0027t do this now is that we like displaying the password in the UI, which frankly is also bad practice. But switching to hashed passwords does mean implementing password reset emails or similar, so maybe that\u0027s untenable as a prerequisite to this change.\n\nBut it should be more tenable to at least encrypt the passwords using a key stored in the SecureStore.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "833c91f3_dfc63b1f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11

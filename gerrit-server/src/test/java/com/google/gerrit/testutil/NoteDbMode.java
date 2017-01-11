@@ -40,6 +40,9 @@ public enum NoteDbMode {
   public static NoteDbMode get() {
     String value = System.getenv(VAR);
     if (Strings.isNullOrEmpty(value)) {
+      value = System.getProperty(VAR);
+    }
+    if (Strings.isNullOrEmpty(value)) {
       return OFF;
     }
     value = value.toUpperCase().replace("-", "_");

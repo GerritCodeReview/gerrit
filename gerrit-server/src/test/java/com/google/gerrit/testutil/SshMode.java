@@ -31,6 +31,9 @@ public enum SshMode {
   public static SshMode get() {
     String value = System.getenv(VAR);
     if (Strings.isNullOrEmpty(value)) {
+      value = System.getProperty(VAR);
+    }
+    if (Strings.isNullOrEmpty(value)) {
       return YES;
     }
     value = value.toUpperCase();

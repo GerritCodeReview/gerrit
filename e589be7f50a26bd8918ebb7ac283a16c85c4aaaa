@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "039c2129_fb284feb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "f7cb4a92_343bd0fa",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_1438d4f9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -37,6 +61,30 @@
       "writtenOn": "2017-01-06T22:02:30Z",
       "side": 1,
       "message": "ISTM the approach of manual cache invalidation is only necessary while external IDs still exist in ReviewDb. Once we move entirely to NoteDb for external IDs, you can just include the SHA-1 of the note branch in the cache key, like we do for ChangeNotesCache. Then the cache is immutable and we no longer have to worry about invalidation.",
+      "range": {
+        "startLine": 18,
+        "startChar": 52,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "039c2129_9b258b12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "No, I don\u0027t think that we want this here.\nPlease note that this cache has only a single value (the map with the external IDs by account). To reload this value we must parse again all external IDs and this is what we avoid by keeping the cache manually updated. We want to load the external IDs only once when the Gerrit server is started and then never again, which is okay when Gerrit is the only one doing updates to the external IDs (I\u0027m aware we have internal code that changes external IDs behind Gerrit\u0027s back which then would need to be adapted).",
+      "parentUuid": "f7cb4a92_1438d4f9",
       "range": {
         "startLine": 18,
         "startChar": 52,
@@ -66,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "239f651f_9ccca51a",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57bdf6e4_f79a00fe",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_f4155867",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
         "patchSetId": 11
@@ -77,6 +143,24 @@
       "writtenOn": "2017-01-06T22:02:30Z",
       "side": 1,
       "message": "Why does this need to be an interface? Do we expect multiple implementations?",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_7c82f9a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "Just made this an interface to be consistent with the other caches. Do you think removing this interface is better?",
+      "parentUuid": "f7cb4a92_f4155867",
       "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -100,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "039c2129_fbbfef6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7cb4a92_d41a5c95",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_b41fe083",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 11
@@ -111,6 +213,24 @@
       "writtenOn": "2017-01-06T22:02:30Z",
       "side": 1,
       "message": "In most cases you only ever call extIdsByAccount.get while holding the lock; does this really need to be a LoadingCache rather than just a single non-final Multimap field?",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_9ce34584",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "This follows the example of the project list cache which is also using LoadingCache.\n\nLoadingCache is used to load the cache value on first access. If it wasn\u0027t using a loading cache each method would need to manually check if the external IDs have already been loaded and if not do the load. Wouldn\u0027t this be more overhead then just using LoadingCache?",
+      "parentUuid": "f7cb4a92_b41fe083",
       "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "039c2129_5baf0340",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7cb4a92_9424e4d6",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 14
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57bdf6e4_d79ffceb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 11
@@ -157,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "039c2129_bb4ba7bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57bdf6e4_d79ffceb",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_740a6846",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 11
@@ -168,6 +330,30 @@
       "writtenOn": "2017-01-06T22:02:30Z",
       "side": 1,
       "message": "external IDs",
+      "range": {
+        "startLine": 142,
+        "startChar": 38,
+        "endLine": 142,
+        "endChar": 46
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "039c2129_5b386340",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7cb4a92_740a6846",
       "range": {
         "startLine": 142,
         "startChar": 38,
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "239f651f_7cdbd9d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57bdf6e4_b79488d1",
+      "range": {
+        "startLine": 163,
+        "startChar": 38,
+        "endLine": 163,
+        "endChar": 46
+      },
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_54076c3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 11
@@ -214,6 +424,24 @@
       "writtenOn": "2017-01-06T22:02:30Z",
       "side": 1,
       "message": "This seems wasteful. If you make it a non-LoadingCache then you can pass an already-open ReviewDb into the public methods and avoid reopening. Makes the interface uglier though, I admit.",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_5c7dbdcf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T13:08:47Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s that wasteful, since this is only invoked once after Gerrit startup. It\u0027s also only for now, as in 2 changes from here the external IDs will always be loaded from NoteDb and ReviewDb will no longer be needed here [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/93470/7/gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+      "parentUuid": "f7cb4a92_54076c3c",
       "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

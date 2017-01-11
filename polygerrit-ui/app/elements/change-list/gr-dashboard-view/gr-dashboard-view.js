@@ -29,6 +29,10 @@
         value: function() { return {}; },
       },
       viewState: Object,
+      params: {
+        type: Object,
+        observer: '_paramsChanged',
+      },
 
       _results: Array,
       _groupTitles: {
@@ -51,7 +55,12 @@
 
     attached: function() {
       this.fire('title-change', {title: 'My Reviews'});
+    },
 
+    /**
+     * Allows a refresh if menu item is selected again.
+     */
+    _paramsChanged: function() {
       this._loading = true;
       this._getDashboardChanges().then(function(results) {
         this._results = results;

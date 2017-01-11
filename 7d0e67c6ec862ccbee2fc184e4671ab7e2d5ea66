@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "43c45929_0d715149",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T14:28:55Z",
+      "side": 1,
+      "message": "Excellent point. I think we are willing to live with this slight inconsistency in the short term, and it will just flag some more changes as stale, which is not a big deal. But we should fix those operations to reindex.",
+      "parentUuid": "239f651f_1c55f531",
+      "revId": "7d0e67c6ec862ccbee2fc184e4671ab7e2d5ea66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_df407b55",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 5

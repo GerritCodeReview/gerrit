@@ -16,6 +16,24 @@
       "revId": "f6dd9ebe96135c1049b5fa475bd0bb9d3d2c6f26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "039c2129_3ba31741",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/Section.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-01-11T15:31:51Z",
+      "side": 1,
+      "message": "True, but it\u0027s not a just a pure renaming anymore :-)",
+      "parentUuid": "239f651f_dcf30d27",
+      "revId": "f6dd9ebe96135c1049b5fa475bd0bb9d3d2c6f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

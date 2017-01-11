@@ -83,7 +83,9 @@ public class NoteDbChangeState {
 
   @AutoValue
   public abstract static class Delta {
-    static Delta create(Change.Id changeId, Optional<ObjectId> newChangeMetaId,
+    @VisibleForTesting
+    public static Delta create(Change.Id changeId,
+        Optional<ObjectId> newChangeMetaId,
         Map<Account.Id, ObjectId> newDraftIds) {
       if (newDraftIds == null) {
         newDraftIds = ImmutableMap.of();

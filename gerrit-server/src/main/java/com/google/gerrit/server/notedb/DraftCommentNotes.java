@@ -14,20 +14,22 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.RepoRefCache;
@@ -42,6 +44,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -69,6 +72,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final Change change;
   private final Account.Id author;
   private final NoteDbUpdateManager.Result rebuildResult;
+  private final Ref ref;
 
   private ImmutableListMultimap<RevId, Comment> comments;
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
@@ -78,7 +82,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Args args,
       @Assisted Change change,
       @Assisted Account.Id author) {
-    this(args, change, author, true, null);
+    this(args, change, author, true, null, null);
   }
 
   @AssistedInject
@@ -92,6 +96,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     this.change = null;
     this.author = author;
     this.rebuildResult = null;
+    this.ref = null;
   }
 
   DraftCommentNotes(
@@ -99,11 +104,19 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       Change change,
       Account.Id author,
       boolean autoRebuild,
-      NoteDbUpdateManager.Result rebuildResult) {
+      @Nullable NoteDbUpdateManager.Result rebuildResult,
+      @Nullable Ref ref) {
     super(args, change.getId(), PrimaryStorage.of(change), autoRebuild);
     this.change = change;
     this.author = author;
     this.rebuildResult = rebuildResult;
+    this.ref = ref;
+    if (ref != null) {
+      checkArgument(
+          ref.getName().equals(getRefName()),
+          "draft ref not for change %s and account %s: %s",
+          getChangeId(), author, ref.getName());
+    }
   }
 
   RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap() {
@@ -129,7 +142,15 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(getChangeId(), author);
+    return refsDraftComments(getChangeId(), author);
+  }
+
+  @Override
+  protected ObjectId readRef(Repository repo) throws IOException {
+    if (ref != null) {
+      return ref.getObjectId();
+    }
+    return super.readRef(repo);
   }
 
   @Override

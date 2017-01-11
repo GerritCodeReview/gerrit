@@ -29,7 +29,6 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
@@ -355,6 +354,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   // ChangeNotesCache from handlers.
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
   private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
+  private ImmutableSet<Comment.Key> commentKeys;
 
   @VisibleForTesting
   public ChangeNotes(Args args, Change change) {
@@ -458,26 +458,32 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.publishedComments();
   }
 
+  public ImmutableSet<Comment.Key> getCommentKeys() {
+    if (commentKeys == null) {
+      ImmutableSet.Builder<Comment.Key> b = ImmutableSet.builder();
+      for (Comment c : getComments().values()) {
+        b.add(new Comment.Key(c.key));
+      }
+      commentKeys = b.build();
+    }
+    return commentKeys;
+  }
+
   public ImmutableListMultimap<RevId, Comment> getDraftComments(
       Account.Id author) throws OrmException {
-    loadDraftComments(author);
-    final Multimap<RevId, Comment> published =
-        state.publishedComments();
-    // Filter out any draft comments that also exist in the published map, in
-    // case the update to All-Users to delete them during the publish operation
-    // failed.
-    Multimap<RevId, Comment> filtered = Multimaps.filterEntries(
-        draftCommentNotes.getComments(),
-        (Map.Entry<RevId, Comment> e) -> {
-            for (Comment c : published.get(e.getKey())) {
-              if (c.key.equals(e.getValue().key)) {
-                return false;
-              }
-            }
-            return true;
-        });
+    return getDraftComments(author, null);
+  }
+
+  public ImmutableListMultimap<RevId, Comment> getDraftComments(
+      Account.Id author, @Nullable Ref ref) throws OrmException {
+    loadDraftComments(author, ref);
+    // Filter out any zombie draft comments. These are drafts that are also in
+    // the published map, and arise when the update to All-Users to delete them
+    // during the publish operation failed.
     return ImmutableListMultimap.copyOf(
-        filtered);
+        Multimaps.filterEntries(
+            draftCommentNotes.getComments(),
+            e -> !getCommentKeys().contains(e.getValue().key)));
   }
 
   public ImmutableListMultimap<RevId, RobotComment> getRobotComments()
@@ -492,12 +498,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    * comments have been loaded or if the caller would like the drafts for
    * another author.
    */
-  private void loadDraftComments(Account.Id author)
+  private void loadDraftComments(Account.Id author, @Nullable Ref ref)
       throws OrmException {
-    if (draftCommentNotes == null ||
-        !author.equals(draftCommentNotes.getAuthor())) {
+    if (draftCommentNotes == null
+        || !author.equals(draftCommentNotes.getAuthor())
+        || ref != null) {
       draftCommentNotes = new DraftCommentNotes(
-          args, change, author, autoRebuild, rebuildResult);
+          args, change, author, autoRebuild, rebuildResult, ref);
       draftCommentNotes.load();
     }
   }
@@ -522,7 +529,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     if (containsCommentPublished(c)) {
       return true;
     }
-    loadDraftComments(c.author.getId());
+    loadDraftComments(c.author.getId(), null);
     return draftCommentNotes.containsComment(c);
   }
 

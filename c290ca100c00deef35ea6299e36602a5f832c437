@@ -33,6 +33,23 @@
       "revId": "c290ca100c00deef35ea6299e36602a5f832c437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_019cca49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T18:29:44Z",
+      "side": 1,
+      "message": "Ok, so basically: every event in this log needs to have a unique, stable ID so it can be linked to. Just say so in the commit message :)\n\nI don\u0027t think we want/need to generate and store a new UID. The tuple of (meta commit SHA-1, reviewer ID, state) should be sufficient to uniquely identify this entry. I don\u0027t have any strong feelings about how those values should be combined. You may or may not care about having something in the address bar that looks readable vs. being purely a hex hash of something.",
+      "revId": "c290ca100c00deef35ea6299e36602a5f832c437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

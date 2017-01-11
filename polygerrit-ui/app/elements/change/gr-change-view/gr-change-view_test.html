@@ -200,6 +200,41 @@ limitations under the License.
       assert.equal(putDescStub.args[0][2], 'test2');
     });
 
+    test('_updateRebaseAction', function(){
+      var currentRevisionActions = {
+        cherrypick: {
+          enabled: true,
+          label: 'Cherry Pick',
+          method: 'POST',
+          title: 'cherrypick'
+        },
+        rebase: {
+          enabled: true,
+          label: 'Rebase',
+          method: 'POST',
+          title: 'Rebase onto tip of branch or parent change'
+        },
+      };
+
+      // Rebase enabled should always end up true.
+      // When rebase is enabled initially, rebaseOnCurrent should be set to
+      // true.
+      assert.equal(element._updateRebaseAction(currentRevisionActions),
+        currentRevisionActions);
+
+      assert.isTrue(element._rebaseOnCurrent);
+
+      var newRevisionActions = currentRevisionActions
+      delete newRevisionActions.rebase.enabled;
+
+      // When rebase is not enabled initially, rebaseOnCurrent should be set to
+      // false.
+      assert.equal(element._updateRebaseAction(newRevisionActions),
+        currentRevisionActions);
+
+      assert.isFalse(element._rebaseOnCurrent);
+    });
+
     test('_reload is called when an approved label is removed', function() {
       var vote = {_account_id: 1, name: 'bojack', value: 1};
       element._changeNum = '42';

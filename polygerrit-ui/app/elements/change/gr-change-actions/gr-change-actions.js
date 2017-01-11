@@ -115,6 +115,7 @@
       changeStatus: String,
       commitNum: String,
       patchNum: String,
+      rebaseOnCurrent: Boolean,
       commitMessage: {
         type: String,
         value: '',

@@ -92,6 +92,7 @@ limitations under the License.
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-rebase-dialog id="confirmRebase"
+          rebase-on-current="[[rebaseOnCurrent]]"
           class="confirmDialog"
           on-confirm="_handleRebaseConfirm"
           on-cancel="_handleConfirmDialogCancel"

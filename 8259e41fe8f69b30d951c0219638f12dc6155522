@@ -76,6 +76,24 @@
       "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_5c193da7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SetPasswd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:40:32Z",
+      "side": 1,
+      "message": "Okay, but what about:\n\n  !ui.yesno(false, \"Change %s\", key))\n\nwouldn\u0027t this result in a non-sense message like \"Change Enter password\" with how you use it?",
+      "parentUuid": "239f651f_bc3c01ff",
+      "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

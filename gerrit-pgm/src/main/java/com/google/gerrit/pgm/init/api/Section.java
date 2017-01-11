@@ -171,20 +171,20 @@ public class Section {
     return nv;
   }
 
-  public String passwordForKey(String key, String password) {
-    String ov = getSecure(password);
+  public String passwordForKey(String prompt, String passwordKey) {
+    String ov = getSecure(passwordKey);
     if (ov != null) {
       // If the password is already stored, try to reuse it
       // rather than prompting for a whole new one.
       //
-      if (ui.isBatch() || !ui.yesno(false, "Change %s", key)) {
+      if (ui.isBatch() || !ui.yesno(false, "Change %s", passwordKey)) {
         return ov;
       }
     }
 
-    final String nv = ui.password("%s", key);
+    final String nv = ui.password("%s", prompt);
     if (!eq(ov, nv)) {
-      setSecure(password, nv);
+      setSecure(passwordKey, nv);
     }
     return nv;
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c336890f_8171fa4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T17:12:15Z",
+      "side": 1,
+      "message": "Can you say a little more about what you\u0027re trying to accomplish? Why do you need an identifier for this piece of data?",
+      "revId": "c290ca100c00deef35ea6299e36602a5f832c437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

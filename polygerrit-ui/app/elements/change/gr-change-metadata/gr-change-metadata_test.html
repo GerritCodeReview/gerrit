@@ -67,6 +67,18 @@ limitations under the License.
       assert.isTrue(element.$$('.strategy').hasAttribute('hidden'));
     });
 
+    test('Change ID is shown when not required in commit', function() {
+      element.requireChangeId = false;
+      flushAsynchronousOperations();
+      assert.isFalse(element.$.changeId.hasAttribute('hidden'));
+    });
+
+    test('Change ID is not shown when it is required in commit', function() {
+      element.requireChangeId = true;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.changeId.hasAttribute('hidden'));
+    });
+
     test('show CC section when NoteDb enabled', function() {
       function hasCc() {
         return element._showReviewersByState;

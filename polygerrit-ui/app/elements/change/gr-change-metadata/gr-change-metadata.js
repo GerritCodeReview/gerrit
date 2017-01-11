@@ -29,6 +29,7 @@
       change: Object,
       mutable: Boolean,
       serverConfig: Object,
+      requireChangeId: Boolean,
       _topicReadOnly: {
         type: Boolean,
         computed: '_computeTopicReadOnly(mutable, change)',

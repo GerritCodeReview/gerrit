@@ -16,6 +16,52 @@
       "revId": "a42f0c930e31c4482687da6c5b96cc95b071c30b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_81b9fa8c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-11T22:27:30Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "a42f0c930e31c4482687da6c5b96cc95b071c30b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_61be7674",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-11T22:27:30Z",
+      "side": 1,
+      "message": "Should be a space before the opening brace. Should the body of the function be indented to the right of the line containing the opening brace?",
+      "range": {
+        "startLine": 42,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 33
+      },
+      "revId": "a42f0c930e31c4482687da6c5b96cc95b071c30b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

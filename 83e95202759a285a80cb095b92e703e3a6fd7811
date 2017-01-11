@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c38a09db_61033687",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-11T01:13:51Z",
+      "side": 1,
+      "message": "This regex should be declared as a constant at the top of the file so that it is only compiled once. \n\nWould it make sense to constrain this a little farther to only the start of the line?\n\n  /^R\u003d/g\n\nThat way, the regex should execute faster and you can still linkify email addresses that contain \"R\u003d\" (as long as they don\u0027t start at the beginning of a line).",
+      "range": {
+        "startLine": 126,
+        "startChar": 22,
+        "endLine": 126,
+        "endChar": 27
+      },
+      "revId": "83e95202759a285a80cb095b92e703e3a6fd7811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8390110b_7fef4f8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-11T01:13:51Z",
+      "side": 1,
+      "message": "This should be a constant also.",
+      "range": {
+        "startLine": 142,
+        "startChar": 22,
+        "endLine": 142,
+        "endChar": 28
+      },
+      "revId": "83e95202759a285a80cb095b92e703e3a6fd7811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -97,6 +97,23 @@
     },
     {
       "key": {
+        "uuid": "833c91f3_1f938340",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T18:50:06Z",
+      "side": 1,
+      "message": "I don\u0027t follow your argument for why we should not include the tree SHA-1 in the cache key.\n\nCurrently, the cache answers the query \"get me a map of all external IDs by account.\" This is cached because parsing all the data takes a long time.\n\nMy proposal is to change the cache to answer the query: \"get me the map of external IDs by account, that you would get if you parsed a notes tree at SHA-1 \u003cx\u003e\".  That is how ChangeNotesCache works. The caller is still responsible for doing a single ref read to get the SHA-1 to put in the cache key. As the ref advances, the old values fall out of the cache without any invalidation necessary.\n\nThis is ok assuming that a ref read is cheap relative to how often you need this cache, and the expensive thing is parsing the notes branch. That may not be the case e.g. if you need to do this lookup on every single request during authentication.",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57bdf6e4_f79a00fe",
         "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/PostGpgKeys.java",
         "patchSetId": 11
@@ -231,6 +248,23 @@
       "side": 1,
       "message": "This follows the example of the project list cache which is also using LoadingCache.\n\nLoadingCache is used to load the cache value on first access. If it wasn\u0027t using a loading cache each method would need to manually check if the external IDs have already been loaded and if not do the load. Wouldn\u0027t this be more overhead then just using LoadingCache?",
       "parentUuid": "f7cb4a92_b41fe083",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c336890f_81bf3a9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T18:50:06Z",
+      "side": 1,
+      "message": "\u003e This follows the example of the project list cache which is also using LoadingCache.\n\nFor the record I have never been a fan of that implementation either :)\n\n\u003e each method would need to manually check if the external IDs have already been loaded and if not do the load\n\nI don\u0027t see how the performance would be any different. I guess what I am proposing is reimplementing the little subset of functionality from LoadingCache that you need, taking a write lock only when you know you need to write but keeping everything else lock-free. I think you can do it with not much more code than you have here, and then you get rid of this utterly strange usage of LoadingCache.\n\nBut, I guess, if this works, I don\u0027t feel too strongly. (Like, not strongly enough to have already rewritten ProjectListCache.)",
       "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -442,6 +476,23 @@
       "side": 1,
       "message": "I don\u0027t think it\u0027s that wasteful, since this is only invoked once after Gerrit startup. It\u0027s also only for now, as in 2 changes from here the external IDs will always be loaded from NoteDb and ReviewDb will no longer be needed here [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/93470/7/gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
       "parentUuid": "f7cb4a92_54076c3c",
+      "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c336890f_c1a82265",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T18:50:06Z",
+      "side": 1,
+      "message": "Ack, forgot that this is only invoked once.",
       "revId": "e589be7f50a26bd8918ebb7ac283a16c85c4aaaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

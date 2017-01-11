@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "239f651f_5c329d31",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SetPasswd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:25:46Z",
+      "side": 1,
+      "message": "Eh, I think this must be:\n\n  passwordSection.passwordForKey(key, password);",
+      "range": {
+        "startLine": 40,
+        "startChar": 5,
+        "endLine": 40,
+        "endChar": 60
+      },
+      "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c336890f_e1af2667",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-11T19:40:46Z",
+      "side": 1,
+      "message": "This function could now use some comments describing the three different kinds of objects it supports, and how it detects and normalizes them.",
+      "revId": "09fe7e9c17ee0c628781251259e40ec061aec7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_ffb21fd1",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-11T19:40:46Z",
+      "side": 1,
+      "message": "Should there be a new assertion in this test for suggestions that are naked accounts?",
+      "revId": "09fe7e9c17ee0c628781251259e40ec061aec7a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

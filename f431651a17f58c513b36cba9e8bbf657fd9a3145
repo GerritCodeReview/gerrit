@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63c79d2d_ce7a6325",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T15:18:44Z",
+      "side": 1,
+      "message": "Naming conventions are different for system properties, maybe \"gerrit.notedb\"?",
+      "revId": "f431651a17f58c513b36cba9e8bbf657fd9a3145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43c45929_cd7a6925",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/SshMode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T15:18:44Z",
+      "side": 1,
+      "message": "gerrit.use.ssh?",
+      "revId": "f431651a17f58c513b36cba9e8bbf657fd9a3145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

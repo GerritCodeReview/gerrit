@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c336890f_a1ccfe42",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-11T19:56:30Z",
+      "side": 1,
+      "message": "Oops.",
+      "revId": "df341c9aa4ae2ebc1454e8c72e0a5529b99cafd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

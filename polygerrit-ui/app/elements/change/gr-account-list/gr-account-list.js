@@ -35,6 +35,10 @@
         type: Boolean,
         value: false,
       },
+      allowAnyUser: {
+        type: Boolean,
+        value: false,
+      },
       /**
        * Array of values (groups/accounts) that are removable. When this prop is
        * undefined, all values are removable.

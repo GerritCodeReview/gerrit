@@ -28,6 +28,7 @@
       change: Object,
       filter: Function,
       placeholder: String,
+      allowAnyUser: Boolean,
 
       suggestFrom: {
         type: Number,
@@ -69,12 +70,22 @@
           name: reviewer.group.name + ' (group)',
           value: reviewer,
         };
+      } else if (reviewer._account_id) {
+        return {
+          name: reviewer.name,
+          value: {
+            account: reviewer,
+            count: 1,
+          },
+        };
       }
     },
 
     _getReviewerSuggestions: function(input) {
-      var xhr = this.$.restAPI.getChangeSuggestedReviewers(
-          this.change._number, input);
+      var api = this.$.restAPI;
+      var xhr = this.allowAnyUser ?
+          api.getSuggestedAccounts(input) :
+          api.getChangeSuggestedReviewers(this.change._number, input);
 
       return xhr.then(function(reviewers) {
         if (!reviewers) { return []; }

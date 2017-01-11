@@ -41,15 +41,6 @@
         type: Boolean,
         computed: '_computeShowLabelStatus(change)',
       },
-      /**
-       * Groups are not valid assignees.
-       */
-      _filterAssigneeSuggestion: {
-        type: Function,
-        value: function() {
-          return function(suggestion) { return suggestion.account; };
-        },
-      },
 
       _assignee: Array,
     },

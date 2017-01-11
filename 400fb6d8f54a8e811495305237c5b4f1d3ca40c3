@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "833c91f3_9f4153a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-11T21:34:11Z",
+      "side": 1,
+      "message": "So basically this flag switches suggestions to a different rest endpoint.\n\n1. Can we always use one rest endpoint?\n2. Can we rename this property to better illustrate the behavior? (e.g. useSuggestReviewers)\n3. I\u0027m sure there are reasons those endpoints return different data, but can we standardize them before consumption, so the endpoints would be fully interchangeable?",
+      "revId": "400fb6d8f54a8e811495305237c5b4f1d3ca40c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

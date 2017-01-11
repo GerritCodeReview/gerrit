@@ -180,7 +180,7 @@ public class ProjectCacheImpl implements ProjectCache {
       n.remove(p.getNameKey());
       list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
     } catch (ExecutionException e) {
-      log.warn("Cannot list avaliable projects", e);
+      log.warn("Cannot list available projects", e);
     } finally {
       listLock.unlock();
     }
@@ -195,7 +195,7 @@ public class ProjectCacheImpl implements ProjectCache {
       n.add(newProjectName);
       list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
     } catch (ExecutionException e) {
-      log.warn("Cannot list avaliable projects", e);
+      log.warn("Cannot list available projects", e);
     } finally {
       listLock.unlock();
     }

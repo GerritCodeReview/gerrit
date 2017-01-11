@@ -22,6 +22,24 @@
       "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_3c31d128",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SetPasswd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-01-11T14:28:29Z",
+      "side": 1,
+      "message": "Not really: the first parameter is the message while the second is the key.",
+      "parentUuid": "239f651f_5c329d31",
+      "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

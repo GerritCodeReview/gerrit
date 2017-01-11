@@ -108,7 +108,7 @@ class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
         .addAction(insert(ACCOUNTS, as))
         .refresh(refresh)
         .build();
-      JestResult result = client.execute(bulk);
+    JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {
       throw new IOException(
           String.format("Failed to replace account %s in index %s: %s",

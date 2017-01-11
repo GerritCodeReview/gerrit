@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1484141983 +0100\nnonce AHDV6GmXjCjDpp24XE97DNHyl30UaQTKjDIVkXr6GIkIxoYIkiSmue7QVUPYqk0H+DBB3a4r3jJK\n\n0000000000000000000000000000000000000000 61d98c89565f28fd01325aa3c79f0a0991ae5186 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYdjWfAAoJEFG1/Zeg0O9R09EH/3x0fy9DDnp5j6yKoZ82tTax\nYlRUrwg7i84bishxCgTeIl3uEYZCprUgqxTaFz1IbJGzMO+lNo4jelktJKsUFOeD\nNFsn2UbHHRL1B8ue0C3ujo7SZmXuyrGFm5Pa7x8JRzzIRYODsQJ2F1zp/+lRmJ5F\nBpb9Q1X8e0FTMkc9I8EbNBIgjqVg+YJE7vrzznSqwaGKATIPRxxtlID5xUvdi2Be\nxW1sWUcXEMnjXi3oT8p8a7B4eZrbGX2kEO1goKLHpz2XKq75KeILwsVZpARoJNTu\nZX8SZ7BjGeRKEz9nvhEFVq67FEennF+50tcXask9ONSgfZ/CLIqpCapHhjsYTA4\u003d\n\u003dK6DP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c336890f_6112f6d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T20:53:08Z",
+      "side": 1,
+      "message": "Seems like this would be surprising if someone ever tried to use this class from a codepath in a live server without knowing about this limitation. What if ExternalIdsBatchUpdate does update the cache, and external programs just get a no-op implementation of ExternalIdsCache?",
+      "range": {
+        "startLine": 76,
+        "startChar": 45,
+        "endLine": 78,
+        "endChar": 30
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_ffc97f31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T20:53:08Z",
+      "side": 1,
+      "message": "This is scary to me.\n\nBefore, unencrypted passwords were stored in the database, which was already pretty scary, but at least there is a clear and obvious separation between (most) users and raw database access.\n\nNow, unencrypted passwords are stored in a git repo, and the only thing standing between users and everyone\u0027s passwords is a Gerrit ACL. I don\u0027t have to tell you that those are very frequently misconfigured and even occasionally buggy.\n\nHonestly I would lean towards switching to salted hashed passwords in the database as a prerequisite for this migration.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 9
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_dfc63b1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T20:53:08Z",
+      "side": 1,
+      "message": "I don\u0027t think this extension point is the right fit. It\u0027s really a key-value storage mechanism. Say you had a SecureStore implementation that encrypts data and throws it in a blob on GCS. That is not NoteDb at all.\n\nPer my last comment I\u0027m not even sure we want this to be configurable, I think Gerrit really needs to be secure out of the box with no way of shooting yourself in the foot here.",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 53
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -58,6 +58,24 @@
       "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_bc3c01ff",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SetPasswd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-01-11T14:37:09Z",
+      "side": 1,
+      "message": "Yes, if you read that code the parameters\u0027 names are misleading but the way that are used tells you that the first is the message and the second the key.\n\nSee here:\n\n  public String passwordForKey(String key, String password) {\n    String ov \u003d getSecure(password);\n\nThe \"password\" parameter is used to read from secure.config with that key.\n\nAnd:\n\n       final String nv \u003d ui.password(\"%s\", key);\n\n\nThe \"key\" parameter is used to format the message on the screen.\n\nParameters\u0027 names are very misleading indeed :-) I made the same mistake in my first version of the code :-O",
+      "parentUuid": "039c2129_9b7a6bd2",
+      "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

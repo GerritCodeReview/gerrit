@@ -75,7 +75,7 @@ public class AllAccountsIndexer
       ids = collectAccounts(progress);
     } catch (OrmException e) {
       log.error("Error collecting accounts", e);
-      return new Result(sw, false, 0, 0);
+      return new SiteIndexer.Result(sw, false, 0, 0);
     }
     return reindexAccounts(index, ids, progress);
   }
@@ -114,11 +114,11 @@ public class AllAccountsIndexer
       Futures.successfulAsList(futures).get();
     } catch (ExecutionException | InterruptedException e) {
       log.error("Error waiting on account futures", e);
-      return new Result(sw, false, 0, 0);
+      return new SiteIndexer.Result(sw, false, 0, 0);
     }
 
     progress.endTask();
-    return new Result(sw, ok.get(), done.get(), failed.get());
+    return new SiteIndexer.Result(sw, ok.get(), done.get(), failed.get());
   }
 
   private List<Account.Id> collectAccounts(ProgressMonitor progress)

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "039c2129_3bc47722",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T10:58:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "773bda5a_0096662a",
+      "range": {
+        "startLine": 38,
+        "startChar": 18,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "6ece1af2ae103a5ef13661e3dd6bb55d2a5b2b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "773bda5a_a08a1afd",
         "filename": "Documentation/rest-api-groups.txt",
         "patchSetId": 12
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "239f651f_bcaf2168",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T10:58:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "773bda5a_a08a1afd",
+      "range": {
+        "startLine": 272,
+        "startChar": 58,
+        "endLine": 272,
+        "endChar": 59
+      },
+      "revId": "6ece1af2ae103a5ef13661e3dd6bb55d2a5b2b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "773bda5a_c08f1e0c",
         "filename": "Documentation/user-search-groups.txt",
         "patchSetId": 12
@@ -60,6 +108,30 @@
       "writtenOn": "2017-01-06T01:34:18Z",
       "side": 1,
       "message": "Mention that it\u0027s automatically set if not specified?",
+      "range": {
+        "startLine": 29,
+        "startChar": 58,
+        "endLine": 30,
+        "endChar": 17
+      },
+      "revId": "6ece1af2ae103a5ef13661e3dd6bb55d2a5b2b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_5cdcddf8",
+        "filename": "Documentation/user-search-groups.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T10:58:05Z",
+      "side": 1,
+      "message": "It\u0027s the same text that describes the limit operator for the change index and the account index. If it should be changed, we should rather change it consistently everywhere. I would prefer to leave this for a separate change.",
+      "parentUuid": "773bda5a_c08f1e0c",
       "range": {
         "startLine": 29,
         "startChar": 58,

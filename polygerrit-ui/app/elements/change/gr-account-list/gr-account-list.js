@@ -36,6 +36,19 @@
         value: false,
       },
       /**
+       * When true, the account-entry autocomplete uses the account suggest API
+       * endpoint, which suggests any account in that Gerrit instance (and does
+       * not suggest groups).
+       *
+       * When false/undefined, account-entry uses the suggest_reviewers API
+       * endpoint, which suggests any account or group in that Gerrit instance
+       * that is not already a reviewer (or is not CCed) on that change.
+       */
+      allowAnyUser: {
+        type: Boolean,
+        value: false,
+      },
+      /**
        * Array of values (groups/accounts) that are removable. When this prop is
        * undefined, all values are removable.
        */

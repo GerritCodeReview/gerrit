@@ -28,6 +28,16 @@
       change: Object,
       filter: Function,
       placeholder: String,
+      /**
+       * When true, account-entry uses the account suggest API endpoint, which
+       * suggests any account in that Gerrit instance (and does not suggest
+       * groups).
+       *
+       * When false/undefined, account-entry uses the suggest_reviewers API
+       * endpoint, which suggests any account or group in that Gerrit instance
+       * that is not already a reviewer (or is not CCed) on that change.
+       */
+      allowAnyUser: Boolean,
 
       suggestFrom: {
         type: Number,
@@ -60,21 +70,34 @@
 
     _makeSuggestion: function(reviewer) {
       if (reviewer.account) {
+        // Reviewer is an account suggestion from getChangeSuggestedReviewers.
         return {
           name: reviewer.account.name + ' (' + reviewer.account.email + ')',
           value: reviewer,
         };
       } else if (reviewer.group) {
+        // Reviewer is a group suggestion from getChangeSuggestedReviewers.
         return {
           name: reviewer.group.name + ' (group)',
           value: reviewer,
+        };
+      } else if (reviewer._account_id) {
+        // Reviewer is an account suggestion from getSuggestedAccounts.
+        return {
+          name: reviewer.name + ' (' + reviewer.email + ')',
+          value: {
+            account: reviewer,
+            count: 1,
+          },
         };
       }
     },
 
     _getReviewerSuggestions: function(input) {
-      var xhr = this.$.restAPI.getChangeSuggestedReviewers(
-          this.change._number, input);
+      var api = this.$.restAPI;
+      var xhr = this.allowAnyUser ?
+          api.getSuggestedAccounts(input) :
+          api.getChangeSuggestedReviewers(this.change._number, input);
 
       return xhr.then(function(reviewers) {
         if (!reviewers) { return []; }

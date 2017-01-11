@@ -33,6 +33,7 @@ limitations under the License.
 
 <script>
   suite('gr-account-entry tests', function() {
+    var sandbox;
     var _nextAccountId = 0;
     var makeAccount = function() {
       var accountId = ++_nextAccountId;
@@ -72,49 +73,85 @@ limitations under the License.
           REVIEWER: [existingReviewer2],
         },
       };
-
-      stub('gr-rest-api-interface', {
-        getChangeSuggestedReviewers: function() {
-          var redundantSuggestion1 = {account: existingReviewer1};
-          var redundantSuggestion2 = {account: existingReviewer2};
-          var redundantSuggestion3 = {account: owner};
-          return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
-              redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
-        },
-      });
+      sandbox = sinon.sandbox.create();
     });
 
-    test('_makeSuggestion formats account or group accordingly', function() {
-      var account = makeAccount();
-      var suggestion = element._makeSuggestion({account: account});
-      assert.deepEqual(suggestion, {
-        name: account.name + ' (' + account.email + ')',
-        value: {account: account},
-      });
-
-      var group = {name: 'test'};
-      suggestion = element._makeSuggestion({group: group});
-      assert.deepEqual(suggestion, {
-        name: group.name + ' (group)',
-        value: {group: group},
-      });
+    teardown(function() {
+      sandbox.restore();
     });
 
-    test('_getReviewerSuggestions excludes owner+reviewers', function(done) {
-      element._getReviewerSuggestions().then(function(reviewers) {
-        // Default is no filtering.
-        assert.equal(reviewers.length, 6);
+    suite('stubbed values for _getReviewerSuggestions', function() {
+      setup(function() {
+        stub('gr-rest-api-interface', {
+          getChangeSuggestedReviewers: function() {
+            var redundantSuggestion1 = {account: existingReviewer1};
+            var redundantSuggestion2 = {account: existingReviewer2};
+            var redundantSuggestion3 = {account: owner};
+            return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
+                redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
+          },
+        });
+      });
 
-        // Set up filter that only accepts suggestion1.
-        var accountId = suggestion1.account._account_id;
-        element.filter = function(suggestion) {
-          return suggestion.account &&
-              suggestion.account._account_id === accountId;
-        };
+      test('_makeSuggestion formats account or group accordingly', function() {
+        var account = makeAccount();
+        var suggestion = element._makeSuggestion({account: account});
+        assert.deepEqual(suggestion, {
+          name: account.name + ' (' + account.email + ')',
+          value: {account: account},
+        });
 
+        var group = {name: 'test'};
+        suggestion = element._makeSuggestion({group: group});
+        assert.deepEqual(suggestion, {
+          name: group.name + ' (group)',
+          value: {group: group},
+        });
+
+        suggestion = element._makeSuggestion(account);
+        assert.deepEqual(suggestion, {
+          name: account.name + ' (' + account.email + ')',
+          value: {account: account, count: 1},
+        });
+      });
+
+      test('_getReviewerSuggestions excludes owner+reviewers', function(done) {
         element._getReviewerSuggestions().then(function(reviewers) {
-          assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);
-        }).then(done);
+          // Default is no filtering.
+          assert.equal(reviewers.length, 6);
+
+          // Set up filter that only accepts suggestion1.
+          var accountId = suggestion1.account._account_id;
+          element.filter = function(suggestion) {
+            return suggestion.account &&
+                suggestion.account._account_id === accountId;
+          };
+
+          element._getReviewerSuggestions().then(function(reviewers) {
+            assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);
+          }).then(done);
+        });
+      });
+    });
+
+    test('allowAnyUser', function(done) {
+      var suggestReviewerStub =
+          sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
+          .returns(Promise.resolve([]));
+      var suggestAccountStub =
+          sandbox.stub(element.$.restAPI, 'getSuggestedAccounts')
+          .returns(Promise.resolve([]));
+
+      element._getReviewerSuggestions('').then(function() {
+        assert.isTrue(suggestReviewerStub.calledOnce);
+        assert.isFalse(suggestAccountStub.called);
+        element.allowAnyUser = true;
+
+        element._getReviewerSuggestions('').then(function() {
+          assert.isTrue(suggestReviewerStub.calledOnce);
+          assert.isTrue(suggestAccountStub.calledOnce);
+          done();
+        });
       });
     });
   });

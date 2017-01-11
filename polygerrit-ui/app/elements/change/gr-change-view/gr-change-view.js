@@ -739,7 +739,7 @@
     },
 
     _updateRebaseAction: function(revisionActions) {
-      if (revisionActions && revisionActions.rebase){
+      if (revisionActions && revisionActions.rebase) {
         this._rebaseOnCurrent = !!revisionActions.rebase.enabled;
         revisionActions.rebase.enabled = true;
       }

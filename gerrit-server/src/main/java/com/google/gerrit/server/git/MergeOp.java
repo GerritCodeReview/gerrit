@@ -226,7 +226,7 @@ public class MergeOp implements AutoCloseable {
   private RequestId submissionId;
   private IdentifiedUser caller;
 
-  private CommitStatus commits;
+  private CommitStatus commitStatus;
   private ReviewDb db;
   private SubmitInput submitInput;
   private ListMultimap<RecipientType, Account.Id> accountsToNotify;
@@ -352,20 +352,20 @@ public class MergeOp implements AutoCloseable {
     for (ChangeData cd : cs.changes()) {
       try {
         if (cd.change().getStatus() != Change.Status.NEW) {
-          commits.problem(cd.getId(), "Change " + cd.getId() + " is "
+          commitStatus.problem(cd.getId(), "Change " + cd.getId() + " is "
               + cd.change().getStatus().toString().toLowerCase());
         } else {
           checkSubmitRule(cd);
         }
       } catch (ResourceConflictException e) {
-        commits.problem(cd.getId(), e.getMessage());
+        commitStatus.problem(cd.getId(), e.getMessage());
       } catch (OrmException e) {
         String msg = "Error checking submit rules for change";
         log.warn(msg + " " + cd.getId(), e);
-        commits.problem(cd.getId(), msg);
+        commitStatus.problem(cd.getId(), msg);
       }
     }
-    commits.maybeFailVerbose();
+    commitStatus.maybeFailVerbose();
   }
 
   private void bypassSubmitRules(ChangeSet cs) {
@@ -424,7 +424,7 @@ public class MergeOp implements AutoCloseable {
         throw new AuthException("A change to be submitted with "
             + change.getId() + " is not visible");
       }
-      this.commits = new CommitStatus(cs);
+      this.commitStatus = new CommitStatus(cs);
       MergeSuperSet.reloadChanges(cs);
       logDebug("Calculated to merge {}", cs);
       if (checkSubmitRules) {
@@ -467,14 +467,14 @@ public class MergeOp implements AutoCloseable {
       }
     }
     // Done checks that don't involve running submit strategies.
-    commits.maybeFailVerbose();
+    commitStatus.maybeFailVerbose();
     SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
     try {
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit,
           submoduleOp, dryrun);
       this.allProjects = submoduleOp.getProjectsInOrder();
       BatchUpdate.execute(orm.batchUpdates(allProjects),
-          new SubmitStrategyListener(submitInput, strategies, commits),
+          new SubmitStrategyListener(submitInput, strategies, commitStatus),
           submissionId, dryrun);
     } catch (SubmoduleException e) {
       throw new IntegrationException(e);
@@ -540,7 +540,7 @@ public class MergeOp implements AutoCloseable {
     LinkedHashSet<CodeReviewCommit> result =
         Sets.newLinkedHashSetWithExpectedSize(cds.size());
     for (ChangeData cd : cds) {
-      CodeReviewCommit commit = commits.get(cd.getId());
+      CodeReviewCommit commit = commitStatus.get(cd.getId());
       checkState(commit != null,
           "commit for %s not found by validateChangeList", cd.getId());
       result.add(commit);
@@ -554,7 +554,7 @@ public class MergeOp implements AutoCloseable {
           throws IntegrationException {
     return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
         or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
-        mergeTip, commits, submissionId, submitInput.notify, accountsToNotify,
+        mergeTip, commitStatus, submissionId, submitInput.notify, accountsToNotify,
         submoduleOp, dryrun);
   }
 
@@ -571,7 +571,7 @@ public class MergeOp implements AutoCloseable {
           .values()) {
         try {
           CodeReviewCommit aac = or.rw.parseCommit(r.getObjectId());
-          if (!commits.commits.values().contains(aac)) {
+          if (!commitStatus.commits.values().contains(aac)) {
             alreadyAccepted.add(aac);
           }
         } catch (IncorrectObjectTypeException iote) {
@@ -609,20 +609,20 @@ public class MergeOp implements AutoCloseable {
         ctl = cd.changeControl();
         chg = cd.change();
       } catch (OrmException e) {
-        commits.logProblem(changeId, e);
+        commitStatus.logProblem(changeId, e);
         continue;
       }
 
       SubmitType st = getSubmitType(cd);
       if (st == null) {
-        commits.logProblem(changeId, "No submit type for change");
+        commitStatus.logProblem(changeId, "No submit type for change");
         continue;
       }
       if (submitType == null) {
         submitType = st;
         choseSubmitTypeFrom = cd;
       } else if (st != submitType) {
-        commits.problem(changeId, String.format(
+        commitStatus.problem(changeId, String.format(
             "Change has submit type %s, but previously chose submit type %s "
             + "from change %s in the same batch",
             st, submitType, choseSubmitTypeFrom.getId()));
@@ -631,7 +631,7 @@ public class MergeOp implements AutoCloseable {
       if (chg.currentPatchSetId() == null) {
         String msg = "Missing current patch set on change";
         logError(msg + " " + changeId);
-        commits.problem(changeId, msg);
+        commitStatus.problem(changeId, msg);
         continue;
       }
 
@@ -640,12 +640,12 @@ public class MergeOp implements AutoCloseable {
       try {
         ps = cd.currentPatchSet();
       } catch (OrmException e) {
-        commits.logProblem(changeId, e);
+        commitStatus.logProblem(changeId, e);
         continue;
       }
       if (ps == null || ps.getRevision() == null
           || ps.getRevision().get() == null) {
-        commits.logProblem(changeId, "Missing patch set or revision on change");
+        commitStatus.logProblem(changeId, "Missing patch set or revision on change");
         continue;
       }
 
@@ -654,7 +654,7 @@ public class MergeOp implements AutoCloseable {
       try {
         id = ObjectId.fromString(idstr);
       } catch (IllegalArgumentException e) {
-        commits.logProblem(changeId, e);
+        commitStatus.logProblem(changeId, e);
         continue;
       }
 
@@ -663,7 +663,7 @@ public class MergeOp implements AutoCloseable {
         // want to merge the issue. We can't safely do that if the
         // tip is not reachable.
         //
-        commits.logProblem(changeId, "Revision " + idstr + " of patch set "
+        commitStatus.logProblem(changeId, "Revision " + idstr + " of patch set "
             + ps.getPatchSetId() + " does not match " + ps.getId().toRefName()
             + " for change");
         continue;
@@ -673,21 +673,21 @@ public class MergeOp implements AutoCloseable {
       try {
         commit = or.rw.parseCommit(id);
       } catch (IOException e) {
-        commits.logProblem(changeId, e);
+        commitStatus.logProblem(changeId, e);
         continue;
       }
 
       // TODO(dborowitz): Consider putting ChangeData in CodeReviewCommit.
       commit.setControl(ctl);
       commit.setPatchsetId(ps.getId());
-      commits.put(commit);
+      commitStatus.put(commit);
 
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(
             or.repo, commit, or.project, destBranch, ps.getId(), caller);
       } catch (MergeValidationException mve) {
-        commits.problem(changeId, mve.getMessage());
+        commitStatus.problem(changeId, mve.getMessage());
         continue;
       }
       commit.add(or.canMergeFlag);

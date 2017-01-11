@@ -89,7 +89,7 @@ public abstract class SubmitStrategy {
       Arguments create(
           SubmitType submitType,
           Branch.NameKey destBranch,
-          CommitStatus commits,
+          CommitStatus commitStatus,
           CodeReviewRevWalk rw,
           IdentifiedUser caller,
           MergeTip mergeTip,
@@ -124,7 +124,7 @@ public abstract class SubmitStrategy {
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
-    final CommitStatus commits;
+    final CommitStatus commitStatus;
     final IdentifiedUser caller;
     final MergeTip mergeTip;
     final ObjectInserter inserter;
@@ -163,7 +163,7 @@ public abstract class SubmitStrategy {
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
         TagCache tagCache,
         @Assisted Branch.NameKey destBranch,
-        @Assisted CommitStatus commits,
+        @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
         @Assisted IdentifiedUser caller,
         @Assisted MergeTip mergeTip,
@@ -195,7 +195,7 @@ public abstract class SubmitStrategy {
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;
-      this.commits = commits;
+      this.commitStatus = commitStatus;
       this.rw = rw;
       this.caller = caller;
       this.mergeTip = mergeTip;

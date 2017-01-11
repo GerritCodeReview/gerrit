@@ -431,7 +431,7 @@ limitations under the License.
       assert.equal(element._workaround('java', line), line);
 
       // Does nothing to regular annotation.
-      var line = 'public static void foo(@Nullable int bar) { }';
+      line = 'public static void foo(@Nullable int bar) { }';
       assert.equal(element._workaround('java', line), line);
 
       // Converts parameterized annotation.
@@ -439,6 +439,36 @@ limitations under the License.
       var expected = 'public static void foo(@SuppressWarnings "unused" ' +
           ' int bar) { }';
       assert.equal(element._workaround('java', line), expected);
+    });
+
+    test('workaround CPP whcar_t character literals', function() {
+      // Does nothing to regular line.
+      var line = 'int main(int argc, char** argv) { return 0; }';
+      assert.equal(element._workaround('cpp', line), line);
+
+      // Does nothing to wchar_t string.
+      line = 'wchar_t* sz = L"abc 123";';
+      assert.equal(element._workaround('cpp', line), line);
+
+      // Converts wchar_t character literal to string.
+      line = 'wchar_t myChar = L\'#\'';
+      var expected = 'wchar_t myChar = L"."';
+      assert.equal(element._workaround('cpp', line), expected);
+    });
+
+    test('workaround go backslash character literals', function() {
+      // Does nothing to regular line.
+      var line = 'func foo(in []byte) (lit []byte, n int, err error) {';
+      assert.equal(element._workaround('go', line), line);
+
+      // Does nothing to string with backslash literal
+      line = 'c := "\\\\"';
+      assert.equal(element._workaround('go', line), line);
+
+      // Converts backslash literal character to a string.
+      line = 'c := \'\\\\\'';
+      var expected = 'c := "\\\\"';
+      assert.equal(element._workaround('go', line), expected);
     });
   });
 </script>

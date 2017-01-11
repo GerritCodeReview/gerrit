@@ -79,7 +79,9 @@
   };
 
   var CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
+  var CPP_WCHAR_PATTERN = /L\'.\'/g;
   var JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
+  var GO_BACKSLASH_LITERAL = '\'\\\\\'';
   var GLOBAL_LT_PATTERN = /</g;
 
   Polymer({
@@ -341,14 +343,28 @@
      * @return {string} A potentially-rewritten line of code.
      */
     _workaround: function(language, line) {
-      /**
-       * Prevent confusing < and << operators for the start of a meta string by
-       * converting them to a different operator.
-       * {@see Issue 4864}
-       * {@see https://github.com/isagalaev/highlight.js/issues/1341}
-       */
-      if (language === 'cpp' && CPP_DIRECTIVE_WITH_LT_PATTERN.test(line)) {
-        return line.replace(GLOBAL_LT_PATTERN, '|');
+      if (language === 'cpp') {
+        /**
+         * Prevent confusing < and << operators for the start of a meta string
+         * by converting them to a different operator.
+         * {@see Issue 4864}
+         * {@see https://github.com/isagalaev/highlight.js/issues/1341}
+         */
+        if (CPP_DIRECTIVE_WITH_LT_PATTERN.test(line)) {
+          line = line.replace(GLOBAL_LT_PATTERN, '|');
+        }
+
+        /**
+         * Rewrite CPP wchar_t characters literals to wchar_t string literals
+         * because HLJS only understands the string form.
+         * {@see Issue 5242}
+         * {#see https://github.com/isagalaev/highlight.js/issues/1412}
+         */
+        if (CPP_WCHAR_PATTERN.test(line)) {
+          line = line.replace(CPP_WCHAR_PATTERN, 'L"."');
+        }
+
+        return line;
       }
 
       /**
@@ -360,6 +376,15 @@
        */
       if (language === 'java' && JAVA_PARAM_ANNOT_PATTERN.test(line)) {
         return line.replace(JAVA_PARAM_ANNOT_PATTERN, '$1 $2 ');
+      }
+
+      /**
+       * HLJS misunderstands backslash character literals in Go.
+       * {@see Issue 5007}
+       * {#see https://github.com/isagalaev/highlight.js/issues/1411}
+       */
+      if (language === 'go' && line.indexOf(GO_BACKSLASH_LITERAL) !== -1) {
+        return line.replace(GO_BACKSLASH_LITERAL, '"\\\\"');
       }
 
       return line;

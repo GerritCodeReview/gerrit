@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8390110b_5f036b86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-11T00:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03198172_f3a17086",
+      "revId": "eae33a32bd2768e59558724ebe28a3feccf0a03f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3370dd9_d277843a",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2017-01-10T19:24:19Z",
       "side": 1,
       "message": "Trailing semicolon missed.",
+      "revId": "eae33a32bd2768e59558724ebe28a3feccf0a03f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c38a09db_61dc96f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-11T00:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3370dd9_d277843a",
       "revId": "eae33a32bd2768e59558724ebe28a3feccf0a03f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

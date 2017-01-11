@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "239f651f_9c9105e4",
+        "filename": "Documentation/pgm-passwd.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:08:21Z",
+      "side": 1,
+      "message": "nit: long lines",
+      "range": {
+        "startLine": 35,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 77
+      },
+      "revId": "f90c7e1383a37250aa1b84ed87fc33b9976e5f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_fc94c9d4",
+        "filename": "Documentation/pgm-passwd.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:08:21Z",
+      "side": 1,
+      "message": "configured",
+      "range": {
+        "startLine": 41,
+        "startChar": 56,
+        "endLine": 41,
+        "endChar": 65
+      },
+      "revId": "f90c7e1383a37250aa1b84ed87fc33b9976e5f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "039c2129_bbe08777",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Passwd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:08:21Z",
+      "side": 1,
+      "message": "nit: please wrap long lines",
+      "revId": "f90c7e1383a37250aa1b84ed87fc33b9976e5f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_5c4b7d97",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SetPasswd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:08:21Z",
+      "side": 1,
+      "message": "Looking at Section#passwordForKey this should be only the key.",
+      "range": {
+        "startLine": 40,
+        "startChar": 37,
+        "endLine": 40,
+        "endChar": 51
+      },
+      "revId": "f90c7e1383a37250aa1b84ed87fc33b9976e5f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "239f651f_bc8e41bf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SetPasswd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:08:21Z",
+      "side": 1,
+      "message": "Should this be password?",
+      "range": {
+        "startLine": 40,
+        "startChar": 53,
+        "endLine": 40,
+        "endChar": 56
+      },
+      "revId": "f90c7e1383a37250aa1b84ed87fc33b9976e5f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

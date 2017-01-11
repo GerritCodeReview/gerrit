@@ -79,7 +79,7 @@ public interface Accounts {
     throws RestApiException;
 
   /**
-   * Queries users.
+   * Query users.
    * <p>
    * Example code:
    * {@code query().withQuery("name:John email:example.com").withLimit(5).get()}
@@ -89,7 +89,7 @@ public interface Accounts {
   QueryRequest query() throws RestApiException;
 
   /**
-   * Queries users.
+   * Query users.
    * <p>
    * Shortcut API for {@code query().withQuery(String)}.
    *
@@ -108,7 +108,7 @@ public interface Accounts {
     private int limit;
 
     /**
-     * Executes query and returns a list of accounts.
+     * Execute query and return a list of accounts.
      */
     public abstract List<AccountInfo> get() throws RestApiException;
 
@@ -154,7 +154,7 @@ public interface Accounts {
         EnumSet.noneOf(ListAccountsOption.class);
 
     /**
-     * Executes query and returns a list of accounts.
+     * Execute query and return a list of accounts.
      */
     public abstract List<AccountInfo> get() throws RestApiException;
 

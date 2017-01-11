@@ -146,6 +146,24 @@
       "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63995d37_1e888d07",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-11T00:03:57Z",
+      "side": 1,
+      "message": "I see.\nThanks for explanation!",
+      "parentUuid": "234a0571_446cee71",
+      "revId": "f1451ba247ad60bdab7927a1e0244e22dba3cd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

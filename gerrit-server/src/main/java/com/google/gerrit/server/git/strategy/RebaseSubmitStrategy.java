@@ -192,7 +192,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       newCommit.setPatchsetId(newPatchSetId);
       newCommit.setStatusCode(CommitMergeStatus.CLEAN_REBASE);
       args.mergeTip.moveTipTo(newCommit, newCommit);
-      args.commits.put(args.mergeTip.getCurrentTip());
+      args.commitStatus.put(args.mergeTip.getCurrentTip());
       acceptMergeTip(args.mergeTip);
     }
 

@@ -57,12 +57,12 @@ public class SubmitStrategyFactory {
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
-      CommitStatus commits, RequestId submissionId,
+      CommitStatus commitStatus, RequestId submissionId,
       NotifyHandling notifyHandling,
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
       SubmoduleOp submoduleOp, boolean dryrun) throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
-        commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
+        commitStatus, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
         alreadyAccepted, submissionId, notifyHandling, accountsToNotify,
         submoduleOp, dryrun);
     switch (submitType) {

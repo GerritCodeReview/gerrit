@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "239f651f_3c8d5118",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T08:08:52Z",
+      "side": 1,
+      "message": "Don\u0027t want to block on this, but just say that I prefer the 80-column default.",
+      "range": {
+        "startLine": 21,
+        "startChar": 38,
+        "endLine": 21,
+        "endChar": 61
+      },
+      "revId": "68bf0a1b27c2a0ded2e8d0fa7f38316e0705d103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37288269_e6c85e47",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/ChildCollection.java",
         "patchSetId": 4

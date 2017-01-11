@@ -16,6 +16,23 @@
       "revId": "c290ca100c00deef35ea6299e36602a5f832c437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6345dd83_3e676990",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-11T17:46:46Z",
+      "side": 1,
+      "message": "@see https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4376\n\nEventInfo is a new base class for all messages, reviewer updates etc and it has an id that is used to generate links to those comments.\n\nAt the moment it seems possible to use reviewer update commit ID (see the latest patchset) + maybe some prefix to handle situations when reviewer update was a part of another action.\nNext, I think it should be possible to pack updates within a certain timeframe to address https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4383\n\nI\u0027m not quite sure this is the best approach, but it should work.",
+      "revId": "c290ca100c00deef35ea6299e36602a5f832c437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

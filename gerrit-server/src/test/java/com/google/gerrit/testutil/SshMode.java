@@ -26,17 +26,26 @@ public enum SshMode {
   /** Tests annotated with UseSsh will be enabled. */
   YES;
 
-  private static final String VAR = "GERRIT_USE_SSH";
+  private static final String ENV_VAR = "GERRIT_USE_SSH";
+  private static final String SYS_PROP = "gerrit.use.ssh";
 
   public static SshMode get() {
-    String value = System.getenv(VAR);
+    String value = System.getenv(ENV_VAR);
+    if (Strings.isNullOrEmpty(value)) {
+      value = System.getProperty(SYS_PROP);
+    }
     if (Strings.isNullOrEmpty(value)) {
       return YES;
     }
     value = value.toUpperCase();
     SshMode mode = Enums.getIfPresent(SshMode.class, value).orNull();
-    checkArgument(mode != null,
-        "Invalid value for %s: %s", VAR, System.getenv(VAR));
+    if (!Strings.isNullOrEmpty(System.getenv(ENV_VAR))) {
+      checkArgument(mode != null, "Invalid value for env variable %s: %s",
+          ENV_VAR, System.getenv(ENV_VAR));
+    } else {
+      checkArgument(mode != null, "Invalid value for system property %s: %s",
+          SYS_PROP, System.getProperty(SYS_PROP));
+    }
     return mode;
   }
 

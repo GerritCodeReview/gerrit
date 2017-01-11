@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "239f651f_1c55f531",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:16:58Z",
+      "side": 1,
+      "message": "Today Alice made me aware that we reindex a change only when a change edit is created, deleted or published but not when a change edit is otherwise updated. This means the ref state for the edit refs in the index get stale when there are updates to change edit. So far this was not an issue since change documents only needed to know which users have change edits, but the state of the edit ref was not used.",
+      "range": {
+        "startLine": 971,
+        "startChar": 10,
+        "endLine": 972,
+        "endChar": 68
+      },
+      "revId": "7d0e67c6ec862ccbee2fc184e4671ab7e2d5ea66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ec1c3c_df407b55",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 5

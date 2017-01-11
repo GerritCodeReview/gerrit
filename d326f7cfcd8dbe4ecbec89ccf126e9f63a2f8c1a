@@ -86,6 +86,548 @@
       "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_9f1313d3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "You don\u0027t need any more synchronization on monitor anymore do you?",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_5f122bd2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/ExternalIdsOnInit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Do you really want this to be a different ident from @GerritPersonIdent, or is this just because that\u0027s not injectable here?\n\nIf the latter, you can do it in the body of insert:\n\n new GerritPersonIdentProvider(flags.cfg).get();\n\n(Or write a GerritPersonIdentOnInitProvider but this is quicker.)",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_c1fdc246",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "I have mixed feelings about using @AutoValue here. On the one hand I love immutable types in general and AutoValue in particular, and moving towards immutable types for more core Gerrit classes is clearly a win.\n\nOn the other hand, we already did a refactoring where we replaced a ReviewDb type (PatchLineComment) with a custom NoteDb type (Comment), but for that one we chose a POJO, largely because JSON.\n\nSo it feels weird to have only migrated 2 ReviewDb types and already run into this inconsistency. I guess ultimately this is because one type is store in a note as JSON and one type is stored as git config. But I\u0027m not really questioning either of those decisions.\n\nAnyway, not something I expect us to resolve today, just keep in mind as we do more work like this.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_7fe44fb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "If you\u0027re writing javadoc, document that it returns null for an invalid key.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_ff205f19",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Return a Set?",
+      "range": {
+        "startLine": 88,
+        "startChar": 18,
+        "endLine": 88,
+        "endChar": 28
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_df1d9bdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "I would say get() instead of toString(), since toString is often treated as for debugging purposes only and the representation is more likely to change over time.",
+      "range": {
+        "startLine": 115,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 25
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_3feac77f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Nit: \u003cp\u003e",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_1fef0390",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "With this number of static factory methods, maybe the Builder pattern would be a better fit?\n\nhttps://github.com/google/auto/blob/master/value/userguide/builders.md\n\n(They\u0027re not mutually exclusive--you could leave a smaller handful of simpler factory methods as well.)",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_e11d66df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "I prefer returning an exception to throwing, because it makes the control flow at the callers clearer (and for that reason is less likely to confuse the compiler)",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_41ea5280",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Return Set?",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_21ef4e90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "s/an/a/ or just remove this word.",
+      "range": {
+        "startLine": 275,
+        "startChar": 33,
+        "endLine": 275,
+        "endChar": 35
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_81e45ab1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "key().get() per my comment above.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_bf4417b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "I feel like at this point it\u0027s worth trying to think of ways to reduce code duplication here. Maybe a method that takes a Consumer to update the cache?\n\n private void updateCache(Consumer\u003cMultimap\u003cAccount.Id, ExternalId\u003e\u003e update) {\n   lock.lock();\n   try {\n     Multimap\u003cAccount.Id, ExternalId\u003e m \u003d MultimapBuilder.hashKeys()\n         .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));\n     update.accept(m);\n     extIdsByAccount.put(AllKey.ALL, ImmutableSetMultimap.copyOf(m));\n   } catch (ExecutionException e) {\n     log.warn(\"Cannot list external IDs\", e);\n   } finally {\n     lock.unlock();\n   }\n }\n\n @Override\n  public void onCreate(Iterable\u003cExternalId\u003e extIds) {\n   updateCache(m -\u003e {\n     for (ExternalId extId : extIds) {\n       n.put(extId.accountId(), extId);\n     }\n   });\n }\n\nPossibly ok as a separate cleanup.",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 7
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_7f5baf97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "external IDs",
+      "range": {
+        "startLine": 174,
+        "startChar": 38,
+        "endLine": 174,
+        "endChar": 46
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_a1fa3e4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Can probably be a default implementation in the interface.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_4151b276",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "ReviewDb",
+      "range": {
+        "startLine": 49,
+        "startChar": 38,
+        "endLine": 49,
+        "endChar": 45
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_21562e70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "external ID key",
+      "range": {
+        "startLine": 53,
+        "startChar": 62,
+        "endLine": 53,
+        "endChar": 73
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_7f328f5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Set?",
+      "range": {
+        "startLine": 88,
+        "startChar": 9,
+        "endLine": 88,
+        "endChar": 19
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_815bba96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "ExternalId::from",
+      "range": {
+        "startLine": 91,
+        "startChar": 15,
+        "endLine": 91,
+        "endChar": 38
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_c144a2b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 120,
+        "startChar": 2,
+        "endLine": 120,
+        "endChar": 8
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_014faace",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Optional: extract a private method parse(RevWalk, ObjectId)",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_e14ba6be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsBatchUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "I think \"all updates will result\" is ambiguous, it could mean \"all updates will [collapse down into] a single commit\". Changing to \"each update will result\" is unambiguous.",
+      "range": {
+        "startLine": 40,
+        "startChar": 69,
+        "endLine": 40,
+        "endChar": 80
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833c91f3_9f2833eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsBatchUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "I feel like these should be sets. It\u0027s not obvious from reading the implementation of commit that toAccountExternalIds takes care of deduplication.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_41389240",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsBatchUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Document the behavior if the add/delete sets overlap.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_213d8e30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Does this need to be public? If it\u0027s only for testing, annotate it.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_c12b02e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Document what happens when these overlap",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_81329a5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Move inside the if block?\n\nActually the conditional could probably be inverted and turned into an early return",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c336890f_6137964e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-11T22:02:28Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

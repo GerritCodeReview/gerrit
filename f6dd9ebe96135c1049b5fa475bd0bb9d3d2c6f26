@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "239f651f_dcf30d27",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/Section.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-11T15:28:22Z",
+      "side": 1,
+      "message": "Not directly related to your change but why do we need the format string which is as simple as \"%s\"? Use:\n\n  ui.password(prompt);",
+      "revId": "f6dd9ebe96135c1049b5fa475bd0bb9d3d2c6f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -40,6 +40,24 @@
       "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "039c2129_9b7a6bd2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SetPasswd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-11T14:32:42Z",
+      "side": 1,
+      "message": "Are you sure?\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/Section.java#174",
+      "parentUuid": "239f651f_3c31d128",
+      "revId": "8259e41fe8f69b30d951c0219638f12dc6155522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

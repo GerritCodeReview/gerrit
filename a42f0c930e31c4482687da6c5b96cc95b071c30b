@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c336890f_21b46e92",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-11T22:24:40Z",
+      "side": 1,
+      "message": "Note- \u0027params\u0027 was already passed to this component. it just wasn\u0027t used or declared as a property.",
+      "revId": "a42f0c930e31c4482687da6c5b96cc95b071c30b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

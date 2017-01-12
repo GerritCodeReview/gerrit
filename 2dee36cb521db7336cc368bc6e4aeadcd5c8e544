@@ -134,6 +134,29 @@
     },
     {
       "key": {
+        "uuid": "2364c52d_b41600c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-12T06:53:20Z",
+      "side": 1,
+      "message": "don\u0027t use final here",
+      "range": {
+        "startLine": 42,
+        "startChar": 27,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17d8de6b_ad73fdc4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
         "patchSetId": 1
@@ -145,6 +168,29 @@
       "writtenOn": "2017-01-09T08:42:48Z",
       "side": 1,
       "message": "nit: order alphabetically",
+      "range": {
+        "startLine": 42,
+        "startChar": 29,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "436b79ff_b5a1e087",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-12T06:53:20Z",
+      "side": 1,
+      "message": "\u003e order alphabetically\n\nWhy? Typically we order the parameters in the same order that they\u0027re declared in the class (i.e. L37-39)",
       "range": {
         "startLine": 42,
         "startChar": 29,
@@ -266,6 +312,23 @@
         "endLine": 75,
         "endChar": 49
       },
+      "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "436b79ff_959e6443",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteAccountExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-12T06:53:20Z",
+      "side": 1,
+      "message": "Also need to evict from the new external Id cache.",
       "revId": "2dee36cb521db7336cc368bc6e4aeadcd5c8e544",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,143 @@
       "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_c0ccbe44",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:28:53Z",
+      "side": 1,
+      "message": "Not critical, since it\u0027s already shared and updated by gr-change-metadata, up to you.",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_e0c9c231",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:28:53Z",
+      "side": 1,
+      "message": "1,2...5 levels nesting.\nNot a huge deal, but it\u0027s a code smell.",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_41e192af",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:28:53Z",
+      "side": 1,
+      "message": "s/counter/lastId/g",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_01b06ac7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:28:53Z",
+      "side": 1,
+      "message": "Since other places in the code use this notation:\nvar makeAccount \u003d function() {",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_21dc8ef8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:28:53Z",
+      "side": 1,
+      "message": "var makeGroup \u003d function() {",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_4008aea1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:28:53Z",
+      "side": 1,
+      "message": "Would it be possible to test interface instead of private method?\ne.g. set a change, expect change to be updated?",
+      "range": {
+        "startLine": 520,
+        "startChar": 10,
+        "endLine": 520,
+        "endChar": 32
+      },
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_2003aa87",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:28:53Z",
+      "side": 1,
+      "message": "variable not used.",
+      "range": {
+        "startLine": 521,
+        "startChar": 10,
+        "endLine": 521,
+        "endChar": 14
+      },
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

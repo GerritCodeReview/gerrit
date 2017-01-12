@@ -33,6 +33,23 @@
       "revId": "0e6023a7566385e3727f3e6933bbfca39c3d0cee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a305154c_d081fce7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-12T08:30:03Z",
+      "side": 1,
+      "message": "See https://dev.mysql.com/doc/connector-j/6.0/en/connector-j-versions.html",
+      "revId": "0e6023a7566385e3727f3e6933bbfca39c3d0cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

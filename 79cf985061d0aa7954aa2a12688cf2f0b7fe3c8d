@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1484240458 -0500\nnonce AHDV6Gnk0i845FMqxH9zkHsz2geSPnt1XMCkhBK2a+tuBUWpsrmrG0YBuUw7f0lpC6uQY0h5Ztzg\n\n0000000000000000000000000000000000000000 c32324930d5086c0049548af7b067d533c4e6dea refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYd7ZKAAoJEF/XxZqaEoiMzOUP/jb4/qeWnGBvTinRdJ+l7gFm\n1mFaRsWbqBFLa+vx3SfLbMlV+Kn0Qa8pi/iWQrguMw7O4uaZ3QoGlucYtv0+XeMm\njfa/aKNoXXxIOYu2t2vnvjaN/YaLRXjvynA4ZBJnfuqGk/S1l1ope9wPlQn3Vp+Z\ntNY5nG5ddzMMEgzEtJVeFBYVgcr1vOKmRG5vS+QQRGRfII8tj4myoL8zN5F+qFCn\nBm2QMwbqj03LRiL/yNkS42sc5OZKB8NqK5BMrUjQthixoesVcj6eFhEdMJNq0vj0\nT47Lv8eJdl2Wke7KiSoezsUWVAI+F5TBRlUxZSPNF9L0+cS0ylWhpH8qZviKzOYe\nU62i4GTNCluLbCCEGZRuqyorBynnKjUWNqN9WWHBE9szNZfx3d1kjIr9Dr6BCVWQ\nvCdKxlLjQModZtHqC6aXWt9PCNBE8AIk5bRzd34eoYa/wzyKgSEb/14A7fyqJv1I\nd34F3HPsNPoA5b6p2hCrGrLwf4bCDcMuHgCilpwOlngQAaZFuma8J+5NVc8so8PD\nbSj3wR7CnUG0DiVh3v4pHFk/+zrohTg18ZoAZqDBybjhry1DLmNh8P0VHaApndke\nANbjufsenqmqbar6CPjMxrTx0FXC1VYt4y+IoxjhqNtARfHzGz4lUOFG/6rqlnM3\nDx0JQvByswp3hIHXoa1C\n\u003di0Er\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3ff0d6a_52d51498",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-12T18:06:19Z",
+      "side": 1,
+      "message": "nit: unwanted removal of indentation",
+      "revId": "79cf985061d0aa7954aa2a12688cf2f0b7fe3c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

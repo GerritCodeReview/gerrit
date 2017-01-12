@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "a305154c_30384840",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2146,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-12T15:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 2146,
+        "startChar": 21,
+        "endLine": 2146,
+        "endChar": 31
+      },
+      "revId": "f2cd279c77dd5ffc0e804c1a5866a2d8fb2d2997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3ff0d6a_b22ba0e6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountExternalIdInfo.java",
         "patchSetId": 7
@@ -36,6 +59,29 @@
       "writtenOn": "2017-01-12T14:00:26Z",
       "side": 1,
       "message": "nit: line too long",
+      "range": {
+        "startLine": 19,
+        "startChar": 77,
+        "endLine": 19,
+        "endChar": 81
+      },
+      "revId": "f2cd279c77dd5ffc0e804c1a5866a2d8fb2d2997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a305154c_103d4430",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AccountExternalIdInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-12T15:14:55Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 19,
         "startChar": 77,
@@ -71,6 +117,29 @@
     },
     {
       "key": {
+        "uuid": "e3ff0d6a_f2cc081b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-12T15:14:55Z",
+      "side": 1,
+      "message": "Yes. This API will only be used to get the external ids for the user itself in \u0027MyIdentitiesScreen\u0027.",
+      "range": {
+        "startLine": 55,
+        "startChar": 31,
+        "endLine": 55,
+        "endChar": 62
+      },
+      "revId": "f2cd279c77dd5ffc0e804c1a5866a2d8fb2d2997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a305154c_904134a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
         "patchSetId": 7
@@ -82,6 +151,29 @@
       "writtenOn": "2017-01-12T14:00:26Z",
       "side": 1,
       "message": "nit: put this in brackets for easier readability",
+      "range": {
+        "startLine": 80,
+        "startChar": 25,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "f2cd279c77dd5ffc0e804c1a5866a2d8fb2d2997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_d2c90409",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-12T15:14:55Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 80,
         "startChar": 25,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "436b79ff_75bf48a0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-12T10:13:03Z",
+      "side": 1,
+      "message": "Is this debug logging, or is it necessary to output the result of the authenticate method?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 16
+      },
+      "revId": "ae52c0450dd95ff3c03a58cd90964f9796ffbab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

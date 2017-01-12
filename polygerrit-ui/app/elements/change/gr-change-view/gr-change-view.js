@@ -521,11 +521,15 @@
       } else {
         currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
       }
-      if (patchNum === currentPatchNum) {
+      if (patchNum === currentPatchNum &&
+          this._patchRange.basePatchNum === 'PARENT') {
         page.show(this.changePath(this._changeNum));
         return;
       }
-      page.show(this.changePath(this._changeNum) + '/' + patchNum);
+      var patchExpr = this._patchRange.basePatchNum === 'PARENT' ?
+          patchNum :
+          this._patchRange.basePatchNum + '..' + patchNum;
+      page.show(this.changePath(this._changeNum) + '/' + patchExpr);
     },
 
     _computeChangePermalink: function(changeNum) {

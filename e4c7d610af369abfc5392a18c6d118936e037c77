@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "a3d3551c_8012b6cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T21:51:52Z",
+      "side": 1,
+      "message": "Gonna leave this as-is.",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3d3551c_e0c9c231",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -47,6 +64,23 @@
       "writtenOn": "2017-01-12T21:28:53Z",
       "side": 1,
       "message": "1,2...5 levels nesting.\nNot a huge deal, but it\u0027s a code smell.",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_8112bacf",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T21:51:52Z",
+      "side": 1,
+      "message": "I don\u0027t see any other way to accomplish this task. This is a relatively complex front end application, and \u0027change\u0027 stores the state for most of it.",
       "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -73,6 +107,23 @@
       "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_2103ae87",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T21:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +161,23 @@
     },
     {
       "key": {
+        "uuid": "a3d3551c_a016dac2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T21:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3d3551c_4008aea1",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 1
@@ -127,6 +195,23 @@
         "endLine": 520,
         "endChar": 32
       },
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_e020e219",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T21:51:52Z",
+      "side": 1,
+      "message": "Fundamentally it would, but all that would test is the functionality of the X button, which is already tested in gr-account-list, and the \u0027_*Changed\u0027 functions which are very simple.\n\nIt would mean more work and dealing with possible shadow DOM inconsistencies to mock a click on an added account, and wouldn\u0027t increase test coverage by a significant amount.",
       "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -153,6 +238,23 @@
       "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_4108b2a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T21:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

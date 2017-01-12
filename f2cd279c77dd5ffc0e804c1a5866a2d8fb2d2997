@@ -163,6 +163,29 @@
     },
     {
       "key": {
+        "uuid": "43de192a_1d67f38f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-12T23:15:33Z",
+      "side": 1,
+      "message": "This message is consistent with other messages that are returned when the caller is not allowed to do something with another user\u0027s account.",
+      "range": {
+        "startLine": 55,
+        "startChar": 31,
+        "endLine": 55,
+        "endChar": 62
+      },
+      "revId": "f2cd279c77dd5ffc0e804c1a5866a2d8fb2d2997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a305154c_904134a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
         "patchSetId": 7

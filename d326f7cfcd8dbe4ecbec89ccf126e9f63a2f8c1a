@@ -66,6 +66,23 @@
     },
     {
       "key": {
+        "uuid": "a305154c_1008a4a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-12T12:01:39Z",
+      "side": 1,
+      "message": "Yes, we know that the encryption must be done and we have it already on our roadmap. I\u0027m fine with holding off this change until it\u0027s done.",
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "833c91f3_dfc63b1f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -77,6 +94,29 @@
       "writtenOn": "2017-01-11T20:53:08Z",
       "side": 1,
       "message": "I don\u0027t think this extension point is the right fit. It\u0027s really a key-value storage mechanism. Say you had a SecureStore implementation that encrypts data and throws it in a blob on GCS. That is not NoteDb at all.\n\nPer my last comment I\u0027m not even sure we want this to be configurable, I think Gerrit really needs to be secure out of the box with no way of shooting yourself in the foot here.",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 53
+      },
+      "revId": "d326f7cfcd8dbe4ecbec89ccf126e9f63a2f8c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a305154c_10e1c4b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-12T12:01:39Z",
+      "side": 1,
+      "message": "Yeah, I wasn\u0027t thinking much about this yet. Using the SecureStore extension point is what was suggested during the user summit, but I\u0027m fine with whatever fits and works best. I agree that the current SecureStore extension point doesn\u0027t fit. So either we do something else or we can make it fit.",
       "range": {
         "startLine": 96,
         "startChar": 9,

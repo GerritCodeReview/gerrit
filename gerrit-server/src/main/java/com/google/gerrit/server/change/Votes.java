@@ -59,11 +59,11 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
   public VoteResource parse(ReviewerResource reviewer, IdString id)
       throws ResourceNotFoundException, OrmException, AuthException,
       MethodNotAllowedException {
-    if (!reviewer.getRevisionResource().isCurrent()) {
+    if (reviewer.getRevisionResource() != null
+        && !reviewer.getRevisionResource().isCurrent()) {
       throw new MethodNotAllowedException(
           "Cannot access on non-current patch set");
     }
-
     return new VoteResource(reviewer, id.get());
   }
 

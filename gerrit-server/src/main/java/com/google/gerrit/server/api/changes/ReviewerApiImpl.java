@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.changes;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.DeleteReviewer;
 import com.google.gerrit.server.change.DeleteVote;
@@ -35,16 +36,19 @@ public class ReviewerApiImpl implements ReviewerApi {
     ReviewerApiImpl create(ReviewerResource r);
   }
 
+  private final Votes votes;
   private final ReviewerResource reviewer;
   private final Votes.List listVotes;
   private final DeleteVote deleteVote;
   private final DeleteReviewer deleteReviewer;
 
   @Inject
-  ReviewerApiImpl(Votes.List listVotes,
+  ReviewerApiImpl(Votes votes,
+      Votes.List listVotes,
       DeleteVote deleteVote,
       DeleteReviewer deleteReviewer,
       @Assisted ReviewerResource reviewer) {
+    this.votes = votes;
     this.listVotes = listVotes;
     this.deleteVote = deleteVote;
     this.deleteReviewer = deleteReviewer;
@@ -63,7 +67,10 @@ public class ReviewerApiImpl implements ReviewerApi {
   @Override
   public void deleteVote(String label) throws RestApiException {
     try {
-      deleteVote.apply(new VoteResource(reviewer, label), null);
+      deleteVote.apply(votes.parse(reviewer,
+          IdString.fromDecoded(label)), null);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse vote", e);
     } catch (UpdateException e) {
       throw new RestApiException("Cannot delete vote", e);
     }
@@ -72,8 +79,11 @@ public class ReviewerApiImpl implements ReviewerApi {
   @Override
   public void deleteVote(DeleteVoteInput input) throws RestApiException {
     try {
-      deleteVote.apply(new VoteResource(reviewer, input.label), input);
-    } catch (UpdateException e) {
+      deleteVote.apply(votes.parse(reviewer,
+          IdString.fromDecoded(input.label)), input);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse vote", e);
+    }  catch (UpdateException e) {
       throw new RestApiException("Cannot delete vote", e);
     }
   }

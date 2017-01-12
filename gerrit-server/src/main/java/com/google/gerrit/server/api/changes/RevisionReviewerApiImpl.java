@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.changes;
 
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.RevisionReviewerApi;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.DeleteVote;
 import com.google.gerrit.server.change.ReviewerResource;
@@ -33,14 +34,17 @@ public class RevisionReviewerApiImpl implements RevisionReviewerApi {
     RevisionReviewerApiImpl create(ReviewerResource r);
   }
 
+  private final Votes votes;
   private final ReviewerResource reviewer;
   private final Votes.List listVotes;
   private final DeleteVote deleteVote;
 
   @Inject
-  RevisionReviewerApiImpl(Votes.List listVotes,
+  RevisionReviewerApiImpl(Votes votes,
+      Votes.List listVotes,
       DeleteVote deleteVote,
       @Assisted ReviewerResource reviewer) {
+    this.votes = votes;
     this.listVotes = listVotes;
     this.deleteVote = deleteVote;
     this.reviewer = reviewer;
@@ -58,7 +62,10 @@ public class RevisionReviewerApiImpl implements RevisionReviewerApi {
   @Override
   public void deleteVote(String label) throws RestApiException {
     try {
-      deleteVote.apply(new VoteResource(reviewer, label), null);
+      deleteVote.apply(votes.parse(reviewer,
+          IdString.fromDecoded(label)), null);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse vote", e);
     } catch (UpdateException e) {
       throw new RestApiException("Cannot delete vote", e);
     }
@@ -67,8 +74,11 @@ public class RevisionReviewerApiImpl implements RevisionReviewerApi {
   @Override
   public void deleteVote(DeleteVoteInput input) throws RestApiException {
     try {
-      deleteVote.apply(new VoteResource(reviewer, input.label), input);
-    } catch (UpdateException e) {
+      deleteVote.apply(votes.parse(reviewer,
+          IdString.fromDecoded(input.label)), input);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse vote", e);
+    }  catch (UpdateException e) {
       throw new RestApiException("Cannot delete vote", e);
     }
   }

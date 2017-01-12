@@ -102,6 +102,23 @@
       "revId": "a42f0c930e31c4482687da6c5b96cc95b071c30b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_c177623a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T20:53:00Z",
+      "side": 1,
+      "message": "\u003e Should be a space before the opening brace.\n\n+1\n\n\u003e Should the body of the function be indented to the right of the line containing the opening brace?\n\n-1",
+      "revId": "a42f0c930e31c4482687da6c5b96cc95b071c30b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

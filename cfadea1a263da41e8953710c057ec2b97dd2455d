@@ -22,6 +22,29 @@
       "revId": "cfadea1a263da41e8953710c057ec2b97dd2455d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_72b9388a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-12T14:54:39Z",
+      "side": 1,
+      "message": "Do you think these two tests are necessary? For most of our API, we only test the corresponding java API.",
+      "range": {
+        "startLine": 1127,
+        "startChar": 32,
+        "endLine": 1127,
+        "endChar": 43
+      },
+      "revId": "cfadea1a263da41e8953710c057ec2b97dd2455d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d20918_61885609",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:06:16Z",
+      "side": 1,
+      "message": "This seem dangerous since it makes it difficult to figure out what caused _change to change.\nIs there a rational way to avoid it?\nIt seems more logical and consistent for data to go to the child nodes, while child nodes to send events to update it.",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

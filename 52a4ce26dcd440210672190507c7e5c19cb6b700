@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3d3551c_40934e3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:11:47Z",
+      "side": 1,
+      "message": "Can em be used here?",
+      "revId": "52a4ce26dcd440210672190507c7e5c19cb6b700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_808d561a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:11:47Z",
+      "side": 1,
+      "message": "This shows additional change-id, or the one provided with the commit message?",
+      "revId": "52a4ce26dcd440210672190507c7e5c19cb6b700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_c09e7e44",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:11:47Z",
+      "side": 1,
+      "message": "Alternatively, up to you:\n\nvar CHANGE_ID_REGEX_PATTERN \u003d /(I[0-9a-f]{8,40})/g;",
+      "revId": "52a4ce26dcd440210672190507c7e5c19cb6b700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_20b56ac0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-12T21:11:47Z",
+      "side": 1,
+      "message": "Would it be cleaner if the logic would calculate _changeIdClass and _titleAttributeWarning as calculated properties?",
+      "revId": "52a4ce26dcd440210672190507c7e5c19cb6b700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

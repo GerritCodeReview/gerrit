@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a3d3551c_60d692d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T21:29:51Z",
+      "side": 1,
+      "message": "Remove this second \"incorrect\"?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "52a4ce26dcd440210672190507c7e5c19cb6b700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3d3551c_40934e3f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1
@@ -47,6 +70,23 @@
       "writtenOn": "2017-01-12T21:11:47Z",
       "side": 1,
       "message": "Alternatively, up to you:\n\nvar CHANGE_ID_REGEX_PATTERN \u003d /(I[0-9a-f]{8,40})/g;",
+      "revId": "52a4ce26dcd440210672190507c7e5c19cb6b700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_00c7861c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T21:29:51Z",
+      "side": 1,
+      "message": "Can further specialize it to start with \"Change-ID: \" at the beginning of a line ...\n\n  var CHANGE_ID_REGEX_PATTERN \u003d /^Change-Id\\:\\s(I[0-9a-f]{8,40})/gm;\n\n... and then just use the first capture group. That way the pattern would better match the footer format, would run more quickly and would skip intermediate change IDs.",
       "revId": "52a4ce26dcd440210672190507c7e5c19cb6b700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a305154c_d0af3c67",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 1128,
+        "startChar": 45,
+        "endLine": 1128,
+        "endChar": 59
+      },
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a305154c_f0b240d1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "you don\u0027t need a PS2 in this test",
+      "range": {
+        "startLine": 1134,
+        "startChar": 0,
+        "endLine": 1135,
+        "endChar": 33
+      },
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_12e1ccb0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "// Review code\nor\n// Post review",
+      "range": {
+        "startLine": 1137,
+        "startChar": 0,
+        "endLine": 1137,
+        "endChar": 18
+      },
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_f2c9a831",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "these two methods have a lot of duplicate code. please create a private method to share the code and just pass it the endpoint",
+      "range": {
+        "startLine": 1166,
+        "startChar": 14,
+        "endLine": 1166,
+        "endChar": 45
+      },
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_52db54fe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 1167,
+        "startChar": 45,
+        "endLine": 1167,
+        "endChar": 59
+      },
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_b2cf2037",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 1173,
+        "startChar": 0,
+        "endLine": 1173,
+        "endChar": 18
+      },
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_92cc9c43",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 1176,
+        "startChar": 0,
+        "endLine": 1176,
+        "endChar": 18
+      },
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_32dcd0f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ReviewerApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "Why is this change needed?",
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_d2af4467",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionReviewerApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T11:02:32Z",
+      "side": 1,
+      "message": "Why is this change needed?",
+      "revId": "fdf1ed1f148eda1c211130e1962e92342cacd3aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

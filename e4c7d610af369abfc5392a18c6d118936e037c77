@@ -53,6 +53,52 @@
     },
     {
       "key": {
+        "uuid": "a3d3551c_8060f643",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T21:59:06Z",
+      "side": 1,
+      "message": "Nit: declare the var outside the for (or use a forEach).",
+      "range": {
+        "startLine": 169,
+        "startChar": 8,
+        "endLine": 169,
+        "endChar": 19
+      },
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_a0441ab3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T21:59:06Z",
+      "side": 1,
+      "message": "Because this follows an Ajax .then, every invocation deeper than this level can be executed in any order. Is there danger of a race-condition here? It would perhaps be easier to reason about if it gets broken down.",
+      "range": {
+        "startLine": 173,
+        "startChar": 34,
+        "endLine": 173,
+        "endChar": 39
+      },
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3d3551c_e0c9c231",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -81,6 +127,23 @@
       "writtenOn": "2017-01-12T21:51:52Z",
       "side": 1,
       "message": "I don\u0027t see any other way to accomplish this task. This is a relatively complex front end application, and \u0027change\u0027 stores the state for most of it.",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_21eace7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T21:59:06Z",
+      "side": 1,
+      "message": "I agree that this should be broken down into a couple functions. Maybe a _removeReviewer method that gets called in the nested loop.",
       "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

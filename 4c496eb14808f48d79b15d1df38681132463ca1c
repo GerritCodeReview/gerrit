@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "e3ff0d6a_720db8b0",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/AuthInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-01-12T11:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "4c496eb14808f48d79b15d1df38681132463ca1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "436b79ff_b5a8c063",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
         "patchSetId": 3
@@ -30,6 +47,23 @@
       "writtenOn": "2017-01-12T10:24:01Z",
       "side": 1,
       "message": "wrong order; should be before L23",
+      "revId": "4c496eb14808f48d79b15d1df38681132463ca1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a305154c_f0c9a031",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-01-12T11:45:13Z",
+      "side": 1,
+      "message": "Done",
       "revId": "4c496eb14808f48d79b15d1df38681132463ca1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

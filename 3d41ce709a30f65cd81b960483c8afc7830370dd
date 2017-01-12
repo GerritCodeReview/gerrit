@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "c3d20918_014cead6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T22:59:25Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "3d41ce709a30f65cd81b960483c8afc7830370dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3d20918_615bf697",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 3
@@ -45,6 +62,23 @@
       "revId": "3d41ce709a30f65cd81b960483c8afc7830370dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_e14e26d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T22:59:25Z",
+      "side": 1,
+      "message": "Done. I really wish my linter worked on scripts embedded inside html.",
+      "revId": "3d41ce709a30f65cd81b960483c8afc7830370dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

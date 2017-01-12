@@ -25,17 +25,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
-  private static String describe(CurrentUser user) {
-    if (user.isIdentifiedUser()) {
-      return user.getAccountId().toString();
-    }
-    if (user instanceof SingleGroupUser) {
-      return "group:" + user.getEffectiveGroups().getKnownGroups() //
-          .iterator().next().toString();
-    }
-    return user.toString();
-  }
-
   private final Provider<ReviewDb> db;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeControl.GenericFactory changeControl;

@@ -36,6 +36,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
@@ -70,7 +71,8 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   @Override
   public String apply(GroupResource rsrc, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-      ResourceConflictException, OrmException, NoSuchGroupException {
+      ResourceConflictException, OrmException, NoSuchGroupException,
+      IOException {
     if (rsrc.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     } else if (!rsrc.getControl().isOwner()) {
@@ -92,7 +94,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
 
   private GroupDetail renameGroup(AccountGroup group, String newName)
       throws ResourceConflictException, OrmException,
-      NoSuchGroupException {
+      NoSuchGroupException, IOException {
     AccountGroup.Id groupId = group.getId();
     AccountGroup.NameKey old = group.getNameKey();
     AccountGroup.NameKey key = new AccountGroup.NameKey(newName);

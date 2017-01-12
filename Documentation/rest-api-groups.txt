@@ -211,6 +211,83 @@ error out.)
   }
 ----
 
+[[query-groups]]
+=== Query Groups
+--
+'GET /groups/?query2=<query>'
+--
+
+Queries internal groups visible to the caller. The
+link:user-search-groups.html#_search_operators[query string] must be
+provided by the `query2` parameter. The `start` and `limit` parameters
+can be used to skip/limit results.
+
+As result a list of link:#group-info[GroupInfo] entities is returned.
+
+.Request
+----
+  GET /groups/?query2=inname:test HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "url": "#/admin/groups/uuid-68236a40ca78de8be630312d8ba50250bc5638ae",
+      "options": {},
+      "description": "Group for running tests on MyProject",
+      "group_id": 20,
+      "owner": "MyProject-Test-Group",
+      "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "id": "68236a40ca78de8be630312d8ba50250bc5638ae"
+    },
+    {
+      "url": "#/admin/groups/uuid-99a534526313324a2667025c3f4e089199b736aa",
+      "options": {},
+      "description": "Testers for ProjectX",
+      "group_id": 17,
+      "owner": "ProjectX-Testers",
+      "owner_id": "59b92f35489e62c80d1ab1bf0c2d17843038df8b",
+      "id": "99a534526313324a2667025c3f4e089199b736aa"
+    }
+  ]
+----
+
+If the number of groups matching the query exceeds either the internal
+limit or a supplied `limit` query parameter, the last group object has
+a `_more_groups: true` JSON field set.
+
+[[group-query-limit]]
+==== Group Limit
+The `/groups/?query2=<query>` URL also accepts a limit integer in the
+`limit` parameter. This limits the results to `limit` groups.
+
+Query the first 25 groups in group list.
+----
+  GET /groups/?query2=<query>&limit=25 HTTP/1.0
+----
+
+The `/groups/` URL also accepts a start integer in the `start`
+parameter. The results will skip `start` groups from group list.
+
+Query 25 groups starting from index 50.
+----
+  GET /groups/?query2=<query>&limit=25&start=50 HTTP/1.0
+----
+
+[[group-query-options]]
+==== Group Options
+Additional fields can be obtained by adding `o` parameters. Each option
+requires more lookups and slows down the query response time to the
+client so they are generally disabled by default. The supported fields
+are described in the context of the link:#group-options[List Groups]
+REST endpoint.
+
 [[get-group]]
 === Get Group
 --
@@ -712,6 +789,24 @@ newest audit event comes first.
       "date": "2015-07-01 13:36:36.602000000"
     }
   ]
+----
+
+[[index-group]]
+=== Index Group
+--
+'POST /groups/link:#group-id[\{group-id\}]/index'
+--
+
+Adds or updates the internal group in the secondary index.
+
+.Request
+----
+  POST /groups/fdda826a0815859ab48d22a05a43472f0f55f89a/index HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
 ----
 
 [[group-member-endpoints]]
@@ -1277,6 +1372,10 @@ permits users to apply to join the group, or manage their membership.
 |`group_id`    |only for internal groups|The numeric ID of the group.
 |`owner`       |only for internal groups|The name of the owner group.
 |`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
+|`_more_groups`|optional, only for internal groups, not set if `false`|
+Whether the query would deliver more results if not limited. +
+Only set on the last group that is returned by a
+link:#query-groups[group query].
 |`members`     |optional, only for internal groups|
 A list of link:rest-api-accounts.html#account-info[AccountInfo]
 entities describing the direct members. +

@@ -15,6 +15,7 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
@@ -51,6 +52,12 @@ public class QueryBuilder<V> {
   static Term intTerm(String name, int value) {
     BytesRefBuilder builder = new BytesRefBuilder();
     NumericUtils.intToPrefixCoded(value, 0, builder);
+    return new Term(name, builder.get());
+  }
+
+  static Term stringTerm(String name, String value) {
+    BytesRefBuilder builder = new BytesRefBuilder();
+    builder.append(value.getBytes(UTF_8), 0, value.length());
     return new Term(name, builder.get());
   }
 

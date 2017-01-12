@@ -632,8 +632,7 @@
             }
             break;
           default:
-            this.dispatchEvent(new CustomEvent('reload-change',
-                {detail: {action: action.__key}, bubbles: false}));
+            this.fire('reload-change', null, {bubbles: false});
             break;
         }
       }.bind(this));

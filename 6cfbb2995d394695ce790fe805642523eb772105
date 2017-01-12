@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1484132166 +0100\nnonce AHDV6GmEi83r1+t3BRIW9G0ORLufrXdnLch+gokWXPYSs+keGR5/Iqv4qgjY/K6Yu7Z2V2QdA/ax\n\n0000000000000000000000000000000000000000 ae3438e9bde8c1eca2b9f3a4868d1a2cd6832ef9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYdg9GAAoJEFG1/Zeg0O9RG1cH/1kza94AUWsHC9h9rB1LSNTu\nvHWjgn/K4yNozN+s8Z1ysrq4E/1/53n+uJ9szM6Pw25g6NhrFVbOGGda3gFZTgZ1\nAb1qyxiaTki+mylpA2W0wuTZQkw3SGGf38nEIRVTZoVgkpDZ/2u8nADroVIh/ckg\nJ0wBRVVl+9Iue5LPRQC+2G5Eqm5cDr+GpMDrNnm6St6ey//RYOCxi20Keo2OcvJD\nHAK1MXBU1mWgkYWtthZmir2qyJHBnzahxNpIvrHUu8fcd5PU05LFpPgnxx9eiC7g\nR4E4mp8GzE3R6/WPlFrGFHzNQDdXhmOLnvA9gUNBAy6OKB1dmF5+lE60XSWO4ts\u003d\n\u003dgxDj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8355713b_37b5d8c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-12T15:41:34Z",
+      "side": 1,
+      "message": "Long term I would really really like to get rid of this query2 thing.\n\nIf we had infinite time, I would suggest first adding a new param for the ListGroups behavior (\"group\"?), giving callers time to switch, and then changing the behavior of \"query\" to be a full group query. Given that we\u0027re trying to introduce queries sooner rather than later without breaking users, I\u0027m ok with this for now. But I would still really like to get rid of it in a future version.",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "6cfbb2995d394695ce790fe805642523eb772105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0361811f_538d0417",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-12T15:41:34Z",
+      "side": 1,
+      "message": "Following my comment in the commit description, I would maybe explicitly state that this is a temporary name to temporarily maintain backwards compatibility of the old query param, and expect this name to change in a future version.",
+      "revId": "6cfbb2995d394695ce790fe805642523eb772105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8355713b_17ba54b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-12T15:41:34Z",
+      "side": 1,
+      "message": "Should it be an error to pass both query and query2?",
+      "revId": "6cfbb2995d394695ce790fe805642523eb772105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

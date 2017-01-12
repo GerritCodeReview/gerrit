@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a305154c_50e98c86",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T12:40:29Z",
+      "side": 1,
+      "message": "the only difference between this method and the one above is the endPoint String. Why not create a private non-test method that has all of the surrounding code and just gets this endPoint string. then call it from this method and the one above",
+      "range": {
+        "startLine": 1148,
+        "startChar": 3,
+        "endLine": 1151,
+        "endChar": 31
+      },
+      "revId": "b2dc941fa3534dd3367f81ba7e98bde5f01d0b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

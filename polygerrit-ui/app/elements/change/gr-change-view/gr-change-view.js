@@ -511,7 +511,7 @@
 
     /**
      * Change active patch to the provided patch num.
-     * @param {int} patchNum the patchn number to be viewed.
+     * @param {number} patchNum the patchn number to be viewed.
      */
     _changePatchNum: function(patchNum) {
       var currentPatchNum;
@@ -521,11 +521,14 @@
       } else {
         currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
       }
-      if (patchNum === currentPatchNum) {
+      if (patchNum === currentPatchNum &&
+          this._patchRange.basePatchNum === 'PARENT') {
         page.show(this.changePath(this._changeNum));
         return;
       }
-      page.show(this.changePath(this._changeNum) + '/' + patchNum);
+      var patchExpr = this._patchRange.basePatchNum === 'PARENT' ? patchNum :
+          this._patchRange.basePatchNum + '..' + patchNum;
+      page.show(this.changePath(this._changeNum) + '/' + patchExpr);
     },
 
     _computeChangePermalink: function(changeNum) {

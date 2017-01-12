@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "a3d3551c_e09b8251",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T21:10:30Z",
+      "side": 1,
+      "message": "Oh! Likely because it isn\u0027t multiline. What about:\n\n  /^R\u003d/gm",
+      "revId": "2c31e7ed9beb72cab53e753ca7577e41f8f67444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3d3551c_a07a5a23",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.html",
         "patchSetId": 8

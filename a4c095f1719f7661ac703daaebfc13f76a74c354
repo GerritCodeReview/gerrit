@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1484132370 +0100\nnonce AHDV6Gm9MobiDkh8zr/fYjBXvdqZa9G02OCilFc3PBKaUEi5fIpmBvDNC8MiiLaJ+EdsQ/iUoKL/\n\n0000000000000000000000000000000000000000 1412ccfadf42d4ec464c8b25acb2d34a07b527a5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYdhASAAoJEFG1/Zeg0O9R1CwIAL6nkERtDdQ8ac1jJjcdJy+c\nvxMTrNN8nLUGZj0t2+tNqzqy6OYH9fnPM2UODlSC7opWMggovV6KdnQOlZr7APq0\ngZvLz6noJ3EYzDFibhCv36EVeXjF/6FYhZEyBeZa2zimFxpGmsfxgaC97SD3W8K9\nyLCLGRWomepL5nLPgFRHZKuxSkaX3Nc4aYghNEq5chLhBQZdDeNk/un0usmh6F85\ncW/7zrRxJ2m/NMy2nGG/dS/BdPbsMz9E4oV2q6LVxbjVx6FioXuAkxr/DNcN9NSM\nZlu4H6If3qsXwRMKQl3jqBahcFzcHXfJjvRCW25XBAj0tSBOin+RRcxkYr2cbCk\u003d\n\u003dpiAJ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0361811f_73bf60a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-12T16:08:06Z",
+      "side": 1,
+      "message": "Not to mention it\u0027s bad UX :)",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "a4c095f1719f7661ac703daaebfc13f76a74c354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0361811f_53c4e422",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-12T16:08:06Z",
+      "side": 1,
+      "message": "When can this be null?",
+      "revId": "a4c095f1719f7661ac703daaebfc13f76a74c354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

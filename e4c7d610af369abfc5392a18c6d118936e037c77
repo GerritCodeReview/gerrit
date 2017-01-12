@@ -218,6 +218,23 @@
     },
     {
       "key": {
+        "uuid": "c3d20918_8160fa43",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T22:46:52Z",
+      "side": 1,
+      "message": "Ahh, much better.",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3d20918_41e192af",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 1

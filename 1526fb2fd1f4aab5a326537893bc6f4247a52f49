@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3d3551c_00b066c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T21:17:21Z",
+      "side": 1,
+      "message": "Maybe add a comment that this is a zero-width space and that it\u0027s to prevent the linkify lib from reformatting these.",
+      "range": {
+        "startLine": 715,
+        "startChar": 45,
+        "endLine": 715,
+        "endChar": 51
+      },
+      "revId": "1526fb2fd1f4aab5a326537893bc6f4247a52f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_41ba72b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T21:17:21Z",
+      "side": 1,
+      "message": "Now that the regex has an anchor, shouldn\u0027t this test only work if there\u0027s a \"\\n\" before the second \"R\u003d\"?",
+      "range": {
+        "startLine": 152,
+        "startChar": 40,
+        "endLine": 152,
+        "endChar": 41
+      },
+      "revId": "1526fb2fd1f4aab5a326537893bc6f4247a52f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

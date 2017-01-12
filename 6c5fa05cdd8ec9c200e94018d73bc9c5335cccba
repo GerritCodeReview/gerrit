@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3ff0d6a_1256ec6f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-12T12:57:44Z",
+      "side": 0,
+      "message": "why does this have to be removed?",
+      "range": {
+        "startLine": 1111,
+        "startChar": 3,
+        "endLine": 1111,
+        "endChar": 18
+      },
+      "revId": "6c5fa05cdd8ec9c200e94018d73bc9c5335cccba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

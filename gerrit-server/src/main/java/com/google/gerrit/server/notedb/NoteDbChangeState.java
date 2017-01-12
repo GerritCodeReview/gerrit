@@ -21,7 +21,6 @@ import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.NOTE_DB;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
-import static org.eclipse.jgit.lib.ObjectId.zeroId;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -109,7 +108,7 @@ public class NoteDbChangeState {
       return new AutoValue_NoteDbChangeState_RefState(
           changeMetaId.copy(),
           ImmutableMap.copyOf(
-              Maps.filterValues(draftIds, id -> !zeroId().equals(id))));
+              Maps.filterValues(draftIds, id -> !ObjectId.zeroId().equals(id))));
     }
 
     private static Optional<RefState> parse(Change.Id changeId,

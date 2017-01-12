@@ -76,6 +76,23 @@
     },
     {
       "key": {
+        "uuid": "a3d3551c_403d0e2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T22:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3d3551c_a0441ab3",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -93,6 +110,23 @@
         "endLine": 173,
         "endChar": 39
       },
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_8037164d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T22:24:23Z",
+      "side": 1,
+      "message": "Just to be completely clear, this loop will never run more than once because indexSplices never has more than one value (as far as I can tell). It\u0027s a loop to catch that in case that ever happens, but I highly doubt it. The reason this fn is so deeply nested is because the splices object was built for batch operations... We never use it as such.",
       "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -147,6 +181,40 @@
       "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_c0283eec",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T22:24:23Z",
+      "side": 1,
+      "message": "Ah, I thought he meant the object was deeply nested. That I can do.",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d20918_c1fa024c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-12T22:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "e4c7d610af369abfc5392a18c6d118936e037c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -34,6 +34,7 @@ java_test(
   deps = [
     ':elasticsearch',
     '//gerrit-extension-api:api',
+    '//gerrit-reviewdb:client',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//gerrit-server:testutil',

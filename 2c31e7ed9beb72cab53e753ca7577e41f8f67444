@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "c3d20918_a1a17e87",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-12T21:06:38Z",
+      "side": 1,
+      "message": "I actually tried doing that and it didn\u0027t catch any of the R\u003d (at beginning of lines) , which is why I didn\u0027t include the ^.",
+      "revId": "2c31e7ed9beb72cab53e753ca7577e41f8f67444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3d3551c_a07a5a23",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.html",
         "patchSetId": 8
@@ -36,6 +53,23 @@
       "writtenOn": "2017-01-12T21:02:50Z",
       "side": 1,
       "message": "Should these be removed?",
+      "revId": "2c31e7ed9beb72cab53e753ca7577e41f8f67444",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_008226eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-12T21:06:38Z",
+      "side": 1,
+      "message": "I wanted to keep the first one (to validate the parser works as expected), but the second should be removed",
       "revId": "2c31e7ed9beb72cab53e753ca7577e41f8f67444",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

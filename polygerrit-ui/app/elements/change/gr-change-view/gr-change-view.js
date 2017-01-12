@@ -16,6 +16,7 @@
 
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;
+  var CHANGE_ID_REGEX_PATTERN = new RegExp("(I[0-9a-f]{8,40})", 'g');
 
   Polymer({
     is: 'gr-change-view',
@@ -64,6 +65,8 @@
       _commitInfo: Object,
       _files: Object,
       _changeNum: String,
+      _changeIdClass: String,
+      _titleAttributeWarning: String,
       _diffDrafts: {
         type: Object,
         value: function() { return {}; },
@@ -80,6 +83,10 @@
       _latestCommitMessage: {
         type: String,
         value: '',
+      },
+      _displayChangeId: {
+        type: Boolean,
+        computed: '_computeDisplayChangeId(_latestCommitMessage, _change)',
       },
       _patchRange: {
         type: Object,
@@ -543,6 +550,27 @@
         statusString = this.changeStatusString(change);
       }
       return statusString ? ' (' + statusString + ')' : '';
+    },
+
+    _computeDisplayChangeId: function(commitMessage, change) {
+      commitMessage = commitMessage || '';
+      var changeIds = commitMessage.match(CHANGE_ID_REGEX_PATTERN);
+
+      if (changeIds) {
+        // A change-id is detected in the commit message.
+        if (changeIds[changeIds.length-1] === change.change_id) {
+          // The change-id found matches the real change-id.
+          return false;
+        }
+        // The change-id found does not match the change-id.
+        this._changeIdClass = 'warning';
+        this._titleAttributeWarning = 'Change-Id mismatch'
+        return true;
+      }
+      // There is no change-id in the commit message.
+      this._changeIdClass = '';
+      this._titleAttributeWarning = 'No Change-Id in commit message'
+      return true;
     },
 
     _computeLatestPatchNum: function(allPatchSets) {

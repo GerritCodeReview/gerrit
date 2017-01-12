@@ -88,6 +88,11 @@ limitations under the License.
         display: flex;
         padding: 0 var(--default-horizontal-margin);
       }
+      .changeId {
+        color: #666;
+        font-family: var(--font-family);
+        margin-top: 10px;
+      }
       .changeInfo-column:not(:last-of-type) {
         margin-right: 1em;
         padding-right: 1em;
@@ -170,6 +175,9 @@ limitations under the License.
       }
       .mobile {
         display: none;
+      }
+      .warning {
+        color: #d14836;
       }
       hr {
         border: 0;
@@ -296,6 +304,12 @@ limitations under the License.
                   class="editCommitMessage"
                   on-tap="_handleEditCommitMessage"
                   hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
+              <div class="changeId" hidden$="[[!_displayChangeId]]">
+                <hr>
+                Change-Id: <span class$="[[_changeIdClass]]"
+                  title$=[[_titleAttributeWarning]]>
+                  [[_change.change_id]]</span>
+              </div>
             </div>
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"

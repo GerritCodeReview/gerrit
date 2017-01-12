@@ -17,6 +17,23 @@
       "revId": "916ca7c856cd4cc4f7d0bee40f0ee0753ff73a68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_80be3671",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-12T22:38:44Z",
+      "side": 1,
+      "message": "Well I\u0027m not a complete idiot, there are actually 2 places where exceptions are ignored and I only forgot one of them. Only a half idiot.\n\nStill thinking through how the retry thing is going to work. Not hard once we\u0027ve merged all the BatchUpdate phases, but harder in the meantime.",
+      "revId": "916ca7c856cd4cc4f7d0bee40f0ee0753ff73a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

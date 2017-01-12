@@ -16,6 +16,23 @@
       "revId": "0e6023a7566385e3727f3e6933bbfca39c3d0cee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a305154c_b07a7823",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-12T08:24:35Z",
+      "side": 1,
+      "message": "I think 6.x drops support for mysql 5.4 or lower.\n\nWe may want to add a note in the 2.14 release that states this will be the last release to support mysql 5.4 or lower.\n\nAnd then update to 6.x in 2.15.",
+      "revId": "0e6023a7566385e3727f3e6933bbfca39c3d0cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

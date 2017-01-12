@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a305154c_909e5443",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-01-12T09:33:16Z",
+      "side": 1,
+      "message": "Remove Exception from declared list",
+      "range": {
+        "startLine": 32,
+        "startChar": 39,
+        "endLine": 32,
+        "endChar": 50
+      },
+      "revId": "b7eb4d9f761fe157873d17714a0c7cfbe3cd4b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

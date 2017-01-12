@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3d3551c_e0cc621b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-12T23:15:46Z",
+      "side": 1,
+      "message": "Nit: remove extra blank line.",
+      "revId": "662cd42085303b7c249c0aebdb1331f50a7a5c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

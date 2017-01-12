@@ -37,7 +37,7 @@ limitations under the License.
     }
 
     .difftable .CodeMirror pre {
-      overflow: hidden;
+      overflow: visible;
       border-right: 0;
       width: auto;
     }

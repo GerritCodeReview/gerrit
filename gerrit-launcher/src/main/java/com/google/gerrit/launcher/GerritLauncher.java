@@ -82,6 +82,8 @@ public final class GerritLauncher {
       System.err.println("  daemon          Run the Gerrit network daemons");
       System.err.println("  gsql            Run the interactive query console");
       System.err.println("  version         Display the build version number");
+      System.err.println("  passwd          Set or change password in secure.config");
+
       System.err.println();
       System.err.println("  ls              List files available for cat");
       System.err.println("  cat FILE        Display a file from the archive");

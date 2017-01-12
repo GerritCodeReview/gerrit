@@ -22,6 +22,29 @@
       "revId": "ae52c0450dd95ff3c03a58cd90964f9796ffbab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ff0d6a_f2b248d1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-01-12T10:29:55Z",
+      "side": 1,
+      "message": "This is necessary to output the result of authenticate method as it gets returned to Git LFS client and as a result used by client to proceed further",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 16
+      },
+      "revId": "ae52c0450dd95ff3c03a58cd90964f9796ffbab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

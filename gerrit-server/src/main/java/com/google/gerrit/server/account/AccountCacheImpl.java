@@ -155,6 +155,7 @@ public class AccountCacheImpl implements AccountCache {
     private final GeneralPreferencesLoader loader;
     private final LoadingCache<String, Optional<Account.Id>> byName;
     private final Provider<WatchConfig.Accessor> watchConfig;
+    private final ExternalIdCache externalIdCache;
 
     @Inject
     ByIdLoader(SchemaFactory<ReviewDb> sf,
@@ -162,12 +163,14 @@ public class AccountCacheImpl implements AccountCache {
         GeneralPreferencesLoader loader,
         @Named(BYUSER_NAME) LoadingCache<String,
             Optional<Account.Id>> byUsername,
-        Provider<WatchConfig.Accessor> watchConfig) {
+        Provider<WatchConfig.Accessor> watchConfig,
+        ExternalIdCache externalIdCache) {
       this.schema = sf;
       this.groupCache = groupCache;
       this.loader = loader;
       this.byName = byUsername;
       this.watchConfig = watchConfig;
+      this.externalIdCache = externalIdCache;
     }
 
     @Override
@@ -191,8 +194,7 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       Collection<AccountExternalId> externalIds =
-          Collections.unmodifiableCollection(
-              db.accountExternalIds().byAccount(who).toList());
+          externalIdCache.byAccount(who);
 
       Set<AccountGroup.UUID> internalGroups = new HashSet<>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {

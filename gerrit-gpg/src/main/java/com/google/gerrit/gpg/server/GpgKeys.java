@@ -38,9 +38,9 @@ import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -69,22 +69,22 @@ public class GpgKeys implements
   public static String MIME_TYPE = "application/pgp-keys";
 
   private final DynamicMap<RestView<GpgKey>> views;
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
+  private final ExternalIdCache externalIdCache;
 
   @Inject
   GpgKeys(DynamicMap<RestView<GpgKey>> views,
-      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
-      GerritPublicKeyChecker.Factory checkerFactory) {
+      GerritPublicKeyChecker.Factory checkerFactory,
+      ExternalIdCache externalIdCache) {
     this.views = views;
-    this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
+    this.externalIdCache = externalIdCache;
   }
 
   @Override
@@ -208,15 +208,14 @@ public class GpgKeys implements
   }
 
   @VisibleForTesting
-  public static FluentIterable<AccountExternalId> getGpgExtIds(ReviewDb db,
-      Account.Id accountId) throws OrmException {
-    return FluentIterable.from(db.accountExternalIds().byAccount(accountId))
+  public static FluentIterable<AccountExternalId> getGpgExtIds(
+      ExternalIdCache externalIdCache, Account.Id accountId) {
+    return FluentIterable.from(externalIdCache.byAccount(accountId))
         .filter(in -> in.isScheme(SCHEME_GPGKEY));
   }
 
-  private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc)
-      throws OrmException {
-    return getGpgExtIds(db.get(), rsrc.getUser().getAccountId());
+  private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc) {
+    return getGpgExtIds(externalIdCache, rsrc.getUser().getAccountId());
   }
 
   private static long keyId(byte[] fp) {

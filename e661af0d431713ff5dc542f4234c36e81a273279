@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1484132370 +0100\nnonce AHDV6Gm9MobiDkh8zr/fYjBXvdqZa9G02OCilFc3PBKaUEi5fIpmBvDNC8MiiLaJ+EdsQ/iUoKL/\n\n0000000000000000000000000000000000000000 1412ccfadf42d4ec464c8b25acb2d34a07b527a5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYdhASAAoJEFG1/Zeg0O9R1CwIAL6nkERtDdQ8ac1jJjcdJy+c\nvxMTrNN8nLUGZj0t2+tNqzqy6OYH9fnPM2UODlSC7opWMggovV6KdnQOlZr7APq0\ngZvLz6noJ3EYzDFibhCv36EVeXjF/6FYhZEyBeZa2zimFxpGmsfxgaC97SD3W8K9\nyLCLGRWomepL5nLPgFRHZKuxSkaX3Nc4aYghNEq5chLhBQZdDeNk/un0usmh6F85\ncW/7zrRxJ2m/NMy2nGG/dS/BdPbsMz9E4oV2q6LVxbjVx6FioXuAkxr/DNcN9NSM\nZlu4H6If3qsXwRMKQl3jqBahcFzcHXfJjvRCW25XBAj0tSBOin+RRcxkYr2cbCk\u003d\n\u003dpiAJ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8355713b_37dcb8f8",
+        "filename": "Documentation/user-search-groups.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-12T15:56:10Z",
+      "side": 1,
+      "message": "In the change query system, when you specify a user or a group in a predicate, the query builder will first try to resolve the user or group name you typed to an ID before passing it to the index. I was a little surprised to not see this behavior here, e.g. you can\u0027t search for \"owner:{gerrit maintainers}\"",
+      "revId": "e661af0d431713ff5dc542f4234c36e81a273279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

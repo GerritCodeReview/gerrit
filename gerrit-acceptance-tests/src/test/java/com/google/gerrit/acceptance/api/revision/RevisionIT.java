@@ -1108,7 +1108,6 @@ public class RevisionIT extends AbstractDaemonTest {
 
     Map<String, Short> m = gApi.changes()
         .id(r.getChangeId())
-        .current()
         .reviewer(user.getId().toString())
         .votes();
 
@@ -1120,7 +1119,18 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(message.message).isEqualTo(
         "Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
-        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+        .containsExactlyElementsIn(
+            ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
+  @Test
+  public void deleteVoteOnChangeWithRestApi() throws Exception {
+    testDeleteVoteWithRestApi(false);
+  }
+
+  @Test
+  public void deleteVoteOnRevisionWithRestApi() throws Exception {
+    testDeleteVoteWithRestApi(true);
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r,
@@ -1202,6 +1212,45 @@ public class RevisionIT extends AbstractDaemonTest {
 
     assertDiffForNewFile(diff, pushResult.getCommit(), path,
         expectedContentSideB);
+  }
+
+  private void testDeleteVoteWithRestApi(Boolean onRevisionLevel)
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    PushOneCommit.Result r2 = amendChange(r.getChangeId());
+
+    // Post Review
+    setApiUser(user);
+    recommend(r.getChangeId());
+
+    String endPoint = "/changes/" + r.getChangeId()
+        + (onRevisionLevel ? ("/revisions/" + r2.getCommit().getName()) : "")
+        + "/reviewers/" + user.getId().toString()
+        + "/votes/Code-Review";
+
+    RestResponse response = adminRestSession.delete(endPoint);
+    response.assertNoContent();
+
+    Map<String, Short> m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.getId().toString())
+        .votes();
+
+    assertThat(m).containsExactly("Code-Review", Short.valueOf((short)0));
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    ChangeMessageInfo message = Iterables.getLast(c.messages);
+    assertThat(message.author._accountId).isEqualTo(admin.getId().get());
+    assertThat(message.message).isEqualTo(
+        "Removed Code-Review+1 by User <user@example.com>\n");
+    assertThat(getReviewers(c.reviewers.get(REVIEWER)))
+        .containsExactlyElementsIn(
+            ImmutableSet.of(admin.getId(), user.getId()));
   }
 
   private PushOneCommit.Result createCherryPickableMerge(String parent1FileName,

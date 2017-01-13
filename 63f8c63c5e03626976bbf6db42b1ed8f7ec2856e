@@ -26,6 +26,29 @@
     },
     {
       "key": {
+        "uuid": "83d8113c_3fef4790",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-13T08:01:04Z",
+      "side": 1,
+      "message": "As explained in the commit message we want to handle boolean values consistently in all of the REST API. And the rest of the REST API always return null for boolean fields if they are false. So we should do the same here.\n\nIf you are asking why we made that design decision, I\u0027m not sure, but I think it\u0027s to safe a few bytes when transferring data as not mentioning a field is shorter than \u0027field: false\u0027.",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 19
+      },
+      "revId": "63f8c63c5e03626976bbf6db42b1ed8f7ec2856e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d8113c_bf1357d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
         "patchSetId": 2
@@ -60,6 +83,29 @@
       "writtenOn": "2017-01-13T07:55:46Z",
       "side": 1,
       "message": "You are right, I will fix it. Please vote with Code-Review -1 in such cases.",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 87,
+        "endChar": 33
+      },
+      "revId": "63f8c63c5e03626976bbf6db42b1ed8f7ec2856e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d8113c_1fea837f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-13T08:01:04Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 87,
         "startChar": 11,

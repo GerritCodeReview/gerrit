@@ -66,11 +66,11 @@
         if (this.change.assignee &&
             acct._account_id === this.change.assignee._account_id) { return; }
         this.set(['change', 'assignee'], acct);
-        this.$.restAPI.setAssignee(this.change.change_id, acct._account_id);
+        this.$.restAPI.setAssignee(this.change._number, acct._account_id);
       } else {
         if (!this.change.assignee) { return; }
         this.set(['change', 'assignee'], undefined);
-        this.$.restAPI.deleteAssignee(this.change.change_id);
+        this.$.restAPI.deleteAssignee(this.change._number);
       }
     },
 
@@ -119,7 +119,7 @@
 
     _handleTopicChanged: function(e, topic) {
       if (!topic.length) { topic = null; }
-      this.$.restAPI.setChangeTopic(this.change.change_id, topic);
+      this.$.restAPI.setChangeTopic(this.change._number, topic);
     },
 
     _computeTopicReadOnly: function(mutable, change) {
@@ -207,7 +207,7 @@
 
     _handleTopicRemoved: function() {
       this.set(['change', 'topic'], '');
-      this.$.restAPI.setChangeTopic(this.change.change_id, null);
+      this.$.restAPI.setChangeTopic(this.change._number, null);
     },
   });
 })();

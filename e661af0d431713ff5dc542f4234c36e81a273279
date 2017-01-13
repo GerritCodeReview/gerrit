@@ -17,6 +17,23 @@
       "revId": "e661af0d431713ff5dc542f4234c36e81a273279",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63e15de4_fec96108",
+        "filename": "Documentation/user-search-groups.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-13T16:09:45Z",
+      "side": 1,
+      "message": "Done in:\n  https://gerrit-review.googlesource.com/94378",
+      "revId": "e661af0d431713ff5dc542f4234c36e81a273279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -33,6 +33,23 @@
       "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_a89ebb42",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-13T22:37:51Z",
+      "side": 1,
+      "message": "Couldn\u0027t we manually add these pending removed items to the response from the backend request, knowing that they won\u0027t be included in the response if they are in the pending stage.",
+      "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

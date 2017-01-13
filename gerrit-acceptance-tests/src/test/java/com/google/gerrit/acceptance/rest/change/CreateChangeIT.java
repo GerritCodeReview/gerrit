@@ -253,6 +253,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   private ChangeInfo assertCreateSucceeds(ChangeInput in) throws Exception {
     ChangeInfo out = gApi.changes().create(in).get();
+    assertThat(out.project).isEqualTo(in.project);
     assertThat(out.branch).isEqualTo(in.branch);
     assertThat(out.subject).isEqualTo(in.subject);
     assertThat(out.topic).isEqualTo(in.topic);

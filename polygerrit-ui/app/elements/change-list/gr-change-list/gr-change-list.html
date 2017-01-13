@@ -73,7 +73,8 @@ limitations under the License.
           <tr>
             <gr-change-list-item
                 selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
-                needs-review="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
+                assigned$="[[_computeItemAssigned(account, change)]]"
+                needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
                 change="[[change]]"
                 visible-change-table-columns="[[visibleChangeTableColumns]]"
                 show-number="[[showNumber]]"

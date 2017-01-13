@@ -35,6 +35,12 @@ limitations under the License.
       :host([needs-review]) {
         font-weight: bold;
       }
+      :host([assigned]) {
+        background-color: #fcfad6;
+      }
+      :host([selected][assigned]) {
+        background-color: #fcfaa6;
+      }
       .cell {
         flex-shrink: 0;
         padding: .3em .5em;

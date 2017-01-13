@@ -103,6 +103,7 @@ limitations under the License.
         sandbox.stub(element, '_computeValueTooltip').returns('');
         sandbox.stub(element, '_computeTopicReadOnly').returns(true);
         element.change = {
+          _number: 'the number',
           change_id: 'the id',
           topic: 'the topic',
           status: 'NEW',
@@ -171,7 +172,7 @@ limitations under the License.
         var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic',
             function() {});
         element._handleTopicChanged({}, 'the new topic');
-        assert.isTrue(topicStub.calledWith('the id', 'the new topic'));
+        assert.isTrue(topicStub.calledWith('the number', 'the new topic'));
       });
 
       test('clicking x on topic chip removes topic', function() {

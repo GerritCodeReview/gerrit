@@ -538,13 +538,19 @@ limitations under the License.
       assert(showStub.lastCall.calledWithExactly('/c/42/3'));
     });
 
-    test('related changes are updated after rebase', function(done) {
+    test('related changes are updated after new patch selected after rebase',
+        function(done) {
+      sandbox.stub(element, '_computeLatestPatchNum', function() {
+        return 1;
+      });
       sandbox.stub(element, '_reload',
           function() { return Promise.resolve(); });
+      sandbox.stub(element, '_updateSelected');
       sandbox.stub(element.$.relatedChanges, 'reload');
       var e = {detail: {action: 'rebase'}};
       element._handleReloadChange(e).then(function() {
         assert.isTrue(element.$.relatedChanges.reload.called);
+        assert.isTrue(element._updateSelected.called);
         done();
       });
     });
@@ -552,10 +558,12 @@ limitations under the License.
     test('related changes are not updated after other action', function(done) {
       sandbox.stub(element, '_reload',
           function() { return Promise.resolve(); });
+      sandbox.stub(element, '_updateSelected');
       sandbox.stub(element.$.relatedChanges, 'reload');
       var e = {detail: {action: 'abandon'}};
       element._handleReloadChange(e).then(function() {
         assert.isFalse(element.$.relatedChanges.reload.called);
+        assert.isFalse(element._updateSelected.called);
         done();
       });
     });

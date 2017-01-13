@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1484294454 +0100\nnonce AHDV6GmZzrLiD3jI6LMexR9Ve/GpH2IyD2EN3t75/4UkDogtCMho1iO+XBZxUEn5lkovcZbYkjhq\n\n0000000000000000000000000000000000000000 e8b63f022b8c40795191e0937bbda6158c3ef0d4 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYeIk2AAoJEFG1/Zeg0O9RzM8H/RIcE76+YXsrdzJBGCWSMZ3i\ncgbbH/K2oC0LFuEpgM+H0cRAfGeG+H6Bg4ezRWeXMlXjQsFh6PofSi71n1V6tzww\nt9XzVIEBBT44wGvxOn07twhOArAV3EXmzcA7SKYICZqjL5jd0bxt7x9qVoVNCKQq\n01nzSdh+X8uY0yceV7dSb+uI2gglfJ0m9gwLeb3bTJiHtxQPaOA2rXNsj5Q7o36D\npQArjXbGUCqbezg+F9iZ4m81Yx4SKJBDf0kpC55UHZKY+nFRK4MPKmCBGdk/h+KC\nAVm6sw4nhSANW6ZfcHj5Yy7fag3zthXPg9dDx+QcK9GQV6bVG8WE8fwIm6+5JpE\u003d\n\u003doPDj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "43de192a_ddb2ebd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-13T08:58:19Z",
+      "side": 1,
+      "message": "Might be worth putting this in a utility class somewhere.  There are similar implementations in several other classes.",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 87,
+        "endChar": 24
+      },
+      "revId": "c044e7480a4f9a8b7fb901f8ea573db1209c7f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

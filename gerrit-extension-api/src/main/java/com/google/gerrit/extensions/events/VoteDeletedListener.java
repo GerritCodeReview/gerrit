@@ -24,8 +24,11 @@ import java.util.Map;
 public interface VoteDeletedListener {
   interface Event extends RevisionEvent {
     Map<String, ApprovalInfo> getOldApprovals();
+
     Map<String, ApprovalInfo> getApprovals();
+
     Map<String, ApprovalInfo> getRemoved();
+
     String getMessage();
   }
 

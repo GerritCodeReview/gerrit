@@ -109,8 +109,8 @@ public class MergeListIT extends AbstractDaemonTest {
     assertThat(mergeList.get(0).commit).isEqualTo(parent2.name());
     assertThat(mergeList.get(1).commit).isEqualTo(grandParent2.name());
 
-    mergeList = current(changeId).getMergeList()
-        .withUninterestingParent(2).get();
+    mergeList =
+        current(changeId).getMergeList().withUninterestingParent(2).get();
     assertThat(mergeList).hasSize(2);
     assertThat(mergeList.get(0).commit).isEqualTo(parent1.name());
     assertThat(mergeList.get(1).commit).isEqualTo(grandParent1.name());
@@ -122,8 +122,7 @@ public class MergeListIT extends AbstractDaemonTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String content = new String(os.toByteArray(), UTF_8);
-    assertThat(content).isEqualTo(
-        getMergeListContent(parent2, grandParent2));
+    assertThat(content).isEqualTo(getMergeListContent(parent2, grandParent2));
   }
 
   @Test
@@ -175,11 +174,8 @@ public class MergeListIT extends AbstractDaemonTest {
   private String getMergeListContent(RevCommit... commits) {
     StringBuilder mergeList = new StringBuilder("Merge List:\n\n");
     for (RevCommit c : commits) {
-      mergeList.append("* ")
-          .append(c.abbreviate(8).name())
-          .append(" ")
-          .append(c.getShortMessage())
-          .append("\n");
+      mergeList.append("* ").append(c.abbreviate(8).name()).append(" ")
+          .append(c.getShortMessage()).append("\n");
     }
     return mergeList.toString();
   }
@@ -202,8 +198,6 @@ public class MergeListIT extends AbstractDaemonTest {
   }
 
   private RevisionApi current(String changeId) throws Exception {
-    return gApi.changes()
-        .id(changeId)
-        .current();
+    return gApi.changes().id(changeId).current();
   }
 }

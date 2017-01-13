@@ -30,8 +30,8 @@ public abstract class GroupAuditEventInfo {
     return new UserMemberAuditEventInfo(Type.ADD_USER, user, date, member);
   }
 
-  public static UserMemberAuditEventInfo createRemoveUserEvent(
-      AccountInfo user, Timestamp date, AccountInfo member) {
+  public static UserMemberAuditEventInfo createRemoveUserEvent(AccountInfo user,
+      Timestamp date, AccountInfo member) {
     return new UserMemberAuditEventInfo(Type.REMOVE_USER, user, date, member);
   }
 
@@ -45,8 +45,7 @@ public abstract class GroupAuditEventInfo {
     return new GroupMemberAuditEventInfo(Type.REMOVE_GROUP, user, date, member);
   }
 
-  protected GroupAuditEventInfo(Type type, AccountInfo user,
-      Timestamp date) {
+  protected GroupAuditEventInfo(Type type, AccountInfo user, Timestamp date) {
     this.type = type;
     this.user = user;
     this.date = date;
@@ -55,8 +54,8 @@ public abstract class GroupAuditEventInfo {
   public static class UserMemberAuditEventInfo extends GroupAuditEventInfo {
     public AccountInfo member;
 
-    public UserMemberAuditEventInfo(Type type, AccountInfo user,
-        Timestamp date, AccountInfo member) {
+    public UserMemberAuditEventInfo(Type type, AccountInfo user, Timestamp date,
+        AccountInfo member) {
       super(type, user, date);
       this.member = member;
     }

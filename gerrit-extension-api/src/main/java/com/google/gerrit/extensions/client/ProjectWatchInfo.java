@@ -43,9 +43,8 @@ public class ProjectWatchInfo {
 
   @Override
   public int hashCode() {
-    return Objects
-        .hash(project, filter, notifyNewChanges, notifyNewPatchSets,
-            notifyAllComments, notifySubmittedChanges, notifyAbandonedChanges);
+    return Objects.hash(project, filter, notifyNewChanges, notifyNewPatchSets,
+        notifyAllComments, notifySubmittedChanges, notifyAbandonedChanges);
   }
 
   @Override
@@ -53,20 +52,15 @@ public class ProjectWatchInfo {
     StringBuilder b = new StringBuilder();
     b.append(project);
     if (filter != null) {
-      b.append("%filter=")
-          .append(filter);
+      b.append("%filter=").append(filter);
     }
     b.append("(notifyAbandonedChanges=")
         .append(toBoolean(notifyAbandonedChanges))
-        .append(", notifyAllComments=")
-        .append(toBoolean(notifyAllComments))
-        .append(", notifyNewChanges=")
-        .append(toBoolean(notifyNewChanges))
-        .append(", notifyNewPatchSets=")
-        .append(toBoolean(notifyNewPatchSets))
+        .append(", notifyAllComments=").append(toBoolean(notifyAllComments))
+        .append(", notifyNewChanges=").append(toBoolean(notifyNewChanges))
+        .append(", notifyNewPatchSets=").append(toBoolean(notifyNewPatchSets))
         .append(", notifySubmittedChanges=")
-        .append(toBoolean(notifySubmittedChanges))
-        .append(")");
+        .append(toBoolean(notifySubmittedChanges)).append(")");
     return b.toString();
   }
 

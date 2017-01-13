@@ -37,8 +37,7 @@ public class ProjectAssert {
     for (ProjectInfo info : actual) {
       assertWithMessage("missing project name").that(info.name).isNotNull();
       assertWithMessage("project name does not match id")
-          .that(Url.decode(info.id))
-          .isEqualTo(info.name);
+          .that(Url.decode(info.id)).isEqualTo(info.name);
     }
     return assertThat(
         Iterables.transform(actual, p -> new Project.NameKey(p.name)));
@@ -50,14 +49,15 @@ public class ProjectAssert {
       assertThat(info.name).isEqualTo(project.getName());
     }
     assertThat(Url.decode(info.id)).isEqualTo(project.getName());
-    Project.NameKey parentName = project.getParent(new Project.NameKey("All-Projects"));
+    Project.NameKey parentName =
+        project.getParent(new Project.NameKey("All-Projects"));
     if (parentName != null) {
       assertThat(info.parent).isEqualTo(parentName.get());
     } else {
       assertThat(info.parent).isNull();
     }
-    assertThat(Strings.nullToEmpty(info.description)).isEqualTo(
-        project.getDescription());
+    assertThat(Strings.nullToEmpty(info.description))
+        .isEqualTo(project.getDescription());
   }
 
   public static void assertProjectOwners(Set<AccountGroup.UUID> expectedOwners,

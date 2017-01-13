@@ -43,11 +43,8 @@ public abstract class Comment {
     public int endCharacter;
 
     public boolean isValid() {
-      return startLine >= 0
-          && startCharacter >= 0
-          && endLine >= 0
-          && endCharacter >= 0
-          && startLine <= endLine
+      return startLine >= 0 && startCharacter >= 0 && endLine >= 0
+          && endCharacter >= 0 && startLine <= endLine
           && (startLine != endLine || startCharacter <= endCharacter);
     }
 
@@ -70,12 +67,9 @@ public abstract class Comment {
 
     @Override
     public String toString() {
-      return "Range{" +
-          "startLine=" + startLine +
-          ", startCharacter=" + startCharacter +
-          ", endLine=" + endLine +
-          ", endCharacter=" + endCharacter +
-          '}';
+      return "Range{" + "startLine=" + startLine + ", startCharacter="
+          + startCharacter + ", endLine=" + endLine + ", endCharacter="
+          + endCharacter + '}';
     }
   }
 
@@ -93,12 +87,9 @@ public abstract class Comment {
     }
     if (o != null && getClass() == o.getClass()) {
       Comment c = (Comment) o;
-      return Objects.equals(patchSet, c.patchSet)
-          && Objects.equals(id, c.id)
-          && Objects.equals(path, c.path)
-          && Objects.equals(side, c.side)
-          && Objects.equals(parent, c.parent)
-          && Objects.equals(line, c.line)
+      return Objects.equals(patchSet, c.patchSet) && Objects.equals(id, c.id)
+          && Objects.equals(path, c.path) && Objects.equals(side, c.side)
+          && Objects.equals(parent, c.parent) && Objects.equals(line, c.line)
           && Objects.equals(range, c.range)
           && Objects.equals(inReplyTo, c.inReplyTo)
           && Objects.equals(updated, c.updated)

@@ -40,28 +40,23 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     branch = new Branch.NameKey(project, "test");
-    gApi.projects()
-        .name(branch.getParentKey().get())
-        .branch(branch.get()).create(new BranchInput());
+    gApi.projects().name(branch.getParentKey().get()).branch(branch.get())
+        .create(new BranchInput());
   }
 
   @Test
   public void checkMergeableCommit() throws Exception {
     RevCommit initialHead = getRemoteHead();
     testRepo.branch("HEAD").commit().insertChangeId()
-        .message("some change in a")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+        .message("some change in a").add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
     testRepo.reset(initialHead);
     testRepo.branch("HEAD").commit().insertChangeId()
-        .message("some change in b")
-        .add("b.txt", "b contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/test")).call();
+        .message("some change in b").add("b.txt", "b contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test")).call();
 
     assertMergeable("master", "test", "recursive");
   }
@@ -70,19 +65,16 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
   public void checkUnMergeableCommit() throws Exception {
     RevCommit initialHead = getRemoteHead();
     testRepo.branch("HEAD").commit().insertChangeId()
-        .message("some change in a")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+        .message("some change in a").add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
     testRepo.reset(initialHead);
     testRepo.branch("HEAD").commit().insertChangeId()
-        .message("some change in a too")
-        .add("a.txt", "a contents too")
+        .message("some change in a too").add("a.txt", "a contents too")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/test")).call();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test")).call();
 
     assertUnMergeable("master", "test", "recursive", "a.txt");
   }
@@ -91,19 +83,16 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
   public void checkOursMergeStrategy() throws Exception {
     RevCommit initialHead = getRemoteHead();
     testRepo.branch("HEAD").commit().insertChangeId()
-        .message("some change in a")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+        .message("some change in a").add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
     testRepo.reset(initialHead);
     testRepo.branch("HEAD").commit().insertChangeId()
-        .message("some change in a too")
-        .add("a.txt", "a contents too")
+        .message("some change in a too").add("a.txt", "a contents too")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/test")).call();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test")).call();
 
     assertMergeable("master", "test", "ours");
   }
@@ -111,30 +100,24 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
   @Test
   public void checkAlreadyMergedCommit() throws Exception {
     ObjectId c0 = testRepo.branch("HEAD").commit().insertChangeId()
-        .message("first commit")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+        .message("first commit").add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
-    testRepo.branch("HEAD").commit().insertChangeId()
-        .message("second commit")
-        .add("b.txt", "b contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo.branch("HEAD").commit().insertChangeId().message("second commit")
+        .add("b.txt", "b contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
     assertCommitMerged("master", c0.getName(), "");
   }
 
   @Test
   public void checkContentMergedCommit() throws Exception {
-    testRepo.branch("HEAD").commit().insertChangeId()
-        .message("first commit")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo.branch("HEAD").commit().insertChangeId().message("first commit")
+        .add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
     // create a change, and cherrypick into master
     PushOneCommit.Result cId = createChange();
@@ -142,8 +125,7 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
     CherryPickInput cpi = new CherryPickInput();
     cpi.destination = "master";
     cpi.message = "cherry pick the commit";
-    ChangeApi orig = gApi.changes()
-        .id(cId.getChangeId());
+    ChangeApi orig = gApi.changes().id(cId.getChangeId());
     ChangeApi cherry = orig.current().cherryPick(cpi);
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
@@ -155,12 +137,10 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   @Test
   public void checkInvalidSource() throws Exception {
-    testRepo.branch("HEAD").commit().insertChangeId()
-        .message("first commit")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo.branch("HEAD").commit().insertChangeId().message("first commit")
+        .add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
     assertBadRequest("master", "fdsafsdf", "recursive",
         "Cannot resolve 'fdsafsdf' to a commit");
@@ -169,20 +149,17 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
   @Test
   public void checkInvalidStrategy() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    testRepo.branch("HEAD").commit().insertChangeId()
-        .message("first commit")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo.branch("HEAD").commit().insertChangeId().message("first commit")
+        .add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
     testRepo.reset(initialHead);
     testRepo.branch("HEAD").commit().insertChangeId()
-        .message("some change in a too")
-        .add("a.txt", "a contents too")
+        .message("some change in a too").add("a.txt", "a contents too")
         .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/test")).call();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test")).call();
 
     assertBadRequest("master", "test", "octopus",
         "invalid merge strategy: octopus");
@@ -190,30 +167,31 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
   private void assertMergeable(String targetBranch, String source,
       String strategy) throws Exception {
-    MergeableInfo
-        mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
+    MergeableInfo mergeableInfo =
+        getMergeableInfo(targetBranch, source, strategy);
     assertThat(mergeableInfo.mergeable).isTrue();
   }
 
   private void assertUnMergeable(String targetBranch, String source,
       String strategy, String... conflicts) throws Exception {
-    MergeableInfo mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
+    MergeableInfo mergeableInfo =
+        getMergeableInfo(targetBranch, source, strategy);
     assertThat(mergeableInfo.mergeable).isFalse();
     assertThat(mergeableInfo.conflicts).containsExactly((Object[]) conflicts);
   }
 
   private void assertCommitMerged(String targetBranch, String source,
       String strategy) throws Exception {
-    MergeableInfo
-        mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
+    MergeableInfo mergeableInfo =
+        getMergeableInfo(targetBranch, source, strategy);
     assertThat(mergeableInfo.mergeable).isTrue();
     assertThat(mergeableInfo.commitMerged).isTrue();
   }
 
   private void assertContentMerged(String targetBranch, String source,
       String strategy) throws Exception {
-    MergeableInfo
-        mergeableInfo = getMergeableInfo(targetBranch, source, strategy);
+    MergeableInfo mergeableInfo =
+        getMergeableInfo(targetBranch, source, strategy);
     assertThat(mergeableInfo.mergeable).isTrue();
     assertThat(mergeableInfo.contentMerged).isTrue();
   }
@@ -241,7 +219,8 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
 
     RestResponse r = userRestSession.get(url);
     r.assertOK();
-    MergeableInfo result = newGson().fromJson(r.getReader(), MergeableInfo.class);
+    MergeableInfo result =
+        newGson().fromJson(r.getReader(), MergeableInfo.class);
     r.consume();
     return result;
   }

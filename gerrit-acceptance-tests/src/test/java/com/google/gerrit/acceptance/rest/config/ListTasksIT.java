@@ -31,9 +31,8 @@ public class ListTasksIT extends AbstractDaemonTest {
   public void listTasks() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/tasks/");
     r.assertOK();
-    List<TaskInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<TaskInfo>>() {}.getType());
+    List<TaskInfo> result = newGson().fromJson(r.getReader(),
+        new TypeToken<List<TaskInfo>>() {}.getType());
     assertThat(result).isNotEmpty();
     boolean foundLogFileCompressorTask = false;
     for (TaskInfo info : result) {
@@ -52,9 +51,8 @@ public class ListTasksIT extends AbstractDaemonTest {
   public void listTasksWithoutViewQueueCapability() throws Exception {
     RestResponse r = userRestSession.get("/config/server/tasks/");
     r.assertOK();
-    List<TaskInfo> result =
-        newGson().fromJson(r.getReader(),
-            new TypeToken<List<TaskInfo>>() {}.getType());
+    List<TaskInfo> result = newGson().fromJson(r.getReader(),
+        new TypeToken<List<TaskInfo>>() {}.getType());
 
     assertThat(result).isEmpty();
   }

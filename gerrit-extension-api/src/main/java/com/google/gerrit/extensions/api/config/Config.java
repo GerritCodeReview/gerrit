@@ -23,8 +23,8 @@ public interface Config {
   Server server();
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements Config {
     @Override

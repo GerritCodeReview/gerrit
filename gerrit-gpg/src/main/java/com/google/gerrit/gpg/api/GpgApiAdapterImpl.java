@@ -45,9 +45,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   private final GerritPushCertificateChecker.Factory pushCertCheckerFactory;
 
   @Inject
-  GpgApiAdapterImpl(
-      PostGpgKeys postGpgKeys,
-      GpgKeys gpgKeys,
+  GpgApiAdapterImpl(PostGpgKeys postGpgKeys, GpgKeys gpgKeys,
       GpgKeyApiImpl.Factory gpgKeyApiFactory,
       GerritPushCertificateChecker.Factory pushCertCheckerFactory) {
     this.postGpgKeys = postGpgKeys;
@@ -101,9 +99,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
     try {
       PushCertificate cert = PushCertificateParser.fromString(certStr);
       PushCertificateChecker.Result result = pushCertCheckerFactory
-          .create(expectedUser)
-          .setCheckNonce(false)
-          .check(cert);
+          .create(expectedUser).setCheckNonce(false).check(cert);
       PushCertificateInfo info = new PushCertificateInfo();
       info.certificate = certStr;
       info.key = GpgKeys.toJson(result.getPublicKey(), result.getCheckResult());

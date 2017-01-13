@@ -24,22 +24,29 @@ import java.util.List;
 
 public interface ProjectApi {
   ProjectApi create() throws RestApiException;
+
   ProjectApi create(ProjectInput in) throws RestApiException;
+
   ProjectInfo get() throws RestApiException;
 
   String description() throws RestApiException;
+
   void description(DescriptionInput in) throws RestApiException;
 
   ProjectAccessInfo access() throws RestApiException;
+
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
 
   ConfigInfo config() throws RestApiException;
+
   ConfigInfo config(ConfigInput in) throws RestApiException;
 
   ListRefsRequest<BranchInfo> branches();
+
   ListRefsRequest<TagInfo> tags();
 
   void deleteBranches(DeleteBranchesInput in) throws RestApiException;
+
   void deleteTags(DeleteTagsInput in) throws RestApiException;
 
   abstract class ListRefsRequest<T extends RefInfo> {
@@ -88,7 +95,9 @@ public interface ProjectApi {
   }
 
   List<ProjectInfo> children() throws RestApiException;
+
   List<ProjectInfo> children(boolean recursive) throws RestApiException;
+
   ChildProjectApi child(String name) throws RestApiException;
 
   /**
@@ -109,6 +118,7 @@ public interface ProjectApi {
   /**
    * Look up a tag by refname.
    * <p>
+   * 
    * @param ref tag name, with or without "refs/tags/" prefix.
    * @throws RestApiException if a problem occurred reading the project.
    * @return API for accessing the tag.
@@ -116,8 +126,8 @@ public interface ProjectApi {
   TagApi tag(String ref) throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements ProjectApi {
     @Override

@@ -40,17 +40,14 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
   public void confirm() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(admin.getId(), "new.mail@example.com");
-    adminRestSession
-        .put("/config/server/email.confirm", in)
-        .assertNoContent();
+    adminRestSession.put("/config/server/email.confirm", in).assertNoContent();
   }
 
   @Test
   public void confirmForOtherUser_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(user.getId(), "new.mail@example.com");
-    adminRestSession
-        .put("/config/server/email.confirm", in)
+    adminRestSession.put("/config/server/email.confirm", in)
         .assertUnprocessableEntity();
   }
 
@@ -58,8 +55,7 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
   public void confirmInvalidToken_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = "invalidToken";
-    adminRestSession
-        .put("/config/server/email.confirm", in)
+    adminRestSession.put("/config/server/email.confirm", in)
         .assertUnprocessableEntity();
   }
 
@@ -67,8 +63,7 @@ public class ConfirmEmailIT extends AbstractDaemonTest {
   public void confirmAlreadyInUse_UnprocessableEntity() throws Exception {
     ConfirmEmail.Input in = new ConfirmEmail.Input();
     in.token = emailTokenVerifier.encode(admin.getId(), user.email);
-    adminRestSession
-        .put("/config/server/email.confirm", in)
+    adminRestSession.put("/config/server/email.confirm", in)
         .assertUnprocessableEntity();
   }
 }

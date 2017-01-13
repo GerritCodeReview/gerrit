@@ -105,17 +105,15 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   private BranchApi branch() throws Exception {
-    return gApi.projects()
-        .name(branch.getParentKey().get())
+    return gApi.projects().name(branch.getParentKey().get())
         .branch(branch.get());
   }
 
   private void assertDeleteSucceeds() throws Exception {
     String branchRev = branch().get().revision;
     branch().delete();
-    eventRecorder.assertRefUpdatedEvents(project.get(), branch.get(),
-        null, branchRev,
-        branchRev, null);
+    eventRecorder.assertRefUpdatedEvents(project.get(), branch.get(), null,
+        branchRev, branchRev, null);
     exception.expect(ResourceNotFoundException.class);
     branch().get();
   }

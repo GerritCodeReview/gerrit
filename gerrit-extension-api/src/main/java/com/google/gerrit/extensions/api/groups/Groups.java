@@ -37,7 +37,7 @@ public interface Groups {
    * to store references to {@code groupApi} instances.
    *
    * @param id any identifier supported by the REST API, including group name or
-   *     UUID.
+   *        UUID.
    * @return API for accessing the group.
    * @throws RestApiException if an error occurred.
    */
@@ -55,8 +55,7 @@ public interface Groups {
   /**
    * Query groups.
    * <p>
-   * Example code:
-   * {@code query().withQuery("inname:test").withLimit(10).get()}
+   * Example code: {@code query().withQuery("inname:test").withLimit(10).get()}
    *
    * @return API for setting parameters and getting result.
    */
@@ -201,8 +200,7 @@ public interface Groups {
   }
 
   /**
-   * API for setting parameters and getting result.
-   * Used for {@code query()}.
+   * API for setting parameters and getting result. Used for {@code query()}.
    *
    * @see #query()
    */
@@ -229,8 +227,8 @@ public interface Groups {
     }
 
     /**
-     * Set limit for returned list of groups.
-     * Optional; server-default is used when not provided.
+     * Set limit for returned list of groups. Optional; server-default is used
+     * when not provided.
      */
     public QueryRequest withLimit(int limit) {
       this.limit = limit;
@@ -238,8 +236,8 @@ public interface Groups {
     }
 
     /**
-     * Set number of groups to skip.
-     * Optional; no groups are skipped when not provided.
+     * Set number of groups to skip. Optional; no groups are skipped when not
+     * provided.
      */
     public QueryRequest withStart(int start) {
       this.start = start;
@@ -279,8 +277,8 @@ public interface Groups {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements Groups {
     @Override

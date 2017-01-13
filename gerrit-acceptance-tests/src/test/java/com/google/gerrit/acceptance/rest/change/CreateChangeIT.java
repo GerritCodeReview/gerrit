@@ -106,9 +106,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     setSignedOffByFooter();
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     String message = info.revisions.get(info.currentRevision).commit.message;
-    assertThat(message).contains(
-        String.format("%sAdministrator <%s>", SIGNED_OFF_BY_TAG,
-            admin.getIdent().getEmailAddress()));
+    assertThat(message).contains(String.format("%sAdministrator <%s>",
+        SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
   }
 
   @Test
@@ -151,32 +150,28 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void createMergeChange() throws Exception {
     changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
-    ChangeInput in =
-        newMergeChangeInput("branchA", "branchB", "");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
     assertCreateSucceeds(in);
   }
 
   @Test
   public void createMergeChange_Conflicts() throws Exception {
     changeInTwoBranches("branchA", "shared.txt", "branchB", "shared.txt");
-    ChangeInput in =
-        newMergeChangeInput("branchA", "branchB", "");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
     assertCreateFails(in, RestApiException.class, "merge conflict");
   }
 
   @Test
   public void createMergeChange_Conflicts_Ours() throws Exception {
     changeInTwoBranches("branchA", "shared.txt", "branchB", "shared.txt");
-    ChangeInput in =
-        newMergeChangeInput("branchA", "branchB", "ours");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "ours");
     assertCreateSucceeds(in);
   }
 
   @Test
   public void invalidSource() throws Exception {
     changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
-    ChangeInput in =
-        newMergeChangeInput("branchA", "invalid", "");
+    ChangeInput in = newMergeChangeInput("branchA", "invalid", "");
     assertCreateFails(in, BadRequestException.class,
         "Cannot resolve 'invalid' to a commit");
   }
@@ -184,8 +179,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void invalidStrategy() throws Exception {
     changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
-    ChangeInput in =
-        newMergeChangeInput("branchA", "branchB", "octopus");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "octopus");
     assertCreateFails(in, BadRequestException.class,
         "invalid merge strategy: octopus");
   }
@@ -193,33 +187,26 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void alreadyMerged() throws Exception {
     ObjectId c0 = testRepo.branch("HEAD").commit().insertChangeId()
-        .message("first commit")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+        .message("first commit").add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
-    testRepo.branch("HEAD").commit().insertChangeId()
-        .message("second commit")
-        .add("b.txt", "b contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo.branch("HEAD").commit().insertChangeId().message("second commit")
+        .add("b.txt", "b contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
-    ChangeInput in =
-        newMergeChangeInput("master", c0.getName(), "");
+    ChangeInput in = newMergeChangeInput("master", c0.getName(), "");
     assertCreateFails(in, ChangeAlreadyMergedException.class,
         "'" + c0.getName() + "' has already been merged");
   }
 
   @Test
   public void onlyContentMerged() throws Exception {
-    testRepo.branch("HEAD").commit().insertChangeId()
-        .message("first commit")
-        .add("a.txt", "a contents ")
-        .create();
-    testRepo.git().push().setRemote("origin").setRefSpecs(
-        new RefSpec("HEAD:refs/heads/master")).call();
+    testRepo.branch("HEAD").commit().insertChangeId().message("first commit")
+        .add("a.txt", "a contents ").create();
+    testRepo.git().push().setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master")).call();
 
     // create a change, and cherrypick into master
     PushOneCommit.Result cId = createChange();
@@ -227,8 +214,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     CherryPickInput cpi = new CherryPickInput();
     cpi.destination = "master";
     cpi.message = "cherry pick the commit";
-    ChangeApi orig = gApi.changes()
-        .id(cId.getChangeId());
+    ChangeApi orig = gApi.changes().id(cId.getChangeId());
     ChangeApi cherry = orig.current().cherryPick(cpi);
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
@@ -236,8 +222,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ObjectId remoteId = getRemoteHead();
     assertThat(remoteId).isNotEqualTo(commitId);
 
-    ChangeInput in =
-        newMergeChangeInput("master", commitId.getName(), "");
+    ChangeInput in = newMergeChangeInput("master", commitId.getName(), "");
     assertCreateSucceeds(in);
   }
 
@@ -281,8 +266,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   // TODO(davido): Expose setting of account preferences in the API
   private void setSignedOffByFooter() throws Exception {
-    RestResponse r = adminRestSession.get("/accounts/" + admin.email
-        + "/preferences");
+    RestResponse r =
+        adminRestSession.get("/accounts/" + admin.email + "/preferences");
     r.assertOK();
     GeneralPreferencesInfo i =
         newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
@@ -290,8 +275,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     r = adminRestSession.put("/accounts/" + admin.email + "/preferences", i);
     r.assertOK();
-    GeneralPreferencesInfo o = newGson().fromJson(r.getReader(),
-        GeneralPreferencesInfo.class);
+    GeneralPreferencesInfo o =
+        newGson().fromJson(r.getReader(), GeneralPreferencesInfo.class);
 
     assertThat(o.signedOffBy).isTrue();
   }
@@ -316,10 +301,9 @@ public class CreateChangeIT extends AbstractDaemonTest {
   private void changeInTwoBranches(String branchA, String fileA, String branchB,
       String fileB) throws Exception {
     // create a initial commit in master
-    Result initialCommit = pushFactory
-        .create(db, user.getIdent(), testRepo, "initial commit", "readme.txt",
-            "initial commit")
-        .to("refs/heads/master");
+    Result initialCommit =
+        pushFactory.create(db, user.getIdent(), testRepo, "initial commit",
+            "readme.txt", "initial commit").to("refs/heads/master");
     initialCommit.assertOkStatus();
 
     // create two new branches
@@ -333,8 +317,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     changeA.assertOkStatus();
 
     // create a commit in branchB
-    PushOneCommit commitB = pushFactory
-        .create(db, user.getIdent(), testRepo, "change B", fileB, "B content");
+    PushOneCommit commitB = pushFactory.create(db, user.getIdent(), testRepo,
+        "change B", fileB, "B content");
     commitB.setParent(initialCommit.getCommit());
     Result changeB = commitB.to("refs/heads/" + branchB);
     changeB.assertOkStatus();

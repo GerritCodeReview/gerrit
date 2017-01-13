@@ -44,8 +44,8 @@ public class BouncyCastleUtil {
   }
 
   private static void addBouncyCastleProvider() throws ClassNotFoundException,
-          SecurityException, NoSuchMethodException, InstantiationException,
-          IllegalAccessException, InvocationTargetException {
+      SecurityException, NoSuchMethodException, InstantiationException,
+      IllegalAccessException, InvocationTargetException {
     Class<?> clazz = Class.forName(BouncyCastleProvider.class.getName());
     Constructor<?> constructor = clazz.getConstructor();
     Security.addProvider((java.security.Provider) constructor.newInstance());

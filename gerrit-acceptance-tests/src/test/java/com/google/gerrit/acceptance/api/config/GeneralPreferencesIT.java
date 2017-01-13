@@ -60,7 +60,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     update.signedOffBy = newSignedOffBy;
     GeneralPreferencesInfo result =
         gApi.config().server().setDefaultPreferences(update);
-    assertThat(result.signedOffBy).named("signedOffBy").isEqualTo(newSignedOffBy);
+    assertThat(result.signedOffBy).named("signedOffBy")
+        .isEqualTo(newSignedOffBy);
 
     result = gApi.config().server().getDefaultPreferences();
     GeneralPreferencesInfo expected = GeneralPreferencesInfo.defaults();

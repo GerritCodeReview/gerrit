@@ -109,8 +109,8 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isNull();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("This change depends on other " +
-          "changes which are not ready");
+      assertThat(info.title).isEqualTo(
+          "This change depends on other " + "changes which are not ready");
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
 
@@ -137,7 +137,8 @@ public class ActionsIT extends AbstractDaemonTest {
     String etag4 = getETag(change);
 
     if (isSubmitWholeTopicEnabled()) {
-      assertThat(ImmutableList.of(etag1, etag2, etag3, etag4)).containsNoDuplicates();
+      assertThat(ImmutableList.of(etag1, etag2, etag3, etag4))
+          .containsNoDuplicates();
     } else {
       assertThat(etag2).isNotEqualTo(etag1);
       assertThat(etag3).isEqualTo(etag2);
@@ -195,7 +196,8 @@ public class ActionsIT extends AbstractDaemonTest {
     String etag4 = getETag(change);
 
     if (isSubmitWholeTopicEnabled()) {
-      assertThat(ImmutableList.of(etag1, etag2, etag3, etag4)).containsNoDuplicates();
+      assertThat(ImmutableList.of(etag1, etag2, etag3, etag4))
+          .containsNoDuplicates();
     } else {
       assertThat(etag2).isNotEqualTo(etag1);
       assertThat(etag3).isEqualTo(etag2);
@@ -205,7 +207,8 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(submitType = SubmitType.CHERRY_PICK)
-  public void revisionActionsAnonymousETagCherryPickStrategy() throws Exception {
+  public void revisionActionsAnonymousETagCherryPickStrategy()
+      throws Exception {
     String parent = createChange().getChangeId();
     String change = createChange().getChangeId();
     approve(change);
@@ -269,9 +272,9 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isTrue();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("Submit all 2 changes of the same " +
-          "topic (3 changes including ancestors " +
-          "and other changes related by topic)");
+      assertThat(info.title).isEqualTo("Submit all 2 changes of the same "
+          + "topic (3 changes including ancestors "
+          + "and other changes related by topic)");
     } else {
       noSubmitWholeTopicAssertions(actions, 2);
     }
@@ -305,9 +308,9 @@ public class ActionsIT extends AbstractDaemonTest {
     if (nrChanges == 1) {
       assertThat(info.title).isEqualTo("Submit patch set 1 into master");
     } else {
-      assertThat(info.title).isEqualTo(String.format(
-          "Submit patch set 1 and ancestors (%d changes " +
-          "altogether) into master", nrChanges));
+      assertThat(info.title).isEqualTo(
+          String.format("Submit patch set 1 and ancestors (%d changes "
+              + "altogether) into master", nrChanges));
     }
   }
 
@@ -346,10 +349,8 @@ public class ActionsIT extends AbstractDaemonTest {
     Visitor v = new Visitor();
     visitorHandle = actionVisitors.add(v);
 
-    Map<String, ActionInfo> newActions = gApi.changes()
-        .id(id)
-        .get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS))
-        .actions;
+    Map<String, ActionInfo> newActions = gApi.changes().id(id)
+        .get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS)).actions;
 
     Set<String> expectedNames = new TreeSet<>(origActions.keySet());
     expectedNames.remove("followup");
@@ -400,8 +401,8 @@ public class ActionsIT extends AbstractDaemonTest {
 
     // Test different codepaths within ActionJson...
     // ...via revision API.
-    visitedRevisionActionsAssertions(
-        origActions, gApi.changes().id(id).current().actions());
+    visitedRevisionActionsAssertions(origActions,
+        gApi.changes().id(id).current().actions());
 
     // ...via change API with option.
     EnumSet<ListChangesOption> opts =
@@ -412,11 +413,10 @@ public class ActionsIT extends AbstractDaemonTest {
     visitedRevisionActionsAssertions(origActions, revisionInfo.actions);
 
     // ...via ChangeJson directly.
-    ChangeData cd = changeDataFactory.create(
-        db, project, new Change.Id(origChange._number));
-    revisionInfo = changeJsonFactory.create(opts)
-        .getRevisionInfo(
-            cd.changeControl(), Iterables.getOnlyElement(cd.patchSets()));
+    ChangeData cd = changeDataFactory.create(db, project,
+        new Change.Id(origChange._number));
+    revisionInfo = changeJsonFactory.create(opts).getRevisionInfo(
+        cd.changeControl(), Iterables.getOnlyElement(cd.patchSets()));
     visitedRevisionActionsAssertions(origActions, revisionInfo.actions);
   }
 
@@ -441,29 +441,27 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createCommitAndPush(
-      TestRepository<InMemoryRepository> repo, String ref,
-      String commitMsg, String fileName, String content) throws Exception {
+      TestRepository<InMemoryRepository> repo, String ref, String commitMsg,
+      String fileName, String content) throws Exception {
     return pushFactory
         .create(db, admin.getIdent(), repo, commitMsg, fileName, content)
         .to(ref);
   }
 
   private PushOneCommit.Result createChangeWithTopic(
-      TestRepository<InMemoryRepository> repo, String topic,
-      String commitMsg, String fileName, String content) throws Exception {
+      TestRepository<InMemoryRepository> repo, String topic, String commitMsg,
+      String fileName, String content) throws Exception {
     assertThat(topic).isNotEmpty();
     return createCommitAndPush(repo, "refs/for/master/" + name(topic),
         commitMsg, fileName, content);
   }
 
-  private PushOneCommit.Result createChangeWithTopic()
-      throws Exception {
-    return createChangeWithTopic(testRepo, "foo2",
-        "a message", "a.txt", "content\n");
+  private PushOneCommit.Result createChangeWithTopic() throws Exception {
+    return createChangeWithTopic(testRepo, "foo2", "a message", "a.txt",
+        "content\n");
   }
 
-  private PushOneCommit.Result createDraftWithTopic()
-      throws Exception {
+  private PushOneCommit.Result createDraftWithTopic() throws Exception {
     return createCommitAndPush(testRepo, "refs/drafts/master/" + name("foo2"),
         "a message", "a.txt", "content\n");
   }

@@ -34,8 +34,8 @@ public class MergeableFileBasedConfig extends FileBasedConfig {
    * Merge another Config into this Config.
    *
    * In case a configuration parameter exists both in this instance and in the
-   * merged instance then the value in this instance will simply replaced by
-   * the value from the merged instance.
+   * merged instance then the value in this instance will simply replaced by the
+   * value from the merged instance.
    *
    * @param s Config to merge into this instance
    */
@@ -46,8 +46,8 @@ public class MergeableFileBasedConfig extends FileBasedConfig {
     for (String section : s.getSections()) {
       for (String subsection : s.getSubsections(section)) {
         for (String name : s.getNames(section, subsection)) {
-          setStringList(section, subsection, name, Lists.newArrayList(s
-              .getStringList(section, subsection, name)));
+          setStringList(section, subsection, name,
+              Lists.newArrayList(s.getStringList(section, subsection, name)));
         }
       }
 

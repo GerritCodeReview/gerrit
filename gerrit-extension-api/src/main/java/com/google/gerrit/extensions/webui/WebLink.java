@@ -16,8 +16,7 @@ package com.google.gerrit.extensions.webui;
 
 
 /**
- * Marks that the implementor has a method that provides
- * a weblinkInfo
+ * Marks that the implementor has a method that provides a weblinkInfo
  *
  */
 public interface WebLink {

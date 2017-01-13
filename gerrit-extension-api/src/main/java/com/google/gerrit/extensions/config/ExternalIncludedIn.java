@@ -23,9 +23,9 @@ import java.util.Collection;
 public interface ExternalIncludedIn {
 
   /**
-   * Returns additional entries for IncludedInInfo as multimap where the
-   * key is the row title and the the values are a list of systems that include
-   * the given commit (e.g. names of servers on which this commit is deployed).
+   * Returns additional entries for IncludedInInfo as multimap where the key is
+   * the row title and the the values are a list of systems that include the
+   * given commit (e.g. names of servers on which this commit is deployed).
    *
    * The tags and branches in which the commit is included are provided so that
    * a RevWalk can be avoided when a system runs a certain tag or branch.

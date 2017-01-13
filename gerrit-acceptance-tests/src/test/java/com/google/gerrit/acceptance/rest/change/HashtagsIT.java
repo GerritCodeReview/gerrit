@@ -247,27 +247,22 @@ public class HashtagsIT extends AbstractDaemonTest {
 
   private IterableSubject assertThatGet(PushOneCommit.Result r)
       throws Exception {
-    return assertThat(gApi.changes()
-        .id(r.getChange().getId().get())
-        .getHashtags());
+    return assertThat(
+        gApi.changes().id(r.getChange().getId().get()).getHashtags());
   }
 
   private void addHashtags(PushOneCommit.Result r, String... toAdd)
       throws Exception {
     HashtagsInput input = new HashtagsInput();
     input.add = Sets.newHashSet(toAdd);
-    gApi.changes()
-        .id(r.getChange().getId().get())
-        .setHashtags(input);
+    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
   }
 
   private void removeHashtags(PushOneCommit.Result r, String... toRemove)
       throws Exception {
     HashtagsInput input = new HashtagsInput();
     input.remove = Sets.newHashSet(toRemove);
-    gApi.changes()
-        .id(r.getChange().getId().get())
-        .setHashtags(input);
+    gApi.changes().id(r.getChange().getId().get()).setHashtags(input);
   }
 
   private void assertMessage(PushOneCommit.Result r, String expectedMessage)

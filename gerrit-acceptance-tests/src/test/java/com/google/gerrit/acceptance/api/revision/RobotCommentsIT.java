@@ -62,10 +62,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
       throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
-    Map<String, List<RobotCommentInfo>> robotComments = gApi.changes()
-        .id(changeId)
-        .current()
-        .robotComments();
+    Map<String, List<RobotCommentInfo>> robotComments =
+        gApi.changes().id(changeId).current().robotComments();
 
     assertThat(robotComments).isNotNull();
     assertThat(robotComments).isEmpty();
@@ -78,10 +76,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     RobotCommentInput in = createRobotCommentInput();
     addRobotComment(changeId, in);
 
-    Map<String, List<RobotCommentInfo>> out = gApi.changes()
-        .id(changeId)
-        .current()
-        .robotComments();
+    Map<String, List<RobotCommentInfo>> out =
+        gApi.changes().id(changeId).current().robotComments();
 
     assertThat(out).hasSize(1);
     RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
@@ -120,10 +116,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     RobotCommentInput robotCommentInput = createRobotCommentInput();
     addRobotComment(changeId, robotCommentInput);
 
-    List<RobotCommentInfo> robotCommentInfos = gApi.changes()
-        .id(changeId)
-        .current()
-        .robotCommentsAsList();
+    List<RobotCommentInfo> robotCommentInfos =
+        gApi.changes().id(changeId).current().robotCommentsAsList();
 
     assertThat(robotCommentInfos).hasSize(1);
     RobotCommentInfo robotCommentInfo =
@@ -142,11 +136,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     RobotCommentInfo robotCommentInfo =
         Iterables.getOnlyElement(robotCommentInfos);
 
-    RobotCommentInfo specificRobotCommentInfo = gApi.changes()
-        .id(changeId)
-        .current()
-        .robotComment(robotCommentInfo.id)
-        .get();
+    RobotCommentInfo specificRobotCommentInfo = gApi.changes().id(changeId)
+        .current().robotComment(robotCommentInfo.id).get();
     assertRobotComment(specificRobotCommentInfo, robotCommentInput);
   }
 
@@ -157,10 +148,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     RobotCommentInput in = createRobotCommentInputWithMandatoryFields();
     addRobotComment(changeId, in);
 
-    Map<String, List<RobotCommentInfo>> out = gApi.changes()
-        .id(changeId)
-        .current()
-        .robotComments();
+    Map<String, List<RobotCommentInfo>> out =
+        gApi.changes().id(changeId).current().robotComments();
     assertThat(out).hasSize(1);
     RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
     assertRobotComment(comment, in, false);
@@ -173,22 +162,21 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
-    assertThatList(robotCommentInfos).onlyElement()
-        .onlyFixSuggestion().isNotNull();
+    assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion()
+        .isNotNull();
   }
 
   @Test
-  public void fixIdIsGeneratedForFixSuggestion()
-      throws Exception {
+  public void fixIdIsGeneratedForFixSuggestion() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
     addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
-    assertThatList(robotCommentInfos).onlyElement()
-        .onlyFixSuggestion().fixId().isNotEmpty();
-    assertThatList(robotCommentInfos).onlyElement()
-        .onlyFixSuggestion().fixId().isNotEqualTo(fixSuggestionInfo.fixId);
+    assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion().fixId()
+        .isNotEmpty();
+    assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion().fixId()
+        .isNotEqualTo(fixSuggestionInfo.fixId);
   }
 
   @Test
@@ -209,7 +197,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixSuggestionInfo.description = null;
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(String.format("A description is required for the "
+    exception.expectMessage(String.format(
+        "A description is required for the "
             + "suggested fix of the robot comment on %s",
         withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
@@ -233,8 +222,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixSuggestionInfo.replacements = Collections.emptyList();
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(String.format("At least one replacement is required"
-        + " for the suggested fix of the robot comment on %s",
+    exception.expectMessage(String.format(
+        "At least one replacement is required"
+            + " for the suggested fix of the robot comment on %s",
         withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
   }
@@ -258,7 +248,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.path = null;
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(String.format("A file path must be given for the "
+    exception.expectMessage(String.format(
+        "A file path must be given for the "
             + "replacement of the robot comment on %s",
         withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
@@ -271,7 +262,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.path = "anotherFile.txt";
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(String.format("Replacements may only be specified "
+    exception.expectMessage(String.format(
+        "Replacements may only be specified "
             + "for the file %s on which the robot comment was added",
         withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
@@ -296,8 +288,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.range = null;
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(String.format("A range must be given for the "
-        + "replacement of the robot comment on %s",
+    exception.expectMessage(String.format(
+        "A range must be given for the "
+            + "replacement of the robot comment on %s",
         withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
   }
@@ -309,7 +302,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     fixReplacementInfo.range = createRange(13, 9, 5, 10);
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(String.format("Range (13:9 - 5:10) is not "
+    exception.expectMessage(String.format(
+        "Range (13:9 - 5:10) is not "
             + "valid for the replacement of the robot comment on %s",
         withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
@@ -324,21 +318,21 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
-    assertThatList(robotCommentInfos).onlyElement()
-        .onlyFixSuggestion().onlyReplacement()
-        .replacement().isEqualTo(fixReplacementInfo.replacement);
+    assertThatList(robotCommentInfos).onlyElement().onlyFixSuggestion()
+        .onlyReplacement().replacement()
+        .isEqualTo(fixReplacementInfo.replacement);
   }
 
   @Test
-  public void replacementStringOfFixReplacementIsMandatory()
-      throws Exception {
+  public void replacementStringOfFixReplacementIsMandatory() throws Exception {
     assume().that(notesMigration.enabled()).isTrue();
 
     fixReplacementInfo.replacement = null;
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(String.format("A content for replacement must be "
-        + "indicated for the replacement of the robot comment on %s",
+    exception.expectMessage(String.format(
+        "A content for replacement must be "
+            + "indicated for the replacement of the robot comment on %s",
         withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
   }
@@ -356,10 +350,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("robot comments not supported");
-    gApi.changes()
-       .id(changeId)
-       .current()
-       .review(reviewInput);
+    gApi.changes().id(changeId).current().review(reviewInput);
   }
 
   private RobotCommentInput createRobotCommentInputWithMandatoryFields() {
@@ -416,17 +407,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     reviewInput.robotComments = Collections.singletonMap(robotCommentInput.path,
         Collections.singletonList(robotCommentInput));
     reviewInput.message = "robot comment test";
-    gApi.changes()
-        .id(targetChangeId)
-        .current()
-        .review(reviewInput);
+    gApi.changes().id(targetChangeId).current().review(reviewInput);
   }
 
   private List<RobotCommentInfo> getRobotComments() throws RestApiException {
-    return gApi.changes()
-        .id(changeId)
-        .current()
-        .robotCommentsAsList();
+    return gApi.changes().id(changeId).current().robotCommentsAsList();
   }
 
   private void assertRobotComment(RobotCommentInfo c,

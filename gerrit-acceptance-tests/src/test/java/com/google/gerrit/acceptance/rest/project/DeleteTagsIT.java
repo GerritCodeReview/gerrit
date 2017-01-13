@@ -37,8 +37,8 @@ import java.util.List;
 
 @NoHttpd
 public class DeleteTagsIT extends AbstractDaemonTest {
-  private static final List<String> TAGS = ImmutableList.of(
-      "refs/tags/test-1", "refs/tags/test-2", "refs/tags/test-3");
+  private static final List<String> TAGS = ImmutableList.of("refs/tags/test-1",
+      "refs/tags/test-2", "refs/tags/test-3");
 
   @Before
   public void setUp() throws Exception {
@@ -83,8 +83,8 @@ public class DeleteTagsIT extends AbstractDaemonTest {
       project().deleteTags(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForTags(
-          ImmutableList.of("refs/tags/does-not-exist")));
+      assertThat(e).hasMessage(
+          errorMessageForTags(ImmutableList.of("refs/tags/does-not-exist")));
     }
     assertTagsDeleted();
   }
@@ -101,8 +101,8 @@ public class DeleteTagsIT extends AbstractDaemonTest {
       project().deleteTags(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForTags(
-          ImmutableList.of("refs/tags/does-not-exist")));
+      assertThat(e).hasMessage(
+          errorMessageForTags(ImmutableList.of("refs/tags/does-not-exist")));
     }
     assertTagsDeleted();
   }
@@ -110,10 +110,9 @@ public class DeleteTagsIT extends AbstractDaemonTest {
   private String errorMessageForTags(List<String> tags) {
     StringBuilder message = new StringBuilder();
     for (String tag : tags) {
-      message.append("Cannot delete ")
-        .append(tag)
-        .append(": it doesn't exist or you do not have permission ")
-        .append("to delete it\n");
+      message.append("Cannot delete ").append(tag)
+          .append(": it doesn't exist or you do not have permission ")
+          .append("to delete it\n");
     }
     return message.toString();
   }
@@ -131,8 +130,7 @@ public class DeleteTagsIT extends AbstractDaemonTest {
       throws Exception {
     for (String tag : revisions.keySet()) {
       RevCommit revision = revisions.get(tag);
-      eventRecorder.assertRefUpdatedEvents(project.get(), tag,
-          null, revision,
+      eventRecorder.assertRefUpdatedEvents(project.get(), tag, null, revision,
           revision, null);
     }
   }
@@ -148,6 +146,6 @@ public class DeleteTagsIT extends AbstractDaemonTest {
   }
 
   private void assertTagsDeleted() throws Exception {
-    assertTags(ImmutableList.<String>of());
+    assertTags(ImmutableList.<String> of());
   }
 }

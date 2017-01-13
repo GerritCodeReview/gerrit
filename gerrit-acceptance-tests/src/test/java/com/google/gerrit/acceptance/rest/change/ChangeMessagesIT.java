@@ -62,7 +62,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(1);
     assertThat(c.messages.iterator().next().message)
-      .isEqualTo("Uploaded patch set 1.");
+        .isEqualTo("Uploaded patch set 1.");
   }
 
   @Test
@@ -105,7 +105,8 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     postMessage(changeId, msg, null);
   }
 
-  private void postMessage(String changeId, String msg, String tag) throws Exception {
+  private void postMessage(String changeId, String msg, String tag)
+      throws Exception {
     ReviewInput in = new ReviewInput();
     in.message = msg;
     in.tag = tag;

@@ -58,7 +58,8 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "download.archive", values = {"tar", "tbz2", "tgz", "txz"})
+  @GerritConfig(name = "download.archive", values = {"tar", "tbz2", "tgz",
+      "txz"})
   public void zipFormatDisabled() throws Exception {
     archiveNotPermitted();
   }
@@ -69,9 +70,8 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     String abbreviated = r.getCommit().abbreviate(8).name();
     String c = command(r, abbreviated);
 
-    InputStream out =
-        adminSshSession.exec2("git-upload-archive " + project.get(),
-            argumentsToInputStream(c));
+    InputStream out = adminSshSession.exec2(
+        "git-upload-archive " + project.get(), argumentsToInputStream(c));
 
     // Wrap with PacketLineIn to read ACK bytes from output stream
     PacketLineIn in = new PacketLineIn(out);
@@ -99,11 +99,8 @@ public class UploadArchiveIT extends AbstractDaemonTest {
   }
 
   private String command(PushOneCommit.Result r, String abbreviated) {
-    String c = "-f=zip "
-        + "-9 "
-        + "--prefix=" + abbreviated + "/ "
-        + r.getCommit().name() + " "
-        + PushOneCommit.FILE_NAME;
+    String c = "-f=zip " + "-9 " + "--prefix=" + abbreviated + "/ "
+        + r.getCommit().name() + " " + PushOneCommit.FILE_NAME;
     return c;
   }
 
@@ -112,9 +109,8 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     String abbreviated = r.getCommit().abbreviate(8).name();
     String c = command(r, abbreviated);
 
-    InputStream out =
-        adminSshSession.exec2("git-upload-archive " + project.get(),
-            argumentsToInputStream(c));
+    InputStream out = adminSshSession.exec2(
+        "git-upload-archive " + project.get(), argumentsToInputStream(c));
 
     // Wrap with PacketLineIn to read ACK bytes from output stream
     PacketLineIn in = new PacketLineIn(out);

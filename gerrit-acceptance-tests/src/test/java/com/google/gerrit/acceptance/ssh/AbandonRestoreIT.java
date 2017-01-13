@@ -41,10 +41,9 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
     String commit = result.getCommit().name();
     executeCmd(commit, "abandon", "'abandon it'");
     executeCmd(commit, "restore", "'restore it'");
-    assertChangeMessages(result.getChangeId(), ImmutableList.of(
-        "Uploaded patch set 1.",
-        "Abandoned\n\nabandon it",
-        "Restored\n\nrestore it"));
+    assertChangeMessages(result.getChangeId(),
+        ImmutableList.of("Uploaded patch set 1.", "Abandoned\n\nabandon it",
+            "Restored\n\nrestore it"));
   }
 
   @Test
@@ -53,26 +52,20 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
     String commit = result.getCommit().name();
     executeCmd(commit, "abandon", null);
     executeCmd(commit, "restore", null);
-    assertChangeMessages(result.getChangeId(), ImmutableList.of(
-        "Uploaded patch set 1.",
-        "Abandoned",
-        "Restored"));
+    assertChangeMessages(result.getChangeId(),
+        ImmutableList.of("Uploaded patch set 1.", "Abandoned", "Restored"));
   }
 
   private void executeCmd(String commit, String op, String message)
       throws Exception {
-    StringBuilder command = new StringBuilder("gerrit review ")
-        .append(commit)
-        .append(" --")
-        .append(op);
+    StringBuilder command = new StringBuilder("gerrit review ").append(commit)
+        .append(" --").append(op);
     if (message != null) {
       command.append(" --message ").append(message);
     }
     String response = adminSshSession.exec(command.toString());
-    assert_()
-      .withFailureMessage(adminSshSession.getError())
-      .that(adminSshSession.hasError())
-      .isFalse();
+    assert_().withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError()).isFalse();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
   }
 

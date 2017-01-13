@@ -140,12 +140,13 @@ public class CommentsIT extends AbstractDaemonTest {
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<CommentInfo>> result =
+          getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToInput(file).apply(actual));
-      assertThat(comment).isEqualTo(infoToInput(file).apply(
-          getPublishedComment(changeId, revId, actual.id)));
+      assertThat(comment).isEqualTo(infoToInput(file)
+          .apply(getPublishedComment(changeId, revId, actual.id)));
     }
   }
 
@@ -165,12 +166,13 @@ public class CommentsIT extends AbstractDaemonTest {
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<CommentInfo>> result =
+          getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToInput(file).apply(actual));
-      assertThat(comment).isEqualTo(infoToInput(file).apply(
-          getPublishedComment(changeId, revId, actual.id)));
+      assertThat(comment).isEqualTo(infoToInput(file)
+          .apply(getPublishedComment(changeId, revId, actual.id)));
     }
   }
 
@@ -190,7 +192,8 @@ public class CommentsIT extends AbstractDaemonTest {
       input.comments = new HashMap<>();
       input.comments.put(file, ImmutableList.of(c1, c2, c3, c4));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<CommentInfo>> result =
+          getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       assertThat(Lists.transform(result.get(file), infoToInput(file)))
           .containsExactly(c1, c2, c3, c4);
@@ -209,7 +212,8 @@ public class CommentsIT extends AbstractDaemonTest {
       input.comments = new HashMap<>();
       input.comments.put(file, ImmutableList.of(c1, c2, c3));
       revision(r).review(input);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<CommentInfo>> result =
+          getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       assertThat(Lists.transform(result.get(file), infoToInput(file)))
           .containsExactly(c1, c2, c3);
@@ -251,7 +255,8 @@ public class CommentsIT extends AbstractDaemonTest {
       revision(r).review(input);
     }
 
-    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+    Map<String, List<CommentInfo>> result =
+        getPublishedComments(changeId, revId);
     assertThat(result).isNotEmpty();
     List<CommentInfo> actualComments = result.get(file);
     assertThat(Lists.transform(actualComments, infoToInput(file)))
@@ -294,7 +299,8 @@ public class CommentsIT extends AbstractDaemonTest {
 
     List<DraftInput> expectedDrafts = new ArrayList<>();
     for (Integer line : lines) {
-      DraftInput comment = newDraft(file, Side.REVISION, line, "comment " + line);
+      DraftInput comment =
+          newDraft(file, Side.REVISION, line, "comment " + line);
       expectedDrafts.add(comment);
       addDraft(changeId, revId, comment);
     }
@@ -313,8 +319,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
       String path = "file1";
-      DraftInput comment = newDraft(
-          path, Side.REVISION, line, "comment 1");
+      DraftInput comment = newDraft(path, Side.REVISION, line, "comment 1");
       CommentInfo returned = addDraft(changeId, revId, comment);
       CommentInfo actual = getDraftComment(changeId, revId, returned.id);
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
@@ -359,13 +364,13 @@ public class CommentsIT extends AbstractDaemonTest {
       comment.updated = timestamp;
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
-      ChangeResource changeRsrc =
-          changes.get().parse(TopLevelResource.INSTANCE,
-              IdString.fromDecoded(changeId));
+      ChangeResource changeRsrc = changes.get().parse(TopLevelResource.INSTANCE,
+          IdString.fromDecoded(changeId));
       RevisionResource revRsrc =
           revisions.parse(changeRsrc, IdString.fromDecoded(revId));
       postReview.get().apply(revRsrc, input, timestamp);
-      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      Map<String, List<CommentInfo>> result =
+          getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       CommentInput ci = infoToInput(file).apply(actual);
@@ -387,14 +392,15 @@ public class CommentsIT extends AbstractDaemonTest {
     String revId = r1.getCommit().getName();
     addComment(r1, "nit: trailing whitespace");
     addComment(r1, "nit: trailing whitespace");
-    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+    Map<String, List<CommentInfo>> result =
+        getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
     addComment(r1, "nit: trailing whitespace", true);
     result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
 
-    PushOneCommit.Result r2 = pushFactory.create(
-          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "content")
+    PushOneCommit.Result r2 = pushFactory
+        .create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "content")
         .to("refs/for/master");
     changeId = r2.getChangeId();
     revId = r2.getCommit().getName();
@@ -407,10 +413,9 @@ public class CommentsIT extends AbstractDaemonTest {
   public void listChangeDrafts() throws Exception {
     PushOneCommit.Result r1 = createChange();
 
-    PushOneCommit.Result r2 = pushFactory.create(
-          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content",
-          r1.getChangeId())
-        .to("refs/for/master");
+    PushOneCommit.Result r2 =
+        pushFactory.create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME,
+            "new content", r1.getChangeId()).to("refs/for/master");
 
 
     setApiUser(admin);
@@ -449,17 +454,15 @@ public class CommentsIT extends AbstractDaemonTest {
   public void listChangeComments() throws Exception {
     PushOneCommit.Result r1 = createChange();
 
-    PushOneCommit.Result r2 = pushFactory.create(
-          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent",
-          r1.getChangeId())
-        .to("refs/for/master");
+    PushOneCommit.Result r2 =
+        pushFactory.create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME,
+            "new cntent", r1.getChangeId()).to("refs/for/master");
 
     addComment(r1, "nit: trailing whitespace");
     addComment(r2, "typo: content");
 
-    Map<String, List<CommentInfo>> actual = gApi.changes()
-        .id(r2.getChangeId())
-        .comments();
+    Map<String, List<CommentInfo>> actual =
+        gApi.changes().id(r2.getChangeId()).comments();
     assertThat(actual.keySet()).containsExactly(FILE_NAME);
 
     List<CommentInfo> comments = actual.get(FILE_NAME);
@@ -486,11 +489,11 @@ public class CommentsIT extends AbstractDaemonTest {
       PushOneCommit.Result r = createChange();
       String changeId = r.getChangeId();
       String revId = r.getCommit().getName();
-      DraftInput comment = newDraft(
-          "file1", Side.REVISION, line, "comment 1");
+      DraftInput comment = newDraft("file1", Side.REVISION, line, "comment 1");
       addDraft(changeId, revId, comment);
-      assertThat(gApi.changes().query(
-          "change:" + changeId + " has:draft").get()).hasSize(1);
+      assertThat(
+          gApi.changes().query("change:" + changeId + " has:draft").get())
+              .hasSize(1);
     }
   }
 
@@ -498,10 +501,9 @@ public class CommentsIT extends AbstractDaemonTest {
   public void publishCommentsAllRevisions() throws Exception {
     PushOneCommit.Result r1 = createChange();
 
-    PushOneCommit.Result r2 = pushFactory.create(
-          db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new\ncntent\n",
-          r1.getChangeId())
-        .to("refs/for/master");
+    PushOneCommit.Result r2 =
+        pushFactory.create(db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME,
+            "new\ncntent\n", r1.getChangeId()).to("refs/for/master");
 
     addDraft(r1.getChangeId(), r1.getCommit().getName(),
         newDraft(FILE_NAME, Side.REVISION, 1, "nit: trailing whitespace"));
@@ -530,20 +532,12 @@ public class CommentsIT extends AbstractDaemonTest {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
     reviewInput.message = "comments";
-    gApi.changes()
-       .id(r2.getChangeId())
-       .current()
-       .review(reviewInput);
+    gApi.changes().id(r2.getChangeId()).current().review(reviewInput);
 
-    assertThat(gApi.changes()
-          .id(r1.getChangeId())
-          .revision(r1.getCommit().name())
-          .drafts())
-        .isEmpty();
-    Map<String, List<CommentInfo>> ps1Map = gApi.changes()
-        .id(r1.getChangeId())
-        .revision(r1.getCommit().name())
-        .comments();
+    assertThat(gApi.changes().id(r1.getChangeId())
+        .revision(r1.getCommit().name()).drafts()).isEmpty();
+    Map<String, List<CommentInfo>> ps1Map = gApi.changes().id(r1.getChangeId())
+        .revision(r1.getCommit().name()).comments();
     assertThat(ps1Map.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> ps1List = ps1Map.get(FILE_NAME);
     assertThat(ps1List).hasSize(2);
@@ -552,15 +546,10 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(ps1List.get(1).message).isEqualTo("nit: trailing whitespace");
     assertThat(ps1List.get(1).side).isNull();
 
-    assertThat(gApi.changes()
-          .id(r2.getChangeId())
-          .revision(r2.getCommit().name())
-          .drafts())
-        .isEmpty();
-    Map<String, List<CommentInfo>> ps2Map = gApi.changes()
-        .id(r2.getChangeId())
-        .revision(r2.getCommit().name())
-        .comments();
+    assertThat(gApi.changes().id(r2.getChangeId())
+        .revision(r2.getCommit().name()).drafts()).isEmpty();
+    Map<String, List<CommentInfo>> ps2Map = gApi.changes().id(r2.getChangeId())
+        .revision(r2.getCommit().name()).comments();
     assertThat(ps2Map.keySet()).containsExactly(FILE_NAME);
     List<CommentInfo> ps2List = ps2Map.get(FILE_NAME);
     assertThat(ps2List).hasSize(4);
@@ -573,49 +562,20 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     String url = canonicalWebUrl.get();
     int c = r1.getChange().getId().get();
-    assertThat(extractComments(messages.get(0).body())).isEqualTo(
-        "Patch Set 2:\n"
-        + "\n"
-        + "(6 comments)\n"
-        + "\n"
-        + "comments\n"
-        + "\n"
-        + url + "#/c/" + c + "/1/a.txt\n"
-        + "File a.txt:\n"
-        + "\n"
-        + url + "#/c/" + c + "/1/a.txt@a2\n"
-        + "PS1, Line 2: \n"
-        + "what happened to this?\n"
-        + "\n"
-        + "\n"
-        + url + "#/c/" + c + "/1/a.txt@1\n"
-        + "PS1, Line 1: ew\n"
-        + "nit: trailing whitespace\n"
-        + "\n"
-        + "\n"
-        + url + "#/c/" + c + "/2/a.txt\n"
-        + "File a.txt:\n"
-        + "\n"
-        + url + "#/c/" + c + "/2/a.txt@a1\n"
-        + "PS2, Line 1: \n"
-        + "comment 1 on base\n"
-        + "\n"
-        + "\n"
-        + url + "#/c/" + c + "/2/a.txt@a2\n"
-        + "PS2, Line 2: \n"
-        + "comment 2 on base\n"
-        + "\n"
-        + "\n"
-        + url + "#/c/" + c + "/2/a.txt@1\n"
-        + "PS2, Line 1: ew\n"
-        + "join lines\n"
-        + "\n"
-        + "\n"
-        + url + "#/c/" + c + "/2/a.txt@2\n"
-        + "PS2, Line 2: nten\n"
-        + "typo: content\n"
-        + "\n"
-        + "\n");
+    assertThat(extractComments(messages.get(0).body()))
+        .isEqualTo("Patch Set 2:\n" + "\n" + "(6 comments)\n" + "\n"
+            + "comments\n" + "\n" + url + "#/c/" + c + "/1/a.txt\n"
+            + "File a.txt:\n" + "\n" + url + "#/c/" + c + "/1/a.txt@a2\n"
+            + "PS1, Line 2: \n" + "what happened to this?\n" + "\n" + "\n" + url
+            + "#/c/" + c + "/1/a.txt@1\n" + "PS1, Line 1: ew\n"
+            + "nit: trailing whitespace\n" + "\n" + "\n" + url + "#/c/" + c
+            + "/2/a.txt\n" + "File a.txt:\n" + "\n" + url + "#/c/" + c
+            + "/2/a.txt@a1\n" + "PS2, Line 1: \n" + "comment 1 on base\n" + "\n"
+            + "\n" + url + "#/c/" + c + "/2/a.txt@a2\n" + "PS2, Line 2: \n"
+            + "comment 2 on base\n" + "\n" + "\n" + url + "#/c/" + c
+            + "/2/a.txt@1\n" + "PS2, Line 1: ew\n" + "join lines\n" + "\n"
+            + "\n" + url + "#/c/" + c + "/2/a.txt@2\n" + "PS2, Line 2: nten\n"
+            + "typo: content\n" + "\n" + "\n");
   }
 
   @Test
@@ -675,9 +635,7 @@ public class CommentsIT extends AbstractDaemonTest {
     c.path = FILE_NAME;
     ReviewInput in = newInput(c);
     in.omitDuplicateComments = omitDuplicateComments;
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name())
         .review(in);
   }
 

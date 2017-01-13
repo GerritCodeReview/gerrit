@@ -17,11 +17,7 @@ import java.util.Objects;
 
 public class PermissionRuleInfo {
   public enum Action {
-    ALLOW,
-    DENY,
-    BLOCK,
-    INTERACTIVE,
-    BATCH
+    ALLOW, DENY, BLOCK, INTERACTIVE, BATCH
   }
 
   public Action action;
@@ -38,10 +34,8 @@ public class PermissionRuleInfo {
   public boolean equals(Object obj) {
     if (obj instanceof PermissionRuleInfo) {
       PermissionRuleInfo p = (PermissionRuleInfo) obj;
-      return Objects.equals(action, p.action)
-          && Objects.equals(force, p.force)
-          && Objects.equals(min, p.min)
-          && Objects.equals(max, p.max);
+      return Objects.equals(action, p.action) && Objects.equals(force, p.force)
+          && Objects.equals(min, p.min) && Objects.equals(max, p.max);
     }
     return false;
   }

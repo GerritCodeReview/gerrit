@@ -23,8 +23,8 @@ import java.io.IOException;
 public interface OAuthServiceProvider {
 
   /**
-   * Returns the URL where you should redirect your users to authenticate
-   * your application.
+   * Returns the URL where you should redirect your users to authenticate your
+   * application.
    *
    * @return the OAuth service URL to redirect your users for authentication
    */

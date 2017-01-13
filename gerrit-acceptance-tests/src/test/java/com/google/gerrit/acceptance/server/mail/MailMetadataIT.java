@@ -59,16 +59,15 @@ public class MailMetadataIT extends AbstractDaemonTest {
   @Test
   public void metadataOnNewChange() throws Exception {
     PushOneCommit.Result newChange = createChange();
-    gApi.changes()
-        .id(newChange.getChangeId())
+    gApi.changes().id(newChange.getChangeId())
         .addReviewer(user.getId().toString());
 
     List<FakeEmailSender.Message> emails = sender.getMessages();
     assertThat(emails).hasSize(1);
     FakeEmailSender.Message message = emails.get(0);
 
-    String changeURL = "<" + canonicalWebUrl.get() +
-        newChange.getChange().getId().get() + ">";
+    String changeURL =
+        "<" + canonicalWebUrl.get() + newChange.getChange().getId().get() + ">";
 
     Map<String, Object> expectedHeaders = new HashMap<>();
     expectedHeaders.put("Gerrit-PatchSet", "1");
@@ -88,8 +87,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
   @Test
   public void metadataOnNewComment() throws Exception {
     PushOneCommit.Result newChange = createChange();
-    gApi.changes()
-        .id(newChange.getChangeId())
+    gApi.changes().id(newChange.getChangeId())
         .addReviewer(user.getId().toString());
     sender.clear();
 
@@ -106,17 +104,15 @@ public class MailMetadataIT extends AbstractDaemonTest {
     assertThat(emails).hasSize(1);
     FakeEmailSender.Message message = emails.get(0);
 
-    String changeURL = "<" + canonicalWebUrl.get() +
-        newChange.getChange().getId().get() + ">";
+    String changeURL =
+        "<" + canonicalWebUrl.get() + newChange.getChange().getId().get() + ">";
     Map<String, Object> expectedHeaders = new HashMap<>();
     expectedHeaders.put("Gerrit-PatchSet", "1");
     expectedHeaders.put("Gerrit-Change-Id", newChange.getChangeId());
     expectedHeaders.put("Gerrit-MessageType", "comment");
-    expectedHeaders.put("Gerrit-Commit",
-        newChange.getCommit().getId().name());
+    expectedHeaders.put("Gerrit-Commit", newChange.getCommit().getId().name());
     expectedHeaders.put("Gerrit-ChangeURL", changeURL);
-    expectedHeaders.put("Gerrit-Comment-Date",
-        Iterables.getLast(result).date);
+    expectedHeaders.put("Gerrit-Comment-Date", Iterables.getLast(result).date);
 
     assertHeaders(message.headers(), expectedHeaders);
 
@@ -136,29 +132,30 @@ public class MailMetadataIT extends AbstractDaemonTest {
         assertThat(have).containsEntry("X-" + entry.getKey(),
             new EmailHeader.Date((Date) entry.getValue()));
       } else {
-        throw new Exception("Object has unsupported type: " +
-            entry.getValue().getClass().getName() +
-            " must be java.util.Date or java.lang.String for key " +
-            entry.getKey());
+        throw new Exception("Object has unsupported type: "
+            + entry.getValue().getClass().getName()
+            + " must be java.util.Date or java.lang.String for key "
+            + entry.getKey());
       }
     }
   }
 
-  private static void assertTextFooter(String body,
-      Map<String, Object> want) throws Exception {
+  private static void assertTextFooter(String body, Map<String, Object> want)
+      throws Exception {
     for (Map.Entry<String, Object> entry : want.entrySet()) {
       if (entry.getValue() instanceof String) {
         assertThat(body).contains(entry.getKey() + ": " + entry.getValue());
       } else if (entry.getValue() instanceof Timestamp) {
-        assertThat(body).contains(entry.getKey() + ": " +
-            MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-                ((Timestamp) entry.getValue()).toInstant(),
-                ZoneId.of("UTC"))));
+        assertThat(body)
+            .contains(entry.getKey() + ": "
+                + MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
+                    ((Timestamp) entry.getValue()).toInstant(),
+                    ZoneId.of("UTC"))));
       } else {
-        throw new Exception("Object has unsupported type: " +
-            entry.getValue().getClass().getName() +
-            " must be java.util.Date or java.lang.String for key " +
-            entry.getKey());
+        throw new Exception("Object has unsupported type: "
+            + entry.getValue().getClass().getName()
+            + " must be java.util.Date or java.lang.String for key "
+            + entry.getKey());
       }
     }
   }

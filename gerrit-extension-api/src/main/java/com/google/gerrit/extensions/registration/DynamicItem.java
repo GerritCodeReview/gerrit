@@ -50,9 +50,10 @@ public class DynamicItem<T> {
    * Declare a singleton {@code DynamicItem<T>} with a binder.
    * <p>
    * Items must be defined in a Guice module before they can be bound:
+   * 
    * <pre>
-   *   DynamicItem.itemOf(binder(), Interface.class);
-   *   DynamicItem.bind(binder(), Interface.class).to(Impl.class);
+   * DynamicItem.itemOf(binder(), Interface.class);
+   * DynamicItem.bind(binder(), Interface.class).to(Impl.class);
    * </pre>
    *
    * @param binder a new binder created in the module.
@@ -66,8 +67,9 @@ public class DynamicItem<T> {
    * Declare a singleton {@code DynamicItem<T>} with a binder.
    * <p>
    * Items must be defined in a Guice module before they can be bound:
+   * 
    * <pre>
-   *   DynamicSet.itemOf(binder(), new TypeLiteral&lt;Thing&lt;Foo&gt;&gt;() {});
+   * DynamicSet.itemOf(binder(), new TypeLiteral&lt;Thing&lt;Foo&gt;&gt;() {});
    * </pre>
    *
    * @param binder a new binder created in the module.
@@ -75,9 +77,8 @@ public class DynamicItem<T> {
    */
   public static <T> void itemOf(Binder binder, TypeLiteral<T> member) {
     Key<DynamicItem<T>> key = keyFor(member);
-    binder.bind(key)
-      .toProvider(new DynamicItemProvider<>(member, key))
-      .in(Scopes.SINGLETON);
+    binder.bind(key).toProvider(new DynamicItemProvider<>(member, key))
+        .in(Scopes.SINGLETON);
   }
 
   /**
@@ -89,15 +90,14 @@ public class DynamicItem<T> {
    * @param item item to store.
    */
   public static <T> DynamicItem<T> itemOf(Class<T> member, T item) {
-    return new DynamicItem<>(
-        keyFor(TypeLiteral.get(member)),
+    return new DynamicItem<>(keyFor(TypeLiteral.get(member)),
         Providers.of(item), "gerrit");
   }
 
   @SuppressWarnings("unchecked")
   private static <T> Key<DynamicItem<T>> keyFor(TypeLiteral<T> member) {
-    return (Key<DynamicItem<T>>) Key.get(
-        Types.newParameterizedType(DynamicItem.class, member.getType()));
+    return (Key<DynamicItem<T>>) Key
+        .get(Types.newParameterizedType(DynamicItem.class, member.getType()));
   }
 
   /**
@@ -126,7 +126,8 @@ public class DynamicItem<T> {
   private final Key<DynamicItem<T>> key;
   private final AtomicReference<NamedProvider<T>> ref;
 
-  DynamicItem(Key<DynamicItem<T>> key, Provider<T> provider, String pluginName) {
+  DynamicItem(Key<DynamicItem<T>> key, Provider<T> provider,
+      String pluginName) {
     NamedProvider<T> in = null;
     if (provider != null) {
       in = new NamedProvider<>(provider, pluginName);
@@ -171,9 +172,9 @@ public class DynamicItem<T> {
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
       if (old != null && !"gerrit".equals(old.pluginName)) {
-        throw new ProvisionException(String.format(
-            "%s already provided by %s, ignoring plugin %s",
-            key.getTypeLiteral(), old.pluginName, pluginName));
+        throw new ProvisionException(
+            String.format("%s already provided by %s, ignoring plugin %s",
+                key.getTypeLiteral(), old.pluginName, pluginName));
       }
     }
 
@@ -202,16 +203,15 @@ public class DynamicItem<T> {
     NamedProvider<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
-      if (old != null
-          && !"gerrit".equals(old.pluginName)
+      if (old != null && !"gerrit".equals(old.pluginName)
           && !pluginName.equals(old.pluginName)) {
         // We allow to replace:
         // 1. Gerrit core items, e.g. websession cache
-        //    can be replaced by plugin implementation
+        // can be replaced by plugin implementation
         // 2. Reload of current plugin
-        throw new ProvisionException(String.format(
-            "%s already provided by %s, ignoring plugin %s",
-            this.key.getTypeLiteral(), old.pluginName, pluginName));
+        throw new ProvisionException(
+            String.format("%s already provided by %s, ignoring plugin %s",
+                this.key.getTypeLiteral(), old.pluginName, pluginName));
       }
     }
     return new ReloadableHandle(key, item, old);

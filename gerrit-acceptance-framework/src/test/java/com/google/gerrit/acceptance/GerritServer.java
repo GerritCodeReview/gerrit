@@ -61,34 +61,36 @@ public class GerritServer {
   abstract static class Description {
     static Description forTestClass(org.junit.runner.Description testDesc,
         String configName) {
-      return new AutoValue_GerritServer_Description(
-          configName,
-          true, // @UseLocalDisk is only valid on methods.
+      return new AutoValue_GerritServer_Description(configName, true, // @UseLocalDisk
+                                                                      // is only
+                                                                      // valid
+                                                                      // on
+                                                                      // methods.
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
-          has(UseSsh.class, testDesc.getTestClass()),
-          null, // @GerritConfig is only valid on methods.
+          has(UseSsh.class, testDesc.getTestClass()), null, // @GerritConfig is
+                                                            // only valid on
+                                                            // methods.
           null); // @GerritConfigs is only valid on methods.
 
     }
 
     static Description forTestMethod(org.junit.runner.Description testDesc,
         String configName) {
-      return new AutoValue_GerritServer_Description(
-          configName,
+      return new AutoValue_GerritServer_Description(configName,
           testDesc.getAnnotation(UseLocalDisk.class) == null,
           testDesc.getAnnotation(NoHttpd.class) == null
-            && !has(NoHttpd.class, testDesc.getTestClass()),
-          testDesc.getAnnotation(Sandboxed.class) != null ||
-              has(Sandboxed.class, testDesc.getTestClass()),
-          testDesc.getAnnotation(UseSsh.class) != null ||
-              has(UseSsh.class, testDesc.getTestClass()),
+              && !has(NoHttpd.class, testDesc.getTestClass()),
+          testDesc.getAnnotation(Sandboxed.class) != null
+              || has(Sandboxed.class, testDesc.getTestClass()),
+          testDesc.getAnnotation(UseSsh.class) != null
+              || has(UseSsh.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class));
     }
 
-    private static boolean has(
-        Class<? extends Annotation> annotation, Class<?> clazz) {
+    private static boolean has(Class<? extends Annotation> annotation,
+        Class<?> clazz) {
       for (; clazz != null; clazz = clazz.getSuperclass()) {
         if (clazz.getAnnotation(annotation) != null) {
           return true;
@@ -97,13 +99,22 @@ public class GerritServer {
       return false;
     }
 
-    @Nullable abstract String configName();
+    @Nullable
+    abstract String configName();
+
     abstract boolean memory();
+
     abstract boolean httpd();
+
     abstract boolean sandboxed();
+
     abstract boolean useSsh();
-    @Nullable abstract GerritConfig config();
-    @Nullable abstract GerritConfigs configs();
+
+    @Nullable
+    abstract GerritConfig config();
+
+    @Nullable
+    abstract GerritConfigs configs();
 
     private Config buildConfig(Config baseConfig) {
       if (configs() != null && config() != null) {
@@ -153,8 +164,8 @@ public class GerritServer {
       cfg.setString("gitweb", null, "cgi", "");
       daemon.setEnableHttpd(desc.httpd());
       daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0));
-      daemon.setDatabaseForTesting(ImmutableList.<Module>of(
-          new InMemoryTestingDatabaseModule(cfg)));
+      daemon.setDatabaseForTesting(
+          ImmutableList.<Module> of(new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
     } else {
       site = initSite(cfg);
@@ -162,9 +173,8 @@ public class GerritServer {
       daemonService.submit(new Callable<Void>() {
         @Override
         public Void call() throws Exception {
-          int rc = daemon.main(new String[] {
-              "-d", site.getPath(),
-              "--headless", "--console-log", "--show-stack-trace",});
+          int rc = daemon.main(new String[] {"-d", site.getPath(), "--headless",
+              "--console-log", "--show-stack-trace",});
           if (rc != 0) {
             System.err.println("Failed to start Gerrit daemon");
             serverStarted.reset();
@@ -183,16 +193,14 @@ public class GerritServer {
   private static File initSite(Config base) throws Exception {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
-    int rc = init.main(new String[] {
-        "-d", tmp.getPath(), "--batch", "--no-auto-start",
-        "--skip-plugins",});
+    int rc = init.main(new String[] {"-d", tmp.getPath(), "--batch",
+        "--no-auto-start", "--skip-plugins",});
     if (rc != 0) {
       throw new RuntimeException("Couldn't initialize site");
     }
 
     MergeableFileBasedConfig cfg = new MergeableFileBasedConfig(
-        new File(new File(tmp, "etc"), "gerrit.config"),
-        FS.DETECTED);
+        new File(new File(tmp, "etc"), "gerrit.config"), FS.DETECTED);
     cfg.load();
     cfg.merge(base);
     mergeTestConfig(cfg);
@@ -201,8 +209,8 @@ public class GerritServer {
   }
 
   private static void mergeTestConfig(Config cfg) {
-    String forceEphemeralPort = String.format("%s:0",
-        getLocalHost().getHostName());
+    String forceEphemeralPort =
+        String.format("%s:0", getLocalHost().getHostName());
     String url = "http://" + forceEphemeralPort + "/";
     cfg.setString("gerrit", null, "canonicalWebUrl", url);
     cfg.setString("httpd", null, "listenUrl", url);
@@ -264,14 +272,13 @@ public class GerritServer {
     this.daemon = daemon;
     this.daemonService = daemonService;
 
-    Config cfg = testInjector.getInstance(
-      Key.get(Config.class, GerritServerConfig.class));
+    Config cfg = testInjector
+        .getInstance(Key.get(Config.class, GerritServerConfig.class));
     url = cfg.getString("gerrit", null, "canonicalWebUrl");
     URI uri = URI.create(url);
 
-    sshdAddress = SocketUtil.resolve(
-        cfg.getString("sshd", null, "listenAddress"),
-        0);
+    sshdAddress =
+        SocketUtil.resolve(cfg.getString("sshd", null, "listenAddress"), 0);
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 

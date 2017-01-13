@@ -95,12 +95,10 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
   @Inject
   PostGpgKeys(@GerritPersonIdent Provider<PersonIdent> serverIdent,
-      Provider<ReviewDb> db,
-      Provider<CurrentUser> self,
+      Provider<ReviewDb> db, Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
-      AddKeySender.Factory addKeyFactory,
-      AccountCache accountCache,
+      AddKeySender.Factory addKeyFactory, AccountCache accountCache,
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIdCache externalIdCache) {
     this.serverIdent = serverIdent;
@@ -120,14 +118,14 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       ResourceConflictException, PGPException, OrmException, IOException {
     GpgKeys.checkVisible(self, rsrc);
 
-    List<AccountExternalId> existingExtIds =
-        GpgKeys.getGpgExtIds(externalIdCache,
-            rsrc.getUser().getAccountId()).toList();
+    List<AccountExternalId> existingExtIds = GpgKeys
+        .getGpgExtIds(externalIdCache, rsrc.getUser().getAccountId()).toList();
 
     try (PublicKeyStore store = storeProvider.get()) {
       Set<Fingerprint> toRemove = readKeysToRemove(input, existingExtIds);
       List<PGPPublicKeyRing> newKeys = readKeysToAdd(input, toRemove);
-      List<AccountExternalId> newExtIds = new ArrayList<>(existingExtIds.size());
+      List<AccountExternalId> newExtIds =
+          new ArrayList<>(existingExtIds.size());
 
       for (PGPPublicKeyRing keyRing : newKeys) {
         PGPPublicKey key = keyRing.getPublicKey();
@@ -153,7 +151,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       List<AccountExternalId.Key> extIdKeysToRemove =
           toRemove.stream().map(fp -> toExtIdKey(fp.get())).collect(toList());
       db.get().accountExternalIds().deleteKeys(extIdKeysToRemove);
-      externalIdCache.onRemove(rsrc.getUser().getAccountId(), extIdKeysToRemove);
+      externalIdCache.onRemove(rsrc.getUser().getAccountId(),
+          extIdKeysToRemove);
       accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }
@@ -168,8 +167,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         Sets.newHashSetWithExpectedSize(input.delete.size());
     for (String id : input.delete) {
       try {
-        fingerprints.add(new Fingerprint(
-            GpgKeys.parseFingerprint(id, existingExtIds)));
+        fingerprints
+            .add(new Fingerprint(GpgKeys.parseFingerprint(id, existingExtIds)));
       } catch (ResourceNotFoundException e) {
         // Skip removal.
       }
@@ -178,8 +177,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   }
 
   private List<PGPPublicKeyRing> readKeysToAdd(Input input,
-      Set<Fingerprint> toRemove)
-      throws BadRequestException, IOException {
+      Set<Fingerprint> toRemove) throws BadRequestException, IOException {
     if (input.add == null || input.add.isEmpty()) {
       return ImmutableList.of();
     }
@@ -190,7 +188,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         @SuppressWarnings("unchecked")
         List<Object> objs = Lists.newArrayList(new BcPGPObjectFactory(ain));
         if (objs.size() != 1 || !(objs.get(0) instanceof PGPPublicKeyRing)) {
-          throw new BadRequestException("Expected exactly one PUBLIC KEY BLOCK");
+          throw new BadRequestException(
+              "Expected exactly one PUBLIC KEY BLOCK");
         }
         PGPPublicKeyRing keyRing = (PGPPublicKeyRing) objs.get(0);
         if (toRemove.contains(
@@ -213,12 +212,11 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
         PGPPublicKey key = keyRing.getPublicKey();
         // Don't check web of trust; admins can fill in certifications later.
         CheckResult result = checkerFactory.create(rsrc.getUser(), store)
-            .disableTrust()
-            .check(key);
+            .disableTrust().check(key);
         if (!result.isOk()) {
           throw new BadRequestException(String.format(
-              "Problems with public key %s:\n%s",
-              keyToString(key), Joiner.on('\n').join(result.getProblems())));
+              "Problems with public key %s:\n%s", keyToString(key),
+              Joiner.on('\n').join(result.getProblems())));
         }
         addedKeys.add(PublicKeyStore.keyToString(key));
         store.add(keyRing);
@@ -228,8 +226,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       }
       CommitBuilder cb = new CommitBuilder();
       PersonIdent committer = serverIdent.get();
-      cb.setAuthor(rsrc.getUser().newCommitterIdent(
-          committer.getWhen(), committer.getTimeZone()));
+      cb.setAuthor(rsrc.getUser().newCommitterIdent(committer.getWhen(),
+          committer.getTimeZone()));
       cb.setCommitter(committer);
 
       RefUpdate.Result saveResult = store.save(cb);
@@ -261,8 +259,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   }
 
   private AccountExternalId.Key toExtIdKey(byte[] fp) {
-    return new AccountExternalId.Key(
-        AccountExternalId.SCHEME_GPGKEY,
+    return new AccountExternalId.Key(AccountExternalId.SCHEME_GPGKEY,
         BaseEncoding.base16().encode(fp));
   }
 
@@ -288,8 +285,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     return accountStates.get(0).getAccount();
   }
 
-  private Map<String, GpgKeyInfo> toJson(
-      Collection<PGPPublicKeyRing> keys,
+  private Map<String, GpgKeyInfo> toJson(Collection<PGPPublicKeyRing> keys,
       Set<Fingerprint> deleted, PublicKeyStore store, IdentifiedUser user)
       throws IOException {
     // Unlike when storing keys, include web-of-trust checks when producing

@@ -120,14 +120,14 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     }
   }
 
-   /**
-    * Set the expected user for this checker.
-    * <p>
-    * If set, the top-level key passed to {@link #check(PGPPublicKey)} must
-    * belong to the given user. (Other keys checked in the course of verifying
-    * the web of trust are checked against the set of identities in the database
-    * belonging to the same user as the key.)
-    */
+  /**
+   * Set the expected user for this checker.
+   * <p>
+   * If set, the top-level key passed to {@link #check(PGPPublicKey)} must
+   * belong to the given user. (Other keys checked in the course of verifying
+   * the web of trust are checked against the set of identities in the database
+   * belonging to the same user as the key.)
+   */
   public GerritPublicKeyChecker setExpectedUser(IdentifiedUser expectedUser) {
     this.expectedUser = expectedUser;
     return this;
@@ -151,8 +151,8 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
       throws PGPException {
     Set<String> allowedUserIds = getAllowedUserIds(expectedUser);
     if (allowedUserIds.isEmpty()) {
-      return CheckResult.bad("No identities found for user; check "
-          + webUrl + "#" + PageLinks.SETTINGS_WEBIDENT);
+      return CheckResult.bad("No identities found for user; check " + webUrl
+          + "#" + PageLinks.SETTINGS_WEBIDENT);
     }
     if (hasAllowedUserId(key, allowedUserIds)) {
       return CheckResult.trusted();
@@ -205,9 +205,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private Iterator<PGPSignature> getSignaturesForId(PGPPublicKey key,
       String userId) {
     Iterator<PGPSignature> result = key.getSignaturesForID(userId);
-    return result != null
-        ? result
-        : Collections.emptyIterator();
+    return result != null ? result : Collections.emptyIterator();
   }
 
   private Set<String> getAllowedUserIds(IdentifiedUser user) {
@@ -223,9 +221,8 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   }
 
   private static boolean isAllowed(String userId, Set<String> allowedUserIds) {
-    return allowedUserIds.contains(userId)
-        || allowedUserIds.contains(
-            PushCertificateIdent.parse(userId).getEmailAddress());
+    return allowedUserIds.contains(userId) || allowedUserIds
+        .contains(PushCertificateIdent.parse(userId).getEmailAddress());
   }
 
   private static boolean isValidCertification(PGPPublicKey key,
@@ -239,7 +236,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     }
     // TODO(dborowitz): Handle certification revocations:
     // - Is there a revocation by either this key or another key trusted by the
-    //   server?
+    // server?
     // - Does such a revocation postdate all other valid certifications?
 
     sig.init(new BcPGPContentVerifierBuilderProvider(), key);
@@ -260,8 +257,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   }
 
   static AccountExternalId.Key toExtIdKey(PGPPublicKey key) {
-    return new AccountExternalId.Key(
-        SCHEME_GPGKEY,
+    return new AccountExternalId.Key(SCHEME_GPGKEY,
         BaseEncoding.base16().encode(key.getFingerprint()));
   }
 }

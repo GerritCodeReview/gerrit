@@ -29,15 +29,18 @@ public interface Server {
   ServerInfo getInfo() throws RestApiException;
 
   GeneralPreferencesInfo getDefaultPreferences() throws RestApiException;
+
   GeneralPreferencesInfo setDefaultPreferences(GeneralPreferencesInfo in)
       throws RestApiException;
+
   DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException;
+
   DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in)
       throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements Server {
     @Override

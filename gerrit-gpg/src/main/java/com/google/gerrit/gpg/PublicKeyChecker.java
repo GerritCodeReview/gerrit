@@ -75,10 +75,10 @@ public class PublicKeyChecker {
    * may not be available when reading trusted keys from a config.)
    *
    * @param maxTrustDepth maximum depth to search while looking for a trusted
-   *     key.
+   *        key.
    * @param trusted ultimately trusted key fingerprints, keyed by fingerprint;
-   *     may not be empty. To construct a map, see {@link
-   *     Fingerprint#byId(Iterable)}.
+   *        may not be empty. To construct a map, see
+   *        {@link Fingerprint#byId(Iterable)}.
    * @return a reference to this object.
    */
   public PublicKeyChecker enableTrust(int maxTrustDepth,
@@ -88,8 +88,8 @@ public class PublicKeyChecker {
           "maxTrustDepth must be positive, got: " + maxTrustDepth);
     }
     if (trusted == null || trusted.isEmpty()) {
-        throw new IllegalArgumentException(
-            "at least one trusted key is required");
+      throw new IllegalArgumentException(
+          "at least one trusted key is required");
     }
     this.maxTrustDepth = maxTrustDepth;
     this.trusted = trusted;
@@ -150,9 +150,9 @@ public class PublicKeyChecker {
    * subclasses.
    *
    * @param key the public key.
-   * @param depth the depth from the initial key passed to {@link #check(
-   *     PGPPublicKey)}: 0 if this was the initial key, up to a maximum of
-   *     {@code maxTrustDepth}.
+   * @param depth the depth from the initial key passed to
+   *        {@link #check( PGPPublicKey)}: 0 if this was the initial key, up to
+   *        a maximum of {@code maxTrustDepth}.
    * @return the result of the custom check.
    */
   public CheckResult checkCustom(PGPPublicKey key, int depth) {
@@ -165,21 +165,18 @@ public class PublicKeyChecker {
     CheckResult customResult = checkCustom(key, depth);
     CheckResult trustResult = checkWebOfTrust(key, store, depth, seen);
     if (!expand && !trustResult.isTrusted()) {
-      trustResult = CheckResult.create(trustResult.getStatus(),
-          "Key is not trusted");
+      trustResult =
+          CheckResult.create(trustResult.getStatus(), "Key is not trusted");
     }
 
-    List<String> problems = new ArrayList<>(
-        basicResult.getProblems().size()
-        + customResult.getProblems().size()
-        + trustResult.getProblems().size());
+    List<String> problems = new ArrayList<>(basicResult.getProblems().size()
+        + customResult.getProblems().size() + trustResult.getProblems().size());
     problems.addAll(basicResult.getProblems());
     problems.addAll(customResult.getProblems());
     problems.addAll(trustResult.getProblems());
 
     Status status;
-    if (basicResult.getStatus() == BAD
-        || customResult.getStatus() == BAD
+    if (basicResult.getStatus() == BAD || customResult.getStatus() == BAD
         || trustResult.getStatus() == BAD) {
       // Any BAD result and the final result is BAD.
       status = BAD;
@@ -297,8 +294,7 @@ public class PublicKeyChecker {
 
   private void checkRevocations(PGPPublicKey key,
       List<PGPSignature> revocations, Map<Long, RevocationKey> revokers,
-      List<String> problems)
-      throws PGPException, IOException {
+      List<String> problems) throws PGPException, IOException {
     for (PGPSignature revocation : revocations) {
       RevocationKey revoker = revokers.get(revocation.getKeyID());
       if (revoker == null) {
@@ -366,8 +362,7 @@ public class PublicKeyChecker {
         break;
       default:
         r.append("reason code ")
-            .append(Integer.toString(reason.getRevocationReason()))
-            .append(')');
+            .append(Integer.toString(reason.getRevocationReason())).append(')');
         break;
     }
     r.append(')');
@@ -394,8 +389,8 @@ public class PublicKeyChecker {
     if (trustedFp != null && trustedFp.equals(fp)) {
       return CheckResult.trusted(); // Directly trusted.
     } else if (depth >= maxTrustDepth) {
-      return CheckResult.ok(
-          "No path of depth <= " + maxTrustDepth + " to a trusted key");
+      return CheckResult
+          .ok("No path of depth <= " + maxTrustDepth + " to a trusted key");
     }
 
     List<CheckResult> signerResults = new ArrayList<>();
@@ -430,9 +425,8 @@ public class PublicKeyChecker {
             return CheckResult.trusted();
           }
         }
-        signerResults.add(CheckResult.ok(
-            "Certification by " + keyToString(signer)
-            + " is valid, but key is not trusted"));
+        signerResults.add(CheckResult.ok("Certification by "
+            + keyToString(signer) + " is valid, but key is not trusted"));
       }
     }
 
@@ -449,16 +443,14 @@ public class PublicKeyChecker {
     try {
       PGPPublicKeyRingCollection signers = store.get(sig.getKeyID());
       if (!signers.getKeyRings().hasNext()) {
-        results.add(CheckResult.ok(
-            "Key " + keyIdToString(sig.getKeyID())
+        results.add(CheckResult.ok("Key " + keyIdToString(sig.getKeyID())
             + " used for certification is not in store"));
         return null;
       }
       PGPPublicKey signer = PublicKeyStore.getSigner(signers, sig, userId, key);
       if (signer == null) {
-        results.add(CheckResult.ok(
-            "Certification by " + keyIdToString(sig.getKeyID())
-            + " is not valid"));
+        results.add(CheckResult.ok("Certification by "
+            + keyIdToString(sig.getKeyID()) + " is not valid"));
         return null;
       }
       return signer;
@@ -470,8 +462,8 @@ public class PublicKeyChecker {
   }
 
   private String checkTrustSubpacket(PGPSignature sig, int depth) {
-    SignatureSubpacket trustSub = sig.getHashedSubPackets().getSubpacket(
-        SignatureSubpacketTags.TRUST_SIG);
+    SignatureSubpacket trustSub = sig.getHashedSubPackets()
+        .getSubpacket(SignatureSubpacketTags.TRUST_SIG);
     if (trustSub == null || trustSub.getData().length != 2) {
       return "Certification is missing trust information";
     }
@@ -482,8 +474,8 @@ public class PublicKeyChecker {
     byte level = trustSub.getData()[0];
     int required = depth + 1;
     if (level < required) {
-      return "Certification trusts to depth " + level
-          + ", but depth " + required + " is required";
+      return "Certification trusts to depth " + level + ", but depth "
+          + required + " is required";
     }
     return null;
   }

@@ -28,9 +28,8 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParent_Forbidden() throws Exception {
     String parent = createProject("parent", null, true).get();
-    RestResponse r =
-        userRestSession.put("/projects/" + project.get() + "/parent",
-            newParentInput(parent));
+    RestResponse r = userRestSession
+        .put("/projects/" + project.get() + "/parent", newParentInput(parent));
     r.assertForbidden();
     r.consume();
   }
@@ -38,23 +37,21 @@ public class SetParentIT extends AbstractDaemonTest {
   @Test
   public void setParent() throws Exception {
     String parent = createProject("parent", null, true).get();
-    RestResponse r =
-        adminRestSession.put("/projects/" + project.get() + "/parent",
-            newParentInput(parent));
+    RestResponse r = adminRestSession
+        .put("/projects/" + project.get() + "/parent", newParentInput(parent));
     r.assertOK();
     r.consume();
 
     r = adminRestSession.get("/projects/" + project.get() + "/parent");
     r.assertOK();
-    String newParent =
-        newGson().fromJson(r.getReader(), String.class);
+    String newParent = newGson().fromJson(r.getReader(), String.class);
     assertThat(newParent).isEqualTo(parent);
     r.consume();
 
     // When the parent name is not explicitly set, it should be
     // set to "All-Projects".
     r = adminRestSession.put("/projects/" + project.get() + "/parent",
-          newParentInput(null));
+        newParentInput(null));
     r.assertOK();
     r.consume();
 
@@ -84,13 +81,13 @@ public class SetParentIT extends AbstractDaemonTest {
 
     Project.NameKey child = createProject("child", project, true);
     r = adminRestSession.put("/projects/" + project.get() + "/parent",
-           newParentInput(child.get()));
+        newParentInput(child.get()));
     r.assertConflict();
     r.consume();
 
     String grandchild = createProject("grandchild", child, true).get();
     r = adminRestSession.put("/projects/" + project.get() + "/parent",
-           newParentInput(grandchild));
+        newParentInput(grandchild));
     r.assertConflict();
     r.consume();
   }

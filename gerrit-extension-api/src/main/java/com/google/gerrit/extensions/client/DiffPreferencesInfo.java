@@ -36,10 +36,7 @@ public class DiffPreferencesInfo {
       {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
 
   public enum Whitespace {
-    IGNORE_NONE,
-    IGNORE_TRAILING,
-    IGNORE_LEADING_AND_TRAILING,
-    IGNORE_ALL;
+    IGNORE_NONE, IGNORE_TRAILING, IGNORE_LEADING_AND_TRAILING, IGNORE_ALL;
   }
 
   public Integer context;

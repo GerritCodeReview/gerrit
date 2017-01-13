@@ -15,7 +15,5 @@
 package com.google.gerrit.extensions.client;
 
 public enum InheritableBoolean {
-  TRUE,
-  FALSE,
-  INHERIT
+  TRUE, FALSE, INHERIT
 }

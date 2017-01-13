@@ -40,8 +40,7 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
     return new DynamicSet<>(find(injector, type));
   }
 
-  private static <T> List<AtomicReference<Provider<T>>> find(
-      Injector src,
+  private static <T> List<AtomicReference<Provider<T>>> find(Injector src,
       TypeLiteral<T> type) {
     List<Binding<T>> bindings = src.findBindingsByType(type);
     int cnt = bindings != null ? bindings.size() : 0;

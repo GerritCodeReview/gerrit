@@ -69,8 +69,7 @@ class SignedPushModule extends AbstractModule {
     @Inject
     Initializer(@GerritServerConfig Config cfg,
         @EnableSignedPush boolean enableSignedPush,
-        SignedPushPreReceiveHook hook,
-        ProjectCache projectCache) {
+        SignedPushPreReceiveHook hook, ProjectCache projectCache) {
       this.hook = hook;
       this.projectCache = projectCache;
 
@@ -119,8 +118,7 @@ class SignedPushModule extends AbstractModule {
     private final AllUsersName allUsers;
 
     @Inject
-    StoreProvider(GitRepositoryManager repoManager,
-        AllUsersName allUsers) {
+    StoreProvider(GitRepositoryManager repoManager, AllUsersName allUsers) {
       this.repoManager = repoManager;
       this.allUsers = allUsers;
     }

@@ -27,8 +27,8 @@ public interface RevisionReviewerApi {
   void deleteVote(DeleteVoteInput input) throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements RevisionReviewerApi {
     @Override

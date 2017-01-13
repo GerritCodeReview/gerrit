@@ -72,9 +72,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void getAndSetPreferences() throws Exception {
-    GeneralPreferencesInfo o = gApi.accounts()
-        .id(user42.id.toString())
-        .getPreferences();
+    GeneralPreferencesInfo o =
+        gApi.accounts().id(user42.id.toString()).getPreferences();
     assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable");
     assertThat(o.my).hasSize(7);
     assertThat(o.changeTable).isEmpty();
@@ -106,9 +105,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.urlAliases = new HashMap<>();
     i.urlAliases.put("foo", "bar");
 
-    o = gApi.accounts()
-        .id(user42.getId().toString())
-        .setPreferences(i);
+    o = gApi.accounts().id(user42.getId().toString()).setPreferences(i);
     assertPrefs(o, i, "my");
     assertThat(o.my).hasSize(1);
     assertThat(o.changeTable).hasSize(1);
@@ -122,9 +119,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     update.changesPerPage = newChangesPerPage;
     gApi.config().server().setDefaultPreferences(update);
 
-    GeneralPreferencesInfo o = gApi.accounts()
-        .id(user42.getId().toString())
-        .getPreferences();
+    GeneralPreferencesInfo o =
+        gApi.accounts().id(user42.getId().toString()).getPreferences();
 
     // assert configured defaults
     assertThat(o.changesPerPage).isEqualTo(newChangesPerPage);

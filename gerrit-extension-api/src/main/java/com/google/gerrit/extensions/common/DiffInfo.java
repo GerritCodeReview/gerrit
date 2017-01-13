@@ -36,9 +36,7 @@ public class DiffInfo {
   public Boolean binary;
 
   public enum IntraLineStatus {
-    OK,
-    TIMEOUT,
-    FAILURE
+    OK, TIMEOUT, FAILURE
   }
 
   public static class FileMeta {

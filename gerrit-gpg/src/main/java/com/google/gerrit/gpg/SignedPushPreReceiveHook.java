@@ -40,7 +40,8 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     public static final Required INSTANCE = new Required();
 
     @Override
-    public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
+    public void onPreReceive(ReceivePack rp,
+        Collection<ReceiveCommand> commands) {
       if (rp.getPushCertificate() == null) {
         rp.sendMessage("ERROR: Signed push is required");
         reject(commands, "push cert error");
@@ -55,8 +56,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
   private final GerritPushCertificateChecker.Factory checkerFactory;
 
   @Inject
-  public SignedPushPreReceiveHook(
-      Provider<IdentifiedUser> user,
+  public SignedPushPreReceiveHook(Provider<IdentifiedUser> user,
       GerritPushCertificateChecker.Factory checkerFactory) {
     this.user = user;
     this.checkerFactory = checkerFactory;
@@ -69,10 +69,8 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
     if (cert == null) {
       return;
     }
-    CheckResult result = checkerFactory.create(user.get())
-        .setCheckNonce(true)
-        .check(cert)
-        .getCheckResult();
+    CheckResult result = checkerFactory.create(user.get()).setCheckNonce(true)
+        .check(cert).getCheckResult();
     if (!isAllowed(result, commands)) {
       for (String problem : result.getProblems()) {
         rp.sendMessage(problem);

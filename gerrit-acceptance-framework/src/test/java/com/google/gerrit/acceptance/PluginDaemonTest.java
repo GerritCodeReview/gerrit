@@ -141,8 +141,8 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
       return false;
     }
     String pathCharStringOrNone = "[a-zA-Z0-9._-]*?";
-    Pattern pattern = Pattern.compile(pathCharStringOrNone + "gerrit" +
-        pathCharStringOrNone);
+    Pattern pattern =
+        Pattern.compile(pathCharStringOrNone + "gerrit" + pathCharStringOrNone);
     Path partialPath = basePath;
     for (int i = basePath.getNameCount(); i > 0; i--) {
       int count = partialPath.getNameCount();
@@ -150,8 +150,8 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
         String gerritDirCandidate =
             partialPath.subpath(count - 2, count - 1).toString();
         if (pattern.matcher(gerritDirCandidate).matches()) {
-          if (partialPath.endsWith(gerritDirCandidate + "/" + BUCKOUT) ||
-              partialPath.endsWith(gerritDirCandidate + "/" + ECLIPSE)) {
+          if (partialPath.endsWith(gerritDirCandidate + "/" + BUCKOUT)
+              || partialPath.endsWith(gerritDirCandidate + "/" + ECLIPSE)) {
             return false;
           }
         }
@@ -171,12 +171,11 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
       buildfile = pluginSource.resolve("BUILD");
     }
     if (!Files.exists(buildfile)) {
-      throw new IllegalStateException("Cannot find build file in: "
-          + pluginSource);
+      throw new IllegalStateException(
+          "Cannot find build file in: " + pluginSource);
     }
     byte[] bytes = Files.readAllBytes(buildfile);
-    String buckContent =
-        new String(bytes, UTF_8).replaceAll("\\s+", "");
+    String buckContent = new String(bytes, UTF_8).replaceAll("\\s+", "");
     Matcher matcher =
         Pattern.compile("gerrit_plugin\\(name='(.*?)'").matcher(buckContent);
     if (matcher.find()) {
@@ -196,10 +195,10 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     String build;
     if (bazel) {
       dir = GerritLauncher.resolveInSourceRoot(".");
-      Properties properties = loadBuildProperties(
-          dir.resolve(".primary_build_tool"));
-      build = MoreObjects.firstNonNull(
-          properties.getProperty(BAZELLC), BAZELLC);
+      Properties properties =
+          loadBuildProperties(dir.resolve(".primary_build_tool"));
+      build =
+          MoreObjects.firstNonNull(properties.getProperty(BAZELLC), BAZELLC);
     } else {
       Properties properties = loadBuildProperties(
           gen.resolve(Paths.get("tools/buck/buck.properties")));
@@ -212,10 +211,10 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
       target = pluginSubPath.toString();
     }
 
-    ProcessBuilder processBuilder =
-        new ProcessBuilder(build, "build", target).directory(dir.toFile())
-            .redirectErrorStream(true);
-    Path forceJar = pluginSource.resolve("src/main/java/ForceJarIfMissing.java");
+    ProcessBuilder processBuilder = new ProcessBuilder(build, "build", target)
+        .directory(dir.toFile()).redirectErrorStream(true);
+    Path forceJar =
+        pluginSource.resolve("src/main/java/ForceJarIfMissing.java");
     if (!bazel) {
       // otherwise plugin jar creation fails:
       processBuilder.environment().put("NO_BUCKD", "1");
@@ -239,7 +238,8 @@ public abstract class PluginDaemonTest extends AbstractDaemonTest {
     }
   }
 
-  private Properties loadBuildProperties(Path propertiesPath) throws IOException {
+  private Properties loadBuildProperties(Path propertiesPath)
+      throws IOException {
     Properties properties = new Properties();
     if (Files.exists(propertiesPath)) {
       try (InputStream in = Files.newInputStream(propertiesPath)) {

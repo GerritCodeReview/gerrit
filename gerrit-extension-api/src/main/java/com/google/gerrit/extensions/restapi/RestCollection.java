@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
  *       new TypeLiteral&lt;RestView&lt;MyResource&gt;&gt;() {};
  * }
  *
+ * 
  * public class MyModule extends AbstractModule {
  *   &#064;Override
  *   protected void configure() {
@@ -37,7 +38,9 @@ import com.google.gerrit.extensions.registration.DynamicMap;
  *   }
  * }
  *
- * public class MyCollection extends RestCollection&lt;TopLevelResource, MyResource&gt; {
+ * 
+ * public class MyCollection
+ *     extends RestCollection&lt;TopLevelResource, MyResource&gt; {
  *   private final DynamicMap&lt;RestView&lt;MyResource&gt;&gt; views;
  *
  *   &#064;Inject

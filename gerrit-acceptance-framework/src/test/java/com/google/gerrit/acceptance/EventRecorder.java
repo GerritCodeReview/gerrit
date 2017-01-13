@@ -62,18 +62,17 @@ public class EventRecorder {
       final IdentifiedUser user) {
     recordedEvents = LinkedListMultimap.create();
 
-    eventListenerRegistration = eventListeners.add(
-        new UserScopedEventListener() {
+    eventListenerRegistration =
+        eventListeners.add(new UserScopedEventListener() {
           @Override
           public void onEvent(Event e) {
             if (e instanceof ReviewerDeletedEvent) {
-              recordedEvents.put(
-                  ReviewerDeletedEvent.TYPE, (ReviewerDeletedEvent) e);
+              recordedEvents.put(ReviewerDeletedEvent.TYPE,
+                  (ReviewerDeletedEvent) e);
             } else if (e instanceof RefEvent) {
               RefEvent event = (RefEvent) e;
               String key = refEventKey(event.getType(),
-                  event.getProjectNameKey().get(),
-                  event.getRefName());
+                  event.getProjectNameKey().get(), event.getRefName());
               recordedEvents.put(key, event);
             }
           }
@@ -98,10 +97,9 @@ public class EventRecorder {
     }
 
     assertThat(recordedEvents).containsKey(key);
-    ImmutableList<RefUpdatedEvent> events = FluentIterable
-        .from(recordedEvents.get(key))
-        .transform(RefUpdatedEvent.class::cast)
-        .toList();
+    ImmutableList<RefUpdatedEvent> events =
+        FluentIterable.from(recordedEvents.get(key))
+            .transform(RefUpdatedEvent.class::cast).toList();
     assertThat(events).hasSize(expectedSize);
     return events;
   }
@@ -115,10 +113,9 @@ public class EventRecorder {
     }
 
     assertThat(recordedEvents).containsKey(key);
-    ImmutableList<ChangeMergedEvent> events = FluentIterable
-        .from(recordedEvents.get(key))
-        .transform(ChangeMergedEvent.class::cast)
-        .toList();
+    ImmutableList<ChangeMergedEvent> events =
+        FluentIterable.from(recordedEvents.get(key))
+            .transform(ChangeMergedEvent.class::cast).toList();
     assertThat(events).hasSize(expectedSize);
     return events;
   }
@@ -131,27 +128,24 @@ public class EventRecorder {
       return ImmutableList.of();
     }
     assertThat(recordedEvents).containsKey(key);
-    ImmutableList<ReviewerDeletedEvent> events = FluentIterable
-        .from(recordedEvents.get(key))
-        .transform(ReviewerDeletedEvent.class::cast)
-        .toList();
+    ImmutableList<ReviewerDeletedEvent> events =
+        FluentIterable.from(recordedEvents.get(key))
+            .transform(ReviewerDeletedEvent.class::cast).toList();
     assertThat(events).hasSize(expectedSize);
     return events;
   }
 
   public void assertRefUpdatedEvents(String project, String branch,
       String... expected) throws Exception {
-    ImmutableList<RefUpdatedEvent> events = getRefUpdatedEvents(project,
-        branch, expected.length / 2);
+    ImmutableList<RefUpdatedEvent> events =
+        getRefUpdatedEvents(project, branch, expected.length / 2);
     int i = 0;
     for (RefUpdatedEvent event : events) {
       RefUpdateAttribute actual = event.refUpdate.get();
-      String oldRev = expected[i] == null
-          ? ObjectId.zeroId().name()
-          : expected[i];
-      String newRev = expected[i+1] == null
-          ? ObjectId.zeroId().name()
-          : expected[i+1];
+      String oldRev =
+          expected[i] == null ? ObjectId.zeroId().name() : expected[i];
+      String newRev =
+          expected[i + 1] == null ? ObjectId.zeroId().name() : expected[i + 1];
       assertThat(actual.oldRev).isEqualTo(oldRev);
       assertThat(actual.newRev).isEqualTo(newRev);
       i += 2;
@@ -160,17 +154,15 @@ public class EventRecorder {
 
   public void assertRefUpdatedEvents(String project, String branch,
       RevCommit... expected) throws Exception {
-    ImmutableList<RefUpdatedEvent> events = getRefUpdatedEvents(project,
-        branch, expected.length / 2);
+    ImmutableList<RefUpdatedEvent> events =
+        getRefUpdatedEvents(project, branch, expected.length / 2);
     int i = 0;
     for (RefUpdatedEvent event : events) {
       RefUpdateAttribute actual = event.refUpdate.get();
-      String oldRev = expected[i] == null
-          ? ObjectId.zeroId().name()
-          : expected[i].name();
-      String newRev = expected[i+1] == null
-          ? ObjectId.zeroId().name()
-          : expected[i+1].name();
+      String oldRev =
+          expected[i] == null ? ObjectId.zeroId().name() : expected[i].name();
+      String newRev = expected[i + 1] == null ? ObjectId.zeroId().name()
+          : expected[i + 1].name();
       assertThat(actual.oldRev).isEqualTo(oldRev);
       assertThat(actual.newRev).isEqualTo(newRev);
       i += 2;
@@ -179,13 +171,13 @@ public class EventRecorder {
 
   public void assertChangeMergedEvents(String project, String branch,
       String... expected) throws Exception {
-    ImmutableList<ChangeMergedEvent> events = getChangeMergedEvents(project,
-        branch, expected.length / 2);
+    ImmutableList<ChangeMergedEvent> events =
+        getChangeMergedEvents(project, branch, expected.length / 2);
     int i = 0;
     for (ChangeMergedEvent event : events) {
       String id = event.change.get().id;
       assertThat(id).isEqualTo(expected[i]);
-      assertThat(event.newRev).isEqualTo(expected[i+1]);
+      assertThat(event.newRev).isEqualTo(expected[i + 1]);
       i += 2;
     }
   }
@@ -198,7 +190,7 @@ public class EventRecorder {
       String id = event.change.get().id;
       assertThat(id).isEqualTo(expected[i]);
       String reviewer = event.reviewer.get().email;
-      assertThat(reviewer).isEqualTo(expected[i+1]);
+      assertThat(reviewer).isEqualTo(expected[i + 1]);
       i += 2;
     }
   }

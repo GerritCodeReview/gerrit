@@ -18,8 +18,8 @@ package com.google.gerrit.extensions.restapi;
 /**
  * Optional interface for {@link RestCollection}.
  * <p>
- * Collections that implement this interface can accept a {@code DELETE} directly
- * on the collection itself.
+ * Collections that implement this interface can accept a {@code DELETE}
+ * directly on the collection itself.
  */
 public interface AcceptsDelete<P extends RestResource> {
   /**

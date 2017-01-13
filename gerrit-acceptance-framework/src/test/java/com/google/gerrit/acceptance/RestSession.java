@@ -38,8 +38,7 @@ public class RestSession extends HttpSession {
     super(server, account);
   }
 
-  public RestResponse getOK(String endPoint)
-      throws Exception {
+  public RestResponse getOK(String endPoint) throws Exception {
     return get(endPoint, HttpStatus.SC_OK);
   }
 
@@ -94,20 +93,18 @@ public class RestSession extends HttpSession {
     if (content != null) {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
       put.body(new StringEntity(
-          OutputFormat.JSON_COMPACT.newGson().toJson(content),
-          UTF_8));
+          OutputFormat.JSON_COMPACT.newGson().toJson(content), UTF_8));
     }
     return execute(put);
   }
 
-  public RestResponse putRaw(String endPoint, RawInput stream) throws IOException {
+  public RestResponse putRaw(String endPoint, RawInput stream)
+      throws IOException {
     Preconditions.checkNotNull(stream);
     Request put = Request.Put(getUrl(endPoint));
     put.addHeader(new BasicHeader("Content-Type", stream.getContentType()));
-    put.body(new BufferedHttpEntity(
-        new InputStreamEntity(
-            stream.getInputStream(),
-            stream.getContentLength())));
+    put.body(new BufferedHttpEntity(new InputStreamEntity(
+        stream.getInputStream(), stream.getContentLength())));
     return execute(put);
   }
 
@@ -115,8 +112,7 @@ public class RestSession extends HttpSession {
     return post(endPoint, null);
   }
 
-  public RestResponse postOK(String endPoint, Object content)
-      throws Exception {
+  public RestResponse postOK(String endPoint, Object content) throws Exception {
     return post(endPoint, content, HttpStatus.SC_OK);
   }
 
@@ -140,8 +136,7 @@ public class RestSession extends HttpSession {
     if (content != null) {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
       post.body(new StringEntity(
-          OutputFormat.JSON_COMPACT.newGson().toJson(content),
-          UTF_8));
+          OutputFormat.JSON_COMPACT.newGson().toJson(content), UTF_8));
     }
     return execute(post);
   }

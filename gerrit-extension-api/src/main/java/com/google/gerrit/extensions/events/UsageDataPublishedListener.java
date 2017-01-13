@@ -25,19 +25,25 @@ public interface UsageDataPublishedListener {
 
   interface Event {
     MetaData getMetaData();
+
     Timestamp getInstant();
+
     List<Data> getData();
   }
 
   interface Data {
     long getValue();
+
     String getProjectName();
   }
 
   interface MetaData {
     String getName();
+
     String getUnitName();
+
     String getUnitSymbol();
+
     String getDescription();
   }
 

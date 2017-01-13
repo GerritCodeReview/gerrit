@@ -32,9 +32,7 @@ public class BanCommitIT extends AbstractDaemonTest {
 
   @Test
   public void banCommit() throws Exception {
-    RevCommit c = commitBuilder()
-        .add("a.txt", "some content")
-        .create();
+    RevCommit c = commitBuilder().add("a.txt", "some content").create();
 
     RestResponse r =
         adminRestSession.put("/projects/" + project.get() + "/ban/",
@@ -54,17 +52,18 @@ public class BanCommitIT extends AbstractDaemonTest {
 
   @Test
   public void banAlreadyBannedCommit() throws Exception {
-    RestResponse r =
-        adminRestSession.put("/projects/" + project.get() + "/ban/",
-            BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
+    RestResponse r = adminRestSession
+        .put("/projects/" + project.get() + "/ban/", BanCommit.Input
+            .fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
     r.consume();
 
     r = adminRestSession.put("/projects/" + project.get() + "/ban/",
-        BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
+        BanCommit.Input
+            .fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
     r.assertOK();
     BanResultInfo info = newGson().fromJson(r.getReader(), BanResultInfo.class);
     assertThat(Iterables.getOnlyElement(info.alreadyBanned))
-      .isEqualTo("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96");
+        .isEqualTo("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96");
     assertThat(info.newlyBanned).isNull();
     assertThat(info.ignored).isNull();
   }
@@ -72,8 +71,9 @@ public class BanCommitIT extends AbstractDaemonTest {
   @Test
   public void banCommit_Forbidden() throws Exception {
     userRestSession
-        .put("/projects/" + project.get() + "/ban/", BanCommit.Input.fromCommits(
-            "a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"))
+        .put("/projects/" + project.get() + "/ban/",
+            BanCommit.Input
+                .fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"))
         .assertForbidden();
   }
 }

@@ -49,14 +49,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
   @Inject
   private DynamicSet<CommentAddedListener> source;
 
-  private final LabelType label = category("CustomLabel",
-      value(1, "Positive"),
-      value(0, "No score"),
-      value(-1, "Negative"));
+  private final LabelType label = category("CustomLabel", value(1, "Positive"),
+      value(0, "No score"), value(-1, "Negative"));
 
-  private final LabelType P = category("CustomLabel2",
-      value(1, "Positive"),
-      value(0, "No score"));
+  private final LabelType P =
+      category("CustomLabel2", value(1, "Positive"), value(0, "No score"));
 
   private RegistrationHandle eventListenerRegistration;
   private CommentAddedListener.Event lastCommentAddedEvent;
@@ -146,9 +143,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    gApi.changes()
-        .id(r.getChangeId())
-        .addReviewer(in);
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     ReviewInput input = new ReviewInput().label(P.getName(), 0);
     input.message = "foo";
@@ -160,8 +155,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNull();
     assertThat(q.blocking).isNull();
-    assertThat(lastCommentAddedEvent.getComment()).isEqualTo(
-        "Patch Set 1:\n\n" + input.message);
+    assertThat(lastCommentAddedEvent.getComment())
+        .isEqualTo("Patch Set 1:\n\n" + input.message);
   }
 
   @Test

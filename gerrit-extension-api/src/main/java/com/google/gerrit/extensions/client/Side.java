@@ -15,8 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 public enum Side {
-  PARENT,
-  REVISION;
+  PARENT, REVISION;
 
   public static Side fromShort(short s) {
     if (s <= 0) {

@@ -36,10 +36,10 @@ public interface ActionVisitor {
    * should be considered immutable.
    *
    * @param name name of the action, as a key into the {@link ActionInfo} map
-   *     returned by the REST API.
+   *        returned by the REST API.
    * @param actionInfo action being visited; caller may mutate.
    * @param changeInfo information about the change to which this action
-   *     belongs; caller should treat as immutable.
+   *        belongs; caller should treat as immutable.
    * @return true if the action should remain in the map, or false to omit it.
    */
   boolean visit(String name, ActionInfo actionInfo, ChangeInfo changeInfo);
@@ -52,12 +52,12 @@ public interface ActionVisitor {
    * should be considered immutable.
    *
    * @param name name of the action, as a key into the {@link ActionInfo} map
-   *     returned by the REST API.
+   *        returned by the REST API.
    * @param actionInfo action being visited; caller may mutate.
    * @param changeInfo information about the change to which this action
-   *     belongs; caller should treat as immutable.
+   *        belongs; caller should treat as immutable.
    * @param revisionInfo information about the revision to which this action
-   *     belongs; caller should treat as immutable.
+   *        belongs; caller should treat as immutable.
    * @return true if the action should remain in the map, or false to omit it.
    */
   boolean visit(String name, ActionInfo actionInfo, ChangeInfo changeInfo,

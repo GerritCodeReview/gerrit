@@ -89,13 +89,13 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertSubmittedTogether(id3, id3, id2, id1);
 
     assertRefUpdatedEvents(initialHead, updatedHead);
-    assertChangeMergedEvents(id1, updatedHead.name(),
-        id2, updatedHead.name(),
+    assertChangeMergedEvents(id1, updatedHead.name(), id2, updatedHead.name(),
         id3, updatedHead.name());
   }
 
   @Test
-  public void submitTwoChangesWithFastForward_missingDependency() throws Exception {
+  public void submitTwoChangesWithFastForward_missingDependency()
+      throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
@@ -103,7 +103,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     Change.Id id1 = change1.getPatchSetId().getParentKey();
     submitWithConflict(change2.getChangeId(),
         "Failed to submit 2 changes due to the following problems:\n"
-        + "Change " + id1 + ": needs Code-Review");
+            + "Change " + id1 + ": needs Code-Review");
 
     RevCommit updatedHead = getRemoteHead();
     assertThat(updatedHead.getId()).isEqualTo(initialHead.getId());
@@ -114,8 +114,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   @Test
   public void submitFastForwardNotPossible_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit headAfterFirstSubmit = getRemoteHead();
@@ -131,10 +130,10 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertThat(info.enabled).isNull();
 
     submitWithConflict(change2.getChangeId(),
-        "Failed to submit 1 change due to the following problems:\n" +
-        "Change " + change2.getChange().getId() + ": Project policy requires " +
-        "all submissions to be a fast-forward. Please rebase the change " +
-        "locally and upload again for review.");
+        "Failed to submit 1 change due to the following problems:\n" + "Change "
+            + change2.getChange().getId() + ": Project policy requires "
+            + "all submissions to be a fast-forward. Please rebase the change "
+            + "locally and upload again for review.");
     assertThat(getRemoteHead()).isEqualTo(headAfterFirstSubmit);
     assertSubmitter(change.getChangeId(), 1);
 
@@ -191,10 +190,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     grant(Permission.CREATE, project, "refs/heads/*");
     grant(Permission.PUSH, project, "refs/heads/experimental");
 
-    RevCommit c1 = commitBuilder()
-        .add("b.txt", "1")
-        .message("commit at tip")
-        .create();
+    RevCommit c1 =
+        commitBuilder().add("b.txt", "1").message("commit at tip").create();
     String id1 = GitUtil.getChangeId(testRepo, c1).get();
 
     PushResult r1 = pushHead(testRepo, "refs/for/master", false);

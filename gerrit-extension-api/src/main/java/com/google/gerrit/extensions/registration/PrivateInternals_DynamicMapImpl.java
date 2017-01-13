@@ -31,8 +31,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    * @param item the item to add to the collection. Must not be null.
    * @return handle to remove the item at a later point in time.
    */
-  public RegistrationHandle put(
-      String pluginName, String exportName,
+  public RegistrationHandle put(String pluginName, String exportName,
       final Provider<T> item) {
     final NamePair key = new NamePair(pluginName, exportName);
     items.put(key, item);
@@ -56,8 +55,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    * @return a handle that can remove this item later, or hot-swap the item
    *         without it ever leaving the collection.
    */
-  public ReloadableRegistrationHandle<T> put(
-      String pluginName, Key<T> key,
+  public ReloadableRegistrationHandle<T> put(String pluginName, Key<T> key,
       Provider<T> item) {
     String exportName = ((Export) key.getAnnotation()).value();
     NamePair np = new NamePair(pluginName, exportName);

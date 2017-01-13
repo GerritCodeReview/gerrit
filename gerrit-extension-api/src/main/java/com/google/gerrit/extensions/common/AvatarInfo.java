@@ -18,10 +18,9 @@ public class AvatarInfo {
   /**
    * Size in pixels the UI prefers an avatar image to be.
    *
-   * The web UI prefers avatar images to be square, both
-   * the height and width of the image should be this size.
-   * The height is the more important dimension to match
-   * than the width.
+   * The web UI prefers avatar images to be square, both the height and width of
+   * the image should be this size. The height is the more important dimension
+   * to match than the width.
    */
   public static final int DEFAULT_SIZE = 26;
 

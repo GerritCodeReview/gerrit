@@ -76,8 +76,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
     assertSubmitter(change3.getChangeId(), 2);
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit,
-        headAfterFirstSubmit, headAfterSecondSubmit,
-        headAfterSecondSubmit, headAfterThirdSubmit);
+        headAfterFirstSubmit, headAfterSecondSubmit, headAfterSecondSubmit,
+        headAfterThirdSubmit);
     assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name(),
         change2.getChangeId(), headAfterSecondSubmit.name(),
         change3.getChangeId(), headAfterThirdSubmit.name());

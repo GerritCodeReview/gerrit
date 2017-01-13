@@ -14,11 +14,14 @@
 
 package com.google.gerrit.extensions.restapi;
 
-/** Resource referenced in the request body is not found (HTTP 422 Unprocessable Entity). */
+/**
+ * Resource referenced in the request body is not found (HTTP 422 Unprocessable
+ * Entity).
+ */
 public class UnprocessableEntityException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
-  public UnprocessableEntityException(String msg)  {
+  public UnprocessableEntityException(String msg) {
     super(msg);
   }
 }

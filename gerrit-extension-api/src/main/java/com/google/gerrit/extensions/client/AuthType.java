@@ -18,7 +18,10 @@ public enum AuthType {
   /** Login relies upon the <a href="http://openid.net/">OpenID standard</a> */
   OPENID,
 
-  /** Login relies upon the <a href="http://openid.net/">OpenID standard</a> in Single Sign On mode */
+  /**
+   * Login relies upon the <a href="http://openid.net/">OpenID standard</a> in
+   * Single Sign On mode
+   */
   OPENID_SSO,
 
   /**
@@ -48,12 +51,12 @@ public enum AuthType {
    * This authentication type is actually kind of SSO. Gerrit will configure
    * Jetty's SSL channel to request client's SSL certificate. For this
    * authentication to work a Gerrit administrator has to import the root
-   * certificate of the trust chain used to issue the client's certificate
-   * into the &lt;review-site&gt;/etc/keystore.
+   * certificate of the trust chain used to issue the client's certificate into
+   * the &lt;review-site&gt;/etc/keystore.
    * <p>
-   * After the authentication is done Gerrit will obtain basic user
-   * registration (name and email) from LDAP, and some group memberships.
-   * Therefore, the "_LDAP" suffix in the name of this authentication type.
+   * After the authentication is done Gerrit will obtain basic user registration
+   * (name and email) from LDAP, and some group memberships. Therefore, the
+   * "_LDAP" suffix in the name of this authentication type.
    */
   CLIENT_SSL_CERT_LDAP,
 

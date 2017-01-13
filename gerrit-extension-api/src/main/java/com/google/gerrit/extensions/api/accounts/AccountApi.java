@@ -36,46 +36,60 @@ public interface AccountApi {
   AccountInfo get() throws RestApiException;
 
   boolean getActive() throws RestApiException;
+
   void setActive(boolean active) throws RestApiException;
 
   String getAvatarUrl(int size) throws RestApiException;
 
   GeneralPreferencesInfo getPreferences() throws RestApiException;
+
   GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in)
       throws RestApiException;
 
   DiffPreferencesInfo getDiffPreferences() throws RestApiException;
+
   DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in)
       throws RestApiException;
 
   EditPreferencesInfo getEditPreferences() throws RestApiException;
+
   EditPreferencesInfo setEditPreferences(EditPreferencesInfo in)
       throws RestApiException;
 
   List<ProjectWatchInfo> getWatchedProjects() throws RestApiException;
+
   List<ProjectWatchInfo> setWatchedProjects(List<ProjectWatchInfo> in)
       throws RestApiException;
-  void deleteWatchedProjects(List<ProjectWatchInfo> in)
-      throws RestApiException;
+
+  void deleteWatchedProjects(List<ProjectWatchInfo> in) throws RestApiException;
 
   void starChange(String changeId) throws RestApiException;
+
   void unstarChange(String changeId) throws RestApiException;
+
   void setStars(String changeId, StarsInput input) throws RestApiException;
+
   SortedSet<String> getStars(String changeId) throws RestApiException;
+
   List<ChangeInfo> getStarredChanges() throws RestApiException;
 
   void addEmail(EmailInput input) throws RestApiException;
 
   List<SshKeyInfo> listSshKeys() throws RestApiException;
+
   SshKeyInfo addSshKey(String key) throws RestApiException;
+
   void deleteSshKey(int seq) throws RestApiException;
 
   Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException;
+
   Map<String, GpgKeyInfo> putGpgKeys(List<String> add, List<String> remove)
       throws RestApiException;
+
   GpgKeyApi gpgKey(String id) throws RestApiException;
 
   List<AgreementInfo> listAgreements() throws RestApiException;
+
   void signAgreement(String agreementName) throws RestApiException;
 
   void index() throws RestApiException;
@@ -83,8 +97,8 @@ public interface AccountApi {
   List<AccountExternalIdInfo> getExternalIds() throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements AccountApi {
     @Override

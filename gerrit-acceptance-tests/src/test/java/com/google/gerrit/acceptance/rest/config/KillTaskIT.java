@@ -53,8 +53,7 @@ public class KillTaskIT extends AbstractDaemonTest {
     r.consume();
     assertThat(result.size()).isGreaterThan(0);
 
-    userRestSession
-        .delete("/config/server/tasks/" + result.get(0).id)
+    userRestSession.delete("/config/server/tasks/" + result.get(0).id)
         .assertNotFound();
   }
 

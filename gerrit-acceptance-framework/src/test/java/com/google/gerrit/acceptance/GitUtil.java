@@ -116,13 +116,12 @@ public class GitUtil {
     // Avoid leaking user state into our tests.
     fs.setUserHome(null);
 
-    InMemoryRepository dest = new InMemoryRepository.Builder()
-        .setRepositoryDescription(desc)
-        // SshTransport depends on a real FS to read ~/.ssh/config, but
-        // InMemoryRepository by default uses a null FS.
-        // TODO(dborowitz): Remove when we no longer depend on SSH.
-        .setFS(fs)
-        .build();
+    InMemoryRepository dest =
+        new InMemoryRepository.Builder().setRepositoryDescription(desc)
+            // SshTransport depends on a real FS to read ~/.ssh/config, but
+            // InMemoryRepository by default uses a null FS.
+            // TODO(dborowitz): Remove when we no longer depend on SSH.
+            .setFS(fs).build();
     Config cfg = dest.getConfig();
     cfg.setString("remote", "origin", "url", uri);
     cfg.setString("remote", "origin", "fetch",
@@ -143,22 +142,16 @@ public class GitUtil {
 
   public static Ref createAnnotatedTag(TestRepository<?> testRepo, String name,
       PersonIdent tagger) throws GitAPIException {
-    TagCommand cmd = testRepo.git().tag()
-        .setName(name)
-        .setAnnotated(true)
-        .setMessage(name)
-        .setTagger(tagger);
+    TagCommand cmd = testRepo.git().tag().setName(name).setAnnotated(true)
+        .setMessage(name).setTagger(tagger);
     return cmd.call();
   }
 
   public static Ref updateAnnotatedTag(TestRepository<?> testRepo, String name,
       PersonIdent tagger) throws GitAPIException {
     TagCommand tc = testRepo.git().tag().setName(name);
-    return tc.setAnnotated(true)
-        .setMessage(name)
-        .setTagger(tagger)
-        .setForceUpdate(true)
-        .call();
+    return tc.setAnnotated(true).setMessage(name).setTagger(tagger)
+        .setForceUpdate(true).call();
   }
 
   public static void fetch(TestRepository<?> testRepo, String spec)
@@ -185,7 +178,7 @@ public class GitUtil {
 
   public static PushResult pushHead(TestRepository<?> testRepo, String ref,
       boolean pushTags, boolean force, List<String> pushOptions)
-          throws GitAPIException {
+      throws GitAPIException {
     return pushOne(testRepo, "HEAD", ref, pushTags, force, pushOptions);
   }
 
@@ -196,7 +189,7 @@ public class GitUtil {
 
   public static PushResult pushOne(TestRepository<?> testRepo, String source,
       String target, boolean pushTags, boolean force, List<String> pushOptions)
-          throws GitAPIException {
+      throws GitAPIException {
     PushCommand pushCmd = testRepo.git().push();
     pushCmd.setForce(force);
     pushCmd.setPushOptions(pushOptions);

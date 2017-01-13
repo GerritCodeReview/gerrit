@@ -48,8 +48,7 @@ public class CheckResult {
   }
 
   static CheckResult create(List<String> problems) {
-    return new CheckResult(
-        problems.isEmpty() ? Status.OK : Status.BAD,
+    return new CheckResult(problems.isEmpty() ? Status.OK : Status.BAD,
         Collections.unmodifiableList(problems));
   }
 
@@ -86,8 +85,8 @@ public class CheckResult {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder(getClass().getSimpleName())
-        .append('[').append(status);
+    StringBuilder sb = new StringBuilder(getClass().getSimpleName()).append('[')
+        .append(status);
     for (int i = 0; i < problems.size(); i++) {
       sb.append(i == 0 ? ": " : ", ").append(problems.get(i));
     }

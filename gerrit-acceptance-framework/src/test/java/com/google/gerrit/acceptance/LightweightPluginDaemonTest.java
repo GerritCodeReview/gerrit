@@ -35,13 +35,11 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
   public void setUp() throws Exception {
     TestPlugin testPlugin = getTestPlugin(getClass());
     String name = testPlugin.name();
-    plugin = new TestServerPlugin(name,
-        canonicalWebUrl.get() + "plugins/" + name,
-        pluginUserFactory.create(name),
-        getClass().getClassLoader(),
-        testPlugin.sysModule(),
-        testPlugin.httpModule(),
-        testPlugin.sshModule());
+    plugin =
+        new TestServerPlugin(name, canonicalWebUrl.get() + "plugins/" + name,
+            pluginUserFactory.create(name), getClass().getClassLoader(),
+            testPlugin.sysModule(), testPlugin.httpModule(),
+            testPlugin.sshModule());
 
     plugin.start(env);
     env.onStartPlugin(plugin);

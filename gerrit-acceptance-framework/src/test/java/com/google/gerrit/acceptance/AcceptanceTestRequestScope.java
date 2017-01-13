@@ -53,15 +53,14 @@ public class AcceptanceTestRequestScope {
     volatile long started;
     volatile long finished;
 
-    private Context(SchemaFactory<ReviewDb> sf, SshSession s,
-        CurrentUser u, long at) {
+    private Context(SchemaFactory<ReviewDb> sf, SshSession s, CurrentUser u,
+        long at) {
       schemaFactory = sf;
       session = s;
       user = u;
       created = started = finished = at;
       map.put(RC_KEY, cleanup);
-      map.put(DB_KEY, new RequestScopedReviewDbProvider(
-          schemaFactory,
+      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory,
           Providers.of(cleanup)));
     }
 
@@ -117,7 +116,8 @@ public class AcceptanceTestRequestScope {
     private final AcceptanceTestRequestScope atrScope;
 
     @Inject
-    Propagator(AcceptanceTestRequestScope atrScope, ThreadLocalRequestContext local,
+    Propagator(AcceptanceTestRequestScope atrScope,
+        ThreadLocalRequestContext local,
         Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
       super(REQUEST, current, local, dbProviderProvider);
       this.atrScope = atrScope;
@@ -148,7 +148,8 @@ public class AcceptanceTestRequestScope {
     this.local = local;
   }
 
-  public Context newContext(SchemaFactory<ReviewDb> sf, SshSession s, CurrentUser user) {
+  public Context newContext(SchemaFactory<ReviewDb> sf, SshSession s,
+      CurrentUser user) {
     return new Context(sf, s, user, TimeUtil.nowMs());
   }
 

@@ -59,9 +59,8 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   public void testGc() throws Exception {
-    String response =
-        adminSshSession.exec("gerrit gc \"" + project.get() + "\" \""
-            + project2.get() + "\"");
+    String response = adminSshSession
+        .exec("gerrit gc \"" + project.get() + "\" \"" + project2.get() + "\"");
     assert_().withFailureMessage(adminSshSession.getError())
         .that(adminSshSession.hasError()).isFalse();
     assertNoError(response);
@@ -93,13 +92,13 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testGcAlreadyScheduled() throws Exception {
     gcQueue.addAll(Arrays.asList(project));
-    GarbageCollectionResult result = garbageCollectionFactory.create().run(
-        Arrays.asList(allProjects, project, project2, project3));
+    GarbageCollectionResult result = garbageCollectionFactory.create()
+        .run(Arrays.asList(allProjects, project, project2, project3));
     assertThat(result.hasErrors()).isTrue();
     assertThat(result.getErrors()).hasSize(1);
     GarbageCollectionResult.Error error = result.getErrors().get(0);
-    assertThat(error.getType()).isEqualTo(
-        GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED);
+    assertThat(error.getType())
+        .isEqualTo(GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED);
     assertThat(error.getProjectName()).isEqualTo(project);
   }
 

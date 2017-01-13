@@ -95,7 +95,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   public void submitOnPushToRefsMetaConfig() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/meta/config");
 
-    git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
+    git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config"))
+        .call();
     testRepo.reset(RefNames.REFS_CONFIG);
 
     PushOneCommit.Result r = pushTo("refs/for/refs/meta/config%submit");
@@ -112,8 +113,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     testRepo.reset(objectId);
 
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
-    PushOneCommit.Result r =
-        push("refs/for/master%submit", "other change", "a.txt", "other content");
+    PushOneCommit.Result r = push("refs/for/master%submit", "other change",
+        "a.txt", "other content");
     r.assertErrorStatus();
     r.assertChange(Change.Status.NEW, null);
     r.assertMessage("Change " + r.getChange().getId()
@@ -128,8 +129,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     testRepo.reset(objectId);
 
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
-    PushOneCommit.Result r =
-        push("refs/for/master%submit", "other change", "b.txt", "other content");
+    PushOneCommit.Result r = push("refs/for/master%submit", "other change",
+        "b.txt", "other content");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
     assertMergeCommit(master, "other change");
@@ -145,8 +146,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         "other content", r.getChangeId());
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
-    ChangeData cd = Iterables.getOnlyElement(
-        queryProvider.get().byKeyPrefix(r.getChangeId()));
+    ChangeData cd = Iterables
+        .getOnlyElement(queryProvider.get().byKeyPrefix(r.getChangeId()));
     assertThat(cd.patchSets()).hasSize(2);
     assertSubmitApproval(r.getPatchSetId());
     assertCommit(project, "refs/heads/master");
@@ -214,9 +215,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PatchSet.Id psId1 = r.getPatchSetId();
     assertThat(psId1.get()).isEqualTo(1);
 
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-            "b.txt", "anotherContent", r.getChangeId());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, "b.txt", "anotherContent", r.getChangeId());
 
     r = push.to("refs/heads/master");
     r.assertOkStatus();
@@ -251,8 +251,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertThat(psId2.get()).isEqualTo(2);
 
     testRepo.reset(c1);
-    assertPushOk(
-        pushHead(testRepo, "refs/heads/master", false), "refs/heads/master");
+    assertPushOk(pushHead(testRepo, "refs/heads/master", false),
+        "refs/heads/master");
 
     cd = changeDataFactory.create(db, project, psId1.getParentKey());
     Change c = cd.change();
@@ -282,15 +282,14 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
     // Amend both changes.
     testRepo.reset(initialHead);
-    RevCommit c1_2 = testRepo.branch("HEAD").commit()
-        .message(c1_1.getShortMessage() + "v2")
-        .insertChangeId(r1.getChangeId().substring(1))
-        .create();
+    RevCommit c1_2 =
+        testRepo.branch("HEAD").commit().message(c1_1.getShortMessage() + "v2")
+            .insertChangeId(r1.getChangeId().substring(1)).create();
     RevCommit c2_2 = testRepo.cherryPick(c2_1);
 
     // Push directly to branch.
-    assertPushOk(
-        pushHead(testRepo, "refs/heads/master", false), "refs/heads/master");
+    assertPushOk(pushHead(testRepo, "refs/heads/master", false),
+        "refs/heads/master");
 
     ChangeData cd2 = r2.getChange();
     assertThat(cd2.change().getStatus()).isEqualTo(Change.Status.MERGED);
@@ -313,9 +312,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
       throws Exception {
-    ChangeNotes notes =
-        notesFactory.createChecked(db, project, patchSetId.getParentKey())
-            .load();
+    ChangeNotes notes = notesFactory
+        .createChecked(db, project, patchSetId.getParentKey()).load();
     return approvalsUtil.getSubmitter(db, notes, patchSetId);
   }
 
@@ -333,20 +331,21 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
       assertThat(c.getShortMessage()).isEqualTo(PushOneCommit.SUBJECT);
       assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
-      assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
-          admin.email);
+      assertThat(c.getCommitterIdent().getEmailAddress())
+          .isEqualTo(admin.email);
     }
   }
 
-  private void assertMergeCommit(String branch, String subject) throws Exception {
+  private void assertMergeCommit(String branch, String subject)
+      throws Exception {
     try (Repository r = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(r)) {
       RevCommit c = rw.parseCommit(r.exactRef(branch).getObjectId());
       assertThat(c.getParentCount()).isEqualTo(2);
       assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
       assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
-      assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
-          serverIdent.get().getEmailAddress());
+      assertThat(c.getCommitterIdent().getEmailAddress())
+          .isEqualTo(serverIdent.get().getEmailAddress());
     }
   }
 
@@ -357,7 +356,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       assertThat(tagRef).isNotNull();
       ObjectId taggedCommit = null;
       if (tag instanceof PushOneCommit.AnnotatedTag) {
-        PushOneCommit.AnnotatedTag annotatedTag = (PushOneCommit.AnnotatedTag)tag;
+        PushOneCommit.AnnotatedTag annotatedTag =
+            (PushOneCommit.AnnotatedTag) tag;
         try (RevWalk rw = new RevWalk(repo)) {
           RevObject object = rw.parseAny(tagRef.getObjectId());
           assertThat(object).isInstanceOf(RevTag.class);
@@ -376,17 +376,17 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     }
   }
 
-  private PushOneCommit.Result push(String ref, String subject,
-      String fileName, String content) throws Exception {
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
+  private PushOneCommit.Result push(String ref, String subject, String fileName,
+      String content) throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        subject, fileName, content);
     return push.to(ref);
   }
 
-  private PushOneCommit.Result push(String ref, String subject,
-      String fileName, String content, String changeId) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo, subject,
-        fileName, content, changeId);
+  private PushOneCommit.Result push(String ref, String subject, String fileName,
+      String content, String changeId) throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        subject, fileName, content, changeId);
     return push.to(ref);
   }
 }

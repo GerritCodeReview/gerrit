@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 /** Interface to be extended by Events with a Change. */
 public interface ChangeEvent extends GerritEvent {
   ChangeInfo getChange();
+
   AccountInfo getWho();
+
   Timestamp getWhen();
 }

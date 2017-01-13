@@ -18,7 +18,9 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 
 import java.util.Map;
 
-/** Input passed to {@code DELETE /changes/[id]/reviewers/[id]/votes/[label]}. */
+/**
+ * Input passed to {@code DELETE /changes/[id]/reviewers/[id]/votes/[label]}.
+ */
 public class DeleteVoteInput {
   @DefaultInput
   public String label;

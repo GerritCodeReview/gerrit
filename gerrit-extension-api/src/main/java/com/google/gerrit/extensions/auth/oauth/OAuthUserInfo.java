@@ -22,11 +22,8 @@ public class OAuthUserInfo {
   private final String displayName;
   private final String claimedIdentity;
 
-  public OAuthUserInfo(String externalId,
-      String userName,
-      String emailAddress,
-      String displayName,
-      String claimedIdentity) {
+  public OAuthUserInfo(String externalId, String userName, String emailAddress,
+      String displayName, String claimedIdentity) {
     this.externalId = externalId;
     this.userName = userName;
     this.emailAddress = emailAddress;

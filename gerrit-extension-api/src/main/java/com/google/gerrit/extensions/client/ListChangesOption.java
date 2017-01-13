@@ -19,20 +19,16 @@ import java.util.Set;
 
 /** Output options available for retrieval change details. */
 public enum ListChangesOption {
-  LABELS(0),
-  DETAILED_LABELS(8),
+  LABELS(0), DETAILED_LABELS(8),
 
   /** Return information on the current patch set of the change. */
-  CURRENT_REVISION(1),
-  ALL_REVISIONS(2),
+  CURRENT_REVISION(1), ALL_REVISIONS(2),
 
   /** If revisions are included, parse the commit object. */
-  CURRENT_COMMIT(3),
-  ALL_COMMITS(4),
+  CURRENT_COMMIT(3), ALL_COMMITS(4),
 
   /** If a patch set is included, include the files of the patch set. */
-  CURRENT_FILES(5),
-  ALL_FILES(6),
+  CURRENT_FILES(5), ALL_FILES(6),
 
   /** If accounts are included, include detailed account info. */
   DETAILED_ACCOUNTS(7),

@@ -30,7 +30,7 @@ public class FlushCacheIT extends AbstractDaemonTest {
   public void flushCache() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/caches/groups");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(result.entries.mem).isGreaterThan((long)0);
+    assertThat(result.entries.mem).isGreaterThan((long) 0);
 
     r = adminRestSession.post("/config/server/caches/groups/flush");
     r.assertOK();
@@ -43,47 +43,43 @@ public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
   public void flushCache_Forbidden() throws Exception {
-    userRestSession
-        .post("/config/server/caches/accounts/flush")
+    userRestSession.post("/config/server/caches/accounts/flush")
         .assertForbidden();
   }
 
   @Test
   public void flushCache_NotFound() throws Exception {
-    adminRestSession
-        .post("/config/server/caches/nonExisting/flush")
+    adminRestSession.post("/config/server/caches/nonExisting/flush")
         .assertNotFound();
   }
 
   @Test
   public void flushCacheWithGerritPrefix() throws Exception {
-    adminRestSession
-        .post("/config/server/caches/gerrit-accounts/flush")
+    adminRestSession.post("/config/server/caches/gerrit-accounts/flush")
         .assertOK();
   }
 
   @Test
   public void flushWebSessionsCache() throws Exception {
-    adminRestSession
-        .post("/config/server/caches/web_sessions/flush")
+    adminRestSession.post("/config/server/caches/web_sessions/flush")
         .assertOK();
   }
 
   @Test
   public void flushWebSessionsCache_Forbidden() throws Exception {
-    allowGlobalCapabilities(REGISTERED_USERS,
-        GlobalCapability.VIEW_CACHES, GlobalCapability.FLUSH_CACHES);
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.VIEW_CACHES,
+        GlobalCapability.FLUSH_CACHES);
     try {
-      RestResponse r = userRestSession.post("/config/server/caches/accounts/flush");
+      RestResponse r =
+          userRestSession.post("/config/server/caches/accounts/flush");
       r.assertOK();
       r.consume();
 
-      userRestSession
-          .post("/config/server/caches/web_sessions/flush")
+      userRestSession.post("/config/server/caches/web_sessions/flush")
           .assertForbidden();
     } finally {
-      removeGlobalCapabilities(REGISTERED_USERS,
-          GlobalCapability.VIEW_CACHES, GlobalCapability.FLUSH_CACHES);
+      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.VIEW_CACHES,
+          GlobalCapability.FLUSH_CACHES);
     }
   }
 }

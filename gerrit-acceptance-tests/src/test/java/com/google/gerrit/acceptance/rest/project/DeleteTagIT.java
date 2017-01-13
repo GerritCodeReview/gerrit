@@ -96,21 +96,18 @@ public class DeleteTagIT extends AbstractDaemonTest {
     allow(Permission.DELETE, ANONYMOUS_USERS, "refs/tags/*");
   }
 
-   private void grantOwner() throws Exception {
-     allow(Permission.OWNER, REGISTERED_USERS, "refs/tags/*");
-   }
+  private void grantOwner() throws Exception {
+    allow(Permission.OWNER, REGISTERED_USERS, "refs/tags/*");
+  }
 
   private TagApi tag() throws Exception {
-    return gApi.projects()
-        .name(project.get())
-        .tag(TAG);
+    return gApi.projects().name(project.get()).tag(TAG);
   }
 
   private void assertDeleteSucceeds() throws Exception {
     String tagRev = tag().get().revision;
     tag().delete();
-    eventRecorder.assertRefUpdatedEvents(project.get(), TAG,
-        null, tagRev,
+    eventRecorder.assertRefUpdatedEvents(project.get(), TAG, null, tagRev,
         tagRev, null);
     exception.expect(ResourceNotFoundException.class);
     tag().get();

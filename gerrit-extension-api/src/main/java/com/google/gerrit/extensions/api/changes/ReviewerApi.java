@@ -22,14 +22,18 @@ import java.util.Map;
 public interface ReviewerApi {
 
   Map<String, Short> votes() throws RestApiException;
+
   void deleteVote(String label) throws RestApiException;
+
   void deleteVote(DeleteVoteInput input) throws RestApiException;
+
   void remove() throws RestApiException;
+
   void remove(DeleteReviewerInput input) throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements ReviewerApi {
     @Override

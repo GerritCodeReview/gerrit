@@ -41,14 +41,13 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     Config cfg = new Config();
     cfg.setString("s1", null, "k1", "v1");
     cfg.setString("s2", "ss", "k2", "v2");
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, "Create Project Level Config",
-            configName, cfg.toText());
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        "Create Project Level Config", configName, cfg.toText());
     push.to(RefNames.REFS_CONFIG);
 
     ProjectState state = projectCache.get(project);
-    assertThat(state.getConfig(configName).get().toText()).isEqualTo(
-        cfg.toText());
+    assertThat(state.getConfig(configName).get().toText())
+        .isEqualTo(cfg.toText());
   }
 
   @Test
@@ -67,11 +66,10 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     parentCfg.setString("s2", "ss", "k3", "parentValue3");
     parentCfg.setString("s2", "ss", "k4", "parentValue4");
 
-    pushFactory.create(
-          db, admin.getIdent(), testRepo, "Create Project Level Config",
-          configName, parentCfg.toText())
-        .to(RefNames.REFS_CONFIG)
-        .assertOkStatus();
+    pushFactory
+        .create(db, admin.getIdent(), testRepo, "Create Project Level Config",
+            configName, parentCfg.toText())
+        .to(RefNames.REFS_CONFIG).assertOkStatus();
 
     Project.NameKey childProject = createProject("child", project);
     TestRepository<?> childTestRepo = cloneProject(childProject);
@@ -82,11 +80,10 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     cfg.setString("s1", null, "k1", "childValue1");
     cfg.setString("s2", "ss", "k3", "childValue2");
 
-    pushFactory.create(
-          db, admin.getIdent(), childTestRepo, "Create Project Level Config",
-          configName, cfg.toText())
-        .to(RefNames.REFS_CONFIG)
-        .assertOkStatus();
+    pushFactory
+        .create(db, admin.getIdent(), childTestRepo,
+            "Create Project Level Config", configName, cfg.toText())
+        .to(RefNames.REFS_CONFIG).assertOkStatus();
 
     ProjectState state = projectCache.get(childProject);
 
@@ -99,7 +96,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     assertThat(state.getConfig(configName).getWithInheritance().toText())
         .isEqualTo(expectedCfg.toText());
 
-    assertThat(state.getConfig(configName).get().toText()).isEqualTo(
-        cfg.toText());
+    assertThat(state.getConfig(configName).get().toText())
+        .isEqualTo(cfg.toText());
   }
 }

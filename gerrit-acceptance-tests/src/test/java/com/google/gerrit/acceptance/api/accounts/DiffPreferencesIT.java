@@ -65,9 +65,8 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
-    DiffPreferencesInfo o = gApi.accounts()
-        .id(admin.getId().toString())
-        .getDiffPreferences();
+    DiffPreferencesInfo o =
+        gApi.accounts().id(admin.getId().toString()).getDiffPreferences();
     assertPrefs(o, d);
   }
 
@@ -102,17 +101,15 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.matchBrackets ^= true;
     i.lineWrapping ^= true;
 
-    DiffPreferencesInfo o = gApi.accounts()
-        .id(admin.getId().toString())
-        .setDiffPreferences(i);
+    DiffPreferencesInfo o =
+        gApi.accounts().id(admin.getId().toString()).setDiffPreferences(i);
     assertPrefs(o, i);
 
     // Partially fill input record
     i = new DiffPreferencesInfo();
     i.tabSize = 42;
-    DiffPreferencesInfo a = gApi.accounts()
-        .id(admin.getId().toString())
-        .setDiffPreferences(i);
+    DiffPreferencesInfo a =
+        gApi.accounts().id(admin.getId().toString()).setDiffPreferences(i);
     assertPrefs(a, o, "tabSize");
     assertThat(a.tabSize).isEqualTo(42);
   }
@@ -129,9 +126,8 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     update.fontSize = newFontSize;
     gApi.config().server().setDefaultDiffPreferences(update);
 
-    DiffPreferencesInfo o = gApi.accounts()
-        .id(admin.getId().toString())
-        .getDiffPreferences();
+    DiffPreferencesInfo o =
+        gApi.accounts().id(admin.getId().toString()).getDiffPreferences();
 
     // assert configured defaults
     assertThat(o.lineLength).isEqualTo(newLineLength);

@@ -112,37 +112,25 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   private static final String SUBMIT_TYPE_FROM_SUBJECT =
-      "submit_type(fast_forward_only) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*FAST_FORWARD_ONLY.*', M),"
-      + "!.\n"
-      + "submit_type(merge_if_necessary) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*MERGE_IF_NECESSARY.*', M),"
-      + "!.\n"
-      + "submit_type(rebase_if_necessary) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*REBASE_IF_NECESSARY.*', M),"
-      + "!.\n"
-      + "submit_type(rebase_always) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*REBASE_ALWAYS.*', M),"
-      + "!.\n"
-      + "submit_type(merge_always) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*MERGE_ALWAYS.*', M),"
-      + "!.\n"
-      + "submit_type(cherry_pick) :-"
-      + "gerrit:commit_message(M),"
-      + "regex_matches('.*CHERRY_PICK.*', M),"
-      + "!.\n"
-      + "submit_type(T) :- gerrit:project_default_submit_type(T).";
+      "submit_type(fast_forward_only) :-" + "gerrit:commit_message(M),"
+          + "regex_matches('.*FAST_FORWARD_ONLY.*', M)," + "!.\n"
+          + "submit_type(merge_if_necessary) :-" + "gerrit:commit_message(M),"
+          + "regex_matches('.*MERGE_IF_NECESSARY.*', M)," + "!.\n"
+          + "submit_type(rebase_if_necessary) :-" + "gerrit:commit_message(M),"
+          + "regex_matches('.*REBASE_IF_NECESSARY.*', M)," + "!.\n"
+          + "submit_type(rebase_always) :-" + "gerrit:commit_message(M),"
+          + "regex_matches('.*REBASE_ALWAYS.*', M)," + "!.\n"
+          + "submit_type(merge_always) :-" + "gerrit:commit_message(M),"
+          + "regex_matches('.*MERGE_ALWAYS.*', M)," + "!.\n"
+          + "submit_type(cherry_pick) :-" + "gerrit:commit_message(M),"
+          + "regex_matches('.*CHERRY_PICK.*', M)," + "!.\n"
+          + "submit_type(T) :- gerrit:project_default_submit_type(T).";
 
   private PushOneCommit.Result createChange(String dest, String subject)
       throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
-        subject, "file" + fileCounter.incrementAndGet(),
-        PushOneCommit.FILE_CONTENT);
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, subject,
+            "file" + fileCounter.incrementAndGet(), PushOneCommit.FILE_CONTENT);
     PushOneCommit.Result r = push.to("refs/for/" + dest);
     r.assertOkStatus();
     return r;
@@ -246,9 +234,9 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     } catch (ResourceConflictException e) {
       assertThat(e).hasMessage(
           "Failed to submit 2 changes due to the following problems:\n"
-          + "Change " + r1.getChange().getId() + ": Change has submit type "
-          + "CHERRY_PICK, but previously chose submit type MERGE_IF_NECESSARY "
-          + "from change " + r2.getChange().getId() + " in the same batch");
+              + "Change " + r1.getChange().getId() + ": Change has submit type "
+              + "CHERRY_PICK, but previously chose submit type MERGE_IF_NECESSARY "
+              + "from change " + r2.getChange().getId() + " in the same batch");
     }
   }
 

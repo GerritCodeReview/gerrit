@@ -74,9 +74,7 @@ public class TestAccount {
   }
 
   public String getHttpUrl(GerritServer server) {
-    return String.format("http://%s:%s@%s:%d",
-        username,
-        httpPassword,
+    return String.format("http://%s:%s@%s:%d", username, httpPassword,
         server.getHttpAddress().getAddress().getHostAddress(),
         server.getHttpAddress().getPort());
   }

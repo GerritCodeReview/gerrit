@@ -152,8 +152,8 @@ public abstract class BinaryResult implements Closeable {
    * array and then tries to decode it using the configured encoding.
    *
    * @return string version of the result.
-   * @throws IOException if the data cannot be produced or could not be
-   *         decoded to a String.
+   * @throws IOException if the data cannot be produced or could not be decoded
+   *         to a String.
    */
   public String asString() throws IOException {
     long len = getContentLength();
@@ -175,8 +175,7 @@ public abstract class BinaryResult implements Closeable {
   @Override
   public String toString() {
     if (getContentLength() >= 0) {
-      return String.format(
-          "BinaryResult[Content-Type: %s, Content-Length: %d]",
+      return String.format("BinaryResult[Content-Type: %s, Content-Length: %d]",
           getContentType(), getContentLength());
     }
     return String.format(
@@ -186,14 +185,10 @@ public abstract class BinaryResult implements Closeable {
 
   private static String decode(byte[] data, Charset enc) {
     try {
-      Charset cs = enc != null
-          ? enc
-          : UTF_8;
-      return cs.newDecoder()
-        .onMalformedInput(CodingErrorAction.REPORT)
-        .onUnmappableCharacter(CodingErrorAction.REPORT)
-        .decode(ByteBuffer.wrap(data))
-        .toString();
+      Charset cs = enc != null ? enc : UTF_8;
+      return cs.newDecoder().onMalformedInput(CodingErrorAction.REPORT)
+          .onUnmappableCharacter(CodingErrorAction.REPORT)
+          .decode(ByteBuffer.wrap(data)).toString();
     } catch (UnsupportedCharsetException | CharacterCodingException e) {
       // Fallback to ISO-8850-1 style encoding.
       StringBuilder r = new StringBuilder(data.length);

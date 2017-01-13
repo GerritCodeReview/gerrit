@@ -38,10 +38,7 @@ public class GpgKeyApiImpl implements GpgKeyApi {
   private final GpgKey rsrc;
 
   @AssistedInject
-  GpgKeyApiImpl(
-      GpgKeys.Get get,
-      DeleteGpgKey delete,
-      @Assisted GpgKey rsrc) {
+  GpgKeyApiImpl(GpgKeys.Get get, DeleteGpgKey delete, @Assisted GpgKey rsrc) {
     this.get = get;
     this.delete = delete;
     this.rsrc = rsrc;

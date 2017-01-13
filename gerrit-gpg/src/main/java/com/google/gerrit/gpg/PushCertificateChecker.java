@@ -119,10 +119,10 @@ public abstract class PushCertificateChecker {
 
   private static Result combine(Result sigResult, List<CheckResult> results) {
     // Combine results:
-    //  - If any input result is BAD, the final result is bad.
-    //  - If sigResult is TRUSTED and no other result is BAD, the final result
-    //    is TRUSTED.
-    //  - Otherwise, the result is OK.
+    // - If any input result is BAD, the final result is bad.
+    // - If sigResult is TRUSTED and no other result is BAD, the final result
+    // is TRUSTED.
+    // - Otherwise, the result is OK.
     List<String> problems = new ArrayList<>();
     boolean bad = false;
     for (CheckResult result : results) {
@@ -160,7 +160,7 @@ public abstract class PushCertificateChecker {
   /**
    * @param repo a repository previously returned by {@link #getRepository()}.
    * @return whether this repository should be closed before returning from
-   *     {@link #check(PushCertificate)}.
+   *         {@link #check(PushCertificate)}.
    */
   protected abstract boolean shouldClose(Repository repo);
 
@@ -197,28 +197,23 @@ public abstract class PushCertificateChecker {
       PublicKeyStore store) throws PGPException, IOException {
     PGPPublicKeyRingCollection keys = store.get(sig.getKeyID());
     if (!keys.getKeyRings().hasNext()) {
-      return new Result(null,
-          CheckResult.bad("No public keys found for key ID "
-              + keyIdToString(sig.getKeyID())));
+      return new Result(null, CheckResult.bad(
+          "No public keys found for key ID " + keyIdToString(sig.getKeyID())));
     }
     PGPPublicKey signer =
         PublicKeyStore.getSigner(keys, sig, Constants.encode(cert.toText()));
     if (signer == null) {
-      return new Result(null,
-          CheckResult.bad("Signature by " + keyIdToString(sig.getKeyID())
-              + " is not valid"));
+      return new Result(null, CheckResult.bad(
+          "Signature by " + keyIdToString(sig.getKeyID()) + " is not valid"));
     }
-    CheckResult result = publicKeyChecker
-        .setStore(store)
-        .setEffectiveTime(sig.getCreationTime())
-        .check(signer);
+    CheckResult result = publicKeyChecker.setStore(store)
+        .setEffectiveTime(sig.getCreationTime()).check(signer);
     if (!result.getProblems().isEmpty()) {
       StringBuilder err = new StringBuilder("Invalid public key ")
-          .append(keyToString(signer))
-          .append(":\n  ")
+          .append(keyToString(signer)).append(":\n  ")
           .append(Joiner.on("\n  ").join(result.getProblems()));
-      return new Result(
-          signer, CheckResult.create(result.getStatus(), err.toString()));
+      return new Result(signer,
+          CheckResult.create(result.getStatus(), err.toString()));
     }
     return new Result(signer, result);
   }

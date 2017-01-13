@@ -35,9 +35,8 @@ public class HttpSession {
     this.executor = Executor.newInstance();
     this.account = account;
     if (account != null) {
-        executor.auth(
-            new HttpHost(uri.getHost(), uri.getPort()),
-            account.username, account.httpPassword);
+      executor.auth(new HttpHost(uri.getHost(), uri.getPort()),
+          account.username, account.httpPassword);
     }
   }
 

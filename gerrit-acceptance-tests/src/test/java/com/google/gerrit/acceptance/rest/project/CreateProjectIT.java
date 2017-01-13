@@ -59,7 +59,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     r.assertCreated();
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState =
+        projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
@@ -68,9 +69,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void createProjectHttpWhenProjectAlreadyExists_Conflict()
       throws Exception {
-    adminRestSession
-        .put("/projects/" + allProjects.get())
-        .assertConflict();
+    adminRestSession.put("/projects/" + allProjects.get()).assertConflict();
   }
 
   @Test
@@ -86,8 +85,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void createProjectHttpWithUnreasonableName_BadRequest()
       throws Exception {
-    adminRestSession
-        .put("/projects/" + Url.encode(name("invalid/../name")))
+    adminRestSession.put("/projects/" + Url.encode(name("invalid/../name")))
         .assertBadRequest();
   }
 
@@ -95,8 +93,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void createProjectHttpWithNameMismatch_BadRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name("otherName");
-    adminRestSession
-        .put("/projects/" + name("someName"), in)
+    adminRestSession.put("/projects/" + name("someName"), in)
         .assertBadRequest();
   }
 
@@ -105,8 +102,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
       throws Exception {
     ProjectInput in = new ProjectInput();
     in.branches = Collections.singletonList(name("invalid ref name"));
-    adminRestSession
-        .put("/projects/" + name("newProject"), in)
+    adminRestSession.put("/projects/" + name("newProject"), in)
         .assertBadRequest();
   }
 
@@ -115,7 +111,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState =
+        projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
@@ -126,7 +123,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectState projectState =
+        projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
@@ -145,11 +143,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.requireChangeId = InheritableBoolean.TRUE;
     ProjectInfo p = gApi.projects().create(in).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
+    Project project =
+        projectCache.get(new Project.NameKey(newProjectName)).getProject();
     assertProjectInfo(project, p);
     assertThat(project.getDescription()).isEqualTo(in.description);
     assertThat(project.getSubmitType()).isEqualTo(in.submitType);
-    assertThat(project.getUseContributorAgreements()).isEqualTo(in.useContributorAgreements);
+    assertThat(project.getUseContributorAgreements())
+        .isEqualTo(in.useContributorAgreements);
     assertThat(project.getUseSignedOffBy()).isEqualTo(in.useSignedOffBy);
     assertThat(project.getUseContentMerge()).isEqualTo(in.useContentMerge);
     assertThat(project.getRequireChangeID()).isEqualTo(in.requireChangeId);
@@ -167,7 +167,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.name = childName;
     in.parent = parentName;
     gApi.projects().create(in);
-    Project project = projectCache.get(new Project.NameKey(childName)).getProject();
+    Project project =
+        projectCache.get(new Project.NameKey(childName)).getProject();
     assertThat(project.getParentName()).isEqualTo(in.parent);
   }
 
@@ -188,11 +189,14 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.owners = Lists.newArrayListWithCapacity(3);
     in.owners.add("Anonymous Users"); // by name
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
-    in.owners.add(Integer.toString(groupCache.get(
-        new AccountGroup.NameKey("Administrators")).getId().get())); // by ID
+    in.owners.add(Integer.toString(groupCache
+        .get(new AccountGroup.NameKey("Administrators")).getId().get())); // by
+                                                                          // ID
     gApi.projects().create(in);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
+    ProjectState projectState =
+        projectCache.get(new Project.NameKey(newProjectName));
+    Set<AccountGroup.UUID> expectedOwnerIds =
+        Sets.newHashSetWithExpectedSize(3);
     expectedOwnerIds.add(SystemGroupBackend.ANONYMOUS_USERS);
     expectedOwnerIds.add(SystemGroupBackend.REGISTERED_USERS);
     expectedOwnerIds.add(groupUuid("Administrators"));
@@ -305,7 +309,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     try (Repository repo =
         repoManager.openRepository(new Project.NameKey(projectName))) {
       assertThat(repo.exactRef(Constants.HEAD).getTarget().getName())
-        .isEqualTo(expectedRef);
+          .isEqualTo(expectedRef);
     }
   }
 

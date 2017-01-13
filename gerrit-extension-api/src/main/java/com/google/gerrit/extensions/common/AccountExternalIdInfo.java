@@ -25,9 +25,7 @@ public class AccountExternalIdInfo
 
   @Override
   public int compareTo(AccountExternalIdInfo a) {
-    return ComparisonChain.start()
-        .compare(a.identity, identity)
-        .compare(a.emailAddress, emailAddress)
-        .result();
+    return ComparisonChain.start().compare(a.identity, identity)
+        .compare(a.emailAddress, emailAddress).result();
   }
 }

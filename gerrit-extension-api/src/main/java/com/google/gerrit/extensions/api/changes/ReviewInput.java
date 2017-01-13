@@ -39,11 +39,11 @@ public class ReviewInput {
 
   /**
    * If true require all labels to be within the user's permitted ranges based
-   * on access controls, attempting to use a label not granted to the user
-   * will fail the entire modify operation early. If false the operation will
-   * execute anyway, but the proposed labels given by the user will be
-   * modified to be the "best" value allowed by the access controls, or
-   * ignored if the label does not exist.
+   * on access controls, attempting to use a label not granted to the user will
+   * fail the entire modify operation early. If false the operation will execute
+   * anyway, but the proposed labels given by the user will be modified to be
+   * the "best" value allowed by the access controls, or ignored if the label
+   * does not exist.
    */
   public boolean strictLabels = true;
 
@@ -68,10 +68,10 @@ public class ReviewInput {
 
   /**
    * Account ID, name, email address or username of another user. The review
-   * will be posted/updated on behalf of this named user instead of the
-   * caller. Caller must have the labelAs-$NAME permission granted for each
-   * label that appears in {@link #labels}. This is in addition to the named
-   * user also needing to have permission to use the labels.
+   * will be posted/updated on behalf of this named user instead of the caller.
+   * Caller must have the labelAs-$NAME permission granted for each label that
+   * appears in {@link #labels}. This is in addition to the named user also
+   * needing to have permission to use the labels.
    * <p>
    * {@link #strictLabels} impacts how labels is processed for the named user,
    * not the caller.

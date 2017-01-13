@@ -156,8 +156,8 @@ public class QueryIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     adminSshSession.exec("gerrit query --files " + changeId);
     assertThat(adminSshSession.hasError()).isTrue();
-    assertThat(adminSshSession.getError()).contains(
-        "needs --patch-sets or --current-patch-set");
+    assertThat(adminSshSession.getError())
+        .contains("needs --patch-sets or --current-patch-set");
   }
 
   @Test
@@ -176,9 +176,8 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
 
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
-    changes =
-        executeSuccessfulQuery("--patch-sets --files --all-approvals "
-            + changeId);
+    changes = executeSuccessfulQuery(
+        "--patch-sets --files --all-approvals " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).patchSets.get(0).files).isNotNull();
     assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
@@ -257,9 +256,8 @@ public class QueryIT extends AbstractDaemonTest {
     assertThat(changes.get(0).patchSets.get(0).files.size()).isEqualTo(2);
 
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
-    changes =
-        executeSuccessfulQuery("--patch-sets --comments --files --all-approvals "
-            + changeId);
+    changes = executeSuccessfulQuery(
+        "--patch-sets --comments --files --all-approvals " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).patchSets.get(0).comments).isNotNull();
     assertThat(changes.get(0).patchSets.get(0).comments.size()).isEqualTo(1);
@@ -327,10 +325,9 @@ public class QueryIT extends AbstractDaemonTest {
 
   private List<ChangeAttribute> executeSuccessfulQuery(String params,
       SshSession session) throws Exception {
-    String rawResponse =
-        session.exec("gerrit query --format=JSON " + params);
-    assert_().withFailureMessage(session.getError())
-        .that(session.hasError()).isFalse();
+    String rawResponse = session.exec("gerrit query --format=JSON " + params);
+    assert_().withFailureMessage(session.getError()).that(session.hasError())
+        .isFalse();
     return getChanges(rawResponse);
   }
 

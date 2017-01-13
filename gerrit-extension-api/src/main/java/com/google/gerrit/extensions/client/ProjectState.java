@@ -15,7 +15,5 @@
 package com.google.gerrit.extensions.client;
 
 public enum ProjectState {
-  ACTIVE,
-  READ_ONLY,
-  HIDDEN
+  ACTIVE, READ_ONLY, HIDDEN
 }

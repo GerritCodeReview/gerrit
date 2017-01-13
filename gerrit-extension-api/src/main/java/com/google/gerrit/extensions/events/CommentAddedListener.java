@@ -24,7 +24,9 @@ import java.util.Map;
 public interface CommentAddedListener {
   interface Event extends RevisionEvent {
     String getComment();
+
     Map<String, ApprovalInfo> getApprovals();
+
     Map<String, ApprovalInfo> getOldApprovals();
   }
 

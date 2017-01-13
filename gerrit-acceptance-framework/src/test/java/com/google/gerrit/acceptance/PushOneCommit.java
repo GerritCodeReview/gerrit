@@ -51,56 +51,31 @@ public class PushOneCommit {
   public static final String SUBJECT = "test commit";
   public static final String FILE_NAME = "a.txt";
   public static final String FILE_CONTENT = "some content";
-  public static final String PATCH_FILE_ONLY =
-      "diff --git a/a.txt b/a.txt\n" +
-      "new file mode 100644\n" +
-      "index 0000000..f0eec86\n" +
-      "--- /dev/null\n" +
-      "+++ b/a.txt\n" +
-      "@@ -0,0 +1 @@\n" +
-      "+some content\n" +
-      "\\ No newline at end of file\n";
-  public static final String PATCH =
-      "From %s Mon Sep 17 00:00:00 2001\n" +
-      "From: Administrator <admin@example.com>\n" +
-      "Date: %s\n" +
-      "Subject: [PATCH] test commit\n" +
-      "\n" +
-      "Change-Id: %s\n" +
-      "---\n" +
-      "\n" + PATCH_FILE_ONLY;
+  public static final String PATCH_FILE_ONLY = "diff --git a/a.txt b/a.txt\n"
+      + "new file mode 100644\n" + "index 0000000..f0eec86\n"
+      + "--- /dev/null\n" + "+++ b/a.txt\n" + "@@ -0,0 +1 @@\n"
+      + "+some content\n" + "\\ No newline at end of file\n";
+  public static final String PATCH = "From %s Mon Sep 17 00:00:00 2001\n"
+      + "From: Administrator <admin@example.com>\n" + "Date: %s\n"
+      + "Subject: [PATCH] test commit\n" + "\n" + "Change-Id: %s\n" + "---\n"
+      + "\n" + PATCH_FILE_ONLY;
 
   public interface Factory {
-    PushOneCommit create(
-        ReviewDb db,
-        PersonIdent i,
+    PushOneCommit create(ReviewDb db, PersonIdent i,
         TestRepository<?> testRepo);
 
-    PushOneCommit create(
-        ReviewDb db,
-        PersonIdent i,
-        TestRepository<?> testRepo,
+    PushOneCommit create(ReviewDb db, PersonIdent i, TestRepository<?> testRepo,
         @Assisted("changeId") String changeId);
 
-    PushOneCommit create(
-        ReviewDb db,
-        PersonIdent i,
-        TestRepository<?> testRepo,
+    PushOneCommit create(ReviewDb db, PersonIdent i, TestRepository<?> testRepo,
         @Assisted("subject") String subject,
         @Assisted("fileName") String fileName,
         @Assisted("content") String content);
 
-    PushOneCommit create(
-        ReviewDb db,
-        PersonIdent i,
-        TestRepository<?> testRepo,
-        @Assisted String subject,
-        @Assisted Map<String, String> files);
+    PushOneCommit create(ReviewDb db, PersonIdent i, TestRepository<?> testRepo,
+        @Assisted String subject, @Assisted Map<String, String> files);
 
-    PushOneCommit create(
-        ReviewDb db,
-        PersonIdent i,
-        TestRepository<?> testRepo,
+    PushOneCommit create(ReviewDb db, PersonIdent i, TestRepository<?> testRepo,
         @Assisted("subject") String subject,
         @Assisted("fileName") String fileName,
         @Assisted("content") String content,
@@ -142,79 +117,60 @@ public class PushOneCommit {
   private final TestRepository<?>.CommitBuilder commitBuilder;
 
   @AssistedInject
-  PushOneCommit(ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
-      @Assisted PersonIdent i,
-      @Assisted TestRepository<?> testRepo) throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider,
-        db, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT);
+  PushOneCommit(ChangeNotes.Factory notesFactory, ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider, @Assisted ReviewDb db,
+      @Assisted PersonIdent i, @Assisted TestRepository<?> testRepo)
+      throws Exception {
+    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo, SUBJECT,
+        FILE_NAME, FILE_CONTENT);
   }
 
   @AssistedInject
-  PushOneCommit(ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
-      @Assisted PersonIdent i,
-      @Assisted TestRepository<?> testRepo,
+  PushOneCommit(ChangeNotes.Factory notesFactory, ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider, @Assisted ReviewDb db,
+      @Assisted PersonIdent i, @Assisted TestRepository<?> testRepo,
       @Assisted("changeId") String changeId) throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider,
-        db, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT, changeId);
+    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo, SUBJECT,
+        FILE_NAME, FILE_CONTENT, changeId);
   }
 
   @AssistedInject
-  PushOneCommit(ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
-      @Assisted PersonIdent i,
-      @Assisted TestRepository<?> testRepo,
+  PushOneCommit(ChangeNotes.Factory notesFactory, ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider, @Assisted ReviewDb db,
+      @Assisted PersonIdent i, @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content) throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider,
-        db, i, testRepo, subject, fileName, content, null);
+    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo, subject,
+        fileName, content, null);
   }
 
   @AssistedInject
-  PushOneCommit(ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
-      @Assisted PersonIdent i,
-      @Assisted TestRepository<?> testRepo,
-      @Assisted String subject,
-      @Assisted Map<String, String> files) throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo,
-        subject, files, null);
+  PushOneCommit(ChangeNotes.Factory notesFactory, ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider, @Assisted ReviewDb db,
+      @Assisted PersonIdent i, @Assisted TestRepository<?> testRepo,
+      @Assisted String subject, @Assisted Map<String, String> files)
+      throws Exception {
+    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo, subject,
+        files, null);
   }
 
   @AssistedInject
-  PushOneCommit(ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
-      @Assisted ReviewDb db,
-      @Assisted PersonIdent i,
-      @Assisted TestRepository<?> testRepo,
+  PushOneCommit(ChangeNotes.Factory notesFactory, ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider, @Assisted ReviewDb db,
+      @Assisted PersonIdent i, @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content,
       @Nullable @Assisted("changeId") String changeId) throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo,
-        subject, ImmutableMap.of(fileName, content), changeId);
+    this(notesFactory, approvalsUtil, queryProvider, db, i, testRepo, subject,
+        ImmutableMap.of(fileName, content), changeId);
   }
 
   private PushOneCommit(ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
-      ReviewDb db,
-      PersonIdent i,
-      TestRepository<?> testRepo,
-      String subject,
-      Map<String, String> files,
-      String changeId) throws Exception {
+      ApprovalsUtil approvalsUtil, Provider<InternalChangeQuery> queryProvider,
+      ReviewDb db, PersonIdent i, TestRepository<?> testRepo, String subject,
+      Map<String, String> files, String changeId) throws Exception {
     this.db = db;
     this.testRepo = testRepo;
     this.notesFactory = notesFactory;
@@ -224,14 +180,13 @@ public class PushOneCommit {
     this.files = files;
     this.changeId = changeId;
     if (changeId != null) {
-      commitBuilder = testRepo.amendRef("HEAD")
-          .insertChangeId(changeId.substring(1));
+      commitBuilder =
+          testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
     } else {
       commitBuilder = testRepo.branch("HEAD").commit().insertChangeId();
     }
-    commitBuilder.message(subject)
-      .author(i)
-      .committer(new PersonIdent(i, testRepo.getDate()));
+    commitBuilder.message(subject).author(i)
+        .committer(new PersonIdent(i, testRepo.getDate()));
   }
 
   public void setParents(List<RevCommit> parents) throws Exception {
@@ -268,10 +223,9 @@ public class PushOneCommit {
     if (tag != null) {
       TagCommand tagCommand = testRepo.git().tag().setName(tag.name);
       if (tag instanceof AnnotatedTag) {
-        AnnotatedTag annotatedTag = (AnnotatedTag)tag;
-        tagCommand.setAnnotated(true)
-          .setMessage(annotatedTag.message)
-          .setTagger(annotatedTag.tagger);
+        AnnotatedTag annotatedTag = (AnnotatedTag) tag;
+        tagCommand.setAnnotated(true).setMessage(annotatedTag.message)
+            .setTagger(annotatedTag.tagger);
       } else {
         tagCommand.setAnnotated(false);
       }
@@ -316,8 +270,8 @@ public class PushOneCommit {
     }
 
     public ChangeData getChange() throws OrmException {
-      return Iterables.getOnlyElement(
-          queryProvider.get().byKeyPrefix(changeId));
+      return Iterables
+          .getOnlyElement(queryProvider.get().byKeyPrefix(changeId));
     }
 
     public PatchSet getPatchSet() throws OrmException {
@@ -340,9 +294,8 @@ public class PushOneCommit {
       assertEquals(pushOptions, getPushOptions());
     }
 
-    public void assertChange(Change.Status expectedStatus,
-        String expectedTopic, TestAccount... expectedReviewers)
-        throws OrmException {
+    public void assertChange(Change.Status expectedStatus, String expectedTopic,
+        TestAccount... expectedReviewers) throws OrmException {
       Change c = getChange().change();
       assertThat(c.getSubject()).isEqualTo(resSubj);
       assertThat(c.getStatus()).isEqualTo(expectedStatus);
@@ -353,8 +306,7 @@ public class PushOneCommit {
     private void assertReviewers(Change c, TestAccount... expectedReviewers)
         throws OrmException {
       Iterable<Account.Id> actualIds = approvalsUtil
-          .getReviewers(db, notesFactory.createChecked(db, c))
-          .all();
+          .getReviewers(db, notesFactory.createChecked(db, c)).all();
       assertThat(actualIds).containsExactlyElementsIn(
           Sets.newHashSet(TestAccount.ids(expectedReviewers)));
     }
@@ -369,23 +321,21 @@ public class PushOneCommit {
 
     public void assertErrorStatus() {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-      assertThat(refUpdate.getStatus())
-        .named(message(refUpdate))
-        .isEqualTo(Status.REJECTED_OTHER_REASON);
+      assertThat(refUpdate.getStatus()).named(message(refUpdate))
+          .isEqualTo(Status.REJECTED_OTHER_REASON);
     }
 
     private void assertStatus(Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-      assertThat(refUpdate.getStatus())
-        .named(message(refUpdate))
-        .isEqualTo(expectedStatus);
+      assertThat(refUpdate.getStatus()).named(message(refUpdate))
+          .isEqualTo(expectedStatus);
       assertThat(refUpdate.getMessage()).isEqualTo(expectedMessage);
     }
 
     public void assertMessage(String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
       assertThat(message(refUpdate).toLowerCase())
-        .contains(expectedMessage.toLowerCase());
+          .contains(expectedMessage.toLowerCase());
     }
 
     public String getMessage() {

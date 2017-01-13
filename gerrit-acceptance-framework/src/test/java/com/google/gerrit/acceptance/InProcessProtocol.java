@@ -140,10 +140,10 @@ class InProcessProtocol extends TestProtocol<Context> {
   /**
    * Multi-purpose session/context object.
    * <p>
-   * Confusingly, Gerrit has two ideas of what a "context" object is:
-   * one for Guice {@link RequestScoped}, and one for its own simplified
-   * version of request scoping using {@link ThreadLocalRequestContext}.
-   * This class provides both, in essence just delegating the {@code
+   * Confusingly, Gerrit has two ideas of what a "context" object is: one for
+   * Guice {@link RequestScoped}, and one for its own simplified version of
+   * request scoping using {@link ThreadLocalRequestContext}. This class
+   * provides both, in essence just delegating the {@code
    * ThreadLocalRequestContext} scoping to the Guice scoping mechanism.
    * <p>
    * It is also used as the session type for {@code UploadPackFactory} and
@@ -165,8 +165,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final Map<Key<?>, Object> map;
 
     Context(SchemaFactory<ReviewDb> schemaFactory,
-        IdentifiedUser.GenericFactory userFactory,
-        Account.Id accountId,
+        IdentifiedUser.GenericFactory userFactory, Account.Id accountId,
         Project.NameKey project) {
       this.schemaFactory = schemaFactory;
       this.userFactory = userFactory;
@@ -174,9 +173,8 @@ class InProcessProtocol extends TestProtocol<Context> {
       this.project = project;
       map = new HashMap<>();
       cleanup = new RequestCleanup();
-      map.put(DB_KEY,
-          new RequestScopedReviewDbProvider(
-            schemaFactory, Providers.of(cleanup)));
+      map.put(DB_KEY, new RequestScopedReviewDbProvider(schemaFactory,
+          Providers.of(cleanup)));
       map.put(RC_KEY, cleanup);
 
       IdentifiedUser user = userFactory.create(accountId);
@@ -213,7 +211,8 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final Provider<ReviewDb> dbProvider;
     private final Provider<CurrentUser> userProvider;
     private final TagCache tagCache;
-    @Nullable private final SearchingChangeCacheImpl changeCache;
+    @Nullable
+    private final SearchingChangeCacheImpl changeCache;
     private final ProjectControl.GenericFactory projectControlFactory;
     private final ChangeNotes.Factory changeNotesFactory;
     private final TransferConfig transferConfig;
@@ -222,14 +221,10 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final ThreadLocalRequestContext threadContext;
 
     @Inject
-    Upload(
-        Provider<ReviewDb> dbProvider,
-        Provider<CurrentUser> userProvider,
-        TagCache tagCache,
-        @Nullable SearchingChangeCacheImpl changeCache,
+    Upload(Provider<ReviewDb> dbProvider, Provider<CurrentUser> userProvider,
+        TagCache tagCache, @Nullable SearchingChangeCacheImpl changeCache,
         ProjectControl.GenericFactory projectControlFactory,
-        ChangeNotes.Factory changeNotesFactory,
-        TransferConfig transferConfig,
+        ChangeNotes.Factory changeNotesFactory, TransferConfig transferConfig,
         DynamicSet<PreUploadHook> preUploadHooks,
         UploadValidators.Factory uploadValidatorsFactory,
         ThreadLocalRequestContext threadContext) {
@@ -255,8 +250,8 @@ class InProcessProtocol extends TestProtocol<Context> {
       threadContext.setContext(req);
       current.set(req);
       try {
-        ProjectControl ctl = projectControlFactory.controlFor(
-            req.project, userProvider.get());
+        ProjectControl ctl =
+            projectControlFactory.controlFor(req.project, userProvider.get());
         if (!ctl.canRunUploadPack()) {
           throw new ServiceNotAuthorizedException();
         }
@@ -264,12 +259,12 @@ class InProcessProtocol extends TestProtocol<Context> {
         UploadPack up = new UploadPack(repo);
         up.setPackConfig(transferConfig.getPackConfig());
         up.setTimeout(transferConfig.getTimeout());
-        up.setAdvertiseRefsHook(new VisibleRefFilter(
-            tagCache, changeNotesFactory, changeCache, repo, ctl,
-            dbProvider.get(), true));
+        up.setAdvertiseRefsHook(
+            new VisibleRefFilter(tagCache, changeNotesFactory, changeCache,
+                repo, ctl, dbProvider.get(), true));
         List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
-        hooks.add(uploadValidatorsFactory.create(
-            ctl.getProject(), repo, "localhost-test"));
+        hooks.add(uploadValidatorsFactory.create(ctl.getProject(), repo,
+            "localhost-test"));
         up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
         return up;
       } catch (NoSuchProjectException | IOException e) {
@@ -288,11 +283,9 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final ThreadLocalRequestContext threadContext;
 
     @Inject
-    Receive(
-        Provider<CurrentUser> userProvider,
+    Receive(Provider<CurrentUser> userProvider,
         ProjectControl.GenericFactory projectControlFactory,
-        AsyncReceiveCommits.Factory factory,
-        TransferConfig config,
+        AsyncReceiveCommits.Factory factory, TransferConfig config,
         DynamicSet<ReceivePackInitializer> receivePackInitializers,
         DynamicSet<PostReceiveHook> postReceiveHooks,
         ThreadLocalRequestContext threadContext) {
@@ -337,8 +330,8 @@ class InProcessProtocol extends TestProtocol<Context> {
           initializer.init(ctl.getProject().getNameKey(), rp);
         }
 
-        rp.setPostReceiveHook(PostReceiveHookChain.newChain(
-            Lists.newArrayList(postReceiveHooks)));
+        rp.setPostReceiveHook(PostReceiveHookChain
+            .newChain(Lists.newArrayList(postReceiveHooks)));
         return rp;
       } catch (NoSuchProjectException | IOException e) {
         throw new RuntimeException(e);
@@ -347,8 +340,7 @@ class InProcessProtocol extends TestProtocol<Context> {
   }
 
   @Inject
-  InProcessProtocol(Upload uploadPackFactory,
-      Receive receivePackFactory) {
+  InProcessProtocol(Upload uploadPackFactory, Receive receivePackFactory) {
     super(uploadPackFactory, receivePackFactory);
   }
 }

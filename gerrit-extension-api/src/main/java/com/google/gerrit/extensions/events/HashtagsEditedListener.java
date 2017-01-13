@@ -23,7 +23,9 @@ import java.util.Collection;
 public interface HashtagsEditedListener {
   interface Event extends ChangeEvent {
     Collection<String> getHashtags();
+
     Collection<String> getAddedHashtags();
+
     Collection<String> getRemovedHashtags();
   }
 

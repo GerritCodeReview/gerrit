@@ -35,12 +35,10 @@ public class BanCommitIT extends AbstractDaemonTest {
 
   @Test
   public void banCommit() throws Exception {
-    RevCommit c = commitBuilder()
-        .add("a.txt", "some content")
-        .create();
+    RevCommit c = commitBuilder().add("a.txt", "some content").create();
 
-    String response =
-        adminSshSession.exec("gerrit ban-commit " + project.get() + " " + c.name());
+    String response = adminSshSession
+        .exec("gerrit ban-commit " + project.get() + " " + c.name());
     assert_().withFailureMessage(adminSshSession.getError())
         .that(adminSshSession.hasError()).isFalse();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");

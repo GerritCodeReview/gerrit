@@ -21,8 +21,7 @@ import org.junit.Test;
 public class AddMemberIT extends AbstractDaemonTest {
   @Test
   public void addNonExistingMember_NotFound() throws Exception {
-    adminRestSession
-        .put("/groups/Administrators/members/non-existing")
+    adminRestSession.put("/groups/Administrators/members/non-existing")
         .assertNotFound();
   }
 }

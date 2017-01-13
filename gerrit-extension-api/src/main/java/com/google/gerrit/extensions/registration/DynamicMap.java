@@ -49,9 +49,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    *
    * <pre>
    * DynamicMap.mapOf(binder(), Interface.class);
-   * bind(Interface.class)
-   *   .annotatedWith(Exports.named(&quot;foo&quot;))
-   *   .to(Impl.class);
+   * bind(Interface.class).annotatedWith(Exports.named(&quot;foo&quot;)).to(Impl.class);
    * </pre>
    *
    * @param binder a new binder created in the module.
@@ -67,10 +65,9 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    * Maps must be defined in a Guice module before they can be bound:
    *
    * <pre>
-   * DynamicMap.mapOf(binder(), new TypeLiteral&lt;Thing&lt;Bar&gt;&gt;(){});
-   * bind(new TypeLiteral&lt;Thing&lt;Bar&gt;&gt;() {})
-   *   .annotatedWith(Exports.named(&quot;foo&quot;))
-   *   .to(Impl.class);
+   * DynamicMap.mapOf(binder(), new TypeLiteral&lt;Thing&lt;Bar&gt;&gt;() {});
+   * bind(new TypeLiteral&lt;Thing&lt;Bar&gt;&gt;() {}).annotatedWith(Exports.named(&quot;foo&quot;))
+   *     .to(Impl.class);
    * </pre>
    *
    * @param binder a new binder created in the module.
@@ -78,20 +75,18 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    */
   public static <T> void mapOf(Binder binder, TypeLiteral<T> member) {
     @SuppressWarnings("unchecked")
-    Key<DynamicMap<T>> key = (Key<DynamicMap<T>>) Key.get(
-        Types.newParameterizedType(DynamicMap.class, member.getType()));
-    binder.bind(key)
-        .toProvider(new DynamicMapProvider<>(member))
+    Key<DynamicMap<T>> key = (Key<DynamicMap<T>>) Key
+        .get(Types.newParameterizedType(DynamicMap.class, member.getType()));
+    binder.bind(key).toProvider(new DynamicMapProvider<>(member))
         .in(Scopes.SINGLETON);
   }
 
   final ConcurrentMap<NamePair, Provider<T>> items;
 
   DynamicMap() {
-    items = new ConcurrentHashMap<>(
-        16 /* initial size */,
-        0.75f /* load factor */,
-        1 /* concurrency level of 1, load/unload is single threaded */);
+    items =
+        new ConcurrentHashMap<>(16 /* initial size */, 0.75f /* load factor */,
+            1 /* concurrency level of 1, load/unload is single threaded */);
   }
 
   /**
@@ -179,7 +174,9 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
 
   public interface Entry<T> {
     String getPluginName();
+
     String getExportName();
+
     Provider<T> getProvider();
   }
 

@@ -26,8 +26,7 @@ public class CommentInfo extends Comment {
   public boolean equals(Object o) {
     if (super.equals(o)) {
       CommentInfo ci = (CommentInfo) o;
-      return Objects.equals(author, ci.author)
-          && Objects.equals(tag, ci.tag);
+      return Objects.equals(author, ci.author) && Objects.equals(tag, ci.tag);
     }
     return false;
   }

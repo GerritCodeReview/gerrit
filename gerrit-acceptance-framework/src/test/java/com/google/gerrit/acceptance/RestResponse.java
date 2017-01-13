@@ -33,8 +33,7 @@ public class RestResponse extends HttpResponse {
   @Override
   public Reader getReader() throws IllegalStateException, IOException {
     if (reader == null && response.getEntity() != null) {
-      reader = new InputStreamReader(
-          response.getEntity().getContent(), UTF_8);
+      reader = new InputStreamReader(response.getEntity().getContent(), UTF_8);
       reader.skip(JSON_MAGIC.length);
     }
     return reader;
@@ -43,8 +42,7 @@ public class RestResponse extends HttpResponse {
   public void assertStatus(int status) throws Exception {
     assert_()
         .withFailureMessage(String.format("Expected status code %d", status))
-        .that(getStatusCode())
-        .isEqualTo(status);
+        .that(getStatusCode()).isEqualTo(status);
   }
 
   public void assertOK() throws Exception {

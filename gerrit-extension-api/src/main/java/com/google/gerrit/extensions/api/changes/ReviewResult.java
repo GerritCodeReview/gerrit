@@ -23,15 +23,15 @@ import java.util.Map;
  */
 public class ReviewResult {
   /**
-   * Map of labels to values after the review was posted. Null if any
-   * reviewer additions were rejected.
+   * Map of labels to values after the review was posted. Null if any reviewer
+   * additions were rejected.
    */
   @Nullable
   public Map<String, Short> labels;
 
   /**
-   * Map of account or group identifier to outcome of adding as a reviewer.
-   * Null if no reviewer additions were requested.
+   * Map of account or group identifier to outcome of adding as a reviewer. Null
+   * if no reviewer additions were requested.
    */
   @Nullable
   public Map<String, AddReviewerResult> reviewers;

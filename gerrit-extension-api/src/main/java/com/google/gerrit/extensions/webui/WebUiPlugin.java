@@ -49,7 +49,7 @@ public abstract class WebUiPlugin {
 
   private String pluginName;
 
-  /** @return installed name of the plugin that provides this UI feature.  */
+  /** @return installed name of the plugin that provides this UI feature. */
   public final String getPluginName() {
     return pluginName;
   }

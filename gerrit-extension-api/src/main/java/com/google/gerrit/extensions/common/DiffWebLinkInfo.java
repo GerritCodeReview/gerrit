@@ -23,8 +23,8 @@ public class DiffWebLinkInfo extends WebLinkInfo {
     return new DiffWebLinkInfo(name, imageUrl, url, target, true, false);
   }
 
-  public static DiffWebLinkInfo forUnifiedDiffView(String name,
-      String imageUrl, String url, String target) {
+  public static DiffWebLinkInfo forUnifiedDiffView(String name, String imageUrl,
+      String url, String target) {
     return new DiffWebLinkInfo(name, imageUrl, url, target, false, true);
   }
 

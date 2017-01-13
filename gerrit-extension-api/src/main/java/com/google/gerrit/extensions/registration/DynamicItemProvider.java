@@ -46,10 +46,11 @@ class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
     if (bindings != null && bindings.size() == 1) {
       return bindings.get(0).getProvider();
     } else if (bindings != null && bindings.size() > 1) {
-      throw new ProvisionException(String.format(
-        "Multiple providers bound for DynamicItem<%s>\n"
-        + "This is not allowed; check the server configuration.",
-        type));
+      throw new ProvisionException(
+          String.format(
+              "Multiple providers bound for DynamicItem<%s>\n"
+                  + "This is not allowed; check the server configuration.",
+              type));
     } else {
       return null;
     }

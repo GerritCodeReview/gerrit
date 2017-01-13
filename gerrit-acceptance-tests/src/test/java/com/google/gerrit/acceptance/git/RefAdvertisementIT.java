@@ -126,9 +126,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   private void setUpChanges() throws Exception {
-    gApi.projects()
-        .name(project.get())
-        .branch("branch")
+    gApi.projects().name(project.get()).branch("branch")
         .create(new BranchInput());
 
     // First 2 changes are merged, which means the tags pointing to them are
@@ -181,20 +179,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     saveProjectConfig(project, cfg);
 
     setApiUser(user);
-    assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
-        "refs/heads/branch",
-        "refs/heads/master",
-        "refs/tags/branch-tag",
-        "refs/tags/master-tag");
+    assertUploadPackRefs("HEAD", r1 + "1", r1 + "meta", r2 + "1", r2 + "meta",
+        r3 + "1", r3 + "meta", r4 + "1", r4 + "meta", "refs/heads/branch",
+        "refs/heads/master", "refs/tags/branch-tag", "refs/tags/master-tag");
   }
 
   @Test
@@ -202,52 +189,32 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow(Permission.READ, REGISTERED_USERS, "refs/*");
     allow(Permission.READ, REGISTERED_USERS, RefNames.REFS_CONFIG);
 
-    assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
-        "refs/heads/branch",
-        "refs/heads/master",
-        RefNames.REFS_CONFIG,
-        "refs/tags/branch-tag",
+    assertUploadPackRefs("HEAD", r1 + "1", r1 + "meta", r2 + "1", r2 + "meta",
+        r3 + "1", r3 + "meta", r4 + "1", r4 + "meta", "refs/heads/branch",
+        "refs/heads/master", RefNames.REFS_CONFIG, "refs/tags/branch-tag",
         "refs/tags/master-tag");
   }
 
   @Test
-  public void uploadPackSubsetOfBranchesVisibleIncludingHead() throws Exception {
+  public void uploadPackSubsetOfBranchesVisibleIncludingHead()
+      throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     setApiUser(user);
-    assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        "refs/heads/master",
-        "refs/tags/master-tag");
+    assertUploadPackRefs("HEAD", r1 + "1", r1 + "meta", r3 + "1", r3 + "meta",
+        "refs/heads/master", "refs/tags/master-tag");
   }
 
   @Test
-  public void uploadPackSubsetOfBranchesVisibleNotIncludingHead() throws Exception {
+  public void uploadPackSubsetOfBranchesVisibleNotIncludingHead()
+      throws Exception {
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     setApiUser(user);
-    assertUploadPackRefs(
-        r2 + "1",
-        r2 + "meta",
-        r4 + "1",
-        r4 + "meta",
-        "refs/heads/branch",
-        "refs/tags/branch-tag",
+    assertUploadPackRefs(r2 + "1", r2 + "meta", r4 + "1", r4 + "meta",
+        "refs/heads/branch", "refs/tags/branch-tag",
         // master branch is not visible but master-tag is reachable from branch
         // (since PushOneCommit always bases changes on each other).
         "refs/tags/master-tag");
@@ -269,19 +236,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     setApiUser(user);
     editModifier.createEdit(c, ps1);
 
-    assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        "refs/heads/master",
-        "refs/tags/master-tag",
+    assertUploadPackRefs("HEAD", r1 + "1", r1 + "meta", r3 + "1", r3 + "meta",
+        "refs/heads/master", "refs/tags/master-tag",
         "refs/users/01/1000001/edit-" + c1.getId() + "/1");
   }
 
   @Test
-  public void uploadPackSubsetOfRefsVisibleWithAccessDatabase() throws Exception {
+  public void uploadPackSubsetOfRefsVisibleWithAccessDatabase()
+      throws Exception {
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     try {
       deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
@@ -295,22 +257,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       assertUploadPackRefs(
           // Change 1 is visible due to accessDatabase capability, even though
           // refs/heads/master is not.
-          r1 + "1",
-          r1 + "meta",
-          r2 + "1",
-          r2 + "meta",
-          r3 + "1",
-          r3 + "meta",
-          r4 + "1",
-          r4 + "meta",
-          "refs/heads/branch",
-          "refs/tags/branch-tag",
+          r1 + "1", r1 + "meta", r2 + "1", r2 + "meta", r3 + "1", r3 + "meta",
+          r4 + "1", r4 + "meta", "refs/heads/branch", "refs/tags/branch-tag",
           // See comment in subsetOfBranchesVisibleNotIncludingHead.
           "refs/tags/master-tag",
           // All edits are visible due to accessDatabase capability.
           "refs/users/00/1000000/edit-" + c1.getId() + "/1");
     } finally {
-      removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      removeGlobalCapabilities(REGISTERED_USERS,
+          GlobalCapability.ACCESS_DATABASE);
     }
   }
 
@@ -326,40 +281,16 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // Only admin can see admin's draft change (5).
     setApiUser(admin);
-    assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
-        r5 + "1",
-        r5 + "meta",
-        "refs/heads/branch",
-        "refs/heads/master",
-        RefNames.REFS_CONFIG,
-        "refs/tags/branch-tag",
-        "refs/tags/master-tag");
+    assertUploadPackRefs("HEAD", r1 + "1", r1 + "meta", r2 + "1", r2 + "meta",
+        r3 + "1", r3 + "meta", r4 + "1", r4 + "meta", r5 + "1", r5 + "meta",
+        "refs/heads/branch", "refs/heads/master", RefNames.REFS_CONFIG,
+        "refs/tags/branch-tag", "refs/tags/master-tag");
 
     // user can't.
     setApiUser(user);
-    assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
-        "refs/heads/branch",
-        "refs/heads/master",
-        "refs/tags/branch-tag",
-        "refs/tags/master-tag");
+    assertUploadPackRefs("HEAD", r1 + "1", r1 + "meta", r2 + "1", r2 + "meta",
+        r3 + "1", r3 + "meta", r4 + "1", r4 + "meta", "refs/heads/branch",
+        "refs/heads/master", "refs/tags/branch-tag", "refs/tags/master-tag");
   }
 
   @Test
@@ -368,25 +299,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     setApiUser(user);
     try (Repository repo = repoManager.openRepository(project)) {
-      assertRefs(
-          repo,
+      assertRefs(repo,
           new VisibleRefFilter(tagCache, notesFactory, null, repo,
               projectControl(), db, true),
           // Can't use stored values from the index so DB must be enabled.
-          false,
-          "HEAD",
-          r1 + "1",
-          r1 + "meta",
-          r2 + "1",
-          r2 + "meta",
-          r3 + "1",
-          r3 + "meta",
-          r4 + "1",
-          r4 + "meta",
-          "refs/heads/branch",
-          "refs/heads/master",
-          "refs/tags/branch-tag",
-          "refs/tags/master-tag");
+          false, "HEAD", r1 + "1", r1 + "meta", r2 + "1", r2 + "meta", r3 + "1",
+          r3 + "meta", r4 + "1", r4 + "meta", "refs/heads/branch",
+          "refs/heads/master", "refs/tags/branch-tag", "refs/tags/master-tag");
     }
   }
 
@@ -397,16 +316,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       setApiUser(user);
       assertRefs(repo, newFilter(db, repo, allProjects), true);
 
-      allowGlobalCapabilities(
-          REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      allowGlobalCapabilities(REGISTERED_USERS,
+          GlobalCapability.ACCESS_DATABASE);
       try {
         setApiUser(user);
-        assertRefs(
-            repo, newFilter(db, repo, allProjects), true,
+        assertRefs(repo, newFilter(db, repo, allProjects), true,
             "refs/sequences/changes");
       } finally {
-        removeGlobalCapabilities(
-            REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+        removeGlobalCapabilities(REGISTERED_USERS,
+            GlobalCapability.ACCESS_DATABASE);
       }
     }
   }
@@ -416,12 +334,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     ReceiveCommitsAdvertiseRefsHook.Result r = getReceivePackRefs();
     assertThat(r.allRefs().keySet()).containsExactly(
         // meta refs are excluded even when NoteDb is enabled.
-        "HEAD",
-        "refs/heads/branch",
-        "refs/heads/master",
-        "refs/meta/config",
-        "refs/tags/branch-tag",
-        "refs/tags/master-tag");
+        "HEAD", "refs/heads/branch", "refs/heads/master", "refs/meta/config",
+        "refs/tags/branch-tag", "refs/tags/master-tag");
     assertThat(r.additionalHaves()).containsExactly(obj(c3, 1), obj(c4, 1));
   }
 
@@ -463,21 +377,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
       if (notesMigration.commitChangeWrites()) {
         PersonIdent committer = serverIdent.get();
-        PersonIdent author = noteUtil.newIdent(
-            accountCache.get(admin.getId()).getAccount(),
-            committer.getWhen(),
-            committer,
-            anonymousCowardName);
-        tr.branch(RefNames.changeMetaRef(c3.getId()))
-            .commit()
-            .author(author)
+        PersonIdent author =
+            noteUtil.newIdent(accountCache.get(admin.getId()).getAccount(),
+                committer.getWhen(), committer, anonymousCowardName);
+        tr.branch(RefNames.changeMetaRef(c3.getId())).commit().author(author)
             .committer(committer)
-            .message(
-                "Update patch set " + psId.get() + "\n"
-                    + "\n"
-                    + "Patch-set: " + psId.get() + "\n"
-                    + "Commit: " + rev + "\n"
-                    + "Subject: " + subject + "\n")
+            .message("Update patch set " + psId.get() + "\n" + "\n"
+                + "Patch-set: " + psId.get() + "\n" + "Commit: " + rev + "\n"
+                + "Subject: " + subject + "\n")
             .create();
       }
       indexer.index(db, c.getProject(), c.getId());
@@ -491,19 +398,18 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
    * Assert that refs seen by a non-admin user match expected.
    *
    * @param expectedWithMeta expected refs, in order. If NoteDb is disabled by
-   *     the configuration, any NoteDb refs (i.e. ending in "/meta") are removed
-   *     from the expected list before comparing to the actual results.
+   *        the configuration, any NoteDb refs (i.e. ending in "/meta") are
+   *        removed from the expected list before comparing to the actual
+   *        results.
    * @throws Exception
    */
   private void assertUploadPackRefs(String... expectedWithMeta)
       throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      assertRefs(
-          repo,
+      assertRefs(repo,
           new VisibleRefFilter(tagCache, notesFactory, changeCache, repo,
               projectControl(), new DisabledReviewDb(), true),
-          true,
-          expectedWithMeta);
+          true, expectedWithMeta);
     }
   }
 
@@ -546,10 +452,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   private VisibleRefFilter newFilter(ReviewDb db, Repository repo,
       Project.NameKey project) throws Exception {
-    return new VisibleRefFilter(
-        tagCache, notesFactory, null, repo,
-        projectControlFactory.controlFor(project, userProvider.get()),
-        db, true);
+    return new VisibleRefFilter(tagCache, notesFactory, null, repo,
+        projectControlFactory.controlFor(project, userProvider.get()), db,
+        true);
   }
 
   private static ObjectId obj(ChangeData cd, int psNum) throws Exception {

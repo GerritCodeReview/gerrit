@@ -58,8 +58,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "change.updateDelay", value = "50s")
 
   // download
-  @GerritConfig(name = "download.archive", values = {"tar",
-      "tbz2", "tgz", "txz"})
+  @GerritConfig(name = "download.archive", values = {"tar", "tbz2", "tgz",
+      "txz"})
 
   // gerrit
   @GerritConfig(name = "gerrit.allProjects", value = "Root")
@@ -93,12 +93,14 @@ public class ServerInfoIT extends AbstractDaemonTest {
     // change
     assertThat(i.change.allowDrafts).isNull();
     assertThat(i.change.largeChange).isEqualTo(300);
-    assertThat(i.change.replyTooltip).startsWith("Publish votes and draft comments");
+    assertThat(i.change.replyTooltip)
+        .startsWith("Publish votes and draft comments");
     assertThat(i.change.replyLabel).isEqualTo("Vote\u2026");
     assertThat(i.change.updateDelay).isEqualTo(50);
 
     // download
-    assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");
+    assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz",
+        "txz");
     assertThat(i.download.schemes).isEmpty();
 
     // gerrit
@@ -135,7 +137,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void serverConfigWithPlugin() throws Exception {
     Path plugins = tempSiteDir.newFolder("plugins").toPath();
     Path jsplugin = plugins.resolve("js-plugin-1.js");
-    Files.write(jsplugin, "Gerrit.install(function(self){});\n".getBytes(UTF_8));
+    Files.write(jsplugin,
+        "Gerrit.install(function(self){});\n".getBytes(UTF_8));
     adminSshSession.exec("gerrit plugin reload");
 
     ServerInfo i = gApi.config().server().getInfo();
@@ -171,7 +174,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.updateDelay).isEqualTo(30);
 
     // download
-    assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz", "txz");
+    assertThat(i.download.archives).containsExactly("tar", "tbz2", "tgz",
+        "txz");
     assertThat(i.download.schemes).isEmpty();
 
     // gerrit
@@ -190,7 +194,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.suggest.from).isEqualTo(0);
 
     // user
-    assertThat(i.user.anonymousCowardName).isEqualTo(AnonymousCowardNameProvider.DEFAULT);
+    assertThat(i.user.anonymousCowardName)
+        .isEqualTo(AnonymousCowardNameProvider.DEFAULT);
   }
 
   @Test

@@ -50,8 +50,8 @@ public class MailIT extends AbstractDaemonTest {
   private GreenMail greenMail;
 
   @Rule
-  public final GreenMailRule mockPop3Server = new GreenMailRule(
-      ServerSetupTest.SMTP_POP3_IMAP);
+  public final GreenMailRule mockPop3Server =
+      new GreenMailRule(ServerSetupTest.SMTP_POP3_IMAP);
 
   @ConfigSuite.Default
   public static Config pop3Config() {
@@ -96,9 +96,7 @@ public class MailIT extends AbstractDaemonTest {
   }
 
   private MimeMessage createSimpleMessage() {
-    return GreenMailUtil
-        .createTextEmail(USERNAME, "from@localhost.com", "subject",
-            "body",
-            greenMail.getImap().getServerSetup());
+    return GreenMailUtil.createTextEmail(USERNAME, "from@localhost.com",
+        "subject", "body", greenMail.getImap().getServerSetup());
   }
 }

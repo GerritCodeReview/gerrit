@@ -72,8 +72,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   private void submitWithRebase(TestAccount submitter) throws Exception {
     setApiUser(submitter);
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit headAfterFirstSubmit = getRemoteHead();
@@ -103,8 +102,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   @Test
   public void submitWithRebaseMultipleChanges() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change1 =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
     submit(change1.getChangeId());
     RevCommit headAfterFirstSubmit = getRemoteHead();
     if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
@@ -166,21 +164,15 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   @Test
   public void submitWithRebaseMergeCommit() throws Exception {
     /*
-        *  (HEAD, origin/master, origin/HEAD) Merge changes X,Y
-        |\
-        | *   Merge branch 'master' into origin/master
-        | |\
-        | | * SHA Added a
-        | |/
-        * | Before
-        |/
-        * Initial empty repository
+     * (HEAD, origin/master, origin/HEAD) Merge changes X,Y |\ | * Merge branch
+     * 'master' into origin/master | |\ | | * SHA Added a | |/ | Before |/
+     * Initial empty repository
      */
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change1 = createChange("Added a", "a.txt", "");
 
-    PushOneCommit change2Push = pushFactory.create(db, admin.getIdent(), testRepo,
-        "Merge to master", "m.txt", "");
+    PushOneCommit change2Push = pushFactory.create(db, admin.getIdent(),
+        testRepo, "Merge to master", "m.txt", "");
     change2Push.setParents(ImmutableList.of(initialHead, change1.getCommit()));
     PushOneCommit.Result change2 = change2Push.to("refs/for/master");
 
@@ -200,7 +192,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     RevCommit headParent1 = parse(newHead.getParent(0).getId());
     RevCommit headParent2 = parse(newHead.getParent(1).getId());
 
-    if (getSubmitType() == SubmitType.REBASE_ALWAYS){
+    if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
       assertCurrentRevision(change3.getChangeId(), 2, headParent1.getId());
     } else {
       assertThat(change3.getCommit().getId()).isEqualTo(headParent1.getId());
@@ -222,16 +214,15 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit headAfterFirstSubmit = getRemoteHead();
     testRepo.reset(initialHead);
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
-    submitWithConflict(change2.getChangeId(),
-        "Cannot rebase " + change2.getCommit().name()
+    submitWithConflict(change2.getChangeId(), "Cannot rebase "
+        + change2.getCommit().name()
         + ": The change could not be rebased due to a conflict during merge.");
     RevCommit head = getRemoteHead();
     assertThat(head).isEqualTo(headAfterFirstSubmit);
@@ -245,8 +236,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   @Test
   public void repairChangeStateAfterFailure() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit headAfterFirstSubmit = getRemoteHead();
@@ -277,7 +267,8 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
       rev2 = repo.exactRef(psId2.toRefName()).getObjectId();
       assertThat(rev2).isNotNull();
       assertThat(rev2).isNotEqualTo(rev1);
-      assertThat(rw.parseCommit(rev2).getParent(0)).isEqualTo(headAfterFirstSubmit);
+      assertThat(rw.parseCommit(rev2).getParent(0))
+          .isEqualTo(headAfterFirstSubmit);
 
       assertThat(repo.exactRef("refs/heads/master").getObjectId())
           .isEqualTo(rev2);
@@ -296,8 +287,8 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     assertThat(ps2).isNotNull();
     assertThat(ps2.getRevision().get()).isEqualTo(rev2.name());
     assertThat(Iterables.getLast(info.messages).message)
-        .isEqualTo("Change has been successfully rebased as "
-            + rev2.name() + " by Administrator");
+        .isEqualTo("Change has been successfully rebased as " + rev2.name()
+            + " by Administrator");
 
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.exactRef("refs/heads/master").getObjectId())
@@ -323,14 +314,10 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     RevCommit initialHead = getRemoteHead();
 
     // Create two commits and push.
-    RevCommit c1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     pushHead(testRepo, "refs/for/master", false);
 
     String id1 = getChangeId(testRepo, c1).get();
@@ -348,8 +335,8 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     RevCommit headAfterSubmit = getRemoteHead();
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);
-    assertChangeMergedEvents(id2, headAfterSubmit.name(),
-        id1, headAfterSubmit.name());
+    assertChangeMergedEvents(id2, headAfterSubmit.name(), id1,
+        headAfterSubmit.name());
   }
 
   @Test

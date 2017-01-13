@@ -39,14 +39,12 @@ public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
   public void capabilitiesUser() throws Exception {
-    Iterable<String> all = Iterables.filter(
-        GlobalCapability.getAllNames(),
+    Iterable<String> all = Iterables.filter(GlobalCapability.getAllNames(),
         c -> !ADMINISTRATE_SERVER.equals(c) && !PRIORITY.equals(c));
 
     allowGlobalCapabilities(REGISTERED_USERS, all);
     try {
-      RestResponse r =
-          userRestSession.get("/accounts/self/capabilities");
+      RestResponse r = userRestSession.get("/accounts/self/capabilities");
       r.assertOK();
       CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
           new TypeToken<CapabilityInfo>() {}.getType());
@@ -55,15 +53,20 @@ public class CapabilitiesIT extends AbstractDaemonTest {
           assertThat(info.administrateServer).isFalse();
         } else if (BATCH_CHANGES_LIMIT.equals(c)) {
           assertThat(info.batchChangesLimit.min).isEqualTo((short) 0);
-          assertThat(info.batchChangesLimit.max).isEqualTo((short) DEFAULT_MAX_BATCH_CHANGES_LIMIT);
+          assertThat(info.batchChangesLimit.max)
+              .isEqualTo((short) DEFAULT_MAX_BATCH_CHANGES_LIMIT);
         } else if (PRIORITY.equals(c)) {
           assertThat(info.priority).isFalse();
         } else if (QUERY_LIMIT.equals(c)) {
           assertThat(info.queryLimit.min).isEqualTo((short) 0);
-          assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
+          assertThat(info.queryLimit.max)
+              .isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
         } else {
-          assert_().withFailureMessage(String.format("capability %s was not granted", c))
-            .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
+          assert_()
+              .withFailureMessage(
+                  String.format("capability %s was not granted", c))
+              .that((Boolean) CapabilityInfo.class.getField(c).get(info))
+              .isTrue();
         }
       }
     } finally {
@@ -73,8 +76,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
   public void capabilitiesAdmin() throws Exception {
-    RestResponse r =
-        adminRestSession.get("/accounts/self/capabilities");
+    RestResponse r = adminRestSession.get("/accounts/self/capabilities");
     r.assertOK();
     CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
         new TypeToken<CapabilityInfo>() {}.getType());
@@ -86,17 +88,21 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       } else if (PRIORITY.equals(c)) {
         assertThat(info.priority).isFalse();
       } else if (QUERY_LIMIT.equals(c)) {
-        assert_().withFailureMessage("missing queryLimit")
-          .that(info.queryLimit).isNotNull();
+        assert_().withFailureMessage("missing queryLimit").that(info.queryLimit)
+            .isNotNull();
         assertThat(info.queryLimit.min).isEqualTo((short) 0);
-        assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
+        assertThat(info.queryLimit.max)
+            .isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
       } else if (ACCESS_DATABASE.equals(c)) {
         assertThat(info.accessDatabase).isFalse();
       } else if (RUN_AS.equals(c)) {
         assertThat(info.runAs).isFalse();
       } else {
-        assert_().withFailureMessage(String.format("capability %s was not granted", c))
-          .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
+        assert_()
+            .withFailureMessage(
+                String.format("capability %s was not granted", c))
+            .that((Boolean) CapabilityInfo.class.getField(c).get(info))
+            .isTrue();
       }
     }
   }

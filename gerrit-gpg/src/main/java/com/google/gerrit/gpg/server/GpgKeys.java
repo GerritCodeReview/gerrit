@@ -62,8 +62,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Singleton
-public class GpgKeys implements
-    ChildCollection<AccountResource, GpgKey> {
+public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   private static final Logger log = LoggerFactory.getLogger(GpgKeys.class);
 
   public static String MIME_TYPE = "application/pgp-keys";
@@ -75,8 +74,7 @@ public class GpgKeys implements
   private final ExternalIdCache externalIdCache;
 
   @Inject
-  GpgKeys(DynamicMap<RestView<GpgKey>> views,
-      Provider<CurrentUser> self,
+  GpgKeys(DynamicMap<RestView<GpgKey>> views, Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
       ExternalIdCache externalIdCache) {
@@ -88,8 +86,7 @@ public class GpgKeys implements
   }
 
   @Override
-  public ListGpgKeys list()
-      throws ResourceNotFoundException, AuthException {
+  public ListGpgKeys list() throws ResourceNotFoundException, AuthException {
     return new ListGpgKeys();
   }
 
@@ -165,10 +162,8 @@ public class GpgKeys implements
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
             if (Arrays.equals(keyRing.getPublicKey().getFingerprint(), fp)) {
               found = true;
-              GpgKeyInfo info = toJson(
-                  keyRing.getPublicKey(),
-                  checkerFactory.create(rsrc.getUser(), store),
-                  store);
+              GpgKeyInfo info = toJson(keyRing.getPublicKey(),
+                  checkerFactory.create(rsrc.getUser(), store), store);
               keys.put(info.id, info);
               info.id = null;
               break;
@@ -199,10 +194,8 @@ public class GpgKeys implements
     @Override
     public GpgKeyInfo apply(GpgKey rsrc) throws IOException {
       try (PublicKeyStore store = storeProvider.get()) {
-        return toJson(
-            rsrc.getKeyRing().getPublicKey(),
-            checkerFactory.create().setExpectedUser(rsrc.getUser()),
-            store);
+        return toJson(rsrc.getKeyRing().getPublicKey(),
+            checkerFactory.create().setExpectedUser(rsrc.getUser()), store);
       }
     }
   }
@@ -245,9 +238,11 @@ public class GpgKeys implements
 
       try (ByteArrayOutputStream out = new ByteArrayOutputStream(4096);
           ArmoredOutputStream aout = new ArmoredOutputStream(out)) {
-        // This is not exactly the key stored in the store, but is equivalent. In
+        // This is not exactly the key stored in the store, but is equivalent.
+        // In
         // particular, it will have a Bouncy Castle version string. The armored
-        // stream reader in PublicKeyStore doesn't give us an easy way to extract
+        // stream reader in PublicKeyStore doesn't give us an easy way to
+        // extract
         // the original ASCII armor.
         key.encode(aout);
         info.key = new String(out.toByteArray(), UTF_8);

@@ -25,13 +25,14 @@ import java.util.Set;
 
 public class GroupAssert {
 
-  public static void assertGroups(Iterable<String> expected, Set<String> actual) {
+  public static void assertGroups(Iterable<String> expected,
+      Set<String> actual) {
     for (String g : expected) {
-      assert_().withFailureMessage("missing group " + g)
-        .that(actual.remove(g)).isTrue();
+      assert_().withFailureMessage("missing group " + g).that(actual.remove(g))
+          .isTrue();
     }
-    assert_().withFailureMessage("unexpected groups: " + actual)
-      .that(actual).isEmpty();
+    assert_().withFailureMessage("unexpected groups: " + actual).that(actual)
+        .isEmpty();
   }
 
   public static void assertGroupInfo(AccountGroup group, GroupInfo info) {
@@ -41,10 +42,13 @@ public class GroupAssert {
     }
     assertThat(Url.decode(info.id)).isEqualTo(group.getGroupUUID().get());
     assertThat(info.groupId).isEqualTo(Integer.valueOf(group.getId().get()));
-    assertThat(info.url).isEqualTo("#/admin/groups/uuid-" + Url.encode(group.getGroupUUID().get()));
-    assertThat(toBoolean(info.options.visibleToAll)).isEqualTo(group.isVisibleToAll());
+    assertThat(info.url).isEqualTo(
+        "#/admin/groups/uuid-" + Url.encode(group.getGroupUUID().get()));
+    assertThat(toBoolean(info.options.visibleToAll))
+        .isEqualTo(group.isVisibleToAll());
     assertThat(info.description).isEqualTo(group.getDescription());
-    assertThat(Url.decode(info.ownerId)).isEqualTo(group.getOwnerGroupUUID().get());
+    assertThat(Url.decode(info.ownerId))
+        .isEqualTo(group.getOwnerGroupUUID().get());
   }
 
   public static boolean toBoolean(Boolean b) {

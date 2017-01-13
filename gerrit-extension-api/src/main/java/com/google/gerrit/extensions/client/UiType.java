@@ -15,9 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 public enum UiType {
-  NONE,
-  GWT,
-  POLYGERRIT;
+  NONE, GWT, POLYGERRIT;
 
   public static UiType parse(String str) {
     if (str != null) {

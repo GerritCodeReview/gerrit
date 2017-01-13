@@ -50,8 +50,8 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, Permission.OWNER, REGISTERED_USERS, "refs/*");
-    Util.allow(
-        cfg, Permission.PUSH, REGISTERED_USERS, "refs/for/refs/meta/config");
+    Util.allow(cfg, Permission.PUSH, REGISTERED_USERS,
+        "refs/for/refs/meta/config");
     Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, RefNames.REFS_CONFIG);
     saveProjectConfig(project, cfg);
 
@@ -110,8 +110,8 @@ public class ConfigChangeIT extends AbstractDaemonTest {
 
     setApiUser(user);
     Config cfg = readProjectConfig();
-    assertThat(cfg.getString("access", null, "inheritFrom"))
-        .isAnyOf(null, allProjects.get());
+    assertThat(cfg.getString("access", null, "inheritFrom")).isAnyOf(null,
+        allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
 
     PushOneCommit.Result r = createConfigChange(cfg);
@@ -125,9 +125,9 @@ public class ConfigChangeIT extends AbstractDaemonTest {
       int n = gApi.changes().id(id).info()._number;
       assertThat(e).hasMessage(
           "Failed to submit 1 change due to the following problems:\n"
-          + "Change " + n + ": Change contains a project configuration that"
-          + " changes the parent project.\n"
-          + "The change must be submitted by a Gerrit administrator.");
+              + "Change " + n + ": Change contains a project configuration that"
+              + " changes the parent project.\n"
+              + "The change must be submitted by a Gerrit administrator.");
     }
 
     assertThat(gApi.projects().name(project.get()).get().parent)
@@ -154,24 +154,21 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     Project.NameKey parent = createProject("projectToInheritFrom");
     Project.NameKey child = createProject("projectWithMalformedConfig");
 
-    String config = gApi.projects()
-        .name(child.get())
+    String config = gApi.projects().name(child.get())
         .branch(RefNames.REFS_CONFIG).file("project.config").asString();
 
     // Append and push malformed project config
-    String pattern =  "[access]\n"
-        + "\tinheritFrom = " + allProjects.get() + "\n";
+    String pattern =
+        "[access]\n" + "\tinheritFrom = " + allProjects.get() + "\n";
     String doubleInherit = pattern + "\tinheritFrom = " + parent.get() + "\n";
     config = config.replace(pattern, doubleInherit);
 
-    TestRepository<InMemoryRepository> childRepo =
-        cloneProject(child, admin);
+    TestRepository<InMemoryRepository> childRepo = cloneProject(child, admin);
     // Fetch meta ref
     GitUtil.fetch(childRepo, RefNames.REFS_CONFIG + ":cfg");
     childRepo.reset("cfg");
-    PushOneCommit push = pushFactory.create(
-        db, admin.getIdent(), childRepo, "Subject", "project.config",
-        config);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), childRepo,
+        "Subject", "project.config", config);
     PushOneCommit.Result res = push.to(RefNames.REFS_CONFIG);
     res.assertErrorStatus();
     res.assertMessage("cannot inherit from multiple projects");
@@ -195,11 +192,8 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createConfigChange(Config cfg) throws Exception {
-    PushOneCommit.Result r = pushFactory.create(
-            db, user.getIdent(), testRepo,
-            "Update project config",
-            "project.config",
-            cfg.toText())
+    PushOneCommit.Result r = pushFactory.create(db, user.getIdent(), testRepo,
+        "Update project config", "project.config", cfg.toText())
         .to("refs/for/refs/meta/config");
     r.assertOkStatus();
     return r;

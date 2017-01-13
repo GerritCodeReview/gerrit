@@ -45,7 +45,7 @@ public interface Changes {
    *
    * @see #id(int)
    * @param id any identifier supported by the REST API, including change
-   *     number, Change-Id, or project~branch~Change-Id triplet.
+   *        number, Change-Id, or project~branch~Change-Id triplet.
    * @return API for accessing the change.
    * @throws RestApiException if an error occurred.
    */
@@ -62,13 +62,15 @@ public interface Changes {
   ChangeApi create(ChangeInput in) throws RestApiException;
 
   QueryRequest query();
+
   QueryRequest query(String query);
 
   abstract class QueryRequest {
     private String query;
     private int limit;
     private int start;
-    private EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
+    private EnumSet<ListChangesOption> options =
+        EnumSet.noneOf(ListChangesOption.class);
 
     public abstract List<ChangeInfo> get() throws RestApiException;
 
@@ -120,9 +122,8 @@ public interface Changes {
 
     @Override
     public String toString() {
-      StringBuilder sb =  new StringBuilder(getClass().getSimpleName())
-          .append('{')
-          .append(query);
+      StringBuilder sb = new StringBuilder(getClass().getSimpleName())
+          .append('{').append(query);
       if (limit != 0) {
         sb.append(", limit=").append(limit);
       }
@@ -137,8 +138,8 @@ public interface Changes {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements Changes {
     @Override

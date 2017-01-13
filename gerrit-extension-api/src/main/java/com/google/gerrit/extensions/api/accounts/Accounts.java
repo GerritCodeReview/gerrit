@@ -28,13 +28,13 @@ public interface Accounts {
    * Look up an account by ID.
    * <p>
    * <strong>Note:</strong> This method eagerly reads the account. Methods that
-   * mutate the account do not necessarily re-read the account. Therefore, calling
-   * a getter method on an instance after calling a mutation method on that same
-   * instance is not guaranteed to reflect the mutation. It is not recommended
-   * to store references to {@code AccountApi} instances.
+   * mutate the account do not necessarily re-read the account. Therefore,
+   * calling a getter method on an instance after calling a mutation method on
+   * that same instance is not guaranteed to reflect the mutation. It is not
+   * recommended to store references to {@code AccountApi} instances.
    *
    * @param id any identifier supported by the REST API, including numeric ID,
-   *     email, or username.
+   *        email, or username.
    * @return API for accessing the account.
    * @throws RestApiException if an error occurred.
    */
@@ -75,8 +75,7 @@ public interface Accounts {
    *
    * @see #suggestAccounts()
    */
-  SuggestAccountsRequest suggestAccounts(String query)
-    throws RestApiException;
+  SuggestAccountsRequest suggestAccounts(String query) throws RestApiException;
 
   /**
    * Query users.
@@ -98,8 +97,8 @@ public interface Accounts {
   QueryRequest query(String query) throws RestApiException;
 
   /**
-   * API for setting parameters and getting result.
-   * Used for {@code suggestAccounts()}.
+   * API for setting parameters and getting result. Used for
+   * {@code suggestAccounts()}.
    *
    * @see #suggestAccounts()
    */
@@ -123,8 +122,8 @@ public interface Accounts {
     }
 
     /**
-     * Set limit for returned list of accounts.
-     * Optional; server-default is used when not provided.
+     * Set limit for returned list of accounts. Optional; server-default is used
+     * when not provided.
      */
     public SuggestAccountsRequest withLimit(int limit) {
       this.limit = limit;
@@ -141,8 +140,7 @@ public interface Accounts {
   }
 
   /**
-   * API for setting parameters and getting result.
-   * Used for {@code query()}.
+   * API for setting parameters and getting result. Used for {@code query()}.
    *
    * @see #query()
    */
@@ -169,8 +167,8 @@ public interface Accounts {
     }
 
     /**
-     * Set limit for returned list of accounts.
-     * Optional; server-default is used when not provided.
+     * Set limit for returned list of accounts. Optional; server-default is used
+     * when not provided.
      */
     public QueryRequest withLimit(int limit) {
       this.limit = limit;
@@ -178,8 +176,8 @@ public interface Accounts {
     }
 
     /**
-     * Set number of accounts to skip.
-     * Optional; no accounts are skipped when not provided.
+     * Set number of accounts to skip. Optional; no accounts are skipped when
+     * not provided.
      */
     public QueryRequest withStart(int start) {
       this.start = start;
@@ -219,8 +217,8 @@ public interface Accounts {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements Accounts {
     @Override

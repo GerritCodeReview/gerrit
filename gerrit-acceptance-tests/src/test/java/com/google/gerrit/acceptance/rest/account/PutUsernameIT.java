@@ -37,19 +37,18 @@ public class PutUsernameIT extends AbstractDaemonTest {
   public void set() throws Exception {
     PutUsername.Input in = new PutUsername.Input();
     in.username = "myUsername";
-    RestResponse r =
-        adminRestSession.put("/accounts/" + createUser().get() + "/username", in);
+    RestResponse r = adminRestSession
+        .put("/accounts/" + createUser().get() + "/username", in);
     r.assertOK();
-    assertThat(newGson().fromJson(r.getReader(), String.class)).isEqualTo(
-        in.username);
+    assertThat(newGson().fromJson(r.getReader(), String.class))
+        .isEqualTo(in.username);
   }
 
   @Test
   public void setExisting_Conflict() throws Exception {
     PutUsername.Input in = new PutUsername.Input();
     in.username = admin.username;
-    adminRestSession
-        .put("/accounts/" + createUser().get() + "/username", in)
+    adminRestSession.put("/accounts/" + createUser().get() + "/username", in)
         .assertConflict();
   }
 
@@ -57,15 +56,13 @@ public class PutUsernameIT extends AbstractDaemonTest {
   public void setNew_MethodNotAllowed() throws Exception {
     PutUsername.Input in = new PutUsername.Input();
     in.username = "newUsername";
-    adminRestSession
-        .put("/accounts/" + admin.username + "/username", in)
+    adminRestSession.put("/accounts/" + admin.username + "/username", in)
         .assertMethodNotAllowed();
   }
 
   @Test
   public void delete_MethodNotAllowed() throws Exception {
-    adminRestSession
-        .put("/accounts/" + admin.username + "/username")
+    adminRestSession.put("/accounts/" + admin.username + "/username")
         .assertMethodNotAllowed();
   }
 

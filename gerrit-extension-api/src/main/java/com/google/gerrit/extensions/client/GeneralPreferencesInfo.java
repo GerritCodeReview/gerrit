@@ -65,27 +65,19 @@ public class GeneralPreferencesInfo {
   }
 
   public enum ReviewCategoryStrategy {
-    NONE,
-    NAME,
-    EMAIL,
-    USERNAME,
-    ABBREV
+    NONE, NAME, EMAIL, USERNAME, ABBREV
   }
 
   public enum DiffView {
-    SIDE_BY_SIDE,
-    UNIFIED_DIFF
+    SIDE_BY_SIDE, UNIFIED_DIFF
   }
 
   public enum EmailStrategy {
-    ENABLED,
-    CC_ON_OWN_COMMENTS,
-    DISABLED
+    ENABLED, CC_ON_OWN_COMMENTS, DISABLED
   }
 
   public enum DefaultBase {
-    AUTO_MERGE(null),
-    FIRST_PARENT(-1);
+    AUTO_MERGE(null), FIRST_PARENT(-1);
 
     private final String base;
 

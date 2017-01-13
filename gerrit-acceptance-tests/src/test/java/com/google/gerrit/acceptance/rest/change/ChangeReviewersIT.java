@@ -68,10 +68,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     }
     List<String> mediumGroupUsernames =
         largeGroupUsernames.subList(0, mediumGroupSize);
-    gApi.groups().id(largeGroup).addMembers(
-        largeGroupUsernames.toArray(new String[largeGroupSize]));
-    gApi.groups().id(mediumGroup).addMembers(
-        mediumGroupUsernames.toArray(new String[mediumGroupSize]));
+    gApi.groups().id(largeGroup)
+        .addMembers(largeGroupUsernames.toArray(new String[largeGroupSize]));
+    gApi.groups().id(mediumGroup)
+        .addMembers(mediumGroupUsernames.toArray(new String[mediumGroupSize]));
 
     // Attempt to add overly large group as reviewers.
     PushOneCommit.Result r = createChange();
@@ -87,9 +87,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     result = addReviewer(changeId, mediumGroup);
     assertThat(result.input).isEqualTo(mediumGroup);
     assertThat(result.confirm).isTrue();
-    assertThat(result.error)
-        .contains("has " + mediumGroupSize + " members. Do you want to add them"
-            + " all as reviewers?");
+    assertThat(result.error).contains("has " + mediumGroupSize
+        + " members. Do you want to add them" + " all as reviewers?");
     assertThat(result.reviewers).isNull();
 
     // Add medium group with confirmation.
@@ -270,17 +269,14 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Post drive-by message as user.
     ReviewInput input = new ReviewInput().message("hello");
-    RestResponse resp = userRestSession.post(
-        "/changes/" + r.getChangeId() + "/revisions/" +
-        r.getCommit().getName() + "/review", input);
+    RestResponse resp = userRestSession.post("/changes/" + r.getChangeId()
+        + "/revisions/" + r.getCommit().getName() + "/review", input);
     ReviewResult result = readContentFromJson(resp, 200, ReviewResult.class);
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNull();
 
     // Verify user is added to CC list.
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     if (notesMigration.readChanges()) {
       assertReviewers(c, REVIEWER);
       assertReviewers(c, CC, user);
@@ -299,18 +295,15 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // user adds self as REVIEWER.
     ReviewInput input = new ReviewInput().reviewer(user.username);
-    RestResponse resp = userRestSession.post(
-        "/changes/" + r.getChangeId() + "/revisions/" +
-        r.getCommit().getName() + "/review", input);
+    RestResponse resp = userRestSession.post("/changes/" + r.getChangeId()
+        + "/revisions/" + r.getCommit().getName() + "/review", input);
     ReviewResult result = readContentFromJson(resp, 200, ReviewResult.class);
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(1);
 
     // Verify reviewer state.
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, user);
     assertReviewers(c, CC);
     LabelInfo label = c.labels.get("Code-Review");
@@ -328,18 +321,15 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // user adds self as CC.
     ReviewInput input = new ReviewInput().reviewer(user.username, CC, false);
-    RestResponse resp = userRestSession.post(
-        "/changes/" + r.getChangeId() + "/revisions/" +
-        r.getCommit().getName() + "/review", input);
+    RestResponse resp = userRestSession.post("/changes/" + r.getChangeId()
+        + "/revisions/" + r.getCommit().getName() + "/review", input);
     ReviewResult result = readContentFromJson(resp, 200, ReviewResult.class);
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(1);
 
     // Verify reviewer state.
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     if (notesMigration.readChanges()) {
       assertReviewers(c, REVIEWER);
       assertReviewers(c, CC, user);
@@ -368,9 +358,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     // Verify reviewer state.
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER);
     assertReviewers(c, CC);
     LabelInfo label = c.labels.get("Code-Review");
@@ -386,9 +374,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Verify reviewer state. Both admin and user should be REVIEWERs now,
     // because admin gets forced into REVIEWER state by virtue of being owner.
-    c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, admin, user);
     assertReviewers(c, CC);
     label = c.labels.get("Code-Review");
@@ -405,16 +391,13 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     // Comment as user without voting. This should delete the approval and
     // then replace it with the default value.
     input = new ReviewInput().message("hello");
-    RestResponse resp = userRestSession.post(
-        "/changes/" + r.getChangeId() + "/revisions/" +
-        r.getCommit().getName() + "/review", input);
+    RestResponse resp = userRestSession.post("/changes/" + r.getChangeId()
+        + "/revisions/" + r.getCommit().getName() + "/review", input);
     result = readContentFromJson(resp, 200, ReviewResult.class);
     assertThat(result.labels).isNull();
 
     // Verify reviewer state.
-    c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, admin, user);
     assertReviewers(c, CC);
     label = c.labels.get("Code-Review");
@@ -433,8 +416,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   public void reviewAndAddReviewers() throws Exception {
     TestAccount observer = accounts.user2();
     PushOneCommit.Result r = createChange();
-    ReviewInput input = ReviewInput.approve()
-        .reviewer(user.email)
+    ReviewInput input = ReviewInput.approve().reviewer(user.email)
         .reviewer(observer.email, CC, false);
 
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
@@ -444,9 +426,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Verify reviewer and CC were added. If not in NoteDb read mode, both
     // parties will be returned as CCed.
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     if (notesMigration.readChanges()) {
       assertReviewers(c, REVIEWER, admin, user);
       assertReviewers(c, CC, observer);
@@ -461,8 +441,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(2);
 
     Message m = messages.get(0);
-    assertThat(m.rcpt())
-        .containsExactly(user.emailAddress,observer.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress,
+        observer.emailAddress);
     assertThat(m.body())
         .contains(admin.fullName + " has posted comments on this change.");
     assertThat(m.body())
@@ -470,8 +450,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(m.body()).contains("Patch Set 1: Code-Review+2");
 
     m = messages.get(1);
-    assertThat(m.rcpt())
-        .containsExactly(user.emailAddress, observer.emailAddress);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress,
+        observer.emailAddress);
     assertThat(m.body()).contains("Hello " + user.fullName + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
   }
@@ -489,22 +469,19 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     String largeGroup = createGroup("largeGroup");
     String mediumGroup = createGroup("mediumGroup");
-    gApi.groups().id(largeGroup).addMembers(
-        usernames.toArray(new String[largeGroupSize]));
-    gApi.groups().id(mediumGroup).addMembers(
-        usernames.subList(0, mediumGroupSize)
-            .toArray(new String[mediumGroupSize]));
+    gApi.groups().id(largeGroup)
+        .addMembers(usernames.toArray(new String[largeGroupSize]));
+    gApi.groups().id(mediumGroup).addMembers(usernames
+        .subList(0, mediumGroupSize).toArray(new String[mediumGroupSize]));
 
     TestAccount observer = accounts.user2();
     PushOneCommit.Result r = createChange();
 
     // Attempt to add overly large group as reviewers.
-    ReviewInput input = ReviewInput.approve()
-        .reviewer(user.email)
-        .reviewer(observer.email, CC, false)
-        .reviewer(largeGroup);
-    ReviewResult result = review(
-        r.getChangeId(), r.getCommit().name(), input, SC_BAD_REQUEST);
+    ReviewInput input = ReviewInput.approve().reviewer(user.email)
+        .reviewer(observer.email, CC, false).reviewer(largeGroup);
+    ReviewResult result =
+        review(r.getChangeId(), r.getCommit().name(), input, SC_BAD_REQUEST);
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(3);
@@ -512,54 +489,48 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(reviewerResult).isNotNull();
     assertThat(reviewerResult.confirm).isNull();
     assertThat(reviewerResult.error).isNotNull();
-    assertThat(reviewerResult.error).contains("has too many members to add them all as reviewers");
+    assertThat(reviewerResult.error)
+        .contains("has too many members to add them all as reviewers");
 
-    // No labels should have changed, and no reviewers/CCs should have been added.
-    ChangeInfo c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    // No labels should have changed, and no reviewers/CCs should have been
+    // added.
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertThat(c.messages).hasSize(1);
     assertThat(c.reviewers.get(REVIEWER)).isNull();
     assertThat(c.reviewers.get(CC)).isNull();
 
     // Attempt to add group large enough to require confirmation, without
     // confirmation, as reviewers.
-    input = ReviewInput.approve()
-        .reviewer(user.email)
-        .reviewer(observer.email, CC, false)
-        .reviewer(mediumGroup);
-    result = review(r.getChangeId(), r.getCommit().name(), input,
-        SC_BAD_REQUEST);
+    input = ReviewInput.approve().reviewer(user.email)
+        .reviewer(observer.email, CC, false).reviewer(mediumGroup);
+    result =
+        review(r.getChangeId(), r.getCommit().name(), input, SC_BAD_REQUEST);
     assertThat(result.labels).isNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(3);
     reviewerResult = result.reviewers.get(mediumGroup);
     assertThat(reviewerResult).isNotNull();
     assertThat(reviewerResult.confirm).isTrue();
-    assertThat(reviewerResult.error)
-        .contains("has " + mediumGroupSize + " members. Do you want to add them all"
-            + " as reviewers?");
+    assertThat(reviewerResult.error).contains("has " + mediumGroupSize
+        + " members. Do you want to add them all" + " as reviewers?");
 
-    // No labels should have changed, and no reviewers/CCs should have been added.
-    c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    // No labels should have changed, and no reviewers/CCs should have been
+    // added.
+    c = gApi.changes().id(r.getChangeId()).get();
     assertThat(c.messages).hasSize(1);
     assertThat(c.reviewers.get(REVIEWER)).isNull();
     assertThat(c.reviewers.get(CC)).isNull();
 
-    // Retrying with confirmation should successfully approve and add reviewers/CCs.
-    input = ReviewInput.approve()
-        .reviewer(user.email)
-        .reviewer(mediumGroup, CC, true);
+    // Retrying with confirmation should successfully approve and add
+    // reviewers/CCs.
+    input = ReviewInput.approve().reviewer(user.email).reviewer(mediumGroup, CC,
+        true);
     result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.labels).isNotNull();
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
 
-    c = gApi.changes()
-        .id(r.getChangeId())
-        .get();
+    c = gApi.changes().id(r.getChangeId()).get();
     assertThat(c.messages).hasSize(2);
 
     if (notesMigration.readChanges()) {
@@ -604,32 +575,31 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     Iterator<ReviewerUpdateInfo> it = c.reviewerUpdates.iterator();
     ReviewerUpdateInfo reviewerChange = it.next();
     assertThat(reviewerChange.state).isEqualTo(CC);
-    assertThat(reviewerChange.reviewer._accountId).isEqualTo(
-        user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
-        admin.getId().get());
+    assertThat(reviewerChange.reviewer._accountId)
+        .isEqualTo(user.getId().get());
+    assertThat(reviewerChange.updatedBy._accountId)
+        .isEqualTo(admin.getId().get());
 
     reviewerChange = it.next();
     assertThat(reviewerChange.state).isEqualTo(REVIEWER);
-    assertThat(reviewerChange.reviewer._accountId).isEqualTo(
-        user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
-        admin.getId().get());
+    assertThat(reviewerChange.reviewer._accountId)
+        .isEqualTo(user.getId().get());
+    assertThat(reviewerChange.updatedBy._accountId)
+        .isEqualTo(admin.getId().get());
 
     reviewerChange = it.next();
     assertThat(reviewerChange.state).isEqualTo(REMOVED);
-    assertThat(reviewerChange.reviewer._accountId).isEqualTo(
-        user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
-        admin.getId().get());
+    assertThat(reviewerChange.reviewer._accountId)
+        .isEqualTo(user.getId().get());
+    assertThat(reviewerChange.updatedBy._accountId)
+        .isEqualTo(admin.getId().get());
   }
 
   @Test
   public void addDuplicateReviewers() throws Exception {
     PushOneCommit.Result r = createChange();
-    ReviewInput input = ReviewInput.approve()
-        .reviewer(user.email)
-        .reviewer(user.email);
+    ReviewInput input =
+        ReviewInput.approve().reviewer(user.email).reviewer(user.email);
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(1);
@@ -654,9 +624,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.groups().id(group2).addMembers(user2.username, user3.username);
 
     PushOneCommit.Result r = createChange();
-    ReviewInput input = ReviewInput.approve()
-        .reviewer(group1)
-        .reviewer(group2);
+    ReviewInput input = ReviewInput.approve().reviewer(group1).reviewer(group2);
     ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
@@ -672,9 +640,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       return;
     }
     r = createChange();
-    input = ReviewInput.approve()
-        .reviewer(group1, CC, false)
-        .reviewer(group2, CC, false);
+    input = ReviewInput.approve().reviewer(group1, CC, false).reviewer(group2,
+        CC, false);
     result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
@@ -688,8 +655,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     // Repeat again with one group REVIEWER, the other CC. The overlapping
     // member should end up as a REVIEWER.
     r = createChange();
-    input = ReviewInput.approve()
-        .reviewer(group1, REVIEWER, false)
+    input = ReviewInput.approve().reviewer(group1, REVIEWER, false)
         .reviewer(group2, CC, false);
     result = review(r.getChangeId(), r.getCommit().name(), input);
     assertThat(result.reviewers).isNotNull();
@@ -708,8 +674,8 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     return addReviewer(changeId, reviewer, SC_OK);
   }
 
-  private AddReviewerResult addReviewer(
-      String changeId, String reviewer, int expectedStatus) throws Exception {
+  private AddReviewerResult addReviewer(String changeId, String reviewer,
+      int expectedStatus) throws Exception {
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = reviewer;
     return addReviewer(changeId, in, expectedStatus);
@@ -724,32 +690,29 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       int expectedStatus) throws Exception {
     RestResponse resp =
         adminRestSession.post("/changes/" + changeId + "/reviewers", in);
-    return readContentFromJson(
-        resp, expectedStatus, AddReviewerResult.class);
+    return readContentFromJson(resp, expectedStatus, AddReviewerResult.class);
   }
 
   private RestResponse deleteReviewer(String changeId, TestAccount account)
       throws Exception {
-    return adminRestSession.delete("/changes/" + changeId + "/reviewers/" +
-        account.getId().get());
+    return adminRestSession
+        .delete("/changes/" + changeId + "/reviewers/" + account.getId().get());
   }
 
-  private ReviewResult review(
-      String changeId, String revisionId, ReviewInput in) throws Exception {
+  private ReviewResult review(String changeId, String revisionId,
+      ReviewInput in) throws Exception {
     return review(changeId, revisionId, in, SC_OK);
   }
 
-  private ReviewResult review(
-      String changeId, String revisionId, ReviewInput in, int expectedStatus)
-      throws Exception {
+  private ReviewResult review(String changeId, String revisionId,
+      ReviewInput in, int expectedStatus) throws Exception {
     RestResponse resp = adminRestSession.post(
         "/changes/" + changeId + "/revisions/" + revisionId + "/review", in);
     return readContentFromJson(resp, expectedStatus, ReviewResult.class);
   }
 
-  private static <T> T readContentFromJson(
-      RestResponse r, int expectedStatus, Class<T> clazz)
-      throws Exception {
+  private static <T> T readContentFromJson(RestResponse r, int expectedStatus,
+      Class<T> clazz) throws Exception {
     r.assertStatus(expectedStatus);
     JsonReader jsonReader = new JsonReader(r.getReader());
     jsonReader.setLenient(true);

@@ -189,8 +189,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyOnNoCodeChange() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Verified")
-        .setCopyAllScoresIfNoCodeChange(true);
+    cfg.getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
     saveProjectConfig(project, cfg);
 
     String changeId = createChange(NO_CODE_CHANGE);
@@ -268,10 +267,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyAcrossMultiplePatchSets() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review")
-        .setCopyMaxScore(true);
-    cfg.getLabelSections().get("Verified")
-        .setCopyAllScoresIfNoCodeChange(true);
+    cfg.getLabelSections().get("Code-Review").setCopyMaxScore(true);
+    cfg.getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
     saveProjectConfig(project, cfg);
 
     String changeId = createChange(REWORK);
@@ -291,10 +288,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review")
-        .setCopyMaxScore(true);
-    cfg.getLabelSections().get("Code-Review")
-        .setCopyMinScore(true);
+    cfg.getLabelSections().get("Code-Review").setCopyMaxScore(true);
+    cfg.getLabelSections().get("Code-Review").setCopyMinScore(true);
     saveProjectConfig(project, cfg);
 
     // Vote max score on PS1
@@ -333,8 +328,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   public void deleteStickyVote() throws Exception {
     String label = "Code-Review";
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get(label)
-        .setCopyMaxScore(true);
+    cfg.getLabelSections().get(label).setCopyMaxScore(true);
     saveProjectConfig(project, cfg);
 
     // Vote max score on PS1
@@ -426,8 +420,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     TestRepository<?>.CommitBuilder commitBuilder =
         testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
-    commitBuilder.message(commitMessage)
-        .author(admin.getIdent())
+    commitBuilder.message(commitMessage).author(admin.getIdent())
         .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
     commitBuilder.create();
     GitUtil.pushHead(testRepo, "refs/for/master", false);
@@ -450,19 +443,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
             "a" + System.nanoTime() + ".txt", PushOneCommit.FILE_CONTENT);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
-    RevisionApi revision = gApi.changes()
-        .id(r.getChangeId())
-        .current();
-    ReviewInput in = new ReviewInput()
-        .label("Code-Review", 2)
-        .label("Verified", 1);
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    ReviewInput in =
+        new ReviewInput().label("Code-Review", 2).label("Verified", 1);
     revision.review(in);
     revision.submit();
 
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .rebase();
+    gApi.changes().id(changeId).current().rebase();
     assertThat(getChangeKind(changeId)).isEqualTo(TRIVIAL_REBASE);
   }
 
@@ -479,8 +466,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     testRepo.reset(parent1.getCommit());
 
     PushOneCommit merge = pushFactory.create(db, admin.getIdent(), testRepo);
-    merge.setParents(
-        ImmutableList.of(parent1.getCommit(), parent2.getCommit()));
+    merge
+        .setParents(ImmutableList.of(parent1.getCommit(), parent2.getCommit()));
     PushOneCommit.Result result = merge.to("refs/for/master");
     result.assertOkStatus();
     return result.getChangeId();
@@ -488,7 +475,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   private void updateFirstParent(String changeId) throws Exception {
     ChangeInfo c = detailedChange(changeId);
-    List<CommitInfo> parents = c.revisions.get(c.currentRevision).commit.parents;
+    List<CommitInfo> parents =
+        c.revisions.get(c.currentRevision).commit.parents;
     String parent1 = parents.get(0).commit;
     String parent2 = parents.get(1).commit;
     RevCommit commitParent2 =
@@ -500,15 +488,15 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     PushOneCommit merge =
         pushFactory.create(db, admin.getIdent(), testRepo, changeId);
-    merge.setParents(
-        ImmutableList.of(newParent1.getCommit(), commitParent2));
+    merge.setParents(ImmutableList.of(newParent1.getCommit(), commitParent2));
     PushOneCommit.Result result = merge.to("refs/for/master");
     result.assertOkStatus();
 
     assertThat(getChangeKind(changeId)).isEqualTo(MERGE_FIRST_PARENT_UPDATE);
   }
 
-  private String cherryPick(String changeId, ChangeKind changeKind) throws Exception {
+  private String cherryPick(String changeId, ChangeKind changeKind)
+      throws Exception {
     switch (changeKind) {
       case REWORK:
       case TRIVIAL_REBASE:
@@ -529,18 +517,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     vote(admin, r.getChangeId(), 2, 1);
     merge(r);
 
-    String subject = TRIVIAL_REBASE.equals(changeKind)
-        ? PushOneCommit.SUBJECT
+    String subject = TRIVIAL_REBASE.equals(changeKind) ? PushOneCommit.SUBJECT
         : "Reworked change " + System.nanoTime();
     CherryPickInput in = new CherryPickInput();
     in.destination = "master";
-    in.message =
-        String.format("%s\n\nChange-Id: %s", subject, changeId);
-    ChangeInfo c = gApi.changes()
-        .id(changeId)
-        .revision("current")
-        .cherryPick(in)
-        .get();
+    in.message = String.format("%s\n\nChange-Id: %s", subject, changeId);
+    ChangeInfo c =
+        gApi.changes().id(changeId).revision("current").cherryPick(in).get();
     return c.changeId;
   }
 
@@ -553,17 +536,14 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   private void vote(TestAccount user, String changeId, String label, int vote)
       throws Exception {
     setApiUser(user);
-    gApi.changes()
-        .id(changeId)
-        .current()
+    gApi.changes().id(changeId).current()
         .review(new ReviewInput().label(label, vote));
   }
 
   private void vote(TestAccount user, String changeId, int codeReviewVote,
       int verifiedVote) throws Exception {
     setApiUser(user);
-    ReviewInput in = new ReviewInput()
-        .label("Code-Review", codeReviewVote)
+    ReviewInput in = new ReviewInput().label("Code-Review", codeReviewVote)
         .label("Verified", verifiedVote);
     gApi.changes().id(changeId).current().review(in);
   }
@@ -571,9 +551,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   private void deleteVote(TestAccount user, String changeId, String label)
       throws Exception {
     setApiUser(user);
-    gApi.changes()
-        .id(changeId)
-        .reviewer(user.getId().toString())
+    gApi.changes().id(changeId).reviewer(user.getId().toString())
         .deleteVote(label);
   }
 
@@ -604,8 +582,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     if (changeKind != null) {
       name += "; changeKind = " + changeKind.name();
     }
-    assertThat(vote)
-        .named(name)
-        .isEqualTo(expectedVote);
+    assertThat(vote).named(name).isEqualTo(expectedVote);
   }
 }

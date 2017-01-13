@@ -48,21 +48,15 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void doesNotIncludeCurrentFiles() throws Exception {
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
 
-    SubmittedTogetherInfo info =
-        gApi.changes()
-            .id(id2)
-            .submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
+    SubmittedTogetherInfo info = gApi.changes().id(id2)
+        .submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
     assertThat(info.changes).hasSize(2);
     assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
     assertThat(info.changes.get(1).currentRevision).isEqualTo(c1_1.name());
@@ -74,23 +68,16 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   @Test
   public void returnsCurrentFilesIfOptionRequested() throws Exception {
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
 
-    SubmittedTogetherInfo info =
-        gApi.changes()
-            .id(id2)
-            .submittedTogether(
-                EnumSet.of(ListChangesOption.CURRENT_FILES),
-                EnumSet.of(NON_VISIBLE_CHANGES));
+    SubmittedTogetherInfo info = gApi.changes().id(id2).submittedTogether(
+        EnumSet.of(ListChangesOption.CURRENT_FILES),
+        EnumSet.of(NON_VISIBLE_CHANGES));
     assertThat(info.changes).hasSize(2);
     assertThat(info.changes.get(0).currentRevision).isEqualTo(c2_1.name());
     assertThat(info.changes.get(1).currentRevision).isEqualTo(c1_1.name());
@@ -106,15 +93,11 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   @Test
   public void returnsAncestors() throws Exception {
     // Create two commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
 
@@ -137,18 +120,14 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   public void respectsWholeTopicAndAncestors() throws Exception {
     RevCommit initialHead = getRemoteHead();
     // Create two independent commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);
     pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
 
     testRepo.reset(initialHead);
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
 
@@ -195,8 +174,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
 
     setApiUser(user);
-    SubmittedTogetherInfo result = gApi.changes()
-        .id(id1)
+    SubmittedTogetherInfo result = gApi.changes().id(id1)
         .submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
 
     if (isSubmitWholeTopicEnabled()) {
@@ -246,11 +224,8 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
     // TODO(jrn): use insertChangeId(id1) once jgit TestRepository accepts
     // the leading "I".
-    commitBuilder()
-        .insertChangeId(id1.substring(1))
-        .add("a", "2")
-        .message("draft patch set on change 1")
-        .create();
+    commitBuilder().insertChangeId(id1.substring(1)).add("a", "2")
+        .message("draft patch set on change 1").create();
     pushHead(testRepo, "refs/drafts/master/" + name("topic"), false);
 
     testRepo.reset(initialHead);
@@ -286,8 +261,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     String id = getChangeId(change);
 
     setApiUser(user);
-    SubmittedTogetherInfo result = gApi.changes()
-        .id(id)
+    SubmittedTogetherInfo result = gApi.changes().id(id)
         .submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
     if (isSubmitWholeTopicEnabled()) {
       assertThat(result.changes).hasSize(1);
@@ -303,25 +277,19 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   public void topicChaining() throws Exception {
     RevCommit initialHead = getRemoteHead();
     // Create two independent commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);
     pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
 
     testRepo.reset(initialHead);
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master/" + name("connectingTopic"), false);
 
-    RevCommit c3_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c3_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     String id3 = getChangeId(c3_1);
     pushHead(testRepo, "refs/for/master/" + name("unrelated-topic"), false);
 
@@ -342,16 +310,12 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     TestRepository<?> repo1 = cloneProject(p1);
 
     RevCommit c1 = repo1.branch("HEAD").commit().insertChangeId()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
+        .add("a.txt", "1").message("subject: 1").create();
     String id1 = GitUtil.getChangeId(repo1, c1).get();
     pushHead(repo1, "refs/for/master", false);
 
     RevCommit c2 = repo1.branch("HEAD").commit().insertChangeId()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+        .add("b.txt", "2").message("subject: 2").create();
     String id2 = GitUtil.getChangeId(repo1, c2).get();
     pushHead(repo1, "refs/for/master", false);
     assertSubmittedTogether(id1);
@@ -362,15 +326,11 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   @TestProjectInput(submitType = SubmitType.CHERRY_PICK)
   public void testCherryPickWithoutAncestors() throws Exception {
     // Create two commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
 
@@ -381,15 +341,11 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   @Test
   public void submissionIdSavedOnMergeInOneProject() throws Exception {
     // Create two commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
     String id1 = getChangeId(c1_1);
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     String id2 = getChangeId(c2_1);
     pushHead(testRepo, "refs/for/master", false);
 
@@ -414,17 +370,11 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
   }
 
   private void submit(String changeId) throws Exception {
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .submit();
+    gApi.changes().id(changeId).current().submit();
   }
 
   private void assertMerged(String changeId) throws Exception {
-    assertThat(gApi
-        .changes()
-        .id(changeId)
-        .get()
-        .status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.changes().id(changeId).get().status)
+        .isEqualTo(ChangeStatus.MERGED);
   }
 }

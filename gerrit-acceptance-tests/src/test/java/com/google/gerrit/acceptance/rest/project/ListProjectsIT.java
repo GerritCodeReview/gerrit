@@ -67,8 +67,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsWithBranch() throws Exception {
-    Map<String, ProjectInfo> result = gApi.projects().list()
-        .addShowBranch("master").getAsMap();
+    Map<String, ProjectInfo> result =
+        gApi.projects().list().addShowBranch("master").getAsMap();
     assertThat(result).containsKey(project.get());
     ProjectInfo info = result.get(project.get());
     assertThat(info.branches).isNotNull();
@@ -86,8 +86,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
     result = gApi.projects().list().withDescription(true).getAsMap();
     assertThat(result).containsKey(project.get());
-    assertThat(result.get(project.get()).description).isEqualTo(
-        "Description of some-project");
+    assertThat(result.get(project.get()).description)
+        .isEqualTo("Description of some-project");
   }
 
   @Test
@@ -100,9 +100,9 @@ public class ListProjectsIT extends AbstractDaemonTest {
     // 5, plus p which was automatically created.
     int n = 6;
     for (int i = 1; i <= n + 2; i++) {
-      assertThatNameList(gApi.projects().list().withPrefix(p)
-              .withLimit(i).get())
-          .hasSize(Math.min(i, n));
+      assertThatNameList(
+          gApi.projects().list().withPrefix(p).withLimit(i).get())
+              .hasSize(Math.min(i, n));
     }
   }
 
@@ -151,9 +151,9 @@ public class ListProjectsIT extends AbstractDaemonTest {
     // 5, plus p which was automatically created.
     int n = 6;
     assertThat(all).hasSize(n);
-    assertThatNameList(gApi.projects().list().withPrefix(p)
-            .withStart(n - 1).get())
-        .containsExactly(new Project.NameKey(Iterables.getLast(all).name));
+    assertThatNameList(
+        gApi.projects().list().withPrefix(p).withStart(n - 1).get())
+            .containsExactly(new Project.NameKey(Iterables.getLast(all).name));
   }
 
   @Test
@@ -162,14 +162,14 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey someOtherProject = createProject("some-other-project");
     Project.NameKey projectAwesome = createProject("project-awesome");
 
-    assertBadRequest(gApi.projects().list().withSubstring("some")
-        .withRegex(".*"));
-    assertBadRequest(gApi.projects().list().withSubstring("some")
-        .withPrefix("some"));
-    assertThatNameList(filter(gApi.projects().list().withSubstring("some")
-            .get()))
-        .containsExactly(projectAwesome, someOtherProject, someProject)
-        .inOrder();
+    assertBadRequest(
+        gApi.projects().list().withSubstring("some").withRegex(".*"));
+    assertBadRequest(
+        gApi.projects().list().withSubstring("some").withPrefix("some"));
+    assertThatNameList(
+        filter(gApi.projects().list().withSubstring("some").get()))
+            .containsExactly(projectAwesome, someOtherProject, someProject)
+            .inOrder();
   }
 
   @Test
@@ -178,8 +178,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey someChildProject =
         createProject("some-child-project", someParentProject);
 
-    Map<String, ProjectInfo> result = gApi.projects().list().withTree(true)
-        .getAsMap();
+    Map<String, ProjectInfo> result =
+        gApi.projects().list().withTree(true).getAsMap();
     assertThat(result).containsKey(someChildProject.get());
     assertThat(result.get(someChildProject.get()).parent)
         .isEqualTo(someParentProject.get());
@@ -187,14 +187,14 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectWithType() throws Exception {
-    Map<String, ProjectInfo> result = gApi.projects().list()
-        .withType(FilterType.PERMISSIONS).getAsMap();
+    Map<String, ProjectInfo> result =
+        gApi.projects().list().withType(FilterType.PERMISSIONS).getAsMap();
     assertThat(result).hasSize(1);
     assertThat(result).containsKey(allProjects.get());
 
-    assertThatNameList(filter(gApi.projects().list().withType(FilterType.ALL)
-            .get()))
-        .containsExactly(allProjects, allUsers, project).inOrder();
+    assertThatNameList(
+        filter(gApi.projects().list().withType(FilterType.ALL).get()))
+            .containsExactly(allProjects, allUsers, project).inOrder();
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {
@@ -208,13 +208,9 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   private Iterable<ProjectInfo> filter(Iterable<ProjectInfo> infos) {
     String prefix = name("");
-    return Iterables.filter(
-        infos,
-        p -> {
-          return p.name != null && (
-              p.name.equals(allProjects.get())
-              || p.name.equals(allUsers.get())
-              || p.name.startsWith(prefix));
-        });
+    return Iterables.filter(infos, p -> {
+      return p.name != null && (p.name.equals(allProjects.get())
+          || p.name.equals(allUsers.get()) || p.name.startsWith(prefix));
+    });
   }
 }

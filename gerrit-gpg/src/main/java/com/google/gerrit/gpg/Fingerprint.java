@@ -28,8 +28,7 @@ public class Fingerprint {
 
   public static String toString(byte[] fp) {
     checkLength(fp);
-    return String.format(
-        "%04X %04X %04X %04X %04X  %04X %04X %04X %04X %04X",
+    return String.format("%04X %04X %04X %04X %04X  %04X %04X %04X %04X %04X",
         NB.decodeUInt16(fp, 0), NB.decodeUInt16(fp, 2), NB.decodeUInt16(fp, 4),
         NB.decodeUInt16(fp, 6), NB.decodeUInt16(fp, 8), NB.decodeUInt16(fp, 10),
         NB.decodeUInt16(fp, 12), NB.decodeUInt16(fp, 14),
@@ -49,8 +48,8 @@ public class Fingerprint {
   }
 
   private static byte[] checkLength(byte[] fp) {
-    checkArgument(fp.length == 20,
-        "fingerprint must be 20 bytes, got %s", fp.length);
+    checkArgument(fp.length == 20, "fingerprint must be 20 bytes, got %s",
+        fp.length);
     return fp;
   }
 
@@ -80,8 +79,8 @@ public class Fingerprint {
   public Fingerprint(byte[] buf, int off) {
     int expected = 20 + off;
     checkArgument(buf.length >= expected,
-        "fingerprint buffer must have at least %s bytes, got %s",
-        expected, buf.length);
+        "fingerprint buffer must have at least %s bytes, got %s", expected,
+        buf.length);
     this.fp = new byte[20];
     System.arraycopy(buf, off, fp, 0, 20);
   }

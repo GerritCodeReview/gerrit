@@ -98,14 +98,13 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     din.message = "A comment";
     gApi.changes().id(id.get()).current().createDraft(din);
 
-    CommentInfo di = Iterables.getOnlyElement(
-        gApi.changes().id(id.get()).current().drafts()
-            .get(PushOneCommit.FILE_NAME));
+    CommentInfo di = Iterables.getOnlyElement(gApi.changes().id(id.get())
+        .current().drafts().get(PushOneCommit.FILE_NAME));
     assertThat(di.message).isEqualTo(din.message);
 
     assertThat(
-            db.patchComments().draftByChangeFileAuthor(id, din.path, admin.id))
-        .isEmpty();
+        db.patchComments().draftByChangeFileAuthor(id, din.path, admin.id))
+            .isEmpty();
 
     gApi.changes().id(id.get()).current().draft(di.id).delete();
     assertThat(gApi.changes().id(id.get()).current().drafts()).isEmpty();
@@ -166,17 +165,14 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     Change c = db.changes().get(id);
     assertThat(c).named("change " + id).isNotNull();
     NoteDbChangeState state = NoteDbChangeState.parse(c);
-    assertThat(state.getPrimaryStorage())
-        .named("storage of " + id)
+    assertThat(state.getPrimaryStorage()).named("storage of " + id)
         .isEqualTo(REVIEW_DB);
 
     try (Repository changeRepo = repoManager.openRepository(c.getProject());
         Repository allUsersRepo = repoManager.openRepository(allUsers)) {
-      assertThat(
-              state.isUpToDate(
-                  new RepoRefCache(changeRepo), new RepoRefCache(allUsersRepo)))
-          .named("change " + id + " up to date")
-          .isTrue();
+      assertThat(state.isUpToDate(new RepoRefCache(changeRepo),
+          new RepoRefCache(allUsersRepo))).named("change " + id + " up to date")
+              .isTrue();
     }
 
     c.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
@@ -184,10 +180,8 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   private List<Account.Id> getReviewers(Change.Id id) throws Exception {
-    return gApi.changes().id(id.get()).get()
-        .reviewers.values().stream()
-        .flatMap(Collection::stream)
-        .map(a -> new Account.Id(a._accountId))
+    return gApi.changes().id(id.get()).get().reviewers.values().stream()
+        .flatMap(Collection::stream).map(a -> new Account.Id(a._accountId))
         .collect(toList());
   }
 }

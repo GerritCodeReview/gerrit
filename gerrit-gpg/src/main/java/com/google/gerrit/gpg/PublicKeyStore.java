@@ -79,11 +79,12 @@ public class PublicKeyStore implements AutoCloseable {
   /**
    * Choose the public key that produced a signature.
    * <p>
+   * 
    * @param keyRings candidate keys.
    * @param sig signature object.
    * @param data signed payload.
    * @return the key chosen from {@code keyRings} that was able to verify the
-   *     signature, or {@code null} if none was found.
+   *         signature, or {@code null} if none was found.
    * @throws PGPException if an error occurred verifying the signature.
    */
   public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
@@ -102,12 +103,13 @@ public class PublicKeyStore implements AutoCloseable {
   /**
    * Choose the public key that produced a certification.
    * <p>
+   * 
    * @param keyRings candidate keys.
    * @param sig signature object.
    * @param userId user ID being certified.
    * @param key key being certified.
    * @return the key chosen from {@code keyRings} that was able to verify the
-   *     certification, or {@code null} if none was found.
+   *         certification, or {@code null} if none was found.
    * @throws PGPException if an error occurred verifying the certification.
    */
   public static PGPPublicKey getSigner(Iterable<PGPPublicKeyRing> keyRings,
@@ -286,7 +288,7 @@ public class PublicKeyStore implements AutoCloseable {
    * of lock failure.
    *
    * @param cb commit builder with at least author and identity populated; tree
-   *     and parent are ignored.
+   *        and parent are ignored.
    * @return result of the ref update.
    */
   public RefUpdate.Result save(CommitBuilder cb)
@@ -309,8 +311,7 @@ public class PublicKeyStore implements AutoCloseable {
         deleteFromNotes(ins, fp);
       }
       cb.setTreeId(notes.writeTree(ins));
-      if (cb.getTreeId().equals(
-          tip != null ? tip.getTree() : EMPTY_TREE)) {
+      if (cb.getTreeId().equals(tip != null ? tip.getTree() : EMPTY_TREE)) {
         return RefUpdate.Result.NO_CHANGE;
       }
 
@@ -370,8 +371,7 @@ public class PublicKeyStore implements AutoCloseable {
     if (!replaced) {
       toWrite.add(keyRing);
     }
-    notes.set(keyObjectId(keyId),
-        ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
+    notes.set(keyObjectId(keyId), ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
   }
 
   private void deleteFromNotes(ObjectInserter ins, Fingerprint fp)
@@ -413,9 +413,7 @@ public class PublicKeyStore implements AutoCloseable {
   public static String keyToString(PGPPublicKey key) {
     @SuppressWarnings("unchecked")
     Iterator<String> it = key.getUserIDs();
-    return String.format(
-        "%s %s(%s)",
-        keyIdToString(key.getKeyID()),
+    return String.format("%s %s(%s)", keyIdToString(key.getKeyID()),
         it.hasNext() ? it.next() + " " : "",
         Fingerprint.toString(key.getFingerprint()));
   }

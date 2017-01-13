@@ -155,7 +155,8 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().create(dupGroupName);
     gApi.groups().create(dupGroupNameLowerCase);
     assertThat(gApi.groups().list().getAsMap().keySet()).contains(dupGroupName);
-    assertThat(gApi.groups().list().getAsMap().keySet()).contains(dupGroupNameLowerCase);
+    assertThat(gApi.groups().list().getAsMap().keySet())
+        .contains(dupGroupNameLowerCase);
   }
 
   @Test
@@ -198,7 +199,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void getGroup() throws Exception {
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    AccountGroup adminGroup =
+        groupCache.get(new AccountGroup.NameKey("Administrators"));
     testGetGroup(adminGroup.getGroupUUID().get(), adminGroup);
     testGetGroup(adminGroup.getName(), adminGroup);
     testGetGroup(adminGroup.getId().get(), adminGroup);
@@ -398,9 +400,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void listAllGroups() throws Exception {
     List<String> expectedGroups = groupCache.all().stream()
-          .map(a -> a.getName())
-          .sorted()
-          .collect(toList());
+        .map(a -> a.getName()).sorted().collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
     assertThat(gApi.groups().list().getAsMap().keySet())
         .containsExactlyElementsIn(expectedGroups).inOrder();
@@ -417,8 +417,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().create(in);
 
     setApiUser(user);
-    assertThat(gApi.groups().list().getAsMap())
-        .doesNotContainKey(newGroupName);
+    assertThat(gApi.groups().list().getAsMap()).doesNotContainKey(newGroupName);
 
     setApiUser(admin);
     gApi.groups().id(newGroupName).addMembers(user.username);
@@ -429,7 +428,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void suggestGroup() throws Exception {
-    Map<String, GroupInfo> groups = gApi.groups().list().withSuggest("adm").getAsMap();
+    Map<String, GroupInfo> groups =
+        gApi.groups().list().withSuggest("adm").getAsMap();
     assertThat(groups).containsKey("Administrators");
     assertThat(groups).hasSize(1);
   }
@@ -471,7 +471,8 @@ public class GroupsIT extends AbstractDaemonTest {
     g.removeGroups(otherGroup);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(5);
-    assertAuditEvent(auditEvents.get(0), Type.REMOVE_GROUP, admin.id, otherGroup);
+    assertAuditEvent(auditEvents.get(0), Type.REMOVE_GROUP, admin.id,
+        otherGroup);
 
     Timestamp lastDate = null;
     for (GroupAuditEventInfo auditEvent : auditEvents) {
@@ -513,8 +514,8 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(info.user._accountId).isEqualTo(expectedUser.get());
     assertThat(info.type).isEqualTo(expectedType);
     assertThat(info).isInstanceOf(UserMemberAuditEventInfo.class);
-    assertThat(((UserMemberAuditEventInfo) info).member._accountId).isEqualTo(
-        expectedMember.get());
+    assertThat(((UserMemberAuditEventInfo) info).member._accountId)
+        .isEqualTo(expectedMember.get());
   }
 
   private void assertAuditEvent(GroupAuditEventInfo info, Type expectedType,
@@ -522,17 +523,15 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(info.user._accountId).isEqualTo(expectedUser.get());
     assertThat(info.type).isEqualTo(expectedType);
     assertThat(info).isInstanceOf(GroupMemberAuditEventInfo.class);
-    assertThat(((GroupMemberAuditEventInfo) info).member.name).isEqualTo(
-        expectedMemberGroupName);
+    assertThat(((GroupMemberAuditEventInfo) info).member.name)
+        .isEqualTo(expectedMemberGroupName);
   }
 
   private void assertMembers(String group, TestAccount... expectedMembers)
       throws Exception {
-    assertMembers(
-        gApi.groups().id(group).members(),
+    assertMembers(gApi.groups().id(group).members(),
         TestAccount.names(expectedMembers).stream().toArray(String[]::new));
-    assertAccountInfos(
-        Arrays.asList(expectedMembers),
+    assertAccountInfos(Arrays.asList(expectedMembers),
         gApi.groups().id(group).members());
   }
 
@@ -551,8 +550,8 @@ public class GroupsIT extends AbstractDaemonTest {
     assertIncludes(gApi.groups().id(group).includedGroups(), expectedNames);
   }
 
-  private static void assertIncludes(
-      Iterable<GroupInfo> includes, String... expectedNames) {
+  private static void assertIncludes(Iterable<GroupInfo> includes,
+      String... expectedNames) {
     assertThat(Iterables.transform(includes, i -> i.name))
         .containsExactlyElementsIn(Arrays.asList(expectedNames)).inOrder();
   }

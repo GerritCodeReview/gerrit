@@ -67,7 +67,8 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createBranchByAdminCreateReferenceBlocked_Forbidden() throws Exception {
+  public void createBranchByAdminCreateReferenceBlocked_Forbidden()
+      throws Exception {
     blockCreateReference();
     assertCreateFails(AuthException.class);
   }
@@ -90,8 +91,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   private BranchApi branch() throws Exception {
-    return gApi.projects()
-        .name(branch.getParentKey().get())
+    return gApi.projects().name(branch.getParentKey().get())
         .branch(branch.get());
   }
 

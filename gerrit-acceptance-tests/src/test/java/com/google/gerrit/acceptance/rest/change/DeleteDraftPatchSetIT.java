@@ -153,7 +153,8 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
       assertThat(m.getPatchSetId()).named(m.toString()).isNotEqualTo(delPsId);
     }
     for (Comment c : cd.publishedComments()) {
-      assertThat(c.key.patchSetId).named(c.toString()).isNotEqualTo(delPsId.get());
+      assertThat(c.key.patchSetId).named(c.toString())
+          .isNotEqualTo(delPsId.get());
     }
   }
 
@@ -188,7 +189,8 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
       assertThat(m.getPatchSetId()).named(m.toString()).isNotEqualTo(delPsId);
     }
     for (Comment c : cd.publishedComments()) {
-      assertThat(c.key.patchSetId).named(c.toString()).isNotEqualTo(delPsId.get());
+      assertThat(c.key.patchSetId).named(c.toString())
+          .isNotEqualTo(delPsId.get());
     }
   }
 
@@ -197,51 +199,40 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     String ref = "refs/drafts/master";
 
     // Clone repository
-    TestRepository<InMemoryRepository> testRepo =
-        cloneProject(project, admin);
+    TestRepository<InMemoryRepository> testRepo = cloneProject(project, admin);
 
     // Create change
-    PushOneCommit push = pushFactory.create(
-        db, admin.getIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     PushOneCommit.Result r1 = push.to(ref);
     r1.assertOkStatus();
     String revPs1 = r1.getChange().currentPatchSet().getRevision().get();
 
     // Push draft patch set
-    PushOneCommit.Result r2 = amendChange(
-        r1.getChangeId(), ref, admin, testRepo);
+    PushOneCommit.Result r2 =
+        amendChange(r1.getChangeId(), ref, admin, testRepo);
     r2.assertOkStatus();
     String revPs2 = r2.getChange().currentPatchSet().getRevision().get();
 
     assertThat(
-        gApi.changes()
-            .id(r1.getChange().getId().get()).get()
-            .currentRevision)
-        .isEqualTo(revPs2);
+        gApi.changes().id(r1.getChange().getId().get()).get().currentRevision)
+            .isEqualTo(revPs2);
 
     // Remove draft patch set
-    gApi.changes()
-        .id(r1.getChange().getId().get())
-        .revision(revPs2)
-        .delete();
+    gApi.changes().id(r1.getChange().getId().get()).revision(revPs2).delete();
 
     assertThat(
-        gApi.changes()
-            .id(r1.getChange().getId().get()).get()
-            .currentRevision)
-        .isEqualTo(revPs1);
+        gApi.changes().id(r1.getChange().getId().get()).get().currentRevision)
+            .isEqualTo(revPs1);
 
     // Push new draft patch set
-    PushOneCommit.Result r3 = amendChange(
-        r1.getChangeId(), ref, admin, testRepo);
+    PushOneCommit.Result r3 =
+        amendChange(r1.getChangeId(), ref, admin, testRepo);
     r3.assertOkStatus();
     String revPs3 = r2.getChange().currentPatchSet().getRevision().get();
 
     assertThat(
-        gApi.changes()
-            .id(r1.getChange().getId().get()).get()
-            .currentRevision)
-        .isEqualTo(revPs3);
+        gApi.changes().id(r1.getChange().getId().get()).get().currentRevision)
+            .isEqualTo(revPs3);
 
     // Check that all patch sets have different SHA1s
     assertThat(revPs1).doesNotMatch(revPs2);
@@ -264,8 +255,8 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   private String createDraftChangeWith2PS() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     Result result = push.to("refs/drafts/master");
-    push = pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
-        "b.txt", "4711", result.getChangeId());
+    push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, "b.txt", "4711", result.getChangeId());
     return push.to("refs/drafts/master").getChangeId();
   }
 

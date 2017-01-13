@@ -59,7 +59,7 @@ public class AccessIT extends AbstractDaemonTest {
   private ProjectApi pApi;
 
   @Before
-  public void setUp() throws Exception  {
+  public void setUp() throws Exception {
     newProjectName = createProject(PROJECT_NAME).get();
     pApi = gApi.projects().name(newProjectName);
   }
@@ -84,9 +84,8 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(pApi.access().local).isEqualTo(accessInput.add);
 
     RevCommit updatedHead = getRemoteHead(p, RefNames.REFS_CONFIG);
-    eventRecorder.assertRefUpdatedEvents(p.get(), RefNames.REFS_CONFIG,
-        null, initialHead,
-        initialHead, updatedHead);
+    eventRecorder.assertRefUpdatedEvents(p.get(), RefNames.REFS_CONFIG, null,
+        initialHead, initialHead, updatedHead);
   }
 
   @Test
@@ -100,8 +99,8 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Remove specific permission
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
-    accessSectionToRemove.permissions
-        .put(Permission.LABEL + LABEL_CODE_REVIEW, newPermissionInfo());
+    accessSectionToRemove.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW,
+        newPermissionInfo());
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
     pApi.access(removal);
@@ -127,20 +126,19 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
     PermissionInfo codeReview = newPermissionInfo();
     codeReview.label = LABEL_CODE_REVIEW;
-    PermissionRuleInfo pri = new PermissionRuleInfo(
-        PermissionRuleInfo.Action.DENY, false);
-    codeReview.rules.put(
-        SystemGroupBackend.REGISTERED_USERS.get(), pri);
-    accessSectionToRemove.permissions
-        .put(Permission.LABEL +LABEL_CODE_REVIEW, codeReview);
+    PermissionRuleInfo pri =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
+    codeReview.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSectionToRemove.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW,
+        codeReview);
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
     pApi.access(removal);
 
     // Remove locally
     accessInput.add.get(REFS_HEADS).permissions
-        .get(Permission.LABEL + LABEL_CODE_REVIEW)
-        .rules.remove(SystemGroupBackend.REGISTERED_USERS.get());
+        .get(Permission.LABEL + LABEL_CODE_REVIEW).rules
+            .remove(SystemGroupBackend.REGISTERED_USERS.get());
 
     // Check
     assertThat(pApi.access().local).isEqualTo(accessInput.add);
@@ -159,23 +157,20 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionToRemove = newAccessSectionInfo();
     PermissionInfo codeReview = newPermissionInfo();
     codeReview.label = LABEL_CODE_REVIEW;
-    PermissionRuleInfo pri = new PermissionRuleInfo(
-        PermissionRuleInfo.Action.DENY, false);
-    codeReview.rules.put(
-        SystemGroupBackend.REGISTERED_USERS.get(), pri);
-    pri = new PermissionRuleInfo(
-        PermissionRuleInfo.Action.DENY, false);
-    codeReview.rules.put(
-        SystemGroupBackend.PROJECT_OWNERS.get(), pri);
-    accessSectionToRemove.permissions
-        .put(Permission.LABEL +LABEL_CODE_REVIEW, codeReview);
+    PermissionRuleInfo pri =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
+    codeReview.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
+    codeReview.rules.put(SystemGroupBackend.PROJECT_OWNERS.get(), pri);
+    accessSectionToRemove.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW,
+        codeReview);
     ProjectAccessInput removal = newProjectAccessInput();
     removal.remove.put(REFS_HEADS, accessSectionToRemove);
     pApi.access(removal);
 
     // Remove locally
-    accessInput.add.get(REFS_HEADS)
-        .permissions.remove(Permission.LABEL + LABEL_CODE_REVIEW);
+    accessInput.add.get(REFS_HEADS).permissions
+        .remove(Permission.LABEL + LABEL_CODE_REVIEW);
 
     // Check
     assertThat(pApi.access().local).isEqualTo(accessInput.add);
@@ -252,8 +247,7 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo =
         createDefaultGlobalCapabilitiesAccessSectionInfo();
 
-    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES,
-        accessSectionInfo);
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     setApiUser(user);
     exception.expect(AuthException.class);
@@ -266,14 +260,13 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo =
         createDefaultGlobalCapabilitiesAccessSectionInfo();
 
-    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES,
-        accessSectionInfo);
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     ProjectAccessInfo updatedAccessSectionInfo =
         gApi.projects().name(allProjects.get()).access(accessInput);
-    assertThat(updatedAccessSectionInfo.local.get(
-        AccessSection.GLOBAL_CAPABILITIES).permissions.keySet())
-        .containsAllIn(accessSectionInfo.permissions.keySet());
+    assertThat(updatedAccessSectionInfo.local
+        .get(AccessSection.GLOBAL_CAPABILITIES).permissions.keySet())
+            .containsAllIn(accessSectionInfo.permissions.keySet());
   }
 
   @Test
@@ -282,8 +275,7 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo =
         createDefaultGlobalCapabilitiesAccessSectionInfo();
 
-    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES,
-        accessSectionInfo);
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     exception.expect(BadRequestException.class);
     pApi.access(accessInput);
@@ -298,13 +290,10 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
 
     PermissionInfo permissionInfo = newPermissionInfo();
-    permissionInfo.rules.put(
-        adminGroup.getGroupUUID().get(), null);
-    accessSectionInfo.permissions.put(Permission.PUSH,
-        permissionInfo);
+    permissionInfo.rules.put(adminGroup.getGroupUUID().get(), null);
+    accessSectionInfo.permissions.put(Permission.PUSH, permissionInfo);
 
-    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES,
-        accessSectionInfo);
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     exception.expect(BadRequestException.class);
     gApi.projects().name(allProjects.get()).access(accessInput);
@@ -333,21 +322,19 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
 
     PermissionInfo permissionInfo = newPermissionInfo();
-    permissionInfo.rules.put(
-        adminGroup.getGroupUUID().get(), null);
+    permissionInfo.rules.put(adminGroup.getGroupUUID().get(), null);
     accessSectionInfo.permissions.put(GlobalCapability.ACCESS_DATABASE,
         permissionInfo);
 
     // Add and validate first as removing existing privileges such as
     // administrateServer would break upcoming tests
-    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES,
-        accessSectionInfo);
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     ProjectAccessInfo updatedProjectAccessInfo =
         gApi.projects().name(allProjects.get()).access(accessInput);
-    assertThat(updatedProjectAccessInfo.local.get(
-        AccessSection.GLOBAL_CAPABILITIES).permissions.keySet())
-        .containsAllIn(accessSectionInfo.permissions.keySet());
+    assertThat(updatedProjectAccessInfo.local
+        .get(AccessSection.GLOBAL_CAPABILITIES).permissions.keySet())
+            .containsAllIn(accessSectionInfo.permissions.keySet());
 
     // Remove
     accessInput.add.clear();
@@ -356,9 +343,9 @@ public class AccessIT extends AbstractDaemonTest {
 
     updatedProjectAccessInfo =
         gApi.projects().name(allProjects.get()).access(accessInput);
-    assertThat(updatedProjectAccessInfo.local.get(
-        AccessSection.GLOBAL_CAPABILITIES).permissions.keySet())
-        .containsNoneIn(accessSectionInfo.permissions.keySet());
+    assertThat(updatedProjectAccessInfo.local
+        .get(AccessSection.GLOBAL_CAPABILITIES).permissions.keySet())
+            .containsNoneIn(accessSectionInfo.permissions.keySet());
   }
 
   @Test
@@ -376,8 +363,7 @@ public class AccessIT extends AbstractDaemonTest {
     allProjectsRepo.reset("cfg");
 
     // Load current permissions
-    String config = gApi.projects()
-        .name(allProjects.get())
+    String config = gApi.projects().name(allProjects.get())
         .branch(RefNames.REFS_CONFIG).file("project.config").asString();
 
     // Append and push unknown permission
@@ -385,14 +371,12 @@ public class AccessIT extends AbstractDaemonTest {
     cfg.fromText(config);
     cfg.setString(access, refsFor, unknownPermission, registeredUsers);
     config = cfg.toText();
-    PushOneCommit push = pushFactory.create(
-        db, admin.getIdent(), allProjectsRepo, "Subject", "project.config",
-        config);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+        allProjectsRepo, "Subject", "project.config", config);
     push.to(RefNames.REFS_CONFIG).assertOkStatus();
 
     // Verify that unknownPermission is present
-    config = gApi.projects()
-        .name(allProjects.get())
+    config = gApi.projects().name(allProjects.get())
         .branch(RefNames.REFS_CONFIG).file("project.config").asString();
     cfg.fromText(config);
     assertThat(cfg.getString(access, refsFor, unknownPermission))
@@ -408,8 +392,7 @@ public class AccessIT extends AbstractDaemonTest {
     gApi.projects().name(allProjects.get()).access(accessInput);
 
     // Verify that unknownPermission is still present
-    config = gApi.projects()
-        .name(allProjects.get())
+    config = gApi.projects().name(allProjects.get())
         .branch(RefNames.REFS_CONFIG).file("project.config").asString();
     cfg.fromText(config);
     assertThat(cfg.getString(access, refsFor, unknownPermission))
@@ -439,27 +422,22 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSection = newAccessSectionInfo();
 
     PermissionInfo push = newPermissionInfo();
-    PermissionRuleInfo pri = new PermissionRuleInfo(
-        PermissionRuleInfo.Action.ALLOW, false);
-    push.rules.put(
-        SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    PermissionRuleInfo pri =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    push.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
     accessSection.permissions.put(Permission.PUSH, push);
 
     PermissionInfo codeReview = newPermissionInfo();
     codeReview.label = LABEL_CODE_REVIEW;
-    pri = new PermissionRuleInfo(
-        PermissionRuleInfo.Action.DENY, false);
-    codeReview.rules.put(
-        SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    pri = new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
+    codeReview.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
 
-    pri = new PermissionRuleInfo(
-        PermissionRuleInfo.Action.ALLOW, false);
+    pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
     pri.max = 1;
     pri.min = -1;
-    codeReview.rules.put(
-        SystemGroupBackend.PROJECT_OWNERS.get(), pri);
-    accessSection.permissions.put(Permission.LABEL
-        + LABEL_CODE_REVIEW, codeReview);
+    codeReview.rules.put(SystemGroupBackend.PROJECT_OWNERS.get(), pri);
+    accessSection.permissions.put(Permission.LABEL + LABEL_CODE_REVIEW,
+        codeReview);
 
     return accessSection;
   }
@@ -469,10 +447,9 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSection = newAccessSectionInfo();
 
     PermissionInfo email = newPermissionInfo();
-    PermissionRuleInfo pri = new PermissionRuleInfo(
-        PermissionRuleInfo.Action.ALLOW, false);
-    email.rules.put(
-        SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    PermissionRuleInfo pri =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    email.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
     accessSection.permissions.put(GlobalCapability.EMAIL_REVIEWERS, email);
 
     return accessSection;
@@ -482,10 +459,9 @@ public class AccessIT extends AbstractDaemonTest {
     AccessSectionInfo accessSection = newAccessSectionInfo();
 
     PermissionInfo read = newPermissionInfo();
-    PermissionRuleInfo pri = new PermissionRuleInfo(
-        PermissionRuleInfo.Action.DENY, false);
-    read.rules.put(
-        SystemGroupBackend.ANONYMOUS_USERS.get(), pri);
+    PermissionRuleInfo pri =
+        new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false);
+    read.rules.put(SystemGroupBackend.ANONYMOUS_USERS.get(), pri);
     accessSection.permissions.put(Permission.READ, read);
 
     return accessSection;

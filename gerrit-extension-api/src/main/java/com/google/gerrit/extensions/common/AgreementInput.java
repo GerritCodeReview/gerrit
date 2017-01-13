@@ -16,7 +16,9 @@ package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
-/** This entity contains information for registering a new contributor agreement. */
+/**
+ * This entity contains information for registering a new contributor agreement.
+ */
 public class AgreementInput {
   /* The agreement name. */
   @DefaultInput

@@ -183,10 +183,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void get() throws Exception {
-    AccountInfo info = gApi
-        .accounts()
-        .id("admin")
-        .get();
+    AccountInfo info = gApi.accounts().id("admin").get();
     assertThat(info.name).isEqualTo("Administrator");
     assertThat(info.email).isEqualTo("admin@example.com");
     assertThat(info.username).isEqualTo("admin");
@@ -194,29 +191,17 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void getByIntId() throws Exception {
-    AccountInfo info = gApi
-        .accounts()
-        .id("admin")
-        .get();
-    AccountInfo infoByIntId = gApi
-        .accounts()
-        .id(info._accountId)
-        .get();
+    AccountInfo info = gApi.accounts().id("admin").get();
+    AccountInfo infoByIntId = gApi.accounts().id(info._accountId).get();
     assertThat(info.name).isEqualTo(infoByIntId.name);
   }
 
   @Test
   public void self() throws Exception {
-    AccountInfo info = gApi
-        .accounts()
-        .self()
-        .get();
+    AccountInfo info = gApi.accounts().self().get();
     assertUser(info, admin);
 
-    info = gApi
-        .accounts()
-        .id("self")
-        .get();
+    info = gApi.accounts().id("self").get();
     assertUser(info, admin);
   }
 
@@ -254,16 +239,12 @@ public class AccountIT extends AbstractDaemonTest {
   public void starUnstarChange() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
-    gApi.accounts()
-        .self()
-        .starChange(triplet);
+    gApi.accounts().self().starChange(triplet);
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
     assertThat(change.stars).contains(DEFAULT_LABEL);
 
-    gApi.accounts()
-        .self()
-        .unstarChange(triplet);
+    gApi.accounts().self().unstarChange(triplet);
     change = info(triplet);
     assertThat(change.starred).isNull();
     assertThat(change.stars).isNull();
@@ -280,8 +261,8 @@ public class AccountIT extends AbstractDaemonTest {
         new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "red", "blue")));
     ChangeInfo change = info(triplet);
     assertThat(change.starred).isTrue();
-    assertThat(change.stars)
-        .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
+    assertThat(change.stars).containsExactly("blue", "red", DEFAULT_LABEL)
+        .inOrder();
     assertThat(gApi.accounts().self().getStars(triplet))
         .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
     List<ChangeInfo> starredChanges =
@@ -293,14 +274,13 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(starredChange.stars)
         .containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
 
-    gApi.accounts().self().setStars(triplet,
-        new StarsInput(ImmutableSet.of("yellow"),
-            ImmutableSet.of(DEFAULT_LABEL, "blue")));
+    gApi.accounts().self().setStars(triplet, new StarsInput(
+        ImmutableSet.of("yellow"), ImmutableSet.of(DEFAULT_LABEL, "blue")));
     change = info(triplet);
     assertThat(change.starred).isNull();
     assertThat(change.stars).containsExactly("red", "yellow").inOrder();
-    assertThat(gApi.accounts().self().getStars(triplet)).containsExactly(
-        "red", "yellow").inOrder();
+    assertThat(gApi.accounts().self().getStars(triplet))
+        .containsExactly("red", "yellow").inOrder();
     starredChanges = gApi.accounts().self().getStarredChanges();
     assertThat(starredChanges).hasSize(1);
     starredChange = starredChanges.get(0);
@@ -319,11 +299,10 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
     exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        "invalid labels: another invalid label, invalid label");
-    gApi.accounts().self().setStars(triplet,
-        new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "invalid label", "blue",
-            "another invalid label")));
+    exception
+        .expectMessage("invalid labels: another invalid label, invalid label");
+    gApi.accounts().self().setStars(triplet, new StarsInput(ImmutableSet
+        .of(DEFAULT_LABEL, "invalid label", "blue", "another invalid label")));
   }
 
   @Test
@@ -331,9 +310,9 @@ public class AccountIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
     exception.expect(BadRequestException.class);
-    exception.expectMessage("The labels " + DEFAULT_LABEL
-        + " and " + IGNORE_LABEL + " are mutually exclusive."
-        + " Only one of them can be set.");
+    exception
+        .expectMessage("The labels " + DEFAULT_LABEL + " and " + IGNORE_LABEL
+            + " are mutually exclusive." + " Only one of them can be set.");
     gApi.accounts().self().setStars(triplet,
         new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "blue", IGNORE_LABEL)));
   }
@@ -344,16 +323,12 @@ public class AccountIT extends AbstractDaemonTest {
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    gApi.changes()
-        .id(r.getChangeId())
-        .addReviewer(in);
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     TestAccount user2 = accounts.user2();
     in = new AddReviewerInput();
     in.reviewer = user2.email;
-    gApi.changes()
-        .id(r.getChangeId())
-        .addReviewer(in);
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     setApiUser(user);
     gApi.accounts().self().setStars(r.getChangeId(),
@@ -361,9 +336,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     sender.clear();
     setApiUser(admin);
-    gApi.changes()
-        .id(r.getChangeId())
-        .abandon();
+    gApi.changes().id(r.getChangeId()).abandon();
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     assertThat(messages.get(0).rcpt()).containsExactly(user2.emailAddress);
@@ -382,9 +355,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    gApi.changes()
-        .id(r.getChangeId())
-        .addReviewer(in);
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message message = messages.get(0);
@@ -395,24 +366,24 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void suggestAccounts() throws Exception {
     String adminUsername = "admin";
-    List<AccountInfo> result = gApi.accounts()
-        .suggestAccounts().withQuery(adminUsername).get();
+    List<AccountInfo> result =
+        gApi.accounts().suggestAccounts().withQuery(adminUsername).get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).username).isEqualTo(adminUsername);
 
-    List<AccountInfo> resultShortcutApi = gApi.accounts()
-        .suggestAccounts(adminUsername).get();
+    List<AccountInfo> resultShortcutApi =
+        gApi.accounts().suggestAccounts(adminUsername).get();
     assertThat(resultShortcutApi).hasSize(result.size());
 
-    List<AccountInfo> emptyResult = gApi.accounts()
-        .suggestAccounts("unknown").get();
+    List<AccountInfo> emptyResult =
+        gApi.accounts().suggestAccounts("unknown").get();
     assertThat(emptyResult).isEmpty();
   }
 
   @Test
   public void addEmail() throws Exception {
-    List<String> emails = ImmutableList.of(
-        "new.email@example.com", "new.email@example.systems");
+    List<String> emails =
+        ImmutableList.of("new.email@example.com", "new.email@example.systems");
     for (String email : emails) {
       EmailInput input = new EmailInput();
       input.email = email;
@@ -423,7 +394,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addInvalidEmail() throws Exception {
-    EmailInput input  = new EmailInput();
+    EmailInput input = new EmailInput();
     input.email = "invalid@";
     input.noConfirmation = true;
 
@@ -607,8 +578,8 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    AccountExternalId extId = new AccountExternalId(
-        user.getId(), new AccountExternalId.Key("foo:myId"));
+    AccountExternalId extId = new AccountExternalId(user.getId(),
+        new AccountExternalId.Key("foo:myId"));
 
     db.accountExternalIds().insert(Collections.singleton(extId));
     externalIdCache.onCreate(extId);
@@ -663,26 +634,25 @@ public class AccountIT extends AbstractDaemonTest {
     TestKey key5 = validKeyWithSecondUserId();
 
     Map<String, GpgKeyInfo> infos = gApi.accounts().self().putGpgKeys(
-        ImmutableList.of(
-          key1.getPublicKeyArmored(),
-          key2.getPublicKeyArmored()),
+        ImmutableList.of(key1.getPublicKeyArmored(),
+            key2.getPublicKeyArmored()),
         ImmutableList.of(key5.getKeyIdString()));
-    assertThat(infos.keySet())
-        .containsExactly(key1.getKeyIdString(), key2.getKeyIdString());
+    assertThat(infos.keySet()).containsExactly(key1.getKeyIdString(),
+        key2.getKeyIdString());
     assertKeys(key1, key2);
 
     infos = gApi.accounts().self().putGpgKeys(
         ImmutableList.of(key5.getPublicKeyArmored()),
         ImmutableList.of(key1.getKeyIdString()));
-    assertThat(infos.keySet())
-        .containsExactly(key1.getKeyIdString(), key5.getKeyIdString());
+    assertThat(infos.keySet()).containsExactly(key1.getKeyIdString(),
+        key5.getKeyIdString());
     assertKeyMapContains(key5, infos);
     assertThat(infos.get(key1.getKeyIdString()).key).isNull();
     assertKeys(key2, key5);
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage("Cannot both add and delete key: "
-        + keyToString(key2.getPublicKey()));
+    exception.expectMessage(
+        "Cannot both add and delete key: " + keyToString(key2.getPublicKey()));
     infos = gApi.accounts().self().putGpgKeys(
         ImmutableList.of(key2.getPublicKeyArmored()),
         ImmutableList.of(key2.getKeyIdString()));
@@ -701,8 +671,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(key.sshPublicKey).isEqualTo(inital);
 
     // Add a new key
-    String newKey = AccountCreator.publicKey(
-        AccountCreator.genSshKey(), admin.email);
+    String newKey =
+        AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
     gApi.accounts().self().addSshKey(newKey);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
@@ -715,8 +685,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertSequenceNumbers(info);
 
     // Add another new key
-    String newKey2 = AccountCreator.publicKey(
-        AccountCreator.genSshKey(), admin.email);
+    String newKey2 =
+        AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
     gApi.accounts().self().addSshKey(newKey2);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);
@@ -819,15 +789,16 @@ public class AccountIT extends AbstractDaemonTest {
     // Check via API.
     FluentIterable<TestKey> expected = FluentIterable.from(expectedKeys);
     Map<String, GpgKeyInfo> keyMap = gApi.accounts().self().listGpgKeys();
-    assertThat(keyMap.keySet())
-        .named("keys returned by listGpgKeys()")
+    assertThat(keyMap.keySet()).named("keys returned by listGpgKeys()")
         .containsExactlyElementsIn(expected.transform(TestKey::getKeyIdString));
 
     for (TestKey key : expected) {
-      assertKeyEquals(key, gApi.accounts().self().gpgKey(
-          key.getKeyIdString()).get());
-      assertKeyEquals(key, gApi.accounts().self().gpgKey(
-          Fingerprint.toString(key.getPublicKey().getFingerprint())).get());
+      assertKeyEquals(key,
+          gApi.accounts().self().gpgKey(key.getKeyIdString()).get());
+      assertKeyEquals(key,
+          gApi.accounts().self()
+              .gpgKey(Fingerprint.toString(key.getPublicKey().getFingerprint()))
+              .get());
       assertKeyMapContains(key, keyMap);
     }
 
@@ -838,8 +809,7 @@ public class AccountIT extends AbstractDaemonTest {
     Iterable<String> actualFps =
         GpgKeys.getGpgExtIds(externalIdCache, currAccountId)
             .transform(AccountExternalId::getSchemeRest);
-    assertThat(actualFps)
-        .named("external IDs in database")
+    assertThat(actualFps).named("external IDs in database")
         .containsExactlyElementsIn(expectedFps);
 
     // Check raw stored keys.
@@ -866,8 +836,8 @@ public class AccountIT extends AbstractDaemonTest {
   private void addExternalIdEmail(TestAccount account, String email)
       throws Exception {
     checkNotNull(email);
-    AccountExternalId extId = new AccountExternalId(
-        account.getId(), new AccountExternalId.Key(name("test"), email));
+    AccountExternalId extId = new AccountExternalId(account.getId(),
+        new AccountExternalId.Key(name("test"), email));
     extId.setEmailAddress(email);
     db.accountExternalIds().insert(Collections.singleton(extId));
     externalIdCache.onCreate(extId);
@@ -877,8 +847,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private Map<String, GpgKeyInfo> addGpgKey(String armored) throws Exception {
-    return gApi.accounts().self().putGpgKeys(
-        ImmutableList.of(armored),
+    return gApi.accounts().self().putGpgKeys(ImmutableList.of(armored),
         ImmutableList.<String> of());
   }
 

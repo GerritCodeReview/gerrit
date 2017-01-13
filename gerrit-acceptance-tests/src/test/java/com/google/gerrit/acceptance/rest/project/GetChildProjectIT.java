@@ -43,8 +43,8 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   @Test
   public void getChildProject() throws Exception {
     Project.NameKey child = createProject("p1");
-    ProjectInfo childInfo = gApi.projects().name(allProjects.get())
-        .child(child.get()).get();
+    ProjectInfo childInfo =
+        gApi.projects().name(allProjects.get()).child(child.get()).get();
 
     assertProjectInfo(projectCache.get(child).getProject(), childInfo);
   }
@@ -64,8 +64,8 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
     ProjectInfo grandChildInfo = gApi.projects().name(allProjects.get())
         .child(grandChild.get()).get(true);
-    assertProjectInfo(
-        projectCache.get(grandChild).getProject(), grandChildInfo);
+    assertProjectInfo(projectCache.get(grandChild).getProject(),
+        grandChildInfo);
   }
 
   private void assertChildNotFound(Project.NameKey parent, String child)

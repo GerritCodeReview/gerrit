@@ -52,10 +52,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
   @Inject
   DeleteGpgKey(@GerritPersonIdent Provider<PersonIdent> serverIdent,
-      Provider<ReviewDb> db,
-      Provider<PublicKeyStore> storeProvider,
-      AccountCache accountCache,
-      ExternalIdCache externalIdCache) {
+      Provider<ReviewDb> db, Provider<PublicKeyStore> storeProvider,
+      AccountCache accountCache, ExternalIdCache externalIdCache) {
     this.serverIdent = serverIdent;
     this.db = db;
     this.storeProvider = storeProvider;
@@ -68,9 +66,9 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       throws ResourceConflictException, PGPException, OrmException,
       IOException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
-    AccountExternalId.Key extIdKey = new AccountExternalId.Key(
-        AccountExternalId.SCHEME_GPGKEY,
-        BaseEncoding.base16().encode(key.getFingerprint()));
+    AccountExternalId.Key extIdKey =
+        new AccountExternalId.Key(AccountExternalId.SCHEME_GPGKEY,
+            BaseEncoding.base16().encode(key.getFingerprint()));
     db.get().accountExternalIds().deleteKeys(Collections.singleton(extIdKey));
     externalIdCache.onRemove(rsrc.getUser().getAccountId(), extIdKey);
     accountCache.evict(rsrc.getUser().getAccountId());
@@ -80,8 +78,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
       CommitBuilder cb = new CommitBuilder();
       PersonIdent committer = serverIdent.get();
-      cb.setAuthor(rsrc.getUser().newCommitterIdent(
-          committer.getWhen(), committer.getTimeZone()));
+      cb.setAuthor(rsrc.getUser().newCommitterIdent(committer.getWhen(),
+          committer.getTimeZone()));
       cb.setCommitter(committer);
       cb.setMessage("Delete public key " + keyIdToString(key.getKeyID()));
 

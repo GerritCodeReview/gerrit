@@ -245,16 +245,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersWithoutLimitOptionSpecified() throws Exception {
     String changeId = createChange().getChangeId();
     String query = user3.username;
-    List<SuggestedReviewerInfo> suggestedReviewerInfos = gApi.changes()
-        .id(changeId)
-        .suggestReviewers(query)
-        .get();
+    List<SuggestedReviewerInfo> suggestedReviewerInfos =
+        gApi.changes().id(changeId).suggestReviewers(query).get();
     assertThat(suggestedReviewerInfos).hasSize(1);
   }
 
   @Test
-  @GerritConfig(name = "addreviewer.maxAllowed", value="2")
-  @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value="1")
+  @GerritConfig(name = "addreviewer.maxAllowed", value = "2")
+  @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value = "1")
   public void suggestReviewersGroupSizeConsiderations() throws Exception {
     AccountGroup largeGroup = group("large");
     AccountGroup mediumGroup = group("medium");
@@ -290,7 +288,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void defaultReviewerSuggestion() throws Exception{
+  public void defaultReviewerSuggestion() throws Exception {
     TestAccount user1 = user("customuser1", "User1");
     TestAccount reviewer1 = user("customuser2", "User2");
     TestAccount reviewer2 = user("customuser3", "User3");
@@ -312,42 +310,32 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     setApiUser(user1);
     String changeId3 = createChangeFromApi();
-    List<SuggestedReviewerInfo>  reviewers =
+    List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(changeId3, null, 4);
-    assertThat(
-        reviewers.stream()
-            .map(r -> r.account._accountId)
-            .collect(Collectors.toList()))
-        .containsExactly(
-            reviewer1.id.get(),
-            reviewer2.id.get())
-        .inOrder();
+    assertThat(reviewers.stream().map(r -> r.account._accountId)
+        .collect(Collectors.toList()))
+            .containsExactly(reviewer1.id.get(), reviewer2.id.get()).inOrder();
 
     // check that existing reviewers are filtered out
     gApi.changes().id(changeId3).addReviewer(reviewer1.email);
-    reviewers =
-        suggestReviewers(changeId3, null, 4);
-    assertThat(
-        reviewers.stream()
-            .map(r -> r.account._accountId)
-            .collect(Collectors.toList()))
-        .containsExactly(
-            reviewer2.id.get())
-        .inOrder();
+    reviewers = suggestReviewers(changeId3, null, 4);
+    assertThat(reviewers.stream().map(r -> r.account._accountId)
+        .collect(Collectors.toList())).containsExactly(reviewer2.id.get())
+            .inOrder();
   }
 
   @Test
-  public void defaultReviewerSuggestionOnFirstChange() throws Exception{
+  public void defaultReviewerSuggestionOnFirstChange() throws Exception {
     TestAccount user1 = user("customuser1", "User1");
     setApiUser(user1);
-    List<SuggestedReviewerInfo>  reviewers =
+    List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(createChange().getChangeId(), "", 4);
     assertThat(reviewers).isEmpty();
   }
 
   @Test
   @GerritConfig(name = "suggest.maxSuggestedReviewers", value = "10")
-  public void reviewerRanking() throws Exception{
+  public void reviewerRanking() throws Exception {
     // Assert that user are ranked by the number of times they have applied a
     // a label to a change (highest), added comments (medium) or owned a
     // change (low).
@@ -384,22 +372,17 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     // ranking
 
     setApiUser(userWhoLooksForSuggestions);
-    List<SuggestedReviewerInfo>  reviewers =
+    List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(createChangeFromApi(), "Pri", 4);
-    assertThat(
-        reviewers.stream()
-            .map(r -> r.account._accountId)
-            .collect(Collectors.toList()))
-        .containsExactly(
-            reviewer1.id.get(),
-            reviewer2.id.get(),
-            userWhoOwns.id.get(),
-            userWhoComments.id.get())
-        .inOrder();
+    assertThat(reviewers.stream().map(r -> r.account._accountId)
+        .collect(Collectors.toList()))
+            .containsExactly(reviewer1.id.get(), reviewer2.id.get(),
+                userWhoOwns.id.get(), userWhoComments.id.get())
+            .inOrder();
   }
 
   @Test
-  public void reviewerRankingProjectIsolation() throws Exception{
+  public void reviewerRankingProjectIsolation() throws Exception {
     // Create new project
     Project.NameKey newProject = createProject("test");
 
@@ -433,28 +416,19 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     // Assert that reviewer1 is on top, even though reviewer2 has more reviews
     // in other projects
-    assertThat(
-        reviewers.stream()
-            .map(r -> r.account._accountId)
-            .collect(Collectors.toList()))
-        .containsExactly(reviewer1.id.get(), reviewer2.id.get())
-        .inOrder();
+    assertThat(reviewers.stream().map(r -> r.account._accountId)
+        .collect(Collectors.toList()))
+            .containsExactly(reviewer1.id.get(), reviewer2.id.get()).inOrder();
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
       String query) throws Exception {
-    return gApi.changes()
-        .id(changeId)
-        .suggestReviewers(query)
-        .get();
+    return gApi.changes().id(changeId).suggestReviewers(query).get();
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
       String query, int n) throws Exception {
-    return gApi.changes()
-        .id(changeId)
-        .suggestReviewers(query)
-        .withLimit(n)
+    return gApi.changes().id(changeId).suggestReviewers(query).withLimit(n)
         .get();
   }
 
@@ -467,9 +441,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private TestAccount user(String name, String fullName, String emailName,
       AccountGroup... groups) throws Exception {
-    String[] groupNames = Arrays.stream(groups)
-        .map(AccountGroup::getName)
-        .toArray(String[]::new);
+    String[] groupNames =
+        Arrays.stream(groups).map(AccountGroup::getName).toArray(String[]::new);
     return accounts.create(name(name), name(emailName) + "@example.com",
         fullName, groupNames);
   }
@@ -485,12 +458,12 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(ri);
   }
 
-  private String createChangeFromApi() throws RestApiException{
+  private String createChangeFromApi() throws RestApiException {
     return createChangeFromApi(project);
   }
 
   private String createChangeFromApi(Project.NameKey project)
-      throws RestApiException{
+      throws RestApiException {
     ChangeInput ci = new ChangeInput();
     ci.project = project.get();
     ci.subject = "Test change at" + System.nanoTime();
@@ -500,23 +473,15 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   private void assertReviewers(List<SuggestedReviewerInfo> actual,
       List<TestAccount> expectedUsers, List<AccountGroup> expectedGroups) {
-    List<Integer> actualAccountIds = actual.stream()
-        .filter(i -> i.account != null)
-        .map(i -> i.account._accountId)
-        .collect(toList());
-    assertThat(actualAccountIds)
-        .containsExactlyElementsIn(
-            expectedUsers.stream().map(u -> u.id.get()).collect(toList()));
+    List<Integer> actualAccountIds =
+        actual.stream().filter(i -> i.account != null)
+            .map(i -> i.account._accountId).collect(toList());
+    assertThat(actualAccountIds).containsExactlyElementsIn(
+        expectedUsers.stream().map(u -> u.id.get()).collect(toList()));
 
-    List<String> actualGroupIds = actual.stream()
-        .filter(i -> i.group != null)
-        .map(i -> i.group.id)
-        .collect(toList());
-    assertThat(actualGroupIds)
-        .containsExactlyElementsIn(
-            expectedGroups.stream()
-                .map(g -> g.getGroupUUID().get())
-                .collect(toList()))
-        .inOrder();
+    List<String> actualGroupIds = actual.stream().filter(i -> i.group != null)
+        .map(i -> i.group.id).collect(toList());
+    assertThat(actualGroupIds).containsExactlyElementsIn(expectedGroups.stream()
+        .map(g -> g.getGroupUUID().get()).collect(toList())).inOrder();
   }
 }

@@ -209,8 +209,8 @@ public class AgreementsIT extends AbstractDaemonTest {
       gApi.changes().create(newChangeInput());
       fail("Expected AuthException");
     } catch (AuthException e) {
-      assertThat(e.getMessage()).contains(
-          "A Contributor Agreement must be completed");
+      assertThat(e.getMessage())
+          .contains("A Contributor Agreement must be completed");
     }
 
     // Sign the agreement

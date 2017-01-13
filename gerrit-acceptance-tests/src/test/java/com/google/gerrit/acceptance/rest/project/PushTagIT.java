@@ -41,8 +41,7 @@ import org.junit.Test;
 @NoHttpd
 public class PushTagIT extends AbstractDaemonTest {
   enum TagType {
-    LIGHTWEIGHT(Permission.CREATE),
-    ANNOTATED(Permission.CREATE_TAG);
+    LIGHTWEIGHT(Permission.CREATE), ANNOTATED(Permission.CREATE_TAG);
 
     final String createPermission;
 
@@ -179,8 +178,8 @@ public class PushTagIT extends AbstractDaemonTest {
     return pushTag(tagType, null, false, false, expectedStatus);
   }
 
-  private String pushTagForNewCommit(TagType tagType,
-      Status expectedStatus) throws Exception {
+  private String pushTagForNewCommit(TagType tagType, Status expectedStatus)
+      throws Exception {
     return pushTag(tagType, null, true, false, expectedStatus);
   }
 
@@ -234,12 +233,11 @@ public class PushTagIT extends AbstractDaemonTest {
     }
 
     String tagRef = tagRef(tagName);
-    PushResult r = tagType == LIGHTWEIGHT
-        ? pushHead(testRepo, tagRef, false, force)
-        : GitUtil.pushTag(testRepo, tagName, !createTag);
+    PushResult r =
+        tagType == LIGHTWEIGHT ? pushHead(testRepo, tagRef, false, force)
+            : GitUtil.pushTag(testRepo, tagName, !createTag);
     RemoteRefUpdate refUpdate = r.getRemoteUpdate(tagRef);
-    assertThat(refUpdate.getStatus())
-        .named(tagType.name())
+    assertThat(refUpdate.getStatus()).named(tagType.name())
         .isEqualTo(expectedStatus);
     return tagName;
   }
@@ -278,10 +276,8 @@ public class PushTagIT extends AbstractDaemonTest {
   }
 
   private void commit(PersonIdent ident, String subject) throws Exception {
-    commitBuilder()
-        .ident(ident)
-        .message(subject + " (" + System.nanoTime() + ")")
-        .create();
+    commitBuilder().ident(ident)
+        .message(subject + " (" + System.nanoTime() + ")").create();
   }
 
   private static String tagRef(String tagName) {

@@ -50,16 +50,16 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistChangeMessage() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId)
-        .current().commentsAsList();
-    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
-        ZoneId.of("UTC")));
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime
+        .ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(canonicalWebUrl.get() + "#/c/" +
-        changeInfo._number + "/1", "Test Message", null, null, null);
+    String txt = newPlaintextBody(
+        canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
+        "Test Message", null, null, null);
     b.textContent(txt + textFooterForChange(changeId, ts));
 
     mailProcessor.process(b.build());
@@ -77,16 +77,16 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistInlineComment() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId)
-        .current().commentsAsList();
-    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
-        ZoneId.of("UTC")));
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime
+        .ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(canonicalWebUrl.get() + "#/c/" +
-        changeInfo._number + "/1", null, "Some Inline Comment", null, null);
+    String txt = newPlaintextBody(
+        canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1", null,
+        "Some Inline Comment", null, null);
     b.textContent(txt + textFooterForChange(changeId, ts));
 
     mailProcessor.process(b.build());
@@ -103,28 +103,25 @@ public class MailProcessorIT extends AbstractDaemonTest {
     // Assert comment
     comments = gApi.changes().id(changeId).current().commentsAsList();
     assertThat(comments).hasSize(3);
-    assertThat(comments.get(2).message)
-        .isEqualTo("Some Inline Comment");
-    assertThat(comments.get(2).tag)
-        .isEqualTo("mailMessageId=some id");
-    assertThat(comments.get(2).inReplyTo)
-        .isEqualTo(comments.get(1).id);
+    assertThat(comments.get(2).message).isEqualTo("Some Inline Comment");
+    assertThat(comments.get(2).tag).isEqualTo("mailMessageId=some id");
+    assertThat(comments.get(2).inReplyTo).isEqualTo(comments.get(1).id);
   }
 
   @Test
   public void parseAndPersistFileComment() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId)
-        .current().commentsAsList();
-    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
-        ZoneId.of("UTC")));
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime
+        .ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(canonicalWebUrl.get() + "#/c/" +
-        changeInfo._number + "/1", null, null, "Some Comment on File 1", null);
+    String txt = newPlaintextBody(
+        canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1", null, null,
+        "Some Comment on File 1", null);
     b.textContent(txt + textFooterForChange(changeId, ts));
 
     mailProcessor.process(b.build());
@@ -151,16 +148,16 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistMessageTwice() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId)
-        .current().commentsAsList();
-    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
-        ZoneId.of("UTC")));
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime
+        .ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(canonicalWebUrl.get() + "#/c/" +
-        changeInfo._number + "/1", null, "Some Inline Comment", null, null);
+    String txt = newPlaintextBody(
+        canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1", null,
+        "Some Inline Comment", null, null);
     b.textContent(txt + textFooterForChange(changeId, ts));
 
     mailProcessor.process(b.build());
@@ -177,17 +174,17 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistMessageFromInactiveAccount() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId)
-        .current().commentsAsList();
-    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
-        ZoneId.of("UTC")));
+    List<CommentInfo> comments =
+        gApi.changes().id(changeId).current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime
+        .ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
     assertThat(comments).hasSize(2);
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(canonicalWebUrl.get() + "#/c/" +
-        changeInfo._number + "/1", null, "Some Inline Comment", null, null);
+    String txt = newPlaintextBody(
+        canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1", null,
+        "Some Inline Comment", null, null);
     b.textContent(txt + textFooterForChange(changeId, ts));
 
     // Set account state to inactive
@@ -232,44 +229,28 @@ public class MailProcessorIT extends AbstractDaemonTest {
    */
   private static String newPlaintextBody(String changeURL, String changeMessage,
       String c1, String f1, String fc1) {
-    return (changeMessage == null ? "" : changeMessage + "\n") +
-        "> Foo Bar has posted comments on this change. (  \n" +
-        "> " + changeURL +" )\n" +
-        "> \n" +
-        "> Change subject: Test change\n" +
-        "> ...............................................................\n" +
-        "> \n" +
-        "> \n" +
-        "> Patch Set 1: Code-Review+1\n" +
-        "> \n" +
-        "> (3 comments)\n" +
-        "> \n" +
-        "> " + changeURL + "/gerrit-server/test.txt\n" +
-        "> File  \n" +
-        "> gerrit-server/test.txt:\n" +
-        (f1 == null ? "" : f1 + "\n") +
-        "> \n" +
-        "> Patch Set #4:\n" +
-        "> " + changeURL + "/gerrit-server/test.txt\n" +
-        "> \n" +
-        "> Some comment" +
-        "> \n" +
-        (fc1 == null ? "" : fc1 + "\n") +
-        "> " + changeURL + "/gerrit-server/test.txt@2\n" +
-        "> PS1, Line 2: throw new Exception(\"Object has unsupported: \" +\n" +
-        ">               :             entry.getValue() +\n" +
-        ">               :             \" must be java.util.Date\");\n" +
-        "> Should entry.getKey() be included in this message?\n" +
-        "> \n" +
-        (c1 == null ? "" : c1 + "\n") +
-        "> \n";
+    return (changeMessage == null ? "" : changeMessage + "\n")
+        + "> Foo Bar has posted comments on this change. (  \n" + "> "
+        + changeURL + " )\n" + "> \n" + "> Change subject: Test change\n"
+        + "> ...............................................................\n"
+        + "> \n" + "> \n" + "> Patch Set 1: Code-Review+1\n" + "> \n"
+        + "> (3 comments)\n" + "> \n" + "> " + changeURL
+        + "/gerrit-server/test.txt\n" + "> File  \n"
+        + "> gerrit-server/test.txt:\n" + (f1 == null ? "" : f1 + "\n") + "> \n"
+        + "> Patch Set #4:\n" + "> " + changeURL + "/gerrit-server/test.txt\n"
+        + "> \n" + "> Some comment" + "> \n" + (fc1 == null ? "" : fc1 + "\n")
+        + "> " + changeURL + "/gerrit-server/test.txt@2\n"
+        + "> PS1, Line 2: throw new Exception(\"Object has unsupported: \" +\n"
+        + ">               :             entry.getValue() +\n"
+        + ">               :             \" must be java.util.Date\");\n"
+        + "> Should entry.getKey() be included in this message?\n" + "> \n"
+        + (c1 == null ? "" : c1 + "\n") + "> \n";
   }
 
   private static String textFooterForChange(String changeId, String timestamp) {
-    return "Gerrit-Change-Id: " + changeId + "\n" +
-        "Gerrit-PatchSet: 1\n" +
-        "Gerrit-MessageType: comment\n" +
-        "Gerrit-Comment-Date: " + timestamp + "\n";
+    return "Gerrit-Change-Id: " + changeId + "\n" + "Gerrit-PatchSet: 1\n"
+        + "Gerrit-MessageType: comment\n" + "Gerrit-Comment-Date: " + timestamp
+        + "\n";
   }
 
   private MailMessage.Builder messageBuilderWithDefaultFields() {

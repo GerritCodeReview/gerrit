@@ -57,12 +57,12 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     // The remote head should now be a merge of the previous head
     // and "Change 1"
     RevCommit headAfterFirstSubmit = getRemoteLog().get(0);
-    assertThat(headAfterFirstSubmit.getParent(1).getShortMessage()).isEqualTo(
-        change.getCommit().getShortMessage());
-    assertThat(headAfterFirstSubmit.getParent(0).getShortMessage()).isEqualTo(
-        initialHead.getShortMessage());
-    assertThat(headAfterFirstSubmit.getParent(0).getId()).isEqualTo(
-        initialHead.getId());
+    assertThat(headAfterFirstSubmit.getParent(1).getShortMessage())
+        .isEqualTo(change.getCommit().getShortMessage());
+    assertThat(headAfterFirstSubmit.getParent(0).getShortMessage())
+        .isEqualTo(initialHead.getShortMessage());
+    assertThat(headAfterFirstSubmit.getParent(0).getId())
+        .isEqualTo(initialHead.getId());
 
     // Submit three changes at the same time
     PushOneCommit.Result change2 = createChange("Change 2", "c", "c");
@@ -79,13 +79,14 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     // The remote head should now be a merge of the new head after
     // the previous submit, and "Change 4".
     RevCommit headAfterSecondSubmit = getRemoteLog().get(0);
-    assertThat(headAfterSecondSubmit.getParent(1).getShortMessage()).isEqualTo(
-        change4.getCommit().getShortMessage());
-    assertThat(headAfterSecondSubmit.getParent(0).getShortMessage()).isEqualTo(
-        headAfterFirstSubmit.getShortMessage());
-    assertThat(headAfterSecondSubmit.getParent(0).getId()).isEqualTo(
-        headAfterFirstSubmit.getId());
-    assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
+    assertThat(headAfterSecondSubmit.getParent(1).getShortMessage())
+        .isEqualTo(change4.getCommit().getShortMessage());
+    assertThat(headAfterSecondSubmit.getParent(0).getShortMessage())
+        .isEqualTo(headAfterFirstSubmit.getShortMessage());
+    assertThat(headAfterSecondSubmit.getParent(0).getId())
+        .isEqualTo(headAfterFirstSubmit.getId());
+    assertPersonEquals(admin.getIdent(),
+        headAfterSecondSubmit.getAuthorIdent());
     assertPersonEquals(serverIdent.get(),
         headAfterSecondSubmit.getCommitterIdent());
 

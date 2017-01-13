@@ -33,10 +33,8 @@ public class GerritPushCertificateChecker extends PushCertificateChecker {
   private final AllUsersName allUsers;
 
   @AssistedInject
-  GerritPushCertificateChecker(
-      GerritPublicKeyChecker.Factory keyCheckerFactory,
-      GitRepositoryManager repoManager,
-      AllUsersName allUsers,
+  GerritPushCertificateChecker(GerritPublicKeyChecker.Factory keyCheckerFactory,
+      GitRepositoryManager repoManager, AllUsersName allUsers,
       @Assisted IdentifiedUser expectedUser) {
     super(keyCheckerFactory.create().setExpectedUser(expectedUser));
     this.repoManager = repoManager;

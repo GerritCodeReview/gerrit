@@ -43,13 +43,12 @@ public class ReindexIT {
   @Test
   public void reindexEmptySite() throws Exception {
     initSite();
-    runGerrit("reindex", "-d", sitePath.toString(),
-        "--show-stack-trace");
+    runGerrit("reindex", "-d", sitePath.toString(), "--show-stack-trace");
   }
 
   private void initSite() throws Exception {
-    runGerrit("init", "-d", sitePath.getPath(),
-        "--batch", "--no-auto-start", "--skip-plugins", "--show-stack-trace");
+    runGerrit("init", "-d", sitePath.getPath(), "--batch", "--no-auto-start",
+        "--skip-plugins", "--show-stack-trace");
   }
 
   private static void runGerrit(String... args) throws Exception {

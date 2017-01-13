@@ -56,7 +56,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
     assertThat(groupCache.get(new AccountGroup.NameKey(in.name))).isNotNull();
 
     GroupInput inLowerCase = new GroupInput();
-    inLowerCase.name =  in.name.toUpperCase();
+    inLowerCase.name = in.name.toUpperCase();
     gApi.groups().create(inLowerCase);
     assertThat(groupCache.get(new AccountGroup.NameKey(inLowerCase.name)))
         .isNotNull();

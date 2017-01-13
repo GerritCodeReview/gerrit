@@ -67,19 +67,15 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    bind(Config.class)
-      .annotatedWith(GerritServerConfig.class)
-      .toInstance(cfg);
+    bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
 
     // TODO(dborowitz): Use jimfs.
     Path p = Paths.get(cfg.getString("gerrit", null, "tempSiteDir"));
-    bind(Path.class)
-      .annotatedWith(SitePath.class)
-      .toInstance(p);
+    bind(Path.class).annotatedWith(SitePath.class).toInstance(p);
     makeSiteDirs(p);
 
     bind(GitRepositoryManager.class)
-      .toInstance(new InMemoryRepositoryManager());
+        .toInstance(new InMemoryRepositoryManager());
 
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);
@@ -96,9 +92,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     listener().to(CreateDatabase.class);
 
     bind(SitePaths.class);
-    bind(TrackingFooters.class)
-      .toProvider(TrackingFootersProvider.class)
-      .in(SINGLETON);
+    bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class)
+        .in(SINGLETON);
 
     install(new SchemaModule());
     bind(SchemaVersion.class).to(SchemaVersion.C);

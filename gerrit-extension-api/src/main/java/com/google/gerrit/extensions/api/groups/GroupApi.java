@@ -95,7 +95,7 @@ public interface GroupApi {
    * Add members to a group.
    *
    * @param members list of member identifiers, in any format accepted by
-   *     {@link com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
+   *        {@link com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
    * @throws RestApiException
    */
   void addMembers(String... members) throws RestApiException;
@@ -104,7 +104,7 @@ public interface GroupApi {
    * Remove members from a group.
    *
    * @param members list of member identifiers, in any format accepted by
-   *     {@link com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
+   *        {@link com.google.gerrit.extensions.api.accounts.Accounts#id(String)}
    * @throws RestApiException
    */
   void removeMembers(String... members) throws RestApiException;
@@ -121,7 +121,7 @@ public interface GroupApi {
    * Add groups to be included in this one.
    *
    * @param groups list of group identifiers, in any format accepted by
-   *     {@link Groups#id(String)}
+   *        {@link Groups#id(String)}
    * @throws RestApiException
    */
   void addGroups(String... groups) throws RestApiException;
@@ -130,7 +130,7 @@ public interface GroupApi {
    * Remove included groups from this one.
    *
    * @param groups list of group identifiers, in any format accepted by
-   *     {@link Groups#id(String)}
+   *        {@link Groups#id(String)}
    * @throws RestApiException
    */
   void removeGroups(String... groups) throws RestApiException;
@@ -153,8 +153,8 @@ public interface GroupApi {
   void index() throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements GroupApi {
     @Override

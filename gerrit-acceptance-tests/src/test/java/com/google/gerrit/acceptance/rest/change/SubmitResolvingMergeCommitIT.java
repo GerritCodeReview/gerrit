@@ -61,14 +61,11 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   @Test
   public void resolvingMergeCommitAtEndOfChain() throws Exception {
     /*
-      A <- B <- C <------- D
-      ^                    ^
-      |                    |
-      E <- F <- G <- H <-- M*
-
-      G has a conflict with C and is resolved in M which is a merge
-      commit of H and D.
-    */
+     * A <- B <- C <------- D ^ ^ | | E <- F <- G <- H <-- M*
+     * 
+     * G has a conflict with C and is resolved in M which is a merge commit of H
+     * and D.
+     */
 
     PushOneCommit.Result a = createChange("A");
     PushOneCommit.Result b = createChange("B", "new.txt", "No conflict line",
@@ -117,14 +114,11 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   @Test
   public void resolvingMergeCommitComingBeforeConflict() throws Exception {
     /*
-      A <- B <- C <- D
-      ^    ^
-      |    |
-      E <- F* <- G
-
-      F is a merge commit of E and B and resolves any conflict.
-      However G is conflicting with C.
-    */
+     * A <- B <- C <- D ^ ^ | | E <- F* <- G
+     * 
+     * F is a merge commit of E and B and resolves any conflict. However G is
+     * conflicting with C.
+     */
 
     PushOneCommit.Result a = createChange("A");
     PushOneCommit.Result b = createChange("B", "new.txt", "No conflict line",
@@ -164,24 +158,16 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   @Test
   public void resolvingMergeCommitWithTopics() throws Exception {
     /*
-      Project1:
-        A <- B <-- C <---
-        ^    ^          |
-        |    |          |
-        E <- F* <- G <- L*
-
-      G clashes with C, and F resolves the clashes between E and B.
-      Later, L resolves the clashes between C and G.
-
-      Project2:
-        H <- I
-        ^    ^
-        |    |
-        J <- K*
-
-      J clashes with I, and K resolves all problems.
-      G, K and L are in the same topic.
-    */
+     * Project1: A <- B <-- C <--- ^ ^ | | | | E <- F* <- G <- L*
+     * 
+     * G clashes with C, and F resolves the clashes between E and B. Later, L
+     * resolves the clashes between C and G.
+     * 
+     * Project2: H <- I ^ ^ | | J <- K*
+     * 
+     * J clashes with I, and K resolves all problems. G, K and L are in the same
+     * topic.
+     */
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
     String project1Name = name("Project1");
@@ -250,17 +236,14 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void resolvingMergeCommitAtEndOfChainAndNotUpToDate() throws Exception {
+  public void resolvingMergeCommitAtEndOfChainAndNotUpToDate()
+      throws Exception {
     /*
-        A <-- B
-         \
-          C  <- D
-           \   /
-             E
-
-        B is the target branch, and D should be merged with B, but one
-        of C conflicts with B
-    */
+     * A <-- B \ C <- D \ / E
+     * 
+     * B is the target branch, and D should be merged with B, but one of C
+     * conflicts with B
+     */
 
     PushOneCommit.Result a = createChange("A");
     PushOneCommit.Result b = createChange("B", "new.txt", "No conflict line",
@@ -284,10 +267,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   private void submit(String changeId) throws Exception {
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .submit();
+    gApi.changes().id(changeId).current().submit();
   }
 
   private void assertChangeSetMergeable(ChangeData change, boolean expected)
@@ -309,18 +289,15 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   private void assertMerged(String changeId) throws Exception {
-    assertThat(gApi
-        .changes()
-        .id(changeId)
-        .get()
-        .status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.changes().id(changeId).get().status)
+        .isEqualTo(ChangeStatus.MERGED);
   }
 
   private PushOneCommit.Result createChange(TestRepository<?> repo,
       String subject, String fileName, String content, List<RevCommit> parents,
       String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo,
-        subject, fileName, content);
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo, subject,
+        fileName, content);
 
     if (!parents.isEmpty()) {
       push.setParents(parents);
@@ -344,7 +321,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createChange(TestRepository<?> repo,
       String subject, String fileName, String content, List<RevCommit> parents)
-          throws Exception {
+      throws Exception {
     return createChange(repo, subject, fileName, content, parents,
         "refs/for/master");
   }

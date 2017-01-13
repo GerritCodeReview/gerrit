@@ -43,8 +43,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   public void gcNotAllowed_Forbidden() throws Exception {
-    userRestSession
-        .post("/projects/" + allProjects.get() + "/gc")
+    userRestSession.post("/projects/" + allProjects.get() + "/gc")
         .assertForbidden();
   }
 

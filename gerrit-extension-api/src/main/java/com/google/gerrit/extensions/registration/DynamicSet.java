@@ -44,9 +44,10 @@ public class DynamicSet<T> implements Iterable<T> {
    * Declare a singleton {@code DynamicSet<T>} with a binder.
    * <p>
    * Sets must be defined in a Guice module before they can be bound:
+   * 
    * <pre>
-   *   DynamicSet.setOf(binder(), Interface.class);
-   *   DynamicSet.bind(binder(), Interface.class).to(Impl.class);
+   * DynamicSet.setOf(binder(), Interface.class);
+   * DynamicSet.bind(binder(), Interface.class).to(Impl.class);
    * </pre>
    *
    * @param binder a new binder created in the module.
@@ -61,8 +62,9 @@ public class DynamicSet<T> implements Iterable<T> {
    * Declare a singleton {@code DynamicSet<T>} with a binder.
    * <p>
    * Sets must be defined in a Guice module before they can be bound:
+   * 
    * <pre>
-   *   DynamicSet.setOf(binder(), new TypeLiteral&lt;Thing&lt;Foo&gt;&gt;() {});
+   * DynamicSet.setOf(binder(), new TypeLiteral&lt;Thing&lt;Foo&gt;&gt;() {});
    * </pre>
    *
    * @param binder a new binder created in the module.
@@ -70,12 +72,11 @@ public class DynamicSet<T> implements Iterable<T> {
    */
   public static <T> void setOf(Binder binder, TypeLiteral<T> member) {
     @SuppressWarnings("unchecked")
-    Key<DynamicSet<T>> key = (Key<DynamicSet<T>>) Key.get(
-        Types.newParameterizedType(DynamicSet.class, member.getType()));
+    Key<DynamicSet<T>> key = (Key<DynamicSet<T>>) Key
+        .get(Types.newParameterizedType(DynamicSet.class, member.getType()));
     binder.disableCircularProxies();
-    binder.bind(key)
-      .toProvider(new DynamicSetProvider<>(member))
-      .in(Scopes.SINGLETON);
+    binder.bind(key).toProvider(new DynamicSetProvider<>(member))
+        .in(Scopes.SINGLETON);
   }
 
   /**
@@ -97,7 +98,8 @@ public class DynamicSet<T> implements Iterable<T> {
    * @param type type of entries in the set.
    * @return a binder to continue configuring the new set member.
    */
-  public static <T> LinkedBindingBuilder<T> bind(Binder binder, TypeLiteral<T> type) {
+  public static <T> LinkedBindingBuilder<T> bind(Binder binder,
+      TypeLiteral<T> type) {
     binder.disableCircularProxies();
     return binder.bind(type).annotatedWith(UniqueAnnotations.create());
   }
@@ -111,8 +113,7 @@ public class DynamicSet<T> implements Iterable<T> {
    *        annotation.
    * @return a binder to continue configuring the new set member.
    */
-  public static <T> LinkedBindingBuilder<T> bind(Binder binder,
-      Class<T> type,
+  public static <T> LinkedBindingBuilder<T> bind(Binder binder, Class<T> type,
       Named name) {
     binder.disableCircularProxies();
     return bind(binder, TypeLiteral.get(type));
@@ -128,8 +129,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return a binder to continue configuring the new set member.
    */
   public static <T> LinkedBindingBuilder<T> bind(Binder binder,
-      TypeLiteral<T> type,
-      Named name) {
+      TypeLiteral<T> type, Named name) {
     binder.disableCircularProxies();
     return binder.bind(type).annotatedWith(name);
   }
@@ -146,7 +146,7 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   public DynamicSet() {
-    this(Collections.<AtomicReference<Provider<T>>>emptySet());
+    this(Collections.<AtomicReference<Provider<T>>> emptySet());
   }
 
   @Override
@@ -254,8 +254,7 @@ public class DynamicSet<T> implements Iterable<T> {
     private final Key<T> key;
     private final Provider<T> item;
 
-    ReloadableHandle(AtomicReference<Provider<T>> ref,
-        Key<T> key,
+    ReloadableHandle(AtomicReference<Provider<T>> ref, Key<T> key,
         Provider<T> item) {
       this.ref = ref;
       this.key = key;

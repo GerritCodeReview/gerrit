@@ -85,21 +85,16 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Test
   public void getRelatedLinear() throws Exception {
     // 1,1---2,1
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
 
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps2_1, c2_1, 1),
+      assertRelated(ps, changeAndCommit(ps2_1, c2_1, 1),
           changeAndCommit(ps1_1, c1_1, 1));
     }
   }
@@ -107,14 +102,10 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Test
   public void getRelatedLinearSeparatePushes() throws Exception {
     // 1,1---2,1
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
 
     testRepo.reset(c1_1);
     pushHead(testRepo, "refs/for/master", false);
@@ -130,8 +121,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .isEqualTo(oldETag);
 
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps2_1, c2_1, 1),
+      assertRelated(ps, changeAndCommit(ps2_1, c2_1, 1),
           changeAndCommit(ps1_1, c1_1, 1));
     }
   }
@@ -143,14 +133,10 @@ public class GetRelatedIT extends AbstractDaemonTest {
     // 2,2---1,2
 
     // Create two commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
@@ -164,14 +150,12 @@ public class GetRelatedIT extends AbstractDaemonTest {
     PatchSet.Id ps2_2 = getPatchSetId(c2_1);
 
     for (PatchSet.Id ps : ImmutableList.of(ps2_2, ps1_2)) {
-      assertRelated(ps,
-          changeAndCommit(ps1_2, c1_2, 2),
+      assertRelated(ps, changeAndCommit(ps1_2, c1_2, 2),
           changeAndCommit(ps2_2, c2_2, 2));
     }
 
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps2_1, c2_1, 2),
+      assertRelated(ps, changeAndCommit(ps2_1, c2_1, 2),
           changeAndCommit(ps1_1, c1_1, 2));
     }
   }
@@ -183,34 +167,26 @@ public class GetRelatedIT extends AbstractDaemonTest {
     // 1,2
 
     // Create two commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
 
     // Amend parent change and push.
     testRepo.reset("HEAD~1");
-    RevCommit c1_2 = amendBuilder()
-        .add("c.txt", "2")
-        .create();
+    RevCommit c1_2 = amendBuilder().add("c.txt", "2").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_2 = getPatchSetId(c1_2);
 
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps2_1, c2_1, 1),
+      assertRelated(ps, changeAndCommit(ps2_1, c2_1, 1),
           changeAndCommit(ps1_1, c1_1, 2));
     }
 
-    assertRelated(ps1_2,
-        changeAndCommit(ps2_1, c2_1, 1),
+    assertRelated(ps1_2, changeAndCommit(ps2_1, c2_1, 1),
         changeAndCommit(ps1_2, c1_2, 2));
   }
 
@@ -222,14 +198,10 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // Create two commits and push.
     ObjectId initial = repo().exactRef("HEAD").getObjectId();
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
@@ -238,27 +210,21 @@ public class GetRelatedIT extends AbstractDaemonTest {
     testRepo.reset(initial);
     RevCommit c2_2 = testRepo.cherryPick(c2_1);
     RevCommit c1_2 = testRepo.cherryPick(c1_1);
-    RevCommit c3_1 = commitBuilder()
-        .add("c.txt", "3")
-        .message("subject: 3")
-        .create();
+    RevCommit c3_1 =
+        commitBuilder().add("c.txt", "3").message("subject: 3").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_2 = getPatchSetId(c1_1);
     PatchSet.Id ps2_2 = getPatchSetId(c2_1);
     PatchSet.Id ps3_1 = getPatchSetId(c3_1);
 
     for (PatchSet.Id ps : ImmutableList.of(ps3_1, ps2_2, ps1_2)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_1, c3_1, 1),
-          changeAndCommit(ps1_2, c1_2, 2),
-          changeAndCommit(ps2_2, c2_2, 2));
+      assertRelated(ps, changeAndCommit(ps3_1, c3_1, 1),
+          changeAndCommit(ps1_2, c1_2, 2), changeAndCommit(ps2_2, c2_2, 2));
     }
 
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_1, c3_1, 1),
-          changeAndCommit(ps2_1, c2_1, 2),
-          changeAndCommit(ps1_1, c1_1, 2));
+      assertRelated(ps, changeAndCommit(ps3_1, c3_1, 1),
+          changeAndCommit(ps2_1, c2_1, 2), changeAndCommit(ps1_1, c1_1, 2));
     }
   }
 
@@ -269,18 +235,12 @@ public class GetRelatedIT extends AbstractDaemonTest {
     // 1,2---2,2---3,2
 
     // Create three commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "1")
-        .message("subject: 2")
-        .create();
-    RevCommit c3_1 = commitBuilder()
-        .add("b.txt", "1")
-        .message("subject: 3")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "1").message("subject: 2").create();
+    RevCommit c3_1 =
+        commitBuilder().add("b.txt", "1").message("subject: 3").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
@@ -288,34 +248,24 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // Amend all changes change and push.
     testRepo.reset(c1_1);
-    RevCommit c1_2 = amendBuilder()
-        .add("a.txt", "2")
-        .create();
-    RevCommit c2_2 = commitBuilder()
-        .add("b.txt", "2")
-        .message(parseBody(c2_1).getFullMessage())
-        .create();
-    RevCommit c3_2 = commitBuilder()
-        .add("b.txt", "3")
-        .message(parseBody(c3_1).getFullMessage())
-        .create();
+    RevCommit c1_2 = amendBuilder().add("a.txt", "2").create();
+    RevCommit c2_2 = commitBuilder().add("b.txt", "2")
+        .message(parseBody(c2_1).getFullMessage()).create();
+    RevCommit c3_2 = commitBuilder().add("b.txt", "3")
+        .message(parseBody(c3_1).getFullMessage()).create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_2 = getPatchSetId(c1_2);
     PatchSet.Id ps2_2 = getPatchSetId(c2_2);
     PatchSet.Id ps3_2 = getPatchSetId(c3_2);
 
     for (PatchSet.Id ps : ImmutableList.of(ps1_1, ps2_1, ps3_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_1, c3_1, 2),
-          changeAndCommit(ps2_1, c2_1, 2),
-          changeAndCommit(ps1_1, c1_1, 2));
+      assertRelated(ps, changeAndCommit(ps3_1, c3_1, 2),
+          changeAndCommit(ps2_1, c2_1, 2), changeAndCommit(ps1_1, c1_1, 2));
     }
 
     for (PatchSet.Id ps : ImmutableList.of(ps1_2, ps2_2, ps3_2)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_2, c3_2, 2),
-          changeAndCommit(ps2_2, c2_2, 2),
-          changeAndCommit(ps1_2, c1_2, 2));
+      assertRelated(ps, changeAndCommit(ps3_2, c3_2, 2),
+          changeAndCommit(ps2_2, c2_2, 2), changeAndCommit(ps1_2, c1_2, 2));
     }
   }
 
@@ -324,21 +274,15 @@ public class GetRelatedIT extends AbstractDaemonTest {
     // 1,1---2,1---3,1
     //
     // 1,2---2,2---3,2
-    //   \---4,1
+    // \---4,1
 
     // Create three commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "1")
-        .message("subject: 2")
-        .create();
-    RevCommit c3_1 = commitBuilder()
-        .add("b.txt", "1")
-        .message("subject: 3")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "1").message("subject: 2").create();
+    RevCommit c3_1 =
+        commitBuilder().add("b.txt", "1").message("subject: 3").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
@@ -346,17 +290,11 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // Amend all changes change and push.
     testRepo.reset(c1_1);
-    RevCommit c1_2 = amendBuilder()
-        .add("a.txt", "2")
-        .create();
-    RevCommit c2_2 = commitBuilder()
-        .add("b.txt", "2")
-        .message(parseBody(c2_1).getFullMessage())
-        .create();
-    RevCommit c3_2 = commitBuilder()
-        .add("b.txt", "3")
-        .message(parseBody(c3_1).getFullMessage())
-        .create();
+    RevCommit c1_2 = amendBuilder().add("a.txt", "2").create();
+    RevCommit c2_2 = commitBuilder().add("b.txt", "2")
+        .message(parseBody(c2_1).getFullMessage()).create();
+    RevCommit c3_2 = commitBuilder().add("b.txt", "3")
+        .message(parseBody(c3_1).getFullMessage()).create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_2 = getPatchSetId(c1_2);
     PatchSet.Id ps2_2 = getPatchSetId(c2_2);
@@ -364,49 +302,38 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     // Add one more commit 4,1 based on 1,2.
     testRepo.reset(c1_2);
-    RevCommit c4_1 = commitBuilder()
-        .add("d.txt", "4")
-        .message("subject: 4")
-        .create();
+    RevCommit c4_1 =
+        commitBuilder().add("d.txt", "4").message("subject: 4").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps4_1 = getPatchSetId(c4_1);
 
     // 1,1 is related indirectly to 4,1.
-    assertRelated(ps1_1,
-        changeAndCommit(ps4_1, c4_1, 1),
-        changeAndCommit(ps3_1, c3_1, 2),
-        changeAndCommit(ps2_1, c2_1, 2),
+    assertRelated(ps1_1, changeAndCommit(ps4_1, c4_1, 1),
+        changeAndCommit(ps3_1, c3_1, 2), changeAndCommit(ps2_1, c2_1, 2),
         changeAndCommit(ps1_1, c1_1, 2));
 
     // 2,1 and 3,1 don't include 4,1 since we don't walk forward after walking
     // backward.
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps3_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_1, c3_1, 2),
-          changeAndCommit(ps2_1, c2_1, 2),
-          changeAndCommit(ps1_1, c1_1, 2));
+      assertRelated(ps, changeAndCommit(ps3_1, c3_1, 2),
+          changeAndCommit(ps2_1, c2_1, 2), changeAndCommit(ps1_1, c1_1, 2));
     }
 
     // 1,2 is related directly to 4,1, and the 2-3 parallel branch stays intact.
-    assertRelated(ps1_2,
-        changeAndCommit(ps4_1, c4_1, 1),
-        changeAndCommit(ps3_2, c3_2, 2),
-        changeAndCommit(ps2_2, c2_2, 2),
+    assertRelated(ps1_2, changeAndCommit(ps4_1, c4_1, 1),
+        changeAndCommit(ps3_2, c3_2, 2), changeAndCommit(ps2_2, c2_2, 2),
         changeAndCommit(ps1_2, c1_2, 2));
 
     // 4,1 is only related to 1,2, since we don't walk forward after walking
     // backward.
-    assertRelated(ps4_1,
-        changeAndCommit(ps4_1, c4_1, 1),
+    assertRelated(ps4_1, changeAndCommit(ps4_1, c4_1, 1),
         changeAndCommit(ps1_2, c1_2, 2));
 
     // 2,2 and 3,2 don't include 4,1 since we don't walk forward after walking
     // backward.
     for (PatchSet.Id ps : ImmutableList.of(ps2_2, ps3_2)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_2, c3_2, 2),
-          changeAndCommit(ps2_2, c2_2, 2),
-          changeAndCommit(ps1_2, c1_2, 2));
+      assertRelated(ps, changeAndCommit(ps3_2, c3_2, 2),
+          changeAndCommit(ps2_2, c2_2, 2), changeAndCommit(ps1_2, c1_2, 2));
     }
   }
 
@@ -417,165 +344,119 @@ public class GetRelatedIT extends AbstractDaemonTest {
     // 1,2---2,2---3,1
 
     // Create two commits and push.
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
 
     // Amend both changes change and push.
     testRepo.reset(c1_1);
-    RevCommit c1_2 = amendBuilder()
-        .add("a.txt", "2")
-        .create();
-    RevCommit c2_2 = commitBuilder()
-        .add("b.txt", "2")
-        .message(parseBody(c2_1).getFullMessage())
-        .create();
+    RevCommit c1_2 = amendBuilder().add("a.txt", "2").create();
+    RevCommit c2_2 = commitBuilder().add("b.txt", "2")
+        .message(parseBody(c2_1).getFullMessage()).create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_2 = getPatchSetId(c1_2);
     PatchSet.Id ps2_2 = getPatchSetId(c2_2);
 
     // PS 3,1 depends on 2,2.
-    RevCommit c3_1 = commitBuilder()
-        .add("c.txt", "1")
-        .message("subject: 3")
-        .create();
+    RevCommit c3_1 =
+        commitBuilder().add("c.txt", "1").message("subject: 3").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps3_1 = getPatchSetId(c3_1);
 
     // PS 3,2 depends on 2,1.
     testRepo.reset(c2_1);
-    RevCommit c3_2 = commitBuilder()
-        .add("c.txt", "2")
-        .message(parseBody(c3_1).getFullMessage())
-        .create();
+    RevCommit c3_2 = commitBuilder().add("c.txt", "2")
+        .message(parseBody(c3_1).getFullMessage()).create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps3_2 = getPatchSetId(c3_2);
 
     for (PatchSet.Id ps : ImmutableList.of(ps1_1, ps2_1, ps3_2)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_2, c3_2, 2),
-          changeAndCommit(ps2_1, c2_1, 2),
-          changeAndCommit(ps1_1, c1_1, 2));
+      assertRelated(ps, changeAndCommit(ps3_2, c3_2, 2),
+          changeAndCommit(ps2_1, c2_1, 2), changeAndCommit(ps1_1, c1_1, 2));
     }
 
     for (PatchSet.Id ps : ImmutableList.of(ps1_2, ps2_2, ps3_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_1, c3_1, 2),
-          changeAndCommit(ps2_2, c2_2, 2),
-          changeAndCommit(ps1_2, c1_2, 2));
+      assertRelated(ps, changeAndCommit(ps3_1, c3_1, 2),
+          changeAndCommit(ps2_2, c2_2, 2), changeAndCommit(ps1_2, c1_2, 2));
     }
   }
 
   @Test
   public void getRelatedParallelDescendentBranches() throws Exception {
     // 1,1---2,1---3,1
-    //   \---4,1---5,1
-    //    \--6,1---7,1
+    // \---4,1---5,1
+    // \--6,1---7,1
 
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
-    RevCommit c3_1 = commitBuilder()
-        .add("c.txt", "3")
-        .message("subject: 3")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    RevCommit c3_1 =
+        commitBuilder().add("c.txt", "3").message("subject: 3").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
     PatchSet.Id ps3_1 = getPatchSetId(c3_1);
 
     testRepo.reset(c1_1);
-    RevCommit c4_1 = commitBuilder()
-        .add("d.txt", "4")
-        .message("subject: 4")
-        .create();
-    RevCommit c5_1 = commitBuilder()
-        .add("e.txt", "5")
-        .message("subject: 5")
-        .create();
+    RevCommit c4_1 =
+        commitBuilder().add("d.txt", "4").message("subject: 4").create();
+    RevCommit c5_1 =
+        commitBuilder().add("e.txt", "5").message("subject: 5").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps4_1 = getPatchSetId(c4_1);
     PatchSet.Id ps5_1 = getPatchSetId(c5_1);
 
     testRepo.reset(c1_1);
-    RevCommit c6_1 = commitBuilder()
-        .add("f.txt", "6")
-        .message("subject: 6")
-        .create();
-    RevCommit c7_1 = commitBuilder()
-        .add("g.txt", "7")
-        .message("subject: 7")
-        .create();
+    RevCommit c6_1 =
+        commitBuilder().add("f.txt", "6").message("subject: 6").create();
+    RevCommit c7_1 =
+        commitBuilder().add("g.txt", "7").message("subject: 7").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps6_1 = getPatchSetId(c6_1);
     PatchSet.Id ps7_1 = getPatchSetId(c7_1);
 
     // All changes are related to 1,1, keeping each of the parallel branches
     // intact.
-    assertRelated(ps1_1,
-        changeAndCommit(ps7_1, c7_1, 1),
-        changeAndCommit(ps6_1, c6_1, 1),
-        changeAndCommit(ps5_1, c5_1, 1),
-        changeAndCommit(ps4_1, c4_1, 1),
-        changeAndCommit(ps3_1, c3_1, 1),
-        changeAndCommit(ps2_1, c2_1, 1),
-        changeAndCommit(ps1_1, c1_1, 1));
+    assertRelated(ps1_1, changeAndCommit(ps7_1, c7_1, 1),
+        changeAndCommit(ps6_1, c6_1, 1), changeAndCommit(ps5_1, c5_1, 1),
+        changeAndCommit(ps4_1, c4_1, 1), changeAndCommit(ps3_1, c3_1, 1),
+        changeAndCommit(ps2_1, c2_1, 1), changeAndCommit(ps1_1, c1_1, 1));
 
     // The 2-3 branch is only related back to 1, not the other branches.
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps3_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_1, c3_1, 1),
-          changeAndCommit(ps2_1, c2_1, 1),
-          changeAndCommit(ps1_1, c1_1, 1));
+      assertRelated(ps, changeAndCommit(ps3_1, c3_1, 1),
+          changeAndCommit(ps2_1, c2_1, 1), changeAndCommit(ps1_1, c1_1, 1));
     }
 
     // The 4-5 branch is only related back to 1, not the other branches.
     for (PatchSet.Id ps : ImmutableList.of(ps4_1, ps5_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps5_1, c5_1, 1),
-          changeAndCommit(ps4_1, c4_1, 1),
-          changeAndCommit(ps1_1, c1_1, 1));
+      assertRelated(ps, changeAndCommit(ps5_1, c5_1, 1),
+          changeAndCommit(ps4_1, c4_1, 1), changeAndCommit(ps1_1, c1_1, 1));
     }
 
     // The 6-7 branch is only related back to 1, not the other branches.
     for (PatchSet.Id ps : ImmutableList.of(ps6_1, ps7_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps7_1, c7_1, 1),
-          changeAndCommit(ps6_1, c6_1, 1),
-          changeAndCommit(ps1_1, c1_1, 1));
+      assertRelated(ps, changeAndCommit(ps7_1, c7_1, 1),
+          changeAndCommit(ps6_1, c6_1, 1), changeAndCommit(ps1_1, c1_1, 1));
     }
   }
 
   @Test
   public void getRelatedEdit() throws Exception {
     // 1,1---2,1---3,1
-    //   \---2,E---/
+    // \---2,E---/
 
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
-    RevCommit c3_1 = commitBuilder()
-        .add("c.txt", "3")
-        .message("subject: 3")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    RevCommit c3_1 =
+        commitBuilder().add("c.txt", "3").message("subject: 3").create();
     pushHead(testRepo, "refs/for/master", false);
 
     Change ch2 = getChange(c2_1).change();
@@ -591,14 +472,11 @@ public class GetRelatedIT extends AbstractDaemonTest {
     PatchSet.Id ps3_1 = getPatchSetId(c3_1);
 
     for (PatchSet.Id ps : ImmutableList.of(ps1_1, ps2_1, ps3_1)) {
-      assertRelated(ps,
-          changeAndCommit(ps3_1, c3_1, 1),
-          changeAndCommit(ps2_1, c2_1, 1),
-          changeAndCommit(ps1_1, c1_1, 1));
+      assertRelated(ps, changeAndCommit(ps3_1, c3_1, 1),
+          changeAndCommit(ps2_1, c2_1, 1), changeAndCommit(ps1_1, c1_1, 1));
     }
 
-    assertRelated(ps2_edit,
-        changeAndCommit(ps3_1, c3_1, 1),
+    assertRelated(ps2_edit, changeAndCommit(ps3_1, c3_1, 1),
         changeAndCommit(new PatchSet.Id(ch2.getId(), 0), editRev, 1),
         changeAndCommit(ps1_1, c1_1, 1));
   }
@@ -606,65 +484,51 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Test
   public void pushNewPatchSetWhenParentHasNullGroup() throws Exception {
     // 1,1---2,1
-    //   \---2,2
+    // \---2,2
 
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "2")
-        .message("subject: 2")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "2").message("subject: 2").create();
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id psId1_1 = getPatchSetId(c1_1);
     PatchSet.Id psId2_1 = getPatchSetId(c2_1);
 
     for (PatchSet.Id psId : ImmutableList.of(psId1_1, psId2_1)) {
-      assertRelated(psId,
-          changeAndCommit(psId2_1, c2_1, 1),
+      assertRelated(psId, changeAndCommit(psId2_1, c2_1, 1),
           changeAndCommit(psId1_1, c1_1, 1));
     }
 
     // Pretend PS1,1 was pushed before the groups field was added.
     clearGroups(psId1_1);
-    indexer.index(
-        changeDataFactory.create(db, project, psId1_1.getParentKey()));
+    indexer
+        .index(changeDataFactory.create(db, project, psId1_1.getParentKey()));
 
     // PS1,1 has no groups, so disappeared from related changes.
     assertRelated(psId2_1);
 
-    RevCommit c2_2 = testRepo.amend(c2_1)
-        .add("c.txt", "2")
-        .create();
+    RevCommit c2_2 = testRepo.amend(c2_1).add("c.txt", "2").create();
     testRepo.reset(c2_2);
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id psId2_2 = getPatchSetId(c2_2);
 
     // Push updated the group for PS1,1, so it shows up in related changes even
     // though a new patch set was not pushed.
-    assertRelated(psId2_2,
-        changeAndCommit(psId2_2, c2_2, 2),
+    assertRelated(psId2_2, changeAndCommit(psId2_2, c2_2, 2),
         changeAndCommit(psId1_1, c1_1, 1));
   }
 
   @Test
   @GerritConfig(name = "index.testReindexAfterUpdate", value = "false")
   public void getRelatedForStaleChange() throws Exception {
-    RevCommit c1_1 = commitBuilder()
-        .add("a.txt", "1")
-        .message("subject: 1")
-        .create();
+    RevCommit c1_1 =
+        commitBuilder().add("a.txt", "1").message("subject: 1").create();
 
-    RevCommit c2_1 = commitBuilder()
-        .add("b.txt", "1")
-        .message("subject: 1")
-        .create();
+    RevCommit c2_1 =
+        commitBuilder().add("b.txt", "1").message("subject: 1").create();
     pushHead(testRepo, "refs/for/master", false);
 
-    RevCommit c2_2 = testRepo.amend(c2_1)
-        .add("b.txt", "2")
-        .create();
+    RevCommit c2_2 = testRepo.amend(c2_1).add("b.txt", "2").create();
     testRepo.reset(c2_2);
 
     disableChangeIndexWrites();
@@ -688,8 +552,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   private List<ChangeAndCommit> getRelated(Change.Id changeId, int ps)
       throws Exception {
-    String url = String.format("/changes/%d/revisions/%d/related",
-        changeId.get(), ps);
+    String url =
+        String.format("/changes/%d/revisions/%d/related", changeId.get(), ps);
     RestResponse r = adminRestSession.get(url);
     r.assertOK();
     return newGson().fromJson(r.getReader(), RelatedInfo.class).changes;
@@ -708,8 +572,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
     return Iterables.getOnlyElement(queryProvider.get().byCommit(c));
   }
 
-  private static ChangeAndCommit changeAndCommit(
-      PatchSet.Id psId, ObjectId commitId, int currentRevisionNum) {
+  private static ChangeAndCommit changeAndCommit(PatchSet.Id psId,
+      ObjectId commitId, int currentRevisionNum) {
     ChangeAndCommit result = new ChangeAndCommit();
     result._changeNumber = psId.getParentKey().get();
     result.commit = new CommitInfo();
@@ -721,8 +585,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   private void clearGroups(final PatchSet.Id psId) throws Exception {
-    try (BatchUpdate bu = updateFactory.create(
-        db, project, user(user), TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        updateFactory.create(db, project, user(user), TimeUtil.nowTs())) {
       bu.addOp(psId.getParentKey(), new BatchUpdate.Op() {
         @Override
         public boolean updateChange(ChangeContext ctx) throws OrmException {

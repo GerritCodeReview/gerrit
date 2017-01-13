@@ -55,8 +55,8 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
     List<ProjectWatchInfo> persistedWatchedProjects =
         gApi.accounts().self().setWatchedProjects(projectsToWatch);
-    assertThat(persistedWatchedProjects)
-        .containsAllIn(projectsToWatch).inOrder();
+    assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch)
+        .inOrder();
   }
 
   @Test

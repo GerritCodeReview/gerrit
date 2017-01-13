@@ -22,19 +22,18 @@ import java.io.IOException;
 public interface OAuthLoginProvider {
 
   /**
-   * Performs a login with an OAuth2 provider for Git over HTTP
-   * communication.
+   * Performs a login with an OAuth2 provider for Git over HTTP communication.
    *
-   * An implementation of this interface must transmit the given
-   * user name and secret, which can be either an OAuth2 access token
-   * or a password, to the OAuth2 backend for verification.
+   * An implementation of this interface must transmit the given user name and
+   * secret, which can be either an OAuth2 access token or a password, to the
+   * OAuth2 backend for verification.
    *
    * @param username the user's identifier.
-   * @param secret the secret to verify, e.g. a previously received
-   * access token or a password.
+   * @param secret the secret to verify, e.g. a previously received access token
+   *        or a password.
    *
-   * @return information about the logged in user, at least
-   * external id, user name and email address.
+   * @return information about the logged in user, at least external id, user
+   *         name and email address.
    *
    * @throws IOException if the login failed.
    */

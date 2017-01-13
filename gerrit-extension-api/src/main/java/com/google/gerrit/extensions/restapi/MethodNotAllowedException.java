@@ -22,7 +22,9 @@ public class MethodNotAllowedException extends RestApiException {
     super();
   }
 
-  /** @param msg error text for client describing why the method is not allowed. */
+  /**
+   * @param msg error text for client describing why the method is not allowed.
+   */
   public MethodNotAllowedException(String msg) {
     super(msg);
   }

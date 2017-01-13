@@ -29,8 +29,7 @@ public interface FileApi {
   DiffInfo diff() throws RestApiException;
 
   /**
-   * @param base revision id of the revision to be used as the
-   * diff base
+   * @param base revision id of the revision to be used as the diff base
    */
   DiffInfo diff(String base) throws RestApiException;
 
@@ -91,8 +90,8 @@ public interface FileApi {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
+   * A default implementation which allows source compatibility when adding new
+   * methods to the interface.
    **/
   class NotImplemented implements FileApi {
     @Override

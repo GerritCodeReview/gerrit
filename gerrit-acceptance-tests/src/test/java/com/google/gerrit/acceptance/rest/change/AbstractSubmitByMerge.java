@@ -40,8 +40,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   @Test
   public void submitWithMerge() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
@@ -80,8 +79,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithContentMerge_Conflict() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
 
     RevCommit oldHead = getRemoteHead();
@@ -89,11 +87,11 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     PushOneCommit.Result change2 =
         createChange("Change 2", "a.txt", "other content");
     submitWithConflict(change2.getChangeId(),
-        "Failed to submit 1 change due to the following problems:\n" +
-        "Change " + change2.getChange().getId() + ": " +
-        "Change could not be merged due to a path conflict. " +
-        "Please rebase the change locally " +
-        "and upload the rebased commit for review.");
+        "Failed to submit 1 change due to the following problems:\n" + "Change "
+            + change2.getChange().getId() + ": "
+            + "Change could not be merged due to a path conflict. "
+            + "Please rebase the change locally "
+            + "and upload the rebased commit for review.");
     assertThat(getRemoteHead()).isEqualTo(oldHead);
   }
 
@@ -111,12 +109,12 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   @TestProjectInput(createEmptyCommit = false)
   public void submitMultipleCommitsToEmptyRepoWithOneMerge() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
-    PushOneCommit.Result change1 = pushFactory.create(
-          db, admin.getIdent(), testRepo, "Change 1", "a", "a")
-        .to("refs/for/master/" + name("topic"));
+    PushOneCommit.Result change1 =
+        pushFactory.create(db, admin.getIdent(), testRepo, "Change 1", "a", "a")
+            .to("refs/for/master/" + name("topic"));
 
-    PushOneCommit push2 = pushFactory.create(
-          db, admin.getIdent(), testRepo, "Change 2", "b", "b");
+    PushOneCommit push2 = pushFactory.create(db, admin.getIdent(), testRepo,
+        "Change 2", "b", "b");
     push2.noParents();
     PushOneCommit.Result change2 = push2.to("refs/for/master/" + name("topic"));
     change2.assertOkStatus();
@@ -133,8 +131,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   @Test
   public void repairChangeStateAfterFailure() throws Exception {
     RevCommit initialHead = getRemoteHead();
-    PushOneCommit.Result change =
-        createChange("Change 1", "a.txt", "content");
+    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
     submit(change.getChangeId());
     RevCommit afterChange1Head = getRemoteHead();
 

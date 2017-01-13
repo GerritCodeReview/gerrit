@@ -30,7 +30,8 @@ import java.util.Map;
 
 /** <b>DO NOT USE</b> */
 public class PrivateInternals_DynamicTypes {
-  public static Map<TypeLiteral<?>, DynamicItem<?>> dynamicItemsOf(Injector src) {
+  public static Map<TypeLiteral<?>, DynamicItem<?>> dynamicItemsOf(
+      Injector src) {
     Map<TypeLiteral<?>, DynamicItem<?>> m = new HashMap<>();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
@@ -78,8 +79,7 @@ public class PrivateInternals_DynamicTypes {
     return Collections.unmodifiableMap(m);
   }
 
-  public static List<RegistrationHandle> attachItems(
-      Injector src,
+  public static List<RegistrationHandle> attachItems(Injector src,
       Map<TypeLiteral<?>, DynamicItem<?>> items, String pluginName) {
     if (src == null || items == null || items.isEmpty()) {
       return Collections.emptyList();
@@ -105,8 +105,7 @@ public class PrivateInternals_DynamicTypes {
     return handles;
   }
 
-  public static List<RegistrationHandle> attachSets(
-      Injector src,
+  public static List<RegistrationHandle> attachSets(Injector src,
       Map<TypeLiteral<?>, DynamicSet<?>> sets) {
     if (src == null || sets == null || sets.isEmpty()) {
       return Collections.emptyList();
@@ -134,10 +133,8 @@ public class PrivateInternals_DynamicTypes {
     return handles;
   }
 
-  public static List<RegistrationHandle> attachMaps(
-      Injector src,
-      String groupName,
-      Map<TypeLiteral<?>, DynamicMap<?>> maps) {
+  public static List<RegistrationHandle> attachMaps(Injector src,
+      String groupName, Map<TypeLiteral<?>, DynamicMap<?>> maps) {
     if (src == null || maps == null || maps.isEmpty()) {
       return Collections.emptyList();
     }
@@ -202,7 +199,8 @@ public class PrivateInternals_DynamicTypes {
     }
   }
 
-  private static <T> List<Binding<T>> bindings(Injector src, TypeLiteral<T> type) {
+  private static <T> List<Binding<T>> bindings(Injector src,
+      TypeLiteral<T> type) {
     return src.findBindingsByType(type);
   }
 }

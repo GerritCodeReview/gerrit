@@ -58,10 +58,8 @@ public class GetCommitIT extends AbstractDaemonTest {
   @Test
   public void getMergedCommit_Found() throws Exception {
     unblockRead();
-    RevCommit commit = repo.parseBody(repo.branch("master")
-        .commit()
-        .message("Create\n\nNew commit\n")
-        .create());
+    RevCommit commit = repo.parseBody(repo.branch("master").commit()
+        .message("Create\n\nNew commit\n").create());
 
     CommitInfo info = getCommit(commit);
     assertThat(info.commit).isEqualTo(commit.name());
@@ -82,10 +80,8 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getMergedCommit_NotFound() throws Exception {
-    RevCommit commit = repo.parseBody(repo.branch("master")
-        .commit()
-        .message("Create\n\nNew commit\n")
-        .create());
+    RevCommit commit = repo.parseBody(repo.branch("master").commit()
+        .message("Create\n\nNew commit\n").create());
     assertNotFound(commit);
   }
 
@@ -99,8 +95,8 @@ public class GetCommitIT extends AbstractDaemonTest {
     CommitInfo info = getCommit(r.getCommit());
     assertThat(info.commit).isEqualTo(r.getCommit().name());
     assertThat(info.subject).isEqualTo("test commit");
-    assertThat(info.message).isEqualTo(
-        "test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    assertThat(info.message)
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
     assertThat(info.author.name).isEqualTo("Administrator");
     assertThat(info.author.email).isEqualTo("admin@example.com");
     assertThat(info.committer.name).isEqualTo("Administrator");
@@ -129,14 +125,13 @@ public class GetCommitIT extends AbstractDaemonTest {
   }
 
   private void assertNotFound(ObjectId id) throws Exception {
-    userRestSession
-        .get("/projects/" + project.get() + "/commits/" + id.name())
+    userRestSession.get("/projects/" + project.get() + "/commits/" + id.name())
         .assertNotFound();
   }
 
   private CommitInfo getCommit(ObjectId id) throws Exception {
-    RestResponse r = userRestSession.get(
-        "/projects/" + project.get() + "/commits/" + id.name());
+    RestResponse r = userRestSession
+        .get("/projects/" + project.get() + "/commits/" + id.name());
     r.assertOK();
     CommitInfo result = newGson().fromJson(r.getReader(), CommitInfo.class);
     r.consume();

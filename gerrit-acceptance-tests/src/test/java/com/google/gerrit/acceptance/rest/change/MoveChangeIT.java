@@ -88,7 +88,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
     // Move change to the branch same as change's destination
     PushOneCommit.Result r = createChange();
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Change is already destined for the specified branch");
+    exception
+        .expectMessage("Change is already destined for the specified branch");
     move(r.getChangeId(), r.getChange().change().getDest().get());
   }
 
@@ -114,8 +115,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
     Branch.NameKey newBranch = new Branch.NameKey(
         r.getChange().change().getProject(), "does_not_exist");
     exception.expect(ResourceConflictException.class);
-    exception.expectMessage("Destination " + newBranch.get()
-        + " not found in the project");
+    exception.expectMessage(
+        "Destination " + newBranch.get() + " not found in the project");
     move(r.getChangeId(), newBranch.get());
   }
 
@@ -140,12 +141,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 = createChange();
     TestRepository<?>.CommitBuilder commitBuilder =
         testRepo.branch("HEAD").commit().insertChangeId();
-    commitBuilder
-      .parent(r1.getCommit())
-      .parent(r2.getCommit())
-      .message("Move change Merge Commit")
-      .author(admin.getIdent())
-      .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
+    commitBuilder.parent(r1.getCommit()).parent(r2.getCommit())
+        .message("Move change Merge Commit").author(admin.getIdent())
+        .committer(new PersonIdent(admin.getIdent(), testRepo.getDate()));
     RevCommit c = commitBuilder.create();
     pushHead(testRepo, "refs/for/master", false, false);
 
@@ -162,8 +160,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeToBranchWithoutUploadPerms() throws Exception {
     // Move change to a destination where user doesn't have upload permissions
     PushOneCommit.Result r = createChange();
-    Branch.NameKey newBranch =
-        new Branch.NameKey(r.getChange().change().getProject(), "blocked_branch");
+    Branch.NameKey newBranch = new Branch.NameKey(
+        r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
     block(Permission.PUSH,
         SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
@@ -203,10 +201,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
         new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     BranchInput bi = new BranchInput();
     bi.revision = r.getCommit().name();
-    gApi.projects()
-      .name(newBranch.getParentKey().get())
-      .branch(newBranch.get())
-      .create(bi);
+    gApi.projects().name(newBranch.getParentKey().get()).branch(newBranch.get())
+        .create(bi);
 
     // Try to move the change to the branch with the same commit
     exception.expect(ResourceConflictException.class);
@@ -229,8 +225,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
     cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
     AccountGroup.UUID registeredUsers =
         SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    Util.allow(cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, registeredUsers,
-        "refs/heads/*");
+    Util.allow(cfg, Permission.forLabel(patchSetLock.getName()), 0, 1,
+        registeredUsers, "refs/heads/*");
     saveProjectConfig(cfg);
     grant(Permission.LABEL + "Patch-Set-Lock", project, "refs/heads/*");
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
@@ -240,8 +236,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     move(r.getChangeId(), newBranch.get());
   }
 
-  private void move(int changeNum, String destination)
-      throws RestApiException {
+  private void move(int changeNum, String destination) throws RestApiException {
     gApi.changes().id(changeNum).move(destination);
   }
 

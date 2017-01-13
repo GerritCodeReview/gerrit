@@ -52,8 +52,7 @@ public class FileBranchIT extends AbstractDaemonTest {
   }
 
   private BranchApi branch() throws Exception {
-    return gApi.projects()
-        .name(branch.getParentKey().get())
+    return gApi.projects().name(branch.getParentKey().get())
         .branch(branch.get());
   }
 }

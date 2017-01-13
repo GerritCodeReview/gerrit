@@ -61,12 +61,9 @@ public class AccountCreator {
 
   @Inject
   AccountCreator(SchemaFactory<ReviewDb> schema,
-      VersionedAuthorizedKeys.Accessor authorizedKeys,
-      GroupCache groupCache,
-      SshKeyCache sshKeyCache,
-      AccountCache accountCache,
-      AccountByEmailCache byEmailCache,
-      AccountIndexer indexer,
+      VersionedAuthorizedKeys.Accessor authorizedKeys, GroupCache groupCache,
+      SshKeyCache sshKeyCache, AccountCache accountCache,
+      AccountByEmailCache byEmailCache, AccountIndexer indexer,
       ExternalIdCache externalIdCache) {
     accounts = new HashMap<>();
     reviewDbProvider = schema;
@@ -97,7 +94,8 @@ public class AccountCreator {
       externalIdCache.onCreate(extUser);
 
       if (email != null) {
-        AccountExternalId extMailto = new AccountExternalId(id, getEmailKey(email));
+        AccountExternalId extMailto =
+            new AccountExternalId(id, getEmailKey(email));
         extMailto.setEmailAddress(email);
         db.accountExternalIds().insert(Collections.singleton(extMailto));
         externalIdCache.onCreate(extMailto);
@@ -148,12 +146,12 @@ public class AccountCreator {
 
   public TestAccount admin() throws Exception {
     return create("admin", "admin@example.com", "Administrator",
-      "Administrators");
+        "Administrators");
   }
 
   public TestAccount admin2() throws Exception {
     return create("admin2", "admin2@example.com", "Administrator2",
-      "Administrators");
+        "Administrators");
   }
 
   public TestAccount user() throws Exception {
@@ -165,9 +163,8 @@ public class AccountCreator {
   }
 
   public TestAccount get(String username) {
-    return checkNotNull(
-        accounts.get(username),
-        "No TestAccount created for %s", username);
+    return checkNotNull(accounts.get(username), "No TestAccount created for %s",
+        username);
   }
 
   private AccountExternalId.Key getEmailKey(String email) {

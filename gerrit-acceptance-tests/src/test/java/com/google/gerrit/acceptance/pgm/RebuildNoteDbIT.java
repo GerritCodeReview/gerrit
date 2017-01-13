@@ -47,15 +47,13 @@ public class RebuildNoteDbIT {
   public void rebuildEmptySite() throws Exception {
     initSite();
     Files.append(ConfigNotesMigration.allEnabledConfig().toText(),
-        new File(sitePath.toString(), "etc/gerrit.config"),
-        UTF_8);
-    runGerrit("RebuildNoteDb", "-d", sitePath.toString(),
-        "--show-stack-trace");
+        new File(sitePath.toString(), "etc/gerrit.config"), UTF_8);
+    runGerrit("RebuildNoteDb", "-d", sitePath.toString(), "--show-stack-trace");
   }
 
   private void initSite() throws Exception {
-    runGerrit("init", "-d", sitePath.getPath(),
-        "--batch", "--no-auto-start", "--skip-plugins", "--show-stack-trace");
+    runGerrit("init", "-d", sitePath.getPath(), "--batch", "--no-auto-start",
+        "--skip-plugins", "--show-stack-trace");
   }
 
   private static void runGerrit(String... args) throws Exception {

@@ -16,6 +16,23 @@
       "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_88a1f787",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-13T22:32:42Z",
+      "side": 1,
+      "message": "There\u0027s actually nothing at all I can do about that, the user is just going to have to click cancel.\n\nThe autocomplete suggestions are populated by a backend request, and the backend won\u0027t know that the reviewer has been removed until the removal has been sent.",
+      "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

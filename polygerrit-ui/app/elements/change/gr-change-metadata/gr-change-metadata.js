@@ -119,7 +119,7 @@
 
     _handleTopicChanged: function(e, topic) {
       if (!topic.length) { topic = null; }
-      this.$.restAPI.setChangeTopic(this.change.change_id, topic);
+      this.$.restAPI.setChangeTopic(this.change._number, topic);
     },
 
     _computeTopicReadOnly: function(mutable, change) {
@@ -207,7 +207,7 @@
 
     _handleTopicRemoved: function() {
       this.set(['change', 'topic'], '');
-      this.$.restAPI.setChangeTopic(this.change.change_id, null);
+      this.$.restAPI.setChangeTopic(this.change._number, null);
     },
   });
 })();

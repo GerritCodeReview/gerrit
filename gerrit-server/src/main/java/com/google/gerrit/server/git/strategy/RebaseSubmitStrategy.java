@@ -72,7 +72,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         // MERGE_IF_NECESSARY semantics to avoid creating duplicate
         // commits.
         //
-        sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted);
+        sorted = args.mergeUtil.reduceToMinimalMerge(
+            args.mergeSorter, sorted, args.incoming);
         break;
       }
     }

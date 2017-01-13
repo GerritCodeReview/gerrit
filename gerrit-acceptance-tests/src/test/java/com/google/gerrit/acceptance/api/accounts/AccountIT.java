@@ -758,8 +758,8 @@ public class AccountIT extends AbstractDaemonTest {
         newGson().fromJson(response.getReader(),
             new TypeToken<List<AccountExternalIdInfo>>() {}.getType());
 
-    // 'canDelete' field will be all false. It will be better if we can find
-    // a way to test it. But it looks a little difficult.
+    // 'canDelete' field will be all null (false). It will be better if we can
+    // find a way to test it. But it looks a little difficult.
     externalIdInfoList.stream().sorted();
     assertThat(expectedIdInfoList)
         .containsExactlyElementsIn(expectedIdInfoList);

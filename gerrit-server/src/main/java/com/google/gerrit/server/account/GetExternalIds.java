@@ -66,22 +66,25 @@ public class GetExternalIds implements RestReadView<AccountResource> {
       AccountExternalIdInfo info = new AccountExternalIdInfo();
       info.identity = id.getExternalId();
       info.emailAddress = id.getEmailAddress();
-      info.trusted = authConfig.isIdentityTrustable(
-          Collections.singleton(id));
+      info.trusted =
+          toBoolean(authConfig.isIdentityTrustable(Collections.singleton(id)));
       // The identity can be deleted only if its not the one used to
       // establish this web session, and if only if an identity was
       // actually used to establish this web session.
-      if (id.isScheme(SCHEME_USERNAME)) {
-        info.canDelete = false;
-      } else {
+      if (!id.isScheme(SCHEME_USERNAME)) {
         CurrentUser.PropertyKey<AccountExternalId.Key> k =
             CurrentUser.PropertyKey.create();
         AccountExternalId.Key last = resource.getUser().get(k);
-        info.canDelete = (last != null) && (!last.get().equals(info.identity));
+        info.canDelete =
+            toBoolean(last != null && !last.get().equals(info.identity));
       }
       result.add(info);
     }
     return result;
+  }
+
+  private static Boolean toBoolean(boolean v) {
+    return v ? v : null;
   }
 }
 

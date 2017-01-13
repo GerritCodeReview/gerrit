@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -517,7 +516,7 @@ public class MergeOp implements AutoCloseable {
         checkNotNull(submitting.submitType(),
             "null submit type for %s; expected to previously fail fast",
             submitting);
-        Set<CodeReviewCommit> commitsToSubmit = commits(submitting.changes());
+        Set<CodeReviewCommit> commitsToSubmit = submitting.commits();
         ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
         SubmitStrategy strategy = createStrategy(or, ob.mergeTip, branch,
             submitting.submitType(), ob.oldTip, submoduleOp, dryrun);
@@ -534,18 +533,6 @@ public class MergeOp implements AutoCloseable {
       }
     }
     return strategies;
-  }
-
-  private Set<CodeReviewCommit> commits(List<ChangeData> cds) {
-    LinkedHashSet<CodeReviewCommit> result =
-        Sets.newLinkedHashSetWithExpectedSize(cds.size());
-    for (ChangeData cd : cds) {
-      CodeReviewCommit commit = commitStatus.get(cd.getId());
-      checkState(commit != null,
-          "commit for %s not found by validateChangeList", cd.getId());
-      result.add(commit);
-    }
-    return result;
   }
 
   private SubmitStrategy createStrategy(OpenRepo or,
@@ -590,13 +577,13 @@ public class MergeOp implements AutoCloseable {
   @AutoValue
   abstract static class BranchBatch {
     @Nullable abstract SubmitType submitType();
-    abstract List<ChangeData> changes();
+    abstract Set<CodeReviewCommit> commits();
   }
 
   private BranchBatch validateChangeList(OpenRepo or,
       Collection<ChangeData> submitted) throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
-    List<ChangeData> toSubmit = new ArrayList<>(submitted.size());
+    Set<CodeReviewCommit> toSubmit = new LinkedHashSet<>(submitted.size());
     SetMultimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
 
     SubmitType submitType = null;
@@ -691,7 +678,7 @@ public class MergeOp implements AutoCloseable {
         continue;
       }
       commit.add(or.canMergeFlag);
-      toSubmit.add(cd);
+      toSubmit.add(commit);
     }
     logDebug("Submitting on this run: {}", toSubmit);
     return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);

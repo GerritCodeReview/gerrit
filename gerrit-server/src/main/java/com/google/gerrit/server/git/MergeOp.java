@@ -84,6 +84,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -508,6 +509,9 @@ public class MergeOp implements AutoCloseable {
       boolean dryrun) throws IntegrationException {
     List<SubmitStrategy> strategies = new ArrayList<>();
     Set<Branch.NameKey> allBranches = submoduleOp.getBranchesInOrder();
+    Set<CodeReviewCommit> allCommits =
+        toSubmit.values().stream().map(BranchBatch::commits)
+            .flatMap(Set::stream).collect(Collectors.toSet());
     for (Branch.NameKey branch : allBranches) {
       OpenRepo or = orm.getRepo(branch.getParentKey());
       if (toSubmit.containsKey(branch)) {
@@ -518,8 +522,11 @@ public class MergeOp implements AutoCloseable {
             submitting);
         Set<CodeReviewCommit> commitsToSubmit = submitting.commits();
         ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
-        SubmitStrategy strategy = createStrategy(or, ob.mergeTip, branch,
-            submitting.submitType(), ob.oldTip, submoduleOp, dryrun);
+        SubmitStrategy strategy = submitStrategyFactory
+            .create(submitting.submitType(), db, or.repo, or.rw, or.ins,
+                or.canMergeFlag, getAlreadyAccepted(or, ob.oldTip), allCommits,
+                branch, caller, ob.mergeTip, commitStatus, submissionId,
+                submitInput.notify, accountsToNotify, submoduleOp, dryrun);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
         if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY) &&
@@ -533,16 +540,6 @@ public class MergeOp implements AutoCloseable {
       }
     }
     return strategies;
-  }
-
-  private SubmitStrategy createStrategy(OpenRepo or,
-      MergeTip mergeTip, Branch.NameKey destBranch, SubmitType submitType,
-      CodeReviewCommit branchTip, SubmoduleOp submoduleOp, boolean dryrun)
-          throws IntegrationException {
-    return submitStrategyFactory.create(submitType, db, or.repo, or.rw, or.ins,
-        or.canMergeFlag, getAlreadyAccepted(or, branchTip), destBranch, caller,
-        mergeTip, commitStatus, submissionId, submitInput.notify, accountsToNotify,
-        submoduleOp, dryrun);
   }
 
   private Set<RevCommit> getAlreadyAccepted(OpenRepo or,

@@ -16,7 +16,7 @@ package com.google.gerrit.server.edit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -171,7 +171,7 @@ public class ChangeEditUtil {
    * @throws RestApiException
    */
   public void publish(final ChangeEdit edit, NotifyHandling notify,
-      Multimap<RecipientType, Account.Id> accountsToNotify)
+      ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());

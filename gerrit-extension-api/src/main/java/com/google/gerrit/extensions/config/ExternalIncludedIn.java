@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.config;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
 import java.util.Collection;
@@ -37,6 +37,6 @@ public interface ExternalIncludedIn {
    * @param branches the branches that include the commit
    * @return additional entries for IncludedInInfo
    */
-  Multimap<String, String> getIncludedIn(String project, String commit,
+  ListMultimap<String, String> getIncludedIn(String project, String commit,
       Collection<String> tags, Collection<String> branches);
 }

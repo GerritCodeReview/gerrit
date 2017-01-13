@@ -17,9 +17,8 @@ package com.google.gerrit.server.git;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.SortedSetMultimap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
@@ -47,7 +46,7 @@ public class GroupCollectorTest {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(a, branchTip),
         patchSets(),
         groups());
@@ -62,7 +61,7 @@ public class GroupCollectorTest {
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(a).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(b, branchTip),
         patchSets(),
         groups());
@@ -79,7 +78,7 @@ public class GroupCollectorTest {
     RevCommit b = tr.commit().parent(a).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(b, branchTip),
         patchSets().put(a, psId(1, 1)),
         groups().put(psId(1, 1), group));
@@ -95,7 +94,7 @@ public class GroupCollectorTest {
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(a).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(b, branchTip),
         patchSets().put(a, psId(1, 1)),
         groups());
@@ -111,7 +110,7 @@ public class GroupCollectorTest {
     RevCommit b = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(a).parent(b).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m, branchTip),
         patchSets(),
         groups());
@@ -129,7 +128,7 @@ public class GroupCollectorTest {
     RevCommit m = tr.commit().parent(a).parent(b).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m, branchTip),
         patchSets().put(b, psId(1, 1)),
         groups().put(psId(1, 1), group));
@@ -150,7 +149,7 @@ public class GroupCollectorTest {
 
     String group1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     String group2 = "1234567812345678123456781234567812345678";
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m, branchTip),
         patchSets()
             .put(a, psId(1, 1))
@@ -176,7 +175,7 @@ public class GroupCollectorTest {
     String group1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     String group2a = "1234567812345678123456781234567812345678";
     String group2b = "ef123456ef123456ef123456ef123456ef123456";
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m, branchTip),
         patchSets()
             .put(a, psId(1, 1))
@@ -202,7 +201,7 @@ public class GroupCollectorTest {
     RevCommit m = tr.commit().parent(branchTip).parent(a).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m, branchTip),
         patchSets().put(a, psId(1, 1)),
         groups().put(psId(1, 1), group));
@@ -218,7 +217,7 @@ public class GroupCollectorTest {
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(branchTip).parent(a).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m, branchTip),
         patchSets(),
         groups());
@@ -237,7 +236,7 @@ public class GroupCollectorTest {
     RevCommit m1 = tr.commit().parent(b).parent(c).create();
     RevCommit m2 = tr.commit().parent(a).parent(m1).create();
 
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m2, branchTip),
         patchSets(),
         groups());
@@ -259,7 +258,7 @@ public class GroupCollectorTest {
     assertThat(m.getParentCount()).isEqualTo(2);
     assertThat(m.getParent(0)).isEqualTo(m.getParent(1));
 
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m, branchTip),
         patchSets(),
         groups());
@@ -279,7 +278,7 @@ public class GroupCollectorTest {
 
     String group1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     String group2 = "1234567812345678123456781234567812345678";
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         newWalk(m, branchTip),
         patchSets()
             .put(a, psId(1, 1))
@@ -307,7 +306,7 @@ public class GroupCollectorTest {
     rw.markStart(rw.parseCommit(d));
     // Schema upgrade case: all commits are existing patch sets, but none have
     // groups assigned yet.
-    Multimap<ObjectId, String> groups = collectGroups(
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(
         rw,
         patchSets()
             .put(branchTip, psId(1, 1))
@@ -339,9 +338,9 @@ public class GroupCollectorTest {
     return rw;
   }
 
-  private static Multimap<ObjectId, String> collectGroups(
+  private static SortedSetMultimap<ObjectId, String> collectGroups(
       RevWalk rw,
-      ImmutableMultimap.Builder<ObjectId, PatchSet.Id> patchSetsBySha,
+      ImmutableListMultimap.Builder<ObjectId, PatchSet.Id> patchSetsBySha,
       ImmutableListMultimap.Builder<PatchSet.Id, String> groupLookup)
       throws Exception {
     GroupCollector gc =
@@ -355,8 +354,9 @@ public class GroupCollectorTest {
 
   // Helper methods for constructing various map arguments, to avoid lots of
   // type specifications.
-  private static ImmutableMultimap.Builder<ObjectId, PatchSet.Id> patchSets() {
-    return ImmutableMultimap.builder();
+  private static ImmutableListMultimap.Builder<ObjectId, PatchSet.Id>
+      patchSets() {
+    return ImmutableListMultimap.builder();
   }
 
   private static ImmutableListMultimap.Builder<PatchSet.Id, String> groups() {

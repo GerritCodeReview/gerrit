@@ -18,9 +18,9 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.project.RefPattern.isRE;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -118,7 +118,7 @@ public class PermissionCollection {
       HashMap<String, List<PermissionRule>> permissions = new HashMap<>();
       HashMap<String, List<PermissionRule>> overridden = new HashMap<>();
       Map<PermissionRule, ProjectRef> ruleProps = Maps.newIdentityHashMap();
-      Multimap<Project.NameKey, String> exclusivePermissionsByProject =
+      ListMultimap<Project.NameKey, String> exclusivePermissionsByProject =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (AccessSection section : sections) {
         Project.NameKey project = sectionToProject.get(section);

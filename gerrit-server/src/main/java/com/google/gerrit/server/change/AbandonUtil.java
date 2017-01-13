@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
@@ -78,15 +78,15 @@ public class AbandonUtil {
               .enforceVisibility(false)
               .query(queryBuilder.parse(query))
               .entities();
-      ImmutableMultimap.Builder<Project.NameKey, ChangeControl> builder =
-          ImmutableMultimap.builder();
+      ImmutableListMultimap.Builder<Project.NameKey, ChangeControl> builder =
+          ImmutableListMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
         ChangeControl control = cd.changeControl(internalUser);
         builder.put(control.getProject().getNameKey(), control);
       }
 
       int count = 0;
-      Multimap<Project.NameKey, ChangeControl> abandons = builder.build();
+      ListMultimap<Project.NameKey, ChangeControl> abandons = builder.build();
       String message = cfg.getAbandonMessage();
       for (Project.NameKey project : abandons.keySet()) {
         Collection<ChangeControl> changes =

@@ -21,12 +21,13 @@ import static java.util.Comparator.comparing;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -109,7 +110,7 @@ public class MergeOp implements AutoCloseable {
     private final ImmutableMap<Change.Id, ChangeData> changes;
     private final ImmutableSetMultimap<Branch.NameKey, Change.Id> byBranch;
     private final Map<Change.Id, CodeReviewCommit> commits;
-    private final Multimap<Change.Id, String> problems;
+    private final ListMultimap<Change.Id, String> problems;
 
     private CommitStatus(ChangeSet cs) throws OrmException {
       checkArgument(!cs.furtherHiddenChanges(),
@@ -163,8 +164,8 @@ public class MergeOp implements AutoCloseable {
       return problems.isEmpty();
     }
 
-    public ImmutableMultimap<Change.Id, String> getProblems() {
-      return ImmutableMultimap.copyOf(problems);
+    public ImmutableListMultimap<Change.Id, String> getProblems() {
+      return ImmutableListMultimap.copyOf(problems);
     }
 
     public List<SubmitRecord> getSubmitRecords(Change.Id id) {
@@ -228,7 +229,7 @@ public class MergeOp implements AutoCloseable {
   private CommitStatus commits;
   private ReviewDb db;
   private SubmitInput submitInput;
-  private Multimap<RecipientType, Account.Id> accountsToNotify;
+  private ListMultimap<RecipientType, Account.Id> accountsToNotify;
   private Set<Project.NameKey> allProjects;
   private boolean dryrun;
 
@@ -452,7 +453,7 @@ public class MergeOp implements AutoCloseable {
     logDebug("Beginning merge attempt on {}", cs);
     Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
 
-    Multimap<Branch.NameKey, ChangeData> cbb;
+    ListMultimap<Branch.NameKey, ChangeData> cbb;
     try {
       cbb = cs.changesByBranch();
     } catch (OrmException e) {
@@ -596,7 +597,7 @@ public class MergeOp implements AutoCloseable {
       Collection<ChangeData> submitted) throws IntegrationException {
     logDebug("Validating {} changes", submitted.size());
     List<ChangeData> toSubmit = new ArrayList<>(submitted.size());
-    Multimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
+    SetMultimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
 
     SubmitType submitType = null;
     ChangeData choseSubmitTypeFrom = null;
@@ -696,7 +697,7 @@ public class MergeOp implements AutoCloseable {
     return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);
   }
 
-  private Multimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or,
+  private SetMultimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or,
       Collection<ChangeData> cds) throws IntegrationException {
     try {
       List<String> refNames = new ArrayList<>(cds.size());
@@ -706,7 +707,7 @@ public class MergeOp implements AutoCloseable {
           refNames.add(c.currentPatchSetId().toRefName());
         }
       }
-      Multimap<ObjectId, PatchSet.Id> revisions =
+      SetMultimap<ObjectId, PatchSet.Id> revisions =
           MultimapBuilder.hashKeys(cds.size()).hashSetValues(1).build();
       for (Map.Entry<String, Ref> e : or.repo.getRefDatabase().exactRef(
           refNames.toArray(new String[refNames.size()])).entrySet()) {

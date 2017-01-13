@@ -15,8 +15,8 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -76,7 +76,7 @@ public class IncludedInResolver {
   private final RevCommit target;
 
   private final RevFlag containsTarget;
-  private Multimap<RevCommit, String> commitToRef;
+  private ListMultimap<RevCommit, String> commitToRef;
   private List<RevCommit> tipsByCommitTime;
 
   private IncludedInResolver(Repository repo, RevWalk rw, RevCommit target,

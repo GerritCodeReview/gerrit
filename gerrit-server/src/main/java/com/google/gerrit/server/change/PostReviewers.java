@@ -21,8 +21,8 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -201,7 +201,7 @@ public class PostReviewers
 
   private Addition putAccount(String reviewer, ReviewerResource rsrc,
       ReviewerState state, NotifyHandling notify,
-      Multimap<RecipientType, Account.Id> accountsToNotify)
+      ListMultimap<RecipientType, Account.Id> accountsToNotify)
           throws UnprocessableEntityException {
     Account member = rsrc.getReviewerUser().getAccount();
     ChangeControl control = rsrc.getReviewerControl();
@@ -303,7 +303,7 @@ public class PostReviewers
     protected Addition(String reviewer, ChangeResource rsrc,
         Map<Account.Id, ChangeControl> reviewers, ReviewerState state,
         NotifyHandling notify,
-        Multimap<RecipientType, Account.Id> accountsToNotify) {
+        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
       result = new AddReviewerResult(reviewer);
       if (reviewers == null) {
         this.reviewers = ImmutableMap.of();
@@ -342,7 +342,7 @@ public class PostReviewers
     final Map<Account.Id, ChangeControl> reviewers;
     final ReviewerState state;
     final NotifyHandling notify;
-    final Multimap<RecipientType, Account.Id> accountsToNotify;
+    final ListMultimap<RecipientType, Account.Id> accountsToNotify;
     List<PatchSetApproval> addedReviewers;
     Collection<Account.Id> addedCCs;
 
@@ -351,7 +351,7 @@ public class PostReviewers
 
     Op(ChangeResource rsrc, Map<Account.Id, ChangeControl> reviewers,
         ReviewerState state, NotifyHandling notify,
-        Multimap<RecipientType, Account.Id> accountsToNotify) {
+        ListMultimap<RecipientType, Account.Id> accountsToNotify) {
       this.rsrc = rsrc;
       this.reviewers = reviewers;
       this.state = state;
@@ -407,7 +407,7 @@ public class PostReviewers
 
   public void emailReviewers(Change change, Collection<Account.Id> added,
       Collection<Account.Id> copied, NotifyHandling notify,
-      Multimap<RecipientType, Account.Id> accountsToNotify) {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     if (added.isEmpty() && copied.isEmpty()) {
       return;
     }

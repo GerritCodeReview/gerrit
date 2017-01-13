@@ -24,7 +24,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -110,7 +109,7 @@ public class StalenessChecker {
       Change indexChange,
       @Nullable Change reviewDbChange,
       SetMultimap<Project.NameKey, RefState> states,
-      Multimap<Project.NameKey, RefStatePattern> patterns) {
+      ListMultimap<Project.NameKey, RefStatePattern> patterns) {
     return reviewDbChangeIsStale(indexChange, reviewDbChange)
         || refsAreStale(repoManager, id, states, patterns);
   }
@@ -119,7 +118,7 @@ public class StalenessChecker {
   static boolean refsAreStale(GitRepositoryManager repoManager,
       Change.Id id,
       SetMultimap<Project.NameKey, RefState> states,
-      Multimap<Project.NameKey, RefStatePattern> patterns) {
+      ListMultimap<Project.NameKey, RefStatePattern> patterns) {
     Set<Project.NameKey> projects =
         Sets.union(states.keySet(), patterns.keySet());
 
@@ -172,7 +171,7 @@ public class StalenessChecker {
     return result;
   }
 
-  private Multimap<Project.NameKey, RefStatePattern> parsePatterns(
+  private ListMultimap<Project.NameKey, RefStatePattern> parsePatterns(
       ChangeData cd) {
     return parsePatterns(cd.getRefStatePatterns());
   }
@@ -197,7 +196,7 @@ public class StalenessChecker {
   private static boolean refsAreStale(GitRepositoryManager repoManager,
       Change.Id id, Project.NameKey project,
       SetMultimap<Project.NameKey, RefState> allStates,
-      Multimap<Project.NameKey, RefStatePattern> allPatterns) {
+      ListMultimap<Project.NameKey, RefStatePattern> allPatterns) {
     try (Repository repo = repoManager.openRepository(project)) {
       Set<RefState> states = allStates.get(project);
       for (RefState state : states) {

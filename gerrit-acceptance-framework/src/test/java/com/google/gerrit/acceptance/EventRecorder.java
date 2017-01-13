@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.UserScopedEventListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -39,7 +39,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class EventRecorder {
   private final RegistrationHandle eventListenerRegistration;
-  private final Multimap<String, RefEvent> recordedEvents;
+  private final ListMultimap<String, RefEvent> recordedEvents;
 
   @Singleton
   public static class Factory {

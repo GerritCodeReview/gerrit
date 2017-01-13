@@ -37,9 +37,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -562,7 +562,7 @@ public class ChangeBundle {
     // but easy to reason about.
     List<ChangeMessage> as = new LinkedList<>(bundleA.filterChangeMessages());
 
-    Multimap<ChangeMessageCandidate, ChangeMessage> bs =
+    ListMultimap<ChangeMessageCandidate, ChangeMessage> bs =
         LinkedListMultimap.create();
     for (ChangeMessage b : bundleB.filterChangeMessages()) {
       bs.put(ChangeMessageCandidate.create(b), b);

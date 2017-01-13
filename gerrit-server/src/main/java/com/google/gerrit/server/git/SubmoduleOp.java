@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubscribeSection;
@@ -115,7 +114,7 @@ public class SubmoduleOp {
   // sorted version of affectedBranches
   private final ImmutableSet<Branch.NameKey> sortedBranches;
   // map of superproject branch and its submodule subscriptions
-  private final Multimap<Branch.NameKey, SubmoduleSubscription> targets;
+  private final SetMultimap<Branch.NameKey, SubmoduleSubscription> targets;
   // map of superproject and its branches which has submodule subscriptions
   private final SetMultimap<Project.NameKey, Branch.NameKey> branchesByProject;
 

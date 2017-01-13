@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -49,7 +49,7 @@ public class AbandonOp extends BatchUpdate.Op {
 
   private final String msgTxt;
   private final NotifyHandling notifyHandling;
-  private final Multimap<RecipientType, Account.Id> accountsToNotify;
+  private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
   private final Account account;
 
   private Change change;
@@ -61,7 +61,7 @@ public class AbandonOp extends BatchUpdate.Op {
         @Assisted @Nullable Account account,
         @Assisted @Nullable String msgTxt,
         @Assisted NotifyHandling notifyHandling,
-        @Assisted Multimap<RecipientType, Account.Id> accountsToNotify);
+        @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify);
   }
 
   @AssistedInject
@@ -73,7 +73,7 @@ public class AbandonOp extends BatchUpdate.Op {
       @Assisted @Nullable Account account,
       @Assisted @Nullable String msgTxt,
       @Assisted NotifyHandling notifyHandling,
-      @Assisted Multimap<RecipientType, Account.Id> accountsToNotify) {
+      @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;

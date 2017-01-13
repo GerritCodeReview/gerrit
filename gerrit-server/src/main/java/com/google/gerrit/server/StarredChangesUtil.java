@@ -23,8 +23,8 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.primitives.Ints;
@@ -314,7 +314,7 @@ public class StarredChangesUtil {
     }
   }
 
-  public ImmutableMultimap<Account.Id, String> byChangeFromIndex(
+  public ImmutableListMultimap<Account.Id, String> byChangeFromIndex(
       Change.Id changeId) throws OrmException {
     Set<String> fields = ImmutableSet.of(
         ChangeField.ID.getName(),

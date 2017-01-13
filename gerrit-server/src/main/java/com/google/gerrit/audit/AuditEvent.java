@@ -17,22 +17,22 @@ package com.google.gerrit.audit;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.CurrentUser;
 
 public class AuditEvent {
 
   public static final String UNKNOWN_SESSION_ID = "000000000000000000000000000";
-  protected static final Multimap<String, ?> EMPTY_PARAMS =
-      MultimapBuilder.hashKeys().hashSetValues().build();
+  protected static final ListMultimap<String, ?> EMPTY_PARAMS =
+      ImmutableListMultimap.of();
 
   public final String sessionId;
   public final CurrentUser who;
   public final long when;
   public final String what;
-  public final Multimap<String, ?> params;
+  public final ListMultimap<String, ?> params;
   public final Object result;
   public final long timeAtStart;
   public final long elapsed;
@@ -59,7 +59,7 @@ public class AuditEvent {
    * @param result result of the event
    */
   public AuditEvent(String sessionId, CurrentUser who, String what, long when,
-      Multimap<String, ?> params, Object result) {
+      ListMultimap<String, ?> params, Object result) {
     Preconditions.checkNotNull(what, "what is a mandatory not null param !");
 
     this.sessionId = MoreObjects.firstNonNull(sessionId, UNKNOWN_SESSION_ID);

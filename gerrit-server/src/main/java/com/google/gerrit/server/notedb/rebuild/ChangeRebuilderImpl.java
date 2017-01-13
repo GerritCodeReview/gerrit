@@ -25,9 +25,9 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -299,7 +299,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
     List<Event> events = new ArrayList<>();
-    Multimap<Account.Id, DraftCommentEvent> draftCommentEvents =
+    ListMultimap<Account.Id, DraftCommentEvent> draftCommentEvents =
         MultimapBuilder.hashKeys().arrayListValues().build();
 
     events.addAll(getHashtagsEvents(change, manager));

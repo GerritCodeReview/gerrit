@@ -21,7 +21,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -418,7 +418,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       mergeabilityMap.add(change);
     }
 
-    Multimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
+    ListMultimap<Branch.NameKey, ChangeData> cbb = cs.changesByBranch();
     for (Branch.NameKey branch : cbb.keySet()) {
       Collection<ChangeData> targetBranch = cbb.get(branch);
       HashMap<Change.Id, RevCommit> commits =

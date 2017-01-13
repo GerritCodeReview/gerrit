@@ -21,7 +21,7 @@ import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
@@ -167,7 +167,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     revisionNoteMap = RevisionNoteMap.parse(
         args.noteUtil, getChangeId(), reader, NoteMap.read(reader, tipCommit),
         PatchLineComment.Status.DRAFT);
-    Multimap<RevId, Comment> cs =
+    ListMultimap<RevId, Comment> cs =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (Comment c : rn.getComments()) {

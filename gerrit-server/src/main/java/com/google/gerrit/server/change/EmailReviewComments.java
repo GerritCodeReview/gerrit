@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -53,7 +53,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   interface Factory {
     EmailReviewComments create(
         NotifyHandling notify,
-        Multimap<RecipientType, Account.Id> accountsToNotify,
+        ListMultimap<RecipientType, Account.Id> accountsToNotify,
         ChangeNotes notes,
         PatchSet patchSet,
         IdentifiedUser user,
@@ -70,7 +70,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final ThreadLocalRequestContext requestContext;
 
   private final NotifyHandling notify;
-  private final Multimap<RecipientType, Account.Id> accountsToNotify;
+  private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
   private final ChangeNotes notes;
   private final PatchSet patchSet;
   private final IdentifiedUser user;
@@ -88,7 +88,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
       @Assisted NotifyHandling notify,
-      @Assisted Multimap<RecipientType, Account.Id> accountsToNotify,
+      @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet patchSet,
       @Assisted IdentifiedUser user,

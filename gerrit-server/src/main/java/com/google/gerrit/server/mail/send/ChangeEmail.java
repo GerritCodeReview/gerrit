@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -310,7 +310,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       // BCC anyone who has starred this change
       // and remove anyone who has ignored this change.
       //
-      Multimap<Account.Id, String> stars =
+      ListMultimap<Account.Id, String> stars =
           args.starredChangesUtil.byChangeFromIndex(change.getId());
       for (Map.Entry<Account.Id, Collection<String>> e :
           stars.asMap().entrySet()) {

@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -114,7 +114,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private CommitValidators.Policy validatePolicy =
       CommitValidators.Policy.GERRIT;
   private NotifyHandling notify = NotifyHandling.ALL;
-  private Multimap<RecipientType, Account.Id> accountsToNotify =
+  private ListMultimap<RecipientType, Account.Id> accountsToNotify =
       ImmutableListMultimap.of();
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
@@ -240,7 +240,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   public ChangeInserter setAccountsToNotify(
-      Multimap<RecipientType, Account.Id> accountsToNotify) {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     this.accountsToNotify = checkNotNull(accountsToNotify);
     return this;
   }

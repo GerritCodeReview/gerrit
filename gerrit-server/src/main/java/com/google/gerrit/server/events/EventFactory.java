@@ -17,8 +17,8 @@ package com.google.gerrit.server.events;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Comparator.comparing;
 
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -354,7 +354,8 @@ public class EventFactory {
     return d;
   }
 
-  public void addTrackingIds(ChangeAttribute a, Multimap<String, String> set) {
+  public void addTrackingIds(ChangeAttribute a,
+      ListMultimap<String, String> set) {
     if (!set.isEmpty()) {
       a.trackingIds = new ArrayList<>(set.size());
       for (Map.Entry<String, Collection<String>> e : set.asMap().entrySet()) {

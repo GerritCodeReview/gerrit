@@ -16,7 +16,6 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
-import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
@@ -50,8 +49,6 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -102,7 +99,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   static final String OPEN_CHANGES = "open_changes";
   static final String CLOSED_CHANGES = "closed_changes";
 
-  private final Gson gson;
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ElasticQueryBuilder queryBuilder;
@@ -122,8 +118,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     mapping = new ChangeMapping(schema);
 
     this.queryBuilder = new ElasticQueryBuilder();
-    this.gson = new GsonBuilder()
-        .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
   }
 
   @Override

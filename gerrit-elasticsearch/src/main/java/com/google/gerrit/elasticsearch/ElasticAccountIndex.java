@@ -15,7 +15,6 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.gerrit.server.index.account.AccountField.ID;
-import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -34,8 +33,6 @@ import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -80,7 +77,6 @@ public class ElasticAccountIndex extends
   private static final Logger log =
       LoggerFactory.getLogger(ElasticAccountIndex.class);
 
-  private final Gson gson;
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
   private final ElasticQueryBuilder queryBuilder;
@@ -96,8 +92,6 @@ public class ElasticAccountIndex extends
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
     this.queryBuilder = new ElasticQueryBuilder();
-    this.gson = new GsonBuilder()
-        .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
   }
 
   @Override

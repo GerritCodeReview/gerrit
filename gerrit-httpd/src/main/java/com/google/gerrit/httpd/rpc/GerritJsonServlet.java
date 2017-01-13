@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd.rpc;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.RpcAuditEvent;
 import com.google.gerrit.common.TimeUtil;
@@ -154,7 +154,8 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   }
 
   private ListMultimap<String, ?> extractParams(final Audit note, final GerritCall call) {
-    ListMultimap<String, Object> args = ArrayListMultimap.create();
+    ListMultimap<String, Object> args =
+        MultimapBuilder.hashKeys().arrayListValues().build();
 
     Object[] params = call.getParams();
     for (int i = 0; i < params.length; i++) {

@@ -45,13 +45,13 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -246,8 +246,10 @@ public class RestApiServlet extends HttpServlet {
     int status = SC_OK;
     long responseBytes = -1;
     Object result = null;
-    ListMultimap<String, String> params = ArrayListMultimap.create();
-    ListMultimap<String, String> config = ArrayListMultimap.create();
+    ListMultimap<String, String> params =
+        MultimapBuilder.hashKeys().arrayListValues().build();
+    ListMultimap<String, String> config =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;

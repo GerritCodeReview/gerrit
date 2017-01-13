@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3d3551c_c0e67e95",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-13T00:12:24Z",
+      "side": 1,
+      "message": "Just an idea, what if the branch more distinct from the change title. It could maybe appear outside the link and in square brackets (as branches do in email subjects).\n\n\u0026#91;[[change.branch]]\u0026#93;\n\u003ca href$\u003d\"[[_computeChangeURL(change._number)]]\"\n    class$\u003d\"[[_computeLinkClass(change)]]\"\u003e\n  [[change.subject]]\n\u003c/a\u003e\n\nNot a big deal, because this is how it looks in the GWT UI.",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 141,
+        "endChar": 14
+      },
+      "revId": "16ced1163c8c2b6b9b723aa0411a20c70bec9350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

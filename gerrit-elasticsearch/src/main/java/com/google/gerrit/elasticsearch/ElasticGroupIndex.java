@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
@@ -88,11 +87,11 @@ public class ElasticGroupIndex
   @AssistedInject
   ElasticGroupIndex(
       @GerritServerConfig Config cfg,
-      FillArgs fillArgs,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
       @Assisted Schema<AccountGroup> schema) {
-    super(cfg, fillArgs, sitePaths, schema, GROUPS_PREFIX);
+    // No parts of FillArgs are currently required, just use null.
+    super(cfg, null, sitePaths, schema, GROUPS_PREFIX);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
     this.queryBuilder = new ElasticQueryBuilder();

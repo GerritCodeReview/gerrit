@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
@@ -89,11 +88,11 @@ public class ElasticAccountIndex extends
   @AssistedInject
   ElasticAccountIndex(
       @GerritServerConfig Config cfg,
-      FillArgs fillArgs,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
       @Assisted Schema<AccountState> schema) {
-    super(cfg, fillArgs, sitePaths, schema, ACCOUNTS_PREFIX);
+    // No parts of FillArgs are currently required, just use null.
+    super(cfg, null, sitePaths, schema, ACCOUNTS_PREFIX);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
     this.queryBuilder = new ElasticQueryBuilder();

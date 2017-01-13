@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -28,6 +29,8 @@ import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.Schema.Values;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.protobuf.ProtobufCodec;
@@ -70,6 +73,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final boolean refresh;
   protected final String indexName;
   protected final JestHttpClient client;
+  protected final Gson gson;
 
   AbstractElasticIndex(@GerritServerConfig Config cfg,
       FillArgs fillArgs,
@@ -79,6 +83,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
     this.schema = schema;
+    this.gson = new GsonBuilder()
+        .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     String protocol = getRequiredConfigOption(cfg, "protocol");
     String hostname = getRequiredConfigOption(cfg, "hostname");
     String port = getRequiredConfigOption(cfg, "port");

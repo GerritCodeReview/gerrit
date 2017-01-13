@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03926166_4bbf05a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-13T22:27:31Z",
+      "side": 1,
+      "message": "Once the user is removed, they don\u0027t show up in the autocomplete list to get added back. I imagine something needs to be added here to fix that.",
+      "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

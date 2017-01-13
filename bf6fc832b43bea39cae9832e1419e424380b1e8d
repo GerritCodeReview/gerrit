@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63e15de4_3eb4a992",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-13T14:36:24Z",
+      "side": 1,
+      "message": "inline this?",
+      "range": {
+        "startLine": 78,
+        "startChar": 60,
+        "endLine": 78,
+        "endChar": 61
+      },
+      "revId": "bf6fc832b43bea39cae9832e1419e424380b1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

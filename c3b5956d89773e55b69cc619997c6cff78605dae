@@ -51,6 +51,23 @@
       "revId": "c3b5956d89773e55b69cc619997c6cff78605dae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83d8113c_df7adbd2",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-13T15:21:18Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/94354",
+      "revId": "c3b5956d89773e55b69cc619997c6cff78605dae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

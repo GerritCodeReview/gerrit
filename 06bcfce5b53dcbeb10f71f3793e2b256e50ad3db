@@ -22,6 +22,29 @@
       "revId": "06bcfce5b53dcbeb10f71f3793e2b256e50ad3db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d8113c_ffc95f08",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-01-13T09:55:06Z",
+      "side": 1,
+      "message": "should be pretty easy to achieve :) makes sense - will provide PS for that",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 59
+      },
+      "revId": "06bcfce5b53dcbeb10f71f3793e2b256e50ad3db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

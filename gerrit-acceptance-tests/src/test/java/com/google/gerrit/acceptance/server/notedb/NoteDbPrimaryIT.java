@@ -15,19 +15,23 @@
 package com.google.gerrit.acceptance.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
@@ -36,15 +40,21 @@ import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.testutil.NoteDbMode;
+import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class NoteDbPrimaryIT extends AbstractDaemonTest {
   @Inject
@@ -54,6 +64,12 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.READ_WRITE);
     db = ReviewDbUtil.unwrapDb(db);
+    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
+  }
+
+  @After
+  public void tearDown() {
+    TestTimeUtil.useSystemTime();
   }
 
   @Test
@@ -160,6 +176,56 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     assertThat(getReviewers(id)).containsExactly(user.id);
     gApi.changes().id(id.get()).reviewer(user.id.toString()).remove();
     assertThat(getReviewers(id)).isEmpty();
+  }
+
+  @Test
+  public void readOnlyReviewDb() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+    testReadOnly(id);
+  }
+
+  @Test
+  public void readOnlyNoteDb() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getChange().getId();
+    setNoteDbPrimary(id);
+    testReadOnly(id);
+  }
+
+  private void testReadOnly(Change.Id id) throws Exception {
+    Timestamp before = TimeUtil.nowTs();
+    Timestamp until = new Timestamp(before.getTime() + 1000 * 3600);
+
+    // Set read-only.
+    Change c = db.changes().get(id);
+    assertThat(c).named("change " + id).isNotNull();
+    NoteDbChangeState state = NoteDbChangeState.parse(c);
+    state = state.withReadOnlyUntil(until);
+    c.setNoteDbState(state.toString());
+    db.changes().update(Collections.singleton(c));
+
+    assertThat(gApi.changes().id(id.get()).get().subject)
+        .isEqualTo(PushOneCommit.SUBJECT);
+    assertThat(gApi.changes().id(id.get()).get().topic).isNull();
+    try {
+      gApi.changes().id(id.get()).topic("a-topic");
+      assert_().fail("expected read-only exception");
+    } catch (RestApiException e) {
+      Optional<Throwable> oe = Throwables.getCausalChain(e).stream()
+          .filter(x -> x instanceof OrmRuntimeException).findFirst();
+      assertThat(oe.isPresent())
+          .named("OrmRuntimeException in causal chain of " + e)
+          .isTrue();
+      assertThat(oe.get().getMessage()).contains("read-only");
+    }
+    assertThat(gApi.changes().id(id.get()).get().topic).isNull();
+
+    TestTimeUtil.setClock(new Timestamp(until.getTime() + 1000));
+    assertThat(gApi.changes().id(id.get()).get().subject)
+        .isEqualTo(PushOneCommit.SUBJECT);
+    gApi.changes().id(id.get()).topic("a-topic");
+    assertThat(gApi.changes().id(id.get()).get().topic).isEqualTo("a-topic");
   }
 
   private void setNoteDbPrimary(Change.Id id) throws Exception {

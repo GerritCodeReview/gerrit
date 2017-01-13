@@ -2143,7 +2143,8 @@ an account.
 |`identity`        ||The account external id.
 |`email`           |optional|The email address for the external id.
 |`trusted`         ||True if the external id is trusted.
-|`can_delete`      ||True if the external id can be deleted.
+|`can_delete`      ||
+True if the external id can be deleted by the calling user.
 |============================
 
 [[capability-info]]

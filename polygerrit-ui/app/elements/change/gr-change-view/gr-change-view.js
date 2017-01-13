@@ -17,6 +17,7 @@
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;
   var REVIEWERS_REGEX = /^R=/gm;
+  var CHANGE_ID_REGEX_PATTERN = /^Change-Id\:\s(I[0-9a-f]{8,40})/gm;
 
   Polymer({
     is: 'gr-change-view',
@@ -65,6 +66,14 @@
       _commitInfo: Object,
       _files: Object,
       _changeNum: String,
+      _changeIdClass: {
+        type: String,
+        computed: '_computeChangeIdClass(_changeIdCommitMessageError)',
+      },
+      _titleAttributeWarning: {
+        type: String,
+        computed: '_computeTitleAttributeWarning(_changeIdCommitMessageError)',
+      },
       _diffDrafts: {
         type: Object,
         value: function() { return {}; },
@@ -81,6 +90,11 @@
       _latestCommitMessage: {
         type: String,
         value: '',
+      },
+      _changeIdCommitMessageError: {
+        type: String,
+        computed:
+          '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
       },
       _patchRange: {
         type: Object,
@@ -547,6 +561,44 @@
         statusString = this.changeStatusString(change);
       }
       return statusString ? ' (' + statusString + ')' : '';
+    },
+
+    _computeChangeIdClass: function(displayChangeId) {
+      return displayChangeId === 'mismatch' ? 'warning' : '';
+    },
+
+    _computeTitleAttributeWarning: function(displayChangeId) {
+      switch (displayChangeId) {
+        case 'mismatch':
+            return 'Change-Id mismatch';
+        case 'missing':
+            return 'No Change-Id in commit message';
+        default:
+            return '';
+      }
+    },
+
+    _computeChangeIdCommitMessageError: function(commitMessage, change) {
+      commitMessage = commitMessage || '';
+      var changeIdArr;
+
+      while ((changeIdArr = CHANGE_ID_REGEX_PATTERN.exec(commitMessage))
+          !== null) {
+        var changeId = changeIdArr[1];
+      }
+
+      if (changeId) {
+        // A change-id is detected in the commit message.
+
+        if (changeId === change.change_id) {
+          // The change-id found matches the real change-id.
+          return;
+        }
+        // The change-id found does not match the change-id.
+        return 'mismatch';
+      }
+      // There is no change-id in the commit message.
+      return 'missing';
     },
 
     _computeLatestPatchNum: function(allPatchSets) {

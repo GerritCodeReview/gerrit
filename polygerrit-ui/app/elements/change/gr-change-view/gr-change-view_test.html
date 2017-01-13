@@ -650,6 +650,47 @@ limitations under the License.
           _change));
     });
 
+    test('_computeChangeIdCommitMessageError', function() {
+      var commitMessage =
+        'Change-Id: I4ce18b2395bca69d7a9aa48bf4554faa56282483';
+      var change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282483'};
+      assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        null);
+
+      change = {change_id: 'I4ce18b2395bca69d7a9aa48bf4554faa56282484'};
+      assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        'mismatch');
+
+      commitMessage = 'This is the greatest change.';
+      assert.equal(
+        element._computeChangeIdCommitMessageError(commitMessage, change),
+        'missing');
+    });
+
+    test('_computeTitleAttributeWarning', function() {
+      var changeIdCommitMessageError = 'missing';
+      assert.equal(
+          element._computeTitleAttributeWarning(changeIdCommitMessageError),
+          'No Change-Id in commit message');
+
+      var changeIdCommitMessageError = 'mismatch';
+      assert.equal(
+          element._computeTitleAttributeWarning(changeIdCommitMessageError),
+          'Change-Id mismatch');
+    });
+
+    test('_computeChangeIdClass', function() {
+      var changeIdCommitMessageError = 'missing';
+      assert.equal(
+        element._computeChangeIdClass(changeIdCommitMessageError), '');
+
+      var changeIdCommitMessageError = 'mismatch';
+      assert.equal(
+        element._computeChangeIdClass(changeIdCommitMessageError), 'warning');
+    });
+
     test('topic is coalesced to null', function(done) {
       sandbox.stub(element, '_changeChanged');
       sandbox.stub(element.$.restAPI, 'getChangeDetail', function() {

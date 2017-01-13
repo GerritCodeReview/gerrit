@@ -45,6 +45,29 @@
       "revId": "f2d9589fed02d01077401c795a260e292f8609d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e765fc_fcafa966",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-13T12:11:51Z",
+      "side": 0,
+      "message": "Ah, OK.  Completely missed that.",
+      "range": {
+        "startLine": 316,
+        "startChar": 15,
+        "endLine": 316,
+        "endChar": 20
+      },
+      "revId": "f2d9589fed02d01077401c795a260e292f8609d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

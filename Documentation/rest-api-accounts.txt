@@ -1703,7 +1703,7 @@ link:#account-external-id-info[AccountExternalIdInfo] entities.
       "identity": "username:john",
       "email": "john.doe@example.com",
       "trusted": true,
-      "_can_delete": false
+      "can_delete": false
     }
   ]
 ----
@@ -2143,7 +2143,7 @@ an account.
 |`identity`        ||The account external id.
 |`email`           |optional|The email address for the external id.
 |`trusted`         ||True if the external id is trusted.
-|`_can_delete`     ||True if the external id can be deleted.
+|`can_delete`      ||True if the external id can be deleted.
 |============================
 
 [[capability-info]]

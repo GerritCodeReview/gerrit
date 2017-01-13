@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
@@ -95,7 +95,7 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap = RevisionNoteMap.parseRobotComments(args.noteUtil, reader,
         NoteMap.read(reader, tipCommit));
-    Multimap<RevId, RobotComment> cs =
+    ListMultimap<RevId, RobotComment> cs =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (RobotCommentsRevisionNote rn :
         revisionNoteMap.revisionNotes.values()) {

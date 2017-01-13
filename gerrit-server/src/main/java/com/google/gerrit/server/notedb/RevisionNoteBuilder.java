@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -112,8 +112,8 @@ class RevisionNoteBuilder {
     this.pushCert = pushCert;
   }
 
-  private Multimap<Integer, Comment> buildCommentMap() {
-    Multimap<Integer, Comment> all =
+  private ListMultimap<Integer, Comment> buildCommentMap() {
+    ListMultimap<Integer, Comment> all =
         MultimapBuilder.hashKeys().arrayListValues().build();
 
     for (Comment c : baseComments) {
@@ -131,7 +131,7 @@ class RevisionNoteBuilder {
 
   private void buildNoteJson(ChangeNoteUtil noteUtil, OutputStream out)
       throws IOException {
-    Multimap<Integer, Comment> comments = buildCommentMap();
+    ListMultimap<Integer, Comment> comments = buildCommentMap();
     if (comments.isEmpty() && pushCert == null) {
       return;
     }

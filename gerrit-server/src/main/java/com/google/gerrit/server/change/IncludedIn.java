@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -81,10 +81,10 @@ class IncludedIn implements RestReadView<ChangeResource> {
       }
 
       IncludedInResolver.Result d = IncludedInResolver.resolve(r, rw, rev);
-      Multimap<String, String> external =
+      ListMultimap<String, String> external =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (ExternalIncludedIn ext : includedIn) {
-        Multimap<String, String> extIncludedIns = ext.getIncludedIn(
+        ListMultimap<String, String> extIncludedIns = ext.getIncludedIn(
             project.get(), rev.name(), d.getTags(), d.getBranches());
         if (extIncludedIns != null) {
           external.putAll(extIncludedIns);

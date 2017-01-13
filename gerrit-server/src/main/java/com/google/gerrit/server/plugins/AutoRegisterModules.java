@@ -19,7 +19,7 @@ import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnn
 import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 
 import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
@@ -54,7 +54,7 @@ class AutoRegisterModules {
   private final ModuleGenerator httpGen;
 
   private Set<Class<?>> sysSingletons;
-  private Multimap<TypeLiteral<?>, Class<?>> sysListen;
+  private ListMultimap<TypeLiteral<?>, Class<?>> sysListen;
   private String initJs;
 
   Module sysModule;

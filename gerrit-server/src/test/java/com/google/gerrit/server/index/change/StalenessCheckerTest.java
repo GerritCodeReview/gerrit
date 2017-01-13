@@ -21,7 +21,7 @@ import static com.google.gerrit.testutil.TestChanges.newChange;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.reviewdb.client.Account;
@@ -194,7 +194,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P2, RefState.create(ref2, id2.name())),
-                ImmutableMultimap.of()))
+                ImmutableListMultimap.of()))
         .isFalse();
 
     // Wrong ref value.
@@ -204,7 +204,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, SHA1),
                     P2, RefState.create(ref2, id2.name())),
-                ImmutableMultimap.of()))
+                ImmutableListMultimap.of()))
         .isTrue();
 
     // Swapped repos.
@@ -214,7 +214,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id2.name()),
                     P2, RefState.create(ref2, id1.name())),
-                ImmutableMultimap.of()))
+                ImmutableListMultimap.of()))
         .isTrue();
 
     // Two refs in same repo, not stale.
@@ -227,7 +227,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P1, RefState.create(ref3, id3.name())),
-                ImmutableMultimap.of()))
+                ImmutableListMultimap.of()))
         .isFalse();
 
     // Ignore ref not mentioned.
@@ -236,7 +236,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 repoManager, C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name())),
-                ImmutableMultimap.of()))
+                ImmutableListMultimap.of()))
         .isFalse();
 
     // One ref wrong.
@@ -246,7 +246,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P1, RefState.create(ref3, SHA1)),
-                ImmutableMultimap.of()))
+                ImmutableListMultimap.of()))
         .isTrue();
   }
 
@@ -261,7 +261,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 repoManager, C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name())),
-                ImmutableMultimap.of(
+                ImmutableListMultimap.of(
                     P1, RefStatePattern.create("refs/heads/*"))))
         .isFalse();
 
@@ -273,7 +273,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 repoManager, C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name())),
-                ImmutableMultimap.of(
+                ImmutableListMultimap.of(
                     P1, RefStatePattern.create("refs/heads/*"))))
         .isTrue();
     assertThat(
@@ -282,7 +282,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P1, RefState.create(ref2, id2.name())),
-                ImmutableMultimap.of(
+                ImmutableListMultimap.of(
                     P1, RefStatePattern.create("refs/heads/*"))))
         .isFalse();
   }
@@ -299,7 +299,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 repoManager, C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name())),
-                ImmutableMultimap.of(
+                ImmutableListMultimap.of(
                     P1, RefStatePattern.create("refs/*/foo"))))
         .isFalse();
 
@@ -311,7 +311,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 repoManager, C,
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name())),
-                ImmutableMultimap.of(
+                ImmutableListMultimap.of(
                     P1, RefStatePattern.create("refs/*/foo"))))
         .isTrue();
     assertThat(
@@ -320,7 +320,7 @@ public class StalenessCheckerTest extends GerritBaseTests {
                 ImmutableSetMultimap.of(
                     P1, RefState.create(ref1, id1.name()),
                     P1, RefState.create(ref3, id3.name())),
-                ImmutableMultimap.of(
+                ImmutableListMultimap.of(
                     P1, RefStatePattern.create("refs/*/foo"))))
         .isFalse();
   }

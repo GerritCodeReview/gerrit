@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
@@ -103,16 +102,16 @@ public class GroupCollector {
     List<String> lookup(PatchSet.Id psId) throws OrmException;
   }
 
-  private final Multimap<ObjectId, PatchSet.Id> patchSetsBySha;
-  private final Multimap<ObjectId, String> groups;
+  private final ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha;
+  private final ListMultimap<ObjectId, String> groups;
   private final SetMultimap<String, String> groupAliases;
   private final Lookup groupLookup;
 
   private boolean done;
 
-  public static GroupCollector create(Multimap<ObjectId, Ref> changeRefsById,
-      final ReviewDb db, final PatchSetUtil psUtil,
-      final ChangeNotes.Factory notesFactory, final Project.NameKey project) {
+  public static GroupCollector create(ListMultimap<ObjectId, Ref> changeRefsById,
+      ReviewDb db, PatchSetUtil psUtil, ChangeNotes.Factory notesFactory,
+      Project.NameKey project) {
     return new GroupCollector(
         transformRefs(changeRefsById),
         new Lookup() {
@@ -128,7 +127,7 @@ public class GroupCollector {
   }
 
   public static GroupCollector createForSchemaUpgradeOnly(
-      Multimap<ObjectId, Ref> changeRefsById, final ReviewDb db) {
+      ListMultimap<ObjectId, Ref> changeRefsById, ReviewDb db) {
     return new GroupCollector(
         transformRefs(changeRefsById),
         new Lookup() {
@@ -141,7 +140,7 @@ public class GroupCollector {
   }
 
   private GroupCollector(
-      Multimap<ObjectId, PatchSet.Id> patchSetsBySha,
+      ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha,
       Lookup groupLookup) {
     this.patchSetsBySha = patchSetsBySha;
     this.groupLookup = groupLookup;
@@ -149,16 +148,16 @@ public class GroupCollector {
     groupAliases = MultimapBuilder.hashKeys().hashSetValues().build();
   }
 
-  private static Multimap<ObjectId, PatchSet.Id> transformRefs(
-      Multimap<ObjectId, Ref> refs) {
+  private static ListMultimap<ObjectId, PatchSet.Id> transformRefs(
+      ListMultimap<ObjectId, Ref> refs) {
     return Multimaps.transformValues(
         refs, r -> PatchSet.Id.fromRef(r.getName()));
   }
 
   @VisibleForTesting
   GroupCollector(
-      Multimap<ObjectId, PatchSet.Id> patchSetsBySha,
-      final ListMultimap<PatchSet.Id, String> groupLookup) {
+      ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha,
+      ListMultimap<PatchSet.Id, String> groupLookup) {
     this(
         patchSetsBySha,
         new Lookup() {

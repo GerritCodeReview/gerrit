@@ -11,10 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package com.google.gerrit.rules;
 
 import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 
 import java.util.Collection;
@@ -24,7 +25,7 @@ import java.util.Collection;
  */
 public class PredicateClassLoader extends ClassLoader {
 
-  private final Multimap<String, ClassLoader> packageClassLoaderMap =
+  private final SetMultimap<String, ClassLoader> packageClassLoaderMap =
       LinkedHashMultimap.create();
 
   public PredicateClassLoader(

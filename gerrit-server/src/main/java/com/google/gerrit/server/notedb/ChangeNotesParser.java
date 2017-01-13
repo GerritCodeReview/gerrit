@@ -40,8 +40,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
@@ -130,7 +130,7 @@ class ChangeNotesParser {
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   private final List<SubmitRecord> submitRecords;
-  private final Multimap<RevId, Comment> comments;
+  private final ListMultimap<RevId, Comment> comments;
   private final Map<PatchSet.Id, PatchSet> patchSets;
   private final Set<PatchSet.Id> deletedPatchSets;
   private final Map<PatchSet.Id, PatchSetState> patchSetStates;
@@ -138,7 +138,8 @@ class ChangeNotesParser {
   private final Map<ApprovalKey, PatchSetApproval> approvals;
   private final List<PatchSetApproval> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
-  private final Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
+  private final ListMultimap<PatchSet.Id, ChangeMessage>
+      changeMessagesByPatchSet;
 
   // Non-final private members filled in during the parsing process.
   private String branch;
@@ -248,8 +249,8 @@ class ChangeNotesParser {
     return null;
   }
 
-  private Multimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
-    Multimap<PatchSet.Id, PatchSetApproval> result =
+  private ListMultimap<PatchSet.Id, PatchSetApproval> buildApprovals() {
+    ListMultimap<PatchSet.Id, PatchSetApproval> result =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (PatchSetApproval a : approvals.values()) {
       if (!patchSets.containsKey(a.getPatchSetId())) {
@@ -283,7 +284,7 @@ class ChangeNotesParser {
     return Lists.reverse(allChangeMessages);
   }
 
-  private Multimap<PatchSet.Id, ChangeMessage> buildMessagesByPatchSet() {
+  private ListMultimap<PatchSet.Id, ChangeMessage> buildMessagesByPatchSet() {
     for (Collection<ChangeMessage> v :
         changeMessagesByPatchSet.asMap().values()) {
       Collections.reverse((List<ChangeMessage>) v);

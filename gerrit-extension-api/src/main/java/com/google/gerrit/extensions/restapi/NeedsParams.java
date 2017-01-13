@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.restapi;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 
 /**
  * Optional interface for {@link RestCollection}.
@@ -28,5 +28,5 @@ public interface NeedsParams {
    *
    * @param params the request parameter
    */
-  void setParams(Multimap<String, String> params) throws RestApiException;
+  void setParams(ListMultimap<String, String> params) throws RestApiException;
 }

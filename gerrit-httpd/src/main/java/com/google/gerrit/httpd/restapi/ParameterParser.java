@@ -23,7 +23,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Url;
@@ -59,7 +59,7 @@ class ParameterParser {
   }
 
   <T> boolean parse(T param,
-      Multimap<String, String> in,
+      ListMultimap<String, String> in,
       HttpServletRequest req,
       HttpServletResponse res)
       throws IOException {
@@ -90,8 +90,8 @@ class ParameterParser {
   }
 
   static void splitQueryString(String queryString,
-      Multimap<String, String> config,
-      Multimap<String, String> params) {
+      ListMultimap<String, String> config,
+      ListMultimap<String, String> params) {
     if (!Strings.isNullOrEmpty(queryString)) {
       for (String kvPair : Splitter.on('&').split(queryString)) {
         Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();

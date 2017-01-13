@@ -18,7 +18,7 @@ import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMP
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -138,7 +138,7 @@ public class UniversalGroupBackend implements GroupBackend {
 
     @Override
     public boolean containsAnyOf(Iterable<AccountGroup.UUID> uuids) {
-      Multimap<GroupMembership, AccountGroup.UUID> lookups =
+      ListMultimap<GroupMembership, AccountGroup.UUID> lookups =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (AccountGroup.UUID uuid : uuids) {
         if (uuid == null) {
@@ -168,7 +168,7 @@ public class UniversalGroupBackend implements GroupBackend {
 
     @Override
     public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> uuids) {
-      Multimap<GroupMembership, AccountGroup.UUID> lookups =
+      ListMultimap<GroupMembership, AccountGroup.UUID> lookups =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (AccountGroup.UUID uuid : uuids) {
         if (uuid == null) {

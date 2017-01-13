@@ -19,9 +19,9 @@ import static com.google.common.collect.Iterables.transform;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 
 import org.eclipse.jgit.util.IO;
@@ -67,7 +67,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       String pluginName, Iterable<Class<? extends Annotation>> annotations)
       throws InvalidPluginException {
     Set<String> descriptors = new HashSet<>();
-    Multimap<String, JarScanner.ClassData> rawMap =
+    ListMultimap<String, JarScanner.ClassData> rawMap =
         MultimapBuilder.hashKeys().arrayListValues().build();
     Map<Class<? extends Annotation>, String> classObjToClassDescr =
         new HashMap<>();

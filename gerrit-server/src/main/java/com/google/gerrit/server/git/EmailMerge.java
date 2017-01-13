@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -46,7 +46,7 @@ public class EmailMerge implements Runnable, RequestContext {
   public interface Factory {
     EmailMerge create(Project.NameKey project, Change.Id changeId,
         Account.Id submitter, NotifyHandling notifyHandling,
-        Multimap<RecipientType, Account.Id> accountsToNotify);
+        ListMultimap<RecipientType, Account.Id> accountsToNotify);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -59,7 +59,7 @@ public class EmailMerge implements Runnable, RequestContext {
   private final Change.Id changeId;
   private final Account.Id submitter;
   private final NotifyHandling notifyHandling;
-  private final Multimap<RecipientType, Account.Id> accountsToNotify;
+  private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
 
   private ReviewDb db;
 
@@ -73,7 +73,7 @@ public class EmailMerge implements Runnable, RequestContext {
       @Assisted Change.Id changeId,
       @Assisted @Nullable Account.Id submitter,
       @Assisted NotifyHandling notifyHandling,
-      @Assisted Multimap<RecipientType, Account.Id> accountsToNotify) {
+      @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.schemaFactory = schemaFactory;

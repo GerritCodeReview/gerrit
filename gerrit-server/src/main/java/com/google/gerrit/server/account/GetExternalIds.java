@@ -72,9 +72,8 @@ public class GetExternalIds implements RestReadView<AccountResource> {
       // establish this web session, and if only if an identity was
       // actually used to establish this web session.
       if (!id.isScheme(SCHEME_USERNAME)) {
-        CurrentUser.PropertyKey<AccountExternalId.Key> k =
-            CurrentUser.PropertyKey.create();
-        AccountExternalId.Key last = resource.getUser().get(k);
+        AccountExternalId.Key last = resource.getUser()
+            .getLastLoginExternalIdKey();
         info.canDelete =
             toBoolean(last != null && !last.get().equals(info.identity));
       }

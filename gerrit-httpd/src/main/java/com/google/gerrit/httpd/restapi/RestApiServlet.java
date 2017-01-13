@@ -219,6 +219,9 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  public static CurrentUser.PropertyKey<AccountExternalId.Key>
+      EXTERNAL_ID_KEY = CurrentUser.PropertyKey.create();;
+
   private final Globals globals;
   private final Provider<RestCollection<RestResource, RestResource>> members;
 
@@ -1078,9 +1081,8 @@ public class RestApiServlet extends HttpServlet {
     CurrentUser user = globals.currentUser.get();
     if (isRead(req)) {
       user.setAccessPath(AccessPath.REST_API);
-      CurrentUser.PropertyKey<AccountExternalId.Key> k =
-          CurrentUser.PropertyKey.create();
-      user.put(k, globals.webSession.get().getLastLoginExternalId());
+      user.put(EXTERNAL_ID_KEY,
+          globals.webSession.get().getLastLoginExternalId());
     } else if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
     } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {

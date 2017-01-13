@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
@@ -73,7 +74,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
       // actually used to establish this web session.
       if (!id.isScheme(SCHEME_USERNAME)) {
         CurrentUser.PropertyKey<AccountExternalId.Key> k =
-            CurrentUser.PropertyKey.create();
+            RestApiServlet.EXTERNAL_ID_KEY;
         AccountExternalId.Key last = resource.getUser().get(k);
         info.canDelete =
             toBoolean(last != null && !last.get().equals(info.identity));

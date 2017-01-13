@@ -91,6 +91,29 @@
       "revId": "68bf0a1b27c2a0ded2e8d0fa7f38316e0705d103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e765fc_3c93d140",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/RestCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-13T03:20:21Z",
+      "side": 1,
+      "message": "Thanks.  I\u0027ve installed it and will re-generate this change again later.",
+      "range": {
+        "startLine": 56,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "68bf0a1b27c2a0ded2e8d0fa7f38316e0705d103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a37a75f4_a8a5db8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-01-13T23:48:10Z",
+      "side": 1,
+      "message": "This uses change_id",
+      "range": {
+        "startLine": 69,
+        "startChar": 35,
+        "endLine": 69,
+        "endChar": 56
+      },
+      "revId": "d26c4a5c5f6f6823dcb0277bd907b5dc957368ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_4bd625d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-01-13T23:48:10Z",
+      "side": 1,
+      "message": "as does this",
+      "range": {
+        "startLine": 73,
+        "startChar": 38,
+        "endLine": 73,
+        "endChar": 59
+      },
+      "revId": "d26c4a5c5f6f6823dcb0277bd907b5dc957368ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

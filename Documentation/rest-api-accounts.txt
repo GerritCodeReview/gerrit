@@ -2066,6 +2066,22 @@ The link:rest-api.html#timestamp[timestamp] of when the account was
 registered.
 |=================================
 
+[[account-external-id-info]]
+=== AccountExternalIdInfo
+The `AccountExternalIdInfo` entity contains information for an external id of
+an account.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name        ||Description
+|`identity`        ||The account external id.
+|`email`           |optional|The email address for the external id.
+|`trusted`         |`false` if not set|
+Whether the external id is trusted.
+|`can_delete`      |`false` if not set|
+Whether the external id can be deleted by the calling user.
+|============================
+
 [[account-info]]
 === AccountInfo
 The `AccountInfo` entity contains information about an account.
@@ -2130,22 +2146,6 @@ for an account.
 |`name`     |optional|The new full name of the account. +
 If not set or if set to an empty string, the account name is deleted.
 |=============================
-
-[[account-external-id-info]]
-=== AccountExternalIdInfo
-The `AccountExternalIdInfo` entity contains information for an external id of
-an account.
-
-[options="header",cols="1,^1,5"]
-|============================
-|Field Name        ||Description
-|`identity`        ||The account external id.
-|`email`           |optional|The email address for the external id.
-|`trusted`         |`false` if not set|
-Whether the external id is trusted.
-|`can_delete`      |`false` if not set|
-Whether the external id can be deleted by the calling user.
-|============================
 
 [[capability-info]]
 === CapabilityInfo

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -73,7 +73,8 @@ public class Schema_139 extends SchemaVersion {
  @Override
  protected void migrateData(ReviewDb db, UpdateUI ui)
      throws OrmException, SQLException {
-   ListMultimap<Account.Id, ProjectWatch> imports = ArrayListMultimap.create();
+   ListMultimap<Account.Id, ProjectWatch> imports =
+       MultimapBuilder.hashKeys().arrayListValues().build();
    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
        ResultSet rs = stmt.executeQuery(
          "SELECT "

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 
 import org.eclipse.jgit.revwalk.FooterLine;
 
@@ -38,7 +38,8 @@ public class TrackingFooters {
   }
 
   public ListMultimap<String, String> extract(List<FooterLine> lines) {
-    ListMultimap<String, String> r = ArrayListMultimap.create();
+    ListMultimap<String, String> r =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     if (lines == null) {
       return r;
     }

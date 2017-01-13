@@ -46,6 +46,29 @@
       "revId": "c044e7480a4f9a8b7fb901f8ea573db1209c7f23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e765fc_dc9bcd51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetExternalIds.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-13T09:08:51Z",
+      "side": 1,
+      "message": "Yes, that\u0027s what I meant.",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 87,
+        "endChar": 24
+      },
+      "revId": "c044e7480a4f9a8b7fb901f8ea573db1209c7f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

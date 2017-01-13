@@ -15,13 +15,19 @@
 package com.google.gerrit.server.query.group;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.query.LimitPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.inject.Inject;
+import java.util.List;
 
 /** Parses a query string meant to be applied to group objects. */
 public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
@@ -35,9 +41,23 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   private static final QueryBuilder.Definition<AccountGroup, GroupQueryBuilder> mydef =
       new QueryBuilder.Definition<>(GroupQueryBuilder.class);
 
+  public static class Arguments {
+    final GroupCache groupCache;
+    final GroupBackend groupBackend;
+
+    @Inject
+    Arguments(GroupCache groupCache, GroupBackend groupBackend) {
+      this.groupCache = groupCache;
+      this.groupBackend = groupBackend;
+    }
+  }
+
+  private final Arguments args;
+
   @Inject
-  GroupQueryBuilder() {
+  GroupQueryBuilder(Arguments args) {
     super(mydef);
+    this.args = args;
   }
 
   @Operator
@@ -68,8 +88,16 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Operator
-  public Predicate<AccountGroup> owner(String owner) {
-    return GroupPredicates.owner(owner);
+  public Predicate<AccountGroup> owner(String owner) throws QueryParseException {
+    AccountGroup group = args.groupCache.get(new AccountGroup.UUID(owner));
+    if (group != null) {
+      return GroupPredicates.owner(group.getGroupUUID());
+    }
+    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, owner);
+    if (g == null) {
+      throw error("Group " + owner + " not found");
+    }
+    return GroupPredicates.owner(g.getUUID());
   }
 
   @Operator
@@ -81,8 +109,21 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
   }
 
   @Override
-  protected Predicate<AccountGroup> defaultField(String query) {
-    return GroupPredicates.defaultPredicate(query);
+  protected Predicate<AccountGroup> defaultField(String query) throws QueryParseException {
+    // Adapt the capacity of this list when adding more default predicates.
+    List<Predicate<AccountGroup>> preds = Lists.newArrayListWithCapacity(5);
+    preds.add(uuid(query));
+    preds.add(name(query));
+    preds.add(inname(query));
+    if (!Strings.isNullOrEmpty(query)) {
+      preds.add(description(query));
+    }
+    try {
+      preds.add(owner(query));
+    } catch (QueryParseException e) {
+      // Skip.
+    }
+    return Predicate.or(preds);
   }
 
   @Operator

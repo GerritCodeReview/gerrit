@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1484292244 +0100\nnonce AHDV6Gn150SkJxriz1Drvlss7pRiboqFek+IguDAK8j6hoZKSh7uYoaEYiHOS82KaD0yC2h4q3kr\n\n0000000000000000000000000000000000000000 e13385d2a3de6819f34c4ae2b46155fac1f1c919 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYeICUAAoJEFG1/Zeg0O9RCg4H/2y6wfIbPJ4LL3jKCgk7aBqZ\nd96atfuRwm6wGZQisuGC3fUM7fh/A6ICf9ZG1MbnWviPVm8jy1O6wRHEq9tqoY3n\naA9tnSFh6KS6f6QzBFBnhXimnHVgzxLOlAJJqek0DSyWEj2BXOzackZPms3xrCJi\nxzA/nRid0f3/5Zru9OGetXPVc5djoP/8UDdFEwkCYQdJYcKiYFl1n1P/AdWiJ3Cg\nlb3U65D16ErDdI6YaaTWcQ4+5QhwXjjhZ0tkv0BTtstVRGXJBW2jK9OG6y18MPQE\nsasB7fn2NHeuPrw3hvDYLHjBpfLYhnpWo0KRZ+Gk9LXfVUgNx+V3KascE/yjkIk\u003d\n\u003daW4T\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "23e765fc_7c8d5917",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2144,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-13T07:34:57Z",
+      "side": 1,
+      "message": "In the rest of the documentation we say \"not set if `false`\"",
+      "range": {
+        "startLine": 2144,
+        "startChar": 20,
+        "endLine": 2144,
+        "endChar": 38
+      },
+      "revId": "e13385d2a3de6819f34c4ae2b46155fac1f1c919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

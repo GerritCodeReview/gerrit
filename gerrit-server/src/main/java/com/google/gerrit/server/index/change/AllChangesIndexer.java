@@ -23,8 +23,8 @@ import static org.eclipse.jgit.lib.RefDatabase.ALL;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -217,7 +217,7 @@ public class AllChangesIndexer
     return new Callable<Void>() {
       @Override
       public Void call() throws Exception {
-        Multimap<ObjectId, ChangeData> byId =
+        ListMultimap<ObjectId, ChangeData> byId =
             MultimapBuilder.hashKeys().arrayListValues().build();
         // TODO(dborowitz): Opening all repositories in a live server may be
         // wasteful; see if we can determine which ones it is safe to close
@@ -260,7 +260,7 @@ public class AllChangesIndexer
     private final ChangeIndexer indexer;
     private final ThreeWayMergeStrategy mergeStrategy;
     private final AutoMerger autoMerger;
-    private final Multimap<ObjectId, ChangeData> byId;
+    private final ListMultimap<ObjectId, ChangeData> byId;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
     private final PrintWriter verboseWriter;
@@ -269,7 +269,7 @@ public class AllChangesIndexer
     private ProjectIndexer(ChangeIndexer indexer,
         ThreeWayMergeStrategy mergeStrategy,
         AutoMerger autoMerger,
-        Multimap<ObjectId, ChangeData> changesByCommitId,
+        ListMultimap<ObjectId, ChangeData> changesByCommitId,
         Repository repo,
         ProgressMonitor done,
         ProgressMonitor failed,

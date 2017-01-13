@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -82,7 +81,7 @@ public class ChangeSet {
     return changeData;
   }
 
-  public Multimap<Branch.NameKey, ChangeData> changesByBranch()
+  public ListMultimap<Branch.NameKey, ChangeData> changesByBranch()
       throws OrmException {
     ListMultimap<Branch.NameKey, ChangeData> ret =
         MultimapBuilder.hashKeys().arrayListValues().build();

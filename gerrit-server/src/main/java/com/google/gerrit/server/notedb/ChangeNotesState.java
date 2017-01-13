@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -95,14 +95,14 @@ public abstract class ChangeNotesState {
       @Nullable Set<Account.Id> pastAssignees,
       @Nullable Set<String> hashtags,
       Map<PatchSet.Id, PatchSet> patchSets,
-      Multimap<PatchSet.Id, PatchSetApproval> approvals,
+      ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> allChangeMessages,
-      Multimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
-      Multimap<RevId, Comment> publishedComments) {
+      ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
+      ListMultimap<RevId, Comment> publishedComments) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }

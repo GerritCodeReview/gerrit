@@ -45,13 +45,13 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -246,8 +246,8 @@ public class RestApiServlet extends HttpServlet {
     int status = SC_OK;
     long responseBytes = -1;
     Object result = null;
-    Multimap<String, String> params = LinkedHashMultimap.create();
-    Multimap<String, String> config = LinkedHashMultimap.create();
+    ListMultimap<String, String> params = ArrayListMultimap.create();
+    ListMultimap<String, String> config = ArrayListMultimap.create();
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
@@ -461,9 +461,9 @@ public class RestApiServlet extends HttpServlet {
           metric,
           System.nanoTime() - startNanos,
           TimeUnit.NANOSECONDS);
-      globals.auditService.dispatch(new ExtendedHttpAuditEvent(globals.webSession.get()
-          .getSessionId(), globals.currentUser.get(), req,
-          auditStartTs, params, inputRequestBody, status,
+      globals.auditService.dispatch(new ExtendedHttpAuditEvent(
+          globals.webSession.get().getSessionId(), globals.currentUser.get(),
+          req, auditStartTs, params, inputRequestBody, status,
           result, rsrc, viewData == null ? null : viewData.view));
     }
   }
@@ -778,7 +778,7 @@ public class RestApiServlet extends HttpServlet {
 
   public static long replyJson(@Nullable HttpServletRequest req,
       HttpServletResponse res,
-      Multimap<String, String> config,
+      ListMultimap<String, String> config,
       Object result)
       throws IOException {
     TemporaryBuffer.Heap buf = heap(HEAP_EST_SIZE, Integer.MAX_VALUE);
@@ -797,7 +797,7 @@ public class RestApiServlet extends HttpServlet {
       .setCharacterEncoding(UTF_8));
   }
 
-  private static Gson newGson(Multimap<String, String> config,
+  private static Gson newGson(ListMultimap<String, String> config,
       @Nullable HttpServletRequest req) {
     GsonBuilder gb = OutputFormat.JSON_COMPACT.newGsonBuilder();
 
@@ -808,7 +808,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static void enablePrettyPrint(GsonBuilder gb,
-      Multimap<String, String> config,
+      ListMultimap<String, String> config,
       @Nullable HttpServletRequest req) {
     String pp = Iterables.getFirst(config.get("pp"), null);
     if (pp == null) {
@@ -823,7 +823,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static void enablePartialGetFields(GsonBuilder gb,
-      Multimap<String, String> config) {
+      ListMultimap<String, String> config) {
     final Set<String> want = new HashSet<>();
     for (String p : config.get("fields")) {
       Iterables.addAll(want, OptionUtil.splitOptionValue(p));
@@ -1132,7 +1132,8 @@ public class RestApiServlet extends HttpServlet {
   static long replyText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String text) throws IOException {
     if ((req == null || isRead(req)) && isMaybeHTML(text)) {
-      return replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
+      return replyJson(req, res, ImmutableListMultimap.of("pp", "0"),
+          new JsonPrimitive(text));
     }
     if (!text.endsWith("\n")) {
       text += "\n";

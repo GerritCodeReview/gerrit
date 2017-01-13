@@ -25,7 +25,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -269,7 +269,7 @@ public class WatchConfig extends VersionedMetaData
       cfg.unsetSection(PROJECT, projectName);
     }
 
-    Multimap<String, String> notifyValuesByProject =
+    ListMultimap<String, String> notifyValuesByProject =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches
         .entrySet()) {

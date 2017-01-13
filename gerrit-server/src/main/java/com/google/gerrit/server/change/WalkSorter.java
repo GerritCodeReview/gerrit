@@ -20,7 +20,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -105,7 +105,7 @@ class WalkSorter {
 
   public Iterable<PatchSetData> sort(Iterable<ChangeData> in)
       throws OrmException, IOException {
-    Multimap<Project.NameKey, ChangeData> byProject =
+    ListMultimap<Project.NameKey, ChangeData> byProject =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeData cd : in) {
       byProject.put(cd.change().getProject(), cd);
@@ -126,7 +126,7 @@ class WalkSorter {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
-      Multimap<RevCommit, PatchSetData> byCommit = byCommit(rw, in);
+      ListMultimap<RevCommit, PatchSetData> byCommit = byCommit(rw, in);
       if (byCommit.isEmpty()) {
         return ImmutableList.of();
       } else if (byCommit.size() == 1) {
@@ -151,8 +151,8 @@ class WalkSorter {
       // the input size is small enough that this is not an issue.)
 
       Set<RevCommit> commits = byCommit.keySet();
-      Multimap<RevCommit, RevCommit> children = collectChildren(commits);
-      Multimap<RevCommit, RevCommit> pending =
+      ListMultimap<RevCommit, RevCommit> children = collectChildren(commits);
+      ListMultimap<RevCommit, RevCommit> pending =
           MultimapBuilder.hashKeys().arrayListValues().build();
       Deque<RevCommit> todo = new ArrayDeque<>();
 
@@ -195,9 +195,9 @@ class WalkSorter {
     }
   }
 
-  private static Multimap<RevCommit, RevCommit> collectChildren(
+  private static ListMultimap<RevCommit, RevCommit> collectChildren(
       Set<RevCommit> commits) {
-    Multimap<RevCommit, RevCommit> children =
+    ListMultimap<RevCommit, RevCommit> children =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (RevCommit c : commits) {
       for (RevCommit p : c.getParents()) {
@@ -209,8 +209,9 @@ class WalkSorter {
     return children;
   }
 
-  private static int emit(RevCommit c, Multimap<RevCommit, PatchSetData> byCommit,
-      List<PatchSetData> result, RevFlag done) {
+  private static int emit(RevCommit c,
+      ListMultimap<RevCommit, PatchSetData> byCommit, List<PatchSetData> result,
+      RevFlag done) {
     if (c.has(done)) {
       return 0;
     }
@@ -223,9 +224,9 @@ class WalkSorter {
     return 0;
   }
 
-  private Multimap<RevCommit, PatchSetData> byCommit(RevWalk rw,
+  private ListMultimap<RevCommit, PatchSetData> byCommit(RevWalk rw,
       Collection<ChangeData> in) throws OrmException, IOException {
-    Multimap<RevCommit, PatchSetData> byCommit =
+    ListMultimap<RevCommit, PatchSetData> byCommit =
         MultimapBuilder.hashKeys(in.size()).arrayListValues(1).build();
     for (ChangeData cd : in) {
       PatchSet maxPs = null;

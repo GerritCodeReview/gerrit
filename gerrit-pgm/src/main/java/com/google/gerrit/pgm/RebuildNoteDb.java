@@ -21,9 +21,9 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import com.google.common.base.Predicates;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -153,7 +153,7 @@ public class RebuildNoteDb extends SiteProgram {
     ListeningExecutorService executor = newExecutor();
     System.out.println("Rebuilding the NoteDb");
 
-    final ImmutableMultimap<Project.NameKey, Change.Id> changesByProject =
+    ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject =
         getChangesByProject();
     boolean ok;
     Stopwatch sw = Stopwatch.createStarted();
@@ -241,11 +241,11 @@ public class RebuildNoteDb extends SiteProgram {
     return MoreExecutors.newDirectExecutorService();
   }
 
-  private ImmutableMultimap<Project.NameKey, Change.Id> getChangesByProject()
+  private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject()
       throws OrmException {
     // Memorize all changes so we can close the db connection and allow
     // rebuilder threads to use the full connection pool.
-    Multimap<Project.NameKey, Change.Id> changesByProject =
+    ListMultimap<Project.NameKey, Change.Id> changesByProject =
         ArrayListMultimap.create();
     try (ReviewDb db = schemaFactory.open()) {
       if (projects.isEmpty() && !changes.isEmpty()) {
@@ -270,12 +270,12 @@ public class RebuildNoteDb extends SiteProgram {
           }
         }
       }
-      return ImmutableMultimap.copyOf(changesByProject);
+      return ImmutableListMultimap.copyOf(changesByProject);
     }
   }
 
   private boolean rebuildProject(ReviewDb db,
-      ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
+      ImmutableListMultimap<Project.NameKey, Change.Id> allChanges,
       Project.NameKey project, Repository allUsersRepo)
       throws IOException, OrmException {
     checkArgument(allChanges.containsKey(project));

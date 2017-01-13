@@ -15,8 +15,7 @@
 package com.google.gerrit.httpd.rpc.doc;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocQueryException;
@@ -68,8 +67,7 @@ public class QueryDocumentationFilter implements Filter {
       HttpServletResponse rsp = (HttpServletResponse) response;
       try {
         List<DocResult> result = searcher.doQuery(request.getParameter("q"));
-        Multimap<String, String> config = LinkedHashMultimap.create();
-        RestApiServlet.replyJson(req, rsp, config, result);
+        RestApiServlet.replyJson(req, rsp, ImmutableListMultimap.of(), result);
       } catch (DocQueryException e) {
         log.error("Doc search failed:", e);
         rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -35,9 +35,9 @@
 package com.google.gerrit.util.cli;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -224,7 +224,7 @@ public class CmdLineParser {
 
   public void parseOptionMap(Map<String, String[]> parameters)
       throws CmdLineException {
-    Multimap<String, String> map = LinkedHashMultimap.create();
+    ListMultimap<String, String> map = ArrayListMultimap.create();
     for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
       for (String val : ent.getValue()) {
         map.put(ent.getKey(), val);
@@ -233,7 +233,7 @@ public class CmdLineParser {
     parseOptionMap(map);
   }
 
-  public void parseOptionMap(Multimap<String, String> params)
+  public void parseOptionMap(ListMultimap<String, String> params)
       throws CmdLineException {
     List<String> tmp = Lists.newArrayListWithCapacity(2 * params.size());
     for (final String key : params.keySet()) {

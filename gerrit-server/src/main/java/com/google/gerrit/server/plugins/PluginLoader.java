@@ -24,8 +24,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -399,7 +399,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public synchronized void rescan() {
-    Multimap<String, Path> pluginsFiles = prunePlugins(pluginsDir);
+    SetMultimap<String, Path> pluginsFiles = prunePlugins(pluginsDir);
     if (pluginsFiles.isEmpty()) {
       return;
     }
@@ -478,7 +478,7 @@ public class PluginLoader implements LifecycleListener {
     return sortedPlugins;
   }
 
-  private void syncDisabledPlugins(Multimap<String, Path> jars) {
+  private void syncDisabledPlugins(SetMultimap<String, Path> jars) {
     stopRemovedPlugins(jars);
     dropRemovedDisabledPlugins(jars);
   }
@@ -525,7 +525,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private void stopRemovedPlugins(Multimap<String, Path> jars) {
+  private void stopRemovedPlugins(SetMultimap<String, Path> jars) {
     Set<String> unload = Sets.newHashSet(running.keySet());
     for (Map.Entry<String, Collection<Path>> entry : jars.asMap().entrySet()) {
       for (Path path : entry.getValue()) {
@@ -539,7 +539,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private void dropRemovedDisabledPlugins(Multimap<String, Path> jars) {
+  private void dropRemovedDisabledPlugins(SetMultimap<String, Path> jars) {
     Set<String> unload = Sets.newHashSet(disabled.keySet());
     for (Map.Entry<String, Collection<Path>> entry : jars.asMap().entrySet()) {
       for (Path path : entry.getValue()) {
@@ -644,7 +644,7 @@ public class PluginLoader implements LifecycleListener {
   // Only one active plugin per plugin name can exist for each plugin name.
   // Filter out disabled plugins and transform the multimap to a map
   private static Map<String, Path> filterDisabled(
-      Multimap<String, Path> pluginPaths) {
+      SetMultimap<String, Path> pluginPaths) {
     Map<String, Path> activePlugins = Maps.newHashMapWithExpectedSize(
         pluginPaths.keys().size());
     for (String name : pluginPaths.keys()) {
@@ -667,9 +667,9 @@ public class PluginLoader implements LifecycleListener {
   //
   // NOTE: Bear in mind that the plugin name can be reassigned after load by the
   //       Server plugin provider.
-  public Multimap<String, Path> prunePlugins(Path pluginsDir) {
+  public SetMultimap<String, Path> prunePlugins(Path pluginsDir) {
     List<Path> pluginPaths = scanPathsInPluginsDirectory(pluginsDir);
-    Multimap<String, Path> map;
+    SetMultimap<String, Path> map;
     map = asMultimap(pluginPaths);
     for (String plugin : map.keySet()) {
       Collection<Path> files = map.asMap().get(plugin);
@@ -735,8 +735,8 @@ public class PluginLoader implements LifecycleListener {
     return null;
   }
 
-  private Multimap<String, Path> asMultimap(List<Path> plugins) {
-    Multimap<String, Path> map = LinkedHashMultimap.create();
+  private SetMultimap<String, Path> asMultimap(List<Path> plugins) {
+    SetMultimap<String, Path> map = LinkedHashMultimap.create();
     for (Path srcPath : plugins) {
       map.put(getPluginName(srcPath), srcPath);
     }

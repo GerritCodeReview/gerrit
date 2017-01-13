@@ -17,7 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -76,7 +76,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   public void onCreate(Iterable<AccountExternalId> extIds) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
+      ListMultimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
           .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
       for (AccountExternalId extId : extIds) {
         n.put(extId.getAccountId(), extId);
@@ -93,7 +93,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   public void onRemove(Iterable<AccountExternalId> extIds) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
+      ListMultimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
           .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
       for (AccountExternalId extId : extIds) {
         n.remove(extId.getAccountId(), extId);
@@ -111,7 +111,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
       Iterable<AccountExternalId.Key> extIdKeys) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
+      ListMultimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
           .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
       for (AccountExternalId extId : byAccount(accountId)) {
         for (AccountExternalId.Key extIdKey : extIdKeys) {
@@ -133,7 +133,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
   public void onUpdate(AccountExternalId updatedExtId) {
     lock.lock();
     try {
-      Multimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
+      ListMultimap<Account.Id, AccountExternalId> n = MultimapBuilder.hashKeys()
           .arrayListValues().build(extIdsByAccount.get(AllKey.ALL));
       for (AccountExternalId extId : byAccount(updatedExtId.getAccountId())) {
         if (updatedExtId.getKey().equals(extId.getKey())) {
@@ -181,7 +181,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
     public ImmutableSetMultimap<Account.Id, AccountExternalId> load(AllKey key)
         throws Exception {
       try (ReviewDb db = schema.open()) {
-        Multimap<Account.Id, AccountExternalId> extIdsByAccount =
+        ListMultimap<Account.Id, AccountExternalId> extIdsByAccount =
             MultimapBuilder.hashKeys().arrayListValues().build();
         for (AccountExternalId extId : db.accountExternalIds().all()) {
           extIdsByAccount.put(extId.getAccountId(), extId);

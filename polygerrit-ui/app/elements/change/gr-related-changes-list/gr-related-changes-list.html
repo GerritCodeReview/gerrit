@@ -137,7 +137,7 @@ limitations under the License.
         <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
           <a href$="[[_computeChangeURL(change._number)]]"
               class$="[[_computeLinkClass(change)]]">
-            [[change.subject]]
+            [[change.branch]]: [[change.subject]]
           </a>
         </template>
       </section>

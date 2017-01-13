@@ -20,10 +20,10 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 
 import com.google.common.base.Predicates;
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -246,7 +246,7 @@ public class RebuildNoteDb extends SiteProgram {
     // Memorize all changes so we can close the db connection and allow
     // rebuilder threads to use the full connection pool.
     ListMultimap<Project.NameKey, Change.Id> changesByProject =
-        ArrayListMultimap.create();
+        MultimapBuilder.hashKeys().arrayListValues().build();
     try (ReviewDb db = schemaFactory.open()) {
       if (projects.isEmpty() && !changes.isEmpty()) {
         Iterable<Change> todo = unwrapDb(db).changes()

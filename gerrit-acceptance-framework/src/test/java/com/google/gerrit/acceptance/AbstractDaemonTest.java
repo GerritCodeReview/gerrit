@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -1236,5 +1237,18 @@ public abstract class AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(expected.emailAddress);
     assertThat(m.headers().get("To").isEmpty()).isTrue();
     assertThat(m.headers().get("CC").isEmpty()).isTrue();
+  }
+
+  protected void watch(String project, String filter)
+      throws RestApiException {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = project;
+    pwi.filter = filter;
+    pwi.notifyAbandonedChanges = true;
+    pwi.notifyNewChanges = true;
+    pwi.notifyAllComments = true;
+    projectsToWatch.add(pwi);
+    gApi.accounts().self().setWatchedProjects(projectsToWatch);
   }
 }

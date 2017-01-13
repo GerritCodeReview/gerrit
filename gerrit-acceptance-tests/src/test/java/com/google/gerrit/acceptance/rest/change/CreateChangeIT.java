@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -54,6 +56,8 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.List;
 
 public class CreateChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
@@ -98,6 +102,30 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void createNewChange() throws Exception {
     assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+  }
+
+  @Test
+  public void notificationsOnChangeCreation() throws Exception {
+    setApiUser(user);
+    watch(project.get(), null);
+
+    // check that watcher is notified
+    setApiUser(admin);
+    assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.body())
+        .contains(admin.fullName + " has uploaded this change for review.");
+
+    // check that watcher is not notified if notify=NONE
+    sender.clear();
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.notify = NotifyHandling.NONE;
+    assertCreateSucceeds(input);
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test

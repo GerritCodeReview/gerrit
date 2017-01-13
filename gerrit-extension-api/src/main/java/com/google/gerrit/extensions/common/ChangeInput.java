@@ -14,7 +14,12 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.NotifyInfo;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ChangeStatus;
+
+import java.util.Map;
 
 public class ChangeInput {
   public String project;
@@ -26,4 +31,8 @@ public class ChangeInput {
   public String baseChange;
   public Boolean newBranch;
   public MergeInput merge;
+
+  /** Who to send email notifications to after change is created. */
+  public NotifyHandling notify = NotifyHandling.ALL;
+  public Map<RecipientType, NotifyInfo> notifyDetails;
 }

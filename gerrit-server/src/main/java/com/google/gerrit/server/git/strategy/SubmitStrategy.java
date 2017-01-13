@@ -97,6 +97,7 @@ public abstract class SubmitStrategy {
           RevFlag canMergeFlag,
           ReviewDb db,
           Set<RevCommit> alreadyAccepted,
+          Set<CodeReviewCommit> allIncomingCommits,
           RequestId submissionId,
           NotifyHandling notifyHandling,
           Multimap<RecipientType, Account.Id> accountsToNotify,
@@ -130,6 +131,7 @@ public abstract class SubmitStrategy {
     final RevFlag canMergeFlag;
     final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
+    final Set<CodeReviewCommit> incomingCommits;
     final RequestId submissionId;
     final SubmitType submitType;
     final NotifyHandling notifyHandling;
@@ -169,6 +171,7 @@ public abstract class SubmitStrategy {
         @Assisted RevFlag canMergeFlag,
         @Assisted ReviewDb db,
         @Assisted Set<RevCommit> alreadyAccepted,
+        @Assisted Set<CodeReviewCommit> incomingCommits,
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
         @Assisted NotifyHandling notifyHandling,
@@ -201,6 +204,7 @@ public abstract class SubmitStrategy {
       this.canMergeFlag = canMergeFlag;
       this.db = db;
       this.alreadyAccepted = alreadyAccepted;
+      this.incomingCommits = incomingCommits;
       this.submissionId = submissionId;
       this.submitType = submitType;
       this.notifyHandling = notifyHandling;

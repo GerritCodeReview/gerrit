@@ -24,11 +24,11 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STA
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -411,7 +411,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static ListMultimap<String, IndexableField> fields(Document doc,
       Set<String> fields) {
     ListMultimap<String, IndexableField> stored =
-        ArrayListMultimap.create(fields.size(), 4);
+        MultimapBuilder.hashKeys(fields.size()).arrayListValues(4).build();
     for (IndexableField f : doc) {
       String name = f.name();
       if (fields.contains(name)) {
@@ -559,7 +559,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   private void decodeStar(ListMultimap<String, IndexableField> doc,
       ChangeData cd) {
     Collection<IndexableField> star = doc.get(STAR_FIELD);
-    ListMultimap<Account.Id, String> stars = ArrayListMultimap.create();
+    ListMultimap<Account.Id, String> stars =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (IndexableField r : star) {
       StarredChangesUtil.StarField starField =
           StarredChangesUtil.StarField.parse(r.stringValue());

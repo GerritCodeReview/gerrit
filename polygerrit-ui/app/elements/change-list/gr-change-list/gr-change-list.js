@@ -165,6 +165,11 @@
           account._account_id != change.owner._account_id;
     },
 
+    _computeItemAssigned: function(account, change) {
+      if (!change.assignee) { return false; }
+      return account._account_id === change.assignee._account_id;
+    },
+
     _getAggregateGroupsLen: function(groups) {
       groups = groups || [];
       var len = 0;

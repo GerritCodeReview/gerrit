@@ -29,6 +29,11 @@
         value: false,
         reflectToAttribute: true,
       },
+      assigned: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       labelNames: {
         type: Array,
       },

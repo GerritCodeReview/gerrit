@@ -40,10 +40,15 @@ public class MergeSorter {
     this.accepted = alreadyAccepted;
   }
 
-  Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> incoming)
-      throws IOException {
+  Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> toMerge)
+    throws IOException {
+    return sort(toMerge, toMerge);
+  }
+
+  Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> toMerge,
+      final Collection<CodeReviewCommit> incoming) throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<>();
-    final Set<CodeReviewCommit> sort = new HashSet<>(incoming);
+    final Set<CodeReviewCommit> sort = new HashSet<>(toMerge);
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
 

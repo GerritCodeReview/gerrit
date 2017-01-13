@@ -68,6 +68,29 @@
       "revId": "68bf0a1b27c2a0ded2e8d0fa7f38316e0705d103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d3551c_a0709af4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/RestCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1033322
+      },
+      "writtenOn": "2017-01-13T02:59:58Z",
+      "side": 1,
+      "message": "This bug is fixed in the latest version (https://github.com/google/google-java-format/commit/29d3f095f87318a6604a52fcbfe5a9d281441a47).",
+      "range": {
+        "startLine": 56,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "68bf0a1b27c2a0ded2e8d0fa7f38316e0705d103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

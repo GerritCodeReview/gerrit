@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.servlet.RequestScoped;
@@ -45,6 +46,7 @@ public abstract class CurrentUser {
   private AccessPath accessPath = AccessPath.UNKNOWN;
 
   private CapabilityControl capabilities;
+  private PropertyKey<AccountExternalId.Key> lastLoginExternalIdPropertyKey;
 
   protected CurrentUser(CapabilityControl.Factory capabilityControlFactory) {
     this.capabilityControlFactory = capabilityControlFactory;
@@ -149,5 +151,14 @@ public abstract class CurrentUser {
    * @param value value to store; or {@code null} to clear the value.
    */
   public <T> void put(PropertyKey<T> key, @Nullable T value) {
+  }
+
+  public void setLastLoginExternalIdKey(AccountExternalId.Key externalIdKey) {
+    lastLoginExternalIdPropertyKey = PropertyKey.create();
+    put(lastLoginExternalIdPropertyKey, externalIdKey);
+  }
+
+  public AccountExternalId.Key getLastLoginExternalIdKey() {
+    return get(lastLoginExternalIdPropertyKey);
   }
 }

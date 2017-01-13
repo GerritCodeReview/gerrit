@@ -1078,9 +1078,8 @@ public class RestApiServlet extends HttpServlet {
     CurrentUser user = globals.currentUser.get();
     if (isRead(req)) {
       user.setAccessPath(AccessPath.REST_API);
-      CurrentUser.PropertyKey<AccountExternalId.Key> k =
-          CurrentUser.PropertyKey.create();
-      user.put(k, globals.webSession.get().getLastLoginExternalId());
+      user.setLastLoginExternalIdKey(
+          globals.webSession.get().getLastLoginExternalId());
     } else if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
     } else if (!globals.webSession.get().isAccessPathOk(AccessPath.REST_API)) {

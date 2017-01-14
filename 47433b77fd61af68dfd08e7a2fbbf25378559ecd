@@ -22,6 +22,23 @@
       "revId": "47433b77fd61af68dfd08e7a2fbbf25378559ecd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_a8131bd2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-14T01:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "47433b77fd61af68dfd08e7a2fbbf25378559ecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

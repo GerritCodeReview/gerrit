@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03926166_cb20551a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-14T00:29:52Z",
+      "side": 1,
+      "message": "IMO, this should be a CSS class, since the `assigned` property...\n* 1) is decorative only, and...\n* 2) is never used as an property (only as an attribute).\n\nAlternatively, it may work if you use...\n\n  assigned$\u003d\"[[_compute...]]\"\n\n... to avoid having to declare a property that is never used by its element.",
+      "revId": "0524c94a529029f1bdf18001cd7ccbb95fefa51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

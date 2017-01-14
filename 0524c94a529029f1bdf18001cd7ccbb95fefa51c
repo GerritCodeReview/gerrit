@@ -16,6 +16,23 @@
       "revId": "0524c94a529029f1bdf18001cd7ccbb95fefa51c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_0bea5d7f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-14T00:32:10Z",
+      "side": 1,
+      "message": "Should I do the same for needs-review?",
+      "revId": "0524c94a529029f1bdf18001cd7ccbb95fefa51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

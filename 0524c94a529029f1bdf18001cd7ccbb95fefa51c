@@ -50,6 +50,23 @@
       "revId": "0524c94a529029f1bdf18001cd7ccbb95fefa51c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_480d3fb0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-14T00:50:53Z",
+      "side": 1,
+      "message": "No worries at all.\n\nI actually went ahead and switched to the attribute binding and removed the corresponding properties in change-list-item. I assumed you needed to have them because they were already there, but removing them causes no issue and only minor modifications to the tests since the properties were otherwise completely unused in JS.",
+      "revId": "0524c94a529029f1bdf18001cd7ccbb95fefa51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

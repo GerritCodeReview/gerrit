@@ -67,6 +67,23 @@
       "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_6be92187",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-14T00:43:21Z",
+      "side": 1,
+      "message": "I see what you\u0027re saying.. hmm ok",
+      "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

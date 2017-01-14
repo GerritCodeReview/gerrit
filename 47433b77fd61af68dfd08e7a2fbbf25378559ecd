@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03926166_ebf4315f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-01-14T00:49:50Z",
+      "side": 1,
+      "message": "Seems like above call could be inlined here? Having the \u0027url\u0027 variable in scope for one line doesn\u0027t seem to increase readability for me.",
+      "range": {
+        "startLine": 566,
+        "startChar": 45,
+        "endLine": 566,
+        "endChar": 48
+      },
+      "revId": "47433b77fd61af68dfd08e7a2fbbf25378559ecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -50,6 +50,23 @@
       "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_c89bef51",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-14T00:20:33Z",
+      "side": 1,
+      "message": "Not really, not without replicating the exact same logic on the front end for autocomplete that already exists on the backend. The response comes already filtered as an autocomplete.",
+      "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

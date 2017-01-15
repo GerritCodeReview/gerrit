@@ -101,7 +101,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
-  private final ElasticQueryBuilder queryBuilder;
   private final ChangeData.Factory changeDataFactory;
 
   @AssistedInject
@@ -116,8 +115,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     mapping = new ChangeMapping(schema);
-
-    this.queryBuilder = new ElasticQueryBuilder();
   }
 
   @Override

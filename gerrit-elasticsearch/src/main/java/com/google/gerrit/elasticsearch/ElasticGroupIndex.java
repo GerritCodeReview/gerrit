@@ -77,7 +77,6 @@ public class ElasticGroupIndex
 
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;
-  private final ElasticQueryBuilder queryBuilder;
 
   @AssistedInject
   ElasticGroupIndex(
@@ -89,7 +88,6 @@ public class ElasticGroupIndex
     super(cfg, null, sitePaths, schema, GROUPS_PREFIX);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
-    this.queryBuilder = new ElasticQueryBuilder();
   }
 
   @Override

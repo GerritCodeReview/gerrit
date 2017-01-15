@@ -79,7 +79,6 @@ public class ElasticAccountIndex extends
 
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
-  private final ElasticQueryBuilder queryBuilder;
 
   @AssistedInject
   ElasticAccountIndex(
@@ -91,7 +90,6 @@ public class ElasticAccountIndex extends
     super(cfg, null, sitePaths, schema, ACCOUNTS_PREFIX);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
-    this.queryBuilder = new ElasticQueryBuilder();
   }
 
   @Override

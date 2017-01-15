@@ -74,6 +74,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final String indexName;
   protected final JestHttpClient client;
   protected final Gson gson;
+  protected final ElasticQueryBuilder queryBuilder;
 
   AbstractElasticIndex(@GerritServerConfig Config cfg,
       FillArgs fillArgs,
@@ -85,6 +86,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.schema = schema;
     this.gson = new GsonBuilder()
         .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+    this.queryBuilder = new ElasticQueryBuilder();
     String protocol = getRequiredConfigOption(cfg, "protocol");
     String hostname = getRequiredConfigOption(cfg, "hostname");
     String port = getRequiredConfigOption(cfg, "port");

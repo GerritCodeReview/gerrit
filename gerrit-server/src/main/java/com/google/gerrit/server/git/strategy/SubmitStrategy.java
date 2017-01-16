@@ -46,6 +46,7 @@ import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.validators.RefUpdateOnSubmitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -118,6 +119,7 @@ public abstract class SubmitStrategy {
     final ProjectCache projectCache;
     final PersonIdent serverIdent;
     final RebaseChangeOp.Factory rebaseFactory;
+    final RefUpdateOnSubmitValidators.Factory refSubmitOperationValidatorsFactory;
     final TagCache tagCache;
 
     final Branch.NameKey destBranch;
@@ -158,6 +160,7 @@ public abstract class SubmitStrategy {
         @GerritPersonIdent PersonIdent serverIdent,
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
+        RefUpdateOnSubmitValidators.Factory refSubmitOperationValidatorsFactory,
         TagCache tagCache,
         @Assisted Branch.NameKey destBranch,
         @Assisted CommitStatus commits,
@@ -212,6 +215,7 @@ public abstract class SubmitStrategy {
             "project not found: %s", destBranch.getParentKey());
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
       this.mergeUtil = mergeUtilFactory.create(project);
+      this.refSubmitOperationValidatorsFactory = refSubmitOperationValidatorsFactory;
     }
   }
 

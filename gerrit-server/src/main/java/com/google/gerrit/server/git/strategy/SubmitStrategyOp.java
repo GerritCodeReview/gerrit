@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.SubmoduleException;
+import com.google.gerrit.server.git.validators.RefUpdateOnSubmitValidationListener.BranchUpdateArguments;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -138,6 +140,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         firstNonNull(tipBefore, ObjectId.zeroId()),
         tipAfter,
         getDest().get());
+    validateRefUpdate(ctx, tipBefore, tipAfter);
     ctx.addRefUpdate(command);
     args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }
@@ -156,6 +159,13 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
             + getProject(), e);
       }
     }
+  }
+
+  private void validateRefUpdate(RepoContext ctx, ObjectId currentTip, ObjectId newTip)
+      throws ResourceConflictException {
+    args.refSubmitOperationValidatorsFactory
+        .create()
+        .validateRefUpdate(new BranchUpdateArguments(ctx, currentTip, newTip, getDest()));
   }
 
   private CodeReviewCommit getAlreadyMergedCommit(RepoContext ctx)

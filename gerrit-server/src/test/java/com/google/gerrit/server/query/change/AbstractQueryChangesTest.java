@@ -68,7 +68,6 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.IndexConfig;
@@ -137,7 +136,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ChangeQueryBuilder queryBuilder;
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
-  @Inject protected ChangeEditModifier changeEditModifier;
   @Inject protected ChangeIndexCollection indexes;
   @Inject protected ChangeIndexer indexer;
   @Inject protected IndexConfig indexConfig;
@@ -1579,21 +1577,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 = createAccount("user2");
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
-    PatchSet ps1 = db.patchSets().get(change1.currentPatchSetId());
+    String changeId1 = change1.getKey().get();
     Change change2 = insert(repo, newChange(repo));
-    PatchSet ps2 = db.patchSets().get(change2.currentPatchSetId());
+    String changeId2 = change2.getKey().get();
 
     requestContext.setContext(newRequestContext(user1));
     assertQuery("has:edit");
-    assertThat(changeEditModifier.createEdit(change1, ps1))
-        .isEqualTo(RefUpdate.Result.NEW);
-    assertThat(changeEditModifier.createEdit(change2, ps2))
-        .isEqualTo(RefUpdate.Result.NEW);
+    gApi.changes()
+        .id(changeId1)
+        .edit()
+        .create();
+    gApi.changes()
+        .id(changeId2)
+        .edit()
+        .create();
 
     requestContext.setContext(newRequestContext(user2));
     assertQuery("has:edit");
-    assertThat(changeEditModifier.createEdit(change2, ps2))
-        .isEqualTo(RefUpdate.Result.NEW);
+    gApi.changes()
+        .id(changeId2)
+        .edit()
+        .create();
 
     requestContext.setContext(newRequestContext(user1));
     assertQuery("has:edit", change2, change1);
@@ -1692,11 +1696,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Project.NameKey project = new Project.NameKey("repo");
     TestRepository<Repo> repo = createProject(project.get());
     Change change = insert(repo, newChange(repo));
+    String changeId = change.getKey().get();
     PatchSet ps = db.patchSets().get(change.currentPatchSetId());
 
     requestContext.setContext(newRequestContext(user));
-    assertThat(changeEditModifier.createEdit(change, ps))
-        .isEqualTo(RefUpdate.Result.NEW);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .create();
     assertQuery("has:edit", change);
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isFalse();
 
@@ -1723,15 +1730,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change = insert(repo, newChangeForCommit(repo, commit));
     Change.Id id = change.getId();
     int c = id.get();
-    PatchSet ps = db.patchSets().get(change.currentPatchSetId());
+    String changeId = change.getKey().get();
     requestContext.setContext(newRequestContext(user));
 
     // Ensure one of each type of supported ref is present for the change. If
     // any more refs are added, update this test to reflect them.
 
     // Edit
-    assertThat(changeEditModifier.createEdit(change, ps))
-        .isEqualTo(RefUpdate.Result.NEW);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .create();
 
     // Star
     gApi.accounts()

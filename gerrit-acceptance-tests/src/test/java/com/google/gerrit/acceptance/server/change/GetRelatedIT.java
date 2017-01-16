@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
@@ -27,13 +28,12 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
 import com.google.gerrit.server.change.GetRelated.RelatedInfo;
-import com.google.gerrit.server.edit.ChangeEditModifier;
-import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -48,6 +48,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 public class GetRelatedIT extends AbstractDaemonTest {
   private String systemTimeZone;
@@ -63,12 +64,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
     TestTimeUtil.useSystemTime();
     System.setProperty("user.timezone", systemTimeZone);
   }
-
-  @Inject
-  private ChangeEditUtil editUtil;
-
-  @Inject
-  private ChangeEditModifier editModifier;
 
   @Inject
   private BatchUpdate.Factory updateFactory;
@@ -579,11 +574,19 @@ public class GetRelatedIT extends AbstractDaemonTest {
     pushHead(testRepo, "refs/for/master", false);
 
     Change ch2 = getChange(c2_1).change();
-    editModifier.createEdit(ch2, getPatchSet(ch2.currentPatchSetId()));
-    editModifier.modifyFile(editUtil.byChange(ch2).get(), "a.txt",
-        RawInputUtil.create(new byte[] {'a'}));
-    ObjectId editRev =
-        ObjectId.fromString(editUtil.byChange(ch2).get().getRevision().get());
+    String changeId2 = ch2.getKey().get();
+    gApi.changes()
+        .id(changeId2)
+        .edit()
+        .create();
+    gApi.changes()
+        .id(changeId2)
+        .edit()
+        .modifyFile("a.txt", RawInputUtil.create(new byte[] {'a'}));
+    Optional<EditInfo> edit = getEdit(changeId2);
+    assertThat(edit).isPresent();
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    ObjectId editRev = ObjectId.fromString(edit.get().commit.commit);
 
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);

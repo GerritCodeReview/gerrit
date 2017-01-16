@@ -57,6 +57,23 @@
       "revId": "6cfbb2995d394695ce790fe805642523eb772105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d37948_35cd1015",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-16T13:21:28Z",
+      "side": 1,
+      "message": "Yes, it already fails with:\n\n  \"--query\" is not a valid option\n\nIt\u0027s because if both \u0027--query\u0027 and \u0027--query\u0027 are specified, we return the QueryGroups REST endpoint and this REST endpoint doesn\u0027t support the \u0027--query\u0027 option and hence this fails. However I agree that the error message could be nicer.\n\nDone in\n  https://gerrit-review.googlesource.com/94553",
+      "revId": "6cfbb2995d394695ce790fe805642523eb772105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

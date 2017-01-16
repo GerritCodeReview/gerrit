@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_96fe2cf1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-16T17:06:47Z",
+      "side": 1,
+      "message": "Up to now, none of the Java API classes uses @Nullable for the methods. There are only three result objects which use the annotation internally.",
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_b62248d3",
         "filename": "gerrit-test-util/src/main/java/com/google/gerrit/truth/OptionalSubject.java",
         "patchSetId": 2
@@ -36,6 +53,23 @@
       "writtenOn": "2017-01-16T15:43:51Z",
       "side": 1,
       "message": "Why not just use GuavaOptionalSubject?",
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_f518b8a6",
+        "filename": "gerrit-test-util/src/main/java/com/google/gerrit/truth/OptionalSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-16T17:06:47Z",
+      "side": 1,
+      "message": "GuavaOptionalSubject is for com.google.common.base.Optional. This OptionalSubject is for java.util.Optional.\n\nBy the way, there is an extension for Truth which features such an OptionalSubject. As it doesn\u0027t have a value() method and is a final class, I decided to introduce my own implementation.",
       "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,6 +22,23 @@
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_363518fa",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-16T17:06:47Z",
+      "side": 0,
+      "message": "These asserts were probably added to ensure that the change edit was created (or maybe they were just added to silence a static code analyzer which complained that the result was ignored). The new Java API should throw an exception if a change edit wasn\u0027t created. There seems to be one exception, though. If a user doesn\u0027t have the permission to push patch sets, the method call silently does nothing. However, this has been an issue of the REST API all along.\n\nI don\u0027t think that only because of this aspect further asserts would be necessary within this test. It\u0027s definitely not the focus of this test.",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

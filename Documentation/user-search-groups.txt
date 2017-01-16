@@ -37,8 +37,8 @@ Matches groups that have a name part that starts with 'NAMEPART'
 (case-insensitive).
 
 [[is]]
-[[is-visibleToAll]]
-is:visibleToAll::
+[[is-visibletoall]]
+is:visibletoall::
 +
 Matches groups that are in the groups options marked as visible to all
 registered users.

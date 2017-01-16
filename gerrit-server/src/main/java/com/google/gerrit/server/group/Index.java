@@ -52,7 +52,7 @@ public class Index implements RestModifyView<GroupResource, Input> {
           .format("External Group Not Allowed: %s", rsrc.getGroupUUID().get()));
     }
 
-    // evicting the group from the cache, reindexes the account
+    // evicting the group from the cache, reindexes the group
     groupCache.evict(group);
     return Response.none();
   }

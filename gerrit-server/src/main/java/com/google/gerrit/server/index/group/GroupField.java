@@ -62,7 +62,7 @@ public class GroupField {
         }
       };
 
-  /** Fuzzy prefix match on group name parts. */
+  /** Prefix match on group name parts. */
   public static final FieldDef<AccountGroup, Iterable<String>> NAME_PART =
       new FieldDef.Repeatable<AccountGroup, String>(
           "name_part", FieldType.PREFIX, false) {

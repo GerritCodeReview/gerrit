@@ -247,13 +247,13 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byIsVisibleToAll() throws Exception {
-    assertQuery("is:visibleToAll");
+    assertQuery("is:visibletoall");
 
     GroupInfo groupThatIsVisibleToAll =
         createGroupThatIsVisibleToAll(name("group-that-is-visible-to-all"));
     createGroup(name("group"));
 
-    assertQuery("is:visibleToAll", groupThatIsVisibleToAll);
+    assertQuery("is:visibletoall", groupThatIsVisibleToAll);
   }
 
   @Test

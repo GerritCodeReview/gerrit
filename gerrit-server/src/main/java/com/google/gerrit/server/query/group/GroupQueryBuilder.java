@@ -77,7 +77,7 @@ public class GroupQueryBuilder extends QueryBuilder<AccountGroup> {
 
   @Operator
   public Predicate<AccountGroup> is(String value) throws QueryParseException {
-    if ("visibleToAll".equalsIgnoreCase(value)) {
+    if ("visibletoall".equalsIgnoreCase(value)) {
       return GroupPredicates.isVisibleToAll();
     }
     throw error("Invalid query");

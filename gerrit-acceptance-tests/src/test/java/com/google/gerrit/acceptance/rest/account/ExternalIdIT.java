@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ExternalIdIT extends AbstractDaemonTest {
   @Test
@@ -52,6 +53,30 @@ public class ExternalIdIT extends AbstractDaemonTest {
     Collections.sort(expectedIdInfos);
     Collections.sort(results);
     assertThat(results).containsExactlyElementsIn(expectedIdInfos);
+  }
+
+  @Test
+  public void deleteExternalIDs() throws Exception {
+    List<String> toDelete = new ArrayList<>();
+    List<AccountExternalId> expectedIds = new ArrayList<>();
+    for (AccountExternalId id :
+        accountCache.get(user.getId()).getExternalIds()) {
+      if (id.canDelete()) {
+        toDelete.add(id.getExternalId());
+        continue;
+      }
+      expectedIds.add(id);
+    }
+
+    RestResponse response = userRestSession.post(
+        "/accounts/self/external.ids:delete", toDelete);
+    response.assertNoContent();
+
+    List<AccountExternalId> results = accountCache.get(user.getId())
+        .getExternalIds().stream().collect(Collectors.toList());
+
+    assertThat(results).hasSize(1);
+    assertThat(results).containsExactlyElementsIn(expectedIds);
   }
 
   private static AccountExternalIdInfo toInfo(AccountExternalId id) {

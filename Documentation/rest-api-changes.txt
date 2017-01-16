@@ -5232,6 +5232,14 @@ change operation.
 Allow creating a new branch when set to `true`.
 |`merge`              |optional|
 The detail of a merge commit as a link:#merge-input[MergeInput] entity.
+|`notify`             |optional|
+Notify handling that defines to whom email notifications should be sent
+after the change is created. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
+|`notify_details`     |optional|
+Additional information about whom to notify about the change creation
+as a map of recipient type to link:#notify-info[NotifyInfo] entity.
 |==================================
 
 [[change-message-info]]

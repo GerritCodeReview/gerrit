@@ -106,6 +106,7 @@ public class CreateChange implements
   private final boolean allowDrafts;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
+  private final NotifyUtil notifyUtil;
 
   @Inject
   CreateChange(@AnonymousCowardName String anonymousCowardName,
@@ -122,7 +123,8 @@ public class CreateChange implements
       BatchUpdate.Factory updateFactory,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
-      MergeUtil.Factory mergeUtilFactory) {
+      MergeUtil.Factory mergeUtilFactory,
+      NotifyUtil notifyUtil) {
     this.anonymousCowardName = anonymousCowardName;
     this.db = db;
     this.gitManager = gitManager;
@@ -140,6 +142,7 @@ public class CreateChange implements
     this.submitType = config
         .getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
+    this.notifyUtil = notifyUtil;
   }
 
   @Override
@@ -269,6 +272,8 @@ public class CreateChange implements
       ins.setTopic(topic);
       ins.setDraft(input.status == ChangeStatus.DRAFT);
       ins.setGroups(groups);
+      ins.setNotify(input.notify);
+      ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
       try (BatchUpdate bu = updateFactory.create(
           db.get(), project, me, now)) {
         bu.setRepository(git, rw, oi);

@@ -21,8 +21,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.extensions.client.ProjectWatchInfo;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
@@ -34,7 +32,6 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -311,18 +308,5 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // assert email notification
     assertThat(sender.getMessages()).hasSize(0);
-  }
-
-  private void watch(String project, String filter)
-      throws RestApiException {
-    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
-    ProjectWatchInfo pwi = new ProjectWatchInfo();
-    pwi.project = project;
-    pwi.filter = filter;
-    pwi.notifyAbandonedChanges = true;
-    pwi.notifyNewChanges = true;
-    pwi.notifyAllComments = true;
-    projectsToWatch.add(pwi);
-    gApi.accounts().self().setWatchedProjects(projectsToWatch);
   }
 }

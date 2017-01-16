@@ -808,7 +808,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private void executeNoteDbUpdates(List<ChangeTask> tasks) {
+  private void executeNoteDbUpdates(List<ChangeTask> tasks) throws IOException {
     // Aggregate together all NoteDb ref updates from the ops we executed,
     // possibly in parallel. Each task had its own NoteDbUpdateManager instance
     // with its own thread-local copy of the repo(s), but each of those was just
@@ -869,13 +869,21 @@ public class BatchUpdate implements AutoCloseable {
         logDebug("No All-Users updates");
       }
     } catch (IOException e) {
-      // Ignore all errors trying to update NoteDb at this point. We've
-      // already written the NoteDbChangeState to ReviewDb, which means
-      // if the state is out of date it will be rebuilt the next time it
-      // is needed.
-      // Always log even without RequestId.
-      log.debug(
-          "Ignoring NoteDb update error after ReviewDb write", e);
+      if (tasks.stream().allMatch(t -> t.storage == PrimaryStorage.REVIEW_DB)) {
+        // Ignore all errors trying to update NoteDb at this point. We've
+        // already written the NoteDbChangeStates to ReviewDb, which means
+        // if any state is out of date it will be rebuilt the next time it
+        // is needed.
+        // Always log even without RequestId.
+        log.debug(
+            "Ignoring NoteDb update error after ReviewDb write", e);
+      } else {
+        // We can't prove it's safe to ignore the error, either because some
+        // change had NOTE_DB primary, or a task failed before determining the
+        // primary storage.
+        throw e;
+      }
+
     }
   }
 
@@ -889,6 +897,7 @@ public class BatchUpdate implements AutoCloseable {
     bru.setAllowNonFastForwards(true);
     bru.execute(rw, NullProgressMonitor.INSTANCE);
     for (ReceiveCommand cmd : bru.getCommands()) {
+      // TODO(dborowitz): LOCK_FAILURE for NoteDb primary should be retried.
       if (cmd.getResult() != ReceiveCommand.Result.OK) {
         throw new IOException("Update failed: " + bru);
       }
@@ -901,6 +910,7 @@ public class BatchUpdate implements AutoCloseable {
     private final Thread mainThread;
     private final boolean dryrun;
 
+    PrimaryStorage storage;
     NoteDbUpdateManager.StagedResult noteDbResult;
     boolean dirty;
     boolean deleted;
@@ -944,7 +954,6 @@ public class BatchUpdate implements AutoCloseable {
       @SuppressWarnings("resource") // Not always opened.
       NoteDbUpdateManager updateManager = null;
       try {
-        PrimaryStorage storage;
         db.changes().beginTransaction(id);
         try {
           ChangeContext ctx = newChangeContext(db, repo, rw, id);

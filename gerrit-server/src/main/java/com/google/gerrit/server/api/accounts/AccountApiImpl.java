@@ -43,6 +43,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.DeleteActive;
+import com.google.gerrit.server.account.DeleteExternalIds;
 import com.google.gerrit.server.account.DeleteSshKey;
 import com.google.gerrit.server.account.DeleteWatchedProjects;
 import com.google.gerrit.server.account.GetActive;
@@ -113,6 +114,7 @@ public class AccountApiImpl implements AccountApi {
   private final DeleteActive deleteActive;
   private final Index index;
   private final GetExternalIds getExternalIds;
+  private final DeleteExternalIds deleteExternalIds;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -145,6 +147,7 @@ public class AccountApiImpl implements AccountApi {
       DeleteActive deleteActive,
       Index index,
       GetExternalIds getExternalIds,
+      DeleteExternalIds deleteExternalIds,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -177,6 +180,7 @@ public class AccountApiImpl implements AccountApi {
     this.deleteActive = deleteActive;
     this.index = index;
     this.getExternalIds = getExternalIds;
+    this.deleteExternalIds = deleteExternalIds;
   }
 
   @Override
@@ -456,5 +460,15 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public List<AccountExternalIdInfo> getExternalIds() throws RestApiException {
     return getExternalIds.apply(account);
+  }
+
+  @Override
+  public void deleteExternalIds(List<String> externalIds)
+      throws RestApiException {
+    try {
+      deleteExternalIds.apply(account, externalIds);
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot delete external IDs", e);
+    }
   }
 }

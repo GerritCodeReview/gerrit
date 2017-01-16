@@ -96,6 +96,7 @@ public class Module extends RestApiModule {
     post(STAR_KIND).to(Stars.Post.class);
 
     get(ACCOUNT_KIND, "external.ids").to(GetExternalIds.class);
+    post(ACCOUNT_KIND, "external.ids:delete").to(DeleteExternalIds.class);
 
     factory(CreateAccount.Factory.class);
     factory(CreateEmail.Factory.class);

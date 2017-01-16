@@ -27,10 +27,13 @@ import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
 /** Register the commands a Gerrit server supports. */
 public class DefaultCommandModule extends CommandModule {
   private final DownloadConfig downloadConfig;
+  private final LfsPluginAuthCommand.Module lfsPluginAuthModule;
 
-  public DefaultCommandModule(boolean slave, DownloadConfig downloadCfg) {
+  public DefaultCommandModule(boolean slave, DownloadConfig downloadCfg,
+      LfsPluginAuthCommand.Module module) {
     slaveMode = slave;
     downloadConfig = downloadCfg;
+    lfsPluginAuthModule = module;
   }
 
   @Override
@@ -124,7 +127,7 @@ public class DefaultCommandModule extends CommandModule {
     alias(logging, "ls", ListLoggingLevelCommand.class);
     alias(logging, "set", SetLoggingLevelCommand.class);
 
-    install(new LfsPluginAuthCommand.Module());
+    install(lfsPluginAuthModule);
   }
 
   private boolean sshEnabled() {

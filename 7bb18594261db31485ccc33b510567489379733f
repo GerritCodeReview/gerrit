@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "a37a75f4_88fd7747",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-16T20:59:48Z",
+      "side": 1,
+      "message": "Ok, I didn\u0027t know how many of these there are likely to be in the wild (beyond the one at Google that I know about). It sounds like we think there aren\u0027t many, so I\u0027ll go ahead and do that.",
+      "revId": "7bb18594261db31485ccc33b510567489379733f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_b50c80b5",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
         "patchSetId": 1

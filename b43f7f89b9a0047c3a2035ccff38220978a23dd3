@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d37948_b5548036",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/DeleteFileModification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-16T15:33:16Z",
+      "side": 1,
+      "message": "tiny and optional nit: replace necessary with required\n\nrequired is used 73 times in the code\nnecessary only 23 times",
+      "range": {
+        "startLine": 36,
+        "startChar": 42,
+        "endLine": 36,
+        "endChar": 51
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

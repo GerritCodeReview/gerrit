@@ -45,6 +45,52 @@
       "revId": "25d269938248c7ee5a2f0bb7d56878b993a0e9cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_d5eedc91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-16T08:07:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this.",
+      "range": {
+        "startLine": 49,
+        "startChar": 45,
+        "endLine": 50,
+        "endChar": 28
+      },
+      "revId": "25d269938248c7ee5a2f0bb7d56878b993a0e9cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_f5e9d88b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-16T08:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 50,
+        "startChar": 29,
+        "endLine": 50,
+        "endChar": 30
+      },
+      "revId": "25d269938248c7ee5a2f0bb7d56878b993a0e9cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

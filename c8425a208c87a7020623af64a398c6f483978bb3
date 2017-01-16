@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_96362c50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-16T08:13:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "c8425a208c87a7020623af64a398c6f483978bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3c2ad70_9a8c0d1d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "43d37948_35f87052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-16T08:13:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "c8425a208c87a7020623af64a398c6f483978bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03c9819c_f38d701b",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 2
@@ -59,6 +105,29 @@
       "writtenOn": "2017-01-16T04:18:23Z",
       "side": 1,
       "message": "Add this after Bug to keep the list ordered alphabetically.",
+      "range": {
+        "startLine": 22,
+        "startChar": 17,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "c8425a208c87a7020623af64a398c6f483978bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_15f57458",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-16T08:13:06Z",
+      "side": 1,
+      "message": "Thanks, done",
       "range": {
         "startLine": 22,
         "startChar": 17,

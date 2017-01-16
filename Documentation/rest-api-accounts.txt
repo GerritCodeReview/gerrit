@@ -1707,6 +1707,36 @@ link:#account-external-id-info[AccountExternalIdInfo] entities.
   ]
 ----
 
+[[delete-account-external-ids]]
+=== Delete Account External IDs
+--
+'DELETE /accounts/link:#account-id[\{account-id\}]/external.ids' +
+'POST /accounts/link:#account-id[\{account-id\}]/external.ids:delete'
+--
+
+Delete a list of external IDs for a user account. The target external IDs must
+be provided as a list in the request body.
+
+Only external IDs belonging to the caller may be deleted.
+
+Please note that some proxies prohibit request bodies for DELETE requests.
+Then you should use a POST request:
+
+.Request
+----
+  POST /a/accounts/self/external.ids:delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "mailto:john.doe@example.com"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[default-star-endpoints]]
 == Default Star Endpoints
 

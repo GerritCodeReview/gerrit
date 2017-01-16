@@ -458,7 +458,7 @@ public class ChangeEdits implements
     }
 
     @Override
-    public Response<?> apply(ChangeEditResource rsrc)
+    public Response<BinaryResult> apply(ChangeEditResource rsrc)
         throws IOException {
       try {
         ChangeEdit edit = rsrc.getChangeEdit();

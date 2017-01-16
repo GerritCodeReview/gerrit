@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03c9819c_938cfc1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "none",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c2ad70_9ac3ed1b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "Better to move this directly after L114?",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 115,
+        "endChar": 31
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c2ad70_babeb1a1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "Why do we need to used changeId2 here?",
+      "range": {
+        "startLine": 147,
+        "startChar": 27,
+        "endLine": 147,
+        "endChar": 36
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c2ad70_5aa67596",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "This is not needed.  It was removed on all the other methods in a recently merged change.",
+      "range": {
+        "startLine": 375,
+        "startChar": 32,
+        "endLine": 375,
+        "endChar": 55
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c9819c_73a2808c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "not needed here or in the following methods.",
+      "range": {
+        "startLine": 172,
+        "startChar": 36,
+        "endLine": 172,
+        "endChar": 59
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c2ad70_3ab3c1d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "Should this be @AssistedInject?",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c9819c_539f8440",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "Usually the @Assisted annotated parameters are given last.",
+      "range": {
+        "startLine": 61,
+        "startChar": 27,
+        "endLine": 61,
+        "endChar": 66
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c2ad70_1ab0fdc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "For consistency with other messages this should be \"Cannot get commit message of change edit\"",
+      "range": {
+        "startLine": 210,
+        "startChar": 33,
+        "endLine": 211,
+        "endChar": 24
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c9819c_339c084a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T12:28:34Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 232,
+        "startChar": 35,
+        "endLine": 232,
+        "endChar": 37
+      },
+      "revId": "4926fd6643ae6d70fcb5c1653e1fdaf062bae786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

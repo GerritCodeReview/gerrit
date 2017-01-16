@@ -17,6 +17,23 @@
       "revId": "03ca92963137c6cb3a42c4fa08f07a9b791ff865",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_36175870",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/groups/Groups.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-16T15:58:13Z",
+      "side": 1,
+      "message": "I gave it a try, but it doesn\u0027t work nicely:\n\n1. Changing the return type of the query methods would be an incompatible change. If we keep the QueryRequest class and inherit all functionality, chaining calls don\u0027t work nicely anymore, as all the methods that return the own instance return the supertype.\n\n2. Since ListGroupsOption is an enum, we would need to pass the enum class to the super class [1].\n\n3. The withOptions(O... options) in the super class has the warning \"Type safety: Potential heap pollution via varargs parameter options\" and we would need to make it final and add the @SafeVarargs to silence it.\n\nSo I think this is not worth the effort and I would just leave it as is.\n\n[1] http://stackoverflow.com/questions/21035510/instantiating-enumsets-of-generic-types",
+      "revId": "03ca92963137c6cb3a42c4fa08f07a9b791ff865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

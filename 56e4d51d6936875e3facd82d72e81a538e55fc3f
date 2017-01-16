@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d37948_75c388eb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-16T13:02:45Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "56e4d51d6936875e3facd82d72e81a538e55fc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_b5b80088",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-16T13:02:45Z",
+      "side": 1,
+      "message": "remove, see [1]\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 36
+      },
+      "revId": "56e4d51d6936875e3facd82d72e81a538e55fc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_95bd0478",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/plugin/LfsPluginAuthCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-16T13:02:45Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "56e4d51d6936875e3facd82d72e81a538e55fc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

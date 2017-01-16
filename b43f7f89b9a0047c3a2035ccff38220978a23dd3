@@ -22,6 +22,23 @@
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_35407063",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/DeleteFileModification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-16T16:18:40Z",
+      "side": 1,
+      "message": "I am not a native speaker but \u0027required\u0027 doesn\u0027t sound correct to me in this context. Those PathEdits aren\u0027t required because of some rules or regulations. They are just necessary to achieve the desired result. Of course, I might be wrong on that.\n\nIn general, I agree that we should have consistent names. However, this adjective isn\u0027t something which qualifies as a \u0027name\u0027 for me. For this reason, I wouldn\u0027t base a decision on the number of times it occurs in the code.",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

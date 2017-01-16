@@ -26,6 +26,29 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_569534cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-16T13:57:11Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "6cfbb2995d394695ce790fe805642523eb772105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0361811f_538d0417",
         "filename": "Documentation/rest-api-groups.txt",
         "patchSetId": 14
@@ -37,6 +60,23 @@
       "writtenOn": "2017-01-12T15:41:34Z",
       "side": 1,
       "message": "Following my comment in the commit description, I would maybe explicitly state that this is a temporary name to temporarily maintain backwards compatibility of the old query param, and expect this name to change in a future version.",
+      "revId": "6cfbb2995d394695ce790fe805642523eb772105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d37948_55e76c91",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-16T13:57:11Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/94514",
       "revId": "6cfbb2995d394695ce790fe805642523eb772105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

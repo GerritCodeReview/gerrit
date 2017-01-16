@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03c9819c_13822cec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T04:18:23Z",
+      "side": 1,
+      "message": "This subject is misleading.  What this change actually does is make sure that Change-Id line is added after the Depends-On line.  See [1,2] for examples of more appropriate commit message.\n\n[1] https://gerrit-review.googlesource.com/#/c/73673/\n[2] https://gerrit-review.googlesource.com/#/c/73110/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "c8425a208c87a7020623af64a398c6f483978bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c2ad70_9a8c0d1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T04:18:23Z",
+      "side": 1,
+      "message": "dependencies",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "c8425a208c87a7020623af64a398c6f483978bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c9819c_f38d701b",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-16T04:18:23Z",
+      "side": 1,
+      "message": "Add this after Bug to keep the list ordered alphabetically.",
+      "range": {
+        "startLine": 22,
+        "startChar": 17,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "c8425a208c87a7020623af64a398c6f483978bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d6bd38_760dd05d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-16T15:43:51Z",
+      "side": 1,
+      "message": "maybe add @Nullable not sure if its common in this place",
+      "range": {
+        "startLine": 410,
+        "startChar": 3,
+        "endLine": 410,
+        "endChar": 11
+      },
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_b62248d3",
+        "filename": "gerrit-test-util/src/main/java/com/google/gerrit/truth/OptionalSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-16T15:43:51Z",
+      "side": 1,
+      "message": "Why not just use GuavaOptionalSubject?",
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

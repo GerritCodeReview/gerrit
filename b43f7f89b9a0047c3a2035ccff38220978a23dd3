@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d6bd38_96274ce3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-16T15:43:51Z",
+      "side": 0,
+      "message": "where did all these asserts go?",
+      "range": {
+        "startLine": 1595,
+        "startChar": 4,
+        "endLine": 1595,
+        "endChar": 14
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

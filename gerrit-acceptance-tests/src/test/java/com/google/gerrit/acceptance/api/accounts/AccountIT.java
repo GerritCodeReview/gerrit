@@ -38,7 +38,6 @@ import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.Permission;
@@ -47,7 +46,6 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -72,7 +70,6 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -101,7 +98,6 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class AccountIT extends AbstractDaemonTest {
   @ConfigSuite.Default
@@ -745,33 +741,6 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to index account");
     gApi.accounts().id(admin.username).index();
-  }
-
-  @Test
-  public void getAccountExternalIds() throws Exception {
-    List<AccountExternalIdInfo> expectedIdInfoList = getExternalIds(user)
-        .stream().map(AccountIT::toInfo).sorted().collect(Collectors.toList());
-
-    RestResponse response = userRestSession.get("/accounts/self/external.ids");
-    response.assertOK();
-    List<AccountExternalIdInfo> externalIdInfoList =
-        newGson().fromJson(response.getReader(),
-            new TypeToken<List<AccountExternalIdInfo>>() {}.getType());
-
-    // 'canDelete' field will be all null (false). It will be better if we can
-    // find a way to test it. But it looks a little difficult.
-    externalIdInfoList.stream().sorted();
-    assertThat(expectedIdInfoList)
-        .containsExactlyElementsIn(expectedIdInfoList);
-  }
-
-  private static AccountExternalIdInfo toInfo(AccountExternalId id) {
-    AccountExternalIdInfo info = new AccountExternalIdInfo();
-    info.identity = id.getExternalId();
-    info.emailAddress = id.getEmailAddress();
-    info.trusted = id.isTrusted();
-    info.canDelete = id.canDelete();
-    return info;
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

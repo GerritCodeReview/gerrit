@@ -75,7 +75,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
         AccountExternalId.Key last = resource.getUser()
             .getLastLoginExternalIdKey();
         info.canDelete =
-            toBoolean(last != null && !last.get().equals(info.identity));
+            toBoolean(last == null || !last.get().equals(info.identity));
       }
       result.add(info);
     }

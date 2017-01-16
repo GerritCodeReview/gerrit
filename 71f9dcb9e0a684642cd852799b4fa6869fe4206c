@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "43d37948_b531205c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-16T13:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71f9dcb9e0a684642cd852799b4fa6869fe4206c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03c9819c_f3b450c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
         "patchSetId": 1
@@ -42,6 +59,23 @@
         "endLine": 41,
         "endChar": 42
       },
+      "revId": "71f9dcb9e0a684642cd852799b4fa6869fe4206c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_f5ae7842",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-16T13:39:29Z",
+      "side": 1,
+      "message": "I see your point. It\u0027s just that AddPath (which is a PathEdit) is in the same directory. With the suffix \u0027Modification\u0027, all TreeModifcations stick out and it\u0027s clear that AddPath is something else.",
       "revId": "71f9dcb9e0a684642cd852799b4fa6869fe4206c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

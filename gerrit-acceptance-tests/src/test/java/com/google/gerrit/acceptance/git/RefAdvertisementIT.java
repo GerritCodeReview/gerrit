@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommitsAdvertiseRefsHook;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
@@ -68,9 +67,6 @@ import java.util.Map;
 
 @NoHttpd
 public class RefAdvertisementIT extends AbstractDaemonTest {
-  @Inject
-  private ChangeEditModifier editModifier;
-
   @Inject
   private ProjectControl.GenericFactory projectControlFactory;
 
@@ -260,15 +256,21 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     Change c = notesFactory.createChecked(db, project, c1.getId()).getChange();
-    PatchSet ps1 = getPatchSet(new PatchSet.Id(c1.getId(), 1));
+    String changeId = c.getKey().get();
 
     // Admin's edit is not visible.
     setApiUser(admin);
-    editModifier.createEdit(c, ps1);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .create();
 
     // User's edit is visible.
     setApiUser(user);
-    editModifier.createEdit(c, ps1);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .create();
 
     assertUploadPackRefs(
         "HEAD",
@@ -288,9 +290,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
       allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
-      PatchSet ps1 = getPatchSet(new PatchSet.Id(c1.getId(), 1));
+      String changeId = c1.change().getKey().get();
       setApiUser(admin);
-      editModifier.createEdit(c1.change(), ps1);
+      gApi.changes()
+          .id(changeId)
+          .edit()
+          .create();
       setApiUser(user);
 
       assertUploadPackRefs(

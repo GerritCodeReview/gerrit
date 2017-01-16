@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.api.change;
 
-import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -30,13 +29,8 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.server.edit.ChangeEditModifier;
-import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 
-import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
@@ -55,12 +49,6 @@ public class MergeListIT extends AbstractDaemonTest {
   private RevCommit grandParent1;
   private RevCommit parent2;
   private RevCommit grandParent2;
-
-  @Inject
-  private ChangeEditModifier modifier;
-
-  @Inject
-  private ChangeEditUtil editUtil;
 
   @Before
   public void setup() throws Exception {
@@ -153,23 +141,32 @@ public class MergeListIT extends AbstractDaemonTest {
 
   @Test
   public void editMergeList() throws Exception {
-    ChangeData cd = getOnlyElement(queryProvider.get().byKeyPrefix(changeId));
-    modifier.createEdit(cd.change(), cd.currentPatchSet());
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .create();
 
-    exception.expect(InvalidPathException.class);
+    exception.expect(ResourceConflictException.class);
     exception.expectMessage("Invalid path: " + MERGE_LIST);
-    modifier.modifyFile(editUtil.byChange(cd.change()).get(), MERGE_LIST,
-        RawInputUtil.create("new content"));
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyFile(MERGE_LIST, RawInputUtil.create("new content"));
   }
 
   @Test
   public void deleteMergeList() throws Exception {
-    ChangeData cd = getOnlyElement(queryProvider.get().byKeyPrefix(changeId));
-    modifier.createEdit(cd.change(), cd.currentPatchSet());
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .create();
 
-    exception.expect(InvalidChangeOperationException.class);
+    exception.expect(ResourceConflictException.class);
     exception.expectMessage("no changes were made");
-    modifier.deleteFile(editUtil.byChange(cd.change()).get(), MERGE_LIST);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .deleteFile(MERGE_LIST);
   }
 
   private String getMergeListContent(RevCommit... commits) {

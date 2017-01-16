@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d37948_35cab026",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-16T07:29:08Z",
+      "side": 1,
+      "message": "Just initialize the key here once?\n\n... \u003d PropertyKey.create()",
+      "revId": "5c847e515fb313d9eb89bd6dfd84cb3cead8584c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_56fbf450",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-16T07:29:08Z",
+      "side": 1,
+      "message": "Why do we need to generate a new property key each time that last login external ID is set? If we do this and call this method 5 times we end up with 5 key + values in the properties map :(",
+      "revId": "5c847e515fb313d9eb89bd6dfd84cb3cead8584c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

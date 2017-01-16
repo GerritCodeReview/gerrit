@@ -106,9 +106,23 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.owned = owned;
   }
 
-  @Option(name = "--query", aliases = {"-q"}, usage = "group to inspect")
-  public void addGroup(AccountGroup.UUID id) {
-    groupsToInspect.add(id);
+
+  /**
+   * Add a group to inspect.
+   *
+   * @param uuid UUID of the group
+   * @deprecated use {@link #addGroup(AccountGroup.UUID)}.
+   */
+  @Deprecated
+  @Option(name = "--query", aliases = {"-q"},
+      usage = "group to inspect (deprecated: use --group/-g instead)")
+  void addGroup_Deprecated(AccountGroup.UUID uuid) {
+    addGroup(uuid);
+  }
+
+  @Option(name = "--group", aliases = {"-g"}, usage = "group to inspect")
+  public void addGroup(AccountGroup.UUID uuid) {
+    groupsToInspect.add(uuid);
   }
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",

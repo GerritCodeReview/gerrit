@@ -59,7 +59,7 @@ public class GroupMap extends NativeMap<GroupInfo> {
   }
 
   public static void myOwned(String groupName, AsyncCallback<GroupMap> cb) {
-    myOwnedGroups().addParameter("q", groupName).get(
+    myOwnedGroups().addParameter("g", groupName).get(
         NativeMap.copyKeysIntoChildren(cb));
   }
 

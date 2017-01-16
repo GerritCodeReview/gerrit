@@ -22,6 +22,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NeedsParams;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -69,7 +70,13 @@ public class GroupsCollection implements
   }
 
   @Override
-  public void setParams(Multimap<String, String> params) {
+  public void setParams(Multimap<String, String> params)
+      throws BadRequestException {
+    if (params.containsKey("query") && params.containsKey("query2")) {
+      throw new BadRequestException(
+          "\"query\" and \"query2\" options are mutually exclusive");
+    }
+
     // The --query2 option is defined in QueryGroups
     this.hasQuery2 = params.containsKey("query2");
   }

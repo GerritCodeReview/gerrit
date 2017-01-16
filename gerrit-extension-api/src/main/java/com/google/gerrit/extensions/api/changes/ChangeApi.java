@@ -132,8 +132,23 @@ public interface ChangeApi {
   ChangeInfo get() throws RestApiException;
   /** {@code get} with {@link ListChangesOption} set to none. */
   ChangeInfo info() throws RestApiException;
-  /** Retrieve change edit when exists. */
+
+  /**
+   * Retrieve change edit when exists.
+   *
+   * @deprecated Replaced by {@link ChangeApi#edit()} in combination with
+   * {@link ChangeEditApi#get()}.
+   */
+  @Deprecated
   EditInfo getEdit() throws RestApiException;
+
+  /**
+   * Provides access to an API regarding the change edit of this change.
+   *
+   * @return a {@code ChangeEditApi} for the change edit of this change
+   * @throws RestApiException if the API isn't accessible
+   */
+  ChangeEditApi edit() throws RestApiException;
 
   /**
    * Set hashtags on a change
@@ -353,6 +368,11 @@ public interface ChangeApi {
 
     @Override
     public EditInfo getEdit() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeEditApi edit() {
       throw new NotImplementedException();
     }
 

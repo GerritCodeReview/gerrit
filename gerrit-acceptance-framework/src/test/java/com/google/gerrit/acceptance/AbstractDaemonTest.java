@@ -699,9 +699,12 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().id(id).get();
   }
 
-  protected EditInfo getEdit(String id)
+  protected Optional<EditInfo> getEdit(String id)
       throws RestApiException {
-    return gApi.changes().id(id).getEdit();
+    return gApi.changes()
+        .id(id)
+        .edit()
+        .get();
   }
 
   protected ChangeInfo get(String id, ListChangesOption... options)

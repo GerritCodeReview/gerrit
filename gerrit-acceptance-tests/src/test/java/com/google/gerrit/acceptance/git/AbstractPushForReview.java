@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
+import static com.google.gerrit.extensions.common.EditInfoSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -77,6 +78,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -376,18 +378,20 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushForMasterAsEdit() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
-    EditInfo edit = getEdit(r.getChangeId());
-    assertThat(edit).isNull();
+    Optional<EditInfo> edit = getEdit(r.getChangeId());
+    assertThat(edit).isAbsent();
 
     // specify edit as option
     r = amendChange(r.getChangeId(), "refs/for/master%edit");
     r.assertOkStatus();
     edit = getEdit(r.getChangeId());
-    assertThat(edit).isNotNull();
+    assertThat(edit).isPresent();
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    EditInfo editInfo = edit.get();
     r.assertMessage("Updated Changes:\n  "
         + canonicalWebUrl.get()
         + r.getChange().getId()
-        + " " + edit.commit.subject + " [EDIT]\n");
+        + " " + editInfo.commit.subject + " [EDIT]\n");
   }
 
   @Test

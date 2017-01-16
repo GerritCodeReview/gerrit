@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -40,7 +41,6 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
-import com.google.gerrit.server.change.ChangeEdits;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.Check;
@@ -113,9 +113,9 @@ class ChangeApiImpl implements ChangeApi {
   private final ListChangeComments listComments;
   private final ListChangeRobotComments listChangeRobotComments;
   private final ListChangeDrafts listDrafts;
+  private final ChangeEditApiImpl.Factory changeEditApi;
   private final Check check;
   private final Index index;
-  private final ChangeEdits.Detail editDetail;
   private final Move move;
 
   @Inject
@@ -145,9 +145,9 @@ class ChangeApiImpl implements ChangeApi {
       ListChangeComments listComments,
       ListChangeRobotComments listChangeRobotComments,
       ListChangeDrafts listDrafts,
+      ChangeEditApiImpl.Factory changeEditApi,
       Check check,
       Index index,
-      ChangeEdits.Detail editDetail,
       Move move,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
@@ -176,9 +176,9 @@ class ChangeApiImpl implements ChangeApi {
     this.listComments = listComments;
     this.listChangeRobotComments = listChangeRobotComments;
     this.listDrafts = listDrafts;
+    this.changeEditApi = changeEditApi;
     this.check = check;
     this.index = index;
-    this.editDetail = editDetail;
     this.move = move;
     this.change = change;
   }
@@ -409,12 +409,12 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public EditInfo getEdit() throws RestApiException {
-    try {
-      Response<EditInfo> edit = editDetail.apply(change);
-      return edit.isNone() ? null : edit.value();
-    } catch (IOException | OrmException e) {
-      throw new RestApiException("Cannot retrieve change edit", e);
-    }
+    return edit().get().orElse(null);
+  }
+
+  @Override
+  public ChangeEditApi edit() throws RestApiException {
+    return changeEditApi.create(change);
   }
 
   @Override

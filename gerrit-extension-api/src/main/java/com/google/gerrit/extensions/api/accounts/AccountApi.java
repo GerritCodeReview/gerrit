@@ -81,6 +81,7 @@ public interface AccountApi {
   void index() throws RestApiException;
 
   List<AccountExternalIdInfo> getExternalIds() throws RestApiException;
+  void deleteExternalIds(List<String> externalIds) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -231,6 +232,11 @@ public interface AccountApi {
 
     @Override
     public List<AccountExternalIdInfo> getExternalIds() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteExternalIds(List<String> externalIds) {
       throw new NotImplementedException();
     }
   }

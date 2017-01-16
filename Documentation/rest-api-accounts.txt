@@ -1707,6 +1707,32 @@ link:#account-external-id-info[AccountExternalIdInfo] entities.
   ]
 ----
 
+[[delete-account-external-ids]]
+=== Delete Account External IDs
+--
+'POST /accounts/link:#account-id[\{account-id\}]/external.ids:delete'
+--
+
+Delete a list of external ids for a user account. The target external ids must
+be provided as a list in the request body.
+
+Only external ids belonging to the caller may be deleted.
+
+.Request
+----
+  POST /a/accounts/self/external.ids:delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "mailto:john.doe@example.com"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[default-star-endpoints]]
 == Default Star Endpoints
 

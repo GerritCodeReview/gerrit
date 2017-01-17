@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d6bd38_56abf4c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "This sounds like validation happens after the ref is updated, but below it says that the validation is actually done right before the ref update. Maybe you can make this clearer here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_950f4418",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "nit: long lines, please wrap lines at 80 chars",
+      "range": {
+        "startLine": 164,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 3
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_16a57cee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "2017?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_d59edca7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "broken sentence?",
+      "range": {
+        "startLine": 29,
+        "startChar": 34,
+        "endLine": 30,
+        "endChar": 45
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_15a574ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "Maybe call this just \u0027OnSubmitValidationListener\u0027.\n\nThe names in this class are a little inconsistent in regards to usage of \u0027ref\u0027 vs. \u0027branch. E.g. RefUpdateOnSubmitValidationListener and preRefUpdate(...) vs. BranchUpdateArguments and getBranchName(). Can these names be more consistent?",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_959864bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "Maybe call it just \u0027Arguments\u0027 as the hosting class provides enough context.",
+      "range": {
+        "startLine": 34,
+        "startChar": 15,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_35a870c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "Make those private final.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 26
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_f500b8eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "[optional] I wouldn\u0027t use RepoContext here and rather have explicit arguments for Project, Repository and RevWalk. RepoContext allows you to add further ReceiveCommands for the ref update, but this functionality should not be used in an extension point that only does validation. I know RepoContext as private field is not accessible and thus can\u0027t be used, but this still feels unclean to me.",
+      "range": {
+        "startLine": 40,
+        "startChar": 33,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_b60a4808",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_b50a4008",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "Should this better be ObjectId.zeroId()?",
+      "range": {
+        "startLine": 60,
+        "startChar": 53,
+        "endLine": 60,
+        "endChar": 75
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_75aee8d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "nit: missing space before \u0027{\u0027",
+      "range": {
+        "startLine": 69,
+        "startChar": 41,
+        "endLine": 69,
+        "endChar": 42
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_d605c4f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "incomplete?",
+      "range": {
+        "startLine": 77,
+        "startChar": 5,
+        "endLine": 77,
+        "endChar": 14
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_f600c0eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "nit: seems to fit into one line?",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 33
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_d505bcf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "2017?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_75f5c8d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T08:26:55Z",
+      "side": 1,
+      "message": "Can you make this an IntegrationException? ResourceConflictException is an exception on REST API level and defines the HTTP response for the client. I think it\u0027s the responsibility of a higher layer to decide how to treat validation errors. I believe MergeOp already converts IntegrationException into ResourceConflictException, so throwing IntegrationException here should be fine.",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 38
+      },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

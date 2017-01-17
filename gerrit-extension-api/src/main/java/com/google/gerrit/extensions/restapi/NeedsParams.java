@@ -28,5 +28,5 @@ public interface NeedsParams {
    *
    * @param params the request parameter
    */
-  void setParams(Multimap<String, String> params);
+  void setParams(Multimap<String, String> params) throws RestApiException;
 }

@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "03926166_ab6dc91b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-17T20:20:02Z",
+      "side": 1,
+      "message": "The _changeIdCommitMessageError is used as a param for the calculated properties in the other two. I think that should probably stay as an attribute, or it wouldto get calculated multiple times by the template.",
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a37a75f4_68be8374",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -45,6 +62,23 @@
       "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_cb7a15d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-17T20:20:02Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +128,23 @@
     },
     {
       "key": {
+        "uuid": "03926166_0ba41d49",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-17T20:20:02Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03926166_8be9ed68",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -114,6 +165,23 @@
       "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_2ba9d921",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-17T20:20:02Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +208,23 @@
     },
     {
       "key": {
+        "uuid": "03926166_ab94e9d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-17T20:20:02Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03926166_cbe3f582",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -160,6 +245,23 @@
       "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_8b972dd8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-17T20:20:02Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -84,6 +84,46 @@
       "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_08afc740",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:31:41Z",
+      "side": 1,
+      "message": "Is this check needed? It looks to me like there will always be both types present on the object. I think _processReviewerChange expects this also.",
+      "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_28b48b92",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:31:41Z",
+      "side": 1,
+      "message": "Combine these if-s:\n\n  if (obj.hasOwnProperty(prop) \u0026\u0026 obj[prop].length) { return false; }",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 534,
+        "endChar": 11
+      },
+      "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

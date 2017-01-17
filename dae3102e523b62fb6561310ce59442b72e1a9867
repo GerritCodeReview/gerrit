@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_b6bc881b",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T07:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 123,
+        "startChar": 50,
+        "endLine": 123,
+        "endChar": 51
+      },
+      "revId": "dae3102e523b62fb6561310ce59442b72e1a9867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03c9819c_33cac826",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 2
@@ -36,6 +59,29 @@
       "writtenOn": "2017-01-17T00:09:50Z",
       "side": 1,
       "message": "Add",
+      "range": {
+        "startLine": 111,
+        "startChar": 5,
+        "endLine": 111,
+        "endChar": 9
+      },
+      "revId": "dae3102e523b62fb6561310ce59442b72e1a9867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_d5693cd3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-17T07:02:19Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 111,
         "startChar": 5,

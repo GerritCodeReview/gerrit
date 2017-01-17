@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "a33b5559_0093c640",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T21:28:02Z",
+      "side": 1,
+      "message": "Ah, right you are. That\u0027s my mistake on `_changeIdCommitMessageError`.",
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a37a75f4_68be8374",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63323d89_3682d8ec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T22:04:17Z",
+      "side": 1,
+      "message": "This looks unrelated.",
+      "revId": "28becf3b7c90bd8e80f5991158e381e753697875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_809fd63f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T22:04:17Z",
+      "side": 1,
+      "message": "Consider putting the span on its own line to make it a little easier to read:\n\n\u003cdiv class\u003d\"changeId\" hidden$\u003d\"[[!_changeIdCommitMessageError]]\"\u003e\n  \u003chr\u003e\n  Change-Id:\n  \u003cspan\n      class$\u003d\"[[_computeChangeIdClass(_changeIdCommitMessageError)]]\"\n      title$\u003d\"[[_computeTitleAttributeWarning(_changeIdCommitMessageError)]]\"\u003e\n    [[_change.change_id]]\n  \u003c/span\u003e\n\u003c/div\u003e",
+      "range": {
+        "startLine": 307,
+        "startChar": 14,
+        "endLine": 312,
+        "endChar": 20
+      },
+      "revId": "28becf3b7c90bd8e80f5991158e381e753697875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

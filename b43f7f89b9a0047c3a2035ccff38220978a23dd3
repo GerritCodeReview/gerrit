@@ -99,6 +99,23 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_1691fc70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/DeleteFileModification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T10:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_35d63033",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
         "patchSetId": 2

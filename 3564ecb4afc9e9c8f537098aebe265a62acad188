@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d37948_35199033",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-17T11:02:55Z",
+      "side": 1,
+      "message": "During the last week I had several such cases and questions from Gerrit users... and today I see your proposal on how to approach this issue :-)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_9652acd0",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-17T11:02:55Z",
+      "side": 1,
+      "message": "The whole proposal sounds good to me. I like the concept of private change and how the edits are used.",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

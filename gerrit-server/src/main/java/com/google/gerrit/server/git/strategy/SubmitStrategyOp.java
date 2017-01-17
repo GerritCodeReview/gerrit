@@ -48,6 +48,7 @@ import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.SubmoduleException;
+import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -138,6 +139,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         firstNonNull(tipBefore, ObjectId.zeroId()),
         tipAfter,
         getDest().get());
+    validateRefUpdate(ctx, tipBefore, tipAfter);
     ctx.addRefUpdate(command);
     args.submoduleOp.addBranchTip(getDest(), tipAfter);
   }
@@ -156,6 +158,14 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
             + getProject(), e);
       }
     }
+  }
+
+  private void validateRefUpdate(RepoContext ctx, ObjectId currentTip,
+      ObjectId newTip) throws IntegrationException, IOException {
+    args.onSubmitValidatorsFactory.create()
+        .validateBranchUpdate(new OnSubmitValidationListener.Arguments(
+            ctx.getProject(), ctx.getRepository(), getDest(), currentTip,
+            newTip, ctx.getRevWalk()));
   }
 
   private CodeReviewCommit getAlreadyMergedCommit(RepoContext ctx)

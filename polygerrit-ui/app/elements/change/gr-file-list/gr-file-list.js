@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -589,7 +589,7 @@
 
         var files = Polymer.dom(this.root).querySelectorAll('.file-row');
         this.$.fileCursor.stops = files;
-        this.$.fileCursor.setCursorAtIndex(this.selectedIndex);
+        this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
       }.bind(this), 1);
     },
 

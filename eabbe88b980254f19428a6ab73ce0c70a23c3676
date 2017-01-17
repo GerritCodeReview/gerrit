@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a33b5559_00bae6b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-17T23:00:12Z",
+      "side": 1,
+      "message": "Consider fixing this formatting before merge.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "eabbe88b980254f19428a6ab73ce0c70a23c3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63323d89_56a2f48b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-17T23:00:12Z",
+      "side": 1,
+      "message": "Why this color in particular?",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 22
+      },
+      "revId": "eabbe88b980254f19428a6ab73ce0c70a23c3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_a0be9aa1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-17T23:00:12Z",
+      "side": 1,
+      "message": "Super nit: In general, you dont _need_ else statements if the if block is just a simple return. Consider maybe getting rid of the elses to save vertical space.",
+      "range": {
+        "startLine": 567,
+        "startChar": 6,
+        "endLine": 573,
+        "endChar": 7
+      },
+      "revId": "eabbe88b980254f19428a6ab73ce0c70a23c3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

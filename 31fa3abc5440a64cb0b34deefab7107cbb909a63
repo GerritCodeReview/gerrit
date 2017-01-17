@@ -22,6 +22,29 @@
       "revId": "31fa3abc5440a64cb0b34deefab7107cbb909a63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_c075de35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-17T20:21:05Z",
+      "side": 1,
+      "message": "This strikes me as risky. Handing a RevWalk to a plugin is giving it license to reset it, mark new start commits, set other options, etc. If any other parts of the MergeOp path are depending on this walk having some accumulated state, passing in the RevWalk is asking for trouble.\n\nMaybe pass in a new CodeReviewRevWalk per listener that shares ObjectReaders with the one from the context?",
+      "range": {
+        "startLine": 168,
+        "startChar": 20,
+        "endLine": 168,
+        "endChar": 36
+      },
+      "revId": "31fa3abc5440a64cb0b34deefab7107cbb909a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

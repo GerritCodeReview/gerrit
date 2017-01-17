@@ -15,6 +15,11 @@
   'use strict';
 
   // Maximum length for patch set descriptions.
+  var CHANGE_ID_ERROR = {
+    MISMATCH: 'mismatch',
+    MISSING: 'missing',
+  };
+  var CHANGE_ID_REGEX_PATTERN = /^Change-Id\:\s(I[0-9a-f]{8,40})/gm;
   var PATCH_DESC_MAX_LENGTH = 500;
   var REVIEWERS_REGEX = /^R=/gm;
 
@@ -81,6 +86,11 @@
       _latestCommitMessage: {
         type: String,
         value: '',
+      },
+      _changeIdCommitMessageError: {
+        type: String,
+        computed:
+          '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
       },
       _patchRange: {
         type: Object,
@@ -547,6 +557,46 @@
         statusString = this.changeStatusString(change);
       }
       return statusString ? ' (' + statusString + ')' : '';
+    },
+
+    _computeChangeIdClass: function(displayChangeId) {
+      return displayChangeId === CHANGE_ID_ERROR.MISMATCH ? 'warning' : '';
+    },
+
+    _computeTitleAttributeWarning: function(displayChangeId) {
+      if (displayChangeId === CHANGE_ID_ERROR.MISMATCH) {
+        return 'Change-Id mismatch';
+      } else if (displayChangeId === CHANGE_ID_ERROR.MISSING) {
+        return 'No Change-Id in commit message';
+      } else {
+        return '';
+      }
+    },
+
+    _computeChangeIdCommitMessageError: function(commitMessage, change) {
+      if (!commitMessage) { return CHANGE_ID_ERROR.MISSING; }
+
+      // Find the last match in the commit message:
+      var changeId;
+      var changeIdArr;
+
+      while ((changeIdArr =
+          CHANGE_ID_REGEX_PATTERN.exec(commitMessage)) !== null) {
+        changeId = changeIdArr[1];
+      }
+
+      if (changeId) {
+        // A change-id is detected in the commit message.
+
+        if (changeId === change.change_id) {
+          // The change-id found matches the real change-id.
+          return null;
+        }
+        // The change-id found does not match the change-id.
+        return CHANGE_ID_ERROR.MISMATCH;
+      }
+      // There is no change-id in the commit message.
+      return CHANGE_ID_ERROR.MISSING;
     },
 
     _computeLatestPatchNum: function(allPatchSets) {

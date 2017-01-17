@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -102,19 +103,19 @@ public class SchemaUtil {
   public static Set<String> getNameParts(String name,
       Iterable<String> emails) {
     Splitter at = Splitter.on('@');
-    Splitter s = Splitter.on(CharMatcher.anyOf("@.- ")).omitEmptyStrings();
+    Splitter s = Splitter.on(CharMatcher.anyOf("@.- /_")).omitEmptyStrings();
     HashSet<String> parts = new HashSet<>();
     for (String email : emails) {
       if (email == null) {
         continue;
       }
-      String lowerEmail = email.toLowerCase();
+      String lowerEmail = email.toLowerCase(Locale.US);
       parts.add(lowerEmail);
       Iterables.addAll(parts, at.split(lowerEmail));
       Iterables.addAll(parts, s.split(lowerEmail));
     }
     if (name != null) {
-      Iterables.addAll(parts, s.split(name.toLowerCase()));
+      Iterables.addAll(parts, s.split(name.toLowerCase(Locale.US)));
     }
     return parts;
   }

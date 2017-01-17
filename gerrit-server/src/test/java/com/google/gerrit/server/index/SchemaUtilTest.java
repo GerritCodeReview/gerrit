@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.index.SchemaUtil.getNameParts;
 import static com.google.gerrit.server.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.server.index.SchemaUtil.schema;
 
@@ -67,5 +68,12 @@ public class SchemaUtilTest extends GerritBaseTests {
             "foo", "j", "bar",
             "ba-z@example.com", "ba-z", "ba", "z",
             "example.com", "example", "com");
+  }
+
+  @Test
+  public void getNamePartsExtractsParts() {
+    assertThat(getNameParts("")).isEmpty();
+    assertThat(getNameParts("foO-bAr_Baz a.b@c/d"))
+        .containsExactly("foo", "bar", "baz", "a", "b", "c", "d");
   }
 }

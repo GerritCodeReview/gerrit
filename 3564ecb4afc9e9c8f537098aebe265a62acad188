@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_16169c01",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-17T12:31:42Z",
+      "side": 1,
+      "message": "Cool :)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_750f08e8",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -36,6 +59,29 @@
       "writtenOn": "2017-01-17T12:28:10Z",
       "side": 1,
       "message": "what does \u0027staging\u0027 mean?  What is the purpose of staging?",
+      "range": {
+        "startLine": 37,
+        "startChar": 20,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d37948_75bdc8c3",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-17T12:31:42Z",
+      "side": 1,
+      "message": "Staging means an environment where they can prepare changes before other people see them. When they are satisfied, they want to make their changes visible to others.",
       "range": {
         "startLine": 37,
         "startChar": 20,

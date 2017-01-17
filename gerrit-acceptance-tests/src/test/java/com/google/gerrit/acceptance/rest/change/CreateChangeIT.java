@@ -43,8 +43,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
+import com.google.gerrit.testutil.TestTimeUtil;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a33b5559_e0db4200",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T23:23:09Z",
+      "side": 1,
+      "message": "Would it be more accurate to say ...\n\n  Capture and report JS exceptions through GR-REPORTING\n\n... since this only applies to GA specifically when it\u0027s wired-in via a plugin?",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_20b36ad8",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T23:23:09Z",
+      "side": 1,
+      "message": "These are concise, but unusual and a bit hard to read. It uses both `||` and `\u0026\u0026` operators but not for a boolean expression. (Scanning over the code, one might reasonably expect that `line` will be a boolean.)\n\nWhat about the following instead?\n\n  if (!line \u0026\u0026 error) { line \u003d error.lineNumber; }\n\nSame for `column` and `msg`.",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 45
+      },
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63323d89_3699785a",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T23:23:09Z",
+      "side": 1,
+      "message": "Why is this a global, rather than a private method on `window.GrReporting`?",
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63323d89_169c7c49",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T23:23:09Z",
+      "side": 1,
+      "message": "Why use this function rather than just invoke `fakeWindow.onerror`?",
+      "range": {
+        "startLine": 178,
+        "startChar": 10,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

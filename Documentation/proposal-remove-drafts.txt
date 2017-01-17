@@ -1,0 +1,102 @@
+= Replace Drafts with Edits and Private Changes
+
+Last update: 2016-12-06, first proposed: 2016-12-06
+By: ekempin@google.com, hiesel@google.com
+Status: Draft
+
+== Background
+
+Drafts in Gerrit has grown over time and is essentially serving two different
+purposes: Having a staging environment for both changes and patch sets as well
+as providing a way to review a change in private. Both of these purposes are
+served poorly and the system has multiple flaws:
+
+* Users think they are creating a draft and add reviewers thinking they will
+  only be notified once the change is published, which is not true as these
+  reviewers are notified and able to see the change immediately
+
+* Users create draft patch sets on public changes either for staging their
+  change or by accident which leads to a gap in the patch set number for users
+  who are not reviewers. This confuses users and at the same time does not serve
+  any purpose as existing reviewers would immediately get notified about a new
+  draft patch set and non-reviewers could just add themselves as reviewers and
+  also see the draft patch set.
+
+* Draft patch sets can be fetched using git as we can’t enforce ACL checks for
+  performance reasons when advertising refs
+
+* When doing a private review for security reasons, the change must be published
+  before it can be submitted
+
+== Objective and Requirements
+
+There have been multiple failed attempts to improve the review system and we
+want provide a proper solution now. We define the following requirements that
+need to be addressed by the new system:
+
+* Users must have a staging environment for a change when creating a new change
+
+* Users must have a staging environment for a patch set when uploading to an
+  existing change.
+
+* Users must be able to push to those staging environments using git push
+
+* Users must be able to do a private review (e.g. for security-critical fixes)
+  and have a way to collaborate on a private change just as they have on a
+  public one.
+
+* Users should have the option to keep a change (i.e. the discussion and
+  reviews) private after a private change is merged.
+
+== Design Proposal
+
+We will remove the drafts state from the Change entity and the draft bit from
+the PatchSet entity. We will introduce a new ‘private’ bit on the Change entity
+that signals that this change is only available to invited reviewers. The
+difference to the draft state is that ‘private’ isn’t a state but an attribute
+and will stick even if the change was merged.
+
+In addition we introduce a new permission to control who is allowed to submit
+private changes as this is in general more sensitive than submitting a public
+change.
+
+We will use Change Edits as a staging environment for new patch sets on both
+public and private changes. This means users can push a new patch set into
+staging using git or the web UI. The difference to draft patch sets is that
+users can only have one change edit on that change at a time. This will be
+overwritten on a new push. They can publish their edit once they are satisfied.
+This will then trigger notifications to be send at publish time.
+
+This proposal addresses all requirements:
+
+* Staging Environment for Change: Users can start with a private change to have
+  a staging environment and then change it to be public.
+
+* Staging Environment for Patch Set: Users can use Change Edits to stage a patch
+set.
+
+* Git Push for Staging Environment: We keep refs/edits/branch which creates a
+  new change edit or overwrites an existing one. In addition, users can use the
+  --private flag to create a private change.
+
+* Private Reviews: Handled by new private attribute.
+
+* Private Merged Change: Handled by new private bit attribute.
+
+
+== Migration
+We will migrate existing changes using a Schema Migration according to the
+following criteria:
+Change is in state DRAFT: Set private bit and change state to NEW
+Change is in any state and has at least one draft patch set: Set private bit and
+remove draft bit from all draft patch sets. This means if several users have
+draft patch sets on the same change they can see each others draft patch sets
+after the migration is done.
+Once the migration is done, we will remove the drafts state/bit from the code
+base.
+
+== Alternatives Considered
+
+* Keeping the current systems and remove draft patch sets
+  Downside: Users don’t have a staging environment for patch sets anymore.
+

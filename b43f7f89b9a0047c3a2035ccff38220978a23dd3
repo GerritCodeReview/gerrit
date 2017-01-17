@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "43d37948_7521486d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "Could be just:\n\n  ObjectId newTree \u003d new TreeModifier(prevEdit.getTree()).apply(repository, modification);",
+      "range": {
+        "startLine": 341,
+        "startChar": 6,
+        "endLine": 343,
+        "endChar": 65
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_b5548036",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/DeleteFileModification.java",
         "patchSetId": 2
@@ -70,6 +93,253 @@
       "writtenOn": "2017-01-17T07:19:50Z",
       "side": 1,
       "message": "+1",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_35d63033",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "I think TreeModifier better reflects what it\u0027s done with Git tree in the context of Change Edit. We always operate on existing tree, that represents base watch set. In this directory all other names have modify/modification in its name. It was also extracted from ChangeEditModifier class.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 24
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_f6856032",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "Why the list of modifications? We only need one single modification, that can contains multiple path edits. Sounds like a YAGNI to me.",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 78
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_9684ec33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "Arguably, it\u0027s no needed to be an instance of this class. createNewTreeAndGetId() could be extended with new parameter: modification.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_36d63833",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "Just modify or apply?",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_f65e80f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "To avoid abuse of this class, and bother to check the pre condition, that treeModification was actually set, just pass it in. Then the caller would be a one liner:\n\n  return new TreeModifier(baseTree).apply(repository, modification);",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_966d0cae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "Can be inlined as it\u0027s only, used here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 37
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_56d9b462",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "Just getPathEdits().",
+      "range": {
+        "startLine": 92,
+        "startChar": 40,
+        "endLine": 92,
+        "endChar": 59
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_75dca854",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 96,
+        "startChar": 40,
+        "endLine": 96,
+        "endChar": 61
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_56709482",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 9
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_75738891",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "private static",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 9
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_55708c82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-17T10:00:29Z",
+      "side": 1,
+      "message": "I would rather swap the order of vars so that Repository is the first one.",
+      "range": {
+        "startLine": 108,
+        "startChar": 33,
+        "endLine": 108,
+        "endChar": 69
+      },
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

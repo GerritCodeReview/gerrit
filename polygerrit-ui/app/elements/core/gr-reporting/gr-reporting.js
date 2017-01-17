@@ -30,12 +30,40 @@
     PAGE: 'Page',
   };
 
+  var ERROR = {
+    TYPE: 'error',
+    CATEGORY: 'exception',
+  };
+
   var CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
   var DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
 
   var pending = [];
 
-  Polymer({
+  var onError = function(oldOnError, msg, url, line, column, error) {
+    if (oldOnError) {
+      oldOnError(msg, url, line, column, error);
+    }
+    if (error) {
+      line = line || error.lineNumber;
+      column = column || error.columnNumber;
+      msg = msg || error.toString();
+    }
+    var payload = {
+      url: url,
+      line: line,
+      column: column,
+      error: error,
+    };
+    GrReporting.prototype.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
+    return true;
+  };
+
+  var catchErrors = function(context) {
+  };
+  catchErrors();
+
+  var GrReporting = Polymer({
     is: 'gr-reporting',
 
     properties: {
@@ -67,10 +95,17 @@
         value: eventValue,
       };
       document.dispatchEvent(new CustomEvent(type, {detail: detail}));
-      console.log(eventName + ': ' + eventValue);
+      if (type === ERROR.TYPE) {
+        console.error(eventValue.error);
+      } else {
+        console.log(eventName + ': ' + eventValue);
+      }
     },
 
     cachingReporter: function(type, category, eventName, eventValue) {
+      if (type === ERROR.TYPE) {
+        console.error(eventValue.error);
+      }
       if (Gerrit._arePluginsLoaded()) {
         if (pending.length) {
           pending.splice(0).forEach(function(args) {
@@ -150,4 +185,8 @@
       delete this._baselines[name];
     },
   });
+
+  // Expose onerror installation so it would be accessible from tests.
+  window.catchErrors = catchErrors;
+  window.GrReporting = GrReporting;
 })();

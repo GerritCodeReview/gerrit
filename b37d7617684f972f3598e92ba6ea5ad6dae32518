@@ -22,6 +22,23 @@
       "revId": "b37d7617684f972f3598e92ba6ea5ad6dae32518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_c0c39e1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T23:01:59Z",
+      "side": 1,
+      "message": "No, not really.",
+      "revId": "b37d7617684f972f3598e92ba6ea5ad6dae32518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -139,6 +139,29 @@
     },
     {
       "key": {
+        "uuid": "03c9819c_935f5c82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-17T11:00:51Z",
+      "side": 1,
+      "message": "\u003e We always operate on existing tree, that represents base watch set\n\nIs it not possible to create an edit on an empty repository, i.e. created without initial empty commit.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 24
+      },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_f6856032",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
         "patchSetId": 2

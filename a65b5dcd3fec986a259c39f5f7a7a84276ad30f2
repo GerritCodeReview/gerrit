@@ -138,6 +138,23 @@
     },
     {
       "key": {
+        "uuid": "03926166_8b700df5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-17T19:56:11Z",
+      "side": 1,
+      "message": "Leaving as-is, then.",
+      "revId": "a65b5dcd3fec986a259c39f5f7a7a84276ad30f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37a75f4_28b48b92",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 5

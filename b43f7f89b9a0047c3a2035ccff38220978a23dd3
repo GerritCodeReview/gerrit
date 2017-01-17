@@ -39,6 +39,23 @@
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_557d2c82",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1595,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-17T07:28:58Z",
+      "side": 0,
+      "message": "Ah I see, makes sense to remote them then.",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

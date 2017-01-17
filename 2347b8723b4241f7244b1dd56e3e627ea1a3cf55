@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a37a75f4_88c2d7e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:54:51Z",
+      "side": 1,
+      "message": "I think it\u0027s better to use the compute expression in the HTML binding rather than declare a whole additional property. Especially since `_changeIdClass` is never used by the element\u0027s JS and the dependency list is not very long.\n\nThe same for `_titleAttributeWarning` and `_changeIdCommitMessageError`.",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 70
+      },
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_68be8374",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:54:51Z",
+      "side": 1,
+      "message": "Nit: I think this is better suited to if-else-if-else chain than a switch, but I don\u0027t feel strongly.",
+      "range": {
+        "startLine": 571,
+        "startChar": 6,
+        "endLine": 571,
+        "endChar": 32
+      },
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_6bd5a198",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:54:51Z",
+      "side": 1,
+      "message": "These switch cases are indented too far.",
+      "range": {
+        "startLine": 573,
+        "startChar": 12,
+        "endLine": 573,
+        "endChar": 40
+      },
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_a8bf9b6b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:54:51Z",
+      "side": 1,
+      "message": "Can this just fast-fail with:\n\n  if (!commitMessage) { return \u0027missing\u0027; }",
+      "range": {
+        "startLine": 582,
+        "startChar": 6,
+        "endLine": 582,
+        "endChar": 42
+      },
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_8be9ed68",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:54:51Z",
+      "side": 1,
+      "message": "Putting the assignment inside the loop condition can be hard to read. Also, avoid declaring var-s inside a loop block. Consider a do-while here:\n\n  // Find the last match in the commit message:\n  var changeId;\n  var match \u003d null;\n  do {\n    changeId \u003d match[1];\n    match \u003d CHANGE_ID_REGEX_PATTERN.exec(commitMessage);\n  } while (match);",
+      "range": {
+        "startLine": 583,
+        "startChar": 6,
+        "endLine": 589,
+        "endChar": 0
+      },
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_abe6a993",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:54:51Z",
+      "side": 1,
+      "message": "Nit: Can this be more explicit than returning undefined? For example ...\n\n  return null;\n\n... or ...\n\n  return ChangeIdError.NONE;",
+      "range": {
+        "startLine": 595,
+        "startChar": 10,
+        "endLine": 595,
+        "endChar": 17
+      },
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03926166_cbe3f582",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T17:54:51Z",
+      "side": 1,
+      "message": "These strings should be encoded in an enum, for example:\n\n  var ChangeIdError \u003d {\n    MISMATCH: \u0027mismatch\u0027,\n    MISSING: \u0027missing\u0027,\n  };",
+      "range": {
+        "startLine": 598,
+        "startChar": 15,
+        "endLine": 598,
+        "endChar": 25
+      },
+      "revId": "2347b8723b4241f7244b1dd56e3e627ea1a3cf55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

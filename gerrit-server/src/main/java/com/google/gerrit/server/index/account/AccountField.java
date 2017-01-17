@@ -26,6 +26,7 @@ import com.google.gerrit.server.index.SchemaUtil;
 
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Set;
 
 /** Secondary index schemas for accounts. */
@@ -65,7 +66,7 @@ public class AccountField {
           // Additional values not currently added by getPersonParts.
           // TODO(dborowitz): Move to getPersonParts and remove this hack.
           if (fullName != null) {
-            parts.add(fullName.toLowerCase());
+            parts.add(fullName.toLowerCase(Locale.US));
           }
           return parts;
         }

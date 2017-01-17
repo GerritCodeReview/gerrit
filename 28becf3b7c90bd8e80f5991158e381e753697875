@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "63323d89_96872cf8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-17T22:34:37Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "28becf3b7c90bd8e80f5991158e381e753697875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a33b5559_809fd63f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1
@@ -39,6 +56,23 @@
       "revId": "28becf3b7c90bd8e80f5991158e381e753697875",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_209cca49",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-17T22:34:37Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "28becf3b7c90bd8e80f5991158e381e753697875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

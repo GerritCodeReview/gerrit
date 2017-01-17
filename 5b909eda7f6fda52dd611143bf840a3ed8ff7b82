@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "a37a75f4_c8f76f61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "by repo update I\u0027ve meant new commit insertion. Updated to remove confusion.",
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_950f4418",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
         "patchSetId": 1
@@ -65,6 +82,23 @@
         "endLine": 1,
         "endChar": 21
       },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_e8f4335f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "Done",
       "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +151,23 @@
     },
     {
       "key": {
+        "uuid": "03926166_cb25b511",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "removed all references of \"ref\" and changed to branch. This way it\u0027s cleaner and should provide no wrong expectation that new ref refs/changes/xx/yyyy is validated.",
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_959864bb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
         "patchSetId": 1
@@ -134,6 +185,23 @@
         "endLine": 34,
         "endChar": 36
       },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03926166_ab2869ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "Done",
       "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -203,6 +271,40 @@
     },
     {
       "key": {
+        "uuid": "a37a75f4_28564b70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_08518777",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_b50a4008",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
         "patchSetId": 1
@@ -220,6 +322,23 @@
         "endLine": 60,
         "endChar": 75
       },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a37a75f4_485b7f97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "no, i actually meant null following semantics of SubmitStrategy.arguments.mergeTip",
       "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -249,6 +368,23 @@
     },
     {
       "key": {
+        "uuid": "03926166_eb227106",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_d605c4f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
         "patchSetId": 1
@@ -266,6 +402,23 @@
         "endLine": 77,
         "endChar": 14
       },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03926166_0bafbd40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "expanded.",
       "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -295,6 +448,23 @@
     },
     {
       "key": {
+        "uuid": "a37a75f4_68604343",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_d505bcf9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidators.java",
         "patchSetId": 1
@@ -318,6 +488,23 @@
     },
     {
       "key": {
+        "uuid": "03926166_2bb47992",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_75f5c8d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidators.java",
         "patchSetId": 1
@@ -335,6 +522,23 @@
         "endLine": 36,
         "endChar": 38
       },
+      "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03926166_4bb9c589",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefUpdateOnSubmitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-17T11:49:56Z",
+      "side": 1,
+      "message": "Done",
       "revId": "5b909eda7f6fda52dd611143bf840a3ed8ff7b82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

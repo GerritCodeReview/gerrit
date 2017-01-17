@@ -463,8 +463,14 @@ public abstract class VersionedMetaData {
       try {
         rc.fromText(text);
       } catch (ConfigInvalidException err) {
-        throw new ConfigInvalidException("Invalid config file " + fileName
-            + " in commit " + revision.name(), err);
+        StringBuilder msg = new StringBuilder("Invalid config file ")
+            .append(fileName)
+            .append(" in commit ")
+            .append(revision.name());
+        if (err.getCause() != null) {
+          msg.append(": ").append(err.getCause());
+        }
+        throw new ConfigInvalidException(msg.toString(), err);
       }
     }
     return rc;

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "e3c2ad70_7a45b9ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-17T09:09:17Z",
+      "side": 1,
+      "message": "Separating it would mean adding the API in a separate change without tests.\n\nI think in this case it\u0027s better to do both in the same change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_95c18485",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
         "patchSetId": 2
@@ -36,6 +59,29 @@
       "writtenOn": "2017-01-17T08:02:49Z",
       "side": 1,
       "message": "This is the first change that I\u0027m aware of that adds IJ specific SuppressWarnings annotations. Do we have a consensus on that? Mention that in some IJ specific documentation?",
+      "range": {
+        "startLine": 588,
+        "startChar": 22,
+        "endLine": 588,
+        "endChar": 51
+      },
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c9819c_33f88852",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-17T09:09:17Z",
+      "side": 1,
+      "message": "I didn\u0027t realise that this is IntelliJ specific.\n\nWould it be better to just make a call using the default boolean assertion from the Truth library? i.e.:\n\n assertThat(edit.isPresent()).isTrue();",
       "range": {
         "startLine": 588,
         "startChar": 22,
@@ -185,6 +231,29 @@
       "writtenOn": "2017-01-17T08:02:49Z",
       "side": 1,
       "message": "Why the \"We try\" in this the comment? Wether you mimic this behaviour in the API or you don\u0027t.",
+      "range": {
+        "startLine": 231,
+        "startChar": 28,
+        "endLine": 231,
+        "endChar": 58
+      },
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3c2ad70_5a42f5a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-17T09:09:17Z",
+      "side": 1,
+      "message": "Do we know why the REST API behaves like that?  Maybe it\u0027s better to fix it such that GET does not create the resource?",
       "range": {
         "startLine": 231,
         "startChar": 28,

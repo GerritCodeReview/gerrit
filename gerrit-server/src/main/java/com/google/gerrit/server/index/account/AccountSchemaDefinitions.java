@@ -21,6 +21,7 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.SchemaDefinitions;
 
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
+  @Deprecated
   static final Schema<AccountState> V1 = schema(
       AccountField.ID,
       AccountField.ACTIVE,
@@ -30,6 +31,7 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
       AccountField.REGISTERED,
       AccountField.USERNAME);
 
+  @Deprecated
   static final Schema<AccountState> V2 =
       schema(V1, AccountField.WATCHED_PROJECT);
 

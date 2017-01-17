@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63323d89_b68ca81c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-17T22:54:43Z",
+      "side": 1,
+      "message": "Out of curiosity, is it really necessary to update this?",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "b37d7617684f972f3598e92ba6ea5ad6dae32518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

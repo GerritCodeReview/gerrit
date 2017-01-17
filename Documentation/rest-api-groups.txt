@@ -120,8 +120,13 @@ client so they are generally disabled by default. Optional fields are:
 
 ==== Check if a group is owned by the calling user
 By setting the option `owned` and specifying a group to inspect with
-the option `q`, it is possible to find out, if this group is owned by
-the calling user.
+the option `group`/`g`, it is possible to find out if this group is
+owned by the calling user.
+
+[NOTE] Earlier the `group`/`g` option was named `query`/`q`. Using
+`query`/`q` still works, but this option is deprecated and may be
+removed in future. Hence all users should be adapted to use
+`group`/`g` instead.
 
 .Request
 ----
@@ -181,8 +186,8 @@ If this option is set and `n` is not set, then `n` defaults to 10.
 When using this option, the `project` or `p` option can be used to
 name the current project, to allow context-dependent suggestions.
 
-Not compatible with `visible-to-all`, `owned`, `user`, `match`, `q`,
-or `S`.
+Not compatible with `visible-to-all`, `owned`, `user`, `match`,
+`group`, or `S`.
 (Attempts to use one of those options combined with `suggest` will
 error out.)
 
@@ -223,6 +228,11 @@ provided by the `query2` parameter. The `start` and `limit` parameters
 can be used to skip/limit results.
 
 As result a list of link:#group-info[GroupInfo] entities is returned.
+
+[NOTE] `query2` is a temporary name and in future this option may be
+renamed to `query`. `query2` was chosen to maintain backwards
+compatibility with the deprecated `query` parameter on the
+link:#list-groups[List Groups] endpoint.
 
 .Request
 ----

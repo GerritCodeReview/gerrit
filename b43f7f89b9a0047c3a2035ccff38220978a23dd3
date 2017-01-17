@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_56f3f4b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "It could but I think that is more difficult to read and understand. Right now, the code tells the reader what it does. Another good alternative I see would be:\n\n TreeCreator.baseOn(prefEdit.getTree()).modifyBy(modification).createTree();\n\nProviding such a fluent API might be nice but I don\u0027t think the boilerplate code for the builder objects is worth it for this single usage.",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_b5548036",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/DeleteFileModification.java",
         "patchSetId": 2
@@ -162,6 +179,23 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_96e06cdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "When I created the class, I called it TreeModifier. Later on, I decided to rename it because the main purpose of this class is the creation of a new tree object (and its addition to the repository). \u0027Modifier\u0027 sounds to me as if you just modify an existing tree (in place) without creating something new. I also thought about going with \u0027ModifiedTreeCreator\u0027 but found it too long.\n\nBy the way, the class could probably easily be adjusted to support the creation of trees without specifying a base tree (and hence not be a modifier). We don\u0027t need it at the moment and that\u0027s why I haven\u0027t implemented it but why limit the idea of the class?\n\nRegarding the empty repository: Change edits are always based on the patch set of a change. Even if the repository doesn\u0027t have an initial empty commit, the patch set will have it.",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_f6856032",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
         "patchSetId": 2
@@ -179,6 +213,23 @@
         "endLine": 40,
         "endChar": 78
       },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_f5c8b85c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "I know that we\u0027ll need it. ;-)\nAs soon as we want to support the \u0027Apply fix\u0027 feature and allow fixes to modify several files, we\u0027ll have several tree modifications. It\u0027s one of the reasons why I started this refactoring.",
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +259,23 @@
     },
     {
       "key": {
+        "uuid": "43d37948_f5af9885",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "Using this reasoning, why should the base tree remain a constructor parameter? We could combine everything in one static method. Consequently, this class should be just a utility helper class.\n\nI thought about that when refactoring the code and decided that I didn\u0027t want to have just another utility class. Stateless code is great when writing functional code but I don\u0027t think we should neglect all OO principles. The benefit I saw by using OO principles here is that other code parts which use this class clearly outline what is done which is:\n1. Take the specified tree as basis.\n2. Apply some modifications to it.\n3. Create a new tree object.\nOther developers who read the code hence can directly understand what happens instead of taking a look at the implementation or documentation.",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_36d63833",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
         "patchSetId": 2
@@ -231,6 +299,23 @@
     },
     {
       "key": {
+        "uuid": "43d37948_b5a92083",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "Using \u0027modify\u0027 on a Java object would imply for me that this Java object or some internals are modified. That\u0027s not the behavior of this method, though. \u0027apply\u0027 might be better but I\u0027m not really happy with it. This class isn\u0027t just an implementation of a command or action which can be applied. To me, \u0027apply\u0027 is a bit meaningless and doesn\u0027t convey the meaning that something is created. If your concern is that the method name is too long, I can abbreviate it to \u0027createNewTree\u0027 or \u0027createTree\u0027. I only added the last part because the method doesn\u0027t return a RevTree which I would expect from the name but I\u0027d rather remove that part than change the name into something meaningless.",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_f65e80f8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
         "patchSetId": 2
@@ -242,6 +327,23 @@
       "writtenOn": "2017-01-17T10:00:29Z",
       "side": 1,
       "message": "To avoid abuse of this class, and bother to check the pre condition, that treeModification was actually set, just pass it in. Then the caller would be a one liner:\n\n  return new TreeModifier(baseTree).apply(repository, modification);",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_d5b49cdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "Please see my remark above.\n\nBesides, I don\u0027t think that we need to prevent an abuse of this class. If no tree modification was specified, the resulting tree will be the base tree. If we were concerned about performance for this unused edge case, we could introduce a shortcut. However, I don\u0027t think that\u0027s necessary at the moment.",
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -271,6 +373,23 @@
     },
     {
       "key": {
+        "uuid": "43d37948_550c0cf1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "I could inline it but I rather write code which can be read like a story from top to bottom.",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_56d9b462",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
         "patchSetId": 2
@@ -288,6 +407,23 @@
         "endLine": 92,
         "endChar": 59
       },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_3542b0fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "Done",
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -317,6 +453,23 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_362bd84f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_56709482",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
         "patchSetId": 2
@@ -334,6 +487,23 @@
         "endLine": 101,
         "endChar": 9
       },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_d65824f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "Done. I know that there have been long discussions on the web whether private helper methods without instance variables should be static or not. Up to now, I see more advantages to not have them static. What are your reasons for preferring static methods?",
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -380,6 +550,23 @@
         "endLine": 108,
         "endChar": 69
       },
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43d37948_153fb483",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T13:42:14Z",
+      "side": 1,
+      "message": "Done",
       "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

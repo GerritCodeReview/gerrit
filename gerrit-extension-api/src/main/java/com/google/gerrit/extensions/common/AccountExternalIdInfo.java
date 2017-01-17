@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.common;
 
 import com.google.common.collect.ComparisonChain;
 
+import java.util.Objects;
+
 public class AccountExternalIdInfo
     implements Comparable<AccountExternalIdInfo> {
   public String identity;
@@ -29,5 +31,17 @@ public class AccountExternalIdInfo
         .compare(a.identity, identity)
         .compare(a.emailAddress, emailAddress)
         .result();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof  AccountExternalIdInfo) {
+      AccountExternalIdInfo a = (AccountExternalIdInfo) o;
+      return (Objects.equals(a.identity, identity))
+          && (Objects.equals(a.emailAddress, emailAddress))
+          && (Objects.equals(a.trusted, trusted))
+          && (Objects.equals(a.canDelete, canDelete));
+    }
+    return false;
   }
 }

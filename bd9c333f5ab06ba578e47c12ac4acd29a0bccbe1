@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63323d89_7678502c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-17T21:28:02Z",
+      "side": 1,
+      "message": "Nit: I suspect the `!\u003d\u003d null` is not needed.",
+      "range": {
+        "startLine": 584,
+        "startChar": 54,
+        "endLine": 584,
+        "endChar": 63
+      },
+      "revId": "bd9c333f5ab06ba578e47c12ac4acd29a0bccbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

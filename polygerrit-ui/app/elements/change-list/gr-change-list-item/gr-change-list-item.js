@@ -19,16 +19,6 @@
 
     properties: {
       visibleChangeTableColumns: Array,
-      selected: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      needsReview: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
       labelNames: {
         type: Array,
       },

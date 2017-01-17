@@ -130,7 +130,7 @@ limitations under the License.
       assert.equal(elementItems.length, 3);
 
       flush(function() {
-        assert.isTrue(elementItems[0].selected);
+        assert.isTrue(elementItems[0].hasAttribute('selected'));
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
@@ -407,6 +407,34 @@ limitations under the License.
       assert(showStub.lastCall.calledWithExactly('/c/4/'),
           'Should navigate to /c/4/');
       showStub.restore();
+    });
+
+    test('assigned attribute set in each item', function() {
+      element.changes = [
+        {
+          _number: 0,
+          status: 'NEW',
+          owner: {_account_id: 0},
+        },
+        {
+          _number: 1,
+          status: 'DRAFT',
+          owner: {_account_id: 42},
+        },
+        {
+          _number: 2,
+          status: 'ABANDONED',
+          owner: {_account_id: 0},
+        },
+      ];
+      element.account = {_account_id: 42};
+      flushAsynchronousOperations();
+      var items = element._getListItems();
+      assert.equal(items.length, 3);
+      for (var i = 0; i < items.length; i++) {
+        assert.equal(items[i].hasAttribute('assigned'),
+            items[i]._account_id === element.account._account_id);
+      }
     });
   });
 </script>

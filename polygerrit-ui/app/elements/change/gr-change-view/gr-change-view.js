@@ -726,6 +726,9 @@
         // If the change was rebased, we need to reload the related changes.
         if (e.detail.action === 'rebase') {
           this.$.relatedChanges.reload();
+          this.set('_patchRange.patchNum',
+              this._computeLatestPatchNum(this._allPatchSets));
+          this._updateSelected();
         }
       }.bind(this));
     },
@@ -942,6 +945,6 @@
       return !(loggedIn && (account._account_id === change.owner._account_id));
     },
 
-    _computeReplyDisabled: function() { return false; }
+    _computeReplyDisabled: function() { return false; },
   });
 })();

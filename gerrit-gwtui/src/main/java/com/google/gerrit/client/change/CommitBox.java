@@ -132,7 +132,7 @@ class CommitBox extends Composite {
   }
 
   private void setWebLinks(FlowPanel panel, CommitInfo commit) {
-    JsArray<WebLinkInfo> links = commit.webLinks();
+      JsArray<WebLinkInfo> links = commit.webLinks();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
         panel.add(link.toAnchor());

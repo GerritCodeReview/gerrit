@@ -71,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_d68a6442",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T10:10:23Z",
+      "side": 1,
+      "message": "That\u0027s exactly the reason why I combined them.\n\n@David O.: If you rather have two separate changes, I can easily create the follow-up one.  So, what do you prefer?",
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_95c18485",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
         "patchSetId": 2
@@ -117,6 +134,23 @@
     },
     {
       "key": {
+        "uuid": "43d37948_b536c0b8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T10:10:23Z",
+      "side": 1,
+      "message": "I\u0027d rather remove the SuppressWarnings and live with the IntelliJ warnings. That code has two drawbacks: the error message is not as specific and readability is a bit reduced. It\u0027s hardly better than writing assertTrue(edit.isPresent()) using plain JUnit. In my opinion, we should really use the capabilities of the Truth library if we use it for tests.",
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_15ce94b0",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
         "patchSetId": 2
@@ -140,6 +174,23 @@
     },
     {
       "key": {
+        "uuid": "43d37948_f5855832",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T10:10:23Z",
+      "side": 1,
+      "message": "I wrote that so that a user of the API has at least a notion of a change edit. If that is too vague for you, I\u0027d rather describe their different behavior in more detail instead of leaking implementation details.",
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_b593609e",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
         "patchSetId": 2
@@ -157,6 +208,23 @@
         "endLine": 70,
         "endChar": 61
       },
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_76f5d0d2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T10:10:23Z",
+      "side": 1,
+      "message": "Done",
       "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -243,6 +311,23 @@
     },
     {
       "key": {
+        "uuid": "63d6bd38_56f2d4ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T10:10:23Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_d69ee4a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
         "patchSetId": 2
@@ -306,6 +391,40 @@
         "endLine": 231,
         "endChar": 58
       },
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_36ff58b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T10:10:23Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d6bd38_769a7093",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-17T10:10:23Z",
+      "side": 1,
+      "message": "As I understood it, we need that special behavior because of the way the URLs for \u0027Modify file\u0027 and \u0027Delete file\u0027 are designed. The other cases which David O. mentioned also create a change edit on the fly but do that internally.\n\nIn general, all of these cases have the problem that the change edit will even be created when the main operation fails for some reason. I meant to fix that after implementing the \u0027Apply fix\u0027 feature. For the two special cases, I will probably need to introduce a \u0027virtual\u0027 ChangeEditResource. By \u0027virtual\u0027, I mean that I create it as a Java object but only write the new reference after completion.",
       "revId": "dcfb947b314533b4de00db17190df1ce5ca212be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

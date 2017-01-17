@@ -589,7 +589,7 @@
 
         var files = Polymer.dom(this.root).querySelectorAll('.file-row');
         this.$.fileCursor.stops = files;
-        this.$.fileCursor.setCursorAtIndex(this.selectedIndex);
+        this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
       }.bind(this), 1);
     },
 

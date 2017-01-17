@@ -15,7 +15,6 @@
   'use strict';
 
   var ScrollBehavior = {
-    ALWAYS: 'always',
     NEVER: 'never',
     KEEP_VISIBLE: 'keep-visible',
   };
@@ -55,7 +54,7 @@
       },
 
       /**
-       * The scroll behavior for the cursor. Values are 'never', 'always' and
+       * The scroll behavior for the cursor. Values are 'never' and
        * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
        * the viewport.
        */
@@ -80,12 +79,22 @@
     /**
      * Set the cursor to an arbitrary element.
      * @param {DOMElement} element
+     * @param {boolean} opt_noScroll prevent any potential scrolling in response
+     *   setting the cursor.
      */
-    setCursor: function(element) {
+    setCursor: function(element, opt_noScroll) {
+      var behavior;
+      if (opt_noScroll) {
+        behavior = this.scrollBehavior;
+        this.scrollBehavior = ScrollBehavior.NEVER;
+      }
+
       this.unsetCursor();
       this.target = element;
       this._updateIndex();
       this._decorateTarget();
+
+      if (opt_noScroll) { this.scrollBehavior = behavior; }
     },
 
     unsetCursor: function() {
@@ -108,8 +117,8 @@
       }
     },
 
-    setCursorAtIndex: function(index) {
-      this.setCursor(this.stops[index]);
+    setCursorAtIndex: function(index, opt_noScroll) {
+      this.setCursor(this.stops[index], opt_noScroll);
     },
 
     /**
@@ -197,11 +206,10 @@
       }
     },
 
-    _scrollToTarget: function() {
-      if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) {
-        return;
-      }
-
+    /**
+     * @return {boolean}
+     */
+    _targetIsVisible: function() {
       // Calculate where the element is relative to the window.
       var top = this.target.offsetTop;
       for (var offsetParent = this.target.offsetParent;
@@ -210,9 +218,17 @@
         top += offsetParent.offsetTop;
       }
 
-      if (this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
+      return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
           top > window.pageYOffset &&
-          top < window.pageYOffset + window.innerHeight) { return; }
+          top < window.pageYOffset + window.innerHeight;
+    },
+
+    _scrollToTarget: function() {
+      if (!this.target ||
+          this.scrollBehavior === ScrollBehavior.NEVER ||
+          this._targetIsVisible()) {
+        return;
+      }
 
       // Scroll the element to the middle of the window. Dividing by a third
       // instead of half the inner height feels a bit better otherwise the

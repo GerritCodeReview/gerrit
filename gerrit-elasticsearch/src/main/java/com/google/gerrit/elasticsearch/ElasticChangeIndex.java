@@ -354,6 +354,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       decodeSubmitRecords(source,
           ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName(),
           ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
+      decodeUnresolvedCommentCount(source,
+          ChangeField.UNRESOLVED_COMMENT_COUNT.getName(), cd);
 
       if (source.get(ChangeField.REF_STATE.getName()) != null) {
         JsonArray refStates =
@@ -384,6 +386,15 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
               .transform(i -> new String(decodeBase64(i.toString()), UTF_8))
               .toList(),
           opts, out);
+    }
+
+    private void decodeUnresolvedCommentCount(JsonObject doc, String fieldName,
+        ChangeData out) {
+      JsonElement count = doc.get(fieldName);
+      if (count == null) {
+        return;
+      }
+      out.setUnresolvedCommentCount(count.getAsInt());
     }
   }
 }

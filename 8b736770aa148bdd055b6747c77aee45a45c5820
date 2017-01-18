@@ -150,6 +150,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_82b41ac6",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-18T18:41:36Z",
+      "side": 1,
+      "message": "\u003e Reason I didn\u0027t add it to static in the first revision is that this interferes with GrReporting being Initialized by Polymer, but I guess that\u0027s low risk.\n\nAs I understand it, the static initialization of the element is complete at this point -- so, as long as the name doesn\u0027t conflict with another static property, there isn\u0027t any other initialization to interfere with. I don\u0027t see how it would interfere with instantiation.\n\n\u003e So, static works. We\u0027ll have to revisit it once we get proper classes, but it\u0027s ok for now.\n\nI\u0027m not an expert on JS classes, but I suspect this could be equivalently defined as a regular ES6 static method.",
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63323d89_169c7c49",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
         "patchSetId": 2

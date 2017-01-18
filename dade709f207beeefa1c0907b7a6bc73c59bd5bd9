@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "031b415c_6382a2ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T17:18:23Z",
+      "side": 1,
+      "message": "I would expect this line to fail given the issue I mentioned with createRevWalk. If it doesn\u0027t, maybe I\u0027m missing something (InMemoryRepository auto-flushes perhaps?), but I still think my comment is correct.",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_a36bba59",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 9

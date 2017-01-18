@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "63323d89_16ca3c26",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T06:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "31fa3abc5440a64cb0b34deefab7107cbb909a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a33b5559_c075de35",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
         "patchSetId": 6
@@ -42,6 +59,23 @@
         "endLine": 168,
         "endChar": 36
       },
+      "revId": "31fa3abc5440a64cb0b34deefab7107cbb909a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_20212a1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T06:40:12Z",
+      "side": 1,
+      "message": "good point. IIRC there were indeed such parts of MergeOp, but even if not, this is indeed unsafe.\nReworked. I don\u0027t know why I should prefer CodereviewRevWalk vs normal RevWalk here, but CodeReviewRevWalk is certainly more difficult to create per Listener because it\u0027s not visible in git.validators, so I\u0027d have to move OnSubmitValidatorsFactory to here. So, I did just RevWalk for now.",
       "revId": "31fa3abc5440a64cb0b34deefab7107cbb909a63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

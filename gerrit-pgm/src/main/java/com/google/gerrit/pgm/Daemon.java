@@ -89,6 +89,7 @@ import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
+import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -459,7 +460,8 @@ public class Daemon extends SiteProgram {
       modules.add(new SshHostKeyModule());
     }
     modules.add(new DefaultCommandModule(slave,
-        sysInjector.getInstance(DownloadConfig.class)));
+        sysInjector.getInstance(DownloadConfig.class),
+        sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));
     if (!slave && indexType == IndexType.LUCENE) {
       modules.add(new IndexCommandsModule());
     }

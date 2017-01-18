@@ -16,11 +16,13 @@ package com.google.gerrit.sshd.plugin;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Argument;
 
 import java.util.ArrayList;
@@ -33,10 +35,19 @@ public class LfsPluginAuthCommand extends SshCommand {
   }
 
   public static class Module extends CommandModule {
+    private final boolean pluginProvided;
+
+    @Inject
+    Module(@GerritServerConfig Config cfg) {
+      pluginProvided = cfg.getString("lfs", null, "plugin") != null;
+    }
+
     @Override
     protected void configure() {
-      command("git-lfs-authenticate").to(LfsPluginAuthCommand.class);
-      DynamicItem.itemOf(binder(), LfsSshPluginAuth.class);
+      if (pluginProvided) {
+        command("git-lfs-authenticate").to(LfsPluginAuthCommand.class);
+        DynamicItem.itemOf(binder(), LfsSshPluginAuth.class);
+      }
     }
   }
 

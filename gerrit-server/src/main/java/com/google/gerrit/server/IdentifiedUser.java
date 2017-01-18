@@ -32,9 +32,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 
@@ -443,7 +441,7 @@ public class IdentifiedUser extends CurrentUser {
     SocketAddress remotePeer = null;
     try {
       remotePeer = remotePeerProvider.get();
-    } catch (OutOfScopeException | ProvisionException e) {
+    } catch (RuntimeException e) {
       // Leave null.
     }
     if (remotePeer instanceof InetSocketAddress) {

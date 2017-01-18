@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9aa6a_82665a92",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T16:45:40Z",
+      "side": 1,
+      "message": "I\u0027ll refactor this test to be shared among all strategies once we agree on approach.",
+      "range": {
+        "startLine": 135,
+        "startChar": 14,
+        "endLine": 135,
+        "endChar": 39
+      },
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_a36bba59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T16:45:40Z",
+      "side": 1,
+      "message": "doing verification before the flush, i think, is more efficient. Should I do that?",
+      "range": {
+        "startLine": 704,
+        "startChar": 8,
+        "endLine": 704,
+        "endChar": 25
+      },
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

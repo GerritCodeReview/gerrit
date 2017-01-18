@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9aa6a_62f0f66f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T21:11:19Z",
+      "side": 1,
+      "message": "Compared to the previous version, this may now call into the validators with an empty command map. Is that the intended behavior?",
+      "revId": "37ce1a3066f6f0e4d7dbdbbfb237dc98f152fdd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_82ebfa81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T21:11:19Z",
+      "side": 1,
+      "message": "Maybe new ReadOnlyRepository(repo)?",
+      "range": {
+        "startLine": 705,
+        "startChar": 46,
+        "endLine": 705,
+        "endChar": 50
+      },
+      "revId": "37ce1a3066f6f0e4d7dbdbbfb237dc98f152fdd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_42e5f2ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidationListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T21:11:19Z",
+      "side": 1,
+      "message": "Nit: long line",
+      "revId": "37ce1a3066f6f0e4d7dbdbbfb237dc98f152fdd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

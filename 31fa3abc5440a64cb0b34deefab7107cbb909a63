@@ -79,6 +79,23 @@
       "revId": "31fa3abc5440a64cb0b34deefab7107cbb909a63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63323d89_d6028482",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T12:16:15Z",
+      "side": 1,
+      "message": "\u003e IIRC there were indeed such parts of MergeOp\n\nAt least with MergeOp, we control all the code, so we can fix it if it\u0027s doing something wrong. (Which doesn\u0027t mean it\u0027s any fun tracking down these bugs, believe me.) With an extension point we don\u0027t have any control.\n\n\u003e I don\u0027t know why I should prefer CodereviewRevWalk vs normal RevWalk\n\nYeah, if you don\u0027t need it, don\u0027t worry about it.",
+      "revId": "31fa3abc5440a64cb0b34deefab7107cbb909a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

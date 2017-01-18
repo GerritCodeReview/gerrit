@@ -253,6 +253,23 @@
     },
     {
       "key": {
+        "uuid": "c3884975_d1db6400",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-18T09:36:12Z",
+      "side": 1,
+      "message": "I just had a longer offline discussion with Alice. While I see your arguments, let\u0027s keep the list for now. In one of her upcoming changes, she will need this behavior and doing the refactoring upfront should prepare for that.\nI know that technically this could be done in a change series, but this is already a lot of code and keeping a long/large series current is very time consuming.\nThe list doesn\u0027t hurt any existing behavior and abusing it would require that the abusive change get\u0027s code-reviewed which we can all make sure doesn\u0027t happen :)",
+      "revId": "b43f7f89b9a0047c3a2035ccff38220978a23dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_9684ec33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/tree/TreeCreator.java",
         "patchSetId": 2

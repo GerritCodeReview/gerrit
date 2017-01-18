@@ -134,6 +134,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName();
   private static final String SUBMIT_RECORD_STRICT_FIELD =
       ChangeField.STORED_SUBMIT_RECORD_STRICT.getName();
+  private static final String UNRESOLVED_COMMENTS_NUM_FIELD =
+      ChangeField.UNRESOLVED_COMMENTS_NUM.getName();
 
   static Term idTerm(ChangeData cd) {
     return QueryBuilder.intTerm(LEGACY_ID.getName(), cd.getId().get());
@@ -479,6 +481,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REF_STATE_PATTERN_FIELD)) {
       decodeRefStatePatterns(doc, cd);
     }
+    if (fields.contains(UNRESOLVED_COMMENTS_NUM_FIELD)) {
+      decodeUnresolvedCommentsNum(doc, cd);
+    }
     return cd;
   }
 
@@ -623,5 +628,14 @@ public class LuceneChangeIndex implements ChangeIndex {
               return b;
             })
         .collect(toList());
+  }
+
+  private void decodeUnresolvedCommentsNum(Multimap<String, IndexableField> doc,
+      ChangeData cd) {
+    IndexableField f = Iterables.getFirst(
+        doc.get(UNRESOLVED_COMMENTS_NUM_FIELD), null);
+    if (f != null) {
+      cd.setUnresolvedCommentsNum(f.numericValue().intValue());
+    }
   }
 }

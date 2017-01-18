@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "031b415c_c3b8b689",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-18T22:19:53Z",
+      "side": 1,
+      "message": "Nit: quotes are unneeded here.",
+      "range": {
+        "startLine": 653,
+        "startChar": 8,
+        "endLine": 653,
+        "endChar": 13
+      },
+      "revId": "ee82d01aae72d6b0f2b94723aa827d458127b2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

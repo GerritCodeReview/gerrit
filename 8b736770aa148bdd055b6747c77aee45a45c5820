@@ -167,6 +167,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_42d732d4",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-18T19:05:16Z",
+      "side": 1,
+      "message": "\u003e as long as the name doesn\u0027t conflict with another static property\n\nI\u0027m not 100% certain what does Polymer return, if it is sealed/frozen/etc, and what kind of polyfills on which browser it uses, so on. There may be cases this will cause problems but I don\u0027t see anything right away.\n\nGenerally, I feel we\u0027re overengineering here.\n\nPlease let me know if this option looks good, and let\u0027s move on.",
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63323d89_169c7c49",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
         "patchSetId": 2

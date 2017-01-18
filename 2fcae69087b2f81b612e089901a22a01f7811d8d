@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a33b5559_c0dabefa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Votes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-01-18T00:36:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right to me. Wouldn\u0027t it break existing clients that try to list votes without specifying a revision?\n\nLikewise for GET, DELETE, and other methods.",
+      "revId": "2fcae69087b2f81b612e089901a22a01f7811d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

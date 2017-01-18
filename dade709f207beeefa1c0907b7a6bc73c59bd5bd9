@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_420cd2b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByRebaseAlwaysIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T19:21:10Z",
+      "side": 1,
+      "message": "inserter has already flushed by the time refUpdates are performed.",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_a36bba59",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 9
@@ -82,6 +99,23 @@
     },
     {
       "key": {
+        "uuid": "031b415c_e3c3f219",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T19:21:10Z",
+      "side": 1,
+      "message": "Ack. The reason I originally added validation inside was to make \"immediately before ref updates\", but now that I think of it, it had a big downside: if there are 2+ repos (topic submit), refs in first repo could be updated before validation raises error on updating refs in second repo. So, adding validation here is clearly better.",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_4385a6f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidationListener.java",
         "patchSetId": 9
@@ -105,6 +139,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_c2b102d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidationListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T19:21:10Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8e9aa6a_42705246",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidationListener.java",
         "patchSetId": 9
@@ -116,6 +167,23 @@
       "writtenOn": "2017-01-18T17:13:38Z",
       "side": 1,
       "message": "This RevWalk can\u0027t read back objects that were previously inserted but not flushed. You should pass an ObjectReader, specifically ctx.getRevWalk().getObjectReader(), into the Arguments constructor.",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_83db1e01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidationListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T19:21:10Z",
+      "side": 1,
+      "message": "done (and that\u0027s how it was until I moved the validation after inserter.flush() was called)",
       "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -139,6 +207,23 @@
     },
     {
       "key": {
+        "uuid": "031b415c_a3e01aae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidationListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T19:21:10Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8e9aa6a_22754e36",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
         "patchSetId": 9
@@ -150,6 +235,23 @@
       "writtenOn": "2017-01-18T17:13:38Z",
       "side": 1,
       "message": "Hm, I\u0027m trying to think through why it would be better or worse to call each listener exactly once and passing the whole Map as an argument vs. once per branch. Both are reasonably easy semantics to explain, so I think that bar is met.\n\nThe main advantage of passing a map is that a listener gets a fuller picture of the situation. There might be multiple branches in the same repo that are being submitted as part of a single submit operation. If you call the listener once per branch, the listener has literally no way to know whether two updates to different branches are happening in the same atomic operation or not. That said, I\u0027m struggling to think of a use case where the listener needs to know about the whole batch at once, so maybe this is not a huge downside.\n\nThe downside of passing a map is that then the listener has to do the iteration themselves. This isn\u0027t a huge downside either IMO.\n\nSo I guess between the two alternatives, maybe we should just go with the one that you prefer, since you\u0027re the plugin author here? Do you have any other thoughts?",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_43ca0627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T19:21:10Z",
+      "side": 1,
+      "message": "my imagination produced this:\n having two CLs under a topic, A for master branch and another one B parented on A but destined for *new* branch. In this case, my git-numberer plugin there would need to know the whole map to correctly validate in all possible iteration order of the map.\nHowever,  Gerrit doesn\u0027t yet creating such a change B (rihgt?) AND there is no need for this in chromium yet :)\n\nall this said, I wanted to pass a map, but decided otherwise because ReceiveCommand objects are modifiable, while my current interface is harder to abuse (but there is writable repo anyway). Am I worrying too much?",
       "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -173,6 +275,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_c2ca2224",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T19:21:10Z",
+      "side": 1,
+      "message": "oops, my bad. Fixed.",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_037bae2a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
         "patchSetId": 9
@@ -184,6 +303,23 @@
       "writtenOn": "2017-01-18T17:13:38Z",
       "side": 1,
       "message": "Tiny corner case here: DynamicSets are dynamic. So due to plugin loading it\u0027s actually not impossible that you will iterate over a different set of listeners on each iteration of the outer loop.\n\nYou should make a defensive copy prior to the outer loop:\n\n  List\u003cOSVL\u003e listeners \u003d new ArrayList\u003c\u003e(this.listeners);",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_c3d516cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-18T19:21:10Z",
+      "side": 1,
+      "message": "oh, good to know. Sadly, this.listeners isn\u0027t a collection, so your code didn\u0027t work. But I swapped the loops  instead.",
       "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

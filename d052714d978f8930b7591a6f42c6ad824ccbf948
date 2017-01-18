@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9aa6a_c2f8e253",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-18T21:20:20Z",
+      "side": 1,
+      "message": "Nit: s/html/HTML/",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_a3ee5a90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-18T21:20:20Z",
+      "side": 1,
+      "message": "Nit: this can be a bit more precise:\n\n  from change list CSS",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_e2fbe64d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-18T21:20:20Z",
+      "side": 1,
+      "message": "Is `colspan\u003d\"100%\"` standard and does it work consistently across browsers? All the docs I\u0027ve seen say it should be an integer. Isn\u0027t it relatively easy to compute the appropriate number of columns in this case?\n\n[1] https://html.spec.whatwg.org/multipage/tables.html#attr-tdth-colspan",
+      "range": {
+        "startLine": 61,
+        "startChar": 38,
+        "endLine": 61,
+        "endChar": 42
+      },
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

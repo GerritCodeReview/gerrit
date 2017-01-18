@@ -263,6 +263,8 @@ when coding:
   * GWT EventBus is the new way forward.
   * ...and so is Guava (previously known as Google Collections).
 
+=== Usability/UX
+Please refer to the <<dev-ux#,UX Guideline>> for further details.
 
 === Tests
 

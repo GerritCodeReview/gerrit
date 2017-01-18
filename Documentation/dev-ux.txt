@@ -1,0 +1,71 @@
+= Gerrit Code Review - UX Guideline
+
+Even though Gerrit is a tool which is mostly used by developers, usability is an
+aspect which shouldn't be dismissed. Having a tool which is easy, intuitively
+and efficient to use, can be a great benefit and avoid a lot of frustration and
+waste of time. That's why we should strive to create one. This section mentions
+some aspects which we should respect in order to achieve a good usability for
+Gerrit.
+
+.Glossary
+[cols="1,5"]
+|=============================
+|control    | a UI element which triggers an effect
+|=============================
+
+== Guiding the user
+* Further contextual information must be provided via tooltips, descriptions, or
+additional context for all functionality which is not easily understood.
+* Every disabled control must have a tooltip indicating why this control is
+disabled.
+* Actions which are important for a specific workflow on a specific view must
+stand out. This includes that users can notice those actions as soon as they
+enter this view without any further interactions.
+* All UI elements should be close to the context they belong to. For instance,
+a control which changes the presentation of some part of the UI should be
+closely placed to that part.
+* Naming should be consistent throughout the UI. A concept for which some part
+of the UI uses a specific name must not be called by another name at another
+part.
+* The phrasing and format of any text should be consistent for similar UI
+elements throughout the UI.
+* Sentence case should be used for all actions.
+* If possible, domain specific names should be used. For instance, an action
+which is based on a publicly known Git command should not be named differently.
+
+== Avoiding frustration
+* Whenever a process triggered by a user is in progress, this must be indicated
+to the user. For instance, areas of the UI which haven't finished loading must
+indicate so.
+* Users should get as much feedback as possible while waiting for the result of
+an action they triggered. If partial results can be provided, they should be
+shown to the user as early as possible.
+* If using a control causes irreversible data loss in Gerrit or the underlying
+Git repository, a confirmation dialog must be displayed prior to executing
+the requested action. For instance, deleting a Gerrit change should only be
+executed after the user issued the deletion and confirmed that they definitely
+want to delete the change.
+* Actions causing irreversible data loss should be limited to the absolute
+necessary ones. If possible, undo functionality should be provided for them.
+* User actions which only change what is presented on the UI or in which way it
+is presented must be reversible. This means that a user can return to the
+previous view whenever they want.
+* Standard UI elements shouldn't be used in a way which goes against Google
+design standards. If users expect a specific effect because they use a specific
+kind of control, the use of it should not result in a completely different
+effect. For instance, a link representing a primary, non-navigational action
+would go against user expectations.
+* In general, the UI should be designed according to the
+https://en.wikipedia.org/wiki/Principle_of_least_astonishment[principle of least
+astonishment].
+* At any point in time, users should never be negatively surprised by anything.
+* Whenever possible, the UI should be designed in such a way that users can't
+do anything wrong unintentionally. As that's not always possible, the UI should
+at least prevent users as much as possible from doing something wrong.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

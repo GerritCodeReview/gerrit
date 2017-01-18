@@ -133,6 +133,23 @@
     },
     {
       "key": {
+        "uuid": "c3c76980_d95853f6",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-18T18:27:28Z",
+      "side": 1,
+      "message": "Let me elaborate.\n\nonerror handler needs to be installed on window ASAP, and this means at least before the component is registered (ideally, even before that, but that\u0027s a bit more hairy and a bit less important).\n\npractically, this means that Polymer component is not initialized or instantiated\n\nit is possible for catchErrors to be a method on gr-reporting, but taking items above into account, the call should look like this:\n\n`GrReporting.prototype.catchErrors();\n\nAnd catchErrors will have window context, despite being defined on gr-reporting prototype.\n\nSo, static is the only option.\n\nReason I didn\u0027t add it to static in the first revision is that this interferes with GrReporting being Initialized by Polymer, but I guess that\u0027s low risk.\n\nSo, static works. We\u0027ll have to revisit it once we get proper classes, but it\u0027s ok for now.",
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63323d89_169c7c49",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
         "patchSetId": 2

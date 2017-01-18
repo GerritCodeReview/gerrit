@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "03b0a108_5b97a367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-18T17:56:25Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a33b5559_20b36ad8",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 2
@@ -48,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "c3c76980_99e65b26",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-18T17:56:25Z",
+      "side": 1,
+      "message": "Good point, but looks like excluding error from current code makes it much readable and maybe could work.",
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63323d89_3699785a",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 2
@@ -59,6 +93,23 @@
       "writtenOn": "2017-01-17T23:23:09Z",
       "side": 1,
       "message": "Why is this a global, rather than a private method on `window.GrReporting`?",
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_00e186b0",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-18T17:56:25Z",
+      "side": 1,
+      "message": "I\u0027ve moved comment here to provide better explanation.\nMain reason why it\u0027s not part of GrReporting is because catchErrors has to happen as soon as possible, so it will be transformed into a prototype method call.\nI\u0027m open for a better naming/namespacing though.",
       "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -82,6 +133,23 @@
         "endLine": 178,
         "endChar": 22
       },
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5559_a0d53acb",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-18T17:56:25Z",
+      "side": 1,
+      "message": "A bit more readable?\nfakeWindow.onerror would have to be accompanied with a comment stating that this is in fact emulation of unhandled exception, not just a function call on a fake window.\nNot feeling strongly though.",
       "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

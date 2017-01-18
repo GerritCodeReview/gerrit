@@ -46,7 +46,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public abstract class AbstractSubmitByRebase extends AbstractSubmit {
-
+  // TODO(tandrii): add test to ensure refValidation is called on all submit strategies.
   @Override
   protected abstract SubmitType getSubmitType();
 

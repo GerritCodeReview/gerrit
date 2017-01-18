@@ -128,6 +128,8 @@ import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
+import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
+import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupInfoCache;
@@ -350,6 +352,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.setOf(binder(), ChangeMessageModifier.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);
+    DynamicSet.setOf(binder(), OnSubmitValidationListener.class);
     DynamicSet.setOf(binder(), MergeValidationListener.class);
     DynamicSet.setOf(binder(), ProjectCreationValidationListener.class);
     DynamicSet.setOf(binder(), GroupCreationValidationListener.class);
@@ -391,6 +394,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(AbandonOp.Factory.class);
     factory(RefOperationValidators.Factory.class);
+    factory(OnSubmitValidators.Factory.class);
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3884975_f1b9c8bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestChangeReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-18T09:03:14Z",
+      "side": 1,
+      "message": "Should we rather skip the ranking when the user is not signed in so that suggestions still deliver results for anonymous users. I guess this was working before we added reviewer recommendations?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "7a441a74d6f651515027ba8454bf513354bc02c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -389,7 +390,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addComment(r1, "nit: trailing whitespace");
     Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
-    addComment(r1, "nit: trailing whitespace", true);
+    addComment(r1, "nit: trailing whitespace", true, false);
     result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
 
@@ -398,7 +399,7 @@ public class CommentsIT extends AbstractDaemonTest {
         .to("refs/for/master");
     changeId = r2.getChangeId();
     revId = r2.getCommit().getName();
-    addComment(r2, "nit: trailing whitespace", true);
+    addComment(r2, "nit: trailing whitespace", true, false);
     result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(1);
   }
@@ -648,6 +649,23 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(drafts.get(0).tag).isEqualTo("tag2");
   }
 
+  @Test
+  public void queryChangesWithUnresolvedCommentsNum() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = pushFactory.create(
+        db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent",
+        r1.getChangeId())
+        .to("refs/for/master");
+
+    addComment(r1, "nit: trailing whitespace", false, false);
+    addComment(r2, "typo: content", false, true);
+
+    disableDb();
+
+    ChangeInfo result = Iterables.getOnlyElement(query(r2.getChangeId()));
+    assertThat(result.unresolvedCommentsNum).isEqualTo(1);
+  }
+
   private static String extractComments(String msg) {
     // Extract lines between start "....." and end "-- ".
     Pattern p = Pattern.compile(".*[.]{5}\n+(.*)\\n+-- \n.*", Pattern.DOTALL);
@@ -664,15 +682,16 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private void addComment(PushOneCommit.Result r, String message)
       throws Exception {
-    addComment(r, message, false);
+    addComment(r, message, false, false);
   }
 
   private void addComment(PushOneCommit.Result r, String message,
-      boolean omitDuplicateComments) throws Exception {
+      boolean omitDuplicateComments, boolean unresolved) throws Exception {
     CommentInput c = new CommentInput();
     c.line = 1;
     c.message = message;
     c.path = FILE_NAME;
+    c.unresolved = unresolved;
     ReviewInput in = newInput(c);
     in.omitDuplicateComments = omitDuplicateComments;
     gApi.changes()

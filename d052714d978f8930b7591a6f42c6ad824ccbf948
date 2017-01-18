@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "031b415c_43f84653",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-18T21:30:38Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "031b415c_a3ee5a90",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_a2f5de5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-18T21:30:38Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8e9aa6a_e2fbe64d",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
         "patchSetId": 2
@@ -65,6 +99,23 @@
         "endLine": 61,
         "endChar": 42
       },
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_03fe4e41",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-18T21:30:38Z",
+      "side": 1,
+      "message": "It appears to work  in all major browsers. I\u0027d prefer we keep it like this, because I think it could easily be forgotten if we add more columns.\n\nTested [additionally] in IE6 - IE8, Chrome [on PC and Mac], Firefox 4.0 [PC and Mac], Safari 5 [PC and Mac] [http://stackoverflow.com/questions/398734/colspan-all-columns]",
       "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

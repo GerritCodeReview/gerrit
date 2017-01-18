@@ -22,6 +22,23 @@
       "revId": "8f53498fc68112740e3c199cf659ffb451f7659a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_02a36a90",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-18T18:27:28Z",
+      "side": 1,
+      "message": "Ah, that\u0027s better.\nDone.",
+      "revId": "8f53498fc68112740e3c199cf659ffb451f7659a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

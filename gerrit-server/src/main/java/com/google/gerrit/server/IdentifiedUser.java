@@ -425,7 +425,18 @@ public class IdentifiedUser extends CurrentUser {
    * @return copy of the identified user
    */
   public IdentifiedUser materializedCopy() {
-    final CapabilityControl capabilities = getCapabilities();
+    CapabilityControl capabilities = getCapabilities();
+    Provider<SocketAddress> remotePeer;
+    try {
+      remotePeer = Providers.of(remotePeerProvider.get());
+    } catch (OutOfScopeException | ProvisionException e) {
+      remotePeer = new Provider<SocketAddress>() {
+        @Override
+        public SocketAddress get() {
+          throw e;
+        }
+      };
+    }
     return new IdentifiedUser(new CapabilityControl.Factory() {
 
       @Override
@@ -434,8 +445,7 @@ public class IdentifiedUser extends CurrentUser {
       }
     }, authConfig, realm, anonymousCowardName,
         Providers.of(canonicalUrl.get()), accountCache, groupBackend,
-        disableReverseDnsLookup, Providers.of(remotePeerProvider.get()), state,
-        realUser);
+        disableReverseDnsLookup, remotePeer, state, realUser);
   }
 
   private String guessHost() {

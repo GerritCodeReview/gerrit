@@ -134,6 +134,29 @@
     },
     {
       "key": {
+        "uuid": "c3884975_71cdd83c",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-18T12:51:30Z",
+      "side": 1,
+      "message": "I think it\u0027s a good idea to reject a push of a new edit over an existing one with a good error message and then allow it with a force push",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 25
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e3346dc0_4ab3f3d6",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -145,6 +168,29 @@
       "writtenOn": "2017-01-18T12:44:49Z",
       "side": 1,
       "message": "Did you mean \"refs/for/master%edit\" as specified in the documentation [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-inline-edit.html#change-edit-actions",
+      "range": {
+        "startLine": 78,
+        "startChar": 44,
+        "endLine": 78,
+        "endChar": 61
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3346dc0_8adb2b01",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-18T12:51:30Z",
+      "side": 1,
+      "message": "Yes",
       "range": {
         "startLine": 78,
         "startChar": 44,

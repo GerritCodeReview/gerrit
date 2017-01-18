@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "c3884975_311e70db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestChangeReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-18T15:01:06Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 38
+      },
+      "revId": "7a441a74d6f651515027ba8454bf513354bc02c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3884975_f1b9c8bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestChangeReviewers.java",
         "patchSetId": 1

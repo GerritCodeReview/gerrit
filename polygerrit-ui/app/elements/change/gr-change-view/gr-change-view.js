@@ -117,6 +117,10 @@
         value: true,
         computed: '_computeReplyDisabled(serverConfig)',
       },
+      _changeStatus: {
+        type: String,
+        computed: '_computeChangeStatus(_change, _patchRange.patchNum)',
+      },
     },
 
     behaviors: [
@@ -546,7 +550,17 @@
       } else {
         statusString = this.changeStatusString(change);
       }
-      return statusString ? ' (' + statusString + ')' : '';
+      return statusString || '';
+    },
+
+    _computeShowCommitInfo: function(changeStatus) {
+      return changeStatus === 'Merged';
+    },
+
+    _computeMergedCommitInfo: function(current_revision, revisions) {
+      var rev = revisions[current_revision];
+      if (!rev) { return {}; }
+      return rev.commit;
     },
 
     _computeLatestPatchNum: function(allPatchSets) {

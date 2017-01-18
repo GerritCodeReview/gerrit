@@ -33,6 +33,23 @@
       "revId": "2fcae69087b2f81b612e089901a22a01f7811d8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3346dc0_8a8deb1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Votes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-18T08:25:24Z",
+      "side": 1,
+      "message": "I also think this works. If the URL doesn\u0027t contain a revision then getRevisionResource() returns null and no exception is thrown. We are checking for the current revision only if a revision is specified in the URL. This is intended and it can\u0027t break old clients since this is a new REST endpoint.",
+      "revId": "2fcae69087b2f81b612e089901a22a01f7811d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

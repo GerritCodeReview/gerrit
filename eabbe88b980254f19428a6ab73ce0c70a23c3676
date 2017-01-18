@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "63323d89_76cdb03c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-18T02:49:35Z",
+      "side": 1,
+      "message": "Wow, you\u0027re right, I totally spaced. Sorry about that!",
+      "revId": "eabbe88b980254f19428a6ab73ce0c70a23c3676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63323d89_56a2f48b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 2

@@ -597,6 +597,18 @@ public class ChangeField {
         }
       };
 
+  /** Num of unresolved comments of the change. */
+  public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENTS_NUM =
+      new FieldDef.Single<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_UNRESOLVED_COMMENTS_NUM,
+          FieldType.INTEGER, true) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.unresolvedCommentsCount();
+        }
+      };
+
   /** Whether the change is mergeable. */
   public static final FieldDef<ChangeData, String> MERGEABLE =
       new FieldDef.Single<ChangeData, String>(

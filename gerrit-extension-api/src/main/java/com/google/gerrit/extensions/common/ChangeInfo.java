@@ -44,6 +44,7 @@ public class ChangeInfo {
   public Boolean submittable;
   public Integer insertions;
   public Integer deletions;
+  public Integer unresolvedCommentsNum;
 
   public int _number;
 

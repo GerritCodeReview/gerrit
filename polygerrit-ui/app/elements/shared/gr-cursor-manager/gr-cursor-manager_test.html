@@ -26,9 +26,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <gr-cursor-manager
-        cursor-stop-selector="li"
-        cursor-target-class="targeted"></gr-cursor-manager>
+    <gr-cursor-manager cursor-target-class="targeted"></gr-cursor-manager>
     <ul>
       <li>A</li>
       <li>B</li>
@@ -40,13 +38,19 @@ limitations under the License.
 
 <script>
   suite('gr-cursor-manager tests', function() {
+    var sandbox;
     var element;
     var list;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       var fixtureElements = fixture('basic');
       element = fixtureElements[0];
       list = fixtureElements[1];
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('core cursor functionality', function() {
@@ -119,6 +123,19 @@ limitations under the License.
       assert.isFalse(list.children[1].classList.contains('targeted'));
       assert.isNotOk(element.target);
       assert.equal(element.index, -1);
+    });
+
+    test('opt_noScroll', function() {
+      sandbox.stub(element, '_targetIsVisible', function() { return false; });
+      var scrollStub = sandbox.stub(window, 'scrollTo');
+      element.stops = list.querySelectorAll('li');
+      element.scrollBehavior = 'keep-visible';
+
+      element.setCursorAtIndex(1, true);
+      assert.isFalse(scrollStub.called);
+
+      element.setCursorAtIndex(2);
+      assert.isTrue(scrollStub.called);
     });
   });
 </script>

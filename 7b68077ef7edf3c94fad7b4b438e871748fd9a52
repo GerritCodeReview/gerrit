@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9aa6a_a2c71e1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-18T19:13:49Z",
+      "side": 1,
+      "message": "My mistake when I made the suggestion, but these array literals should have trailing commas.",
+      "range": {
+        "startLine": 683,
+        "startChar": 60,
+        "endLine": 683,
+        "endChar": 61
+      },
+      "revId": "7b68077ef7edf3c94fad7b4b438e871748fd9a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

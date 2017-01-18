@@ -16,7 +16,7 @@ package com.google.gerrit.server.git.strategy;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -99,7 +99,7 @@ public abstract class SubmitStrategy {
           Set<RevCommit> alreadyAccepted,
           RequestId submissionId,
           NotifyHandling notifyHandling,
-          Multimap<RecipientType, Account.Id> accountsToNotify,
+          ListMultimap<RecipientType, Account.Id> accountsToNotify,
           SubmoduleOp submoduleOp,
           boolean dryrun);
     }
@@ -133,7 +133,7 @@ public abstract class SubmitStrategy {
     final RequestId submissionId;
     final SubmitType submitType;
     final NotifyHandling notifyHandling;
-    final Multimap<RecipientType, Account.Id> accountsToNotify;
+    final ListMultimap<RecipientType, Account.Id> accountsToNotify;
     final SubmoduleOp submoduleOp;
 
     final ProjectState project;
@@ -172,7 +172,7 @@ public abstract class SubmitStrategy {
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
         @Assisted NotifyHandling notifyHandling,
-        @Assisted Multimap<RecipientType, Account.Id> accountsToNotify,
+        @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
         @Assisted SubmoduleOp submoduleOp,
         @Assisted boolean dryrun) {
       this.accountCache = accountCache;

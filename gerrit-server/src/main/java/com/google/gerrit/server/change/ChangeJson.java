@@ -50,7 +50,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -821,7 +820,7 @@ public class ChangeJson {
     }
 
     Set<String> labelNames = new HashSet<>();
-    Multimap<Account.Id, PatchSetApproval> current =
+    SetMultimap<Account.Id, PatchSetApproval> current =
         MultimapBuilder.hashKeys().hashSetValues().build();
     for (PatchSetApproval a : cd.currentApprovals()) {
       allUsers.add(a.getAccountId());

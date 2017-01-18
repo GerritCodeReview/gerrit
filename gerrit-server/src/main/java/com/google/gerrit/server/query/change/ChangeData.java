@@ -24,12 +24,10 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -352,7 +350,7 @@ public class ChangeData {
   private Map<Account.Id, Ref> draftsByUser;
   @Deprecated
   private Set<Account.Id> starredByUser;
-  private ImmutableMultimap<Account.Id, String> stars;
+  private ImmutableListMultimap<Account.Id, String> stars;
   private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
   private List<ReviewerStatusUpdate> reviewerUpdates;
@@ -1230,13 +1228,13 @@ public class ChangeData {
     this.starredByUser = starredByUser;
   }
 
-  public ImmutableMultimap<Account.Id, String> stars() throws OrmException {
+  public ImmutableListMultimap<Account.Id, String> stars() throws OrmException {
     if (stars == null) {
       if (!lazyLoad) {
-        return ImmutableMultimap.of();
+        return ImmutableListMultimap.of();
       }
-      ImmutableMultimap.Builder<Account.Id, String> b =
-          ImmutableMultimap.builder();
+      ImmutableListMultimap.Builder<Account.Id, String> b =
+          ImmutableListMultimap.builder();
       for (Map.Entry<Account.Id, StarRef> e : starRefs().entrySet()) {
         b.putAll(e.getKey(), e.getValue().labels());
       }
@@ -1245,8 +1243,8 @@ public class ChangeData {
     return stars;
   }
 
-  public void setStars(Multimap<Account.Id, String> stars) {
-    this.stars = ImmutableMultimap.copyOf(stars);
+  public void setStars(ListMultimap<Account.Id, String> stars) {
+    this.stars = ImmutableListMultimap.copyOf(stars);
   }
 
   public ImmutableMap<Account.Id, StarRef> starRefs() throws OrmException {

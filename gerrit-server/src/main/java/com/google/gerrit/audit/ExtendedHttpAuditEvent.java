@@ -15,7 +15,7 @@
 package com.google.gerrit.audit;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
@@ -45,11 +45,11 @@ public class ExtendedHttpAuditEvent extends HttpAuditEvent {
    * @param view view rendering object
    */
   public ExtendedHttpAuditEvent(String sessionId, CurrentUser who,
-      HttpServletRequest httpRequest, long when, Multimap<String, ?> params,
+      HttpServletRequest httpRequest, long when, ListMultimap<String, ?> params,
       Object input, int status, Object result, RestResource resource,
       RestView<RestResource> view) {
-    super(sessionId, who, httpRequest.getRequestURI(), when, params, httpRequest.getMethod(),
-        input, status, result);
+    super(sessionId, who, httpRequest.getRequestURI(), when, params,
+        httpRequest.getMethod(), input, status, result);
     this.httpRequest = Preconditions.checkNotNull(httpRequest);
     this.resource = resource;
     this.view = view;

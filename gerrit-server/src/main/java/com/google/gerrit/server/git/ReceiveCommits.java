@@ -44,9 +44,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.gerrit.common.Nullable;
@@ -325,7 +323,7 @@ public class ReceiveCommits {
   private final Set<ObjectId> validCommits = new HashSet<>();
 
   private ListMultimap<Change.Id, Ref> refsByChange;
-  private SetMultimap<ObjectId, Ref> refsById;
+  private ListMultimap<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
 
   private final SubmoduleOp.Factory subOpFactory;
@@ -1325,8 +1323,8 @@ public class ReceiveCommits {
       return new MailRecipients(reviewer, cc);
     }
 
-    Multimap<RecipientType, Account.Id> getAccountsToNotify() {
-      Multimap<RecipientType, Account.Id> accountsToNotify =
+    ListMultimap<RecipientType, Account.Id> getAccountsToNotify() {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify =
           MultimapBuilder.hashKeys().arrayListValues().build();
       accountsToNotify.putAll(RecipientType.TO, tos);
       accountsToNotify.putAll(RecipientType.CC, ccs);
@@ -1673,8 +1671,9 @@ public class ReceiveCommits {
     logDebug("Finding new and replaced changes");
     newChanges = new ArrayList<>();
 
-    SetMultimap<ObjectId, Ref> existing = changeRefsById();
-    GroupCollector groupCollector = GroupCollector.create(changeRefsById(), db, psUtil,
+    ListMultimap<ObjectId, Ref> existing = changeRefsById();
+    GroupCollector groupCollector = GroupCollector.create(
+        changeRefsById(), db, psUtil,
         notesFactory, project.getNameKey());
 
     try {
@@ -2527,7 +2526,7 @@ public class ReceiveCommits {
   private void initChangeRefMaps() {
     if (refsByChange == null) {
       int estRefsPerChange = 4;
-      refsById = MultimapBuilder.hashKeys().hashSetValues().build();
+      refsById = MultimapBuilder.hashKeys().arrayListValues().build();
       refsByChange =
           MultimapBuilder.hashKeys(allRefs.size() / estRefsPerChange)
               .arrayListValues(estRefsPerChange)
@@ -2550,7 +2549,7 @@ public class ReceiveCommits {
     return refsByChange;
   }
 
-  private SetMultimap<ObjectId, Ref> changeRefsById() {
+  private ListMultimap<ObjectId, Ref> changeRefsById() {
     initChangeRefMaps();
     return refsById;
   }
@@ -2630,7 +2629,7 @@ public class ReceiveCommits {
       if (!(parsedObject instanceof RevCommit)) {
         return;
       }
-      SetMultimap<ObjectId, Ref> existing = changeRefsById();
+      ListMultimap<ObjectId, Ref> existing = changeRefsById();
       walk.markStart((RevCommit)parsedObject);
       markHeadsAsUninteresting(walk, cmd.getRefName());
       int i = 0;
@@ -2727,7 +2726,7 @@ public class ReceiveCommits {
         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
       }
 
-      SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
+      ListMultimap<ObjectId, Ref> byCommit = changeRefsById();
       Map<Change.Key, ChangeNotes> byKey = null;
       List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 

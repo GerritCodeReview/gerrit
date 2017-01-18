@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd.rpc;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.RpcAuditEvent;
 import com.google.gerrit.common.TimeUtil;
@@ -133,25 +133,29 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       }
       Audit note = method.getAnnotation(Audit.class);
       if (note != null) {
-        final String sid = call.getWebSession().getSessionId();
-        final CurrentUser username = call.getWebSession().getUser();
-        final Multimap<String, ?> args =
-            extractParams(note, call);
-        final String what = extractWhat(note, call);
-        final Object result = call.getResult();
+        String sid = call.getWebSession().getSessionId();
+        CurrentUser username = call.getWebSession().getUser();
+        ListMultimap<String, ?> args = extractParams(note, call);
+        String what = extractWhat(note, call);
+        Object result = call.getResult();
 
-        audit.dispatch(new RpcAuditEvent(sid, username, what, call.getWhen(),
-            args, call.getHttpServletRequest().getMethod(), call.getHttpServletRequest().getMethod(),
-            ((AuditedHttpServletResponse) (call.getHttpServletResponse()))
-                .getStatus(), result));
+        audit.dispatch(
+            new RpcAuditEvent(
+                sid, username, what, call.getWhen(), args,
+                call.getHttpServletRequest().getMethod(),
+                call.getHttpServletRequest().getMethod(),
+                ((AuditedHttpServletResponse) (call.getHttpServletResponse()))
+                    .getStatus(),
+                result));
       }
     } catch (Throwable all) {
       log.error("Unable to log the call", all);
     }
   }
 
-  private Multimap<String, ?> extractParams(final Audit note, final GerritCall call) {
-    Multimap<String, Object> args = ArrayListMultimap.create();
+  private ListMultimap<String, ?> extractParams(Audit note, GerritCall call) {
+    ListMultimap<String, Object> args =
+        MultimapBuilder.hashKeys().arrayListValues().build();
 
     Object[] params = call.getParams();
     for (int i = 0; i < params.length; i++) {

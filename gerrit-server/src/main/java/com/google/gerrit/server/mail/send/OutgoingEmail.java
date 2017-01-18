@@ -20,7 +20,7 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -76,7 +76,7 @@ public abstract class OutgoingEmail {
   private Address smtpFromAddress;
   private StringBuilder textBody;
   private StringBuilder htmlBody;
-  private Multimap<RecipientType, Account.Id> accountsToNotify =
+  private ListMultimap<RecipientType, Account.Id> accountsToNotify =
       ImmutableListMultimap.of();
   protected VelocityContext velocityContext;
   protected Map<String, Object> soyContext;
@@ -101,7 +101,7 @@ public abstract class OutgoingEmail {
   }
 
   public void setAccountsToNotify(
-      Multimap<RecipientType, Account.Id> accountsToNotify) {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     this.accountsToNotify = checkNotNull(accountsToNotify);
   }
 

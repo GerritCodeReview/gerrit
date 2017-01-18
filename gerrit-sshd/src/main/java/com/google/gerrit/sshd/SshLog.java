@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.SshAuditEvent;
 import com.google.gerrit.common.TimeUtil;
@@ -156,14 +156,15 @@ class SshLog implements LifecycleListener {
     audit(context.get(), status, dcmd);
   }
 
-  private Multimap<String, ?> extractParameters(DispatchCommand dcmd) {
+  private ListMultimap<String, ?> extractParameters(DispatchCommand dcmd) {
     if (dcmd == null) {
-      return ArrayListMultimap.create(0, 0);
+      return MultimapBuilder.hashKeys(0).arrayListValues(0).build();
     }
     String[] cmdArgs = dcmd.getArguments();
     String paramName = null;
     int argPos = 0;
-    Multimap<String, String> parms = ArrayListMultimap.create();
+    ListMultimap<String, String> parms =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (int i = 2; i < cmdArgs.length; i++) {
       String arg = cmdArgs[i];
       // -- stop parameters parsing
@@ -258,7 +259,8 @@ class SshLog implements LifecycleListener {
     audit(ctx, result, extractWhat(cmd), extractParameters(cmd));
   }
 
-  private void audit(Context ctx, Object result, String cmd, Multimap<String, ?> params) {
+  private void audit(Context ctx, Object result, String cmd,
+      ListMultimap<String, ?> params) {
     String sessionId;
     CurrentUser currentUser;
     long created;

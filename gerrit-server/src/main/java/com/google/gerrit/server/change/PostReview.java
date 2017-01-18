@@ -27,9 +27,9 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
@@ -207,7 +207,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       input.notify = NotifyHandling.NONE;
     }
 
-    Multimap<RecipientType, Account.Id> accountsToNotify =
+    ListMultimap<RecipientType, Account.Id> accountsToNotify =
         notifyUtil.resolveAccounts(input.notifyDetails);
 
     Map<String, AddReviewerResult> reviewerJsonResults = null;
@@ -304,7 +304,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private void emailReviewers(Change change,
       List<PostReviewers.Addition> reviewerAdditions, NotifyHandling notify,
-      Multimap<RecipientType, Account.Id> accountsToNotify) {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
     for (PostReviewers.Addition addition : reviewerAdditions) {
@@ -671,7 +671,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private class Op extends BatchUpdate.Op {
     private final PatchSet.Id psId;
     private final ReviewInput in;
-    private final Multimap<RecipientType, Account.Id> accountsToNotify;
+    private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
     private final List<PostReviewers.Addition> reviewerResults;
 
     private IdentifiedUser user;
@@ -684,7 +684,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private Map<String, Short> oldApprovals = new HashMap<>();
 
     private Op(PatchSet.Id psId, ReviewInput in,
-        Multimap<RecipientType, Account.Id> accountsToNotify,
+        ListMultimap<RecipientType, Account.Id> accountsToNotify,
         List<PostReviewers.Addition> reviewerResults) {
       this.psId = psId;
       this.in = in;

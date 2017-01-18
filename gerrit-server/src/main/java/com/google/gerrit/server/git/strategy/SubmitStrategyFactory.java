@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.strategy;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -59,7 +59,7 @@ public class SubmitStrategyFactory {
       Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
       CommitStatus commits, RequestId submissionId,
       NotifyHandling notifyHandling,
-      Multimap<RecipientType, Account.Id> accountsToNotify,
+      ListMultimap<RecipientType, Account.Id> accountsToNotify,
       SubmoduleOp submoduleOp, boolean dryrun) throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
         commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,

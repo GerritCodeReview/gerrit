@@ -16,9 +16,9 @@ package com.google.gerrit.server.change;
 
 import static java.util.stream.Collectors.joining;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
@@ -77,19 +77,19 @@ public class NotifyUtil {
     return notifyInfo.accounts == null || notifyInfo.accounts.isEmpty();
   }
 
-  public Multimap<RecipientType, Account.Id> resolveAccounts(
+  public ListMultimap<RecipientType, Account.Id> resolveAccounts(
       @Nullable Map<RecipientType, NotifyInfo> notifyDetails)
           throws OrmException, BadRequestException {
     if (isNullOrEmpty(notifyDetails)) {
       return ImmutableListMultimap.of();
     }
 
-    Multimap<RecipientType, Account.Id> m = null;
+    ListMultimap<RecipientType, Account.Id> m = null;
     for (Entry<RecipientType, NotifyInfo> e : notifyDetails.entrySet()) {
       List<String> accounts = e.getValue().accounts;
       if (accounts != null) {
         if (m == null) {
-          m = ArrayListMultimap.create();
+          m = MultimapBuilder.hashKeys().arrayListValues().build();
         }
         m.putAll(e.getKey(), find(dbProvider.get(), accounts));
       }

@@ -24,11 +24,11 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STA
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -408,10 +408,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private static Multimap<String, IndexableField> fields(Document doc,
+  private static ListMultimap<String, IndexableField> fields(Document doc,
       Set<String> fields) {
-    Multimap<String, IndexableField> stored =
-        ArrayListMultimap.create(fields.size(), 4);
+    ListMultimap<String, IndexableField> stored =
+        MultimapBuilder.hashKeys(fields.size()).arrayListValues(4).build();
     for (IndexableField f : doc) {
       String name = f.name();
       if (fields.contains(name)) {
@@ -421,7 +421,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     return stored;
   }
 
-  private ChangeData toChangeData(Multimap<String, IndexableField> doc,
+  private ChangeData toChangeData(ListMultimap<String, IndexableField> doc,
       Set<String> fields, String idFieldName) {
     ChangeData cd;
     // Either change or the ID field was guaranteed to be included in the call
@@ -482,7 +482,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     return cd;
   }
 
-  private void decodePatchSets(Multimap<String, IndexableField> doc, ChangeData cd) {
+  private void decodePatchSets(ListMultimap<String, IndexableField> doc,
+      ChangeData cd) {
     List<PatchSet> patchSets =
         decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoField.CODEC);
     if (!patchSets.isEmpty()) {
@@ -492,12 +493,14 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void decodeApprovals(Multimap<String, IndexableField> doc, ChangeData cd) {
+  private void decodeApprovals(ListMultimap<String, IndexableField> doc,
+      ChangeData cd) {
     cd.setCurrentApprovals(
         decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoField.CODEC));
   }
 
-  private void decodeChangedLines(Multimap<String, IndexableField> doc, ChangeData cd) {
+  private void decodeChangedLines(ListMultimap<String, IndexableField> doc,
+      ChangeData cd) {
     IndexableField added = Iterables.getFirst(doc.get(ADDED_FIELD), null);
     IndexableField deleted = Iterables.getFirst(doc.get(DELETED_FIELD), null);
     if (added != null && deleted != null) {
@@ -513,7 +516,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void decodeMergeable(Multimap<String, IndexableField> doc, ChangeData cd) {
+  private void decodeMergeable(ListMultimap<String, IndexableField> doc,
+      ChangeData cd) {
     IndexableField f = Iterables.getFirst(doc.get(MERGEABLE_FIELD), null);
     if (f != null) {
       String mergeable = f.stringValue();
@@ -525,7 +529,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void decodeReviewedBy(Multimap<String, IndexableField> doc, ChangeData cd) {
+  private void decodeReviewedBy(ListMultimap<String, IndexableField> doc,
+      ChangeData cd) {
     Collection<IndexableField> reviewedBy = doc.get(REVIEWEDBY_FIELD);
     if (reviewedBy.size() > 0) {
       Set<Account.Id> accounts =
@@ -541,7 +546,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void decodeHashtags(Multimap<String, IndexableField> doc, ChangeData cd) {
+  private void decodeHashtags(ListMultimap<String, IndexableField> doc,
+      ChangeData cd) {
     Collection<IndexableField> hashtag = doc.get(HASHTAG_FIELD);
     Set<String> hashtags = Sets.newHashSetWithExpectedSize(hashtag.size());
     for (IndexableField r : hashtag) {
@@ -550,9 +556,11 @@ public class LuceneChangeIndex implements ChangeIndex {
     cd.setHashtags(hashtags);
   }
 
-  private void decodeStar(Multimap<String, IndexableField> doc, ChangeData cd) {
+  private void decodeStar(ListMultimap<String, IndexableField> doc,
+      ChangeData cd) {
     Collection<IndexableField> star = doc.get(STAR_FIELD);
-    Multimap<Account.Id, String> stars = ArrayListMultimap.create();
+    ListMultimap<Account.Id, String> stars =
+        MultimapBuilder.hashKeys().arrayListValues().build();
     for (IndexableField r : star) {
       StarredChangesUtil.StarField starField =
           StarredChangesUtil.StarField.parse(r.stringValue());
@@ -563,7 +571,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     cd.setStars(stars);
   }
 
-  private void decodeReviewers(Multimap<String, IndexableField> doc,
+  private void decodeReviewers(ListMultimap<String, IndexableField> doc,
       ChangeData cd) {
     cd.setReviewers(
         ChangeField.parseReviewerFieldValues(
@@ -571,7 +579,7 @@ public class LuceneChangeIndex implements ChangeIndex {
                 .transform(IndexableField::stringValue)));
   }
 
-  private void decodeSubmitRecords(Multimap<String, IndexableField> doc,
+  private void decodeSubmitRecords(ListMultimap<String, IndexableField> doc,
       String field, SubmitRuleOptions opts, ChangeData cd) {
     ChangeField.parseSubmitRecords(
         Collections2.transform(
@@ -579,17 +587,18 @@ public class LuceneChangeIndex implements ChangeIndex {
         opts, cd);
   }
 
-  private void decodeRefStates(Multimap<String, IndexableField> doc,
+  private void decodeRefStates(ListMultimap<String, IndexableField> doc,
       ChangeData cd) {
     cd.setRefStates(copyAsBytes(doc.get(REF_STATE_FIELD)));
   }
 
-  private void decodeRefStatePatterns(Multimap<String, IndexableField> doc,
+  private void decodeRefStatePatterns(ListMultimap<String, IndexableField> doc,
       ChangeData cd) {
     cd.setRefStatePatterns(copyAsBytes(doc.get(REF_STATE_PATTERN_FIELD)));
   }
 
-  private static <T> List<T> decodeProtos(Multimap<String, IndexableField> doc,
+  private static <T> List<T> decodeProtos(
+      ListMultimap<String, IndexableField> doc,
       String fieldName, ProtobufCodec<T> codec) {
     Collection<IndexableField> fields = doc.get(fieldName);
     if (fields.isEmpty()) {

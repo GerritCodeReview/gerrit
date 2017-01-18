@@ -21,7 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -525,7 +525,7 @@ public class ChangeNoteUtil {
    *     side.
    * @param out output stream to write to.
    */
-  void buildNote(Multimap<Integer, Comment> comments,
+  void buildNote(ListMultimap<Integer, Comment> comments,
       OutputStream out) {
     if (comments.isEmpty()) {
       return;

@@ -20,7 +20,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -100,7 +100,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
   private NotifyHandling notify = NotifyHandling.ALL;
-  private Multimap<RecipientType, Account.Id> accountsToNotify =
+  private ListMultimap<RecipientType, Account.Id> accountsToNotify =
       ImmutableListMultimap.of();
   private boolean allowClosed;
   private boolean copyApprovals = true;
@@ -185,7 +185,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   public PatchSetInserter setAccountsToNotify(
-      Multimap<RecipientType, Account.Id> accountsToNotify) {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     this.accountsToNotify = checkNotNull(accountsToNotify);
     return this;
   }

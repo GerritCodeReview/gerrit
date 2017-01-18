@@ -16,7 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -100,9 +100,9 @@ public class Schema_108 extends SchemaVersion {
       }
     }
 
-    Multimap<ObjectId, Ref> changeRefsBySha =
+    ListMultimap<ObjectId, Ref> changeRefsBySha =
         MultimapBuilder.hashKeys().arrayListValues().build();
-    Multimap<ObjectId, PatchSet.Id> patchSetsBySha =
+    ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha =
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (Ref ref : refdb.getRefs(RefNames.REFS_CHANGES).values()) {
       ObjectId id = ref.getObjectId();
@@ -132,7 +132,7 @@ public class Schema_108 extends SchemaVersion {
   }
 
   private static void updateGroups(ReviewDb db, GroupCollector collector,
-      Multimap<ObjectId, PatchSet.Id> patchSetsBySha) throws OrmException {
+      ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha) throws OrmException {
     Map<PatchSet.Id, PatchSet> patchSets =
         db.patchSets().toMap(db.patchSets().get(patchSetsBySha.values()));
     for (Map.Entry<ObjectId, Collection<String>> e

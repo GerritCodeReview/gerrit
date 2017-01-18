@@ -15,7 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -95,7 +95,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
 
   public Change abandon(ChangeControl control, String msgTxt,
       NotifyHandling notifyHandling,
-      Multimap<RecipientType, Account.Id> accountsToNotify)
+      ListMultimap<RecipientType, Account.Id> accountsToNotify)
           throws RestApiException, UpdateException {
     CurrentUser user = control.getUser();
     Account account = user.isIdentifiedUser()
@@ -125,7 +125,7 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
   public void batchAbandon(Project.NameKey project, CurrentUser user,
       Collection<ChangeControl> controls, String msgTxt,
       NotifyHandling notifyHandling,
-      Multimap<RecipientType, Account.Id> accountsToNotify)
+      ListMultimap<RecipientType, Account.Id> accountsToNotify)
           throws RestApiException, UpdateException {
     if (controls.isEmpty()) {
       return;

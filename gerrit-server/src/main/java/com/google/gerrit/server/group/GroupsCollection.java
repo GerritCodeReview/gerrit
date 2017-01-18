@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
@@ -70,7 +70,7 @@ public class GroupsCollection implements
   }
 
   @Override
-  public void setParams(Multimap<String, String> params)
+  public void setParams(ListMultimap<String, String> params)
       throws BadRequestException {
     if (params.containsKey("query") && params.containsKey("query2")) {
       throw new BadRequestException(

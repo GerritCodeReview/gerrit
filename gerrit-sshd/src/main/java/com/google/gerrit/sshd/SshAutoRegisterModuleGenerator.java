@@ -18,7 +18,7 @@ import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnn
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
@@ -36,7 +36,8 @@ class SshAutoRegisterModuleGenerator
     extends AbstractModule
     implements ModuleGenerator {
   private final Map<String, Class<Command>> commands = new HashMap<>();
-  private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
+  private final ListMultimap<TypeLiteral<?>, Class<?>> listeners =
+      LinkedListMultimap.create();
   private CommandName command;
 
   @Override

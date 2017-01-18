@@ -23,8 +23,8 @@ import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -126,7 +126,7 @@ public class ConsistencyChecker {
   private RevWalk rw;
 
   private RevCommit tip;
-  private Multimap<ObjectId, PatchSet> patchSetsBySha;
+  private SetMultimap<ObjectId, PatchSet> patchSetsBySha;
   private PatchSet currPs;
   private RevCommit currPsCommit;
 

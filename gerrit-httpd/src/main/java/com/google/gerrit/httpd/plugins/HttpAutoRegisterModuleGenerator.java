@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.plugins;
 import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnnotation;
 
 import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
@@ -35,7 +35,8 @@ import javax.servlet.http.HttpServlet;
 class HttpAutoRegisterModuleGenerator extends ServletModule
     implements ModuleGenerator {
   private final Map<String, Class<HttpServlet>> serve = new HashMap<>();
-  private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
+  private final ListMultimap<TypeLiteral<?>, Class<?>> listeners =
+      LinkedListMultimap.create();
 
   @Override
   protected void configureServlets() {

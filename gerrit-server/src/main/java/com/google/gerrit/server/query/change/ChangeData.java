@@ -41,6 +41,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -340,6 +341,7 @@ public class ChangeData {
   private Map<Integer, Optional<PatchList>> patchLists;
   private Map<Integer, Optional<DiffSummary>> diffSummaries;
   private Collection<Comment> publishedComments;
+  private Collection<RobotComment> robotComments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
@@ -358,6 +360,7 @@ public class ChangeData {
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
+  private int unresolvedCommentsNum;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
@@ -1004,6 +1007,34 @@ public class ChangeData {
       publishedComments = commentsUtil.publishedByChange(db, notes());
     }
     return publishedComments;
+  }
+
+  public Collection<RobotComment> robotComments() throws OrmException {
+    if (robotComments == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
+      }
+      robotComments = commentsUtil.robotCommentsByChange(notes());
+    }
+    return robotComments;
+  }
+
+
+  public int getUnresolvedCommentsNum() throws OrmException {
+    int unresolvedCommentsNum = 0;
+    for (Comment c : publishedComments()) {
+      if (c.unresolved) {
+        ++unresolvedCommentsNum;
+      }
+    }
+
+    for (RobotComment c : robotComments()) {
+      if (c.unresolved) {
+        ++unresolvedCommentsNum;
+      }
+    }
+
+    return unresolvedCommentsNum;
   }
 
   public List<ChangeMessage> messages()

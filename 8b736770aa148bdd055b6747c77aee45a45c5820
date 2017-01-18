@@ -116,6 +116,23 @@
     },
     {
       "key": {
+        "uuid": "031b415c_03a2ce8a",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-18T18:14:04Z",
+      "side": 1,
+      "message": "\u003e is because catchErrors has to happen as soon as possible, so it will be transformed into a prototype method call.\n\nI still don\u0027t quite understand. Do you mean so that it can be invoked as soon as possible, as it is on l.67?\n\n\u003e I\u0027m open for a better naming/namespacing though.\n\nNaming and namespacing is really the only things I meant:\n* It\u0027s defined on `window` when it looks to me like it could be defined on `window.GrReporting` (like a \"static\" function, I don\u0027t mean to define it at `window.GrReporting.prototype`). That way we avoid defining an additional global.\n* It\u0027s used by this element and by tests, so could reasonably be private (named with an underscore).",
+      "revId": "8b736770aa148bdd055b6747c77aee45a45c5820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63323d89_169c7c49",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
         "patchSetId": 2

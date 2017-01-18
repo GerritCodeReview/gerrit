@@ -59,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "031b415c_631e22dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T21:11:19Z",
+      "side": 1,
+      "message": "Can the method and variable names be consistent with the interface name?\n\nAlso I feel like this method shouldn\u0027t be used by anybody except MergeOp. Fortunately MergeOp is in the same package, so you can limit the visibility by removing \"public\".",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_a36bba59",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
         "patchSetId": 9
@@ -110,6 +127,23 @@
       "writtenOn": "2017-01-18T19:21:10Z",
       "side": 1,
       "message": "Ack. The reason I originally added validation inside was to make \"immediately before ref updates\", but now that I think of it, it had a big downside: if there are 2+ repos (topic submit), refs in first repo could be updated before validation raises error on updating refs in second repo. So, adding validation here is clearly better.",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_0216cac5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T21:11:19Z",
+      "side": 1,
+      "message": "Really good point about running validation across all repos before performing any ref updates.",
       "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -258,6 +292,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_e212c6cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T21:11:19Z",
+      "side": 1,
+      "message": "Good point about ReceiveCommand being mutable. I considered that too, but I was actually kind of leaning in the other direction, actually *allowing* extensions to modify the ReceiveCommand. BatchRefUpdate actually skips any ReceiveCommands that have a result other than NOT_ATTEMPTED when it starts executing.\n\nThis is not such a foreign concept: the JGit PreReceiveHook implementation allows hooks to modify the input ReceiveCommand list, and this is exactly how Gerrit\u0027s ReceiveCommits works.\n\nIf you would prefer as a plugin writer to have access to the whole map, then I say go for it.",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_e375b235",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
         "patchSetId": 9
@@ -320,6 +371,23 @@
       "writtenOn": "2017-01-18T19:21:10Z",
       "side": 1,
       "message": "oh, good to know. Sadly, this.listeners isn\u0027t a collection, so your code didn\u0027t work. But I swapped the loops  instead.",
+      "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_a21cbee1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/OnSubmitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-18T21:11:19Z",
+      "side": 1,
+      "message": "For future reference, there is a Lists#newArrayList(Iterable) in Guava to fill this gap in the JDK library. But swapping the loops (or eliminating them, per discussion above) is also fine.",
       "revId": "dade709f207beeefa1c0907b7a6bc73c59bd5bd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -24,19 +24,29 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ChangeMessageModifier;
+import com.google.gerrit.server.git.validators.OnSubmitValidationListener.Arguments;
+import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
   @Inject
   private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
+  @Inject
+  private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
+
 
   @Override
   protected SubmitType getSubmitType() {
@@ -118,6 +128,52 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
         .containsExactly("refs/heads/master");
     assertThat(getCurrentCommit(change2).getFooterLines("Custom-Parent"))
         .containsExactly("refs/heads/master");
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void destRefValidationIsCalled() throws Exception {
+    PushOneCommit.Result change1 = createChange("1", "1.txt", "");
+    PushOneCommit.Result change2 = createChange("2", "2.txt", "");
+    PushOneCommit.Result change3 = createChange("3", "3.txt", "");
+
+    List<Arguments> calls = new ArrayList<>(2);
+    RegistrationHandle handle =
+        onSubmitValidationListeners.add(new OnSubmitValidationListener() {
+          @Override
+          public void preBranchUpdate(Arguments args)
+              throws ValidationException {
+            calls.add(args);
+            assertThat(args.getBranchName()).isEqualTo("refs/heads/master");
+            try (RevWalk rw = args.createRevWalk()) {
+              RevCommit newCommit = rw.parseCommit(args.getNewTip());
+              rw.parseBody(newCommit);
+              if (newCommit.getShortMessage().equals("3"))
+                throw new ValidationException("3rd change won't be merged");
+            } catch (IOException e) {
+              assertThat(e).named("should not be raised").isNull();
+            }
+          }
+        });
+    try {
+      // change1 is a fast-forward, but should be rebased in cherry pick style
+      // anyway, making change2 not a fast-forward, requiring a rebase.
+      approve(change1.getChangeId());
+      submit(change2.getChangeId());
+      // change3 has to be manually rebased first before submit.
+      gApi.changes().id(change3.getChangeId()).current().rebase();
+      try {
+        submit(change3.getChangeId());
+        // ...but should fail anyway in validation.
+        assertThat("unrechable").isNull();
+      } catch (ResourceConflictException e) {
+        assertThat(e.getMessage()).isEqualTo("3rd change won't be merged");
+      }
+    } finally {
+      handle.remove();
+    }
+    assertThat(calls).hasSize(2);
+    assertThat(calls.get(0).getNewTip()).isEqualTo(calls.get(1).getCurrentTip());
   }
 
   private void assertLatestRevisionHasFooters(PushOneCommit.Result change)

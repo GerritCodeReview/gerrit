@@ -51,6 +51,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -532,6 +533,7 @@ public class BatchUpdate implements AutoCloseable {
   private BatchRefUpdate batchRefUpdate;
   private boolean closeRepo;
   private Order order;
+  private OnSubmitValidators refUpdatesValidator;
   private boolean updateChangesInParallel;
   private RequestId requestId;
 
@@ -603,6 +605,11 @@ public class BatchUpdate implements AutoCloseable {
 
   public BatchUpdate setOrder(Order order) {
     this.order = order;
+    return this;
+  }
+
+  public BatchUpdate setRefUpdatesValidator(OnSubmitValidators refUpdatesValidator) {
+    this.refUpdatesValidator = refUpdatesValidator;
     return this;
   }
 
@@ -705,13 +712,16 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void executeRefUpdates(boolean dryrun)
-      throws IOException, RestApiException {
+      throws IOException, RestApiException, IntegrationException {
     if (commands == null || commands.isEmpty()) {
       logDebug("No ref updates to execute");
       return;
     }
     // May not be opened if the caller added ref updates but no new objects.
     initRepository();
+    if (refUpdatesValidator != null){
+      refUpdatesValidator.validate(project, repo, commands.getCommands());
+    }
     batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
     commands.addTo(batchRefUpdate);
     logDebug("Executing batch of {} ref updates",

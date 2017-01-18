@@ -16,6 +16,23 @@
       "revId": "e925481c654f63788e747a3984aad3c1dc1612d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_02d12adc",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-18T19:05:16Z",
+      "side": 1,
+      "message": "I don\u0027t see significant difference, so done.",
+      "revId": "e925481c654f63788e747a3984aad3c1dc1612d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

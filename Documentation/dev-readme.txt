@@ -182,13 +182,16 @@ copying to the test site:
 
 .Build based on Buck
 ----
-  java -jar buck-out/gen/gerrit/gerrit.war daemon -d ../gerrit_testsite
+  java -jar buck-out/gen/gerrit/gerrit.war daemon -d \
+    ../gerrit_testsite --console-log
+
 ----
 
 .Build based on Bazel
 ----
   $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite
+     -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite \
+     --console-log
 ----
 
 NOTE: Please refer to <<special_bazel_java_version,this explanation>>

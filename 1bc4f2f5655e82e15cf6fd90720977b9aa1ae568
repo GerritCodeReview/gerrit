@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "031b415c_e38a1270",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-19T21:45:42Z",
+      "side": 1,
+      "message": "Any reason you prefer this way of function creation over \n\n  var filterByRange \u003d function() {\n\n...?",
+      "range": {
+        "startLine": 650,
+        "startChar": 6,
+        "endLine": 654,
+        "endChar": 8
+      },
+      "revId": "1bc4f2f5655e82e15cf6fd90720977b9aa1ae568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_437a068d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-19T21:45:42Z",
+      "side": 1,
+      "message": "I wonder why these are three different API requests. It feels like it would make sense for getDiffComments to return a dictionary of all comments that are visible to the user making the request, keyed by type.",
+      "range": {
+        "startLine": 657,
+        "startChar": 8,
+        "endLine": 659,
+        "endChar": 61
+      },
+      "revId": "1bc4f2f5655e82e15cf6fd90720977b9aa1ae568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

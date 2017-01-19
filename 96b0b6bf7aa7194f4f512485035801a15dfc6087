@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_952944ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-19T18:51:08Z",
+      "side": 1,
+      "message": "Changed the func\u0027s name to unresolvedCommentsCount().",
+      "range": {
+        "startLine": 1020,
+        "startChar": 13,
+        "endLine": 1020,
+        "endChar": 37
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_f44d18d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-19T18:51:08Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 1020,
+        "startChar": 13,
+        "endLine": 1020,
+        "endChar": 37
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8e9aa6a_02eb6a5f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 6
@@ -42,6 +88,23 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_d44a9cba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-19T18:51:08Z",
+      "side": 1,
+      "message": "Yes. return 0 will be very confusing. Changed.",
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_638f02bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 6
@@ -53,6 +116,29 @@
       "writtenOn": "2017-01-19T17:24:22Z",
       "side": 1,
       "message": "Unresolved is a Boolean; can it ever be null in practice? If so, a null value will NPE. You would want to replace this with c.unresolved \u003d\u003d Boolean.TRUE or something.",
+      "range": {
+        "startLine": 1023,
+        "startChar": 47,
+        "endLine": 1023,
+        "endChar": 59
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_34395044",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-19T18:51:08Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 1023,
         "startChar": 47,
@@ -88,6 +174,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_d523bc0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-19T18:51:08Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 1023,
+        "startChar": 60,
+        "endLine": 1025,
+        "endChar": 9
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_834a3e92",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 6
@@ -99,6 +208,29 @@
       "writtenOn": "2017-01-19T17:24:22Z",
       "side": 1,
       "message": "I think you don\u0027t want this !, it should be the same as the other filter, right?",
+      "range": {
+        "startLine": 1027,
+        "startChar": 43,
+        "endLine": 1027,
+        "endChar": 44
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_35ae7043",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-19T18:51:08Z",
+      "side": 1,
+      "message": "Of course. I should check the code more carefully.",
       "range": {
         "startLine": 1027,
         "startChar": 43,

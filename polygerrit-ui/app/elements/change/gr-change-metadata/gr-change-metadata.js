@@ -193,9 +193,9 @@
       if (missingLabels.length) {
         output += 'Needs ';
         output += missingLabels.join(' and ');
-        output += missingLabels.length > 1 ? ' labels' : ' label';
+        output += missingLabels.length > 1 ? ' Labels' : ' Label';
       } else {
-        output = 'Ready to submit';
+        output = 'Ready to Submit';
       }
       return output;
     },

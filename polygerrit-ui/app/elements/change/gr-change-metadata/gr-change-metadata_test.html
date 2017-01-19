@@ -81,18 +81,18 @@ limitations under the License.
 
     test('computes submit status', function() {
       var labels = {};
-      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
+      assert.equal(element._computeSubmitStatus(labels), 'Ready to Submit');
       labels = {test: {}};
-      assert.equal(element._computeSubmitStatus(labels), 'Needs test label');
+      assert.equal(element._computeSubmitStatus(labels), 'Needs test Label');
       labels.test.approved = true;
-      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
+      assert.equal(element._computeSubmitStatus(labels), 'Ready to Submit');
       labels.test.approved = false;
       labels.test.optional = true;
-      assert.equal(element._computeSubmitStatus(labels), 'Ready to submit');
+      assert.equal(element._computeSubmitStatus(labels), 'Ready to Submit');
       labels.test.optional = false;
       labels.test2 = {};
       assert.equal(element._computeSubmitStatus(labels),
-          'Needs test and test2 labels');
+          'Needs test and test2 Labels');
     });
 
     suite('remove reviewer votes', function() {

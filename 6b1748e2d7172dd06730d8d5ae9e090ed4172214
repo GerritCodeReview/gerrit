@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9aa6a_82ae5a41",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-01-19T12:29:46Z",
+      "side": 1,
+      "message": "a2b5970b853f8fee64589fc1103c0ceb7677ba63",
+      "range": {
+        "startLine": 138,
+        "startChar": 12,
+        "endLine": 138,
+        "endChar": 52
+      },
+      "revId": "6b1748e2d7172dd06730d8d5ae9e090ed4172214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_62b356ad",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-01-19T12:29:46Z",
+      "side": 1,
+      "message": "765f955774c36c226aa41fba7c20119451de2db7",
+      "range": {
+        "startLine": 139,
+        "startChar": 16,
+        "endLine": 139,
+        "endChar": 56
+      },
+      "revId": "6b1748e2d7172dd06730d8d5ae9e090ed4172214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_a2239e0b",
+        "filename": "lib/jgit/org.eclipse.jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-01-19T12:29:46Z",
+      "side": 1,
+      "message": "a2b5970b853f8fee64589fc1103c0ceb7677ba63",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "6b1748e2d7172dd06730d8d5ae9e090ed4172214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "031b415c_e3a2123b",
+        "filename": "lib/jgit/org.eclipse.jgit/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-01-19T12:29:46Z",
+      "side": 1,
+      "message": "765f955774c36c226aa41fba7c20119451de2db7",
+      "range": {
+        "startLine": 8,
+        "startChar": 14,
+        "endLine": 8,
+        "endChar": 54
+      },
+      "revId": "6b1748e2d7172dd06730d8d5ae9e090ed4172214",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

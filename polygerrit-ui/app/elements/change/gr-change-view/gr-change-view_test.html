@@ -101,6 +101,15 @@ limitations under the License.
 
       test('shift + R should fetch and navigate to the latest patch set',
           function(done) {
+        sandbox.stub(window, 'fetch', function() {
+          return Promise.resolve({
+            ok: true,
+            text: function() {
+              return Promise.resolve(')]}\'\n');
+            },
+          });
+        });
+
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: 'PARENT',

@@ -314,7 +314,7 @@
 
     _chooseFocusTarget: function() {
       // If we are the owner and the reviewers field is empty, focus on that.
-      if (this._account && this.change.owner &&
+      if (this._account && this.change && this.change.owner &&
           this._account._account_id === this.change.owner._account_id &&
           (!this._reviewers || this._reviewers.length === 0)) {
         return FocusTarget.REVIEWERS;

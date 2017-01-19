@@ -45,7 +45,6 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 
 import org.eclipse.jgit.junit.TestRepository;
@@ -82,7 +81,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     cfg.getLabelSections().put(verified.getName(), verified);
 
     AccountGroup.UUID registeredUsers =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     String heads = RefNames.REFS_HEADS + "*";
     Util.allow(cfg, Permission.forLabel(Util.codeReview().getName()), -2, 2,
         registeredUsers, heads);

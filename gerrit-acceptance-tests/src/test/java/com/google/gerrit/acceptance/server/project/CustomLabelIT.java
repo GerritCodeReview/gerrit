@@ -35,7 +35,6 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
@@ -65,7 +64,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     AccountGroup.UUID anonymousUsers =
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+        systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
     Util.allow(cfg, Permission.forLabel(label.getName()), -1, 1, anonymousUsers,
         "refs/heads/*");
     Util.allow(cfg, Permission.forLabel(P.getName()), 0, 1, anonymousUsers,

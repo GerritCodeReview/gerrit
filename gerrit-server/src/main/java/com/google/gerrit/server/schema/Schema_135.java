@@ -49,16 +49,19 @@ public class Schema_135 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
+  private final SystemGroupBackend systemGroupBackend;
   private final PersonIdent serverUser;
 
   @Inject
   Schema_135(Provider<Schema_134> prior,
       GitRepositoryManager repoManager,
       AllProjectsName allProjectsName,
+      SystemGroupBackend systemGroupBackend,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
+    this.systemGroupBackend = systemGroupBackend;
     this.serverUser = serverUser;
   }
 
@@ -81,7 +84,7 @@ public class Schema_135 extends SchemaVersion {
                       .getRules()
                       .stream()
                       .map(PermissionRule::getGroup),
-                  Stream.of(SystemGroupBackend.getGroup(PROJECT_OWNERS)))
+                  Stream.of(systemGroupBackend.getGroup(PROJECT_OWNERS)))
               .filter(g -> createRefsMetaConfigPermission.getRule(g) == null)
               .collect(toSet());
 

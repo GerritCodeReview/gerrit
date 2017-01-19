@@ -80,6 +80,21 @@
       },
       _isImageDiff: Boolean,
       _filesWeblinks: Object,
+
+      /**
+       * Map of paths in the current chnage and patch range that have comments
+       * or drafts or robot comments.
+       */
+      _commentMap: Object,
+
+      /**
+       * Object to contain the path of the next and previous file in the current
+       * change and patch range that has comments.
+       */
+      _commentSkips: {
+        type: Object,
+        computed: '_computeCommentSkips(_commentMap, _fileList, _path)',
+      },
     },
 
     behaviors: [
@@ -210,8 +225,13 @@
     },
 
     _handleUpKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (e.detail.keyboardEvent.shiftKey &&
+          e.detail.keyboardEvent.keyCode === 75) { // 'K'
+        this._moveToPreviousFileWithComment();
+        return;
+      }
+      if (this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this.$.diff.displayLine = true;
@@ -219,12 +239,31 @@
     },
 
     _handleDownKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      if (e.detail.keyboardEvent.shiftKey &&
+          e.detail.keyboardEvent.keyCode === 74) { // 'J'
+        this._moveToNextFileWithComment();
+        return;
+      }
+      if (this.modifierPressed(e)) { return; }
 
       e.preventDefault();
       this.$.diff.displayLine = true;
       this.$.cursor.moveDown();
+    },
+
+    _moveToPreviousFileWithComment: function() {
+      if (this._commentSkips && this._commentSkips.previous) {
+        page.show(this._getDiffURL(this._changeNum, this._patchRange,
+            this._commentSkips.previous));
+      }
+    },
+
+    _moveToNextFileWithComment: function() {
+      if (this._commentSkips && this._commentSkips.next) {
+        page.show(this._getDiffURL(this._changeNum, this._patchRange,
+            this._commentSkips.next));
+      }
     },
 
     _handleCKey: function(e) {
@@ -409,6 +448,10 @@
       Promise.all(promises)
           .then(function() { return this.$.diff.reload(); }.bind(this))
           .then(function() { this._loading = false; }.bind(this));
+
+      this._loadCommentMap().then(function(commentMap) {
+        this._commentMap = commentMap;
+      }.bind(this));
     },
 
     /**
@@ -595,6 +638,69 @@
       var url = this.changeBaseURL(changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;
+    },
+
+    /**
+     * Request all comments (and drafts and robot comments) for the current
+     * change and construct the map of file paths that have comments for the
+     * current patch range.
+     * @return {Promise} A promise that yields a comment map object.
+     */
+    _loadCommentMap: function() {
+      function filterByRange(comment) {
+        var patchNum = comment.patch_set + '';
+        return patchNum === this._patchRange.patchNum ||
+            patchNum === this._patchRange.basePatchNum;
+      };
+
+      return Promise.all([
+        this.$.restAPI.getDiffComments(this._changeNum),
+        this._getDiffDrafts(),
+        this.$.restAPI.getDiffRobotComments(this._changeNum),
+      ]).then(function(results) {
+        var commentMap = {};
+        var filteredComments;
+        results.forEach(function(response) {
+          for (var path in response) {
+            filteredComments = response[path].filter(filterByRange.bind(this));
+            if (response.hasOwnProperty(path) && filteredComments.length) {
+              commentMap[path] = true;
+            }
+          }
+        }.bind(this));
+        return commentMap;
+      }.bind(this));
+    },
+
+    _getDiffDrafts: function() {
+      return this._getLoggedIn().then(function(loggedIn) {
+        if (!loggedIn) { return Promise.resolve({}); }
+        return this.$.restAPI.getDiffDrafts(this._changeNum);
+      }.bind(this));
+    },
+
+    _computeCommentSkips: function(commentMap, fileList, path) {
+      var skips = {previous: null, next: null};
+      if (!fileList.length) { return skips; }
+      var pathIndex = fileList.indexOf(path);
+
+      // Scan backward for the previous file.
+      for (var i = pathIndex - 1; i >= 0; i--) {
+        if (commentMap[fileList[i]]) {
+          skips.previous = fileList[i];
+          break;
+        }
+      }
+
+      // Scan forward for the next file.
+      for (i = pathIndex + 1; i < fileList.length; i++) {
+        if (commentMap[fileList[i]]) {
+          skips.next = fileList[i];
+          break;
+        }
+      }
+
+      return skips;
     },
   });
 })();

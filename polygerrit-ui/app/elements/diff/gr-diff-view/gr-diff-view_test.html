@@ -584,5 +584,106 @@ limitations under the License.
       element.changeViewState = {diffMode: 'SIDE_BY_SIDE'};
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
+
+    suite('_loadCommentMap', function() {
+      test('empty', function(done) {
+        stub('gr-rest-api-interface', {
+          getDiffRobotComments: function() { return Promise.resolve({}); },
+          getDiffComments: function() { return Promise.resolve({}); },
+        });
+        element._loadCommentMap().then(function(map) {
+          assert.equal(Object.keys(map).length, 0);
+          done();
+        });
+      });
+
+      test('paths in patch range', function(done) {
+        stub('gr-rest-api-interface', {
+          getDiffRobotComments: function() { return Promise.resolve({}); },
+          getDiffComments: function() {
+            return Promise.resolve({
+              'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
+              'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
+            });
+          },
+        });
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: '3',
+          patchNum: '5',
+        };
+        element._loadCommentMap().then(function(map) {
+          assert.deepEqual(Object.keys(map),
+              ['path/to/file/one.cpp', 'path-to/file/two.py']);
+          done();
+        });
+      });
+
+      test('empty for paths outside patch range', function(done) {
+        stub('gr-rest-api-interface', {
+          getDiffRobotComments: function() { return Promise.resolve({}); },
+          getDiffComments: function() {
+            return Promise.resolve({
+              'path/to/file/one.cpp': [{patch_set: 'PARENT', message: 'lorem'}],
+              'path-to/file/two.py': [{patch_set: 2, message: 'ipsum'}],
+            });
+          },
+        });
+        element._changeNum = '42';
+        element._patchRange = {
+          basePatchNum: '3',
+          patchNum: '5',
+        };
+        element._loadCommentMap().then(function(map) {
+          assert.equal(Object.keys(map).length, 0);
+          done();
+        });
+      });
+    });
+
+    suite('_computeCommentSkips', function() {
+      test('empty file list', function() {
+        var commentMap = {
+          'path/one.jpg': true,
+          'path/three.wav': true,
+        };
+        var path = 'path/two.m4v';
+        var fileList = [];
+        var result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.isNull(result.previous);
+        assert.isNull(result.next);
+      });
+
+      test('finds skips', function() {
+        var fileList = ['path/one.jpg', 'path/two.m4v', 'path/three.wav'];
+        var path = fileList[1];
+        var commentMap = {};
+        commentMap[fileList[0]] = true;
+        commentMap[fileList[1]] = false;
+        commentMap[fileList[2]] = true;
+
+        var result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[0]);
+        assert.equal(result.next, fileList[2]);
+
+        commentMap[fileList[1]] = true;
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[0]);
+        assert.equal(result.next, fileList[2]);
+
+        path = fileList[0];
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.isNull(result.previous);
+        assert.equal(result.next, fileList[1]);
+
+        path = fileList[2];
+
+        result = element._computeCommentSkips(commentMap, fileList, path);
+        assert.equal(result.previous, fileList[1]);
+        assert.isNull(result.next);
+      });
+    });
   });
 </script>

@@ -2321,8 +2321,21 @@ public class ReceiveCommits {
       for (Ref r : rp.getRepository().getRefDatabase()
           .getRefs("refs/changes").values()) {
         if (r.getObjectId().equals(newCommit)) {
-          reject(inputCommand, "commit already exists (in the project)");
-          return false;
+          Branch.NameKey dest = null;
+          try {
+            Change.Id id = Change.Id.fromRef(r);
+            if (id == null) {
+              continue;
+            }
+            dest = db.changes().get(id).getDest();
+          } catch (Exception e) {
+            // ignore any exception to allow push to continue.
+          }
+          if (change.getDest().equals(dest)) {
+            reject(inputCommand,
+                "commit already exists (in the project, branch)");
+            return false;
+          }
         }
       }
 

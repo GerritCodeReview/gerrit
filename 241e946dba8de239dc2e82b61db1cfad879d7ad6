@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9aa6a_42fbb202",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T22:06:23Z",
+      "side": 1,
+      "message": "Late-breaking optional nit: consider using a filter here.\n\n  // We are already displaying these types of links elsewhere,\n  // don\u0027t include in the metadata links section.\n  var webLinks \u003d commitInfo.web_links.filter(this._isWebLink.bind(this));",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "241e946dba8de239dc2e82b61db1cfad879d7ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

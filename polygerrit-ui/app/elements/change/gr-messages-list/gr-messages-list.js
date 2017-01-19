@@ -70,6 +70,10 @@
       for (var i = 0; i < messages.length; i++) {
         messages[i]._index = i;
       }
+      if (!reviewerUpdates.length || !reviewerUpdates[0].date) {
+        // Fail-safe for previous API version.
+        return messages;
+      }
       while (mi < messages.length || ri < reviewerUpdates.length) {
         if (mi >= messages.length) {
           result = result.concat(reviewerUpdates.slice(ri));
@@ -80,7 +84,7 @@
           break;
         }
         mDate = mDate || util.parseDate(messages[mi].date);
-        rDate = rDate || util.parseDate(reviewerUpdates[ri].updated);
+        rDate = rDate || util.parseDate(reviewerUpdates[ri].date);
         if (rDate < mDate) {
           result.push(reviewerUpdates[ri++]);
           rDate = null;

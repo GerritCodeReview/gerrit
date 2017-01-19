@@ -422,7 +422,46 @@
           ListChangesOption.WEB_LINKS
       );
       return this._getChangeDetail(
-          changeNum, options, opt_errFn, opt_cancelCondition);
+        changeNum, options, opt_errFn, opt_cancelCondition).then(
+          this._formatReviewerUpdates.bind(this));
+    },
+
+    _formatReviewerUpdates: function(change) {
+      var createMessage = function(prev, state) {
+        if (prev === 'REMOVED' || !prev) {
+          return 'added to ' + state + ': ';
+        } else if (state === 'REMOVED') {
+          return 'removed ' + (prev ? ('from ' + prev) : '') + ': ';
+        } else {
+          return 'moved from ' + prev + ' to ' + state + ': ';
+        }
+      };
+      change.reviewer_updates.forEach(function(update) {
+        // Fail-safe for previous API version.
+        if (!update.updates) {
+          return;
+        }
+        // Reviewers grouped by update message (eg 'added to cc').
+        var grouppedReviewers = update.updates.reduce(function(result, item) {
+          var message = createMessage(item.prev_state, item.state);
+          if (!result[message]) {
+            result[message] = [];
+          }
+          result[message].push(item.reviewer);
+          return result;
+        }, {});
+        var newUpdates = [];
+        for (var message in grouppedReviewers) {
+          if (grouppedReviewers.hasOwnProperty(message)) {
+            newUpdates.push({
+              message: message,
+              reviewers: grouppedReviewers[message],
+            });
+          }
+        }
+        update.updates = newUpdates;
+      });
+      return change;
     },
 
     getDiffChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {

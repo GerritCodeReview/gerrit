@@ -22,6 +22,29 @@
       "revId": "d336e103e261bdc4f5cae77d2183a8922624a5cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_f5f87853",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-01-19T10:37:07Z",
+      "side": 1,
+      "message": "So it seems. Done",
+      "range": {
+        "startLine": 86,
+        "startChar": 69,
+        "endLine": 86,
+        "endChar": 74
+      },
+      "revId": "d336e103e261bdc4f5cae77d2183a8922624a5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

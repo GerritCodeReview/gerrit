@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "031b415c_4335a6f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T20:56:20Z",
+      "side": 1,
+      "message": "Capitalization of web-links isn\u0027t totally consistent here. I think the \u0027l\u0027 should be capitalized to match the existing style.",
+      "range": {
+        "startLine": 74,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 14
+      },
+      "revId": "2658cff06545cb443dcc8ddc1f82cec72c89dfd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_6332a213",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T20:56:20Z",
+      "side": 1,
+      "message": "Same here, s/weblinks/webLinks/",
+      "range": {
+        "startLine": 235,
+        "startChar": 17,
+        "endLine": 235,
+        "endChar": 25
+      },
+      "revId": "2658cff06545cb443dcc8ddc1f82cec72c89dfd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_e325b2cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T20:56:20Z",
+      "side": 1,
+      "message": "Tiny nit: this comment would make for a nice JSDoc instead of inside the function.",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "2658cff06545cb443dcc8ddc1f82cec72c89dfd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_a264be24",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T20:56:20Z",
+      "side": 1,
+      "message": "This function could use a JSDoc with a @return to encode how it uses null instead of an empty list.",
+      "revId": "2658cff06545cb443dcc8ddc1f82cec72c89dfd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_032baea0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T20:56:20Z",
+      "side": 1,
+      "message": "Tiny optional nit: the \u003e 0 is not needed.",
+      "range": {
+        "startLine": 99,
+        "startChar": 28,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "2658cff06545cb443dcc8ddc1f82cec72c89dfd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

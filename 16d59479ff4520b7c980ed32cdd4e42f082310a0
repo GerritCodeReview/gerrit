@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "031b415c_c368b69f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T23:02:39Z",
+      "side": 1,
+      "message": "Both \u003csection\u003es in this dom-if already have `hidden$` bindings to hide them. Could those be upgraded to a method that depends on _loading?\n\nSomething like...\n\n  _shouldShowActions: function(actionsChangeRecord,\n      additionalActionsChangeRecord, \n      loading) {\n    return !loading \u0026\u0026\n         !!this._actionCount(actionsChangeRecord,\n             additionalActionsChangeRecord);\n  },\n\nThat way we could remove the dom-if.",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 60
+      },
+      "revId": "16d59479ff4520b7c980ed32cdd4e42f082310a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_a2495e70",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T23:02:39Z",
+      "side": 1,
+      "message": "IMO, a dom-if is overkill for such simple elements. Would `hidden$\u003d\"[[!_loading]]\"` work here?",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 17
+      },
+      "revId": "16d59479ff4520b7c980ed32cdd4e42f082310a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

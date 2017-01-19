@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_35667094",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteVoteIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-19T06:08:17Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 8
+      },
+      "revId": "ccdcef50ebbcf71902901d846166a6ada84e332e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28a6628f_646b4a5a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteVoteIT.java",
         "patchSetId": 1
@@ -36,6 +59,29 @@
       "writtenOn": "2017-01-18T23:20:16Z",
       "side": 1,
       "message": "does it need to be static?",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 106,
+        "endChar": 16
+      },
+      "revId": "ccdcef50ebbcf71902901d846166a6ada84e332e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_34667094",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteVoteIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-19T06:08:17Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 106,
         "startChar": 10,

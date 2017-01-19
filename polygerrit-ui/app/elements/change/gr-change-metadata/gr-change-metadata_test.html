@@ -95,6 +95,43 @@ limitations under the License.
           'Needs test and test2 labels');
     });
 
+    test('weblinks hidden when no weblinks', function() {
+      element.commitInfo = {};
+      flushAsynchronousOperations();
+      var webLinks = element.$.webLinks;
+      assert.isTrue(webLinks.hasAttribute('hidden'));
+    });
+
+    test('weblinks hidden when only gitiles weblink', function() {
+      element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
+      flushAsynchronousOperations();
+      var webLinks = element.$.webLinks;
+      assert.isTrue(webLinks.hasAttribute('hidden'));
+      assert.equal(element._computeWebLinks(element.commitInfo), null);
+    });
+
+    test('weblinks are visible when other weblinks', function() {
+      element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
+      flushAsynchronousOperations();
+      var webLinks = element.$.webLinks;
+      assert.isFalse(webLinks.hasAttribute('hidden'));
+      assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+      // With two non-gitiles weblinks, there are two returned.
+      element.commitInfo = {
+        web_links: [{name: 'test', url: '#'}, {name: 'test2', url: '#'}]};
+      assert.equal(element._computeWebLinks(element.commitInfo).length, 2);
+    });
+
+    test('weblinks are visible when gitiles and other weblinks', function() {
+      element.commitInfo = {
+        web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
+      flushAsynchronousOperations();
+      var webLinks = element.$.webLinks;
+      assert.isFalse(webLinks.hasAttribute('hidden'));
+      // Only the non-gitiles weblink is returned.
+      assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
+    });
+
     suite('remove reviewer votes', function() {
       var sandbox;
 

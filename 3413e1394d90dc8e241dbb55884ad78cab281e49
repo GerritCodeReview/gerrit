@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_2200ae1e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T22:10:31Z",
+      "side": 1,
+      "message": "+1 to DRY-ing these tests a little. An alternative approach would be to define a suite-local function that generates a change object from parameters.\n\nBesides the tests, though, this change is very nicely minimal!",
+      "revId": "3413e1394d90dc8e241dbb55884ad78cab281e49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "031b415c_83995ec3",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-chip/gr-linked-chip.html",
         "patchSetId": 1

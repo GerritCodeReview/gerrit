@@ -58,6 +58,7 @@ public class Schema_125 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final AllProjectsName allProjectsName;
+  private final SystemGroupBackend systemGroupBackend;
   private final PersonIdent serverUser;
 
   @Inject
@@ -65,11 +66,13 @@ public class Schema_125 extends SchemaVersion {
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       AllProjectsName allProjectsName,
+      SystemGroupBackend systemGroupBackend,
       @GerritPersonIdent PersonIdent serverUser) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.allProjectsName = allProjectsName;
+    this.systemGroupBackend = systemGroupBackend;
     this.serverUser = serverUser;
   }
 
@@ -82,7 +85,7 @@ public class Schema_125 extends SchemaVersion {
 
       config.getAccessSection(RefNames.REFS_USERS + "*", true)
           .remove(new Permission(Permission.READ));
-      GroupReference registered = SystemGroupBackend.getGroup(REGISTERED_USERS);
+      GroupReference registered = systemGroupBackend.getGroup(REGISTERED_USERS);
       AccessSection users = config.getAccessSection(
           RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
       grant(config, users, Permission.READ, true, registered);

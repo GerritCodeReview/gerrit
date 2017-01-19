@@ -17,6 +17,7 @@ package com.google.gerrit.server.group;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
@@ -27,6 +28,8 @@ import com.google.gerrit.server.account.AbstractGroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +41,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+@Singleton
 public class SystemGroupBackend extends AbstractGroupBackend {
   public static final String SYSTEM_GROUP_SCHEME = "global:";
 
@@ -57,8 +61,6 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   public static final AccountGroup.UUID CHANGE_OWNER =
       new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Change-Owner");
 
-  private static final SortedMap<String, GroupReference> names;
-  private static final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
   private static final AccountGroup.UUID[] all = {
       ANONYMOUS_USERS,
       REGISTERED_USERS,
@@ -66,7 +68,24 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       CHANGE_OWNER,
   };
 
-  static {
+  public static boolean isSystemGroup(AccountGroup.UUID uuid) {
+    return uuid.get().startsWith(SYSTEM_GROUP_SCHEME);
+  }
+
+  public static boolean isAnonymousOrRegistered(GroupReference ref) {
+    return isAnonymousOrRegistered(ref.getUUID());
+  }
+
+  public static boolean isAnonymousOrRegistered(AccountGroup.UUID uuid) {
+    return ANONYMOUS_USERS.equals(uuid) || REGISTERED_USERS.equals(uuid);
+  }
+
+  private final SortedMap<String, GroupReference> names;
+  private final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
+
+  @Inject
+  @VisibleForTesting
+  public SystemGroupBackend() {
     SortedMap<String, GroupReference> n = new TreeMap<>();
     ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u =
         ImmutableMap.builder();
@@ -82,23 +101,11 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     uuids = u.build();
   }
 
-  public static boolean isSystemGroup(AccountGroup.UUID uuid) {
-    return uuid.get().startsWith(SYSTEM_GROUP_SCHEME);
-  }
-
-  public static boolean isAnonymousOrRegistered(GroupReference ref) {
-    return isAnonymousOrRegistered(ref.getUUID());
-  }
-
-  public static boolean isAnonymousOrRegistered(AccountGroup.UUID uuid) {
-    return ANONYMOUS_USERS.equals(uuid) || REGISTERED_USERS.equals(uuid);
-  }
-
-  public static GroupReference getGroup(AccountGroup.UUID uuid) {
+  public GroupReference getGroup(AccountGroup.UUID uuid) {
     return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
   }
 
-  public static Set<String> getNames() {
+  public Set<String> getNames() {
     return names.values().stream().map(r -> r.getName()).collect(toSet());
   }
 

@@ -98,7 +98,6 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.Util;
@@ -1231,7 +1230,7 @@ public class ChangeIT extends AbstractDaemonTest {
     cfg.getLabelSections().put(verified.getName(), verified);
 
     AccountGroup.UUID registeredUsers =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     String heads = RefNames.REFS_HEADS + "*";
     Util.allow(cfg, Permission.forLabel(Util.verified().getName()), -1, 1,
         registeredUsers, heads);
@@ -1526,9 +1525,9 @@ public class ChangeIT extends AbstractDaemonTest {
     cfg.getLabelSections().put(verified.getName(), verified);
     String heads = "refs/heads/*";
     AccountGroup.UUID owners =
-        SystemGroupBackend.getGroup(CHANGE_OWNER).getUUID();
+        systemGroupBackend.getGroup(CHANGE_OWNER).getUUID();
     AccountGroup.UUID registered =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     Util.allow(cfg,
         Permission.forLabel(verified.getName()), -1, 1, owners, heads);
     Util.allow(cfg,
@@ -1825,7 +1824,7 @@ public class ChangeIT extends AbstractDaemonTest {
     cfg.getLabelSections().put(custom2.getName(), custom2);
     String heads = "refs/heads/*";
     AccountGroup.UUID anon =
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+        systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
     Util.allow(cfg, Permission.forLabel("Verified"), -1, 1, anon, heads);
     Util.allow(cfg, Permission.forLabel("Custom1"), -1, 1, anon, heads);
     Util.allow(cfg, Permission.forLabel("Custom2"), -1, 1, anon, heads);
@@ -2391,7 +2390,7 @@ public class ChangeIT extends AbstractDaemonTest {
     LabelType verified = Util.verified();
     cfg.getLabelSections().put(verified.getName(), verified);
     AccountGroup.UUID registeredUsers =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     String heads = RefNames.REFS_HEADS + "*";
     Util.allow(cfg, Permission.forLabel(verified.getName()), -1, 1,
         registeredUsers, heads);
@@ -2453,7 +2452,7 @@ public class ChangeIT extends AbstractDaemonTest {
     LabelType verified = Util.verified();
     cfg.getLabelSections().put(verified.getName(), verified);
     AccountGroup.UUID registeredUsers =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     String heads = RefNames.REFS_HEADS + "*";
     Util.allow(cfg, Permission.forLabel(verified.getName()), -1, 1,
         registeredUsers, heads);
@@ -2548,7 +2547,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // Allow user to approve
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     AccountGroup.UUID registeredUsers =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     String heads = RefNames.REFS_HEADS + "*";
     Util.allow(cfg, Permission.forLabel(Util.codeReview().getName()), -2, 2,
         registeredUsers, heads);

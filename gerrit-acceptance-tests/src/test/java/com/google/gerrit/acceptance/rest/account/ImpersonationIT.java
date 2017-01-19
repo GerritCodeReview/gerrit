@@ -59,7 +59,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -611,7 +610,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     String forCodeReviewAs = Permission.forLabelAs(codeReviewType.getName());
     String heads = "refs/heads/*";
     AccountGroup.UUID uuid =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     Util.allow(cfg, forCodeReviewAs, -1, 1, uuid, heads);
     saveProjectConfig(project, cfg);
   }
@@ -620,7 +619,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     String heads = "refs/heads/*";
     AccountGroup.UUID uuid =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     Util.allow(cfg, Permission.SUBMIT_AS, uuid, heads);
     Util.allow(cfg, Permission.SUBMIT, uuid, heads);
     LabelType codeReviewType = Util.codeReview();
@@ -639,14 +638,14 @@ public class ImpersonationIT extends AbstractDaemonTest {
   private void allowRunAs() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     Util.allow(cfg, GlobalCapability.RUN_AS,
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+        systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
     saveProjectConfig(allProjects, cfg);
   }
 
   private void removeRunAs() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     Util.remove(cfg, GlobalCapability.RUN_AS,
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+        systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
     saveProjectConfig(allProjects, cfg);
   }
 

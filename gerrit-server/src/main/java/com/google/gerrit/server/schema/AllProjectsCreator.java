@@ -70,14 +70,15 @@ public class AllProjectsCreator {
   AllProjectsCreator(
       GitRepositoryManager mgr,
       AllProjectsName allProjectsName,
+      SystemGroupBackend systemGroupBackend,
       @GerritPersonIdent PersonIdent serverUser) {
     this.mgr = mgr;
     this.allProjectsName = allProjectsName;
     this.serverUser = serverUser;
 
-    this.anonymous = SystemGroupBackend.getGroup(ANONYMOUS_USERS);
-    this.registered = SystemGroupBackend.getGroup(REGISTERED_USERS);
-    this.owners = SystemGroupBackend.getGroup(PROJECT_OWNERS);
+    this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
+    this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
+    this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
   }
 
   public AllProjectsCreator setAdministrators(GroupReference admin) {

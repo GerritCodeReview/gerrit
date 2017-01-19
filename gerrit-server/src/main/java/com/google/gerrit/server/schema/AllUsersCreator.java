@@ -54,11 +54,12 @@ public class AllUsersCreator {
   AllUsersCreator(
       GitRepositoryManager mgr,
       AllUsersName allUsersName,
+      SystemGroupBackend systemGroupBackend,
       @GerritPersonIdent PersonIdent serverUser) {
     this.mgr = mgr;
     this.allUsersName = allUsersName;
     this.serverUser = serverUser;
-    this.registered = SystemGroupBackend.getGroup(REGISTERED_USERS);
+    this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
   }
 
   public AllUsersCreator setAdministrators(GroupReference admin) {

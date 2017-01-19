@@ -169,8 +169,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       throws OrmException, ResourceConflictException, IOException {
 
     // Do not allow creating groups with the same name as system groups
-    List<String> sysGroupNames = SystemGroupBackend.getNames();
-    for (String name : sysGroupNames) {
+    for (String name : SystemGroupBackend.getNames()) {
       if (name.toLowerCase(Locale.US).equals(
           createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
         throw new ResourceConflictException("group '" + name

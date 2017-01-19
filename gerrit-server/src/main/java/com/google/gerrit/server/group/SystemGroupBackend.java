@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -33,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -96,13 +98,8 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
   }
 
-  public static List<String> getNames() {
-    List<String> names = new ArrayList<>();
-    for (AccountGroup.UUID uuid : all) {
-      int c = uuid.get().indexOf(':');
-      names.add(uuid.get().substring(c + 1).replace('-', ' '));
-    }
-    return names;
+  public static Set<String> getNames() {
+    return names.values().stream().map(r -> r.getName()).collect(toSet());
   }
 
   @Override

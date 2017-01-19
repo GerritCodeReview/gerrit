@@ -84,7 +84,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
       AccessSection s = config.getAccessSection("refs/heads/*", true);
       Permission p = s.getPermission(LABEL + "Code-Review", true);
       PermissionRule rule = new PermissionRule(config
-          .resolve(SystemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
+          .resolve(systemGroupBackend.getGroup(SystemGroupBackend.CHANGE_OWNER)));
       rule.setMin(-2);
       rule.setMax(+2);
       p.add(rule);

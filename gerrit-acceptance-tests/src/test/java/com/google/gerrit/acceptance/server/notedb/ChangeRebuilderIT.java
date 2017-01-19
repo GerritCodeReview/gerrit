@@ -68,7 +68,6 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -1349,14 +1348,14 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   private void allowRunAs() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     Util.allow(cfg, GlobalCapability.RUN_AS,
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
     saveProjectConfig(allProjects, cfg);
   }
 
   private void removeRunAs() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     Util.remove(cfg, GlobalCapability.RUN_AS,
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
     saveProjectConfig(allProjects, cfg);
   }
 

@@ -136,6 +136,23 @@
       "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_8233fa34",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-01-19T20:48:09Z",
+      "side": 1,
+      "message": "I think the browser isn’t taking 100% as being one hundred percent. I think it’s treating it as 100. In the case where the colspan value exceeds the number of columns in the table, it will span the entirety of the row.\n\n2) Doesn’t really work because we would then be breaking the table up, which would mess with the alignment to the top headers.\n\nI don’t know the answer to this. I would say for now we put colspan\u003d\"1000\" or some absurd number with a comment because it’s rather simple and supported on all browsers.",
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

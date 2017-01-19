@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "486b96ff_35b4b0c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-19T07:57:59Z",
+      "side": 1,
+      "message": "I think this must be \u0027true\u0027. Only if the field is stored you can read it back from the index and decode it when a matching document is returned.",
+      "range": {
+        "startLine": 604,
+        "startChar": 29,
+        "endLine": 604,
+        "endChar": 34
+      },
+      "revId": "925bc9c3edad7fff3331e34f0266d3d507bb3efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_75be28a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-19T07:57:59Z",
+      "side": 1,
+      "message": "nit: the \u0027\u003d\u0027 should be in the previous line",
+      "range": {
+        "startLine": 174,
+        "startChar": 6,
+        "endLine": 174,
+        "endChar": 7
+      },
+      "revId": "925bc9c3edad7fff3331e34f0266d3d507bb3efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

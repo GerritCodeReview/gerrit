@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "031b415c_23950acf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T17:37:56Z",
+      "side": 1,
+      "message": "This test will pass even if this preBranchUpdate method is never called. In the next test you change some state to make sure that it is called, but not here.",
+      "revId": "8372ea52fc7779c014a1abb3b0dcff139f838118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_c2cb42ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T17:37:56Z",
+      "side": 1,
+      "message": "This is just checking the 2nd ref in the set, but doesn\u0027t assert that there are exactly 2. Maybe assertThat(refs).hasSize(2) right beforehand?",
+      "revId": "8372ea52fc7779c014a1abb3b0dcff139f838118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_e2e76691",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T17:37:56Z",
+      "side": 1,
+      "message": "Nit: keep lines to 80 cols.",
+      "revId": "8372ea52fc7779c014a1abb3b0dcff139f838118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

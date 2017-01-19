@@ -153,6 +153,23 @@
       "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_422df2ca",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-01-19T20:50:01Z",
+      "side": 1,
+      "message": "Actually, I think computing the exact number of columns is the best way since this won’t work if the table layout is fixed.",
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

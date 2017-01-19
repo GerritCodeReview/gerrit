@@ -42,6 +42,7 @@ public class CapabilityCollection {
     CapabilityCollection create(@Nullable AccessSection section);
   }
 
+  private final SystemGroupBackend systemGroupBackend;
   private final ImmutableMap<String, ImmutableList<PermissionRule>> permissions;
 
   public final ImmutableList<PermissionRule> administrateServer;
@@ -52,8 +53,11 @@ public class CapabilityCollection {
 
   @Inject
   CapabilityCollection(
+      SystemGroupBackend systemGroupBackend,
       @AdministrateServerGroups ImmutableSet<GroupReference> admins,
       @Assisted @Nullable AccessSection section) {
+    this.systemGroupBackend = systemGroupBackend;
+
     if (section == null) {
       section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
     }
@@ -119,12 +123,10 @@ public class CapabilityCollection {
     return r != null ? r : ImmutableList.<PermissionRule> of();
   }
 
-  private static final GroupReference anonymous = SystemGroupBackend
-      .getGroup(SystemGroupBackend.ANONYMOUS_USERS);
-
-  private static void configureDefaults(Map<String, List<PermissionRule>> out,
+  private void configureDefaults(Map<String, List<PermissionRule>> out,
       AccessSection section) {
-    configureDefault(out, section, GlobalCapability.QUERY_LIMIT, anonymous);
+    configureDefault(out, section, GlobalCapability.QUERY_LIMIT,
+        systemGroupBackend.getGroup(SystemGroupBackend.ANONYMOUS_USERS));
   }
 
   private static void configureDefault(Map<String, List<PermissionRule>> out,

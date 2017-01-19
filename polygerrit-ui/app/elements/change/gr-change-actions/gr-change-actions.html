@@ -63,32 +63,37 @@ limitations under the License.
       }
     </style>
     <div>
-      <section hidden$="[[!_actionCount(actions.*, _additionalActions.*)]]">
-        <template is="dom-repeat" items="[[_changeActionValues]]" as="action">
-          <gr-button title$="[[action.title]]"
-              hidden$="[[_computeActionHidden(action.__key, _hiddenChangeActions.*)]]"
-              primary$="[[action.__primary]]"
-              hidden$="[[!action.enabled]]"
-              data-action-key$="[[action.__key]]"
-              data-action-type$="[[action.__type]]"
-              data-label$="[[action.label]]"
-              data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
-              on-tap="_handleActionTap"></gr-button>
-        </template>
-      </section>
-      <section hidden$="[[!_actionCount(revisionActions.*, _additionalActions.*)]]">
-        <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
-          <gr-button title$="[[action.title]]"
-              hidden$="[[_computeActionHidden(action.__key, _hiddenRevisionActions.*)]]"
-              primary$="[[action.__primary]]"
-              disabled$="[[!action.enabled]]"
-              data-action-key$="[[action.__key]]"
-              data-action-type$="[[action.__type]]"
-              data-label$="[[action.label]]"
-              data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
-              on-tap="_handleActionTap"></gr-button>
-        </template>
-      </section>
+      <template is="dom-if" if="[[!_loading]]" id="actions">
+        <section hidden$="[[!_actionCount(actions.*, _additionalActions.*)]]">
+          <template is="dom-repeat" items="[[_changeActionValues]]" as="action">
+            <gr-button title$="[[action.title]]"
+                hidden$="[[_computeActionHidden(action.__key, _hiddenChangeActions.*)]]"
+                primary$="[[action.__primary]]"
+                hidden$="[[!action.enabled]]"
+                data-action-key$="[[action.__key]]"
+                data-action-type$="[[action.__type]]"
+                data-label$="[[action.label]]"
+                data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
+                on-tap="_handleActionTap"></gr-button>
+          </template>
+        </section>
+        <section hidden$="[[!_actionCount(revisionActions.*, _additionalActions.*)]]">
+          <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
+            <gr-button title$="[[action.title]]"
+                hidden$="[[_computeActionHidden(action.__key, _hiddenRevisionActions.*)]]"
+                primary$="[[action.__primary]]"
+                disabled$="[[!action.enabled]]"
+                data-action-key$="[[action.__key]]"
+                data-action-type$="[[action.__type]]"
+                data-label$="[[action.label]]"
+                data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
+                on-tap="_handleActionTap"></gr-button>
+          </template>
+        </section>
+      </template>
+      <template is="dom-if" if="[[_loading]]" id="loading">
+        <gr-button disabled>Loading actions...</gr-button>
+      </template>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-rebase-dialog id="confirmRebase"

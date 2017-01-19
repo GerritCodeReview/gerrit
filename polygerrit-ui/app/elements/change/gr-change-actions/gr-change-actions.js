@@ -167,6 +167,7 @@
 
     ready: function() {
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
+      this._loading = false;
     },
 
     reload: function() {

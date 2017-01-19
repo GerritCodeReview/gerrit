@@ -35,6 +35,7 @@ import org.junit.Test;
 import java.util.List;
 
 public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
+
   @Inject
   private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 

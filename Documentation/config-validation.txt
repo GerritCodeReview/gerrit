@@ -45,6 +45,17 @@ are merged to the git repository.
 If the commit fails the validation, the plugin can throw an exception
 which will cause the merge to fail.
 
+[[on-submit-validation]]
+== On submit validation
+
+
+Plugins implementing the OnSubmitValidationListener interface can
+perform additional validation checks against new commits being added
+to by submit strategies before destination branch is updated.
+
+Plugin can throw an exception which will cause submit operation to be
+aborted.
+
 [[pre-upload-validation]]
 == Pre-upload validation
 

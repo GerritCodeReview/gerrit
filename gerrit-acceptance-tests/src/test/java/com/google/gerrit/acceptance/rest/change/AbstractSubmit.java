@@ -45,6 +45,8 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -63,6 +65,7 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -110,6 +113,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   private BatchUpdate.Factory updateFactory;
 
+  @Inject
+  private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
+  private RegistrationHandle onSubmitValidatorHandle;
+
   private String systemTimeZone;
 
   @Before
@@ -127,6 +134,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @After
   public void cleanup() {
     db.close();
+  }
+
+  @After
+  public void removeOnSubmitValidator(){
+    if (onSubmitValidatorHandle != null){
+      onSubmitValidatorHandle.remove();
+    }
   }
 
   protected abstract SubmitType getSubmitType();
@@ -879,6 +893,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected List<RevCommit> getRemoteLog() throws Exception {
     return getRemoteLog(project, "master");
+  }
+
+  protected void addOnSubmitValidationListener(OnSubmitValidationListener listener){
+    assertThat(onSubmitValidatorHandle).isNull();
+    onSubmitValidatorHandle = onSubmitValidationListeners.add(listener);
   }
 
   private String getLatestDiff(Repository repo) throws Exception {

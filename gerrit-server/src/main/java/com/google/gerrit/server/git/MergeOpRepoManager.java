@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -107,7 +108,8 @@ public class MergeOpRepoManager implements AutoCloseable {
       if (update == null) {
         update = batchUpdateFactory.create(db, getProjectName(), caller, ts)
             .setRepository(repo, rw, ins)
-            .setRequestId(submissionId);
+            .setRequestId(submissionId)
+            .setOnSubmitValidators(onSubmitValidatorsFactory.create());
       }
       return update;
     }
@@ -157,6 +159,7 @@ public class MergeOpRepoManager implements AutoCloseable {
 
   private final Map<Project.NameKey, OpenRepo> openRepos;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final OnSubmitValidators.Factory onSubmitValidatorsFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
 
@@ -169,10 +172,12 @@ public class MergeOpRepoManager implements AutoCloseable {
   MergeOpRepoManager(
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
-      BatchUpdate.Factory batchUpdateFactory) {
+      BatchUpdate.Factory batchUpdateFactory,
+      OnSubmitValidators.Factory onSubmitValidatorsFactory) {
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.onSubmitValidatorsFactory = onSubmitValidatorsFactory;
 
     openRepos = new HashMap<>();
   }

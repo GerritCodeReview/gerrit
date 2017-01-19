@@ -80,7 +80,7 @@
           break;
         }
         mDate = mDate || util.parseDate(messages[mi].date);
-        rDate = rDate || util.parseDate(reviewerUpdates[ri].updated);
+        rDate = rDate || util.parseDate(reviewerUpdates[ri].date);
         if (rDate < mDate) {
           result.push(reviewerUpdates[ri++]);
           rDate = null;

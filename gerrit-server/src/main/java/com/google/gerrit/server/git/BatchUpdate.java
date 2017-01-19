@@ -51,6 +51,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -532,6 +533,7 @@ public class BatchUpdate implements AutoCloseable {
   private BatchRefUpdate batchRefUpdate;
   private boolean closeRepo;
   private Order order;
+  private OnSubmitValidators onSubmitValidators;
   private boolean updateChangesInParallel;
   private RequestId requestId;
 
@@ -603,6 +605,15 @@ public class BatchUpdate implements AutoCloseable {
 
   public BatchUpdate setOrder(Order order) {
     this.order = order;
+    return this;
+  }
+
+  /**
+   * Add a validation step for intended ref operations, which will be performed
+   * at the end of {@link RepoOnlyOp#updateRepo(RepoContext)} step.
+   */
+  BatchUpdate setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
+    this.onSubmitValidators = onSubmitValidators;
     return this;
   }
 
@@ -692,6 +703,15 @@ public class BatchUpdate implements AutoCloseable {
         op.updateRepo(ctx);
       }
 
+      if (onSubmitValidators != null && commands != null && !commands.isEmpty()){
+        // Validation of refs has to take place here and not at the beginning
+        // executeRefUpdates. Otherwise failing validation in a second BatchUpdate object
+        // will happen *after* first object's executeRefUpdates has finished, hence after
+        // first repo's refs have been updated, which is too late.
+        onSubmitValidators.validate(project,
+            new ReadOnlyRepository(getRepository()),
+            ctx.getInserter().newReader(), commands.getCommands());
+      }
       if (inserter != null) {
         logDebug("Flushing inserter");
         inserter.flush();

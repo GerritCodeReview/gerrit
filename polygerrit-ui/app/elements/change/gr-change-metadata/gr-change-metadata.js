@@ -27,6 +27,7 @@
 
     properties: {
       change: Object,
+      commitInfo: Object,
       mutable: Boolean,
       serverConfig: Object,
       _topicReadOnly: {
@@ -76,6 +77,34 @@
 
     _computeHideStrategy: function(change) {
       return !this.changeIsOpen(change.status);
+    },
+
+    /**
+     * This is a whitelist of web link types that provide direct links to
+     * the commit in the url property.
+     */
+    _isWebLink: function(link) {
+      return link.name === 'gitiles' || link.name === 'gitweb';
+    },
+
+    /**
+     * @param {Object}
+     * @returns {Array|null} If array is empty, returns null instead so
+     * an existential check can be used to hide or show the webLinks
+     * section.
+     */
+    _computeWebLinks: function(commitInfo) {
+      if (!commitInfo || !commitInfo.web_links) { return null }
+      var webLinks = [];
+      for (var i = 0; i < commitInfo.web_links.length; i++) {
+        // We are already displaying these types of links elsewhere,
+        // don't include in the metadata links section.
+        if (!this._isWebLink(commitInfo.web_links[i])) {
+          webLinks.push(commitInfo.web_links[i]);
+        }
+      }
+
+      return webLinks.length ? webLinks : null;
     },
 
     _computeStrategy: function(change) {

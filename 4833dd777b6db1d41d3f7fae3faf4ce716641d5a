@@ -45,6 +45,29 @@
       "revId": "4833dd777b6db1d41d3f7fae3faf4ce716641d5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_b5fe003f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteVoteIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-19T09:20:07Z",
+      "side": 1,
+      "message": "Fixed by\n  https://gerrit-review.googlesource.com/94810",
+      "range": {
+        "startLine": 89,
+        "startChar": 12,
+        "endLine": 89,
+        "endChar": 62
+      },
+      "revId": "4833dd777b6db1d41d3f7fae3faf4ce716641d5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

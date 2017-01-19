@@ -44,6 +44,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_0247ea80",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbPrimaryIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T21:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7cb4a92_74094897",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbPrimaryIT.java",
         "patchSetId": 9
@@ -108,6 +125,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_e243e670",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T21:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57bdf6e4_f79fa004",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
         "patchSetId": 9
@@ -125,6 +159,23 @@
         "endLine": 77,
         "endChar": 0
       },
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "031b415c_a342da4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T21:43:23Z",
+      "side": 1,
+      "message": "Got rid of the checkArgument below, so this is no longer applicable.",
       "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +223,23 @@
     },
     {
       "key": {
+        "uuid": "031b415c_c337d6fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T21:43:23Z",
+      "side": 1,
+      "message": "I added a few more words to the \"Let\" section.",
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57bdf6e4_d7a49c59",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
         "patchSetId": 9
@@ -189,6 +257,23 @@
         "endLine": 169,
         "endChar": 0
       },
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_c240e266",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T21:43:23Z",
+      "side": 1,
+      "message": "Done",
       "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -230,6 +315,23 @@
       "side": 1,
       "message": "Yes, the user can ignore the error. Our experience is that since our ReviewDb writes have always been frustratingly flaky, users are conditioned to try again on pretty much any 500. I can expand this comment.",
       "parentUuid": "57bdf6e4_b7a92830",
+      "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_a23ddefa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T21:43:23Z",
+      "side": 1,
+      "message": "Done",
       "revId": "de2fdf30f9aced7b0822063126a4e1333e0af4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

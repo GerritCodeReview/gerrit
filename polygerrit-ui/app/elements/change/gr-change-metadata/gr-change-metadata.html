@@ -71,6 +71,9 @@ limitations under the License.
       .labelStatus {
         max-width: 9em;
       }
+      .weblink {
+        display: block;
+      }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         :host {
           display: table;
@@ -229,6 +232,17 @@ limitations under the License.
         </span>
       </section>
     </template>
+    <section id="weblinks" hidden$="[[!_computeWebLinks(commitInfo)]]">
+      <span class="title">Links</span>
+      <span class="value">
+        <template is="dom-repeat"
+            items="[[_computeWebLinks(commitInfo)]]" as="link">
+          <a href="[[link.url]]" class="weblink" rel="noopener" target="_blank">
+            [[link.name]]
+          </a>
+        </template>
+      </span>
+    </section>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-metadata.js"></script>

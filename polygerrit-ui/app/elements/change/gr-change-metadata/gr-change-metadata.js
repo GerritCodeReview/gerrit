@@ -27,6 +27,7 @@
 
     properties: {
       change: Object,
+      commitInfo: Object,
       mutable: Boolean,
       serverConfig: Object,
       _topicReadOnly: {
@@ -76,6 +77,26 @@
 
     _computeHideStrategy: function(change) {
       return !this.changeIsOpen(change.status);
+    },
+
+    _isWebLink: function(link) {
+      // This is a whitelist of web link types that provide direct links to
+      // the commit in the url property.
+      return link.name === 'gitiles' || link.name === 'gitweb';
+    },
+
+    _computeWebLinks: function(commitInfo) {
+      if (!commitInfo.web_links) { return null }
+      var webLinks = [];
+      for (var i = 0; i < commitInfo.web_links.length; i++) {
+        // We are already displaying these types of links elsewhere,
+        // don't include in the metadata links section.
+        if (!this._isWebLink(commitInfo.web_links[i])) {
+          webLinks.push(commitInfo.web_links[i]);
+        }
+      }
+
+      return webLinks.length > 0 ? webLinks : null;
     },
 
     _computeStrategy: function(change) {

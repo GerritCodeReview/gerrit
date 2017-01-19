@@ -15,10 +15,12 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.ReviewersUtil;
@@ -42,18 +44,25 @@ public class SuggestChangeReviewers extends SuggestReviewers
       usage = "exclude groups from query")
   boolean excludeGroups;
 
+  private final Provider<CurrentUser> self;
+
   @Inject
   SuggestChangeReviewers(AccountVisibility av,
       GenericFactory identifiedUserFactory,
       Provider<ReviewDb> dbProvider,
+      Provider<CurrentUser> self,
       @GerritServerConfig Config cfg,
       ReviewersUtil reviewersUtil) {
     super(av, identifiedUserFactory, dbProvider, cfg, reviewersUtil);
+    this.self = self;
   }
 
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
-      throws BadRequestException, OrmException, IOException {
+      throws AuthException, BadRequestException, OrmException, IOException {
+    if (!self.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
     return reviewersUtil.suggestReviewers(rsrc.getNotes(), this,
         rsrc.getControl().getProjectControl(), getVisibility(rsrc), excludeGroups);
   }

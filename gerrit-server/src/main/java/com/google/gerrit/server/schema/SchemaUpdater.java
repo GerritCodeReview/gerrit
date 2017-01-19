@@ -25,6 +25,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -82,6 +83,7 @@ public class SchemaUpdater {
             AllUsersName.class,
             GitRepositoryManager.class,
             SitePaths.class,
+            SystemGroupBackend.class,
             }) {
           rebind(parent, Key.get(c));
         }

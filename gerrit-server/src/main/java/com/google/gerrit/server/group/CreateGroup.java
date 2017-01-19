@@ -73,6 +73,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   private final GroupJson json;
   private final DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners;
   private final AddMembers addMembers;
+  private final SystemGroupBackend systemGroupBackend;
   private final boolean defaultVisibleToAll;
   private final String name;
 
@@ -86,6 +87,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       GroupJson json,
       DynamicSet<GroupCreationValidationListener> groupCreationValidationListeners,
       AddMembers addMembers,
+      SystemGroupBackend systemGroupBackend,
       @GerritServerConfig Config cfg,
       @Assisted String name) {
     this.self = self;
@@ -96,6 +98,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     this.json = json;
     this.groupCreationValidationListeners = groupCreationValidationListeners;
     this.addMembers = addMembers;
+    this.systemGroupBackend = systemGroupBackend;
     this.defaultVisibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
     this.name = name;
   }
@@ -169,7 +172,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       throws OrmException, ResourceConflictException, IOException {
 
     // Do not allow creating groups with the same name as system groups
-    for (String name : SystemGroupBackend.getNames()) {
+    for (String name : systemGroupBackend.getNames()) {
       if (name.toLowerCase(Locale.US).equals(
           createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
         throw new ResourceConflictException("group '" + name

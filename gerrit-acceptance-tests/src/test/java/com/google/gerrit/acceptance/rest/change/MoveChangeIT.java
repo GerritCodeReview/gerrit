@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 
 import org.eclipse.jgit.junit.TestRepository;
@@ -166,7 +165,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         new Branch.NameKey(r.getChange().change().getProject(), "blocked_branch");
     createBranch(newBranch);
     block(Permission.PUSH,
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
         "refs/for/" + newBranch.get());
     exception.expect(AuthException.class);
     exception.expectMessage("Move not permitted");
@@ -181,7 +180,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
         new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
     block(Permission.ABANDON,
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID(),
         r.getChange().change().getDest().get());
     setApiUser(user);
     exception.expect(AuthException.class);
@@ -228,7 +227,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     LabelType patchSetLock = Util.patchSetLock();
     cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
     AccountGroup.UUID registeredUsers =
-        SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+        systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
     Util.allow(cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, registeredUsers,
         "refs/heads/*");
     saveProjectConfig(cfg);

@@ -62,6 +62,10 @@
     _computeItems: function(messages, reviewerUpdates) {
       messages = messages || [];
       reviewerUpdates = reviewerUpdates || [];
+      if (!reviewerUpdates.length || !reviewerUpdates[0].date) {
+        // Fail-safe for previous API version.
+        return messages;
+      }
       var mi = 0;
       var ri = 0;
       var result = [];
@@ -80,7 +84,7 @@
           break;
         }
         mDate = mDate || util.parseDate(messages[mi].date);
-        rDate = rDate || util.parseDate(reviewerUpdates[ri].updated);
+        rDate = rDate || util.parseDate(reviewerUpdates[ri].date);
         if (rDate < mDate) {
           result.push(reviewerUpdates[ri++]);
           rDate = null;

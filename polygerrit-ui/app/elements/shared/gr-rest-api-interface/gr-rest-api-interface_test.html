@@ -426,5 +426,63 @@ limitations under the License.
       assert.isTrue(element.send.calledWith(
           'PUT', '/config/server/email.confirm', {token: 'foo'}));
     });
+
+    test('_formatReviewerUpdates is invoked', function(done) {
+      sandbox.stub(element, '_formatReviewerUpdates');
+      element.getChangeDetail(42).then(function() {
+        assert.isTrue(element._formatReviewerUpdates.calledOnce);
+        done();
+      });
+    });
+
+    test('categorize reviewer updates', function() {
+      var reviewer1 = 'reviewer1';
+      var reviewer2 = 'reviewer2';
+      var makeItem = function(prev, state, opt_reviewer) {
+        return {
+          reviewer: opt_reviewer || reviewer1,
+          prev_state: prev,
+          state: state,
+        };
+      };
+      var makeUpdate = function(items) {
+        return {
+          author: reviewer1,
+          date: '',
+          updates: items,
+        };
+      };
+      var change = {
+          reviewer_updates: [
+            makeUpdate([
+              makeItem(undefined, 'CC'),
+              makeItem(undefined, 'CC', reviewer2)
+            ]),
+            makeUpdate([
+              makeItem('CC', 'REVIEWER'),
+              makeItem('REVIEWER', 'REMOVED'),
+              makeItem('REMOVED', 'REVIEWER'),
+              makeItem(undefined, 'REVIEWER', reviewer2),
+            ]),
+          ],
+      };
+      var result = element._formatReviewerUpdates(change);
+      assert.isOk(result);
+      assert.equal(change.reviewer_updates.length, 2);
+      assert.equal(change.reviewer_updates[0].updates.length, 1);
+      assert.equal(change.reviewer_updates[1].updates.length, 3);
+
+      var items = change.reviewer_updates[0].updates;
+      assert.equal(items[0].message, 'added to CC: ');
+      assert.deepEqual(items[0].reviewers, [reviewer1, reviewer2]);
+
+      items = change.reviewer_updates[1].updates;
+      assert.equal(items[0].message, 'moved from CC to REVIEWER: ');
+      assert.deepEqual(items[0].reviewers, [reviewer1]);
+      assert.equal(items[1].message, 'removed from REVIEWER: ');
+      assert.deepEqual(items[1].reviewers, [reviewer1]);
+      assert.equal(items[2].message, 'added to REVIEWER: ');
+      assert.deepEqual(items[2].reviewers, [reviewer1, reviewer2]);
+    });
   });
 </script>

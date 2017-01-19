@@ -31,6 +31,7 @@ import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -408,6 +409,17 @@ public class ProjectState {
 
   public boolean isRejectImplicitMerges() {
     return getInheritableBoolean(Project::getRejectImplicitMerges);
+  }
+
+  public SubmitType getSubmitType() {
+    for (ProjectState s : tree()) {
+      SubmitType st = s.getProject().getSubmitType();
+      if (st == SubmitType.INHERIT) {
+        continue;
+      }
+      return st;
+    }
+    return SubmitType();
   }
 
   public LabelTypes getLabelTypes() {

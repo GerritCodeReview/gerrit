@@ -60,6 +60,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     InheritedBooleanInfo enableSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo rejectImplicitMerges = new InheritedBooleanInfo();
+    SubmitTypeInfo submitType = new SubmitTypeInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
@@ -67,6 +68,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     requireChangeId.value = projectState.isRequireChangeID();
     createNewChangeForAllNotInTarget.value =
         projectState.isCreateNewChangeForAllNotInTarget();
+    submitType.value = projectState.getSubmitType();
 
     useContributorAgreements.configuredValue =
         p.getUseContributorAgreements();
@@ -78,6 +80,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     enableSignedPush.configuredValue = p.getEnableSignedPush();
     requireSignedPush.configuredValue = p.getRequireSignedPush();
     rejectImplicitMerges.configuredValue = p.getRejectImplicitMerges();
+    submitType.configuredValue = p.getSubmitType();
 
     ProjectState parentState = Iterables.getFirst(projectState
         .parents(), null);
@@ -92,6 +95,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       enableSignedPush.inheritedValue = projectState.isEnableSignedPush();
       requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
       rejectImplicitMerges.inheritedValue = projectState.isRejectImplicitMerges();
+      submitType.inheritedValue = parentState.getSubmitType();
     }
 
     this.useContributorAgreements = useContributorAgreements;
@@ -104,6 +108,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       this.enableSignedPush = enableSignedPush;
       this.requireSignedPush = requireSignedPush;
     }
+    this.submitType = submitType;
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =
@@ -115,7 +120,6 @@ public class ConfigInfoImpl extends ConfigInfo {
         config.getFormattedMaxObjectSizeLimit();
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
-    this.submitType = p.getSubmitType();
     this.state = p.getState() != com.google.gerrit.extensions.client.ProjectState.ACTIVE ? p.getState() : null;
 
     this.commentlinks = new LinkedHashMap<>();

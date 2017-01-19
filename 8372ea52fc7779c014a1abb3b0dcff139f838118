@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "031b415c_6366222d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-19T21:45:03Z",
+      "side": 1,
+      "message": "derp. Fixed.",
+      "revId": "8372ea52fc7779c014a1abb3b0dcff139f838118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8e9aa6a_c2cb42ff",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 13
@@ -30,6 +47,23 @@
       "writtenOn": "2017-01-19T17:37:56Z",
       "side": 1,
       "message": "This is just checking the 2nd ref in the set, but doesn\u0027t assert that there are exactly 2. Maybe assertThat(refs).hasSize(2) right beforehand?",
+      "revId": "8372ea52fc7779c014a1abb3b0dcff139f838118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_a3365a21",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-19T21:45:03Z",
+      "side": 1,
+      "message": "asserted it\u0027s 1. Since I\u0027ve removed master, there is should be exactly 1 left.",
       "revId": "8372ea52fc7779c014a1abb3b0dcff139f838118",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -50,6 +84,23 @@
       "revId": "8372ea52fc7779c014a1abb3b0dcff139f838118",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_428612b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2017-01-19T21:45:03Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "8372ea52fc7779c014a1abb3b0dcff139f838118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

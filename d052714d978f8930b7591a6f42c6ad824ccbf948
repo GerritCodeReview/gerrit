@@ -119,6 +119,23 @@
       "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_c267c228",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-19T20:40:07Z",
+      "side": 1,
+      "message": "IMO, it would be better to either:\n* 1) Compute the number of columns to span, like\n\n  3 + visibleChangeTableColumns.length + labelNames.length\n\n... or, not as clean, but maybe more robust ...\n\n  document.querySelectorAll(\u0027#changeList .headerRow th\u0027).length\n\n* 2) Move the col-spanning messages outside the table, so we don\u0027t even need to set a colspan. (I like this a little better since the message isn\u0027t tabular.)\n\nBut I will defer to however other reviewers feel about this not-quite-standard attribute.",
+      "revId": "d052714d978f8930b7591a6f42c6ad824ccbf948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

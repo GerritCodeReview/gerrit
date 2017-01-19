@@ -53,7 +53,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -106,7 +105,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     patchSetLock = Util.patchSetLock();
     cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
     AccountGroup.UUID anonymousUsers =
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+        systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
     Util.allow(cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, anonymousUsers,
         "refs/heads/*");
     saveProjectConfig(cfg);
@@ -534,7 +533,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         value(-1, "Negative"));
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
     AccountGroup.UUID anon =
-        SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+        systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
     String heads = "refs/heads/*";
     Util.allow(config, Permission.forLabel("Custom-Label"), -1, 1, anon, heads);
     config.getLabelSections().put(Q.getName(), Q);

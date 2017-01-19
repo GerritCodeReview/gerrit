@@ -160,7 +160,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
     }
   }
 
-  static class AllKey {
+  public static class AllKey {
     static final AllKey ALL = new AllKey();
 
     private AllKey() {

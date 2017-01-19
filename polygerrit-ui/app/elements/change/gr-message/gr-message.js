@@ -123,6 +123,10 @@
       return hideAutomated && isAutomated;
     },
 
+    _computeIsReviewerUpdate: function(event) {
+      return event.type === 'REVIEWER_UPDATE';
+    },
+
     _computeClass: function(expanded, showAvatar) {
       var classes = [];
       classes.push(expanded ? 'expanded' : 'collapsed');

@@ -422,7 +422,8 @@
           ListChangesOption.WEB_LINKS
       );
       return this._getChangeDetail(
-          changeNum, options, opt_errFn, opt_cancelCondition);
+          changeNum, options, opt_errFn, opt_cancelCondition)
+            .then(GrReviewerUpdatesParser.parse);
     },
 
     getDiffChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {
@@ -468,6 +469,7 @@
     },
 
     _normalizeChangeFilesResponse: function(response) {
+      if (!response) { return []; }
       var paths = Object.keys(response).sort(this.specialFilePathCompare);
       var files = [];
       for (var i = 0; i < paths.length; i++) {

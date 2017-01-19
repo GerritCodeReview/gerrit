@@ -167,6 +167,7 @@
 
     ready: function() {
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
+      this._loading = false;
     },
 
     reload: function() {
@@ -250,10 +251,16 @@
           this.patchNum);
     },
 
-    _actionCount: function(actionsChangeRecord, additionalActionsChangeRecord) {
-      var additionalActions = (additionalActionsChangeRecord &&
-          additionalActionsChangeRecord.base) || [];
-      return this._keyCount(actionsChangeRecord) + additionalActions.length;
+    _shouldHideActions: function(actionsRecord, additionalActionsRecord,
+        loading) {
+      if (loading) { return true; }
+      return !this._actionCount(actionsRecord, additionalActionsRecord);
+    },
+
+    _actionCount: function(actionsRecord, additionalActionsRecord) {
+      var additionalActions = (additionalActionsRecord &&
+          additionalActionsRecord.base) || [];
+      return this._keyCount(actionsRecord) + additionalActions.length;
     },
 
     _keyCount: function(changeRecord) {
@@ -284,8 +291,8 @@
     _computeChangeActionValues: function(actionsChangeRecord,
         primariesChangeRecord, additionalActionsChangeRecord, change) {
       var actions = this._getActionValues(
-        actionsChangeRecord, primariesChangeRecord,
-        additionalActionsChangeRecord, ActionType.CHANGE, change);
+          actionsChangeRecord, primariesChangeRecord,
+          additionalActionsChangeRecord, ActionType.CHANGE, change);
       var quickApprove = this._getQuickApproveAction();
       if (quickApprove) {
         actions.unshift(quickApprove);
@@ -470,7 +477,7 @@
           return o.key === key;
         });
         this._fireAction(
-          this._prependSlash(key), action, true, action.payload);
+            this._prependSlash(key), action, true, action.payload);
       } else {
         this._fireAction(this._prependSlash(key), this.actions[key], false);
       }

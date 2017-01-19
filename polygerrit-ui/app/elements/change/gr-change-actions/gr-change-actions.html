@@ -63,7 +63,7 @@ limitations under the License.
       }
     </style>
     <div>
-      <section hidden$="[[!_actionCount(actions.*, _additionalActions.*)]]">
+      <section hidden$="[[_shouldHideActions(actions.*, _additionalActions.*, _loading)]]">
         <template is="dom-repeat" items="[[_changeActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               hidden$="[[_computeActionHidden(action.__key, _hiddenChangeActions.*)]]"
@@ -76,7 +76,7 @@ limitations under the License.
               on-tap="_handleActionTap"></gr-button>
         </template>
       </section>
-      <section hidden$="[[!_actionCount(revisionActions.*, _additionalActions.*)]]">
+      <section hidden$="[[_shouldHideActions(revisionActions.*, _additionalActions.*, _loading)]]">
         <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
           <gr-button title$="[[action.title]]"
               hidden$="[[_computeActionHidden(action.__key, _hiddenRevisionActions.*)]]"
@@ -89,6 +89,7 @@ limitations under the License.
               on-tap="_handleActionTap"></gr-button>
         </template>
       </section>
+      <gr-button hidden$="[[!_loading]]" disabled>Loading actions...</gr-button>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-rebase-dialog id="confirmRebase"

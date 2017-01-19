@@ -84,6 +84,7 @@ limitations under the License.
       .collapsed .name,
       .collapsed .content,
       .collapsed .message,
+      .collapsed .updateCategory,
       gr-account-chip {
         display: inline;
       }
@@ -140,19 +141,31 @@ limitations under the License.
                 patch-num="[[message._revision_number]]"
                 project-config="[[projectConfig]]"></gr-comment-list>
           </div>
+        </template>
+        <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">
+          <div class="content">
+            <template
+                is="dom-repeat" items="[[message.updates]]" as="update">
+              <div class="updateCategory">
+                [[update.message]]
+                <template
+                    is="dom-repeat" items="[[update.reviewers]]" as="reviewer">
+                  <gr-account-chip account="[[reviewer]]">
+                  </gr-account-chip>
+                </template>
+              </div>
+            </template>
+          </div>
+        </template>
+        <template is="dom-if" if="[[!message.id]]">
+          <span class="date">
+            <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
+          </span>
+        </template>
+        <template is="dom-if" if="[[message.id]]">
           <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
             <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
           </a>
-        </template>
-        <template is="dom-if" if="[[message.reviewer]]">
-          <div class="content">
-            set reviewer status for
-            <gr-account-chip account="[[message.reviewer]]">
-            </gr-account-chip>
-            to [[message.state]].
-          </div>
-          <gr-date-formatter class="date" date-str="[[message.updated]]">
-          </gr-date-formatter>
         </template>
       </div>
       <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>

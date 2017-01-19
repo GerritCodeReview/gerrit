@@ -426,5 +426,14 @@ limitations under the License.
       assert.isTrue(element.send.calledWith(
           'PUT', '/config/server/email.confirm', {token: 'foo'}));
     });
+
+    test('GrReviewerUpdatesParser.parse is used', function(done) {
+      sandbox.stub(GrReviewerUpdatesParser, 'parse').returns('foo');
+      element.getChangeDetail(42).then(function(result) {
+        assert.isTrue(element._formatReviewerUpdates.calledOnce);
+        assert.equal(result, 'foo');
+        done();
+      });
+    });
   });
 </script>

@@ -422,7 +422,8 @@
           ListChangesOption.WEB_LINKS
       );
       return this._getChangeDetail(
-          changeNum, options, opt_errFn, opt_cancelCondition);
+          changeNum, options, opt_errFn, opt_cancelCondition)
+            .then(GrReviewerUpdatesParser.parse);
     },
 
     getDiffChangeDetail: function(changeNum, opt_errFn, opt_cancelCondition) {

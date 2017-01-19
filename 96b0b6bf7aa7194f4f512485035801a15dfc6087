@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9aa6a_42d172ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T17:24:22Z",
+      "side": 1,
+      "message": "The convention in this class is getFoo() never does lazy loading (regardless of the value of lazyLoad) while foo() does lazy loading (if applicable). According to that convention, this would be unresolvedCommentsNum(). It\u0027s a silly convention, but it\u0027s what we have.\n\nI might also prefer to call it unresolvedCommentsCount vs. Num",
+      "range": {
+        "startLine": 1020,
+        "startChar": 13,
+        "endLine": 1020,
+        "endChar": 37
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_02eb6a5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T17:24:22Z",
+      "side": 1,
+      "message": "Because you\u0027re not checking lazyLoad here, when changes are displayed via search results and the field is not yet present in the index, you might end up with the result of returning 0 for this value instead of making it absent. I think that would be surprising. Maybe make this method return Integer and immediately return null if lazyLoad is false?",
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_638f02bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T17:24:22Z",
+      "side": 1,
+      "message": "Unresolved is a Boolean; can it ever be null in practice? If so, a null value will NPE. You would want to replace this with c.unresolved \u003d\u003d Boolean.TRUE or something.",
+      "range": {
+        "startLine": 1023,
+        "startChar": 47,
+        "endLine": 1023,
+        "endChar": 59
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_62dc76c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T17:24:22Z",
+      "side": 1,
+      "message": "Rather than this side effect, just use .count() to get the length of the filtered stream.\n\nYou should also be able to combine the stream expressions into one with Stream.concat, something like:\n\n unresolvedCommentsCount \u003d  Stream.concat(\n         publishedComments().stream(), robotComments().stream())\n     .filter(c -\u003e c.unresolved \u003d\u003d Boolean.TRUE)\n     .count();",
+      "range": {
+        "startLine": 1023,
+        "startChar": 60,
+        "endLine": 1025,
+        "endChar": 9
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_834a3e92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-19T17:24:22Z",
+      "side": 1,
+      "message": "I think you don\u0027t want this !, it should be the same as the other filter, right?",
+      "range": {
+        "startLine": 1027,
+        "startChar": 43,
+        "endLine": 1027,
+        "endChar": 44
+      },
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

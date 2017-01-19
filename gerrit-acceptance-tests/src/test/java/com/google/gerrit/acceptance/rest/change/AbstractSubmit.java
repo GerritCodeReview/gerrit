@@ -29,6 +29,7 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -45,6 +46,8 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -56,6 +59,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RevisionResource;
@@ -63,8 +67,10 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
@@ -86,7 +92,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -110,6 +119,10 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   private BatchUpdate.Factory updateFactory;
 
+  @Inject
+  private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
+  private RegistrationHandle onSubmitValidatorHandle;
+
   private String systemTimeZone;
 
   @Before
@@ -127,6 +140,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @After
   public void cleanup() {
     db.close();
+  }
+
+  @After
+  public void removeOnSubmitValidator(){
+    if (onSubmitValidatorHandle != null){
+      onSubmitValidatorHandle.remove();
+    }
   }
 
   protected abstract SubmitType getSubmitType();
@@ -647,6 +667,90 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(getRemoteHead()).isEqualTo(headAfterSubmit);
   }
 
+  @Test
+  public void submitWithValidation() throws Exception {
+    this.addOnSubmitValidationListener(new OnSubmitValidationListener() {
+      @Override
+      public void preBranchUpdate(Arguments args) throws ValidationException {
+        HashSet<String> refs = Sets.newHashSet(args.getCommands().keySet());
+        assertThat(refs).contains("refs/heads/master");
+        refs.remove("refs/heads/master");
+        if (!refs.isEmpty()){
+          // Some submit strategies need to insert new patchset.
+          assertThat(refs.iterator().next()).startsWith(RefNames.REFS_CHANGES);
+        }
+      }
+    });
+
+    PushOneCommit.Result change = createChange();
+    approve(change.getChangeId());
+    submit(change.getChangeId());
+  }
+
+  @Test
+  public void submitWithValidationMultiRepo() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+    String topic = "test-topic";
+
+    // Create test projects
+    TestRepository<?> repoA =
+        createProjectWithPush("project-a", null, getSubmitType());
+    TestRepository<?> repoB =
+        createProjectWithPush("project-b", null, getSubmitType());
+
+    // Create changes on project-a
+    PushOneCommit.Result change1 =
+        createChange(repoA, "master", "Change 1", "a.txt", "content", topic);
+    PushOneCommit.Result change2 =
+        createChange(repoA, "master", "Change 2", "b.txt", "content", topic);
+
+    // Create changes on project-b
+    PushOneCommit.Result change3 =
+        createChange(repoB, "master", "Change 3", "a.txt", "content", topic);
+    PushOneCommit.Result change4 =
+        createChange(repoB, "master", "Change 4", "b.txt", "content", topic);
+
+    List<PushOneCommit.Result> changes =
+        Lists.newArrayList(change1, change2, change3, change4);
+    for (PushOneCommit.Result change : changes) {
+      approve(change.getChangeId());
+    }
+
+    // Construct validator which will throw on a second call.
+    // Since there are 2 repos, first submit attempt will fail, the second will
+    // succeed.
+    List<String> projectsCalled = new ArrayList<>(4);
+    this.addOnSubmitValidationListener(new OnSubmitValidationListener() {
+      @Override
+      public void preBranchUpdate(Arguments args) throws ValidationException {
+        assertThat(args.getCommands().keySet()).contains("refs/heads/master");
+        try (RevWalk rw = args.newRevWalk()) {
+          rw.parseBody(rw.parseCommit(
+              args.getCommands().get("refs/heads/master").getNewId()));
+        } catch (IOException e) {
+          assertThat(e).isNull();
+        }
+        projectsCalled.add(args.getProject().get());
+        if (projectsCalled.size() == 2) {
+          throw new ValidationException("time to fail");
+        }
+      }
+    });
+    submitWithConflict(change4.getChangeId(), "time to fail");
+    assertThat(projectsCalled).containsExactly(name("project-a"),
+        name("project-b"));
+    for (PushOneCommit.Result change : changes) {
+      change.assertChange(Change.Status.NEW, name(topic), admin);
+    }
+
+    submit(change4.getChangeId());
+    assertThat(projectsCalled).containsExactly(name("project-a"),
+        name("project-b"), name("project-a"), name("project-b"));
+    for (PushOneCommit.Result change : changes) {
+      change.assertChange(Change.Status.MERGED, name(topic), admin);
+    }
+  }
+
   private void setChangeStatusToNew(PushOneCommit.Result... changes)
       throws Exception {
     for (PushOneCommit.Result change : changes) {
@@ -879,6 +983,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected List<RevCommit> getRemoteLog() throws Exception {
     return getRemoteLog(project, "master");
+  }
+
+  protected void addOnSubmitValidationListener(OnSubmitValidationListener listener){
+    assertThat(onSubmitValidatorHandle).isNull();
+    onSubmitValidatorHandle = onSubmitValidationListeners.add(listener);
   }
 
   private String getLatestDiff(Repository repo) throws Exception {

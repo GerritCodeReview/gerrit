@@ -46,7 +46,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public abstract class AbstractSubmitByRebase extends AbstractSubmit {
-
   @Override
   protected abstract SubmitType getSubmitType();
 

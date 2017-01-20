@@ -17,12 +17,15 @@ package com.google.gerrit.acceptance.api.group;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -177,6 +180,24 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
+  public void createGroupWithConfiguredNameOfSystemGroup_Conflict()
+      throws Exception {
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("group 'All Users' already exists");
+    gApi.groups().create("all users");
+  }
+
+  @Test
+  @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
+  public void createGroupWithDefaultNameOfSystemGroup_Conflict()
+      throws Exception {
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("group name 'Anonymous Users' is reserved");
+    gApi.groups().create("anonymous users");
+  }
+
+  @Test
   public void createGroupWithProperties() throws Exception {
     GroupInput in = new GroupInput();
     in.name = name("newGroup");
@@ -208,6 +229,37 @@ public class GroupsIT extends AbstractDaemonTest {
       throws Exception {
     GroupInfo group = gApi.groups().id(id.toString()).get();
     assertGroupInfo(expectedGroup, group);
+  }
+
+  @Test
+  @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
+  public void getSystemGroupByConfiguredName() throws Exception {
+    GroupReference anonymousUsersGroup = systemGroupBackend.getGroup(ANONYMOUS_USERS);
+    assertThat(anonymousUsersGroup.getName()).isEqualTo("All Users");
+
+    GroupInfo group = gApi.groups().id(anonymousUsersGroup.getUUID().get()).get();
+    assertThat(group.name).isEqualTo(anonymousUsersGroup.getName());
+
+    group = gApi.groups().id(anonymousUsersGroup.getName()).get();
+    assertThat(group.id)
+        .isEqualTo(Url.encode((anonymousUsersGroup.getUUID().get())));
+  }
+
+  @Test
+  public void getSystemGroupByDefaultName() throws Exception {
+    GroupReference anonymousUsersGroup =
+        systemGroupBackend.getGroup(ANONYMOUS_USERS);
+    GroupInfo group = gApi.groups().id("Anonymous Users").get();
+    assertThat(group.name).isEqualTo(anonymousUsersGroup.getName());
+    assertThat(group.id)
+        .isEqualTo(Url.encode((anonymousUsersGroup.getUUID().get())));
+  }
+
+  @Test
+  @GerritConfig(name = "groups.global:Anonymous-Users.name", value = "All Users")
+  public void getSystemGroupByDefaultName_NotFound() throws Exception {
+    exception.expect(ResourceNotFoundException.class);
+    gApi.groups().id("Anonymous-Users").get();
   }
 
   @Test

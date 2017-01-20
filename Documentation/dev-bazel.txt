@@ -9,7 +9,6 @@ Bazel build is experimental. Major missing parts:
 Nice to have:
 
 * JGit build from local tree.
-* local.properties proxy config.
 * coverage
 
 [[installation]]
@@ -240,6 +239,18 @@ is then used by `curl`:
   export http_proxy=http://<proxy_user_id>:<proxy_password>@<proxy_server>:<proxy_port>
 ----
 
+Redirection to local mirrors of Maven Central and the Gerrit storage
+bucket is supported by defining specific properties in
+`local.properties`, a file that is not tracked by Git:
+
+----
+  echo download.GERRIT = http://nexus.my-company.com/ >>local.properties
+  echo download.MAVEN_CENTRAL = http://nexus.my-company.com/ >>local.properties
+----
+
+The `local.properties` file may be placed in the root of the gerrit repository
+being built, or in `~/.gerritcodereview/`.  The file in the root of the gerrit
+repository has precedence.
 
 == Building against unpublished Maven JARs
 

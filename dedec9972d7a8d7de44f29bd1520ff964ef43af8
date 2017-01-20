@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "486b96ff_9554a405",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-20T12:35:42Z",
+      "side": 1,
+      "message": "Document it in config-auto-site-initialization.txt?",
+      "revId": "dedec9972d7a8d7de44f29bd1520ff964ef43af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_1469b4d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-20T12:35:42Z",
+      "side": 1,
+      "message": "DB fallback is the only one used. Another one is System variables that is preserved as well and should be mentioned here.",
+      "range": {
+        "startLine": 19,
+        "startChar": 21,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "dedec9972d7a8d7de44f29bd1520ff964ef43af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_5525ecca",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-20T12:35:42Z",
+      "side": 1,
+      "message": "Nit: missing some before \",\".",
+      "revId": "dedec9972d7a8d7de44f29bd1520ff964ef43af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_d449fc6f",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-20T12:35:42Z",
+      "side": 1,
+      "message": "So, The documentation in the Documentation/config-auto-site-initialization.txt telling us three examples how this and other system variables are supposed to be used:\n\n\u003d\u003d\u003d Example 1\n\nPrepare Tomcat so that a site is initialized at a given path using\nthe H2 database (if the site doesn\u0027t exist yet) or using whatever\ndatabase is defined in `etc/gerrit.config` of that site:\n\n----\n  $ export CATALINA_OPTS\u003d\u0027-Dgerrit.init -Dgerrit.site_path\u003d/path/to/site\u0027\n  $ catalina.sh start\n----\n\n\u003d\u003d\u003d Example 2\n\nPrepare Tomcat so that an existing site with the path defined in the\n`system_config` table is initialized (upgraded) on Gerrit startup. The\nassumption is that the `jdbc/ReviewDb` JNDI property is defined in\nTomcat:\n\n----\n  $ export CATALINA_OPTS\u003d\u0027-Dgerrit.init\u0027\n  $ catalina.sh start\n----\n\n\u003d\u003d\u003d Example 3\n\nAssuming the database schema doesn\u0027t exist in the database defined\nvia the `jdbc/ReviewDb` JNDI property, initialize a new site using that\ndatabase and a given path:\n\n----\n  $ export CATALINA_OPTS\u003d\u0027-Dgerrit.init -Dgerrit.init_path\u003d/path/to/site\u0027\n  $ catalina.sh start\n----\n\nThe \"gerrit.init\" passed on the command line only once makes sense, but dining it in web.xml in served parameter section, would mean, that it\u0027s activated, and then container is started and then it\u0027s deactivated again, right?",
+      "range": {
+        "startLine": 148,
+        "startChar": 26,
+        "endLine": 148,
+        "endChar": 38
+      },
+      "revId": "dedec9972d7a8d7de44f29bd1520ff964ef43af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -116,6 +116,8 @@ limitations under the License.
         assert.isFalse(windowOpen.called);
         toast.fire('action');
         assert.isTrue(windowOpen.called);
+        assert.notEqual(windowOpen.lastCall.args[2].indexOf('noopener=yes'),
+            -1);
 
         var hideToastSpy = sandbox.spy(toast, 'hide');
 

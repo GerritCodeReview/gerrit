@@ -74,6 +74,7 @@ limitations under the License.
       element.content = url;
       var linkEl = element.$.output.childNodes[0];
       assert.equal(linkEl.target, '_blank');
+      assert.equal(linkEl.rel, 'noopener');
       assert.equal(linkEl.href, url);
       assert.equal(linkEl.textContent, url);
     });
@@ -91,6 +92,7 @@ limitations under the License.
       element.content = 'Bug 3650';
       linkEl = element.$.output.childNodes[0];
       assert.equal(linkEl.target, '_blank');
+      assert.equal(linkEl.rel, 'noopener');
       assert.equal(linkEl.href, url);
       assert.equal(linkEl.textContent, 'Bug 3650');
     });

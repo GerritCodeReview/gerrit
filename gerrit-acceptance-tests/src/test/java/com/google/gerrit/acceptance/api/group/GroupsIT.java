@@ -100,6 +100,16 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addMembersWithAtSign() throws Exception {
+    String g = createGroup("users");
+    TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");
+    TestAccount u2 = accounts.create("u2@something", "u2@example.com", "Full Name 2");
+    TestAccount u3 = accounts.create("u2", "u3@example.com", "Full Name 3");
+    gApi.groups().id(g).addMembers(u1.username, u2.username);
+    assertMembers(g, u1, u2);
+  }
+
+  @Test
   public void includeRemoveGroup() throws Exception {
     String p = createGroup("parent");
     String g = createGroup("newGroup");

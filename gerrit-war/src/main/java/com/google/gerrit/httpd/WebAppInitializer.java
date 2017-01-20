@@ -76,6 +76,7 @@ import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
+import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -364,7 +365,8 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(sysInjector.getInstance(SshModule.class));
     modules.add(new SshHostKeyModule());
     modules.add(new DefaultCommandModule(false,
-        sysInjector.getInstance(DownloadConfig.class)));
+        sysInjector.getInstance(DownloadConfig.class),
+        sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));
     if (indexType == IndexType.LUCENE) {
       modules.add(new IndexCommandsModule());
     }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail.receive;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -69,6 +71,7 @@ public class MailProcessor {
   private final PatchSetUtil psUtil;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<ReviewDb> reviewDb;
+  private final DynamicMap<MailFilter> mailFilters;
   private final Provider<String> canonicalUrl;
 
   @Inject
@@ -81,6 +84,7 @@ public class MailProcessor {
       PatchSetUtil psUtil,
       Provider<InternalChangeQuery> queryProvider,
       Provider<ReviewDb> reviewDb,
+      DynamicMap<MailFilter> mailFilters,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
     this.accountByEmailCache = accountByEmailCache;
     this.buf = buf;
@@ -91,6 +95,7 @@ public class MailProcessor {
     this.psUtil = psUtil;
     this.queryProvider = queryProvider;
     this.reviewDb = reviewDb;
+    this.mailFilters = mailFilters;
     this.canonicalUrl = canonicalUrl;
   }
 
@@ -100,6 +105,15 @@ public class MailProcessor {
    * @throws OrmException
    */
   public void process(MailMessage message) throws OrmException {
+    for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
+      if (!filter.getProvider().get().shouldProcessMessage(message)) {
+        log.warn("Mail: Message " + message.id() + " filtered by plugin " +
+            filter.getPluginName() + " " + filter.getExportName() +
+            ". Will delete message.");
+        return;
+      }
+    }
+
     MailMetadata metadata = MetadataParser.parse(message);
     if (!metadata.hasRequiredFields()) {
       log.error("Mail: Message " + message.id() +

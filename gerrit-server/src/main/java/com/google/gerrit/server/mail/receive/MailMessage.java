@@ -49,10 +49,17 @@ public abstract class MailMessage {
   public abstract String textContent();
   @Nullable
   public abstract String htmlContent();
+  // Raw content as received over the wire
+  @Nullable
+  public abstract ImmutableList<Integer> rawContent();
+  @Nullable
+  public abstract String rawContentUTF();
 
   public static Builder builder() {
     return new AutoValue_MailMessage.Builder();
   }
+
+  public abstract Builder toBuilder();
 
   @AutoValue.Builder
   public abstract static class Builder {
@@ -83,6 +90,8 @@ public abstract class MailMessage {
     public abstract Builder subject(String val);
     public abstract Builder textContent(String val);
     public abstract Builder htmlContent(String val);
+    public abstract Builder rawContent(ImmutableList<Integer> val);
+    public abstract Builder rawContentUTF(String val);
 
     public abstract MailMessage build();
   }

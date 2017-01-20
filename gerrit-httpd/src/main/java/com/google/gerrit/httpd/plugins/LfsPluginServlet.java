@@ -57,8 +57,10 @@ public class LfsPluginServlet extends HttpServlet
   private static final Logger log
       = LoggerFactory.getLogger(LfsPluginServlet.class);
 
+  public static final String LFS_REST =
+      "(?:/p/|/)(.+)(?:/info/lfs/objects/batch)$";
   public static final String URL_REGEX =
-      "^(?:/a)?(?:/p/|/)(.+)(?:/info/lfs/objects/batch)$";
+      "^(?:/a)?" + LFS_REST;
 
   private static final String CONTENTTYPE_VND_GIT_LFS_JSON =
       "application/vnd.git-lfs+json; charset=utf-8";

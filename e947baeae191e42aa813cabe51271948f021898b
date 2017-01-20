@@ -22,6 +22,29 @@
       "revId": "e947baeae191e42aa813cabe51271948f021898b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_548b2cbb",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1719,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T07:37:24Z",
+      "side": 1,
+      "message": "Currently, I don\u0027t think we need to allow administrators to delete external ids with this REST API. We may add it later when needed.",
+      "range": {
+        "startLine": 1719,
+        "startChar": 0,
+        "endLine": 1719,
+        "endChar": 53
+      },
+      "revId": "e947baeae191e42aa813cabe51271948f021898b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

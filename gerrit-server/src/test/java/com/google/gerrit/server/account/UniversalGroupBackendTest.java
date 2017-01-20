@@ -38,6 +38,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.testutil.GerritBaseTests;
 
 import org.easymock.IAnswer;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,7 +58,7 @@ public class UniversalGroupBackendTest extends GerritBaseTests {
     user = createNiceMock(IdentifiedUser.class);
     replay(user);
     backends = new DynamicSet<>();
-    backends.add(new SystemGroupBackend());
+    backends.add(new SystemGroupBackend(new Config()));
     backend = new UniversalGroupBackend(backends);
   }
 

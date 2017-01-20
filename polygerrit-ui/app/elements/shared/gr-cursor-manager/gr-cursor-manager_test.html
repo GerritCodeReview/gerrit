@@ -137,5 +137,37 @@ limitations under the License.
       element.setCursorAtIndex(2);
       assert.isTrue(scrollStub.called);
     });
+
+    test('_moveCursor', function() {
+      var isLetterB = function(row) {
+        return row.textContent === 'B';
+      };
+      element.stops = list.querySelectorAll('li');
+      // Start cursor at the first stop
+      element.setCursor(list.children[0]);
+
+      // Move forward to meet the next condition.
+      element._moveCursor(1, isLetterB);
+
+      // Cursor should be at B
+      assert.equal(element.index, 1);
+
+      // Nothing else meets the condition, should be at last stop
+      element._moveCursor(1, isLetterB);
+      assert.equal(element.index, 3);
+
+      // Should stay at last stop if try to proceed
+      element._moveCursor(1, isLetterB);
+      assert.equal(element.index, 3);
+
+      // Go back to the previous condition met. Should be back at
+      // stop 1.
+      element._moveCursor(-1, isLetterB);
+      assert.equal(element.index, 1);
+
+      // Go back. No more meet the condition. Should be at stop 0.
+      element._moveCursor(-1, isLetterB);
+      assert.equal(element.index, 0);
+    });
   });
 </script>

@@ -145,6 +145,17 @@
         newTarget = this.stops[newIndex];
       }
 
+      // Check if at the first or the last item.
+      if (this.index === newIndex && delta === 1) {
+        // Go to the end of the file.
+        newIndex = this.stops.length - 1;
+        newTarget = this.stops[newIndex];
+      } else if (this.index === newIndex && delta === -1) {
+        // Go to the beginning of the file.
+        newIndex = 0;
+        newTarget = this.stops[newIndex];
+      }
+
       this.index = newIndex;
       this.target = newTarget;
 
@@ -207,26 +218,36 @@
     },
 
     /**
-     * @return {boolean}
+     * Calculate where the element is relative to the window.
+     * @param  {object} target - Target to scroll to.
+     * @return {int} Distance to top of the target.
      */
-    _targetIsVisible: function() {
-      // Calculate where the element is relative to the window.
-      var top = this.target.offsetTop;
-      for (var offsetParent = this.target.offsetParent;
+    _getTop: function(target) {
+      var top = target.offsetTop;
+      for (var offsetParent = target.offsetParent;
            offsetParent;
            offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
       }
+      return top;
+    },
 
+    /**
+     * @return {boolean}
+     */
+    _targetIsVisible: function(top) {
       return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
           top > window.pageYOffset &&
           top < window.pageYOffset + window.innerHeight;
     },
 
     _scrollToTarget: function() {
-      if (!this.target ||
-          this.scrollBehavior === ScrollBehavior.NEVER ||
-          this._targetIsVisible()) {
+      if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) {
+        return;
+      }
+
+      var top = this._getTop(this.target);
+      if (this._targetIsVisible(top)) {
         return;
       }
 

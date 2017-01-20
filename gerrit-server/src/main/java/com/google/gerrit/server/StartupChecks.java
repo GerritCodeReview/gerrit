@@ -17,6 +17,8 @@ package com.google.gerrit.server;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.account.UniversalGroupBackend;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -27,6 +29,10 @@ public class StartupChecks implements LifecycleListener {
     protected void configure() {
       DynamicSet.setOf(binder(), StartupCheck.class);
       listener().to(StartupChecks.class);
+      DynamicSet.bind(binder(), StartupCheck.class)
+          .to(UniversalGroupBackend.ConfigCheck.class);
+      DynamicSet.bind(binder(), StartupCheck.class)
+          .to(SystemGroupBackend.NameCheck.class);
     }
   }
 

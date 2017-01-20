@@ -278,6 +278,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_35a5d047",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-20T07:43:43Z",
+      "side": 1,
+      "message": "Done in: [1].\n\n* [1] https://gerrit-review.googlesource.com/94852",
+      "range": {
+        "startLine": 54,
+        "startChar": 48,
+        "endLine": 54,
+        "endChar": 64
+      },
+      "revId": "efd99f63bf0e4821be5d7f573c07910165d43d25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f0de9e_4d90d92b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
         "patchSetId": 3

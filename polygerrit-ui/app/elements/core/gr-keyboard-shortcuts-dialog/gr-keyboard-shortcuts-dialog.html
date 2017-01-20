@@ -134,8 +134,37 @@ limitations under the License.
       </table>
 
       <table>
-        <!-- Change List and Dashboard -->
+        <!-- Change List -->
         <tbody hidden$="[[!_computeInChangeListView(view)]]" hidden>
+          <tr>
+            <td></td><td class="header">Change list</td>
+          </tr>
+          <tr>
+            <td><span class="key">j</span></td>
+            <td>Select next change</td>
+          </tr>
+          <tr>
+            <td><span class="key">k</span></td>
+            <td>Show previous change</td>
+          </tr>
+          <tr>
+            <td><span class="key">n</span> or <span class="key">]</span></td>
+            <td>Go to next page</td>
+          </tr>
+          <tr>
+            <td><span class="key">p</span> or <span class="key">[</span></td>
+            <td>Go to previous page</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="key">Enter</span> or
+              <span class="key">o</span>
+            </td>
+            <td>Show selected change</td>
+          </tr>
+        </tbody>
+        <!-- Dashboard View -->
+        <tbody hidden$="[[!_computeInDashboardView(view)]]" hidden>
           <tr>
             <td></td><td class="header">Change list</td>
           </tr>

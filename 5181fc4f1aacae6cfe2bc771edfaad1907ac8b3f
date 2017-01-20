@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_947dc485",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 934,
+        "startChar": 20,
+        "endLine": 934,
+        "endChar": 24
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_765f1052",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -36,6 +59,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "nit: remove\nthese comments don\u0027t provide additional value that can\u0027t be seen from the code instantly",
+      "range": {
+        "startLine": 708,
+        "startChar": 4,
+        "endLine": 708,
+        "endChar": 25
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_35331037",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 708,
         "startChar": 4,
@@ -71,6 +117,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_1538940d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 711,
+        "startChar": 4,
+        "endLine": 711,
+        "endChar": 16
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_d5813c9e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -82,6 +151,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "nit: remove",
+      "range": {
+        "startLine": 718,
+        "startChar": 4,
+        "endLine": 718,
+        "endChar": 16
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_752d88cb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 718,
         "startChar": 4,
@@ -117,6 +209,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_d48f3cba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 739,
+        "startChar": 7,
+        "endLine": 739,
+        "endChar": 16
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_958bc4bc",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -128,6 +243,52 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "remove. this can be done in a cleaner way without manually creating the list: .containsExactly(obj1, obj2, ...)",
+      "range": {
+        "startLine": 742,
+        "startChar": 0,
+        "endLine": 747,
+        "endChar": 35
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_b5460082",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 742,
+        "startChar": 0,
+        "endLine": 747,
+        "endChar": 35
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_b45d605a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 742,
         "startChar": 0,
@@ -186,6 +347,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_d53d7cfa",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 764,
+        "startChar": 62,
+        "endLine": 764,
+        "endChar": 68
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_366998fd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -197,6 +381,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "nit: remove",
+      "range": {
+        "startLine": 768,
+        "startChar": 3,
+        "endLine": 768,
+        "endChar": 25
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_351830a3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 768,
         "startChar": 3,
@@ -232,6 +439,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_151d3493",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 771,
+        "startChar": 4,
+        "endLine": 771,
+        "endChar": 16
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_f631e02c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -243,6 +473,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "nit: remove",
+      "range": {
+        "startLine": 778,
+        "startChar": 4,
+        "endLine": 778,
+        "endChar": 16
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_f5407866",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 778,
         "startChar": 4,
@@ -278,6 +531,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_f467d827",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 798,
+        "startChar": 4,
+        "endLine": 798,
+        "endChar": 17
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_d636e422",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -289,6 +565,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "same as above, use containsExactly instead",
+      "range": {
+        "startLine": 801,
+        "startChar": 0,
+        "endLine": 804,
+        "endChar": 35
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_945ae45d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 801,
         "startChar": 0,
@@ -324,6 +623,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_34331037",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/NoteDbPrimaryIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 110,
+        "startChar": 62,
+        "endLine": 110,
+        "endChar": 66
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_f5a31841",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/DraftApiImpl.java",
         "patchSetId": 4
@@ -341,6 +663,23 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_d43d7cfa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/DraftApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Good suggestion. I think it\u0027s better to throw a NotImplementedException(). If someone calls delete(object) and finds out it\u0027s the same with delete(), it will be a little confusing.",
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_b59da0fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 4
@@ -352,6 +691,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "nit: this will lead to wired messages because you are constructing a sentence that the admin isn\u0027t aware of when they provide a field called \u0027reason\u0027\ne.g. admin sets reason\u003d\u0027violation of security constraint\u0027\nthe message is: comment removed by admin because violation of security constraint\n\nwhich isn\u0027t a correct English sentence. I would therefore propose to be more direct/specific:\n\n\"Comment removed by: admin; Reason: some reason\"",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 29
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_1438940d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 81,
         "startChar": 0,
@@ -387,6 +749,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_35015027",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 85,
+        "startChar": 19,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_7646f083",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 4
@@ -398,6 +783,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "NoteDb",
+      "range": {
+        "startLine": 105,
+        "startChar": 14,
+        "endLine": 105,
+        "endChar": 20
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_341830a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 105,
         "startChar": 14,
@@ -433,6 +841,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_141d3493",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 112,
+        "startChar": 37,
+        "endLine": 112,
+        "endChar": 45
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_55952ccd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 4
@@ -444,6 +875,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "make these final",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 24
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_d430dc0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 61,
         "startChar": 0,
@@ -479,6 +933,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_343f90da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 29
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_3592b0e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 4
@@ -490,6 +967,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "final",
+      "range": {
+        "startLine": 65,
+        "startChar": 17,
+        "endLine": 65,
+        "endChar": 27
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_b552801f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 65,
         "startChar": 17,
@@ -525,6 +1025,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_954f8475",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 55
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_163d7cf9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 4
@@ -536,6 +1059,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "found variables always look a bit clumsy, remove this",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 120,
+        "endChar": 26
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_3564b0fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 120,
         "startChar": 4,
@@ -571,6 +1117,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_543e8cda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 131,
+        "endChar": 16
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d37948_d54ffca0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 4
@@ -594,6 +1163,29 @@
     },
     {
       "key": {
+        "uuid": "486b96ff_1569b4d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 54
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_f618c0a6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 4
@@ -605,6 +1197,29 @@
       "writtenOn": "2017-01-16T14:56:44Z",
       "side": 1,
       "message": "new HashSet\u003c\u003e(rnm.revisionNotes.size());",
+      "range": {
+        "startLine": 193,
+        "startChar": 13,
+        "endLine": 193,
+        "endChar": 39
+      },
+      "revId": "5181fc4f1aacae6cfe2bc771edfaad1907ac8b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_b452801f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-20T13:07:52Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 193,
         "startChar": 13,

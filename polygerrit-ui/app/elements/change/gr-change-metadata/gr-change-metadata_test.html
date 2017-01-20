@@ -33,14 +33,20 @@ limitations under the License.
 <script>
   suite('gr-change-metadata tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getConfig: function() { return Promise.resolve({}); },
         getLoggedIn: function() { return Promise.resolve(false); },
       });
 
       element = fixture('basic');
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('computed fields', function() {
@@ -132,11 +138,60 @@ limitations under the License.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
     });
 
-    suite('remove reviewer votes', function() {
-      var sandbox;
-
+    suite('Topic removal', function() {
+      var change;
       setup(function() {
-        sandbox = sinon.sandbox.create();
+        change = {
+          _number: 'the number',
+          actions: {
+            topic: {enabled: false},
+          },
+          change_id: 'the id',
+          topic: 'the topic',
+          status: 'NEW',
+          submit_type: 'CHERRY_PICK',
+          labels: {
+            test: {
+              all: [{_account_id: 1, name: 'bojack', value: 1}],
+              default_value: 0,
+              values: [],
+            },
+          },
+          removable_reviewers: [],
+        };
+      });
+
+      test('_computeTopicReadOnly', function() {
+        var mutable = false;
+        assert.isTrue(element._computeTopicReadOnly(mutable, change));
+        mutable = true;
+        assert.isTrue(element._computeTopicReadOnly(mutable, change));
+        change.actions.topic.enabled = true;
+        assert.isFalse(element._computeTopicReadOnly(mutable, change));
+        mutable = false;
+        assert.isTrue(element._computeTopicReadOnly(mutable, change));
+      });
+
+      test('topic read only hides delete button', function() {
+        element.mutable = false;
+        element.change = change;
+        flushAsynchronousOperations();
+        var button = element.$$('gr-linked-chip').$$('gr-button');
+        assert.isTrue(button.hasAttribute('hidden'));
+      });
+
+      test('topic not read only does not hide delete button', function() {
+        element.mutable = true;
+        change.actions.topic.enabled = true;
+        element.change = change;
+        flushAsynchronousOperations();
+        var button = element.$$('gr-linked-chip').$$('gr-button');
+        assert.isFalse(button.hasAttribute('hidden'));
+      });
+    });
+
+    suite('remove reviewer votes', function() {
+      setup(function() {
         sandbox.stub(element, '_computeValueTooltip').returns('');
         sandbox.stub(element, '_computeTopicReadOnly').returns(true);
         element.change = {
@@ -154,10 +209,6 @@ limitations under the License.
           },
           removable_reviewers: [],
         };
-      });
-
-      teardown(function() {
-        sandbox.restore();
       });
 
       test('_computeCanDeleteVote hides delete button', function() {

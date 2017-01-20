@@ -92,10 +92,18 @@ limitations under the License.
           method: 'DELETE',
           label: 'Delete',
           title: 'Delete draft change 42',
-          enabled: true
+          enabled: true,
         },
       };
       return element.reload();
+    });
+
+    test('_shouldHideActions', function() {
+      assert.isTrue(element._shouldHideActions(undefined, undefined, true));
+      assert.isTrue(element._shouldHideActions({base: {}},
+          {base: []}, false));
+      assert.isFalse(element._shouldHideActions({base: { test: 'test' }},
+          {base: ['test']}, false));
     });
 
     test('hide revision action', function(done) {
@@ -156,10 +164,12 @@ limitations under the License.
       });
     });
 
-    test('buttons show', function(done) {
+    test('buttons exist', function(done) {
+      element._loading = false;
       flush(function() {
-        var buttonEls = Polymer.dom(element.root).querySelectorAll('gr-button');
-        assert.equal(buttonEls.length, 5);
+        var buttonEls = Polymer.dom(element.root)
+            .querySelectorAll('gr-button');
+        assert.equal(buttonEls.length, 6);
         assert.isFalse(element.hidden);
         done();
       });
@@ -335,7 +345,7 @@ limitations under the License.
           '/cherrypick', action, true, {
             destination: 'master',
             message: 'foo message',
-          }
+          },
         ]);
       });
 
@@ -379,8 +389,8 @@ limitations under the License.
             method: 'POST',
             label: 'Revert',
             title: 'Revert the change',
-            enabled: true
-          }
+            enabled: true,
+          },
         };
         return element.reload();
       });

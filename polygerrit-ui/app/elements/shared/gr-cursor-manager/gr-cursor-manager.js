@@ -144,7 +144,6 @@
       if (newIndex != -1) {
         newTarget = this.stops[newIndex];
       }
-
       this.index = newIndex;
       this.target = newTarget;
 
@@ -186,6 +185,11 @@
 
       // If we failed to satisfy the condition:
       if (opt_condition && !opt_condition(this.stops[newIndex])) {
+        if (delta > 0) {
+          return this.stops.length - 1;
+        } else if (delta < 0) {
+          return 0;
+        }
         return this.index;
       }
 
@@ -207,26 +211,36 @@
     },
 
     /**
-     * @return {boolean}
+     * Calculate where the element is relative to the window.
+     * @param  {object} target - Target to scroll to.
+     * @return {int} Distance to top of the target.
      */
-    _targetIsVisible: function() {
-      // Calculate where the element is relative to the window.
-      var top = this.target.offsetTop;
-      for (var offsetParent = this.target.offsetParent;
+    _getTop: function(target) {
+      var top = target.offsetTop;
+      for (var offsetParent = target.offsetParent;
            offsetParent;
            offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
       }
+      return top;
+    },
 
+    /**
+     * @return {boolean}
+     */
+    _targetIsVisible: function(top) {
       return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
           top > window.pageYOffset &&
           top < window.pageYOffset + window.innerHeight;
     },
 
     _scrollToTarget: function() {
-      if (!this.target ||
-          this.scrollBehavior === ScrollBehavior.NEVER ||
-          this._targetIsVisible()) {
+      if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) {
+        return;
+      }
+
+      var top = this._getTop(this.target);
+      if (this._targetIsVisible(top)) {
         return;
       }
 

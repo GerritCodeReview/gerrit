@@ -25,6 +25,7 @@ base(CR, V) :-
 needs_library_compliance :- gerrit:commit_delta('^lib/'), !.
 needs_library_compliance :- gerrit:commit_delta('^[.]buckversion$'), !.
 needs_library_compliance :- gerrit:commit_delta('^WORKSPACE$'), !.
+needs_library_compliance :- gerrit:commit_delta('^gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config$'), !.
 
 is_no_polygerrit_change :-
   gerrit:commit_delta('^(?!polygerrit-ui/).*$').

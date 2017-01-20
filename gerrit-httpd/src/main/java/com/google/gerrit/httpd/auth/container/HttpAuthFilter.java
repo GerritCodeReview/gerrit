@@ -36,6 +36,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Locale;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -143,7 +146,8 @@ class HttpAuthFilter implements Filter {
 
   String getRemoteDisplayname(HttpServletRequest req) {
     if (displaynameHeader != null) {
-      return emptyToNull(req.getHeader(displaynameHeader));
+      String raw = req.getHeader(displaynameHeader);
+      return emptyToNull(new String(raw.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
     }
     return null;
   }

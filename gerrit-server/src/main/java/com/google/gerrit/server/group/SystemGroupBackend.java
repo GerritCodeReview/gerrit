@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
@@ -27,9 +28,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AbstractGroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,23 +84,29 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     return ANONYMOUS_USERS.equals(uuid) || REGISTERED_USERS.equals(uuid);
   }
 
+  private final ImmutableSet<String> reservedNames;
   private final SortedMap<String, GroupReference> names;
   private final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
 
   @Inject
   @VisibleForTesting
-  public SystemGroupBackend() {
+  public SystemGroupBackend(@GerritServerConfig Config cfg) {
     SortedMap<String, GroupReference> n = new TreeMap<>();
     ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u =
         ImmutableMap.builder();
 
+    ImmutableSet.Builder<String> reservedNamesBuilder = ImmutableSet.builder();
     for (AccountGroup.UUID uuid : all) {
       int c = uuid.get().indexOf(':');
-      String name = uuid.get().substring(c + 1).replace('-', ' ');
-      GroupReference ref = new GroupReference(uuid, name);
+      String defaultName = uuid.get().substring(c + 1).replace('-', ' ');
+      reservedNamesBuilder.add(defaultName);
+      String configuredName = cfg.getString("groups", uuid.get(), "name");
+      GroupReference ref = new GroupReference(uuid,
+          MoreObjects.firstNonNull(configuredName, defaultName));
       n.put(ref.getName().toLowerCase(Locale.US), ref);
       u.put(ref.getUUID(), ref);
     }
+    reservedNames = reservedNamesBuilder.build();
     names = Collections.unmodifiableSortedMap(n);
     uuids = u.build();
   }
@@ -107,6 +117,10 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   public Set<String> getNames() {
     return names.values().stream().map(r -> r.getName()).collect(toSet());
+  }
+
+  public Set<String> getReservedNames() {
+    return reservedNames;
   }
 
   @Override

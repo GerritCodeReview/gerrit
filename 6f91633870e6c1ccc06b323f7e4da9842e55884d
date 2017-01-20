@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "486b96ff_359b10ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-20T14:33:26Z",
+      "side": 1,
+      "message": "Are these TODOs something you want to do in this change? Shall we wait with the submit?",
+      "revId": "6f91633870e6c1ccc06b323f7e4da9842e55884d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

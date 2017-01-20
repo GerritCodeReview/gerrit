@@ -180,6 +180,14 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       }
     }
 
+    for (String name : systemGroupBackend.getReservedNames()) {
+      if (name.toLowerCase(Locale.US).equals(
+          createGroupArgs.getGroupName().toLowerCase(Locale.US))) {
+        throw new ResourceConflictException("group name '" + name
+            + "' is reserved");
+      }
+    }
+
     AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(

@@ -2201,6 +2201,27 @@ all registered users.
 +
 By default, false.
 
+[[groups.uuid.name]]groups.<uuid>.name::
++
+Display name for group with the given UUID.
++
+This option is only supported for system groups (scheme 'global').
++
+E.g. this parameter can be used to configure another name for the
+`Anonymous Users` group:
++
+----
+[groups "global:Anonymous-Users"]
+  name = All Users
+----
++
+When setting this parameter it should be verified that there is no
+existing group with this name. Once set Gerrit ensures that it is not
+possible to create a group with this name. Gerrit also keeps the
+default name reserved so that it cannot be used for new groups either.
+This means there is no danger of ambiguous group names when this
+parameter is removed and the system group uses the default name again.
+
 [[http]]
 === Section http
 

@@ -57,6 +57,7 @@
           a.href = href;
           a.textContent = text;
           a.target = '_blank';
+          a.rel = 'noopener';
           output.appendChild(a);
         } else if (fragment) {
           output.appendChild(fragment);

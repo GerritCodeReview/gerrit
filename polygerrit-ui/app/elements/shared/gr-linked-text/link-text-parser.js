@@ -69,6 +69,7 @@ GrLinkTextParser.prototype.addItem =
     a.href = href;
     a.textContent = text;
     a.target = '_blank';
+    a.rel = 'noopener';
     htmlOutput = a;
   } else if (html) {
     var fragment = document.createDocumentFragment();

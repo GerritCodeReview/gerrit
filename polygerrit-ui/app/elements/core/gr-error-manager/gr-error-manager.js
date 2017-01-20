@@ -152,6 +152,7 @@
         'height=' + SIGN_IN_HEIGHT_PX,
         'left=' + left,
         'top=' + top,
+        'noopener=yes',
       ];
       window.open('/login/%3FcloseAfterLogin', '_blank', options.join(','));
     },

@@ -238,10 +238,11 @@ class GitwebServlet extends HttpServlet {
       p.print("    if (( $secure && $ENV{'SERVER_PORT'} != 443)\n");
       p.print("     || (!$secure && $ENV{'SERVER_PORT'} != 80)\n");
       p.print("    );\n");
-      p.print("  $http_url .= qq{$ENV{'GERRIT_CONTEXT_PATH'}};\n");
+      p.print("  my $context = $ENV{'GERRIT_CONTEXT_PATH'};\n");
+      p.print("  chop($context);\n");
+      p.print("  $http_url .= qq{$context};\n");
       p.print("  $http_url .= qq{/a}\n");
       p.print("    unless $ENV{'GERRIT_ANONYMOUS_READ'};\n");
-      p.print("  \n");
       p.print("  push @git_base_url_list, $http_url;\n");
       p.print("}\n");
 
@@ -551,7 +552,7 @@ class GitwebServlet extends HttpServlet {
       env.set("HTTP_" + name.toUpperCase().replace('-', '_'), value);
     }
 
-    env.set("GERRIT_CONTEXT_PATH", req.getContextPath());
+    env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
     env.set("GERRIT_PROJECT_NAME", project.getProject().getName());
 
     env.set("GITWEB_PROJECTROOT",

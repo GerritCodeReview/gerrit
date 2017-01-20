@@ -27,17 +27,24 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StartupCheck;
+import com.google.gerrit.server.StartupException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Universal implementation of the GroupBackend that works with the injected
@@ -207,5 +214,40 @@ public class UniversalGroupBackend implements GroupBackend {
       }
     }
     return false;
+  }
+
+  public static class ConfigCheck implements StartupCheck {
+    private final Config cfg;
+    private final UniversalGroupBackend universalGroupBackend;
+
+    @Inject
+    ConfigCheck(@GerritServerConfig Config cfg,
+        UniversalGroupBackend groupBackend) {
+      this.cfg = cfg;
+      this.universalGroupBackend = groupBackend;
+    }
+
+    @Override
+    public void check() throws StartupException {
+      List<String> invalidGroupSubsections = new ArrayList<>();
+      for (String sub : cfg.getSubsections("groups")) {
+        AccountGroup.UUID uuid = new AccountGroup.UUID(sub);
+        GroupBackend groupBackend = universalGroupBackend.backend(uuid);
+        if (groupBackend == null || groupBackend.get(uuid) == null) {
+          invalidGroupSubsections.add(sub);
+        }
+      }
+
+      if (!invalidGroupSubsections.isEmpty()) {
+        throw new StartupException(String.format(
+            "Subsections for 'groups' in gerrit.config must be valid group"
+                + " UUIDs. The following group UUIDs could not be resolved: "
+                + invalidGroupSubsections.stream()
+                    .map(u -> "'" + u + "'")
+                    .collect(Collectors.joining(","))
+                + " Please remove/fix these 'groups' subsections in"
+                + " gerrit.config."));
+      }
+    }
   }
 }

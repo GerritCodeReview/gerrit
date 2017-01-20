@@ -136,6 +136,7 @@ import com.google.gerrit.server.group.GroupInfoCache;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.change.ReindexAfterUpdate;
 import com.google.gerrit.server.mail.EmailModule;
+import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
@@ -366,6 +367,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), DownloadCommand.class);
     DynamicMap.mapOf(binder(), CloneCommand.class);
     DynamicMap.mapOf(binder(), ReviewerSuggestion.class);
+    DynamicMap.mapOf(binder(), MailFilter.class);
     DynamicSet.setOf(binder(), ExternalIncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);

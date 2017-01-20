@@ -17,8 +17,10 @@ package com.google.gerrit.server.mail.receive;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.CharStreams;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.server.mail.Address;
 
 import org.apache.james.mime4j.MimeException;
@@ -52,6 +54,7 @@ public class RawMailParser {
    */
   public static MailMessage parse(String raw) throws MailParsingException {
     MailMessage.Builder messageBuilder = MailMessage.builder();
+    messageBuilder.rawContentUTF(raw);
     Message mimeMessage;
     try {
       MessageBuilder builder = new DefaultMessageBuilder();
@@ -126,7 +129,10 @@ public class RawMailParser {
     for (int c : chars) {
       b.append((char) c);
     }
-    return parse(b.toString());
+
+    MailMessage.Builder messageBuilder = parse(b.toString()).toBuilder();
+    messageBuilder.rawContent(ImmutableList.copyOf(Ints.asList(chars)));
+    return messageBuilder.build();
   }
 
   /**

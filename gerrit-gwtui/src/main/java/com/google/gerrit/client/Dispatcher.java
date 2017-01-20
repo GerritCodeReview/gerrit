@@ -730,11 +730,15 @@ public class Dispatcher {
               // shown in the web UI).
               //
               if (AccountGroup.isInternalGroup(group.getGroupUUID())) {
-                Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.MEMBERS),
-                    new AccountGroupMembersScreen(group, token));
+                String newToken =
+                    toGroup(group.getGroupId(), AccountGroupScreen.MEMBERS);
+                Gerrit.display(newToken,
+                    new AccountGroupMembersScreen(group, newToken));
               } else {
-                Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.INFO),
-                    new AccountGroupInfoScreen(group, token));
+                String newToken =
+                    toGroup(group.getGroupId(), AccountGroupScreen.INFO);
+                Gerrit.display(newToken,
+                    new AccountGroupInfoScreen(group, newToken));
               }
             } else if (AccountGroupScreen.INFO.equals(panel)) {
               Gerrit.display(token, new AccountGroupInfoScreen(group, token));

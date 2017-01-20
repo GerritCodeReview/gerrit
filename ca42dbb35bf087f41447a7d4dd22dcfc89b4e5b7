@@ -45,6 +45,29 @@
       "revId": "ca42dbb35bf087f41447a7d4dd22dcfc89b4e5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2864a22d_944f8475",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-20T12:26:21Z",
+      "side": 1,
+      "message": "Checked that code [1]. However, there in the _handleNKey the n and shift+n are handled differently. Here both n and shift+n do the same and this means preventing the usage of shift+n for something else.\n\nFurther, in Vim \u0027n\u0027 means next and \u0027shift+n\u0027 means previous and this\nis another reason I vote against shift+n as a synonym for \u0027n\u0027.\n\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js#297",
+      "range": {
+        "startLine": 97,
+        "startChar": 9,
+        "endLine": 97,
+        "endChar": 16
+      },
+      "revId": "ca42dbb35bf087f41447a7d4dd22dcfc89b4e5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

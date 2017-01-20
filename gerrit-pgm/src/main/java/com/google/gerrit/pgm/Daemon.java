@@ -417,6 +417,7 @@ public class Daemon extends SiteProgram {
     if (!slave) {
       modules.add(new ChangeCleanupRunner.Module());
     }
+    modules.add(new StartupChecks.Module());
     return cfgInjector.createChildInjector(modules);
   }
 

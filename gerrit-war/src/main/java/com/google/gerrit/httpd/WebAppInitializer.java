@@ -320,6 +320,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
+    modules.add(new StartupChecks.Module());
 
     // Index module shutdown must happen before work queue shutdown, otherwise
     // work queue can get stuck waiting on index futures that will never return.

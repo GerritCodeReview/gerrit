@@ -143,7 +143,8 @@ class HttpAuthFilter implements Filter {
 
   String getRemoteDisplayname(HttpServletRequest req) {
     if (displaynameHeader != null) {
-      return emptyToNull(req.getHeader(displaynameHeader));
+      String raw = req.getHeader(displaynameHeader);
+      return emptyToNull(new String(raw.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
     }
     return null;
   }

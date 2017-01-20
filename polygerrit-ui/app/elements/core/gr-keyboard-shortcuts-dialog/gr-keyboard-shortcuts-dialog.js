@@ -35,9 +35,12 @@
       return view == currentView;
     },
 
+    _computeInDashboardView: function(currentView) {
+      return currentView == 'gr-dashboard-view';
+    },
+
     _computeInChangeListView: function(currentView) {
-      return currentView == 'gr-change-list-view' ||
-          currentView == 'gr-dashboard-view';
+      return currentView == 'gr-change-list-view';
     },
 
     _handleCloseTap: function(e) {

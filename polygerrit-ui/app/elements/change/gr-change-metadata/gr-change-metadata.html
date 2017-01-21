@@ -179,7 +179,7 @@ limitations under the License.
           <gr-linked-chip
               text="[[change.topic]]"
               href="[[_computeTopicHref(change.topic)]]"
-              removable
+              removable="[[!_topicReadOnly]]"
               on-remove="_handleTopicRemoved"></gr-linked-chip>
         </template>
         <template is="dom-if" if="[[!change.topic]]">

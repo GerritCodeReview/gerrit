@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e9aa6a_82e3faea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-21T00:46:02Z",
+      "side": 1,
+      "message": "Nit: Might make more sense (and be more terse) to use a while loop here, even though this technically works just fine.",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 225,
+        "endChar": 7
+      },
+      "revId": "3b40fb18d8f9504077aa988e8cdb396894deca2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

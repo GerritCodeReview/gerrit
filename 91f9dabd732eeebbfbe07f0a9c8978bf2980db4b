@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "e8e9aa6a_c217c2fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-21T00:42:56Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "91f9dabd732eeebbfbe07f0a9c8978bf2980db4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "031b415c_2678b82b",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 2
@@ -71,6 +88,23 @@
     },
     {
       "key": {
+        "uuid": "283102ed_8c8fa7bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-21T00:42:56Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "91f9dabd732eeebbfbe07f0a9c8978bf2980db4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "031b415c_4685b4f2",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.html",
         "patchSetId": 2
@@ -91,6 +125,23 @@
       "revId": "91f9dabd732eeebbfbe07f0a9c8978bf2980db4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_e20ac6d4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-21T00:42:56Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "91f9dabd732eeebbfbe07f0a9c8978bf2980db4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

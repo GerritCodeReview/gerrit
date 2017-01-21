@@ -16,6 +16,40 @@
       "revId": "c1eb8f11cc2f1a6b191648142f4fd49e390498ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e9aa6a_020ecaea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-21T00:42:56Z",
+      "side": 0,
+      "message": "nope, had initially done some stuff in this function and then removed it, missed the space.",
+      "revId": "c1eb8f11cc2f1a6b191648142f4fd49e390498ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031b415c_06a2dc8a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-21T00:42:56Z",
+      "side": 0,
+      "message": "Done",
+      "revId": "c1eb8f11cc2f1a6b191648142f4fd49e390498ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

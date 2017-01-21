@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_3455d0bd",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-21T07:25:08Z",
+      "side": 1,
+      "message": "Done. I also added it to the test description.",
+      "range": {
+        "startLine": 169,
+        "startChar": 40,
+        "endLine": 169,
+        "endChar": 51
+      },
+      "revId": "f27335b5d3ba6edba9b5d727db0b756c3e5d16e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8e9aa6a_4204d2cc",
         "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.js",
         "patchSetId": 3
@@ -36,6 +59,29 @@
       "writtenOn": "2017-01-21T00:26:57Z",
       "side": 1,
       "message": "Nit: although it was `\u003d\u003d` in the previous code, these should use `\u003d\u003d\u003d`.",
+      "range": {
+        "startLine": 39,
+        "startChar": 25,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "f27335b5d3ba6edba9b5d727db0b756c3e5d16e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_f5299854",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-21T07:25:08Z",
+      "side": 1,
+      "message": "Fixed in: [1].\n\n* [1] https://gerrit-review.googlesource.com/94923",
       "range": {
         "startLine": 39,
         "startChar": 25,

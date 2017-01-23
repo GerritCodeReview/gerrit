@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "27c2ea02_bd526485",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-23T18:51:05Z",
+      "side": 1,
+      "message": "Nit: capitalize s/polygerrit/PolyGerrit/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c31e8525_12e24b8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-23T18:51:05Z",
+      "side": 1,
+      "message": "Nit: remove period.",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ece5b3c_31e45892",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "0efb8108_e1189636",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-01-23T19:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "94ceef72b95b56db60f39a08d2e2ac70d6df514c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06994520_431f0eef",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/git/similarity.svm",
         "patchSetId": 18
@@ -42,6 +59,23 @@
         "endLine": 10,
         "endChar": 27
       },
+      "revId": "94ceef72b95b56db60f39a08d2e2ac70d6df514c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee54d6bc_dad22df3",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/git/similarity.svm",
+        "patchSetId": 18
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2017-01-23T19:55:02Z",
+      "side": 1,
+      "message": "Looks like I can. Done.",
       "revId": "94ceef72b95b56db60f39a08d2e2ac70d6df514c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

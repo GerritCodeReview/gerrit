@@ -35,11 +35,6 @@
       return view === currentView;
     },
 
-    _computeInChangeListView: function(currentView) {
-      return currentView === 'gr-change-list-view' ||
-          currentView === 'gr-dashboard-view';
-    },
-
     _handleCloseTap: function(e) {
       e.preventDefault();
       this.fire('close', null, {bubbles: false});

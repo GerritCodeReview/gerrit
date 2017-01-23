@@ -276,7 +276,8 @@ import javax.security.auth.login.LoginException;
 
   private void recursivelyExpandGroups(final Set<String> groupDNs,
       final LdapSchema schema, final DirContext ctx, final String groupDN) {
-    if (groupDNs.add(groupDN) && schema.accountMemberField != null) {
+    if (groupDNs.add(groupDN) && schema.accountMemberField != null
+        && schema.accountMemberExpandGroups) {
       ImmutableSet<String> cachedParentsDNs = parentGroups.getIfPresent(groupDN);
       if (cachedParentsDNs == null) {
         // Recursively identify the groups it is a member of.
@@ -319,6 +320,7 @@ import javax.security.auth.login.LoginException;
     final ParameterizedString accountEmailAddress;
     final ParameterizedString accountSshUserName;
     final String accountMemberField;
+    final boolean accountMemberExpandGroups;
     final String[] accountMemberFieldArray;
     final List<LdapQuery> accountQueryList;
     final List<LdapQuery> accountWithMemberOfQueryList;
@@ -390,6 +392,9 @@ import javax.security.auth.login.LoginException;
       } else {
         accountMemberFieldArray = null;
       }
+      accountMemberExpandGroups =
+          LdapRealm.optional(config, "accountMemberExpandGroups",
+              type.accountMemberExpandGroups());
 
       final SearchScope accountScope = LdapRealm.scope(config, "accountScope");
       final String accountPattern =

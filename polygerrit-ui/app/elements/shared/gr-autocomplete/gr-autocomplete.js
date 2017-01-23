@@ -198,7 +198,7 @@
       return this.$.suggestions.querySelectorAll('li');
     },
 
-    _handleInputKeydown: function(e) {
+    _handleKeydown: function(e) {
       this._focused = true;
       switch (e.keyCode) {
         case 38: // Up
@@ -223,6 +223,8 @@
           e.preventDefault();
           this._commit();
           break;
+        default:
+          this.$.input.focus();
       }
       this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
     },

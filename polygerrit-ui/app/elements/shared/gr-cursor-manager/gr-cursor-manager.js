@@ -147,6 +147,7 @@
 
       this.index = newIndex;
       this.target = newTarget;
+      this.target.focus();
 
       this._decorateTarget();
     },

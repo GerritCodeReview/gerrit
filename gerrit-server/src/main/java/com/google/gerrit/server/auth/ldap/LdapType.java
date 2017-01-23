@@ -24,10 +24,16 @@ abstract class LdapType {
 
   static LdapType guessType(final DirContext ctx) throws NamingException {
     final Attributes rootAtts = ctx.getAttributes("");
+
     Attribute supported = rootAtts.get("supportedCapabilities");
     if (supported != null && (supported.contains("1.2.840.113556.1.4.800")
           || supported.contains("1.2.840.113556.1.4.1851"))) {
       return new ActiveDirectory();
+    }
+
+    supported = rootAtts.get("supportedExtension");
+    if (supported != null && supported.contains("2.16.840.1.113730.3.8.10.1")) {
+      return new FreeIPA();
     }
 
     return RFC_2307;
@@ -36,6 +42,7 @@ abstract class LdapType {
   abstract String groupPattern();
 
   abstract String groupMemberPattern();
+
 
   abstract String groupName();
 
@@ -46,6 +53,8 @@ abstract class LdapType {
   abstract String accountSshUserName();
 
   abstract String accountMemberField();
+
+  abstract boolean accountMemberExpandGroups();
 
   abstract String accountPattern();
 
@@ -89,6 +98,11 @@ abstract class LdapType {
     String accountPattern() {
       return "(uid=${username})";
     }
+
+    @Override
+    boolean accountMemberExpandGroups() {
+      return true;
+    }
   }
 
   private static class ActiveDirectory extends LdapType {
@@ -130,6 +144,59 @@ abstract class LdapType {
     @Override
     String accountPattern() {
       return "(&(objectClass=user)(sAMAccountName=${username}))";
+    }
+
+    @Override
+    boolean accountMemberExpandGroups() {
+      return true;
+    }
+  }
+
+  private static class FreeIPA extends LdapType {
+
+    @Override
+    String groupPattern() {
+      return "(cn=${groupname})";
+    }
+
+    @Override
+    String groupName() {
+      return "cn";
+    }
+
+    @Override
+    String groupMemberPattern() {
+      return null; // FreeIPA uses memberOf in the account
+    }
+
+    @Override
+    String accountFullName() {
+      return "displayName";
+    }
+
+    @Override
+    String accountEmailAddress() {
+      return "mail";
+    }
+
+    @Override
+    String accountSshUserName() {
+      return "uid";
+    }
+
+    @Override
+    String accountMemberField() {
+      return "memberOf";
+    }
+
+    @Override
+    String accountPattern() {
+      return "(uid=${username})";
+    }
+
+    @Override
+    boolean accountMemberExpandGroups() {
+      return false;
     }
   }
 }

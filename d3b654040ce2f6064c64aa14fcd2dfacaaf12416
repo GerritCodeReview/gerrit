@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "2864a22d_5775ee34",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-23T08:24:11Z",
+      "side": 1,
+      "message": "I guess they could. Would this be a problem?\n[1] says that subsection names can contain any characters except newline.\n\n[1] https://git-scm.com/docs/git-config#_syntax",
+      "range": {
+        "startLine": 2204,
+        "startChar": 27,
+        "endLine": 2204,
+        "endChar": 33
+      },
+      "revId": "d3b654040ce2f6064c64aa14fcd2dfacaaf12416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "486b96ff_186ba95a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

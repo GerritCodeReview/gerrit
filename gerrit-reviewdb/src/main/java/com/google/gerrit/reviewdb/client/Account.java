@@ -158,6 +158,10 @@ public final class Account {
   @Column(id = 7)
   protected boolean inactive;
 
+  /** The user-settable status of this account (e.g. busy, OOO, available) */
+  @Column(id = 8, notNull = false)
+  protected String status;
+
   /** <i>computed</i> the username selected from the identities. */
   protected String userName;
 
@@ -270,6 +274,14 @@ public final class Account {
 
   public void setActive(boolean active) {
     inactive = ! active;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
   /** @return the computed user name for this account */

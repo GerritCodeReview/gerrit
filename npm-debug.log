@@ -1,0 +1,20 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/6.5.0/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'info' ]
+2 info using npm@3.10.3
+3 info using node@v6.5.0
+4 verbose stack Error: Invalid package.json
+4 verbose stack     at /usr/local/lib/node_modules/npm/lib/view.js:84:30
+4 verbose stack     at ReadFileContext.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:90:21)
+4 verbose stack     at ReadFileContext.callback (/usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:78:16)
+4 verbose stack     at FSReqWrap.readFileAfterOpen [as oncomplete] (fs.js:365:13)
+5 verbose cwd /Users/beckysiegel/Repos/gerrit
+6 error Darwin 16.3.0
+7 error argv "/usr/local/Cellar/node/6.5.0/bin/node" "/usr/local/bin/npm" "info"
+8 error node v6.5.0
+9 error npm  v3.10.3
+10 error Invalid package.json
+11 error If you need help, you may report this error at:
+11 error     <https://github.com/npm/npm/issues>
+12 verbose exit [ 1, true ]

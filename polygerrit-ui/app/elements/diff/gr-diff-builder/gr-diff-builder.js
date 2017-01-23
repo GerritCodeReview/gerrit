@@ -321,18 +321,21 @@
     return result;
   };
 
-  GrDiffBuilder.prototype.createCommentThread = function(changeNum, patchNum,
-      path, side, projectConfig) {
-    var threadEl = document.createElement('gr-diff-comment-thread');
-    threadEl.changeNum = changeNum;
-    threadEl.patchNum = patchNum;
-    threadEl.path = path;
-    threadEl.side = side;
-    threadEl.projectConfig = projectConfig;
-    return threadEl;
+  GrDiffBuilder.prototype.createCommentThreadGroup =
+      function(changeNum, patchNum, path, side, projectConfig, range) {
+    var threadGroupEl =
+        document.createElement('gr-diff-comment-thread-group');
+    threadGroupEl.changeNum = changeNum;
+    threadGroupEl.patchNum = patchNum;
+    threadGroupEl.path = path;
+    threadGroupEl.side = side;
+    threadGroupEl.projectConfig = projectConfig;
+    threadGroupEl.range = range;
+    return threadGroupEl;
   };
 
-  GrDiffBuilder.prototype._commentThreadForLine = function(line, opt_side) {
+  GrDiffBuilder.prototype._commentThreadGroupForLine =
+      function(line, opt_side) {
     var comments = this._getCommentsForLine(this._comments, line, opt_side);
     if (!comments || comments.length === 0) {
       return null;
@@ -348,17 +351,17 @@
         patchNum = this._comments.meta.patchRange.basePatchNum;
       }
     }
-    var threadEl = this.createCommentThread(
+    var threadGroupEl = this.createCommentThreadGroup(
         this._comments.meta.changeNum,
         patchNum,
         this._comments.meta.path,
         side,
         this._comments.meta.projectConfig);
-    threadEl.comments = comments;
+    threadGroupEl.comments = comments;
     if (opt_side) {
-      threadEl.setAttribute('data-side', opt_side);
+      threadGroupEl.setAttribute('data-side', opt_side);
     }
-    return threadEl;
+    return threadGroupEl;
   };
 
   GrDiffBuilder.prototype._createLineEl = function(line, number, type,

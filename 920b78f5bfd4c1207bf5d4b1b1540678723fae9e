@@ -16,6 +16,75 @@
       "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2905d185_c07d6dec",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-23T18:47:20Z",
+      "side": 1,
+      "message": "Now the UI will initialize as \"(none)\", even if you do have an HTTP password.",
+      "range": {
+        "startLine": 47,
+        "startChar": 66,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2924aaaf_a652650b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-23T18:47:20Z",
+      "side": 1,
+      "message": "Since we only show a password after a new one has been generated, this row almost never has content.\n\nI argue this row should be removed entirely, and that the result of generating a new password should be to display a modal from which it can be copied (similar to the way we display SSH keys).",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6f9e541_28e1d2f3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-23T18:47:20Z",
+      "side": 1,
+      "message": "Now that, the `_hasPassword` property is only set when a password is generated, the [Clear] button is disabled unless a password is generated. So, if I want to clear my password, I have to generate one first, which feels clunky.\n\nI think this button should either:\n* Always be enabled, OR...\n* We should check whether the user has an HTTP password in some other way (that doesn\u0027t transmit plain-text) to decide whether the [Clear] button is enabled, OR...\n* Remove the [Clear Password] button altogether (which would be a minor regression in PG from the GWT UI 😥).",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 65
+      },
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

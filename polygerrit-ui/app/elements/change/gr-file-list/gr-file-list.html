@@ -236,9 +236,11 @@ limitations under the License.
         <div class="reviewed" hidden$="[[!_loggedIn]]" hidden>
           <input type="checkbox" checked$="[[_computeReviewed(file, _reviewed)]]"
               data-path$="[[file.__path]]" on-change="_handleReviewedChange"
-              class="reviewed">
+              class="reviewed" aria-label="Reviewed checkbox">
         </div>
-        <div class$="[[_computeClass('status', file.__path)]]">
+        <div class$="[[_computeClass('status', file.__path)]]"
+            tabindex="0"
+            aria-label$="[[_computeFileStatusLabel(file.status)]]">
           [[_computeFileStatus(file.status)]]
         </div>
         <a class$="[[_computePathClass(file.__expanded)]]"
@@ -307,18 +309,22 @@ limitations under the License.
     </template>
     <div class="row totalChanges">
       <div class="total-stats" hidden$="[[_hideChangeTotals]]">
-        <span class="added">+[[_patchChange.inserted]]</span>
-        <span class="removed">-[[_patchChange.deleted]]</span>
+        <span class="added" aria-label="Lines added">
+          +[[_patchChange.inserted]]
+        </span>
+        <span class="removed" aria-label="Lines removed">
+          -[[_patchChange.deleted]]
+        </span>
       </div>
     </div>
     <div class="row totalChanges">
       <div class="total-stats" hidden$="[[_hideBinaryChangeTotals]]">
-        <span class="added">
+        <span class="added" aria-label="Total lines added">
           [[_formatBytes(_patchChange.size_delta_inserted)]]
           [[_formatPercentage(_patchChange.total_size,
               _patchChange.size_delta_inserted)]]
         </span>
-        <span class="removed">
+        <span class="removed" aria-label="Total lines removed">
           [[_formatBytes(_patchChange.size_delta_deleted)]]
           [[_formatPercentage(_patchChange.total_size,
               _patchChange.size_delta_deleted)]]

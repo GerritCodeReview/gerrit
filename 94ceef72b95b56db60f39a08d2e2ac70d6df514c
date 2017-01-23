@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f35af22_de3364ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SimilarityDecisionFunction.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-23T15:16:30Z",
+      "side": 1,
+      "message": "given that you are already at 99.86% I don\u0027t think that\u0027s necessary",
+      "range": {
+        "startLine": 87,
+        "startChar": 1,
+        "endLine": 88,
+        "endChar": 25
+      },
+      "revId": "94ceef72b95b56db60f39a08d2e2ac70d6df514c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06994520_431f0eef",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/git/similarity.svm",
+        "patchSetId": 18
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-23T15:16:30Z",
+      "side": 1,
+      "message": "can these spaces be removed?",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "94ceef72b95b56db60f39a08d2e2ac70d6df514c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

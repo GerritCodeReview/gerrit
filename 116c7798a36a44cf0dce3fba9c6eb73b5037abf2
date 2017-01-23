@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "486b96ff_58dc01f5",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2017-01-23T12:17:29Z",
+      "side": 1,
+      "message": "Bazel?\n\nAre the problems with WORKSPACE additions solved for in-tree plugin builds?",
+      "range": {
+        "startLine": 59,
+        "startChar": 60,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "116c7798a36a44cf0dce3fba9c6eb73b5037abf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

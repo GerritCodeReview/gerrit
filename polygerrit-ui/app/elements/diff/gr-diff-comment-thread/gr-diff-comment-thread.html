@@ -28,6 +28,10 @@ limitations under the License.
         margin-bottom: 1px;
         white-space: normal;
       }
+      .actions {
+        border-top: 1px dotted #bbb;
+        padding: .7em;
+      }
       #container {
         background-color: #fcfad6;
       }
@@ -50,6 +54,12 @@ limitations under the License.
             on-create-fix-comment="_handleCommentFix"
             on-create-reply-comment="_handleCommentReply"></gr-diff-comment>
       </template>
+      <div class="actions humanActions" hidden$="[[!_showActions]]">
+        <gr-button class="action reply" on-tap="_handleCommentReply">Reply</gr-button>
+        <gr-button class="action quote" on-tap="_handleCommentQuote">Quote</gr-button>
+        <gr-button class="action ack" on-tap="_handleCommentAck">Ack</gr-button>
+        <gr-button class="action done" on-tap="_handleCommentDone">Done</gr-button>
+      </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>

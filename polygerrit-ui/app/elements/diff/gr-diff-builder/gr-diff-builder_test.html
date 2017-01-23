@@ -233,51 +233,55 @@ limitations under the License.
         right: [r5],
       };
 
-      function checkThreadProps(threadEl, patchNum, side, comments) {
-        assert.equal(threadEl.changeNum, '42');
-        assert.equal(threadEl.patchNum, patchNum);
-        assert.equal(threadEl.path, '/path/to/foo');
-        assert.equal(threadEl.side, side);
-        assert.deepEqual(threadEl.projectConfig, {foo: 'bar'});
-        assert.deepEqual(threadEl.comments, comments);
+      function checkThreadGroupProps(threadGroupEl, patchNum, side, comments) {
+        assert.equal(threadGroupEl.changeNum, '42');
+        assert.equal(threadGroupEl.patchNum, patchNum);
+        assert.equal(threadGroupEl.path, '/path/to/foo');
+        assert.equal(threadGroupEl.side, side);
+        assert.deepEqual(threadGroupEl.projectConfig, {foo: 'bar'});
+        assert.deepEqual(threadGroupEl.comments, comments);
       }
 
       var line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = 5;
       line.afterNumber = 5;
-      var threadEl = builder._commentThreadForLine(line);
-      checkThreadProps(threadEl, '3', 'REVISION', [l5, r5]);
+      var threadGroupEl = builder._commentThreadGroupForLine(line);
+      checkThreadGroupProps(threadGroupEl, '3', 'REVISION', [l5, r5]);
 
-      threadEl = builder._commentThreadForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadProps(threadEl, '3', 'REVISION', [r5]);
+      threadGroupEl =
+          builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
+      checkThreadGroupProps(threadGroupEl, '3', 'REVISION', [r5]);
 
-      threadEl = builder._commentThreadForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadProps(threadEl, '3', 'PARENT', [l5]);
+      threadGroupEl =
+          builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
+      checkThreadGroupProps(threadGroupEl, '3', 'PARENT', [l5]);
 
       builder._comments.meta.patchRange.basePatchNum = '1';
 
-      threadEl = builder._commentThreadForLine(line);
-      checkThreadProps(threadEl, '3', 'REVISION', [l5, r5]);
+      threadGroupEl = builder._commentThreadGroupForLine(line);
+      checkThreadGroupProps(threadGroupEl, '3', 'REVISION', [l5, r5]);
 
-      threadEl = builder._commentThreadForLine(line, GrDiffBuilder.Side.LEFT);
-      checkThreadProps(threadEl, '1', 'REVISION', [l5]);
+      threadEl =
+          builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.LEFT);
+      checkThreadGroupProps(threadEl, '1', 'REVISION', [l5]);
 
-      threadEl = builder._commentThreadForLine(line, GrDiffBuilder.Side.RIGHT);
-      checkThreadProps(threadEl, '3', 'REVISION', [r5]);
+      threadGroupEl =
+          builder._commentThreadGroupForLine(line, GrDiffBuilder.Side.RIGHT);
+      checkThreadGroupProps(threadGroupEl, '3', 'REVISION', [r5]);
 
       builder._comments.meta.patchRange.basePatchNum = 'PARENT';
 
       line = new GrDiffLine(GrDiffLine.Type.REMOVE);
       line.beforeNumber = 5;
       line.afterNumber = 5;
-      threadEl = builder._commentThreadForLine(line);
-      checkThreadProps(threadEl, '3', 'PARENT', [l5, r5]);
+      threadGroupEl = builder._commentThreadGroupForLine(line);
+      checkThreadGroupProps(threadGroupEl, '3', 'PARENT', [l5, r5]);
 
       line = new GrDiffLine(GrDiffLine.Type.ADD);
       line.beforeNumber = 3;
       line.afterNumber = 5;
-      threadEl = builder._commentThreadForLine(line);
-      checkThreadProps(threadEl, '3', 'REVISION', [l3, r5]);
+      threadGroupEl = builder._commentThreadGroupForLine(line);
+      checkThreadGroupProps(threadGroupEl, '3', 'REVISION', [l3, r5]);
     });
 
     suite('_isTotal', function() {

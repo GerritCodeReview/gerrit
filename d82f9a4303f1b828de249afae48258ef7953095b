@@ -33,6 +33,23 @@
       "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_d8c7711b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-01-23T12:50:08Z",
+      "side": 1,
+      "message": "IMHO: /p/ is not needed neither here nor in Git LFS servlet but I have kept it as it was in source REGEX.",
+      "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

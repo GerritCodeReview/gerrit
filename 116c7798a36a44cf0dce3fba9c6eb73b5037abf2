@@ -45,6 +45,29 @@
       "revId": "116c7798a36a44cf0dce3fba9c6eb73b5037abf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a32b71a_6828d699",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-23T14:16:01Z",
+      "side": 1,
+      "message": "Thanks for editing. Yes, it works, see: [1] for details.\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5305",
+      "range": {
+        "startLine": 59,
+        "startChar": 60,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "116c7798a36a44cf0dce3fba9c6eb73b5037abf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

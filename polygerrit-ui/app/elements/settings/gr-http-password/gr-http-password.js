@@ -17,12 +17,6 @@
   Polymer({
     is: 'gr-http-password',
 
-    /**
-     * Fired when getting the password fails with non-404.
-     *
-     * @event network-error
-     */
-
     properties: {
       _serverConfig: Object,
       _username: String,
@@ -31,36 +25,16 @@
         type: Boolean,
         value: false,
       },
-      _hasPassword: Boolean,
-    },
-
-    loadData: function() {
-      var promises = [];
-
-      promises.push(this.$.restAPI.getAccount().then(function(account) {
-        this._username = account.username;
-      }.bind(this)));
-
-      promises.push(this.$.restAPI
-          .getAccountHttpPassword(this._handleGetPasswordError.bind(this))
-          .then(function(pass) {
-            this._password = pass;
-            this._hasPassword = !!pass;
-          }.bind(this)));
-
-      return Promise.all(promises);
-    },
-
-    _handleGetPasswordError: function(response) {
-      if (response.status === 404) {
-        this._hasPassword = false;
-      } else {
-        this.fire('network-error', {response: response});
+      _hasPassword: {
+        type: Boolean,
+        value: false,
       }
     },
 
-    _handleViewPasswordTap: function() {
-      this._passwordVisible = true;
+    loadData: function() {
+      return this.$.restAPI.getAccount().then(function(account) {
+        this._username = account.username;
+      }.bind(this));
     },
 
     _handleGenerateTap: function() {
@@ -74,8 +48,9 @@
     _handleClearTap: function() {
       this.$.restAPI.deleteAccountHttpPassword().then(function() {
         this._password = '';
+        this._passwordVisible = false;
         this._hasPassword = false;
       }.bind(this));
-    },
+    }
   });
 })();

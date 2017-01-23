@@ -1015,5 +1015,9 @@
     },
 
     _computeReplyDisabled: function() { return false; },
+
+    _computeChangePermalinkAriaLabel: function(changeNum) {
+      return 'Change ' + changeNum;
+    },
   });
 })();

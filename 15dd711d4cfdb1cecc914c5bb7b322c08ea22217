@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35ee0452_5ad849e5",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-23T15:16:30Z",
+      "side": 1,
+      "message": "but for importing....?",
+      "range": {
+        "startLine": 825,
+        "startChar": 55,
+        "endLine": 825,
+        "endChar": 67
+      },
+      "revId": "15dd711d4cfdb1cecc914c5bb7b322c08ea22217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

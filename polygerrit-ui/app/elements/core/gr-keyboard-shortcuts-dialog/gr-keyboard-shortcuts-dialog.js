@@ -32,12 +32,12 @@
     },
 
     _computeInView: function(currentView, view) {
-      return view == currentView;
+      return view === currentView;
     },
 
     _computeInChangeListView: function(currentView) {
-      return currentView == 'gr-change-list-view' ||
-          currentView == 'gr-dashboard-view';
+      return currentView === 'gr-change-list-view' ||
+          currentView === 'gr-dashboard-view';
     },
 
     _handleCloseTap: function(e) {

@@ -17,65 +17,31 @@
   Polymer({
     is: 'gr-http-password',
 
-    /**
-     * Fired when getting the password fails with non-404.
-     *
-     * @event network-error
-     */
-
     properties: {
-      _serverConfig: Object,
       _username: String,
-      _password: String,
-      _passwordVisible: {
-        type: Boolean,
-        value: false,
-      },
-      _hasPassword: Boolean,
+      _generatedPassword: String,
     },
 
     loadData: function() {
-      var promises = [];
-
-      promises.push(this.$.restAPI.getAccount().then(function(account) {
+      return this.$.restAPI.getAccount().then(function(account) {
         this._username = account.username;
-      }.bind(this)));
-
-      promises.push(this.$.restAPI
-          .getAccountHttpPassword(this._handleGetPasswordError.bind(this))
-          .then(function(pass) {
-            this._password = pass;
-            this._hasPassword = !!pass;
-          }.bind(this)));
-
-      return Promise.all(promises);
-    },
-
-    _handleGetPasswordError: function(response) {
-      if (response.status === 404) {
-        this._hasPassword = false;
-      } else {
-        this.fire('network-error', {response: response});
-      }
-    },
-
-    _handleViewPasswordTap: function() {
-      this._passwordVisible = true;
+      }.bind(this));
     },
 
     _handleGenerateTap: function() {
+      this._generatedPassword = 'Generating...';
+      this.$.generatedPasswordOverlay.open();
       this.$.restAPI.generateAccountHttpPassword().then(function(newPassword) {
-        this._hasPassword = true;
-        this._passwordVisible = true;
-        this._password = newPassword;
+        this._generatedPassword = newPassword;
       }.bind(this));
     },
 
-    _handleClearTap: function() {
-      this.$.restAPI.deleteAccountHttpPassword().then(function() {
-        this._password = '';
-        this._hasPassword = false;
-      }.bind(this));
+    _closeOverlay: function() {
+      this.$.generatedPasswordOverlay.close();
+    },
+
+    _generatedPasswordOverlayClosed: function() {
+      this._generatedPassword = null;
     },
   });
 })();

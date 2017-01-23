@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2864a22d_7770ea46",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-23T07:37:25Z",
+      "side": 1,
+      "message": "Is it possible for a group UUID to contain a dot?",
+      "range": {
+        "startLine": 2204,
+        "startChar": 27,
+        "endLine": 2204,
+        "endChar": 33
+      },
+      "revId": "d3b654040ce2f6064c64aa14fcd2dfacaaf12416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_186ba95a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2219,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-23T07:37:25Z",
+      "side": 1,
+      "message": "Is it possible to add a check during startup?",
+      "range": {
+        "startLine": 2218,
+        "startChar": 0,
+        "endLine": 2219,
+        "endChar": 30
+      },
+      "revId": "d3b654040ce2f6064c64aa14fcd2dfacaaf12416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

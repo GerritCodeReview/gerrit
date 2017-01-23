@@ -232,7 +232,8 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
-      var threadEl = this._getOrCreateThreadAtLine(contentEl, patchNum, side);
+      var threadEl =
+          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side, range);
 
       threadEl.addDraft(line, range);
     },
@@ -242,18 +243,33 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
-      var threadEl = this._getOrCreateThreadAtLine(contentEl, patchNum, side);
+      var threadEl =
+          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side);
 
       threadEl.addOrEditDraft(opt_lineNum);
     },
 
-    _getOrCreateThreadAtLine: function(contentEl, patchNum, side) {
-      var threadEl = contentEl.querySelector('gr-diff-comment-thread');
+    _getOrCreateThreadAtLineRange: function(contentEl, patchNum, side, range) {
+      var keyToCheck = range ?
+          range.startLine + '-' +
+          range.startChar + '-' +
+          range.endLine + '-' +
+          range.endChar : '_';
 
+      var selector = 'gr-diff-comment-thread[key="' + keyToCheck + '"]';
+      var threadEl = contentEl.querySelector(selector);
       if (!threadEl) {
-        threadEl = this.$.diffBuilder.createCommentThread(
+        // Check if thread group exists
+        var threadGroupEl =
+            contentEl.querySelector('gr-diff-comment-thread-group');
+        if (!threadGroupEl) {
+          threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
             this.changeNum, patchNum, this.path, side, this.projectConfig);
-        contentEl.appendChild(threadEl);
+          contentEl.appendChild(threadGroupEl);
+        }
+        threadGroupEl.addNewThread(keyToCheck);
+        Polymer.dom.flush();
+        threadEl = contentEl.querySelector(selector);
       }
 
       return threadEl;

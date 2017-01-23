@@ -62,6 +62,14 @@
         type: String,
         value: ScrollBehavior.NEVER,
       },
+
+      /**
+       * When true, will call element.focus() during scrolling.
+       */
+      focusOnMove: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     detached: function() {
@@ -147,6 +155,8 @@
 
       this.index = newIndex;
       this.target = newTarget;
+
+      if (this.focusOnMove) { this.target.focus(); }
 
       this._decorateTarget();
     },

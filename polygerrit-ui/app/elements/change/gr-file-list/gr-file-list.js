@@ -19,6 +19,14 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var FileStatus = {
+    A: 'Added',
+    C: 'Copied',
+    D: 'Deleted',
+    R: 'Renamed',
+    W: 'Rewritten',
+  };
+
   Polymer({
     is: 'gr-file-list',
 
@@ -649,6 +657,10 @@
       var rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+    },
+
+    _computeFileStatusLabel: function(status) {
+      return FileStatus[this._computeFileStatus(status)] || 'Status Unknown';
     },
   });
 })();

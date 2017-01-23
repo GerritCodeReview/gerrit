@@ -44,6 +44,9 @@ limitations under the License.
         cursor: pointer;
         padding: .5em .75em;
       }
+      li:focus {
+        outline: none;
+      }
       li.selected {
         background-color: #eee;
       }
@@ -55,16 +58,21 @@ limitations under the License.
         disabled$="[[disabled]]"
         bind-value="{{text}}"
         placeholder="[[placeholder]]"
-        on-keydown="_handleInputKeydown"
+        on-keydown="_handleKeydown"
         on-focus="_onInputFocus"
         autocomplete="off" />
     <div
         id="suggestions"
+        role="listbox"
         hidden$="[[_computeSuggestionsHidden(_suggestions, _focused)]]">
       <ul>
         <template is="dom-repeat" items="[[_suggestions]]">
           <li
               data-index$="[[index]]"
+              tabindex="-1"
+              aria-label$="[[item.name]]"
+              on-keydown="_handleKeydown"
+              role="option"
               on-tap="_handleSuggestionTap">[[item.name]]</li>
         </template>
       </ul>
@@ -74,6 +82,7 @@ limitations under the License.
         index="{{_index}}"
         cursor-target-class="selected"
         scroll-behavior="keep-visible"
+        should-focus
         stops="[[_getSuggestionElems(_suggestions)]]"></gr-cursor-manager>
   </template>
   <script src="gr-autocomplete.js"></script>

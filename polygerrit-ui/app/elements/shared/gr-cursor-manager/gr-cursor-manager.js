@@ -62,6 +62,12 @@
         type: String,
         value: ScrollBehavior.NEVER,
       },
+
+      /** When true, will call element.focus() during scrolling. */
+      shouldFocus: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     detached: function() {
@@ -147,6 +153,8 @@
 
       this.index = newIndex;
       this.target = newTarget;
+
+      if (this.shouldFocus) { this.target.focus(); }
 
       this._decorateTarget();
     },

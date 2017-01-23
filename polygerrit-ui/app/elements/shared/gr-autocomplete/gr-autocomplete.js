@@ -198,7 +198,11 @@
       return this.$.suggestions.querySelectorAll('li');
     },
 
-    _handleInputKeydown: function(e) {
+    /**
+     * _handleKeydown used for key handling in the this.$.input AND all child
+     * autocomplete options.
+     */
+    _handleKeydown: function(e) {
       this._focused = true;
       switch (e.keyCode) {
         case 38: // Up
@@ -223,6 +227,10 @@
           e.preventDefault();
           this._commit();
           break;
+        default:
+          // For any normal keypress, return focus to the input to allow for
+          // unbroken user input.
+          this.$.input.focus();
       }
       this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
     },

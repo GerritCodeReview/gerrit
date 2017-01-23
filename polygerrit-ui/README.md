@@ -69,7 +69,7 @@ that serves PolyGerrit:
 
 ```sh
 bazel build polygerrit && \
-java -jar bazel-out/polygerrit.war daemon --polygerrit-dev \
+java -jar bazel-bin/polygerrit.war daemon --polygerrit-dev \
 -d ../gerrit_testsite --console-log --show-stack-trace
 ```
 

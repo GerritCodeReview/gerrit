@@ -192,12 +192,6 @@ public class AccountApi {
     group.done();
   }
 
-  /** Retrieve the HTTP password */
-  public static void getHttpPassword(String account,
-      AsyncCallback<NativeString> cb) {
-    new RestApi("/accounts/").id(account).view("password.http").get(cb);
-  }
-
   /** Generate a new HTTP password */
   public static void generateHttpPassword(String account,
       AsyncCallback<NativeString> cb) {

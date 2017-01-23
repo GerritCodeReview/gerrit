@@ -108,33 +108,14 @@ public class MyPasswordScreen extends SettingsScreen {
       @Override
       public void onSuccess(NativeString user) {
         Gerrit.getUserAccount().username(user.asString());
-        refreshHttpPassword();
+        enableUI(true);
+        display();
       }
 
       @Override
       public void onFailure(final Throwable caught) {
         if (RestApi.isNotFound(caught)) {
           Gerrit.getUserAccount().username(null);
-          display();
-        } else {
-          super.onFailure(caught);
-        }
-      }
-    });
-  }
-
-  private void refreshHttpPassword() {
-    AccountApi.getHttpPassword("self", new ScreenLoadCallback<NativeString>(
-        this) {
-      @Override
-      protected void preDisplay(NativeString httpPassword) {
-        display(httpPassword.asString());
-      }
-
-      @Override
-      public void onFailure(final Throwable caught) {
-        if (RestApi.isNotFound(caught)) {
-          display(null);
           display();
         } else {
           super.onFailure(caught);

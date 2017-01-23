@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2864a22d_f79cfa4b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-01-23T10:31:29Z",
+      "side": 1,
+      "message": "This regex is already quite complex and we should avoid having to maintain two copies of it. Why do we need the LFS URL regex on two places? Why not reuse the existing one (and fix it by adding the non-capturing group operators)?\n\nTaking the GitOverHttpServlet.URL_REGEX as an example, we also have only one copy of it... so it seems possible?",
+      "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

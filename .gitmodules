@@ -32,3 +32,7 @@
 	path = plugins/singleusergroup
 	url = ../plugins/singleusergroup
 	branch = .
+
+[submodule "plugins/git-numberer"]
+	path = plugins/git-numberer
+	url = https://chromium.googlesource.com/infra/gerrit-plugins/git-numberer

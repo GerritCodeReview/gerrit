@@ -9,4 +9,5 @@ CORE_PLUGINS = [
 
 CUSTOM_PLUGINS = [
     "cookbook-plugin",
+    "git-numberer",
 ]

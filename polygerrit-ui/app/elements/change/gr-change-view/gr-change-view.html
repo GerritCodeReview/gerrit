@@ -252,19 +252,21 @@ limitations under the License.
         <span class="header-title">
           <gr-change-star id="changeStar"
               change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
-          <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
-       --><template is="dom-if" if="[[_changeStatus]]">
-            ([[_changeStatus]]<!--
-         --><template is="dom-if" if="[[_computeShowCommitInfo(_changeStatus)]]">
-              as
-              <gr-commit-info
-                change="[[_change]]"
-                commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                server-config="[[serverConfig]]"></gr-commit-info><!--
-         --></template><!--
-       -->)<!--
+          <a aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
+              href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
+       --><template is="dom-if" if="[[_changeStatus]]"><!--
+         --><span> (</span><!--
+         --><span tabindex="0" aria-label$="[[_changeStatus]]">[[_changeStatus]]</span><!--
+           --><template is="dom-if" if="[[_computeShowCommitInfo(_changeStatus)]]">
+                as
+                <gr-commit-info
+                    change="[[_change]]"
+                    commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
+                    server-config="[[serverConfig]]"></gr-commit-info><!--
+           --></template><!--
+         --><span>)</span><!--
      --></template><!--
-       -->:
+       --><span>:</span>
           [[_change.subject]]
         </span>
       </div>
@@ -357,25 +359,27 @@ limitations under the License.
                 </option>
               </template>
             </select>
-            /
+            <span>/</span>
             <gr-commit-info
                 change="[[_change]]"
                 server-config="[[serverConfig]]"
                 commit-info="[[_commitInfo]]"></gr-commit-info>
             <span class="latestPatchContainer">
-              /
+              <span>/</span>
               <a href$="/c/[[_change._number]]">Go to latest patch set</a>
             </span>
             <span class="downloadContainer desktop">
-              /
+              <span>/</span>
               <gr-button link
                   class="download"
+                  tabindex="0"
                   on-tap="_handleDownloadTap">Download</gr-button>
             </span>
             <span class="descriptionContainer">
-              /
+              <span>/</span>
               <gr-editable-label
                   id="descriptionLabel"
+                  tabindex="0"
                   class="descriptionLabel"
                   value="[[_computePatchSetDescription(_change, _selectedPatchSet)]]"
                   placeholder="[[_computeDescriptionPlaceholder(_descriptionReadOnly)]]"

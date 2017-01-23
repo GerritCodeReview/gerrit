@@ -18,13 +18,12 @@ limitations under the License.
 <dom-module id="gr-editable-label">
   <template>
     <style>
-      :host {
+      .container {
         align-items: center;
         display: inline-flex;
       }
       input,
-      label,
-      .container {
+      label {
         width: 100%;
       }
       input {
@@ -45,6 +44,7 @@ limitations under the License.
         text-decoration: underline;
       }
     </style>
+    <div class="container" tabindex="0">
       <input
           is="iron-input"
           id="input"
@@ -56,6 +56,7 @@ limitations under the License.
           class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
           title$="[[_computeLabel(value, placeholder)]]"
           on-tap="_open">[[_computeLabel(value, placeholder)]]</label>
+    </div>
   </template>
   <script src="gr-editable-label.js"></script>
 </dom-module>

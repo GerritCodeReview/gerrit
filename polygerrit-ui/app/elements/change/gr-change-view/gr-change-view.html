@@ -250,11 +250,17 @@ limitations under the License.
     <div class="container" hidden$="{{_loading}}">
       <div class="header">
         <span class="header-title">
-          <gr-change-star id="changeStar"
+          <gr-change-star
+              id="changeStar"
               change="{{_change}}" hidden$="[[!_loggedIn]]"></gr-change-star>
-          <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
-       --><template is="dom-if" if="[[_changeStatus]]">
-            ([[_changeStatus]]<!--
+          <a
+              aria-label$="[[_computeChangePermalinkAriaLabel(_change._number)]]"
+              href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
+       --><template is="dom-if" if="[[_changeStatus]]"><!--
+         --> (<!--
+         --><span
+                aria-label$="Change status: [[_changeStatus]]"
+                tabindex="0">[[_changeStatus]]</span><!--
          --><template
                 is="dom-if"
                 if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
@@ -264,10 +270,9 @@ limitations under the License.
                   commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
                   server-config="[[serverConfig]]"></gr-commit-info><!--
          --></template><!--
-       -->)<!--
-     --></template><!--
-       -->:
-          [[_change.subject]]
+         -->)<!--
+       --></template><!--
+       -->: [[_change.subject]]
         </span>
       </div>
       <section class="changeInfo">

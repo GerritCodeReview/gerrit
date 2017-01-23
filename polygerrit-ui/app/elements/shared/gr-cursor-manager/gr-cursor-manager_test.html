@@ -165,5 +165,23 @@ limitations under the License.
       // Go back. No more meet the condition. Should be at stop 0.
       assert.equal(element._getNextindex(-1, isLetterB), 0);
     });
+
+    test('focusOnMove prop', function() {
+      flushAsynchronousOperations();
+      var listEls = list.querySelectorAll('li');
+      for (var i = 0; i < listEls.length; i++) {
+        listEls[i].focus = sandbox.stub();
+      }
+      element.stops = listEls;
+      element.setCursor(list.children[0]);
+
+      element.focusOnMove = false;
+      element.next();
+      assert.isFalse(element.target.focus.called);
+
+      element.focusOnMove = true;
+      element.next();
+      assert.isTrue(element.target.focus.called);
+    });
   });
 </script>

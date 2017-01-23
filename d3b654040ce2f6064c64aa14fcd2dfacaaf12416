@@ -68,6 +68,29 @@
       "revId": "d3b654040ce2f6064c64aa14fcd2dfacaaf12416",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "486b96ff_18944927",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-23T10:33:31Z",
+      "side": 1,
+      "message": "Not easily. Ideally we would do this check in SystemGroupBackend when we read the configured names, by checking if a group with a configured name exists in the group cache. However we use SystemGroupBackend in places where we don\u0027t have group cache available, e.g. during init, and even making group cache optional by allowing null is difficult with our tests. Our tests bind a group cache, but only after the init code is invoked. Hence if we try to bind null for the group cache for init, the binding that is done for the group cache later will then fail. Not sure if it\u0027s worth to invest into this.\nThis check might get easier once groups are in NoteDb, because then we can simply do a lookup from git to check if a group with such a name exists.",
+      "range": {
+        "startLine": 2218,
+        "startChar": 0,
+        "endLine": 2219,
+        "endChar": 30
+      },
+      "revId": "d3b654040ce2f6064c64aa14fcd2dfacaaf12416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

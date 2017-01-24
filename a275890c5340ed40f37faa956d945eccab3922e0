@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c94689fa_8c588198",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-24T10:40:56Z",
+      "side": 1,
+      "message": "The account properties have not been migrated to NoteDb yet. Hence you don\u0027t need to do anything for NoteDb now. When the account properties will be migrated to NoteDb this new field will be included in the migration.",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "a275890c5340ed40f37faa956d945eccab3922e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be4c2419_b5120cb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_141.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-24T10:40:56Z",
+      "side": 1,
+      "message": "Remove or adapt this comment.",
+      "revId": "a275890c5340ed40f37faa956d945eccab3922e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

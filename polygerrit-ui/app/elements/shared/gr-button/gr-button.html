@@ -80,8 +80,8 @@ limitations under the License.
       :host([loading][disabled]) {
         cursor: wait;
       }
-      :host:focus:not([primary]):not([secondary]):not([disabled]):not([link]),
-      :host:hover:not([primary]):not([secondary]):not([disabled]):not([link]) {
+      :host:focus:not([link]),
+      :host:hover:not([link]) {
         background-color: #f8f8f8;
         border-color: #aaa;
       }
@@ -97,6 +97,7 @@ limitations under the License.
       }
       :host([primary]:focus) {
         box-shadow: 0 0 1px #00f;
+        background-color: #4d90fe;
       }
       :host([primary]:not([disabled]):hover) {
         background-color: #4d90fe;
@@ -111,6 +112,7 @@ limitations under the License.
       }
       :host([secondary]:focus) {
         box-shadow: 0 0 1px #f00;
+        background-color: #d14836;
       }
       :host([secondary]:not([disabled]):hover) {
         background-color: #c53727;

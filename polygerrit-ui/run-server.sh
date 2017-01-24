@@ -24,12 +24,12 @@ if [[ ! -f WORKSPACE ]]; then
 fi
 
 bazel build \
-  polygerrit-ui:polygerrit_components.bower_components.zip \
+  //polygerrit-ui/app:test_components \
   //polygerrit-ui:fonts.zip
 
 cd polygerrit-ui/app
 rm -rf bower_components
-unzip -q ../../bazel-bin/polygerrit-ui/polygerrit_components.bower_components.zip
+unzip -q ../../bazel-bin/polygerrit-ui/app/test_components.zip
 rm -rf fonts
 unzip -q ../../bazel-bin/polygerrit-ui/fonts.zip -d fonts
 cd ..

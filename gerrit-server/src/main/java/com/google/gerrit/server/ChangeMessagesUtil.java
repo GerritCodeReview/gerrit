@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -111,6 +112,14 @@ public class ChangeMessagesUtil {
     if (!migration.readChanges()) {
       return
           sortChangeMessages(db.changeMessages().byChange(notes.getChangeId()));
+    }
+    return notes.load().getChangeMessages();
+  }
+
+  public List<ChangeMessage> byChangeWithComments(ChangeNotes notes)
+      throws OrmException {
+    if (!migration.readChanges()) {
+      return ImmutableList.of();
     }
     return notes.load().getChangeMessages();
   }

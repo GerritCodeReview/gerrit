@@ -53,7 +53,7 @@ public class MailProcessorIT extends AbstractDaemonTest {
     List<CommentInfo> comments = gApi.changes().id(changeId)
         .current().commentsAsList();
     String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
+        comments.get(0).date.toInstant(),
         ZoneId.of("UTC")));
 
     // Build Message
@@ -80,7 +80,7 @@ public class MailProcessorIT extends AbstractDaemonTest {
     List<CommentInfo> comments = gApi.changes().id(changeId)
         .current().commentsAsList();
     String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
+        comments.get(0).date.toInstant(),
         ZoneId.of("UTC")));
 
     // Build Message
@@ -118,7 +118,7 @@ public class MailProcessorIT extends AbstractDaemonTest {
     List<CommentInfo> comments = gApi.changes().id(changeId)
         .current().commentsAsList();
     String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
+        comments.get(0).date.toInstant(),
         ZoneId.of("UTC")));
 
     // Build Message
@@ -154,7 +154,7 @@ public class MailProcessorIT extends AbstractDaemonTest {
     List<CommentInfo> comments = gApi.changes().id(changeId)
         .current().commentsAsList();
     String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
+        comments.get(0).date.toInstant(),
         ZoneId.of("UTC")));
 
     // Build Message
@@ -180,7 +180,7 @@ public class MailProcessorIT extends AbstractDaemonTest {
     List<CommentInfo> comments = gApi.changes().id(changeId)
         .current().commentsAsList();
     String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
-        comments.get(0).updated.toInstant(),
+        comments.get(0).date.toInstant(),
         ZoneId.of("UTC")));
     assertThat(comments).hasSize(2);
 

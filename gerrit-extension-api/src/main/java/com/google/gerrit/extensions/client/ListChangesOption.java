@@ -72,7 +72,10 @@ public enum ListChangesOption {
   REVIEWER_UPDATES(19),
 
   /** Set the submittable boolean. */
-  SUBMITTABLE(20);
+  SUBMITTABLE(20),
+
+  /** Include unified event log. */
+  EVENT_LOG(21);
 
   private final int value;
 

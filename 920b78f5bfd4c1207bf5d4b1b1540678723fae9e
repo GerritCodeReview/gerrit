@@ -111,6 +111,23 @@
     },
     {
       "key": {
+        "uuid": "6b112952_1e4e7573",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-01-24T12:17:46Z",
+      "side": 1,
+      "message": "sure. Is that something a complete web development agnost like me can do, or could someone in the PG team take that up?",
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6f9e541_28e1d2f3",
         "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
         "patchSetId": 1
@@ -128,6 +145,23 @@
         "endLine": 55,
         "endChar": 65
       },
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "546b32b5_2932e08b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-01-24T12:17:46Z",
+      "side": 1,
+      "message": "two options:\n\n* How about we drop the \u0027clear\u0027 button altogether?\n\nSince the password is always randomly generated and never stored, regenerating and forgetting the password is basically equivalent to disabling it; so there is no need for a clear button.\n\nThe upside: simpler. Downside: maybe more confusing to people?\n\n* We add a hasPassword field to the account info GET request; then the UI can use that to find if there is a password or not.",
       "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

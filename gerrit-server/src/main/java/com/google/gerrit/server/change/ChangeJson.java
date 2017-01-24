@@ -28,6 +28,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
+import static com.google.gerrit.extensions.client.ListChangesOption.EVENT_LOG;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
@@ -64,12 +65,14 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
+import com.google.gerrit.extensions.client.EventInfo;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -94,6 +97,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
@@ -197,6 +201,8 @@ public class ChangeJson {
   private final ChangeKindCache changeKindCache;
   private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
+  private final Provider<CommentJson> commentJson;
+  private final CommentsUtil commentsUtil;
 
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
@@ -227,7 +233,9 @@ public class ChangeJson {
       ChangeKindCache changeKindCache,
       ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
-      @Assisted Set<ListChangesOption> options) {
+      @Assisted Set<ListChangesOption> options,
+      Provider<CommentJson> commentJson,
+      CommentsUtil commentsUtil) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -254,6 +262,8 @@ public class ChangeJson {
     this.options = options.isEmpty()
         ? EnumSet.noneOf(ListChangesOption.class)
         : EnumSet.copyOf(options);
+    this.commentJson = commentJson;
+    this.commentsUtil = commentsUtil;
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -531,16 +541,22 @@ public class ChangeJson {
       out.reviewerUpdates = reviewerUpdates(cd);
     }
 
+    boolean needEvents = has(EVENT_LOG);
     boolean needMessages = has(MESSAGES);
     boolean needRevisions = has(ALL_REVISIONS)
         || has(CURRENT_REVISION)
         || limitToPsId.isPresent();
     Map<PatchSet.Id, PatchSet> src;
-    if (needMessages || needRevisions) {
+    if (needMessages || needRevisions || needEvents) {
       src = loadPatchSets(cd, limitToPsId);
     } else {
       src = null;
     }
+
+    if (needEvents) {
+      out.events = events(ctl, cd, src);
+    }
+
     if (needMessages) {
       out.messages = messages(ctl, cd, src);
     }
@@ -573,12 +589,111 @@ public class ChangeJson {
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
     for (ReviewerStatusUpdate c : reviewerUpdates) {
       ReviewerUpdateInfo change = new ReviewerUpdateInfo();
-      change.updated = c.date();
+      change.date = c.date();
       change.state = c.state().asReviewerState();
-      change.updatedBy = accountLoader.get(c.updatedBy());
+      change.author = accountLoader.get(c.updatedBy());
       change.reviewer = accountLoader.get(c.reviewer());
       result.add(change);
     }
+    return result;
+  }
+
+  private class EventLogBuilder {
+
+    private final HashBasedTable<Integer, String, List<CommentInfo>> byAuthor =
+        HashBasedTable.create();
+    private final List<ChangeMessageInfo> messages = new ArrayList<>();
+
+    public EventLogBuilder addComments(Map<String, List<CommentInfo>> map) {
+      for (String path : map.keySet()) {
+        for (CommentInfo c : map.get(path)) {
+          c.path = path;
+          if (c.author != null) {
+            int authorId = c.author._accountId;
+            List<CommentInfo> l = byAuthor.get(authorId, path);
+            if (l == null) {
+              l = new ArrayList<>();
+              byAuthor.put(authorId, path, l);
+            }
+            l.add(c);
+          }
+        }
+      }
+      return this;
+    }
+
+    private Map<String, List<CommentInfo>> comments(ChangeMessageInfo msg) {
+      if (msg.author == null) {
+        return Collections.emptyMap();
+      }
+
+      int authorId = msg.author._accountId;
+      Map<String, List<CommentInfo>> map = byAuthor.rowMap().get(authorId);
+      if (map == null) {
+        return Collections.emptyMap();
+      }
+
+      Timestamp when = msg.date;
+      Map<String, List<CommentInfo>> match = new HashMap<>();
+      Map<String, List<CommentInfo>> other = new HashMap<>();
+      for (String path : map.keySet()) {
+        for (CommentInfo c : map.get(path)) {
+          List<CommentInfo> l;
+          if (c.date.compareTo(when) <= 0) {
+            l = match.get(path);
+            if (l == null) {
+              l = new ArrayList<>();
+              match.put(path, l);
+            }
+          } else {
+            l = other.get(path);
+            if (l == null) {
+              l = new ArrayList<>();
+              other.put(path, l);
+            }
+          }
+          l.add(c);
+        }
+      }
+      if (match.isEmpty()) {
+        return Collections.emptyMap();
+      } else if (other.isEmpty()) {
+        byAuthor.row(authorId).clear();
+      } else {
+        byAuthor.row(authorId).putAll(other);
+      }
+      return match;
+    }
+
+    private EventLogBuilder addMessage(ChangeMessageInfo m) {
+      m.comments = comments(m);
+      messages.add(m);
+      return this;
+    }
+
+    public EventLogBuilder addMessages(Collection<ChangeMessageInfo> ms) {
+      for (ChangeMessageInfo m : ms) {
+        addMessage(m);
+      }
+      return this;
+    }
+
+    public Collection<ChangeMessageInfo> build() {
+      return messages;
+    }
+  }
+
+  private List<EventInfo> events(ChangeControl ctl, ChangeData cd,
+      Map<PatchSet.Id, PatchSet> src) throws OrmException {
+    List<EventInfo> result = new ArrayList<>();
+    Map<String, List<CommentInfo>> comments = commentJson.get()
+        .setFillAccounts(true).setFillPatchSet(true).newCommentFormatter()
+        .format(commentsUtil.publishedByChange(db.get(), cd.notes()));
+    EventLogBuilder eventLogBuilder = new EventLogBuilder();
+    eventLogBuilder.addComments(comments);
+    eventLogBuilder.addMessages(messages(ctl, cd, src));
+    // TODO (viktard): add reviewer updates.
+    result.addAll(eventLogBuilder.build());
     return result;
   }
 

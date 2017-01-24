@@ -390,7 +390,7 @@ public class CommentsIT extends AbstractDaemonTest {
       ReviewInput input = new ReviewInput();
       CommentInput comment =
           newComment(file, Side.REVISION, line, "comment 1", false);
-      comment.updated = timestamp;
+      comment.date = timestamp;
       input.comments = new HashMap<>();
       input.comments.put(comment.path, Lists.newArrayList(comment));
       ChangeResource changeRsrc =
@@ -403,9 +403,9 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       CommentInput ci = infoToInput(file).apply(actual);
-      ci.updated = comment.updated;
+      ci.date = comment.date;
       assertThat(comment).isEqualTo(ci);
-      assertThat(actual.updated)
+      assertThat(actual.date)
           .isEqualTo(gApi.changes().id(r.getChangeId()).info().created);
 
       // Updating historic comments doesn't cause lastUpdatedOn to regress.

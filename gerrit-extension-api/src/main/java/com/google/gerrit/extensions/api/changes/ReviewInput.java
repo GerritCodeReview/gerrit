@@ -98,6 +98,12 @@ public class ReviewInput {
   }
 
   public static class CommentInput extends Comment {
+
+    @Override
+    public EventInfoType getType() {
+      return EventInfoType.COMMENT;
+    }
+
   }
 
   public static class RobotCommentInput extends CommentInput {

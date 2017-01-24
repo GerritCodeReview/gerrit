@@ -606,21 +606,21 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(reviewerChange.state).isEqualTo(CC);
     assertThat(reviewerChange.reviewer._accountId).isEqualTo(
         user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
+    assertThat(reviewerChange.author._accountId).isEqualTo(
         admin.getId().get());
 
     reviewerChange = it.next();
     assertThat(reviewerChange.state).isEqualTo(REVIEWER);
     assertThat(reviewerChange.reviewer._accountId).isEqualTo(
         user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
+    assertThat(reviewerChange.author._accountId).isEqualTo(
         admin.getId().get());
 
     reviewerChange = it.next();
     assertThat(reviewerChange.state).isEqualTo(REMOVED);
     assertThat(reviewerChange.reviewer._accountId).isEqualTo(
         user.getId().get());
-    assertThat(reviewerChange.updatedBy._accountId).isEqualTo(
+    assertThat(reviewerChange.author._accountId).isEqualTo(
         admin.getId().get());
   }
 

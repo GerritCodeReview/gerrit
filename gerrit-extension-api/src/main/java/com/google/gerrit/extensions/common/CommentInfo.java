@@ -20,20 +20,23 @@ import java.util.Objects;
 
 public class CommentInfo extends Comment {
   public AccountInfo author;
-  public String tag;
 
   @Override
   public boolean equals(Object o) {
     if (super.equals(o)) {
       CommentInfo ci = (CommentInfo) o;
-      return Objects.equals(author, ci.author)
-          && Objects.equals(tag, ci.tag);
+      return Objects.equals(author, ci.author);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), author, tag);
+    return Objects.hash(super.hashCode(), author);
+  }
+
+  @Override
+  public EventInfoType getType() {
+    return EventInfoType.COMMENT;
   }
 }

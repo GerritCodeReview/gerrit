@@ -62,5 +62,6 @@ java_library(
         ":powermock-reflect",
         "//lib:javassist",
         "//lib:junit",
+        "@powermock_core//jar",
     ],
 )

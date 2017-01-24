@@ -362,11 +362,11 @@ public class StaticModule extends ServletModule {
             "Error initializing static content paths", e);
       }
 
-      sourceRoot = getSourseRootOrNull();
+      sourceRoot = getSourceRootOrNull();
       builder = new BazelBuild(sourceRoot);
     }
 
-    private static Path getSourseRootOrNull() {
+    private static Path getSourceRootOrNull() {
       try {
         return GerritLauncher.resolveInSourceRoot(".");
       } catch (FileNotFoundException e) {

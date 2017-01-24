@@ -363,9 +363,7 @@ public class StaticModule extends ServletModule {
       }
 
       sourceRoot = getSourseRootOrNull();
-      builder = GerritLauncher.isBazel()
-          ? new BazelBuild(sourceRoot)
-          : new BuckUtils(sourceRoot);
+      builder = new BazelBuild(sourceRoot);
     }
 
     private static Path getSourseRootOrNull() {

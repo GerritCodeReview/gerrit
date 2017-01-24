@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "7166db49_f3b1bf71",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-24T23:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "fbc935f76cfd041179f1a164424d5e8f584f034e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "504a02a8_6006f0ef",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1
@@ -39,6 +56,23 @@
       "revId": "fbc935f76cfd041179f1a164424d5e8f584f034e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ab295d6_e259e2e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-24T23:55:14Z",
+      "side": 1,
+      "message": "You\u0027re right, I didn\u0027t know that spans were not in the tabindex by default. Fixed :)",
+      "revId": "fbc935f76cfd041179f1a164424d5e8f584f034e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

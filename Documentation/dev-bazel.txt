@@ -149,7 +149,7 @@ Please follow the instructions on <<dev-intellij#,IntelliJ Setup>>.
 Create the Eclipse project:
 
 ----
-  tools/eclipse/project_bzl.py
+  tools/eclipse/project.py
 ----
 
 and then follow the link:dev-eclipse.html#setup[setup instructions].
@@ -158,7 +158,7 @@ and then follow the link:dev-eclipse.html#setup[setup instructions].
 
 If an updated classpath is needed, the Eclipse project can be
 refreshed and missing dependency JARs can be downloaded by running
-`project_bzl.py` again. For IntelliJ, you need to click the `Sync Project
+`project.py` again. For IntelliJ, you need to click the `Sync Project
 with BUILD Files` button of link:https://ij.bazel.io[IntelliJ plugin].
 
 [[documentation]]

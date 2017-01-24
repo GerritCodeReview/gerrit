@@ -19,7 +19,6 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.gson.reflect.TypeToken;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -29,6 +28,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.testutil.FakeEmailSender;
+import com.google.gson.reflect.TypeToken;
 
 import org.junit.Test;
 

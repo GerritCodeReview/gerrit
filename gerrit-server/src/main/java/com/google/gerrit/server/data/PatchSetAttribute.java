@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import java.util.List;
 
 public class PatchSetAttribute {
-  public String number;
+  public int number;
   public String revision;
   public List<String> parents;
   public String ref;

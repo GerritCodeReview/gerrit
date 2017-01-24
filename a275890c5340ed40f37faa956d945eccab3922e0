@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "a1689a1d_f7a8bec6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-24T17:04:44Z",
+      "side": 1,
+      "message": "Ack",
+      "revId": "a275890c5340ed40f37faa956d945eccab3922e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be4c2419_b5120cb6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_141.java",
         "patchSetId": 1
@@ -36,6 +53,23 @@
       "writtenOn": "2017-01-24T10:40:56Z",
       "side": 1,
       "message": "Remove or adapt this comment.",
+      "revId": "a275890c5340ed40f37faa956d945eccab3922e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55ff4f81_87e01dad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_141.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-24T17:04:44Z",
+      "side": 1,
+      "message": "Done",
       "revId": "a275890c5340ed40f37faa956d945eccab3922e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

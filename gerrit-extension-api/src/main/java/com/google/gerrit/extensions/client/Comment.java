@@ -17,7 +17,7 @@ package com.google.gerrit.extensions.client;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public abstract class Comment {
+public abstract class Comment extends EventInfo {
   /**
    * Patch set number containing this commit.
    *
@@ -25,16 +25,20 @@ public abstract class Comment {
    */
   public Integer patchSet;
 
-  public String id;
   public String path;
   public Side side;
   public Integer parent;
   public Integer line;
   public Range range;
   public String inReplyTo;
-  public Timestamp updated;
   public String message;
   public Boolean unresolved;
+
+  /**
+   * @deprecated Use {@link EventInfo#date}.
+   */
+  @Deprecated
+  public Timestamp updated;
 
   public static class Range {
     public int startLine;
@@ -83,6 +87,10 @@ public abstract class Comment {
     }
   }
 
+  public Comment() {
+    this.type = EventInfo.Type.COMMENT;
+  }
+
   public short side() {
     if (side == Side.PARENT) {
       return (short) (parent == null ? 0 : -parent.shortValue());
@@ -92,20 +100,15 @@ public abstract class Comment {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o != null && getClass() == o.getClass()) {
+    if (super.equals(o)) {
       Comment c = (Comment) o;
       return Objects.equals(patchSet, c.patchSet)
-          && Objects.equals(id, c.id)
           && Objects.equals(path, c.path)
           && Objects.equals(side, c.side)
           && Objects.equals(parent, c.parent)
           && Objects.equals(line, c.line)
           && Objects.equals(range, c.range)
           && Objects.equals(inReplyTo, c.inReplyTo)
-          && Objects.equals(updated, c.updated)
           && Objects.equals(message, c.message)
           && Objects.equals(unresolved, c.unresolved);
     }
@@ -114,6 +117,7 @@ public abstract class Comment {
 
   @Override
   public int hashCode() {
-    return Objects.hash(patchSet, id, path, side, parent, line, range, inReplyTo, updated, message);
+    return Objects.hash(super.hashCode(), patchSet, path, side, parent, line,
+        range, inReplyTo, message);
   }
 }

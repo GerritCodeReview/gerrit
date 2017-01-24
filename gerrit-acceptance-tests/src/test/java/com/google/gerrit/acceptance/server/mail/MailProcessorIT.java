@@ -47,10 +47,11 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistChangeMessage() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
-    String ts =
-        MailUtil.rfcDateformatter.format(
-            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+    List<CommentInfo> comments = gApi.changes().id(changeId)
+        .current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
+        comments.get(0).date.toInstant(),
+        ZoneId.of("UTC")));
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
@@ -75,10 +76,11 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistInlineComment() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
-    String ts =
-        MailUtil.rfcDateformatter.format(
-            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+    List<CommentInfo> comments = gApi.changes().id(changeId)
+        .current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
+        comments.get(0).date.toInstant(),
+        ZoneId.of("UTC")));
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
@@ -111,10 +113,11 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistFileComment() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
-    String ts =
-        MailUtil.rfcDateformatter.format(
-            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+    List<CommentInfo> comments = gApi.changes().id(changeId)
+        .current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
+        comments.get(0).date.toInstant(),
+        ZoneId.of("UTC")));
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
@@ -148,10 +151,11 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistMessageTwice() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
-    String ts =
-        MailUtil.rfcDateformatter.format(
-            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+    List<CommentInfo> comments = gApi.changes().id(changeId)
+        .current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
+        comments.get(0).date.toInstant(),
+        ZoneId.of("UTC")));
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
@@ -178,10 +182,11 @@ public class MailProcessorIT extends AbstractDaemonTest {
   public void parseAndPersistMessageFromInactiveAccount() throws Exception {
     String changeId = createChangeWithReview();
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
-    String ts =
-        MailUtil.rfcDateformatter.format(
-            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+    List<CommentInfo> comments = gApi.changes().id(changeId)
+        .current().commentsAsList();
+    String ts = MailUtil.rfcDateformatter.format(ZonedDateTime.ofInstant(
+        comments.get(0).date.toInstant(),
+        ZoneId.of("UTC")));
     assertThat(comments).hasSize(2);
 
     // Build Message

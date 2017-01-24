@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.EventInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.sql.Timestamp;
@@ -62,4 +63,5 @@ public class ChangeInfo {
   public Boolean _moreChanges;
 
   public List<ProblemInfo> problems;
+  public List<EventInfo> events;
 }

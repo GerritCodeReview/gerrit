@@ -15,22 +15,12 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.Comment;
-import java.util.Objects;
+import com.google.gerrit.extensions.client.EventInfo;
 
 public class DraftInput extends Comment {
-  public String tag;
 
   @Override
-  public boolean equals(Object o) {
-    if (super.equals(o)) {
-      DraftInput di = (DraftInput) o;
-      return Objects.equals(tag, di.tag);
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(super.hashCode(), tag);
+  public EventInfo.Type getType() {
+    return EventInfo.Type.DRAFT_COMMENT;
   }
 }

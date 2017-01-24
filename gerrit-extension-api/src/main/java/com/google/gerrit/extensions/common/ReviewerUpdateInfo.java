@@ -14,12 +14,16 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.client.EventInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
-import java.sql.Timestamp;
 
-public class ReviewerUpdateInfo {
-  public Timestamp updated;
-  public AccountInfo updatedBy;
+public class ReviewerUpdateInfo extends EventInfo {
+  public AccountInfo author;
   public AccountInfo reviewer;
   public ReviewerState state;
+
+  @Override
+  public EventInfo.Type getType() {
+    return EventInfo.Type.REVIEWER_UPDATE;
+  }
 }

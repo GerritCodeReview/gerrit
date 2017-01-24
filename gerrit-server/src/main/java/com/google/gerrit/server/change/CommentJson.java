@@ -139,6 +139,7 @@ class CommentJson {
       }
       r.inReplyTo = Url.encode(c.parentUuid);
       r.message = Strings.emptyToNull(c.message);
+      r.date = c.writtenOn;
       r.updated = c.writtenOn;
       r.range = toRange(c.range);
       r.tag = c.tag;

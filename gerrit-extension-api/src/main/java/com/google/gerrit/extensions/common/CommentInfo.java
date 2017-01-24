@@ -14,24 +14,30 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.Comment;
 import java.util.Objects;
+
+import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.EventInfo;
 
 public class CommentInfo extends Comment {
   public AccountInfo author;
-  public String tag;
 
   @Override
   public boolean equals(Object o) {
     if (super.equals(o)) {
       CommentInfo ci = (CommentInfo) o;
-      return Objects.equals(author, ci.author) && Objects.equals(tag, ci.tag);
+      return Objects.equals(author, ci.author);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), author, tag);
+    return Objects.hash(super.hashCode(), author);
+  }
+
+  @Override
+  public EventInfo.Type getType() {
+    return EventInfo.Type.COMMENT;
   }
 }

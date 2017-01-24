@@ -16,14 +16,16 @@ package com.google.gerrit.extensions.api.changes;
 
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
-import com.google.gerrit.extensions.client.Comment;
-import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.common.FixSuggestionInfo;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.EventInfo;
+import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 
 /** Input passed to {@code POST /changes/[id]/revisions/[id]/review}. */
 public class ReviewInput {
@@ -88,7 +90,14 @@ public class ReviewInput {
     PUBLISH_ALL_REVISIONS
   }
 
-  public static class CommentInput extends Comment {}
+  public static class CommentInput extends Comment {
+
+    @Override
+    public EventInfo.Type getType() {
+      return EventInfo.Type.COMMENT;
+    }
+
+  }
 
   public static class RobotCommentInput extends CommentInput {
     public String robotId;

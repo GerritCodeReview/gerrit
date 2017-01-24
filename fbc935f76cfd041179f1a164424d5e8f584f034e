@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f749747_5faf6ae3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-24T23:23:46Z",
+      "side": 1,
+      "message": "Can you add some comments regarding which of the numerous specific issues in the linked issue these resolve?",
+      "revId": "fbc935f76cfd041179f1a164424d5e8f584f034e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "504a02a8_6006f0ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-24T23:23:46Z",
+      "side": 1,
+      "message": "Why do you exclude spans from the tab sequence? Isn\u0027t this typically not needed unless a span is added to the sequence in some other way?",
+      "range": {
+        "startLine": 362,
+        "startChar": 12,
+        "endLine": 362,
+        "endChar": 40
+      },
+      "revId": "fbc935f76cfd041179f1a164424d5e8f584f034e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

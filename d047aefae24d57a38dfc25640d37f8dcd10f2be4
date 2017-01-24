@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e55a9f56_72bcc4f7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-24T23:48:27Z",
+      "side": 1,
+      "message": "Why do you remove the outline?",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 7
+      },
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78833796_f805d651",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-24T23:48:27Z",
+      "side": 1,
+      "message": "This is typically used to remove an element from the a11y tree. At the same time you add ARIA attributes. Is this intended?",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 27
+      },
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20478efd_b71e39b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-24T23:48:27Z",
+      "side": 1,
+      "message": "Does this work with modifier keys? e.g. if I type Ctrl+Right to switch OSX workspaces, would this move focus to the input on Ctrl?",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 31
+      },
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b43debe_de35311e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-24T23:48:27Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be an option on the cursor manager? That way we only enable it when we\u0027re setting up the cursor with focusable stops.",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

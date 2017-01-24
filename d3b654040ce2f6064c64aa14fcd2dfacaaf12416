@@ -91,6 +91,29 @@
       "revId": "d3b654040ce2f6064c64aa14fcd2dfacaaf12416",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4fc103c_d26e6158",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-24T09:50:50Z",
+      "side": 1,
+      "message": "OK, I\u0027ve now added a lifecycle listener for this that logs a warning in case of ambiguous names.\n\nDone.",
+      "range": {
+        "startLine": 2218,
+        "startChar": 0,
+        "endLine": 2219,
+        "endChar": 30
+      },
+      "revId": "d3b654040ce2f6064c64aa14fcd2dfacaaf12416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

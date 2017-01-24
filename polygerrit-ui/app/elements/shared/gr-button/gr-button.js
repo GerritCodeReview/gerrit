@@ -18,6 +18,10 @@
     is: 'gr-button',
 
     properties: {
+      link: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
       disabled: {
         type: Boolean,
         observer: '_disabledChanged',

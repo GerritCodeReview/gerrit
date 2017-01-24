@@ -90,13 +90,13 @@ Java docs will be placed in:
 Install {extension,plugin,gwt}-api to the local maven repository:
 
 ----
-  tools/maven/api.sh install bazel
+  tools/maven/api.sh install
 ----
 
 Install gerrit.war to the local maven repository:
 
 ----
-  tools/maven/api.sh war_install bazel
+  tools/maven/api.sh war_install
 ----
 
 === Plugins

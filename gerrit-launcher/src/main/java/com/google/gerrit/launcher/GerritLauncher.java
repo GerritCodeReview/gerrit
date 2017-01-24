@@ -627,36 +627,6 @@ public final class GerritLauncher {
   }
 
   static String SOURCE_ROOT_RESOURCE = "/gerrit-launcher/workspace-root.txt";
-  static String PRIMARY_BUILD_TOOL = ".primary_build_tool";
-
-  /** returns whether we're running out of a bazel build. */
-  public static boolean isBazel() {
-    Class<GerritLauncher> self = GerritLauncher.class;
-    URL rootURL = self.getResource(SOURCE_ROOT_RESOURCE);
-    if (rootURL != null) {
-      return true;
-    }
-
-    Path p = null;
-    try {
-      p = resolveInSourceRoot("eclipse-out");
-      if (!Files.exists(p)) {
-        p = resolveInSourceRoot("bazel-out");
-      }
-      Path path = p.getParent().resolve(PRIMARY_BUILD_TOOL);
-      if (Files.exists(path)) {
-        String content = new String(Files.readAllBytes(path));
-        if (content.toLowerCase().contains("bazel")) {
-          return true;
-        }
-      }
-    } catch (IOException e) {
-      // Ignore
-    }
-
-    // Not Bazel then
-    return false;
-  }
 
   /**
    * Locate a path in the source tree.

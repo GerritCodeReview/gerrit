@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8668d552_488a5c13",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-24T05:46:05Z",
+      "side": 0,
+      "message": "Another option would be to squash the commit that removes BuckUtils with one that removes now unused GerritLauncher.isBazel().",
+      "range": {
+        "startLine": 366,
+        "startChar": 16,
+        "endLine": 366,
+        "endChar": 40
+      },
+      "revId": "7e43d1d1ad2c8231434acf1fc8347275d8a9c1d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

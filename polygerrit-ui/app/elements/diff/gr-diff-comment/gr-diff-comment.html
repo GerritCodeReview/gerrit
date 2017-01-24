@@ -241,10 +241,12 @@ limitations under the License.
         <gr-button class="action cancel hideOnPublished"
             on-tap="_handleCancel" hidden>Cancel</gr-button>
         <div class="action resolve hideOnPublished">
-          <input type="checkbox"
-              checked$="[[resolved]]"
-              on-change="_handleToggleResolved">
-          <label>Resolved</label>
+          <label>
+            <input type="checkbox"
+                checked$="[[resolved]]"
+                on-change="_handleToggleResolved">
+            Resolved
+          </label>
         </div>
         <div class="danger">
           <gr-button class="action discard hideOnPublished"

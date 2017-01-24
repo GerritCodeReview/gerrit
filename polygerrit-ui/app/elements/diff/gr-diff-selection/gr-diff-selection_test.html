@@ -28,7 +28,7 @@ limitations under the License.
   <template>
     <gr-diff-selection>
       <table id="diffTable" class="side-by-side">
-        <tr>
+        <tr class="diff-row">
           <td class="lineNum left" data-value="1">1</td>
           <td class="content">
             <div class="contentText" data-side="left">ba ba</div>
@@ -45,7 +45,7 @@ limitations under the License.
             <div class="contentText" data-side="right">some other text</div>
           </td>
         </tr>
-        <tr>
+        <tr class="diff-row">
           <td class="lineNum left" data-value="2">2</td>
           <td class="content">
             <div class="contentText" data-side="left">zin</div>
@@ -62,7 +62,7 @@ limitations under the License.
             </div>
           </td>
         </tr>
-        <tr>
+        <tr class="diff-row">
           <td class="lineNum left" data-value="3">3</td>
           <td class="content">
             <div class="contentText" data-side="left">ga ga</div>
@@ -75,11 +75,8 @@ limitations under the License.
             </div>
           </td>
           <td class="lineNum right" data-value="3">3</td>
-          <td class="other">
-            <div class="contentText" data-side="right">some other text</div>
-          </td>
         </tr>
-        <tr>
+        <tr class="diff-row">
           <td class="lineNum left" data-value="4">4</td>
           <td class="content">
             <div class="contentText" data-side="left">ga ga</div>
@@ -90,6 +87,11 @@ limitations under the License.
             </div>
           </td>
           <td class="lineNum right" data-value="4">4</td>
+        </tr>
+        <tr class="not-diff-row">
+          <td class="other">
+            <div class="contentText" data-side="right">some other text</div>
+          </td>
         </tr>
       </table>
     </gr-diff-selection>
@@ -168,7 +170,7 @@ limitations under the License.
 
     test('ignores copy for non-content Element', function() {
       sandbox.stub(element, '_getSelectedText');
-      emulateCopyOn(element.querySelector('.other'));
+      emulateCopyOn(element.querySelector('.not-diff-row'));
       assert.isFalse(element._getSelectedText.called);
     });
 

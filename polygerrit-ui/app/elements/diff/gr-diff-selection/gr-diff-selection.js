@@ -113,7 +113,7 @@
       var commentSelected = false;
       var target = this._getCopyEventTarget(e);
       if (target.type === 'textarea') { return; }
-      if (!this._elementDescendedFromClass(target, 'content')) { return; }
+      if (!this._elementDescendedFromClass(target, 'diff-row')) { return; }
       if (this.classList.contains(SelectionClass.COMMENT)) {
         commentSelected = true;
       }

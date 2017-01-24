@@ -402,8 +402,7 @@ public class EventFactory {
   public void addPatchSetComments(PatchSetAttribute patchSetAttribute,
       Collection<Comment> comments) {
     for (Comment comment : comments) {
-      if (comment.key.patchSetId ==
-          Integer.parseInt(patchSetAttribute.number)) {
+      if (comment.key.patchSetId == patchSetAttribute.number) {
         if (patchSetAttribute.comments == null) {
           patchSetAttribute.comments = new ArrayList<>();
         }
@@ -474,7 +473,7 @@ public class EventFactory {
       Change change, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
-    p.number = Integer.toString(patchSet.getPatchSetId());
+    p.number = patchSet.getPatchSetId();
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;

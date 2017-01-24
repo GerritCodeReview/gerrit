@@ -123,7 +123,7 @@ public class QueryIT extends AbstractDaemonTest {
     changes = executeSuccessfulQuery("--current-patch-set " + changeId);
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).currentPatchSet).isNotNull();
-    assertThat(changes.get(0).currentPatchSet.number).isEqualTo("2");
+    assertThat(changes.get(0).currentPatchSet.number).isEqualTo(2);
 
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
     changes = executeSuccessfulQuery("--current-patch-set " + changeId);

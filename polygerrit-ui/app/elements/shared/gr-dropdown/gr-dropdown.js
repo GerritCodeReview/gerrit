@@ -17,6 +17,12 @@
   Polymer({
     is: 'gr-dropdown',
 
+    /**
+     * Fired when a non-link dropdown item with the given ID is tapped.
+     *
+     * @event tap-item-<id>
+     */
+
     properties: {
       items: Array,
       topContent: Object,
@@ -24,6 +30,20 @@
         type: String,
         value: 'left',
       },
+
+      /**
+       * Style the dropdown trigger as a link (rather than a button).
+       */
+      link: {
+        type: Boolean,
+        value: false,
+      },
+
+      verticalOffset: {
+        type: Number,
+        value: 40,
+      },
+
       _hasAvatars: String,
     },
 
@@ -52,6 +72,13 @@
     _computeRelativeURL: function(path) {
       var host = window.location.host;
       return this._computeURLHelper(host, path);
+    },
+
+    _handleItemTap: function(e) {
+      var id = e.target.getAttribute('data-id');
+      if (id) {
+        this.dispatchEvent(new CustomEvent('tap-item-' + id));
+      }
     },
   });
 })();

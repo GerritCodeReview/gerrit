@@ -52,22 +52,7 @@ limitations under the License.
       .linksTitle {
         color: black;
         display: inline-block;
-        padding-right: 1em;
         position: relative;
-      }
-      .downArrow {
-        border-left: .36em solid transparent;
-        border-right: .36em solid transparent;
-        border-top: .36em solid #ccc;
-        height: 0;
-        position: absolute;
-        right: 0;
-        top: calc(50% - .05em);
-        transition: border-top-color 200ms;
-        width: 0;
-      }
-      .links li:hover .downArrow {
-        border-top-color: #666;
       }
       .rightItems {
         align-items: center;
@@ -119,10 +104,12 @@ limitations under the License.
         <template is="dom-repeat" items="[[_links]]" as="linkGroup">
           <li>
           <gr-dropdown
+              link
+              down-arrow
               items = [[linkGroup.links]]
               horizontal-align="left">
             <span class="linksTitle" id="[[linkGroup.title]]">
-              [[linkGroup.title]] <i class="downArrow"></i>
+              [[linkGroup.title]]
             </span>
           </gr-dropdown>
           </li>

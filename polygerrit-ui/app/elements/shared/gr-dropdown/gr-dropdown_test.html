@@ -70,5 +70,13 @@ limitations under the License.
       assert.isTrue(topItems[0].classList.contains('bold-text'));
       assert.isFalse(topItems[1].classList.contains('bold-text'));
     });
+
+    test('non link items', function(done) {
+      element.items = [
+          {name: 'item one', id: 'foo'}, {name: 'item two', id: 'bar'}];
+      element.addEventListener('tap-item-foo', function() { done(); });
+      flushAsynchronousOperations();
+      MockInteractions.tap(element.$$('.itemAction'));
+    });
   });
 </script>

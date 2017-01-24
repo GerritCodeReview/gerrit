@@ -146,7 +146,7 @@
     },
 
     _computeAutomatedToggleText: function(hideAutomated) {
-      return hideAutomated ? 'Show automated' : 'Hide automated';
+      return hideAutomated ? 'Show all messages' : 'Show comments only';
     },
 
     /**

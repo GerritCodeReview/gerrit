@@ -51,6 +51,7 @@ public class ConfigNotesMigration extends NotesMigration {
 
   private static final String NOTE_DB = "noteDb";
 
+  // All of these names must be reflected in the allowed set in checkConfig.
   private static final String PRIMARY_STORAGE = "primaryStorage";
   private static final String READ = "read";
   private static final String SEQUENCE = "sequence";
@@ -61,7 +62,8 @@ public class ConfigNotesMigration extends NotesMigration {
     for (NoteDbTable t : NoteDbTable.values()) {
       keys.add(t.key());
     }
-    Set<String> allowed = ImmutableSet.of(READ, WRITE, SEQUENCE);
+    Set<String> allowed = ImmutableSet.of(
+        PRIMARY_STORAGE, READ, WRITE, SEQUENCE, PRIMARY_STORAGE);
     for (String t : cfg.getSubsections(NOTE_DB)) {
       checkArgument(keys.contains(t.toLowerCase()),
           "invalid NoteDb table: %s", t);

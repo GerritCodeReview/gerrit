@@ -128,6 +128,23 @@
     },
     {
       "key": {
+        "uuid": "05a38ea6_249ba1d9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-24T23:39:06Z",
+      "side": 1,
+      "message": "\u003e Is that something a complete web development agnost like me can do, [...]\n\nI expect it should be relatively straightforward, so it\u0027s your call.\n\nCan take inspiration from the modal to view SSH keys, which can be found in the sibling component GR-SSH-EDITOR. In [1] it sets up the HTML for the modal as a GR-OVERLAY (with some styles). In [2] the overlay is shown in response to tapping the view link.\n\n\u003e [...] or could someone in the PG team take that up?\n\nThat\u0027s fine too, of course. Is there an issue that can be assigned over? Or is this in response to planning to remove the endpoint to get plaintext passwords? Should the same be implemented in the GWT UI?\n\n* [1] https://gerrit.googlesource.com/gerrit/+/refs/changes/50/94950/1/polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.html#83\n* [2] https://gerrit.googlesource.com/gerrit/+/refs/changes/50/94950/1/polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.js#59",
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6f9e541_28e1d2f3",
         "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
         "patchSetId": 1

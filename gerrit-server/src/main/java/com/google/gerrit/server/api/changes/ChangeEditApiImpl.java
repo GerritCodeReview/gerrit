@@ -116,7 +116,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public void rebase() throws RestApiException {
     try {
       rebaseChangeEdit.apply(changeResource, null);
-    } catch (IOException | InvalidChangeOperationException | OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot rebase change edit", e);
     }
   }
@@ -219,7 +219,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     input.message = newCommitMessage;
     try {
       modifyChangeEditCommitMessage.apply(changeResource, input);
-    } catch (IOException | InvalidChangeOperationException | OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot modify commit message of change edit",
           e);
     }

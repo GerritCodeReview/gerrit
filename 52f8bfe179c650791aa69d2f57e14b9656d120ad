@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "19df53d3_3d59c621",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6046,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d3b2e8f_f93c8e59",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 10
@@ -45,6 +62,23 @@
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5874eddc_7100c343",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6047,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "3ecc2345_baddcf37",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6067,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91b388ab_49b77e85",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 10
@@ -88,6 +139,23 @@
         "endLine": 6078,
         "endChar": 8
       },
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ca5f39e_330fb414",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6078,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "Author of the update, so the person who added/removed the reviewer to CC or REVIEWERS.\nI\u0027d keep consistent name with other eventinfo subclasses (messages, comments) for sake of consistency, but open for better naming.",
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -117,6 +185,23 @@
     },
     {
       "key": {
+        "uuid": "be4544c6_e839fb32",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6079,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d32ff55e_42965996",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
         "patchSetId": 10
@@ -131,6 +216,23 @@
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2c0cdd_59edc73f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "It is, but I think I can\u0027t use com.google.gerrit.common.Nullable here I guess - bazel complains that gerrit.common does not exist.",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +253,23 @@
     },
     {
       "key": {
+        "uuid": "622c288d_ebb07c28",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "You are correct, the only purpose is to distinguish data returned by API.\n@see https://gerrit-review.googlesource.com/c/93770/ for other classes extending EventInfo\nIs there a better way I\u0027ve overlooked?",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "21990ca3_ffda2574",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerUpdateInfo.java",
         "patchSetId": 10
@@ -165,6 +284,23 @@
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bfebc90_a9767de6",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerUpdateInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -214,6 +350,23 @@
     },
     {
       "key": {
+        "uuid": "8f42ad65_67b375e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "937abd3b_c37603c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 10
@@ -225,6 +378,23 @@
       "writtenOn": "2017-01-25T00:34:04Z",
       "side": 1,
       "message": "This algorithm is hard to follow, some brief comments for your tracking state here would help. I think it might be easier to follow if it were an inner class, so you could break out certain components of the algorithm (like the repeated logic when you close out a batch).",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4c259f7_441a2455",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:00:13Z",
+      "side": 1,
+      "message": "In fact, I think I can make it even cleaner with streams.\nAt the moment, logic can be somewhat figured out from tests.",
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

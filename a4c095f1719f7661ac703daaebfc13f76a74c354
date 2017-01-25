@@ -40,6 +40,23 @@
       "revId": "a4c095f1719f7661ac703daaebfc13f76a74c354",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6f1ccfc_0673b06f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T15:31:53Z",
+      "side": 1,
+      "message": "Good question. It is null only during tests. When I added this check I thought that only a few tests would have no index available while they do the site initialization, but actually it\u0027s null for most tests. I wanted to address this later, but then forgot about it :(\n\nDone in\n  https://gerrit-review.googlesource.com/95290",
+      "revId": "a4c095f1719f7661ac703daaebfc13f76a74c354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

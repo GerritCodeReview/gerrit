@@ -159,6 +159,10 @@
       this.groups = changes ? [changes] : [];
     },
 
+    test: function(changes) {
+      return 1;
+    },
+
     _groupTitle: function(groupIndex) {
       if (groupIndex > this.groupTitles.length - 1) { return null; }
       return this.groupTitles[groupIndex];

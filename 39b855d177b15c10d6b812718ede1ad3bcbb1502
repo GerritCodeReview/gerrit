@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93df8cb0_4b437910",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-25T23:08:52Z",
+      "side": 1,
+      "message": "@Kasper asked on other change: Does this fn ever get called with undefined values? I don\u0027t think it should, since it\u0027s computed.\n\nI wasn\u0027t 100% sure if these attributes could be null (and some tests were failing), so I added this. \n\nchangeTable definitely shouldn\u0027t so I suppose can remove the check, but labelNames I\u0027m not sure? Does anyone know if labelNames could possibly be null or if would return an empty array?",
+      "revId": "39b855d177b15c10d6b812718ede1ad3bcbb1502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

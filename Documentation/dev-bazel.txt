@@ -1,10 +1,8 @@
 = Gerrit Code Review - Building with Bazel
 
-Bazel build is experimental. Major missing parts:
-
-* Custom plugins
-* Test suites for SSH, acceptance, etc.
-* tag tests as slow, flaky, etc.
+Bazel is the tool for building Gerrit.
+It has been recently introduced and, apart from the custom non-core plugins,
+most of the components have been adapted to use Bazel.
 
 Nice to have:
 

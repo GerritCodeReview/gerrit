@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "65c0b8f5_0e8e4bb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-25T20:05:23Z",
+      "side": 1,
+      "message": "Also @see https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4775\n\nI don\u0027t feel strongly either way. This is more of a philosophical question: do we want a smart server and dumb UI, or dumb UI and smart server?\n\nOne of the reasons for doing this on the server side is to generate ID for a gropped update, which might be difficult to do consistently in the UI.\nAside from the obvious ones, of course: latency, network bandwidth, etc.\nLet\u0027s continue discussion on the tracking bug.",
+      "revId": "2ac452561e5492f9ba8842103483af6a9293ec24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76764796_d4359d84",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 4

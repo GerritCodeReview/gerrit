@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.project.ChangeControl;
@@ -58,10 +57,6 @@ public class ChangeEditResource implements RestResource {
 
   public ChangeControl getControl() {
     return getChangeResource().getControl();
-  }
-
-  public Change getChange() {
-    return edit.getChange();
   }
 
   public ChangeEdit getChangeEdit() {

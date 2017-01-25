@@ -117,6 +117,16 @@ limitations under the License.
           'Some-Special-Label-7'), 'SSL7');
     });
 
+    test('colspans', function() {
+      var thItemCount = Polymer.dom(element.root).querySelectorAll(
+          'th').length;
+
+      var changeTableColumns = [];
+      var labelNames = [];
+      assert.equal(thItemCount, element._computeColspan(
+          changeTableColumns, labelNames));
+    });
+
     test('keyboard shortcuts', function(done) {
       element.selectedIndex = 0;
       element.changes = [

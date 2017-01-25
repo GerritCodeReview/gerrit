@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81c943c8_15f1a9e9",
+        "filename": "polygerrit-ui/app/run_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:31:15Z",
+      "side": 0,
+      "message": "How did this get in here?",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

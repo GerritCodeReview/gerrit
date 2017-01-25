@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3359284_fc986cff",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:31:15Z",
+      "side": 1,
+      "message": "4 space indent?",
+      "range": {
+        "startLine": 152,
+        "startChar": 18,
+        "endLine": 152,
+        "endChar": 77
+      },
+      "revId": "076659d4e715da84e91ef590808e25c9b98017a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "311df888_debe187a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:31:15Z",
+      "side": 1,
+      "message": "Can you not $$ this?",
+      "range": {
+        "startLine": 94,
+        "startChar": 40,
+        "endLine": 94,
+        "endChar": 53
+      },
+      "revId": "076659d4e715da84e91ef590808e25c9b98017a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

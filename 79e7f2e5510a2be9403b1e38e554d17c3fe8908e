@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b297456b_7f514142",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:25:43Z",
+      "side": 1,
+      "message": "Could put this on a single line?",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 7
+      },
+      "revId": "79e7f2e5510a2be9403b1e38e554d17c3fe8908e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08ad7020_e5a9ee06",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:25:43Z",
+      "side": 1,
+      "message": "Nit: Would you consider redoing this test so that it\u0027s done without an event handler? If it fails it\u0027s going to be a 10sec timeout, which could get kind of obnoxious.\n\n  var stub \u003d sandbox.stub();\n  element.addEventListener(\u0027tap-item-foo\u0027, stub);\n  flushAsynchronousOperations();\n  MockInteractions.tap(element.$$(\u0027.itemAction\u0027));\n  assert.isTrue(stub.called);\n\nMay need another call to flushAsynchronousOperations() after the tap, I\u0027m not sure. This will definitely not cause timeouts, though.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 0
+      },
+      "revId": "79e7f2e5510a2be9403b1e38e554d17c3fe8908e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

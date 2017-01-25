@@ -77,7 +77,7 @@ public final class Account {
     protected Id() {
     }
 
-    public Id(final int id) {
+    public Id(int id) {
       this.id = id;
     }
 
@@ -92,8 +92,8 @@ public final class Account {
     }
 
     /** Parse an Account.Id out of a string representation. */
-    public static Id parse(final String str) {
-      final Id r = new Id();
+    public static Id parse(String str) {
+      Id r = new Id();
       r.fromString(str);
       return r;
     }
@@ -154,7 +154,7 @@ public final class Account {
 
   // DELETED: id = 6 (generalPreferences)
 
-  /** Is this user active */
+  /** Is this user inactive? */
   @Column(id = 7)
   protected boolean inactive;
 
@@ -190,7 +190,7 @@ public final class Account {
   }
 
   /** Set the full name of the user ("Given-name Surname" style). */
-  public void setFullName(final String name) {
+  public void setFullName(String name) {
     if (name != null && !name.trim().isEmpty()) {
       fullName = name.trim();
     } else {
@@ -204,7 +204,7 @@ public final class Account {
   }
 
   /** Set the email address the user prefers to be contacted through. */
-  public void setPreferredEmail(final String addr) {
+  public void setPreferredEmail(String addr) {
     preferredEmail = addr;
   }
 
@@ -278,7 +278,7 @@ public final class Account {
   }
 
   /** Update the computed user name property. */
-  public void setUserName(final String userName) {
+  public void setUserName(String userName) {
     this.userName = userName;
   }
 

@@ -140,6 +140,29 @@
     },
     {
       "key": {
+        "uuid": "8afc3eca_54cf97e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:47:01Z",
+      "side": 1,
+      "message": "Sure, just 3, but there are more:\n\n- CommitValidationListener is in com.google.gerrit.server.git.validators\n- AvatarProvider is in com.google.gerrit.server.avatar\n- AuditListener is in com.google.gerrit.audit",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "086cc29f_5a661452",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
         "patchSetId": 1

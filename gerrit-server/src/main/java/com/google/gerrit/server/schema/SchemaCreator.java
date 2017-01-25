@@ -118,9 +118,7 @@ public class SchemaCreator {
   }
 
   private void index(AccountGroup group) throws IOException {
-    if (indexCollection.getSearchIndex() != null) {
-      indexCollection.getSearchIndex().replace(group);
-    }
+    indexCollection.getSearchIndex().replace(group);
   }
 
   private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)

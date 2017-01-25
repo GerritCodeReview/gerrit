@@ -17,10 +17,13 @@ package com.google.gerrit.testutil;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
+import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.jdbc.Database;
@@ -73,6 +76,8 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   }
 
   private final SchemaCreator schemaCreator;
+  private final SingleVersionListener singleVersionListener;
+
 
   private Connection openHandle;
   private Database<ReviewDb> database;
@@ -80,25 +85,35 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
 
   @Inject
   InMemoryDatabase(Injector injector) throws OrmException {
-    // Don't inject SchemaCreator directly.
-    // SchemaCreator needs to get GroupIndexCollection injected, but
-    // GroupIndexCollection was not bound yet. Creating a child injector with a
-    // binding for GroupIndexCollection to create an instance of SchemaCreator
-    // prevents that Guice creates a just-in-time binding for
-    // GroupIndexCollection in the root injector. If a binding for
-    // GroupIndexCollection is created in the root injector then IndexModule
-    // fails to create this binding later, because it already exists.
-    this(injector.createChildInjector(new AbstractModule() {
+    Injector childInjector = injector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(GroupIndexCollection.class);
+        switch (IndexModule.getIndexType(injector)) {
+          case LUCENE:
+            install(new LuceneIndexModuleOnInit());
+            break;
+          case ELASTICSEARCH:
+            install(new ElasticIndexModuleOnInit());
+            break;
+          default:
+            throw new IllegalStateException("unsupported index.type");
+        }
       }
-    }).getInstance(SchemaCreator.class));
+    });
+    this.schemaCreator = childInjector.getInstance(SchemaCreator.class);
+    this.singleVersionListener =
+        childInjector.getInstance(SingleVersionListener.class);
+    initDatabase();
   }
 
-  InMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
+  InMemoryDatabase(SchemaCreator schemaCreator,
+      SingleVersionListener singleVersionListener) throws OrmException {
     this.schemaCreator = schemaCreator;
+    this.singleVersionListener = singleVersionListener;
+    initDatabase();
+  }
 
+  private void initDatabase() throws OrmException {
     try {
       DataSource dataSource = newDataSource();
 
@@ -131,9 +146,12 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     if (!created) {
       created = true;
       try (ReviewDb c = open()) {
+        singleVersionListener.start();
         schemaCreator.create(c);
       } catch (IOException | ConfigInvalidException e) {
         throw new OrmException("Cannot create in-memory database", e);
+      } finally {
+        singleVersionListener.stop();
       }
     }
     return this;

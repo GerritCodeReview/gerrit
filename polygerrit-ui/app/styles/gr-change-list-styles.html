@@ -19,9 +19,6 @@ limitations under the License.
       :host {
         font-size: 13px;
       }
-      .headerRow {
-        display: flex;
-      }
       .topHeader,
       .groupHeader {
         border-bottom: 1px solid #eee;
@@ -30,7 +27,6 @@ limitations under the License.
       }
       .topHeader {
         background-color: #ddd;
-        flex-shrink: 0;
       }
       .noChanges {
         border-bottom: 1px solid #eee;
@@ -38,28 +34,22 @@ limitations under the License.
       }
       .keyboard,
       .star {
-        align-items: center;
-        display: flex;
-        justify-content: center;
         padding: 0;
-        width: 2em;
       }
-      .star {
-        padding-top: .05em;
+      gr-change-star {
+        vertical-align: middle;
       }
       .number {
-        width: 4em;
+        max-width: 4em;
       }
       .subject {
-        flex-grow: 1;
-        flex-shrink: 1;
         word-break: break-word;
       }
       .status {
-        width: 9em;
+        max-width: 9em;
       }
       .owner {
-        width: 15em;
+        max-width: 15em;
       }
       .project,
       .branch {
@@ -68,21 +58,21 @@ limitations under the License.
         text-overflow: ellipsis;
       }
       .project {
-        width: 10em;
+        max-width: 10em;
       }
       .branch {
-        width: 7em;
+        max-width: 7em;
       }
       .updated {
-        width: 9em;
+        max-width: 9em;
         text-align: right;
       }
       .size {
-        width: 9em;
+        max-width: 9em;
         text-align: right;
       }
       .label {
-        width: 2.6em;
+        max-width: 2.6em;
         text-align: center;
       }
       @media only screen and (max-width: 50em) {
@@ -107,9 +97,8 @@ limitations under the License.
           display: none;
         }
         .star {
-          align-items: flex-start;
           padding-left: .35em;
-          padding-top: .4em;
+          padding-top: .25em;
         }
         .subject {
           margin-bottom: .25em;

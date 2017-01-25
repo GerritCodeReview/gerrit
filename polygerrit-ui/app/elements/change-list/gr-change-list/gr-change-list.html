@@ -25,16 +25,11 @@ limitations under the License.
 <dom-module id="gr-change-list">
   <template>
     <style>
-      :host {
-        display: flex;
-        flex-direction: column;
-      }
       #changeList {
         border-collapse: collapse;
         width: 100%;
       }
       .cell {
-        flex-shrink: 0;
         padding: .3em .5em;
       }
       th {
@@ -63,24 +58,30 @@ limitations under the License.
           index-as="groupIndex">
         <template is="dom-if" if="[[_groupTitle(groupIndex)]]">
           <tr class="groupHeader">
-            <td class="cell">[[_groupTitle(groupIndex)]]</td>
+            <td class="cell"
+                colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
+              [[_groupTitle(groupIndex)]]
+            </td>
           </tr>
         </template>
         <template is="dom-if" if="[[!changeGroup.length]]">
-          <tr class="noChanges"><td class="cell">No changes</td></tr>
+          <tr class="noChanges">
+            <td class="cell"
+                colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
+              No changes
+            </td>
+          </tr>
         </template>
         <template is="dom-repeat" items="[[changeGroup]]" as="change">
-          <tr>
-            <gr-change-list-item
-                selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
-                assigned$="[[_computeItemAssigned(account, change)]]"
-                needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
-                change="[[change]]"
-                visible-change-table-columns="[[visibleChangeTableColumns]]"
-                show-number="[[showNumber]]"
-                show-star="[[showStar]]"
-                label-names="[[labelNames]]"></gr-change-list-item>
-          </tr>
+          <gr-change-list-item
+              selected$="[[_computeItemSelected(index, groupIndex, selectedIndex)]]"
+              assigned$="[[_computeItemAssigned(account, change)]]"
+              needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"
+              change="[[change]]"
+              visible-change-table-columns="[[visibleChangeTableColumns]]"
+              show-number="[[showNumber]]"
+              show-star="[[showStar]]"
+              label-names="[[labelNames]]"></gr-change-list-item>
         </template>
       </template>
     </table>

@@ -87,6 +87,16 @@
     method: 'POST',
   };
 
+  /**
+   * Keys for actions to appear in the overflow menu rather than the top-level
+   * set of action buttons.
+   */
+  var MENU_ACTION_KEYS = [
+    'abandon',
+    'cherrypick',
+    '/', // '/' is the key for the delete action.
+  ];
+
   Polymer({
     is: 'gr-change-actions',
 
@@ -135,6 +145,15 @@
         computed: '_computeAllActions(actions.*, revisionActions.*,' +
             'primaryActionKeys.*, _additionalActions.*, change)',
       },
+      _topLevelActions: {
+        type: Array,
+        computed: '_computeTopLevelActions(_allActionValues.*)',
+      },
+      _menuActions: {
+        type: Array,
+        computed: '_computeMenuActions(_allActionValues.*, _hiddenActions.*)',
+      },
+
       _additionalActions: {
         type: Array,
         value: function() { return []; },
@@ -427,12 +446,8 @@
       var type = el.getAttribute('data-action-type');
       if (type === ActionType.REVISION) {
         this._handleRevisionAction(key);
-      } else if (key === ChangeActions.DELETE) {
-        this._showActionDialog(this.$.confirmDeleteDialog);
       } else if (key === ChangeActions.REVERT) {
         this.showRevertDialog();
-      } else if (key === ChangeActions.ABANDON) {
-        this._showActionDialog(this.$.confirmAbandonDialog);
       } else if (key === QUICK_APPROVE_ACTION.key) {
         var action = this._allActionValues.find(function(o) {
           return o.key === key;
@@ -448,10 +463,6 @@
       switch (key) {
         case RevisionActions.REBASE:
           this._showActionDialog(this.$.confirmRebase);
-          break;
-        case RevisionActions.CHERRYPICK:
-          this.$.confirmCherrypick.branch = '';
-          this._showActionDialog(this.$.confirmCherrypick);
           break;
         case RevisionActions.SUBMIT:
           if (!this._canSubmitChange()) {
@@ -626,6 +637,19 @@
       }.bind(this)).then(this._handleResponseError.bind(this));
     },
 
+    _handleAbandonTap: function() {
+      this._showActionDialog(this.$.confirmAbandonDialog);
+    },
+
+    _handleCherrypickTap: function() {
+      this.$.confirmCherrypick.branch = '';
+      this._showActionDialog(this.$.confirmCherrypick);
+    },
+
+    _handleDeleteTap: function() {
+      this._showActionDialog(this.$.confirmDeleteDialog);
+    },
+
     /**
      * Merge sources of change actions into a single ordered array of action
      * values.
@@ -678,6 +702,26 @@
 
       // Otherwise, sort by the button label.
       return actionA.label > actionB.label ? 1 : -1;
+    },
+
+    _computeTopLevelActions: function(actionRecord) {
+      return actionRecord.base.filter(function(a) {
+        return MENU_ACTION_KEYS.indexOf(a.__key) === -1;
+      });
+    },
+
+    _computeMenuActions: function(actionRecord, hiddenActionsRecord) {
+      var hiddenActions = hiddenActionsRecord.base || [];
+      return actionRecord.base
+          .filter(function(a) {
+            return MENU_ACTION_KEYS.indexOf(a.__key) !== -1 &&
+                hiddenActions.indexOf(a.__key) === -1;
+          })
+          .map(function(action) {
+            var key = action.__key;
+            if (key === '/') { key = 'delete'; }
+            return {name: action.label, id: key, };
+          });
     },
   });
 })();

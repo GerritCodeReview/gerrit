@@ -133,11 +133,10 @@ limitations under the License.
       });
     });
 
-    test('hide change action', function(done) {
+    test('hide menu action', function(done) {
       flush(function() {
-        var buttonEl = element.$$('[data-action-key="/"]');
+        var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
         assert.isOk(buttonEl);
-        assert.isFalse(buttonEl.hasAttribute('hidden'));
         assert.throws(element.setActionHidden.bind(element, 'invalid type'));
         element.setActionHidden(element.ActionType.CHANGE,
             element.ChangeActions.DELETE, true);
@@ -146,16 +145,14 @@ limitations under the License.
             element.ChangeActions.DELETE, true);
         assert.lengthOf(element._hiddenActions, 1);
         flush(function() {
-          var buttonEl = element.$$('[data-action-key="/"]');
-          assert.isOk(buttonEl);
-          assert.isTrue(buttonEl.hasAttribute('hidden'));
+          var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
+          assert.isNotOk(buttonEl);
 
           element.setActionHidden(element.ActionType.CHANGE,
             element.RevisionActions.DELETE, false);
           flush(function() {
-            var buttonEl = element.$$('[data-action-key="/"]');
+            var buttonEl = element.$.moreActions.$$('span[data-id="delete"]');
             assert.isOk(buttonEl);
-            assert.isFalse(buttonEl.hasAttribute('hidden'));
             done();
           });
         });
@@ -167,7 +164,8 @@ limitations under the License.
       flush(function() {
         var buttonEls = Polymer.dom(element.root)
             .querySelectorAll('gr-button');
-        assert.equal(buttonEls.length, 6);
+        var menuItems = element.$.moreActions.items;
+        assert.equal(buttonEls.length + menuItems.length, 6);
         assert.isFalse(element.hidden);
         done();
       });
@@ -175,18 +173,18 @@ limitations under the License.
 
     test('delete buttons have explicit labels', function(done) {
       flush(function() {
-        var buttonEls =
-            Polymer.dom(element.root).querySelectorAll('[data-action-key="/"]');
-        assert.equal(buttonEls.length, 2);
-        assert.notEqual(buttonEls[0].getAttribute('data-label'),
-            buttonEls[1].getAttribute['data-label']);
+        var deleteItems = element.$.moreActions.items.filter(function(item) {
+          return item.id === 'delete';
+        });
+        assert.equal(deleteItems.length, 2);
+        assert.notEqual(deleteItems[0].name, deleteItems[1].name)
         assert.isTrue(
-            buttonEls[0].getAttribute('data-label') === 'Delete Revision' ||
-            buttonEls[0].getAttribute('data-label') === 'Delete Change'
+            deleteItems[0].name === 'Delete Revision' ||
+            deleteItems[0].name === 'Delete Change'
         );
         assert.isTrue(
-            buttonEls[1].getAttribute('data-label') === 'Delete Revision' ||
-            buttonEls[1].getAttribute('data-label') === 'Delete Change'
+            deleteItems[1].name === 'Delete Revision' ||
+            deleteItems[1].name === 'Delete Change'
         );
         done();
       });
@@ -295,10 +293,7 @@ limitations under the License.
         flushAsynchronousOperations();
         assert.isFalse(element.$.confirmRebase.hidden);
 
-        var cherryPickButton =
-            element.$$('gr-button[data-action-key="cherrypick"]');
-        assert.ok(cherryPickButton);
-        MockInteractions.tap(cherryPickButton);
+        element._handleCherrypickTap();
         flushAsynchronousOperations();
         assert.isTrue(element.$.confirmRebase.hidden);
         assert.isFalse(element.$.confirmCherrypick.hidden);
@@ -321,9 +316,7 @@ limitations under the License.
       });
 
       test('works', function() {
-        var cherryPickButton =
-            element.$$('gr-button[data-action-key="cherrypick"]');
-        MockInteractions.tap(cherryPickButton);
+        element._handleCherrypickTap();
         var action = {
           __key: 'cherrypick',
           __type: 'revision',
@@ -360,12 +353,10 @@ limitations under the License.
       });
 
       test('branch name cleared when re-open cherrypick', function() {
-        var cherryPickButton =
-            element.$$('gr-button[data-action-key="cherrypick"]');
         var emptyBranchName = '';
         element.$.confirmCherrypick.branch = 'master';
 
-        MockInteractions.tap(cherryPickButton);
+        element._handleCherrypickTap();
         assert.equal(element.$.confirmCherrypick.branch, emptyBranchName);
       });
     });
@@ -467,12 +458,6 @@ limitations under the License.
       var fireActionStub;
       var deleteAction;
 
-      var tapDeleteAction = function() {
-        var deleteButton = element.$$('gr-button[data-action-key=\'/\']');
-        MockInteractions.tap(deleteButton);
-        flushAsynchronousOperations();
-      };
-
       setup(function() {
         fireActionStub = sinon.stub(element, '_fireAction');
         element.change = {
@@ -494,12 +479,12 @@ limitations under the License.
       });
 
       test('does not delete on action', function() {
-        tapDeleteAction();
+        element._handleDeleteTap();
         assert.isFalse(fireActionStub.called);
       });
 
       test('shows confirm dialog', function() {
-        tapDeleteAction();
+        element._handleDeleteTap();
         assert.isFalse(element.$$('#confirmDeleteDialog').hidden);
         MockInteractions.tap(
             element.$$('#confirmDeleteDialog').$$('gr-button[primary]'));
@@ -508,7 +493,7 @@ limitations under the License.
       });
 
       test('hides delete confirm on cancel', function() {
-        tapDeleteAction();
+        element._handleDeleteTap();
         MockInteractions.tap(
             element.$$('#confirmDeleteDialog').$$('gr-button:not([primary])'));
         flushAsynchronousOperations();

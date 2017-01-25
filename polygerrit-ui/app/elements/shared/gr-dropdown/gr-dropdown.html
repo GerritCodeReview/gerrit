@@ -38,6 +38,9 @@ limitations under the License.
         font: inherit;
         padding: .3em 0;
       }
+      :host[down-arrow] .dropdown-trigger {
+        padding-right: 1.4em;
+      }
       gr-avatar {
         height: 2em;
         width: 2em;
@@ -58,16 +61,17 @@ limitations under the License.
         font-weight: bold;
       }
       li .accountInfo,
-      li a {
+      li .itemAction {
+        cursor: pointer;
         display: block;
         padding: .85em 1em;
       }
-      li a:link,
-      li a:visited {
+      li .itemAction:link,
+      li .itemAction:visited {
         color: #00e;
         text-decoration: none;
       }
-      li a:hover {
+      li .itemAction:hover {
         background-color: #6B82D6;
         color: #fff;
       }
@@ -78,14 +82,30 @@ limitations under the License.
       .bold-text {
         font-weight: bold;
       }
+      :host:not([down-arrow]) .downArrow { display: none; }
+      :host[down-arrow] .downArrow {
+        border-left: .36em solid transparent;
+        border-right: .36em solid transparent;
+        border-top: .36em solid #ccc;
+        height: 0;
+        position: absolute;
+        right: .3em;
+        top: calc(50% - .05em);
+        transition: border-top-color 200ms;
+        width: 0;
+      }
+      .dropdown-trigger:hover .downArrow {
+        border-top-color: #666;
+      }
     </style>
-    <gr-button link class="dropdown-trigger" id="trigger"
+    <gr-button link="[[link]]" class="dropdown-trigger" id="trigger"
         on-tap="_showDropdownTapHandler">
       <content></content>
+       <i class="downArrow"></i>
     </gr-button>
     <iron-dropdown id="dropdown"
         vertical-align="top"
-        vertical-offset="40"
+        vertical-offset="[[verticalOffset]]"
         allow-outside-scroll="true"
         horizontal-align="[[horizontalAlign]]"
         on-tap="_handleDropdownTap">
@@ -109,7 +129,16 @@ limitations under the License.
               items="[[items]]"
               as="link"
               initial-count="75">
-            <li><a href$="[[_computeRelativeURL(link.url)]]">[[link.name]]</a>
+            <li>
+              <span
+                  class="itemAction"
+                  data-id$="[[link.id]]"
+                  on-tap="_handleItemTap"
+                  hidden$="[[link.url]]">[[link.name]]</span>
+              <a
+                  class="itemAction"
+                  href$="[[_computeRelativeURL(link.url)]]"
+                  hidden$="[[!link.url]]">[[link.name]]</a>
             </li>
           </template>
         </ul>

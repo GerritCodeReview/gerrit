@@ -34,7 +34,10 @@ limitations under the License.
         vertical-align: middle;
       }
     </style>
-    <gr-dropdown items=[[links]] top-content=[[topContent]]
+    <gr-dropdown
+        link
+        items=[[links]]
+        top-content=[[topContent]]
         horizontal-align="right">
         <span hidden$="[[_hasAvatars]]" hidden>[[account.name]]</span>
         <gr-avatar account="[[account]]" hidden$="[[!_hasAvatars]]" hidden

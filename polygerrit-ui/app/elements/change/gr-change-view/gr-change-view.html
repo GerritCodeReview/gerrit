@@ -255,12 +255,14 @@ limitations under the License.
           <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
        --><template is="dom-if" if="[[_changeStatus]]">
             ([[_changeStatus]]<!--
-         --><template is="dom-if" if="[[_computeShowCommitInfo(_changeStatus)]]">
+         --><template
+                is="dom-if"
+                if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
               as
               <gr-commit-info
-                change="[[_change]]"
-                commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
-                server-config="[[serverConfig]]"></gr-commit-info><!--
+                  change="[[_change]]"
+                  commit-info="[[_computeMergedCommitInfo(_change.current_revision, _change.revisions)]]"
+                  server-config="[[serverConfig]]"></gr-commit-info><!--
          --></template><!--
        -->)<!--
      --></template><!--

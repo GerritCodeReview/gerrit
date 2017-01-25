@@ -24,25 +24,25 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A creator for a new Git tree. To create the new tree, another tree is taken
- * as a basis and modified.
+ * A creator for a new Git tree. To create the new tree, the tree of another
+ * commit is taken as a basis and modified.
  */
 public class TreeCreator {
 
-  private final RevTree baseTree;
+  private final RevCommit baseCommit;
   // At the moment, a list wouldn't be necessary as only one modification is
   // applied per created tree. This is going to change in the near future.
   private final List<TreeModification> treeModifications = new LinkedList<>();
 
-  public TreeCreator(RevTree baseTree) {
-    this.baseTree = checkNotNull(baseTree, "baseTree is required");
+  public TreeCreator(RevCommit baseCommit) {
+    this.baseCommit = checkNotNull(baseCommit, "baseCommit is required");
   }
 
   /**
@@ -85,7 +85,7 @@ public class TreeCreator {
       DirCache dirCache = DirCache.newInCore();
       DirCacheBuilder dirCacheBuilder = dirCache.builder();
       dirCacheBuilder.addTree(new byte[0], DirCacheEntry.STAGE_0, objectReader,
-          baseTree);
+          baseCommit.getTree());
       dirCacheBuilder.finish();
       return dirCache;
     }
@@ -95,7 +95,7 @@ public class TreeCreator {
       throws IOException {
     List<DirCacheEditor.PathEdit> pathEdits = new LinkedList<>();
     for (TreeModification treeModification : treeModifications) {
-      pathEdits.addAll(treeModification.getPathEdits(repository));
+      pathEdits.addAll(treeModification.getPathEdits(repository, baseCommit));
     }
     return pathEdits;
   }

@@ -26,9 +26,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
-import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
@@ -38,7 +36,6 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Singleton
 public class RebaseChangeEdit implements
@@ -80,30 +77,21 @@ public class RebaseChangeEdit implements
 
     private final GitRepositoryManager repositoryManager;
     private final ChangeEditModifier editModifier;
-    private final ChangeEditUtil editUtil;
 
     @Inject
     Rebase(GitRepositoryManager repositoryManager,
-        ChangeEditModifier editModifier,
-        ChangeEditUtil editUtil) {
+        ChangeEditModifier editModifier) {
       this.repositoryManager = repositoryManager;
       this.editModifier = editModifier;
-      this.editUtil = editUtil;
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
         throws AuthException, ResourceConflictException, IOException,
         OrmException {
-      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
-      if (!edit.isPresent()) {
-        throw new ResourceConflictException(String.format(
-            "no edit exists for change %s",
-            rsrc.getChange().getChangeId()));
-      }
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
-        editModifier.rebaseEdit(repository, rsrc.getControl(), edit.get());
+        editModifier.rebaseEdit(repository, rsrc.getControl());
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var NUMBER_FIXED_COLUMNS = 3;
+
   Polymer({
     is: 'gr-change-list',
 
@@ -131,6 +133,13 @@
 
     _getPreferences: function() {
       return this.$.restAPI.getPreferences();
+    },
+
+    _computeColspan: function(changeTableColumns, labelNames) {
+      var ctLength = changeTableColumns ? changeTableColumns.length : 0;
+      var lnLength = labelNames ? labelNames.length : 0;
+      return ctLength + lnLength +
+          NUMBER_FIXED_COLUMNS;
     },
 
     _computeLabelNames: function(groups) {

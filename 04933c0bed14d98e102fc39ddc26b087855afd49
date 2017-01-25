@@ -94,6 +94,52 @@
     },
     {
       "key": {
+        "uuid": "22a9d97e_4c53f7ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-25T09:42:37Z",
+      "side": 1,
+      "message": "\u003e Actually I believe most existing extension points are in different packages.\n\nCan you point me to one example?",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69e34671_6b44e454",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-25T09:42:37Z",
+      "side": 1,
+      "message": "If an extension point exposes some actions on say ChangeData then you have no choice, of course, if like in this case the interface can be easily isolated to not heavily depend on Gerrit internal classes, then it  must be in extension package. So again the question here is can MailMessage be easily isolated to using only standards java classes and the ones we already depending on in gerri-extension-api.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "086cc29f_5a661452",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
         "patchSetId": 1

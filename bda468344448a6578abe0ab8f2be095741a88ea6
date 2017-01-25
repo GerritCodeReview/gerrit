@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bea2c9b_49a0be98",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T18:26:42Z",
+      "side": 1,
+      "message": "This is orthogonal to your change, but for elements like this it seems strange to put every attribute on a newline. Is this explicitly laid out in the style guide? I can\u0027t find any reference to it, but I could easily be missing it.",
+      "range": {
+        "startLine": 138,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 59
+      },
+      "revId": "bda468344448a6578abe0ab8f2be095741a88ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -337,6 +337,7 @@
     if (!comments || comments.length === 0) {
       return null;
     }
+    debugger;
 
     var patchNum = this._comments.meta.patchRange.patchNum;
     var side = comments[0].side || 'REVISION';

@@ -255,7 +255,7 @@ limitations under the License.
           <a href$="[[_computeChangePermalink(_change._number)]]">[[_change._number]]</a><!--
        --><template is="dom-if" if="[[_changeStatus]]">
             ([[_changeStatus]]<!--
-         --><template is="dom-if" if="[[_computeShowCommitInfo(_changeStatus)]]">
+         --><template is="dom-if" if="[[_computeShowCommitInfo(_changeStatus, _change.current_revision)]]">
               as
               <gr-commit-info
                 change="[[_change]]"

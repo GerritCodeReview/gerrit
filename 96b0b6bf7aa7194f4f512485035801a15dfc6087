@@ -71,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "6a1a2098_81bc016a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-25T16:00:03Z",
+      "side": 1,
+      "message": "I really meant all the usages of this term, not just in this one method name.",
+      "revId": "96b0b6bf7aa7194f4f512485035801a15dfc6087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8e9aa6a_02eb6a5f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 6

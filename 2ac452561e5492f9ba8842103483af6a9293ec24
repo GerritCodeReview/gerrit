@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2708948_5a5c36fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-25T01:23:54Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why we can\u0027t group them using the existing API. It looks to me that the reviewer updates can be grouped together already using timestamps (or using timestamps with a small tolerance if they aren\u0027t exact).\n\nIs there a case where this doesn\u0027t work?",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "2ac452561e5492f9ba8842103483af6a9293ec24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76764796_d4359d84",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-25T01:23:54Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this transformation appear in GR-MESSAGES-LIST? It\u0027s only used downstream of that and if it blocks resolution of the getChangeDetail in the REST interface, then every component that uses the change object has to wait, whether or not it needs merged reviewer updates.",
+      "range": {
+        "startLine": 429,
+        "startChar": 4,
+        "endLine": 429,
+        "endChar": 26
+      },
+      "revId": "2ac452561e5492f9ba8842103483af6a9293ec24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b27fa97_f0008a64",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-25T01:23:54Z",
+      "side": 1,
+      "message": "Not sure if this is why, but this change seems to not show reviewer updates at all for earlier API versions.",
+      "range": {
+        "startLine": 440,
+        "startChar": 8,
+        "endLine": 443,
+        "endChar": 9
+      },
+      "revId": "2ac452561e5492f9ba8842103483af6a9293ec24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a87feb7c_d262ca97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-25T01:23:54Z",
+      "side": 1,
+      "message": "I thought the API change that this change depends on already does grouping? Why do we need to group them again on the client?",
+      "revId": "2ac452561e5492f9ba8842103483af6a9293ec24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d43d7a50_1d5114ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-25T01:23:54Z",
+      "side": 1,
+      "message": "Sp. s/groupped/grouped/",
+      "range": {
+        "startLine": 445,
+        "startChar": 12,
+        "endLine": 445,
+        "endChar": 29
+      },
+      "revId": "2ac452561e5492f9ba8842103483af6a9293ec24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

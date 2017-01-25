@@ -31,24 +31,22 @@ import java.util.List;
  */
 public class RenameFileModification implements TreeModification {
 
-  private final RevCommit currentCommit;
   private final String currentFilePath;
   private final String newFilePath;
 
-  public RenameFileModification(RevCommit currentCommit,
-      String currentFilePath, String newFilePath) {
-    this.currentCommit = currentCommit;
+  public RenameFileModification(String currentFilePath, String newFilePath) {
     this.currentFilePath = currentFilePath;
     this.newFilePath = newFilePath;
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository)
+  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository,
+      RevCommit baseCommit)
       throws IOException {
     try (RevWalk revWalk = new RevWalk(repository)) {
-      revWalk.parseHeaders(currentCommit);
+      revWalk.parseHeaders(baseCommit);
       try (TreeWalk treeWalk = TreeWalk.forPath(revWalk.getObjectReader(),
-          currentFilePath, currentCommit.getTree())) {
+          currentFilePath, baseCommit.getTree())) {
         if (treeWalk == null) {
           return Collections.emptyList();
         }

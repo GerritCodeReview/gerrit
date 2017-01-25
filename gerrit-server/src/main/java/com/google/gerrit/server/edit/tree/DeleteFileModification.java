@@ -16,6 +16,7 @@ package com.google.gerrit.server.edit.tree;
 
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,8 @@ public class DeleteFileModification implements TreeModification {
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository) {
+  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository,
+      RevCommit baseCommit) {
     DirCacheEditor.DeletePath deletePathEdit =
         new DirCacheEditor.DeletePath(filePath);
     return Collections.singletonList(deletePathEdit);

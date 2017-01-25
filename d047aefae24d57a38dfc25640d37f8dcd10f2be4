@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "17b97808_a182a26e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:07:25Z",
+      "side": 1,
+      "message": "We already have our own indicator for the selected element, a change in background color noted by the .selected class, from before when we didn\u0027t utilize focus.",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78833796_f805d651",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
         "patchSetId": 3
@@ -45,6 +62,23 @@
       "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48180257_9a02506f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:07:25Z",
+      "side": 1,
+      "message": "From the docs that I read, tabindex\u003d-1 means that the element is still focusable, but navigable to via keyboard (1). This is intended in this case, as we have our own keydown handlers to navigate between the autocomplete options.\n\n(1) https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "e4106df1_7bb75aa3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:07:25Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem to have any unintended consequences (likely because there\u0027s no call to preventDefault) but I\u0027m not entirely sure how to definitively test this. Any suggestions?",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b43debe_de35311e",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 3
@@ -82,6 +133,23 @@
       "writtenOn": "2017-01-24T23:48:27Z",
       "side": 1,
       "message": "Shouldn\u0027t this be an option on the cursor manager? That way we only enable it when we\u0027re setting up the cursor with focusable stops.",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfb12b5f_721cc5cc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-25T00:07:25Z",
+      "side": 1,
+      "message": "I can make that happen, but I would argue that instead we should make the cursor manager function with focus everywhere.\n\nWe use it in three places:\n- To manage the selected option in gr-autocomplete\n- To manage the selected file in gr-file-list\n- To manage the selected line in gr-diff\n\nAll three of these examples should *probably* be focusable for the very same a11y reasons that this change exists. Thoughts?",
       "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

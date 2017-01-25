@@ -182,6 +182,23 @@
       "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "055e1aa1_f97fe839",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-01-25T11:58:54Z",
+      "side": 1,
+      "message": "before we make a new dialog, we have to be on the same page what the API looks like. I\u0027d really like the first option, but I\u0027m not sure if that will confuse the user.",
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

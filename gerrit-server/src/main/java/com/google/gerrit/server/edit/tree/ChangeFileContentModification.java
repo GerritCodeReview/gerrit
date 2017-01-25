@@ -27,6 +27,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +53,8 @@ public class ChangeFileContentModification implements TreeModification {
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository) {
+  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository,
+      RevCommit baseCommit) {
     DirCacheEditor.PathEdit changeContentEdit = new ChangeContent(filePath,
         newContent, repository);
     return Collections.singletonList(changeContentEdit);

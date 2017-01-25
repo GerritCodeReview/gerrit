@@ -25,17 +25,17 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -78,41 +78,35 @@ public class RebaseChangeEdit implements
     public static class Input {
     }
 
+    private final GitRepositoryManager repositoryManager;
     private final ChangeEditModifier editModifier;
     private final ChangeEditUtil editUtil;
-    private final PatchSetUtil psUtil;
-    private final Provider<ReviewDb> db;
 
     @Inject
-    Rebase(ChangeEditModifier editModifier,
-        ChangeEditUtil editUtil,
-        PatchSetUtil psUtil,
-        Provider<ReviewDb> db) {
+    Rebase(GitRepositoryManager repositoryManager,
+        ChangeEditModifier editModifier,
+        ChangeEditUtil editUtil) {
+      this.repositoryManager = repositoryManager;
       this.editModifier = editModifier;
       this.editUtil = editUtil;
-      this.psUtil = psUtil;
-      this.db = db;
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
         throws AuthException, ResourceConflictException, IOException,
-        InvalidChangeOperationException, OrmException {
+        OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         throw new ResourceConflictException(String.format(
             "no edit exists for change %s",
             rsrc.getChange().getChangeId()));
       }
-
-      PatchSet current = psUtil.current(db.get(), rsrc.getNotes());
-      if (current.getId().equals(edit.get().getBasePatchSet().getId())) {
-        throw new ResourceConflictException(String.format(
-            "edit for change %s is already on latest patch set: %s",
-            rsrc.getChange().getChangeId(),
-            current.getId()));
+      Project.NameKey project = rsrc.getProject();
+      try (Repository repository = repositoryManager.openRepository(project)) {
+        editModifier.rebaseEdit(repository, rsrc.getControl(), edit.get());
+      } catch (InvalidChangeOperationException e) {
+        throw new ResourceConflictException(e.getMessage());
       }
-      editModifier.rebaseEdit(edit.get(), current);
       return Response.none();
     }
   }

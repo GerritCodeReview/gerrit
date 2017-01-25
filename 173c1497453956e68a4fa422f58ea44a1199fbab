@@ -16,6 +16,23 @@
       "revId": "173c1497453956e68a4fa422f58ea44a1199fbab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "637ef02f_8622f44c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-25T10:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "173c1497453956e68a4fa422f58ea44a1199fbab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

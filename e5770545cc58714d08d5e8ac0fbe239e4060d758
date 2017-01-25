@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f30aeb1f_49bf7c6b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-01-25T22:37:19Z",
+      "side": 1,
+      "message": "Stray debugging code?",
+      "revId": "e5770545cc58714d08d5e8ac0fbe239e4060d758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d706b84_fc21ecc7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:57:33Z",
+      "side": 1,
+      "message": "nit: trailing whitespace, please remove",
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94326392_a9d13a9c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:57:33Z",
+      "side": 1,
+      "message": "better: Not set if the current change index doesn\u0027t contain this data.",
+      "range": {
+        "startLine": 5156,
+        "startChar": 31,
+        "endLine": 5156,
+        "endChar": 65
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01dd7783_78d95da8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:57:33Z",
+      "side": 1,
+      "message": "content",
+      "range": {
+        "startLine": 374,
+        "startChar": 65,
+        "endLine": 374,
+        "endChar": 71
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db814786_608d73da",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:57:33Z",
+      "side": 1,
+      "message": "[optional] skip uploading a second patch set as the number of patch sets seems not to be relevant for this test",
+      "range": {
+        "startLine": 373,
+        "startChar": 4,
+        "endLine": 375,
+        "endChar": 48
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b35fc2a_c6667c6b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:57:33Z",
+      "side": 1,
+      "message": "users",
+      "range": {
+        "startLine": 384,
+        "startChar": 21,
+        "endLine": 384,
+        "endChar": 25
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3d03819_31d95aac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:57:33Z",
+      "side": 1,
+      "message": "content",
+      "range": {
+        "startLine": 657,
+        "startChar": 65,
+        "endLine": 657,
+        "endChar": 71
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee1809a9_9b43d736",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:57:33Z",
+      "side": 1,
+      "message": "If you modify to this class you must do a corresponding modification in ElasticChangeIndex so that this feature also works when ElasticSearch is configured as index backend.",
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "319f57de_5c3051b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T09:57:33Z",
+      "side": 1,
+      "message": "remove this null check since num can never be null",
+      "range": {
+        "startLine": 1029,
+        "startChar": 30,
+        "endLine": 1029,
+        "endChar": 43
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5754d27_f7a9049c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T10:40:59Z",
+      "side": 1,
+      "message": "Move this line also up to l.657?",
+      "range": {
+        "startLine": 663,
+        "startChar": 15,
+        "endLine": 663,
+        "endChar": 17
+      },
+      "revId": "1a8eb74ec70c9b598201ec9ccff5b31ba08ed88e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -31,7 +31,6 @@ import com.google.gerrit.server.change.DeleteChangeEdit;
 import com.google.gerrit.server.change.PublishChangeEdit;
 import com.google.gerrit.server.change.RebaseChangeEdit;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -98,7 +97,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public void create() throws RestApiException {
     try {
       changeEditsPost.apply(changeResource, null);
-    } catch (InvalidChangeOperationException | IOException | OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot create change edit", e);
     }
   }
@@ -146,7 +145,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       return fileResponse.isNone()
           ? Optional.empty()
           : Optional.of(fileResponse.value());
-    } catch (IOException | InvalidChangeOperationException | OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot retrieve file of change edit", e);
     }
   }
@@ -159,7 +158,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       renameInput.oldPath = oldFilePath;
       renameInput.newPath = newFilePath;
       changeEditsPost.apply(changeResource, renameInput);
-    } catch (InvalidChangeOperationException | IOException | OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot rename file of change edit", e);
     }
   }
@@ -170,7 +169,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       ChangeEdits.Post.Input restoreInput = new ChangeEdits.Post.Input();
       restoreInput.restorePath = filePath;
       changeEditsPost.apply(changeResource, restoreInput);
-    } catch (InvalidChangeOperationException | IOException | OrmException e) {
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot restore file of change edit", e);
     }
   }
@@ -179,12 +178,8 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public void modifyFile(String filePath, RawInput newContent)
       throws RestApiException {
     try {
-      ChangeEditResource changeEditResource =
-          getOrCreateChangeEditResource(filePath);
-      ChangeEdits.Put.Input input = new ChangeEdits.Put.Input();
-      input.content = newContent;
-      changeEditsPut.apply(changeEditResource, input);
-    } catch (IOException | InvalidChangeOperationException | OrmException e) {
+      changeEditsPut.apply(changeResource.getControl(), filePath, newContent);
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot modify file of change edit", e);
     }
   }
@@ -192,10 +187,8 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void deleteFile(String filePath) throws RestApiException {
     try {
-      ChangeEditResource changeEditResource =
-          getOrCreateChangeEditResource(filePath);
-      changeEditDeleteContent.apply(changeEditResource, null);
-    } catch (IOException | InvalidChangeOperationException | OrmException e) {
+      changeEditDeleteContent.apply(changeResource.getControl(), filePath);
+    } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot delete file of change edit", e);
     }
   }
@@ -225,22 +218,9 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     }
   }
 
-  private ChangeEditResource getOrCreateChangeEditResource(String filePath)
-      throws InvalidChangeOperationException, RestApiException, OrmException,
-      IOException {
-    // For some cases, the REST API automatically creates a change edit resource
-    // if it doesn't exist. We mimic this behavior here.
-    try {
-      return getChangeEditResource(filePath);
-    } catch (ResourceNotFoundException e) {
-      create();
-      return getChangeEditResource(filePath);
-    }
-  }
-
   private ChangeEditResource getChangeEditResource(String filePath)
       throws ResourceNotFoundException, AuthException, IOException,
-      InvalidChangeOperationException, OrmException {
+      OrmException {
     return changeEdits.parse(changeResource, IdString.fromDecoded(filePath));
   }
 }

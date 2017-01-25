@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0c061b0_e7c91bc1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6046,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "an update",
+      "range": {
+        "startLine": 6046,
+        "startChar": 50,
+        "endLine": 6046,
+        "endChar": 56
+      },
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d3b2e8f_f93c8e59",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6047,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "You can think of \"e.g.\" as implying \"etc.\", so having both is redundant, but even better might be to use plain English like \"such as.\"",
+      "range": {
+        "startLine": 6047,
+        "startChar": 7,
+        "endLine": 6047,
+        "endChar": 54
+      },
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee5f1aa0_4334dead",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6067,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "a batch",
+      "range": {
+        "startLine": 6067,
+        "startChar": 42,
+        "endLine": 6067,
+        "endChar": 47
+      },
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91b388ab_49b77e85",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6078,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "Author already has a meaning in the context of a change. Modifier? Updater?",
+      "range": {
+        "startLine": 6078,
+        "startChar": 2,
+        "endLine": 6078,
+        "endChar": 8
+      },
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2694c46_26b84eaf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6079,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "Maybe simpler to say \"made this reviewer update\" (also below).",
+      "range": {
+        "startLine": 6079,
+        "startChar": 18,
+        "endLine": 6079,
+        "endChar": 63
+      },
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d32ff55e_42965996",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "Is tag @Nullable?",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9a9def9_a390d6a5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "Having an enum like this in an abstract base class seems redundant to me (though I see the purpose it serves in the API). Do we have a better way of doing this?",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21990ca3_ffda2574",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerUpdateInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "Is prevState @Nullable?",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caa4194b_629bcaa8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerStatusUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "Why abbreviate?",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 39
+      },
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1b1b9d2_f8ea917d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "I like having the time unit in the variable name itself (REVIEWER_UPDATE_THRESHOLD_MILLIS). This also needs a comment describing what it\u0027s for.",
+      "range": {
+        "startLine": 176,
+        "startChar": 28,
+        "endLine": 176,
+        "endChar": 53
+      },
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "937abd3b_c37603c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-25T00:34:04Z",
+      "side": 1,
+      "message": "This algorithm is hard to follow, some brief comments for your tracking state here would help. I think it might be easier to follow if it were an inner class, so you could break out certain components of the algorithm (like the repeated logic when you close out a batch).",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

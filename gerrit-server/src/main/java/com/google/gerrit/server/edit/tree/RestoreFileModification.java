@@ -30,24 +30,23 @@ import java.util.List;
  */
 public class RestoreFileModification implements TreeModification {
 
-  private final RevCommit currentCommit;
   private final String filePath;
 
-  public RestoreFileModification(RevCommit currentCommit, String filePath) {
-    this.currentCommit = currentCommit;
+  public RestoreFileModification(String filePath) {
     this.filePath = filePath;
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository)
+  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository,
+      RevCommit baseCommit)
       throws IOException {
-    if (currentCommit.getParentCount() == 0) {
+    if (baseCommit.getParentCount() == 0) {
       DirCacheEditor.DeletePath deletePath =
           new DirCacheEditor.DeletePath(filePath);
       return Collections.singletonList(deletePath);
     }
 
-    RevCommit base = currentCommit.getParent(0);
+    RevCommit base = baseCommit.getParent(0);
     try (RevWalk revWalk = new RevWalk(repository)) {
       revWalk.parseHeaders(base);
       try (TreeWalk treeWalk = TreeWalk.forPath(revWalk.getObjectReader(),

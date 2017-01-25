@@ -49,6 +49,7 @@ breaking changes to gr-change-actions won’t be noticed.
 
     setup(function() {
       element = fixture('basic');
+      element.change = {};
       var plugin;
       Gerrit.install(function(p) { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');

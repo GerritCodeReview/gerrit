@@ -99,11 +99,9 @@ limitations under the License.
     });
 
     test('_shouldHideActions', function() {
-      assert.isTrue(element._shouldHideActions(undefined, undefined, true));
-      assert.isTrue(element._shouldHideActions({base: {}},
-          {base: []}, false));
-      assert.isFalse(element._shouldHideActions({base: { test: 'test' }},
-          {base: ['test']}, false));
+      assert.isTrue(element._shouldHideActions(undefined, true));
+      assert.isTrue(element._shouldHideActions({base: {}}, false));
+      assert.isFalse(element._shouldHideActions({base: ['test']}, false));
     });
 
     test('hide revision action', function(done) {
@@ -114,10 +112,10 @@ limitations under the License.
         assert.throws(element.setActionHidden.bind(element, 'invalid type'));
         element.setActionHidden(element.ActionType.REVISION,
             element.RevisionActions.SUBMIT, true);
-        assert.lengthOf(element._hiddenRevisionActions, 1);
+        assert.lengthOf(element._hiddenActions, 1);
         element.setActionHidden(element.ActionType.REVISION,
             element.RevisionActions.SUBMIT, true);
-        assert.lengthOf(element._hiddenRevisionActions, 1);
+        assert.lengthOf(element._hiddenActions, 1);
         flush(function() {
           var buttonEl = element.$$('[data-action-key="submit"]');
           assert.isOk(buttonEl);
@@ -143,10 +141,10 @@ limitations under the License.
         assert.throws(element.setActionHidden.bind(element, 'invalid type'));
         element.setActionHidden(element.ActionType.CHANGE,
             element.ChangeActions.DELETE, true);
-        assert.lengthOf(element._hiddenChangeActions, 1);
+        assert.lengthOf(element._hiddenActions, 1);
         element.setActionHidden(element.ActionType.CHANGE,
             element.ChangeActions.DELETE, true);
-        assert.lengthOf(element._hiddenChangeActions, 1);
+        assert.lengthOf(element._hiddenActions, 1);
         flush(function() {
           var buttonEl = element.$$('[data-action-key="/"]');
           assert.isOk(buttonEl);
@@ -203,6 +201,18 @@ limitations under the License.
         },
       };
       assert.deepEqual(element._getRevision(change, '2'), revObj);
+    });
+
+    test('_actionComparator sort order', function() {
+      var actions = [
+        {label: '123', type: 'change', __key: 'review'},
+        {label: 'abc',type: 'revision'},
+        {label: 'abc',type: 'change'},
+        {label: 'def', type: 'change'},
+        {label: 'def', type: 'change',__primary: true},
+      ];
+      var result = actions.slice().sort(element._actionComparator);
+      assert.deepEqual(result, actions);
     });
 
     test('submit change', function(done) {

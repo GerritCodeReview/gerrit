@@ -94,6 +94,23 @@
     },
     {
       "key": {
+        "uuid": "41f08547_97870255",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-01-25T12:03:54Z",
+      "side": 1,
+      "message": "right- can you make this clear in the doc?",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_f6e1e0e2",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1595e3b6_7965b341",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-25T01:04:26Z",
+      "side": 0,
+      "message": "Was this blank line intentionally removed?",
+      "revId": "1e707e3b1a6fe8613f7d83d73947e16658ce7991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

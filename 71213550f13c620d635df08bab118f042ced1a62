@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "76747a96_fc4fafa0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5155,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-25T10:33:06Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94326392_a9d13a9c",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9
@@ -30,6 +47,29 @@
       "writtenOn": "2017-01-25T09:57:33Z",
       "side": 1,
       "message": "better: Not set if the current change index doesn\u0027t contain this data.",
+      "range": {
+        "startLine": 5156,
+        "startChar": 31,
+        "endLine": 5156,
+        "endChar": 65
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e3c5f1b_98624e82",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5156,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-25T10:33:06Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 5156,
         "startChar": 31,
@@ -65,6 +105,29 @@
     },
     {
       "key": {
+        "uuid": "7653df6c_db42e52b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-25T10:33:06Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 374,
+        "startChar": 65,
+        "endLine": 374,
+        "endChar": 71
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db814786_608d73da",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 9
@@ -76,6 +139,29 @@
       "writtenOn": "2017-01-25T09:57:33Z",
       "side": 1,
       "message": "[optional] skip uploading a second patch set as the number of patch sets seems not to be relevant for this test",
+      "range": {
+        "startLine": 373,
+        "startChar": 4,
+        "endLine": 375,
+        "endChar": 48
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0e15fd2_5e4a8ac6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-25T10:33:06Z",
+      "side": 1,
+      "message": "Modified. Make sure that the unresolved comments from all the patch sets are counted. But this test will work better when we require user to resolve robot comments.",
       "range": {
         "startLine": 373,
         "startChar": 4,
@@ -111,6 +197,29 @@
     },
     {
       "key": {
+        "uuid": "281f2311_4fcd0f1f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-25T10:33:06Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 384,
+        "startChar": 21,
+        "endLine": 384,
+        "endChar": 25
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3d03819_31d95aac",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 9
@@ -122,6 +231,29 @@
       "writtenOn": "2017-01-25T09:57:33Z",
       "side": 1,
       "message": "content",
+      "range": {
+        "startLine": 657,
+        "startChar": 65,
+        "endLine": 657,
+        "endChar": 71
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca0c8ea9_bedb00bf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-25T10:33:06Z",
+      "side": 1,
+      "message": "This is intended to add a comment about this typo.\nIn the next PS, a comment is posted to PS 1 to make sure that we counting comments from all patch sets.",
       "range": {
         "startLine": 657,
         "startChar": 65,
@@ -162,6 +294,29 @@
       "writtenOn": "2017-01-25T09:57:33Z",
       "side": 1,
       "message": "remove this null check since num can never be null",
+      "range": {
+        "startLine": 1029,
+        "startChar": 30,
+        "endLine": 1029,
+        "endChar": 43
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73d2ca1a_42fc5a9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-25T10:33:06Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 1029,
         "startChar": 30,

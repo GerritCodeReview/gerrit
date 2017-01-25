@@ -129,25 +129,17 @@
         type: Boolean,
         value: true,
       },
-      _revisionActionValues: {
+
+      _allActionValues: {
         type: Array,
-        computed: '_computeRevisionActionValues(revisionActions.*, ' +
-            'primaryActionKeys.*, _additionalActions.*)',
-      },
-      _changeActionValues: {
-        type: Array,
-        computed: '_computeChangeActionValues(actions.*, ' +
+        computed: '_computeAllActions(actions.*, revisionActions.*,'
             'primaryActionKeys.*, _additionalActions.*, change)',
       },
       _additionalActions: {
         type: Array,
         value: function() { return []; },
       },
-      _hiddenChangeActions: {
-        type: Array,
-        value: function() { return []; },
-      },
-      _hiddenRevisionActions: {
+      _hiddenActions: {
         type: Array,
         value: function() { return []; },
       },
@@ -220,20 +212,15 @@
     },
 
     setActionHidden: function(type, key, hidden) {
-      var path;
-      if (type === ActionType.CHANGE) {
-        path = '_hiddenChangeActions';
-      } else if (type === ActionType.REVISION) {
-        path = '_hiddenRevisionActions';
-      } else {
+      if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
         throw Error('Invalid action type given: ' + type);
       }
 
-      var idx = this.get(path).indexOf(key);
+      var idx = this._hiddenActions.indexOf(key);
       if (hidden && idx === -1) {
-        this.push(path, key);
+        this.push('_hiddenActions', key);
       } else if (!hidden && idx !== -1) {
-        this.splice(path, idx, 1);
+        this.splice('_hiddenActions', idx, 1);
       }
     },
 
@@ -251,16 +238,8 @@
           this.patchNum);
     },
 
-    _shouldHideActions: function(actionsRecord, additionalActionsRecord,
-        loading) {
-      if (loading) { return true; }
-      return !this._actionCount(actionsRecord, additionalActionsRecord);
-    },
-
-    _actionCount: function(actionsRecord, additionalActionsRecord) {
-      var additionalActions = (additionalActionsRecord &&
-          additionalActionsRecord.base) || [];
-      return this._keyCount(actionsRecord) + additionalActions.length;
+    _shouldHideActions: function(actions, loading) {
+      return loading || !actions || !actions.base || !actions.base.length;
     },
 
     _keyCount: function(changeRecord) {
@@ -280,24 +259,6 @@
       return Object.keys(obj).map(function(key) {
         return obj[key];
       });
-    },
-
-    _computeRevisionActionValues: function(actionsChangeRecord,
-        primariesChangeRecord, additionalActionsChangeRecord) {
-      return this._getActionValues(actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, ActionType.REVISION);
-    },
-
-    _computeChangeActionValues: function(actionsChangeRecord,
-        primariesChangeRecord, additionalActionsChangeRecord, change) {
-      var actions = this._getActionValues(
-          actionsChangeRecord, primariesChangeRecord,
-          additionalActionsChangeRecord, ActionType.CHANGE, change);
-      var quickApprove = this._getQuickApproveAction();
-      if (quickApprove) {
-        actions.unshift(quickApprove);
-      }
-      return actions;
     },
 
     _getLabelStatus: function(label) {
@@ -473,7 +434,7 @@
       } else if (key === ChangeActions.ABANDON) {
         this._showActionDialog(this.$.confirmAbandonDialog);
       } else if (key === QUICK_APPROVE_ACTION.key) {
-        var action = this._changeActionValues.find(function(o) {
+        var action = this._allActionValues.find(function(o) {
           return o.key === key;
         });
         this._fireAction(
@@ -663,6 +624,61 @@
         cleanupFn.call(this);
         return response;
       }.bind(this)).then(this._handleResponseError.bind(this));
+    },
+
+    /**
+     * Merge sources of change actions into a single ordered array of action
+     * values.
+     * @param {splices} changeActionsRecord
+     * @param {splices} revisionActionsRecord
+     * @param {splices} primariesRecord
+     * @param {splices} additionalActionsRecord
+     * @param {Object} change The change object.
+     * @return {Array}
+     */
+    _computeAllActions: function(changeActionsRecord, revisionActionsRecord,
+        primariesRecord, additionalActionsRecord, change) {
+      var revisionActionValues = this._getActionValues(revisionActionsRecord,
+          primariesRecord, additionalActionsRecord, ActionType.REVISION);
+      var changeActionValues = this._getActionValues(changeActionsRecord,
+          primariesRecord, additionalActionsRecord, ActionType.CHANGE, change);
+      var quickApprove = this._getQuickApproveAction();
+      if (quickApprove) {
+        changeActionValues.unshift(quickApprove);
+      }
+      return []
+          .concat(revisionActionValues)
+          .concat(changeActionValues)
+          .sort(this._actionComparator);
+    },
+
+    /**
+     * Sort comparator to define the order of change actions.
+     */
+    _actionComparator: function(actionA, actionB) {
+      // The code review action always appears first.
+      if (actionA.__key === 'review') {
+        return -1;
+      } else if (actionB.__key === 'review') {
+        return 1;
+      }
+
+      // Primary actions always appear last.
+      if (actionA.__primary) {
+        return 1;
+      } else if (actionB.__primary) {
+        return -1;
+      }
+
+      // Change actions appear before revision actions.
+      if (actionA.__type === 'change' && actionB.__type === 'revision') {
+        return -1;
+      } else if (actionA.__type === 'revision' && actionB.__type === 'change') {
+        return 1;
+      }
+
+      // Otherwise, sort by the button label.
+      return actionA.label > actionB.label ? 1 : -1;
     },
   });
 })();

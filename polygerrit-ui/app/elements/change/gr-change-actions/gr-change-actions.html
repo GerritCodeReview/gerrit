@@ -63,25 +63,14 @@ limitations under the License.
       }
     </style>
     <div>
-      <section hidden$="[[_shouldHideActions(actions.*, _additionalActions.*, _loading)]]">
-        <template is="dom-repeat" items="[[_changeActionValues]]" as="action">
+      <section hidden$="[[_shouldHideActions(_allActionValues.*, _loading)]]">
+        <template
+            is="dom-repeat"
+            items="[[_allActionValues]]"
+            as="action">
           <gr-button title$="[[action.title]]"
-              hidden$="[[_computeActionHidden(action.__key, _hiddenChangeActions.*)]]"
+              hidden$="[[_computeActionHidden(action.__key, _hiddenActions.*)]]"
               primary$="[[action.__primary]]"
-              hidden$="[[!action.enabled]]"
-              data-action-key$="[[action.__key]]"
-              data-action-type$="[[action.__type]]"
-              data-label$="[[action.label]]"
-              data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
-              on-tap="_handleActionTap"></gr-button>
-        </template>
-      </section>
-      <section hidden$="[[_shouldHideActions(revisionActions.*, _additionalActions.*, _loading)]]">
-        <template is="dom-repeat" items="[[_revisionActionValues]]" as="action">
-          <gr-button title$="[[action.title]]"
-              hidden$="[[_computeActionHidden(action.__key, _hiddenRevisionActions.*)]]"
-              primary$="[[action.__primary]]"
-              disabled$="[[!action.enabled]]"
               data-action-key$="[[action.__key]]"
               data-action-type$="[[action.__type]]"
               data-label$="[[action.label]]"

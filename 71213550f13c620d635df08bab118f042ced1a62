@@ -266,6 +266,29 @@
     },
     {
       "key": {
+        "uuid": "d11bc3e9_a9b1ebfb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T10:40:59Z",
+      "side": 1,
+      "message": "ok",
+      "range": {
+        "startLine": 657,
+        "startChar": 65,
+        "endLine": 657,
+        "endChar": 71
+      },
+      "revId": "71213550f13c620d635df08bab118f042ced1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee1809a9_9b43d736",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 9

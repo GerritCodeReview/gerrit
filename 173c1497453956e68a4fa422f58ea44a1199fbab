@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47e848b8_c8eae14d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T10:43:03Z",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "173c1497453956e68a4fa422f58ea44a1199fbab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

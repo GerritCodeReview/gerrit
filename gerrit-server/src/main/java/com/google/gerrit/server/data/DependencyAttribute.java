@@ -16,7 +16,7 @@ package com.google.gerrit.server.data;
 
 public class DependencyAttribute {
   public String id;
-  public String number;
+  public int number;
   public String revision;
   public String ref;
   public Boolean isCurrentPatchSet;

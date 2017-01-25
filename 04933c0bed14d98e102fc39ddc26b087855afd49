@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bd86838_ab578c79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T07:44:52Z",
+      "side": 1,
+      "message": "extension point",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "086cc29f_5a661452",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T07:44:52Z",
+      "side": 1,
+      "message": "{@code true}",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49e0b816_cfafaba2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-25T07:44:52Z",
+      "side": 1,
+      "message": "{@code false}",
+      "range": {
+        "startLine": 31,
+        "startChar": 57,
+        "endLine": 31,
+        "endChar": 62
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

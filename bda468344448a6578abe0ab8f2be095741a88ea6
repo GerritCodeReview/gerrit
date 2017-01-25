@@ -22,6 +22,23 @@
       "revId": "bda468344448a6578abe0ab8f2be095741a88ea6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e63cf761_6a948902",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-25T19:05:20Z",
+      "side": 1,
+      "message": "Followed up on this offline. The answer is a *soft* yes.",
+      "revId": "bda468344448a6578abe0ab8f2be095741a88ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "0059ad1f_e9f6e57c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-25T10:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40ed42eb_e28566ae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
         "patchSetId": 1
@@ -255,6 +278,29 @@
     },
     {
       "key": {
+        "uuid": "cebe05d6_41f2254c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-25T10:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5932141_6b5b576c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
         "patchSetId": 1
@@ -266,6 +312,29 @@
       "writtenOn": "2017-01-25T08:15:58Z",
       "side": 1,
       "message": "Would it be better to invert this logic?  I.e. change it to something like \"shouldProcessMessage\"?",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 30
+      },
+      "revId": "04933c0bed14d98e102fc39ddc26b087855afd49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b30b4077_dd464c10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MailFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-01-25T10:39:54Z",
+      "side": 1,
+      "message": "Yeah I was undecided between the two, so let\u0027s change it.",
       "range": {
         "startLine": 33,
         "startChar": 10,

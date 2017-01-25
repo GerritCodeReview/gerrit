@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "e32e98a5_f4be6c92",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-25T14:57:57Z",
+      "side": 1,
+      "message": "Done in predecessor",
+      "revId": "a8c2799638330186c589893d7170cf0d3611a27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53d88e78_5a81279e",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
         "patchSetId": 3
@@ -42,6 +59,23 @@
         "endLine": 282,
         "endChar": 29
       },
+      "revId": "a8c2799638330186c589893d7170cf0d3611a27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8006754_0ce16e96",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-25T14:57:57Z",
+      "side": 1,
+      "message": "This was for consistency, but I cleaned it all up in the predecessor and removed it here.",
       "revId": "a8c2799638330186c589893d7170cf0d3611a27f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

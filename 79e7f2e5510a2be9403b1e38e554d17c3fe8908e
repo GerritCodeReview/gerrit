@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "727195de_4e3bafd4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-25T01:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "79e7f2e5510a2be9403b1e38e554d17c3fe8908e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08ad7020_e5a9ee06",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown_test.html",
         "patchSetId": 1
@@ -45,6 +62,23 @@
       "revId": "79e7f2e5510a2be9403b1e38e554d17c3fe8908e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "927dae95_9092ddca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-25T01:29:03Z",
+      "side": 1,
+      "message": "Works for me.",
+      "revId": "79e7f2e5510a2be9403b1e38e554d17c3fe8908e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

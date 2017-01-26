@@ -22,6 +22,23 @@
       "revId": "e91c678a0e0cb61e9c993e08ec14f163a6cc99d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3f59ac_17564648",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-26T21:22:24Z",
+      "side": 1,
+      "message": "Yeah, I wasn\u0027t sure what a response would look like if there were no revision actions, but a server error is probably the cause. \n\nIt seems like this is what caused the popup (in gr-error-manager): \n\n_handleServerError: function(e) {\n      if (e.detail.response.status \u003d\u003d\u003d 403) {\n        this._getLoggedIn().then(function(loggedIn) {\n          if (loggedIn) {\n            // The app was logged at one point and is now getting auth errors.\n            // This indicates the auth token is no longer valid.\n            this._showAuthErrorAlert();\n          }\n        }.bind(this));\n      } else {\n        e.detail.response.text().then(function(text) {\n          if (!this._shouldSuppressError(text)) {\n            this._showAlert(\u0027Server error: \u0027 + text);\n          }\n        }.bind(this));\n      }\n    },\n\nIt seems this behaved as expected? Is there anything we can do to address this bug?",
+      "revId": "e91c678a0e0cb61e9c993e08ec14f163a6cc99d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

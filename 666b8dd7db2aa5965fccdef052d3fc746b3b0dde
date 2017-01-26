@@ -33,6 +33,23 @@
       "revId": "666b8dd7db2aa5965fccdef052d3fc746b3b0dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8877c88a_d6565c11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-01-26T00:53:13Z",
+      "side": 1,
+      "message": "If this is expected but useful for debugging, please use log.debug.\n\nThat way it is not there to distract when looking at warning logs for production problems.",
+      "revId": "666b8dd7db2aa5965fccdef052d3fc746b3b0dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

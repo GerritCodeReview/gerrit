@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "401744d8_d3a1c244",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 26, 2017 10:51:45 AM",
+      "side": 1,
+      "message": "I don\u0027t see how this avoids the problem of making index calls in a loop.\n\nSay you have 10 commits between the commit you\u0027re submitting and the current branch tip, each corresponding to an open change. None of those commits are already merged into this or any branch, because they\u0027re open changes. isAlreadyMerged won\u0027t return false until it\u0027s done the index lookup.\n\nSo this loop iterates through 10 commits and makes one index lookup per iteration. That\u0027s what I want to avoid.\n\nYou just want to look up merged changes corresponding to each of these commits, right? You should be able to generalize InternalChangeQuery#byCommitsOnBranchNotMerged to look it up in one or a few batches.",
+      "revId": "f906827ee2d9e956c5cb3f8171616aa52ae3504f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19484ae3_d592f2c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 26, 2017 10:51:45 AM",
+      "side": 1,
+      "message": "This also seems like it will be extremely slow. alreadyAccepted contains branch tips; you\u0027re asking it to check whether a given branch tip is merged into this commit. It does this by walking from `commit` to `accepted`, and needs to walk all history before it can return false.",
+      "revId": "f906827ee2d9e956c5cb3f8171616aa52ae3504f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

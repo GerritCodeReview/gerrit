@@ -50,6 +50,23 @@
       "revId": "666b8dd7db2aa5965fccdef052d3fc746b3b0dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f9b0ae0_ee58f1f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T19:28:48Z",
+      "side": 1,
+      "message": "\u003e If this is expected but useful for debugging, please use log.debug.\n\nConverted to `log.debug` and included the exception details again.\n\n\u003e what information would help track that down?\n\nThis is being discussed in the internal bug. I\u0027m afraid I don\u0027t have any special knowledge of how these exceptions occur since my involvement with this code starts with [1] where I migrated it from a `catch (Throwable e) {` to catching the specific exception types I could observe by interaction and by running tests. In this case, the exception originates in a test.\n\n[1] https://gerrit-review.googlesource.com/c/88331/",
+      "revId": "666b8dd7db2aa5965fccdef052d3fc746b3b0dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

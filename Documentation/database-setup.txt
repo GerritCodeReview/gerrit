@@ -74,6 +74,73 @@ rights on it:
 Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
 information regarding using MySQL.
 
+[[createdb_mariadb]]
+=== MariaDB
+
+This is recommended for mariadb installs that want to use utf8mb4 and utf8mb4_unicode_ci and also
+recommended if you want to support emojis.
+
+You will need to set these
+
+----
+innodb_file_format=BARRACUDA
+innodb_large_prefix=ON
+----
+
+In your mysql configuation file, for example my.cnf under [mysqld] section.
+
+You will also need to add ROW_FORMAT=DYNAMIC to your gerrit db tables for you to be able to use utf8mb4.
+
+To do this please do
+
+----
+mysql -p -BN reviewdb -e "SHOW TABLES" | while read table; do mysql -p reviewdb -e "ALTER TABLE $table ROW_FORMAT=DYNAMIC"; done
+----
+
+replace reviewdb with your db name.
+
+You will need to also set this in your gerrit.config file to support utf8mb4.
+
+----
+url = jdbc:mariadb://localhost/reviewdb?sessionVariables=character_set_client=utf8mb4,
+character_set_results=utf8mb4,character_set_connection=utf8mb4,collation_connection=utf8mb4_unicode_ci,
+collation_database=utf8mb4_unicode_ci,collation_server=utf8mb4_unicode_ci
+----
+
+To convert your existing install please follow the above and these extra steps.
+
+----
+mysql -e "ALTER DATABASE reviewdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+
+mysql -p -BN reviewdb -e "SHOW TABLES" | while read table;
+do mysql -p reviewdb -e "ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"; done
+----
+
+You can for example do the following
+
+url = jdbc:mariadb://localhost/reviewdb?sessionVariables=character_set_client=utf8mb4,
+character_set_results=utf8mb4,character_set_connection=utf8mb4,collation_connection=utf8mb4_unicode_ci,
+collation_database=utf8mb4_unicode_ci,collation_server=utf8mb4_unicode_ci
+
+This option is also more complicated than the H2 option. Just as with
+PostgreSQL it's also recommended for larger installations.
+
+Create a user for the web application within the database, assign it a
+password, create a database, and give the newly created user full
+rights on it:
+
+----
+  MariaDB
+
+  CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
+  CREATE DATABASE reviewdb;
+  GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
+  FLUSH PRIVILEGES;
+----
+
+Visit MariaDB's link:https://mariadb.com/kb/en/mariadb/[documentation] for further
+information regarding using MariaDB.
+
 [[createdb_oracle]]
 === Oracle
 

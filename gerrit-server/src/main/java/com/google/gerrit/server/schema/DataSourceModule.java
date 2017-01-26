@@ -25,6 +25,7 @@ public class DataSourceModule extends AbstractModule {
     bind(DataSourceType.class).annotatedWith(Names.named("derby")).to(Derby.class);
     bind(DataSourceType.class).annotatedWith(Names.named("h2")).to(H2.class);
     bind(DataSourceType.class).annotatedWith(Names.named("jdbc")).to(JDBC.class);
+    bind(DataSourceType.class).annotatedWith(Names.named("mariadb")).to(MariaDB.class);
     bind(DataSourceType.class).annotatedWith(Names.named("mysql")).to(MySql.class);
     bind(DataSourceType.class).annotatedWith(Names.named("oracle")).to(Oracle.class);
     bind(DataSourceType.class).annotatedWith(Names.named("postgresql")).to(PostgreSQL.class);

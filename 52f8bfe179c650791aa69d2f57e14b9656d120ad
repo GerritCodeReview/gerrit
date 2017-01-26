@@ -287,6 +287,23 @@
     },
     {
       "key": {
+        "uuid": "e9bf7e94_de27909b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-26T20:44:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure if what I did is exactly that, but it\u0027s kind of the same thing IMHO.\nGson is used for serizalization, btw:\nhttps://github.com/google/gson/blob/master/UserGuide.md",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21990ca3_ffda2574",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerUpdateInfo.java",
         "patchSetId": 10
@@ -466,6 +483,23 @@
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6751eaea_b635d526",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-26T20:44:26Z",
+      "side": 1,
+      "message": "Done.",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

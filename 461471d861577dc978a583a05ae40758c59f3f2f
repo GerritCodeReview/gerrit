@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "a976e23f_a91499e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T19:16:41Z",
+      "side": 1,
+      "message": "While there are certainly exceptions, the rule is always with the name.",
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0536c02b_7522022c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 4
@@ -76,6 +93,23 @@
       "writtenOn": "2017-01-26T17:07:08Z",
       "side": 1,
       "message": "The REST API only mentions a PUT operation for /changes/{change-id}/edit/path%2fto%2ffile, that is with a \u0027path to file\u0027. If a change edit exists, the code of ChangeEdits.Put.apply(ChangeEditResource, Input) will be executed. If a change edit doesn\u0027t exist, the else-branch (below) will be executed. The REST API doesn\u0027t mention that the \u0027path to file\u0027 may be empty. It also doesn\u0027t mention a PUT operation for /changes/{change-id}/edit. The latter one isn\u0027t specified anywhere in the code as far as I could see.\nI don\u0027t know in detail how the GWT UI handles change edits but I don\u0027t think that it\u0027s possible to create an empty change edit on the UI and save it. When you toggle the Edit button, the edit mode is activated but that state is lost when you leave the change without applying any modifications.\nFrom the tests, I didn\u0027t find a way to execute this line of code. I adjusted ChangeEditIT.emptyPutRequest() locally to not create an empty change and use PUT without a file path. As a result, I got a 404. When I left the file path as currently in the test, I ended up in the else-branch. So, the positive if-case seems to be dead code.",
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba2c56b6_01cf8d5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T19:16:41Z",
+      "side": 1,
+      "message": "Yes. You are right the UI doesn\u0027t support to create unmodified edits. I think that the very change edit first implementation allowed that. There was a code path, that allowed to create edit first and populate it later. It can be, that this code path is a left over of this use case.\n\nThere are two different use cases: edit is missing and edit exists. It\u0027s handled by parse() method above. RestApiServlet calls parse() on the collection. the parse() method either returns a valid resource or throw ResourceNotFoundException exception. Then RestApiServlet recovers from that and because this collection implements AcceptsCreate, create() method is called. And then the PUT method is propagated here.\n\nSo you are right, this code path is dead code and must be removed (it\u0027s fine to remove in a follow-up change).",
       "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +190,23 @@
       "writtenOn": "2017-01-26T17:07:08Z",
       "side": 1,
       "message": "I\u0027m going to remove this code in a follow-up change. If I\u0027m wrong on this and a bug is introduced because of the removal, someone can simply revert that change while all other adjustments of this change are still active. In addition, having a separate commit will also help to document why this code is removed.",
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e72c840_36f18cb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T19:16:41Z",
+      "side": 1,
+      "message": "Ok.",
       "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

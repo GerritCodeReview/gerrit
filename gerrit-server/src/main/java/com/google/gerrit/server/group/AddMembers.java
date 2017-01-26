@@ -46,10 +46,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -216,7 +216,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds)
       throws OrmException {
-    List<AccountInfo> result = new LinkedList<>();
+    List<AccountInfo> result = new ArrayList<>();
     AccountLoader loader = infoFactory.create(true);
     for (Account.Id accId : accountIds) {
       result.add(loader.get(accId));

@@ -35,8 +35,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +71,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
 
     final GroupControl control = resource.getControl();
     final Map<AccountGroup.UUID, AccountGroupById> includedGroups = getIncludedGroups(internalGroup.getId());
-    final List<AccountGroupById> toRemove = new LinkedList<>();
+    final List<AccountGroupById> toRemove = new ArrayList<>();
 
     for (final String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);

@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class WatchedProjectsIT extends AbstractDaemonTest {
@@ -64,7 +63,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     String projectName1 = createProject(NEW_PROJECT_NAME).get();
     String projectName2 = createProject(NEW_PROJECT_NAME + "2").get();
 
-    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = projectName1;
@@ -98,7 +97,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
   public void setConflictingWatches() throws Exception {
     String projectName = createProject(NEW_PROJECT_NAME).get();
 
-    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = projectName;
@@ -122,7 +121,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
   public void setAndGetEmptyWatch() throws Exception {
     String projectName = createProject(NEW_PROJECT_NAME).get();
 
-    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = projectName;
@@ -157,7 +156,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
     // Let another user watch a project
     setApiUser(admin);
-    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = projectName;
@@ -183,7 +182,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
 
     // Let another user watch a project
     setApiUser(admin);
-    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = projectName;
@@ -214,7 +213,7 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
       throws Exception {
     String projectName = project.get();
 
-    List<ProjectWatchInfo> projectsToWatch = new LinkedList<>();
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
 
     ProjectWatchInfo pwi = new ProjectWatchInfo();
     pwi.project = projectName;

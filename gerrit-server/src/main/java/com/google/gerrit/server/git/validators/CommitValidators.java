@@ -61,8 +61,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -188,7 +188,7 @@ public class CommitValidators {
 
   public List<CommitValidationMessage> validate(
       CommitReceivedEvent receiveEvent) throws CommitValidationException {
-    List<CommitValidationMessage> messages = new LinkedList<>();
+    List<CommitValidationMessage> messages = new ArrayList<>();
     try {
       for (CommitValidationListener commitValidator : validators) {
         messages.addAll(commitValidator.onCommitReceived(receiveEvent));
@@ -245,7 +245,7 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       RevCommit commit = receiveEvent.commit;
-      List<CommitValidationMessage> messages = new LinkedList<>();
+      List<CommitValidationMessage> messages = new ArrayList<>();
       List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
       String sha1 = commit.abbreviate(SHA1_LENGTH).name();
 
@@ -372,7 +372,7 @@ public class CommitValidators {
       IdentifiedUser currentUser = refControl.getUser().asIdentifiedUser();
 
       if (REFS_CONFIG.equals(refControl.getRefName())) {
-        List<CommitValidationMessage> messages = new LinkedList<>();
+        List<CommitValidationMessage> messages = new ArrayList<>();
 
         try {
           ProjectConfig cfg =
@@ -398,7 +398,7 @@ public class CommitValidators {
       if (allUsers.equals(
               refControl.getProjectControl().getProject().getNameKey())
           && RefNames.isRefsUsers(refControl.getRefName())) {
-        List<CommitValidationMessage> messages = new LinkedList<>();
+        List<CommitValidationMessage> messages = new ArrayList<>();
         Account.Id accountId = Account.Id.fromRef(refControl.getRefName());
         if (accountId != null) {
           try {
@@ -459,7 +459,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      List<CommitValidationMessage> messages = new LinkedList<>();
+      List<CommitValidationMessage> messages = new ArrayList<>();
 
       for (CommitValidationListener validator : commitValidationListeners) {
         try {
@@ -531,7 +531,7 @@ public class CommitValidators {
 
       if (!currentUser.hasEmailAddress(author.getEmailAddress())
           && !refControl.canForgeAuthor()) {
-        List<CommitValidationMessage> messages = new LinkedList<>();
+        List<CommitValidationMessage> messages = new ArrayList<>();
 
         messages.add(getInvalidEmailError(receiveEvent.commit, "author", author,
             currentUser, canonicalWebUrl));
@@ -560,7 +560,7 @@ public class CommitValidators {
       final PersonIdent committer = receiveEvent.commit.getCommitterIdent();
       if (!currentUser.hasEmailAddress(committer.getEmailAddress())
           && !refControl.canForgeCommitter()) {
-        List<CommitValidationMessage> messages = new LinkedList<>();
+        List<CommitValidationMessage> messages = new ArrayList<>();
         messages.add(getInvalidEmailError(receiveEvent.commit, "committer", committer,
             currentUser, canonicalWebUrl));
         throw new CommitValidationException("invalid committer", messages);

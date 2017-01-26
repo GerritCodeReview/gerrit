@@ -30,3 +30,4 @@
 *~
 .primary_build_tool
 .gwt_work_dir
+/buck-out/

@@ -49,9 +49,9 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -148,7 +148,7 @@ public class CreateAccount
       }
     }
 
-    LinkedList<AccountExternalId> externalIds = new LinkedList<>();
+    List<AccountExternalId> externalIds = new ArrayList<>();
     externalIds.add(extUser);
     for (AccountExternalIdCreator c : externalIdCreators) {
       externalIds.addAll(c.create(id, username, input.email));

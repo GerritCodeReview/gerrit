@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CherryPickDialog extends TextAreaActionDialog {
@@ -49,7 +49,7 @@ public abstract class CherryPickDialog extends TextAreaActionDialog {
     newBranch = new SuggestBox(new HighlightSuggestOracle() {
       @Override
       protected void onRequestSuggestions(Request request, Callback done) {
-        LinkedList<BranchSuggestion> suggestions = new LinkedList<>();
+        List<BranchSuggestion> suggestions = new ArrayList<>();
         for (final BranchInfo b : branches) {
           if (b.ref().contains(request.getQuery())) {
             suggestions.add(new BranchSuggestion(b));

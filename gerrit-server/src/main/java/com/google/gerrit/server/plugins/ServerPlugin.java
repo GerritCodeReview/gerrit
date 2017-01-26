@@ -31,7 +31,6 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -184,7 +183,7 @@ public class ServerPlugin extends Plugin {
     }
 
     if (env.hasSshModule()) {
-      List<Module> modules = new LinkedList<>();
+      List<Module> modules = new ArrayList<>();
       if (getApiType() == ApiType.PLUGIN) {
         modules.add(env.getSshModule());
       }
@@ -200,7 +199,7 @@ public class ServerPlugin extends Plugin {
     }
 
     if (env.hasHttpModule()) {
-      List<Module> modules = new LinkedList<>();
+      List<Module> modules = new ArrayList<>();
       if (getApiType() == ApiType.PLUGIN) {
         modules.add(env.getHttpModule());
       }

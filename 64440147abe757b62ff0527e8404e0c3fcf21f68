@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb005d54_7f698662",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2335,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-01-26T10:04:57Z",
+      "side": 1,
+      "message": "This could be quite dangerous if f.i. someone uploads a commit on \u0027experimental\u0027 as a hotfix on \u0027production\u0027. The change might look ok in it self, but if merged and the commit has dependencies on commits not yet in \u0027production\u0027 it could have some ugly side-effects.\nThis could be remedied if this behavior is conditioned to whether or not the \u0027newChangeForAllNotInTarget\u0027 flag is set, as that would also create changes for those commits and it would be apparent that something is not right.\nIMO this functionality fits well within the concept of \"creating a new change for all commits not on target\".",
+      "range": {
+        "startLine": 2324,
+        "startChar": 0,
+        "endLine": 2335,
+        "endChar": 11
+      },
+      "revId": "64440147abe757b62ff0527e8404e0c3fcf21f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

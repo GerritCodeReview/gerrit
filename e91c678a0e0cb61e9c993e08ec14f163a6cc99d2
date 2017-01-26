@@ -39,6 +39,23 @@
       "revId": "e91c678a0e0cb61e9c993e08ec14f163a6cc99d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "110d93b2_1260734a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T21:26:42Z",
+      "side": 1,
+      "message": "IMO this is as I expect the app to behave when it gets an invalid REST response (in most cases anyway). I think we should find a way to reproduce it before fixing it. We wouldn\u0027t want to swallow the error if the cause is serious.",
+      "revId": "e91c678a0e0cb61e9c993e08ec14f163a6cc99d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

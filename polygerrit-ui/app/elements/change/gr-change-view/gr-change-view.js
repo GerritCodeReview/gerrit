@@ -563,8 +563,8 @@
       return statusString || '';
     },
 
-    _computeShowCommitInfo: function(changeStatus) {
-      return changeStatus === 'Merged';
+    _computeShowCommitInfo: function(changeStatus, current_revision) {
+      return changeStatus === 'Merged' && current_revision;
     },
 
     _computeMergedCommitInfo: function(current_revision, revisions) {

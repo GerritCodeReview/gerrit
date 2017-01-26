@@ -49,6 +49,7 @@
       },
 
       _showActions: Boolean,
+      _lastComment: Object,
       _orderedComments: Array,
       _unresolved: {
         type: Boolean,
@@ -103,7 +104,14 @@
 
     _commentsChanged: function(changeRecord) {
       this._orderedComments = this._sortedComments(this.comments);
+      this._lastComment =
+          this._orderedComments[this._orderedComments.length - 1]; 
+
       this._unresolved = this._getLastComment().unresolved;
+    },
+
+    _hideActions: function(_showActions, _lastComment) {
+      return !_showActions || _lastComment.__draft;
     },
 
     _getLastComment: function() {
@@ -189,9 +197,9 @@
     },
 
     _handleCommentReply: function(e) {
-      var comment = e.detail.comment;
+      var comment = this._lastComment;
       var quoteStr;
-      if (e.detail.quote) {
+      if (e.target.classList.contains('quote')) {
         var msg = comment.message;
         quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       }
@@ -199,12 +207,12 @@
     },
 
     _handleCommentAck: function(e) {
-      var comment = e.detail.comment;
+      var comment = this._lastComment;
       this._createReplyComment(comment, 'Ack', false, comment.unresolved);
     },
 
     _handleCommentDone: function(e) {
-      var comment = e.detail.comment;
+      var comment = this._lastComment;
       this._createReplyComment(comment, 'Done', false, false);
     },
 

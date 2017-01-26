@@ -20,24 +20,6 @@
     is: 'gr-diff-comment',
 
     /**
-     * Fired when the Reply action is triggered.
-     *
-     * @event create-reply-comment
-     */
-
-    /**
-     * Fired when the Ack action is triggered.
-     *
-     * @event create-ack-comment
-     */
-
-    /**
-     * Fired when the Done action is triggered.
-     *
-     * @event create-done-comment
-     */
-
-    /**
      * Fired when the create fix comment action is triggered.
      *
      * @event create-fix-comment

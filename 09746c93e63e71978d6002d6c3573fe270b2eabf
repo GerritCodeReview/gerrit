@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "74bda683_320d0723",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-26T07:54:22Z",
+      "side": 1,
+      "message": "Since then an explicit dependency on jsr305 was added [2] but its usage is restricted to guava-retrying.\n\nThis isn\u0027t related to this change, so let\u0027s continue the discussion elsewhere later.\n\n[2] https://gerrit-review.googlesource.com/#/c/73885/",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "09746c93e63e71978d6002d6c3573fe270b2eabf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a58d37ac_c68fa340",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryDatabase.java",
         "patchSetId": 1

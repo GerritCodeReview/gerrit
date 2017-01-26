@@ -2679,9 +2679,9 @@ implications.
 An example LDAP configuration follows, and then discussion of
 the parameters introduced here.  Suitable defaults for most
 parameters are automatically guessed based on the type of server
-detected during startup.  The guessed defaults support both
-link:http://www.ietf.org/rfc/rfc2307.txt[RFC 2307] and Active
-Directory.
+detected during startup.  The guessed defaults support
+link:http://www.ietf.org/rfc/rfc2307.txt[RFC 2307], Active
+Directory and link:https://www.freeipa.org[FreeIPA].
 
 ----
 [ldap]
@@ -2785,7 +2785,7 @@ the `ldap.accountBase` tree.  A typical setting for this parameter
 is `(uid=${username})` or `(cn=${username})`, but the proper
 setting depends on the LDAP schema used by the directory server.
 +
-Default is `(uid=${username})` for RFC 2307 servers,
+Default is `(uid=${username})` for FreeIPA and RFC 2307 servers,
 and `(&(objectClass=user)(sAMAccountName=${username}))`
 for Active Directory.
 
@@ -2803,7 +2803,7 @@ example to join given name and surname together, use the pattern
 If set, users will be unable to modify their full name field, as
 Gerrit will populate it only from the LDAP data.
 +
-Default is `displayName` for RFC 2307 servers,
+Default is `displayName` for FreeIPA and RFC 2307 servers,
 and `${givenName} ${sn}` for Active Directory.
 
 [[ldap.accountEmailAddress]]ldap.accountEmailAddress::
@@ -2846,17 +2846,25 @@ username has been set it cannot be changed, therefore it is
 recommended not to make changes to this setting that would cause the
 value to differ, as this will prevent users from logging in.
 +
-Default is `uid` for RFC 2307 servers,
+Default is `uid` for FreeIPA and RFC 2307 servers,
 and `${sAMAccountName.toLowerCase}` for Active Directory.
 
 [[ldap.accountMemberField]]ldap.accountMemberField::
 +
 _(Optional)_ Name of an attribute on the user account object which
 contains the groups the user is part of. Typically used for Active
-Directory servers.
+Directory and FreeIPA servers.
 +
 Default is unset for RFC 2307 servers (disabled)
-and `memberOf` for Active Directory.
+and `memberOf` for Active Directory and FreeIPA.
+
+[[ldap.accountMemberExpandGroups]]ldap.accountMemberExpandGroups::
++
+_(Optional)_ Whether to expand nested groups recursively. This
+setting is used only if `ldap.accountMemberField` is set.
++
+Default is unset for FreeIPA and `true` for RFC 2307 servers
+and Active Directory.
 
 [[ldap.fetchMemberOfEagerly]]ldap.fetchMemberOfEagerly::
 +
@@ -2866,7 +2874,7 @@ use of the LDAP groups may benefit from setting this option to `false`
 as this will result in a much faster LDAP login.
 +
 Default is unset for RFC 2307 servers (disabled) and `true` for
-Active Directory.
+Active Directory and FreeIPA.
 
 [[ldap.groupBase]]ldap.groupBase::
 +
@@ -2895,7 +2903,7 @@ including the standard `(&...)` and `(|...)` operators.  The variable
 `${groupname}` is replaced with the search term supplied by the
 group owner.
 +
-Default is `(cn=${groupname})` for RFC 2307,
+Default is `(cn=${groupname})` for FreeIPA and RFC 2307 servers,
 and `(&(objectClass=group)(cn=${groupname}))` for Active Directory.
 
 [[ldap.groupMemberPattern]]ldap.groupMemberPattern::
@@ -2913,7 +2921,7 @@ from the user's account object matched under `ldap.accountBase`.
 Attributes such as `${dn}` or `${uidNumber}` may be useful.
 +
 Default is `(|(memberUid=${username})(gidNumber=${gidNumber}))` for
-RFC 2307, and unset (disabled) for Active Directory.
+RFC 2307, and unset (disabled) for Active Directory and FreeIPA.
 
 [[ldap.groupName]]ldap.groupName::
 +

@@ -270,6 +270,23 @@
     },
     {
       "key": {
+        "uuid": "4fd183c5_387cb8a8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-26T00:25:24Z",
+      "side": 1,
+      "message": "Is it possible to have an abstract class returning String that subclasses must implement, that gets mapped to JSON?",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "21990ca3_ffda2574",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ReviewerUpdateInfo.java",
         "patchSetId": 10
@@ -412,6 +429,23 @@
       "writtenOn": "2017-01-26T00:12:42Z",
       "side": 1,
       "message": "Doh.. looks like streams aren\u0027t the best for this, since there is correlation between sequential updates. %(",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "820dd5d5_7c8f69eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-26T00:25:24Z",
+      "side": 1,
+      "message": "If you make a \"builder\" class, I think you could relatively easily invoke this algorithm like so:\n\n  ReviewerUpdateInfoBuilder b \u003d new ReviewerUpdateInfoBuilder();\n  for (ReviewerStatusUpdate c : reviewerUpdates) {\n    b.add(c);\n  }\n  return b.build();\n\nThe build method would complete the current batch (if any), the add method would look at internal state to know whether to complete, push, and reset the current batch before adding to it, etc.",
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

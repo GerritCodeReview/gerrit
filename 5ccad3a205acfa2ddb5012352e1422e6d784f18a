@@ -39,6 +39,23 @@
       "revId": "5ccad3a205acfa2ddb5012352e1422e6d784f18a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3beb1547_b92e3dbd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-26T01:17:46Z",
+      "side": 1,
+      "message": "Sounds good to me. I figured a dict in the manner you laid out above would make for prettier utilization in the filter fn, because you could just do...\n\n  function(a) {\n    return MENU_ACTION_KEYS[a.__key];\n  }\n\nbut whatever color you wanna paint this bikeshed is fine with me :)",
+      "revId": "5ccad3a205acfa2ddb5012352e1422e6d784f18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

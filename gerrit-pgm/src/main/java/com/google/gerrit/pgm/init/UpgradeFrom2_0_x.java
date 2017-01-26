@@ -240,6 +240,21 @@ class UpgradeFrom2_0_x implements InitStep {
       return true;
     }
 
+    if (url.startsWith("jdbc:mariadb://")) {
+      url = url.substring("jdbc:mariadb://".length());
+      final int sl = url.indexOf('/');
+      if (sl < 0) {
+        return false;
+      }
+
+      final InetSocketAddress addr = SocketUtil.parse(url.substring(0, sl), 0);
+      database.set("type", "mariadb");
+      sethost(database, addr);
+      database.set("database", url.substring(sl + 1));
+      setuser(database, username, password);
+      return true;
+    }
+
     return false;
   }
 

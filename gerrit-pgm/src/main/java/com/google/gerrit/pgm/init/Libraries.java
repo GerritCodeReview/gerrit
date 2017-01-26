@@ -44,6 +44,7 @@ class Libraries {
   /* final */ LibraryDownloader db2DriverLicense;
   /* final */ LibraryDownloader hanaDriver;
   /* final */ LibraryDownloader mysqlDriver;
+  /* final */ LibraryDownloader mariadbDriver;
   /* final */ LibraryDownloader oracleDriver;
 
   @Inject

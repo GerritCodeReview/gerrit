@@ -40,6 +40,9 @@ public class DatabaseConfigModule extends AbstractModule {
         .annotatedWith(Names.named("jdbc"))
         .to(JDBCInitializer.class);
     bind(DatabaseConfigInitializer.class)
+        .annotatedWith(Names.named("mariadb"))
+        .to(MariaDBInitializer.class);
+    bind(DatabaseConfigInitializer.class)
         .annotatedWith(Names.named("mysql"))
         .to(MySqlInitializer.class);
     bind(DatabaseConfigInitializer.class)

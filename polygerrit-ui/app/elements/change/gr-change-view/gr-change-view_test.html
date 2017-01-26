@@ -649,11 +649,18 @@ limitations under the License.
     });
 
     test('_computeMergedCommitInfo', function() {
-      var dummyRevObj = {
-        sha: {commit: 'test'},
+      var dummyRevs = {
+        1: { commit: { commit: 1 } },
+        2: { commit: {} },
       };
-      assert.deepEqual(element._computeMergedCommitInfo('sha', dummyRevObj),
-          'test');
+      assert.deepEqual(element._computeMergedCommitInfo(0, dummyRevs), {});
+      assert.deepEqual(element._computeMergedCommitInfo(1, dummyRevs),
+          dummyRevs[1].commit);
+
+      // Regression test for issue 5337.
+      var commit = element._computeMergedCommitInfo(2, dummyRevs);
+      assert.notDeepEqual(commit, dummyRevs[2]);
+      assert.deepEqual(commit, { commit: 2 });
     });
 
     test('get latest revision', function() {

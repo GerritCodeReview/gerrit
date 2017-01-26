@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09d300e2_57a4ef40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T14:31:40Z",
+      "side": 1,
+      "message": "We always add username in parenthesis + colon: TODO(aliceks): ...",
+      "range": {
+        "startLine": 176,
+        "startChar": 11,
+        "endLine": 176,
+        "endChar": 15
+      },
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0536c02b_7522022c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T14:31:40Z",
+      "side": 1,
+      "message": "Well, this is the main operation used from the current GWT UI: [1] and is documented in the REST API: [2].\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeEditApi.java#L66-L74\n* [2] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#put-edit-file",
+      "range": {
+        "startLine": 177,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 24
+      },
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd13c70_b9ed1b6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T14:31:40Z",
+      "side": 1,
+      "message": "The same format issue, with missing user name.",
+      "range": {
+        "startLine": 228,
+        "startChar": 9,
+        "endLine": 228,
+        "endChar": 13
+      },
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a408577_29abe84c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T14:31:40Z",
+      "side": 1,
+      "message": "This is a valid point. If all tests are passing and UI still works I would just remove it here.",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 231,
+        "endChar": 46
+      },
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9b8fc24_6bb0fd9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T14:31:40Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 358,
+        "startChar": 4,
+        "endLine": 358,
+        "endChar": 11
+      },
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de137bdd_a286e127",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T14:31:40Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 362,
+        "startChar": 4,
+        "endLine": 362,
+        "endChar": 11
+      },
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7d10d90_df23ea13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T14:31:40Z",
+      "side": 1,
+      "message": "Multi-line formatting style of ternary operator is different, see my comment on last edit series.",
+      "range": {
+        "startLine": 374,
+        "startChar": 11,
+        "endLine": 375,
+        "endChar": 47
+      },
+      "revId": "461471d861577dc978a583a05ae40758c59f3f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

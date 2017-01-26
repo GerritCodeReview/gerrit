@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8301493_7c7f5a03",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T23:36:14Z",
+      "side": 1,
+      "message": "Does it even need to be a span? Maybe I\u0027m missing something, but it looks to me like this (and a number of the spans added below without ARIA labels) are not needed and can be left unchanged.",
+      "range": {
+        "startLine": 258,
+        "startChar": 12,
+        "endLine": 258,
+        "endChar": 27
+      },
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61621eb2_2f8af5d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T23:36:14Z",
+      "side": 1,
+      "message": "Wrap these two lines at 80 characters.",
+      "range": {
+        "startLine": 312,
+        "startChar": 8,
+        "endLine": 313,
+        "endChar": 89
+      },
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f98edd0b_35b0022c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T23:36:14Z",
+      "side": 1,
+      "message": "Nit: Not a big deal, but the safer way of doing this, to avoid pollution of `Object.prototype`, would be ...\n\nvar statusCode \u003d this._computeFileStatus(status);\nreturn FileStatus.hasOwnProperty(statusCode) ?\n    FileStatus[statusCode] : \u0027Status Unknown\u0027;",
+      "range": {
+        "startLine": 663,
+        "startChar": 6,
+        "endLine": 663,
+        "endChar": 77
+      },
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

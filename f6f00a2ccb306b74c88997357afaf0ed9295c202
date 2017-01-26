@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ff916bb_abb97249",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T23:36:14Z",
+      "side": 0,
+      "message": "This oughtn\u0027t have been removed. Same in a few locations below.",
+      "range": {
+        "startLine": 194,
+        "startChar": 33,
+        "endLine": 194,
+        "endChar": 34
+      },
+      "revId": "f6f00a2ccb306b74c88997357afaf0ed9295c202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

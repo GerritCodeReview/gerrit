@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3a18ca1d_e205eb8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2017-01-26T19:43:13Z",
+      "side": 1,
+      "message": "this is hard to parse because of multiple ambiguities.\n\"... available during init invoked by tests\" maybe?",
+      "revId": "09746c93e63e71978d6002d6c3573fe270b2eabf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3262a19_6d9cdd70",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeIndexDefinition.java",
         "patchSetId": 1

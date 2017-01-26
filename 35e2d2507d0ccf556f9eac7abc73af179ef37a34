@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "c45514dc_dd3db796",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-26T23:54:52Z",
+      "side": 1,
+      "message": "I definitely think we can rename. Looking at gr-storage, it looks like location is an object that includes a bunch of things, including line number, so not sure if \"location\" is still consistent or not. maybe something like locationRange?\n\nfrom gr-storage:\n\n_getDraftKey: function(location) {\n      return [\u0027draft\u0027, location.changeNum, location.patchNum, location.path,\n          location.line || \u0027\u0027].join(\u0027:\u0027);\n    },",
+      "revId": "35e2d2507d0ccf556f9eac7abc73af179ef37a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6391632_3d23ef9e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 5

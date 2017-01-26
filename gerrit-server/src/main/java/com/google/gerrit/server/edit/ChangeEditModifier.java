@@ -161,7 +161,7 @@ public class ChangeEditModifier {
 
   private void rebase(Repository repository, ChangeEdit changeEdit,
       PatchSet currentPatchSet) throws IOException, MergeConflictException,
-      InvalidChangeOperationException {
+      InvalidChangeOperationException, OrmException {
     RevCommit currentEditCommit = changeEdit.getEditCommit();
     if (currentEditCommit.getParentCount() == 0) {
       throw new InvalidChangeOperationException(
@@ -181,6 +181,7 @@ public class ChangeEditModifier {
     String newEditRefName = getEditRefName(change, currentPatchSet);
     updateReferenceWithNameChange(repository, changeEdit.getRefName(),
         currentEditCommit, newEditRefName, newEditCommitId, nowTimestamp);
+    reindex(change);
   }
 
   /**
@@ -458,7 +459,7 @@ public class ChangeEditModifier {
     String editRefName = getEditRefName(change, basePatchSet);
     updateReference(repository, editRefName, ObjectId.zeroId(), newEditCommit,
         timestamp);
-    indexer.index(reviewDb.get(), change);
+    reindex(change);
   }
 
   private String getEditRefName(Change change, PatchSet basePatchSet) {
@@ -468,11 +469,13 @@ public class ChangeEditModifier {
   }
 
   private void updateEditReference(Repository repository, ChangeEdit changeEdit,
-      ObjectId newEditCommit, Timestamp timestamp) throws IOException {
+      ObjectId newEditCommit, Timestamp timestamp)
+      throws IOException, OrmException {
     String editRefName = changeEdit.getRefName();
     RevCommit currentEditCommit = changeEdit.getEditCommit();
     updateReference(repository, editRefName, currentEditCommit, newEditCommit,
         timestamp);
+    reindex(changeEdit.getChange());
   }
 
   private void updateReference(Repository repository, String refName,
@@ -517,5 +520,9 @@ public class ChangeEditModifier {
   private PersonIdent getRefLogIdent(Timestamp timestamp) {
     IdentifiedUser user = currentUser.get().asIdentifiedUser();
     return user.newRefLogIdent(timestamp, tz);
+  }
+
+  private void reindex(Change change) throws IOException, OrmException {
+    indexer.index(reviewDb.get(), change);
   }
 }

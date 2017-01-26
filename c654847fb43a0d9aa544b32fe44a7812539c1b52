@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbe336d0_f1c3200d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T15:33:07Z",
+      "side": 1,
+      "message": "So, this is the reason, why the reindexing was only done on change edit creation (in ChangeEditModifier.java) and deletion (in ChangeEditUtil.java).",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "c654847fb43a0d9aa544b32fe44a7812539c1b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55f66b0f_aa647568",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T15:33:07Z",
+      "side": 1,
+      "message": "That would mean, that inline edit feature is broken for years? E.g., push a new edit to a change with push operation:\n\n  $ git push origin HEAD:refs/for/master%edit\n\nAnd after this search for edits with the secondary index is:edit predicate produces no results? (Strange, why I do not see this predicate offered on gerri-review? Was it removed in index schema gerrit fork? Why?)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 40
+      },
+      "revId": "c654847fb43a0d9aa544b32fe44a7812539c1b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

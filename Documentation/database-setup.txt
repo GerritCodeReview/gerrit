@@ -74,6 +74,28 @@ rights on it:
 Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
 information regarding using MySQL.
 
+[[createdb_mariadb]]
+=== MariaDB
+
+This option is also more complicated than the H2 option. Just as with
+PostgreSQL it's also recommended for larger installations.
+
+Create a user for the web application within the database, assign it a
+password, create a database, and give the newly created user full
+rights on it:
+
+----
+  MariaDB
+
+  CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
+  CREATE DATABASE reviewdb;
+  GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
+  FLUSH PRIVILEGES;
+----
+
+Visit MySQL's link:https://mariadb.com/kb/en/mariadb/[documentation] for further
+information regarding using MariaDB.
+
 [[createdb_oracle]]
 === Oracle
 

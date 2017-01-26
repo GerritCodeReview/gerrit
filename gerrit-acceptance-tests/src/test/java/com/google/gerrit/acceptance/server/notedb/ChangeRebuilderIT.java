@@ -208,7 +208,18 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   public void publishedComment() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
-    putComment(user, id, 1, "comment");
+    putComment(user, id, 1, "comment", null);
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void publishedCommentAndReply() throws Exception {
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    putComment(user, id, 1, "comment", null);
+    Map<String, List<CommentInfo>> comments = getPublishedComments(id);
+    String parentUuid = comments.get("a.txt").get(0).id;
+    putComment(user, id, 1, "comment", parentUuid);
     checker.rebuildAndCheckChanges(id);
   }
 
@@ -242,7 +253,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
     putDraft(user, id, 1, "draft comment", null);
-    putComment(user, id, 1, "published comment");
+    putComment(user, id, 1, "published comment", null);
     checker.rebuildAndCheckChanges(id);
   }
 
@@ -1283,11 +1294,12 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     }
   }
 
-  private void putComment(TestAccount account, Change.Id id, int line, String msg)
-      throws Exception {
+  private void putComment(TestAccount account, Change.Id id, int line,
+      String msg, String inReplyTo) throws Exception {
     CommentInput in = new CommentInput();
     in.line = line;
     in.message = msg;
+    in.inReplyTo = inReplyTo;
     ReviewInput rin = new ReviewInput();
     rin.comments = new HashMap<>();
     rin.comments.put(PushOneCommit.FILE_NAME, ImmutableList.of(in));
@@ -1348,4 +1360,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     saveProjectConfig(allProjects, cfg);
   }
 
+  private Map<String, List<CommentInfo>> getPublishedComments(Change.Id id)
+      throws Exception {
+    return gApi.changes().id(id.get()).current().comments();
+  }
 }

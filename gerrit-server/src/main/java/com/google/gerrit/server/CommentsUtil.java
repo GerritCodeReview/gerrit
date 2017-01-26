@@ -169,6 +169,7 @@ public class CommentsUtil {
         new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
         ctx.getUser().getAccountId(), ctx.getWhen(), side, message, serverId,
         unresolved);
+    c.parentUuid = parentUuid;
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
   }

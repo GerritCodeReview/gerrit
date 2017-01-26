@@ -150,6 +150,40 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void postCommentWithReply() throws Exception {
+    for (Integer line : lines) {
+      String file = "file";
+      String contents = "contents " + line;
+      PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+          "first subject", file, contents);
+      PushOneCommit.Result r = push.to("refs/for/master");
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput input = new ReviewInput();
+      CommentInput comment =
+          newComment(file, Side.REVISION, line, "comment 1", false);
+      input.comments = new HashMap<>();
+      input.comments.put(comment.path, Lists.newArrayList(comment));
+      revision(r).review(input);
+      Map<String, List<CommentInfo>> result =
+          getPublishedComments(changeId, revId);
+      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+
+      input = new ReviewInput();
+      comment = newComment(file, Side.REVISION, line, "comment 1 reply", false);
+      comment.inReplyTo = actual.id;
+      input.comments = new HashMap<>();
+      input.comments.put(comment.path, Lists.newArrayList(comment));
+      revision(r).review(input);
+      result = getPublishedComments(changeId, revId);
+      actual = result.get(comment.path).get(1);
+      assertThat(comment).isEqualTo(infoToInput(file).apply(actual));
+      assertThat(comment).isEqualTo(infoToInput(file).apply(
+          getPublishedComment(changeId, revId, actual.id)));
+    }
+  }
+
+  @Test
   public void postCommentWithUnresolved() throws Exception {
     for (Integer line : lines) {
       String file = "file";
@@ -786,5 +820,6 @@ public class CommentsIT extends AbstractDaemonTest {
     to.message = from.message;
     to.range = from.range;
     to.unresolved = from.unresolved;
+    to.inReplyTo = from.inReplyTo;
   }
 }

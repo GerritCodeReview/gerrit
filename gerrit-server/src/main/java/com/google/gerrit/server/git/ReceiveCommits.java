@@ -1737,6 +1737,14 @@ public class ReceiveCommits {
           if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
             continue;
           }
+
+          if (!queryProvider.get()
+              .byBranchCommit(magicBranch.dest, c.getId().name()).isEmpty()) {
+            // A change with this commit already exists on the destination
+            // branch.
+            continue;
+          }
+
           logDebug("Creating new change for {} even though it is already tracked",
               name);
         }

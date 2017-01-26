@@ -60,6 +60,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -719,6 +720,30 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushChangeBasedOnChangeOfOtherUserWithCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
+
+    // create a change as admin
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+            "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    // create a second change as user (depends on the change from admin)
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    GitUtil.fetch(userRepo, r.getPatchSet().getRefName() + ":change");
+    userRepo.reset("change");
+    push = pushFactory.create(db, user.getIdent(), userRepo,
+        PushOneCommit.SUBJECT, "b.txt", "anotherContent");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+  }
+
+  @Test
   public void pushSameCommitTwiceUsingMagicBranchBaseOption()
       throws Exception {
     grant(Permission.PUSH, project, "refs/heads/master");
@@ -766,7 +791,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
 
     assertPushRejected(pushHead(testRepo, "refs/for/master", false),
-        "refs/for/master", "commit(s) already exists (as current patchset)");
+        "refs/for/master", "no new changes");
   }
 
   @Test

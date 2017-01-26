@@ -398,6 +398,23 @@
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ad2354e_daff76d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-26T00:12:42Z",
+      "side": 1,
+      "message": "Doh.. looks like streams aren\u0027t the best for this, since there is correlation between sequential updates. %(",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

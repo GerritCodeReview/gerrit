@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d8d4b108_ba272243",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T22:58:58Z",
+      "side": 1,
+      "message": "\"key\" is a somewhat generic name. Would it be accurate to call it \"location\" (similar to how it\u0027s termed in GR-STORAGE)?",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "35e2d2507d0ccf556f9eac7abc73af179ef37a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6391632_3d23ef9e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 5
@@ -30,6 +53,23 @@
       "writtenOn": "2017-01-26T22:14:45Z",
       "side": 1,
       "message": "the contentEl is for the particular line/side. Here, I\u0027m querying for the comment thread with a matching key. I think querySelector/checking for the attribute is an ok approach for this? but others may disagree.",
+      "revId": "35e2d2507d0ccf556f9eac7abc73af179ef37a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a738c1d_b34e6429",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T22:58:58Z",
+      "side": 1,
+      "message": "Is this the only reason that the `key` property is synchronized with an attribute? It seems to me that it the following could be used here instead.\n\nvar threads \u003d contentEl.querySelectorAll(\u0027gr-diff-comment-thread\u0027)\n    .filter(function(thread) { return thread.key \u003d\u003d\u003d keyToCheck; });\nif (threads.length \u003d\u003d\u003d 1) {\n  var threadEl \u003d threads.length;\n\nThat way we can avoid the key attribute (which would more DOM nodes to synchronize and weigh down the DOM tree). I wouldn\u0027t expect the number of threads per line to be very large either.",
       "revId": "35e2d2507d0ccf556f9eac7abc73af179ef37a34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

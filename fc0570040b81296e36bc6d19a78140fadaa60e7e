@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "280ec6e1_b81c4b60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T13:31:52Z",
+      "side": 1,
+      "message": "Optional: inline these two lines above. This method was further simplified. Another reason to change that is that the caller use try with resource idiom now and it\u0027s easier to see what is done in the same place.",
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a924ac36_e7c2973e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T13:31:52Z",
+      "side": 1,
+      "message": "Here are the same lines as above not extracted in its own method.",
+      "range": {
+        "startLine": 240,
+        "startChar": 10,
+        "endLine": 241,
+        "endChar": 64
+      },
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f91d7fb_5441cc68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T13:31:52Z",
+      "side": 1,
+      "message": "s/InvalidChangeOperationException/MergeConflictException Nice! I added this exception years ago and no idea why I haven\u0027t used it here. You have to change it here to differentiate between a no op (already on latest ps) and actually merge conflict.",
+      "range": {
+        "startLine": 137,
+        "startChar": 13,
+        "endLine": 137,
+        "endChar": 35
+      },
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23122fc7_f827d08e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T13:31:52Z",
+      "side": 1,
+      "message": "Inline the content of this method in lookupComit?",
+      "range": {
+        "startLine": 347,
+        "startChar": 27,
+        "endLine": 347,
+        "endChar": 33
+      },
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63d2260e_1d96a092",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T13:31:52Z",
+      "side": 1,
+      "message": "What is advantage of extract this line to its own method instead of saying:\n\n  indexer.index(reviewDb.get(), change);",
+      "range": {
+        "startLine": 418,
+        "startChar": 4,
+        "endLine": 418,
+        "endChar": 20
+      },
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

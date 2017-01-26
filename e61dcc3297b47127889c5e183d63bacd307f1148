@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7de15032_12c883bd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 6079,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-26T00:25:24Z",
+      "side": 1,
+      "message": "Omit this word.",
+      "range": {
+        "startLine": 6079,
+        "startChar": 18,
+        "endLine": 6079,
+        "endChar": 26
+      },
+      "revId": "e61dcc3297b47127889c5e183d63bacd307f1148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91e3f30b_22e65e6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-01-26T00:25:24Z",
+      "side": 1,
+      "message": "Could still use a better comment. With the new name it\u0027s easy for me to see the value is 6 seconds, but what\u0027s unclear is what this duration is for. Add a comment about how it governs how updates are batched together for presentation in the API and UI, or something like that.",
+      "revId": "e61dcc3297b47127889c5e183d63bacd307f1148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

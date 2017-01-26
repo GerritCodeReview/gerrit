@@ -1543,6 +1543,10 @@ Connect to an SAP MaxDB database server.
 +
 Connect to a MySQL database server.
 +
+* `MARIADB`
++
+Connect to a MariaDB database server.
++
 * `ORACLE`
 +
 Connect to an Oracle database server.

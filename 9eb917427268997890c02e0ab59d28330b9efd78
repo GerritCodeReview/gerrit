@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c63a12e_ec447e73",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T09:31:33Z",
+      "side": 1,
+      "message": "IDs",
+      "range": {
+        "startLine": 1716,
+        "startChar": 70,
+        "endLine": 1716,
+        "endChar": 73
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98b0423f_cad2386e",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T09:31:33Z",
+      "side": 1,
+      "message": "\u0027IDs\u0027 to keep the spelling consistent.\nWhile you are here also fix the long line.",
+      "range": {
+        "startLine": 1716,
+        "startChar": 26,
+        "endLine": 1716,
+        "endChar": 29
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82a85300_e1dd6e24",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1717,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T09:31:33Z",
+      "side": 1,
+      "message": "... provided as list ...",
+      "range": {
+        "startLine": 1717,
+        "startChar": 0,
+        "endLine": 1717,
+        "endChar": 8
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7db759e_5d197e35",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T09:31:33Z",
+      "side": 1,
+      "message": "This test is failing if it is executed standalone.\n\nThis is because the canDelete field in AccountExternalId is never set. This is a transient field that only exists to transfer the deletable information via the old AccountSecurity.myExternalIds(...) RPC to the GWT UI. The only place where AccountExternalId.canDelete is set is in AccountSecurity.myExternalIds(...) (implemented in ExternalIdDetailFactory), but you don\u0027t invoke this RPC from the test. Instead of getting the external IDs from the account cache you should get them via the GetExternalIds REST endpoint which sets the canDelete field in AccountExternalIdInfo.\n\nCurrently this test only succeeds if the getExternalIDs test has been executed before, because this test sets the canDelete field on the AccountExternalId instance which is cached via AccountCache. The getExternalIDs() test actually shouldn\u0027t update the external IDs that are cached in the server.\n\nThis dependence between the tests is bad and we must not rely on the test execution order. Also deleting external IDs in this test has effects on the getExternalIDs() test (if the test execution order is reverse). To isolate the tests I think it makes sense to also annotate the test class with @Sandboxed.",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30372f16_370c3411",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T09:31:33Z",
+      "side": 1,
+      "message": "add: \n  assertThat(toDelete).isNotEmpty();",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b66c41cb_985fed59",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T09:31:33Z",
+      "side": 1,
+      "message": "Add a comment why 1 external ID is expected.",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f41bb24e_dbbb4700",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteExternalIds.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T09:31:33Z",
+      "side": 1,
+      "message": "Better don\u0027t modify the cached external IDs here by setting the canDelete flag. This is an unexpected side effect of this REST endpoint. Actually the canDelete flag in AccountExternalId should go away as soon as the GWT UI is adapted to use the new REST endpoints. The only purpose of this field is to transfer the deletable information via the old RPC to the client. It\u0027s a transient field that is not persisted in the database.",
+      "range": {
+        "startLine": 105,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 7
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6da04e38_02990f49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T09:31:33Z",
+      "side": 1,
+      "message": "Unrelated to this change, but I think this should rather be a child collection. Can you please fix this in another change?\n\nThis way we can then also support deletion of a single external ID by\n\n  DELETE /accounts/\u003caccount-id\u003e/external.ids/\u003cexternal-id\u003e",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

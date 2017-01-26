@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "d1d42748_03f6bfad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-26T23:59:55Z",
+      "side": 1,
+      "message": "They\u0027re added because otherwise they exist in the tabindex, something that was specifically reported in the bug. See issues 4 and 6 on the Monorail issue link.",
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61621eb2_2f8af5d1",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 2
@@ -48,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "f3c5eb21_fc521a4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-26T23:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f98edd0b_35b0022c",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -68,6 +102,23 @@
       "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b391b2e3_75dcf1b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-26T23:59:55Z",
+      "side": 1,
+      "message": "Done, but in what way does this pollute `Object.prototype`?",
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

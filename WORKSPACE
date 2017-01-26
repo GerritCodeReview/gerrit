@@ -2,6 +2,7 @@ workspace(name = "gerrit")
 
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
+load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 ANTLR_VERS = "3.5.2"
 
@@ -1104,3 +1105,4 @@ bower_archive(
 load("//lib/js:bower_archives.bzl", "load_bower_archives")
 
 load_bower_archives()
+external_plugin_deps()

@@ -43,6 +43,7 @@ class Libraries {
   /* final */ LibraryDownloader db2Driver;
   /* final */ LibraryDownloader db2DriverLicense;
   /* final */ LibraryDownloader hanaDriver;
+  /* final */ LibraryDownloader mariadbDriver;
   /* final */ LibraryDownloader mysqlDriver;
   /* final */ LibraryDownloader oracleDriver;
 

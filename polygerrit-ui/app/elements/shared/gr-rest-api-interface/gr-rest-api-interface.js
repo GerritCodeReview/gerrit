@@ -485,7 +485,7 @@
           this.getChangeActionURL(changeNum, patchNum, '/actions')).then(
               function(revisionActions) {
                 // The rebase button on change screen is always enabled.
-                if (revisionActions.rebase) {
+                if (revisionActions && revisionActions.rebase) {
                   revisionActions.rebase.enabled = true;
                 }
                 return revisionActions;

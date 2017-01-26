@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e310029_d909533f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T21:04:05Z",
+      "side": 1,
+      "message": "Isn\u0027t the only way this can happen is if the revision actions endpoint responds with `null` or `undefined`? That isn\u0027t documented as part of the endpoint [1]. As such, this might be the wrong place to fix this issue.\n\nMaybe this was caused by a server error sending an invalid response. Perhaps there was a 500 or a 403 from the /actions call?\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-revision-actions",
+      "range": {
+        "startLine": 485,
+        "startChar": 10,
+        "endLine": 485,
+        "endChar": 67
+      },
+      "revId": "e91c678a0e0cb61e9c993e08ec14f163a6cc99d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

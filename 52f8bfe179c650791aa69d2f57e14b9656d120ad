@@ -449,6 +449,23 @@
       "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "822b12c8_1623b1d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-26T05:03:46Z",
+      "side": 1,
+      "message": "Good idea, will do.\n\nAnother thing that crossed my mind is that this could/should probably be moved into ChangeNotesParser.java, but I\u0027m not sure about memory/performance implications.",
+      "revId": "52f8bfe179c650791aa69d2f57e14b9656d120ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

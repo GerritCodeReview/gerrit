@@ -94,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "be616900_7fb5f582",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T15:56:54Z",
+      "side": 1,
+      "message": "OK, I actually don\u0027t mind much if it is \u0027ids\u0027 or \u0027IDs\u0027, I just disliked that both versions were used in this section.",
+      "range": {
+        "startLine": 1716,
+        "startChar": 26,
+        "endLine": 1716,
+        "endChar": 29
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82a85300_e1dd6e24",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 3
@@ -316,6 +339,23 @@
       "writtenOn": "2017-01-26T12:42:46Z",
       "side": 1,
       "message": "OK. I can add it to support \u0027DELETE\u0027 request. And I think we can add it in this change.",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cc4f6d8_07a6f9a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T15:56:54Z",
+      "side": 1,
+      "message": "I think you misunderstood me.\n\nI proposed to support deleting a *single* external ID by DELETE:\n\n  DELETE /accounts/\u003caccount-id\u003e/external.ids/\u003cexternal-id\u003e\n\nI don\u0027t think that supporting\n\n  DELETE /accounts/\u003caccount-id\u003e/external.ids\n\nis a good idea. For DELETE requests the resource to be deleted should be specified only by the URL. Since the resources to be deleted are contained in the request body here it should be only POST.",
       "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

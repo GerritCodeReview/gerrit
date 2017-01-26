@@ -43,7 +43,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
@@ -561,7 +561,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     InputStream is = new GZIPInputStream(new FileInputStream(tempfile));
 
-    List<String> untarredFiles = new LinkedList<>();
+    List<String> untarredFiles = new ArrayList<>();
     try (TarArchiveInputStream tarInputStream = (TarArchiveInputStream)
         new ArchiveStreamFactory().createArchiveInputStream("tar", is)) {
       TarArchiveEntry entry = null;

@@ -48,6 +48,8 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -223,11 +225,11 @@ public class SetAccess implements
   private List<AccessSection> getAccessSections(
       Map<String, AccessSectionInfo> sectionInfos)
       throws UnprocessableEntityException {
-    List<AccessSection> sections = new LinkedList<>();
     if (sectionInfos == null) {
-      return sections;
+      return Collections.emptyList();
     }
 
+    List<AccessSection> sections = new ArrayList<>(sectionInfos.size());
     for (Map.Entry<String, AccessSectionInfo> entry :
       sectionInfos.entrySet()) {
       AccessSection accessSection = new AccessSection(entry.getKey());

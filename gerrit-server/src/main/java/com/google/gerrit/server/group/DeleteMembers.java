@@ -35,6 +35,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
     final GroupControl control = resource.getControl();
     final Map<Account.Id, AccountGroupMember> members = getMembers(internalGroup.getId());
-    final List<AccountGroupMember> toRemove = new LinkedList<>();
+    final List<AccountGroupMember> toRemove = new ArrayList<>();
 
     for (final String nameOrEmail : input.members) {
       Account a = accounts.parse(nameOrEmail).getAccount();

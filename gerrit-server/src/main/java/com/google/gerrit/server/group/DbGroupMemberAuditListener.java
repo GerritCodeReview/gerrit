@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 class DbGroupMemberAuditListener implements GroupMemberAuditListener {
@@ -61,7 +60,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   @Override
   public void onAddAccountsToGroup(Account.Id me,
       Collection<AccountGroupMember> added) {
-    List<AccountGroupMemberAudit> auditInserts = new LinkedList<>();
+    List<AccountGroupMemberAudit> auditInserts = new ArrayList<>();
     for (AccountGroupMember m : added) {
       AccountGroupMemberAudit audit =
           new AccountGroupMemberAudit(m, me, TimeUtil.nowTs());
@@ -79,8 +78,8 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   @Override
   public void onDeleteAccountsFromGroup(Account.Id me,
       Collection<AccountGroupMember> removed) {
-    List<AccountGroupMemberAudit> auditInserts = new LinkedList<>();
-    List<AccountGroupMemberAudit> auditUpdates = new LinkedList<>();
+    List<AccountGroupMemberAudit> auditInserts = new ArrayList<>();
+    List<AccountGroupMemberAudit> auditUpdates = new ArrayList<>();
     try (ReviewDb db = schema.open()) {
       for (AccountGroupMember m : removed) {
         AccountGroupMemberAudit audit = null;
@@ -131,7 +130,7 @@ class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   @Override
   public void onDeleteGroupsFromGroup(Account.Id me,
       Collection<AccountGroupById> removed) {
-    final List<AccountGroupByIdAud> auditUpdates = new LinkedList<>();
+    final List<AccountGroupByIdAud> auditUpdates = new ArrayList<>();
     try (ReviewDb db = schema.open()) {
       for (final AccountGroupById g : removed) {
         AccountGroupByIdAud audit = null;

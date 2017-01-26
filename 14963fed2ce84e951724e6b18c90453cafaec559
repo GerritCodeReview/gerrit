@@ -16,6 +16,23 @@
       "revId": "14963fed2ce84e951724e6b18c90453cafaec559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01e2e2d7_c0c16fea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-26T20:19:12Z",
+      "side": 1,
+      "message": "Robot comments are actually an entirely different thing that aren\u0027t fully implemented yet, afaik. Tags are also different.\n\nI definitely would be willing to hear suggestions for alternative terminology for \u0027Show all messages\u0027, though. Maybe \u0027Show all updates\u0027?",
+      "revId": "14963fed2ce84e951724e6b18c90453cafaec559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

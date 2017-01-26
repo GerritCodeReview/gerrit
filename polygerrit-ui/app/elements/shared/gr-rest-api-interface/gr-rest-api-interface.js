@@ -737,7 +737,7 @@
         comments = comments.sort(function(a, b) {
           return a.updated > b.updated;
         });
-        comments.forEach(function(comment){
+        comments.forEach(function(comment) {
           if (comment.in_reply_to && !comment.range) {
             for (var i = 0; i < comments.length; i++) {
               if (comments[i].id === comment.in_reply_to) {

@@ -22,6 +22,23 @@
       "revId": "5ccad3a205acfa2ddb5012352e1422e6d784f18a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cdae70a_66c42535",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T01:12:01Z",
+      "side": 1,
+      "message": "Because the data structure is intended to be used as a set, and thus there aren\u0027t any values to \"map to\" as one would with a dictionary.\n\nIn some contexts it\u0027s useful to define a set like ...\n\n{\n  abandon: true,\n  cherrypick: true,\n  // etc...\n}\n\n... but the benefit here is performance because the lookup is a native binary search. Since this isn\u0027t performance critical, I didn\u0027t use that because an array is more readable, IMO.",
+      "revId": "5ccad3a205acfa2ddb5012352e1422e6d784f18a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

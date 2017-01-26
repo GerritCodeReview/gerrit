@@ -48,6 +48,52 @@
     },
     {
       "key": {
+        "uuid": "1b0c74df_09193b17",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-26T12:42:46Z",
+      "side": 1,
+      "message": "We use \u0027ids\u0027 above. If we change here, we should also update the \u0027Get Account External IDs\u0027 latter.",
+      "range": {
+        "startLine": 1716,
+        "startChar": 26,
+        "endLine": 1716,
+        "endChar": 29
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c884cc44_3c9b7590",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-26T12:42:46Z",
+      "side": 1,
+      "message": "same above.",
+      "range": {
+        "startLine": 1716,
+        "startChar": 70,
+        "endLine": 1716,
+        "endChar": 73
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82a85300_e1dd6e24",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 3
@@ -59,6 +105,29 @@
       "writtenOn": "2017-01-26T09:31:33Z",
       "side": 1,
       "message": "... provided as list ...",
+      "range": {
+        "startLine": 1717,
+        "startChar": 0,
+        "endLine": 1717,
+        "endChar": 8
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f115c8f_1cf0bf78",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1717,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-26T12:42:46Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 1717,
         "startChar": 0,
@@ -88,6 +157,23 @@
     },
     {
       "key": {
+        "uuid": "1aa24216_26310a02",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-26T12:42:46Z",
+      "side": 1,
+      "message": "Fixed. I didn\u0027t notice this error because I had an exception like “java.lang.ClassFormatError” when ran it standalone in IntelliJ. But it may be the problem of IntelliJ. It works properly now.",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30372f16_370c3411",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
         "patchSetId": 3
@@ -105,6 +191,23 @@
     },
     {
       "key": {
+        "uuid": "5064b84a_bd711c0f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-26T12:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b66c41cb_985fed59",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
         "patchSetId": 3
@@ -116,6 +219,23 @@
       "writtenOn": "2017-01-26T09:31:33Z",
       "side": 1,
       "message": "Add a comment why 1 external ID is expected.",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6141b6eb_b319fd8b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-26T12:42:46Z",
+      "side": 1,
+      "message": "Done",
       "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +265,29 @@
     },
     {
       "key": {
+        "uuid": "527a52c0_c78cadcf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteExternalIds.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-26T12:42:46Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 105,
+        "startChar": 6,
+        "endLine": 111,
+        "endChar": 7
+      },
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6da04e38_02990f49",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
         "patchSetId": 3
@@ -156,6 +299,23 @@
       "writtenOn": "2017-01-26T09:31:33Z",
       "side": 1,
       "message": "Unrelated to this change, but I think this should rather be a child collection. Can you please fix this in another change?\n\nThis way we can then also support deletion of a single external ID by\n\n  DELETE /accounts/\u003caccount-id\u003e/external.ids/\u003cexternal-id\u003e",
+      "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59a41ea9_3bbbe3b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-26T12:42:46Z",
+      "side": 1,
+      "message": "OK. I can add it to support \u0027DELETE\u0027 request. And I think we can add it in this change.",
       "revId": "9eb917427268997890c02e0ab59d28330b9efd78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

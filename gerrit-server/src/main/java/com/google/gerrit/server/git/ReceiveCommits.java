@@ -1629,7 +1629,7 @@ public class ReceiveCommits {
             magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
       }
 
-      List<ChangeLookup> pending = new ArrayList<>();
+      Map<RevCommit, ChangeLookup> pending = new HashMap<>();
       Set<Change.Key> newChangeIds = new HashSet<>();
       int maxBatchChanges =
           receiveConfig.getEffectiveMaxBatchChangesLimit(user);
@@ -1661,7 +1661,8 @@ public class ReceiveCommits {
           mergedParents.remove(c);
         }
 
-        if (!existingRefs.isEmpty()) { // Commit is already tracked.
+        boolean commitAlreadyTracked = !existingRefs.isEmpty();
+        if (commitAlreadyTracked) {
           alreadyTracked++;
           // Corner cases where an existing commit might need a new group:
           // A) Existing commit has a null group; wasn't assigned during schema
@@ -1682,6 +1683,52 @@ public class ReceiveCommits {
           if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
             continue;
           }
+        }
+
+        List<String> idList = c.getFooterLines(CHANGE_ID);
+        if (idList.isEmpty() && !newChangeForAllNotInTarget) {
+          newChanges.add(new CreateRequest(c, magicBranch.dest.get()));
+          continue;
+        }
+
+        String idStr = null;
+        if (!idList.isEmpty()) {
+          idStr = idList.get(idList.size() - 1).trim();
+          if (idStr.matches("^I00*$")) {
+            // Reject this invalid line from EGit.
+            reject(magicBranch.cmd, "invalid Change-Id");
+            newChanges = Collections.emptyList();
+            return;
+          }
+        }
+
+        if (idStr != null) {
+          pending.put(c, new ChangeLookup(c, new Change.Key(idStr)));
+        } else {
+          pending.put(c, new ChangeLookup(c));
+        }
+        int n = pending.size() + newChanges.size();
+        if (maxBatchChanges != 0 && n > maxBatchChanges) {
+          logDebug("{} changes exceeds limit of {}", n, maxBatchChanges);
+          reject(magicBranch.cmd,
+              "the number of pushed changes in a batch exceeds the max limit "
+                  + maxBatchChanges);
+          newChanges = Collections.emptyList();
+          return;
+        }
+
+        if (commitAlreadyTracked) {
+          boolean changeExistsOnDestBranch = false;
+          for (ChangeData cd : pending.get(c).destChanges) {
+            if (cd.change().getDest().equals(magicBranch.dest)) {
+              changeExistsOnDestBranch = true;
+              break;
+            }
+          }
+          if (changeExistsOnDestBranch) {
+            continue;
+          }
+
           logDebug("Creating new change for {} even though it is already tracked",
               name);
         }
@@ -1703,31 +1750,6 @@ public class ReceiveCommits {
               name);
           // TODO(dborowitz): Should we early return here?
         }
-
-        List<String> idList = c.getFooterLines(CHANGE_ID);
-        if (idList.isEmpty()) {
-          newChanges.add(new CreateRequest(c, magicBranch.dest.get()));
-          continue;
-        }
-
-        String idStr = idList.get(idList.size() - 1).trim();
-        if (idStr.matches("^I00*$")) {
-          // Reject this invalid line from EGit.
-          reject(magicBranch.cmd, "invalid Change-Id");
-          newChanges = Collections.emptyList();
-          return;
-        }
-
-        pending.add(new ChangeLookup(c, new Change.Key(idStr)));
-        int n = pending.size() + newChanges.size();
-        if (maxBatchChanges != 0 && n > maxBatchChanges) {
-          logDebug("{} changes exceeds limit of {}", n, maxBatchChanges);
-          reject(magicBranch.cmd,
-              "the number of pushed changes in a batch exceeds the max limit "
-                  + maxBatchChanges);
-          newChanges = Collections.emptyList();
-          return;
-        }
       }
       logDebug("Finished initial RevWalk with {} commits total: {} already"
           + " tracked, {} new changes with no Change-Id, and {} deferred"
@@ -1738,8 +1760,14 @@ public class ReceiveCommits {
         rejectImplicitMerges(mergedParents);
       }
 
-      for (Iterator<ChangeLookup> itr = pending.iterator(); itr.hasNext();) {
+      for (Iterator<ChangeLookup> itr = pending.values().iterator();
+          itr.hasNext();) {
         ChangeLookup p = itr.next();
+        if (p.changeKey == null) {
+          newChanges.add(new CreateRequest(p.commit, magicBranch.dest.get()));
+          continue;
+        }
+
         if (newChangeIds.contains(p.changeKey)) {
           logDebug("Multiple commits with Change-Id {}", p.changeKey);
           reject(magicBranch.cmd, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
@@ -1916,6 +1944,13 @@ public class ReceiveCommits {
       commit = c;
       changeKey = key;
       destChanges = queryProvider.get().byBranchKey(magicBranch.dest, key);
+    }
+
+    ChangeLookup(RevCommit c) throws OrmException {
+      commit = c;
+      destChanges =
+          queryProvider.get().byBranchCommit(magicBranch.dest, c.getName());
+      changeKey = null;
     }
   }
 

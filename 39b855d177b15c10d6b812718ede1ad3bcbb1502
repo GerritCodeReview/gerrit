@@ -50,6 +50,23 @@
       "revId": "39b855d177b15c10d6b812718ede1ad3bcbb1502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18d49d28_5cdf1de1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T23:25:03Z",
+      "side": 1,
+      "message": "Polymer will not run observers when any dependency is `undefined`. It will run when some dependencies are `null`, however. [1] I don\u0027t think that\u0027s a problem here.\n\n* [1] https://www.polymer-project.org/1.0/docs/devguide/observers#complex-observers",
+      "revId": "39b855d177b15c10d6b812718ede1ad3bcbb1502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

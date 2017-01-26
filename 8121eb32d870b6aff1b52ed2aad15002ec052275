@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4953554a_15a51d17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-26T15:56:54Z",
+      "side": 1,
+      "message": "If the method is DELETE the resource that is deleted should be specified by the URL. This is not the case here, hence we shouldn\u0027t support DELETE here, but only POST.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "8121eb32d870b6aff1b52ed2aad15002ec052275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

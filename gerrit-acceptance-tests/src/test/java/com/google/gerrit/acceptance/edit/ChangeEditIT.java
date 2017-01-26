@@ -42,6 +42,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -839,8 +840,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     r1.assertOkStatus();
 
     // Try to create edit as admin
+    exception.expect(AuthException.class);
     createEmptyEditFor(r1.getChangeId());
-    assertThat(getEdit(changeId)).isAbsent();
   }
 
   private void createArbitraryEditFor(String changeId) throws Exception {

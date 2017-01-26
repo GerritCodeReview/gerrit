@@ -38,8 +38,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
@@ -48,6 +47,7 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -106,7 +106,7 @@ public class ChangeEdits implements
   @Override
   public ChangeEditResource parse(ChangeResource rsrc, IdString id)
       throws ResourceNotFoundException, AuthException, IOException,
-      InvalidChangeOperationException, OrmException {
+      OrmException {
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
     if (!edit.isPresent()) {
       throw new ResourceNotFoundException(id);
@@ -118,7 +118,7 @@ public class ChangeEdits implements
   @Override
   public Create create(ChangeResource parent, IdString id)
       throws RestApiException {
-    return createFactory.create(parent.getChange(), id.get());
+    return createFactory.create(id.get());
   }
 
 
@@ -148,58 +148,51 @@ public class ChangeEdits implements
       RestModifyView<ChangeResource, Put.Input> {
 
     interface Factory {
-      Create create(Change change, String path);
+      Create create(String path);
     }
 
-    private final Provider<ReviewDb> db;
-    private final ChangeEditUtil editUtil;
     private final ChangeEditModifier editModifier;
-    private final PatchSetUtil psUtil;
+    private final GitRepositoryManager repositoryManager;
     private final Put putEdit;
-    private final Change change;
     private final String path;
 
     @Inject
-    Create(Provider<ReviewDb> db,
-        ChangeEditUtil editUtil,
-        ChangeEditModifier editModifier,
-        PatchSetUtil psUtil,
+    Create(ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager,
         Put putEdit,
-        @Assisted Change change,
         @Assisted @Nullable String path) {
-      this.db = db;
-      this.editUtil = editUtil;
       this.editModifier = editModifier;
-      this.psUtil = psUtil;
+      this.repositoryManager = repositoryManager;
       this.putEdit = putEdit;
-      this.change = change;
       this.path = path;
     }
 
     @Override
     public Response<?> apply(ChangeResource resource, Put.Input input)
-        throws AuthException, IOException, ResourceConflictException,
-        OrmException, InvalidChangeOperationException {
-      Optional<ChangeEdit> edit = editUtil.byChange(change);
-      if (edit.isPresent()) {
-        throw new ResourceConflictException(String.format(
-            "edit already exists for the change %s",
-            resource.getId()));
-      }
-      edit = createEdit(resource);
-      if (!Strings.isNullOrEmpty(path)) {
-        putEdit.apply(new ChangeEditResource(resource, edit.get(), path),
-            input);
+        throws AuthException, ResourceConflictException, IOException,
+        OrmException {
+
+      if (Strings.isNullOrEmpty(path)) {
+        // TODO(aliceks): Consider the following:
+        // Generating an edit with a put (instead of a post) isn't mentioned in
+        // the documentation of the REST API. We should consider whether we want
+        // to keep this hidden 'feature', make it public via the documentation,
+        // or remove it.
+        createEdit(resource);
+      } else {
+        putEdit.apply(resource.getControl(), path, input.content);
       }
       return Response.none();
     }
 
-    private Optional<ChangeEdit> createEdit(ChangeResource resource)
-        throws AuthException, IOException, ResourceConflictException,
-        OrmException {
-      editModifier.createEdit(change,
-          psUtil.current(db.get(), resource.getNotes()));
-      return editUtil.byChange(change);
+    private void createEdit(ChangeResource resource) throws AuthException,
+        IOException, OrmException, ResourceConflictException {
+      Project.NameKey project = resource.getProject();
+      try (Repository repository = repositoryManager.openRepository(project)) {
+        editModifier.createEdit(repository, resource.getControl());
+      } catch (InvalidChangeOperationException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
     }
   }
 
@@ -214,20 +207,17 @@ public class ChangeEdits implements
 
     private final ChangeEditUtil editUtil;
     private final ChangeEditModifier editModifier;
-    private final PatchSetUtil psUtil;
-    private final Provider<ReviewDb> db;
+    private final GitRepositoryManager repoManager;
     private final String path;
 
     @Inject
     DeleteFile(ChangeEditUtil editUtil,
         ChangeEditModifier editModifier,
-        PatchSetUtil psUtil,
-        Provider<ReviewDb> db,
+        GitRepositoryManager repoManager,
         @Assisted String path) {
       this.editUtil = editUtil;
       this.editModifier = editModifier;
-      this.psUtil = psUtil;
-      this.db = db;
+      this.repoManager = repoManager;
       this.path = path;
     }
 
@@ -235,6 +225,10 @@ public class ChangeEdits implements
     public Response<?> apply(ChangeResource rsrc, DeleteFile.Input in)
         throws IOException, AuthException, ResourceConflictException,
         OrmException, InvalidChangeOperationException, BadRequestException {
+      // TODO(aliceks): Consider the following:
+      // This check is strange. If there was already a change edit, this method
+      // wouldn't be called because DeleteContent would take over. We should
+      // consider to remove the positive case.
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (edit.isPresent()) {
         // Edit is wiped out
@@ -244,10 +238,10 @@ public class ChangeEdits implements
         // Even if the latest patch set changed since the user triggered
         // the operation, deleting the whole file is probably still what
         // they intended.
-        editModifier.createEdit(rsrc.getChange(),
-            psUtil.current(db.get(), rsrc.getNotes()));
-        edit = editUtil.byChange(rsrc.getChange());
-        editModifier.deleteFile(edit.get(), path);
+        Project.NameKey project = rsrc.getProject();
+        try (Repository repository = repoManager.openRepository(project)) {
+          editModifier.deleteFile(repository, rsrc.getControl(), path);
+        }
       }
       return Response.none();
     }
@@ -329,48 +323,46 @@ public class ChangeEdits implements
       public String newPath;
     }
 
-    private final Provider<ReviewDb> db;
-    private final ChangeEditUtil editUtil;
     private final ChangeEditModifier editModifier;
-    private final PatchSetUtil psUtil;
+    private final GitRepositoryManager repositoryManager;
 
     @Inject
-    Post(Provider<ReviewDb> db,
-        ChangeEditUtil editUtil,
-        ChangeEditModifier editModifier,
-        PatchSetUtil psUtil) {
-      this.db = db;
-      this.editUtil = editUtil;
+    Post(ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager) {
       this.editModifier = editModifier;
-      this.psUtil = psUtil;
+      this.repositoryManager = repositoryManager;
     }
 
     @Override
     public Response<?> apply(ChangeResource resource, Post.Input input)
-        throws AuthException, InvalidChangeOperationException, IOException,
-        ResourceConflictException, OrmException {
-      Optional<ChangeEdit> edit = editUtil.byChange(resource.getChange());
-      if (!edit.isPresent()) {
-        edit = createEdit(resource);
-      }
-
-      if (input != null) {
-        if (!Strings.isNullOrEmpty(input.restorePath)) {
-          editModifier.restoreFile(edit.get(), input.restorePath);
-        } else if (!Strings.isNullOrEmpty(input.oldPath)
-            && !Strings.isNullOrEmpty(input.newPath)) {
-          editModifier.renameFile(edit.get(), input.oldPath, input.newPath);
+        throws AuthException, IOException, ResourceConflictException,
+        OrmException {
+      Project.NameKey project = resource.getProject();
+      try (Repository repository = repositoryManager.openRepository(project)) {
+        ChangeControl changeControl = resource.getControl();
+        if (isRestoreFile(input)) {
+          editModifier.restoreFile(repository, changeControl,
+              input.restorePath);
+        } else if (isRenameFile(input)) {
+          editModifier.renameFile(repository, changeControl, input.oldPath,
+              input.newPath);
+        } else {
+          editModifier.createEdit(repository, changeControl);
         }
+      } catch (InvalidChangeOperationException e) {
+        throw new ResourceConflictException(e.getMessage());
       }
       return Response.none();
     }
 
-    private Optional<ChangeEdit> createEdit(ChangeResource resource)
-        throws AuthException, IOException, ResourceConflictException,
-        OrmException {
-      editModifier.createEdit(resource.getChange(),
-          psUtil.current(db.get(), resource.getNotes()));
-      return editUtil.byChange(resource.getChange());
+    private static boolean isRestoreFile(Input input) {
+      return input != null && !Strings.isNullOrEmpty(input.restorePath);
+    }
+
+    private static boolean isRenameFile(Input input) {
+      return input != null
+          && !Strings.isNullOrEmpty(input.oldPath)
+          && !Strings.isNullOrEmpty(input.newPath);
     }
   }
 
@@ -387,26 +379,33 @@ public class ChangeEdits implements
     }
 
     private final ChangeEditModifier editModifier;
+    private final GitRepositoryManager repositoryManager;
 
     @Inject
-    Put(ChangeEditModifier editModifier) {
+    Put(ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager) {
       this.editModifier = editModifier;
+      this.repositoryManager = repositoryManager;
     }
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, Input input)
-        throws AuthException, ResourceConflictException {
-      String path = rsrc.getPath();
+        throws AuthException, ResourceConflictException, IOException,
+        OrmException {
+      return apply(rsrc.getControl(), rsrc.getPath(), input.content);
+    }
+
+    public Response<?> apply(ChangeControl changeControl, String path,
+        RawInput newContent) throws ResourceConflictException, AuthException,
+        IOException, OrmException {
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
-      try {
-        editModifier.modifyFile(
-            rsrc.getChangeEdit(),
-            rsrc.getPath(),
-            input.content);
-      } catch (InvalidChangeOperationException | IOException e) {
+      Project.NameKey project = changeControl.getChange().getProject();
+      try (Repository repository = repositoryManager.openRepository(project)) {
+        editModifier.modifyFile(repository, changeControl, path, newContent);
+      } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }
       return Response.none();
@@ -426,18 +425,29 @@ public class ChangeEdits implements
     }
 
     private final ChangeEditModifier editModifier;
+    private final GitRepositoryManager repositoryManager;
 
     @Inject
-    DeleteContent(ChangeEditModifier editModifier) {
+    DeleteContent(ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager) {
       this.editModifier = editModifier;
+      this.repositoryManager = repositoryManager;
     }
 
     @Override
     public Response<?> apply(ChangeEditResource rsrc, DeleteContent.Input input)
-        throws AuthException, ResourceConflictException {
-      try {
-        editModifier.deleteFile(rsrc.getChangeEdit(), rsrc.getPath());
-      } catch (InvalidChangeOperationException | IOException e) {
+        throws AuthException, ResourceConflictException, OrmException,
+        IOException {
+      return apply(rsrc.getControl(), rsrc.getPath());
+    }
+
+    public Response<?> apply(ChangeControl changeControl, String filePath)
+        throws AuthException, IOException, OrmException,
+        ResourceConflictException {
+      Project.NameKey project = changeControl.getChange().getProject();
+      try (Repository repository = repositoryManager.openRepository(project)) {
+        editModifier.deleteFile(repository, changeControl, filePath);
+      } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }
       return Response.none();
@@ -515,41 +525,30 @@ public class ChangeEdits implements
       public String message;
     }
 
-    private final Provider<ReviewDb> db;
     private final ChangeEditModifier editModifier;
-    private final ChangeEditUtil editUtil;
-    private final PatchSetUtil psUtil;
+    private final GitRepositoryManager repositoryManager;
 
     @Inject
-    EditMessage(Provider<ReviewDb> db,
-        ChangeEditModifier editModifier,
-        ChangeEditUtil editUtil,
-        PatchSetUtil psUtil) {
-      this.db = db;
+    EditMessage(ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager) {
       this.editModifier = editModifier;
-      this.editUtil = editUtil;
-      this.psUtil = psUtil;
+      this.repositoryManager = repositoryManager;
     }
 
     @Override
     public Object apply(ChangeResource rsrc, Input input) throws AuthException,
-        IOException, InvalidChangeOperationException, BadRequestException,
-        ResourceConflictException, OrmException {
-      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
-      if (!edit.isPresent()) {
-        editModifier.createEdit(rsrc.getChange(),
-            psUtil.current(db.get(), rsrc.getNotes()));
-        edit = editUtil.byChange(rsrc.getChange());
-      }
-
+        IOException, BadRequestException, ResourceConflictException,
+        OrmException {
       if (input == null || Strings.isNullOrEmpty(input.message)) {
         throw new BadRequestException("commit message must be provided");
       }
 
-      try {
-        editModifier.modifyMessage(edit.get(), input.message);
-      } catch (UnchangedCommitMessageException ucm) {
-        throw new ResourceConflictException(ucm.getMessage());
+      Project.NameKey project = rsrc.getProject();
+      try (Repository repository = repositoryManager.openRepository(project)) {
+        ChangeControl changeControl = rsrc.getControl();
+        editModifier.modifyMessage(repository, changeControl, input.message);
+      } catch (UnchangedCommitMessageException e) {
+        throw new ResourceConflictException(e.getMessage());
       }
 
       return Response.none();

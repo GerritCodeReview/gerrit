@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5e3c4234_a7f21e64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T14:43:01Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a924ac36_e7c2973e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 2
@@ -36,6 +53,23 @@
         "endLine": 241,
         "endChar": 64
       },
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ba6a67e_f2401d99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T14:43:01Z",
+      "side": 1,
+      "message": "For this change, I didn\u0027t see a reason to have lines referring to the creation of intermediary empty change edits absolutely clean and consistent. For most of them, I just tried to keep the general structure because they are improved by the follow-up change 95292.",
       "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +99,23 @@
     },
     {
       "key": {
+        "uuid": "af7562af_a27da752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T14:43:01Z",
+      "side": 1,
+      "message": "Ack",
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23122fc7_f827d08e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 2
@@ -88,6 +139,23 @@
     },
     {
       "key": {
+        "uuid": "1e36a41f_92fc56d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T14:43:01Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d2260e_1d96a092",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 2
@@ -105,6 +173,23 @@
         "endLine": 418,
         "endChar": 20
       },
+      "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6d85d8b_ff2da57a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T14:43:01Z",
+      "side": 1,
+      "message": "When I wrote that, I had change 95374 in mind. In addition, I thought that reindex(change) expressed more clearly what is done. I inlined the method for this change and will introduce it again in change 95374.",
       "revId": "fc0570040b81296e36bc6d19a78140fadaa60e7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

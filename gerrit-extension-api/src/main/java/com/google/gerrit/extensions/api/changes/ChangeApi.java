@@ -120,6 +120,8 @@ public interface ChangeApi {
   String topic() throws RestApiException;
   void topic(String topic) throws RestApiException;
 
+  IncludedInInfo includedIn() throws RestApiException;
+
   void addReviewer(AddReviewerInput in) throws RestApiException;
   void addReviewer(String in) throws RestApiException;
 
@@ -328,6 +330,11 @@ public interface ChangeApi {
 
     @Override
     public void topic(String topic) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public IncludedInInfo includedIn() {
       throw new NotImplementedException();
     }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -36,7 +37,7 @@ class CommitIncludedIn implements RestReadView<CommitResource> {
   }
 
   @Override
-  public IncludedIn.IncludedInInfo apply(CommitResource rsrc)
+  public IncludedInInfo apply(CommitResource rsrc)
       throws RestApiException, OrmException, IOException {
     RevCommit commit = rsrc.getCommit();
     Project.NameKey project = rsrc.getProject().getProject().getNameKey();

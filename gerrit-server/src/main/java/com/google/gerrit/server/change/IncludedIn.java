@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -34,8 +35,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
 
 @Singleton
 public class IncludedIn {
@@ -73,21 +72,8 @@ public class IncludedIn {
           external.putAll(extIncludedIns);
         }
       }
-      return new IncludedInInfo(d,
+      return new IncludedInInfo(d.getBranches(), d.getTags(),
           (!external.isEmpty() ? external.asMap() : null));
-    }
-  }
-
-  public static class IncludedInInfo {
-    Collection<String> branches;
-    Collection<String> tags;
-    Map<String, Collection<String>> external;
-
-    IncludedInInfo(IncludedInResolver.Result in,
-        Map<String, Collection<String>> e) {
-      branches = in.getBranches();
-      tags = in.getTags();
-      external = e;
     }
   }
 }

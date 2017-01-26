@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ee4752d_c8e6323a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T21:29:44Z",
+      "side": 1,
+      "message": "Why is this an ellipsis?",
+      "range": {
+        "startLine": 573,
+        "startChar": 39,
+        "endLine": 573,
+        "endChar": 41
+      },
+      "revId": "a7e4f0df05a548b0e448e3bb0a7391d1175fd159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d014316_39990804",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T21:29:44Z",
+      "side": 1,
+      "message": "Nit: no spaces inside curly braces for object literals. Same in a few places below.",
+      "range": {
+        "startLine": 653,
+        "startChar": 12,
+        "endLine": 653,
+        "endChar": 13
+      },
+      "revId": "a7e4f0df05a548b0e448e3bb0a7391d1175fd159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

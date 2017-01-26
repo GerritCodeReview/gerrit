@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "428e0666_1ff9eb5d",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-26T14:34:40Z",
+      "side": 1,
+      "message": "Have you missed to actually add the file? With dummy content:\n\n  $ cat plugins/external_plugin_deps.bzl\n  def external_plugin_deps():\n    pass",
+      "revId": "589064f68455d13b973fa2fe9a160afce584c589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

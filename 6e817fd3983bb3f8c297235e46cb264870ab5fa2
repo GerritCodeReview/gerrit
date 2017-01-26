@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "a18b3984_86474bcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T10:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3032f42e_845afa38",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 1
@@ -42,6 +59,23 @@
         "endLine": 552,
         "endChar": 47
       },
+      "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fc464b4_a4289a36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T10:01:47Z",
+      "side": 1,
+      "message": "Done",
       "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "b4014402_4996967c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T10:01:47Z",
+      "side": 1,
+      "message": "Indeed. I adjusted it.",
+      "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b60b113_e1e66e1e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 1
@@ -88,6 +139,23 @@
         "endLine": 315,
         "endChar": 61
       },
+      "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18075f76_dd0a0d91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-26T10:01:47Z",
+      "side": 1,
+      "message": "Done",
       "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

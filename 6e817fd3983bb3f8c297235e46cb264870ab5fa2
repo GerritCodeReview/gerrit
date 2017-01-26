@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "843fdb00_f8e25182",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-26T00:23:29Z",
+      "side": 1,
+      "message": "now has",
+      "range": {
+        "startLine": 19,
+        "startChar": 58,
+        "endLine": 19,
+        "endChar": 66
+      },
+      "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3032f42e_845afa38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-26T00:23:29Z",
+      "side": 1,
+      "message": "change this to \u0027e\u0027 since it\u0027s no longer only UnchangedCommitMessageException",
+      "range": {
+        "startLine": 552,
+        "startChar": 44,
+        "endLine": 552,
+        "endChar": 47
+      },
+      "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5990032_f61895e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-26T00:23:29Z",
+      "side": 1,
+      "message": "\"if the file does not exist\"?\n\nIf a file existed in the change, but was already deleted by this edit, isn\u0027t it essentially the same as the file not existing in the first place?",
+      "range": {
+        "startLine": 237,
+        "startChar": 45,
+        "endLine": 237,
+        "endChar": 76
+      },
+      "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b60b113_e1e66e1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-26T00:23:29Z",
+      "side": 1,
+      "message": "This is a bit verbose.  Maybe \"not allowed to edit change\" is enough?",
+      "range": {
+        "startLine": 314,
+        "startChar": 30,
+        "endLine": 315,
+        "endChar": 61
+      },
+      "revId": "6e817fd3983bb3f8c297235e46cb264870ab5fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

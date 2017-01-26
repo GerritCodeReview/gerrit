@@ -199,6 +199,23 @@
       "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb0a5b1c_5e2f4ba6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-26T18:07:18Z",
+      "side": 1,
+      "message": "\u003e before we make a new dialog, we have to be on the same page what the API looks like.\n\nBy what the API looks like, do you mean whether we create a new REST API endpoint to test whether the account has an HTTP password, or whether we support the clear-password endpoint in the UI?\n\nIt\u0027s not clear to me how that relates to the dialog, though.\n\n\u003e I\u0027d really like the first option, but I\u0027m not sure if that will confuse the user.\n\nThe first option seems okay to me, but I agree it sacrifices a small amount of UX for implementation simplicity.\n\nThe way forward is somewhat unclear to me because I still don\u0027t totally understand the motivation for the change (see my comment in the other thread). Is there a filed bug or feature request?",
+      "revId": "920b78f5bfd4c1207bf5d4b1b1540678723fae9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

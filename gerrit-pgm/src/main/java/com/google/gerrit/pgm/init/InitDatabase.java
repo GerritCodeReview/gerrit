@@ -85,6 +85,8 @@ class InitDatabase implements InitStep {
 
     if (dci instanceof MySqlInitializer) {
       libraries.mysqlDriver.downloadRequired();
+    } else if (dci instanceof MairaDBInitializer) {
+      libraries.mariadbDriver.downloadRequired();
     } else if (dci instanceof OracleInitializer) {
       libraries.oracleDriver.downloadRequired();
     } else if (dci instanceof DB2Initializer) {

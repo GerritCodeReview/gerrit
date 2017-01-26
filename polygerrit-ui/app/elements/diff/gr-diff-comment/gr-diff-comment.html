@@ -216,7 +216,7 @@ limitations under the License.
           rows="4"
           bind-value="{{_messageText}}"
           on-keydown="_handleTextareaKeydown"></iron-autogrow-textarea>
-      <gr-formatted-text class="message"
+      <gr-formatted-text class$="[[_getCommentClass(comment)]]"
           content="[[comment.message]]"
           collapsed="[[collapsed]]"
           config="[[projectConfig.commentlinks]]"></gr-formatted-text>
@@ -229,11 +229,6 @@ limitations under the License.
         </div>
       </div>
       <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
-        <gr-button class="action reply" on-tap="_handleReply">Reply</gr-button>
-        <gr-button class="action quote" on-tap="_handleQuote">Quote</gr-button>
-        <gr-button class="action ack" on-tap="_handleAck">Ack</gr-button>
-        <gr-button class="action done" on-tap="_handleDone">
-          Done</gr-button>
         <gr-button class="action edit hideOnPublished" on-tap="_handleEdit">
             Edit</gr-button>
         <gr-button class="action save hideOnPublished" on-tap="_handleSave"
@@ -254,7 +249,7 @@ limitations under the License.
         </div>
       </div>
       <div class="actions robotActions" hidden$="[[!_showRobotActions]]">
-        <gr-button class="action fix" on-tap="_handleFix">
+        <gr-button class="action fix" on-tap="_handleFix" disabled="[[robotButtonDisabled]]">
           Please Fix
         </gr-button>
       </div>

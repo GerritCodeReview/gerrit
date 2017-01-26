@@ -235,7 +235,7 @@
       var threadEl =
           this._getOrCreateThreadAtLineRange(contentEl, patchNum, side, range);
 
-      threadEl.addDraft(line, range);
+      threadEl.addOrEditDraft(line, range);
     },
 
     _addDraft: function(lineEl, opt_lineNum) {

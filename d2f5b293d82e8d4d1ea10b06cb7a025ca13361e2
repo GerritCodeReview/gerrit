@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "7873a764_45719e60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-27T12:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23f08842_d3579b05",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -53,6 +70,23 @@
         "endLine": 14,
         "endChar": 4
       },
+      "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b77e880_9861c4bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-27T12:11:20Z",
+      "side": 1,
+      "message": "I was referring to it in general. Out of curiosity, I debugged the code for PUT /changes/{change-id}/edit/ and ended up in RestApiServlet#view when the \u0027{change-id}\u0027 part of the path is processed. Inside this method, the request is translated to the \u0027name\u0027 \"PUT.edit\" (as further path elements aren\u0027t present) for which the corresponding RestView is looked up. As there isn\u0027t a RestView for \"PUT.edit\" (no matter whether a change edit exists or not), a ResourceNotFoundException is thrown.",
       "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

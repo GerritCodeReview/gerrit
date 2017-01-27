@@ -44,9 +44,9 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import org.junit.Test;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -123,7 +123,7 @@ public class GroupsIT extends AbstractDaemonTest {
     String p = createGroup("parent");
     String g1 = createGroup("newGroup1");
     String g2 = createGroup("newGroup2");
-    List<String> groups = new LinkedList<>();
+    List<String> groups = new ArrayList<>();
     groups.add(g1);
     groups.add(g2);
     gApi.groups().id(p).addGroups(g1, g2);

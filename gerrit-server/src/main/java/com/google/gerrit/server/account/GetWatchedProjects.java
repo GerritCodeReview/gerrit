@@ -31,9 +31,9 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,7 +60,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
           + "of other users");
     }
     Account.Id accountId = rsrc.getUser().getAccountId();
-    List<ProjectWatchInfo> projectWatchInfos = new LinkedList<>();
+    List<ProjectWatchInfo> projectWatchInfos = new ArrayList<>();
     for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : watchConfig
         .getProjectWatches(accountId).entrySet()) {
       ProjectWatchInfo pwi = new ProjectWatchInfo();

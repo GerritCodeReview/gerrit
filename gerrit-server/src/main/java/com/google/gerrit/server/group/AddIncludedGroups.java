@@ -38,8 +38,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +100,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     GroupControl control = resource.getControl();
     Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = new HashMap<>();
-    List<GroupInfo> result = new LinkedList<>();
+    List<GroupInfo> result = new ArrayList<>();
     Account.Id me = control.getUser().getAccountId();
 
     for (String includedGroup : input.groups) {

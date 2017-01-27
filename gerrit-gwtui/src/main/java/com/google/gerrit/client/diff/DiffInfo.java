@@ -23,6 +23,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class DiffInfo extends JavaScriptObject {
   }
 
   private List<WebLinkInfo> filterWebLinks(DiffView diffView) {
-    List<WebLinkInfo> filteredDiffWebLinks = new LinkedList<>();
+    List<WebLinkInfo> filteredDiffWebLinks = new ArrayList<>();
     List<DiffWebLinkInfo> allDiffWebLinks = Natives.asList(webLinks());
     if (allDiffWebLinks != null) {
       for (DiffWebLinkInfo webLink : allDiffWebLinks) {

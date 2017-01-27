@@ -27,6 +27,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class TreeCreator {
   private final RevCommit baseCommit;
   // At the moment, a list wouldn't be necessary as only one modification is
   // applied per created tree. This is going to change in the near future.
-  private final List<TreeModification> treeModifications = new LinkedList<>();
+  private final List<TreeModification> treeModifications = new ArrayList<>();
 
   public TreeCreator(RevCommit baseCommit) {
     this.baseCommit = checkNotNull(baseCommit, "baseCommit is required");
@@ -93,7 +94,7 @@ public class TreeCreator {
 
   private List<DirCacheEditor.PathEdit> getPathEdits(Repository repository)
       throws IOException {
-    List<DirCacheEditor.PathEdit> pathEdits = new LinkedList<>();
+    List<DirCacheEditor.PathEdit> pathEdits = new ArrayList<>();
     for (TreeModification treeModification : treeModifications) {
       pathEdits.addAll(treeModification.getPathEdits(repository, baseCommit));
     }

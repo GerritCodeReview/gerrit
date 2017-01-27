@@ -67,6 +67,23 @@
       "revId": "15ff652579ca76945a9eed5d6cba0339b0b15eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbe3d584_3ef0209c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 27, 2017 7:05:08 AM",
+      "side": 1,
+      "message": "I think you\u0027re mixing RevCommits belonging to different RevWalks. getRemoteHead returns you a RevCommit from a fresh copy of the repo on the server side, which doesn\u0027t exist in testRepo.\n\nYou can either fetch into testRepo, or just use repoManager to open the repo on the server side and do all your walking there.",
+      "revId": "15ff652579ca76945a9eed5d6cba0339b0b15eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

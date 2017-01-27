@@ -16,6 +16,23 @@
       "revId": "593dbc83158b61986e1f180ef15de6b64787231e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dfa0442_1348ed41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-27T16:59:33Z",
+      "side": 1,
+      "message": "Done and I have no idea what openstack do with gerrit\u0027s db.\n\nBut mysql\u0027s jdbc driver dosent allow you to set utf8mb4. You have to set that on the db, which we carn\u0027t at wikimedia as we host several different dbs on the same host.\n\nThis just really fixes utf8mb4 support by allowing us to do \n\nurl \u003d jdbc:mariadb://localhost/reviewdb?sessionVariables\u003dcharacter_set_client\u003dutf8mb4,character_set_results\u003dutf8mb4,character_set_connection\u003dutf8mb4,collation_connection\u003dutf8mb4_unicode_ci,collation_database\u003dutf8mb4_unicode_ci,collation_server\u003dutf8mb4_unicode_ci\n\nwhereas in mysql one it didnt work doing that.",
+      "revId": "593dbc83158b61986e1f180ef15de6b64787231e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -43,6 +43,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 final class ProxyUtil {
+
+  private static enum Protocol {
+    http,
+    https;
+  }
+
   /**
    * Configure the JRE's standard HTTP based on {@code http_proxy}.
    * <p>
@@ -56,30 +62,38 @@ final class ProxyUtil {
    *         unsupportable.
    */
   static void configureHttpProxy() throws MalformedURLException {
-    final String s = System.getenv("http_proxy");
+    configureProxy(Protocol.http);
+    configureProxy(Protocol.https);
+  }
+
+  private static void configureProxy(Protocol protocol) throws MalformedURLException {
+    String envName = protocol.name() + "_proxy";
+    String s = System.getenv(envName);
     if (s == null || s.equals("")) {
       return;
     }
 
-    final URL u = new URL((!s.contains("://")) ? "http://" + s : s);
+    URL u = new URL((!s.contains("://")) ? "http://" + s : s);
     if (!"http".equals(u.getProtocol())) {
-      throw new MalformedURLException("Invalid http_proxy: " + s
+      throw new MalformedURLException("Invalid " + envName + ": " + s
           + ": Only http supported.");
     }
 
-    final String proxyHost = u.getHost();
-    final int proxyPort = u.getPort();
+    String proxyHost = u.getHost();
+    int proxyPort = u.getPort();
 
-    System.setProperty("http.proxyHost", proxyHost);
+    String proxyHostProperty = protocol.name() + ".proxyHost";
+    String proxyPortProperty = protocol.name() + ".proxyPort";
+    System.setProperty(proxyHostProperty, proxyHost);
     if (proxyPort > 0) {
-      System.setProperty("http.proxyPort", String.valueOf(proxyPort));
+      System.setProperty(proxyPortProperty, String.valueOf(proxyPort));
     }
 
-    final String userpass = u.getUserInfo();
+    String userpass = u.getUserInfo();
     if (userpass != null && userpass.contains(":")) {
-      final int c = userpass.indexOf(':');
-      final String user = userpass.substring(0, c);
-      final String pass = userpass.substring(c + 1);
+      int c = userpass.indexOf(':');
+      String user = userpass.substring(0, c);
+      String pass = userpass.substring(c + 1);
       CachedAuthenticator.add(new CachedAuthenticator.CachedAuthentication(
           proxyHost, proxyPort, user, pass));
     }

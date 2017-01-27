@@ -84,11 +84,7 @@ public class RebaseSorter {
             // We cannot merge n as it would bring something we
             // aren't permitted to merge at this time. Drop n.
             //
-            if (n.missing == null) {
-              n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
-              n.missing = new ArrayList<>();
-            }
-            n.missing.add(c);
+            n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
           }
           // Stop RevWalk because c is either a merged commit or a missing
           // dependency. Not need to walk further.

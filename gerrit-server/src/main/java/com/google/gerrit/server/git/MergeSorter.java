@@ -60,11 +60,8 @@ public class MergeSorter {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //
-          if (n.missing == null) {
-            n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
-            n.missing = new ArrayList<>();
-          }
-          n.missing.add(c);
+          n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
+          break;
         } else {
           contents.add(c);
         }

@@ -125,9 +125,6 @@ public class CodeReviewCommit extends RevCommit {
    */
   private CommitMergeStatus statusCode;
 
-  /** Commits which are missing ancestors of this commit. */
-  List<CodeReviewCommit> missing;
-
   public CodeReviewCommit(final AnyObjectId id) {
     super(id);
   }
@@ -156,7 +153,6 @@ public class CodeReviewCommit extends RevCommit {
     control = src.control;
     patchsetId = src.patchsetId;
     statusCode = src.statusCode;
-    missing = src.missing;
   }
 
   public Change change() {

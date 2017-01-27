@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "12e7ea90_d5535738",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 27, 2017 9:48:37 AM",
+      "side": 1,
+      "message": "Totally agree your point.\n\nI\u0027ve had another idea, please see my new patchset which will break the while loop if we found a merged commit or missing dependency. This will make sure that at most one index lookup.\n\nMy assumption is that once we found one missing dependency, we don\u0027t need walk further.",
+      "revId": "f906827ee2d9e956c5cb3f8171616aa52ae3504f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19484ae3_d592f2c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
         "patchSetId": 8
@@ -30,6 +47,23 @@
       "writtenOn": "Jan 26, 2017 10:51:45 AM",
       "side": 1,
       "message": "This also seems like it will be extremely slow. alreadyAccepted contains branch tips; you\u0027re asking it to check whether a given branch tip is merged into this commit. It does this by walking from `commit` to `accepted`, and needs to walk all history before it can return false.",
+      "revId": "f906827ee2d9e956c5cb3f8171616aa52ae3504f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14f06757_bf98ba14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 27, 2017 9:48:37 AM",
+      "side": 1,
+      "message": "Agree. This is introduced at https://gerrit-review.googlesource.com/c/91610 . I would like optimize this in a separate change.",
       "revId": "f906827ee2d9e956c5cb3f8171616aa52ae3504f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

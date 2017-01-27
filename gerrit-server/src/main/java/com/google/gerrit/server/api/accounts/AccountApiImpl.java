@@ -59,6 +59,7 @@ import com.google.gerrit.server.account.Index;
 import com.google.gerrit.server.account.PostWatchedProjects;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutAgreement;
+import com.google.gerrit.server.account.PutStatus;
 import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.account.SetEditPreferences;
 import com.google.gerrit.server.account.SetPreferences;
@@ -115,6 +116,7 @@ public class AccountApiImpl implements AccountApi {
   private final Index index;
   private final GetExternalIds getExternalIds;
   private final DeleteExternalIds deleteExternalIds;
+  private final PutStatus putStatus;
 
   @Inject
   AccountApiImpl(AccountLoader.Factory ailf,
@@ -148,6 +150,7 @@ public class AccountApiImpl implements AccountApi {
       Index index,
       GetExternalIds getExternalIds,
       DeleteExternalIds deleteExternalIds,
+      PutStatus putStatus,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -181,6 +184,7 @@ public class AccountApiImpl implements AccountApi {
     this.index = index;
     this.getExternalIds = getExternalIds;
     this.deleteExternalIds = deleteExternalIds;
+    this.putStatus = putStatus;
   }
 
   @Override
@@ -369,6 +373,16 @@ public class AccountApiImpl implements AccountApi {
     try {
       createEmailFactory.create(input.email).apply(rsrc, input);
     } catch (EmailException | OrmException | IOException e) {
+      throw new RestApiException("Cannot add email", e);
+    }
+  }
+
+  @Override
+  public void putStatus(String status) throws RestApiException {
+    PutStatus.Input in = new PutStatus.Input(status);
+    try {
+      putStatus.apply(account, in);
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot add email", e);
     }
   }

@@ -42,7 +42,10 @@ public abstract class AccountDirectory {
     USERNAME,
 
     /** Numeric account ID, may be deprecated. */
-    ID
+    ID,
+
+    /** The user-settable status of this account (e.g. busy, OOO, available) */
+    STATUS
   }
 
   public abstract void fillAccountInfo(

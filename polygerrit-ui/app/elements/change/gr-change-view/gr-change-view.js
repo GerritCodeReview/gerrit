@@ -695,6 +695,8 @@
     },
 
     _handleAKey: function(e) {
+      this.$.restAPI.setAccountStatus('OOO');
+      debugger;
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e) ||
           !this._loggedIn) { return; }

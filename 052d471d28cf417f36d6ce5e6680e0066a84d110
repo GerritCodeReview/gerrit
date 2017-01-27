@@ -194,6 +194,29 @@
       "revId": "052d471d28cf417f36d6ce5e6680e0066a84d110",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80567fc3_e64acca9",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-27T17:15:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 96,
+        "endChar": 11
+      },
+      "revId": "052d471d28cf417f36d6ce5e6680e0066a84d110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

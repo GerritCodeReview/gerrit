@@ -412,8 +412,8 @@ limitations under the License.
           selectEl.value = '3';
           element.fire('change', {}, {node: selectEl});
         } else if (numEvents == 2) {
-          assert(showStub.lastCall.calledWithExactly('/c/42'),
-              'Should navigate to /c/42');
+          assert(showStub.lastCall.calledWithExactly('/c/42/3'),
+              'Should navigate to /c/42/3');
           done();
         }
       });

@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "e6873a94_eceb88e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 27, 2017 11:09:29 AM",
+      "side": 1,
+      "message": "\u003e My assumption is that once we found one missing dependency, we don\u0027t need walk further.\n\nI think this new approach works and is not much code, thanks.\n\nThe only thing is, this is a behavior change in the error message that\u0027s generated. SubmitStrategyListener collects all MISSING_DEPENDENCY changes and concatenates them together in the error message. So this will result in only one of them showing up.\n\nI think that\u0027s probably not a big deal, it just means that the user might still be unable to submit after correcting the one missing dependency in the error message. Do you think that\u0027s reasonable behavior?",
+      "revId": "f906827ee2d9e956c5cb3f8171616aa52ae3504f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19484ae3_d592f2c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
         "patchSetId": 8

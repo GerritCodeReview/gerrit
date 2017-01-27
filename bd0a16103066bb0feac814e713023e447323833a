@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7b01410_49206207",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 27, 2017 11:09:29 AM",
+      "side": 1,
+      "message": "Maybe add an explicit comment that this break means we are only recording the first missing dependency. The nested logic is already a little hard to follow (not your fault).",
+      "revId": "bd0a16103066bb0feac814e713023e447323833a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

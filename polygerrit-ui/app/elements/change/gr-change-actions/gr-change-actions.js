@@ -562,6 +562,9 @@
     },
 
     _setLoadingOnButtonWithKey: function(key) {
+      // Return a NoOp for menu keys. @see Issue 5366
+      if (MENU_ACTION_KEYS.indexOf(key) !== -1) { return function() {}; }
+
       var buttonEl = this.$$('[data-action-key="' + key + '"]');
       buttonEl.setAttribute('loading', true);
       buttonEl.disabled = true;

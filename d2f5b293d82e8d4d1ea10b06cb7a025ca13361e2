@@ -107,6 +107,23 @@
       "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e54715be_fb278d6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-01-27T12:50:22Z",
+      "side": 1,
+      "message": "That depends on the interpretation of what a code path is. What I described in my previous comment is also a code path. We just haven\u0027t specified an appropriate handler and hence we don\u0027t have a further code path. If you\u0027re concerned about misinterpretation, I can adjust that sentence. Should I do it?",
+      "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

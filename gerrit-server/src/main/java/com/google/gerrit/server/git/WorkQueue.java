@@ -113,7 +113,7 @@ public class WorkQueue {
   public Executor createQueue(int poolsize, String prefix) {
     final Executor r = new Executor(poolsize, prefix);
     r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
-    r.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
+    r.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
     queues.add(r);
     return r;
   }

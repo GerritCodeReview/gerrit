@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "815d335d_869e9980",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-27T17:15:10Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "revId": "593dbc83158b61986e1f180ef15de6b64787231e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45ef7995_ca92d19c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDB.java",
         "patchSetId": 10

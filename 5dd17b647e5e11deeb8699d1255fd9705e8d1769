@@ -16,6 +16,23 @@
       "revId": "5dd17b647e5e11deeb8699d1255fd9705e8d1769",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b30e5506_3c1b0976",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T18:01:27Z",
+      "side": 1,
+      "message": "These are IJ Idea specific.",
+      "revId": "5dd17b647e5e11deeb8699d1255fd9705e8d1769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

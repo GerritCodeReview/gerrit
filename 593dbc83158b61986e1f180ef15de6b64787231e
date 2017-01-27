@@ -33,6 +33,40 @@
       "revId": "593dbc83158b61986e1f180ef15de6b64787231e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883fb29a_a34f6532",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T17:08:26Z",
+      "side": 1,
+      "message": "\u003e This just really fixes utf8mb4 support by allowing us to do\n \u003e \n \u003e url \u003d jdbc:mariadb://localhost/reviewdb?sessionVariables\u003dcharacter_set_client\u003dutf8mb4,character_set_results\u003dutf8mb4,character_set_connection\u003dutf8mb4,collation_connection\u003dutf8mb4_unicode_ci,collation_database\u003dutf8mb4_unicode_ci,collation_server\u003dutf8mb4_unicode_ci\n \u003e \n \u003e whereas in mysql one it didnt work doing that.\n\nWold it make sense to add it to the documentation as well?",
+      "revId": "593dbc83158b61986e1f180ef15de6b64787231e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45ef7995_ca92d19c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MariaDB.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T17:08:26Z",
+      "side": 1,
+      "message": "Wouldn\u0027t you also need to extend gwtorm?",
+      "revId": "593dbc83158b61986e1f180ef15de6b64787231e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "697ab9fb_657027b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T16:27:45Z",
+      "side": 1,
+      "message": "Can you please fix formatting of this commit message, and try to explain what exactly problem this change is trying to solve? And why OpenStack doesn\u0027t have that problem? They are running in MySQL as well, AFAIK.",
+      "revId": "593dbc83158b61986e1f180ef15de6b64787231e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

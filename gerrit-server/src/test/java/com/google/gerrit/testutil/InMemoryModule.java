@@ -49,7 +49,11 @@ import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.SendEmailExecutor;
 import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
+import com.google.gerrit.server.index.account.AllAccountsIndexer;
+import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.group.AllGroupsIndexer;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.GwtormChangeBundleReader;
@@ -73,6 +77,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.RequestScoped;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -209,6 +214,10 @@ public class InMemoryModule extends FactoryModule {
     install(new GpgModule(cfg));
     install(new H2AccountPatchReviewStore.InMemoryModule());
 
+    bind(AllAccountsIndexer.class).toProvider(Providers.of(null));
+    bind(AllChangesIndexer.class).toProvider(Providers.of(null));
+    bind(AllGroupsIndexer.class).toProvider(Providers.of(null));
+
     IndexType indexType = null;
     try {
       indexType = cfg.getEnum("index", null, "type", IndexType.LUCENE);
@@ -239,9 +248,9 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  InMemoryDatabase getInMemoryDatabase(SchemaCreator schemaCreator)
-      throws OrmException {
-    return new InMemoryDatabase(schemaCreator);
+  InMemoryDatabase getInMemoryDatabase(SchemaCreator schemaCreator,
+      SingleVersionListener singleVersionListener) throws OrmException {
+    return new InMemoryDatabase(schemaCreator, singleVersionListener);
   }
 
   private Module luceneIndexModule() {

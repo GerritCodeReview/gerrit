@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.change;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -27,7 +28,7 @@ public class ChangeIndexDefinition
   ChangeIndexDefinition(
       ChangeIndexCollection indexCollection,
       ChangeIndex.Factory indexFactory,
-      AllChangesIndexer allChangesIndexer) {
+      @Nullable AllChangesIndexer allChangesIndexer) {
     super(ChangeSchemaDefinitions.INSTANCE, indexCollection, indexFactory,
         Providers.of(allChangesIndexer));
   }

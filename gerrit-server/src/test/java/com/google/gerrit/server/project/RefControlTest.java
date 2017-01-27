@@ -57,6 +57,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -240,6 +241,7 @@ public class RefControlTest {
   @Inject private CapabilityCollection.Factory capabilityCollectionFactory;
   @Inject private CapabilityControl.Factory capabilityControlFactory;
   @Inject private SchemaCreator schemaCreator;
+  @Inject private SingleVersionListener singleVersionListener;
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private Provider<InternalChangeQuery> queryProvider;
@@ -317,7 +319,12 @@ public class RefControlTest {
     }
 
     db = schemaFactory.open();
-    schemaCreator.create(db);
+    singleVersionListener.start();
+    try {
+      schemaCreator.create(db);
+    } finally {
+      singleVersionListener.stop();
+    }
 
     Cache<SectionSortCache.EntryKey, SectionSortCache.EntryVal> c =
         CacheBuilder.newBuilder().build();

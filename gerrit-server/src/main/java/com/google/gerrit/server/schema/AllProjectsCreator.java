@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
@@ -68,6 +69,7 @@ public class AllProjectsCreator {
   private final PersonIdent serverUser;
   private final NotesMigration notesMigration;
   private String message;
+  private int firstChangeId = ReviewDb.FIRST_CHANGE_ID;
 
   private GroupReference admin;
   private GroupReference batch;
@@ -104,6 +106,12 @@ public class AllProjectsCreator {
 
   public AllProjectsCreator setCommitMessage(String message) {
     this.message = message;
+    return this;
+  }
+
+  public AllProjectsCreator setFirstChangeIdForNoteDb(int id) {
+    checkArgument(id > 0, "id must be positive: %s", id);
+    firstChangeId = id;
     return this;
   }
 
@@ -195,7 +203,7 @@ public class AllProjectsCreator {
       if (notesMigration.readChangeSequence()
           && git.exactRef(REFS_SEQUENCES + Sequences.CHANGES) == null) {
         try (ObjectInserter ins = git.newObjectInserter()) {
-          bru.addCommand(RepoSequence.storeNew(ins, Sequences.CHANGES, ReviewDb.FIRST_CHANGE_ID));
+          bru.addCommand(RepoSequence.storeNew(ins, Sequences.CHANGES, firstChangeId));
           ins.flush();
         }
       }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be4c7d98_d71ba5d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T11:04:43Z",
+      "side": 1,
+      "message": "Can we add prefix here to what dead code remove refers, e.g.:\n\n  ChangeEdits.Create#apply: Remove dead code",
+      "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23f08842_d3579b05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T11:04:43Z",
+      "side": 1,
+      "message": "You still mean here the absent change edit, right? Beside that it\u0027s not documented and not supported, by what code path the PUT on /changes/{change-id}/edit/ would be handled?",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 4
+      },
+      "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

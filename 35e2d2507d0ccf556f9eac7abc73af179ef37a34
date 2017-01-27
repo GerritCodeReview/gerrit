@@ -90,6 +90,23 @@
       "revId": "35e2d2507d0ccf556f9eac7abc73af179ef37a34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dda43c0_aaf742a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-01-27T18:25:23Z",
+      "side": 1,
+      "message": "Yeah, that was the reason. will switch.\n\nWould you then have this code on line 273 also?",
+      "revId": "35e2d2507d0ccf556f9eac7abc73af179ef37a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

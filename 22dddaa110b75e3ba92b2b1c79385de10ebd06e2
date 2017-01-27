@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58df9ef4_19f8f3b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 27, 2017 2:06:51 PM",
+      "side": 1,
+      "message": "Would like to see an explanation as to why this fixes the test failure, especially considering it was only reproducible in Safari.",
+      "revId": "22dddaa110b75e3ba92b2b1c79385de10ebd06e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

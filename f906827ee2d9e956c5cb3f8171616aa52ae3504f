@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "74649037_6dbf699c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 27, 2017 11:54:37 AM",
+      "side": 1,
+      "message": "This will still try to looking for one missing dependency for each change. Note that there is a outer while loop for all changes. We do not change anything reported to user. Because in SubmitStrategyListener, we only say \" Change #  depends on change that was not submitted\" for each change, we don\u0027t report how many missing dependencies for that change. \n\nI also think we should change MergeSorter to the  same behavior and the List\u003cCodeReviewCommit\u003e missing; field in CodeReviewCommit is useless, I should remove it in a separate change.",
+      "revId": "f906827ee2d9e956c5cb3f8171616aa52ae3504f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19484ae3_d592f2c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
         "patchSetId": 8

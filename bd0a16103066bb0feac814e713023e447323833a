@@ -16,6 +16,23 @@
       "revId": "bd0a16103066bb0feac814e713023e447323833a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7222a4e_70d30ef5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseSorter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 27, 2017 11:54:37 AM",
+      "side": 1,
+      "message": "Done",
+      "revId": "bd0a16103066bb0feac814e713023e447323833a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

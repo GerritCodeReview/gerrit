@@ -407,4 +407,36 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     ChangeInfo info2 = get(change2.getChangeId());
     assertThat(info2.status).isEqualTo(ChangeStatus.MERGED);
   }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOne() throws Exception {
+    PushOneCommit.Result change1 = createChange("subject 1", "fileName 1",
+        "content 1");
+    PushOneCommit.Result change2 = createChange("subject 2", "fileName 2",
+        "content 2");
+    submit(change1.getChangeId());
+    submit(change2.getChangeId());
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOneManualRebase() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change1 = createChange("subject 1", "fileName 1",
+        "content 1");
+    PushOneCommit.Result change2 = createChange("subject 2", "fileName 2",
+        "content 2");
+
+    // for rebase if necessary, otherwise, the manual rebase of change2 will
+    // fail since change1 would be merged as fast forward
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change = createChange();
+    submit(change.getChangeId());
+
+    submit(change1.getChangeId());
+    // Do manual rebase first.
+    gApi.changes().id(change2.getChangeId()).current().rebase();
+    submit(change2.getChangeId());
+  }
 }

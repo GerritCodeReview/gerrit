@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "4f0842cf_b9d4a261",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 26, 2017 4:11:22 PM",
+      "side": 1,
+      "message": "Done",
+      "revId": "15ff652579ca76945a9eed5d6cba0339b0b15eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2121089_509c2e6f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByMerge.java",
         "patchSetId": 4
@@ -30,6 +47,23 @@
       "writtenOn": "Jan 26, 2017 7:49:13 AM",
       "side": 1,
       "message": "I feel like you should be able to make a stronger assertion about the structure of the graph at this point. I realize that the new tip will not always be exactly `merge`, in the Merge Always case. But maybe you could assert that both `merge` and `fix` are reachable from this new tip?",
+      "revId": "15ff652579ca76945a9eed5d6cba0339b0b15eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fef2b22_0f8dfbf5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByMerge.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 26, 2017 4:11:22 PM",
+      "side": 1,
+      "message": "Done.\nHowever, I am not sure why the test failed.\nI can clearly see the merge commit is a parent of the master by setting a break point there. \nAny ideas?",
       "revId": "15ff652579ca76945a9eed5d6cba0339b0b15eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

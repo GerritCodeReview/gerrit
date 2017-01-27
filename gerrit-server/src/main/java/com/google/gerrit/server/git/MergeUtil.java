@@ -205,10 +205,11 @@ public class MergeUtil {
   }
 
   public List<CodeReviewCommit> reduceToMinimalMerge(MergeSorter mergeSorter,
-      Collection<CodeReviewCommit> toSort) throws IntegrationException {
+      Collection<CodeReviewCommit> toSort, Set<CodeReviewCommit> incoming)
+      throws IntegrationException {
     List<CodeReviewCommit> result = new ArrayList<>();
     try {
-      result.addAll(mergeSorter.sort(toSort));
+      result.addAll(mergeSorter.sort(toSort, incoming));
     } catch (IOException e) {
       throw new IntegrationException("Branch head sorting failed", e);
     }

@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.MergeOp.CommitStatus;
@@ -56,15 +57,15 @@ public class SubmitStrategyFactory {
   public SubmitStrategy create(SubmitType submitType, ReviewDb db,
       Repository repo, CodeReviewRevWalk rw, ObjectInserter inserter,
       RevFlag canMergeFlag, Set<RevCommit> alreadyAccepted,
-      Branch.NameKey destBranch, IdentifiedUser caller, MergeTip mergeTip,
-      CommitStatus commits, RequestId submissionId,
-      NotifyHandling notifyHandling,
+      Set<CodeReviewCommit> incoming, Branch.NameKey destBranch,
+      IdentifiedUser caller, MergeTip mergeTip, CommitStatus commitStatus,
+      RequestId submissionId, NotifyHandling notifyHandling,
       ListMultimap<RecipientType, Account.Id> accountsToNotify,
       SubmoduleOp submoduleOp, boolean dryrun) throws IntegrationException {
     SubmitStrategy.Arguments args = argsFactory.create(submitType, destBranch,
-        commits, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
-        alreadyAccepted, submissionId, notifyHandling, accountsToNotify,
-        submoduleOp, dryrun);
+        commitStatus, rw, caller, mergeTip, inserter, repo, canMergeFlag, db,
+        alreadyAccepted, incoming, submissionId, notifyHandling,
+        accountsToNotify, submoduleOp, dryrun);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args);

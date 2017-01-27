@@ -208,7 +208,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     result.copyFrom(toMerge);
     result.setPatchsetId(psId); // Got overwriten by copyFrom.
     result.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
-    args.commits.put(result);
+    args.commitStatus.put(result);
     return result;
   }
 
@@ -247,7 +247,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
 
     Change c = ctx.getChange();
     Change.Id id = c.getId();
-    CodeReviewCommit commit = args.commits.get(id);
+    CodeReviewCommit commit = args.commitStatus.get(id);
     checkNotNull(commit, "missing commit for change " + id);
     CommitMergeStatus s = commit.getStatusCode();
     checkNotNull(s,
@@ -268,7 +268,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
     } catch (OrmException err) {
       String msg = "Error updating change status for " + id;
       log.error(msg, err);
-      args.commits.logProblem(id, msg);
+      args.commitStatus.logProblem(id, msg);
       // It's possible this happened before updating anything in the db, but
       // it's hard to know for sure, so just return true below to be safe.
     }
@@ -303,7 +303,7 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
   private void setApproval(ChangeContext ctx, IdentifiedUser user)
       throws OrmException {
     Change.Id id = ctx.getChange().getId();
-    List<SubmitRecord> records = args.commits.getSubmitRecords(id);
+    List<SubmitRecord> records = args.commitStatus.getSubmitRecords(id);
     PatchSet.Id oldPsId = toMerge.getPatchsetId();
     PatchSet.Id newPsId = ctx.getChange().currentPatchSetId();
 

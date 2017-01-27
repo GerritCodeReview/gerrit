@@ -72,7 +72,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         // MERGE_IF_NECESSARY semantics to avoid creating duplicate
         // commits.
         //
-        sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted);
+        sorted = args.mergeUtil.reduceToMinimalMerge(
+            args.mergeSorter, sorted, args.incoming);
         break;
       }
     }
@@ -192,7 +193,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       newCommit.setPatchsetId(newPatchSetId);
       newCommit.setStatusCode(CommitMergeStatus.CLEAN_REBASE);
       args.mergeTip.moveTipTo(newCommit, newCommit);
-      args.commits.put(args.mergeTip.getCurrentTip());
+      args.commitStatus.put(args.mergeTip.getCurrentTip());
       acceptMergeTip(args.mergeTip);
     }
 

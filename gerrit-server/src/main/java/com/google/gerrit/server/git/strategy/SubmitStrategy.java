@@ -89,7 +89,7 @@ public abstract class SubmitStrategy {
       Arguments create(
           SubmitType submitType,
           Branch.NameKey destBranch,
-          CommitStatus commits,
+          CommitStatus commitStatus,
           CodeReviewRevWalk rw,
           IdentifiedUser caller,
           MergeTip mergeTip,
@@ -98,6 +98,7 @@ public abstract class SubmitStrategy {
           RevFlag canMergeFlag,
           ReviewDb db,
           Set<RevCommit> alreadyAccepted,
+          Set<CodeReviewCommit> incoming,
           RequestId submissionId,
           NotifyHandling notifyHandling,
           ListMultimap<RecipientType, Account.Id> accountsToNotify,
@@ -124,7 +125,7 @@ public abstract class SubmitStrategy {
 
     final Branch.NameKey destBranch;
     final CodeReviewRevWalk rw;
-    final CommitStatus commits;
+    final CommitStatus commitStatus;
     final IdentifiedUser caller;
     final MergeTip mergeTip;
     final ObjectInserter inserter;
@@ -132,6 +133,7 @@ public abstract class SubmitStrategy {
     final RevFlag canMergeFlag;
     final ReviewDb db;
     final Set<RevCommit> alreadyAccepted;
+    final Set<CodeReviewCommit> incoming;
     final RequestId submissionId;
     final SubmitType submitType;
     final NotifyHandling notifyHandling;
@@ -163,7 +165,7 @@ public abstract class SubmitStrategy {
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
         TagCache tagCache,
         @Assisted Branch.NameKey destBranch,
-        @Assisted CommitStatus commits,
+        @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
         @Assisted IdentifiedUser caller,
         @Assisted MergeTip mergeTip,
@@ -172,6 +174,7 @@ public abstract class SubmitStrategy {
         @Assisted RevFlag canMergeFlag,
         @Assisted ReviewDb db,
         @Assisted Set<RevCommit> alreadyAccepted,
+        @Assisted Set<CodeReviewCommit> incoming,
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
         @Assisted NotifyHandling notifyHandling,
@@ -195,7 +198,7 @@ public abstract class SubmitStrategy {
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;
-      this.commits = commits;
+      this.commitStatus = commitStatus;
       this.rw = rw;
       this.caller = caller;
       this.mergeTip = mergeTip;
@@ -204,6 +207,7 @@ public abstract class SubmitStrategy {
       this.canMergeFlag = canMergeFlag;
       this.db = db;
       this.alreadyAccepted = alreadyAccepted;
+      this.incoming = incoming;
       this.submissionId = submissionId;
       this.submitType = submitType;
       this.notifyHandling = notifyHandling;

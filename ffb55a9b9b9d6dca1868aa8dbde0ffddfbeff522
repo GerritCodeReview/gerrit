@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99599e1e_309a2bea",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T15:38:28Z",
+      "side": 1,
+      "message": "All? Or what is missing in core? Well, we haven\u0027t released yet with Bazel, so that I expect some issues there, but they are not known yet.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 11
+      },
+      "revId": "ffb55a9b9b9d6dca1868aa8dbde0ffddfbeff522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

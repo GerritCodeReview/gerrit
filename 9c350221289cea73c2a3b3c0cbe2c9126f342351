@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "9eb7a557_f73b5782",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-27T09:04:43Z",
+      "side": 1,
+      "message": "For my local test, without this is OK as we don\u0027t call java Api here?",
+      "revId": "9c350221289cea73c2a3b3c0cbe2c9126f342351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1910dc29_0cb78fe0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
         "patchSetId": 12

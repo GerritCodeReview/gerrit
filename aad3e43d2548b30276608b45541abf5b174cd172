@@ -39,6 +39,23 @@
       "revId": "aad3e43d2548b30276608b45541abf5b174cd172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2567b003_33d341f9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByMerge.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 27, 2017 12:09:42 PM",
+      "side": 1,
+      "message": "Cool, thanks! That fixes it.\n\nI think I did try this:\nrw.parseCommit(master);\n\nAfter looking into the source, since parseCommit only use the ObjectId from master and return a new RevCommit instead of mutating the input RevCommit.",
+      "revId": "aad3e43d2548b30276608b45541abf5b174cd172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

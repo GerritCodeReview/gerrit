@@ -32,6 +32,7 @@
         type: Array,
         value: function() { return []; },
       },
+      locationRange: String,
       keyEventTarget: {
         type: Object,
         value: function() { return document.body; },

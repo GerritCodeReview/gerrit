@@ -51,6 +51,7 @@ public class TestAccount {
   public final String fullName;
   public final KeyPair sshKey;
   public final String httpPassword;
+  public String status;
 
   TestAccount(Account.Id id, String username, String email, String fullName,
       KeyPair sshKey, String httpPassword) {

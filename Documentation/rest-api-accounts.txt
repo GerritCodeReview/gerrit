@@ -285,6 +285,66 @@ Deletes the name of an account.
   HTTP/1.1 204 No Content
 ----
 
+[[get-account-status]]
+=== Get Account Status
+--
+'GET /accounts/link:#account-id[\{account-id\}]/status'
+--
+
+Retrieves the full name of an account.
+
+.Request
+----
+  GET /accounts/self/status HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Available"
+----
+
+If the account does not have a status an empty string is returned.
+
+[[set-account-status]]
+=== Set Account Status
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/status'
+--
+
+Sets the status of an account.
+
+The new account status must be provided in the request body inside
+an link:#account-status-input[AccountStatusInput] entity.
+
+.Request
+----
+  PUT /accounts/self/status HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "status": "Out Of Office"
+  }
+----
+
+As response the new account status is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Out Of Office"
+----
+
+If the name was deleted the response is "`204 No Content`".
+
 [[get-username]]
 === Get Username
 --
@@ -2171,6 +2231,18 @@ for an account.
 |Field Name ||Description
 |`name`     |optional|The new full name of the account. +
 If not set or if set to an empty string, the account name is deleted.
+|=============================
+
+[[account-status-input]]
+=== AccountStatusInput
+The `AccountStatusInput` entity contains information for setting a status
+for an account.
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name ||Description
+|`status`   |optional|The new status of the account. +
+If not set or if set to an empty string, the account status is deleted.
 |=============================
 
 [[capability-info]]

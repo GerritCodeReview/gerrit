@@ -232,7 +232,8 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
-      var threadEl = this._getOrCreateThreadAtLine(contentEl, patchNum, side);
+      var threadEl =
+          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side, range);
 
       threadEl.addDraft(line, range);
     },
@@ -242,20 +243,43 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
-      var threadEl = this._getOrCreateThreadAtLine(contentEl, patchNum, side);
+      var threadEl =
+          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side);
 
       threadEl.addOrEditDraft(opt_lineNum);
     },
 
-    _getOrCreateThreadAtLine: function(contentEl, patchNum, side) {
-      var threadEl = contentEl.querySelector('gr-diff-comment-thread');
+    _getThreadForRange: function(threadGroupEl, rangeToCheck) {
+      return threadGroupEl.getThreadForRange(rangeToCheck);
+    },
 
-      if (!threadEl) {
-        threadEl = this.$.diffBuilder.createCommentThread(
-            this.changeNum, patchNum, this.path, side, this.projectConfig);
-        contentEl.appendChild(threadEl);
+    _fetchThreadGroupForLine: function(contentEl) {
+      return contentEl.querySelector('gr-diff-comment-thread-group');
+    },
+
+    _getOrCreateThreadAtLineRange: function(contentEl, patchNum, side, range) {
+      var rangeToCheck = range ?
+          'range-' +
+          range.startLine + '-' +
+          range.startChar + '-' +
+          range.endLine + '-' +
+          range.endChar : 'line';
+
+      // Check if thread group exists.
+      var threadGroupEl = this._fetchThreadGroupForLine(contentEl);
+      if (!threadGroupEl) {
+        threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
+          this.changeNum, patchNum, this.path, side, this.projectConfig);
+        contentEl.appendChild(threadGroupEl);
       }
 
+      var threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
+
+      if (!threadEl) {
+        threadGroupEl.addNewThread(rangeToCheck);
+        Polymer.dom.flush();
+        threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
+      }
       return threadEl;
     },
 

@@ -17,6 +17,7 @@
 /bazel-gerrit
 /bazel-out
 /bazel-testlogs
+/buck-out
 /eclipse-out
 /extras
 /infer-out

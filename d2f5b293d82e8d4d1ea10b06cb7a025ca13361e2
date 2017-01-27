@@ -124,6 +124,23 @@
       "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "112237c5_fa27e7a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T12:55:12Z",
+      "side": 1,
+      "message": "Please, it\u0027s confusing as is. Either remove t entirely or mention ResourceNotFoundException.",
+      "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

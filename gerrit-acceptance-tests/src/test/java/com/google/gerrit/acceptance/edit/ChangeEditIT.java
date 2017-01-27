@@ -307,7 +307,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(edit).value().baseRevision()
         .isEqualTo(currentPatchSet.getRevision().get());
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
-        PushOneCommit.SUBJECT, FILE_NAME, new String(CONTENT_NEW2),
+        PushOneCommit.SUBJECT, FILE_NAME, new String(CONTENT_NEW2, UTF_8),
         changeId2);
     push.to("refs/for/master").assertOkStatus();
     adminRestSession.post(urlRebase(changeId2)).assertConflict();
@@ -627,7 +627,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void emptyPutRequest() throws Exception {
     createEmptyEditFor(changeId);
     adminRestSession.put(urlEditFile(changeId, FILE_NAME)).assertNoContent();
-    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), "".getBytes());
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME),
+        "".getBytes(UTF_8));
   }
 
   @Test

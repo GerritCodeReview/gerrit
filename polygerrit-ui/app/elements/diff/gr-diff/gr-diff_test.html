@@ -34,6 +34,15 @@ limitations under the License.
 <script>
   suite('gr-diff tests', function() {
     var element;
+    var sandbox;
+
+    setup(function() {
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
+    });
 
     suite('not logged in', function() {
       setup(function() {
@@ -57,22 +66,20 @@ limitations under the License.
 
       test('displayLine class added called when displayLine is true',
           function() {
-        var spy = sinon.spy(element, '_computeContainerClass');
+        var spy = sandbox.spy(element, '_computeContainerClass');
         element.displayLine = true;
         assert.isTrue(spy.called);
         assert.isTrue(
             element.$$('.diffContainer').classList.contains('displayLine'));
-        spy.restore();
       });
 
       test('get drafts', function(done) {
         element.patchRange = {basePatchNum: 0, patchNum: 0};
 
-        var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts');
+        var getDraftsStub = sandbox.stub(element.$.restAPI, 'getDiffDrafts');
         element._getDiffDrafts().then(function(result) {
           assert.deepEqual(result, {baseComments: [], comments: []});
           sinon.assert.notCalled(getDraftsStub);
-          getDraftsStub.restore();
           done();
         });
       });
@@ -80,18 +87,17 @@ limitations under the License.
       test('get robot comments', function(done) {
         element.patchRange = {basePatchNum: 0, patchNum: 0};
 
-        var getDraftsStub = sinon.stub(element.$.restAPI,
+        var getDraftsStub = sandbox.stub(element.$.restAPI,
             'getDiffRobotComments');
         element._getDiffDrafts().then(function(result) {
           assert.deepEqual(result, {baseComments: [], comments: []});
           sinon.assert.notCalled(getDraftsStub);
-          getDraftsStub.restore();
           done();
         });
       });
 
       test('loads files weblinks', function(done) {
-        var diffStub = sinon.stub(element.$.restAPI, 'getDiff').returns(
+        var diffStub = sandbox.stub(element.$.restAPI, 'getDiff').returns(
             Promise.resolve({
               meta_a: {
                 web_links: 'foo',
@@ -108,7 +114,6 @@ limitations under the License.
           });
           done();
         });
-        diffStub.restore();
       });
 
       test('remove comment', function() {
@@ -211,6 +216,49 @@ limitations under the License.
         }));
       });
 
+      test('thread groups', function() {
+        var contentEl = document.createElement('div');
+        var rangeToCheck = 'line';
+        var patchNum = 1;
+        var side = 'PARENT';
+        var range = {
+          startLine: 1,
+          startChar: 1,
+          endLine: 1,
+          endChar: 2,
+        };
+
+        sandbox.stub(element.$.diffBuilder, 'createCommentThreadGroup',
+            function() {
+          return document.createElement('gr-diff-comment-thread-group');
+        });
+
+        // No thread groups.
+        assert.isNotOk(element._fetchThreadGroupForLine(contentEl));
+
+        // A thread group gets created.
+        assert.isOk(
+            element._getOrCreateThreadAtLineRange(contentEl, patchNum, side));
+
+        // Try to fetch a thread with a different range.
+        range = {
+          startLine: 1,
+          startChar: 1,
+          endLine: 1,
+          endChar: 3,
+        };
+
+        assert.isOk(element._getOrCreateThreadAtLineRange(
+            contentEl, patchNum, side, range));
+        // The new thread group can be fetched.
+        assert.isOk(element._fetchThreadGroupForLine(contentEl));
+
+        assert.equal(contentEl.querySelectorAll(
+            'gr-diff-comment-thread-group').length, 1);
+        assert.equal(contentEl.querySelector(
+            'gr-diff-comment-thread-group').fetchThreadLength(), 2);
+      });
+
       test('renders image diffs', function(done) {
         var mockDiff = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
@@ -261,19 +309,19 @@ limitations under the License.
         var mockComments = {baseComments: [], comments: []};
 
         var stubs = [];
-        stubs.push(sinon.stub(element, '_getDiff',
+        stubs.push(sandbox.stub(element, '_getDiff',
             function() { return Promise.resolve(mockDiff); }));
-        stubs.push(sinon.stub(element.$.restAPI, 'getCommitInfo',
+        stubs.push(sandbox.stub(element.$.restAPI, 'getCommitInfo',
             function() { return Promise.resolve(mockCommit); }));
-        stubs.push(sinon.stub(element.$.restAPI,
+        stubs.push(sandbox.stub(element.$.restAPI,
             'getCommitFileContents',
             function() { return Promise.resolve(mockFile1); }));
-        stubs.push(sinon.stub(element.$.restAPI,
+        stubs.push(sandbox.stub(element.$.restAPI,
             'getChangeFileContents',
             function() { return Promise.resolve(mockFile2); }));
-        stubs.push(sinon.stub(element.$.restAPI, '_getDiffComments',
+        stubs.push(sandbox.stub(element.$.restAPI, '_getDiffComments',
             function() { return Promise.resolve(mockComments); }));
-        stubs.push(sinon.stub(element.$.restAPI, 'getDiffDrafts',
+        stubs.push(sandbox.stub(element.$.restAPI, 'getDiffDrafts',
             function() { return Promise.resolve(mockComments); }));
 
         element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
@@ -297,7 +345,6 @@ limitations under the License.
 
           // Cleanup.
           element.removeEventListener('render', rendered);
-          stubs.forEach(function(stub) { stub.restore(); });
 
           done();
         };
@@ -339,17 +386,15 @@ limitations under the License.
         var content = document.createElement('div');
         var lineEl = document.createElement('div');
 
-        var selectStub = sinon.stub(element, '_selectLine');
-        var getLineStub = sinon.stub(element.$.diffBuilder, 'getLineElByChild',
-            function() { return lineEl; });
+        var selectStub = sandbox.stub(element, '_selectLine');
+        var getLineStub = sandbox.stub(element.$.diffBuilder,
+            'getLineElByChild', function() { return lineEl; });
 
         content.className = 'content';
         content.addEventListener('click', function(e) {
           element._handleTap(e);
           assert.isTrue(selectStub.called);
           assert.equal(selectStub.lastCall.args[0], lineEl);
-          selectStub.restore();
-          getLineStub.restore();
           done();
         });
         content.click();
@@ -383,11 +428,10 @@ limitations under the License.
           baseComments: [{id: 'foo'}],
           comments: [{id: 'bar'}],
         };
-        var getDraftsStub = sinon.stub(element.$.restAPI, 'getDiffDrafts',
+        var getDraftsStub = sandbox.stub(element.$.restAPI, 'getDiffDrafts',
             function() { return Promise.resolve(draftsResponse); });
         element._getDiffDrafts().then(function(result) {
           assert.deepEqual(result, draftsResponse);
-          getDraftsStub.restore();
           done();
         });
       });
@@ -403,7 +447,7 @@ limitations under the License.
             {id: 'c2'},
           ],
         };
-        var diffCommentsStub = sinon.stub(element, '_getDiffComments',
+        var diffCommentsStub = sandbox.stub(element, '_getDiffComments',
             function() { return Promise.resolve(comments); });
 
         var drafts = {
@@ -417,7 +461,7 @@ limitations under the License.
           ],
         };
 
-        var diffDraftsStub = sinon.stub(element, '_getDiffDrafts',
+        var diffDraftsStub = sandbox.stub(element, '_getDiffDrafts',
             function() { return Promise.resolve(drafts); });
 
         var robotComments = {
@@ -431,8 +475,9 @@ limitations under the License.
           ],
         };
 
-        var diffRobotCommentStub = sinon.stub(element, '_getDiffRobotComments',
-            function() { return Promise.resolve(robotComments); });
+        var diffRobotCommentStub = sandbox.stub(element,
+            '_getDiffRobotComments', function() {
+          return Promise.resolve(robotComments); });
 
         element.changeNum = '42';
         element.patchRange = {
@@ -471,9 +516,6 @@ limitations under the License.
             ],
           });
 
-          diffCommentsStub.restore();
-          diffDraftsStub.restore();
-          diffRobotCommentStub.restore();
           done();
         });
       });
@@ -534,9 +576,8 @@ limitations under the License.
           element.patchRange = element._comments.meta.patchRange;
           element.path = element._comments.meta.path;
 
-          var stub = sinon.stub(element, 'reload', function() {
+          var stub = sandbox.stub(element, 'reload', function() {
             assert.isTrue(stub.called);
-            stub.restore();
             done();
           });
           var spy = sinon.spy(element, '_handleShowDiff');

@@ -163,25 +163,8 @@ limitations under the License.
           getContentsByLineRange: sandbox.stub().returns([]),
           getLineElByChild: sandbox.stub().returns({}),
           getSideByLineEl: sandbox.stub().returns('other-side'),
-          renderLineRange: sandbox.stub(),
         };
         element._cachedDiffBuilder = builder;
-      });
-
-      test('ignores thread discard for line comment', function(done) {
-        element.fire('thread-discard', {lastComment: {}});
-        flush(function() {
-          assert.isFalse(builder.renderLineRange.called);
-          done();
-        });
-      });
-
-      test('ignores comment discard for line comment', function(done) {
-        element.fire('comment-discard', {comment: {}});
-        flush(function() {
-          assert.isFalse(builder.renderLineRange.called);
-          done();
-        });
       });
 
       test('comment-mouse-over from line comments is ignored', function() {

@@ -73,9 +73,9 @@
       row.appendChild(action);
     } else {
       var textEl = this._createTextEl(line);
-      var threadEl = this._commentThreadForLine(line);
-      if (threadEl) {
-        textEl.appendChild(threadEl);
+      var threadGroupEl = this._commentThreadGroupForLine(line);
+      if (threadGroupEl) {
+        textEl.appendChild(threadGroupEl);
       }
       row.appendChild(textEl);
     }

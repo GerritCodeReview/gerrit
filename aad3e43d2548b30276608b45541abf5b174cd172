@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e66b5445_1551641a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmitByMerge.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 27, 2017 9:42:02 AM",
+      "side": 1,
+      "message": "I do did a fetch here before the revwalk below.",
+      "range": {
+        "startLine": 257,
+        "startChar": 4,
+        "endLine": 257,
+        "endChar": 34
+      },
+      "revId": "aad3e43d2548b30276608b45541abf5b174cd172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

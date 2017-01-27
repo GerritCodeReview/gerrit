@@ -66,6 +66,7 @@ final class ProxyUtil {
   static void configureHttpProxy() throws MalformedURLException {
     configureProxy(Protocol.http);
     configureProxy(Protocol.https);
+    configureNonProxyHosts();
   }
 
   private static void configureProxy(Protocol protocol) throws MalformedURLException {
@@ -99,6 +100,16 @@ final class ProxyUtil {
       CachedAuthenticator.add(new CachedAuthenticator.CachedAuthentication(
           proxyHost, proxyPort, user, pass));
     }
+  }
+
+  private static void configureNonProxyHosts() {
+    String s = System.getenv("no_proxy");
+    if (Strings.isNullOrEmpty(s)) {
+      return;
+    }
+
+    System.setProperty(Protocol.http.name() + ".nonProxyHosts",
+        s.replace(",", "|"));
   }
 
   ProxyUtil() {

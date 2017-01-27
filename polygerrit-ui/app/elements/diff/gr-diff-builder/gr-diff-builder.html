@@ -16,6 +16,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../gr-diff-comment-thread/gr-diff-comment-thread.html">
+<link rel="import" href="../gr-diff-comment-thread-group/gr-diff-comment-thread-group.html">
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
 <link rel="import" href="../gr-syntax-layer/gr-syntax-layer.html">
@@ -177,38 +178,6 @@ limitations under the License.
               parseInt(lineEl.getAttribute('data-value'), 10) : null;
         },
 
-        renderLineRange: function(startLine, endLine, opt_side) {
-          var groups =
-              this._builder.getGroupsByLineRange(startLine, endLine, opt_side);
-          groups.forEach(function(group) {
-            var newElement = this._builder.buildSectionElement(group);
-            var oldElement = group.element;
-
-            // Transfer comment threads from existing section to new one.
-            var threads = Polymer.dom(newElement).querySelectorAll(
-                'gr-diff-comment-thread');
-            threads.forEach(function(threadEl) {
-              var lineEl = this.getLineElByChild(threadEl, oldElement);
-              if (!lineEl) { // New comment thread.
-                return;
-              }
-              var side = this.getSideByLineEl(lineEl);
-              var line = lineEl.getAttribute('data-value');
-              var oldThreadEl =
-                  this.getCommentThreadByLine(line, side, oldElement);
-              threadEl.parentNode.replaceChild(oldThreadEl, threadEl);
-            }, this);
-
-            // Replace old group elements with new ones.
-            group.element.parentNode.replaceChild(newElement, group.element);
-            group.element = newElement;
-          }, this);
-
-          this.async(function() {
-            this.fire('render');
-          }, 1);
-        },
-
         getContentByLine: function(lineNumber, opt_side, opt_root) {
           return this._builder.getContentByLine(lineNumber, opt_side, opt_root);
         },
@@ -233,27 +202,15 @@ limitations under the License.
           return result;
         },
 
-        getCommentThreadByLine: function(lineNumber, opt_side, opt_root) {
-          var content = this.getContentByLine(lineNumber, opt_side, opt_root);
-          return this.getCommentThreadByContentEl(content);
-        },
-
-        getCommentThreadByContentEl: function(contentEl) {
-          if (contentEl.classList.contains('contentText')) {
-            contentEl = contentEl.parentElement;
-          }
-          return contentEl.querySelector('gr-diff-comment-thread');
-        },
-
         getSideByLineEl: function(lineEl) {
           return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT) ?
               GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
         },
 
-        createCommentThread: function(changeNum, patchNum, path, side,
+        createCommentThreadGroup: function(changeNum, patchNum, path, side,
             projectConfig) {
-          return this._builder.createCommentThread(changeNum, patchNum, path,
-              side, projectConfig);
+          return this._builder.createCommentThreadGroup(changeNum, patchNum,
+              path, side, projectConfig);
         },
 
         emitGroup: function(group, sectionEl) {

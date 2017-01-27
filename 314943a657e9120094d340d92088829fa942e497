@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97c73452_97bbd227",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 27, 2017 3:50:33 PM",
+      "side": 1,
+      "message": "Fits on one line.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 72
+      },
+      "revId": "314943a657e9120094d340d92088829fa942e497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d68715d_b9d18bf4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 27, 2017 3:50:33 PM",
+      "side": 1,
+      "message": "In what case is the response null? Is it not just an empty array? \n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#list-files",
+      "range": {
+        "startLine": 472,
+        "startChar": 6,
+        "endLine": 472,
+        "endChar": 31
+      },
+      "revId": "314943a657e9120094d340d92088829fa942e497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf81f5aa_ac3a01c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 27, 2017 3:50:33 PM",
+      "side": 1,
+      "message": "Strange indentation here.\n\nI have ESLint configured to enforce our spacing and indentation rules, if you want it just DM me.",
+      "range": {
+        "startLine": 434,
+        "startChar": 10,
+        "endLine": 434,
+        "endChar": 66
+      },
+      "revId": "314943a657e9120094d340d92088829fa942e497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

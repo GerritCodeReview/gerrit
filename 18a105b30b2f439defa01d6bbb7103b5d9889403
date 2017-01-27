@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1485502873 +0100\nnonce AHDV6GnF8Vj7tzxEOqxAyNk9bcfs3KidJxzYXfbqj+uUQSKeuFxRMW5c0jCWaBZHZIlrZxy116MY\n\n0000000000000000000000000000000000000000 18a105b30b2f439defa01d6bbb7103b5d9889403 refs/for/stable-2.13\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYivmZAAoJEFG1/Zeg0O9RgxoH/0j5smnjDqaa22I4ieL5uG/0\n/RuVB9sNueMBCvRpdomO+yc0RBGLdcik94TdBvFZ3mVHtaqf6AjCixpmSg8rVg2n\nkhd6LZhRqBPVk6J9KiLbDfUS3UtZqAXkwj9N5gXjwBNI3LsW+wjB34BMYHCZPnmj\nJg8cD5h92NbhWjsMZ2j0jLYacfRY7JSC31V72BUNNypckxn9Cq/DypZ2fvhodwfg\nEsnRqWrD6QM4DSNpyLaJCVDivBUBfYPPfuVDpPb4sejqwSHANp9EMAU7rdEb0wEp\nQNLkvNTzyCo1PNRJjJpwTtAdn8+TuesqADjLxVBlvDARnw3tGPKIE4wbcobrZc8\u003d\n\u003del31\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "324569da_b56e4a31",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-27T14:55:56Z",
+      "side": 1,
+      "message": "I think we also want to assert that a new change wasn\u0027t created for the change that it depends on.",
+      "revId": "18a105b30b2f439defa01d6bbb7103b5d9889403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67d8f2dc_27827c08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-27T14:55:56Z",
+      "side": 1,
+      "message": "I\u0027m concerned about going to the index for this. We\u0027re already calling the index once in this loop due to ChangeLookup, which I was already concerned about, and now we\u0027re doubling this.\n\nI would say you can use the changeRefsById map to look up the Change.Id, but that doesn\u0027t get you the branch...",
+      "revId": "18a105b30b2f439defa01d6bbb7103b5d9889403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b93b29ee_3f4ef421",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1926,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-27T14:55:56Z",
+      "side": 1,
+      "message": "What if...instead of doing byBranchKey here, we do byKey, and put this in a Map (Multimap?) of Branch.NameKey -\u003e ChangeData. You can decide whether to skip the change immediately after constructing the ChangeLookup, and you keep it at one index call per commit.\n\nI guess the problem with this approach is this is by Change-Id, not commit, so it won\u0027t work if there is no Change-Id footer. Is it possible to combine the two into [commit:X OR id:Y]? You would have to change the loop logic to not short-circuit if there is no Change-Id footer, but it might still be workable.",
+      "revId": "18a105b30b2f439defa01d6bbb7103b5d9889403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

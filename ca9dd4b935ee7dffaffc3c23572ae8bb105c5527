@@ -33,6 +33,23 @@
       "revId": "ca9dd4b935ee7dffaffc3c23572ae8bb105c5527",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03b85c93_f5c50b6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T11:15:52Z",
+      "side": 1,
+      "message": "The point to do it n different code is justified. We are not 100% sure, that it\u0027s actually a dead code, only 99.99% ;)\n\nIn case someone would object, we could easily revert removals per code segment. Thus different commits.",
+      "revId": "ca9dd4b935ee7dffaffc3c23572ae8bb105c5527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -52,6 +53,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Class for managing an incrementing sequence backed by a git repository.
@@ -264,5 +266,12 @@ public class RepoSequence {
     ru.setNewObjectId(newId);
     ru.setForceUpdate(true); // Required for non-commitish updates.
     return ru.update(rw);
+  }
+
+  public static ReceiveCommand storeNew(ObjectInserter ins, String name, int val)
+      throws IOException {
+    checkArgument(!name.startsWith(Constants.R_REFS), "expected ref suffix, got %s", name);
+    ObjectId newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
+    return new ReceiveCommand(ObjectId.zeroId(), newId, RefNames.REFS_SEQUENCES + name);
   }
 }

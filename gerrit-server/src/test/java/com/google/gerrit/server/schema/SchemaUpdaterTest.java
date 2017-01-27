@@ -29,7 +29,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.ConfigNotesMigration;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryH2Type;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
@@ -107,7 +107,7 @@ public class SchemaUpdaterTest {
 
                     bind(DataSourceType.class).to(InMemoryH2Type.class);
 
-                    bind(SystemGroupBackend.class);
+                    install(new ConfigNotesMigration.Module());
                   }
                 })
             .getInstance(SchemaUpdater.class);

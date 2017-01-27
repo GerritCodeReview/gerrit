@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -35,27 +36,37 @@ import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Creates the {@code All-Projects} repository and initial ACLs. */
 public class AllProjectsCreator {
   private final GitRepositoryManager mgr;
   private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
+  private final NotesMigration notesMigration;
   private String message;
 
   private GroupReference admin;
@@ -69,10 +80,12 @@ public class AllProjectsCreator {
       GitRepositoryManager mgr,
       AllProjectsName allProjectsName,
       SystemGroupBackend systemGroupBackend,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      NotesMigration notesMigration) {
     this.mgr = mgr;
     this.allProjectsName = allProjectsName;
     this.serverUser = serverUser;
+    this.notesMigration = notesMigration;
 
     this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
@@ -112,8 +125,9 @@ public class AllProjectsCreator {
   }
 
   private void initAllProjects(Repository git) throws IOException, ConfigInvalidException {
+    BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git)) {
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage(
@@ -177,6 +191,22 @@ public class AllProjectsCreator {
       grant(config, meta, Permission.SUBMIT, admin, owners);
 
       config.commitToNewRef(md, RefNames.REFS_CONFIG);
+
+      if (notesMigration.readChangeSequence()
+          && git.exactRef(REFS_SEQUENCES + Sequences.CHANGES) == null) {
+        try (ObjectInserter ins = git.newObjectInserter()) {
+          bru.addCommand(RepoSequence.storeNew(ins, Sequences.CHANGES, ReviewDb.FIRST_CHANGE_ID));
+          ins.flush();
+        }
+      }
+      try (RevWalk rw = new RevWalk(git)) {
+        bru.execute(rw, NullProgressMonitor.INSTANCE);
+      }
+      for (ReceiveCommand cmd : bru.getCommands()) {
+        if (cmd.getResult() != ReceiveCommand.Result.OK) {
+          throw new IOException("Failed to initialize All-Users refs:\n" + bru);
+        }
+      }
     }
   }
 

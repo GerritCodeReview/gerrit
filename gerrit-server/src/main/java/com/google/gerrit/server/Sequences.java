@@ -35,6 +35,8 @@ import org.eclipse.jgit.lib.Config;
 @SuppressWarnings("deprecation")
 @Singleton
 public class Sequences {
+  public static final String CHANGES = "changes";
+
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
   private final RepoSequence changeSeq;
@@ -54,7 +56,7 @@ public class Sequences {
         new RepoSequence(
             repoManager,
             allProjects,
-            "changes",
+            CHANGES,
             new RepoSequence.Seed() {
               @Override
               public int get() throws OrmException {

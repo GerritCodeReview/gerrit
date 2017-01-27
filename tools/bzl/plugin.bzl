@@ -82,7 +82,7 @@ def gerrit_plugin(
     stamp = 1,
     srcs = ['%s__non_stamped_deploy.jar' % name],
     cmd = " && ".join([
-      "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep %s | cut -d ' ' -f 2)" % name.upper(),
+      "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % name.upper(),
       "cd $$TMP",
       "unzip -q $$ROOT/$<",
       "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",

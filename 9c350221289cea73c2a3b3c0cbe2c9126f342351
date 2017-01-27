@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "0174aadd_d3115c69",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-27T09:06:08Z",
+      "side": 1,
+      "message": "Right.",
+      "revId": "9c350221289cea73c2a3b3c0cbe2c9126f342351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1910dc29_0cb78fe0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
         "patchSetId": 12

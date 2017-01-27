@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3def491_983d7f12",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 27, 2017 1:54:47 PM",
+      "side": 1,
+      "message": "I\u0027m a bit confused as to how these tests work. I followed the pattern from addEmail above putStatus, but there doesn\u0027t seem to be any assertions happening. The test doesn\u0027t fail, but another one, self, does. Can you advise me on this?",
+      "revId": "ce318640ab1a8c1be66b6fc00a4d4e322045b49d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

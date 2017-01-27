@@ -27,8 +27,10 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,7 +48,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Map;
 
 @NoHttpd
 public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
@@ -246,6 +250,72 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     // Check that all patch sets have different SHA1s
     assertThat(revPs1).doesNotMatch(revPs2);
     assertThat(revPs2).doesNotMatch(revPs3);
+  }
+
+  @Test
+  public void deleteDraftPatchSetAndPushNewPublishedPatchSet()
+      throws Exception {
+    String ref = "refs/drafts/master";
+
+    // Clone repository
+    TestRepository<InMemoryRepository> testRepo =
+        cloneProject(project, admin);
+
+    // Create change
+    PushOneCommit push = pushFactory.create(
+        db, admin.getIdent(), testRepo);
+    PushOneCommit.Result r1 = push.to(ref);
+    r1.assertOkStatus();
+    String revPs1 = r1.getChange().currentPatchSet().getRevision().get();
+
+    // Push draft patch set
+    PushOneCommit.Result r2 = amendChange(
+        r1.getChangeId(), ref, admin, testRepo);
+    r2.assertOkStatus();
+    String revPs2 = r2.getChange().currentPatchSet().getRevision().get();
+
+    assertThat(
+        gApi.changes()
+            .id(r1.getChange().getId().get()).get()
+            .currentRevision)
+        .isEqualTo(revPs2);
+
+    // Remove draft patch set
+    gApi.changes()
+        .id(r1.getChange().getId().get())
+        .revision(revPs2)
+        .delete();
+
+    assertThat(
+        gApi.changes()
+            .id(r1.getChange().getId().get()).get()
+            .currentRevision)
+        .isEqualTo(revPs1);
+
+    // Push new draft patch set
+    PushOneCommit.Result r3 = amendChange(
+        r1.getChangeId(), "refs/heads/master", admin, testRepo);
+    r3.assertOkStatus();
+    String revPs3 = r2.getChange().currentPatchSet().getRevision().get();
+
+    assertThat(
+        gApi.changes()
+            .id(r1.getChange().getId().get()).get()
+            .currentRevision)
+        .isEqualTo(revPs3);
+
+    // Check that all patch sets have different SHA1s
+    assertThat(revPs1).doesNotMatch(revPs2);
+    assertThat(revPs2).doesNotMatch(revPs3);
+
+    // Check that another user can see the non-draft patch set.
+    setApiUser(user);
+    Map<String, RevisionInfo> revs = gApi.changes()
+        .id(r1.getChangeId())
+        .get(EnumSet.of(ListChangesOption.ALL_REVISIONS))
+        .revisions;
+    assertThat(revs.keySet()).containsExactly(revPs3);
+    assertThat(revs.get(revPs3)._number).isEqualTo(3);
   }
 
   private Ref getDraftRef(TestAccount account, Change.Id changeId)

@@ -16,6 +16,80 @@
       "revId": "22dddaa110b75e3ba92b2b1c79385de10ebd06e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "121aa3dc_61c86f57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 27, 2017 2:41:13 PM",
+      "side": 1,
+      "message": "Sure. I added some comments below to explain parts of what I got wrong. As documented at [1], `Array#sort` is not necessarily stable, and browsers implementations have the option to take shortcuts (with the assumption that they\u0027ve been given a good comparator). My suspicion is that Safari just has a non-stable sort in a different way than Chrome does, and the difference exposed that the comparator was wrong.\n\n* [1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+      "revId": "22dddaa110b75e3ba92b2b1c79385de10ebd06e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39833cf5_db04a133",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 27, 2017 2:41:13 PM",
+      "side": 1,
+      "message": "This part was literally backwards. Hidden by the fact that I mistyped the key in test data.",
+      "revId": "22dddaa110b75e3ba92b2b1c79385de10ebd06e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ec283_2b5e9def",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 27, 2017 2:41:13 PM",
+      "side": 1,
+      "message": "These keys were wrong in the test data.",
+      "range": {
+        "startLine": 206,
+        "startChar": 23,
+        "endLine": 206,
+        "endChar": 25
+      },
+      "revId": "22dddaa110b75e3ba92b2b1c79385de10ebd06e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11f99f33_583a337d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 27, 2017 2:41:13 PM",
+      "side": 1,
+      "message": "This is a little safeguard for the test to shuffle the array so that the sort function can\u0027t get the right answer by failing silently (such as when the keys are mistyped in test data).",
+      "revId": "22dddaa110b75e3ba92b2b1c79385de10ebd06e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

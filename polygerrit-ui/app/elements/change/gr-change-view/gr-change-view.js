@@ -295,7 +295,7 @@
     },
 
     _handlePatchChange: function(e) {
-      this._changePatchNum(parseInt(e.target.value, 10));
+      this._changePatchNum(parseInt(e.target.value, 10), true);
     },
 
     _handleReplyTap: function(e) {
@@ -527,19 +527,24 @@
     /**
      * Change active patch to the provided patch num.
      * @param {number} patchNum the patchn number to be viewed.
+     * @param {boolean} opt_forceParams When set to true, the resulting URL will
+     *     always include the patch range, even if the requested patchNum is
+     *     known to be the latest.
      */
-    _changePatchNum: function(patchNum) {
-      var currentPatchNum;
-      if (this._change.current_revision) {
-        currentPatchNum =
-            this._change.revisions[this._change.current_revision]._number;
-      } else {
-        currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
-      }
-      if (patchNum === currentPatchNum &&
-          this._patchRange.basePatchNum === 'PARENT') {
-        page.show(this.changePath(this._changeNum));
-        return;
+    _changePatchNum: function(patchNum, opt_forceParams) {
+      if (!opt_forceParams) {
+        var currentPatchNum;
+        if (this._change.current_revision) {
+          currentPatchNum =
+              this._change.revisions[this._change.current_revision]._number;
+        } else {
+          currentPatchNum = this._computeLatestPatchNum(this._allPatchSets);
+        }
+        if (patchNum === currentPatchNum &&
+            this._patchRange.basePatchNum === 'PARENT') {
+          page.show(this.changePath(this._changeNum));
+          return;
+        }
       }
       var patchExpr = this._patchRange.basePatchNum === 'PARENT' ? patchNum :
           this._patchRange.basePatchNum + '..' + patchNum;

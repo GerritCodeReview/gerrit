@@ -90,6 +90,23 @@
       "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eace7766_ab25ae2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T12:40:13Z",
+      "side": 1,
+      "message": "Thanks for debugging. But then the statement above is not accurate: \"there is no such code path in Gerrit to handle PUT changes/{change-id}/edit/\". This is different as to say \"That request is handled by a different code path\".",
+      "revId": "d2f5b293d82e8d4d1ea10b06cb7a025ca13361e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

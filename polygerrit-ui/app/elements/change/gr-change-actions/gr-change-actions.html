@@ -52,10 +52,12 @@ limitations under the License.
       @media screen and (max-width: 50em) {
         :host,
         section,
-        gr-button {
+        gr-button,
+        gr-dropdown {
           display: block;
         }
-        gr-button {
+        gr-button,
+        gr-dropdown {
           margin-bottom: .5em;
           margin-left: 0;
         }
@@ -69,7 +71,7 @@ limitations under the License.
         id="moreActions"
         down-arrow
         vertical-offset="32"
-        horizontal-align="right"
+        horizontal-align="left"
         on-tap-item-abandon="_handleAbandonTap"
         on-tap-item-cherrypick="_handleCherrypickTap"
         on-tap-item-delete="_handleDeleteTap"

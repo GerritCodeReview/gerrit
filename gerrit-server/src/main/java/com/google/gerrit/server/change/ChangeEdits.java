@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -151,18 +150,12 @@ public class ChangeEdits implements
       Create create(String path);
     }
 
-    private final ChangeEditModifier editModifier;
-    private final GitRepositoryManager repositoryManager;
     private final Put putEdit;
     private final String path;
 
     @Inject
-    Create(ChangeEditModifier editModifier,
-        GitRepositoryManager repositoryManager,
-        Put putEdit,
-        @Assisted @Nullable String path) {
-      this.editModifier = editModifier;
-      this.repositoryManager = repositoryManager;
+    Create(Put putEdit,
+        @Assisted String path) {
       this.putEdit = putEdit;
       this.path = path;
     }
@@ -171,28 +164,8 @@ public class ChangeEdits implements
     public Response<?> apply(ChangeResource resource, Put.Input input)
         throws AuthException, ResourceConflictException, IOException,
         OrmException {
-
-      if (Strings.isNullOrEmpty(path)) {
-        // TODO(aliceks): Consider the following:
-        // Generating an edit with a put (instead of a post) isn't mentioned in
-        // the documentation of the REST API. We should consider whether we want
-        // to keep this hidden 'feature', make it public via the documentation,
-        // or remove it.
-        createEdit(resource);
-      } else {
-        putEdit.apply(resource.getControl(), path, input.content);
-      }
+      putEdit.apply(resource.getControl(), path, input.content);
       return Response.none();
-    }
-
-    private void createEdit(ChangeResource resource) throws AuthException,
-        IOException, OrmException, ResourceConflictException {
-      Project.NameKey project = resource.getProject();
-      try (Repository repository = repositoryManager.openRepository(project)) {
-        editModifier.createEdit(repository, resource.getControl());
-      } catch (InvalidChangeOperationException e) {
-        throw new ResourceConflictException(e.getMessage());
-      }
     }
   }
 
@@ -205,45 +178,21 @@ public class ChangeEdits implements
       DeleteFile create(String path);
     }
 
-    private final ChangeEditUtil editUtil;
-    private final ChangeEditModifier editModifier;
-    private final GitRepositoryManager repoManager;
+    private final DeleteContent deleteContent;
     private final String path;
 
     @Inject
-    DeleteFile(ChangeEditUtil editUtil,
-        ChangeEditModifier editModifier,
-        GitRepositoryManager repoManager,
+    DeleteFile(DeleteContent deleteContent,
         @Assisted String path) {
-      this.editUtil = editUtil;
-      this.editModifier = editModifier;
-      this.repoManager = repoManager;
+      this.deleteContent = deleteContent;
       this.path = path;
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc, DeleteFile.Input in)
         throws IOException, AuthException, ResourceConflictException,
-        OrmException, InvalidChangeOperationException, BadRequestException {
-      // TODO(aliceks): Consider the following:
-      // This check is strange. If there was already a change edit, this method
-      // wouldn't be called because DeleteContent would take over. We should
-      // consider to remove the positive case.
-      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
-      if (edit.isPresent()) {
-        // Edit is wiped out
-        editUtil.delete(edit.get());
-      } else {
-        // Edit is created on top of current patch set by deleting path.
-        // Even if the latest patch set changed since the user triggered
-        // the operation, deleting the whole file is probably still what
-        // they intended.
-        Project.NameKey project = rsrc.getProject();
-        try (Repository repository = repoManager.openRepository(project)) {
-          editModifier.deleteFile(repository, rsrc.getControl(), path);
-        }
-      }
-      return Response.none();
+        OrmException {
+      return deleteContent.apply(rsrc.getControl(), path);
     }
   }
 

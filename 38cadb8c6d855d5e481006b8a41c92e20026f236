@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "a88a63c5_e8b2e975",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-27T08:49:33Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 9
+      },
+      "revId": "38cadb8c6d855d5e481006b8a41c92e20026f236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e553973_880b1550",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteExternalIds.java",
         "patchSetId": 11
@@ -36,6 +59,29 @@
       "writtenOn": "2017-01-27T08:06:34Z",
       "side": 1,
       "message": "I think we need to do something in the else block:\n\n* If the user specified an external ID for deletion that is not deletable, the request should with 409 Conflict.\n\n* If the user specified an external ID for deletion that doesn\u0027t exist, the request should with 422 Unprocessable Entity.\n\n\nI guess we should also have tests for this.",
+      "range": {
+        "startLine": 81,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 7
+      },
+      "revId": "38cadb8c6d855d5e481006b8a41c92e20026f236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df80d46_430d646d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteExternalIds.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-27T08:49:33Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 81,
         "startChar": 5,

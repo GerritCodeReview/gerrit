@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cc6db64_e22c7605",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-27T17:33:08Z",
+      "side": 1,
+      "message": "These now result in warnings in Eclipse, since this is not supported. Normally we try to keep Eclipse warning-free. What tooling are you using that is causing these warnings?",
+      "revId": "5dd17b647e5e11deeb8699d1255fd9705e8d1769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

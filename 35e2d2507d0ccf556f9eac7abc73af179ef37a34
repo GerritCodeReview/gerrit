@@ -107,6 +107,23 @@
       "revId": "35e2d2507d0ccf556f9eac7abc73af179ef37a34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b35fe67_50f8284a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-27T19:26:43Z",
+      "side": 1,
+      "message": "Ah, I see what you mean. Perhaps make a small function that\u0027s local to this test?\n\nfunction findThreadByKey(nodeList, key) {\n  for (var i \u003d 0; i \u003c nodeList.length; i++) {\n    if (nodeList[i].key \u003d\u003d\u003d key) {\n      return nodeList[i];\n    }\n  }\n}",
+      "revId": "35e2d2507d0ccf556f9eac7abc73af179ef37a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

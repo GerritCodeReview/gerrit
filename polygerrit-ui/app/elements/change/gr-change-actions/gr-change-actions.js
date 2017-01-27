@@ -700,10 +700,10 @@
       }
 
       // Change actions appear before revision actions.
-      if (actionA.__type === 'change' && actionB.__type === 'revision') {
-        return -1;
-      } else if (actionA.__type === 'revision' && actionB.__type === 'change') {
+     if (actionA.__type === 'change' && actionB.__type === 'revision') {
         return 1;
+      } else if (actionA.__type === 'revision' && actionB.__type === 'change') {
+        return -1;
       }
 
       // Otherwise, sort by the button label.

@@ -203,13 +203,17 @@ limitations under the License.
 
     test('_actionComparator sort order', function() {
       var actions = [
-        {label: '123', type: 'change', __key: 'review'},
-        {label: 'abc',type: 'revision'},
-        {label: 'abc',type: 'change'},
-        {label: 'def', type: 'change'},
-        {label: 'def', type: 'change',__primary: true},
+        {label: '123', __type: 'change', __key: 'review'},
+        {label: 'abc', __type: 'revision'},
+        {label: 'abc', __type: 'change'},
+        {label: 'def', __type: 'change'},
+        {label: 'def', __type: 'change', __primary: true},
       ];
-      var result = actions.slice().sort(element._actionComparator);
+
+      var result = actions.slice()
+      result.reverse();
+      result.sort(element._actionComparator);
+
       assert.deepEqual(result, actions);
     });
 

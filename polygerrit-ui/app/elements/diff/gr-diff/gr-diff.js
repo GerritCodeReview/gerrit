@@ -232,7 +232,8 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
-      var threadEl = this._getOrCreateThreadAtLine(contentEl, patchNum, side);
+      var threadEl =
+          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side, range);
 
       threadEl.addDraft(line, range);
     },
@@ -242,20 +243,49 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
-      var threadEl = this._getOrCreateThreadAtLine(contentEl, patchNum, side);
+      var threadEl =
+          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side);
 
       threadEl.addOrEditDraft(opt_lineNum);
     },
 
-    _getOrCreateThreadAtLine: function(contentEl, patchNum, side) {
-      var threadEl = contentEl.querySelector('gr-diff-comment-thread');
+    _fetchThreadForRange: function(contentEl, rangeToCheck) {
+      var threads = [].filter.call(
+          contentEl.querySelectorAll('gr-diff-comment-thread'),
+          function(thread) {
+            return thread.locationRange === rangeToCheck;
+          });
+      if (threads.length === 1) {
+        return threads[0];
+      }
+    },
+
+    _fetchThreadGroupForLine: function(contentEl) {
+      return contentEl.querySelector('gr-diff-comment-thread-group');
+    },
+
+    _getOrCreateThreadAtLineRange: function(contentEl, patchNum, side, range) {
+      var rangeToCheck = range ?
+          'range-' +
+          range.startLine + '-' +
+          range.startChar + '-' +
+          range.endLine + '-' +
+          range.endChar : 'line';
+
+      var threadEl = this._fetchThreadForRange(contentEl, rangeToCheck);
 
       if (!threadEl) {
-        threadEl = this.$.diffBuilder.createCommentThread(
+        // Check if thread group exists.
+        var threadGroupEl = this._fetchThreadGroupForLine(contentEl);
+        if (!threadGroupEl) {
+          threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
             this.changeNum, patchNum, this.path, side, this.projectConfig);
-        contentEl.appendChild(threadEl);
+          contentEl.appendChild(threadGroupEl);
+        }
+        threadGroupEl.addNewThread(rangeToCheck);
+        Polymer.dom.flush();
+        threadEl = this._fetchThreadForRange(contentEl, rangeToCheck);
       }
-
       return threadEl;
     },
 

@@ -32,6 +32,10 @@
         type: Array,
         value: function() { return []; },
       },
+      locationRange: {
+        type: String,
+        reflectToAttribute: true,
+      },
       keyEventTarget: {
         type: Object,
         value: function() { return document.body; },

@@ -42,6 +42,7 @@ public class AccountLoader {
           FillOptions.NAME,
           FillOptions.EMAIL,
           FillOptions.USERNAME,
+          FillOptions.STATUS,
           FillOptions.AVATARS));
 
   public interface Factory {

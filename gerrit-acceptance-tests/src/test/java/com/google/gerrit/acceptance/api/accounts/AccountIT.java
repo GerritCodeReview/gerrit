@@ -422,6 +422,19 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void putStatus() throws Exception {
+    List<String> statuses = ImmutableList.of(
+        "OOO", "Busy");
+    AccountInfo info;
+    for (String status : statuses) {
+      gApi.accounts().self().setStatus(status);
+      admin.status = status;
+      info = gApi.accounts().self().get();
+      assertUser(info, admin);
+    }
+  }
+
+  @Test
   public void addInvalidEmail() throws Exception {
     List<String> emails = ImmutableList.of(
         // Missing domain part
@@ -877,5 +890,6 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info.name).isEqualTo(account.fullName);
     assertThat(info.email).isEqualTo(account.email);
     assertThat(info.username).isEqualTo(account.username);
+    assertThat(info.status).isEqualTo(account.status);
   }
 }

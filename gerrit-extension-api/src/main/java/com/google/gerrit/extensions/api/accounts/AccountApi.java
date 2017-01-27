@@ -66,6 +66,8 @@ public interface AccountApi {
 
   void addEmail(EmailInput input) throws RestApiException;
 
+  void setStatus(String status) throws RestApiException;
+
   List<SshKeyInfo> listSshKeys() throws RestApiException;
   SshKeyInfo addSshKey(String key) throws RestApiException;
   void deleteSshKey(int seq) throws RestApiException;
@@ -181,6 +183,11 @@ public interface AccountApi {
 
     @Override
     public void addEmail(EmailInput input) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setStatus(String status) {
       throw new NotImplementedException();
     }
 

@@ -103,6 +103,11 @@ public class InternalAccountDirectory extends AccountDirectory {
           ? AccountState.getUserName(externalIds)
           : null;
     }
+
+    if (options.contains(FillOptions.STATUS)) {
+      info.status = account.getStatus();
+    }
+
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
       if (ap != null) {

@@ -45,6 +45,29 @@
       "revId": "ffb55a9b9b9d6dca1868aa8dbde0ffddfbeff522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "586d4b82_1c8ebe45",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-01-27T16:10:33Z",
+      "side": 1,
+      "message": "Bazlets based standalone plugin mode is 100% implemented and working and is used, at least, by two plugins: [1], [2].\n\nYou could clone both of these plugins, on virgin vm, no gerrit core and just run:\n\n  bazel build \u003cplugin-name\u003e\n\nOh, wait, it could be that you would have replace one line in the WORKSPACE file:\n\nUncomment this section:\n\n    # Release Plugin API\n  #load(\"@com_googlesource_gerrit_bazlets//:gerrit_api.bzl\",\n  #     \"gerrit_api\")\n\n\nUncomment out this:\n\n  # Snapshot Plugin API\n  load(\n      \"@com_googlesource_gerrit_bazlets//:gerrit_api_maven_local.bzl\",\n      \"gerrit_api_maven_local\",\n  )\n\nto switch from consuming from local Maven repository to Maven Central.\nDoofe. Where is the magic? In Bazlets gerrit_api(), vs. gerrit_api_maven_local repository rules: [3], [4].\n\n* [1] reviewers plugin: https://gerrit-review.googlesource.com/#/c/91830/\n* [2] sync-index plugin: https://gerrit-review.googlesource.com/#/c/93151/\n* [3] https://gerrit.googlesource.com/bazlets/+/master/gerrit_api.bzl\n* [4] https://gerrit.googlesource.com/bazlets/+/master/gerrit_api_maven_local.bzl",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 11
+      },
+      "revId": "ffb55a9b9b9d6dca1868aa8dbde0ffddfbeff522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

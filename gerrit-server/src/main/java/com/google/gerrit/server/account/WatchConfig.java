@@ -145,6 +145,19 @@ public class WatchConfig extends VersionedMetaData
       }
     }
 
+    public synchronized void deleteAllProjectWatches(Account.Id accountId)
+        throws IOException, ConfigInvalidException {
+      WatchConfig watchConfig = read(accountId);
+      boolean commit = false;
+      if (!watchConfig.getProjectWatches().isEmpty()) {
+        watchConfig.getProjectWatches().clear();
+        commit = true;
+      }
+      if (commit) {
+        commit(watchConfig);
+      }
+    }
+
     private WatchConfig read(Account.Id accountId)
         throws IOException, ConfigInvalidException {
       try (Repository git = repoManager.openRepository(allUsersName)) {

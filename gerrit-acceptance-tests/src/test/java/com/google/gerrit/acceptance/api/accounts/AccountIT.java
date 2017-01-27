@@ -418,6 +418,15 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void putStatus() throws Exception {
+    List<String> statuses = ImmutableList.of(
+        "OOO", "Busy");
+    for (String status : statuses) {
+      gApi.accounts().self().putStatus(status);
+    }
+  }
+
+  @Test
   public void addInvalidEmail() throws Exception {
     EmailInput input  = new EmailInput();
     input.email = "invalid@";
@@ -856,5 +865,6 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info.name).isEqualTo(account.fullName);
     assertThat(info.email).isEqualTo(account.email);
     assertThat(info.username).isEqualTo(account.username);
+    assertThat(info.status).isEqualTo(account.status);
   }
 }

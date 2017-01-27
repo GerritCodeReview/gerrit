@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-diff-comment-thread</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-diff-comment-thread-group.html">
+
+<test-fixture id="basic">
+  <template>
+    <gr-diff-comment-thread-group></gr-diff-comment-thread-group>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-diff-comment-thread-group tests', function() {
+    var element;
+    var sandbox;
+
+    setup(function() {
+      sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getLoggedIn: function() { return Promise.resolve(false); },
+      });
+      element = fixture('basic');
+    });
+
+    teardown(function() {
+      sandbox.restore();
+    });
+
+    test('_getThreadGroups', function() {
+      var comments = [
+        {
+          id: 'sallys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-23 15:00:20.396000000',
+        }, {
+          id: 'jacks_reply',
+          message: 'i like you, too',
+          updated: '2015-12-24 15:00:20.396000000',
+        }
+      ];
+
+      var expectedThreadGroups = [
+        {
+          start_datetime: '2015-12-23 15:00:20.396000000',
+          comments: [{
+              id: 'sallys_confession',
+              message: 'i like you, jack',
+              updated: '2015-12-23 15:00:20.396000000',
+            }, {
+              id: 'jacks_reply',
+              message: 'i like you, too',
+              updated: '2015-12-24 15:00:20.396000000',
+            }],
+          locationRange: 'line',
+        },
+      ];
+
+      assert.deepEqual(element._getThreadGroups(comments),
+          expectedThreadGroups);
+
+      comments.push({
+          id: 'betsys_confession',
+          message: 'i like you, jack',
+          updated: '2015-12-24 15:00:10.396000000',
+          range: {
+            start_line: 1,
+            start_character: 1,
+            end_line: 1,
+            end_character: 2,
+          }
+        });
+
+      expectedThreadGroups = [
+        {
+          start_datetime: '2015-12-23 15:00:20.396000000',
+          comments: [{
+              id: 'sallys_confession',
+              message: 'i like you, jack',
+              updated: '2015-12-23 15:00:20.396000000',
+            }, {
+              id: 'jacks_reply',
+              message: 'i like you, too',
+              updated: '2015-12-24 15:00:20.396000000',
+            }],
+          locationRange: 'line',
+        },
+        {
+          start_datetime: '2015-12-24 15:00:10.396000000',
+          comments: [{
+            id: 'betsys_confession',
+            message: 'i like you, jack',
+            updated: '2015-12-24 15:00:10.396000000',
+            range: {
+              start_line: 1,
+              start_character: 1,
+              end_line: 1,
+              end_character: 2,
+            },
+          }],
+          locationRange: 'range-1-1-1-2',
+        },
+      ];
+
+      assert.deepEqual(element._getThreadGroups(comments),
+          expectedThreadGroups);
+    });
+
+    test('_sortByDate', function() {
+      var threadGroups = expectedThreadGroups = [
+        {
+          start_datetime: '2015-12-23 15:00:20.396000000',
+          comments: [],
+          locationRange: 'line',
+        },
+        {
+          start_datetime: '2015-12-22 15:00:10.396000000',
+          comments: [],
+          locationRange: 'range-1-1-1-2',
+        },
+      ];
+
+      var expectedResult = expectedThreadGroups = [
+        {
+          start_datetime: '2015-12-22 15:00:10.396000000',
+          comments: [],
+          locationRange: 'range-1-1-1-2',
+        },{
+          start_datetime: '2015-12-23 15:00:20.396000000',
+          comments: [],
+          locationRange: 'line',
+        },
+      ];
+
+      assert.deepEqual(element._sortByDate(threadGroups), expectedResult);
+    });
+
+    test('_calculateLocationRange', function() {
+      var range = {
+        start_line: 1,
+        start_character: 2,
+        end_line: 3,
+        end_character: 4,
+      };
+      assert.equal(element._calculateLocationRange(range), 'range-1-2-3-4');
+    });
+
+    test('thread groups are updated when comments change', function() {
+      var commentsChangedStub = sandbox.stub(element, '_commentsChanged');
+      element.comments = [];
+      element.comments.push({
+        id: 'sallys_confession',
+        message: 'i like you, jack',
+        updated: '2015-12-23 15:00:20.396000000',
+      });
+      assert(commentsChangedStub.called);
+    });
+
+    test('addNewThread', function() {
+      var locationRange = 'range-1-2-3-4';
+      element._threadGroups = [{locationRange: 'line'}];
+      element.addNewThread(locationRange);
+      assert(element._threadGroups.length, 2);
+    });
+
+    test('removeThread', function() {
+      var locationRange = 'range-1-2-3-4';
+      element._threadGroups = [{locationRange: 'range-1-2-3-4'},
+          {locationRange: 'line'}];
+      element.removeThread(locationRange);
+      assert(element._threadGroups.length, 1);
+    });
+  });
+</script>

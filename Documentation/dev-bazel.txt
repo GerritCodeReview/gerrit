@@ -267,8 +267,7 @@ that artifact:
 ----
  maven_jar(
    name = 'gwtorm',
-   id = 'gwtorm:gwtorm:42',
-   license = 'Apache2.0',
+   artifact = 'gwtorm:gwtorm:42',
    repository = MAVEN_LOCAL,
  )
 ----
@@ -287,9 +286,8 @@ to the maven_jar() function:
 
   maven_jar(
     name = 'gitblit',
-    id = 'com.gitblit:gitblit:1.4.0',
+    artifact = 'com.gitblit:gitblit:1.4.0',
     sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
-    license = 'Apache2.0',
     repository = GERRIT_FORGE,
  )
 ----
@@ -310,9 +308,8 @@ And corresponding WORKSPACE excerpt:
 
   maven_jar(
     name = 'gitblit',
-    id = 'com.gitblit:gitblit:1.4.0',
+    artifact = 'com.gitblit:gitblit:1.4.0',
     sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
-    license = 'Apache2.0',
     repository = GERRIT_FORGE,
  )
 ----

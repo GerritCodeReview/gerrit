@@ -114,6 +114,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final NotifyUtil notifyUtil;
   private final ProjectCache projectCache;
   private final Provider<AnonymousUser> anonymousProvider;
+  private final OutgoingEmailValidator validator;
 
   @Inject
   PostReviewers(
@@ -136,7 +137,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       AccountCache accountCache,
       NotifyUtil notifyUtil,
       ProjectCache projectCache,
-      Provider<AnonymousUser> anonymousProvider) {
+      Provider<AnonymousUser> anonymousProvider,
+      OutgoingEmailValidator validator) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.approvalsUtil = approvalsUtil;
@@ -157,6 +159,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.notifyUtil = notifyUtil;
     this.projectCache = projectCache;
     this.anonymousProvider = anonymousProvider;
+    this.validator = validator;
   }
 
   @Override
@@ -275,7 +278,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     } catch (IllegalArgumentException e) {
       throw new UnprocessableEntityException(String.format("email invalid %s", reviewer));
     }
-    if (!OutgoingEmailValidator.isValid(adr.getEmail())) {
+    if (!validator.isValid(adr.getEmail())) {
       throw new UnprocessableEntityException(String.format("email invalid %s", reviewer));
     }
     return new Addition(

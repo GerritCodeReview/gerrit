@@ -435,7 +435,7 @@ public abstract class OutgoingEmail {
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.getEmail() != null && addr.getEmail().length() > 0) {
-      if (!OutgoingEmailValidator.isValid(addr.getEmail())) {
+      if (!args.validator.isValid(addr.getEmail())) {
         log.warn("Not emailing " + addr.getEmail() + " (invalid email address)");
       } else if (!args.emailSender.canEmail(addr.getEmail())) {
         log.warn("Not emailing " + addr.getEmail() + " (prohibited by allowrcpt)");

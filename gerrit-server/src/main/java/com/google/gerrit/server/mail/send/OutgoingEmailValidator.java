@@ -16,15 +16,22 @@ package com.google.gerrit.server.mail.send;
 
 import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 
+import com.google.inject.Singleton;
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 
+@Singleton
 public class OutgoingEmailValidator {
-  static {
-    DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[] {"local"});
+  OutgoingEmailValidator() {
+    try {
+      DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[] {"local"});
+    } catch (IllegalStateException e) {
+      // Should only happen in tests, where the OutgoingEmailValidator
+      // is instantiated repeatedly.
+    }
   }
 
-  public static boolean isValid(String addr) {
+  public boolean isValid(String addr) {
     return EmailValidator.getInstance(true, true).isValid(addr);
   }
 }

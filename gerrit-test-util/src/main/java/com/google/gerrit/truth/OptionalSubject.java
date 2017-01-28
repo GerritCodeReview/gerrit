@@ -25,7 +25,6 @@ import com.google.common.truth.Truth;
 import java.util.Optional;
 import java.util.function.Function;
 
-@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class OptionalSubject<S extends Subject<S, ? super T>, T>
     extends Subject<OptionalSubject<S, T>, Optional<T>> {
 
@@ -76,7 +75,6 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
     isAbsent();
   }
 
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public S value() {
     isNotNull();
     isPresent();

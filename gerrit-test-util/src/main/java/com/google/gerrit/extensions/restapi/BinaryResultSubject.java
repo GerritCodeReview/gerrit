@@ -46,7 +46,6 @@ public class BinaryResultSubject
         .that(binaryResult);
   }
 
-  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   public static OptionalSubject<BinaryResultSubject, BinaryResult> assertThat(
       Optional<BinaryResult> binaryResultOptional) {
     return OptionalSubject.assertThat(binaryResultOptional,

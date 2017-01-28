@@ -386,7 +386,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     edit = getEdit(r.getChangeId());
     assertThat(edit).isPresent();
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     EditInfo editInfo = edit.get();
     r.assertMessage("Updated Changes:\n  "
         + canonicalWebUrl.get()

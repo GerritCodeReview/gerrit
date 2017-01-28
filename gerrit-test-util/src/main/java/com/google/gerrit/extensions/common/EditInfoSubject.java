@@ -42,7 +42,6 @@ public class EditInfoSubject extends Subject<EditInfoSubject, EditInfo> {
         .that(editInfo);
   }
 
-  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   public static OptionalSubject<EditInfoSubject, EditInfo> assertThat(
       Optional<EditInfo> editInfoOptional) {
     return OptionalSubject.assertThat(editInfoOptional,

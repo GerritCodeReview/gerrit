@@ -585,7 +585,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
         .modifyFile("a.txt", RawInputUtil.create(new byte[] {'a'}));
     Optional<EditInfo> edit = getEdit(changeId2);
     assertThat(edit).isPresent();
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     ObjectId editRev = ObjectId.fromString(edit.get().commit.commit);
 
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);

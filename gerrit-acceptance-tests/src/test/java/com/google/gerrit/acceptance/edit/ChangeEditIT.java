@@ -252,8 +252,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<EditInfo> originalEdit = getEdit(changeId2);
     assertThat(originalEdit).value().baseRevision()
         .isEqualTo(previousPatchSet.getRevision().get());
-    // The previous check ensures that a value is present in the Optional.
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     Timestamp beforeRebase = originalEdit.get().commit.committer.date;
     gApi.changes()
         .id(changeId2)
@@ -282,8 +280,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<EditInfo> originalEdit = getEdit(changeId2);
     assertThat(originalEdit).value().baseRevision()
         .isEqualTo(previousPatchSet.getRevision().get());
-    // The previous check ensures that a value is present in the Optional.
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     Timestamp beforeRebase = originalEdit.get().commit.committer.date;
     adminRestSession.post(urlRebase(changeId2)).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME), CONTENT_NEW);
@@ -787,7 +783,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
     Optional<EditInfo> edit = getEdit(changeId);
     assertThat(edit).isPresent();
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     String editCommitId = edit.get().commit.commit;
 
     RestResponse r = adminRestSession.getJsonAccept(urlRevisionFiles(changeId,
@@ -810,7 +805,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
     Optional<EditInfo> edit = getEdit(changeId);
     assertThat(edit).isPresent();
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     String editCommitId = edit.get().commit.commit;
 
     RestResponse r = adminRestSession.getJsonAccept(urlDiff(changeId,
@@ -902,7 +896,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .currentPatchSet();
   }
 
-  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   private void ensureSameBytes(Optional<BinaryResult> fileContent,
       byte[] expectedFileBytes) throws IOException {
     assertThat(fileContent).value().bytes().isEqualTo(expectedFileBytes);

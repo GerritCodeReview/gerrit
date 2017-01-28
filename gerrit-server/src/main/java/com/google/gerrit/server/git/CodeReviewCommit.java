@@ -32,7 +32,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.util.List;
 
 /** Extended commit entity with code review specific metadata. */
 public class CodeReviewCommit extends RevCommit {

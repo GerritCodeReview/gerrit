@@ -14,21 +14,30 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
-import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ValidatorTest {
   private static final String UNSUPPORTED_PREFIX = "#! ";
 
-  @Test
-  public void validateLocalDomain() throws Exception {
-    assertThat(OutgoingEmailValidator.isValid("foo@bar.local")).isTrue();
+  @Inject private OutgoingEmailValidator validator;
+
+  @Before
+  public void setUp() throws Exception {
+    AbstractModule mod =
+        new AbstractModule() {
+          @Override
+          protected void configure() {}
+        };
+    Guice.createInjector(mod).injectMembers(this);
   }
 
   @Test
@@ -48,13 +57,13 @@ public class ValidatorTest {
           String test = "test@example." + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
           assert_()
               .withFailureMessage("expected invalid TLD \"" + test + "\"")
-              .that(OutgoingEmailValidator.isValid(test))
+              .that(validator.isValid(test))
               .isFalse();
         } else {
           String test = "test@example." + tld.toLowerCase();
           assert_()
               .withFailureMessage("failed to validate TLD \"" + test + "\"")
-              .that(OutgoingEmailValidator.isValid(test))
+              .that(validator.isValid(test))
               .isTrue();
         }
       }

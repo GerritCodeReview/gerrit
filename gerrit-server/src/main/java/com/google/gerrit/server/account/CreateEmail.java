@@ -52,6 +52,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   private final AccountManager accountManager;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final PutPreferred putPreferred;
+  private final OutgoingEmailValidator validator;
   private final String email;
   private final boolean isDevMode;
 
@@ -63,12 +64,14 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
       PutPreferred putPreferred,
+      OutgoingEmailValidator validator,
       @Assisted String email) {
     this.self = self;
     this.realm = realm;
     this.accountManager = accountManager;
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.putPreferred = putPreferred;
+    this.validator = validator;
     this.email = email;
     this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
   }
@@ -86,7 +89,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       input = new EmailInput();
     }
 
-    if (!OutgoingEmailValidator.isValid(email)) {
+    if (!validator.isValid(email)) {
       throw new BadRequestException("invalid email address");
     }
 

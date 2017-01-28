@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "bedb5c7c_998e3357",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 27, 2017 4:08:09 PM",
+      "side": 1,
+      "message": "Done",
+      "revId": "314943a657e9120094d340d92088829fa942e497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d68715d_b9d18bf4",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2
@@ -48,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "9ece3308_4749b5db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 27, 2017 4:08:09 PM",
+      "side": 1,
+      "message": "In some tests.\n\nchrome 55                ✖ elements/change/gr-change-view/gr-change-view_test.html » gr-change-view tests » keyboard shortcuts » shift + R should fetch and navigate to the latest patch set",
+      "revId": "314943a657e9120094d340d92088829fa942e497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf81f5aa_ac3a01c9",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 2
@@ -68,6 +102,23 @@
       "revId": "314943a657e9120094d340d92088829fa942e497",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59fa57f5_2341911a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 27, 2017 4:08:09 PM",
+      "side": 1,
+      "message": "Whoops, sorry.",
+      "revId": "314943a657e9120094d340d92088829fa942e497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

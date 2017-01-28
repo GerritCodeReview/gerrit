@@ -66,9 +66,8 @@ public class MergeSorter {
           //
           n.setStatusCode(CommitMergeStatus.MISSING_DEPENDENCY);
           break;
-        } else {
-          contents.add(c);
         }
+        contents.add(c);
       }
 
       if (n.getStatusCode() == CommitMergeStatus.MISSING_DEPENDENCY) {

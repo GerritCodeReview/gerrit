@@ -89,9 +89,8 @@ public class RebaseSorter {
           // Stop RevWalk because c is either a merged commit or a missing
           // dependency. Not need to walk further.
           break;
-        } else {
-          contents.add(c);
         }
+        contents.add(c);
       }
 
       if (n.getStatusCode() == CommitMergeStatus.MISSING_DEPENDENCY) {

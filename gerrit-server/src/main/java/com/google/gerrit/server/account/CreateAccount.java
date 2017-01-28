@@ -77,6 +77,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final AuditService auditService;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
+  private final OutgoingEmailValidator validator;
   private final String username;
 
   @Inject
@@ -95,6 +96,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       AuditService auditService,
       ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdateFactory,
+      OutgoingEmailValidator validator,
       @Assisted String username) {
     this.db = db;
     this.currentUser = currentUser;
@@ -110,6 +112,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.auditService = auditService;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
+    this.validator = validator;
     this.username = username;
   }
 
@@ -141,7 +144,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       if (externalIds.get(db, ExternalId.Key.create(SCHEME_MAILTO, input.email)) != null) {
         throw new UnprocessableEntityException("email '" + input.email + "' already exists");
       }
-      if (!OutgoingEmailValidator.isValid(input.email)) {
+      if (!validator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
       }
     }

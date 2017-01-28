@@ -52,6 +52,18 @@ def _create_coordinates(fully_qualified_name):
       version = version,
   )
 
+def _format_deps(attr, deps):
+  formatted_deps = ""
+  if deps:
+    if len(deps) == 1:
+      formatted_deps += "    %s = [ \"%s\" ],\n" % (attr, deps[0])
+    else:
+      formatted_deps += "    %s = [\n" % attr
+      for dep in deps:
+        formatted_deps += "     \"%s\",\n" % dep
+      formatted_deps += "    ],\n"
+  return formatted_deps
+
 def _generate_build_file(ctx, binjar, srcjar):
   srcjar_attr = ""
   if srcjar:
@@ -63,15 +75,21 @@ java_import(
     name = 'jar',
     {srcjar_attr}
     jars = ['{binjar}'],
+    {deps}
+    {exports}
 )
 java_import(
     name = 'neverlink',
     jars = ['{binjar}'],
+    {deps}
+    {exports}
     neverlink = 1,
 )
 \n""".format(srcjar_attr = srcjar_attr,
               rule_name = ctx.name,
-              binjar = binjar)
+              binjar = binjar,
+              deps = _format_deps("deps", ctx.attr.deps),
+              exports = _format_deps("exports", ctx.attr.exports))
   if srcjar:
     contents += """
 java_import(
@@ -135,6 +153,8 @@ maven_jar = repository_rule(
         "repository": attr.string(default = MAVEN_CENTRAL),
         "attach_source": attr.bool(default = True),
         "unsign": attr.bool(default = False),
+        "deps": attr.string_list(),
+        "exports": attr.string_list(),
         "exclude": attr.string_list(),
     },
     local = True,

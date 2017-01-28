@@ -178,7 +178,7 @@ public abstract class RequestScopePropagator {
   /**
    * @see #wrap(Callable)
    */
-  protected abstract <T> Callable<T> wrapImpl(final Callable<T> callable);
+  protected abstract <T> Callable<T> wrapImpl(Callable<T> callable);
 
   protected <T> Callable<T> context(final RequestContext context,
       final Callable<T> callable) {

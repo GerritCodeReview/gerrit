@@ -26,7 +26,7 @@ import java.util.TreeSet;
 /** Node of a Project in a tree formatted by {@link ListProjects}. */
 public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   public interface Factory {
-    ProjectNode create(final Project project, final boolean isVisible);
+    ProjectNode create(Project project, boolean isVisible);
   }
 
   private final AllProjectsName allProjectsName;

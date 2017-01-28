@@ -37,7 +37,7 @@ import java.util.Map;
  */
 @ExtensionPoint
 public interface OnSubmitValidationListener {
-  public class Arguments {
+  class Arguments {
     private Project.NameKey project;
     private Repository repository;
     private ObjectReader objectReader;

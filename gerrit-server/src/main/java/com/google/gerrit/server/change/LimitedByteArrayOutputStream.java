@@ -33,7 +33,7 @@ class LimitedByteArrayOutputStream extends OutputStream {
    * @param max the maximum size in bytes which may be stored.
    * @param initial the initial size. It must be smaller than the max size.
    */
-  public LimitedByteArrayOutputStream(int max, int initial) {
+  LimitedByteArrayOutputStream(int max, int initial) {
     checkArgument(initial <= max);
     maxSize = max;
     buffer = new ByteArrayOutputStream(initial);

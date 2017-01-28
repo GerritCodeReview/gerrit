@@ -70,7 +70,7 @@ public abstract class AccountGroupScreen extends MenuScreen {
     });
   }
 
-  protected abstract void display(final GroupInfo group, final boolean canModify);
+  protected abstract void display(GroupInfo group, boolean canModify);
 
   protected AccountGroup.UUID getGroupUUID() {
     return group.getGroupUUID();

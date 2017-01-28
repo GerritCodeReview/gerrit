@@ -778,7 +778,7 @@ abstract class DiffScreen extends Screen {
     this.prefsAction = prefsAction;
   }
 
-  abstract void operation(final Runnable apply);
+  abstract void operation(Runnable apply);
 
   private Runnable upToChange(final boolean openReplyBox) {
     return new Runnable() {

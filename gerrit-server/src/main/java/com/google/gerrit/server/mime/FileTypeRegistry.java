@@ -31,7 +31,7 @@ public interface FileTypeRegistry {
    *         or cannot be determined, {@link MimeUtil2#UNKNOWN_MIME_TYPE} which
    *         is an alias for {@code application/octet-stream}.
    */
-  MimeType getMimeType(final String path, final byte[] content);
+  MimeType getMimeType(String path, byte[] content);
 
   /**
    * Is this content type safe to transmit to a browser directly?
@@ -42,6 +42,6 @@ public interface FileTypeRegistry {
    *         content type and wants it to be protected (typically by wrapping
    *         the data in a ZIP archive).
    */
-  boolean isSafeInline(final MimeType type);
+  boolean isSafeInline(MimeType type);
 
 }

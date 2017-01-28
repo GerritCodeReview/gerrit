@@ -63,7 +63,7 @@ public class DeleteRef {
   private String prefix;
 
   public interface Factory {
-    public DeleteRef create(ProjectResource r);
+    DeleteRef create(ProjectResource r);
   }
 
   @AssistedInject

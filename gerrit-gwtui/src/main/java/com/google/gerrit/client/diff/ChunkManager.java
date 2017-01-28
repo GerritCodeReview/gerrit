@@ -88,7 +88,7 @@ abstract class ChunkManager {
     }
   }
 
-  abstract Runnable diffChunkNav(final CodeMirror cm, final Direction dir);
+  abstract Runnable diffChunkNav(CodeMirror cm, Direction dir);
 
   void diffChunkNavHelper(List<? extends DiffChunkInfo> chunks,
       DiffScreen host, int res, Direction dir) {

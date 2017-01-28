@@ -270,7 +270,7 @@ public class StarredChangesUtil {
 
   public Set<Account.Id> byChange(final Change.Id changeId,
       final String label) throws OrmException {
-    try (final Repository repo = repoManager.openRepository(allUsers)) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
       return getRefNames(repo, RefNames.refsStarredChangesPrefix(changeId))
           .stream()
           .map(Account.Id::parse)

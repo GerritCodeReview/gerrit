@@ -104,7 +104,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private List<Comment> inlineComments = Collections.emptyList();
-  private String patchSetComment = null;
+  private String patchSetComment;
   private List<LabelVote> labels = Collections.emptyList();
   private final CommentsUtil commentsUtil;
 

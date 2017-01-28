@@ -62,7 +62,6 @@ public class BinaryResultSubject
     // We shouldn't close the BinaryResult within this method as it might still
     // be used afterwards. Besides, closing it doesn't have an effect for most
     // implementations of a BinaryResult.
-    @SuppressWarnings("resource")
     BinaryResult binaryResult = actual();
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     binaryResult.writeTo(byteArrayOutputStream);

@@ -52,26 +52,50 @@ def _create_coordinates(fully_qualified_name):
       version = version,
   )
 
-def _generate_build_file(ctx, binjar, srcjar):
+def _generate_build_file(ctx, binjar, srcjar, exports, deps):
   srcjar_attr = ""
   if srcjar:
     srcjar_attr = 'srcjar = "%s",' % srcjar
+  deps = ""
+  if deps:
+    if len(deps) == 1:
+      deps.write("    deps = [ \":%s\" ],\n" % deps[0])
+    else:
+      deps.write("    deps = [\n")
+      for dep in deps:
+        dep.write("      \":%s\",\n" % dep)
+      depa.write("    ],\n")
+  exports = ""
+  if exports:
+    if len(exports) == 1:
+      exports.write("    exports = [ \":%s\" ],\n" % exports[0])
+    else:
+      exports.write("    exports = [\n")
+      for export in exports:
+        export.write("      \":%s\",\n" % export)
+      exports.write("    ],\n")
   contents = """
 # DO NOT EDIT: automatically generated BUILD file for maven_jar rule {rule_name}
 package(default_visibility = ['//visibility:public'])
 java_import(
     name = 'jar',
     {srcjar_attr}
+    {deps}
+    {exports}
     jars = ['{binjar}'],
 )
 java_import(
     name = 'neverlink',
+    {deps}
+    {exports}
     jars = ['{binjar}'],
     neverlink = 1,
 )
 \n""".format(srcjar_attr = srcjar_attr,
               rule_name = ctx.name,
-              binjar = binjar)
+              binjar = binjar,
+              exports = exports,
+              deps = deps)
   if srcjar:
     contents += """
 java_import(
@@ -124,7 +148,15 @@ def _maven_jar_impl(ctx):
     if out.return_code:
       fail("failed %s: %s" % (args, out.stderr))
 
-  _generate_build_file(ctx, binjar, srcjar)
+  exports = None
+  if ctx.attr.exports:
+    exports = ctx.attr.exports
+
+  deps = None
+  if ctx.attr.deps:
+    deps = ctx.attr.deps
+
+  _generate_build_file(ctx, binjar, srcjar, exports, deps)
 
 maven_jar = repository_rule(
     attrs = {
@@ -135,6 +167,8 @@ maven_jar = repository_rule(
         "repository": attr.string(default = MAVEN_CENTRAL),
         "attach_source": attr.bool(default = True),
         "unsign": attr.bool(default = False),
+        "deps": attr.string_list(),
+        "exports": attr.string_list(),
         "exclude": attr.string_list(),
     },
     local = True,

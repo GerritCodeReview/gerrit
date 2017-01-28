@@ -74,6 +74,7 @@ public class CreateAccount
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final AuditService auditService;
   private final ExternalIdCache externalIdCache;
+  private final OutgoingEmailValidator validator;
   private final String username;
 
   @Inject
@@ -89,6 +90,7 @@ public class CreateAccount
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       AuditService auditService,
       ExternalIdCache externalIdCache,
+      OutgoingEmailValidator validator,
       @Assisted String username) {
     this.db = db;
     this.currentUser = currentUser;
@@ -102,6 +104,7 @@ public class CreateAccount
     this.externalIdCreators = externalIdCreators;
     this.auditService = auditService;
     this.externalIdCache = externalIdCache;
+    this.validator = validator;
     this.username = username;
   }
 
@@ -143,7 +146,7 @@ public class CreateAccount
         throw new UnprocessableEntityException(
             "email '" + input.email + "' already exists");
       }
-      if (!OutgoingEmailValidator.isValid(input.email)) {
+      if (!validator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
       }
     }

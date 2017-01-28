@@ -82,6 +82,7 @@ public class EmailArguments {
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
   final StarredChangesUtil starredChangesUtil;
   final Provider<InternalAccountQuery> accountQueryProvider;
+  final OutgoingEmailValidator validator;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -109,7 +110,8 @@ public class EmailArguments {
       SitePaths site,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
       StarredChangesUtil starredChangesUtil,
-      Provider<InternalAccountQuery> accountQueryProvider) {
+      Provider<InternalAccountQuery> accountQueryProvider,
+      OutgoingEmailValidator validator) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
@@ -139,5 +141,6 @@ public class EmailArguments {
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
     this.starredChangesUtil = starredChangesUtil;
     this.accountQueryProvider = accountQueryProvider;
+    this.validator = validator;
   }
 }

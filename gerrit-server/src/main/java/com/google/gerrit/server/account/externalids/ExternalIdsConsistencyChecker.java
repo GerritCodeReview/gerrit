@@ -44,13 +44,18 @@ public class ExternalIdsConsistencyChecker {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final AccountCache accountCache;
+  private final OutgoingEmailValidator validator;
 
   @Inject
   ExternalIdsConsistencyChecker(
-      GitRepositoryManager repoManager, AllUsersName allUsers, AccountCache accountCache) {
+      GitRepositoryManager repoManager,
+      AllUsersName allUsers,
+      AccountCache accountCache,
+      OutgoingEmailValidator validator) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.accountCache = accountCache;
+    this.validator = validator;
   }
 
   public List<ConsistencyProblemInfo> check() throws IOException {
@@ -123,7 +128,7 @@ public class ExternalIdsConsistencyChecker {
           problems);
     }
 
-    if (extId.email() != null && !OutgoingEmailValidator.isValid(extId.email())) {
+    if (extId.email() != null && !validator.isValid(extId.email())) {
       addError(
           String.format(
               "External ID '%s' has an invalid email: %s", extId.key().get(), extId.email()),

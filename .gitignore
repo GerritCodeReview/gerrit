@@ -1,4 +1,5 @@
 /.apt_generated
+/.buckd
 /.classpath
 /.factorypath
 /.project

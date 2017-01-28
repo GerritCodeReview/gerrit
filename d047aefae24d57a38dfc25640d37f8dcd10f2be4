@@ -139,6 +139,23 @@
     },
     {
       "key": {
+        "uuid": "81a8b358_41d0b0e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-28T00:35:05Z",
+      "side": 1,
+      "message": "This function was renamed _handleKeydown from _handleInputKeydown because it\u0027s now used to handle keydown on both the options of the autocomplete and the input. \n\nThe focus call ensures that, even when the user is toggling between the autocomplete options, keypresses are registered as input to the autocomplete. I\u0027ll add a comment to describe this in the following patchset if you agree that this is a sane approach.",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b43debe_de35311e",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 3
@@ -184,6 +201,23 @@
       "writtenOn": "2017-01-28T00:13:34Z",
       "side": 1,
       "message": "I disagree, I think this fits really well as a feature of the cursor manager, but should still be an option that\u0027s off by default. For the autocomplete, it makes eminent sense to enable it there.\n\nFor the file list and diffs, they don\u0027t line up well with browser focus. Consider that for expanded inline diffs, there are *two* overlapping cursor managers, potentially competing for what should be focused.\n\nConsider also that in the diff view, when interacting with a comment, focus should be on the textarea the user types into, or the buttons below. At the same time, the diff line cursor manager would be positioned on the line number itself (or even a completely different line number). How does it work in those cases?\n\nAlso keep in mind that for HTML elements that are traditionally focusable, the action of setting browser focus can be expensive. For some of the very large diffs we have worked on, I worry that setting focus every time the cursor moves could make things quite slow.",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2828e64f_2be23c3d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-28T00:35:05Z",
+      "side": 1,
+      "message": "Well, to be fair, I don\u0027t think there will be some sort of race condition for focus because the user has no way of moving both the cursors at the same time.\n\nThat being said, it\u0027s pretty trivial to just make this a togglable property, so I\u0027ll do that.",
       "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

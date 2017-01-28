@@ -122,6 +122,23 @@
     },
     {
       "key": {
+        "uuid": "9da6dbaf_6daba85b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-28T00:13:34Z",
+      "side": 1,
+      "message": "What is this focus call useful for? It may benefit from a comment. It\u0027s hard for me to evaluate because it looks a little suspicious, and it\u0027s not clear what user interaction this takes care of.",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b43debe_de35311e",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 3
@@ -150,6 +167,23 @@
       "writtenOn": "2017-01-25T00:07:25Z",
       "side": 1,
       "message": "I can make that happen, but I would argue that instead we should make the cursor manager function with focus everywhere.\n\nWe use it in three places:\n- To manage the selected option in gr-autocomplete\n- To manage the selected file in gr-file-list\n- To manage the selected line in gr-diff\n\nAll three of these examples should *probably* be focusable for the very same a11y reasons that this change exists. Thoughts?",
+      "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00a9601e_eda7bc8d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-28T00:13:34Z",
+      "side": 1,
+      "message": "I disagree, I think this fits really well as a feature of the cursor manager, but should still be an option that\u0027s off by default. For the autocomplete, it makes eminent sense to enable it there.\n\nFor the file list and diffs, they don\u0027t line up well with browser focus. Consider that for expanded inline diffs, there are *two* overlapping cursor managers, potentially competing for what should be focused.\n\nConsider also that in the diff view, when interacting with a comment, focus should be on the textarea the user types into, or the buttons below. At the same time, the diff line cursor manager would be positioned on the line number itself (or even a completely different line number). How does it work in those cases?\n\nAlso keep in mind that for HTML elements that are traditionally focusable, the action of setting browser focus can be expensive. For some of the very large diffs we have worked on, I worry that setting focus every time the cursor moves could make things quite slow.",
       "revId": "d047aefae24d57a38dfc25640d37f8dcd10f2be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

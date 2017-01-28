@@ -52,7 +52,7 @@ def _create_coordinates(fully_qualified_name):
       version = version,
   )
 
-def _generate_build_file(ctx, binjar, srcjar):
+def _generate_build_file(ctx, binjar, srcjar, exported_deps):
   srcjar_attr = ""
   if srcjar:
     srcjar_attr = 'srcjar = "%s",' % srcjar
@@ -79,6 +79,13 @@ java_import(
     jars = ['{srcjar}'],
 )
 """.format(srcjar = srcjar)
+  if exported_deps:
+    contents += """
+java_import(
+    name = 'exported_deps',
+    exported_deps = {exported_deps} + [':' + name + '__jar'],
+)
+""".format(exported_deps = exported_deps)
   ctx.file('%s/BUILD' % ctx.path("jar"), contents, False)
 
 def _maven_jar_impl(ctx):
@@ -122,7 +129,11 @@ def _maven_jar_impl(ctx):
     if out.return_code:
       fail("failed %s: %s" % (args, out.stderr))
 
-  _generate_build_file(ctx, binjar, srcjar)
+  exported_deps = None
+  if ctx.attr.exported_deps:
+    exported_deps = ctx.attr.exported_deps
+
+  _generate_build_file(ctx, binjar, srcjar, exported_deps)
 
 maven_jar = repository_rule(
     attrs = {
@@ -133,6 +144,8 @@ maven_jar = repository_rule(
         "repository": attr.string(default = MAVEN_CENTRAL),
         "attach_source": attr.bool(default = True),
         "unsign": attr.bool(default = False),
+        "deps": [],
+        "exported_deps": [],
         "exclude": attr.string_list(),
     },
     local = True,

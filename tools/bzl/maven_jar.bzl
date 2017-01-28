@@ -127,7 +127,7 @@ def _maven_jar_impl(ctx):
 maven_jar = repository_rule(
     attrs = {
         "artifact": attr.string(mandatory = True),
-        "sha1": attr.string(mandatory = True),
+        "sha1": attr.string(mandatory = False),
         "src_sha1": attr.string(),
         "_download_script": attr.label(default = Label("//tools:download_file.py")),
         "repository": attr.string(default = MAVEN_CENTRAL),

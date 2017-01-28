@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+import com.google.inject.Inject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,9 +28,11 @@ import org.junit.Test;
 public class EmailValidatorIT extends AbstractDaemonTest {
   private static final String UNSUPPORTED_PREFIX = "#! ";
 
+  @Inject private OutgoingEmailValidator validator;
+
   @Test
   public void validateLocalDomain() throws Exception {
-    assertThat(OutgoingEmailValidator.isValid("foo@bar.local")).isTrue();
+    assertThat(validator.isValid("foo@bar.local")).isTrue();
   }
 
   @Test
@@ -49,13 +52,13 @@ public class EmailValidatorIT extends AbstractDaemonTest {
           String test = "test@example." + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
           assert_()
               .withFailureMessage("expected invalid TLD \"" + test + "\"")
-              .that(OutgoingEmailValidator.isValid(test))
+              .that(validator.isValid(test))
               .isFalse();
         } else {
           String test = "test@example." + tld.toLowerCase();
           assert_()
               .withFailureMessage("failed to validate TLD \"" + test + "\"")
-              .that(OutgoingEmailValidator.isValid(test))
+              .that(validator.isValid(test))
               .isTrue();
         }
       }

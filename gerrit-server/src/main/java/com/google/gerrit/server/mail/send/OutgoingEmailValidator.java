@@ -16,15 +16,45 @@ package com.google.gerrit.server.mail.send;
 
 import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 
+import com.google.inject.Singleton;
+import java.lang.reflect.Method;
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+@Singleton
 public class OutgoingEmailValidator {
-  static {
+  private static final Logger log = LoggerFactory.getLogger(OutgoingEmailValidator.class);
+
+  OutgoingEmailValidator() {
+    try {
+      initializeMailValidator();
+    } catch (IllegalStateException e) {
+      // Should only happen in tests, where the OutgoingEmailValidator
+      // is instantiated repeatedly.
+      log.error("Failed to update TLD override: " + e.getMessage());
+      resetMailValidator();
+      initializeMailValidator();
+    }
+  }
+
+  public boolean isValid(String addr) {
+    return EmailValidator.getInstance(true, true).isValid(addr);
+  }
+
+  private void initializeMailValidator() {
     DomainValidator.updateTLDOverride(GENERIC_PLUS, new String[] {"local"});
   }
 
-  public static boolean isValid(String addr) {
-    return EmailValidator.getInstance(true, true).isValid(addr);
+  private void resetMailValidator() {
+    try {
+      Class<?> c = Class.forName("org.apache.commons.validator.routines.DomainValidator");
+      Method m = c.getDeclaredMethod("clearTLDOverrides", new Class<?>[] {});
+      m.setAccessible(true);
+      m.invoke(c, new Object[] {});
+    } catch (ReflectiveOperationException e) {
+      throw new RuntimeException("Failed to reset mail validator for tests", e);
+    }
   }
 }

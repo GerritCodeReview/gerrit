@@ -237,6 +237,29 @@
     },
     {
       "key": {
+        "uuid": "f740e1f9_07a8175f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2017-01-29T14:16:53Z",
+      "side": 1,
+      "message": "(Moved in the follow-up change)",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "a0957dbfe88363cf03c115c3506a5a90eb9eaaf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc55e7ac_c495de1c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitIncludedIn.java",
         "patchSetId": 1

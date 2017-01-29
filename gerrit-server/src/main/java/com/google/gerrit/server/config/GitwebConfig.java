@@ -204,6 +204,12 @@ public class GitwebConfig {
     }
   }
 
+   /** @return GitwebType for gitweb viewer. */
+   @Nullable
+   public GitwebType getGitwebType() {
+     return type;
+   }
+
   /**
    * @return URL of the entry point into gitweb. This URL may be relative to our
    *         context if gitweb is hosted by ourselves; or absolute if its hosted

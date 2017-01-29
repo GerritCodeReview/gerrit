@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2d7458d_f1663227",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": "\"Add API and acceptance tests\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "725b9fa1_0b5e89e1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": "nit: extra blank line",
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21b7f802_903d2c83",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": "The REST API is implicitly tested through the API, so this could be omitted, and then the class can be annotated as @NoHttpd",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c09912cc_a95ec891",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": "Rather than asserting the size, can we check the actual contents?\n\nAlso it would be useful to test the case where it\u0027s included in multiple branches.",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 20
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d66cb799_dfa3fe19",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": ".isEmpty()",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 19
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9daf68c_0bcc8c37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": "This is the same as in TagsIT.  It would be better to move that one up to AbstractDeamonTest for reuse, rather than redefining here and in the other newly added test.",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32235fd8_bcb73071",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IncludedInInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e6629ef_5a64b021",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IncludedInInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": "List?",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a4b1468_960fbdcb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IncludedInInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-01-29T23:51:59Z",
+      "side": 1,
+      "message": "Is it possible to add tests for this field?",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 29
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "40b890c4_6b3d2e6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Jan 29, 2017 11:16:11 AM",
+      "side": 1,
+      "message": "Thanks, done.",
+      "revId": "c3f872bf427b770ad92fc8abbfe94352af78e751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "405a1000_ff6a6dc9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -30,6 +47,23 @@
       "writtenOn": "Jan 29, 2017 10:56:59 AM",
       "side": 1,
       "message": "You? Us? May be just.\n\n  This will simplify to consume artifacts from local Maven repository.",
+      "revId": "c3f872bf427b770ad92fc8abbfe94352af78e751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c13af1fa_15b22276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Jan 29, 2017 11:16:11 AM",
+      "side": 1,
+      "message": "Thanks, done.",
       "revId": "c3f872bf427b770ad92fc8abbfe94352af78e751",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

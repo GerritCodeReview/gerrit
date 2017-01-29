@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60a695fc_e44bd967",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Jan 29, 2017 10:11:40 AM",
+      "side": 1,
+      "message": "This should respect now optional sha1.\n\nSomething like (untested):\n\n  args \u003d [python, script, \"-o\", binjar_path, \"-u\", binurl)\n  if ctx.attr.sha1:\n    args.extend([\"-v\", sha1])",
+      "range": {
+        "startLine": 102,
+        "startChar": 59,
+        "endLine": 102,
+        "endChar": 69
+      },
+      "revId": "3b00f04e6f0739af29b384929a605e0e72008210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

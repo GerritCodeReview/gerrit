@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "587bddd4_fa0b955e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Jan 29, 2017 10:56:59 AM",
+      "side": 1,
+      "message": "maven_jar: Make sha1 attribute optional",
+      "revId": "c3f872bf427b770ad92fc8abbfe94352af78e751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "405a1000_ff6a6dc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Jan 29, 2017 10:56:59 AM",
+      "side": 1,
+      "message": "You? Us? May be just.\n\n  This will simplify to consume artifacts from local Maven repository.",
+      "revId": "c3f872bf427b770ad92fc8abbfe94352af78e751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

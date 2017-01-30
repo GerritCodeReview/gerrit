@@ -23,6 +23,69 @@
       "revId": "ccbe8bbd8f15e7ce4df020c34e11f8982db33e80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40b10bee_9d132434",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Jan 29, 2017 11:28:05 PM",
+      "side": 1,
+      "message": "nit: long line",
+      "revId": "ccbe8bbd8f15e7ce4df020c34e11f8982db33e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c85228a0_98ae921d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Jan 29, 2017 11:28:05 PM",
+      "side": 1,
+      "message": "allProjectsName?",
+      "range": {
+        "startLine": 209,
+        "startChar": 54,
+        "endLine": 209,
+        "endChar": 63
+      },
+      "revId": "ccbe8bbd8f15e7ce4df020c34e11f8982db33e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3fa71ea_797bd766",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Jan 29, 2017 11:28:05 PM",
+      "side": 1,
+      "message": "[optional] Factor this out into an own method.",
+      "range": {
+        "startLine": 196,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 7
+      },
+      "revId": "ccbe8bbd8f15e7ce4df020c34e11f8982db33e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

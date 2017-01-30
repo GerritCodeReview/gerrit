@@ -408,7 +408,11 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void addEmail() throws Exception {
     List<String> emails = ImmutableList.of(
-        "new.email@example.com", "new.email@example.systems");
+        "new.email@example.com",
+        "new.email@example.systems",
+
+        // Not in the list of TLDs but added to override in OutgoingEmailValidator
+        "new.email@example.local");
     for (String email : emails) {
       EmailInput input = new EmailInput();
       input.email = email;
@@ -419,13 +423,30 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addInvalidEmail() throws Exception {
-    EmailInput input  = new EmailInput();
-    input.email = "invalid@";
-    input.noConfirmation = true;
+    List<String> emails = ImmutableList.of(
+        // Missing domain part
+        "new.email",
 
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("invalid email address");
-    gApi.accounts().self().addEmail(input);
+        // Missing domain part
+        "new.email@",
+
+        // Missing user part
+        "@example.com",
+
+        // Non-supported TLD  (see tlds-alpha-by-domain.txt)
+        "new.email@example.blog"
+    );
+    for (String email : emails) {
+      EmailInput input  = new EmailInput();
+      input.email = email;
+      input.noConfirmation = true;
+      try {
+        gApi.accounts().self().addEmail(input);
+        fail("Expected BadRequestException for invalid email address: " + email);
+      } catch (BadRequestException e) {
+        assertThat(e).hasMessage("invalid email address");
+      }
+    }
   }
 
   @Test

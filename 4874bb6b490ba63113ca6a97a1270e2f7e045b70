@@ -22,6 +22,29 @@
       "revId": "4874bb6b490ba63113ca6a97a1270e2f7e045b70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b47952e1_982c5320",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-30T18:08:28Z",
+      "side": 1,
+      "message": "I added it to make sure that it would correctly load under a prefix for example /r/. But if you think this is not needed then i can removed it.",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "4874bb6b490ba63113ca6a97a1270e2f7e045b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

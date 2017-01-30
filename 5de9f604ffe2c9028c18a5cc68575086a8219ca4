@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "2689c3c1_e8959489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Jan 30, 2017 11:25:07 AM",
+      "side": 1,
+      "message": "Thanks, done.",
+      "revId": "5de9f604ffe2c9028c18a5cc68575086a8219ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba2ac605_5d2d2c4f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -30,6 +47,23 @@
       "writtenOn": "Jan 30, 2017 11:15:23 AM",
       "side": 1,
       "message": "Nit: add new line between the body of the commit message and the footer.",
+      "revId": "5de9f604ffe2c9028c18a5cc68575086a8219ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a31646e_4ec32b02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Jan 30, 2017 11:25:07 AM",
+      "side": 1,
+      "message": "Thanks, done.",
       "revId": "5de9f604ffe2c9028c18a5cc68575086a8219ca4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

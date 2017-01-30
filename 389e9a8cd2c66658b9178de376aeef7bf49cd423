@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b6f339e_c690394d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 30, 2017 9:28:05 AM",
+      "side": 1,
+      "message": "I\u0027m curious why this needs to be OOP and declare a class with state. Would this as a static object of static methods? Based on the `parse` method I expect we would not be interacting with `GrReviewerUpdatesParser` instances. Is that correct?\n\nConsider using static, pure functions for easier testability.",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 52
+      },
+      "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deae81eb_ae8ddc2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 30, 2017 9:28:05 AM",
+      "side": 1,
+      "message": "This and some of the other methods called by `parse` actually modify the change object. This seems unideal to me because:\n* It\u0027s not so much a parser, as it\u0027s a transformer.\n* The parse process is not idempotent, what it does partially depends whether it\u0027s been run on a change object previously. Hidden state can complicate testing.\n* It removes data from the change object that we may wish we still had. For example, if we need the message ID or other detail that appears on the message entry down-the-road.\n\nSince parse result is really the restructured message list (and not an entire change object) what if parsing a change did not modify the change, but instead returned a new array (a restructured/merged message list) that has been derived from the change object?\n\nOr, if the modified reviewer_updates is also needed, it can return a tuple:\n\nreturn {\n  messages: //... parsed message list\n  reviewer_updates: // ... parsed reviewer updates list\n};",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 64
+      },
+      "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56b7cb43_c2d55412",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 30, 2017 9:28:05 AM",
+      "side": 1,
+      "message": "These functions could benefit from JSDocs and some internal comments.",
+      "range": {
+        "startLine": 69,
+        "startChar": 36,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57f2e0d6_d79f4b5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 30, 2017 9:28:05 AM",
+      "side": 1,
+      "message": "Where does this come from? Should this be a constant?",
+      "range": {
+        "startLine": 78,
+        "startChar": 41,
+        "endLine": 78,
+        "endChar": 45
+      },
+      "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -20,6 +20,23 @@
     },
     {
       "key": {
+        "uuid": "4c71df72_dd0acf7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-30T16:18:55Z",
+      "side": 1,
+      "message": "I\u0027m not sure that SystemGroupBackend is the right place for such a check. Maybe another group backend does also support some kind of configuration on its groups.",
+      "revId": "c97846f6a55185fedbcd645b3cef90fa1475cf69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5653632f_bc1b25ea",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
         "patchSetId": 3
@@ -48,6 +65,23 @@
       "writtenOn": "2017-01-30T15:45:28Z",
       "side": 1,
       "message": "\u003e What is an admin supposed to do when they see this?\n\nThe admin should go and fix the configuration in gerrit.config.\n\n\u003e I would have expected this to throw an exception\n\nCan we throw exceptions from LifecycleListener? Which exception would be appropriate, IllegalStateException?\n\n\u003e but it looks like it will just continue. What will be the\n\u003e result when evaluating ACLs after seeing this warning?\n\nI thought this had no effect on evaluating ACLs since we resolve groups by UUID, but looking at this now, I guess we run into problems when the ACLs on a project are updated that has ACLs for both groups that share the same name, since the name can be mapped only to one UUID in the groups file. Good catch.",
+      "revId": "c97846f6a55185fedbcd645b3cef90fa1475cf69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a46fd08_135ef7c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-30T16:18:55Z",
+      "side": 1,
+      "message": "Converted it to an exception so that Gerrit startup fails.\n\nDone.",
       "revId": "c97846f6a55185fedbcd645b3cef90fa1475cf69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

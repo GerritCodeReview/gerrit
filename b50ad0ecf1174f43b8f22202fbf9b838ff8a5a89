@@ -17,6 +17,24 @@
       "revId": "b50ad0ecf1174f43b8f22202fbf9b838ff8a5a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aef5b373_87211fa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 30, 2017 2:44:12 PM",
+      "side": 1,
+      "message": "I mean, there is still a possibility of incompatibilities between bash 3/4, but fortunately [[ is uncontroversial :)",
+      "parentUuid": "1f1f8728_e8557450",
+      "revId": "b50ad0ecf1174f43b8f22202fbf9b838ff8a5a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "23d5bb6a_8039867c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Jan 30, 2017 11:02:33 AM",
+      "side": 1,
+      "message": "Oh sorry, reason is i find tracking commits much easier on there as it has a better ui for navigating.\n\n+ i had to do searching on github for this which i could not on gerrit.",
+      "revId": "f95fae06e2d558dffaf4d3b3c28a2abd70caec76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "783c354e_183ccb82",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +47,23 @@
       "writtenOn": "Jan 30, 2017 10:35:58 AM",
       "side": 1,
       "message": "Combine both statement to one statement, e.g.:\n\nIt was originally 1.7.0 in removed Buck build: [1], but was outdated in Bazel build.\n\n[1] https://gerrit-review.googlesource.com/#/c/91587/30/lib/js/BUCK",
+      "revId": "f95fae06e2d558dffaf4d3b3c28a2abd70caec76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0da91606_7a6ea53d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Jan 30, 2017 11:02:33 AM",
+      "side": 1,
+      "message": "Thanks, done.",
       "revId": "f95fae06e2d558dffaf4d3b3c28a2abd70caec76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

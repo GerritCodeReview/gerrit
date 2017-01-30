@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "927b7a64_3966305d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1995,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-30T13:57:04Z",
+      "side": 1,
+      "message": "Why is this formatted differently than in the other sections?",
+      "range": {
+        "startLine": 1994,
+        "startChar": 0,
+        "endLine": 1995,
+        "endChar": 7
+      },
+      "revId": "4df1a6173801b1b914aa38e907bdb6c86d627f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da8bf535_08240905",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1996,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-30T13:57:04Z",
+      "side": 1,
+      "message": "should be: link:#project-name[\\{project-name\\}]",
+      "range": {
+        "startLine": 1996,
+        "startChar": 15,
+        "endLine": 1996,
+        "endChar": 32
+      },
+      "revId": "4df1a6173801b1b914aa38e907bdb6c86d627f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0691458b_029425d1",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1996,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-30T13:57:04Z",
+      "side": 1,
+      "message": "should be: link:#commit-id[\\{commit-id\\}]",
+      "range": {
+        "startLine": 1996,
+        "startChar": 41,
+        "endLine": 1996,
+        "endChar": 81
+      },
+      "revId": "4df1a6173801b1b914aa38e907bdb6c86d627f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "463d7842_0180ad79",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1999,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-30T13:57:04Z",
+      "side": 1,
+      "message": "dead link?",
+      "range": {
+        "startLine": 1999,
+        "startChar": 4,
+        "endLine": 1999,
+        "endChar": 25
+      },
+      "revId": "4df1a6173801b1b914aa38e907bdb6c86d627f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "657e4530_56cf24bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeIncludedIn.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-30T13:57:04Z",
+      "side": 1,
+      "message": "nit: for constructors annotated with @Inject each argument should be listed in an own line",
+      "range": {
+        "startLine": 38,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "4df1a6173801b1b914aa38e907bdb6c86d627f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6460736c_cd59a263",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-30T13:57:04Z",
+      "side": 1,
+      "message": "better: revisionId ?",
+      "range": {
+        "startLine": 52,
+        "startChar": 62,
+        "endLine": 52,
+        "endChar": 70
+      },
+      "revId": "4df1a6173801b1b914aa38e907bdb6c86d627f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

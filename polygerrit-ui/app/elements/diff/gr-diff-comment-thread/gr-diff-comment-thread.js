@@ -36,6 +36,7 @@
         type: String,
         reflectToAttribute: true,
       },
+      commentSide: String,
       keyEventTarget: {
         type: Object,
         value: function() { return document.body; },
@@ -94,6 +95,7 @@
       var draft = this._newDraft(opt_lineNum, opt_range);
       draft.__editing = true;
       draft.unresolved = true;
+      draft.__commentSide = this.commentSide;
       this.push('comments', draft);
     },
 
@@ -229,6 +231,7 @@
     _newReply: function(inReplyTo, opt_lineNum, opt_message, opt_unresolved) {
       var d = this._newDraft(opt_lineNum);
       d.in_reply_to = inReplyTo;
+      d.__commentSide = this.commentSide;
       if (opt_message != null) {
         d.message = opt_message;
       }

@@ -207,17 +207,23 @@ limitations under the License.
         ],
       };
       assert.deepEqual(builder._getCommentsForLine(comments, line),
-          [{id: 'l3', line: 3}, {id: 'r5', line: 5}]);
+          [{id: 'l3', line: 3, __commentSide: 'left'},
+          {id: 'r5', line: 5, __commentSide: 'right'}]);
       assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.LEFT), [{id: 'l3', line: 3}]);
+          GrDiffBuilder.Side.LEFT), [{id: 'l3', line: 3,
+          __commentSide: 'left'}]);
       assert.deepEqual(builder._getCommentsForLine(comments, line,
-          GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5}]);
+          GrDiffBuilder.Side.RIGHT), [{id: 'r5', line: 5,
+          __commentSide: 'right'}]);
     });
 
     test('comment thread group creation', function() {
-      var l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000'};
-      var l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000'};
-      var r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000'};
+      var l3 = {id: 'l3', line: 3, updated: '2016-08-09 00:42:32.000000000',
+          __commentSide: 'left'};
+      var l5 = {id: 'l5', line: 5, updated: '2016-08-09 00:42:32.000000000',
+          __commentSide: 'left'};
+      var r5 = {id: 'r5', line: 5, updated: '2016-08-09 00:42:32.000000000',
+          __commentSide: 'right'};
 
       builder._comments = {
         meta: {

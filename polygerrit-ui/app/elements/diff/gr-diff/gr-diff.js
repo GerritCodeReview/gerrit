@@ -232,8 +232,8 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
-      var threadEl =
-          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side, range);
+      var threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
+          diffSide, side, range);
 
       threadEl.addDraft(line, range);
     },
@@ -242,9 +242,10 @@
       var contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
+      var commentSide = this._getCommentSideByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
-      var threadEl =
-          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side);
+      var threadEl = this._getOrCreateThreadAtLineRange(contentEl, patchNum,
+          commentSide, side);
 
       threadEl.addOrEditDraft(opt_lineNum);
     },
@@ -257,28 +258,32 @@
       return contentEl.querySelector('gr-diff-comment-thread-group');
     },
 
-    _getOrCreateThreadAtLineRange: function(contentEl, patchNum, side, range) {
+    _getOrCreateThreadAtLineRange:
+        function(contentEl, patchNum, commentSide, side, range) {
       var rangeToCheck = range ?
           'range-' +
           range.startLine + '-' +
           range.startChar + '-' +
           range.endLine + '-' +
-          range.endChar : 'line';
+          range.endChar + '-' +
+          commentSide : 'line-' + commentSide;
 
       // Check if thread group exists.
       var threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-          this.changeNum, patchNum, this.path, side, this.projectConfig);
+          this.changeNum, patchNum, this.path, side,
+          this.projectConfig);
         contentEl.appendChild(threadGroupEl);
       }
 
       var threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(rangeToCheck);
+        threadGroupEl.addNewThread(rangeToCheck, commentSide);
         Polymer.dom.flush();
         threadEl = this._getThreadForRange(threadGroupEl, rangeToCheck);
+        threadEl.commentSide = commentSide;
       }
       return threadEl;
     },
@@ -303,6 +308,15 @@
       return side;
     },
 
+    _getCommentSideByLineAndContent: function(lineEl, contentEl) {
+      var side = 'right';
+      if (lineEl.classList.contains(DiffSide.LEFT) ||
+          contentEl.classList.contains('remove')) {
+        side = 'left';
+      }
+      return side;
+    },
+
     _handleThreadDiscard: function(e) {
       var el = Polymer.dom(e).rootTarget;
       el.parentNode.removeThread(el.locationRange);
@@ -314,29 +328,20 @@
     },
 
     _removeComment: function(comment, opt_patchNum) {
-      var side = this._findCommentSide(comment, opt_patchNum);
+      var side = comment.__commentSide;
       this._removeCommentFromSide(comment, side);
-    },
-
-    _findCommentSide: function(comment, opt_patchNum) {
-      if (comment.side === 'PARENT') {
-        return DiffSide.LEFT;
-      } else {
-        return this._comments.meta.patchRange.basePatchNum === opt_patchNum ?
-            DiffSide.LEFT : DiffSide.RIGHT;
-      }
     },
 
     _handleCommentSave: function(e) {
       var comment = e.detail.comment;
-      var side = this._findCommentSide(comment, e.detail.patchNum);
+      var side = e.detail.comment.__commentSide;
       var idx = this._findDraftIndex(comment, side);
       this.set(['_comments', side, idx], comment);
     },
 
     _handleCommentUpdate: function(e) {
       var comment = e.detail.comment;
-      var side = this._findCommentSide(comment, e.detail.patchNum);
+      var side = e.detail.comment.__commentSide;
       var idx = this._findCommentIndex(comment, side);
       if (idx === -1) {
         idx = this._findDraftIndex(comment, side);

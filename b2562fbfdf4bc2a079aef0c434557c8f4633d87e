@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "6cb632ea_ef291ce1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Jan 30, 2017 12:13:12 AM",
+      "side": 1,
+      "message": "Thanks, done.",
+      "revId": "b2562fbfdf4bc2a079aef0c434557c8f4633d87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76619cc2_2920baee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebConfig.java",
         "patchSetId": 3
@@ -30,6 +47,23 @@
       "writtenOn": "Jan 29, 2017 9:22:01 PM",
       "side": 1,
       "message": "Type can be null (see L191 for example), so this method should be annotated @Nullable",
+      "revId": "b2562fbfdf4bc2a079aef0c434557c8f4633d87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23ef35bc_98ff1ed8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Jan 30, 2017 12:13:12 AM",
+      "side": 1,
+      "message": "Thanks, done.",
       "revId": "b2562fbfdf4bc2a079aef0c434557c8f4633d87e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

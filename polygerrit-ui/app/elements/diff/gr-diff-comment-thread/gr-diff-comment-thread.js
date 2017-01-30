@@ -37,6 +37,7 @@
         type: Object,
         value: function() { return document.body; },
       },
+      commentSide: String,
       patchNum: String,
       path: String,
       projectConfig: Object,
@@ -245,6 +246,7 @@
         __date: new Date(),
         path: this.path,
         side: this.side,
+        __commentSide: this.commentSide,
       };
       if (opt_lineNum) {
         d.line = opt_lineNum;

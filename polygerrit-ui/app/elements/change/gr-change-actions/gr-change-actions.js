@@ -145,7 +145,10 @@
         type: Boolean,
         value: true,
       },
-
+      _actionLoadingMessage: {
+        type: String,
+        value: null,
+      },
       _allActionValues: {
         type: Array,
         computed: '_computeAllActions(actions.*, revisionActions.*,' +
@@ -153,13 +156,12 @@
       },
       _topLevelActions: {
         type: Array,
-        computed: '_computeTopLevelActions(_allActionValues.*)',
+        computed: '_computeTopLevelActions(_allActionValues.*, _hiddenActions.*)',
       },
       _menuActions: {
         type: Array,
         computed: '_computeMenuActions(_allActionValues.*, _hiddenActions.*)',
       },
-
       _additionalActions: {
         type: Array,
         value: function() { return []; },
@@ -278,6 +280,7 @@
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
           this._keyCount(revisionActionsChangeRecord) === 0 &&
               additionalActions.length === 0;
+      this._actionLoadingMessage = null;
     },
 
     _getValuesFor: function(obj) {
@@ -410,12 +413,6 @@
     _canSubmitChange: function() {
       return this.$.jsAPI.canSubmitChange(this.change,
           this._getRevision(this.change, this.patchNum));
-    },
-
-    _computeActionHidden: function(key, hiddenActionsChangeRecord) {
-      var hiddenActions =
-          (hiddenActionsChangeRecord && hiddenActionsChangeRecord.base) || [];
-      return hiddenActions.indexOf(key) !== -1;
     },
 
     _getRevision: function(change, patchNum) {
@@ -562,6 +559,8 @@
     },
 
     _setLoadingOnButtonWithKey: function(key) {
+      this._actionLoadingMessage = this._computeLoadingLabel(key);
+
       // Return a NoOp for menu keys. @see Issue 5366
       if (MENU_ACTION_KEYS.indexOf(key) !== -1) { return function() {}; }
 
@@ -569,9 +568,10 @@
       buttonEl.setAttribute('loading', true);
       buttonEl.disabled = true;
       return function() {
+        this._actionLoadingMessage = null;
         buttonEl.removeAttribute('loading');
         buttonEl.disabled = false;
-      };
+      }.bind(this);
     },
 
     _fireAction: function(endpoint, action, revAction, opt_payload) {
@@ -713,9 +713,11 @@
       return actionA.label > actionB.label ? 1 : -1;
     },
 
-    _computeTopLevelActions: function(actionRecord) {
+    _computeTopLevelActions: function(actionRecord, hiddenActionsRecord) {
+      var hiddenActions = hiddenActionsRecord.base || [];
       return actionRecord.base.filter(function(a) {
-        return MENU_ACTION_KEYS.indexOf(a.__key) === -1;
+        return MENU_ACTION_KEYS.indexOf(a.__key) === -1 &&
+                hiddenActions.indexOf(a.__key) === -1;
       });
     },
 

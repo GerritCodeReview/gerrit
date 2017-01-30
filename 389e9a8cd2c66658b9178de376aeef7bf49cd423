@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "aadaff9a_e5cc0a65",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 30, 2017 10:40:58 AM",
+      "side": 1,
+      "message": "I\u0027m not sure it would be easy to maintain readability and statelessness for _groupUpdates()\nFor the sake of consistency, I\u0027d keep all parsing function to the same format.",
+      "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "deae81eb_ae8ddc2e",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
         "patchSetId": 4
@@ -45,6 +62,23 @@
       "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31a3f13c_3cfba030",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 30, 2017 10:40:58 AM",
+      "side": 1,
+      "message": "Sorry, this comment probably would be easier to track if broken down into smaller items.\n\nTop-level is called parse, and it returns parsed entity. I\u0027ve added cloning to ensure original message wasn\u0027t changed.\n\nThis class is intended to be temporary solution until same functionality is implemented, so I\u0027d rather keep the interface as less intrusive as possible.",
+      "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "6f2d7f41_43cd50fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 30, 2017 10:40:58 AM",
+      "side": 1,
+      "message": "Done",
+      "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57f2e0d6_d79f4b5e",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
         "patchSetId": 4
@@ -91,6 +142,23 @@
       "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3819084f_4d4a8c86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 30, 2017 10:40:58 AM",
+      "side": 1,
+      "message": "Done",
+      "revId": "389e9a8cd2c66658b9178de376aeef7bf49cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

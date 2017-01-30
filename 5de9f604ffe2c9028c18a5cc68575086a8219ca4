@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea03b6db_04058571",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Jan 30, 2017 11:15:23 AM",
+      "side": 1,
+      "message": "Nit: too long line. 73 char max for commit message.",
+      "revId": "5de9f604ffe2c9028c18a5cc68575086a8219ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba2ac605_5d2d2c4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Jan 30, 2017 11:15:23 AM",
+      "side": 1,
+      "message": "Nit: add new line between the body of the commit message and the footer.",
+      "revId": "5de9f604ffe2c9028c18a5cc68575086a8219ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3db2084_667a1efd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 30, 2017 3:26:22 PM",
+      "side": 1,
+      "message": "Is this optional (like how we have opt_side in some cases)? How is this used when the diff is in unified view and we\u0027re creating a new comment.",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 211,
+        "endChar": 23
+      },
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb0c01c2_20121c7d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 30, 2017 3:26:22 PM",
+      "side": 1,
+      "message": "What\u0027s the difference between side and commentSide?",
+      "range": {
+        "startLine": 213,
+        "startChar": 20,
+        "endLine": 213,
+        "endChar": 38
+      },
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c92f71aa_f97103fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 30, 2017 3:26:22 PM",
+      "side": 1,
+      "message": "What I had envisioned was setting some side property on the comments based on which of these two lists they appeared in.\n\n leftComments.forEach(function(c) { c.side \u003d \u0027LEFT\u0027; });  // ... or similar.\n\nThen the thread group can just transparently group them by side as well as by line number and range.\n\nIn this way, if the diff is side by side, then the group will only be handed one side or the other, and they won\u0027t need to know what side they\u0027re on.",
+      "range": {
+        "startLine": 302,
+        "startChar": 4,
+        "endLine": 305,
+        "endChar": 79
+      },
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

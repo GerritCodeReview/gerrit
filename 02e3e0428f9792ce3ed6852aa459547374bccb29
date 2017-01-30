@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ce0d8304_ba6830c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Jan 30, 2017 3:45:28 PM",
+      "side": 1,
+      "message": "no, it\u0027s not optional. it\u0027s required to render comments correctly in both side by side/unified views, and be able to swap between the two.",
+      "parentUuid": "a3db2084_667a1efd",
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb0c01c2_20121c7d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d7166abe_a6d5c644",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Jan 30, 2017 3:45:28 PM",
+      "side": 1,
+      "message": "I\u0027m not 100% if we need both, but we definitely need commentSide. commentSide is left/right, and side is either PARENT or REVISION. However, revision isn\u0027t enough to tell us if the comment is on the left or the right side.",
+      "parentUuid": "cb0c01c2_20121c7d",
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c92f71aa_f97103fc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 305,
         "endChar": 79
       },
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdfdf8ff_5382acc7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Jan 30, 2017 3:45:28 PM",
+      "side": 1,
+      "message": "This is definitely a better place to do it.  I\u0027ll do it here instead of:\nhttps://gerrit-review.googlesource.com/c/95811/1/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js#543",
+      "parentUuid": "c92f71aa_f97103fc",
       "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

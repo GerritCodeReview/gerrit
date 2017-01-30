@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e8c648d_99b03ed9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Jan 30, 2017 3:32:53 PM",
+      "side": 1,
+      "message": "The admin object needs to be updated to reflect the expected state, and assertUser needs to verify that state (presumably, secondaryEmails).",
+      "revId": "2dc04a101028f8c043b9b01d8b1c01a34dc5a133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

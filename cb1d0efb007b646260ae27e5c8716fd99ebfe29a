@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "ab25a90c_76d5e911",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-30T22:22:01Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure why, I\u0027m pretty new to a11y and aria, but without this value set, the native macOS voiceover doesn\u0027t read the content of the span.\n\nIn any case, I\u0027ve enriched the message to be more useful.",
+      "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "452f332f_6a9cde87",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 5
@@ -42,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "d15f21ca_745887e0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-30T22:22:01Z",
+      "side": 1,
+      "message": "You don\u0027t need attribute binding when you\u0027re just setting an attribute to a static value -- same reason why ...\n\n  class\u003d\"download\"\n\n... works. But, I\u0027d agree that adding gr-button to the tabindex by default is a better solution.",
+      "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f7a4781_b86d8cb1",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 5
@@ -56,6 +90,23 @@
       "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac924d4d_17b96451",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-30T22:22:01Z",
+      "side": 1,
+      "message": "See above.",
+      "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +130,24 @@
       "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8ff8317_145c13cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-30T22:22:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6cfcdda_f1d6e30f",
+      "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

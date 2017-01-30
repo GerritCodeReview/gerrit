@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63473ed6_e3f9b305",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Jan 30, 2017 11:36:35 AM",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "1f6e0a352c0fb79e579535a06d6b68b5b15d2c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

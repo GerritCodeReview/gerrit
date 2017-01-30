@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eef8984a_c72fecd7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 30, 2017 3:54:46 PM",
+      "side": 1,
+      "message": "set",
+      "range": {
+        "startLine": 69,
+        "startChar": 7,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "e6ea7da04cbf4093e97d7a43f7243f29d1e51716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c92590c_66a0309a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 30, 2017 3:54:46 PM",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e6ea7da04cbf4093e97d7a43f7243f29d1e51716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7c0491e_807a7350",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 30, 2017 3:54:46 PM",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e6ea7da04cbf4093e97d7a43f7243f29d1e51716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c56a359_02b4f840",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 30, 2017 3:54:46 PM",
+      "side": 1,
+      "message": "\"set status\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 46,
+        "endLine": 66,
+        "endChar": 57
+      },
+      "revId": "e6ea7da04cbf4093e97d7a43f7243f29d1e51716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "868e359e_052777e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 30, 2017 3:54:46 PM",
+      "side": 1,
+      "message": "Status?",
+      "range": {
+        "startLine": 85,
+        "startChar": 38,
+        "endLine": 85,
+        "endChar": 46
+      },
+      "revId": "e6ea7da04cbf4093e97d7a43f7243f29d1e51716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3ab1613_35b1cc73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 30, 2017 3:54:46 PM",
+      "side": 1,
+      "message": "Shouldn\u0027t this return the newly set status?",
+      "range": {
+        "startLine": 87,
+        "startChar": 22,
+        "endLine": 87,
+        "endChar": 37
+      },
+      "revId": "e6ea7da04cbf4093e97d7a43f7243f29d1e51716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23edc5f9_7d6964e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 30, 2017 3:54:46 PM",
+      "side": 1,
+      "message": "set status",
+      "range": {
+        "startLine": 386,
+        "startChar": 41,
+        "endLine": 386,
+        "endChar": 50
+      },
+      "revId": "e6ea7da04cbf4093e97d7a43f7243f29d1e51716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

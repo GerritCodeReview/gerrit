@@ -382,6 +382,30 @@ limitations under the License.
       });
     });
 
+    test('_setLoadingOnButtonWithKey top-level', function() {
+      var key = 'rebase';
+      var cleanup = element._setLoadingOnButtonWithKey(key);
+
+      var button = element.$$('[data-action-key="' + key + '"]');
+      assert.isTrue(button.hasAttribute('loading'));
+      assert.isTrue(button.disabled);
+
+      assert.isOk(cleanup);
+      assert.isFunction(cleanup);
+      cleanup();
+
+      assert.isFalse(button.hasAttribute('loading'));
+      assert.isFalse(button.disabled);
+    });
+
+    test('_setLoadingOnButtonWithKey overflow menu', function() {
+      // TODO(wyatta): Should not throw error when setting loading on an
+      // overflow action. @see Issue 5366
+      var key = 'cherrypick';
+      var cleanup = element._setLoadingOnButtonWithKey(key);
+      assert.isFunction(cleanup);
+    });
+
     suite('revert change', function() {
       var alertStub;
       var fireActionStub;

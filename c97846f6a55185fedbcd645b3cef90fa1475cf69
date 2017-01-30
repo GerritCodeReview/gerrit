@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1485251370 +0100\nnonce AHDV6GnyHpUZDrHbHM/tNxuS7qGcv+d+jU0I/F4edBDQeaWLK93f+octXwX5o+hDF6o2Emfy9zYc\n\n0000000000000000000000000000000000000000 c97846f6a55185fedbcd645b3cef90fa1475cf69 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYhyMqAAoJEFG1/Zeg0O9R5l8IAKqn/k8OZEUnH7xsheQgmOec\nvXnoMimEVgh08DmTxk3LytbY81NT3CW7KUKBadX0UcMzvzsreo/iVzxihV1xWicH\nd1I6OCSt46/LXj7qAGyXoX8rklMWZ4SxTEefLTpqAN6UqmTa44XyhxbCM8gs82G4\n7MRwSrVEa1IgALT+5v9EGeWa8HBCzz9gdq7cp8xTV5ARkUMgG6ArGalSzRc37gfx\nXMHIOF6FHkZz0ozemIuLbIr6PLnYaQpqFDS5T3weNmHDvAF5rOWbkRPXRpjB8QTI\ngBZGGjWHJKF5VeLNZOXmn2ltuJ9+TktDl1Mxv2DmjHsbmuSyPi/q6rB3wRoTiVI\u003d\n\u003deRUL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d96f8a_c58f057d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-30T15:29:54Z",
+      "side": 1,
+      "message": "I think there should be an additional check there that all the subsections correspond to valid group names in all. It should be a startup failure to try to rename \"ldap:foo\" or \"global:Not-A-Group\" in gerrit.config.",
+      "revId": "c97846f6a55185fedbcd645b3cef90fa1475cf69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5653632f_bc1b25ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-30T15:29:54Z",
+      "side": 1,
+      "message": "What is an admin supposed to do when they see this? I would have expected this to throw an exception, but it looks like it will just continue. What will be the result when evaluating ACLs after seeing this warning?",
+      "revId": "c97846f6a55185fedbcd645b3cef90fa1475cf69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

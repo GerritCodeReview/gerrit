@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06cf0cb3_12431d74",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-30T20:56:58Z",
+      "side": 1,
+      "message": "Is it necessary to set the `aria-label` to the same thing as the element\u0027s text? In the absence of an `aria-label` attribute, I would have expected it to just read the contents.",
+      "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "452f332f_6a9cde87",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-30T20:56:58Z",
+      "side": 1,
+      "message": "Should this be ...\n\n tabindex$\u003d\"0\"\n\n... or even, should we just add this to the gr-button by default?",
+      "range": {
+        "startLine": 378,
+        "startChar": 18,
+        "endLine": 378,
+        "endChar": 30
+      },
+      "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f7a4781_b86d8cb1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-30T20:56:58Z",
+      "side": 1,
+      "message": "Same here. This might be better off as a default in gr-editable-label. Barring that, though, I expect it should be `tabindex$\u003d\"0\"`. Does it work when setting this on a Polymer element without the `$`?",
+      "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6cfcdda_f1d6e30f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-30T20:56:58Z",
+      "side": 1,
+      "message": "Should the label say how many lines were added?\n\n  aria-label\u003d\"Lines added [[_patchchange.inserted]]\"\n\nSame with removed.",
+      "range": {
+        "startLine": 312,
+        "startChar": 28,
+        "endLine": 312,
+        "endChar": 52
+      },
+      "revId": "cb1d0efb007b646260ae27e5c8716fd99ebfe29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -413,11 +413,14 @@ public class AccountIT extends AbstractDaemonTest {
 
         // Not in the list of TLDs but added to override in OutgoingEmailValidator
         "new.email@example.local");
+    AccountInfo info;
     for (String email : emails) {
       EmailInput input = new EmailInput();
       input.email = email;
       input.noConfirmation = true;
       gApi.accounts().self().addEmail(input);
+      info = gApi.accounts().self().get();
+      assertUser(info, admin);
     }
   }
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "616a43b3_13e9928a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-30T19:43:59Z",
+      "side": 1,
+      "message": "Style nit: I do JSDocs need to have the /** on its own line? There are some instances where we don\u0027t have this, but seemingly only when invoking `@polymerBehavior`.\n\n/**\n * When true, will call element.focus() during scrolling.\n */\n\nAt any rate, it matches the existing style better.",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "17fc6a717b200440292fd289510f9d87036b93f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86a1e4a5_c8e5d214",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-30T19:43:59Z",
+      "side": 1,
+      "message": "How about just `focus`, `focusOnMove` or `focusOnTargets`?\n\nHaving \"should\" in the name makes it seem like it makes a best-effort to focus but might fail.",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 17
+      },
+      "revId": "17fc6a717b200440292fd289510f9d87036b93f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

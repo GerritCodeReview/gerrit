@@ -315,6 +315,9 @@
     var rightComments =
         comments[GrDiffBuilder.Side.RIGHT].filter(byLineNum(line.afterNumber));
 
+    leftComments.forEach(function(c) { c.__commentSide = 'left'; });
+    rightComments.forEach(function(c) { c.__commentSide = 'right'; });
+
     var result;
 
     switch (opt_side) {
@@ -332,8 +335,8 @@
     return result;
   };
 
-  GrDiffBuilder.prototype.createCommentThreadGroup =
-      function(changeNum, patchNum, path, side, projectConfig, range) {
+  GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
+      patchNum, path, side, projectConfig, range) {
     var threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;

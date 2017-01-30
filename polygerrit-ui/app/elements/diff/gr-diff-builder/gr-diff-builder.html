@@ -208,9 +208,9 @@ limitations under the License.
         },
 
         createCommentThreadGroup: function(changeNum, patchNum, path, side,
-            projectConfig) {
+            commentSide, projectConfig) {
           return this._builder.createCommentThreadGroup(changeNum, patchNum,
-              path, side, projectConfig);
+              path, side, commentSide, projectConfig);
         },
 
         emitGroup: function(group, sectionEl) {

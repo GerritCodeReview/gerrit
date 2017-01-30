@@ -315,6 +315,9 @@
     var rightComments =
         comments[GrDiffBuilder.Side.RIGHT].filter(byLineNum(line.afterNumber));
 
+    leftComments.forEach(function(c) { c.__commentSide = 'left'; });
+    rightComments.forEach(function(c) { c.__commentSide = 'right'; });
+
     var result;
 
     switch (opt_side) {
@@ -332,14 +335,15 @@
     return result;
   };
 
-  GrDiffBuilder.prototype.createCommentThreadGroup =
-      function(changeNum, patchNum, path, side, projectConfig, range) {
+  GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
+      patchNum, path, side, commentSide, projectConfig, range) {
     var threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
     threadGroupEl.patchNum = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.side = side;
+    threadGroupEl.commentSide = commentSide;
     threadGroupEl.projectConfig = projectConfig;
     threadGroupEl.range = range;
     return threadGroupEl;
@@ -354,6 +358,7 @@
 
     var patchNum = this._comments.meta.patchRange.patchNum;
     var side = comments[0].side || 'REVISION';
+    var commentSide = comments[0].__commentSide;
     if (line.type === GrDiffLine.Type.REMOVE ||
         opt_side === GrDiffBuilder.Side.LEFT) {
       if (this._comments.meta.patchRange.basePatchNum === 'PARENT') {
@@ -367,6 +372,7 @@
         patchNum,
         this._comments.meta.path,
         side,
+        commentSide,
         this._comments.meta.projectConfig);
     threadGroupEl.comments = comments;
     if (opt_side) {

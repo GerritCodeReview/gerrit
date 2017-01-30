@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f5230cd_70f18fd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 29, 2017 9:22:01 PM",
+      "side": 1,
+      "message": "Mention that it was removed in change I8508dcaf3",
+      "revId": "b2562fbfdf4bc2a079aef0c434557c8f4633d87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76619cc2_2920baee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitwebConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Jan 29, 2017 9:22:01 PM",
+      "side": 1,
+      "message": "Type can be null (see L191 for example), so this method should be annotated @Nullable",
+      "revId": "b2562fbfdf4bc2a079aef0c434557c8f4633d87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

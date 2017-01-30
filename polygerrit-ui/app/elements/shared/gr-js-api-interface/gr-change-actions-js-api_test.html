@@ -131,8 +131,7 @@ breaking changes to gr-change-actions won’t be noticed.
             true);
         flush(function() {
           var button = element.$$('[data-action-key="' + key + '"]');
-          assert.isOk(button);
-          assert.isTrue(button.hasAttribute('hidden'));
+          assert.isNotOk(button);
           done();
         });
       });

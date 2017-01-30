@@ -46,8 +46,8 @@ limitations under the License.
       gr-button:before {
         content: attr(data-label);
       }
-      gr-button[loading]:before {
-        content: attr(data-loading-label);
+      #actionLoadingMessage {
+        color: #777;
       }
       @media screen and (max-width: 50em) {
         :host,
@@ -64,9 +64,18 @@ limitations under the License.
         .confirmDialog {
           width: 90vw;
         }
+        #actionLoadingMessage {
+          display: block;
+          margin: .5em;
+          text-align: center;
+        }
       }
     </style>
     <div>
+      <span
+          id="actionLoadingMessage"
+          hidden$="[[!_actionLoadingMessage]]">
+        [[_actionLoadingMessage]]</span>
       <gr-dropdown
           id="moreActions"
           down-arrow
@@ -83,12 +92,10 @@ limitations under the License.
             items="[[_topLevelActions]]"
             as="action">
           <gr-button title$="[[action.title]]"
-              hidden$="[[_computeActionHidden(action.__key, _hiddenActions.*)]]"
               primary$="[[action.__primary]]"
               data-action-key$="[[action.__key]]"
               data-action-type$="[[action.__type]]"
               data-label$="[[action.label]]"
-              data-loading-label$="[[_computeLoadingLabel(action.__key)]]"
               disabled$="[[!action.enabled]]"
               on-tap="_handleActionTap"></gr-button>
         </template>

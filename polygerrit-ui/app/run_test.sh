@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 wct_bin=$(which wct)
 if [[ -z "$wct_bin" ]]; then

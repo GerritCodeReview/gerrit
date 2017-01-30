@@ -232,8 +232,9 @@
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
+      var commentSide = this._getCommentSideByLineAndContent(lineEl, contentEl);
       var threadEl =
-          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side, range);
+          this._getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide, side, range);
 
       threadEl.addDraft(line, range);
     },
@@ -242,9 +243,10 @@
       var contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       var contentEl = contentText.parentElement;
       var patchNum = this._getPatchNumByLineAndContent(lineEl, contentEl);
+      var commentSide = this._getCommentSideByLineAndContent(lineEl, contentEl);
       var side = this._getSideByLineAndContent(lineEl, contentEl);
       var threadEl =
-          this._getOrCreateThreadAtLineRange(contentEl, patchNum, side);
+          this._getOrCreateThreadAtLineRange(contentEl, patchNum, commentSide, side);
 
       threadEl.addOrEditDraft(opt_lineNum);
     },
@@ -257,26 +259,27 @@
       return contentEl.querySelector('gr-diff-comment-thread-group');
     },
 
-    _getOrCreateThreadAtLineRange: function(contentEl, patchNum, side, range) {
+    _getOrCreateThreadAtLineRange: function(contentEl, patchNum, commentSide, side, range) {
       var rangeToCheck = range ?
           'range-' +
           range.startLine + '-' +
           range.startChar + '-' +
           range.endLine + '-' +
-          range.endChar :  'line';
+          range.endChar +
+          commentSide :  'line-'+commentSide;
 
       // Check if thread group exists.
       var threadGroupEl = this._fetchThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-          this.changeNum, patchNum, this.path, side,  this.projectConfig);
+          this.changeNum, patchNum, this.path, side, commentSide, this.projectConfig);
         contentEl.appendChild(threadGroupEl);
       }
 
       var threadEl = this._fetchThreadForRange(threadGroupEl, rangeToCheck);
 
       if (!threadEl) {
-        threadGroupEl.addNewThread(rangeToCheck);
+        threadGroupEl.addNewThread(rangeToCheck, commentSide);
         Polymer.dom.flush();
         threadEl = this._fetchThreadForRange(threadGroupEl, rangeToCheck);
       }
@@ -299,6 +302,15 @@
           contentEl.classList.contains('remove')) &&
           this.patchRange.basePatchNum === 'PARENT') {
         side = 'PARENT';
+      }
+      return side;
+    },
+
+    _getCommentSideByLineAndContent: function(lineEl, contentEl) {
+      var side = 'right';
+      if (lineEl.classList.contains(DiffSide.LEFT) ||
+          contentEl.classList.contains('remove')){
+        side = 'left';
       }
       return side;
     },
@@ -329,6 +341,7 @@
 
     _handleCommentSave: function(e) {
       var comment = e.detail.comment;
+      var commentSide = comment.__commentSide;
       var side = this._findCommentSide(comment, e.detail.patchNum);
       var idx = this._findDraftIndex(comment, side);
       this.set(['_comments', side, idx], comment);

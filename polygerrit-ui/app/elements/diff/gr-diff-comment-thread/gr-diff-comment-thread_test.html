@@ -544,5 +544,11 @@ limitations under the License.
       assert.equal(element._computeHostClass(true), 'unresolved');
       assert.equal(element._computeHostClass(false), '');
     });
+
+    test('_newDraft', function() {
+      element.commentSide = 'left';
+      var draft = element._newDraft();
+      assert.equal(draft.__commentSide, 'left');
+    });
   });
 </script>

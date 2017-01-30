@@ -258,11 +258,13 @@ limitations under the License.
       element.patchNum = 1;
       element.editing = false;
       element.comment = {
+        __commentSide: 'right',
         __draft: true,
         __draftID: 'temp_draft_id',
         path: '/path/to/file',
         line: 5,
       };
+      element.commentSide = 'right';
       sandbox = sinon.sandbox.create();
     });
 
@@ -470,6 +472,7 @@ limitations under the License.
       assert.deepEqual(fireStub.lastCall.args, [
         'comment-update', {
           comment: {
+            __commentSide: 'right',
             __draft: true,
             __draftID: 'temp_draft_id',
             __editing: true,
@@ -491,6 +494,7 @@ limitations under the License.
                'comment-save should be sent');
         assert.deepEqual(fireStub.lastCall.args[1], {
           comment: {
+            __commentSide: 'right',
             __draft: true,
             __draftID: 'temp_draft_id',
             __editing: false,

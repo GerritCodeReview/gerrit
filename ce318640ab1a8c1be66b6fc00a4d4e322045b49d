@@ -16,6 +16,23 @@
       "revId": "ce318640ab1a8c1be66b6fc00a4d4e322045b49d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44bd6f70_0ad367e3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 30, 2017 10:48:40 AM",
+      "side": 1,
+      "message": "I think the addEmail test is broken too. You should have an assertUser call inside the loop.",
+      "revId": "ce318640ab1a8c1be66b6fc00a4d4e322045b49d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -64,7 +64,7 @@ class LimitedByteArrayOutputStream extends OutputStream {
     return buffer.toByteArray();
   }
 
-  class LimitExceededException extends IOException {
+  static class LimitExceededException extends IOException {
     private static final long serialVersionUID = 1L;
   }
 }

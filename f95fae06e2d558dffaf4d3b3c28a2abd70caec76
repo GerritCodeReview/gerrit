@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "744ed2b5_d09fc362",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Jan 30, 2017 10:35:58 AM",
+      "side": 1,
+      "message": "Why link to GH and not to gerrit? Also i would prefer to have reference to the footer of the commit message and not to scroll to the right.",
+      "revId": "f95fae06e2d558dffaf4d3b3c28a2abd70caec76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "783c354e_183ccb82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Jan 30, 2017 10:35:58 AM",
+      "side": 1,
+      "message": "Combine both statement to one statement, e.g.:\n\nIt was originally 1.7.0 in removed Buck build: [1], but was outdated in Bazel build.\n\n[1] https://gerrit-review.googlesource.com/#/c/91587/30/lib/js/BUCK",
+      "revId": "f95fae06e2d558dffaf4d3b3c28a2abd70caec76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

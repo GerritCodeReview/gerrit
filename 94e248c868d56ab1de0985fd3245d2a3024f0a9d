@@ -59,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "b26a95f3_dcdb22ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-30T18:26:27Z",
+      "side": 1,
+      "message": "In all honesty, no I didn\u0027t try to reproduce it. It seemed like such a specific bug report with such an easy solution that I just decided to \u0027fix\u0027 it right away. You\u0027re right that the issue doesn\u0027t exist, at least on Chrome for macOS. Reverted.",
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61621eb2_2f8af5d1",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 2

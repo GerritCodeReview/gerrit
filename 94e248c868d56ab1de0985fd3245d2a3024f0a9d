@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "2d584fa4_3cd478c6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-30T18:03:52Z",
+      "side": 1,
+      "message": "That\u0027s confusing to me. Why does a regular text node appear in the a11y tree, but not a SPAN with the same text node? Were you able to reproduce that consistently?",
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61621eb2_2f8af5d1",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 2
@@ -116,6 +133,23 @@
       "writtenOn": "2017-01-26T23:59:55Z",
       "side": 1,
       "message": "Done, but in what way does this pollute `Object.prototype`?",
+      "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3a7d791_b7bd4695",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-30T18:03:52Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t write that clearly. This code didn\u0027t pollute `Object.prototype`, but, as it was, the name of anything appearing on `Object.prototype` would have been a valid file status.",
       "revId": "94e248c868d56ab1de0985fd3245d2a3024f0a9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

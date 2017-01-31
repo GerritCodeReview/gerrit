@@ -2067,6 +2067,7 @@ public class ReceiveCommits {
       }
       cmd = new ReceiveCommand(ObjectId.zeroId(), commit,
           ins.getPatchSetId().toRefName());
+      ins.setUpdateRefCommand(cmd);
       if (rp.getPushCertificate() != null) {
         ins.setPushCertificate(rp.getPushCertificate().toTextWithSignature());
       }
@@ -2106,7 +2107,7 @@ public class ReceiveCommits {
             .setAccountsToNotify(magicBranch.getAccountsToNotify())
             .setRequestScopePropagator(requestScopePropagator)
             .setSendMail(true)
-            .setUpdateRef(false)
+            .setUpdateRef(true)
             .setPatchSetDescription(magicBranch.message));
         if (!magicBranch.hashtags.isEmpty()) {
           bu.addOp(

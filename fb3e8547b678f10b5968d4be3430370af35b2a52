@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "9e87dcbb_90ab095c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T19:01:37Z",
+      "side": 1,
+      "message": "😫",
+      "range": {
+        "startLine": 258,
+        "startChar": 90,
+        "endLine": 258,
+        "endChar": 94
+      },
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9712e74_b71f8267",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T19:01:37Z",
+      "side": 1,
+      "message": "Why 0? You\u0027re not interested in any particular tab order, are you?",
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90f7b1f5_cb6288ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T19:01:37Z",
+      "side": 1,
+      "message": "Please move this to separate line.",
+      "range": {
+        "startLine": 76,
+        "startChar": 35,
+        "endLine": 76,
+        "endChar": 41
+      },
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "881c2da6_db0fcc95",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
         "patchSetId": 6
@@ -19,6 +82,24 @@
         "endLine": 47,
         "endChar": 39
       },
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cf2713d_fd951f69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T19:01:37Z",
+      "side": 1,
+      "message": "Or https://www.polymer-project.org/1.0/docs/devguide/registering-elements#host-attributes",
+      "parentUuid": "881c2da6_db0fcc95",
       "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

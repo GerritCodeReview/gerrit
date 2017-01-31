@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "97c7eeed_8665eb72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-31T15:53:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6b8bbfd_68979146",
+      "revId": "c25b95da1233c9312d76bc611958bc512d4b0d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "652edf84_2204cbcf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2017-01-31T15:15:47Z",
       "side": 1,
       "message": "Whether or not you take my suggestion above, you should use the 3-arg form of joining()",
+      "revId": "c25b95da1233c9312d76bc611958bc512d4b0d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8742d14_dd5a8129",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-31T15:53:56Z",
+      "side": 1,
+      "message": "With an empty list, this results in the string \"\u0027\u0027\", which is not empty and triggers the exception (using your code sample from the comment above).",
+      "parentUuid": "652edf84_2204cbcf",
       "revId": "c25b95da1233c9312d76bc611958bc512d4b0d37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

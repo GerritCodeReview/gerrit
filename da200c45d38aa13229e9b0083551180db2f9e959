@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b158dc3e_a7247b51",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 31, 2017 11:43:20 AM",
+      "side": 1,
+      "message": "I believe better approach here would be to polyfill Object.assign for IE.\nTodo added.",
+      "parentUuid": "cef06d9a_27cf714c",
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97d3ab84_a95e9582",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
         "patchSetId": 6
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "76c20090_3f0901c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 31, 2017 11:43:20 AM",
+      "side": 1,
+      "message": "No, this is arbitrary seed value, to be tuned based on feedback.",
+      "parentUuid": "97d3ab84_a95e9582",
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b878484d_a812e4f5",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
         "patchSetId": 6
@@ -62,6 +98,24 @@
       "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c0ce98a_ea02b257",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 31, 2017 11:43:20 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b878484d_a812e4f5",
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "96a6c010_7a85756d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 31, 2017 11:43:20 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3888ae8a_a190ebaf",
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae9cae50_42736b1b",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser_test.html",
         "patchSetId": 6
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "5f65d6f4_d8d4e230",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 31, 2017 11:43:20 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae9cae50_42736b1b",
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ae72e58_2cbc8132",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser_test.html",
         "patchSetId": 6
@@ -131,6 +221,24 @@
       "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "581f422a_424d6f9e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 31, 2017 11:43:20 AM",
+      "side": 1,
+      "message": "Absence of previous state.",
+      "parentUuid": "9ae72e58_2cbc8132",
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

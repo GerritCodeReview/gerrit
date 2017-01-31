@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccba8da7_c8b7ce44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T18:34:37Z",
+      "side": 1,
+      "message": "Do we ever need focus outline ever?\nI think the right way would be to do *:focus{outline:none} in main.css and enable it when/if it\u0027s needed.",
+      "revId": "7345c56ae7528fcad59269bbc1a127170d42abef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2362646e_1af6fa21",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T18:34:37Z",
+      "side": 1,
+      "message": "Alphabetize attributes, maybe?",
+      "revId": "7345c56ae7528fcad59269bbc1a127170d42abef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "402bb661_96675d00",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T18:34:37Z",
+      "side": 1,
+      "message": "Please add JSDoc for the parameter.",
+      "revId": "7345c56ae7528fcad59269bbc1a127170d42abef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76295a90_218160e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T18:34:37Z",
+      "side": 1,
+      "message": "Super nit:\nThis is confusing and I can\u0027t really figure out when and how it should or should not be used.\nI don\u0027t have any specific recommendations, but this is an important piece of logic and this behavior\u0027s implications are not transparent.",
+      "revId": "7345c56ae7528fcad59269bbc1a127170d42abef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01fcae26_8ec26fee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-01-31T18:34:37Z",
+      "side": 1,
+      "message": "Can you use stub here? It\u0027s a bit more lightweight.",
+      "range": {
+        "startLine": 172,
+        "startChar": 16,
+        "endLine": 172,
+        "endChar": 19
+      },
+      "revId": "7345c56ae7528fcad59269bbc1a127170d42abef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

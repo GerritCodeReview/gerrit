@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "f2415c96_ed0354fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f2beb14_bc9b26ac",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9
@@ -30,6 +47,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "remove this",
+      "range": {
+        "startLine": 4169,
+        "startChar": 59,
+        "endLine": 4169,
+        "endChar": 72
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f590331_f91a6046",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 4169,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 4169,
         "startChar": 59,
@@ -65,6 +105,29 @@
     },
     {
       "key": {
+        "uuid": "b651a9bb_0806b9aa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 4170,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 4170,
+        "startChar": 0,
+        "endLine": 4170,
+        "endChar": 12
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2aa2f6b_3ed5035a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9
@@ -88,6 +151,29 @@
     },
     {
       "key": {
+        "uuid": "938137b8_15314e84",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 4172,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 4172,
+        "startChar": 15,
+        "endLine": 4172,
+        "endChar": 29
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26b6f300_886deac2",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9
@@ -99,6 +185,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "remove this",
+      "range": {
+        "startLine": 5457,
+        "startChar": 43,
+        "endLine": 5457,
+        "endChar": 60
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1f9a5e9_17fccdb2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5457,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 5457,
         "startChar": 43,
@@ -157,6 +266,52 @@
     },
     {
       "key": {
+        "uuid": "ea84acfd_17aeb796",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5458,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 5458,
+        "startChar": 21,
+        "endLine": 5458,
+        "endChar": 67
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1274da6b_3e6f6dc8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 5458,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 5453,
+        "startChar": 0,
+        "endLine": 5458,
+        "endChar": 68
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "879e869a_c4274293",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 9
@@ -168,6 +323,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "Do these assertions before getting \u0027targetCommentInfo\u0027 from \u0027before\u0027.",
+      "range": {
+        "startLine": 671,
+        "startChar": 4,
+        "endLine": 672,
+        "endChar": 48
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9e46989_84a4d0a2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 671,
         "startChar": 4,
@@ -203,6 +381,29 @@
     },
     {
       "key": {
+        "uuid": "edf81134_71b9ed15",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 675,
+        "startChar": 33,
+        "endLine": 675,
+        "endChar": 38
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d7efd2_d05cbdc2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 9
@@ -226,6 +427,29 @@
     },
     {
       "key": {
+        "uuid": "5802ff17_d75a538f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 746,
+        "startChar": 40,
+        "endLine": 746,
+        "endChar": 41
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ce27ee7_86d0a9a3",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 9
@@ -237,6 +461,24 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "You should add some assertions to make sure that no other meta data update like change messages or approvals have been lost while rewriting the commits.",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d3be9f1_7fb38e70",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3ce27ee7_86d0a9a3",
       "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -289,6 +531,52 @@
     },
     {
       "key": {
+        "uuid": "aea415ef_6fd2635e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 24,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 13
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43f9c7aa_b7124c5f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 24,
+        "startChar": 33,
+        "endLine": 24,
+        "endChar": 45
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ded36c9e_fbb833f5",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
         "patchSetId": 9
@@ -300,6 +588,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "input",
+      "range": {
+        "startLine": 37,
+        "startChar": 42,
+        "endLine": 37,
+        "endChar": 54
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6efa219_2232f281",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/CommentApi.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 37,
         "startChar": 42,
@@ -335,6 +646,29 @@
     },
     {
       "key": {
+        "uuid": "4e67f982_9b004a21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 52,
+        "startChar": 28,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb810ccc_bbf45fb7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 9
@@ -346,6 +680,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "allowed",
+      "range": {
+        "startLine": 72,
+        "startChar": 35,
+        "endLine": 72,
+        "endChar": 40
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e3ccf67_a69a1e37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 72,
         "startChar": 35,
@@ -381,6 +738,29 @@
     },
     {
       "key": {
+        "uuid": "29933a55_9e572c3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 90,
+        "startChar": 30,
+        "endLine": 92,
+        "endChar": 38
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "660f71ea_f00b9089",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 9
@@ -398,6 +778,23 @@
     },
     {
       "key": {
+        "uuid": "915b9b17_32d6156f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Let me remove it and let CI test this again.",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3458c7e_67674f00",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 9
@@ -409,6 +806,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "Instead of this comment, rather factor this block out into a \u0027deleteFromDatabase\u0027 method.\n\nAlso since [1] some changes may exist only in NoteDb, but not in ReviewDb. You should attempt deletion from ReviewDb only for changes for which the PrimaryStorage is not NoteDb.\n\n[1] https://gerrit-review.googlesource.com/80930",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 95,
+        "endChar": 29
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6eccc4b7_4926bb98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 95,
         "startChar": 5,
@@ -444,6 +864,29 @@
     },
     {
       "key": {
+        "uuid": "4a96ce62_cc4b78b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 49
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1d7e707_f402314b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 9
@@ -455,6 +898,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "I think this should rather be writeChanges since deletion is a write operation",
+      "range": {
+        "startLine": 118,
+        "startChar": 23,
+        "endLine": 118,
+        "endChar": 34
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bab6be3_486b3af8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 118,
         "startChar": 23,
@@ -484,6 +950,23 @@
     },
     {
       "key": {
+        "uuid": "c47aae88_5893498d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53292faa_f8963256",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
         "patchSetId": 9
@@ -495,6 +978,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "This shouldn\u0027t be async as we must make sure that the indexing is done before returning to the client.",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c81397df_1a2e6ca2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteComment.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 131,
         "startChar": 12,
@@ -524,6 +1030,23 @@
     },
     {
       "key": {
+        "uuid": "725e8a76_758706ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Added.",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a7f3f8c_8e901aae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -535,6 +1058,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "Only open the repository in the updateComment method so that you can ensure with a try-with-resource block that it is closed after use.",
+      "range": {
+        "startLine": 78,
+        "startChar": 16,
+        "endLine": 78,
+        "endChar": 42
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94a0369a_74d7164f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 78,
         "startChar": 16,
@@ -570,6 +1116,29 @@
     },
     {
       "key": {
+        "uuid": "431d3096_c77f72ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 13
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39d26875_e8eb5c83",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -581,6 +1150,23 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "Better provide an error message to checkNotNull so that this error case can be better understood when it occurs.",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d5a1c2_72e6803f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -604,6 +1190,23 @@
     },
     {
       "key": {
+        "uuid": "d2324b3e_cae53c8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Added some comments for this.",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "058738a6_b43d66fb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -621,6 +1224,23 @@
     },
     {
       "key": {
+        "uuid": "96fe7bac_36d5cb61",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Reused one RevWalk and reset it before use (reset after use should be the same).",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc403ee7_4b23b098",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -632,6 +1252,24 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "If I read this method correctly, it assumes that the first entry in commitDataList is the parent commit that doesn\u0027t contain the comment, while all other entries are commits that contain the comment and need to be rewritten? If this is correct better have a separate parameter for the parent commit instead of including it into the list. Also please add some documentation explaining the assumptions of this method, like the expected ordering in commitDataList.",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a2ab541_5550aad5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc403ee7_4b23b098",
       "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -661,6 +1299,29 @@
     },
     {
       "key": {
+        "uuid": "4d2f3561_67ea0d35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 153,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 5
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c09ccc4_85ba1839",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -678,6 +1339,23 @@
     },
     {
       "key": {
+        "uuid": "d4dbcecd_295e6b7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "601092ba_18c9d10a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -689,6 +1367,23 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "You must close the rev walk after use: Resource \u0027rw\u0027 should be managed by try-with-resource",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85a04c19_e1361aff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -718,6 +1413,29 @@
     },
     {
       "key": {
+        "uuid": "4a4483ac_166871a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Yes. RevisionNoteMap.parse(..) can be used here. Updated.",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 79
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8180f06_e2d28295",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -735,6 +1453,24 @@
     },
     {
       "key": {
+        "uuid": "247570b4_83af5c09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Updated. The calling user will be the new committer of the commit, which puts in the target comment. Other commits should stay the same.",
+      "parentUuid": "d8180f06_e2d28295",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a888ca6_aa9959f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -746,6 +1482,29 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "better: getUpdatedCommentList?",
+      "range": {
+        "startLine": 221,
+        "startChar": 24,
+        "endLine": 221,
+        "endChar": 38
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9f7aa90_f9df3613",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 221,
         "startChar": 24,
@@ -781,6 +1540,29 @@
     },
     {
       "key": {
+        "uuid": "84078592_05ab9484",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 223,
+        "startChar": 6,
+        "endLine": 223,
+        "endChar": 13
+      },
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa291f2f_db31ddfd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -798,6 +1580,23 @@
     },
     {
       "key": {
+        "uuid": "ad6e2342_364e1143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "Done. All the commits will be redone now.",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed55eeca_769b67de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 9
@@ -809,6 +1608,23 @@
       "writtenOn": "2017-01-26T11:17:44Z",
       "side": 1,
       "message": "Maybe make this an AutoValue class.",
+      "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bc14ec2_0dfc9c3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-01-31T15:58:24Z",
+      "side": 1,
+      "message": "We may not use @AutoValue class here as we will never use \"equals()\", \"toString()\" and \"hashCode()\" for this class.",
       "revId": "a2efc357cb726b3530c6944ece24dcd8019e5610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04ededcb_fb2cdd33",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Nit: these attributes could be wrapped to keep the line length down.",
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5df28421_e1211209",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Minor nit: blank line between `is:` and `properties:`",
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1450683_260dca5b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Nit:\n\n  return [];",
+      "range": {
+        "startLine": 34,
+        "startChar": 27,
+        "endLine": 34,
+        "endChar": 35
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9196eb9a_a90dc5bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Since this doesn\u0027t do any Ajax, should this method be called `getThreadForRange`?",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 23
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fe72bcd_5b3f5d27",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "This should be a capital \"F\".",
+      "range": {
+        "startLine": 49,
+        "startChar": 15,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cbe365c_a0016301",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Is this used outside of the tests?",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 21
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a801c446_b14076a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Line is longer than 80 characters.",
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b4a1702_e4b001a5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Nit:\n\n  { return; }",
+      "range": {
+        "startLine": 69,
+        "startChar": 32,
+        "endLine": 69,
+        "endChar": 40
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5123c02_57ed482b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "This can be just\n\n  .comments",
+      "range": {
+        "startLine": 94,
+        "startChar": 37,
+        "endLine": 94,
+        "endChar": 49
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b7e8475_3343d111",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "`Object.values` isn\u0027t supported by many browsers:\n\n* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values",
+      "range": {
+        "startLine": 104,
+        "startChar": 30,
+        "endLine": 104,
+        "endChar": 43
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edb29f60_bf13c296",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "It seems like `locationRange` is not used as an attribute. Is this correct?",
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dbb4d4d_5525aab3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Same here: Since it\u0027s not doing Ajax, I suspect it shouldn\u0027t have fetch in the name.  Would `_getThreadForRange` work?",
+      "range": {
+        "startLine": 252,
+        "startChar": 5,
+        "endLine": 252,
+        "endChar": 10
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85aae4f6_6052060e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T20:38:28Z",
+      "side": 1,
+      "message": "Nit: Indent one more level.",
+      "range": {
+        "startLine": 479,
+        "startChar": 10,
+        "endLine": 479,
+        "endChar": 47
+      },
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

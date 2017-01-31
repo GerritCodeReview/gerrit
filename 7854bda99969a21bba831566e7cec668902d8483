@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79fc519b_c56bbdd6",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 10:40:02 AM",
+      "side": 1,
+      "message": "copy/paste error",
+      "revId": "7854bda99969a21bba831566e7cec668902d8483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f11b5cc8_e552db31",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2245,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 10:40:02 AM",
+      "side": 1,
+      "message": "FYI some things support deleting with a DELETE request, e.g. deleting a topic. I don\u0027t think it\u0027s essential to add now, we can always add it later if someone really wants it (or complains about the inconsistency).",
+      "range": {
+        "startLine": 2245,
+        "startChar": 63,
+        "endLine": 2245,
+        "endChar": 70
+      },
+      "revId": "7854bda99969a21bba831566e7cec668902d8483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f16c0b8_a9804ce2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 10:40:02 AM",
+      "side": 1,
+      "message": "Strings.nullToEmpty perhaps?",
+      "revId": "7854bda99969a21bba831566e7cec668902d8483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

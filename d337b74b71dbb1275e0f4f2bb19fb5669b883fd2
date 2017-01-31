@@ -17,6 +17,24 @@
       "revId": "d337b74b71dbb1275e0f4f2bb19fb5669b883fd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6069903_b8646753",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StartupChecks.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Jan 31, 2017 6:54:11 AM",
+      "side": 1,
+      "message": "Good idea.\n\nDone.",
+      "parentUuid": "1ac34579_e8729505",
+      "revId": "d337b74b71dbb1275e0f4f2bb19fb5669b883fd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

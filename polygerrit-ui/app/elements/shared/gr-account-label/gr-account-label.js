@@ -33,10 +33,10 @@
       if (!account || (!account.name && !account.email)) { return; }
       var result = '';
       if (account.name) {
-        result += util.escapeHTML(account.name);
+        result += account.name;
       }
       if (account.email) {
-        result += ' <' + util.escapeHTML(account.email) + '>';
+        result += ' <' + account.email + '>';
       }
       return result;
     },

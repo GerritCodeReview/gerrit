@@ -14,6 +14,17 @@
 (function(window, GrDiffGroup, GrDiffLine) {
   'use strict';
 
+  var HTML_ENTITY_PATTERN = /[&<>"'`\/]/g;
+  var HTML_ENTITY_MAP = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    '\'': '&#39;',
+    '/': '&#x2F;',
+    '`': '&#96;',
+  };
+
   // Prevent redefinition.
   if (window.GrDiffBuilder) { return; }
 
@@ -386,7 +397,7 @@
       td.classList.add('content');
     }
     td.classList.add(line.type);
-    var html = util.escapeHTML(text);
+    var html = this._escapeHTML(text);
     html = this._addTabWrappers(html, this._prefs.tab_size);
 
     if (!this._prefs.line_wrapping &&
@@ -575,6 +586,12 @@
     return group.type === GrDiffGroup.Type.DELTA &&
         (!group.adds.length || !group.removes.length) &&
         !(!group.adds.length && !group.removes.length);
+  };
+
+  GrDiffBuilder.prototype._escapeHTML = function(str) {
+    return str.replace(HTML_ENTITY_PATTERN, function(s) {
+      return HTML_ENTITY_MAP[s];
+    });
   };
 
   window.GrDiffBuilder = GrDiffBuilder;

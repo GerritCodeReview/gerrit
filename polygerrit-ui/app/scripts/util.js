@@ -24,22 +24,6 @@
     return new Date(dateStr.replace(' ', 'T') + 'Z');
   };
 
-  util.htmlEntityMap = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    '\'': '&#39;',
-    '/': '&#x2F;',
-    '`': '&#96;',
-  };
-
-  util.escapeHTML = function(str) {
-    return str.replace(/[&<>"'`\/]/g, function(s) {
-      return util.htmlEntityMap[s];
-    });
-  };
-
   util.getCookie = function(name) {
     var key = name + '=';
     var cookies = document.cookie.split(';');

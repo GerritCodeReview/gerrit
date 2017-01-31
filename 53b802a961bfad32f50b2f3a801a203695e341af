@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "fa6e2783_dbaf6b55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ChangeUserName.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Jan 31, 2017 7:03:19 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5ef86f2_e74aae9e",
+      "revId": "53b802a961bfad32f50b2f3a801a203695e341af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8810b5a_5b73a856",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
         "patchSetId": 2
@@ -31,6 +49,30 @@
       "writtenOn": "Jan 31, 2017 6:25:39 AM",
       "side": 1,
       "message": "Return a Set?",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "53b802a961bfad32f50b2f3a801a203695e341af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad0b2257_68506253",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Jan 31, 2017 7:03:19 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8810b5a_5b73a856",
       "range": {
         "startLine": 46,
         "startChar": 10,

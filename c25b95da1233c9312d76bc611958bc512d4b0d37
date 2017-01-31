@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1485874427 +0100\nnonce AHDV6Gn0FdgRq0+COpEAt6ibp5+4EAkiwbaUaVJChABVLVm9QllUGlmpWZXmCGMcFi5gQYx6Jrdk\n\n0000000000000000000000000000000000000000 c25b95da1233c9312d76bc611958bc512d4b0d37 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYkKT7AAoJEFG1/Zeg0O9RPWgH/3j3YEfOakFTrvoUaEybyWut\nWm60Tv+j+ac+DJfXgRxpKZiL6nPh8dSZcDTnF0wmCEXDS/ioGv6TBTke6IMYaaWE\nG27W4afkwf9OoJzfA30nCwROurAvaTyD4C5EE6w+TT0qAeQ+GvoOszUgZrWbXotG\nWpwiS+YdAhb8Q3cxkq/5nZIiUeks4BO9u3OagQZLN0vJt0w1PmXRtUVJ1by9FbPO\nYZDauakaSiBapbrsI0/9vqSNH/JgSIrUMDBCmpRHRG5J6mNK0chx37qiPPWjaULA\nE3pXvFS+79a3zrw7joDAwuMG8iGATCLDU5ZrB75wLObn1pDQTtX+CUrEy4UhQmQ\u003d\n\u003do07C\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6b8bbfd_68979146",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-31T15:15:47Z",
+      "side": 1,
+      "message": "Optional: since you\u0027re already using streams, why not go whole hog?\n\n String invalid \u003d cfg.getSubsections(\"groups\").stream()\n     .filter(\n         sub -\u003e {\n           AccountGroup.UUID uuid \u003d new AccountGroup.UUID(sub);\n           GroupBackend groupBackend \u003d universalGroupBackend.backend(uuid);\n           return groupBackend \u003d\u003d null || groupBackend.get(uuid) \u003d\u003d null;\n         })\n     .collect(joining(\",\", \"\u0027\", \"\u0027\"));\n if (!invalid.isEmpty()) {\n   throw new StartupException(...);\n }",
+      "revId": "c25b95da1233c9312d76bc611958bc512d4b0d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "652edf84_2204cbcf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-31T15:15:47Z",
+      "side": 1,
+      "message": "Whether or not you take my suggestion above, you should use the 3-arg form of joining()",
+      "revId": "c25b95da1233c9312d76bc611958bc512d4b0d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

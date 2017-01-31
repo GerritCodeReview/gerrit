@@ -949,6 +949,18 @@ limitations under the License.
           done();
         });
       });
+
+      test('_escapeHTML', function() {
+        var input = '<script>alert("XSS");<' + '/script>';
+        var expected = '&lt;script&gt;alert(&quot;XSS&quot;);&lt;&#x2F;script&gt;';
+        var result = GrDiffBuilder.prototype._escapeHTML(input);
+        assert.equal(result, expected);
+
+        input = '& < > " \' / `';
+        expected = '&amp; &lt; &gt; &quot; &#39; &#x2F; &#96;';
+        result = GrDiffBuilder.prototype._escapeHTML(input);
+        assert.equal(result, expected);
+      });
     });
   });
 </script>

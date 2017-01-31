@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "da746cc5_016e5919",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-31T19:10:52Z",
+      "side": 1,
+      "message": "Very unfortunate, I know, but without this spacing gets very janky.",
+      "parentUuid": "9e87dcbb_90ab095c",
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9712e74_b71f8267",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 6
@@ -39,6 +57,24 @@
       "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46291760_2910a915",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-31T19:10:52Z",
+      "side": 1,
+      "message": "Nope. It just needs to exist in the tabindex.",
+      "parentUuid": "f9712e74_b71f8267",
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +98,24 @@
       "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "967e9c80_e9a90cb0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-31T19:10:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90f7b1f5_cb6288ce",
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -103,6 +157,24 @@
       "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "456d24d9_b6a5745a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-01-31T19:10:52Z",
+      "side": 1,
+      "message": "+1 to Viktar\u0027s approach, I didn\u0027t know that was a thing.",
+      "parentUuid": "2cf2713d_fd951f69",
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

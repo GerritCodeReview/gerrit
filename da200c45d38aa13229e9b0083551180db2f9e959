@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cef06d9a_27cf714c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 11:18:45 AM",
+      "side": 1,
+      "message": "`Object.assign` isn\u0027t supported in IE.\n\nMaybe just do a shallow copy manually?\n\nthis.result \u003d {};\nfor (var key in change) {\n  if (change.hasOwnProperty(key)) {\n    this.result[key] \u003d change[key];\n  }\n)",
+      "range": {
+        "startLine": 21,
+        "startChar": 18,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97d3ab84_a95e9582",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 11:18:45 AM",
+      "side": 1,
+      "message": "Not an issue, but I\u0027m curious where this number came from. Have we observed any variance in timestamps that should be grouped?",
+      "range": {
+        "startLine": 89,
+        "startChar": 51,
+        "endLine": 89,
+        "endChar": 60
+      },
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b878484d_a812e4f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 11:18:45 AM",
+      "side": 1,
+      "message": "Nit: Nested ternaries are hard to read. Consider making these two if-cases or storing the inner ternary in a var.",
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3888ae8a_a190ebaf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 11:18:45 AM",
+      "side": 1,
+      "message": "_formatUpdates is a bit hard to follow since it has three different kinds of loop.\n\nThis section looks like it would be good to break out into a function with a description of the result format. (e.g. how is this grouping different from that of _groupUpdates.)",
+      "range": {
+        "startLine": 152,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 24
+      },
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae9cae50_42736b1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 11:18:45 AM",
+      "side": 1,
+      "message": "Oops s/2016/2017/",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ae72e58_2cbc8132",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 11:18:45 AM",
+      "side": 1,
+      "message": "What does the undefined state represent?",
+      "range": {
+        "startLine": 172,
+        "startChar": 23,
+        "endLine": 172,
+        "endChar": 32
+      },
+      "revId": "da200c45d38aa13229e9b0083551180db2f9e959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

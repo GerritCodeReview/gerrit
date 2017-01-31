@@ -32,6 +32,7 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
@@ -415,6 +416,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     contextInitialized(new ServletContextEvent(servletContext));
     init();
     manager.start();
+    sysInjector.getInstance(StartupChecks.class).check();
   }
 
   @Override

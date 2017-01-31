@@ -74,6 +74,7 @@ import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
@@ -382,6 +383,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), AccountPatchReviewStore.class);
     DynamicSet.setOf(binder(), AssigneeValidationListener.class);
     DynamicSet.setOf(binder(), ActionVisitor.class);
+    DynamicSet.setOf(binder(), StartupCheck.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

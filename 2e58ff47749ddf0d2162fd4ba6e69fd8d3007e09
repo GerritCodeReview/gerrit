@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1485874427 +0100\nnonce AHDV6Gn0FdgRq0+COpEAt6ibp5+4EAkiwbaUaVJChABVLVm9QllUGlmpWZXmCGMcFi5gQYx6Jrdk\n\n0000000000000000000000000000000000000000 c25b95da1233c9312d76bc611958bc512d4b0d37 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYkKT7AAoJEFG1/Zeg0O9RPWgH/3j3YEfOakFTrvoUaEybyWut\nWm60Tv+j+ac+DJfXgRxpKZiL6nPh8dSZcDTnF0wmCEXDS/ioGv6TBTke6IMYaaWE\nG27W4afkwf9OoJzfA30nCwROurAvaTyD4C5EE6w+TT0qAeQ+GvoOszUgZrWbXotG\nWpwiS+YdAhb8Q3cxkq/5nZIiUeks4BO9u3OagQZLN0vJt0w1PmXRtUVJ1by9FbPO\nYZDauakaSiBapbrsI0/9vqSNH/JgSIrUMDBCmpRHRG5J6mNK0chx37qiPPWjaULA\nE3pXvFS+79a3zrw7joDAwuMG8iGATCLDU5ZrB75wLObn1pDQTtX+CUrEy4UhQmQ\u003d\n\u003do07C\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "683cfee1_e58073d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 6:57:22 AM",
+      "side": 1,
+      "message": "IIUC, this can\u0027t just go in StartupChecks.Module, because we want to allow plugins to provide StartupCheck implementations even if we don\u0027t plan on running them, is that right?",
+      "revId": "2e58ff47749ddf0d2162fd4ba6e69fd8d3007e09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

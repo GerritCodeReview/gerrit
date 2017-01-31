@@ -17,6 +17,13 @@ function rev() {
 echo STABLE_BUILD_GERRIT_LABEL $(rev .)
 for p in plugins/* ; do
   test -d "$p" || continue
-  echo STABLE_BUILD_$(echo $(basename $p)_LABEL|tr '[a-z]' '[A-Z]' ) $(rev $p)
+  # special treatment of nested examples plugin
+  if [ "$p" == "plugins/examples" ]; then
+    for e in $p/* ; do
+      echo STABLE_BUILD_$(echo $(basename $e)_LABEL|tr '[a-z]' '[A-Z]' ) $(rev $p)
+    done
+  else
+    echo STABLE_BUILD_$(echo $(basename $p)_LABEL|tr '[a-z]' '[A-Z]' ) $(rev $p)
+  fi
 done
 echo "STABLE_WORKSPACE_ROOT ${PWD}"

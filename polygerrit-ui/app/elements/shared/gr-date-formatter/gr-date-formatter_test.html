@@ -33,6 +33,15 @@ limitations under the License.
 <script>
   suite('gr-date-formatter tests', function() {
     var element;
+    var sandbox;
+
+    setup(function() {
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
+    });
 
     /**
      * Parse server-formatter date and normalize into current timezone.
@@ -47,13 +56,12 @@ limitations under the License.
       // Normalize and convert the date to mimic server response.
       dateStr = normalizedDate(dateStr)
           .toJSON().replace('T', ' ').slice(0, -1);
-      var clock = sinon.useFakeTimers(normalizedDate(nowStr).getTime());
+      sandbox.useFakeTimers(normalizedDate(nowStr).getTime());
       element.dateStr = dateStr;
       flush(function() {
         var span = element.$$('span');
-        assert.equal(span.textContent, expected);
+        assert.equal(span.textContent.trim(), expected);
         assert.equal(span.title, expectedTooltip);
-        clock.restore();
         done();
       });
     }
@@ -74,6 +82,7 @@ limitations under the License.
           {time_format: 'HHMM_24', relative_date_in_change_table: false}
         ).then(function() {
           element = fixture('basic');
+          sandbox.stub(element, '_getTzString').returns('');
           element._loadPreferences().then(function() { done(); });
         });
       });
@@ -86,25 +95,25 @@ limitations under the License.
       test('Within 24 hours on same day', function(done) {
         testDates('2015-07-29 20:34:14.985000000',
                   '2015-07-29 15:34:14.985000000',
-                  '15:34', 'Jul 29, 2015, 15:34', done);
+                  '15:34', 'Jul 29, 2015, 15:34:14', done);
       });
 
       test('Within 24 hours on different days', function(done) {
         testDates('2015-07-29 03:34:14.985000000',
                   '2015-07-28 20:25:14.985000000',
-                  'Jul 28', 'Jul 28, 2015, 20:25', done);
+                  'Jul 28', 'Jul 28, 2015, 20:25:14', done);
       });
 
       test('More than 24 hours but less than six months', function(done) {
         testDates('2015-07-29 20:34:14.985000000',
                   '2015-06-15 03:25:14.985000000',
-                  'Jun 15', 'Jun 15, 2015, 03:25', done);
+                  'Jun 15', 'Jun 15, 2015, 03:25:14', done);
       });
 
       test('More than six months', function(done) {
         testDates('2015-09-15 20:34:00.000000000',
                   '2015-01-15 03:25:00.000000000',
-                  'Jan 15, 2015', 'Jan 15, 2015, 03:25', done);
+                  'Jan 15, 2015', 'Jan 15, 2015, 03:25:00', done);
       });
     });
 
@@ -115,6 +124,7 @@ limitations under the License.
           {time_format: 'HHMM_12'}
         ).then(function() {
           element = fixture('basic');
+          sandbox.stub(element, '_getTzString').returns('');
           element._loadPreferences().then(function() { done(); });
         });
       });
@@ -122,7 +132,7 @@ limitations under the License.
       test('Within 24 hours on same day', function(done) {
         testDates('2015-07-29 20:34:14.985000000',
                   '2015-07-29 15:34:14.985000000',
-                  '3:34 PM', 'Jul 29, 2015, 3:34 PM', done);
+                  '3:34 PM', 'Jul 29, 2015, 3:34:14 PM', done);
       });
     });
 
@@ -132,6 +142,7 @@ limitations under the License.
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(function() {
           element = fixture('basic');
+          sandbox.stub(element, '_getTzString').returns('');
           element._loadPreferences().then(function() { done(); });
         });
       });
@@ -139,13 +150,13 @@ limitations under the License.
       test('Within 24 hours on same day', function(done) {
         testDates('2015-07-29 20:34:14.985000000',
                   '2015-07-29 15:34:14.985000000',
-                  '5 hours ago', 'Jul 29, 2015, 3:34 PM', done);
+                  '5 hours ago', 'Jul 29, 2015, 3:34:14 PM', done);
       });
 
       test('More than six months', function(done) {
         testDates('2015-09-15 20:34:00.000000000',
                   '2015-01-15 03:25:00.000000000',
-                  '8 months ago', 'Jan 15, 2015, 3:25 AM', done);
+                  '8 months ago', 'Jan 15, 2015, 3:25:00 AM', done);
       });
     });
 
@@ -155,6 +166,7 @@ limitations under the License.
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(function() {
           element = fixture('basic');
+          sandbox.stub(element, '_getTzString').returns('');
           element._loadPreferences().then(function() { done(); });
         });
       });
@@ -169,6 +181,7 @@ limitations under the License.
       setup(function(done) {
         return stubRestAPI(null).then(function() {
           element = fixture('basic');
+          sandbox.stub(element, '_getTzString').returns('');
           element._loadPreferences().then(function() { done(); });
         });
       });

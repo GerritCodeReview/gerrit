@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7011e412_94d6ce6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2d7458d_f1663227",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "725b9fa1_0b5e89e1",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a812d81a_a509fce0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "725b9fa1_0b5e89e1",
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21b7f802_903d2c83",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-01-29T23:51:59Z",
       "side": 1,
       "message": "The REST API is implicitly tested through the API, so this could be omitted, and then the class can be annotated as @NoHttpd",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fced8c11_47b29fc1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21b7f802_903d2c83",
       "range": {
         "startLine": 31,
         "startChar": 2,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "478645d7_5af1994d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c09912cc_a95ec891",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 20
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d66cb799_dfa3fe19",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
         "patchSetId": 2
@@ -99,6 +189,30 @@
       "writtenOn": "2017-01-29T23:51:59Z",
       "side": 1,
       "message": ".isEmpty()",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 19
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05b3c766_fa106b02",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d66cb799_dfa3fe19",
       "range": {
         "startLine": 59,
         "startChar": 8,
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "b168999d_db2d72b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "Done. Much better.",
+      "parentUuid": "d9daf68c_0bcc8c37",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32235fd8_bcb73071",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IncludedInInfo.java",
         "patchSetId": 2
@@ -145,6 +283,24 @@
       "writtenOn": "2017-01-29T23:51:59Z",
       "side": 1,
       "message": "Missing copyright/license header",
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84f99d4a_b7409739",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IncludedInInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32235fd8_bcb73071",
       "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "e7def416_accc8f02",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IncludedInInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "3e6629ef_5a64b021",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a4b1468_960fbdcb",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IncludedInInfo.java",
         "patchSetId": 2
@@ -185,6 +365,30 @@
       "writtenOn": "2017-01-29T23:51:59Z",
       "side": 1,
       "message": "Is it possible to add tests for this field?",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 29
+      },
+      "revId": "68184a26e2ebfd52d812302c0bab7d4d84c492f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "954370ea_3f9cba4d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/IncludedInInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2017-01-31T14:31:06Z",
+      "side": 1,
+      "message": "It will be a bit cumbersome to add.\n\nHm. I think it is fair to keep the testcases directly related to {Change,Commit}IncludedIn which is the main focus of this feature. It is already growing in size. Is that OK? Let me know otherwise, and I\u0027ll see what I can do, but I would really like to keep down the scope of the change a little bit.",
+      "parentUuid": "6a4b1468_960fbdcb",
       "range": {
         "startLine": 16,
         "startChar": 4,

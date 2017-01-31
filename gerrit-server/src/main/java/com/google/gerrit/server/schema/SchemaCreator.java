@@ -24,6 +24,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -118,7 +119,9 @@ public class SchemaCreator {
   }
 
   private void index(AccountGroup group) throws IOException {
-    indexCollection.getSearchIndex().replace(group);
+    for (GroupIndex groupIndex : indexCollection.getWriteIndexes()) {
+      groupIndex.replace(group);
+    }
   }
 
   private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)

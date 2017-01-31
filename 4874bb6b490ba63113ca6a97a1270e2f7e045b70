@@ -63,6 +63,24 @@
       "revId": "4874bb6b490ba63113ca6a97a1270e2f7e045b70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66fcbda8_61677393",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-01-31T21:39:20Z",
+      "side": 1,
+      "message": "Oh i doint see html imports being re added. Would you be able to point to the file please that does?\n\nIt must have been that i had an old copy of gerrit. Though i did do a rebase.",
+      "parentUuid": "693cc0d7_97223586",
+      "revId": "4874bb6b490ba63113ca6a97a1270e2f7e045b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

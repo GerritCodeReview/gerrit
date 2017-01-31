@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1485872320 +0100\nnonce AHDV6Glb0iEULQyr3QWBuK0yyypwIscFk9ELI3JuwD8nXQxoFA10G4JOvEjHvRfKIlvQJwLuD74U\n\n0000000000000000000000000000000000000000 53b802a961bfad32f50b2f3a801a203695e341af refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYkJzAAAoJEFG1/Zeg0O9RH0sIAJa3OzQ97ito/9nF5GWq+V6g\nJopI1CAKdNt90d2tqt9fSBxiUCM/b8qS/66/MSL8VeHoUH5xyQ76eaTlu8G4E6nC\nY7rGxY/Wu3pe+VyRTlIdCyuuZLidAPbP7cOnRjNZLL7EGnHsYsiN3UAoZ/0Tx3+e\nHlIam/slfW6nWTjYgjg24/Ipq/3HLRD9fxmT7+k4OpcIj3GBLcBXM4Gnfzlz4cJ3\nX4VW5atlDyOkihFY1Si0XYPytY0QeLh7Em+I3B50NGK69F4eomJIdGD/SwzM1MXC\nCxSjLg+7wlprojvadSOpxZR5EccvUY7g+mk7EDOkNLH/h3753hi3tWGNEbm52XI\u003d\n\u003dqIb5\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5ef86f2_e74aae9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ChangeUserName.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 6:25:39 AM",
+      "side": 1,
+      "message": "This method can be eliminated now, all it\u0027s doing is making a copy of the newly-created collection returned by byAccount.",
+      "revId": "53b802a961bfad32f50b2f3a801a203695e341af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8810b5a_5b73a856",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 6:25:39 AM",
+      "side": 1,
+      "message": "Return a Set?",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "53b802a961bfad32f50b2f3a801a203695e341af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

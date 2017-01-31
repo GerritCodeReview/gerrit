@@ -1073,22 +1073,17 @@ public class BatchUpdate implements AutoCloseable {
         RevWalk rw, Change.Id id) throws OrmException {
       Change c = newChanges.get(id);
       boolean isNew = c != null;
-      PrimaryStorage defaultStorage = notesMigration.changePrimaryStorage();
       if (isNew) {
         // New change: populate noteDbState.
         checkState(c.getNoteDbState() == null,
             "noteDbState should not be filled in by callers");
-        if (defaultStorage == PrimaryStorage.NOTE_DB) {
+        if (notesMigration.changePrimaryStorage() == PrimaryStorage.NOTE_DB) {
           c.setNoteDbState(NoteDbChangeState.NOTE_DB_PRIMARY_STATE);
         }
       } else {
         // Existing change.
         c = ChangeNotes.readOneReviewDbChange(db, id);
         if (c == null) {
-          if (defaultStorage == PrimaryStorage.REVIEW_DB) {
-            logDebug("Failed to get change {} from unwrapped db", id);
-            throw new NoSuchChangeException(id);
-          }
           // Not in ReviewDb, but new changes are created with default primary
           // storage as NOTE_DB, so we can assume that a missing change is
           // NoteDb primary. Pass a synthetic change into ChangeNotes.Factory,

@@ -109,7 +109,10 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   @Override
   public GroupDescription.Basic get(AccountGroup.UUID uuid) {
-    final GroupReference ref = getGroup(uuid);
+    final GroupReference ref = uuids.get(uuid);
+    if (ref == null) {
+      return null;
+    }
     return new GroupDescription.Basic() {
       @Override
       public String getName() {

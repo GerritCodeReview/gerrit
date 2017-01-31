@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "be828ff3_011aa5a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 31, 2017 10:35:20 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd210e49_e2dd818c",
+      "revId": "4aa2d310bbf532d44697d66e5a659e00ebcd8fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bcbb315_4fc04a67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
         "patchSetId": 3
@@ -39,6 +57,24 @@
       "revId": "4aa2d310bbf532d44697d66e5a659e00ebcd8fc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09e8f379_b6e08ed5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 31, 2017 10:35:20 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bcbb315_4fc04a67",
+      "revId": "4aa2d310bbf532d44697d66e5a659e00ebcd8fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

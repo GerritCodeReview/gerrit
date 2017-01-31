@@ -53,6 +53,24 @@
       "revId": "2e58ff47749ddf0d2162fd4ba6e69fd8d3007e09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "efcf894a_debd3f87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Jan 31, 2017 7:26:15 AM",
+      "side": 1,
+      "message": "Yes, at least for now this should be all we need.",
+      "parentUuid": "56d4b045_da67660d",
+      "revId": "2e58ff47749ddf0d2162fd4ba6e69fd8d3007e09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

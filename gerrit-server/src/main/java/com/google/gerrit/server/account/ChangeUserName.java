@@ -30,7 +30,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.Callable;
@@ -76,7 +75,8 @@ public class ChangeUserName implements Callable<VoidResult> {
   @Override
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
       InvalidUserNameException, IOException {
-    final Collection<AccountExternalId> old = old();
+    Collection<AccountExternalId> old =
+        externalIdCache.byAccount(user.getAccountId(), SCHEME_USERNAME);
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
@@ -127,16 +127,5 @@ public class ChangeUserName implements Callable<VoidResult> {
     accountCache.evictByUsername(newUsername);
     sshKeyCache.evict(newUsername);
     return VoidResult.INSTANCE;
-  }
-
-  private Collection<AccountExternalId> old() {
-    final Collection<AccountExternalId> r = new ArrayList<>(1);
-    for (AccountExternalId i : externalIdCache.byAccount(
-        user.getAccountId())) {
-      if (i.isScheme(SCHEME_USERNAME)) {
-        r.add(i);
-      }
-    }
-    return r;
   }
 }

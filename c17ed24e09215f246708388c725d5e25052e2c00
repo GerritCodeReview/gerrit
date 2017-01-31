@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1485859131 +0100\nnonce AHDV6GmuDSqpGj3zBNjkD5H85GoAinHIP/Tmr4u63V8NbuHi+iwUVLOGO82cNtCcN72q0ckkfGit\n\n0000000000000000000000000000000000000000 c17ed24e09215f246708388c725d5e25052e2c00 refs/for/stable-2.13\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYkGk7AAoJEFG1/Zeg0O9RMYsH/jDvPDGtj09AP7Y4koKmgbMm\nAhuh/cY3D7waiYTFUdaaB8iA1uIKEIxeCMS3DjC55iDPBjanGU1QmukdVMCMXYFC\nnWBor2BSrmy+TtjsLjl7RtnLnkb0k/FBeDfso+c3JLgHRDq/RdT4DZETRA+Gx78e\nRxcriZYWEWkcDd0l7X7Y7mHhKh5RmKZvcnnM1b5uSuwXeVpzCKd23PQ58NjTDL4c\nDSJY4XBWsm/YXJDQaAHR1hdtdH8+qv0DRO59YgcgzyGB8t+qpQ9/3LWPnZr8xpNy\nZu5ID6pCvPx6MY8mYY/t/+y2754ZfKkwoTZAoZxC1bYOjsHiR3kPah+2o8cIqWY\u003d\n\u003du2Vd\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "547cc2c3_031c6da6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1719,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-31T15:30:57Z",
+      "side": 1,
+      "message": "Maybe factor out a boolean var alreadyTracked, then you don\u0027t need the comment (here or above).",
+      "range": {
+        "startLine": 1719,
+        "startChar": 12,
+        "endLine": 1719,
+        "endChar": 35
+      },
+      "revId": "c17ed24e09215f246708388c725d5e25052e2c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3477f26_befd740b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1729,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-31T15:30:57Z",
+      "side": 1,
+      "message": "Shorter:\n\n if (pending.get(c).destChanges.stream()\n     .anyMatch(cd -\u003e cd.change().getDest().equals(magicBranch.dest))) {\n   continue;\n }",
+      "range": {
+        "startLine": 1720,
+        "startChar": 10,
+        "endLine": 1729,
+        "endChar": 11
+      },
+      "revId": "c17ed24e09215f246708388c725d5e25052e2c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

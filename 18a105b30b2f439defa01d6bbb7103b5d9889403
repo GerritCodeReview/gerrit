@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "99c66957_07a333c7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-31T10:39:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "324569da_b56e4a31",
+      "revId": "18a105b30b2f439defa01d6bbb7103b5d9889403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67d8f2dc_27827c08",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ebc7a547_af2984b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-31T10:39:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67d8f2dc_27827c08",
+      "revId": "18a105b30b2f439defa01d6bbb7103b5d9889403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b93b29ee_3f4ef421",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -48,6 +84,24 @@
       "writtenOn": "2017-01-27T14:55:56Z",
       "side": 1,
       "message": "What if...instead of doing byBranchKey here, we do byKey, and put this in a Map (Multimap?) of Branch.NameKey -\u003e ChangeData. You can decide whether to skip the change immediately after constructing the ChangeLookup, and you keep it at one index call per commit.\n\nI guess the problem with this approach is this is by Change-Id, not commit, so it won\u0027t work if there is no Change-Id footer. Is it possible to combine the two into [commit:X OR id:Y]? You would have to change the loop logic to not short-circuit if there is no Change-Id footer, but it might still be workable.",
+      "revId": "18a105b30b2f439defa01d6bbb7103b5d9889403",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e072df1_3f619e85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1926,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-31T10:39:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b93b29ee_3f4ef421",
       "revId": "18a105b30b2f439defa01d6bbb7103b5d9889403",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -35,6 +35,24 @@
       "revId": "2e58ff47749ddf0d2162fd4ba6e69fd8d3007e09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56d4b045_da67660d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 7:22:19 AM",
+      "side": 1,
+      "message": "Ah, I see. So basically if you want to bind a startup check, you have to do it in StartupChecks.Module. Fair enough.",
+      "parentUuid": "824a06bc_7b6a480d",
+      "revId": "2e58ff47749ddf0d2162fd4ba6e69fd8d3007e09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

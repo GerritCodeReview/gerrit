@@ -624,60 +624,60 @@ maven_jar(
   sha1 = 'df4b50061e8e4c348ce243b921f53ee63ba9bbe1',
 )
 
-JETTY_VERS = '9.2.14.v20151106'
+JETTY_VERS = '9.2.20.v20161216'
 
 maven_jar(
   name = 'jetty_servlet',
   artifact = 'org.eclipse.jetty:jetty-servlet:' + JETTY_VERS,
-  sha1 = '3a2cd4d8351a38c5d60e0eee010fee11d87483ef',
+  sha1 = '063b4c3e0f82b7580dc63aa502e48d4cc9b0433f',
 )
 
 maven_jar(
   name = 'jetty_security',
   artifact = 'org.eclipse.jetty:jetty-security:' + JETTY_VERS,
-  sha1 = '2d36974323fcb31e54745c1527b996990835db67',
+  sha1 = '5997221bac95c672cf795dd0ac7006ea7d09071a',
 )
 
 maven_jar(
   name = 'jetty_servlets',
   artifact = 'org.eclipse.jetty:jetty-servlets:' + JETTY_VERS,
-  sha1 = 'a75c78a0ee544073457ca5ee9db20fdc6ed55225',
+  sha1 = 'df011c3fa08fca66a2ee6e3eefa58483e6b407d0',
 )
 
 maven_jar(
   name = 'jetty_server',
   artifact = 'org.eclipse.jetty:jetty-server:' + JETTY_VERS,
-  sha1 = '70b22c1353e884accf6300093362b25993dac0f5',
+  sha1 = '4be4db65b4461be1a641a3da8534f09fc5d5fa7a',
 )
 
 maven_jar(
   name = 'jetty_jmx',
   artifact = 'org.eclipse.jetty:jetty-jmx:' + JETTY_VERS,
-  sha1 = '617edc5e966b4149737811ef8b289cd94b831bab',
+  sha1 = 'a5b2e12e9e04221e8218d0e029bed895c8b39a5c',
 )
 
 maven_jar(
   name = 'jetty_continuation',
   artifact = 'org.eclipse.jetty:jetty-continuation:' + JETTY_VERS,
-  sha1 = '8909d62fd7e28351e2da30de6fb4105539b949c0',
+  sha1 = 'e0193f38a9472da59079a059bccdb52fbddc5112',
 )
 
 maven_jar(
   name = 'jetty_http',
   artifact = 'org.eclipse.jetty:jetty-http:' + JETTY_VERS,
-  sha1 = '699ad1f2fa6fb0717e1b308a8c9e1b8c69d81ef6',
+  sha1 = '72f4829a04dae1871b43c092aab5d82e5e81e509',
 )
 
 maven_jar(
   name = 'jetty_io',
   artifact = 'org.eclipse.jetty:jetty-io:' + JETTY_VERS,
-  sha1 = 'dfa4137371a3f08769820138ca1a2184dacda267',
+  sha1 = 'cb27789ea103b78f5c7bcf4c33627f8dc23b8ddc',
 )
 
 maven_jar(
   name = 'jetty_util',
   artifact = 'org.eclipse.jetty:jetty-util:' + JETTY_VERS,
-  sha1 = '0057e00b912ae0c35859ac81594a996007706a0b',
+  sha1 = 'b211d57761c6d5a249708290e617deb9dda2cdad',
 )
 
 maven_jar(

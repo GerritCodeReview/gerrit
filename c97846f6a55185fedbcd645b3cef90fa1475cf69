@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e6d6443d_9dd821d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-31T15:15:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8c3b825e_47400509",
+      "revId": "c97846f6a55185fedbcd645b3cef90fa1475cf69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5653632f_bc1b25ea",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
         "patchSetId": 3
@@ -103,6 +121,24 @@
       "revId": "c97846f6a55185fedbcd645b3cef90fa1475cf69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08adbdc8_eeadf7ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-31T15:15:47Z",
+      "side": 1,
+      "message": "\u003e \u003e What is an admin supposed to do when they see this?\n\u003e \n\u003e The admin should go and fix the configuration in gerrit.config.\n\nSure, but in this patch set, the log/exception message doesn\u0027t give much of a hint. I see you clarified in later patch sets, so great.",
+      "parentUuid": "7a46fd08_135ef7c0",
+      "revId": "c97846f6a55185fedbcd645b3cef90fa1475cf69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

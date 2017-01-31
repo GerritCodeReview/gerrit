@@ -130,12 +130,10 @@ public class ChangeUserName implements Callable<VoidResult> {
   }
 
   private Collection<AccountExternalId> old() {
-    final Collection<AccountExternalId> r = new ArrayList<>(1);
+    Collection<AccountExternalId> r = new ArrayList<>(1);
     for (AccountExternalId i : externalIdCache.byAccount(
-        user.getAccountId())) {
-      if (i.isScheme(SCHEME_USERNAME)) {
-        r.add(i);
-      }
+        user.getAccountId(), SCHEME_USERNAME)) {
+      r.add(i);
     }
     return r;
   }

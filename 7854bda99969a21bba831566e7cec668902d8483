@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "77979937_fe594709",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 31, 2017 10:59:25 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79fc519b_c56bbdd6",
+      "revId": "7854bda99969a21bba831566e7cec668902d8483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f11b5cc8_e552db31",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 4
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "2c91a7e3_8fbd45c4",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2245,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 31, 2017 10:59:25 AM",
+      "side": 1,
+      "message": "I saw that, and it seemed unnecessary. I\u0027ll totally add it if it\u0027s requested though, it seems like it\u0027s only a single line in the request routing since PutStatus handles empty strings just fine.",
+      "parentUuid": "f11b5cc8_e552db31",
+      "revId": "7854bda99969a21bba831566e7cec668902d8483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f16c0b8_a9804ce2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
         "patchSetId": 4
@@ -56,6 +92,23 @@
       "revId": "7854bda99969a21bba831566e7cec668902d8483",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a927172_fbada627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 31, 2017 10:59:25 AM",
+      "side": 1,
+      "message": "Done",
+      "revId": "7854bda99969a21bba831566e7cec668902d8483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

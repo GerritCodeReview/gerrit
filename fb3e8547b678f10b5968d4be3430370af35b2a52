@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "881c2da6_db0fcc95",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-01-31T18:33:28Z",
+      "side": 1,
+      "message": "Consider instead applying ...\n\n  this.setAttribute(\u0027tabindex\u0027, 0);\n\n... in the `attached` method of gr-editable-label.js and avoid this whole container.",
+      "range": {
+        "startLine": 47,
+        "startChar": 27,
+        "endLine": 47,
+        "endChar": 39
+      },
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

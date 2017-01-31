@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd210e49_e2dd818c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 6:49:31 AM",
+      "side": 1,
+      "message": "If you annotate this with @DefaultInput, then callers can pass the body as plain/text and they don\u0027t have to construct JSON. This is the convention for other inputs that naturally have a single text field.",
+      "revId": "4aa2d310bbf532d44697d66e5a659e00ebcd8fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bcbb315_4fc04a67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Jan 31, 2017 6:49:31 AM",
+      "side": 1,
+      "message": "I think in Java 8 the compiler is finally smart enough that you don\u0027t need this explicit type.",
+      "range": {
+        "startLine": 86,
+        "startChar": 19,
+        "endLine": 86,
+        "endChar": 28
+      },
+      "revId": "4aa2d310bbf532d44697d66e5a659e00ebcd8fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

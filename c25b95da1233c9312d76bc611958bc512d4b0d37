@@ -70,6 +70,24 @@
       "revId": "c25b95da1233c9312d76bc611958bc512d4b0d37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081a7180_179baaa2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-01-31T15:59:38Z",
+      "side": 1,
+      "message": "Ugh, seriously? Thanks, Java.",
+      "parentUuid": "c8742d14_dd5a8129",
+      "revId": "c25b95da1233c9312d76bc611958bc512d4b0d37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

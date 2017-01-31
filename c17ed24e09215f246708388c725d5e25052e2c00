@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "e761a3a5_5802a928",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-31T16:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "547cc2c3_031c6da6",
+      "range": {
+        "startLine": 1719,
+        "startChar": 12,
+        "endLine": 1719,
+        "endChar": 35
+      },
+      "revId": "c17ed24e09215f246708388c725d5e25052e2c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3477f26_befd740b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2017-01-31T15:30:57Z",
       "side": 1,
       "message": "Shorter:\n\n if (pending.get(c).destChanges.stream()\n     .anyMatch(cd -\u003e cd.change().getDest().equals(magicBranch.dest))) {\n   continue;\n }",
+      "range": {
+        "startLine": 1720,
+        "startChar": 10,
+        "endLine": 1729,
+        "endChar": 11
+      },
+      "revId": "c17ed24e09215f246708388c725d5e25052e2c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74317803_9c618443",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1729,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-01-31T16:02:27Z",
+      "side": 1,
+      "message": "Unfortunately this doesn\u0027t work since cd.change() can throw OrmException and we must handle this exception.\n\nAlso we don\u0027t have Java 8 in stable-2.13.",
+      "parentUuid": "f3477f26_befd740b",
       "range": {
         "startLine": 1720,
         "startChar": 10,

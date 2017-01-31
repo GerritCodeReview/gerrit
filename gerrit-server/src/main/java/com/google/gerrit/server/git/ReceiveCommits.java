@@ -652,12 +652,8 @@ public class ReceiveCommits {
           }
         }
 
-        if (!MagicBranch.isMagicBranch(refName)
-            && !refName.startsWith(REFS_CHANGES)) {
+        if (!MagicBranch.isMagicBranch(refName)) {
           logDebug("Firing ref update for {}", c.getRefName());
-          // We only fire gitRefUpdated for direct refs updates.
-          // Events for change refs are fired when they are created.
-          //
           gitRefUpdated.fire(project.getNameKey(), c, user.getAccount());
         } else {
           logDebug("Assuming ref update event for {} has fired",

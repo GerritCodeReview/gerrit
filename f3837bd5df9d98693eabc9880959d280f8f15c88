@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdcb3042_f27a4547",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "Jan 31, 2017 10:26:58 AM",
+      "side": 0,
+      "message": "this was added by bc85e62 to fix Issue 4123.",
+      "range": {
+        "startLine": 656,
+        "startChar": 15,
+        "endLine": 656,
+        "endChar": 48
+      },
+      "revId": "f3837bd5df9d98693eabc9880959d280f8f15c88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

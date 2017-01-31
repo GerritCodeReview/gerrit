@@ -1804,15 +1804,16 @@ public class ReceiveCommits {
 
         List<ChangeData> changes = p.destChanges;
         if (changes.size() > 1) {
-          logDebug("Multiple changes in project with Change-Id {}: {}",
+          logDebug("Multiple changes in branch {} with Change-Id {}: {}",
+              magicBranch.dest,
               p.changeKey,
               changes.stream()
                   .map(cd -> cd.getId().toString())
                   .collect(joining()));
-          // WTF, multiple changes in this project have the same key?
+          // WTF, multiple changes in this branch have the same key?
           // Since the commit is new, the user should recreate it with
           // a different Change-Id. In practice, we should never see
-          // this error message as Change-Id should be unique.
+          // this error message as Change-Id should be unique per branch.
           //
           reject(magicBranch.cmd, p.changeKey.get() + " has duplicates");
           newChanges = Collections.emptyList();

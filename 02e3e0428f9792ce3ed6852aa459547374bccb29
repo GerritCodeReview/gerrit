@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "430e6f7b_4409a39d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Jan 31, 2017 1:59:13 PM",
+      "side": 1,
+      "message": "Better answer:  \n\n- side is either \u0027PARENT\u0027 or \u0027REVISION\u0027 it is used for calculating paths in the comment list. \n- side is also part of the \u0027commentInfo\u0027 entity on the server (https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info)\n- side is confusing because it is different than right/left which is used elsewhere, but not sure if it\u0027s worth changing the backend to make it more clear. maybe at a later time/after we get rid of GWT.",
+      "parentUuid": "d7166abe_a6d5c644",
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c92f71aa_f97103fc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1
@@ -122,6 +140,24 @@
       "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87139ffe_db14b111",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Jan 31, 2017 1:59:13 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdfdf8ff_5382acc7",
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -210,8 +210,8 @@ public class GpgKeys implements
   @VisibleForTesting
   public static FluentIterable<AccountExternalId> getGpgExtIds(
       ExternalIdCache externalIdCache, Account.Id accountId) {
-    return FluentIterable.from(externalIdCache.byAccount(accountId))
-        .filter(in -> in.isScheme(SCHEME_GPGKEY));
+    return FluentIterable.from(
+        externalIdCache.byAccount(accountId, SCHEME_GPGKEY));
   }
 
   private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc) {

@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 /** Caches external ids of all accounts */
 public interface ExternalIdCache {
@@ -39,5 +42,11 @@ public interface ExternalIdCache {
 
   default void onRemove(Account.Id accountId, AccountExternalId.Key extIdKey) {
     onRemove(accountId, Collections.singleton(extIdKey));
+  }
+
+  default Set<AccountExternalId> byAccount(Account.Id accountId,
+      String scheme) {
+    return byAccount(accountId).stream().filter(e -> e.isScheme(scheme))
+        .collect(toSet());
   }
 }

@@ -16,6 +16,24 @@
       "revId": "2dc04a101028f8c043b9b01d8b1c01a34dc5a133",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5604425_22295193",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Jan 30, 2017 5:01:18 PM",
+      "side": 1,
+      "message": "Wow, on further investigation this test actually catches a bug. SecondaryEmails isn\u0027t actually populated in info.\n\nGoing to abandon this change and punt this task after I report a bug.",
+      "parentUuid": "7e8c648d_99b03ed9",
+      "revId": "2dc04a101028f8c043b9b01d8b1c01a34dc5a133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

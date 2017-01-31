@@ -22,6 +22,24 @@
       "revId": "f3837bd5df9d98693eabc9880959d280f8f15c88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6475925_124cfe44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "Jan 31, 2017 10:50:55 AM",
+      "side": 0,
+      "message": "Yes, this line is added in https://gerrit-review.googlesource.com/c/76943. But this line is not the fix for the bug Issue 4123. The added lines in SubmitStrategyListener did the fix.\n\nIn my opinion, the ref update is processed by BatchRefUpdate here, the ref update event should also be fired in the same place.",
+      "parentUuid": "cdcb3042_f27a4547",
+      "revId": "f3837bd5df9d98693eabc9880959d280f8f15c88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

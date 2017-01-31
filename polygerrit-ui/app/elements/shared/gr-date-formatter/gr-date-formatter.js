@@ -21,7 +21,9 @@
 
   var TimeFormats = {
     TIME_12: 'h:mm A', // 2:14 PM
+    TIME_12_WITH_SEC: 'h:mm:ss A', // 2:14:00 PM
     TIME_24: 'HH:mm', // 14:14
+    TIME_24_WITH_SEC: 'HH:mm:ss', // 14:14:00
     MONTH_DAY: 'MMM DD', // Aug 29
     MONTH_DAY_YEAR: 'MMM DD, YYYY', // Aug 29, 1997
   };
@@ -42,6 +44,14 @@
 
     attached: function() {
       this._loadPreferences();
+    },
+
+    _getTzString: function() {
+      return ' ' + new Date().toString().split(' ').pop();
+    },
+
+    _getUtcOffsetString: function() {
+      return ' UTC' + moment().format('Z');
     },
 
     _loadPreferences: function() {
@@ -121,18 +131,26 @@
       var now = new Date();
       var format = TimeFormats.MONTH_DAY_YEAR;
       if (this._isWithinDay(now, date)) {
-        format = timeFormat;
+        return date.format(timeFormat) + this._getTzString();
       } else if (this._isWithinHalfYear(now, date)) {
         format = TimeFormats.MONTH_DAY;
       }
       return date.format(format);
     },
 
+    _timeToSecondsFormat: function(timeFormat) {
+      return timeFormat === TimeFormats.TIME_12 ?
+          TimeFormats.TIME_12_WITH_SEC :
+          TimeFormats.TIME_24_WITH_SEC;
+    },
+
     _computeFullDateStr: function(dateStr, timeFormat) {
       if (!dateStr) { return ''; }
       var date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
-      return date.format(TimeFormats.MONTH_DAY_YEAR + ', ' + timeFormat);
+      var format = TimeFormats.MONTH_DAY_YEAR + ', ';
+      format += this._timeToSecondsFormat(timeFormat);
+      return date.format(format) + this._getUtcOffsetString();
     },
   });
 })();

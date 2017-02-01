@@ -34,6 +34,24 @@
       "revId": "3dede1653aba46af3dae50b9fc67167bb3d120d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2b18fc6_198574a9",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 1, 2017 10:04:44 AM",
+      "side": 1,
+      "message": "Thanks for the pointer. We should add this link in some place in our documentation.",
+      "parentUuid": "a4f465ff_52e226be",
+      "revId": "3dede1653aba46af3dae50b9fc67167bb3d120d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

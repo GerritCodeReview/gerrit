@@ -59,15 +59,22 @@ package_licenses = {
 }
 
 
-def build_bower_json(version_targets):
-  """Generate bower JSON file, return its path."""
+def build_bower_json(version_targets, seeds):
+  """Generate bower JSON file, return its path.
+
+  Args:
+    version_targets: bazel target names of the versions.json file.
+    seeds: an iterable of bower package names of the seed packages, ie.
+      the packages whose versions we control manually.
+  """
   bower_json = collections.OrderedDict()
-  bower_json['name'] = 'bower2buck-output'
+  bower_json['name'] = 'bower2bazel-output'
   bower_json['version'] = '0.0.0'
   bower_json['description'] = 'Auto-generated bower.json for dependency management'
   bower_json['private'] = True
   bower_json['dependencies'] = {}
 
+  seeds = set(seeds)
   for v in version_targets:
     fn = os.path.join("bazel-out/local-fastbuild/bin", v.lstrip("/").replace(":", "/"))
     with open(fn) as f:
@@ -75,7 +82,13 @@ def build_bower_json(version_targets):
       if "" in j:
         # drop dummy entries.
         del j[""]
-      bower_json['dependencies'].update(j)
+
+      trimmed = {}
+      for k, v in j.items():
+        if k in seeds:
+          trimmed[k] = v
+
+      bower_json['dependencies'].update(trimmed)
 
   tmpdir = tempfile.mkdtemp()
   ret = os.path.join(tmpdir, 'bower.json')
@@ -110,9 +123,8 @@ def main(args):
   seeds = set([s[len(prefix):] for s in seeds])
 
   version_targets = [t + "-versions.json" for t in targets]
-
   subprocess.check_call(['bazel', 'build'] + version_targets)
-  bower_json_path = build_bower_json(version_targets)
+  bower_json_path = build_bower_json(version_targets, seeds)
   dir = os.path.dirname(bower_json_path)
   cmd = bower_command(["install"])
 

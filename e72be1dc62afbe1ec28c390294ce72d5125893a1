@@ -23,6 +23,30 @@
       "revId": "e72be1dc62afbe1ec28c390294ce72d5125893a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2a9f031_eadb4b32",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/AccountExternalIdAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 1, 2017 3:50:18 AM",
+      "side": 1,
+      "message": "Well, while the external ID cache was there, it provided this method and plugins could have used it.",
+      "parentUuid": "a5f4e7b2_5e830372",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 76
+      },
+      "revId": "e72be1dc62afbe1ec28c390294ce72d5125893a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

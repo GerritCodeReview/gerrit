@@ -58,26 +58,49 @@ limitations under the License.
         line: line,
       };
 
-      // The key is in the expected format.
-      var key = element._getDraftKey(location);
-      assert.equal(key, ['draft', changeNum, patchNum, path, line].join(':'));
+      function checkForLocation(location, changeNum, patchNum, line, path) {
+        // The key is in the expected format.
+        var key = element._getDraftKey(location);
+        if (!location.range) {
+          assert.equal(key, ['draft', changeNum, patchNum, path, line]
+              .join(':'));
+        } else {
+          var range = location.range.start_line + '-' +
+              location.range.start_character + '-' +
+              location.range.end_character +
+              '-' + location.range.end_line;
+          assert.equal(key, ['draft', changeNum, patchNum, path, line].
+              join(':') + ':' + range);
+        }
 
-      // There should be no draft initially.
-      var draft = element.getDraftComment(location);
-      assert.isNotOk(draft);
+        // There should be no draft initially.
+        var draft = element.getDraftComment(location);
+        assert.isNotOk(draft);
 
-      // Setting the draft stores it under the expected key.
-      element.setDraftComment(location, 'my comment');
-      assert.isOk(storage.getItem(key));
-      assert.equal(JSON.parse(storage.getItem(key)).message, 'my comment');
-      assert.isOk(JSON.parse(storage.getItem(key)).updated);
+        // Setting the draft stores it under the expected key.
+        element.setDraftComment(location, 'my comment');
+        assert.isOk(storage.getItem(key));
+        assert.equal(JSON.parse(storage.getItem(key)).message, 'my comment');
+        assert.isOk(JSON.parse(storage.getItem(key)).updated);
 
-      // Erasing the draft removes the key.
-      element.eraseDraftComment(location);
-      assert.isNotOk(storage.getItem(key));
+        // Erasing the draft removes the key.
+        element.eraseDraftComment(location);
+        assert.isNotOk(storage.getItem(key));
 
-      cleanupStorage();
+        cleanupStorage();
+      }
+
+      checkForLocation(location, changeNum, patchNum, line, path);
+      location.range = {
+        start_character: 1,
+        start_line: 1,
+        end_character: 1,
+        end_line: 2,
+      };
+      checkForLocation(location, changeNum, patchNum, line, path);
+
     });
+
 
     test('automatically removes old drafts', function() {
       var changeNum = 1234;
@@ -90,28 +113,41 @@ limitations under the License.
         path: path,
         line: line,
       };
-      var key = element._getDraftKey(location);
 
-      // Make sure that the call to cleanup doesn't get throttled.
-      element._lastCleanup = 0;
+      function checkForLocation(location, changeNum, patchNum, line, path) {
+        var key = element._getDraftKey(location);
 
-      var cleanupSpy = sinon.spy(element, '_cleanupDrafts');
+        // Make sure that the call to cleanup doesn't get throttled.
+        element._lastCleanup = 0;
 
-      // Create a message with a timestamp that is a second behind the max age.
-      storage.setItem(key, JSON.stringify({
-        message: 'old message',
-        updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
-      }));
+        var cleanupSpy = sinon.spy(element, '_cleanupDrafts');
 
-      // Getting the draft should cause it to be removed.
-      var draft = element.getDraftComment(location);
+        // Create a message with a timestamp that is a second behind the max
+        // age.
+        storage.setItem(key, JSON.stringify({
+          message: 'old message',
+          updated: Date.now() - 24 * 60 * 60 * 1000 - 1000,
+        }));
 
-      assert.isTrue(cleanupSpy.called);
-      assert.isNotOk(draft);
-      assert.isNotOk(storage.getItem(key));
+        // Getting the draft should cause it to be removed.
+        var draft = element.getDraftComment(location);
 
-      cleanupSpy.restore();
-      cleanupStorage();
+        assert.isTrue(cleanupSpy.called);
+        assert.isNotOk(draft);
+        assert.isNotOk(storage.getItem(key));
+
+        cleanupSpy.restore();
+        cleanupStorage();
+      }
+
+      checkForLocation(location, changeNum, patchNum, line, path);
+      location.range = {
+        start_character: 1,
+        start_line: 1,
+        end_character: 1,
+        end_line: 2,
+      };
+      checkForLocation(location, changeNum, patchNum, line, path);
     });
   });
 </script>

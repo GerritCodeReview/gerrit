@@ -57,8 +57,15 @@
     },
 
     _getDraftKey: function(location) {
-      return ['draft', location.changeNum, location.patchNum, location.path,
+      var range = location.range ? location.range.start_line + '-' +
+          location.range.start_character + '-' + location.range.end_character +
+          '-' + location.range.end_line : null;
+      var key = ['draft', location.changeNum, location.patchNum, location.path,
           location.line || ''].join(':');
+      if (range) {
+        key = key + ':' + range;
+      }
+      return key;
     },
 
     _cleanupDrafts: function() {

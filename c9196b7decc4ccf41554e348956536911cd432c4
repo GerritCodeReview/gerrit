@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20d1c5ab_d5448434",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Jan 31, 2017 5:03:51 PM",
+      "side": 1,
+      "message": "I added this to the end instead of including in the  array to join so that the key would remain the same as it is now if there was no range (doesn\u0027t end in a semicolon).  This means anything currently saved in local storage will be retrieved for a full line comment. there\u0027s a chance it could be a little wonky if they created it with a range comment, it was stored, and now try to create a full line comment. It will retrieve the draft as it would have before. Similarly, if they try to re-create the range, it will not populate. I believe this is the best tradeoff.",
+      "revId": "c9196b7decc4ccf41554e348956536911cd432c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

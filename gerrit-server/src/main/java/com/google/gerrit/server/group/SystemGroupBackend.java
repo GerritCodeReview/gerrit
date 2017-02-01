@@ -17,20 +17,31 @@ package com.google.gerrit.server.group;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StartupCheck;
+import com.google.gerrit.server.StartupException;
 import com.google.gerrit.server.account.AbstractGroupBackend;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -38,6 +49,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+@Singleton
 public class SystemGroupBackend extends AbstractGroupBackend {
   public static final String SYSTEM_GROUP_SCHEME = "global:";
 
@@ -57,30 +69,12 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   public static final AccountGroup.UUID CHANGE_OWNER =
       new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Change-Owner");
 
-  private static final SortedMap<String, GroupReference> names;
-  private static final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
   private static final AccountGroup.UUID[] all = {
       ANONYMOUS_USERS,
       REGISTERED_USERS,
       PROJECT_OWNERS,
       CHANGE_OWNER,
   };
-
-  static {
-    SortedMap<String, GroupReference> n = new TreeMap<>();
-    ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u =
-        ImmutableMap.builder();
-
-    for (AccountGroup.UUID uuid : all) {
-      int c = uuid.get().indexOf(':');
-      String name = uuid.get().substring(c + 1).replace('-', ' ');
-      GroupReference ref = new GroupReference(uuid, name);
-      n.put(ref.getName().toLowerCase(Locale.US), ref);
-      u.put(ref.getUUID(), ref);
-    }
-    names = Collections.unmodifiableSortedMap(n);
-    uuids = u.build();
-  }
 
   public static boolean isSystemGroup(AccountGroup.UUID uuid) {
     return uuid.get().startsWith(SYSTEM_GROUP_SCHEME);
@@ -94,12 +88,43 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     return ANONYMOUS_USERS.equals(uuid) || REGISTERED_USERS.equals(uuid);
   }
 
-  public static GroupReference getGroup(AccountGroup.UUID uuid) {
+  private final ImmutableSet<String> reservedNames;
+  private final SortedMap<String, GroupReference> names;
+  private final ImmutableMap<AccountGroup.UUID, GroupReference> uuids;
+
+  @Inject
+  @VisibleForTesting
+  public SystemGroupBackend(@GerritServerConfig Config cfg) {
+    SortedMap<String, GroupReference> n = new TreeMap<>();
+    ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u =
+        ImmutableMap.builder();
+
+    ImmutableSet.Builder<String> reservedNamesBuilder = ImmutableSet.builder();
+    for (AccountGroup.UUID uuid : all) {
+      int c = uuid.get().indexOf(':');
+      String defaultName = uuid.get().substring(c + 1).replace('-', ' ');
+      reservedNamesBuilder.add(defaultName);
+      String configuredName = cfg.getString("groups", uuid.get(), "name");
+      GroupReference ref = new GroupReference(uuid,
+          MoreObjects.firstNonNull(configuredName, defaultName));
+      n.put(ref.getName().toLowerCase(Locale.US), ref);
+      u.put(ref.getUUID(), ref);
+    }
+    reservedNames = reservedNamesBuilder.build();
+    names = Collections.unmodifiableSortedMap(n);
+    uuids = u.build();
+  }
+
+  public GroupReference getGroup(AccountGroup.UUID uuid) {
     return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
   }
 
-  public static Set<String> getNames() {
+  public Set<String> getNames() {
     return names.values().stream().map(r -> r.getName()).collect(toSet());
+  }
+
+  public Set<String> getReservedNames() {
+    return reservedNames;
   }
 
   @Override
@@ -160,5 +185,49 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     return new ListGroupMembership(ImmutableSet.of(
         ANONYMOUS_USERS,
         REGISTERED_USERS));
+  }
+
+  public static class NameCheck implements StartupCheck {
+    private final Config cfg;
+    private final GroupCache groupCache;
+
+    @Inject
+    NameCheck(@GerritServerConfig Config cfg,
+        GroupCache groupCache) {
+      this.cfg = cfg;
+      this.groupCache = groupCache;
+    }
+
+    @Override
+    public void check() throws StartupException {
+      Map<AccountGroup.UUID, String> configuredNames = new HashMap<>();
+      Map<String, AccountGroup.UUID> byLowerCaseConfiguredName =
+          new HashMap<>();
+      for (AccountGroup.UUID uuid : all) {
+        String configuredName = cfg.getString("groups", uuid.get(), "name");
+        if (configuredName != null) {
+          configuredNames.put(uuid, configuredName);
+          byLowerCaseConfiguredName.put(configuredName.toLowerCase(Locale.US),
+              uuid);
+        }
+      }
+      if (configuredNames.isEmpty()) {
+        return;
+      }
+      for (AccountGroup g : groupCache.all()) {
+        String name = g.getName().toLowerCase(Locale.US);
+        if (byLowerCaseConfiguredName.keySet().contains(name)) {
+          AccountGroup.UUID uuidSystemGroup =
+              byLowerCaseConfiguredName.get(name);
+          throw new StartupException(String.format(
+              "The configured name '%s' for system group '%s' is ambiguous"
+                  + " with the name '%s' of existing group '%s'."
+                  + " Please remove/change the value for groups.%s.name in"
+                  + " gerrit.config.",
+              configuredNames.get(uuidSystemGroup), uuidSystemGroup.get(),
+              g.getName(), g.getGroupUUID().get(), uuidSystemGroup.get()));
+        }
+      }
+    }
   }
 }

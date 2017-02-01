@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
+import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -27,10 +28,14 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StartupCheck;
+import com.google.gerrit.server.StartupException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -207,5 +212,39 @@ public class UniversalGroupBackend implements GroupBackend {
       }
     }
     return false;
+  }
+
+  public static class ConfigCheck implements StartupCheck {
+    private final Config cfg;
+    private final UniversalGroupBackend universalGroupBackend;
+
+    @Inject
+    ConfigCheck(@GerritServerConfig Config cfg,
+        UniversalGroupBackend groupBackend) {
+      this.cfg = cfg;
+      this.universalGroupBackend = groupBackend;
+    }
+
+    @Override
+    public void check() throws StartupException {
+      String invalid = cfg.getSubsections("groups").stream()
+          .filter(
+              sub -> {
+                AccountGroup.UUID uuid = new AccountGroup.UUID(sub);
+                GroupBackend groupBackend = universalGroupBackend.backend(uuid);
+                return groupBackend == null || groupBackend.get(uuid) == null;
+              })
+          .map(u -> "'" + u + "'")
+          .collect(joining(","));
+
+      if (!invalid.isEmpty()) {
+        throw new StartupException(String.format(
+            "Subsections for 'groups' in gerrit.config must be valid group"
+                + " UUIDs. The following group UUIDs could not be resolved: "
+                + invalid
+                + " Please remove/fix these 'groups' subsections in"
+                + " gerrit.config."));
+      }
+    }
   }
 }

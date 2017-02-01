@@ -84,6 +84,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -245,6 +246,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected ChangeResource.Factory changeResourceFactory;
+
+  @Inject
+  protected SystemGroupBackend systemGroupBackend;
 
   @Inject
   private EventRecorder.Factory eventRecorderFactory;

@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -41,8 +42,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.inject.Singleton;
 
 @Singleton
 public class H2AccountPatchReviewStore

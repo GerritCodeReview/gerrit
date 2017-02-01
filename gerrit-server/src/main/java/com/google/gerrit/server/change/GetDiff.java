@@ -51,6 +51,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
@@ -66,8 +67,6 @@ import org.kohsuke.args4j.spi.Setter;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 public class GetDiff implements RestReadView<FileResource> {
   private static final ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c431983_e1dc46fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 5:44:46 PM",
+      "side": 1,
+      "message": "What\u0027s this stub for? Is there a way to refine it to more-specific API interface methods? Is it related to other parts of this change.\n\nFor me, this test still passes when I remove this stub.",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 11
+      },
+      "revId": "da0cb23a4573669ecee5ffb294249dacb8b1a6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f17669be_ee36ee51",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 5:44:46 PM",
+      "side": 1,
+      "message": "Nit: add curlies around if-case:\n\n  if (!response) { return []; }",
+      "revId": "da0cb23a4573669ecee5ffb294249dacb8b1a6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

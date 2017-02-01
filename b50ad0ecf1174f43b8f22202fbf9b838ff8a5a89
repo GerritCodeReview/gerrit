@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a193715_ed260c89",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 1, 2017 10:09:02 AM",
+      "side": 0,
+      "message": "These buttons are not hidden/part of the menu. Is the reason for removing this just because it would be duplicated with the other message?",
+      "revId": "b50ad0ecf1174f43b8f22202fbf9b838ff8a5a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

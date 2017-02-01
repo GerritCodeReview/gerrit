@@ -240,13 +240,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r =
         pushTo(pushSpec + ",notify=" + NotifyHandling.NONE);
     r.assertOkStatus();
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
 
     sender.clear();
     r = pushTo(pushSpec + ",notify=" + NotifyHandling.OWNER);
     r.assertOkStatus();
     // no email notification about own changes
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
 
     sender.clear();
     r = pushTo(pushSpec + ",notify=" + NotifyHandling.OWNER_REVIEWERS);

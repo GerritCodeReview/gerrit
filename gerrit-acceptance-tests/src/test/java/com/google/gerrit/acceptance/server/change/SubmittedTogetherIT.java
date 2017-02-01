@@ -204,7 +204,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       assertThat(result.changes.get(0).changeId).isEqualTo(id1);
       assertThat(result.nonVisibleChanges).isEqualTo(1);
     } else {
-      assertThat(result.changes).hasSize(0);
+      assertThat(result.changes).isEmpty();
       assertThat(result.nonVisibleChanges).isEqualTo(0);
     }
   }
@@ -228,7 +228,7 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
       gApi.changes().id(id1).submittedTogether();
     } else {
       List<ChangeInfo> result = gApi.changes().id(id1).submittedTogether();
-      assertThat(result).hasSize(0);
+      assertThat(result).isEmpty();
     }
   }
 

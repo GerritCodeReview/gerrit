@@ -81,6 +81,24 @@
       "revId": "4874bb6b490ba63113ca6a97a1270e2f7e045b70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfaf2b4f_c7f6fb69",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1019802
+      },
+      "writtenOn": "2017-02-01T17:21:38Z",
+      "side": 1,
+      "message": "I see the files can be found under the prefix for example /r/ but it doesn\u0027t seem index.html correctly finds them. It either try\u0027s searching the non pref path or it does /r/q/\u003cpath_to_file\u003e\n\n\nhow can we fix it so that /q/ is not added onto the end of the file we are trying to load.",
+      "parentUuid": "66fcbda8_61677393",
+      "revId": "4874bb6b490ba63113ca6a97a1270e2f7e045b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

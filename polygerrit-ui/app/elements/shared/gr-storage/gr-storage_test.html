@@ -79,6 +79,7 @@ limitations under the License.
       cleanupStorage();
     });
 
+
     test('automatically removes old drafts', function() {
       var changeNum = 1234;
       var patchNum = 5;
@@ -90,6 +91,7 @@ limitations under the License.
         path: path,
         line: line,
       };
+
       var key = element._getDraftKey(location);
 
       // Make sure that the call to cleanup doesn't get throttled.
@@ -112,6 +114,29 @@ limitations under the License.
 
       cleanupSpy.restore();
       cleanupStorage();
+    });
+
+    test('_getDraftKey', function() {
+      var changeNum = 1234;
+      var patchNum = 5;
+      var path = 'my_source_file.js';
+      var line = 123;
+      var location = {
+        changeNum: changeNum,
+        patchNum: patchNum,
+        path: path,
+        line: line,
+      };
+      var expectedResult = 'draft:1234:5:my_source_file.js:123';
+      assert.equal(element._getDraftKey(location), expectedResult);
+      location.range = {
+        start_character: 1,
+        start_line: 1,
+        end_character: 1,
+        end_line: 2,
+      };
+      expectedResult = 'draft:1234:5:my_source_file.js:123:1-1-1-2';
+      assert.equal(element._getDraftKey(location), expectedResult);
     });
   });
 </script>

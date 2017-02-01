@@ -188,6 +188,7 @@
         patchNum: this.patchNum,
         path: this.comment.path,
         line: this.comment.line,
+        range: this.comment.range,
       });
     },
 
@@ -300,6 +301,7 @@
           patchNum: this.patchNum,
           path: this.comment.path,
           line: this.comment.line,
+          range: this.comment.range,
         };
 
         if ((!this._messageText || !this._messageText.length) && oldValue) {
@@ -434,6 +436,7 @@
         patchNum: patchNum,
         path: comment.path,
         line: comment.line,
+        range: comment.range,
       });
 
       if (draft) {

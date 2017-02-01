@@ -16,6 +16,81 @@
       "revId": "c9196b7decc4ccf41554e348956536911cd432c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d20b2676_7b44c88b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 6:11:49 PM",
+      "side": 1,
+      "message": "\u003e [..] there\u0027s a chance it could be a little wonky if they [..]\n\nThat seems no more wonky than it is already. I agree with this approach.",
+      "parentUuid": "20d1c5ab_d5448434",
+      "revId": "c9196b7decc4ccf41554e348956536911cd432c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "564eb3da_6f8a5a94",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 6:11:49 PM",
+      "side": 1,
+      "message": "Optional nit: Instead of this if-then, since the range defaults to null, you could just add ...\n\n   range || \u0027\u0027\n\n... to the end of the array that gets joined (just like the `location.line || \u0027\u0027`).",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "c9196b7decc4ccf41554e348956536911cd432c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e77127ca_717b208a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 6:11:49 PM",
+      "side": 1,
+      "message": "I don\u0027t feel too strongly, but these `checkForLocation` functions strike me as an odd approach for testing.\n\nI feel that it would be sufficient to test that location objects with and without ranges generate distinct `_getDraftKey` values.\n\nBut I don\u0027t feel strongly.",
+      "revId": "c9196b7decc4ccf41554e348956536911cd432c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a67b1d9_277b3a9d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Jan 31, 2017 6:11:49 PM",
+      "side": 1,
+      "message": "Nit: Remove this extra blank line, and on l.103 also.",
+      "revId": "c9196b7decc4ccf41554e348956536911cd432c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

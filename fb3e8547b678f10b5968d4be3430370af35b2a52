@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "af5ad58e_4e3b678c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T01:55:30Z",
+      "side": 1,
+      "message": "Yeah, 0 lets the browser set the tab order to correspond to the DOM-tree order. So, unless you specifically want a non-DOM-ordered tab sequence, tabIndex\u003d\"0\" can be used everywhere.",
+      "parentUuid": "46291760_2910a915",
+      "revId": "fb3e8547b678f10b5968d4be3430370af35b2a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90f7b1f5_cb6288ce",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
         "patchSetId": 6

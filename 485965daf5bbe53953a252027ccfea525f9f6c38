@@ -22,6 +22,24 @@
       "revId": "485965daf5bbe53953a252027ccfea525f9f6c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a53a126d_7a091fff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-01T22:13:49Z",
+      "side": 1,
+      "message": "I actually had this as a splice, and it didn\u0027t trigger the re-rendering of the dom-repeat for some reason. That\u0027s why I switched to this.",
+      "parentUuid": "fb654464_70d59f40",
+      "revId": "485965daf5bbe53953a252027ccfea525f9f6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

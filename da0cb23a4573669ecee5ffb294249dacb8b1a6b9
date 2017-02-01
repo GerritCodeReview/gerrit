@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "032d5ad5_11f9b3fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 31, 2017 9:28:15 PM",
+      "side": 1,
+      "message": "To prevent actual network call.\nDepending on your localhost setup, this may cause a failure.",
+      "parentUuid": "1c431983_e1dc46fa",
+      "revId": "da0cb23a4573669ecee5ffb294249dacb8b1a6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f17669be_ee36ee51",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2
@@ -39,6 +57,24 @@
       "revId": "da0cb23a4573669ecee5ffb294249dacb8b1a6b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "734a28b1_7bab6fbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Jan 31, 2017 9:28:15 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f17669be_ee36ee51",
+      "revId": "da0cb23a4573669ecee5ffb294249dacb8b1a6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

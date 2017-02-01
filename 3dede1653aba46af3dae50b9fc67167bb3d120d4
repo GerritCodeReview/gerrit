@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c70f9768_73b7922e",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 1, 2017 6:25:55 AM",
+      "side": 1,
+      "message": "Should this description be placed before the rule, on line 262?",
+      "revId": "3dede1653aba46af3dae50b9fc67167bb3d120d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

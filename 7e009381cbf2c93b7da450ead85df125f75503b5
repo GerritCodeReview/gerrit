@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02da4ff_b37a3102",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 1, 2017 1:50:05 PM",
+      "side": 1,
+      "message": "Why not this._getLastComment()?",
+      "revId": "7e009381cbf2c93b7da450ead85df125f75503b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e03ba71f_4ed56be5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 1, 2017 1:50:05 PM",
+      "side": 1,
+      "message": "If we\u0027re going to guard for empty _orderedComments, then this should go under the guard.",
+      "revId": "7e009381cbf2c93b7da450ead85df125f75503b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "d0c1b24f_b8b5232b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 1, 2017 1:50:05 PM",
+      "side": 1,
+      "message": "Yeah, I\u0027m not too certain which routines might ever get invoked before the comments property gets set, so I\u0027m erring on the side of safety.",
+      "parentUuid": "645c4b43_a55c05ea",
+      "revId": "77fc2ce840a291eb32f3b1304b021b3af63e0653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fe53e60_98d00e9d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
         "patchSetId": 1

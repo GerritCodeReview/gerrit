@@ -45,6 +45,10 @@
       _inputText: String,
     },
 
+    hostAttributes: {
+      tabindex: '0',
+    },
+
     _usePlaceholder: function(value, placeholder) {
       return (!value || !value.length) && placeholder;
     },

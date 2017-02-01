@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7853aedc_ca5e215a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 1, 2017 12:12:13 PM",
+      "side": 1,
+      "message": "For some reason, I it didn\u0027t seem like _orderedComments was updated to use that for this test. I\u0027m not sure why, it shouldn\u0027t really matter.",
+      "revId": "77fc2ce840a291eb32f3b1304b021b3af63e0653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

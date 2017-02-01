@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd70f334_5224ed0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-02-01T19:46:04Z",
+      "side": 1,
+      "message": "set up",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "f93acfd067ef0331f49b974355257401bb16da71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bff85fa_a2bc0df6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-02-01T19:46:04Z",
+      "side": 1,
+      "message": "commit",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "f93acfd067ef0331f49b974355257401bb16da71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c84fb9cf_706cfec3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-02-01T19:46:04Z",
+      "side": 1,
+      "message": "Should we add a message for the user to inform them that it\u0027s now-or-never if they want to record this password? I suppose the stakes aren\u0027t that high, they can always generate a new one.",
+      "revId": "f93acfd067ef0331f49b974355257401bb16da71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b64046b_4a7df8e5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-02-01T19:46:04Z",
+      "side": 1,
+      "message": "Why not open the overlay first, with a placeholder message about generating a password, then refresh it when this promise is fulfilled?",
+      "revId": "f93acfd067ef0331f49b974355257401bb16da71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

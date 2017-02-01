@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "7b92ead0_ab1c72d9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 1, 2017 9:39:46 AM",
+      "side": 1,
+      "message": "Oh! You\u0027re totally right.",
+      "parentUuid": "1d36cf7e_86971ec8",
+      "revId": "c9196b7decc4ccf41554e348956536911cd432c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e77127ca_717b208a",
         "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage_test.html",
         "patchSetId": 1

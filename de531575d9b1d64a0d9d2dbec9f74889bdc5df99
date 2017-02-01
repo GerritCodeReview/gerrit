@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4af0eba3_d556dfe1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T02:19:18Z",
+      "side": 1,
+      "message": "Indent the attributes one more level.",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 68
+      },
+      "revId": "de531575d9b1d64a0d9d2dbec9f74889bdc5df99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c316816_3295c7b6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T02:19:18Z",
+      "side": 1,
+      "message": "Same issue here with fetch in the name.",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 256,
+        "endChar": 28
+      },
+      "revId": "de531575d9b1d64a0d9d2dbec9f74889bdc5df99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

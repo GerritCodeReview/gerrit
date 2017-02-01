@@ -473,7 +473,11 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public List<AccountExternalIdInfo> getExternalIds() throws RestApiException {
-    return getExternalIds.apply(account);
+    try {
+      return getExternalIds.apply(account);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot get external IDs", e);
+    }
   }
 
   @Override

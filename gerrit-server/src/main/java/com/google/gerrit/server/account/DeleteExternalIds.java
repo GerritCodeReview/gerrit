@@ -39,22 +39,22 @@ import java.util.stream.Collectors;
 
 public class DeleteExternalIds implements
     RestModifyView<AccountResource, List<String>> {
+  private final Provider<ReviewDb> db;
   private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
-  private final ExternalIdCache externalIdCache;
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
   DeleteExternalIds(
+      Provider<ReviewDb> db,
       AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
-      ExternalIdCache externalIdCache,
       Provider<CurrentUser> self,
       Provider<ReviewDb> dbProvider) {
+    this.db = db;
     this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
-    this.externalIdCache = externalIdCache;
     this.self = self;
     this.dbProvider = dbProvider;
   }
@@ -72,8 +72,9 @@ public class DeleteExternalIds implements
 
     Account.Id accountId = resource.getUser().getAccountId();
     Map<AccountExternalId.Key, AccountExternalId> externalIdMap =
-        externalIdCache.byAccount(resource.getUser().getAccountId())
-            .stream().collect(Collectors.toMap(i -> i.getKey(), i -> i));
+        db.get().accountExternalIds().byAccount(
+            resource.getUser().getAccountId()).toList()
+                .stream().collect(Collectors.toMap(i -> i.getKey(), i -> i));
 
     List<AccountExternalId> toDelete = new ArrayList<>();
     AccountExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
@@ -97,7 +98,6 @@ public class DeleteExternalIds implements
 
     if (!toDelete.isEmpty()) {
       dbProvider.get().accountExternalIds().delete(toDelete);
-      externalIdCache.onRemove(toDelete);
       accountCache.evict(accountId);
       for (AccountExternalId e : toDelete) {
         accountByEmailCache.evict(e.getEmailAddress());

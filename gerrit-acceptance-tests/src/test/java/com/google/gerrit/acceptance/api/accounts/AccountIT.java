@@ -61,7 +61,6 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.config.AllUsersName;
@@ -113,9 +112,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject
   private AllUsersName allUsers;
 
-  @Inject
-  private ExternalIdCache externalIdCache;
-
   private List<AccountExternalId> savedExternalIds;
 
   @Before
@@ -131,18 +127,10 @@ public class AccountIT extends AbstractDaemonTest {
       // savedExternalIds is null when we don't run SSH tests and the assume in
       // @Before in AbstractDaemonTest prevents this class' @Before method from
       // being executed.
-      Collection<AccountExternalId> adminExtIds = getExternalIds(admin);
-      db.accountExternalIds().delete(adminExtIds);
-      externalIdCache.onRemove(adminExtIds);
-
-      Collection<AccountExternalId> userExtIds = getExternalIds(user);
-      db.accountExternalIds().delete(userExtIds);
-      externalIdCache.onRemove(userExtIds);
-
+      db.accountExternalIds().delete(getExternalIds(admin));
+      db.accountExternalIds().delete(getExternalIds(user));
       db.accountExternalIds().insert(savedExternalIds);
-      externalIdCache.onCreate(savedExternalIds);
     }
-
     accountCache.evict(admin.getId());
     accountCache.evict(user.getId());
   }
@@ -641,7 +629,6 @@ public class AccountIT extends AbstractDaemonTest {
         user.getId(), new AccountExternalId.Key("foo:myId"));
 
     db.accountExternalIds().insert(Collections.singleton(extId));
-    externalIdCache.onCreate(extId);
     accountCache.evict(user.getId());
 
     TestKey key = validKeyWithSecondUserId();
@@ -838,9 +825,8 @@ public class AccountIT extends AbstractDaemonTest {
     Account.Id currAccountId = atrScope.get().getUser().getAccountId();
     Iterable<String> expectedFps = expected.transform(
         k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
-    Iterable<String> actualFps =
-        GpgKeys.getGpgExtIds(externalIdCache, currAccountId)
-            .transform(AccountExternalId::getSchemeRest);
+    Iterable<String> actualFps = GpgKeys.getGpgExtIds(db, currAccountId)
+        .transform(AccountExternalId::getSchemeRest);
     assertThat(actualFps)
         .named("external IDs in database")
         .containsExactlyElementsIn(expectedFps);
@@ -873,7 +859,6 @@ public class AccountIT extends AbstractDaemonTest {
         account.getId(), new AccountExternalId.Key(name("test"), email));
     extId.setEmailAddress(email);
     db.accountExternalIds().insert(Collections.singleton(extId));
-    externalIdCache.onCreate(extId);
     // Clear saved AccountState and AccountExternalIds.
     accountCache.evict(account.getId());
     setApiUser(account);

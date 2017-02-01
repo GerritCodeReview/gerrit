@@ -72,6 +72,9 @@ limitations under the License.
     <g:Button ui:field='abandon' styleName='' visible='false'>
       <div><ui:msg>Abandon</ui:msg></div>
     </g:Button>
+    <g:Button ui:field='deleteChange' styleName='' visible='false'>
+      <div><ui:msg>Delete Change</ui:msg></div>
+    </g:Button>
     <g:Button ui:field='restore' styleName='' visible='false'>
       <div><ui:msg>Restore</ui:msg></div>
     </g:Button>

@@ -410,9 +410,6 @@ limitations under the License.
               styleName='{style.highlight}' visible='false'>
             <div><ui:msg>Publish</ui:msg></div>
           </g:Button>
-          <g:Button ui:field='deleteChange' styleName='' visible='false'>
-            <div><ui:msg>Delete Change</ui:msg></div>
-          </g:Button>
           <g:Button ui:field='deleteRevision' styleName='' visible='false'>
             <div><ui:msg>Delete Revision</ui:msg></div>
           </g:Button>

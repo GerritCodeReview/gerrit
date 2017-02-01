@@ -23,7 +23,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 
-public class DraftActions {
+public class ChangeActions {
 
   static void publish(Change.Id id, String revision, Button... draftButtons) {
     ChangeApi.publish(id.get(), revision, cs(id, draftButtons));

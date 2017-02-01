@@ -121,6 +121,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
       throws RepositoryNotFoundException {
     Repo repo = repos.get(normalize(name));
     if (repo != null) {
+      repo.incrementOpen();
       return repo;
     }
     throw new RepositoryNotFoundException(name.get());

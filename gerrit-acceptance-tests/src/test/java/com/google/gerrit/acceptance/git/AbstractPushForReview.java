@@ -13,7 +13,6 @@
 // limitations under the License.
 
 package com.google.gerrit.acceptance.git;
-
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
@@ -55,6 +54,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -657,6 +657,70 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithoutChangeId() throws Exception {
+    RevCommit c = createCommit(testRepo, "Message without Change-Id");
+    assertThat(GitUtil.getChangeId(testRepo, c).isPresent()).isFalse();
+    pushForReviewRejected(testRepo,
+        "missing Change-Id in commit message footer");
+
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(project, config);
+    pushForReviewOk(testRepo);
+  }
+
+  @Test
+  public void pushWithMultipleChangeIds() throws Exception {
+    createCommit(testRepo,
+        "Message with multiple Change-Id\n"
+            + "\n"
+            + "Change-Id: I10f98c2ef76e52e23aa23be5afeb71e40b350e86\n"
+            + "Change-Id: Ie9a132e107def33bdd513b7854b50de911edba0a\n");
+    pushForReviewRejected(testRepo,
+        "multiple Change-Id lines in commit message footer");
+
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(project, config);
+    pushForReviewRejected(testRepo,
+        "multiple Change-Id lines in commit message footer");
+  }
+
+  @Test
+  public void pushWithInvalidChangeId() throws Exception {
+    createCommit(testRepo, "Message with invalid Change-Id\n"
+        + "\n"
+        + "Change-Id: X\n");
+    pushForReviewRejected(testRepo,
+        "invalid Change-Id line format in commit message footer");
+
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(project, config);
+    pushForReviewRejected(testRepo,
+        "invalid Change-Id line format in commit message footer");
+  }
+
+  @Test
+  public void pushWithInvalidChangeIdFromEgit() throws Exception {
+    createCommit(testRepo, "Message with invalid Change-Id\n"
+        + "\n"
+        + "Change-Id: I0000000000000000000000000000000000000000\n");
+    pushForReviewRejected(testRepo, "invalid Change-Id");
+
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(project, config);
+    pushForReviewRejected(testRepo, "invalid Change-Id");
+  }
+
+  private static RevCommit createCommit(TestRepository<?> testRepo,
+      String message) throws Exception {
+    return testRepo.branch("HEAD").commit().message(message)
+        .add("a.txt", "content").create();
+  }
+
+  @Test
   public void cantAutoCloseChangeAlreadyMergedToBranch() throws Exception {
     PushOneCommit.Result r1 = createChange();
     Change.Id id1 = r1.getChange().getId();
@@ -890,5 +954,28 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     List<ChangeData> cds = queryProvider.get().byLegacyChangeId(id);
     assertThat(cds).named("change " + id).hasSize(1);
     return cds.get(0);
+  }
+
+  private static void pushForReviewOk(TestRepository<?> testRepo)
+      throws GitAPIException {
+    pushForReview(testRepo, RemoteRefUpdate.Status.OK, null);
+  }
+
+  private static void pushForReviewRejected(TestRepository<?> testRepo,
+      String expectedMessage) throws GitAPIException {
+    pushForReview(testRepo, RemoteRefUpdate.Status.REJECTED_OTHER_REASON,
+        expectedMessage);
+  }
+
+  private static void pushForReview(TestRepository<?> testRepo,
+      RemoteRefUpdate.Status expectedStatus, String expectedMessage)
+          throws GitAPIException {
+    String ref = "refs/for/master";
+    PushResult r = pushHead(testRepo, ref);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(ref);
+    assertThat(refUpdate.getStatus()).isEqualTo(expectedStatus);
+    if (expectedMessage != null) {
+      assertThat(refUpdate.getMessage()).contains(expectedMessage);
+    }
   }
 }

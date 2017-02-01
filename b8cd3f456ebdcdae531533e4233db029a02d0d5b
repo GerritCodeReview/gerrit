@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1485956039 +0100\nnonce AHDV6GlnqgWFl3axGlNZzkM690zb+z31eQz3pAg6EYpAoE52sX3H9AIzyhE1+1VYPEV8HTGE6gxl\n\n0000000000000000000000000000000000000000 b8cd3f456ebdcdae531533e4233db029a02d0d5b refs/for/stable-2.13\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYkePHAAoJEFG1/Zeg0O9Rya4IAIHeLHqw/kc0LuTwyrRBqqUT\nekqjK5foqoXrM/gPtlRb3XyTI9KupdOWaiuANovMLPGNZXJjf8bu1NmmpjsO3FLU\n6D3l08dDiDiqrCFz5iQQUGi9UFIg7y7kjFfdXaYtJTdfOsHJvJPevGxKktpQEnnf\nNYMZ4ugyTyUYZDiCKwFUjbMLvcIngLK/sgGKPYefoUvWlwP29aenDXRqey44R4Nn\nveA7S0XLY8pSAIQjtJyj76x8mzJlOyCNpWZSq6rHQnvft+txKIehm/vZG1kkjmf4\nHhbmys1VofGd2bBE6B0q1rSz7aGlvZyEfRJ/+ha03d047kZrB4waO1Wavz/ivsE\u003d\n\u003dNl2s\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c564ca7_bbfced8c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Feb 1, 2017 6:55:59 AM",
+      "side": 1,
+      "message": "Refer explicitly to this as RemoteRefUpdate.Status when it\u0027s used, rather than importing?\n\nOr since it looks like it\u0027s only imported for REJECTED_OTHER_REASON, maybe just import REJECTED_OTHER_REASON as static instead?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 57
+      },
+      "revId": "b8cd3f456ebdcdae531533e4233db029a02d0d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9995971_07aeef5c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Feb 1, 2017 6:55:59 AM",
+      "side": 1,
+      "message": "missing space between words",
+      "range": {
+        "startLine": 685,
+        "startChar": 26,
+        "endLine": 685,
+        "endChar": 38
+      },
+      "revId": "b8cd3f456ebdcdae531533e4233db029a02d0d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6218d4f_ae59fde1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Feb 1, 2017 6:55:59 AM",
+      "side": 1,
+      "message": "Add an assertion on the expected refUpdate.getStatus()?",
+      "revId": "b8cd3f456ebdcdae531533e4233db029a02d0d5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 package com.google.gerrit.acceptance.git;
-
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
@@ -61,6 +60,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -654,6 +655,53 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // Pushing again results in "no new changes".
     assertPushRejected(pushHead(testRepo, r, false), r, "no new changes");
+  }
+
+  @Test
+  public void pushWithoutChangeId() throws Exception {
+    RevCommit c = testRepo.branch("HEAD").commit()
+        .message("Message without Change-Id")
+        .add("a,txt", "content")
+        .create();
+    assertThat(GitUtil.getChangeId(testRepo, c).isPresent()).isFalse();
+    String ref = "refs/for/master";
+    PushResult r = pushHead(testRepo, ref);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(ref);
+    assertThat(refUpdate.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
+    assertThat(refUpdate.getMessage())
+        .endsWith(" missing Change-Id in commit message footer");
+
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(project, config);
+    r = pushHead(testRepo, ref);
+    refUpdate = r.getRemoteUpdate(ref);
+    assertThat(refUpdate.getStatus()).isEqualTo(Status.OK);
+  }
+
+  @Test
+  public void pushWithMultipleChangeIds() throws Exception {
+    testRepo.branch("HEAD").commit()
+        .message("Message withmultiple Change-Id\n"
+            + "\n"
+            + "Change-Id: I10f98c2ef76e52e23aa23be5afeb71e40b350e86\n"
+            + "Change-Id: Ie9a132e107def33bdd513b7854b50de911edba0a\n")
+        .add("a,txt", "content")
+        .create();
+    String ref = "refs/for/master";
+    PushResult r = pushHead(testRepo, ref);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(ref);
+    assertThat(refUpdate.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
+    assertThat(refUpdate.getMessage())
+        .endsWith(" multiple Change-Id lines in commit message footer");
+
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(project, config);
+    r = pushHead(testRepo, ref);
+    refUpdate = r.getRemoteUpdate(ref);
+    assertThat(refUpdate.getMessage())
+        .endsWith(" multiple Change-Id lines in commit message footer");
   }
 
   @Test

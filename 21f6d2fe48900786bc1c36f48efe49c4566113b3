@@ -411,6 +411,24 @@
     },
     {
       "key": {
+        "uuid": "685b8e06_26b30aaa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T02:14:08Z",
+      "side": 1,
+      "message": "But in that case it\u0027s a property, so it should work without being reflected.",
+      "parentUuid": "cd52be9f_bcd5d65f",
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6dbb4d4d_5525aab3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 10

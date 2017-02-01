@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "eaffd9e8_a2b94911",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T21:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd70f334_5224ed0b",
+      "revId": "f93acfd067ef0331f49b974355257401bb16da71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bff85fa_a2bc0df6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "64af7337_89426792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T21:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bff85fa_a2bc0df6",
+      "revId": "f93acfd067ef0331f49b974355257401bb16da71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c84fb9cf_706cfec3",
         "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
         "patchSetId": 3
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "cbce4f1d_1a7ff3e4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T21:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c84fb9cf_706cfec3",
+      "revId": "f93acfd067ef0331f49b974355257401bb16da71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b64046b_4a7df8e5",
         "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.js",
         "patchSetId": 3
@@ -79,6 +133,24 @@
       "revId": "f93acfd067ef0331f49b974355257401bb16da71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54f72cb6_a640e087",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T21:02:34Z",
+      "side": 1,
+      "message": "Done.\n\nIt\u0027s much better for the UI to respond immediately.",
+      "parentUuid": "5b64046b_4a7df8e5",
+      "revId": "f93acfd067ef0331f49b974355257401bb16da71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

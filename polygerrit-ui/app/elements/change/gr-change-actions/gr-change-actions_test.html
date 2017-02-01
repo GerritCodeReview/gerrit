@@ -108,7 +108,6 @@ limitations under the License.
       flush(function() {
         var buttonEl = element.$$('[data-action-key="submit"]');
         assert.isOk(buttonEl);
-        assert.isFalse(buttonEl.hasAttribute('hidden'));
         assert.throws(element.setActionHidden.bind(element, 'invalid type'));
         element.setActionHidden(element.ActionType.REVISION,
             element.RevisionActions.SUBMIT, true);
@@ -118,8 +117,7 @@ limitations under the License.
         assert.lengthOf(element._hiddenActions, 1);
         flush(function() {
           var buttonEl = element.$$('[data-action-key="submit"]');
-          assert.isOk(buttonEl);
-          assert.isTrue(buttonEl.hasAttribute('hidden'));
+          assert.isNotOk(buttonEl);
 
           element.setActionHidden(element.ActionType.REVISION,
             element.RevisionActions.SUBMIT, false);
@@ -177,7 +175,7 @@ limitations under the License.
           return item.id === 'delete';
         });
         assert.equal(deleteItems.length, 2);
-        assert.notEqual(deleteItems[0].name, deleteItems[1].name)
+        assert.notEqual(deleteItems[0].name, deleteItems[1].name);
         assert.isTrue(
             deleteItems[0].name === 'Delete Revision' ||
             deleteItems[0].name === 'Delete Change'
@@ -210,7 +208,7 @@ limitations under the License.
         {label: 'def', __type: 'change', __primary: true},
       ];
 
-      var result = actions.slice()
+      var result = actions.slice();
       result.reverse();
       result.sort(element._actionComparator);
 
@@ -385,6 +383,7 @@ limitations under the License.
     test('_setLoadingOnButtonWithKey top-level', function() {
       var key = 'rebase';
       var cleanup = element._setLoadingOnButtonWithKey(key);
+      assert.equal(element._actionLoadingMessage, 'Rebasing...');
 
       var button = element.$$('[data-action-key="' + key + '"]');
       assert.isTrue(button.hasAttribute('loading'));
@@ -396,6 +395,7 @@ limitations under the License.
 
       assert.isFalse(button.hasAttribute('loading'));
       assert.isFalse(button.disabled);
+      assert.isNotOk(element._actionLoadingMessage);
     });
 
     test('_setLoadingOnButtonWithKey overflow menu', function() {

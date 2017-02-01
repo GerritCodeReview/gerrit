@@ -148,7 +148,7 @@ public class EventFactory {
     a.branch = change.getDest().getShortName();
     a.topic = change.getTopic();
     a.id = change.getKey().get();
-    a.number = change.getId().toString();
+    a.number = change.getId().get();
     a.subject = change.getSubject();
     try {
       a.commitMessage = changeDataFactory.create(db, change).commitMessage();
@@ -347,7 +347,7 @@ public class EventFactory {
 
   private DependencyAttribute newDependencyAttribute(Change c, PatchSet ps) {
     DependencyAttribute d = new DependencyAttribute();
-    d.number = c.getId().toString();
+    d.number = c.getId().get();
     d.id = c.getKey().toString();
     d.revision = ps.getRevision().get();
     d.ref = ps.getRefName();
@@ -402,8 +402,7 @@ public class EventFactory {
   public void addPatchSetComments(PatchSetAttribute patchSetAttribute,
       Collection<Comment> comments) {
     for (Comment comment : comments) {
-      if (comment.key.patchSetId ==
-          Integer.parseInt(patchSetAttribute.number)) {
+      if (comment.key.patchSetId == patchSetAttribute.number) {
         if (patchSetAttribute.comments == null) {
           patchSetAttribute.comments = new ArrayList<>();
         }
@@ -474,7 +473,7 @@ public class EventFactory {
       Change change, PatchSet patchSet) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.getRevision().get();
-    p.number = Integer.toString(patchSet.getPatchSetId());
+    p.number = patchSet.getPatchSetId();
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;

@@ -16,6 +16,24 @@
       "revId": "afdd2244965abdbfbb6c279d95ac1b15010e227d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74a53a03_93e18ec3",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "Feb 1, 2017 9:47:50 AM",
+      "side": 1,
+      "message": "this file is generated automatically, so I\u0027d rather document the changes here.",
+      "parentUuid": "ea921884_79e777f7",
+      "revId": "afdd2244965abdbfbb6c279d95ac1b15010e227d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

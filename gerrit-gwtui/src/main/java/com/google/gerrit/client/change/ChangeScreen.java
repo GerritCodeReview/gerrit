@@ -230,7 +230,6 @@ public class ChangeScreen extends Screen {
   @UiField Button rebaseEdit;
   @UiField Button deleteEdit;
   @UiField Button publish;
-  @UiField Button deleteChange;
   @UiField Button deleteRevision;
   @UiField Button openAll;
   @UiField Button editMode;
@@ -521,10 +520,6 @@ public class ChangeScreen extends Screen {
   private void initChangeAction(ChangeInfo info) {
     NativeMap<ActionInfo> actions = info.hasActions() ? info.actions() : NativeMap.create();
     actions.copyKeysIntoChildren("id");
-    if (actions.containsKey("/")) {
-      deleteChange.setVisible(true);
-      deleteChange.setTitle(actions.get("/").title());
-    }
   }
 
   private void updatePatchSetsTextStyle(boolean isPatchSetCurrent) {
@@ -673,20 +668,13 @@ public class ChangeScreen extends Screen {
 
   @UiHandler("publish")
   void onPublish(@SuppressWarnings("unused") ClickEvent e) {
-    DraftActions.publish(changeId, revision, publish, deleteRevision, deleteChange);
+    ChangeActions.publish(changeId, revision, publish, deleteRevision);
   }
 
   @UiHandler("deleteRevision")
   void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteDraftRevision())) {
-      DraftActions.delete(changeId, revision, publish, deleteRevision, deleteChange);
-    }
-  }
-
-  @UiHandler("deleteChange")
-  void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteChange())) {
-      DraftActions.delete(changeId, publish, deleteRevision, deleteChange);
+      ChangeActions.delete(changeId, revision, publish, deleteRevision);
     }
   }
 

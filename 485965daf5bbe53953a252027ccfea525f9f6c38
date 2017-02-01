@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb654464_70d59f40",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T19:27:45Z",
+      "side": 1,
+      "message": "Would this work as a splice?\n\n  this.splice(\u0027_threadGroups\u0027, i, 1);",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 55
+      },
+      "revId": "485965daf5bbe53953a252027ccfea525f9f6c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

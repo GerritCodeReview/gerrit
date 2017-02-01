@@ -77,7 +77,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     makeSiteDirs(p);
 
     bind(GitRepositoryManager.class)
-      .toInstance(new InMemoryRepositoryManager());
+      .to(InMemoryRepositoryManager.class);
+    bind(InMemoryRepositoryManager.class).in(SINGLETON);
 
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);

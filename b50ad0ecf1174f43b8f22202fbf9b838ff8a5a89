@@ -16,6 +16,24 @@
       "revId": "b50ad0ecf1174f43b8f22202fbf9b838ff8a5a89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff5ec2d_85d48cbe",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 1, 2017 11:37:06 AM",
+      "side": 0,
+      "message": "Yes. My thinking is that it will be better to show the action in loading message consistently for both kinds of action button.",
+      "parentUuid": "3a193715_ed260c89",
+      "revId": "b50ad0ecf1174f43b8f22202fbf9b838ff8a5a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

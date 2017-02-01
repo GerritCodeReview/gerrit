@@ -2,9 +2,11 @@ package(default_visibility = ["//visibility:public"])
 
 load("//tools/bzl:js.bzl", "bower_component", "js_component")
 
-# For updating the bower versions, run
+# For importing new versions of existing bower packages,
 #
-#  python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl -b lib/js/bower_components.bzl
+# 1) edit the versions of 'seed' components in WORKSPACE as desired
+#
+# 2) Run: 'python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl -b lib/js/bower_components.bzl', to update dependency versions.
 #
 
 # For adding a new component as dependency to a bower_component_bundle

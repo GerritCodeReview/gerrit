@@ -268,6 +268,15 @@ bower_component_bundle = rule(
         "version_json": "%{name}-versions.json",
     },
 )
+"""Groups a set of bower components together in a zip file.
+
+Outputs:
+  NAME-versions.json:
+    a JSON file containing a PKG-NAME => PKG-NAME#VERSION mapping for the
+    transitive dependencies.
+  NAME.zip:
+    a zip file containing the transitive dependencies for this bundle.
+"""
 
 def _vulcanize_impl(ctx):
   # intermediate artifact.

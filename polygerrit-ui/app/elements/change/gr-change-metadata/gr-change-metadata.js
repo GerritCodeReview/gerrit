@@ -88,8 +88,8 @@
     },
 
     /**
-     * @param {Object}
-     * @returns {Array|null} If array is empty, returns null instead so
+     * @param {Object} commitInfo
+     * @return {?Array} If array is empty, returns null instead so
      * an existential check can be used to hide or show the webLinks
      * section.
      */

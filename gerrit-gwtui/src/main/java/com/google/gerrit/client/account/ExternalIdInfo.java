@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,18 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gwt.core.client.GWT;
-import com.google.gwtjsonrpc.client.JsonUtil;
+import com.google.gwt.core.client.JavaScriptObject;
 
-public class Util {
-  public static final AccountConstants C = GWT.create(AccountConstants.class);
-  public static final AccountMessages M = GWT.create(AccountMessages.class);
-  public static final ProjectAdminService PROJECT_SVC;
+public class ExternalIdInfo extends JavaScriptObject {
+  public final native String identity()
+    /*-{ return this.identity; }-*/;
+  public final native String emailAddress()
+    /*-{ return this.email_address; }-*/;
+  public final native boolean trusted()
+    /*-{ return this['trusted'] ? true : false; }-*/;
+  public final native boolean canDelete()
+    /*-{ return this['can_delete'] ? true : false; }-*/;
 
-  static {
-    PROJECT_SVC = GWT.create(ProjectAdminService.class);
-    JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
+  protected ExternalIdInfo() {
   }
 }

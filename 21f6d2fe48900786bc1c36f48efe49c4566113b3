@@ -218,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "fd8d178e_1c306acc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T02:19:18Z",
+      "side": 1,
+      "message": "In that case can\u0027t it be moved into the test?",
+      "parentUuid": "7d773a44_7267a698",
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a801c446_b14076a0",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 10
@@ -423,6 +441,24 @@
       "side": 1,
       "message": "But in that case it\u0027s a property, so it should work without being reflected.",
       "parentUuid": "cd52be9f_bcd5d65f",
+      "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4ac79a8_0920a510",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-01T02:19:18Z",
+      "side": 1,
+      "message": "Ah, you did remove it. My mistake.",
+      "parentUuid": "685b8e06_26b30aaa",
       "revId": "21f6d2fe48900786bc1c36f48efe49c4566113b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

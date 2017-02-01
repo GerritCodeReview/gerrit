@@ -30,6 +30,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Singleton
 public class DeleteExternalIds implements
     RestModifyView<AccountResource, List<String>> {
   private final AccountByEmailCache accountByEmailCache;

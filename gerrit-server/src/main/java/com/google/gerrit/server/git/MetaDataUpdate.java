@@ -79,7 +79,10 @@ public class MetaDataUpdate implements AutoCloseable {
    */
     public MetaDataUpdate create(Project.NameKey name, IdentifiedUser user,
         BatchRefUpdate batch) throws RepositoryNotFoundException, IOException {
-      return create(name, mgr.openRepository(name), user, batch);
+      Repository repo = mgr.openRepository(name);
+      MetaDataUpdate md = create(name, repo, user, batch);
+      md.setCloseRepository(true);
+      return md;
     }
 
     /**
@@ -117,7 +120,8 @@ public class MetaDataUpdate implements AutoCloseable {
      * </pre>
      *
      * @param name project name.
-     * @param repository GIT respository
+     * @param repository the repository to update; the caller is responsible for
+     *     closing the repository.
      * @param user user for the update.
      * @param batch batch update to use; the caller is responsible for committing
      *     the update.
@@ -157,7 +161,9 @@ public class MetaDataUpdate implements AutoCloseable {
     /** @see User#create(Project.NameKey, IdentifiedUser, BatchRefUpdate) */
     public MetaDataUpdate create(Project.NameKey name, BatchRefUpdate batch)
         throws RepositoryNotFoundException, IOException {
-      MetaDataUpdate md = factory.create(name, mgr.openRepository(name), batch);
+      Repository repo = mgr.openRepository(name);
+      MetaDataUpdate md = factory.create(name, repo, batch);
+      md.setCloseRepository(true);
       md.getCommitBuilder().setAuthor(serverIdent);
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;
@@ -166,32 +172,34 @@ public class MetaDataUpdate implements AutoCloseable {
 
   interface InternalFactory {
     MetaDataUpdate create(@Assisted Project.NameKey projectName,
-        @Assisted Repository db, @Assisted @Nullable BatchRefUpdate batch);
+        @Assisted Repository repository,
+        @Assisted @Nullable BatchRefUpdate batch);
   }
 
   private final GitReferenceUpdated gitRefUpdated;
   private final Project.NameKey projectName;
-  private final Repository db;
+  private final Repository repository;
   private final BatchRefUpdate batch;
   private final CommitBuilder commit;
   private boolean allowEmpty;
   private boolean insertChangeId;
+  private boolean closeRepository;
   private IdentifiedUser author;
 
   @AssistedInject
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
-      @Assisted Project.NameKey projectName, @Assisted Repository db,
+      @Assisted Project.NameKey projectName, @Assisted Repository repository,
       @Assisted @Nullable BatchRefUpdate batch) {
     this.gitRefUpdated = gitRefUpdated;
     this.projectName = projectName;
-    this.db = db;
+    this.repository = repository;
     this.batch = batch;
     this.commit = new CommitBuilder();
   }
 
   public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
-      Project.NameKey projectName, Repository db) {
-    this(gitRefUpdated, projectName, db, null);
+      Project.NameKey projectName, Repository repository) {
+    this(gitRefUpdated, projectName, repository, null);
   }
 
   /** Set the commit message used when committing the update. */
@@ -214,6 +222,10 @@ public class MetaDataUpdate implements AutoCloseable {
     this.insertChangeId = insertChangeId;
   }
 
+  public void setCloseRepository(boolean closeRepository) {
+    this.closeRepository = closeRepository;
+  }
+
   /** @return batch in which to run the update, or {@code null} for no batch. */
   BatchRefUpdate getBatch() {
     return batch;
@@ -222,7 +234,9 @@ public class MetaDataUpdate implements AutoCloseable {
   /** Close the cached Repository handle. */
   @Override
   public void close() {
-    getRepository().close();
+    if (closeRepository) {
+      getRepository().close();
+    }
   }
 
   Project.NameKey getProjectName() {
@@ -230,7 +244,7 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   public Repository getRepository() {
-    return db;
+    return repository;
   }
 
   boolean allowEmpty() {

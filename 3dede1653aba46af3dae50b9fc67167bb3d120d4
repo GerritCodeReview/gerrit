@@ -16,6 +16,24 @@
       "revId": "3dede1653aba46af3dae50b9fc67167bb3d120d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4f465ff_52e226be",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "Feb 1, 2017 9:44:21 AM",
+      "side": 1,
+      "message": "no. see\n\nhttps://skydoc.bazel.io/docs/writing.html",
+      "parentUuid": "c70f9768_73b7922e",
+      "revId": "3dede1653aba46af3dae50b9fc67167bb3d120d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

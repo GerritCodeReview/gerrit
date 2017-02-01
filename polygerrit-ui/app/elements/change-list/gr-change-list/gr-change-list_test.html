@@ -57,9 +57,9 @@ limitations under the License.
 
     suite('test show change number not logged in', function() {
       setup(function(done) {
-        return stubRestAPI(null).then(function() {
+        stubRestAPI(null).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          element._loadPreferences().then(function() { return done(); });
         });
       });
 
@@ -70,12 +70,12 @@ limitations under the License.
 
     suite('test show change number preference enabled', function() {
       setup(function(done) {
-        return stubRestAPI({legacycid_in_change_table: true,
+         stubRestAPI({legacycid_in_change_table: true,
             time_format: 'HHMM_12',
             change_table: [],
           }).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          element._loadPreferences().then(function() { return done(); });
         });
       });
 
@@ -87,10 +87,10 @@ limitations under the License.
     suite('test show change number preference disabled', function() {
       setup(function(done) {
         // legacycid_in_change_table is not set when false.
-        return stubRestAPI({time_format: 'HHMM_12', change_table: []}).then(
+        stubRestAPI({time_format: 'HHMM_12', change_table: []}).then(
             function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          element._loadPreferences().then(function() { return done(); });
         });
       });
 
@@ -250,14 +250,14 @@ limitations under the License.
       var element;
 
       setup(function(done) {
-        return stubRestAPI({
+        stubRestAPI({
           legacycid_in_change_table: true,
             time_format: 'HHMM_12',
             change_table: [],
           }
         ).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          element._loadPreferences().then(function() { return done(); });
         });
       });
 
@@ -277,7 +277,7 @@ limitations under the License.
       var element;
 
       setup(function(done) {
-        return stubRestAPI({
+        stubRestAPI({
             legacycid_in_change_table: true,
             time_format: 'HHMM_12',
             change_table: [
@@ -291,7 +291,7 @@ limitations under the License.
             ],
           }).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          element._loadPreferences().then(function() { return done(); });
         });
       });
 
@@ -307,7 +307,7 @@ limitations under the License.
       var element;
 
       setup(function(done) {
-        return stubRestAPI({
+        stubRestAPI({
             legacycid_in_change_table: true,
             time_format: 'HHMM_12',
             change_table: [
@@ -320,7 +320,7 @@ limitations under the License.
             ],
           }).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          element._loadPreferences().then(function() { return done(); });
         });
       });
 
@@ -342,7 +342,7 @@ limitations under the License.
       /* This would only exist if somebody manually updated the config
       file. */
       setup(function(done) {
-        return stubRestAPI({
+        stubRestAPI({
             legacycid_in_change_table: true,
             time_format: 'HHMM_12',
             change_table: [
@@ -350,7 +350,7 @@ limitations under the License.
             ],
           }).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          element._loadPreferences().then(function() { return done(); });
         });
       });
 

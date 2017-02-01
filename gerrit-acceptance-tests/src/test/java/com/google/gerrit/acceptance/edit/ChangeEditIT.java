@@ -201,7 +201,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     PublishChangeEditInput input = new PublishChangeEditInput();
     input.notify = NotifyHandling.NONE;
     adminRestSession.post(urlPublish(changeId), input).assertNoContent();
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test
@@ -330,7 +330,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
     createEmptyEditFor(changeId);
     Optional<EditInfo> edit = getEdit(changeId);
-    assertThat(edit).value().commit().parents().hasSize(0);
+    assertThat(edit).value().commit().parents().isEmpty();
 
     String msg = String.format("New commit message\n\nChange-Id: %s\n",
         changeId);
@@ -764,14 +764,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .id(changeId2)
         .edit()
         .publish(publishInput);
-    assertThat(queryEdits()).hasSize(0);
+    assertThat(queryEdits()).isEmpty();
 
     setApiUser(user);
     createEmptyEditFor(changeId);
     assertThat(queryEdits()).hasSize(1);
 
     setApiUser(admin);
-    assertThat(queryEdits()).hasSize(0);
+    assertThat(queryEdits()).isEmpty();
   }
 
   @Test

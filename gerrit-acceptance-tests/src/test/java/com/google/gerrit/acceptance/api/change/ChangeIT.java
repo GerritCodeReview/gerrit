@@ -1339,7 +1339,7 @@ public class ChangeIT extends AbstractDaemonTest {
           "Removed reviewer " + user.fullName + " with the following votes");
       assertThat(message.body()).contains("* Code-Review+1 by " + user.fullName);
     } else {
-      assertThat(sender.getMessages()).hasSize(0);
+      assertThat(sender.getMessages()).isEmpty();
     }
 
     reviewers = gApi.changes()
@@ -1441,7 +1441,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .reviewer(user.getId().toString())
         .deleteVote(in);
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test

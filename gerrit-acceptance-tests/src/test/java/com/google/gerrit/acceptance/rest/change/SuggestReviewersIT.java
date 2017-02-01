@@ -219,7 +219,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
 
     reviewers = suggestReviewers(changeId, "first1 last2");
-    assertThat(reviewers).hasSize(0);
+    assertThat(reviewers).isEmpty();
 
     reviewers = suggestReviewers(changeId, name("user"));
     assertThat(reviewers).hasSize(6);

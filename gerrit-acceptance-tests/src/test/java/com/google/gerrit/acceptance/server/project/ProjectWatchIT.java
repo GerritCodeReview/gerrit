@@ -194,7 +194,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test
@@ -307,6 +307,6 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
   }
 }

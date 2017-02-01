@@ -52,6 +52,24 @@
       "revId": "3dede1653aba46af3dae50b9fc67167bb3d120d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d45bef6f_1946e87b",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "Feb 1, 2017 10:11:48 AM",
+      "side": 1,
+      "message": "we don\u0027t create new rules very often, so doc\u0027ing seems overkill.",
+      "parentUuid": "a2b18fc6_198574a9",
+      "revId": "3dede1653aba46af3dae50b9fc67167bb3d120d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

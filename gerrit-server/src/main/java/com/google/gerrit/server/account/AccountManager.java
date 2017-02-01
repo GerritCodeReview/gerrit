@@ -31,6 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,7 +42,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +63,6 @@ public class AccountManager {
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final AuditService auditService;
   private final Provider<InternalAccountQuery> accountQueryProvider;
-  private final ExternalIdCache externalIdCache;
 
   @Inject
   AccountManager(SchemaFactory<ReviewDb> schema,
@@ -74,8 +73,7 @@ public class AccountManager {
       ChangeUserName.Factory changeUserNameFactory,
       ProjectCache projectCache,
       AuditService auditService,
-      Provider<InternalAccountQuery> accountQueryProvider,
-      ExternalIdCache externalIdCache) {
+      Provider<InternalAccountQuery> accountQueryProvider) {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
@@ -86,7 +84,6 @@ public class AccountManager {
     this.awaitsFirstAccountCheck = new AtomicBoolean(true);
     this.auditService = auditService;
     this.accountQueryProvider = accountQueryProvider;
-    this.externalIdCache = externalIdCache;
   }
 
   /**
@@ -174,7 +171,6 @@ public class AccountManager {
 
       extId.setEmailAddress(newEmail);
       db.accountExternalIds().update(Collections.singleton(extId));
-      externalIdCache.onUpdate(extId);
     }
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
@@ -246,7 +242,6 @@ public class AccountManager {
                 + "\" to account " + newId + "; external ID already in use.");
       }
       db.accountExternalIds().upsert(Collections.singleton(extId));
-      externalIdCache.onUpdate(extId);
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as
@@ -340,7 +335,6 @@ public class AccountManager {
       // the database
       db.accounts().delete(Collections.singleton(account));
       db.accountExternalIds().delete(Collections.singleton(extId));
-      externalIdCache.onRemove(extId);
       throw new AccountUserNameException(errorMessage, e);
     }
   }
@@ -373,7 +367,6 @@ public class AccountManager {
         extId = createId(to, who);
         extId.setEmailAddress(who.getEmailAddress());
         db.accountExternalIds().insert(Collections.singleton(extId));
-        externalIdCache.onCreate(extId);
 
         if (who.getEmailAddress() != null) {
           Account a = db.accounts().get(to);
@@ -412,12 +405,12 @@ public class AccountManager {
     try (ReviewDb db = schema.open()) {
       AccountExternalId.Key key = id(who);
       List<AccountExternalId.Key> filteredKeysByScheme =
-          filterKeysByScheme(key.getScheme(), externalIdCache.byAccount(to));
+          filterKeysByScheme(key.getScheme(), db.accountExternalIds()
+              .byAccount(to));
       if (!filteredKeysByScheme.isEmpty()
           && (filteredKeysByScheme.size() > 1 || !filteredKeysByScheme
               .contains(key))) {
         db.accountExternalIds().deleteKeys(filteredKeysByScheme);
-        externalIdCache.onRemove(to, filteredKeysByScheme);
       }
       byIdCache.evict(to);
       return link(to, who);
@@ -425,7 +418,7 @@ public class AccountManager {
   }
 
   private List<AccountExternalId.Key> filterKeysByScheme(
-      String keyScheme, Collection<AccountExternalId> externalIds) {
+      String keyScheme, ResultSet<AccountExternalId> externalIds) {
     List<AccountExternalId.Key> filteredExternalIds = new ArrayList<>();
     for (AccountExternalId accountExternalId : externalIds) {
       if (accountExternalId.isScheme(keyScheme)) {
@@ -455,7 +448,6 @@ public class AccountManager {
               "Identity '" + key.get() + "' in use by another account");
         }
         db.accountExternalIds().delete(Collections.singleton(extId));
-        externalIdCache.onRemove(extId);
 
         if (who.getEmailAddress() != null) {
           Account a = db.accounts().get(from);

@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.Callable;
@@ -50,22 +51,19 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
-  private final ExternalIdCache externalIdCache;
 
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final String newUsername;
 
   @Inject
-  ChangeUserName(AccountCache accountCache,
-      SshKeyCache sshKeyCache,
-      ExternalIdCache externalIdCache,
-      @Assisted ReviewDb db,
-      @Assisted IdentifiedUser user,
-      @Nullable @Assisted String newUsername) {
+  ChangeUserName(final AccountCache accountCache,
+      final SshKeyCache sshKeyCache,
+
+      @Assisted final ReviewDb db, @Assisted final IdentifiedUser user,
+      @Nullable @Assisted final String newUsername) {
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
-    this.externalIdCache = externalIdCache;
 
     this.db = db;
     this.user = user;
@@ -75,8 +73,7 @@ public class ChangeUserName implements Callable<VoidResult> {
   @Override
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
       InvalidUserNameException, IOException {
-    Collection<AccountExternalId> old =
-        externalIdCache.byAccount(user.getAccountId(), SCHEME_USERNAME);
+    final Collection<AccountExternalId> old = old();
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
@@ -99,7 +96,6 @@ public class ChangeUserName implements Callable<VoidResult> {
         }
 
         db.accountExternalIds().insert(Collections.singleton(id));
-        externalIdCache.onCreate(id);
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //
@@ -117,7 +113,6 @@ public class ChangeUserName implements Callable<VoidResult> {
     // If we have any older user names, remove them.
     //
     db.accountExternalIds().delete(old);
-    externalIdCache.onRemove(old);
     for (AccountExternalId i : old) {
       sshKeyCache.evict(i.getSchemeRest());
       accountCache.evictByUsername(i.getSchemeRest());
@@ -127,5 +122,16 @@ public class ChangeUserName implements Callable<VoidResult> {
     accountCache.evictByUsername(newUsername);
     sshKeyCache.evict(newUsername);
     return VoidResult.INSTANCE;
+  }
+
+  private Collection<AccountExternalId> old() throws OrmException {
+    final Collection<AccountExternalId> r = new ArrayList<>(1);
+    for (AccountExternalId i : db.accountExternalIds().byAccount(
+        user.getAccountId())) {
+      if (i.isScheme(SCHEME_USERNAME)) {
+        r.add(i);
+      }
+    }
+    return r;
   }
 }

@@ -60,17 +60,13 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache accountCache;
-  private final ExternalIdCache externalIdCache;
 
   @Inject
-  PutHttpPassword(Provider<CurrentUser> self,
-      Provider<ReviewDb> dbProvider,
-      AccountCache accountCache,
-      ExternalIdCache externalIdCache) {
+  PutHttpPassword(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider,
+      AccountCache accountCache) {
     this.self = self;
     this.dbProvider = dbProvider;
     this.accountCache = accountCache;
-    this.externalIdCache = externalIdCache;
   }
 
   @Override
@@ -121,7 +117,6 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     }
     id.setPassword(newPassword);
     dbProvider.get().accountExternalIds().update(Collections.singleton(id));
-    externalIdCache.onUpdate(id);
     accountCache.evict(user.getAccountId());
 
     return Strings.isNullOrEmpty(newPassword)

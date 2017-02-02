@@ -35,12 +35,13 @@ limitations under the License.
   suite('gr-account-entry tests', function() {
     var sandbox;
     var _nextAccountId = 0;
-    var makeAccount = function() {
+    var makeAccount = function(opt_status) {
       var accountId = ++_nextAccountId;
       return {
         _account_id: accountId,
         name: 'name ' + accountId,
         email: 'email ' + accountId,
+        status: opt_status,
       };
     };
 
@@ -97,20 +98,34 @@ limitations under the License.
         var account = makeAccount();
         var suggestion = element._makeSuggestion({account: account});
         assert.deepEqual(suggestion, {
-          name: account.name + ' (' + account.email + ')',
+          name: account.name + ' <' + account.email + '>',
           value: {account: account},
         });
 
         var group = {name: 'test'};
         suggestion = element._makeSuggestion({group: group});
         assert.deepEqual(suggestion, {
-          name: group.name + ' (group)',
+          name: group.name + ' <group>',
           value: {group: group},
         });
 
         suggestion = element._makeSuggestion(account);
         assert.deepEqual(suggestion, {
-          name: account.name + ' (' + account.email + ')',
+          name: account.name + ' <' + account.email + '>',
+          value: {account: account, count: 1},
+        });
+
+        account = makeAccount('OOO');
+
+        suggestion = element._makeSuggestion({account: account});
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '> (OOO)',
+          value: {account: account},
+        });
+
+        suggestion = element._makeSuggestion(account);
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '> (OOO)',
           value: {account: account, count: 1},
         });
       });

@@ -178,9 +178,10 @@ limitations under the License.
     });
 
     test('R=email labels link correctly', function() {
+      element.removeZeroWidthSpace = true;
       element.content = 'R=\u200Btest@google.com';
-      assert.equal(element.$.output.textContent, 'R=\u200Btest@google.com');
-      assert.equal(element.$.output.innerHTML.match(/(R=\u200B<a)/g).length, 1);
+      assert.equal(element.$.output.textContent, 'R=test@google.com');
+      assert.equal(element.$.output.innerHTML.match(/(R=<a)/g).length, 1);
     });
 
     test('overlapping links', function() {

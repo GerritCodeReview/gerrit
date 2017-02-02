@@ -14,9 +14,10 @@
 
 'use strict';
 
-function GrLinkTextParser(linkConfig, callback) {
+function GrLinkTextParser(linkConfig, callback, opt_removeZeroWidthSpace) {
   this.linkConfig = linkConfig;
   this.callback = callback;
+  this.removeZeroWidthSpace = opt_removeZeroWidthSpace;
   Object.preventExtensions(this);
 }
 
@@ -128,6 +129,11 @@ GrLinkTextParser.prototype.parse = function(text) {
 };
 
 GrLinkTextParser.prototype.parseChunk = function(text, href) {
+  if (this.removeZeroWidthSpace) {
+    // Remove the zero-width space added in gr-change-view.
+    text = text.replace(/^R=\u200B/gm, 'R=');
+  }
+
   if (href) {
     this.addText(text, href);
   } else {

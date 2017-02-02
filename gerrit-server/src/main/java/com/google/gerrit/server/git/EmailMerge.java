@@ -87,7 +87,7 @@ public class EmailMerge implements Runnable, RequestContext {
   }
 
   public void sendAsync() {
-    sendEmailsExecutor.submit(this);
+    sendEmailsExecutor.execute(this);
   }
 
   @Override

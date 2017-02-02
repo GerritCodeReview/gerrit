@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   private static final Logger log = LoggerFactory
@@ -84,7 +85,10 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
           @Override
           public void onSuccess(List<Change> changes) {
             for (Change c : changes) {
-              executor.submit(new Index(event, c.getId()));
+              // Don't retry indefinitely; if this fails changes may be stale.
+              @SuppressWarnings("unused")
+              Future<?> possiblyIgnoredError =
+                  executor.submit(new Index(event, c.getId()));
             }
           }
 

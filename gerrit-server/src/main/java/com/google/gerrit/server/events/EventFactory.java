@@ -145,7 +145,7 @@ public class EventFactory {
     a.branch = change.getDest().getShortName();
     a.topic = change.getTopic();
     a.id = change.getKey().get();
-    a.number = change.getId().get();
+    a.number = change.getId().toString();
     a.subject = change.getSubject();
     try {
       a.commitMessage = changeDataFactory.create(db, change).commitMessage();
@@ -337,7 +337,7 @@ public class EventFactory {
 
   private DependencyAttribute newDependencyAttribute(Change c, PatchSet ps) {
     DependencyAttribute d = new DependencyAttribute();
-    d.number = c.getId().get();
+    d.number = c.getId().toString();
     d.id = c.getKey().toString();
     d.revision = ps.getRevision().get();
     d.ref = ps.getRefName();

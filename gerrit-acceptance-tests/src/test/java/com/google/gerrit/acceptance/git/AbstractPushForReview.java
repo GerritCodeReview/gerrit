@@ -707,12 +707,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     createCommit(testRepo, "Message with invalid Change-Id\n"
         + "\n"
         + "Change-Id: I0000000000000000000000000000000000000000\n");
-    pushForReviewRejected(testRepo, "invalid Change-Id");
+    pushForReviewRejected(testRepo,
+        "invalid Change-Id line format in commit message footer");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
     config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
     saveProjectConfig(project, config);
-    pushForReviewRejected(testRepo, "invalid Change-Id");
+    pushForReviewRejected(testRepo,
+        "invalid Change-Id line format in commit message footer");
   }
 
   private static RevCommit createCommit(TestRepository<?> testRepo,

@@ -70,6 +70,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -449,7 +450,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
             }
           };
       if (requestScopePropagator != null) {
-        sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
       } else {
         sender.run();
       }

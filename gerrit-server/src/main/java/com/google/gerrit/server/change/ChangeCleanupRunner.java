@@ -25,6 +25,7 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,11 @@ public class ChangeCleanupRunner implements Runnable {
             String.format(
                 "Ignoring invalid changeCleanup schedule configuration: %s", scheduleConfig));
       } else {
-        queue.getDefaultQueue().scheduleAtFixedRate(runner, delay, interval, TimeUnit.MILLISECONDS);
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            queue
+                .getDefaultQueue()
+                .scheduleAtFixedRate(runner, delay, interval, TimeUnit.MILLISECONDS);
       }
     }
 

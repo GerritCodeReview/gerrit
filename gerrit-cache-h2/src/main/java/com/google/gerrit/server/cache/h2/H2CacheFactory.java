@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
@@ -116,7 +117,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     if (executor != null) {
       for (final H2CacheImpl<?, ?> cache : caches) {
         executor.execute(cache::start);
-        cleanup.schedule(() -> cache.prune(cleanup), 30, TimeUnit.SECONDS);
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            cleanup.schedule(() -> cache.prune(cleanup), 30, TimeUnit.SECONDS);
       }
     }
   }

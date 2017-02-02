@@ -40,6 +40,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -116,34 +117,37 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
                   .setNameFormat(index + " Commit-%d")
                   .setDaemon(true)
                   .build());
-      autoCommitExecutor.scheduleAtFixedRate(
-          new Runnable() {
-            @Override
-            public void run() {
-              try {
-                if (autoCommitWriter.hasUncommittedChanges()) {
-                  autoCommitWriter.manualFlush();
-                  autoCommitWriter.commit();
+      @SuppressWarnings("unused") // Error handling within Runnable.
+      Future<?> possiblyIgnoredError =
+          autoCommitExecutor.scheduleAtFixedRate(
+              new Runnable() {
+                @Override
+                public void run() {
+                  try {
+                    if (autoCommitWriter.hasUncommittedChanges()) {
+                      autoCommitWriter.manualFlush();
+                      autoCommitWriter.commit();
+                    }
+                  } catch (IOException e) {
+                    log.error("Error committing " + index + " Lucene index", e);
+                  } catch (OutOfMemoryError e) {
+                    log.error("Error committing " + index + " Lucene index", e);
+                    try {
+                      autoCommitWriter.close();
+                    } catch (IOException e2) {
+                      log.error(
+                          "SEVERE: Error closing "
+                              + index
+                              + " Lucene index after OOM;"
+                              + " index may be corrupted.",
+                          e);
+                    }
+                  }
                 }
-              } catch (IOException e) {
-                log.error("Error committing " + index + " Lucene index", e);
-              } catch (OutOfMemoryError e) {
-                log.error("Error committing " + index + " Lucene index", e);
-                try {
-                  autoCommitWriter.close();
-                } catch (IOException e2) {
-                  log.error(
-                      "SEVERE: Error closing "
-                          + index
-                          + " Lucene index  after OOM; index may be corrupted.",
-                      e);
-                }
-              }
-            }
-          },
-          commitPeriod,
-          commitPeriod,
-          MILLISECONDS);
+              },
+              commitPeriod,
+              commitPeriod,
+              MILLISECONDS);
     }
     writer = new TrackingIndexWriter(delegateWriter);
     searcherManager = new WrappableSearcherManager(writer.getIndexWriter(), true, searcherFactory);

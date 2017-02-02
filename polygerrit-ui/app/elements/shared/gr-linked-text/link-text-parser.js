@@ -14,9 +14,10 @@
 
 'use strict';
 
-function GrLinkTextParser(linkConfig, callback) {
+function GrLinkTextParser(linkConfig, callback, opt_removeZeroWidthSpace) {
   this.linkConfig = linkConfig;
   this.callback = callback;
+  this.removeZeroWidthSpace = opt_removeZeroWidthSpace;
   Object.preventExtensions(this);
 }
 
@@ -128,6 +129,12 @@ GrLinkTextParser.prototype.parse = function(text) {
 };
 
 GrLinkTextParser.prototype.parseChunk = function(text, href) {
+  var REVIEWERS_REGEX = /^R=\u200B/gm;
+
+  if (this.removeZeroWidthSpace) {
+    text = text.replace(REVIEWERS_REGEX, 'R=');
+  }
+
   if (href) {
     this.addText(text, href);
   } else {

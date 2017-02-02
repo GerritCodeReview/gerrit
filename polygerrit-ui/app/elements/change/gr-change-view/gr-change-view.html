@@ -316,7 +316,8 @@ limitations under the License.
                   content="{{_latestCommitMessage}}">
                 <gr-linked-text pre
                     content="[[_latestCommitMessage]]"
-                    config="[[_projectConfig.commentlinks]]"></gr-linked-text>
+                    config="[[_projectConfig.commentlinks]]"
+                    remove-zero-width-space="true"></gr-linked-text>
               </gr-editable-content>
               <gr-button link
                   class="editCommitMessage"

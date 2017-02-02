@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public class EmailMerge implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailMerge.class);
@@ -87,7 +88,8 @@ public class EmailMerge implements Runnable, RequestContext {
   }
 
   public void sendAsync() {
-    sendEmailsExecutor.submit(this);
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
   }
 
   @Override

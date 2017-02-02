@@ -73,6 +73,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public class ReplaceOp extends BatchUpdate.Op {
   public interface Factory {
@@ -399,7 +400,9 @@ public class ReplaceOp extends BatchUpdate.Op {
       };
 
       if (requestScopePropagator != null) {
-        sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
       } else {
         sender.run();
       }

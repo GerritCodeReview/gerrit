@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /** Runnable to enable scheduling gc to run periodically */
@@ -57,8 +58,10 @@ public class GarbageCollectionRunner implements Runnable {
         gcLog.warn(String.format(
             "Ignoring invalid gc schedule configuration: %s", scheduleConfig));
       } else {
-        queue.getDefaultQueue().scheduleAtFixedRate(gcRunner, delay,
-            interval, TimeUnit.MILLISECONDS);
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            queue.getDefaultQueue().scheduleAtFixedRate(
+                gcRunner, delay, interval, TimeUnit.MILLISECONDS);
       }
     }
 

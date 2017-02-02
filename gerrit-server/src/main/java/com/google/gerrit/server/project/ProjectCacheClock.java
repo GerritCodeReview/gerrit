@@ -23,6 +23,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -51,14 +52,14 @@ public class ProjectCacheClock {
             .setDaemon(true)
             .setPriority(Thread.MIN_PRIORITY)
             .build());
-      executor.scheduleAtFixedRate(new Runnable() {
-        @Override
-        public void run() {
-          // This is not exactly thread-safe, but is OK for our use.
-          // The only thread that writes the volatile is this task.
-          generation = generation + 1;
-        }
-      }, checkFrequencyMillis, checkFrequencyMillis, TimeUnit.MILLISECONDS);
+      @SuppressWarnings("unused") // Runnable already handles errors
+      Future<?> possiblyIgnoredError = executor.scheduleAtFixedRate(
+          () -> {
+            // This is not exactly thread-safe, but is OK for our use. The only
+            // thread that writes the volatile is this task.
+            generation = generation + 1;
+          },
+          checkFrequencyMillis, checkFrequencyMillis, TimeUnit.MILLISECONDS);
     } else {
       // Magic generation 0 triggers ProjectState to always
       // check on each needsRefresh() request we make to it.

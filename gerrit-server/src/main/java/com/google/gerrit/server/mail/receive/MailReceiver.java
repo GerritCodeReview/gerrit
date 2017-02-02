@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 /** MailReceiver implements base functionality for receiving emails. */
 public abstract class MailReceiver implements LifecycleListener {
@@ -123,7 +123,7 @@ public abstract class MailReceiver implements LifecycleListener {
       boolean async) {
     for (MailMessage m : messages) {
       if (async) {
-        Callable<?> task = () -> {
+        Runnable task = () -> {
           try {
             mailProcessor.process(m);
             requestDeletion(m.id());
@@ -131,9 +131,10 @@ public abstract class MailReceiver implements LifecycleListener {
             log.error("Mail: Can't process message " + m.id() +
                 " . Won't delete.", e);
           }
-          return null;
         };
-        workQueue.getDefaultQueue().submit(task);
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            workQueue.getDefaultQueue().submit(task);
       } else {
         // Synchronous processing is used only in tests.
         try {

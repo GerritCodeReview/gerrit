@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public class EmailReviewComments implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailReviewComments.class);
@@ -113,7 +114,8 @@ public class EmailReviewComments implements Runnable, RequestContext {
   }
 
   void sendAsync() {
-    sendEmailsExecutor.submit(this);
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
   }
 
   @Override

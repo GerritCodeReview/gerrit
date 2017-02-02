@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1e2ee7e_06ea3c6a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 1, 2017 4:16:24 PM",
+      "side": 1,
+      "message": "This may seem redundant, but was necessary in order to stub (itself needed to deal with test inconsistencies).",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 6
+      },
+      "revId": "5e54cb55f187edc8266f4ab0a4c8156c644720cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

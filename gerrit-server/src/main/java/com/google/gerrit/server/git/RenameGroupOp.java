@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public class RenameGroupOp extends DefaultQueueOp {
@@ -92,11 +93,12 @@ public class RenameGroupOp extends DefaultQueueOp {
       }
     }
 
-    // If one or more projects did not update, wait 5 minutes
-    // and give it another attempt.
+    // If one or more projects did not update, wait 5 minutes and give it
+    // another attempt. If it doesn't update after that, give up.
     if (!retryOn.isEmpty() && !tryingAgain) {
       tryingAgain = true;
-      start(5, TimeUnit.MINUTES);
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError = start(5, TimeUnit.MINUTES);
     }
   }
 

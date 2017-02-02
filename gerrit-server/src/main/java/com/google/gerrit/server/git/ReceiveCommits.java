@@ -170,6 +170,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1915,8 +1916,10 @@ public class ReceiveCommits {
       Change change = notes.getChange();
       if (change.getDest().equals(magicBranch.dest)) {
         logDebug("Found change {} from existing refs.", change.getKey());
-        // reindex the change asynchronously
-        indexer.indexAsync(project.getNameKey(), change.getId());
+        // Reindex the change asynchronously, ignoring errors.
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            indexer.indexAsync(project.getNameKey(), change.getId());
         return true;
       }
     }

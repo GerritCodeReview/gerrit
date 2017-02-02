@@ -19,7 +19,7 @@
 
 unset GREP_OPTIONS
 
-CHANGE_ID_AFTER="Bug|Issue|Test|Feature|Fixes|Fixed"
+CHANGE_ID_AFTER="Bug|Depends-On|Issue|Test|Feature|Fixes|Fixed"
 MSG="$1"
 
 # Check for, and add if missing, a unique Change-Id

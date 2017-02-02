@@ -1762,13 +1762,6 @@ public class ReceiveCommits {
         }
 
         String idStr = idList.get(idList.size() - 1).trim();
-        if (idStr.matches("^I00*$")) {
-          // Reject this invalid line from EGit.
-          reject(magicBranch.cmd, "invalid Change-Id");
-          newChanges = Collections.emptyList();
-          return;
-        }
-
         pending.add(new ChangeLookup(c, new Change.Key(idStr)));
         int n = pending.size() + newChanges.size();
         if (maxBatchChanges != 0 && n > maxBatchChanges) {

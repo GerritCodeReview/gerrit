@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
@@ -125,13 +126,15 @@ public class PutName implements RestModifyView<GroupResource, Input> {
 
     groupCache.evict(group);
     groupCache.evictAfterRename(old, key);
-    renameGroupOpFactory
-        .create(
-            currentUser.get().newCommitterIdent(new Date(), TimeZone.getDefault()),
-            group.getGroupUUID(),
-            old.get(),
-            newName)
-        .start(0, TimeUnit.MILLISECONDS);
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        renameGroupOpFactory
+            .create(
+                currentUser.get().newCommitterIdent(new Date(), TimeZone.getDefault()),
+                group.getGroupUUID(),
+                old.get(),
+                newName)
+            .start(0, TimeUnit.MILLISECONDS);
 
     return groupDetailFactory.create(groupId).call();
   }

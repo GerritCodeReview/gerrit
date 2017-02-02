@@ -39,6 +39,7 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,7 +82,9 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
           @Override
           public void onSuccess(List<Change> changes) {
             for (Change c : changes) {
-              executor.submit(new Index(event, c.getId()));
+              // Don't retry indefinitely; if this fails changes may be stale.
+              @SuppressWarnings("unused")
+              Future<?> possiblyIgnoredError = executor.submit(new Index(event, c.getId()));
             }
           }
 

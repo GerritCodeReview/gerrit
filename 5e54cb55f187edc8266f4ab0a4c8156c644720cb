@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "98caaeca_8bad41be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 2, 2017 10:57:10 AM",
+      "side": 1,
+      "message": "Should the time format preference (the SELECT element in the settings) show timezones at the end now?",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 17
+      },
+      "revId": "5e54cb55f187edc8266f4ab0a4c8156c644720cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a1e2ee7e_06ea3c6a",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
         "patchSetId": 2

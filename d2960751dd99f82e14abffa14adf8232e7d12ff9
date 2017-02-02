@@ -16,6 +16,24 @@
       "revId": "d2960751dd99f82e14abffa14adf8232e7d12ff9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2608f025_2c4a531d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Feb 1, 2017 11:34:39 PM",
+      "side": 1,
+      "message": "As I wrote on the replication change, in this class the members are accessed directly rather than through methods.  I guess only to reduce the amount of code.",
+      "parentUuid": "a1410b28_0995ebf3",
+      "revId": "d2960751dd99f82e14abffa14adf8232e7d12ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

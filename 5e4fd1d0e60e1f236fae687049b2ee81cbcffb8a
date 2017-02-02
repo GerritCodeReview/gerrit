@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20fdc3e8_4c00753d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group_test.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-02T00:07:40Z",
+      "side": 1,
+      "message": "Add -group\n\n  gr-diff-comment-thread-group",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "5e4fd1d0e60e1f236fae687049b2ee81cbcffb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72bca7e9_489904ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group_test.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-02T00:07:40Z",
+      "side": 1,
+      "message": "Nit: add trailing comma.",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 9
+      },
+      "revId": "5e4fd1d0e60e1f236fae687049b2ee81cbcffb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

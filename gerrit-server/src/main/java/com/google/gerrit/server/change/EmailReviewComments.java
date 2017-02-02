@@ -113,7 +113,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   }
 
   void sendAsync() {
-    sendEmailsExecutor.submit(this);
+    sendEmailsExecutor.execute(this);
   }
 
   @Override

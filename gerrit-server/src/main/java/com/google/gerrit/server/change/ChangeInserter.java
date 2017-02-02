@@ -437,7 +437,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         }
       };
       if (requestScopePropagator != null) {
-        sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
+        sendEmailExecutor.execute(requestScopePropagator.wrap(sender));
       } else {
         sender.run();
       }

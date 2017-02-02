@@ -29,6 +29,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /** Runnable to enable scheduling change cleanups to run periodically */
@@ -69,8 +70,10 @@ public class ChangeCleanupRunner implements Runnable {
             "Ignoring invalid changeCleanup schedule configuration: %s",
             scheduleConfig));
       } else {
-        queue.getDefaultQueue().scheduleAtFixedRate(runner, delay,
-            interval, TimeUnit.MILLISECONDS);
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            queue.getDefaultQueue() .scheduleAtFixedRate(
+                runner, delay, interval, TimeUnit.MILLISECONDS);
       }
     }
 

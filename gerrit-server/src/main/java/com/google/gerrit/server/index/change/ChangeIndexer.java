@@ -57,6 +57,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -320,7 +321,9 @@ public class ChangeIndexer {
 
   private void reindexAfterIndexUpdate(Project.NameKey project, Change.Id id) {
     if (reindexAfterIndexUpdate) {
-      reindexIfStale(project, id);
+      // Don't retry indefinitely; if this fails the change will be stale.
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError = reindexIfStale(project, id);
     }
   }
 

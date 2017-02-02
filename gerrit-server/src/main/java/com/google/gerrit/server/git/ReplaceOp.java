@@ -399,7 +399,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       };
 
       if (requestScopePropagator != null) {
-        sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
+        sendEmailExecutor.execute(requestScopePropagator.wrap(sender));
       } else {
         sender.run();
       }

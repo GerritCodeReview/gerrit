@@ -18,6 +18,8 @@ limitations under the License.
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../styles/app-theme.html">
 
+<link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
+
 <link rel="import" href="./core/gr-error-manager/gr-error-manager.html">
 <link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
 <link rel="import" href="./core/gr-main-header/gr-main-header.html">
@@ -122,6 +124,9 @@ limitations under the License.
             params="[[params]]"
             on-account-detail-update="_handleAccountDetailUpdate">
         </gr-settings-view>
+      </template>
+      <template is="dom-if" if="[[_showAdminView]]" restamp="true">
+        <gr-admin-view path="[[_path]]"></gr-admin-view>
       </template>
       <div id="errorView" class="errorView" hidden>
         <div class="errorEmoji">[[_lastError.emoji]]</div>

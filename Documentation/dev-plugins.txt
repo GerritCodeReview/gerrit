@@ -2499,6 +2499,28 @@ public class MyPlugin implements ReviewerSuggestion {
 ----
 
 
+[[mail-filter]]
+== Mail Filter Plugins
+
+Gerrit provides an extension point that enables Plugins to discard incoming
+messages and prevent further processing by Gerrit.
+
+This can be used to implement spam checks, signature validations or organisation
+specific checks like IP filters.
+
+[source, java]
+----
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.mail.receive.MailMessage;
+
+public class MyPlugin implements MailFilter {
+  boolean shouldProcessMessage(MailMessage message) {
+    // Implement your filter logic here
+    return true;
+  }
+}
+----
+
 == SEE ALSO
 
 * link:js-api.html[JavaScript API]

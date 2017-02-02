@@ -245,7 +245,9 @@ public class CommitValidators {
         throw new CommitValidationException(errMsg, messages);
       } else {
         String v = idList.get(idList.size() - 1).trim();
-        if (!CHANGE_ID.matcher(v).matches()) {
+        // Reject Change-Ids with wrong format and invalid placeholder ID from
+        // Egit (I0000000000000000000000000000000000000000).
+        if (!CHANGE_ID.matcher(v).matches() || v.matches("^I00*$")) {
           String errMsg = String.format(INVALID_CHANGE_ID_MSG, sha1);
           messages.add(
             getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));

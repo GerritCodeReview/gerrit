@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "0c6e9d39_bbb797df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 2, 2017 11:38:46 AM",
+      "side": 1,
+      "message": "It does actually end up creating two separate thread groups whether unified or side by side.  This seemed like the easiest approach because the commentSide property gets passed from threadGroup -\u003e thread -\u003e comment.",
+      "parentUuid": "ce064df9_61d53486",
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb0c01c2_20121c7d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 1

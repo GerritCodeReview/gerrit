@@ -91,6 +91,17 @@
       });
     });
 
+    page('/admin/(.*)', loadUser, function(data) {
+      restAPI.getLoggedIn().then(function(loggedIn) {
+        if (loggedIn) {
+          data.params.view = 'gr-admin-view';
+          app.params = data.params;
+        } else {
+          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+        }
+      });
+    });
+
     function queryHandler(data) {
       data.params.view = 'gr-change-list-view';
       app.params = data.params;

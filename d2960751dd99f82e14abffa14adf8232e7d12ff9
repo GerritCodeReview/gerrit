@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1410b28_0995ebf3",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 1, 2017 10:58:13 PM",
+      "side": 1,
+      "message": "In this code, matric related data is also package visible.",
+      "revId": "d2960751dd99f82e14abffa14adf8232e7d12ff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

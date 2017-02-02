@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f53e5851_c5bc6387",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 2, 2017 11:37:46 AM",
+      "side": 1,
+      "message": "I\u0027d just use this regex expression inline, or move this to a longer lifetime.",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 21
+      },
+      "revId": "71bbd53a35a428df63f42c280ace4b524ae77be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

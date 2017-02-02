@@ -23,7 +23,7 @@ public class ChangeAttribute {
     public String branch;
     public String topic;
     public String id;
-    public int number;
+    public String number;
     public String subject;
     public AccountAttribute owner;
     public AccountAttribute assignee;

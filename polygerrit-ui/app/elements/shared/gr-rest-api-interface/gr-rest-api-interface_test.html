@@ -436,5 +436,19 @@ limitations under the License.
         done();
       });
     });
+
+    test('setAccountStatus', function(done) {
+      sandbox.stub(element, 'send').returns(Promise.resolve('OOO'));
+      sandbox.stub(element, 'getResponseObject')
+          .returns(Promise.resolve('OOO'));
+      element._cache['/accounts/self/detail'] = {};
+      element.setAccountStatus('OOO').then(function() {
+        assert.isTrue(element.send.calledWith('PUT', '/accounts/self/status',
+            {status: 'OOO'}));
+        assert.deepEqual(element._cache['/accounts/self/detail'],
+            {status: 'OOO'});
+        done();
+      });
+    });
   });
 </script>

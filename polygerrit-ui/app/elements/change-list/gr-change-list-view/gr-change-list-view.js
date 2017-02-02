@@ -138,13 +138,13 @@
       return loading || !this._changes || this._changes.length < changesPerPage;
     },
 
-    _handleNextPage() {
+    _handleNextPage: function() {
       if (this._hideNextArrow(this._offset)) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, 1, this._changesPerPage));
     },
 
-    _handlePreviousPage() {
+    _handlePreviousPage: function() {
       if (this._hidePrevArrow(this._offset)) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, -1, this._changesPerPage));

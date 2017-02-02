@@ -54,10 +54,22 @@ limitations under the License.
             class="value">
           <input
               is="iron-input"
+              id="nameInput"
               disabled="[[_saving]]"
-              on-keydown="_handleNameKeydown"
+              on-keydown="_handleKeydown"
               bind-value="{{_account.name}}">
         </span>
+      </section>
+      <section>
+        <span class="title">Status</span>
+        <span class="value">
+          <input
+              is="iron-input"
+              id="statusInput"
+              disabled="[[_saving]]"
+              on-keydown="_handleKeydown"
+              bind-value="{{_account.status}}">
+          </span>
       </section>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

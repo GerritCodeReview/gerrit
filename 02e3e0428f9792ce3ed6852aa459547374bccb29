@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "ce064df9_61d53486",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 2, 2017 11:13:06 AM",
+      "side": 1,
+      "message": "But, what value is passed here when it\u0027s unified? In unified, doesn\u0027t the thread group span both sides (with only individual threads being scoped to a particular side)?",
+      "parentUuid": "ce0d8304_ba6830c2",
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb0c01c2_20121c7d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 1
@@ -99,6 +117,24 @@
       "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d0fd0cc_79f272ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 2, 2017 11:13:06 AM",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "430e6f7b_4409a39d",
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

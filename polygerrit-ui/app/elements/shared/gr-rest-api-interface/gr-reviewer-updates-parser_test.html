@@ -39,6 +39,62 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('ignores changes without messages', function() {
+      var change = {};
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_filterRemovedMessages');
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_groupUpdates');
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_formatUpdates');
+      assert.strictEqual(GrReviewerUpdatesParser.parse(change), change);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._filterRemovedMessages.called);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._groupUpdates.called);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._formatUpdates.called);
+    });
+
+    test('ignores changes without reviewer updates', function() {
+      var change = {
+        messages: [],
+      };
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_filterRemovedMessages');
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_groupUpdates');
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_formatUpdates');
+      assert.strictEqual(GrReviewerUpdatesParser.parse(change), change);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._filterRemovedMessages.called);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._groupUpdates.called);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._formatUpdates.called);
+    });
+
+    test('ignores changes with empty reviewer updates', function() {
+      var change = {
+        messages: [],
+        reviewer_updates: [],
+      };
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_filterRemovedMessages');
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_groupUpdates');
+      sandbox.stub(
+          GrReviewerUpdatesParser.prototype, '_formatUpdates');
+      assert.strictEqual(GrReviewerUpdatesParser.parse(change), change);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._filterRemovedMessages.called);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._groupUpdates.called);
+      assert.isFalse(
+          GrReviewerUpdatesParser.prototype._formatUpdates.called);
+    });
+
     test('filter removed messages', function() {
       var change = {
           messages: [

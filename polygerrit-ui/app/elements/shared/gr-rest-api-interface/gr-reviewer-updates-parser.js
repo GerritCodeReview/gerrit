@@ -24,7 +24,10 @@
   };
 
   GrReviewerUpdatesParser.parse = function(change) {
-    if (!change.messages || !change.reviewer_updates) {
+    if (!change ||
+        !change.messages ||
+        !change.reviewer_updates ||
+        !change.reviewer_updates.length) {
       return change;
     }
     var parser = new GrReviewerUpdatesParser(change);

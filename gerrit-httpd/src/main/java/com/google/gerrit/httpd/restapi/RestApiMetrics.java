@@ -50,7 +50,7 @@ public class RestApiMetrics {
 
     errorCount = metrics.newCounter(
         "http/server/rest_api/error_count",
-        new Description("REST API calls by view")
+        new Description("REST API errors by view")
           .setRate(),
         view,
         Field.ofInteger("error_code", "HTTP status code"));

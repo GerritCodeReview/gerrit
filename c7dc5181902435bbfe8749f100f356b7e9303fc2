@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4864b89b_1f1924de",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 2, 2017 11:03:20 AM",
+      "side": 1,
+      "message": "Nitpicking the wording: What about...\n\n  This page is not yet implemented in PolyGerrit.\n\nThat way, if we end up in a state where some parts of admin are implemented, but not all, we can have a consistent not-yet-implemented message. What do you think?",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 61
+      },
+      "revId": "c7dc5181902435bbfe8749f100f356b7e9303fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0095c9c5_8c0fad1f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 2, 2017 11:03:20 AM",
+      "side": 1,
+      "message": "Nit: Quotes are not needed around the property key.",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 12
+      },
+      "revId": "c7dc5181902435bbfe8749f100f356b7e9303fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

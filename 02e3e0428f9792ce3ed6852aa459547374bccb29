@@ -79,6 +79,24 @@
     },
     {
       "key": {
+        "uuid": "e4e8e371_85c9fcbf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 2, 2017 3:55:25 PM",
+      "side": 1,
+      "message": "So, I was actually kind of wrong in my previous response. We were storing a commentSide, but it was never really used, because the query was just finding one per content area. I\u0027m getting rid of the concept of commentSide at the thread group level and only introducing it at the thread level.",
+      "parentUuid": "0c6e9d39_bbb797df",
+      "revId": "02e3e0428f9792ce3ed6852aa459547374bccb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb0c01c2_20121c7d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
         "patchSetId": 1

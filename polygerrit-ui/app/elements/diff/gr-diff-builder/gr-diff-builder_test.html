@@ -962,7 +962,11 @@ limitations under the License.
         assert.equal(result, expected);
 
         input = '& < > " \' / `';
-        expected = '&amp; &lt; &gt; &quot; &#39; &#x2F; &#96;';
+
+        // \u0026 is an ampersand. This is being used here instead of &
+        // because of the gjslinter.
+        expected = '\u0026amp; \u0026lt; \u0026gt; \u0026quot;' +
+          ' \u0026#39; \u0026#x2F; \u0026#96;';
         result = GrDiffBuilder.prototype._escapeHTML(input);
         assert.equal(result, expected);
       });

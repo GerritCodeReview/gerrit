@@ -22,6 +22,30 @@
       "revId": "2dc83f09fdcad3f50e84f04200ee6ef87f19d35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e880ae92_8fbc002d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "Feb 2, 2017 4:10:23 AM",
+      "side": 1,
+      "message": "They should. In your testing environment, do you have plugins? Are you sure that all all instances are created by Gerrit injections stack, plugins have their own injection stack that could cause a Singleton to be created more than once.",
+      "parentUuid": "da78309f_1a180d73",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "2dc83f09fdcad3f50e84f04200ee6ef87f19d35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

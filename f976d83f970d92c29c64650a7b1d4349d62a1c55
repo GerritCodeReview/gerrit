@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be85613_81fdff43",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 3, 2017 12:43:37 PM",
+      "side": 1,
+      "message": "Minor, opinionated nit: With such simple return objects, and with nothing shared across branches, I personally prefer having each if-else branch with its own return statement that creates the object. Definitely not a blocker.",
+      "revId": "f976d83f970d92c29c64650a7b1d4349d62a1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb894809_c8493bbc",
+        "filename": "polygerrit-ui/app/elements/change/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 3, 2017 12:43:37 PM",
+      "side": 1,
+      "message": "Why the change to angle brackets here? In the other two branches, we have parens around statuses, and angle brackets around emails. Labeling a suggestion as a group seems more similar to being a status than an email.",
+      "range": {
+        "startLine": 84,
+        "startChar": 39,
+        "endLine": 84,
+        "endChar": 46
+      },
+      "revId": "f976d83f970d92c29c64650a7b1d4349d62a1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea9c5d6c_abd4b644",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 3, 2017 12:43:37 PM",
+      "side": 1,
+      "message": "It looks like this isn\u0027t used as of this change. Maybe include this whenever we add code that uses it?",
+      "revId": "f976d83f970d92c29c64650a7b1d4349d62a1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -728,6 +728,23 @@
           this._getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum);
       promises.push(this.fetchJSON(url).then(function(response) {
         comments = response[opt_path] || [];
+
+        // TODO(kaspern): Implement this on in the backend so this can be
+        // removed.
+
+        // Sort comments by date so that parent ranges can be propagated in a 
+        // single pass.
+        comments = comments.sort(function(a, b) {
+          return a.updated > b.updated;
+        });
+        comments.forEach(function(comment){
+          if (comment.in_reply_to && !comment.range) {
+            comment.range = comments.filter(function(c) {
+              return c.id === comment.in_reply_to;
+            })[0].range;
+          }
+        });
+
         if (opt_basePatchNum == PARENT_PATCH_NUM) {
           baseComments = comments.filter(onlyParent);
           baseComments.forEach(setPath);

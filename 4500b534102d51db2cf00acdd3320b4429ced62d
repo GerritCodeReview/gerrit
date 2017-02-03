@@ -22,6 +22,24 @@
       "revId": "4500b534102d51db2cf00acdd3320b4429ced62d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e807a06c_0ba4d41f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 3, 2017 2:28:57 PM",
+      "side": 1,
+      "message": "compact works.  because the buttons are gone, the extra space is excessive.  We end adding the short/compact class to all but a draft item if it is at the end. I believe in this context it\u0027s only paragraphs? but I might be wrong..",
+      "parentUuid": "979fee74_016a67ae",
+      "revId": "4500b534102d51db2cf00acdd3320b4429ced62d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

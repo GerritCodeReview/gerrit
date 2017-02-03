@@ -314,6 +314,43 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       assertThat(cm.message).isEqualTo(
           "Uploaded patch set 1.\nmy test message");
     }
+    Collection<RevisionInfo> revisions = ci.revisions.values();
+    assertThat(revisions).hasSize(1);
+    for (RevisionInfo ri : revisions) {
+      assertThat(ri.description).isEqualTo("my test message");
+    }
+  }
+
+  @Test
+  public void pushForMasterWithMessageTwiceWithDifferentMessages()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+
+    PushOneCommit push =
+        pushFactory
+            .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+                "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master/%m=my_test_message");
+    r.assertOkStatus();
+
+    push =
+        pushFactory
+          .create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
+              "b.txt", "anotherContent", r.getChangeId());
+    r = push.to("refs/for/master/%m=new_test_message");
+    r.assertOkStatus();
+
+    ChangeInfo ci = get(r.getChangeId());
+    Collection<RevisionInfo> revisions = ci.revisions.values();
+    assertThat(revisions).hasSize(2);
+    for (RevisionInfo ri: revisions) {
+      if (ri.isCurrent) {
+        assertThat(ri.description).isEqualTo("new test message");
+      } else {
+        assertThat(ri.description).isEqualTo("my test message");
+      }
+    }
+>>>>>>> ab494aa363... Test Change-Ids checks on push with CreateNewChangeForAllNotInTarget
   }
 
   @Test
@@ -561,9 +598,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void createNewChangeForAllNotInTarget() throws Exception {
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
-    saveProjectConfig(project, config);
+    enableCreateNewChangeForAllNotInTarget();
 
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT,
@@ -660,6 +695,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithoutChangeId() throws Exception {
+    testPushWithoutChangeId();
+  }
+
+  @Test
+  public void pushWithoutChangeIdWithCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testPushWithoutChangeId();
+  }
+
+  private void testPushWithoutChangeId() throws Exception {
     RevCommit c = createCommit(testRepo, "Message without Change-Id");
     assertThat(GitUtil.getChangeId(testRepo, c).isPresent()).isFalse();
     pushForReviewRejected(testRepo,
@@ -673,6 +719,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithMultipleChangeIds() throws Exception {
+    testPushWithMultipleChangeIds();
+  }
+
+  @Test
+  public void pushWithMultipleChangeIdsWithCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testPushWithMultipleChangeIds();
+  }
+
+  private void testPushWithMultipleChangeIds() throws Exception {
     createCommit(testRepo,
         "Message with multiple Change-Id\n"
             + "\n"
@@ -690,6 +747,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithInvalidChangeId() throws Exception {
+    testpushWithInvalidChangeId();
+  }
+
+  @Test
+  public void pushWithInvalidChangeIdWithCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testpushWithInvalidChangeId();
+  }
+
+  private void testpushWithInvalidChangeId() throws Exception {
     createCommit(testRepo, "Message with invalid Change-Id\n"
         + "\n"
         + "Change-Id: X\n");
@@ -705,6 +773,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithInvalidChangeIdFromEgit() throws Exception {
+    testPushWithInvalidChangeIdFromEgit();
+  }
+
+  @Test
+  public void pushWithInvalidChangeIdFromEgitWithCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testPushWithInvalidChangeIdFromEgit();
+  }
+
+  private void testPushWithInvalidChangeIdFromEgit() throws Exception {
     createCommit(testRepo, "Message with invalid Change-Id\n"
         + "\n"
         + "Change-Id: I0000000000000000000000000000000000000000\n");
@@ -981,5 +1060,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     if (expectedMessage != null) {
       assertThat(refUpdate.getMessage()).contains(expectedMessage);
     }
+  }
+
+  private void enableCreateNewChangeForAllNotInTarget() throws Exception {
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject()
+        .setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
+    saveProjectConfig(project, config);
   }
 }

@@ -436,5 +436,13 @@ limitations under the License.
         done();
       });
     });
+
+    test('addCommentRange', function(){
+      comments = [{id: 123, range: 'range'}, {id: 234, in_reply_to: 123}];
+      comments.forEach(element._addCommentRange);
+      assert.deepEqual(comments, [{id: 123, range: 'range'},
+          {id: 234, in_reply_to: 123, range: 'range'}]);
+    });
+
   });
 </script>

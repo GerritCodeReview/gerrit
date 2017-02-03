@@ -67,9 +67,13 @@ import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -135,6 +139,9 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   protected Injector injector;
   private String systemTimeZone;
 
+  private static final DisabledGitReferenceUpdated DISABLED =
+      new DisabledGitReferenceUpdated();
+
   @Before
   public void setUp() throws Exception {
     setTimeForTesting();
@@ -182,8 +189,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
         bind(AccountCache.class).toInstance(accountCache);
         bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
             .toInstance(serverIdent);
-        bind(GitReferenceUpdated.class)
-            .toInstance(GitReferenceUpdated.DISABLED);
+        bind(GitReferenceUpdated.class).toInstance(DISABLED);
         bind(MetricMaker.class).to(DisabledMetricMaker.class);
         bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
       }
@@ -275,5 +281,30 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
 
   protected static Timestamp after(Change c, long millis) {
     return new Timestamp(c.getCreatedOn().getTime() + millis);
+  }
+
+  private static class DisabledGitReferenceUpdated extends GitReferenceUpdated {
+    DisabledGitReferenceUpdated() {
+      super(null, null);
+    }
+    @Override
+    public void fire(Project.NameKey project, RefUpdate refUpdate,
+        ReceiveCommand.Type type, Account updater) {}
+
+    @Override
+    public void fire(Project.NameKey project, RefUpdate refUpdate,
+        Account updater) {}
+
+    @Override
+    public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
+        ObjectId newObjectId, Account updater) {}
+
+    @Override
+    public void fire(Project.NameKey project, ReceiveCommand cmd,
+        Account updater) {}
+
+    @Override
+    public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
+        Account updater) {}
   }
 }

@@ -28,41 +28,14 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class GitReferenceUpdated {
-  public static final GitReferenceUpdated DISABLED = new GitReferenceUpdated() {
-    @Override
-    public void fire(Project.NameKey project, RefUpdate refUpdate,
-        ReceiveCommand.Type type, Account updater) {}
-
-    @Override
-    public void fire(Project.NameKey project, RefUpdate refUpdate,
-        Account updater) {}
-
-    @Override
-    public void fire(Project.NameKey project, String ref, ObjectId oldObjectId,
-        ObjectId newObjectId, Account updater) {}
-
-    @Override
-    public void fire(Project.NameKey project, ReceiveCommand cmd,
-        Account updater) {}
-
-    @Override
-    public void fire(Project.NameKey project, BatchRefUpdate batchRefUpdate,
-        Account updater) {}
-  };
-
   private final DynamicSet<GitReferenceUpdatedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners,
+  protected GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners,
       EventUtil util) {
     this.listeners = listeners;
     this.util = util;
-  }
-
-  private GitReferenceUpdated() {
-    this.listeners = null;
-    this.util = null;
   }
 
   public void fire(Project.NameKey project, RefUpdate refUpdate,

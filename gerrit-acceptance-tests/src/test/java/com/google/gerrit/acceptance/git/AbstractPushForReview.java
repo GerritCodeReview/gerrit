@@ -586,6 +586,32 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushChangeBasedOnChangeOfOtherUserWithCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+
+    // create a change as admin
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo,
+        PushOneCommit.SUBJECT, "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    RevCommit commitChange1 = r.getCommit();
+
+    // create a second change as user (depends on the change from admin)
+    TestRepository<?> userRepo = cloneProject(project, user);
+    GitUtil.fetch(userRepo, r.getPatchSet().getRefName() + ":change");
+    userRepo.reset("change");
+    push = pushFactory.create(db, user.getIdent(), userRepo,
+        PushOneCommit.SUBJECT, "b.txt", "anotherContent");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert that no new change was created for the commit of the predecessor
+    // change
+    assertThat(query(commitChange1.name())).hasSize(1);
+  }
+
+  @Test
   public void pushSameCommitTwiceUsingMagicBranchBaseOption()
       throws Exception {
     grant(Permission.PUSH, project, "refs/heads/master");

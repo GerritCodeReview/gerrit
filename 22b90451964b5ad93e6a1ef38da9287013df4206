@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a491f3a_7d393db5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "In this class, I follow the same rule in \"ProjectWatchInfo.java\". Should I change this to follow the normal rule or we\u0027d better keep consistent?",
+      "parentUuid": "30f42261_d96ac741",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5c2f5ba_4574a9a4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "Feb 3, 2017 6:58:44 AM",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 22,
+        "startChar": 29,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "645529eb_ee7cc643",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "same above.",
+      "parentUuid": "d5c2f5ba_4574a9a4",
       "range": {
         "startLine": 22,
         "startChar": 29,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "500ce7f7_8d31954e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "same above.",
+      "parentUuid": "14bf2d49_8103b7d8",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d6f86b6_6ac31b84",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "Feb 3, 2017 6:58:44 AM",
       "side": 1,
       "message": "Isn\u0027t this the same as simply this[\u0027trusted\u0027]?",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da4e8bab_d87c7828",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "this[\u0027trusted\u0027] has three possibilities: true, false, undefined. If we return \u0027this[\u0027trusted\u0027]\u0027 directly, what will happen if it\u0027s undefined?",
+      "parentUuid": "0d6f86b6_6ac31b84",
       "range": {
         "startLine": 25,
         "startChar": 16,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "0e3729a1_65f51297",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "same.",
+      "parentUuid": "205032e3_72a316ce",
+      "range": {
+        "startLine": 27,
+        "startChar": 16,
+        "endLine": 27,
+        "endChar": 49
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89ee9b65_943bfffc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "Feb 3, 2017 6:58:44 AM",
       "side": 1,
       "message": "This class should be an enum.",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5d3892_1175d82b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89ee9b65_943bfffc",
       "range": {
         "startLine": 19,
         "startChar": 7,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "ba323bb3_7b472cc4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a21dc8d_4210db79",
+      "range": {
+        "startLine": 21,
+        "startChar": 80,
+        "endLine": 21,
+        "endChar": 82
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0cbd9df9_36cc3c8b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -174,6 +342,30 @@
       "writtenOn": "Feb 3, 2017 6:58:44 AM",
       "side": 1,
       "message": "According to the Google Java Style Guide [1], the \u003cp\u003e is placed immediately before the first word of the next paragraph.\n\n[1] https://google.github.io/styleguide/javaguide.html#s7.1.2-javadoc-paragraphs",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77c87e83_94e44b4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cbd9df9_36cc3c8b",
       "range": {
         "startLine": 23,
         "startChar": 5,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "ba3b82a1_1d6705c7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "These comments are copied from \u0027AccountExternalId.java\u0027. I will improve here.",
+      "parentUuid": "8708f8a0_1dad96b6",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "108ca7e1_e754f27a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -220,6 +436,30 @@
       "writtenOn": "Feb 3, 2017 6:58:44 AM",
       "side": 1,
       "message": "What about \"stripScheme\" as method name?",
+      "range": {
+        "startLine": 38,
+        "startChar": 23,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3d81a6a_485b51e9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "This function and followings are directly copied from \u0027AccountExternalId.java\u0027 as Edwin told me that we should not access back-end class from client. But I should have improve them. :)",
+      "parentUuid": "108ca7e1_e754f27a",
       "range": {
         "startLine": 38,
         "startChar": 23,
@@ -255,6 +495,30 @@
     },
     {
       "key": {
+        "uuid": "fc79d8e7_32b1b7cd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "Actually, I think this should be fine?\n1- If we can\u0027t find \":\" in \"externalId\", then scheme \u003d null,OK.\n2- If we do have an input like \"gerrit:\", then scheme.length() + 1 \u003d externalId.length(). Then return \"\". See [1].\n\n[1]https://docs.oracle.com/javase/7/docs/api/java/lang/String.html#substring(int)",
+      "parentUuid": "111aca10_2326a54a",
+      "range": {
+        "startLine": 41,
+        "startChar": 10,
+        "endLine": 41,
+        "endChar": 51
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e76370d4_b2d40f5d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -266,6 +530,30 @@
       "writtenOn": "Feb 3, 2017 6:58:44 AM",
       "side": 1,
       "message": "Single-letter variables should be avoided except for special situations like e.g. loops. Please use a more meaningful name.",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 46,
+        "endChar": 9
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c22fc101_3cd45ebf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "OK. I will change it.",
+      "parentUuid": "e76370d4_b2d40f5d",
       "range": {
         "startLine": 46,
         "startChar": 8,
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "579914d1_f63af1f0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "I will check again whether this is necessary. It\u0027s been used like this in other places like \u0027MyWatchedProjectsScreen.java\u0027.",
+      "parentUuid": "d52b03ae_9299acfb",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a360f8ec_7de583af",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3
@@ -312,6 +624,30 @@
       "writtenOn": "Feb 3, 2017 6:58:44 AM",
       "side": 1,
       "message": "optional: Could be replaced with idList.sort().",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 29
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21bb9db6_d461068c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a360f8ec_7de583af",
       "range": {
         "startLine": 173,
         "startChar": 6,
@@ -347,6 +683,30 @@
     },
     {
       "key": {
+        "uuid": "6d9a7005_06b57007",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "757a12b3_053d4fbe",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 9
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d393374_ff7cc40b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3
@@ -370,6 +730,30 @@
     },
     {
       "key": {
+        "uuid": "039e38e3_484d6523",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "I will have a try for this.",
+      "parentUuid": "0d393374_ff7cc40b",
+      "range": {
+        "startLine": 235,
+        "startChar": 19,
+        "endLine": 235,
+        "endChar": 27
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "872e8a34_f1cb3022",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3
@@ -381,6 +765,30 @@
       "writtenOn": "Feb 3, 2017 6:58:44 AM",
       "side": 1,
       "message": "Why is this (as well as URL_LAUNCHPAD and URL_YAHOO) not a value of ExternalIdScheme?",
+      "range": {
+        "startLine": 250,
+        "startChar": 10,
+        "endLine": 250,
+        "endChar": 49
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df3cfbd5_f51e32d9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 3, 2017 7:40:06 AM",
+      "side": 1,
+      "message": "I don\u0027t know why the old code check these and there are other possible scheme never checked.",
+      "parentUuid": "872e8a34_f1cb3022",
       "range": {
         "startLine": 250,
         "startChar": 10,

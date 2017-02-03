@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.UserScopedEventListener;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
@@ -136,6 +137,7 @@ import com.google.gerrit.server.group.GroupInfoCache;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.change.ReindexAfterUpdate;
 import com.google.gerrit.server.mail.EmailModule;
+import com.google.gerrit.server.mail.ListMailFilter;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
@@ -367,7 +369,6 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), DownloadCommand.class);
     DynamicMap.mapOf(binder(), CloneCommand.class);
     DynamicMap.mapOf(binder(), ReviewerSuggestion.class);
-    DynamicMap.mapOf(binder(), MailFilter.class);
     DynamicSet.setOf(binder(), ExternalIncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
@@ -384,6 +385,10 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), AccountPatchReviewStore.class);
     DynamicSet.setOf(binder(), AssigneeValidationListener.class);
     DynamicSet.setOf(binder(), ActionVisitor.class);
+
+    DynamicMap.mapOf(binder(), MailFilter.class);
+    bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter"))
+        .to(ListMailFilter.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

@@ -786,7 +786,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertThat(last).startsWith(
           "Change has been successfully cherry-picked as ");
     } else if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
-      assertThat(last).startsWith("Change has been successfully rebased as");
+      assertThat(last).startsWith(
+          "Change has been successfully rebased and submitted as");
     } else {
       assertThat(last).isEqualTo(
           "Change has been successfully merged by Administrator");

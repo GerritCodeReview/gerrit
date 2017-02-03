@@ -23,7 +23,7 @@ public enum CommitMergeStatus {
 
   CLEAN_PICK("Change has been successfully cherry-picked"),
 
-  CLEAN_REBASE("Change has been successfully rebased"),
+  CLEAN_REBASE("Change has been successfully rebased and submitted"),
 
   ALREADY_MERGED(""),
 

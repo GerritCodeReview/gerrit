@@ -44,6 +44,26 @@ limitations under the License.
       .cell {
         padding: .3em .5em;
       }
+      .container {
+        position: relative;
+      }
+      .content {
+        max-width: 100%;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .content a {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .spacer {
+        height: 0;
+        overflow: hidden;
+      }
       a {
         color: var(--default-text-color);
         display: block;
@@ -88,7 +108,15 @@ limitations under the License.
     </td>
     <td class="cell subject"
         hidden$="[[isColumnHidden('Subject', visibleChangeTableColumns)]]">
-      <a href$="[[changeURL]]">[[change.subject]]</a>
+      <div class="container">
+        <div class="content">
+           <a href$="[[changeURL]]">[[change.subject]]</a>
+        </div>
+        <div class="spacer">
+           [[change.subject]]
+        </div>
+        <span>&nbsp;</span>
+      </div>
     </td>
     <td class="cell status"
         hidden$="[[isColumnHidden('Status', visibleChangeTableColumns)]]">

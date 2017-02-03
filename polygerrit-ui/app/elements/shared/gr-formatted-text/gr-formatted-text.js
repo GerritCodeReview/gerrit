@@ -22,6 +22,11 @@
     properties: {
       content: String,
       config: Object,
+      noTrailingMargin: {
+        type: Booleam,
+        value: fale,
+        reflectToAttribute: true,
+      },
     },
 
     observers: [

@@ -29,6 +29,12 @@ limitations under the License.
       gr-linked-text.pre {
         margin: 0 0 1.4em 0;
       }
+      :host[no-trailing-margin] p:last-child,
+      :host[no-trailing-margin] ul:last-child,
+      :host[no-trailing-margin] blockquote:last-child,
+      :host[no-trailing-margin] gr-linked-text.pre:last-child {
+        margin: 0;
+      }
       blockquote {
         border-left: 1px solid #aaa;
         padding: 0 .7em;

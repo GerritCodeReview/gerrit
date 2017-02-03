@@ -22,11 +22,21 @@
     properties: {
       content: String,
       config: Object,
+      noTrailingMargin: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     observers: [
       '_contentOrConfigChanged(content, config)',
     ],
+
+    ready: function() {
+      if (this.noTrailingMargin) {
+        this.classList.add('noTrailingMargin');
+      }
+    },
 
     /**
      * Get the plain text as it appears in the generated DOM.

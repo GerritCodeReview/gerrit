@@ -1,14 +1,5 @@
 = Gerrit Code Review - Building with Bazel
 
-Bazel is the tool for building Gerrit.
-It has been recently introduced and, apart from the custom non-core plugins,
-all the components have been adapted to use Bazel.
-
-Nice to have:
-
-* JGit build from local tree.
-* coverage
-
 [[installation]]
 == Installation
 

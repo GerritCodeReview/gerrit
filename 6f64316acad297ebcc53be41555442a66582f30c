@@ -22,6 +22,24 @@
       "revId": "6f64316acad297ebcc53be41555442a66582f30c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22571f0f_70dab0d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 3, 2017 3:20:13 PM",
+      "side": 0,
+      "message": "It\u0027s not synchronized with the length of shownFiles, it gets initialized to 75 and can be incremented when the link to show more files is tapped. As such, it\u0027s never smaller than 75.\n\nMaybe this is the bug that needs to be fixed. Alternatively, maybe it\u0027s just confusingly named. A clearer name might be ...\n\n  maxInitialNumFilesShown",
+      "parentUuid": "f3e54baf_81c0e20b",
+      "revId": "6f64316acad297ebcc53be41555442a66582f30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

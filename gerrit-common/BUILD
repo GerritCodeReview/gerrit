@@ -60,13 +60,11 @@ java_library(
 
 TEST = "src/test/java/com/google/gerrit/common/"
 
-AUTO_VALUE_TEST_SRCS = [TEST + "AutoValueTest.java"]
 
 junit_tests(
     name = "client_tests",
     srcs = glob(
         ["src/test/java/**/*.java"],
-        exclude = AUTO_VALUE_TEST_SRCS,
     ),
     deps = [
         ":client",
@@ -76,11 +74,3 @@ junit_tests(
     ],
 )
 
-junit_tests(
-    name = "auto_value_tests",
-    srcs = AUTO_VALUE_TEST_SRCS,
-    deps = [
-        "//lib:truth",
-        "//lib/auto:auto-value",
-    ],
-)

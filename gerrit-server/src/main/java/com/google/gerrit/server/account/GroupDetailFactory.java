@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.GroupInfoCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -86,8 +87,11 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
 
   private List<AccountGroupMember> loadMembers() throws OrmException {
     List<AccountGroupMember> members = new ArrayList<>();
+    boolean canSeeMembers = control.canSeeMembers();
+    CurrentUser user = control.getUser();
     for (AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
-      if (control.canSeeMember(m.getAccountId())) {
+      if (canSeeMembers || user.isIdentifiedUser()
+          && user.getAccountId().equals(m.getAccountId())) {
         aic.want(m.getAccountId());
         members.add(m);
       }

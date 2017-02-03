@@ -176,7 +176,7 @@ public class GroupControl {
     return canSeeMembers();
   }
 
-  private boolean canSeeMembers() {
+  public boolean canSeeMembers() {
     AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
     return (accountGroup != null && accountGroup.isVisibleToAll())
         || isOwner();

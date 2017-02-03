@@ -536,38 +536,39 @@ maven_jar(
     sha1 = "0c9cfae15c74f62491d4f28def0dff1dabe52a47",
 )
 
-PROLOG_VERS = "1.4.2"
+PROLOG_VERS = "1.4.3"
+PROLOG_REPO = GERRIT
 
 maven_jar(
     name = "prolog_runtime",
     artifact = "com.googlecode.prolog-cafe:prolog-runtime:" + PROLOG_VERS,
     attach_source = False,
-    repository = GERRIT,
-    sha1 = "4421b4806b6e3a318680f6ab1d57569e857169c6",
+    repository = PROLOG_REPO,
+    sha1 = "d5206556cbc76ffeab21313ffc47b586a1efbcbb",
 )
 
 maven_jar(
     name = "prolog_compiler",
     artifact = "com.googlecode.prolog-cafe:prolog-compiler:" + PROLOG_VERS,
     attach_source = False,
-    repository = GERRIT,
-    sha1 = "7e5a7ca5efe7db7f69e015cf492f8f04665244d8",
+    repository = PROLOG_REPO,
+    sha1 = "f37032cf1dec3e064427745bc59da5a12757a3b2",
 )
 
 maven_jar(
     name = "prolog_io",
     artifact = "com.googlecode.prolog-cafe:prolog-io:" + PROLOG_VERS,
     attach_source = False,
-    repository = GERRIT,
-    sha1 = "d177f6211d1013e0f31a507127f5c87a7f6941f3",
+    repository = PROLOG_REPO,
+    sha1 = "d02b2640b26f64036b6ba2b45e4acc79281cea17",
 )
 
 maven_jar(
     name = "cafeteria",
     artifact = "com.googlecode.prolog-cafe:prolog-cafeteria:" + PROLOG_VERS,
     attach_source = False,
-    repository = GERRIT,
-    sha1 = "11f396cb2588b65e6a78070488aaa58d12bf000e",
+    repository = PROLOG_REPO,
+    sha1 = "e3b1860c63e57265e5435f890263ad82dafa724f",
 )
 
 maven_jar(

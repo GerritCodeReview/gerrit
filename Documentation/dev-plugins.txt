@@ -2217,6 +2217,9 @@ Metric recording time spent on an operation.
 +
 Metric recording statistical distribution (rate) of values.
 
+Note that metrics cannot be recorded from plugin init steps that
+are run during site initialization.
+
 Plugin metrics are recorded under `plugins/${plugin-name}/${metric-name}`.
 
 See the replication metrics in the

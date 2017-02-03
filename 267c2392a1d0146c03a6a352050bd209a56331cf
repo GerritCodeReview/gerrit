@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce98ec6c_6c3a3217",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 3, 2017 2:42:57 PM",
+      "side": 1,
+      "message": "Should this be removed?",
+      "revId": "267c2392a1d0146c03a6a352050bd209a56331cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

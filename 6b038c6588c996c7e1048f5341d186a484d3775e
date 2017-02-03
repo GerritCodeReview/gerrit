@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "963de54b_0f7f9a4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 3, 2017 3:44:03 PM",
+      "side": 1,
+      "message": "Okay, with that link everything makes sense. When I picked the number initially, I was using a large number of files, but not a large number of files that themselves had hundreds of new lines of code each. That user wants to load and highlight 30000+ lines of code and its surrounding context, which I\u0027d imagine is a reasonable use case, so I\u0027m very fine with lowering this number.\n\nAlso, just to be clear, the number was 225, not 255 😅",
+      "parentUuid": "f7219474_32089a6c",
+      "revId": "6b038c6588c996c7e1048f5341d186a484d3775e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e86b5b9_a6ac28be",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2

@@ -23,6 +23,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallAllPlugins;
@@ -274,6 +276,8 @@ public class BaseInit extends SiteProgram {
             LibraryDownload.class).toInstance(getSkippedDownloads());
         bind(Boolean.class).annotatedWith(
             LibraryDownload.class).toInstance(skipAllDownloads());
+
+        bind(MetricMaker.class).to(DisabledMetricMaker.class);
       }
     });
 

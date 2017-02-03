@@ -18,6 +18,7 @@
     is: 'gr-linked-text',
 
     properties: {
+      removeZeroWidthSpace: Boolean,
       content: {
         type: String,
         observer: '_contentChanged',
@@ -62,7 +63,7 @@
         } else if (fragment) {
           output.appendChild(fragment);
         }
-      });
+      }, this.removeZeroWidthSpace);
       parser.parse(content);
     },
   });

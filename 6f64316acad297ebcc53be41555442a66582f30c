@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3e54baf_81c0e20b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 3, 2017 1:34:46 PM",
+      "side": 0,
+      "message": "Why was numFilesShown inaccurate? Isn\u0027t it updated every time more files are shown?\n\nMore specifically, why does it differ from shownFiles.length?",
+      "range": {
+        "startLine": 652,
+        "startChar": 38,
+        "endLine": 652,
+        "endChar": 51
+      },
+      "revId": "6f64316acad297ebcc53be41555442a66582f30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

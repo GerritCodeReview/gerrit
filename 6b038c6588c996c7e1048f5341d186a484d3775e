@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5445531d_f917767f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 3, 2017 1:34:46 PM",
+      "side": 1,
+      "message": "Why exactly do we want to do this? Is there a corresponding bug report? Was this causing issues somewhere?",
+      "revId": "6b038c6588c996c7e1048f5341d186a484d3775e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e86b5b9_a6ac28be",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 3, 2017 1:34:46 PM",
+      "side": 1,
+      "message": "For aesthetics\u0027 sake, maybe we could consider shortening the var name maxFilesForBulkActions a bit so that a one line function doesn\u0027t have two lines of signature. Just a minor thought 😛",
+      "range": {
+        "startLine": 652,
+        "startChar": 4,
+        "endLine": 655,
+        "endChar": 6
+      },
+      "revId": "6b038c6588c996c7e1048f5341d186a484d3775e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

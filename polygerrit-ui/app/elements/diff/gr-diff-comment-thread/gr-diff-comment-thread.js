@@ -83,7 +83,7 @@
             lastComment.id || lastComment.__draftID);
         commentEl.editing = true;
       } else {
-        this.addDraft(opt_lineNum);
+        this.addDraft(opt_lineNum, lastComment.range);
       }
     },
 
@@ -159,7 +159,8 @@
           this._orderedComments[this._orderedComments.length - 1].id,
           parent.line,
           content,
-          opt_unresolved);
+          opt_unresolved,
+          parent.range);
 
       // If there is currently a comment in an editing state, add an attribute
       // so that the gr-diff-comment knows not to populate the draft text.
@@ -223,9 +224,11 @@
       return null;
     },
 
-    _newReply: function(inReplyTo, opt_lineNum, opt_message, opt_unresolved) {
+    _newReply: function(inReplyTo, opt_lineNum, opt_message, opt_unresolved,
+          opt_range) {
       var d = this._newDraft(opt_lineNum);
       d.in_reply_to = inReplyTo;
+      d.range = opt_range;
       if (opt_message != null) {
         d.message = opt_message;
       }

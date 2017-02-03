@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -45,14 +44,17 @@ public class Schema_120 extends SchemaVersion {
 
   private final GitRepositoryManager mgr;
   private final PersonIdent serverUser;
+  private final MetaDataUpdate.Server updateFactory;
 
   @Inject
   Schema_120(Provider<Schema_119> prior,
       GitRepositoryManager mgr,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      MetaDataUpdate.Server updateFactory) {
     super(prior);
     this.mgr = mgr;
     this.serverUser = serverUser;
+    this.updateFactory = updateFactory;
   }
 
   private void allowSubmoduleSubscription(Branch.NameKey subbranch,
@@ -60,8 +62,9 @@ public class Schema_120 extends SchemaVersion {
     try (Repository git = mgr.openRepository(subbranch.getParentKey());
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
-      try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
+      try (MetaDataUpdate md = updateFactory.create(
           subbranch.getParentKey(), git, bru)) {
+        md.setFireRefUpdate(false);
         md.getCommitBuilder().setAuthor(serverUser);
         md.getCommitBuilder().setCommitter(serverUser);
         md.setMessage("Added superproject subscription during upgrade");

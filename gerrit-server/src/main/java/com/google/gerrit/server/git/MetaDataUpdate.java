@@ -151,16 +151,25 @@ public class MetaDataUpdate implements AutoCloseable {
 
     public MetaDataUpdate create(Project.NameKey name)
         throws RepositoryNotFoundException, IOException {
-      return create(name, null);
+      return create(name, (BatchRefUpdate)null);
     }
 
     /** @see User#create(Project.NameKey, IdentifiedUser, BatchRefUpdate) */
     public MetaDataUpdate create(Project.NameKey name, BatchRefUpdate batch)
         throws RepositoryNotFoundException, IOException {
-      MetaDataUpdate md = factory.create(name, mgr.openRepository(name), batch);
+      return create(name, mgr.openRepository(name), batch);
+    }
+
+    public MetaDataUpdate create(Project.NameKey name, Repository repository,
+        BatchRefUpdate batch) {
+      MetaDataUpdate md = factory.create(name, repository, batch);
       md.getCommitBuilder().setAuthor(serverIdent);
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;
+    }
+
+    public MetaDataUpdate create(Project.NameKey name, Repository repository) {
+      return create(name, repository, null);
     }
   }
 
@@ -176,10 +185,11 @@ public class MetaDataUpdate implements AutoCloseable {
   private final CommitBuilder commit;
   private boolean allowEmpty;
   private boolean insertChangeId;
+  private boolean fireRefUpdate;
   private IdentifiedUser author;
 
   @AssistedInject
-  public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
+  private MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey projectName, @Assisted Repository db,
       @Assisted @Nullable BatchRefUpdate batch) {
     this.gitRefUpdated = gitRefUpdated;
@@ -187,11 +197,6 @@ public class MetaDataUpdate implements AutoCloseable {
     this.db = db;
     this.batch = batch;
     this.commit = new CommitBuilder();
-  }
-
-  public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
-      Project.NameKey projectName, Repository db) {
-    this(gitRefUpdated, projectName, db, null);
   }
 
   /** Set the commit message used when committing the update. */
@@ -212,6 +217,10 @@ public class MetaDataUpdate implements AutoCloseable {
 
   public void setInsertChangeId(boolean insertChangeId) {
     this.insertChangeId = insertChangeId;
+  }
+
+  public void setFireRefUpdate(boolean fireRefUpdate) {
+    this.fireRefUpdate = fireRefUpdate;
   }
 
   /** @return batch in which to run the update, or {@code null} for no batch. */
@@ -246,7 +255,9 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   protected void fireGitRefUpdatedEvent(RefUpdate ru) {
-    gitRefUpdated.fire(
-        projectName, ru, author == null ? null : author.getAccount());
+    if (fireRefUpdate) {
+      gitRefUpdated.fire(
+          projectName, ru, author == null ? null : author.getAccount());
+    }
   }
 }

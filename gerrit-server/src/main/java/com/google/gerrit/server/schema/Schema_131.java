@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -40,14 +39,17 @@ public class Schema_131 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
+  private final MetaDataUpdate.Server updateFactory;
 
   @Inject
   Schema_131(Provider<Schema_130> prior,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      MetaDataUpdate.Server updateFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.serverUser = serverUser;
+    this.updateFactory = updateFactory;
   }
 
   @Override
@@ -57,8 +59,8 @@ public class Schema_131 extends SchemaVersion {
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
     for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
-          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-              projectName, git)) {
+          MetaDataUpdate md = updateFactory.create(projectName, git)) {
+        md.setFireRefUpdate(false);
         ProjectConfig config = ProjectConfig.read(md);
         if (config.hasLegacyPermissions()) {
           md.getCommitBuilder().setAuthor(serverUser);

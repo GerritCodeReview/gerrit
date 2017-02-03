@@ -37,7 +37,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -58,6 +57,7 @@ public class AllProjectsCreator {
   private final GitRepositoryManager mgr;
   private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
+  private final MetaDataUpdate.Server updateFactory;
   private String message;
 
   private GroupReference admin;
@@ -71,10 +71,12 @@ public class AllProjectsCreator {
       GitRepositoryManager mgr,
       AllProjectsName allProjectsName,
       SystemGroupBackend systemGroupBackend,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      MetaDataUpdate.Server updateFactory) {
     this.mgr = mgr;
     this.allProjectsName = allProjectsName;
     this.serverUser = serverUser;
+    this.updateFactory = updateFactory;
 
     this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
@@ -115,10 +117,8 @@ public class AllProjectsCreator {
 
   private void initAllProjects(Repository git)
       throws IOException, ConfigInvalidException {
-    try (MetaDataUpdate md = new MetaDataUpdate(
-          GitReferenceUpdated.DISABLED,
-          allProjectsName,
-          git)) {
+    try (MetaDataUpdate md = updateFactory.create(allProjectsName, git)) {
+      md.setAllowEmpty(false);
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage(MoreObjects.firstNonNull(

@@ -27,7 +27,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys.SimpleSshKeyCreator;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -56,16 +55,19 @@ public class Schema_124 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
+  private final MetaDataUpdate.Server updateFactory;
 
   @Inject
   Schema_124(Provider<Schema_123> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      MetaDataUpdate.Server updateFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.serverUser = serverUser;
+    this.updateFactory = updateFactory;
   }
 
   @Override
@@ -105,8 +107,8 @@ public class Schema_124 extends SchemaVersion {
 
       for (Map.Entry<Account.Id, Collection<AccountSshKey>> e : imports.asMap()
           .entrySet()) {
-        try (MetaDataUpdate md = new MetaDataUpdate(
-                 GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
+        try (MetaDataUpdate md = updateFactory.create(allUsersName, git, bru)) {
+          md.setFireRefUpdate(false);
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
 

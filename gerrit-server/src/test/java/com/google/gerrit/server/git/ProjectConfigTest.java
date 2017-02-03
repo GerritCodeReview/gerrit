@@ -27,7 +27,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -68,6 +68,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
   private Repository db;
   private TestRepository<Repository> util;
+
+  @Inject
+  MetaDataUpdate.Server updateFactory;
 
   @Override
   @Before
@@ -291,10 +294,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
   private RevCommit commit(ProjectConfig cfg) throws IOException,
       MissingObjectException, IncorrectObjectTypeException {
-    try (MetaDataUpdate md = new MetaDataUpdate(
-          GitReferenceUpdated.DISABLED,
-          cfg.getProject().getNameKey(),
-          db)) {
+    try (MetaDataUpdate md = updateFactory.create(
+        cfg.getProject().getNameKey(), db)) {
+      md.setFireRefUpdate(false);
       util.tick(5);
       util.setAuthorAndCommitter(md.getCommitBuilder());
       md.setMessage("Edit\n");

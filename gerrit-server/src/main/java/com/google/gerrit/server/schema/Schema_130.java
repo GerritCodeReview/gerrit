@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -42,14 +41,17 @@ public class Schema_130 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
+  private final MetaDataUpdate.Server updateFactory;
 
   @Inject
   Schema_130(Provider<Schema_129> prior,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      MetaDataUpdate.Server updateFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.serverUser = serverUser;
+    this.updateFactory = updateFactory;
   }
 
   @Override
@@ -59,8 +61,8 @@ public class Schema_130 extends SchemaVersion {
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
     for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
-          MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-              projectName, git)) {
+          MetaDataUpdate md = updateFactory.create(projectName, git)) {
+        md.setFireRefUpdate(false);
         ProjectConfigSchemaUpdate cfg = ProjectConfigSchemaUpdate.read(md);
         cfg.removeForceFromPermission("pushTag");
         if (cfg.isUpdated()) {

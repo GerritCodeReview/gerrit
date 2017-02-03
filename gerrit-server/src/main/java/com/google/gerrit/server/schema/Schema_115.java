@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
@@ -57,16 +56,19 @@ public class Schema_115 extends SchemaVersion {
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
   private final PersonIdent serverUser;
+  private final MetaDataUpdate.Server updateFactory;
 
   @Inject
   Schema_115(Provider<Schema_114> prior,
       GitRepositoryManager mgr,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      MetaDataUpdate.Server updateFactory) {
     super(prior);
     this.mgr = mgr;
     this.allUsersName = allUsersName;
     this.serverUser = serverUser;
+    this.updateFactory = updateFactory;
   }
 
   @Override
@@ -154,8 +156,8 @@ public class Schema_115 extends SchemaVersion {
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       for (Map.Entry<Account.Id, DiffPreferencesInfo> e : imports.entrySet()) {
-        try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-            allUsersName, git, bru)) {
+        try (MetaDataUpdate md = updateFactory.create(allUsersName, git, bru)) {
+          md.setFireRefUpdate(false);
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
           VersionedAccountPreferences p =

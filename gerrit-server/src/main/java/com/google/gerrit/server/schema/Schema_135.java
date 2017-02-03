@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -51,25 +50,28 @@ public class Schema_135 extends SchemaVersion {
   private final AllProjectsName allProjectsName;
   private final SystemGroupBackend systemGroupBackend;
   private final PersonIdent serverUser;
+  private final MetaDataUpdate.Server updateFactory;
 
   @Inject
   Schema_135(Provider<Schema_134> prior,
       GitRepositoryManager repoManager,
       AllProjectsName allProjectsName,
       SystemGroupBackend systemGroupBackend,
-      @GerritPersonIdent PersonIdent serverUser) {
+      @GerritPersonIdent PersonIdent serverUser,
+      MetaDataUpdate.Server updateFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
     this.systemGroupBackend = systemGroupBackend;
     this.serverUser = serverUser;
+    this.updateFactory = updateFactory;
   }
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (Repository git = repoManager.openRepository(allProjectsName);
-        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-            allProjectsName, git)) {
+        MetaDataUpdate md = updateFactory.create(allProjectsName, git)) {
+      md.setFireRefUpdate(false);
       ProjectConfig config = ProjectConfig.read(md);
 
       AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);

@@ -296,7 +296,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     assertThat(ps2).isNotNull();
     assertThat(ps2.getRevision().get()).isEqualTo(rev2.name());
     assertThat(Iterables.getLast(info.messages).message)
-        .isEqualTo("Change has been successfully rebased as "
+        .isEqualTo("Change has been successfully rebased and submitted as "
             + rev2.name() + " by Administrator");
 
     try (Repository repo = repoManager.openRepository(project)) {

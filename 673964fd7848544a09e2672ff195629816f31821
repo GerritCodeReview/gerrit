@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eafa4297_d873727b",
+        "filename": "plugins/hooks",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 3, 2017 2:27:45 PM",
+      "side": 1,
+      "message": "I think this change is good to go aside from these additions.",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "673964fd7848544a09e2672ff195629816f31821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

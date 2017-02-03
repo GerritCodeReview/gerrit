@@ -174,6 +174,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
     setChangeSubjectHeader();
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
+    setHeader("X-Gerrit-Change-Number", "" + change.getChangeId());
     setChangeUrlHeader();
     setCommitIdHeader();
   }

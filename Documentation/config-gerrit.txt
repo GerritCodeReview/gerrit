@@ -3538,6 +3538,27 @@ immediately and will not have a fetch delay.
 +
 Defaults to false.
 
+[[receiveemail.filter.mode]]receiveemail.filter.mode::
++
+A black- and whitelist filter to filter incoming emails.
++
+If `OFF`, emails are not filtered by the list filter.
++
+If `WHITELIST`, only emails where a pattern from
+<<receiveemail.filter.patterns,receiveemail.filter.patterns>>
+matches 'From' will be processed.
++
+If `BLACKLIST`, only emails where no pattern from
+<<receiveemail.filter.patterns,receiveemail.filter.patterns>>
+matches 'From' will be processed.
++
+Defaults to `OFF`.
+
+[[receiveemail.filter.patterns]]receiveemail.filter.patterns::
++
+A list of regular expressions to match the email sender against. This can also
+be a list of addresses when regular expression characters are escaped.
+
 [[sendemail]]
 === Section sendemail
 

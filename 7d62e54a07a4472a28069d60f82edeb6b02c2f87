@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adb25ef_094969b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 3, 2017 2:28:56 PM",
+      "side": 0,
+      "message": "Is the test failure related to this change? I reverted this change and running the test 10 times in row all passed, with running LibreOffice compilation, that makes the time slower from 14 seconds without compilation of LibreOffice to ca. 45 seconds with LO copmile run in parallel.",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 10
+      },
+      "revId": "7d62e54a07a4472a28069d60f82edeb6b02c2f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

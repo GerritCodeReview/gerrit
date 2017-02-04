@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a9aedb0_91100d64",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 3, 2017 4:02:33 PM",
+      "side": 1,
+      "message": "Missing semicolon.",
+      "range": {
+        "startLine": 232,
+        "startChar": 16,
+        "endLine": 232,
+        "endChar": 25
+      },
+      "revId": "bdbeb6beeb80511969a38a4884a309bd272aa97a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0496afd_2f27e1f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 3, 2017 4:02:33 PM",
+      "side": 1,
+      "message": "I think maybe we ought to put this function up on line 723, or maybe elsewhere in the file, for formatting\u0027s sake.\n\nWould also like to see a TODO comment (you can assign it to me) to fix this on the backend so that we can eventually remove this fn call.",
+      "range": {
+        "startLine": 731,
+        "startChar": 25,
+        "endLine": 737,
+        "endChar": 9
+      },
+      "revId": "bdbeb6beeb80511969a38a4884a309bd272aa97a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

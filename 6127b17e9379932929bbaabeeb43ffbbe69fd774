@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab65cc65_af21badd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 3, 2017 4:11:49 PM",
+      "side": 1,
+      "message": "Canonically we add a username tag to this so that one can grep for their handle to find tasks.\n\n        // TODO(kaspern): Implement this on in the backend so this can be \n        // removed.",
+      "range": {
+        "startLine": 739,
+        "startChar": 11,
+        "endLine": 739,
+        "endChar": 15
+      },
+      "revId": "6127b17e9379932929bbaabeeb43ffbbe69fd774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

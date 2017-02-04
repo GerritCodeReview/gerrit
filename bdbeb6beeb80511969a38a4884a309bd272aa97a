@@ -81,6 +81,24 @@
       "revId": "bdbeb6beeb80511969a38a4884a309bd272aa97a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "837f64b1_4ceefa45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 3, 2017 4:14:34 PM",
+      "side": 1,
+      "message": "Just kidding, it doesn\u0027t have the context of comments when it\u0027s pulled out.",
+      "parentUuid": "087af752_b6ac7928",
+      "revId": "bdbeb6beeb80511969a38a4884a309bd272aa97a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

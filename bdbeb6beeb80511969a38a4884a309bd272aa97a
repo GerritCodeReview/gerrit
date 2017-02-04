@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "870849d4_0127ed14",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 3, 2017 4:10:05 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9aedb0_91100d64",
+      "revId": "bdbeb6beeb80511969a38a4884a309bd272aa97a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0496afd_2f27e1f2",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -45,6 +63,24 @@
       "revId": "bdbeb6beeb80511969a38a4884a309bd272aa97a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "087af752_b6ac7928",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 3, 2017 4:10:05 PM",
+      "side": 1,
+      "message": "I decided to pull it out to be a private method so that I could test the fn.",
+      "parentUuid": "c0496afd_2f27e1f2",
+      "revId": "bdbeb6beeb80511969a38a4884a309bd272aa97a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

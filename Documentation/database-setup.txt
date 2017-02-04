@@ -52,8 +52,8 @@ full rights on the newly created database:
 Visit PostgreSQL's link:http://www.postgresql.org/docs/9.1/interactive/index.html[documentation] for further information regarding
 using PostgreSQL.
 
-[[createdb_mysql]]
-=== MySQL
+[[createdb_mysql_and_mariadb]]
+=== MySQL / MariaDB
 
 This option is also more complicated than the H2 option. Just as with
 PostgreSQL it's also recommended for larger installations.
@@ -71,8 +71,32 @@ rights on it:
   FLUSH PRIVILEGES;
 ----
 
+To use the MariaDB connector for java please do the following
+
+----
+wget https://downloads.mariadb.com/Connectors/java/connector-java-1.5.7/mariadb-java-client-1.5.7.jar
+----
+
+and put mariadb-java-client-1.5.7.jar in <gerrit_install/lib
+
+then in etc/gerrit.config add the following
+----
+driver = org.mariadb.jdbc.Driver
+----
+
+then you will need to add
+
+----
+url = jdbc:mariadb://localhost/reviewdb
+----
+
+Replace reviewdb with your db name.
+
 Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
 information regarding using MySQL.
+
+Or visit MariaDB's link:https://mariadb.com/kb/en/mariadb/[documentation] for further
+information regarding using MariaDB.
 
 [[createdb_oracle]]
 === Oracle

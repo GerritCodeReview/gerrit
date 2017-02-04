@@ -38,7 +38,6 @@ public abstract class MailMessage {
   // Envelop Information
   public abstract Address from();
   public abstract ImmutableList<Address> to();
-  @Nullable
   public abstract ImmutableList<Address> cc();
   // Metadata
   public abstract DateTime dateReceived();

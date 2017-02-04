@@ -70,6 +70,30 @@
       "revId": "4255df1f4960ac492cac7d4c903d7ae1dddfcf7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da380f95_6ed5b054",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Feb 4, 2017 11:15:25 AM",
+      "side": 1,
+      "message": "Oh, mysql worked :)",
+      "parentUuid": "740270d3_92f24ec7",
+      "range": {
+        "startLine": 84,
+        "startChar": 17,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "4255df1f4960ac492cac7d4c903d7ae1dddfcf7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

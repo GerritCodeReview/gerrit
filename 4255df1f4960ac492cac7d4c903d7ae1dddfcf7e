@@ -22,6 +22,30 @@
       "revId": "4255df1f4960ac492cac7d4c903d7ae1dddfcf7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45a36bb3_ddf19148",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Feb 4, 2017 10:07:12 AM",
+      "side": 1,
+      "message": "I doint think so as i presume mysql will then load the driver type.",
+      "parentUuid": "6196560a_6eeabe09",
+      "range": {
+        "startLine": 84,
+        "startChar": 17,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "4255df1f4960ac492cac7d4c903d7ae1dddfcf7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

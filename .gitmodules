@@ -1,20 +1,20 @@
 [submodule "modules/jgit"]
 	path = modules/jgit
-	url = ../jgit
+	url = https://gerrit.googlesource.com/jgit
 
 [submodule "plugins/codemirror-editor"]
 	path = plugins/codemirror-editor
-	url = ../plugins/codemirror-editor
+	url = https://gerrit.googlesource.com/plugins/codemirror-editor
 	branch = .
 
 [submodule "plugins/commit-message-length-validator"]
 	path = plugins/commit-message-length-validator
-	url = ../plugins/commit-message-length-validator
+	url = https://gerrit.googlesource.com/plugins/commit-message-length-validator
 	branch = .
 
 [submodule "plugins/delete-project"]
 	path = plugins/delete-project
-	url = ../plugins/delete-project
+	url = https://gerrit.googlesource.com/plugins/delete-project
 	branch = .
 
 [submodule "plugins/download-commands"]
@@ -24,40 +24,40 @@
 
 [submodule "plugins/gitiles"]
 	path = plugins/gitiles
-	url = ../plugins/gitiles
+	url = https://gerrit.googlesource.com/plugins/gitiles
 	branch = .
 
 [submodule "plugins/hooks"]
 	path = plugins/hooks
-	url = ../plugins/hooks
+	url = https://gerrit.googlesource.com/plugins/hooks
 	branch = .
 
 [submodule "plugins/plugin-manager"]
 	path = plugins/plugin-manager
-	url = ../plugins/plugin-manager
+	url = https://gerrit.googlesource.com/plugins/plugin-manager
 	branch = .
 
 [submodule "plugins/replication"]
 	path = plugins/replication
-	url = ../plugins/replication
+	url = https://gerrit.googlesource.com/plugins/replication
 	branch = .
 
 [submodule "plugins/reviewnotes"]
 	path = plugins/reviewnotes
-	url = ../plugins/reviewnotes
+	url = https://gerrit.googlesource.com/plugins/reviewnotes
 	branch = .
 
 [submodule "plugins/singleusergroup"]
 	path = plugins/singleusergroup
-	url = ../plugins/singleusergroup
+	url = https://gerrit.googlesource.com/plugins/singleusergroup
 	branch = .
 
 [submodule "plugins/webhooks"]
 	path = plugins/webhooks
-	url = ../plugins/webhooks
+	url = https://gerrit.googlesource.com/plugins/webhooks
 	branch = .
 
 [submodule "polymer-bridges"]
 	path = polymer-bridges
-	url = ../polymer-bridges
+	url = https://gerrit.googlesource.com/polymer-bridges
 	branch = .

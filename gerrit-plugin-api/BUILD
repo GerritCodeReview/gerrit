@@ -20,6 +20,7 @@ EXPORTS = [
     "//gerrit-gwtexpui:server",
     "//gerrit-reviewdb:server",
     "//lib/commons:lang",
+    "//lib/commons:lang3",
     "//lib/dropwizard:dropwizard-core",
     "//lib/guice:guice",
     "//lib/guice:guice-assistedinject",

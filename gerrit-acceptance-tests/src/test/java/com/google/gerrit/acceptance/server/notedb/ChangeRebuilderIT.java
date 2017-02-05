@@ -1216,6 +1216,22 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     rebuilderWrapper.rebuild(db, id);
   }
 
+  @Test
+  public void commitWithCrLineEndings() throws Exception {
+    PushOneCommit.Result r =
+        createChange("Subject\r\rBody\r", PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
+    Change c = r.getChange().change();
+
+    // This assertion demonstrates an arguable bug in JGit's commit subject
+    // parsing, and shows how this kind of data might have gotten into
+    // ReviewDb. If that bug ever gets fixed upstream, this assert may start
+    // failing. If that happens, this test can be rewritten to directly set the
+    // subject field in ReviewDb.
+    assertThat(c.getSubject()).isEqualTo("Subject\r\rBody");
+
+    checker.rebuildAndCheckChanges(c.getId());
+  }
+
   private void assertChangesReadOnly(RestApiException e) throws Exception {
     Throwable cause = e.getCause();
     assertThat(cause).isInstanceOf(UpdateException.class);

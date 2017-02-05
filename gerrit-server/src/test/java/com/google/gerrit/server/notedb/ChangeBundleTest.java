@@ -248,6 +248,55 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
+  public void diffChangesSanitizesSubjectsBeforeComparison() throws Exception {
+    Change c1 = TestChanges.newChange(new Project.NameKey("project"), new Account.Id(100));
+    c1.setCurrentPatchSet(c1.currentPatchSetId(), "Subject\r\rbody", "Original");
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(c2.currentPatchSetId(), "Subject  body", "Original");
+
+    // Both ReviewDb, exact match required
+    ChangeBundle b1 =
+        new ChangeBundle(
+            c1, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 =
+        new ChangeBundle(
+            c2, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "subject differs for Change.Id "
+            + c1.getId()
+            + ":"
+            + " {Subject\r\rbody} != {Subject  body}");
+
+    // Both NoteDb, exact match required (although it should be impossible to
+    // create a NoteDb change with '\r' in the subject).
+    b1 =
+        new ChangeBundle(
+            c1, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
+    b2 =
+        new ChangeBundle(
+            c2, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "subject differs for Change.Id "
+            + c1.getId()
+            + ":"
+            + " {Subject\r\rbody} != {Subject  body}");
+
+    // One ReviewDb, one NoteDb, '\r' is normalized to ' '.
+    b1 =
+        new ChangeBundle(
+            c1, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
+    b2 =
+        new ChangeBundle(
+            c2, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
   public void diffChangesConsidersEmptyReviewDbTopicEquivalentToNullInNoteDb() throws Exception {
     Change c1 = TestChanges.newChange(new Project.NameKey("project"), new Account.Id(100));
     c1.setTopic("");

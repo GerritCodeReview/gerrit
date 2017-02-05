@@ -434,6 +434,7 @@ public class ChangeBundle {
       excludeCreatedOn =
           !timestampsDiffer(bundleA, bundleA.getFirstPatchSetTime(), bundleB, b.getCreatedOn());
       aSubj = cleanReviewDbSubject(aSubj);
+      bSubj = cleanNoteDbSubject(bSubj);
       excludeCurrentPatchSetId = !bundleA.validPatchSetPredicate().apply(a.currentPatchSetId());
       excludeSubject = bSubj.startsWith(aSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
@@ -444,6 +445,7 @@ public class ChangeBundle {
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludeCreatedOn =
           !timestampsDiffer(bundleA, a.getCreatedOn(), bundleB, bundleB.getFirstPatchSetTime());
+      aSubj = cleanNoteDbSubject(aSubj);
       bSubj = cleanReviewDbSubject(bSubj);
       excludeCurrentPatchSetId = !bundleB.validPatchSetPredicate().apply(b.currentPatchSetId());
       excludeSubject = aSubj.startsWith(bSubj) || excludeCurrentPatchSetId;
@@ -501,7 +503,11 @@ public class ChangeBundle {
     if (rn >= 0) {
       s = s.substring(0, rn);
     }
-    return s;
+    return ChangeNoteUtil.sanitizeFooter(s);
+  }
+
+  private static String cleanNoteDbSubject(String s) {
+    return ChangeNoteUtil.sanitizeFooter(s);
   }
 
   /**

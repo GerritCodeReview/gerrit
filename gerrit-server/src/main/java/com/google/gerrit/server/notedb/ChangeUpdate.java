@@ -36,6 +36,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_I
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.sanitizeFooter;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -599,7 +600,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (subject != null) {
-      addFooter(msg, FOOTER_SUBJECT, subject);
+      addFooter(msg, FOOTER_SUBJECT, sanitizeFooter(subject));
     }
 
     if (branch != null) {
@@ -778,9 +779,5 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     PersonIdent.appendSanitized(sb, ident.getEmailAddress());
     sb.append('>');
     return sb;
-  }
-
-  private static String sanitizeFooter(String value) {
-    return value.replace('\n', ' ').replace('\0', ' ');
   }
 }

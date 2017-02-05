@@ -22,6 +22,7 @@ def gerrit_plugin(
     gwt_module = [],
     resources = [],
     manifest_entries = [],
+    target_suffix = "",
     **kwargs):
   native.java_library(
     name = name + '__plugin',
@@ -78,7 +79,7 @@ def gerrit_plugin(
   # TODO(davido): Remove manual merge of manifest file when this feature
   # request is implemented: https://github.com/bazelbuild/bazel/issues/2009
   genrule2(
-    name = name,
+    name = name + target_suffix,
     stamp = 1,
     srcs = ['%s__non_stamped_deploy.jar' % name],
     cmd = " && ".join([
@@ -87,6 +88,6 @@ def gerrit_plugin(
       "unzip -q $$ROOT/$<",
       "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
       "zip -qr $$ROOT/$@ ."]),
-    outs = ['%s.jar' % name],
+    outs = ['%s%s.jar' % (name, target_suffix)],
     visibility = ['//visibility:public'],
   )

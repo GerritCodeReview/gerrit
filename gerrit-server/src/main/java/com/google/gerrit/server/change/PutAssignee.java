@@ -27,7 +27,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountJson;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.PostReviewers.Addition;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.UpdateException;
@@ -46,16 +46,19 @@ public class PutAssignee implements
   private final BatchUpdate.Factory batchUpdateFactory;
   private final Provider<ReviewDb> db;
   private final PostReviewers postReviewers;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
   PutAssignee(SetAssigneeOp.Factory assigneeFactory,
       BatchUpdate.Factory batchUpdateFactory,
       Provider<ReviewDb> db,
-      PostReviewers postReviewers) {
+      PostReviewers postReviewers,
+      AccountLoader.Factory accountLoaderFactory) {
     this.assigneeFactory = assigneeFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.db = db;
     this.postReviewers = postReviewers;
+    this.accountLoaderFactory = accountLoaderFactory;
   }
 
   @Override
@@ -79,7 +82,8 @@ public class PutAssignee implements
       bu.addOp(rsrc.getId(), reviewersAddition.op);
 
       bu.execute();
-      return Response.ok(AccountJson.toAccountInfo(op.getNewAssignee()));
+      return Response.ok(
+          accountLoaderFactory.create(true).fillOne(op.getNewAssignee()));
     }
   }
 

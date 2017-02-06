@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "a8c5fb78_83551acb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 3:14:58 PM",
+      "side": 1,
+      "message": "The code for inferring the range will probably always stay, the code that will be added on the backend will ensure that the range field of every comment mirrors that of its\u0027 parent.",
+      "parentUuid": "3b2750f9_57fab80f",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f107b43_b9c7c2f4",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6

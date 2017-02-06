@@ -22,6 +22,7 @@ import static com.google.gerrit.common.TimeUtil.roundToSecond;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
+import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
@@ -653,7 +655,30 @@ public class ChangeBundle {
       ChangeBundle bundleB) {
     Map<PatchSet.Id, PatchSet> as = bundleA.patchSets;
     Map<PatchSet.Id, PatchSet> bs = bundleB.patchSets;
-    for (PatchSet.Id id : diffKeySets(diffs, as, bs)) {
+    Set<PatchSet.Id> ids = diffKeySets(diffs, as, bs);
+
+    // Old versions of Gerrit had a bug that created patch sets during
+    // rebase or submission with a createdOn timestamp earlier than the patch
+    // set it was replacing. (In the cases I examined, it was equal to createdOn
+    // for the change, but we're not counting on this exact behavior.)
+    //
+    // ChangeRebuilder ensures patch set events come out in order, but it's hard
+    // to predict what the resulting timestamps would look like. So, completely
+    // ignore the createdOn timestamps if both:
+    //   * ReviewDb timestamps are non-monotonic.
+    //   * NoteDb timestamps are monotonic.
+    boolean excludeCreatedOn = false;
+    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+      excludeCreatedOn =
+          !createdOnIsMonotonic(as, ids)
+          && createdOnIsMonotonic(bs, ids);
+    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+      excludeCreatedOn =
+          createdOnIsMonotonic(as, ids)
+          && !createdOnIsMonotonic(bs, ids);
+    }
+
+    for (PatchSet.Id id : ids) {
       PatchSet a = as.get(id);
       PatchSet b = bs.get(id);
       String desc = describe(id);
@@ -669,6 +694,9 @@ public class ChangeBundle {
       }
 
       List<String> exclude = Lists.newArrayList(pushCertField);
+      if (excludeCreatedOn) {
+        exclude.add("createdOn");
+      }
       if (excludeDesc) {
         exclude.add("description");
       }
@@ -684,6 +712,16 @@ public class ChangeBundle {
       return null;
     }
     return CharMatcher.is('\n').trimTrailingFrom(ps.getPushCertificate());
+  }
+
+  private static boolean createdOnIsMonotonic(Map<?, PatchSet> patchSets,
+      Set<PatchSet.Id> limitToIds) {
+    List<PatchSet> orderedById = patchSets.values().stream()
+        .filter(ps -> limitToIds.contains(ps.getId()))
+        .sorted(ChangeUtil.PS_ID_ORDER)
+        .collect(toList());
+    return Ordering.natural().onResultOf(PatchSet::getCreatedOn)
+        .isOrdered(orderedById);
   }
 
   private static void diffPatchSetApprovals(List<String> diffs,

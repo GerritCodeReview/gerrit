@@ -24,11 +24,13 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountJson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+@Singleton
 public class GetPastAssignees implements RestReadView<ChangeResource> {
   private final AccountInfoCacheFactory.Factory accountInfos;
 

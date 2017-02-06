@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b1bdf128_645700a1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 1:37:39 AM",
+      "side": 1,
+      "message": "This is fine since it is inline with the other *Info objects we have in the codebase\n\nSee the following examples:\n- WebLinkInfo\n- GpgKeyInfo\n- ChangeInfo\n\n(same with comments downwards from here)",
+      "parentUuid": "0a491f3a_7d393db5",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5c2f5ba_4574a9a4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -190,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "7748a992_1593b304",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 1:37:39 AM",
+      "side": 1,
+      "message": "We need to convert this to not be undefined, as we only want to deal with true/false from here.\n\nA shorthand could be to do !!this[\u0027trusted\u0027] (we saw that on Alice\u0027s IntelliJ inspections). Also [0] might give you additional info.\n\n[0] http://davidbcalhoun.com/2011/checking-for-undefined-null-and-empty-variables-in-javascript/",
+      "parentUuid": "da4e8bab_d87c7828",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "205032e3_72a316ce",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -234,6 +282,23 @@
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8f5309f_c9666f21",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 1:37:39 AM",
+      "side": 1,
+      "message": "You are duplicating a lot of code here (e.g. all the static strings and some methods). Can you find a common place to put those and share them between UI and backend?",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -425,6 +490,30 @@
     },
     {
       "key": {
+        "uuid": "338dfcdd_1ae89898",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 1:37:39 AM",
+      "side": 1,
+      "message": "Yup, keep them in this case.",
+      "parentUuid": "ba3b82a1_1d6705c7",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "108ca7e1_e754f27a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -460,6 +549,30 @@
       "side": 1,
       "message": "This function and followings are directly copied from \u0027AccountExternalId.java\u0027 as Edwin told me that we should not access back-end class from client. But I should have improve them. :)",
       "parentUuid": "108ca7e1_e754f27a",
+      "range": {
+        "startLine": 38,
+        "startChar": 23,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45209938_942156c9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 1:37:39 AM",
+      "side": 1,
+      "message": "If you improve them, please also change the backend so that they match.",
+      "parentUuid": "d3d81a6a_485b51e9",
       "range": {
         "startLine": 38,
         "startChar": 23,
@@ -613,6 +726,29 @@
     },
     {
       "key": {
+        "uuid": "73d2d132_e1fb83fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 1:37:39 AM",
+      "side": 1,
+      "message": "Don\u0027t use a for look like that.\n\nDo while(row \u003c table.getRowCount()) instead.",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 64
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a360f8ec_7de583af",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3
@@ -657,6 +793,29 @@
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdfee500_fbc9aba3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 1:37:39 AM",
+      "side": 1,
+      "message": "Can you implement Comparable in you Info class instead? This will remove the boilerplate from here and people usually search for compare methods there.",
+      "range": {
+        "startLine": 173,
+        "startChar": 31,
+        "endLine": 173,
+        "endChar": 65
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

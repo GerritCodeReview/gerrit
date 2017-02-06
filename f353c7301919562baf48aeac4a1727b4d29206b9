@@ -34,6 +34,29 @@
       "revId": "f353c7301919562baf48aeac4a1727b4d29206b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3416ca79_49edcee3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 3:28:48 PM",
+      "side": 1,
+      "message": "Weird indentation here.",
+      "range": {
+        "startLine": 113,
+        "startChar": 10,
+        "endLine": 114,
+        "endChar": 62
+      },
+      "revId": "f353c7301919562baf48aeac4a1727b4d29206b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

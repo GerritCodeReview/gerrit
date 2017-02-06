@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b91364c1_7017d001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 6, 2017 12:27:04 PM",
+      "side": 1,
+      "message": "Can you add a bit more regarding what triple click selection is and what problem this fixes?",
+      "revId": "f353c7301919562baf48aeac4a1727b4d29206b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

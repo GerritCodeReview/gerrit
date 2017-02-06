@@ -18,8 +18,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountInfoCacheFactory;
-import com.google.gerrit.server.account.AccountJson;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -28,11 +27,11 @@ import java.util.Optional;
 
 @Singleton
 public class GetAssignee implements RestReadView<ChangeResource> {
-  private final AccountInfoCacheFactory.Factory accountInfo;
+  private final AccountLoader accountLoader;
 
   @Inject
-  GetAssignee(AccountInfoCacheFactory.Factory accountInfo) {
-    this.accountInfo = accountInfo;
+  GetAssignee(AccountLoader.Factory accountLoaderFactory) {
+    this.accountLoader = accountLoaderFactory.create(true);
   }
 
   @Override
@@ -40,8 +39,9 @@ public class GetAssignee implements RestReadView<ChangeResource> {
     Optional<Account.Id> assignee =
         Optional.ofNullable(rsrc.getChange().getAssignee());
     if (assignee.isPresent()) {
-      Account account = accountInfo.create().get(assignee.get());
-      return Response.ok(AccountJson.toAccountInfo(account));
+      AccountInfo info = accountLoader.get(assignee.get());
+      accountLoader.fill();
+      return Response.ok(info);
     }
     return Response.none();
   }

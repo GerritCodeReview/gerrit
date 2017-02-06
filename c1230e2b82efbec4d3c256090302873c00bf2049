@@ -44,6 +44,24 @@
     },
     {
       "key": {
+        "uuid": "30e836d0_306deca7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 7:38:24 AM",
+      "side": 1,
+      "message": "I didn\u0027t connect the dots between bundleA and aSubj so that was what got me confused.\n\nI would name it subjA then so people can better see that subjA and bundleA relate to the same thing.\n\nI would also rename the other things to follow the same naming convention: changeA, updatedA and so on.\n\nYou can for sure also do it the other way around (probably less work) and rename bundleA to aBundle and a to aChange. I was just confused because it wasn\u0027t consistent.",
+      "parentUuid": "b459b048_9a00c4fd",
+      "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93602b6d_f60bd8b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
         "patchSetId": 1

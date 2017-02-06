@@ -488,7 +488,7 @@ class ChangeApiImpl implements ChangeApi {
     try {
       Response<AccountInfo> r = deleteAssignee.apply(change, null);
       return r.isNone() ? null : r.value();
-    } catch (UpdateException e) {
+    } catch (UpdateException | OrmException e) {
       throw new RestApiException("Cannot delete assignee", e);
     }
   }

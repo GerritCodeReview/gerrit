@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -87,7 +86,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
   private final ReviewDb db;
-  private final AccountInfoCacheFactory.Factory aicFactory;
   private final CommentsUtil commentsUtil;
 
   private final String fileName;
@@ -117,7 +115,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       Provider<PatchScriptBuilder> builderFactory,
       PatchListCache patchListCache,
       ReviewDb db,
-      AccountInfoCacheFactory.Factory aicFactory,
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       @Assisted ChangeControl control,
@@ -131,7 +128,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.patchListCache = patchListCache;
     this.db = db;
     this.control = control;
-    this.aicFactory = aicFactory;
     this.commentsUtil = commentsUtil;
     this.editReader = editReader;
 
@@ -150,7 +146,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       Provider<PatchScriptBuilder> builderFactory,
       PatchListCache patchListCache,
       ReviewDb db,
-      AccountInfoCacheFactory.Factory aicFactory,
       CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
       @Assisted ChangeControl control,
@@ -164,7 +159,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.patchListCache = patchListCache;
     this.db = db;
     this.control = control;
-    this.aicFactory = aicFactory;
     this.commentsUtil = commentsUtil;
     this.editReader = editReader;
 
@@ -344,24 +338,23 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
 
     if (loadComments && edit == null) {
-      AccountInfoCacheFactory aic = aicFactory.create();
       comments = new CommentDetail(psa, psb);
       switch (changeType) {
         case ADDED:
         case MODIFIED:
-          loadPublished(byKey, aic, newName);
+          loadPublished(byKey, newName);
           break;
 
         case DELETED:
-          loadPublished(byKey, aic, newName);
+          loadPublished(byKey, newName);
           break;
 
         case COPIED:
         case RENAMED:
           if (psa != null) {
-            loadPublished(byKey, aic, oldName);
+            loadPublished(byKey, oldName);
           }
-          loadPublished(byKey, aic, newName);
+          loadPublished(byKey, newName);
           break;
 
         case REWRITE:
@@ -374,38 +367,33 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         switch (changeType) {
           case ADDED:
           case MODIFIED:
-            loadDrafts(byKey, aic, me, newName);
+            loadDrafts(byKey, me, newName);
             break;
 
           case DELETED:
-            loadDrafts(byKey, aic, me, newName);
+            loadDrafts(byKey, me, newName);
             break;
 
           case COPIED:
           case RENAMED:
             if (psa != null) {
-              loadDrafts(byKey, aic, me, oldName);
+              loadDrafts(byKey, me, oldName);
             }
-            loadDrafts(byKey, aic, me, newName);
+            loadDrafts(byKey, me, newName);
             break;
 
           case REWRITE:
             break;
         }
       }
-
-      comments.setAccountInfoCache(aic.create());
     }
   }
 
-  private void loadPublished(final Map<Patch.Key, Patch> byKey,
-      final AccountInfoCacheFactory aic, final String file) throws OrmException {
+  private void loadPublished(Map<Patch.Key, Patch> byKey, String file)
+      throws OrmException {
     ChangeNotes notes = control.getNotes();
     for (Comment c : commentsUtil.publishedByChangeFile(db, notes, changeId, file)) {
-      if (comments.include(change.getId(), c)) {
-        aic.want(c.author.getId());
-      }
-
+      comments.include(change.getId(), c);
       PatchSet.Id psId = new PatchSet.Id(change.getId(), c.key.patchSetId);
       Patch.Key pKey = new Patch.Key(psId, c.key.filename);
       Patch p = byKey.get(pKey);
@@ -415,15 +403,11 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void loadDrafts(final Map<Patch.Key, Patch> byKey,
-      final AccountInfoCacheFactory aic, final Account.Id me, final String file)
-      throws OrmException {
+  private void loadDrafts(Map<Patch.Key, Patch> byKey, Account.Id me,
+      String file) throws OrmException {
     for (Comment c :
         commentsUtil.draftByChangeFileAuthor(db, control.getNotes(), file, me)) {
-      if (comments.include(change.getId(), c)) {
-        aic.want(me);
-      }
-
+      comments.include(change.getId(), c);
       PatchSet.Id psId = new PatchSet.Id(change.getId(), c.key.patchSetId);
       Patch.Key pKey = new Patch.Key(psId, c.key.filename);
       Patch p = byKey.get(pKey);

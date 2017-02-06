@@ -25,10 +25,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.account.AccountInfoCacheFactory;
-import com.google.gerrit.server.account.AccountJson;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.DeleteAssignee.Input;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
@@ -48,38 +47,39 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final Provider<ReviewDb> db;
-  private final AccountInfoCacheFactory.Factory accountInfos;
   private final AssigneeChanged assigneeChanged;
-  private final String anonymousCowardName;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
   DeleteAssignee(BatchUpdate.Factory batchUpdateFactory,
       ChangeMessagesUtil cmUtil,
       Provider<ReviewDb> db,
-      AccountInfoCacheFactory.Factory accountInfosFactory,
       AssigneeChanged assigneeChanged,
-      @AnonymousCowardName String anonymousCowardName) {
+      IdentifiedUser.GenericFactory userFactory,
+      AccountLoader.Factory accountLoaderFactory) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.cmUtil = cmUtil;
     this.db = db;
-    this.accountInfos = accountInfosFactory;
     this.assigneeChanged = assigneeChanged;
-    this.anonymousCowardName = anonymousCowardName;
+    this.userFactory = userFactory;
+    this.accountLoaderFactory = accountLoaderFactory;
   }
 
   @Override
   public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException, OrmException {
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
         rsrc.getProject(),
         rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op();
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
-      Account deletedAssignee = op.getDeletedAssignee();
+      Account.Id deletedAssignee = op.getDeletedAssignee();
       return deletedAssignee == null
           ? Response.none()
-          : Response.ok(AccountJson.toAccountInfo(deletedAssignee));
+          : Response.ok(accountLoaderFactory.create(true)
+              .fillOne(deletedAssignee));
     }
   }
 
@@ -99,30 +99,33 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       if (currentAssigneeId == null) {
         return false;
       }
-      deletedAssignee = accountInfos.create().get(currentAssigneeId);
+      IdentifiedUser deletedAssigneeUser =
+          userFactory.create(currentAssigneeId);
+      deletedAssignee = deletedAssigneeUser.getAccount();
       // noteDb
       update.removeAssignee();
       // reviewDb
       change.setAssignee(null);
-      addMessage(ctx, update, deletedAssignee);
+      addMessage(ctx, update, deletedAssigneeUser);
       return true;
     }
 
-    public Account getDeletedAssignee() {
-      return deletedAssignee;
+    public Account.Id getDeletedAssignee() {
+      return deletedAssignee != null ? deletedAssignee.getId() : null;
     }
 
-    private void addMessage(BatchUpdate.ChangeContext ctx,
-        ChangeUpdate update, Account deleted) throws OrmException {
+    private void addMessage(BatchUpdate.ChangeContext ctx, ChangeUpdate update,
+        IdentifiedUser deletedAssignee) throws OrmException {
       ChangeMessage cmsg = ChangeMessagesUtil.newMessage(
-          ctx, "Assignee deleted: " + deleted.getName(anonymousCowardName),
+          ctx, "Assignee deleted: " + deletedAssignee.getNameEmail(),
           ChangeMessagesUtil.TAG_DELETE_ASSIGNEE);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
     }
 
     @Override
     public void postUpdate(Context ctx) throws OrmException {
-      assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee, ctx.getWhen());
+      assigneeChanged.fire(change, ctx.getAccount(), deletedAssignee,
+          ctx.getWhen());
     }
   }
 }

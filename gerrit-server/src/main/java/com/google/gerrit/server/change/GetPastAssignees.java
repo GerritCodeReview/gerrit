@@ -20,21 +20,22 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountInfoCacheFactory;
-import com.google.gerrit.server.account.AccountJson;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+@Singleton
 public class GetPastAssignees implements RestReadView<ChangeResource> {
-  private final AccountInfoCacheFactory.Factory accountInfos;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
-  GetPastAssignees(AccountInfoCacheFactory.Factory accountInfosFactory) {
-    this.accountInfos = accountInfosFactory;
+  GetPastAssignees(AccountLoader.Factory accountLoaderFactory) {
+    this.accountLoaderFactory = accountLoaderFactory;
   }
 
   @Override
@@ -46,11 +47,11 @@ public class GetPastAssignees implements RestReadView<ChangeResource> {
     if (pastAssignees == null) {
       return Response.ok(Collections.emptyList());
     }
-    AccountInfoCacheFactory accountInfoFactory = accountInfos.create();
 
-    return Response.ok(pastAssignees.stream()
-        .map(accountInfoFactory::get)
-        .map(AccountJson::toAccountInfo)
-        .collect(toList()));
+    AccountLoader accountLoader = accountLoaderFactory.create(true);
+    List<AccountInfo> infos =
+        pastAssignees.stream().map(accountLoader::get).collect(toList());
+    accountLoader.fill();
+    return Response.ok(infos);
   }
 }

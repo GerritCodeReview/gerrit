@@ -336,17 +336,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     Change noteDbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : bundle.getChangeMessages()) {
-      List<Event> msgEvents = parseChangeMessage(msg, change, noteDbChange);
+      Event msgEvent = new ChangeMessageEvent(change, noteDbChange, msg, change.getCreatedOn());
       if (msg.getPatchSetId() != null) {
         PatchSetEvent pse = patchSetEvents.get(msg.getPatchSetId());
         if (pse == null) {
           continue; // Ignore events for missing patch sets.
         }
-        for (Event e : msgEvents) {
-          e.addDep(pse);
-        }
+        msgEvent.addDep(pse);
       }
-      events.addAll(msgEvents);
+      events.add(msgEvent);
     }
 
     sortAndFillEvents(change, noteDbChange, bundle.getPatchSets(), events, minPsNum);
@@ -372,16 +370,6 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       }
       flushEventsToDraftUpdate(manager, plcel, change);
     }
-  }
-
-  private List<Event> parseChangeMessage(ChangeMessage msg, Change change, Change noteDbChange) {
-    List<Event> events = new ArrayList<>(2);
-    events.add(new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
-    Optional<StatusChangeEvent> sce = StatusChangeEvent.parseFromMessage(msg, change, noteDbChange);
-    if (sce.isPresent()) {
-      events.add(sce.get());
-    }
-    return events;
   }
 
   private static Integer getMinPatchSetNum(ChangeBundle bundle) {

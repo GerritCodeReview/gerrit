@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b3b3c44_1b5d4733",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Feb 5, 2017 11:48:44 PM",
+      "side": 1,
+      "message": "I don\u0027t think we need the early-return pattern here.  It makes sense in the other method (L75) because that has a lot more code following the check.\n\nIt would be cleaner to invert the logic and put the call to setProperty inside the if-block.\n\n if (!Strings.isNullOrEmpty(s)) {\n   System.setProperty(...);\n }",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 29
+      },
+      "revId": "6d9f4691e7bf5fc0ab4070860ac567c087089794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

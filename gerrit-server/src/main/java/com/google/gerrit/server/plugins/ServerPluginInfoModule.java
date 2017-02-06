@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.annotations.PluginCanonicalWebUrl;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -57,7 +58,7 @@ class ServerPluginInfoModule extends AbstractModule {
       public void configure() {
         PluginMetricMaker metrics = new PluginMetricMaker(
             serverMetrics,
-            plugin.getName());
+            MoreObjects.firstNonNull(plugin.getMetricsPrefix(), String.format("plugins/%s/", plugin.getName())));
         bind(MetricMaker.class).toInstance(metrics);
         listener().toInstance(metrics);
       }

@@ -438,7 +438,7 @@ public class ChangeBundle {
       excludeCurrentPatchSetId = !bundleA.validPatchSetPredicate().apply(a.currentPatchSetId());
       excludeSubject = bSubj.startsWith(aSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
-      String aTopic = trimLeadingOrNull(a.getTopic());
+      String aTopic = trimOrNull(a.getTopic());
       excludeTopic =
           Objects.equals(aTopic, b.getTopic()) || "".equals(aTopic) && b.getTopic() == null;
       aUpdated = bundleA.getLatestTimestamp();
@@ -450,7 +450,7 @@ public class ChangeBundle {
       excludeCurrentPatchSetId = !bundleB.validPatchSetPredicate().apply(b.currentPatchSetId());
       excludeSubject = aSubj.startsWith(bSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
-      String bTopic = trimLeadingOrNull(b.getTopic());
+      String bTopic = trimOrNull(b.getTopic());
       excludeTopic =
           Objects.equals(bTopic, a.getTopic()) || a.getTopic() == null && "".equals(bTopic);
       bUpdated = bundleB.getLatestTimestamp();
@@ -486,8 +486,8 @@ public class ChangeBundle {
     }
   }
 
-  private static String trimLeadingOrNull(String s) {
-    return s != null ? CharMatcher.whitespace().trimLeadingFrom(s) : null;
+  private static String trimOrNull(String s) {
+    return s != null ? CharMatcher.whitespace().trimFrom(s) : null;
   }
 
   private static String cleanReviewDbSubject(String s) {
@@ -653,7 +653,20 @@ public class ChangeBundle {
       PatchSet b = bs.get(id);
       String desc = describe(id);
       String pushCertField = "pushCertificate";
-      diffColumnsExcluding(diffs, PatchSet.class, desc, bundleA, a, bundleB, b, pushCertField);
+
+      boolean excludeDesc = false;
+      if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+        excludeDesc = Objects.equals(trimOrNull(a.getDescription()), b.getDescription());
+      } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+        excludeDesc = Objects.equals(a.getDescription(), trimOrNull(b.getDescription()));
+      }
+
+      List<String> exclude = Lists.newArrayList(pushCertField);
+      if (excludeDesc) {
+        exclude.add("description");
+      }
+
+      diffColumnsExcluding(diffs, PatchSet.class, desc, bundleA, a, bundleB, b, exclude);
       diffValues(diffs, desc, trimPushCert(a), trimPushCert(b), pushCertField);
     }
   }

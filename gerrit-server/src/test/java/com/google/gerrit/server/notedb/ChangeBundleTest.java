@@ -319,11 +319,11 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
-  public void diffChangesIgnoresLeadingWhitespaceInReviewDbTopics()
+  public void diffChangesIgnoresLeadingAndTrailingWhitespaceInReviewDbTopics()
       throws Exception {
     Change c1 = TestChanges.newChange(
         new Project.NameKey("project"), new Account.Id(100));
-    c1.setTopic(" abc");
+    c1.setTopic(" abc ");
     Change c2 = clone(c1);
     c2.setTopic("abc");
 
@@ -334,7 +334,7 @@ public class ChangeBundleTest extends GerritBaseTests {
         comments(), reviewers(), REVIEW_DB);
     assertDiffs(b1, b2,
         "topic differs for Change.Id " + c1.getId() + ":"
-            + " { abc} != {abc}");
+            + " { abc } != {abc}");
 
     // Leading whitespace in ReviewDb topic is ignored.
     b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
@@ -344,7 +344,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     assertNoDiffs(b1, b2);
     assertNoDiffs(b2, b1);
 
-    // Must match except for the leading whitespace.
+    // Must match except for the leading/trailing whitespace.
     Change c3 = clone(c1);
     c3.setTopic("cba");
     b1 = new ChangeBundle(c1, messages(), patchSets(), approvals(), comments(),
@@ -353,7 +353,7 @@ public class ChangeBundleTest extends GerritBaseTests {
         reviewers(), NOTE_DB);
     assertDiffs(b1, b2,
         "topic differs for Change.Id " + c1.getId() + ":"
-            + " { abc} != {cba}");
+            + " { abc } != {cba}");
   }
 
   @Test
@@ -994,6 +994,48 @@ public class ChangeBundleTest extends GerritBaseTests {
             + " [] only in A; [" + ps2.getId() + "] only in B",
         "PatchSetApproval.Key sets differ:"
             + " [] only in A; [" + a2.getKey() + "] only in B");
+  }
+
+  @Test
+  public void diffPatchSetsIgnoresLeadingAndTrailingWhitespaceInReviewDbDescriptions()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+
+    PatchSet ps1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
+    ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps1.setUploader(accountId);
+    ps1.setCreatedOn(TimeUtil.nowTs());
+    ps1.setDescription(" abc ");
+    PatchSet ps2 = clone(ps1);
+    ps2.setDescription("abc");
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 = new ChangeBundle(c, messages(), patchSets(ps1),
+        approvals(), comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), patchSets(ps2),
+        approvals(), comments(), reviewers(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "description differs for PatchSet.Id " + ps1.getId() + ":"
+            + " { abc } != {abc}");
+
+    // Whitespace in ReviewDb description is ignored.
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(ps2), approvals(),
+        comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // Must match except for the leading/trailing whitespace.
+    PatchSet ps3 = clone(ps1);
+    ps3.setDescription("cba");
+    b1 = new ChangeBundle(c, messages(), patchSets(ps1), approvals(),
+        comments(), reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c, messages(), patchSets(ps3), approvals(),
+        comments(), reviewers(), NOTE_DB);
+    assertDiffs(b1, b2,
+        "description differs for PatchSet.Id " + ps1.getId() + ":"
+            + " { abc } != {cba}");
   }
 
   @Test

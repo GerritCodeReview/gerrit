@@ -572,22 +572,6 @@ limitations under the License.
           assert.equal(drafts.length, 1);
           assert.equal(drafts[0].id, id);
         });
-
-        test('_handleShowDiff reloads when expanded is made true',
-            function(done) {
-          element.expanded = false;
-          element.changeNum = element._comments.meta.changeNum;
-          element.patchRange = element._comments.meta.patchRange;
-          element.path = element._comments.meta.path;
-
-          var stub = sandbox.stub(element, 'reload', function() {
-            assert.isTrue(stub.called);
-            done();
-          });
-          var spy = sinon.spy(element, '_handleShowDiff');
-          element.set('expanded', true);
-          assert.isTrue(spy.called);
-        });
       });
     });
   });

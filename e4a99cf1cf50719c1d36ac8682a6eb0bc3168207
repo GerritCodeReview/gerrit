@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14ba15bd_10eea866",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 6, 2017 3:13:39 AM",
+      "side": 1,
+      "message": "You lost the value of deps parameters by assigning empty string to it. Use deps_formatted instead?",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 10
+      },
+      "revId": "e4a99cf1cf50719c1d36ac8682a6eb0bc3168207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76d31943_cbb8e991",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 6, 2017 3:13:39 AM",
+      "side": 1,
+      "message": "The example i gave you was writing director to the file. Here we are writing to a string.",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "e4a99cf1cf50719c1d36ac8682a6eb0bc3168207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f430c6_a88266c9",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 15
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 6, 2017 3:13:39 AM",
+      "side": 1,
+      "message": "You lost the value of exports parameters by assigning empty string to it. Use exports_formatted instead?",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 13
+      },
+      "revId": "e4a99cf1cf50719c1d36ac8682a6eb0bc3168207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f27cbc7_803ff79c",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 15
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 6, 2017 3:13:39 AM",
+      "side": 1,
+      "message": "Instead of repeating the whole logic twice, extract this to a method and reuse.",
+      "range": {
+        "startLine": 70,
+        "startChar": 5,
+        "endLine": 76,
+        "endChar": 27
+      },
+      "revId": "e4a99cf1cf50719c1d36ac8682a6eb0bc3168207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

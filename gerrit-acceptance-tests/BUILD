@@ -1,10 +1,8 @@
-load("//tools/bzl:java.bzl", "java_library2")
-
-java_library2(
+java_library(
     name = "lib",
     testonly = 1,
-    srcs = glob(["src/test/java/com/google/gerrit/acceptance/*.java"]),
-    exported_deps = [
+    visibility = ["//visibility:public"],
+    exports = [
         "//gerrit-acceptance-framework:lib",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
@@ -40,5 +38,4 @@ java_library2(
         "//lib/log:api",
         "//lib/mina:sshd",
     ],
-    visibility = ["//visibility:public"],
 )

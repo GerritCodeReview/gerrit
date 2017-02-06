@@ -17,6 +17,24 @@
       "revId": "0af857d09c5bdc5845fdf8b10e08cf66a7f6c13d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f5adb74_7787739a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 6, 2017 5:25:05 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ebe1f41_9ab0d273",
+      "revId": "0af857d09c5bdc5845fdf8b10e08cf66a7f6c13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

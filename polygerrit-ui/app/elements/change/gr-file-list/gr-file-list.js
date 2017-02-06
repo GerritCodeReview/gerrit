@@ -417,16 +417,14 @@
     },
 
     _handleLeftBracketKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._openSelectedFile(this._files.length - 1);
     },
 
     _handleRightBracketKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._openSelectedFile(0);

@@ -104,12 +104,20 @@
         readOnly: true,
         value: 50,
       },
+      _expandedFilePaths: {
+        type: Array,
+        value: function() { return []; },
+      },
     },
 
     behaviors: [
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.URLEncodingBehavior,
+    ],
+
+    observers: [
+      '_expandedPathsChanged(_expandedFilePaths.splices)',
     ],
 
     keyBindings: {
@@ -218,8 +226,18 @@
     },
 
     _handleHiddenChange: function(e) {
-      var model = e.model;
-      model.set('file.__expanded', !model.file.__expanded);
+      this._togglePathExpanded(e.model.file.__path);
+    },
+
+    _togglePathExpanded: function(path) {
+      // Is the path in the list of expanded diffs? IF so remove it, otherwise
+      // add it to the list.
+      var pathIndex = this._expandedFilePaths.indexOf(path);
+      if (pathIndex === -1) {
+        this.push('_expandedFilePaths', path);
+      } else {
+        this.splice('_expandedFilePaths', pathIndex, 1);
+      }
     },
 
     _handlePatchChange: function(e) {
@@ -236,25 +254,26 @@
       }
     },
 
-    /**
-     * Until upgrading to Polymer 2.0, manual management of reflection between
-     * _shownFiles and _files is necessary. Performance of linkPaths is very
-     * poor.
-     */
     _expandAllDiffs: function(e) {
       this._showInlineDiffs = true;
+
+      // Find the list of paths that are in the file list, but not in the
+      // expanded list.
+      var newPaths = [];
+      var path;
       for (var i = 0; i < this._shownFiles.length; i++) {
-        this.set(['_shownFiles', i, '__expanded'], true);
-        this.set(['_files', i, '__expanded'], true);
+        path = this._shownFiles[i].__path;
+        if (this._expandedFilePaths.indexOf(path) === -1) {
+          newPaths.push(path);
+        }
       }
+
+      this.splice.apply(this, ['_expandedFilePaths', 0, 0].concat(newPaths));
     },
 
     _collapseAllDiffs: function(e) {
       this._showInlineDiffs = false;
-      for (var i = 0; i < this._shownFiles.length; i++) {
-        this.set(['_shownFiles', i, '__expanded'], false);
-        this.set(['_files', i, '__expanded'], false);
-      }
+      this._expandedFilePaths = [];
       this.$.diffCursor.handleDiffUpdate();
     },
 
@@ -328,7 +347,6 @@
           this.changeNum, this.patchRange).then(function(files) {
             // Append UI-specific properties.
             return files.map(function(file) {
-              file.__expanded = false;
               return file;
             });
           });
@@ -365,12 +383,7 @@
           this.$.fileCursor.index === -1) { return; }
 
       e.preventDefault();
-      var expanded = this._files[this.$.fileCursor.index].__expanded;
-      // Until Polymer 2.0, manual management of reflection between _files
-      // and _shownFiles is necessary.
-      this.set(['_shownFiles', this.$.fileCursor.index, '__expanded'],
-          !expanded);
-      this.set(['_files', this.$.fileCursor.index, '__expanded'], !expanded);
+      this._togglePathExpanded(this.$.fileCursor.target.path);
     },
 
     _handleCapitalIKey: function(e) {
@@ -575,12 +588,13 @@
       return classes.join(' ');
     },
 
-    _computePathClass: function(expanded) {
-      return expanded ? 'path expanded' : 'path';
+    _computePathClass: function(path, expandedFilesRecord) {
+      return this._isFileExpanded(path, expandedFilesRecord) ? 'path expanded' :
+          'path';
     },
 
-    _computeShowHideText: function(expanded) {
-      return expanded ? '▼' : '◀';
+    _computeShowHideText: function(path, expandedFilesRecord) {
+      return this._isFileExpanded(path, expandedFilesRecord) ? '▼' : '◀';
     },
 
     _computeFilesShown: function(numFilesShown, files) {
@@ -664,6 +678,78 @@
       var statusCode = this._computeFileStatus(status);
       return FileStatus.hasOwnProperty(statusCode) ?
           FileStatus[statusCode] : 'Status Unknown';
+    },
+
+    _isFileExpanded: function(path, expandedFilesRecord) {
+      return expandedFilesRecord.base.indexOf(path) !== -1;
+    },
+
+    /**
+     * Handle splices to the list of expanded file paths. If there are any new
+     * entries in the expanded list, then render each diff corresponding in
+     * order by waiting for the previous diff to finish before starting the next
+     * one.
+     * @param  {splice} record The splice record in the expanded paths list.
+     */
+    _expandedPathsChanged: function(record) {
+      if (!record) { return; }
+
+      // Find the paths introduced by the new index splices:
+      var newPaths = record.indexSplices
+          .map(function(splice) {
+            return splice.object.slice(splice.index,
+                splice.index + splice.addedCount);
+          })
+          .reduce(function(acc, paths) { return acc.concat(paths); }, []);
+
+      var timerName = 'Expand ' + newPaths.length + ' diffs';
+      this.$.reporting.time(timerName);
+
+      this._renderInOrder(newPaths, this.diffs, newPaths.length)
+          .then(function() {
+            this.$.reporting.timeEnd(timerName);
+            this.$.diffCursor.handleDiffUpdate();
+          }.bind(this));
+    },
+
+    /**
+     * Given an array of paths and a NodeList of diff elements, render the diff
+     * for each path in order, awaiting the previous render to complete before
+     * continung.
+     * @param  {!Array<!String>} paths
+     * @param  {!NodeList<!GrDiffElement>} diffElements
+     * @param  {Number} initialCount The total number of paths in the pass. This
+     *   is used to generate log messages.
+     * @return {!Promise}
+     */
+    _renderInOrder: function(paths, diffElements, initialCount) {
+      if (!paths.length) {
+        console.log('Finished expanding', initialCount, 'diff(s)');
+        return Promise.resolve();
+      }
+      console.log('Expanding diff', 1 + initialCount - paths.length, 'of',
+          initialCount, ':', paths[0]);
+      var diffElem = this._findDiffByPath(paths[0], diffElements);
+      return diffElem
+          .reload()
+          .then(function() {
+            return this._renderInOrder(paths.slice(1), diffElements,
+                initialCount);
+          }.bind(this));
+    },
+
+    /**
+     * In the given NodeList of diff elements, find the diff for the given path.
+     * @param  {!String} path
+     * @param  {!NodeList<!GrDiffElement>} diffElements
+     * @return {!GrDiffElement}
+     */
+    _findDiffByPath: function(path, diffElements) {
+      for (var i = 0; i < diffElements.length; i++) {
+        if (diffElements[i].path === path) {
+          return diffElements[i];
+        }
+      }
     },
   });
 })();

@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../diff/gr-diff/gr-diff.html">
 <link rel="import" href="../../diff/gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -243,7 +244,7 @@ limitations under the License.
             aria-label$="[[_computeFileStatusLabel(file.status)]]">
           [[_computeFileStatus(file.status)]]
         </div>
-        <a class$="[[_computePathClass(file.__expanded)]]"
+        <a class$="[[_computePathClass(file.__path, _expandedFilePaths.*)]]"
             href$="[[_computeDiffURL(changeNum, patchRange, file.__path)]]"
             on-click="_handleFileClick">
           <div title$="[[_computeFileDisplayName(file.__path)]]"
@@ -297,15 +298,16 @@ limitations under the License.
         <div class="show-hide" hidden$="[[_userPrefs.expand_inline_diffs]]">
           <label class="show-hide">
             <input type="checkbox" class="show-hide"
-                checked$="[[!file.__expanded]]" data-path$="[[file.__path]]"
+                checked$="[[_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
+                data-path$="[[file.__path]]"
                 on-change="_handleHiddenChange">
-            [[_computeShowHideText(file.__expanded)]]
+            [[_computeShowHideText(file.__path, _expandedFilePaths.*)]]
           </label>
         </div>
       </div>
       <gr-diff
-          hidden$="[[!file.__expanded]]"
-          expanded="[[file.__expanded]]"
+          no-auto-render
+          hidden$="[[!_isFileExpanded(file.__path, _expandedFilePaths.*)]]"
           project="[[change.project]]"
           commit="[[change.current_revision]]"
           change-num="[[changeNum]]"
@@ -366,6 +368,7 @@ limitations under the License.
         id="fileCursor"
         scroll-behavior="keep-visible"
         cursor-target-class="selected"></gr-cursor-manager>
+    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-file-list.js"></script>
 </dom-module>

@@ -69,28 +69,27 @@
     },
 
     _makeSuggestion: function(reviewer) {
+      var name;
+      var value;
+      var generateStatusStr = function(account) {
+        return account.status ? ' (' + account.status + ')' : '';
+      };
       if (reviewer.account) {
         // Reviewer is an account suggestion from getChangeSuggestedReviewers.
-        return {
-          name: reviewer.account.name + ' (' + reviewer.account.email + ')',
-          value: reviewer,
-        };
+        name = reviewer.account.name + ' <' + reviewer.account.email + '>' +
+            generateStatusStr(reviewer.account);
+        value = reviewer;
       } else if (reviewer.group) {
         // Reviewer is a group suggestion from getChangeSuggestedReviewers.
-        return {
-          name: reviewer.group.name + ' (group)',
-          value: reviewer,
-        };
+        name = reviewer.group.name + ' (group)';
+        value = reviewer;
       } else if (reviewer._account_id) {
         // Reviewer is an account suggestion from getSuggestedAccounts.
-        return {
-          name: reviewer.name + ' (' + reviewer.email + ')',
-          value: {
-            account: reviewer,
-            count: 1,
-          },
-        };
+        name = reviewer.name + ' <' + reviewer.email + '>' +
+            generateStatusStr(reviewer);
+        value = {account: reviewer, count: 1};
       }
+      return {name: name, value: value};
     },
 
     _getReviewerSuggestions: function(input) {
@@ -104,7 +103,7 @@
         if (!this.filter) { return reviewers.map(this._makeSuggestion); }
         return reviewers
             .filter(this.filter)
-            .map(this._makeSuggestion);
+            .map(this._makeSuggestion.bind(this));
       }.bind(this));
     },
   });

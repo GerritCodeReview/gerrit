@@ -44,6 +44,9 @@ limitations under the License.
         <span hidden$="[[!_computeShowEmail(showEmail, account)]]">
           [[_computeEmailStr(account)]]
         </span>
+        <template is="dom-if" if="[[account.status]]">
+          <span>([[account.status]])</span>
+        </template>
       </span>
     </span>
   </template>

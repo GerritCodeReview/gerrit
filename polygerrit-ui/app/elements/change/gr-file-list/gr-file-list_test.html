@@ -616,15 +616,14 @@ limitations under the License.
     });
 
     test('show/hide diffs disabled for large amounts of files', function(done) {
+      var computeSpy = sandbox.spy(element, '_fileListActionsVisible');
       element._files = [];
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      var computeSpy = sandbox.spy(element, '_fileListActionsVisible');
       element.$.fileCursor.setCursorAtIndex(0);
-      element._numFilesShown = 1;
       flush(function() {
         assert.isTrue(computeSpy.lastCall.returnValue);
         var arr = [];

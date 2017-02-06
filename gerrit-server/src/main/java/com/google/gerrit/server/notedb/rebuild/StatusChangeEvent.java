@@ -103,6 +103,11 @@ class StatusChangeEvent extends Event {
   }
 
   @Override
+  protected boolean canHaveTag() {
+    return isSubmit();
+  }
+
+  @Override
   protected void addToString(ToStringHelper helper) {
     helper.add("status", status);
   }

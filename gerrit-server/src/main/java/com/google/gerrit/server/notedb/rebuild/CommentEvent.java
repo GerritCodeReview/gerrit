@@ -52,6 +52,11 @@ class CommentEvent extends Event {
   }
 
   @Override
+  protected boolean canHaveTag() {
+    return true;
+  }
+
+  @Override
   void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
     if (c.revId == null) {

@@ -41,15 +41,11 @@ public class GitOverHttpModule extends ServletModule {
     Class<? extends Filter> authFilter;
     if (authConfig.isTrustContainerAuth()) {
       authFilter = ContainerAuthFilter.class;
-    } else if (authConfig.isGitBasicAuth()) {
-      if (authConfig.getAuthType() == OAUTH) {
+    } else if (authConfig.getAuthType() == OAUTH) {
         authFilter = ProjectOAuthFilter.class;
       } else {
         authFilter = ProjectBasicAuthFilter.class;
       }
-    } else {
-      authFilter = ProjectDigestFilter.class;
-    }
 
     if (isHttpEnabled()) {
       String git = GitOverHttpServlet.URL_REGEX;

@@ -40,6 +40,24 @@
       "revId": "ecc902f177256f7d8859a986741bfa3b34f80aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a78484a_9e0ce48b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 3:25:23 PM",
+      "side": 0,
+      "message": "Maybe consider removing it everywhere else then?",
+      "parentUuid": "d97df98f_a128b436",
+      "revId": "ecc902f177256f7d8859a986741bfa3b34f80aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

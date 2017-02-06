@@ -945,6 +945,24 @@
     },
     {
       "key": {
+        "uuid": "5bad6ee7_54bee69a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 2:20:54 AM",
+      "side": 1,
+      "message": "I don\u0027t completely agree with you that implementing Comparable would be better in this case. Comparable should be implemented if you define a natural ordering. Here, we simply define a custom ordering for display. That might be different than the natural one. If we moved this code to the compare() method of ExternalIdInfo, someone might ask why AccountExternalIdInfo also considers the identity field for ordering and ExternalIdInfo doesn\u0027t.",
+      "parentUuid": "bdfee500_fbc9aba3",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "757a12b3_053d4fbe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3

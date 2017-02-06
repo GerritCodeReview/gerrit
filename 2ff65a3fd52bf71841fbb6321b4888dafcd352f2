@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28a3c937_2dae6de7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1034322
+      },
+      "writtenOn": "Feb 6, 2017 3:58:32 PM",
+      "side": 1,
+      "message": "Y U NO right bracket key? Neither work as shortcuts.",
+      "range": {
+        "startLine": 427,
+        "startChar": 15,
+        "endLine": 427,
+        "endChar": 30
+      },
+      "revId": "2ff65a3fd52bf71841fbb6321b4888dafcd352f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

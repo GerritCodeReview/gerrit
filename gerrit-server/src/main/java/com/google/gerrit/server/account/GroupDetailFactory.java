@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
@@ -38,7 +36,6 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private final ReviewDb db;
   private final GroupControl.Factory groupControl;
   private final GroupCache groupCache;
-  private final GroupBackend groupBackend;
 
   private final AccountGroup.Id groupId;
   private GroupControl control;
@@ -47,12 +44,10 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   GroupDetailFactory(ReviewDb db,
       GroupControl.Factory groupControl,
       GroupCache groupCache,
-      GroupBackend groupBackend,
       @Assisted AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;
     this.groupCache = groupCache;
-    this.groupBackend = groupBackend;
 
     this.groupId = groupId;
   }
@@ -63,13 +58,8 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     AccountGroup group = groupCache.get(groupId);
     GroupDetail detail = new GroupDetail();
     detail.setGroup(group);
-    GroupDescription.Basic ownerGroup = groupBackend.get(group.getOwnerGroupUUID());
-    if (ownerGroup != null) {
-      detail.setOwnerGroup(GroupReference.forGroup(ownerGroup));
-    }
     detail.setMembers(loadMembers());
     detail.setIncludes(loadIncludes());
-    detail.setCanModify(control.isOwner());
     return detail;
   }
 

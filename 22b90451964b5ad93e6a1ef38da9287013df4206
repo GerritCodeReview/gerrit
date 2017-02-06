@@ -91,6 +91,48 @@
     },
     {
       "key": {
+        "uuid": "2e55857c_652e623c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a849c97c_44f0ea94",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "757abdf8_1ec5d946",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1bdf128_645700a1",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5c2f5ba_4574a9a4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -156,6 +198,24 @@
     },
     {
       "key": {
+        "uuid": "97faf518_876d121f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32998d6b_b15567fe",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14bf2d49_8103b7d8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -215,6 +275,24 @@
       "side": 1,
       "message": "As mentioned above, boolean methods of JavaScriptObjects mostly have a verb in our code base.",
       "parentUuid": "500ce7f7_8d31954e",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5fcd646_e756f606",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "changed to \"isTrusted()\"",
+      "parentUuid": "a53798b4_a7cd30f2",
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -310,6 +388,48 @@
     },
     {
       "key": {
+        "uuid": "3c99718f_fbca4722",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75b83239_fa6ba4d8",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2368a018_b4c0bb1b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7748a992_1593b304",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "205032e3_72a316ce",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -369,6 +489,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "0e3729a1_65f51297",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0932dcc5_adf047b3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff9b5ca9_c9be505a",
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -604,6 +742,30 @@
     },
     {
       "key": {
+        "uuid": "ec98ee8f_e98930db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "338dfcdd_1ae89898",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "108ca7e1_e754f27a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -675,6 +837,30 @@
     },
     {
       "key": {
+        "uuid": "5b83fdd3_da7ce935",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "I think I shouldn\u0027t modify it in this change. We\u0027d better keep the old name in AccountExternalId.",
+      "parentUuid": "45209938_942156c9",
+      "range": {
+        "startLine": 38,
+        "startChar": 23,
+        "endLine": 38,
+        "endChar": 36
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "111aca10_2326a54a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -734,6 +920,24 @@
       "side": 1,
       "message": "You\u0027re right. I misread the Javadoc.",
       "parentUuid": "fc79d8e7_32b1b7cd",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08889cf2_6fe34a66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4048646_c292f97a",
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -875,6 +1079,24 @@
     },
     {
       "key": {
+        "uuid": "c77475ca_0a798218",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "Yeah. We keep it here.",
+      "parentUuid": "79190066_34c98ffc",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a360f8ec_7de583af",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3
@@ -992,6 +1214,24 @@
       "writtenOn": "Feb 6, 2017 6:52:01 AM",
       "side": 1,
       "message": "I see reasons for defining the suggested natural ordering and reasons against that (especially for UI code). In my opinion, the latter ones prevail but that\u0027s purely subjective based on my experience with frontends. I don\u0027t think it\u0027s worth to start a big discussion on that topic. If you prefer to introduce the natural ordering, I won\u0027t object.",
+      "parentUuid": "2a98f928_26711f0f",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3083c32_ec69a63b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "I think move Comparable to info class is fine as the info class is constructed with the JSON response and only used for MyIdentitiesScreen. There is no other use case for it.",
       "parentUuid": "2a98f928_26711f0f",
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -1127,6 +1367,30 @@
       "writtenOn": "Feb 3, 2017 7:40:06 AM",
       "side": 1,
       "message": "I don\u0027t know why the old code check these and there are other possible scheme never checked.",
+      "parentUuid": "872e8a34_f1cb3022",
+      "range": {
+        "startLine": 250,
+        "startChar": 10,
+        "endLine": 250,
+        "endChar": 49
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4007fc7d_ccc8d694",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 7:58:09 AM",
+      "side": 1,
+      "message": "From [1], [2], we know this will not be used any more. But you can find usage of the URL_LAUNCHPAD and URL_YAHOO in the login.html. So we should keep them.\n[1] https://groups.google.com/forum/#!msg/repo-discuss/Hjn-\n6BV3KBU/utFpx47DP5MJ\n[2]https://gerrit-review.googlesource.com/#/c/57450/",
       "parentUuid": "872e8a34_f1cb3022",
       "range": {
         "startLine": 250,

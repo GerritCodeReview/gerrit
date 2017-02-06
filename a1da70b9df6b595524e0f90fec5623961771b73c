@@ -92,6 +92,30 @@
       "revId": "a1da70b9df6b595524e0f90fec5623961771b73c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ed08915_a54a9224",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "Feb 5, 2017 11:26:45 PM",
+      "side": 1,
+      "message": "Oh... good point. I think this line was copied from the line 73.\nYes, looks like we do have access to com.google.common.base.Strings.\n\nWill fix this and the line 73 too.",
+      "parentUuid": "ee45a5f7_bdef8aa2",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "a1da70b9df6b595524e0f90fec5623961771b73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

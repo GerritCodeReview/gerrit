@@ -35,6 +35,14 @@ class ApprovalEvent extends Event {
   }
 
   @Override
+  protected boolean canHaveTag() {
+    // Legacy SUBM approvals don't have a tag field set, but the corresponding
+    // ChangeMessage for merging the change does. We need to let these be in the
+    // same meta commit so the SUBM approval isn't counted as post-submit.
+    return !psa.isLegacySubmit();
+  }
+
+  @Override
   void apply(ChangeUpdate update) {
     checkUpdate(update);
     update.putApproval(psa.getLabel(), psa.getValue());

@@ -131,7 +131,6 @@ import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
-import com.google.gerrit.server.group.GroupInfoCache;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.index.change.ReindexAfterUpdate;
 import com.google.gerrit.server.mail.EmailModule;
@@ -253,7 +252,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeJson.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);
-    factory(GroupInfoCache.Factory.class);
     factory(GroupMembers.Factory.class);
     factory(EmailMerge.Factory.class);
     factory(MergedSender.Factory.class);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import java.sql.Timestamp;
@@ -46,5 +47,10 @@ class ApprovalEvent extends Event {
   @Override
   protected boolean isPostSubmitApproval() {
     return psa.isPostSubmit();
+  }
+
+  @Override
+  protected void addToString(ToStringHelper helper) {
+    helper.addValue(psa);
   }
 }

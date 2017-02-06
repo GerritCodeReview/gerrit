@@ -436,5 +436,19 @@ limitations under the License.
         done();
       });
     });
+
+    test('_sendDiffDraft pending requests tracked', function(done) {
+      sandbox.stub(element, 'send', function() {
+        assert.equal(element._pendingRequests.sendDiffDraft.length, 1);
+        return Promise.resolve([]);
+      });
+      element.saveDiffDraft('', 1, 1).then(function() {
+        assert.equal(element._pendingRequests.sendDiffDraft.length, 0);
+        element.deleteDiffDraft('', 1, 1).then(function() {
+          assert.equal(element._pendingRequests.sendDiffDraft.length, 0);
+          done();
+        });
+      });
+    });
   });
 </script>

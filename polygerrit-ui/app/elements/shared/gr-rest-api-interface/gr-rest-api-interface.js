@@ -22,6 +22,10 @@
   var MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   var PARENT_PATCH_NUM = 'PARENT';
 
+  var Requests = {
+    SEND_DIFF_DRAFT: 'sendDiffDraft',
+  };
+
   // Must be kept in sync with the ListChangesOption enum and protobuf.
   var ListChangesOption = {
     LABELS: 0,
@@ -95,11 +99,15 @@
     properties: {
       _cache: {
         type: Object,
-        value: {},  // Intentional to share the object accross instances.
+        value: {},  // Intentional to share the object across instances.
       },
       _sharedFetchPromises: {
         type: Object,
-        value: {},  // Intentional to share the object accross instances.
+        value: {},  // Intentional to share the object across instances.
+      },
+      _pendingRequests: {
+        type: Object,
+        value: {},  // Intentional to share the object across instances.
       },
     },
 
@@ -766,6 +774,12 @@
       return this._sendDiffDraftRequest('DELETE', changeNum, patchNum, draft);
     },
 
+    hasPendingDiffDrafts: function() {
+      return this._pendingRequests[Requests.SEND_DIFF_DRAFT] ?
+          this._pendingRequests[Requests.SEND_DIFF_DRAFT].length :
+          false;
+    },
+
     _sendDiffDraftRequest: function(method, changeNum, patchNum, draft) {
       var url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
       if (draft.id) {
@@ -776,7 +790,15 @@
         body = draft;
       }
 
-      return this.send(method, url, body);
+      if (!this._pendingRequests[Requests.SEND_DIFF_DRAFT]) {
+        this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
+      }
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT].push(1);
+
+      return this.send(method, url, body).then(function(res) {
+        this._pendingRequests[Requests.SEND_DIFF_DRAFT].pop();
+        return res;
+      }.bind(this));
     },
 
     _changeBaseURL: function(changeNum, opt_patchNum) {

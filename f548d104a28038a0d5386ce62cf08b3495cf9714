@@ -16,6 +16,24 @@
       "revId": "f548d104a28038a0d5386ce62cf08b3495cf9714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f172e9b7_c483aa81",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 6, 2017 10:35:24 AM",
+      "side": 1,
+      "message": "I did this so that it gets styled in the shadow-DOM.",
+      "parentUuid": "ff322257_4c7bd848",
+      "revId": "f548d104a28038a0d5386ce62cf08b3495cf9714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

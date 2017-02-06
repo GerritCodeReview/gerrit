@@ -404,8 +404,7 @@
     },
 
     _handleCKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       var isRangeSelected = this.diffs.some(function(diff) {
         return diff.isRangeSelected();
@@ -417,8 +416,7 @@
     },
 
     _handleLeftBracketKey: function(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._openSelectedFile(this._files.length - 1);

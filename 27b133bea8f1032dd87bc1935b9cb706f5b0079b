@@ -22,6 +22,30 @@
       "revId": "27b133bea8f1032dd87bc1935b9cb706f5b0079b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bd8afa_50a07301",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetAssigneeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-06T12:19:12Z",
+      "side": 1,
+      "message": "Or, why is the new assignee not contained in the event?",
+      "parentUuid": "f1e36f71_c196e146",
+      "range": {
+        "startLine": 154,
+        "startChar": 33,
+        "endLine": 154,
+        "endChar": 49
+      },
+      "revId": "27b133bea8f1032dd87bc1935b9cb706f5b0079b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

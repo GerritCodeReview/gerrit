@@ -1443,7 +1443,7 @@ can be accessed from any REST client, i. e.:
 ----
   curl -X POST -H "Content-Type: application/json" \
     -d '{message: "François", french: true}' \
-    --digest --user joe:secret \
+    --user joe:secret \
     http://host:port/a/changes/1/revisions/1/cookbook~say-hello
   "Bonjour François from change 1, patch set 1!"
 ----

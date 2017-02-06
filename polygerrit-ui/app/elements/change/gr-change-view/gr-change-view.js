@@ -19,6 +19,7 @@
     MISSING: 'missing',
   };
   var CHANGE_ID_REGEX_PATTERN = /^Change-Id\:\s(I[0-9a-f]{8,40})/gm;
+  var COMMENT_SAVE = 'Saving... Try again after all comments are saved.';
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;
   var REVIEWERS_REGEX = /^R=/gm;
@@ -784,6 +785,11 @@
     },
 
     _openReplyDialog: function(opt_section) {
+      if (this.$.restAPI.hasPendingDiffDrafts()) {
+        this.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message: COMMENT_SAVE}, bubbles: true}));
+        return;
+      }
       this.$.replyOverlay.open().then(function() {
         this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
         this.$.replyDialog.open(opt_section);
@@ -992,7 +998,7 @@
             if (res.ok) {
               this.set(['_change', 'revisions', sha, 'description'], desc);
             }
-        }.bind(this));
+          }.bind(this));
     },
 
 

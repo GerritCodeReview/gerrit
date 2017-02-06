@@ -15,24 +15,38 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
 import java.sql.Timestamp;
+import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class ChangeMessageEvent extends Event {
+  private static final ImmutableMap<Change.Status, Pattern> STATUS_PATTERNS =
+      ImmutableMap.of(
+          Change.Status.ABANDONED, Pattern.compile("^Abandoned(\n.*)*$"),
+          Change.Status.MERGED,
+              Pattern.compile(
+                  "^Change has been successfully" + " (merged|cherry-picked|rebased|pushed).*$"),
+          Change.Status.NEW, Pattern.compile("^Restored(\n.*)*$"));
+
   private static final Pattern TOPIC_SET_REGEXP = Pattern.compile("^Topic set to (.+)$");
   private static final Pattern TOPIC_CHANGED_REGEXP =
       Pattern.compile("^Topic changed from (.+) to (.+)$");
   private static final Pattern TOPIC_REMOVED_REGEXP = Pattern.compile("^Topic (.+) removed$");
 
-  private final ChangeMessage message;
+  private final Change change;
   private final Change noteDbChange;
+  private final Optional<Change.Status> status;
+  private final ChangeMessage message;
 
-  ChangeMessageEvent(ChangeMessage message, Change noteDbChange, Timestamp changeCreatedOn) {
+  ChangeMessageEvent(
+      Change change, Change noteDbChange, ChangeMessage message, Timestamp changeCreatedOn) {
     super(
         message.getPatchSetId(),
         message.getAuthor(),
@@ -40,8 +54,10 @@ class ChangeMessageEvent extends Event {
         message.getWrittenOn(),
         changeCreatedOn,
         message.getTag());
-    this.message = message;
+    this.change = change;
     this.noteDbChange = noteDbChange;
+    this.message = message;
+    this.status = parseStatus(message);
   }
 
   @Override
@@ -50,15 +66,44 @@ class ChangeMessageEvent extends Event {
   }
 
   @Override
+  protected boolean isSubmit() {
+    return status.isPresent() && status.get() == Change.Status.MERGED;
+  }
+
+  @Override
   protected boolean canHaveTag() {
     return true;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
     update.setChangeMessage(message.getMessage());
     setTopic(update);
+
+    if (status.isPresent()) {
+      Change.Status s = status.get();
+      update.fixStatus(s);
+      noteDbChange.setStatus(s);
+      if (s == Change.Status.MERGED) {
+        update.setSubmissionId(change.getSubmissionId());
+        noteDbChange.setSubmissionId(change.getSubmissionId());
+      }
+    }
+  }
+
+  private static Optional<Change.Status> parseStatus(ChangeMessage message) {
+    String msg = message.getMessage();
+    if (msg == null) {
+      return Optional.empty();
+    }
+    for (Map.Entry<Change.Status, Pattern> e : STATUS_PATTERNS.entrySet()) {
+      if (e.getValue().matcher(msg).matches()) {
+        return Optional.of(e.getKey());
+      }
+    }
+    return Optional.empty();
   }
 
   private void setTopic(ChangeUpdate update) {

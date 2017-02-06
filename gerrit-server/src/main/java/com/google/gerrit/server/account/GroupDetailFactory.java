@@ -18,19 +18,15 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.group.GroupInfoCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -43,8 +39,6 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private final GroupControl.Factory groupControl;
   private final GroupCache groupCache;
   private final GroupBackend groupBackend;
-  private final AccountInfoCacheFactory aic;
-  private final GroupInfoCache gic;
 
   private final AccountGroup.Id groupId;
   private GroupControl control;
@@ -54,15 +48,11 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
       GroupControl.Factory groupControl,
       GroupCache groupCache,
       GroupBackend groupBackend,
-      AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      GroupInfoCache.Factory groupInfoCacheFactory,
       @Assisted AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;
     this.groupCache = groupCache;
     this.groupBackend = groupBackend;
-    this.aic = accountInfoCacheFactory.create();
-    this.gic = groupInfoCacheFactory.create();
 
     this.groupId = groupId;
   }
@@ -87,33 +77,9 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     List<AccountGroupMember> members = new ArrayList<>();
     for (AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
       if (control.canSeeMember(m.getAccountId())) {
-        aic.want(m.getAccountId());
         members.add(m);
       }
     }
-
-    Collections.sort(members, new Comparator<AccountGroupMember>() {
-      @Override
-      public int compare(AccountGroupMember o1, AccountGroupMember o2) {
-        Account a = aic.get(o1.getAccountId());
-        Account b = aic.get(o2.getAccountId());
-        return n(a).compareTo(n(b));
-      }
-
-      private String n(final Account a) {
-        String n = a.getFullName();
-        if (n != null && n.length() > 0) {
-          return n;
-        }
-
-        n = a.getPreferredEmail();
-        if (n != null && n.length() > 0) {
-          return n;
-        }
-
-        return a.getId().toString();
-      }
-    });
     return members;
   }
 
@@ -122,31 +88,9 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
 
     for (AccountGroupById m : db.accountGroupById().byGroup(groupId)) {
       if (control.canSeeGroup()) {
-        gic.want(m.getIncludeUUID());
         groups.add(m);
       }
     }
-
-    Collections.sort(groups, new Comparator<AccountGroupById>() {
-      @Override
-      public int compare(AccountGroupById o1, AccountGroupById o2) {
-        GroupDescription.Basic a = gic.get(o1.getIncludeUUID());
-        GroupDescription.Basic b = gic.get(o2.getIncludeUUID());
-        return n(a).compareTo(n(b));
-      }
-
-      private String n (GroupDescription.Basic a) {
-        if (a == null) {
-          return "";
-        }
-
-        String n = a.getName();
-        if (n != null && n.length() > 0) {
-          return n;
-        }
-        return a.getGroupUUID().get();
-      }
-    });
 
     return groups;
   }

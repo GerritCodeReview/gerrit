@@ -22,6 +22,30 @@
       "revId": "55980bb66b9a4af4263c59bc308dc07fb7647a10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "119a0d0b_49f207dd",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Feb 6, 2017 1:22:33 AM",
+      "side": 1,
+      "message": "Oh im not sure how to do it like the bower one as looking at it, it looks different to this file.\n\nAlso I didn\u0027t test it because I am out and on my iPhone.",
+      "parentUuid": "c5477eeb_4a1e2456",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 32
+      },
+      "revId": "55980bb66b9a4af4263c59bc308dc07fb7647a10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

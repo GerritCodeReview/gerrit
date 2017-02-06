@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e23ee7d5_6bf1dbba",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Feb 6, 2017 5:04:31 AM",
+      "side": 1,
+      "message": "I doint see deps_formatted in this repo.",
+      "parentUuid": "14ba15bd_10eea866",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 10
+      },
+      "revId": "e4a99cf1cf50719c1d36ac8682a6eb0bc3168207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76d31943_cbb8e991",
         "filename": "tools/bzl/maven_jar.bzl",
         "patchSetId": 15

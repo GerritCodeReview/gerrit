@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "b459b048_9a00c4fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 6, 2017 7:33:00 AM",
+      "side": 1,
+      "message": "The intent of cleanFooDbSubject is to mean \"clean a subject that came from FooDb\". In this case bundleA.source \u003d\u003d REVIEW_DB, so cleanReviewDbSubject is the right method to call.\n\nAre you saying this naming scheme is confusing? If so, do you have a better suggestion?",
+      "parentUuid": "cf77b6a0_052cae3f",
+      "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93602b6d_f60bd8b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
         "patchSetId": 1
@@ -112,6 +130,24 @@
         "endLine": 582,
         "endChar": 64
       },
+      "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34428057_a175741c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 6, 2017 7:33:00 AM",
+      "side": 1,
+      "message": "Good point. In practice it\u0027s not likely to contain it, because you can only set the description via a command line flag during push or in a one-line textbox in a web UI. (For that matter there was exactly 1 change out of millions in our googlesource.com data that had this problem with the subject line.)\n\nI will sanitize a bunch more footers, including this one, in a followup commit.",
+      "parentUuid": "025b2bdb_c0b33915",
       "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

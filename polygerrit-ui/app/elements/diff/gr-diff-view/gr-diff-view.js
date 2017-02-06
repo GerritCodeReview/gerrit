@@ -16,6 +16,8 @@
 
   var COMMIT_MESSAGE_PATH = '/COMMIT_MSG';
 
+  var COMMENT_SAVE = 'Try again when all comments have saved.';
+
   var DiffSides = {
     LEFT: 'left',
     RIGHT: 'right',
@@ -30,6 +32,12 @@
      * Fired when the title of the page should change.
      *
      * @event title-change
+     */
+
+    /**
+     * Fired when user tries to navigate away while comments are pending save.
+     *
+     * @event show-alert
      */
 
     properties: {
@@ -82,7 +90,7 @@
       _filesWeblinks: Object,
 
       /**
-       * Map of paths in the current chnage and patch range that have comments
+       * Map of paths in the current change and patch range that have comments
        * or drafts or robot comments.
        */
       _commentMap: Object,
@@ -330,6 +338,11 @@
       if (this.modifierPressed(e)) { return; }
 
       if (!this._loggedIn) { return; }
+      if (this.$.restAPI.hasPendingDiffDrafts()) {
+        this.dispatchEvent(new CustomEvent('show-alert',
+            {detail: {message: COMMENT_SAVE}, bubbles: true}));
+        return;
+      }
 
       this.set('changeViewState.showReplyDialog', true);
       e.preventDefault();

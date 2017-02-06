@@ -22,6 +22,10 @@
   var MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   var PARENT_PATCH_NUM = 'PARENT';
 
+  var Requests = {
+    SEND_DIFF_DRAFT: 'sendDiffDraft',
+  };
+
   // Must be kept in sync with the ListChangesOption enum and protobuf.
   var ListChangesOption = {
     LABELS: 0,
@@ -95,11 +99,15 @@
     properties: {
       _cache: {
         type: Object,
-        value: {},  // Intentional to share the object accross instances.
+        value: {},  // Intentional to share the object across instances.
       },
       _sharedFetchPromises: {
         type: Object,
-        value: {},  // Intentional to share the object accross instances.
+        value: {},  // Intentional to share the object across instances.
+      },
+      _pendingRequests: {
+        type: Object,
+        value: {},  // Intentional to share the object across instances.
       },
     },
 
@@ -274,35 +282,35 @@
     setAccountName: function(name, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/name', {name: name}, opt_errFn,
           opt_ctx).then(function(response) {
-        // If result of getAccount is in cache, update it in the cache
-        // so we don't have to invalidate it.
-        var cachedAccount = this._cache['/accounts/self/detail'];
-        if (cachedAccount) {
-          return this.getResponseObject(response).then(function(newName) {
-            // Replace object in cache with new object to force UI updates.
-            // TODO(logan): Polyfill for Object.assign in IE
-            this._cache['/accounts/self/detail'] = Object.assign(
-                {}, cachedAccount, {name: newName});
+            // If result of getAccount is in cache, update it in the cache
+            // so we don't have to invalidate it.
+            var cachedAccount = this._cache['/accounts/self/detail'];
+            if (cachedAccount) {
+              return this.getResponseObject(response).then(function(newName) {
+                // Replace object in cache with new object to force UI updates.
+                // TODO(logan): Polyfill for Object.assign in IE
+                this._cache['/accounts/self/detail'] = Object.assign(
+                    {}, cachedAccount, {name: newName});
+              }.bind(this));
+            }
           }.bind(this));
-        }
-      }.bind(this));
     },
 
     setAccountStatus: function(status, opt_errFn, opt_ctx) {
       return this.send('PUT', '/accounts/self/status', {status: status},
-        opt_errFn, opt_ctx).then(function(response) {
-        // If result of getAccount is in cache, update it in the cache
-        // so we don't have to invalidate it.
-        var cachedAccount = this._cache['/accounts/self/detail'];
-        if (cachedAccount) {
-          return this.getResponseObject(response).then(function(newStatus) {
-            // Replace object in cache with new object to force UI updates.
-            // TODO(logan): Polyfill for Object.assign in IE
-            this._cache['/accounts/self/detail'] = Object.assign(
-                {}, cachedAccount, {status: newStatus});
+          opt_errFn, opt_ctx).then(function(response) {
+            // If result of getAccount is in cache, update it in the cache
+            // so we don't have to invalidate it.
+            var cachedAccount = this._cache['/accounts/self/detail'];
+            if (cachedAccount) {
+              return this.getResponseObject(response).then(function(newStatus) {
+                // Replace object in cache with new object to force UI updates.
+                // TODO(logan): Polyfill for Object.assign in IE
+                this._cache['/accounts/self/detail'] = Object.assign(
+                    {}, cachedAccount, {status: newStatus});
+              }.bind(this));
+            }
           }.bind(this));
-        }
-      }.bind(this));
     },
 
     getAccountGroups: function() {
@@ -803,6 +811,10 @@
       return this._sendDiffDraftRequest('DELETE', changeNum, patchNum, draft);
     },
 
+    hasPendingDiffDrafts: function() {
+      return !!this._pendingRequests[Requests.SEND_DIFF_DRAFT];
+    },
+
     _sendDiffDraftRequest: function(method, changeNum, patchNum, draft) {
       var url = this.getChangeActionURL(changeNum, patchNum, '/drafts');
       if (draft.id) {
@@ -813,7 +825,15 @@
         body = draft;
       }
 
-      return this.send(method, url, body);
+      if (!this._pendingRequests[Requests.SEND_DIFF_DRAFT]) {
+        this._pendingRequests[Requests.SEND_DIFF_DRAFT] = 0;
+      }
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT]++;
+
+      return this.send(method, url, body).then(function(res) {
+        this._pendingRequests[Requests.SEND_DIFF_DRAFT]--;
+        return res;
+      }.bind(this));
     },
 
     _changeBaseURL: function(changeNum, opt_patchNum) {

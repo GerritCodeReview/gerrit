@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef85d339_6c866763",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 6, 2017 12:21:12 PM",
+      "side": 1,
+      "message": "I wonder if it makes any sense to consider moving this to the server side.\nSame for the rest of the changes.",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

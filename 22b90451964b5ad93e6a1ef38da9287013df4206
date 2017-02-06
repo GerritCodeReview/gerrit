@@ -963,6 +963,24 @@
     },
     {
       "key": {
+        "uuid": "2a98f928_26711f0f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 2:30:35 AM",
+      "side": 1,
+      "message": "I agree with you, but I think we should define a natural ordering for the UI and implement this once and for all somewhere.\n\nThat does not necessarily have to be the same as in the backend. So if we choose (which I think make sense) that the natural ordering for ExternalIds in the UI is by email address, then that should be implemented.\n\nI don\u0027t really see use cases where we want to display alternate orderings for external IDs. Do you?",
+      "parentUuid": "5bad6ee7_54bee69a",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "757a12b3_053d4fbe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3

@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance;
+package com.google.gerrit.acceptance.annotation;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.Sandboxed;
 import org.junit.After;
 import org.junit.Test;
 

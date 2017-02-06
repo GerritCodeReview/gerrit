@@ -37,6 +37,8 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.google.common.base.Strings;
+
 import org.eclipse.jgit.util.CachedAuthenticator;
 
 import java.net.MalformedURLException;
@@ -57,7 +59,7 @@ final class ProxyUtil {
    */
   static void configureHttpProxy() throws MalformedURLException {
     final String s = System.getenv("http_proxy");
-    if (s == null || s.equals("")) {
+    if (Strings.isNullOrEmpty(s)) {
       return;
     }
 

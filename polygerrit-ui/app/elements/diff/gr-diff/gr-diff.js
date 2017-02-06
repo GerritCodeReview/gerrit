@@ -34,10 +34,9 @@
 
     properties: {
       changeNum: String,
-      expanded: {
+      noAutoRender: {
         type: Boolean,
-        value: true,
-        observer: '_handleShowDiff',
+        value: false,
       },
       patchRange: Object,
       path: String,
@@ -127,13 +126,14 @@
 
       return Promise.all(promises).then(function() {
         if (this.prefs) {
-          this._render();
+          return this._renderDiffTable();
         }
+        return Promise.resolve();
       }.bind(this));
     },
 
     getCursorStops: function() {
-      if (!this.expanded) {
+      if (this.noAutoRender) {
         return [];
       }
 
@@ -166,14 +166,9 @@
       this.toggleClass('no-left');
     },
 
-    _handleShowDiff: function() {
-      if (this._canRender()) {
-        this.reload();
-      }
-    },
-
     _canRender: function() {
-      return this.changeNum && this.patchRange && this.path && this.expanded;
+      return this.changeNum && this.patchRange && this.path &&
+          !this.noAutoRender;
     },
 
     _getCommentThreads: function() {
@@ -419,12 +414,12 @@
       this.updateStyles();
 
       if (this._diff && this._comments) {
-        this._render();
+        this._renderDiffTable();
       }
     },
 
-    _render: function() {
-      this.$.diffBuilder.render(this._comments, this.prefs);
+    _renderDiffTable: function() {
+      return this.$.diffBuilder.render(this._comments, this.prefs);
     },
 
     _clearDiffContent: function() {

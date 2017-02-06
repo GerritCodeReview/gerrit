@@ -149,11 +149,11 @@ limitations under the License.
 
             reporting.timeEnd(TimingLabel.CONTENT);
             reporting.time(TimingLabel.SYNTAX);
-            this.$.syntaxLayer.process().then(function() {
+            return this.$.syntaxLayer.process().then(function() {
               reporting.timeEnd(TimingLabel.SYNTAX);
               reporting.timeEnd(TimingLabel.TOTAL);
-            });
-            this.fire('render');
+              this.fire('render');
+            }.bind(this));
           }.bind(this));
         },
 

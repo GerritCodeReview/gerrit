@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc52ed15_0a4a17a1",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 20
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Feb 6, 2017 8:00:40 AM",
+      "side": 1,
+      "message": "Fails with\n\nERROR: /home/jenkins/workspace/Gerrit-verifier-bazel/gerrit/tools/bzl/maven_jar.bzl:62:54: syntax error at \u0027for\u0027: expected ,.\nERROR: /home/jenkins/workspace/Gerrit-verifier-bazel/gerrit/tools/bzl/maven_jar.bzl:62:52: name \u0027d\u0027 is not defined.\nERROR: com.google.devtools.build.lib.packages.BuildFileContainsErrorsException: error loading package \u0027\u0027: Extension \u0027tools/bzl/maven_jar.bzl\u0027 has errors.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 67
+      },
+      "revId": "f07bb823a287a07bc732cbade6ef7c1890e7cb4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

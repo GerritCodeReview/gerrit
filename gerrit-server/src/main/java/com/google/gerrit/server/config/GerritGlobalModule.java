@@ -77,7 +77,6 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
-import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountVisibility;
@@ -241,7 +240,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(AccountResolver.class);
 
-    factory(AccountInfoCacheFactory.Factory.class);
     factory(AddReviewerSender.Factory.class);
     factory(DeleteReviewerSender.Factory.class);
     factory(AddKeySender.Factory.class);

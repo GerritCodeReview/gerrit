@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableCollection;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -49,7 +50,7 @@ class FinalUpdatesEvent extends Event {
     if (!Objects.equals(change.getTopic(), noteDbChange.getTopic())) {
       update.setTopic(change.getTopic());
     }
-    if (!Objects.equals(change.getStatus(), noteDbChange.getStatus())) {
+    if (!statusMatches()) {
       // TODO(dborowitz): Stamp approximate approvals at this time.
       update.fixStatus(change.getStatus());
     }
@@ -69,6 +70,10 @@ class FinalUpdatesEvent extends Event {
     }
   }
 
+  private boolean statusMatches() {
+    return Objects.equals(change.getStatus(), noteDbChange.getStatus());
+  }
+
   private boolean highestNumberedPatchSetIsCurrent() {
     PatchSet.Id max =
         patchSets.stream().map(PatchSet::getId).max(intKeyOrdering()).get();
@@ -78,5 +83,12 @@ class FinalUpdatesEvent extends Event {
   @Override
   protected boolean isSubmit() {
     return change.getStatus() == Change.Status.MERGED;
+  }
+
+  @Override
+  protected void addToString(ToStringHelper helper) {
+    if (!statusMatches()) {
+      helper.add("status", change.getStatus());
+    }
   }
 }

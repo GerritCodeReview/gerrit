@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -44,5 +45,10 @@ class HashtagsEvent extends Event {
   @Override
   void apply(ChangeUpdate update) throws OrmException {
     update.setHashtags(hashtags);
+  }
+
+  @Override
+  protected void addToString(ToStringHelper helper) {
+    helper.add("hashtags", hashtags);
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -79,5 +80,10 @@ class ChangeMessageEvent extends Event {
       update.setTopic(null);
       noteDbChange.setTopic(null);
     }
+  }
+
+  @Override
+  protected void addToString(ToStringHelper helper) {
+    helper.add("message", message);
   }
 }

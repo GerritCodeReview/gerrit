@@ -22,6 +22,24 @@
       "revId": "ecc902f177256f7d8859a986741bfa3b34f80aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d97df98f_a128b436",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 6, 2017 1:38:50 PM",
+      "side": 0,
+      "message": "Because this isn\u0027t how it is in real code.",
+      "parentUuid": "913243f2_c1b08411",
+      "revId": "ecc902f177256f7d8859a986741bfa3b34f80aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

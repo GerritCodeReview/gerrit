@@ -1291,6 +1291,111 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
+  public void diffPatchSetsIgnoresCreatedOnWhenReviewDbIsNonMonotonic() throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+
+    Timestamp beforePs1 = TimeUtil.nowTs();
+
+    PatchSet goodPs1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
+    goodPs1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    goodPs1.setUploader(accountId);
+    goodPs1.setCreatedOn(TimeUtil.nowTs());
+    PatchSet goodPs2 = new PatchSet(new PatchSet.Id(c.getId(), 2));
+    goodPs2.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    goodPs2.setUploader(accountId);
+    goodPs2.setCreatedOn(TimeUtil.nowTs());
+    assertThat(goodPs2.getCreatedOn()).isGreaterThan(goodPs1.getCreatedOn());
+
+    PatchSet badPs2 = clone(goodPs2);
+    badPs2.setCreatedOn(beforePs1);
+    assertThat(badPs2.getCreatedOn()).isLessThan(goodPs1.getCreatedOn());
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(goodPs1, goodPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            REVIEW_DB);
+    ChangeBundle b2 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(goodPs1, badPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            REVIEW_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "createdOn differs for PatchSet.Id "
+            + badPs2.getId()
+            + ":"
+            + " {2009-09-30 17:00:18.0} != {2009-09-30 17:00:06.0}");
+
+    // Non-monotonic in ReviewDb but monotonic in NoteDb, timestamps are
+    // ignored, including for ps1.
+    PatchSet badPs1 = clone(goodPs1);
+    badPs1.setCreatedOn(TimeUtil.nowTs());
+    b1 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(badPs1, badPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            REVIEW_DB);
+    b2 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(goodPs1, goodPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // Non-monotonic in NoteDb but monotonic in ReviewDb, timestamps are not
+    // ignored.
+    b1 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(goodPs1, goodPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            REVIEW_DB);
+    b2 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(badPs1, badPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            NOTE_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "createdOn differs for PatchSet.Id "
+            + badPs1.getId()
+            + " in NoteDb vs. ReviewDb:"
+            + " {2009-09-30 17:00:24.0} != {2009-09-30 17:00:12.0}",
+        "createdOn differs for PatchSet.Id "
+            + badPs2.getId()
+            + " in NoteDb vs. ReviewDb:"
+            + " {2009-09-30 17:00:06.0} != {2009-09-30 17:00:18.0}");
+  }
+
+  @Test
   public void diffPatchSetApprovalKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();

@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import java.util.List;
 
 public class GroupDetail {
-  public AccountInfoCache accounts;
   public AccountGroup group;
   public List<AccountGroupMember> members;
   public List<AccountGroupById> includes;
@@ -29,10 +28,6 @@ public class GroupDetail {
   public boolean canModify;
 
   public GroupDetail() {
-  }
-
-  public void setAccounts(AccountInfoCache c) {
-    accounts = c;
   }
 
   public void setGroup(AccountGroup g) {

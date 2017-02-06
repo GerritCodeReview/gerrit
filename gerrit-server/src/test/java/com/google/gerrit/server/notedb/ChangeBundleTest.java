@@ -1223,6 +1223,51 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
+  public void diffPatchSetApprovalsIgnoresPostSubmitBitOnZeroVote()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    c.setStatus(Change.Status.MERGED);
+    PatchSetApproval a1 = new PatchSetApproval(
+        new PatchSetApproval.Key(
+            c.currentPatchSetId(), accountId, new LabelId("Code-Review")),
+        (short) 0,
+        TimeUtil.nowTs());
+    a1.setPostSubmit(false);
+    PatchSetApproval a2 = clone(a1);
+    a2.setPostSubmit(true);
+
+    // Both are ReviewDb, exact match is required.
+    ChangeBundle b1 = new ChangeBundle(c, messages(), latest(c), approvals(a1),
+        comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 = new ChangeBundle(c, messages(), latest(c), approvals(a2),
+        comments(), reviewers(), REVIEW_DB);
+    assertDiffs(b1, b2,
+        "postSubmit differs for PatchSetApproval.Key "
+            + c.getId() + "%2C1,100,Code-Review:"
+            + " {false} != {true}");
+
+    // One NoteDb, postSubmit is ignored.
+    b1 = new ChangeBundle(c, messages(), latest(c), approvals(a1), comments(),
+        reviewers(), REVIEW_DB);
+    b2 = new ChangeBundle(c, messages(), latest(c), approvals(a2), comments(),
+        reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // postSubmit is not ignored if vote isn't 0.
+    a1.setValue((short) 1);
+    a2.setValue((short) 1);
+    assertDiffs(b1, b2,
+        "postSubmit differs for PatchSetApproval.Key "
+            + c.getId() + "%2C1,100,Code-Review:"
+            + " {false} != {true}");
+    assertDiffs(b2, b1,
+        "postSubmit differs for PatchSetApproval.Key "
+            + c.getId() + "%2C1,100,Code-Review:"
+            + " {true} != {false}");
+  }
+
+  @Test
   public void diffReviewers() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     Timestamp now = TimeUtil.nowTs();

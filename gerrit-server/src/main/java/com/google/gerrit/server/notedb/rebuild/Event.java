@@ -103,6 +103,10 @@ abstract class Event implements Comparable<Event> {
     return false;
   }
 
+  protected boolean canHaveTag() {
+    return false;
+  }
+
   @Override
   public String toString() {
     ToStringHelper helper =

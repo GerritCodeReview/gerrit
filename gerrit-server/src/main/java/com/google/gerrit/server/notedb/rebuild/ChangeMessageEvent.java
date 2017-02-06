@@ -50,6 +50,11 @@ class ChangeMessageEvent extends Event {
   }
 
   @Override
+  protected boolean canHaveTag() {
+    return true;
+  }
+
+  @Override
   void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
     update.setChangeMessage(message.getMessage());

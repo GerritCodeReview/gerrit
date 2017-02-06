@@ -744,8 +744,18 @@ public class ChangeBundle {
         excludeGranted =
             tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn()) || tb.compareTo(ta) < 0;
       }
+
+      // Legacy submit approvals may or may not have tags associated with them,
+      // depending on whether ChangeRebuilder happened to group them with the
+      // status change.
+      boolean excludeTag =
+          bundleA.source != bundleB.source && a.isLegacySubmit() && b.isLegacySubmit();
+
       if (excludeGranted) {
         exclude.add("granted");
+      }
+      if (excludeTag) {
+        exclude.add("tag");
       }
 
       diffColumnsExcluding(diffs, PatchSetApproval.class, desc, bundleA, a, bundleB, b, exclude);

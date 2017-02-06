@@ -25,7 +25,6 @@ public class GroupDetail {
   public List<AccountGroupMember> members;
   public List<AccountGroupById> includes;
   public GroupReference ownerGroup;
-  public boolean canModify;
 
   public GroupDetail() {
   }
@@ -44,9 +43,5 @@ public class GroupDetail {
 
   public void setOwnerGroup(GroupReference g) {
     ownerGroup = g;
-  }
-
-  public void setCanModify(final boolean canModify) {
-    this.canModify = canModify;
   }
 }

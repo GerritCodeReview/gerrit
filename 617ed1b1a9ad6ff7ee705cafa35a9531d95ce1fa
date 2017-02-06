@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "31eee981_907f5a28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Feb 6, 2017 12:45:44 AM",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4dce0fde_8e0887ab",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "617ed1b1a9ad6ff7ee705cafa35a9531d95ce1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2f67622_669da9c7",
         "filename": "tools/bzl/maven_jar.bzl",
         "patchSetId": 10
@@ -36,6 +60,24 @@
       "writtenOn": "Feb 5, 2017 11:22:26 PM",
       "side": 1,
       "message": "This is all horribly wrong. For one, it is called exports in bazel and not exported_deps, see: [1]. For another, your new rules for deps and exports are no ops. What you want is to extend the existing java_import from line 62, something like:\n\n  java_import(\n    name \u003d \u0027jar\u0027,\n    {srcjar_attr}\n    {deps}\n    {exports}\n    jars \u003d [\u0027{binjar}\u0027],\n  )\n\nand the same for neverlink.\n\n* [1] https://bazel.build/versions/master/docs/be/java.html#java_import.exports",
+      "revId": "617ed1b1a9ad6ff7ee705cafa35a9531d95ce1fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d91b64c_797ad16a",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "Feb 6, 2017 12:45:44 AM",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f2f67622_669da9c7",
       "revId": "617ed1b1a9ad6ff7ee705cafa35a9531d95ce1fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

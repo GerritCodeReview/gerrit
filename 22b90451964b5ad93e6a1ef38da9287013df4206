@@ -981,6 +981,24 @@
     },
     {
       "key": {
+        "uuid": "cbaf2a63_7a5a2703",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 6:52:01 AM",
+      "side": 1,
+      "message": "I see reasons for defining the suggested natural ordering and reasons against that (especially for UI code). In my opinion, the latter ones prevail but that\u0027s purely subjective based on my experience with frontends. I don\u0027t think it\u0027s worth to start a big discussion on that topic. If you prefer to introduce the natural ordering, I won\u0027t object.",
+      "parentUuid": "2a98f928_26711f0f",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "757a12b3_053d4fbe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3

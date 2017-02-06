@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "a849c97c_44f0ea94",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 1:49:54 AM",
+      "side": 1,
+      "message": "I looked at several JavaScriptObjects and realized that omitting the verb for non-boolean methods seems to be the standard way in our code base for JavaScriptObjects. So, let\u0027s keep it as it is.",
+      "parentUuid": "0a491f3a_7d393db5",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5c2f5ba_4574a9a4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -120,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "32998d6b_b15567fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 1:49:54 AM",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "645529eb_ee7cc643",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14bf2d49_8103b7d8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -161,6 +197,24 @@
         "endLine": 24,
         "endChar": 39
       },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a53798b4_a7cd30f2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 1:49:54 AM",
+      "side": 1,
+      "message": "As mentioned above, boolean methods of JavaScriptObjects mostly have a verb in our code base.",
+      "parentUuid": "500ce7f7_8d31954e",
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -238,6 +292,24 @@
     },
     {
       "key": {
+        "uuid": "75b83239_fa6ba4d8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 1:49:54 AM",
+      "side": 1,
+      "message": "Thank you for the explanations. I assumed GWT to be smart enough to convert undefined automatically to false. As [1] mentions, newer versions of GWT are able to convert undefined automatically to null but unfortunately nothing is mentioned regarding boolean values. Let\u0027s just keep it as it is and be consistent with other JavaScriptObjects.\n\n[1] http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html",
+      "parentUuid": "7748a992_1593b304",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "205032e3_72a316ce",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 3
@@ -282,6 +354,24 @@
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff9b5ca9_c9be505a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 1:49:54 AM",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0e3729a1_65f51297",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

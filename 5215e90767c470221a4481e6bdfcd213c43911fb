@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "82b5d7c8_de1fd58f",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/CommentDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 6, 2017 6:05:32 AM",
+      "side": 1,
+      "message": "\u003e Maybe for another change, but this whole switch statement could be\n \u003e rewritten as an \"if - else-if\" since there are only two cases.\n\nDone in\n  https://gerrit-review.googlesource.com/96325",
+      "parentUuid": "84a48fc6_dc4104b7",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "5215e90767c470221a4481e6bdfcd213c43911fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc7b51c0_5a86a29f",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/CommentDetail.java",
         "patchSetId": 1

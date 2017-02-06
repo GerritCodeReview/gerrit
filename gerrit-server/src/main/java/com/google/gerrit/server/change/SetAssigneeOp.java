@@ -154,7 +154,7 @@ public class SetAssigneeOp extends BatchUpdate.Op {
     assigneeChanged.fire(change, ctx.getAccount(), oldAssignee, ctx.getWhen());
   }
 
-  public Account getNewAssignee() {
-    return newAssignee;
+  public Account.Id getNewAssignee() {
+    return newAssignee != null ? newAssignee.getId() : null;
   }
 }

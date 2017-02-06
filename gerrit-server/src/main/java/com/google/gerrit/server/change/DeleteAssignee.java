@@ -26,7 +26,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountJson;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.DeleteAssignee.Input;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.git.BatchUpdate;
@@ -49,33 +49,37 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> db;
   private final AssigneeChanged assigneeChanged;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
   DeleteAssignee(BatchUpdate.Factory batchUpdateFactory,
       ChangeMessagesUtil cmUtil,
       Provider<ReviewDb> db,
       AssigneeChanged assigneeChanged,
-      IdentifiedUser.GenericFactory userFactory) {
+      IdentifiedUser.GenericFactory userFactory,
+      AccountLoader.Factory accountLoaderFactory) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.cmUtil = cmUtil;
     this.db = db;
     this.assigneeChanged = assigneeChanged;
     this.userFactory = userFactory;
+    this.accountLoaderFactory = accountLoaderFactory;
   }
 
   @Override
   public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException, OrmException {
     try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
         rsrc.getProject(),
         rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op();
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
-      Account deletedAssignee = op.getDeletedAssignee();
+      Account.Id deletedAssignee = op.getDeletedAssignee();
       return deletedAssignee == null
           ? Response.none()
-          : Response.ok(AccountJson.toAccountInfo(deletedAssignee));
+          : Response.ok(accountLoaderFactory.create(true)
+              .fillOne(deletedAssignee));
     }
   }
 
@@ -106,8 +110,8 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
       return true;
     }
 
-    public Account getDeletedAssignee() {
-      return deletedAssignee;
+    public Account.Id getDeletedAssignee() {
+      return deletedAssignee != null ? deletedAssignee.getId() : null;
     }
 
     private void addMessage(BatchUpdate.ChangeContext ctx, ChangeUpdate update,

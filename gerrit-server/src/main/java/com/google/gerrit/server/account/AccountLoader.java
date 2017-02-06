@@ -107,4 +107,10 @@ public class AccountLoader {
     }
     fill();
   }
+
+  public AccountInfo fillOne(Account.Id id) throws OrmException {
+    AccountInfo info = get(id);
+    fill();
+    return info;
+  }
 }

@@ -722,6 +722,24 @@
     },
     {
       "key": {
+        "uuid": "e4048646_c292f97a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 2:09:51 AM",
+      "side": 1,
+      "message": "You\u0027re right. I misread the Javadoc.",
+      "parentUuid": "fc79d8e7_32b1b7cd",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76370d4_b2d40f5d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -833,6 +851,24 @@
         "endLine": 133,
         "endChar": 64
       },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79190066_34c98ffc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 6, 2017 2:09:51 AM",
+      "side": 1,
+      "message": "That code has been in this form for about 8 years. We should definitely improve it but this adjustment shouldn\u0027t be required for this unrelated change.",
+      "parentUuid": "73d2d132_e1fb83fe",
       "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

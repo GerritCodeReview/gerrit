@@ -530,6 +530,24 @@
     },
     {
       "key": {
+        "uuid": "de1d1881_f987fa76",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 10:07:16 AM",
+      "side": 1,
+      "message": "I have discussed this with Edwin. Actually, the old code reference the backend class to do this task, which is what we are trying to get rid of.",
+      "parentUuid": "c8f5309f_c9666f21",
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89ee9b65_943bfffc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 3
@@ -564,6 +582,30 @@
       "writtenOn": "Feb 3, 2017 7:40:06 AM",
       "side": 1,
       "message": "Done",
+      "parentUuid": "89ee9b65_943bfffc",
+      "range": {
+        "startLine": 19,
+        "startChar": 7,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec6dd7ab_6d5bf550",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 10:07:16 AM",
+      "side": 1,
+      "message": "I have tried to change this class to an enum but I think this should be better as:\n- Keep consistent with the AccountExternalId.java. If \n- As we have some schemes not defined here (OpenIdUtil.C.URL_YAHOO), changing this to enum will make our code hard to read. For example, if we want to write like \"ExternalIdScheme.getFor(k.identity()).map(ExternalIdScheme::describe).orElse(k.identity());\", then we may have to add URL_YAHOO as a scheme constant, which looks not a good idea.",
       "parentUuid": "89ee9b65_943bfffc",
       "range": {
         "startLine": 19,
@@ -1038,6 +1080,30 @@
     },
     {
       "key": {
+        "uuid": "a468f092_5346e1d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 10:07:16 AM",
+      "side": 1,
+      "message": "This is necessary when we switch to REST Api. Without calling display(), the screen can\u0027t be loaded. I guess it works without this before is because it uses ScreenLoadCallback.",
+      "parentUuid": "d52b03ae_9299acfb",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73d2d132_e1fb83fe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 3
@@ -1392,6 +1458,30 @@
       "side": 1,
       "message": "From [1], [2], we know this will not be used any more. But you can find usage of the URL_LAUNCHPAD and URL_YAHOO in the login.html. So we should keep them.\n[1] https://groups.google.com/forum/#!msg/repo-discuss/Hjn-\n6BV3KBU/utFpx47DP5MJ\n[2]https://gerrit-review.googlesource.com/#/c/57450/",
       "parentUuid": "872e8a34_f1cb3022",
+      "range": {
+        "startLine": 250,
+        "startChar": 10,
+        "endLine": 250,
+        "endChar": 49
+      },
+      "revId": "22b90451964b5ad93e6a1ef38da9287013df4206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a667e9b_796ed2b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 6, 2017 10:07:16 AM",
+      "side": 1,
+      "message": "This will be removed in latter change.",
+      "parentUuid": "4007fc7d_ccc8d694",
       "range": {
         "startLine": 250,
         "startChar": 10,

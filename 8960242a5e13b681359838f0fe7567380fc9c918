@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f915361_c9f2574a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 6, 2017 1:41:18 PM",
+      "side": 1,
+      "message": "Why not an actual @Deprecated annotation?",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "872c8a31_a6c24a26",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 6, 2017 1:41:18 PM",
+      "side": 1,
+      "message": "Why not call this timestamp?",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09b20032_ed152838",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 6, 2017 1:41:18 PM",
+      "side": 1,
+      "message": "Restating a concern I had in another change about this: surely there\u0027s a better way to get {type: \"comment\"} into JSON without having to maintain both class hierarchy and an enum. (If there isn\u0027t an easier way then this is fine).",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16e968dd_cb64efda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 6, 2017 1:41:18 PM",
+      "side": 1,
+      "message": "Not used.",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9f1c9a8_ba511fa9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 6, 2017 1:41:18 PM",
+      "side": 1,
+      "message": "Add a comment explaining what this algorithm is doing.",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6534f545_4885e1ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 6, 2017 1:41:18 PM",
+      "side": 1,
+      "message": "c.date.before(when)",
+      "range": {
+        "startLine": 642,
+        "startChar": 14,
+        "endLine": 642,
+        "endChar": 41
+      },
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

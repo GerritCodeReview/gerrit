@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1486388381 +0100\nnonce AFJA6ofDZq1gHAeWXFocFBIKqcDo6rk+ZdZoZodMdNo2DlIoujm3cBo/cOBOs7yCPrhdFDnjea4W\n\n0000000000000000000000000000000000000000 5215e90767c470221a4481e6bdfcd213c43911fb refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYmHydAAoJEFG1/Zeg0O9RAdwH/RoGzYVjEXlt+oXSmyP+a3FH\nBA7PDhb56SaGWg3KhpIU4/x0RZY8D3fUlwThLCi+yPiFD+0Y025HkVKrs27gdAbU\ngBYjNbt81Nqx6sHZkMk2pOiGi6ZXdPKsnTZrZ/M5e0Ubcp4i2cz6+V5fvl8JPBs3\nt2clyFcYttjrk0YmjpYzRhX/VheD1KolumoLaSlx1YH7Z4wV19uNPJkVkG5uSQos\nfC5tVm6+sc0RRvyYnmq46HmZ78X0bll3emmE2a0sFGCOb7/ZLCJeyNkXPhByAqjb\nMkPDg5v0kSluhdqIDz8wsMIxU80Wz3Myw1KBmYGSB0hhuN2oOo+7AhUbvMCrGIM\u003d\n\u003d5+pi\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "84a48fc6_dc4104b7",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/CommentDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Feb 6, 2017 5:44:16 AM",
+      "side": 1,
+      "message": "Is this needed any more?  the next statement is \"break\" so won\u0027t the method return then anyway?\n\nMaybe for another change, but this whole switch statement could be rewritten as an \"if - else-if\" since there are only two cases.",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "5215e90767c470221a4481e6bdfcd213c43911fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc7b51c0_5a86a29f",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/CommentDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Feb 6, 2017 5:44:16 AM",
+      "side": 1,
+      "message": "same here, if the \"if\" at L62 is changed to \"else if\"",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 16
+      },
+      "revId": "5215e90767c470221a4481e6bdfcd213c43911fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -132,6 +132,24 @@
     },
     {
       "key": {
+        "uuid": "82ae9982_b601a86e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 6, 2017 1:59:19 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f107b43_b9c7c2f4",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "817f928b_c31516e0",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6
@@ -155,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "a8fb4b09_50691a97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 6, 2017 1:59:19 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "817f928b_c31516e0",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b38931f1_51245d1a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 6
@@ -175,6 +211,24 @@
       "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c6f26f2_251f4913",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 6, 2017 1:59:19 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b38931f1_51245d1a",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

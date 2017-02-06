@@ -52,6 +52,24 @@
       "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7406f4d4_82175510",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 6, 2017 12:46:51 PM",
+      "side": 1,
+      "message": "The TODO is on line 739 for part of it. Are you suggesting we ask someone on the backend team to backfill data for us (not just add it going forward)? If we do that, we can remove this.",
+      "parentUuid": "2bf1cf42_2c0e37ad",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

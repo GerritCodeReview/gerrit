@@ -88,6 +88,93 @@
       "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b2750f9_57fab80f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 6, 2017 1:21:36 PM",
+      "side": 1,
+      "message": "FWIW, I think it\u0027s a fine approach to infer the range on the client.",
+      "parentUuid": "24aad5a3_b03f1a98",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f107b43_b9c7c2f4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 6, 2017 1:21:36 PM",
+      "side": 1,
+      "message": "Nit: if you use a filter, it will keep scanning the list, even after it\u0027s found the first match. This would be more efficient as a for with a break.\n\nfor (var i \u003d 0; i \u003c comments.length; i++) {\n  if (comments[i].id \u003d\u003d\u003d comment.in_reply_to) {\n    comment.range \u003d comments[i].range;\n    break;\n  }\n}",
+      "range": {
+        "startLine": 725,
+        "startChar": 10,
+        "endLine": 727,
+        "endChar": 22
+      },
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "817f928b_c31516e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 6, 2017 1:21:36 PM",
+      "side": 1,
+      "message": "Nit: This comment doesn\u0027t really explain why recursion isn\u0027t used. Like, there isn\u0027t anything wrong with recursion in general, but in this case it would be less efficient/simple. Maybe something like...\n\n  // Sort comments by date so that parent ranges\n  // can be propagated in a single pass.\n\n...?",
+      "range": {
+        "startLine": 742,
+        "startChar": 8,
+        "endLine": 742,
+        "endChar": 70
+      },
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b38931f1_51245d1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 6, 2017 1:21:36 PM",
+      "side": 1,
+      "message": "Why is the function declared separately if this is the only place it\u0027s used? I suspect we can just declare addCommentRange as an anonymous function here (or even as a vanilla for loop).",
+      "range": {
+        "startLine": 746,
+        "startChar": 25,
+        "endLine": 746,
+        "endChar": 40
+      },
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

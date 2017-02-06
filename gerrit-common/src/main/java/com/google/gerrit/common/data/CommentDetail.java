@@ -45,20 +45,16 @@ public class CommentDetail {
 
   public void include(Change.Id changeId, Comment p) {
     PatchSet.Id psId = new PatchSet.Id(changeId, p.key.patchSetId);
-    switch (p.side) {
-      case 0:
-        if (idA == null && idB.equals(psId)) {
-          a.add(p);
-        }
-        break;
-
-      case 1:
-        if (idA != null && idA.equals(psId)) {
-          a.add(p);
-        } else if (idB.equals(psId)) {
-          b.add(p);
-        }
-        break;
+    if (p.side == 0) {
+      if (idA == null && idB.equals(psId)) {
+        a.add(p);
+      }
+    } else if (p.side == 1) {
+      if (idA != null && idA.equals(psId)) {
+        a.add(p);
+      } else if (idB.equals(psId)) {
+        b.add(p);
+      }
     }
   }
 

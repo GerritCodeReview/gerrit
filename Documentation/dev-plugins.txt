@@ -2220,7 +2220,17 @@ Metric recording statistical distribution (rate) of values.
 Note that metrics cannot be recorded from plugin init steps that
 are run during site initialization.
 
-Plugin metrics are recorded under `plugins/${plugin-name}/${metric-name}`.
+By default, plugin metrics are recorded under
+`plugins/${plugin-name}/${metric-name}`. This can be changed by
+setting `plugins.${plugin-name}.metricsPrefix` in the `gerrit.config`
+file. For example:
+
+----
+  [plugin "my-plugin"]
+    metricsPrefix = my-metrics
+----
+
+will cause the metrics to be recorded under `my-metrics/${metric-name}`.
 
 See the replication metrics in the
 link:https://gerrit.googlesource.com/plugins/replication/+/master/src/main/java/com/googlesource/gerrit/plugins/replication/ReplicationMetrics.java[

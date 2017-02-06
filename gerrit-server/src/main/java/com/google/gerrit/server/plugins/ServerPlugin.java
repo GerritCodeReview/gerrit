@@ -42,6 +42,7 @@ public class ServerPlugin extends Plugin {
   private final Path dataDir;
   private final String pluginCanonicalWebUrl;
   private final ClassLoader classLoader;
+  private final String metricsPrefix;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
   private Class<? extends Module> httpModule;
@@ -59,7 +60,8 @@ public class ServerPlugin extends Plugin {
       FileSnapshot snapshot,
       PluginContentScanner scanner,
       Path dataDir,
-      ClassLoader classLoader) throws InvalidPluginException {
+      ClassLoader classLoader,
+      String metricsPrefix) throws InvalidPluginException {
     super(name, srcJar, pluginUser, snapshot,
         Plugin.getApiType(getPluginManifest(scanner)));
     this.pluginCanonicalWebUrl = pluginCanonicalWebUrl;
@@ -67,7 +69,20 @@ public class ServerPlugin extends Plugin {
     this.dataDir = dataDir;
     this.classLoader = classLoader;
     this.manifest = getPluginManifest(scanner);
+    this.metricsPrefix = metricsPrefix;
     loadGuiceModules(manifest, classLoader);
+  }
+
+  public ServerPlugin(String name,
+      String pluginCanonicalWebUrl,
+      PluginUser pluginUser,
+      Path srcJar,
+      FileSnapshot snapshot,
+      PluginContentScanner scanner,
+      Path dataDir,
+      ClassLoader classLoader) throws InvalidPluginException {
+    this(name, pluginCanonicalWebUrl, pluginUser, srcJar, snapshot, scanner,
+        dataDir, classLoader, null);
   }
 
   private void loadGuiceModules(Manifest manifest, ClassLoader classLoader) throws InvalidPluginException {
@@ -114,6 +129,10 @@ public class ServerPlugin extends Plugin {
 
   String getPluginCanonicalWebUrl() {
     return pluginCanonicalWebUrl;
+  }
+
+  String getMetricsPrefix() {
+    return metricsPrefix;
   }
 
   private static Manifest getPluginManifest(PluginContentScanner scanner)

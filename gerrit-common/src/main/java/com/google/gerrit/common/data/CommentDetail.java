@@ -27,7 +27,6 @@ import java.util.Map;
 public class CommentDetail {
   protected List<Comment> a;
   protected List<Comment> b;
-  protected AccountInfoCache accounts;
 
   private transient PatchSet.Id idA;
   private transient PatchSet.Id idB;
@@ -44,37 +43,28 @@ public class CommentDetail {
   protected CommentDetail() {
   }
 
-  public boolean include(Change.Id changeId, Comment p) {
+  public void include(Change.Id changeId, Comment p) {
     PatchSet.Id psId = new PatchSet.Id(changeId, p.key.patchSetId);
     switch (p.side) {
       case 0:
         if (idA == null && idB.equals(psId)) {
           a.add(p);
-          return true;
+          return;
         }
         break;
 
       case 1:
         if (idA != null && idA.equals(psId)) {
           a.add(p);
-          return true;
+          return;
         }
 
         if (idB.equals(psId)) {
           b.add(p);
-          return true;
+          return;
         }
         break;
     }
-    return false;
-  }
-
-  public void setAccountInfoCache(final AccountInfoCache a) {
-    accounts = a;
-  }
-
-  public AccountInfoCache getAccounts() {
-    return accounts;
   }
 
   public List<Comment> getCommentsA() {

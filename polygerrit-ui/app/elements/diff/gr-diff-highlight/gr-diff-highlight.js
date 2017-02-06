@@ -94,13 +94,41 @@
       }
     },
 
-    _normalizeRange: function(range) {
-      range = GrRangeNormalizer.normalize(range);
-      return {
-        start: this._normalizeSelectionSide(range.startContainer,
-            range.startOffset),
-        end: this._normalizeSelectionSide(range.endContainer, range.endOffset),
-      };
+    _normalizeRange: function(domRange) {
+      var range = GrRangeNormalizer.normalize(domRange);
+      return this._fixTripleClickSelection({
+        start: this._normalizeSelectionSide(
+            range.startContainer, range.startOffset),
+        end: this._normalizeSelectionSide(
+            range.endContainer, range.endOffset),
+      }, domRange);
+    },
+
+    _fixTripleClickSelection: function(range, domRange) {
+      var start = range.start;
+      var end = range.end;
+      var endsAtOtherSideLineNum =
+          domRange.endOffset === 0 &&
+          domRange.endContainer.nodeName === 'TD' &&
+          (domRange.endContainer.classList.contains('left') ||
+           domRange.endContainer.classList.contains('right'));
+      var endsOnOtherSideStart = endsAtOtherSideLineNum ||
+          end &&
+          end.column === 0 &&
+          end.line === start.line &&
+          end.side != start.side;
+      if (endsOnOtherSideStart || endsAtOtherSideLineNum) {
+        // Selection ends at the beginning of the next line.
+        // Move the selection to the end of the previous line.
+        range.end = {
+          node: start.node,
+          column: this._getLength(
+              domRange.cloneContents().querySelector('.contentText')),
+          side: start.side,
+          line: start.line,
+        };
+      }
+      return range;
     },
 
     /**

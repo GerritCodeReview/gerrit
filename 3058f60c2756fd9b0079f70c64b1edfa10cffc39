@@ -34,6 +34,24 @@
       "revId": "3058f60c2756fd9b0079f70c64b1edfa10cffc39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88662a33_e5932128",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 6, 2017 1:27:43 PM",
+      "side": 1,
+      "message": "\u003e This looks like a code debt to me. And it is growing.\n\n@Viktar Are you perhaps referring to the fact that we have `side` and `commentSide` in the parameter list?\n\n@Becky would it make sense at this stage to refactor `side` to `isParent` or `isParentRevision` as a boolean? That way we can use the parameter name `side` to refer to \u0027left\u0027 or \u0027right\u0027 as `commentSide` does.",
+      "parentUuid": "d1118e35_1b52a2aa",
+      "revId": "3058f60c2756fd9b0079f70c64b1edfa10cffc39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

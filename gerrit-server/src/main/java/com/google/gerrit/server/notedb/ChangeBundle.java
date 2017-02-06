@@ -730,19 +730,26 @@ public class ChangeBundle {
       // actual submit, so the timestamps may not line up. This shouldn't really
       // happen, because postSubmit shouldn't be set in ReviewDb until after the
       // change is submitted in ReviewDb, but you never know.
+      //
+      // Due to a quirk of PostReview, post-submit 0 votes might not have the
+      // postSubmit bit set in ReviewDb. As these are only used for tombstone
+      // purposes, ignore the postSubmit bit in NoteDb in this case.
       Timestamp ta = a.getGranted();
       Timestamp tb = b.getGranted();
       PatchSet psa = checkNotNull(bundleA.patchSets.get(a.getPatchSetId()));
       PatchSet psb = checkNotNull(bundleB.patchSets.get(b.getPatchSetId()));
       boolean excludeGranted = false;
+      boolean excludePostSubmit = false;
       List<String> exclude = new ArrayList<>(1);
       if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
         excludeGranted =
             (ta.before(psa.getCreatedOn()) && tb.equals(psb.getCreatedOn()))
                 || ta.compareTo(tb) < 0;
+        excludePostSubmit = a.getValue() == 0 && b.isPostSubmit();
       } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
         excludeGranted =
             tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn()) || tb.compareTo(ta) < 0;
+        excludePostSubmit = b.getValue() == 0 && a.isPostSubmit();
       }
 
       // Legacy submit approvals may or may not have tags associated with them,
@@ -753,6 +760,9 @@ public class ChangeBundle {
 
       if (excludeGranted) {
         exclude.add("granted");
+      }
+      if (excludePostSubmit) {
+        exclude.add("postSubmit");
       }
       if (excludeTag) {
         exclude.add("tag");

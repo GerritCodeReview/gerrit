@@ -16,6 +16,24 @@
       "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52a1f75_cb338d60",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 6, 2017 12:22:26 PM",
+      "side": 1,
+      "message": "@Kasper is working on adding the range via the server when a comment is POSTed. I\u0027m not sure that this part (for ones that don\u0027t have it already) can be added, unless we can do a one time job.",
+      "parentUuid": "ef85d339_6c866763",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -92,6 +92,29 @@
       "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "025b2bdb_c0b33915",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 6, 2017 1:24:59 AM",
+      "side": 1,
+      "message": "Should psDescription also be sanitized?",
+      "range": {
+        "startLine": 582,
+        "startChar": 51,
+        "endLine": 582,
+        "endChar": 64
+      },
+      "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

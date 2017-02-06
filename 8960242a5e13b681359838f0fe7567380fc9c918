@@ -36,6 +36,47 @@
     },
     {
       "key": {
+        "uuid": "1c0a4c93_47cc7a1a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 6, 2017 2:45:30 PM",
+      "side": 1,
+      "message": "-1 to \"date\" when it\u0027s actually a date/time.\n\n+0.5 to \"timestamp\".\n\nMaybe look to existing REST API field names for guidance?",
+      "parentUuid": "872c8a31_a6c24a26",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14ecdd38_031e8e5d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 6, 2017 2:45:30 PM",
+      "side": 1,
+      "message": "Optional: you could spell this \"Type\" and then refer to it in the code as \"EventInfo.Type\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09b20032_ed152838",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
         "patchSetId": 2
@@ -53,6 +94,58 @@
     },
     {
       "key": {
+        "uuid": "89bfe347_569ccf38",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 6, 2017 2:45:30 PM",
+      "side": 1,
+      "message": "There is *a* way using custom type adapters. I don\u0027t think it\u0027s really an easier way. If we are really concerned about forgetting to update this enum, then maybe it\u0027s worth it, but I don\u0027t see that as a huge problem at the moment.",
+      "parentUuid": "09b20032_ed152838",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "351b991d_cd903f4d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/client/EventInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 6, 2017 2:45:30 PM",
+      "side": 1,
+      "message": "I think you want to compare type as well. In theory that should be implied by the class comparison, but I don\u0027t think the guarantee is strong enough to warrant omitting the check here.",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bd3e370_edacc03e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeMessageInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 6, 2017 2:45:30 PM",
+      "side": 1,
+      "message": "I\u0027m not sure I follow. One type of EventInfo (ChangeMessageInfo) can contain arbitrarily many other EventInfos (CommentInfos) inside it?\n\nIs the goal to eventually add other fields in this class, like reviewers? What if you want some other kind of top-level event other than Change MessageInfo to also contain nested EventInfos? Will we end up replicating this nested structure on an ad-hoc basis, or is this something that fits better up in EventInfo.",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16e968dd_cb64efda",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 2
@@ -64,6 +157,23 @@
       "writtenOn": "Feb 6, 2017 1:41:18 PM",
       "side": 1,
       "message": "Not used.",
+      "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe2a320_f6f53101",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 6, 2017 2:45:30 PM",
+      "side": 1,
+      "message": "ChangeJson already has a lot going on, I feel like this could go in its own file.",
       "revId": "8960242a5e13b681359838f0fe7567380fc9c918",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

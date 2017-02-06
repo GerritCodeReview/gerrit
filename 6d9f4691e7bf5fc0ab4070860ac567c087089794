@@ -22,6 +22,30 @@
       "revId": "6d9f4691e7bf5fc0ab4070860ac567c087089794",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a305055e_6a0ce2f1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "Feb 6, 2017 12:07:47 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b3b3c44_1b5d4733",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 29
+      },
+      "revId": "6d9f4691e7bf5fc0ab4070860ac567c087089794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

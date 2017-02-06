@@ -49,10 +49,4 @@ public abstract class AuthRequest {
   public final String getPassword() {
     return password;
   }
-
-  public void checkPassword(String pwd) throws AuthException {
-    if (!Objects.equals(getPassword(), pwd)) {
-      throw new InvalidCredentialsException();
-    }
-  }
 }

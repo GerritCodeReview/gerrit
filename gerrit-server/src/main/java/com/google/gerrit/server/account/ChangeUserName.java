@@ -92,6 +92,7 @@ public class ChangeUserName implements Callable<VoidResult> {
         for (AccountExternalId i : old) {
           if (i.getPassword() != null) {
             id.setPassword(i.getPassword());
+            id.setHashedPassword(HashedPassword.fromPassword(i.getPassword()).encode());
           }
         }
 

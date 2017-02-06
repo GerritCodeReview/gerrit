@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountIndex;
+import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -102,6 +103,7 @@ public class InitAdminUser implements InitStep {
                   AccountExternalId.SCHEME_USERNAME, username));
           if (!Strings.isNullOrEmpty(httpPassword)) {
             extUser.setPassword(httpPassword);
+            extUser.setHashedPassword(HashedPassword.fromPassword(httpPassword).encode());
           }
           extIds.add(extUser);
           db.accountExternalIds().insert(Collections.singleton(extUser));

@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.client.AuthType.OAUTH;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
@@ -48,7 +49,8 @@ public class GitOverHttpModule extends ServletModule {
         authFilter = ProjectBasicAuthFilter.class;
       }
     } else {
-      authFilter = ProjectDigestFilter.class;
+      // NOSUBMIT - what should this look like now without ProjectDigest filter?
+      authFilter = ProjectBasicAuthFilter.class;
     }
 
     if (isHttpEnabled()) {

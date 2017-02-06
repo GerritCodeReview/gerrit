@@ -129,6 +129,7 @@ public class CreateAccount
 
     if (input.httpPassword != null) {
       extUser.setPassword(input.httpPassword);
+      extUser.setHashedPassword(HashedPassword.fromPassword(input.httpPassword).encode());
     }
 
     if (db.accountExternalIds().get(extUser.getKey()) != null) {

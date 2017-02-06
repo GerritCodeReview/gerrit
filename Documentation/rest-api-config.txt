@@ -470,9 +470,9 @@ The cache names are lexicographically sorted.
 E.g. this could be used to flush all caches:
 +
 ----
-  for c in $(curl --digest --user jdoe:TNAuLkXsIV7w http://gerrit/a/config/server/caches/?format=TEXT_LIST | base64 -D)
+  for c in $(curl --user jdoe:TNAuLkXsIV7w http://gerrit/a/config/server/caches/?format=TEXT_LIST | base64 -D)
   do
-    curl --digest --user jdoe:TNAuLkXsIV7w -X POST http://gerrit/a/config/server/caches/$c/flush
+    curl --user jdoe:TNAuLkXsIV7w -X POST http://gerrit/a/config/server/caches/$c/flush
   done
 ----
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -91,5 +92,10 @@ class StatusChangeEvent extends Event {
   @Override
   protected boolean isSubmit() {
     return status == Change.Status.MERGED;
+  }
+
+  @Override
+  protected void addToString(ToStringHelper helper) {
+    helper.add("status", status);
   }
 }

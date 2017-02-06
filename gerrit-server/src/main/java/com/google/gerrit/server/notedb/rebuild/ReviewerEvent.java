@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.Table;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -53,5 +54,11 @@ class ReviewerEvent extends Event {
   void apply(ChangeUpdate update) throws IOException, OrmException {
     checkUpdate(update);
     update.putReviewer(reviewer.getColumnKey(), reviewer.getRowKey());
+  }
+
+  @Override
+  protected void addToString(ToStringHelper helper) {
+    helper.add("account", reviewer.getColumnKey())
+        .add("state", reviewer.getRowKey());
   }
 }

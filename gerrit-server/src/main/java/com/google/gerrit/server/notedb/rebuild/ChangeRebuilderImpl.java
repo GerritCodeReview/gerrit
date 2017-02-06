@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -87,11 +86,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class ChangeRebuilderImpl extends ChangeRebuilder {
   /**
@@ -309,8 +309,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     deleteDraftRefs(change, manager.getAllUsersRepo());
 
     Integer minPsNum = getMinPatchSetNum(bundle);
-    Map<PatchSet.Id, PatchSetEvent> patchSetEvents =
-        Maps.newHashMapWithExpectedSize(bundle.getPatchSets().size());
+    TreeMap<PatchSet.Id, PatchSetEvent> patchSetEvents =
+        new TreeMap<>(ReviewDbUtil.intKeyOrdering());
 
     for (PatchSet ps : bundle.getPatchSets()) {
       PatchSetEvent pse =
@@ -328,6 +328,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         draftCommentEvents.put(c.author.getId(), e);
       }
     }
+    ensurePatchSetOrder(patchSetEvents);
 
     for (PatchSetApproval psa : bundle.getPatchSetApprovals()) {
       PatchSetEvent pse = patchSetEvents.get(psa.getPatchSetId());
@@ -404,6 +405,20 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       }
     }
     return minPsNum;
+  }
+
+  private static void ensurePatchSetOrder(
+      TreeMap<PatchSet.Id, PatchSetEvent> events) {
+    if (events.isEmpty()) {
+      return;
+    }
+    Iterator<PatchSetEvent> it = events.values().iterator();
+    PatchSetEvent curr = it.next();
+    while (it.hasNext()) {
+      PatchSetEvent next = it.next();
+      next.addDep(curr);
+      curr = next;
+    }
   }
 
   private static List<Comment> getComments(ChangeBundle bundle, String serverId,

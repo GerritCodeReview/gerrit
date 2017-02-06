@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11e67238_77eb5b46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "Feb 5, 2017 11:45:08 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2110ee8_58e4ffcc",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "a1da70b9df6b595524e0f90fec5623961771b73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d811f13b_8dd179e3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "6b773542_be08ff6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "Feb 5, 2017 11:45:08 PM",
+      "side": 1,
+      "message": "The usage of http_proxy env variable to configure proxy for Gerrit is not documented yet although this feature exists since 2009. Let\u0027s document the usage http_proxy, https_proxy and no_proxy in a follow-up change?",
+      "parentUuid": "5d6f5d4c_a3f40c9c",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "a1da70b9df6b595524e0f90fec5623961771b73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee45a5f7_bdef8aa2",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
         "patchSetId": 2
@@ -107,6 +155,30 @@
       "side": 1,
       "message": "Oh... good point. I think this line was copied from the line 73.\nYes, looks like we do have access to com.google.common.base.Strings.\n\nWill fix this and the line 73 too.",
       "parentUuid": "ee45a5f7_bdef8aa2",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "a1da70b9df6b595524e0f90fec5623961771b73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a406ed13_ff641f98",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "Feb 5, 2017 11:45:08 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ed08915_a54a9224",
       "range": {
         "startLine": 105,
         "startChar": 4,

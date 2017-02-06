@@ -70,6 +70,24 @@
       "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24aad5a3_b03f1a98",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 12:51:26 PM",
+      "side": 1,
+      "message": "Pertinent Monorail bug is here:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5462\n\nThis change is a temporary fix, the server side change will be a permanent one.",
+      "parentUuid": "7406f4d4_82175510",
+      "revId": "f0e8f345f0f44d814d02c279bb582f971d9b5343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

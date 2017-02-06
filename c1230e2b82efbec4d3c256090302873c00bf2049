@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1486329795 -0500\nnonce AFJA6odtdO4+Al11LzxIlZvq1aeKxY9EOTRE8uNGof3icUI9hjv7BxDzm4+d5PHP5vKwkFNmR4mB\n\n0000000000000000000000000000000000000000 c1230e2b82efbec4d3c256090302873c00bf2049 refs/for/master%r\u003dsop@google.com,r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYl5fDAAoJEF/XxZqaEoiMtaoQAIsow6NPNGUDkwl2QIj5Tz8h\nNDpSht7wBNaBGvo/PozZ01JzRC0f553YIVDwOEk5j0leaS7oXaMnjwjFl71XU+ae\n0OkX3QZEeGUWh3y9GN/s8vpumViGizmPpVfBopqI/HyU50exBLkE2rUkGPBk8tQ/\nccZpbU7yDO1rj4jK3catsVH/uPx60bkuHUUM9oaYkhG56Z0VBrch7cqh5YXvOVdq\nqK6OxpGvN4OXD3WDwkLuvZ+SEnfpE4fyTg0QcuEp9t5pwGsZtOvgo4CHBCx9BiNi\n8ikBy3vgdU7XYmQEMDmDmtAMVNcYncEGxW/Y9p4uh+lYlhB6Lx4z7fkg3k3HTi+m\n/rXA8nRPB5qAgU2YT0Duenkn/IjfhLcLe4WSuTBh6y2c5yPs3AnEOOh0r+V/EQ71\nE0DY4PFUOgwyv87i95myWAUS6j1x8HuMiO9UghvMww01zppB4KZR3JVaTA1/bip4\nu0uUxKbtm5ooHNCUnNYUIvz/UMfEkuLztYUgpsbjN33Tzt7c6tv1blU9TY8iJmDl\nDc/+QUKxmJSM4NISMPEc2vaKqJU/gnWOHp/h4AeMi6cf6MMU/oxQMQm2yquiHF+a\npz/Jj/yVqNDafud5KIEo1/kyXDsCByT9wh6eSpY+UlM/6evGBvCfqVGdeZLyo1BG\n6inD9wy+2P6G5QDq4yTJ\n\u003d0mle\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf77b6a0_052cae3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 12:25:53 AM",
+      "side": 1,
+      "message": "nit: reviewDbSubj",
+      "range": {
+        "startLine": 440,
+        "startChar": 6,
+        "endLine": 440,
+        "endChar": 11
+      },
+      "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93602b6d_f60bd8b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 12:25:53 AM",
+      "side": 1,
+      "message": "nit: noteDbSubj",
+      "range": {
+        "startLine": 441,
+        "startChar": 6,
+        "endLine": 441,
+        "endChar": 11
+      },
+      "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08bb1a1b_77a6a6bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 12:25:53 AM",
+      "side": 1,
+      "message": "also here",
+      "range": {
+        "startLine": 453,
+        "startChar": 6,
+        "endLine": 453,
+        "endChar": 11
+      },
+      "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4636c08f_446c7d5e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 6, 2017 12:25:53 AM",
+      "side": 1,
+      "message": "From what I see at [0] there is no way to just escape these (sad). \n\nFur future reference, this [0,1] is where JGit does the parsing that caused this bug.\n\n[0] https://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java#L591\n[1] https://github.com/spearce/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+      "range": {
+        "startLine": 645,
+        "startChar": 16,
+        "endLine": 645,
+        "endChar": 30
+      },
+      "revId": "c1230e2b82efbec4d3c256090302873c00bf2049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

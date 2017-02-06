@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5477eeb_4a1e2456",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 6, 2017 1:17:01 AM",
+      "side": 1,
+      "message": "This is wrong:\n\n  python\n  Python 2.7.10 (default, Oct 23 2015, 19:19:21) \n  [GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.0.59.5)] on darwin\n  Type \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n  \u003e\u003e\u003e deps \u003d [\u0027foo\u0027, \u0027bar\u0027, \u0027baz\u0027]\n  \u003e\u003e\u003e contents \u003d \"\"\"java_import({deps}\"\"\"\n  \u003e\u003e\u003e deps \u003d \u0027deps \u003d \"%s\",\u0027 % deps\n  \u003e\u003e\u003e deps\n  \u0027deps \u003d \"[\\\u0027foo\\\u0027, \\\u0027bar\\\u0027, \\\u0027baz\\\u0027]\",\u0027\n  \u003e\u003e\u003e s \u003d contents.format(deps\u003ddeps)\n  \u003e\u003e\u003e s\n  \u0027java_import(deps \u003d \"[\\\u0027foo\\\u0027, \\\u0027bar\\\u0027, \\\u0027baz\\\u0027]\",\u0027\n \nAs you can see, it is generated as a string and not al list of dependencies. I think you would need to do something similar to bower2bazel.py\n\n    if deps:\n      if len(deps) \u003d\u003d 1:\n        out.write(\"    deps \u003d [ \\\":%s\\\" ],\\n\" % deps[0])\n      else:\n        out.write(\"    deps \u003d [\\n\")\n        for dep in deps:\n          out.write(\"      \\\":%s\\\",\\n\" % dep)\n        out.write(\"    ],\\n\")\n\nAnd really, why don\u0027t you make a test a catch these bugs? Just create a maven_jar() with deps and build it with hazel build :foo and check the content of generated BUILD file in external package.",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 32
+      },
+      "revId": "55980bb66b9a4af4263c59bc308dc07fb7647a10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

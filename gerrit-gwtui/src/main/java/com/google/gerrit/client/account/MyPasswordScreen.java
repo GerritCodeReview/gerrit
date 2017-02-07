@@ -16,12 +16,10 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -64,15 +62,6 @@ public class MyPasswordScreen extends SettingsScreen {
           }
         });
 
-    clearPassword = new Button(Util.C.buttonClearPassword());
-    clearPassword.addClickHandler(
-        new ClickHandler() {
-          @Override
-          public void onClick(ClickEvent event) {
-            doClearPassword();
-          }
-        });
-
     final Grid userInfo = new Grid(2, 2);
     final CellFormatter fmt = userInfo.getCellFormatter();
     userInfo.setStyleName(Gerrit.RESOURCES.css().infoBlock());
@@ -88,7 +77,6 @@ public class MyPasswordScreen extends SettingsScreen {
 
     final FlowPanel buttons = new FlowPanel();
     buttons.add(generatePassword);
-    buttons.add(clearPassword);
     add(buttons);
   }
 
@@ -112,34 +100,14 @@ public class MyPasswordScreen extends SettingsScreen {
           @Override
           public void onSuccess(NativeString user) {
             Gerrit.getUserAccount().username(user.asString());
-            refreshHttpPassword();
+            enableUI(true);
+            display();
           }
 
           @Override
           public void onFailure(final Throwable caught) {
             if (RestApi.isNotFound(caught)) {
               Gerrit.getUserAccount().username(null);
-              display();
-            } else {
-              super.onFailure(caught);
-            }
-          }
-        });
-  }
-
-  private void refreshHttpPassword() {
-    AccountApi.getHttpPassword(
-        "self",
-        new ScreenLoadCallback<NativeString>(this) {
-          @Override
-          protected void preDisplay(NativeString httpPassword) {
-            display(httpPassword.asString());
-          }
-
-          @Override
-          public void onFailure(final Throwable caught) {
-            if (RestApi.isNotFound(caught)) {
-              display(null);
               display();
             } else {
               super.onFailure(caught);
@@ -176,25 +144,6 @@ public class MyPasswordScreen extends SettingsScreen {
             @Override
             public void onSuccess(NativeString newPassword) {
               display(newPassword.asString());
-            }
-
-            @Override
-            public void onFailure(final Throwable caught) {
-              enableUI(true);
-            }
-          });
-    }
-  }
-
-  private void doClearPassword() {
-    if (Gerrit.getUserAccount().username() != null) {
-      enableUI(false);
-      AccountApi.clearHttpPassword(
-          "self",
-          new GerritCallback<VoidResult>() {
-            @Override
-            public void onSuccess(VoidResult result) {
-              display(null);
             }
 
             @Override

@@ -17,6 +17,8 @@ package com.google.gerrit.server.plugins;
 import static com.google.gerrit.server.plugins.PluginLoader.asTemp;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
@@ -45,10 +47,13 @@ public class JarPluginProvider implements ServerPluginProvider {
   static final Logger log = LoggerFactory.getLogger(JarPluginProvider.class);
 
   private final Path tmpDir;
+  private final PluginConfigFactory configFactory;
 
   @Inject
-  JarPluginProvider(SitePaths sitePaths) {
-    tmpDir = sitePaths.tmp_dir;
+  JarPluginProvider(SitePaths sitePaths,
+      PluginConfigFactory configFactory) {
+    this.tmpDir = sitePaths.tmp_dir;
+    this.configFactory = configFactory;
   }
 
   @Override
@@ -143,9 +148,12 @@ public class JarPluginProvider implements ServerPluginProvider {
               PluginLoader.parentFor(type));
 
       JarScanner jarScanner = createJarScanner(tmp);
+      PluginConfig pluginConfig = configFactory.getFromGerritConfig(name);
+
       ServerPlugin plugin = new ServerPlugin(name, description.canonicalUrl,
           description.user, srcJar, snapshot, jarScanner,
-          description.dataDir, pluginLoader);
+          description.dataDir, pluginLoader,
+          pluginConfig.getString("metricsPrefix", null));
       plugin.setCleanupHandle(new CleanupHandle(tmp, jarFile));
       keep = true;
       return plugin;

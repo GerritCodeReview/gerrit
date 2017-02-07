@@ -15,12 +15,11 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.auth.openid.OpenIdUtil;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.FancyFlexTable;
-import com.google.gerrit.common.auth.openid.OpenIdUrls;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -31,10 +30,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MyIdentitiesScreen extends SettingsScreen {
   private IdTable identites;
@@ -74,16 +71,17 @@ public class MyIdentitiesScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SEC.myExternalIds(
-        new ScreenLoadCallback<List<AccountExternalId>>(this) {
+    AccountApi.getExternalIds(
+        new GerritCallback<JsArray<ExternalIdInfo>>() {
           @Override
-          public void preDisplay(final List<AccountExternalId> result) {
-            identites.display(result);
+          public void onSuccess(JsArray<ExternalIdInfo> results) {
+            identites.display(results);
+            display();
           }
         });
   }
 
-  private class IdTable extends FancyFlexTable<AccountExternalId> {
+  private class IdTable extends FancyFlexTable<ExternalIdInfo> {
     private ValueChangeHandler<Boolean> updateDeleteHandler;
 
     IdTable() {
@@ -108,9 +106,9 @@ public class MyIdentitiesScreen extends SettingsScreen {
     }
 
     void deleteChecked() {
-      final HashSet<AccountExternalId.Key> keys = new HashSet<>();
+      final HashSet<String> keys = new HashSet<>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        final AccountExternalId k = getRowItem(row);
+        final ExternalIdInfo k = getRowItem(row);
         if (k == null) {
           continue;
         }
@@ -119,21 +117,21 @@ public class MyIdentitiesScreen extends SettingsScreen {
           continue;
         }
         if (cb.getValue()) {
-          keys.add(k.getKey());
+          keys.add(k.identity());
         }
       }
       if (keys.isEmpty()) {
         updateDeleteButton();
       } else {
         deleteIdentity.setEnabled(false);
-        Util.ACCOUNT_SEC.deleteExternalIds(
+        AccountApi.deleteExternalIds(
             keys,
-            new GerritCallback<Set<AccountExternalId.Key>>() {
+            new GerritCallback<VoidResult>() {
               @Override
-              public void onSuccess(final Set<AccountExternalId.Key> removed) {
+              public void onSuccess(VoidResult result) {
                 for (int row = 1; row < table.getRowCount(); ) {
-                  final AccountExternalId k = getRowItem(row);
-                  if (k != null && removed.contains(k.getKey())) {
+                  final ExternalIdInfo k = getRowItem(row);
+                  if (k != null && keys.contains(k.identity())) {
                     table.removeRow(row);
                   } else {
                     row++;
@@ -169,32 +167,22 @@ public class MyIdentitiesScreen extends SettingsScreen {
       deleteIdentity.setEnabled(on);
     }
 
-    void display(final List<AccountExternalId> result) {
-      Collections.sort(
-          result,
-          new Comparator<AccountExternalId>() {
-            @Override
-            public int compare(AccountExternalId a, AccountExternalId b) {
-              return emailOf(a).compareTo(emailOf(b));
-            }
-
-            private String emailOf(final AccountExternalId a) {
-              return a.getEmailAddress() != null ? a.getEmailAddress() : "";
-            }
-          });
+    void display(final JsArray<ExternalIdInfo> results) {
+      List<ExternalIdInfo> idList = Natives.asList(results);
+      Collections.sort(idList);
 
       while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
       }
 
-      for (final AccountExternalId k : result) {
+      for (final ExternalIdInfo k : idList) {
         addOneId(k);
       }
       updateDeleteButton();
     }
 
-    void addOneId(final AccountExternalId k) {
-      if (k.isScheme(AccountExternalId.SCHEME_USERNAME)) {
+    void addOneId(final ExternalIdInfo k) {
+      if (k.isUsername()) {
         // Don't display the username as an identity here.
         return;
       }
@@ -217,12 +205,12 @@ public class MyIdentitiesScreen extends SettingsScreen {
         table.setText(row, 2, Util.C.untrustedProvider());
         fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().identityUntrustedExternalId());
       }
-      if (k.getEmailAddress() != null && k.getEmailAddress().length() > 0) {
-        table.setText(row, 3, k.getEmailAddress());
+      if (k.emailAddress() != null && k.emailAddress().length() > 0) {
+        table.setText(row, 3, k.emailAddress());
       } else {
         table.setText(row, 3, "");
       }
-      table.setText(row, 4, describe(k));
+      table.setText(row, 4, k.describe());
 
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
@@ -230,37 +218,6 @@ public class MyIdentitiesScreen extends SettingsScreen {
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
-    }
-
-    private String describe(final AccountExternalId k) {
-      if (k.isScheme(AccountExternalId.SCHEME_GERRIT)) {
-        // A local user identity should just be itself.
-        //
-        return k.getSchemeRest();
-
-      } else if (k.isScheme(AccountExternalId.SCHEME_USERNAME)) {
-        // A local user identity should just be itself.
-        //
-        return k.getSchemeRest();
-
-      } else if (k.isScheme(AccountExternalId.SCHEME_MAILTO)) {
-        // Describe a mailto address as just its email address, which
-        // is already shown in the email address field.
-        //
-        return "";
-
-      } else if (k.isScheme("https://www.google.com/accounts/o8/id")) {
-        return OpenIdUtil.C.nameGoogle();
-
-      } else if (k.isScheme(OpenIdUrls.URL_LAUNCHPAD)) {
-        return OpenIdUtil.C.nameLaunchpad();
-
-      } else if (k.isScheme(OpenIdUrls.URL_YAHOO)) {
-        return OpenIdUtil.C.nameYahoo();
-
-      } else {
-        return k.getExternalId();
-      }
     }
   }
 }

@@ -23,9 +23,14 @@ import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.MetadataName;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.format.DateTimeParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Parse metadata from inbound email */
 public class MetadataParser {
+  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class.getName());
+
   public static MailMetadata parse(MailMessage m) {
     MailMetadata metadata = new MailMetadata();
     // Find author
@@ -40,8 +45,12 @@ public class MetadataParser {
         String ps = header.substring(toHeaderWithDelimiter(MetadataName.PATCH_SET).length());
         metadata.patchSet = Ints.tryParse(ps);
       } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.TIMESTAMP))) {
-        String ts = header.substring(toHeaderWithDelimiter(MetadataName.TIMESTAMP).length());
-        metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+        String ts = header.substring(toHeaderWithDelimiter(MetadataName.TIMESTAMP).length()).trim();
+        try {
+          metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+        } catch (DateTimeParseException e) {
+          log.error("Mail: Error while parsing timestamp from header of message " + m.id(), e);
+        }
       } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE))) {
         metadata.messageType =
             header.substring(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE).length());
@@ -53,8 +62,8 @@ public class MetadataParser {
 
     // If the required fields were not yet found, continue to parse the text
     if (!Strings.isNullOrEmpty(m.textContent())) {
-      String[] lines = m.textContent().split("\n");
-      extractFooters(lines, metadata);
+      String[] lines = m.textContent().replace("\r\n", "\n").split("\n");
+      extractFooters(lines, metadata, m);
       if (metadata.hasRequiredFields()) {
         return metadata;
       }
@@ -63,8 +72,8 @@ public class MetadataParser {
     // If the required fields were not yet found, continue to parse the HTML
     // HTML footer are contained inside a <p> tag
     if (!Strings.isNullOrEmpty(m.htmlContent())) {
-      String[] lines = m.htmlContent().split("</p>");
-      extractFooters(lines, metadata);
+      String[] lines = m.htmlContent().replace("\r\n", "\n").split("</div>");
+      extractFooters(lines, metadata, m);
       if (metadata.hasRequiredFields()) {
         return metadata;
       }
@@ -73,7 +82,7 @@ public class MetadataParser {
     return metadata;
   }
 
-  private static void extractFooters(String[] lines, MailMetadata metadata) {
+  private static void extractFooters(String[] lines, MailMetadata metadata, MailMessage m) {
     for (String line : lines) {
       if (metadata.changeId == null && line.contains(MetadataName.CHANGE_ID)) {
         metadata.changeId = extractFooter(toFooterWithDelimiter(MetadataName.CHANGE_ID), line);
@@ -82,7 +91,11 @@ public class MetadataParser {
             Ints.tryParse(extractFooter(toFooterWithDelimiter(MetadataName.PATCH_SET), line));
       } else if (metadata.timestamp == null && line.contains(MetadataName.TIMESTAMP)) {
         String ts = extractFooter(toFooterWithDelimiter(MetadataName.TIMESTAMP), line);
-        metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+        try {
+          metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+        } catch (DateTimeParseException e) {
+          log.error("Mail: Error while parsing timestamp from footer of message " + m.id(), e);
+        }
       } else if (metadata.messageType == null && line.contains(MetadataName.MESSAGE_TYPE)) {
         metadata.messageType =
             extractFooter(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE), line);
@@ -91,6 +104,6 @@ public class MetadataParser {
   }
 
   private static String extractFooter(String key, String line) {
-    return line.substring(line.indexOf(key) + key.length(), line.length());
+    return line.substring(line.indexOf(key) + key.length(), line.length()).trim();
   }
 }

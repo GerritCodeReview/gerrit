@@ -147,27 +147,26 @@ Password tab of the user settings page].
 
 === Style
 
-The basic coding style is covered by the tools/GoogleFormat.xml
-doc, see the link:dev-eclipse.html#Formatting[Eclipse Setup]
-for that.
+Gerrit generally follows the
+link:https://google.github.io/styleguide/javaguide.html[Google Java Style
+Guide].
 
-Highlighted/additional styling notes:
+To format source code, Gerrit uses the
+link:https://github.com/google/google-java-format[`google-java-format`]
+tool (version 1.2), which automatically formats code to follow the
+style guide. Using this tool streamlines code review by reducing the
+need for time-consuming, tedious, and contentious discussions about
+trivial issues like whitespace.
 
-  * It is generally more important to match the style of the nearby
-    code which you are modifying than it is to match the style
-    in the formatting guidelines.  This is especially true within the
-    same file.
-  * Review your change in Gerrit to see if it highlights
-    mistakenly deleted/added spaces on lines, trailing spaces.
-  * Line length should be 80 or less, unless the code reads
-    better with something slightly longer.  Shorter lines not only
-    help reviewers who may use a tablet to review the code, but future
-    contributors may also like to open several editors side by
-    side while editing new changes.
-  * Use 2 spaces for indent (no tabs)
-  * Use braces in all if/else/for/do/while/catch blocks, spaces before/after
-    if/for/while/catch parens.
-  * Use /** */ style Javadocs for variables.
+You may download and run `google-java-format` on your own, or you may
+run `./tools/setup_gjf.sh` to download a local copy and set up a
+wrapper script. If you run your own copy, please use the same version,
+as there may be slight differences between versions.
+
+When considering the style beyond just formatting rules, it is often
+more important to match the style of the nearby code which you are
+modifying than it is to match the style guide exactly. This is
+especially true within the same file.
 
 Additionally, you will notice that most of the newline spacing
 is fairly consistent throughout the code in Gerrit, it helps to
@@ -176,8 +175,6 @@ examples:
 
   * Keep a blank line between all class and method declarations.
   * Do not add blank lines at the beginning or end of class/methods.
-  * Put a blank line between external import sources, but not
-    between internal ones.
 
 When to use `final` modifier and when not (in new code):
 

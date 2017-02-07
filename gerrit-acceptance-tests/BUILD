@@ -29,7 +29,7 @@ java_library(
         "//lib:jsch",
         "//lib:servlet-api-3_1-without-neverlink",
         "//lib/bouncycastle:bcpg",
-        "//lib/bouncycastle:bcprov",
+        "//lib/bouncycastle:bcprov-without-neverlink",
         "//lib/commons:compress",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

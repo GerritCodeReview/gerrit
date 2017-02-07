@@ -458,31 +458,6 @@ Sets the account state to inactive.
 
 If the account was already inactive the response is "`409 Conflict`".
 
-[[get-http-password]]
-=== Get HTTP Password
---
-'GET /accounts/link:#account-id[\{account-id\}]/password.http'
---
-
-Retrieves the HTTP password of an account.
-
-.Request
-----
-  GET /accounts/john.doe@example.com/password.http HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  "Qmxlc21ydCB1YmVyIGFsbGVzIGluIGRlciBXZWx0IQ"
-----
-
-If the account does not have an HTTP password the response is "`404 Not Found`".
-
 [[set-http-password]]
 === Set/Generate HTTP Password
 --
@@ -518,6 +493,7 @@ As response the new HTTP password is returned.
 ----
 
 If the HTTP password was deleted the response is "`204 No Content`".
+
 
 [[delete-http-password]]
 === Delete HTTP Password

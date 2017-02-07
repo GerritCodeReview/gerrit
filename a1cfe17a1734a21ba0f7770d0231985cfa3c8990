@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5288e13b_c4da0ca7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 3:36:40 PM",
+      "side": 1,
+      "message": "Nit: add trailing comma, here and in a few places below.",
+      "revId": "a1cfe17a1734a21ba0f7770d0231985cfa3c8990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

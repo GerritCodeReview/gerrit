@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ccb3eb3_b188ec1f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 9:30:54 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db1dd94a_16b8e425",
+      "range": {
+        "startLine": 201,
+        "startChar": 5,
+        "endLine": 201,
+        "endChar": 37
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1d0c6bb_910d001b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "Feb 7, 2017 7:06:32 AM",
       "side": 1,
       "message": "nit: Can be private.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 8
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f80c51dc_91b9c9b3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 9:30:54 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1d0c6bb_910d001b",
       "range": {
         "startLine": 33,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2e2c2d15_190e4a68",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 9:30:54 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "719e1f02_d596b0e7",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 8
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5783f918_7e6bcc10",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "Feb 7, 2017 7:06:32 AM",
       "side": 1,
       "message": "nit: Can be private.",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 8
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b8cc554_f27754ab",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 9:30:54 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5783f918_7e6bcc10",
       "range": {
         "startLine": 39,
         "startChar": 2,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "af79f1ea_6a950a0d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 9:30:54 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee6cde15_1cefcb99",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 3
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5def8a11_73dc0ff5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 5
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "9b8f8ac6_7680770c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 9:30:54 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5def8a11_73dc0ff5",
+      "range": {
+        "startLine": 172,
+        "startChar": 6,
+        "endLine": 172,
+        "endChar": 29
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4218efc_6e893408",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 5
@@ -151,6 +295,30 @@
       "writtenOn": "Feb 7, 2017 7:06:32 AM",
       "side": 1,
       "message": "optional: Adjust according to what we decided in an earlier patch set.",
+      "range": {
+        "startLine": 172,
+        "startChar": 31,
+        "endLine": 181,
+        "endChar": 7
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6037e615_0f2780da",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 9:30:54 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4218efc_6e893408",
       "range": {
         "startLine": 172,
         "startChar": 31,

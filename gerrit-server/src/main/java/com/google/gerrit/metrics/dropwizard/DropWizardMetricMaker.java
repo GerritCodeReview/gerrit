@@ -337,10 +337,15 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   private synchronized void define(String name, Description desc) {
     if (descriptions.containsKey(name)) {
-      throw new IllegalStateException(String.format(
-          "metric %s already defined", name));
+      ImmutableMap<String, String> annotations = descriptions.get(name);
+      if (!desc.getAnnotations().get(Description.DESCRIPTION).equals(
+          annotations.get(Description.DESCRIPTION))) {
+        throw new IllegalStateException(String.format(
+            "metric %s already defined", name));
+      }
+    } else {
+      descriptions.put(name, desc.getAnnotations());
     }
-    descriptions.put(name, desc.getAnnotations());
   }
 
   private static final Pattern METRIC_NAME_PATTERN = Pattern

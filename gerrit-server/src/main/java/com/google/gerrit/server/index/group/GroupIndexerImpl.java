@@ -21,7 +21,6 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.index.Index;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,6 +28,7 @@ import java.util.Collections;
 public class GroupIndexerImpl implements GroupIndexer {
   public interface Factory {
     GroupIndexerImpl create(GroupIndexCollection indexes);
+
     GroupIndexerImpl create(@Nullable GroupIndex index);
   }
 
@@ -37,16 +37,14 @@ public class GroupIndexerImpl implements GroupIndexer {
   private final GroupIndex index;
 
   @AssistedInject
-  GroupIndexerImpl(GroupCache groupCache,
-      @Assisted GroupIndexCollection indexes) {
+  GroupIndexerImpl(GroupCache groupCache, @Assisted GroupIndexCollection indexes) {
     this.groupCache = groupCache;
     this.indexes = indexes;
     this.index = null;
   }
 
   @AssistedInject
-  GroupIndexerImpl(GroupCache groupCache,
-      @Assisted GroupIndex index) {
+  GroupIndexerImpl(GroupCache groupCache, @Assisted GroupIndex index) {
     this.groupCache = groupCache;
     this.indexes = null;
     this.index = index;
@@ -64,8 +62,6 @@ public class GroupIndexerImpl implements GroupIndexer {
       return indexes.getWriteIndexes();
     }
 
-    return index != null
-        ? Collections.singleton(index)
-        : ImmutableSet.of();
+    return index != null ? Collections.singleton(index) : ImmutableSet.of();
   }
 }

@@ -16,20 +16,19 @@ package com.google.gerrit.extensions.restapi;
 
 /**
  * Optional interface for {@link RestCollection}.
- * <p>
- * Collections that implement this interface can accept a {@code POST} directly
- * on the collection itself when no id was given in the path. This interface is
- * intended to be used with TopLevelResource collections. Nested collections
- * often bind POST on the parent collection to the view implementation handling
- * the insertion of a new member.
+ *
+ * <p>Collections that implement this interface can accept a {@code POST} directly on the collection
+ * itself when no id was given in the path. This interface is intended to be used with
+ * TopLevelResource collections. Nested collections often bind POST on the parent collection to the
+ * view implementation handling the insertion of a new member.
  */
 public interface AcceptsPost<P extends RestResource> {
   /**
    * Handle creation of a child resource by POST on the collection.
    *
    * @param parent parent collection handle.
-   * @return a view to perform the creation. The id of the newly created
-   *         resource should be determined from the input body.
+   * @return a view to perform the creation. The id of the newly created resource should be
+   *     determined from the input body.
    * @throws RestApiException the view cannot be constructed.
    */
   <I> RestModifyView<P, I> post(P parent) throws RestApiException;

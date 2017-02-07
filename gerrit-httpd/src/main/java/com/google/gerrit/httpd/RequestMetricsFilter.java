@@ -18,9 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -49,20 +47,18 @@ public class RequestMetricsFilter implements Filter {
   }
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     Response rsp = new Response((HttpServletResponse) response, metrics);
 
     chain.doFilter(request, rsp);
   }
 
   @Override
-  public void init(FilterConfig cfg) throws ServletException {
-  }
+  public void init(FilterConfig cfg) throws ServletException {}
 
   private static class Response extends HttpServletResponseWrapper {
     private final RequestMetrics metrics;

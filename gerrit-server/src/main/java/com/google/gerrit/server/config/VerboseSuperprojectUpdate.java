@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-/**
- * Verbosity level of the commit message for submodule subscriptions.
- */
+/** Verbosity level of the commit message for submodule subscriptions. */
 public enum VerboseSuperprojectUpdate {
   /** Do not include any commit messages for the gitlink update. */
   FALSE,

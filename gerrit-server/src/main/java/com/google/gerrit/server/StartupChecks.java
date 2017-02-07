@@ -29,10 +29,8 @@ public class StartupChecks implements LifecycleListener {
     protected void configure() {
       DynamicSet.setOf(binder(), StartupCheck.class);
       listener().to(StartupChecks.class);
-      DynamicSet.bind(binder(), StartupCheck.class)
-          .to(UniversalGroupBackend.ConfigCheck.class);
-      DynamicSet.bind(binder(), StartupCheck.class)
-          .to(SystemGroupBackend.NameCheck.class);
+      DynamicSet.bind(binder(), StartupCheck.class).to(UniversalGroupBackend.ConfigCheck.class);
+      DynamicSet.bind(binder(), StartupCheck.class).to(SystemGroupBackend.NameCheck.class);
     }
   }
 
@@ -51,6 +49,5 @@ public class StartupChecks implements LifecycleListener {
   }
 
   @Override
-  public void stop() {
-  }
+  public void stop() {}
 }

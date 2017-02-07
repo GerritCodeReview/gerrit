@@ -53,20 +53,22 @@ class PreferencesAction {
     popup.setStyleName(current.style.dialog());
     popup.add(current);
     popup.addAutoHidePartner(partner.getElement());
-    popup.addCloseHandler(new CloseHandler<PopupPanel>() {
-      @Override
-      public void onClose(CloseEvent<PopupPanel> event) {
-        view.getCmFromSide(DisplaySide.B).focus();
-        popup = null;
-        current = null;
-      }
-    });
-    popup.setPopupPositionAndShow(new PositionCallback() {
-      @Override
-      public void setPosition(int offsetWidth, int offsetHeight) {
-        popup.setPopupPosition(300, 120);
-      }
-    });
+    popup.addCloseHandler(
+        new CloseHandler<PopupPanel>() {
+          @Override
+          public void onClose(CloseEvent<PopupPanel> event) {
+            view.getCmFromSide(DisplaySide.B).focus();
+            popup = null;
+            current = null;
+          }
+        });
+    popup.setPopupPositionAndShow(
+        new PositionCallback() {
+          @Override
+          public void setPosition(int offsetWidth, int offsetHeight) {
+            popup.setPopupPosition(300, 120);
+          }
+        });
     current.setFocus(true);
   }
 

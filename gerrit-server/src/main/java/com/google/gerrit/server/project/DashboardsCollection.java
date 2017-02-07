@@ -38,7 +38,9 @@ import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -48,21 +50,17 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 @Singleton
-class DashboardsCollection implements
-    ChildCollection<ProjectResource, DashboardResource>,
-    AcceptsCreate<ProjectResource> {
+class DashboardsCollection
+    implements ChildCollection<ProjectResource, DashboardResource>, AcceptsCreate<ProjectResource> {
   private final GitRepositoryManager gitManager;
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
   private final Provider<SetDefaultDashboard.CreateDefault> createDefault;
 
   @Inject
-  DashboardsCollection(GitRepositoryManager gitManager,
+  DashboardsCollection(
+      GitRepositoryManager gitManager,
       DynamicMap<RestView<DashboardResource>> views,
       Provider<ListDashboards> list,
       Provider<SetDefaultDashboard.CreateDefault> createDefault) {
@@ -79,8 +77,8 @@ class DashboardsCollection implements
 
   @SuppressWarnings("unchecked")
   @Override
-  public RestModifyView<ProjectResource, ?> create(ProjectResource parent,
-      IdString id) throws RestApiException {
+  public RestModifyView<ProjectResource, ?> create(ProjectResource parent, IdString id)
+      throws RestApiException {
     if (id.toString().equals("default")) {
       return createDefault.get();
     }
@@ -95,8 +93,7 @@ class DashboardsCollection implements
       return DashboardResource.projectDefault(myCtl);
     }
 
-    List<String> parts = Lists.newArrayList(
-        Splitter.on(':').limit(2).split(id.get()));
+    List<String> parts = Lists.newArrayList(Splitter.on(':').limit(2).split(id.get()));
     if (parts.size() != 2) {
       throw new ResourceNotFoundException(id);
     }
@@ -107,8 +104,7 @@ class DashboardsCollection implements
     for (ProjectState ps : myCtl.getProjectState().tree()) {
       try {
         return parse(ps.controlFor(user), ref, path, myCtl);
-      } catch (AmbiguousObjectException | ConfigInvalidException
-          | IncorrectObjectTypeException e) {
+      } catch (AmbiguousObjectException | ConfigInvalidException | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
         continue;
@@ -117,16 +113,14 @@ class DashboardsCollection implements
     throw new ResourceNotFoundException(id);
   }
 
-  private DashboardResource parse(ProjectControl ctl, String ref, String path,
-      ProjectControl myCtl)
+  private DashboardResource parse(ProjectControl ctl, String ref, String path, ProjectControl myCtl)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
           IncorrectObjectTypeException, ConfigInvalidException {
     String id = ref + ":" + path;
     if (!ref.startsWith(REFS_DASHBOARDS)) {
       ref = REFS_DASHBOARDS + ref;
     }
-    if (!Repository.isValidRefName(ref)
-        || !ctl.controlForRef(ref).canRead()) {
+    if (!Repository.isValidRefName(ref) || !ctl.controlForRef(ref).canRead()) {
       throw new ResourceNotFoundException(id);
     }
 
@@ -147,8 +141,13 @@ class DashboardsCollection implements
     return views;
   }
 
-  static DashboardInfo parse(Project definingProject, String refName,
-      String path, Config config, String project, boolean setDefault) {
+  static DashboardInfo parse(
+      Project definingProject,
+      String refName,
+      String path,
+      Config config,
+      String project,
+      boolean setDefault) {
     DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
     info.definingProject = definingProject.getName();
@@ -184,9 +183,9 @@ class DashboardsCollection implements
   }
 
   private static String defaultOf(Project proj) {
-    final String defaultId = MoreObjects.firstNonNull(
-        proj.getLocalDefaultDashboard(),
-        Strings.nullToEmpty(proj.getDefaultDashboard()));
+    final String defaultId =
+        MoreObjects.firstNonNull(
+            proj.getLocalDefaultDashboard(), Strings.nullToEmpty(proj.getDefaultDashboard()));
     if (defaultId.startsWith(REFS_DASHBOARDS)) {
       return defaultId.substring(REFS_DASHBOARDS.length());
     }

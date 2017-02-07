@@ -43,15 +43,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevSort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,16 +53,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Calculates the minimal superset of changes required to be merged.
- * <p>
- * This includes all parents between a change and the tip of its target
- * branch for the merging/rebasing submit strategies. For the cherry-pick
- * strategy no additional changes are included.
- * <p>
- * If change.submitWholeTopic is enabled, also all changes of the topic
- * and their parents are included.
+ *
+ * <p>This includes all parents between a change and the tip of its target branch for the
+ * merging/rebasing submit strategies. For the cherry-pick strategy no additional changes are
+ * included.
+ *
+ * <p>If change.submitWholeTopic is enabled, also all changes of the topic and their parents are
+ * included.
  */
 public class MergeSuperSet {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
@@ -87,13 +85,12 @@ public class MergeSuperSet {
 
   @AutoValue
   abstract static class QueryKey {
-    private static QueryKey create(
-        Branch.NameKey branch, Iterable<String> hashes) {
-      return new AutoValue_MergeSuperSet_QueryKey(
-          branch, ImmutableSet.copyOf(hashes));
+    private static QueryKey create(Branch.NameKey branch, Iterable<String> hashes) {
+      return new AutoValue_MergeSuperSet_QueryKey(branch, ImmutableSet.copyOf(hashes));
     }
 
     abstract Branch.NameKey branch();
+
     abstract ImmutableSet<String> hashes();
   }
 
@@ -108,7 +105,8 @@ public class MergeSuperSet {
   private boolean closeOrm;
 
   @Inject
-  MergeSuperSet(@GerritServerConfig Config cfg,
+  MergeSuperSet(
+      @GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider) {
@@ -127,11 +125,10 @@ public class MergeSuperSet {
     return this;
   }
 
-  public ChangeSet completeChangeSet(ReviewDb db, Change change,
-      CurrentUser user) throws IOException, OrmException {
+  public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)
+      throws IOException, OrmException {
     try {
-      ChangeData cd =
-          changeDataFactory.create(db, change.getProject(), change.getId());
+      ChangeData cd = changeDataFactory.create(db, change.getProject(), change.getId());
       cd.changeControl(user);
       ChangeSet cs = new ChangeSet(cd, cd.changeControl().isVisible(db, cd));
       if (Submit.wholeTopicEnabled(cfg)) {
@@ -146,8 +143,7 @@ public class MergeSuperSet {
     }
   }
 
-  private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible)
-      throws OrmException {
+  private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible) throws OrmException {
     // Submit type prolog rules mean that the submit type can depend on the
     // submitting user and the content of the change.
     //
@@ -167,14 +163,13 @@ public class MergeSuperSet {
             ? cd.submitTypeRecord()
             : new SubmitRuleEvaluator(cd).setPatchSet(ps).getSubmitType();
     if (!str.isOk()) {
-      logErrorAndThrow("Failed to get submit type for " + cd.getId()
-          + ": " + str.errorMessage);
+      logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
     }
     return str.type;
   }
 
-  private static ImmutableListMultimap<Branch.NameKey, ChangeData>
-      byBranch(Iterable<ChangeData> changes) throws OrmException {
+  private static ImmutableListMultimap<Branch.NameKey, ChangeData> byBranch(
+      Iterable<ChangeData> changes) throws OrmException {
     ImmutableListMultimap.Builder<Branch.NameKey, ChangeData> builder =
         ImmutableListMultimap.builder();
     for (ChangeData cd : changes) {
@@ -183,8 +178,8 @@ public class MergeSuperSet {
     return builder.build();
   }
 
-  private Set<String> walkChangesByHashes(Collection<RevCommit> sourceCommits,
-      Set<String> ignoreHashes, OpenRepo or, Branch.NameKey b)
+  private Set<String> walkChangesByHashes(
+      Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or, Branch.NameKey b)
       throws IOException {
     Set<String> destHashes = new HashSet<>();
     or.rw.reset();
@@ -208,21 +203,22 @@ public class MergeSuperSet {
     return destHashes;
   }
 
-  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db,
-      ChangeSet changes, CurrentUser user) throws IOException, OrmException {
+  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes, CurrentUser user)
+      throws IOException, OrmException {
     Collection<ChangeData> visibleChanges = new ArrayList<>();
     Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
 
     // For each target branch we run a separate rev walk to find open changes
     // reachable from changes already in the merge super set.
-    ImmutableListMultimap<Branch.NameKey, ChangeData> bc = byBranch(
-        Iterables.concat(changes.changes(), changes.nonVisibleChanges()));
+    ImmutableListMultimap<Branch.NameKey, ChangeData> bc =
+        byBranch(Iterables.concat(changes.changes(), changes.nonVisibleChanges()));
     for (Branch.NameKey b : bc.keySet()) {
       OpenRepo or = getRepo(b.getParentKey());
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
       for (ChangeData cd : bc.get(b)) {
-        checkState(cd.hasChangeControl(),
+        checkState(
+            cd.hasChangeControl(),
             "completeChangeSet forgot to set changeControl for current user"
                 + " at ChangeData creation time");
 
@@ -233,8 +229,7 @@ public class MergeSuperSet {
           // completeChangeSet computation, for example.
           visible = false;
         }
-        Collection<RevCommit> toWalk = visible ?
-            visibleCommits : nonVisibleCommits;
+        Collection<RevCommit> toWalk = visible ? visibleCommits : nonVisibleCommits;
 
         // Pick a revision to use for traversal.  If any of the patch sets
         // is visible, we use the most recent one.  Otherwise, use the current
@@ -271,20 +266,17 @@ public class MergeSuperSet {
       }
 
       Set<String> emptySet = Collections.emptySet();
-      Set<String> visibleHashes =
-          walkChangesByHashes(visibleCommits, emptySet, or, b);
+      Set<String> visibleHashes = walkChangesByHashes(visibleCommits, emptySet, or, b);
 
-      List<ChangeData> cds =
-          byCommitsOnBranchNotMerged(or, db, user, b, visibleHashes);
+      List<ChangeData> cds = byCommitsOnBranchNotMerged(or, db, user, b, visibleHashes);
       for (ChangeData chd : cds) {
         chd.changeControl(user);
         visibleChanges.add(chd);
       }
 
-      Set<String> nonVisibleHashes =
-          walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
-      Iterables.addAll(nonVisibleChanges,
-          byCommitsOnBranchNotMerged(or, db, user, b, nonVisibleHashes));
+      Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
+      Iterables.addAll(
+          nonVisibleChanges, byCommitsOnBranchNotMerged(or, db, user, b, nonVisibleHashes));
     }
 
     return new ChangeSet(visibleChanges, nonVisibleChanges);
@@ -304,14 +296,11 @@ public class MergeSuperSet {
     }
   }
 
-  private void markHeadUninteresting(OpenRepo or, Branch.NameKey b)
-      throws IOException {
+  private void markHeadUninteresting(OpenRepo or, Branch.NameKey b) throws IOException {
     Optional<RevCommit> head = heads.get(b);
     if (head == null) {
       Ref ref = or.repo.getRefDatabase().exactRef(b.get());
-      head = ref != null
-          ? Optional.of(or.rw.parseCommit(ref.getObjectId()))
-          : Optional.empty();
+      head = ref != null ? Optional.of(or.rw.parseCommit(ref.getObjectId())) : Optional.empty();
       heads.put(b, head);
     }
     if (head.isPresent()) {
@@ -319,8 +308,8 @@ public class MergeSuperSet {
     }
   }
 
-  private List<ChangeData> byCommitsOnBranchNotMerged(OpenRepo or, ReviewDb db,
-      CurrentUser user, Branch.NameKey branch, Set<String> hashes)
+  private List<ChangeData> byCommitsOnBranchNotMerged(
+      OpenRepo or, ReviewDb db, CurrentUser user, Branch.NameKey branch, Set<String> hashes)
       throws OrmException, IOException {
     if (hashes.isEmpty()) {
       return ImmutableList.of();
@@ -332,8 +321,8 @@ public class MergeSuperSet {
     }
 
     List<ChangeData> result = new ArrayList<>();
-    Iterable<ChangeData> destChanges = query()
-        .byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
+    Iterable<ChangeData> destChanges =
+        query().byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
     for (ChangeData chd : destChanges) {
       chd.changeControl(user);
       result.add(chd);
@@ -344,20 +333,22 @@ public class MergeSuperSet {
 
   /**
    * Completes {@code cs} with any additional changes from its topics
-   * <p>
-   * {@link #completeChangeSetIncludingTopics} calls this repeatedly,
-   * alternating with {@link #completeChangeSetWithoutTopic}, to discover
-   * what additional changes should be submitted with a change until the
-   * set stops growing.
-   * <p>
-   * {@code topicsSeen} and {@code visibleTopicsSeen} keep track of topics
-   * already explored to avoid wasted work.
+   *
+   * <p>{@link #completeChangeSetIncludingTopics} calls this repeatedly, alternating with {@link
+   * #completeChangeSetWithoutTopic}, to discover what additional changes should be submitted with a
+   * change until the set stops growing.
+   *
+   * <p>{@code topicsSeen} and {@code visibleTopicsSeen} keep track of topics already explored to
+   * avoid wasted work.
    *
    * @return the resulting larger {@link ChangeSet}
    */
   private ChangeSet topicClosure(
-      ReviewDb db, ChangeSet cs, CurrentUser user,
-      Set<String> topicsSeen, Set<String> visibleTopicsSeen)
+      ReviewDb db,
+      ChangeSet cs,
+      CurrentUser user,
+      Set<String> topicsSeen,
+      Set<String> visibleTopicsSeen)
       throws OrmException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
@@ -403,8 +394,7 @@ public class MergeSuperSet {
   }
 
   private ChangeSet completeChangeSetIncludingTopics(
-      ReviewDb db, ChangeSet changes, CurrentUser user)
-      throws IOException, OrmException {
+      ReviewDb db, ChangeSet changes, CurrentUser user) throws IOException, OrmException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
     int oldSeen;
@@ -427,10 +417,11 @@ public class MergeSuperSet {
     // more than necessary. This provides reasonable performance when loading
     // the change screen; callers that care about reading the latest value of
     // these fields should clear them explicitly using reloadChanges().
-    Set<String> fields = ImmutableSet.of(
-        ChangeField.CHANGE.getName(),
-        ChangeField.PATCH_SET.getName(),
-        ChangeField.MERGEABLE.getName());
+    Set<String> fields =
+        ImmutableSet.of(
+            ChangeField.CHANGE.getName(),
+            ChangeField.PATCH_SET.getName(),
+            ChangeField.MERGEABLE.getName());
     return queryProvider.get().setRequestedFields(fields);
   }
 

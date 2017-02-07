@@ -22,7 +22,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -32,23 +32,20 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-
 @Singleton
 public class GetHead implements RestReadView<ProjectResource> {
   private GitRepositoryManager repoManager;
   private Provider<ReviewDb> db;
 
   @Inject
-  GetHead(GitRepositoryManager repoManager,
-      Provider<ReviewDb> db) {
+  GetHead(GitRepositoryManager repoManager, Provider<ReviewDb> db) {
     this.repoManager = repoManager;
     this.db = db;
   }
 
   @Override
-  public String apply(ProjectResource rsrc) throws AuthException,
-      ResourceNotFoundException, IOException {
+  public String apply(ProjectResource rsrc)
+      throws AuthException, ResourceNotFoundException, IOException {
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Ref head = repo.getRefDatabase().exactRef(Constants.HEAD);
       if (head == null) {

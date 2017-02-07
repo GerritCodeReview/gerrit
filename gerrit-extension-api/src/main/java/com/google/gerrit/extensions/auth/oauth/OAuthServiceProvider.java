@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.auth.oauth;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 import java.io.IOException;
 
 /* Contract that OAuth provider must implement */
@@ -23,8 +22,7 @@ import java.io.IOException;
 public interface OAuthServiceProvider {
 
   /**
-   * Returns the URL where you should redirect your users to authenticate
-   * your application.
+   * Returns the URL where you should redirect your users to authenticate your application.
    *
    * @return the OAuth service URL to redirect your users for authentication
    */
@@ -39,8 +37,8 @@ public interface OAuthServiceProvider {
   OAuthToken getAccessToken(OAuthVerifier verifier);
 
   /**
-   * After establishing of secure communication channel, this method supossed to
-   * access the protected resoure and retrieve the username.
+   * After establishing of secure communication channel, this method supossed to access the
+   * protected resoure and retrieve the username.
    *
    * @param token
    * @return OAuth user information
@@ -56,8 +54,8 @@ public interface OAuthServiceProvider {
   String getVersion();
 
   /**
-   * Returns the name of this service. This name is resented the user to choose
-   * between multiple service providers
+   * Returns the name of this service. This name is resented the user to choose between multiple
+   * service providers
    *
    * @return name of the service
    */

@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-
 import org.junit.Test;
 
 public class GroupsIT extends AbstractDaemonTest {

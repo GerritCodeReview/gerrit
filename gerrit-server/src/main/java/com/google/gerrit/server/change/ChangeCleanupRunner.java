@@ -25,16 +25,13 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.TimeUnit;
-
 /** Runnable to enable scheduling change cleanups to run periodically */
 public class ChangeCleanupRunner implements Runnable {
-  private static final Logger log = LoggerFactory
-      .getLogger(ChangeCleanupRunner.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeCleanupRunner.class);
 
   public static class Module extends LifecycleModule {
     @Override
@@ -49,9 +46,7 @@ public class ChangeCleanupRunner implements Runnable {
     private final ChangeCleanupConfig cfg;
 
     @Inject
-    Lifecycle(WorkQueue queue,
-        ChangeCleanupRunner runner,
-        ChangeCleanupConfig cfg) {
+    Lifecycle(WorkQueue queue, ChangeCleanupRunner runner, ChangeCleanupConfig cfg) {
       this.queue = queue;
       this.runner = runner;
       this.cfg = cfg;
@@ -65,12 +60,11 @@ public class ChangeCleanupRunner implements Runnable {
       if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
         log.info("Ignoring missing changeCleanup schedule configuration");
       } else if (delay < 0 || interval <= 0) {
-        log.warn(String.format(
-            "Ignoring invalid changeCleanup schedule configuration: %s",
-            scheduleConfig));
+        log.warn(
+            String.format(
+                "Ignoring invalid changeCleanup schedule configuration: %s", scheduleConfig));
       } else {
-        queue.getDefaultQueue().scheduleAtFixedRate(runner, delay,
-            interval, TimeUnit.MILLISECONDS);
+        queue.getDefaultQueue().scheduleAtFixedRate(runner, delay, interval, TimeUnit.MILLISECONDS);
       }
     }
 
@@ -84,9 +78,7 @@ public class ChangeCleanupRunner implements Runnable {
   private final AbandonUtil abandonUtil;
 
   @Inject
-  ChangeCleanupRunner(
-      OneOffRequestContext oneOffRequestContext,
-      AbandonUtil abandonUtil) {
+  ChangeCleanupRunner(OneOffRequestContext oneOffRequestContext, AbandonUtil abandonUtil) {
     this.oneOffRequestContext = oneOffRequestContext;
     this.abandonUtil = abandonUtil;
   }

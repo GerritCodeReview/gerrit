@@ -18,9 +18,8 @@ import com.google.common.collect.ListMultimap;
 
 /**
  * Optional interface for {@link RestCollection}.
- * <p>
- * Collections that implement this interface can get to know about the request
- * parameters.
+ *
+ * <p>Collections that implement this interface can get to know about the request parameters.
  */
 public interface NeedsParams {
   /**

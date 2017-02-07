@@ -14,29 +14,25 @@
 
 package com.google.gerrit.server.edit.tree;
 
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import java.io.IOException;
-import java.util.List;
-
-/**
- * A specific modification of a Git tree.
- */
+/** A specific modification of a Git tree. */
 public interface TreeModification {
 
   /**
-   * Returns a list of {@code PathEdit}s which are necessary in order to
-   * achieve the desired modification of the Git tree. The order of the
-   * {@code PathEdit}s can be crucial and hence shouldn't be changed.
+   * Returns a list of {@code PathEdit}s which are necessary in order to achieve the desired
+   * modification of the Git tree. The order of the {@code PathEdit}s can be crucial and hence
+   * shouldn't be changed.
    *
    * @param repository the affected Git repository
    * @param baseCommit the commit to whose tree this modification is applied
    * @return an ordered list of necessary {@code PathEdit}s
    * @throws IOException if problems arise when accessing the repository
    */
-  List<DirCacheEditor.PathEdit> getPathEdits(Repository repository,
-      RevCommit baseCommit) throws IOException;
-
+  List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, RevCommit baseCommit)
+      throws IOException;
 }

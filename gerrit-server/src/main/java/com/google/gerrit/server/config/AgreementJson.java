@@ -26,13 +26,11 @@ import com.google.gerrit.server.group.GroupResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AgreementJson {
-  private static final Logger log =
-      LoggerFactory.getLogger(AgreementJson.class);
+  private static final Logger log = LoggerFactory.getLogger(AgreementJson.class);
 
   private final Provider<CurrentUser> self;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -40,7 +38,8 @@ public class AgreementJson {
   private final GroupJson groupJson;
 
   @Inject
-  AgreementJson(Provider<CurrentUser> self,
+  AgreementJson(
+      Provider<CurrentUser> self,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       GroupControl.GenericFactory genericGroupControlFactory,
       GroupJson groupJson) {
@@ -57,16 +56,18 @@ public class AgreementJson {
     info.url = ca.getAgreementUrl();
     GroupReference autoVerifyGroup = ca.getAutoVerify();
     if (autoVerifyGroup != null && self.get().isIdentifiedUser()) {
-      IdentifiedUser user =
-          identifiedUserFactory.create(self.get().getAccountId());
+      IdentifiedUser user = identifiedUserFactory.create(self.get().getAccountId());
       try {
-        GroupControl gc = genericGroupControlFactory.controlFor(
-            user, autoVerifyGroup.getUUID());
+        GroupControl gc = genericGroupControlFactory.controlFor(user, autoVerifyGroup.getUUID());
         GroupResource group = new GroupResource(gc);
         info.autoVerifyGroup = groupJson.format(group);
       } catch (NoSuchGroupException | OrmException e) {
-        log.warn("autoverify group \"" + autoVerifyGroup.getName() +
-            "\" does not exist, referenced in CLA \"" + ca.getName() + "\"");
+        log.warn(
+            "autoverify group \""
+                + autoVerifyGroup.getName()
+                + "\" does not exist, referenced in CLA \""
+                + ca.getName()
+                + "\"");
       }
     }
     return info;

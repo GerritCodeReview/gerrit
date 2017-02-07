@@ -19,7 +19,6 @@ import com.google.gwtexpui.safehtml.client.FindReplace;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,15 +59,14 @@ public class CommentLinkProcessor {
           msg.append("\": ");
           msg.append(e.errorMessage);
         }
-        Gerrit.SYSTEM_SVC.clientError(msg.toString(),
+        Gerrit.SYSTEM_SVC.clientError(
+            msg.toString(),
             new AsyncCallback<VoidResult>() {
               @Override
-              public void onFailure(Throwable caught) {
-              }
+              public void onFailure(Throwable caught) {}
 
               @Override
-              public void onSuccess(VoidResult result) {
-              }
+              public void onSuccess(VoidResult result) {}
             });
       }
 

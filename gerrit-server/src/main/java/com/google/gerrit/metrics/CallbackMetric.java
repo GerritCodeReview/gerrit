@@ -16,7 +16,6 @@ package com.google.gerrit.metrics;
 
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 
-
 /**
  * Metric whose value is supplied when the trigger is invoked.
  *

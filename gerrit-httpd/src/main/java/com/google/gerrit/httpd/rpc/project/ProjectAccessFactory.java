@@ -40,9 +40,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 class ProjectAccessFactory extends Handler<ProjectAccess> {
   interface Factory {
@@ -68,14 +66,14 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private WebLinks webLinks;
 
   @Inject
-  ProjectAccessFactory(final GroupBackend groupBackend,
+  ProjectAccessFactory(
+      final GroupBackend groupBackend,
       final ProjectCache projectCache,
       final ProjectControl.Factory projectControlFactory,
       final GroupControl.Factory groupControlFactory,
       final MetaDataUpdate.Server metaDataUpdateFactory,
       final AllProjectsName allProjectsName,
       final WebLinks webLinks,
-
       @Assisted final Project.NameKey name) {
     this.groupBackend = groupBackend;
     this.projectCache = projectCache;
@@ -89,8 +87,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   }
 
   @Override
-  public ProjectAccess call() throws NoSuchProjectException, IOException,
-      ConfigInvalidException {
+  public ProjectAccess call() throws NoSuchProjectException, IOException, ConfigInvalidException {
     pc = open();
 
     // Load the current configuration from the repository, ensuring its the most
@@ -107,8 +104,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         projectCache.evict(config.getProject());
         pc = open();
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(
-              pc.getProjectState().getConfig().getRevision())) {
+          && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
         projectCache.evict(config.getProject());
         pc = open();
       }
@@ -205,8 +201,8 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
-    detail.setCanUpload(metaConfigControl.isVisible()
-        && (pc.isOwner() || metaConfigControl.canUpload()));
+    detail.setCanUpload(
+        metaConfigControl.isVisible() && (pc.isOwner() || metaConfigControl.canUpload()));
     detail.setConfigVisible(pc.isOwner() || metaConfigControl.isVisible());
     detail.setGroupInfo(buildGroupInfo(local));
     detail.setLabelTypes(pc.getLabelTypes());
@@ -216,8 +212,8 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
   private List<WebLinkInfoCommon> getConfigFileLogLinks(String projectName) {
     List<WebLinkInfoCommon> links =
-        webLinks.getFileHistoryLinks(projectName, RefNames.REFS_CONFIG,
-            ProjectConfig.PROJECT_CONFIG);
+        webLinks.getFileHistoryLinks(
+            projectName, RefNames.REFS_CONFIG, ProjectConfig.PROJECT_CONFIG);
     return links.isEmpty() ? null : links;
   }
 

@@ -53,8 +53,7 @@ public class Field<T> {
    * @param name field name
    * @return enum field
    */
-  public static <E extends Enum<E>> Field<E> ofEnum(Class<E> enumType,
-      String name) {
+  public static <E extends Enum<E>> Field<E> ofEnum(Class<E> enumType, String name) {
     return ofEnum(enumType, name, null);
   }
 
@@ -66,16 +65,16 @@ public class Field<T> {
    * @param description field description
    * @return enum field
    */
-  public static <E extends Enum<E>> Field<E> ofEnum(Class<E> enumType,
-      String name, String description) {
+  public static <E extends Enum<E>> Field<E> ofEnum(
+      Class<E> enumType, String name, String description) {
     return new Field<>(name, enumType, description);
   }
 
   /**
    * Break down metrics by string.
-   * <p>
-   * Each unique string will allocate a new submetric. <b>Do not use user
-   * content as a field value</b> as field values are never reclaimed.
+   *
+   * <p>Each unique string will allocate a new submetric. <b>Do not use user content as a field
+   * value</b> as field values are never reclaimed.
    *
    * @param name field name
    * @return string field
@@ -86,9 +85,9 @@ public class Field<T> {
 
   /**
    * Break down metrics by string.
-   * <p>
-   * Each unique string will allocate a new submetric. <b>Do not use user
-   * content as a field value</b> as field values are never reclaimed.
+   *
+   * <p>Each unique string will allocate a new submetric. <b>Do not use user content as a field
+   * value</b> as field values are never reclaimed.
    *
    * @param name field name
    * @param description field description
@@ -100,9 +99,9 @@ public class Field<T> {
 
   /**
    * Break down metrics by integer.
-   * <p>
-   * Each unique integer will allocate a new submetric. <b>Do not use user
-   * content as a field value</b> as field values are never reclaimed.
+   *
+   * <p>Each unique integer will allocate a new submetric. <b>Do not use user content as a field
+   * value</b> as field values are never reclaimed.
    *
    * @param name field name
    * @return integer field
@@ -113,9 +112,9 @@ public class Field<T> {
 
   /**
    * Break down metrics by integer.
-   * <p>
-   * Each unique integer will allocate a new submetric. <b>Do not use user
-   * content as a field value</b> as field values are never reclaimed.
+   *
+   * <p>Each unique integer will allocate a new submetric. <b>Do not use user content as a field
+   * value</b> as field values are never reclaimed.
    *
    * @param name field name
    * @param description field description
@@ -160,7 +159,7 @@ public class Field<T> {
   @SuppressWarnings("unchecked")
   private static <T> Function<T, String> initFormatter(Class<T> keyType) {
     if (keyType == String.class) {
-      return (Function<T, String>) Functions.<String> identity();
+      return (Function<T, String>) Functions.<String>identity();
     } else if (keyType == Integer.class || keyType == Boolean.class) {
       return (Function<T, String>) Functions.toStringFunction();
     } else if (Enum.class.isAssignableFrom(keyType)) {

@@ -19,12 +19,10 @@ import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener.Arguments;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
-
+import java.util.Map;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
-
-import java.util.Map;
 
 public class OnSubmitValidators {
   public interface Factory {
@@ -38,13 +36,15 @@ public class OnSubmitValidators {
     this.listeners = listeners;
   }
 
-  public void validate(Project.NameKey project, Repository repo,
-      ObjectReader objectReader, Map<String, ReceiveCommand> commands)
+  public void validate(
+      Project.NameKey project,
+      Repository repo,
+      ObjectReader objectReader,
+      Map<String, ReceiveCommand> commands)
       throws IntegrationException {
     try {
       for (OnSubmitValidationListener listener : this.listeners) {
-        listener.preBranchUpdate(
-            new Arguments(project, repo, objectReader, commands));
+        listener.preBranchUpdate(new Arguments(project, repo, objectReader, commands));
       }
     } catch (ValidationException e) {
       throw new IntegrationException(e.getMessage());

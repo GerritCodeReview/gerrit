@@ -28,11 +28,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 
 @SuppressWarnings("deprecation")
 @Singleton
@@ -42,7 +40,8 @@ public class Sequences {
   private final RepoSequence changeSeq;
 
   @Inject
-  Sequences(@GerritServerConfig Config cfg,
+  Sequences(
+      @GerritServerConfig Config cfg,
       final Provider<ReviewDb> db,
       NotesMigration migration,
       GitRepositoryManager repoManager,
@@ -51,17 +50,18 @@ public class Sequences {
     this.migration = migration;
 
     final int gap = cfg.getInt("noteDb", "changes", "initialSequenceGap", 0);
-    changeSeq = new RepoSequence(
-        repoManager,
-        allProjects,
-        "changes",
-        new RepoSequence.Seed() {
-          @Override
-          public int get() throws OrmException {
-            return db.get().nextChangeId() + gap;
-          }
-        },
-        cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20));
+    changeSeq =
+        new RepoSequence(
+            repoManager,
+            allProjects,
+            "changes",
+            new RepoSequence.Seed() {
+              @Override
+              public int get() throws OrmException {
+                return db.get().nextChangeId() + gap;
+              }
+            },
+            cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20));
   }
 
   public int nextChangeId() throws OrmException {

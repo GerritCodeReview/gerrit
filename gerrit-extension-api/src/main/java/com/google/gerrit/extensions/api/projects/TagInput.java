@@ -17,8 +17,7 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
 public class TagInput {
-  @DefaultInput
-  public String ref;
+  @DefaultInput public String ref;
   public String revision;
   public String message;
 }

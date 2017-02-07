@@ -22,11 +22,12 @@ public class Schema_83 extends SchemaVersion {
 
   @Inject
   Schema_83() {
-    super(new Provider<SchemaVersion>() {
-      @Override
-      public SchemaVersion get() {
-        throw new ProvisionException("Upgrade first to 2.8 or 2.9");
-      }
-    });
+    super(
+        new Provider<SchemaVersion>() {
+          @Override
+          public SchemaVersion get() {
+            throw new ProvisionException("Upgrade first to 2.8 or 2.9");
+          }
+        });
   }
 }

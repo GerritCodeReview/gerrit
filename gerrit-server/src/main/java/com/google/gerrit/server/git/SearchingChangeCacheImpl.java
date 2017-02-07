@@ -37,19 +37,16 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.util.Providers;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
-  private static final Logger log =
-      LoggerFactory.getLogger(SearchingChangeCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(SearchingChangeCacheImpl.class);
   static final String ID_CACHE = "changes";
 
   public static class Module extends CacheModule {
@@ -67,13 +64,11 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
     protected void configure() {
       if (slave) {
         bind(SearchingChangeCacheImpl.class)
-            .toProvider(Providers.<SearchingChangeCacheImpl> of(null));
+            .toProvider(Providers.<SearchingChangeCacheImpl>of(null));
       } else {
-        cache(ID_CACHE,
-            Project.NameKey.class,
-            new TypeLiteral<List<CachedChange>>() {})
-          .maximumWeight(0)
-          .loader(Loader.class);
+        cache(ID_CACHE, Project.NameKey.class, new TypeLiteral<List<CachedChange>>() {})
+            .maximumWeight(0)
+            .loader(Loader.class);
 
         bind(SearchingChangeCacheImpl.class);
         DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
@@ -88,7 +83,9 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
     // VisibleRefFilter without touching the database. More can be added as
     // necessary.
     abstract Change change();
-    @Nullable abstract ReviewerSet reviewers();
+
+    @Nullable
+    abstract ReviewerSet reviewers();
   }
 
   private final LoadingCache<Project.NameKey, List<CachedChange>> cache;
@@ -104,12 +101,11 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
 
   /**
    * Read changes for the project from the secondary index.
-   * <p>
-   * Returned changes only include the {@code Change} object (with id, branch)
-   * and the reviewers. Additional stored fields are not loaded from the index.
    *
-   * @param db database handle to populate missing change data (probably
-   *        unused).
+   * <p>Returned changes only include the {@code Change} object (with id, branch) and the reviewers.
+   * Additional stored fields are not loaded from the index.
+   *
+   * @param db database handle to populate missing change data (probably unused).
    * @param project project to read.
    * @return list of known changes; empty if no changes.
    */
@@ -141,8 +137,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
     private final Provider<InternalChangeQuery> queryProvider;
 
     @Inject
-    Loader(OneOffRequestContext requestContext,
-        Provider<InternalChangeQuery> queryProvider) {
+    Loader(OneOffRequestContext requestContext, Provider<InternalChangeQuery> queryProvider) {
       this.requestContext = requestContext;
       this.queryProvider = queryProvider;
     }
@@ -150,15 +145,16 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
     @Override
     public List<CachedChange> load(Project.NameKey key) throws Exception {
       try (AutoCloseable ctx = requestContext.open()) {
-        List<ChangeData> cds = queryProvider.get()
-            .setRequestedFields(ImmutableSet.of(
-                ChangeField.CHANGE.getName(),
-                ChangeField.REVIEWER.getName()))
-            .byProject(key);
+        List<ChangeData> cds =
+            queryProvider
+                .get()
+                .setRequestedFields(
+                    ImmutableSet.of(ChangeField.CHANGE.getName(), ChangeField.REVIEWER.getName()))
+                .byProject(key);
         List<CachedChange> result = new ArrayList<>(cds.size());
         for (ChangeData cd : cds) {
-          result.add(new AutoValue_SearchingChangeCacheImpl_CachedChange(
-              cd.change(), cd.getReviewers()));
+          result.add(
+              new AutoValue_SearchingChangeCacheImpl_CachedChange(cd.change(), cd.getReviewers()));
         }
         return Collections.unmodifiableList(result);
       }

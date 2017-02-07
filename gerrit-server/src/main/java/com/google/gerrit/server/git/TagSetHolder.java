@@ -17,11 +17,9 @@ package com.google.gerrit.server.git;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.reviewdb.client.Project;
-
+import java.util.Collection;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-
-import java.util.Collection;
 
 class TagSetHolder {
   private final Object buildLock = new Object();

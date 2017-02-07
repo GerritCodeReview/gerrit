@@ -36,10 +36,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.git.RefCache;
 import com.google.gwtorm.server.OrmRuntimeException;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -48,21 +44,23 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * The state of all relevant NoteDb refs across all repos corresponding to a
- * given Change entity.
- * <p>
- * Stored serialized in the {@code Change#noteDbState} field, and used to
- * determine whether the state in NoteDb is out of date.
- * <p>
- * Serialized in one of the forms:
+ * The state of all relevant NoteDb refs across all repos corresponding to a given Change entity.
+ *
+ * <p>Stored serialized in the {@code Change#noteDbState} field, and used to determine whether the
+ * state in NoteDb is out of date.
+ *
+ * <p>Serialized in one of the forms:
+ *
  * <ul>
- *    <li>[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
- *    <li>R,[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
- *    <li>R=[read-only-until],[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
- *    <li>N
- *    <li>N=[read-only-until]
+ *   <li>[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *   <li>R,[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *   <li>R=[read-only-until],[meta-sha],[account1]=[drafts-sha],[account2]=[drafts-sha]...
+ *   <li>N
+ *   <li>N=[read-only-until]
  * </ul>
  *
  * in numeric account ID order, with hex SHA-1s for human readability.
@@ -92,54 +90,50 @@ public class NoteDbChangeState {
   @AutoValue
   public abstract static class Delta {
     @VisibleForTesting
-    public static Delta create(Change.Id changeId,
+    public static Delta create(
+        Change.Id changeId,
         Optional<ObjectId> newChangeMetaId,
         Map<Account.Id, ObjectId> newDraftIds) {
       if (newDraftIds == null) {
         newDraftIds = ImmutableMap.of();
       }
       return new AutoValue_NoteDbChangeState_Delta(
-          changeId,
-          newChangeMetaId,
-          ImmutableMap.copyOf(newDraftIds));
+          changeId, newChangeMetaId, ImmutableMap.copyOf(newDraftIds));
     }
 
     abstract Change.Id changeId();
+
     abstract Optional<ObjectId> newChangeMetaId();
+
     abstract ImmutableMap<Account.Id, ObjectId> newDraftIds();
   }
 
   @AutoValue
   public abstract static class RefState {
     @VisibleForTesting
-    public static RefState create(ObjectId changeMetaId,
-        Map<Account.Id, ObjectId> draftIds) {
+    public static RefState create(ObjectId changeMetaId, Map<Account.Id, ObjectId> draftIds) {
       return new AutoValue_NoteDbChangeState_RefState(
           changeMetaId.copy(),
-          ImmutableMap.copyOf(
-              Maps.filterValues(draftIds, id -> !ObjectId.zeroId().equals(id))));
+          ImmutableMap.copyOf(Maps.filterValues(draftIds, id -> !ObjectId.zeroId().equals(id))));
     }
 
-    private static Optional<RefState> parse(Change.Id changeId,
-        List<String> parts) {
-      checkArgument(!parts.isEmpty(),
-          "missing state string for change %s", changeId);
+    private static Optional<RefState> parse(Change.Id changeId, List<String> parts) {
+      checkArgument(!parts.isEmpty(), "missing state string for change %s", changeId);
       ObjectId changeMetaId = ObjectId.fromString(parts.get(0));
-      Map<Account.Id, ObjectId> draftIds =
-          Maps.newHashMapWithExpectedSize(parts.size() - 1);
+      Map<Account.Id, ObjectId> draftIds = Maps.newHashMapWithExpectedSize(parts.size() - 1);
       Splitter s = Splitter.on('=');
       for (int i = 1; i < parts.size(); i++) {
         String p = parts.get(i);
         List<String> draftParts = s.splitToList(p);
-        checkArgument(draftParts.size() == 2,
-            "invalid draft state part for change %s: %s", changeId, p);
-        draftIds.put(Account.Id.parse(draftParts.get(0)),
-            ObjectId.fromString(draftParts.get(1)));
+        checkArgument(
+            draftParts.size() == 2, "invalid draft state part for change %s: %s", changeId, p);
+        draftIds.put(Account.Id.parse(draftParts.get(0)), ObjectId.fromString(draftParts.get(1)));
       }
       return Optional.of(create(changeMetaId, draftIds));
     }
 
     abstract ObjectId changeMetaId();
+
     abstract ImmutableMap<Account.Id, ObjectId> draftIds();
 
     @Override
@@ -149,12 +143,8 @@ public class NoteDbChangeState {
 
     StringBuilder appendTo(StringBuilder sb) {
       sb.append(changeMetaId().name());
-      for (Account.Id id : ReviewDbUtil.intKeyOrdering()
-          .sortedCopy(draftIds().keySet())) {
-        sb.append(',')
-            .append(id.get())
-            .append('=')
-            .append(draftIds().get(id).name());
+      for (Account.Id id : ReviewDbUtil.intKeyOrdering().sortedCopy(draftIds().keySet())) {
+        sb.append(',').append(id.get()).append('=').append(draftIds().get(id).name());
       }
       return sb;
     }
@@ -177,8 +167,7 @@ public class NoteDbChangeState {
 
     // Only valid NOTE_DB state is "N".
     if (parts.size() == 1 && first.charAt(0) == NOTE_DB.code) {
-      return new NoteDbChangeState(
-          id, NOTE_DB, Optional.empty(), readOnlyUntil);
+      return new NoteDbChangeState(id, NOTE_DB, Optional.empty(), readOnlyUntil);
     }
 
     // Otherwise it must be REVIEW_DB, either "R,<RefState>" or just
@@ -195,8 +184,8 @@ public class NoteDbChangeState {
     throw invalidState(id, str);
   }
 
-  private static Optional<Timestamp> parseReadOnlyUntil(Change.Id id,
-      String fullStr, String first) {
+  private static Optional<Timestamp> parseReadOnlyUntil(
+      Change.Id id, String fullStr, String first) {
     if (first.length() > 2 && first.charAt(1) == '=') {
       Long ts = Longs.tryParse(first.substring(2));
       if (ts == null) {
@@ -207,25 +196,20 @@ public class NoteDbChangeState {
     return Optional.empty();
   }
 
-  private static IllegalArgumentException invalidState(Change.Id id,
-      String str) {
-    return new IllegalArgumentException(
-        "invalid state string for change " + id + ": " + str);
+  private static IllegalArgumentException invalidState(Change.Id id, String str) {
+    return new IllegalArgumentException("invalid state string for change " + id + ": " + str);
   }
 
   /**
    * Apply a delta to the state stored in a change entity.
-   * <p>
-   * This method does not check whether the old state was read-only; it is up to
-   * the caller to not violate read-only semantics when storing the change back
-   * in ReviewDb.
    *
-   * @param change change entity. The delta is applied against this entity's
-   *     {@code noteDbState} and the new state is stored back in the entity as a
-   *     side effect.
+   * <p>This method does not check whether the old state was read-only; it is up to the caller to
+   * not violate read-only semantics when storing the change back in ReviewDb.
+   *
+   * @param change change entity. The delta is applied against this entity's {@code noteDbState} and
+   *     the new state is stored back in the entity as a side effect.
    * @param delta delta to apply.
-   * @return new state, equivalent to what is stored in {@code change} as a side
-   *     effect.
+   * @return new state, equivalent to what is stored in {@code change} as a side effect.
    */
   public static NoteDbChangeState applyDelta(Change change, Delta delta) {
     if (delta == null) {
@@ -267,16 +251,15 @@ public class NoteDbChangeState {
       }
     }
 
-    NoteDbChangeState state = new NoteDbChangeState(
-        change.getId(),
-        oldState != null
-            ? oldState.getPrimaryStorage()
-            : REVIEW_DB,
-        Optional.of(RefState.create(changeMetaId, draftIds)),
-        // Copy old read-only deadline rather than advancing it; the caller is
-        // still responsible for finishing the rest of its work before the lease
-        // runs out.
-        oldState != null ? oldState.getReadOnlyUntil() : Optional.empty());
+    NoteDbChangeState state =
+        new NoteDbChangeState(
+            change.getId(),
+            oldState != null ? oldState.getPrimaryStorage() : REVIEW_DB,
+            Optional.of(RefState.create(changeMetaId, draftIds)),
+            // Copy old read-only deadline rather than advancing it; the caller is
+            // still responsible for finishing the rest of its work before the lease
+            // runs out.
+            oldState != null ? oldState.getReadOnlyUntil() : Optional.empty());
     change.setNoteDbState(state.toString());
     return state;
   }
@@ -287,8 +270,9 @@ public class NoteDbChangeState {
   //  - can't be methods on NoteDbChangeState because state is nullable (though
   //    we could also solve this by inventing an empty-but-non-null state)
   // Also we should clean up duplicated code between static/non-static methods.
-  public static boolean isChangeUpToDate(@Nullable NoteDbChangeState state,
-      RefCache changeRepoRefs, Change.Id changeId) throws IOException {
+  public static boolean isChangeUpToDate(
+      @Nullable NoteDbChangeState state, RefCache changeRepoRefs, Change.Id changeId)
+      throws IOException {
     if (PrimaryStorage.of(state) == NOTE_DB) {
       return true; // Primary storage is NoteDb, up to date by definition.
     }
@@ -298,22 +282,23 @@ public class NoteDbChangeState {
     return state.isChangeUpToDate(changeRepoRefs);
   }
 
-  public static boolean areDraftsUpToDate(@Nullable NoteDbChangeState state,
-      RefCache draftsRepoRefs, Change.Id changeId, Account.Id accountId)
+  public static boolean areDraftsUpToDate(
+      @Nullable NoteDbChangeState state,
+      RefCache draftsRepoRefs,
+      Change.Id changeId,
+      Account.Id accountId)
       throws IOException {
     if (PrimaryStorage.of(state) == NOTE_DB) {
       return true; // Primary storage is NoteDb, up to date by definition.
     }
     if (state == null) {
-      return !draftsRepoRefs.get(refsDraftComments(changeId, accountId))
-          .isPresent();
+      return !draftsRepoRefs.get(refsDraftComments(changeId, accountId)).isPresent();
     }
     return state.areDraftsUpToDate(draftsRepoRefs, accountId);
   }
 
   public static long getReadOnlySkew(Config cfg) {
-    return cfg.getTimeUnit(
-        "notedb", null, "maxTimestampSkew", 1000, TimeUnit.MILLISECONDS);
+    return cfg.getTimeUnit("notedb", null, "maxTimestampSkew", 1000, TimeUnit.MILLISECONDS);
   }
 
   private static Timestamp timeForReadOnlyCheck(long skewMs) {
@@ -326,14 +311,15 @@ public class NoteDbChangeState {
     checkNotReadOnly(parse(change), skewMs);
   }
 
-  public static void checkNotReadOnly(@Nullable NoteDbChangeState state,
-      long skewMs) {
+  public static void checkNotReadOnly(@Nullable NoteDbChangeState state, long skewMs) {
     if (state == null) {
       return; // No state means ReviewDb primary non-read-only.
     } else if (state.isReadOnly(timeForReadOnlyCheck(skewMs))) {
       throw new OrmRuntimeException(
-          "change " + state.getChangeId() + " is read-only until "
-          + state.getReadOnlyUntil().get());
+          "change "
+              + state.getChangeId()
+              + " is read-only until "
+              + state.getReadOnlyUntil().get());
     }
   }
 
@@ -357,17 +343,18 @@ public class NoteDbChangeState {
         checkArgument(
             refState.isPresent(),
             "expected RefState for change %s with primary storage %s",
-            changeId, primaryStorage);
+            changeId,
+            primaryStorage);
         break;
       case NOTE_DB:
         checkArgument(
             !refState.isPresent(),
             "expected no RefState for change %s with primary storage %s",
-            changeId, primaryStorage);
+            changeId,
+            primaryStorage);
         break;
       default:
-        throw new IllegalStateException(
-            "invalid PrimaryStorage: " + primaryStorage);
+        throw new IllegalStateException("invalid PrimaryStorage: " + primaryStorage);
     }
   }
 
@@ -391,16 +378,14 @@ public class NoteDbChangeState {
     if (primaryStorage == NOTE_DB) {
       return true; // Primary storage is NoteDb, up to date by definition.
     }
-    Optional<ObjectId> id =
-        draftsRepoRefs.get(refsDraftComments(changeId, accountId));
+    Optional<ObjectId> id = draftsRepoRefs.get(refsDraftComments(changeId, accountId));
     if (!id.isPresent()) {
       return !getDraftIds().containsKey(accountId);
     }
     return id.get().equals(getDraftIds().get(accountId));
   }
 
-  public boolean isUpToDate(RefCache changeRepoRefs, RefCache draftsRepoRefs)
-      throws IOException {
+  public boolean isUpToDate(RefCache changeRepoRefs, RefCache draftsRepoRefs) throws IOException {
     if (primaryStorage == NOTE_DB) {
       return true; // Primary storage is NoteDb, up to date by definition.
     }
@@ -424,8 +409,7 @@ public class NoteDbChangeState {
   }
 
   public NoteDbChangeState withReadOnlyUntil(Timestamp ts) {
-    return new NoteDbChangeState(
-        changeId, primaryStorage, refState, Optional.of(ts));
+    return new NoteDbChangeState(changeId, primaryStorage, refState, Optional.of(ts));
   }
 
   public Change.Id getChangeId() {
@@ -445,8 +429,7 @@ public class NoteDbChangeState {
   }
 
   private RefState refState() {
-    checkState(refState.isPresent(),
-        "state for %s has no RefState: %s", changeId, this);
+    checkState(refState.isPresent(), "state for %s has no RefState: %s", changeId, this);
     return refState.get();
   }
 
@@ -458,16 +441,14 @@ public class NoteDbChangeState {
           // Don't include enum field, just IDs (though parse would accept it).
           return refState().toString();
         }
-        return primaryStorage.code + "=" + readOnlyUntil.get().getTime()
-            + "," + refState.get();
+        return primaryStorage.code + "=" + readOnlyUntil.get().getTime() + "," + refState.get();
       case NOTE_DB:
         if (!readOnlyUntil.isPresent()) {
           return NOTE_DB_PRIMARY_STATE;
         }
         return primaryStorage.code + "=" + readOnlyUntil.get().getTime();
       default:
-        throw new IllegalArgumentException(
-          "Unsupported PrimaryStorage: " + primaryStorage);
+        throw new IllegalArgumentException("Unsupported PrimaryStorage: " + primaryStorage);
     }
   }
 

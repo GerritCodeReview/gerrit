@@ -19,14 +19,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 
-/**
- * An authenticated user as specified by the AuthBackend.
- */
+/** An authenticated user as specified by the AuthBackend. */
 public class AuthUser {
 
-  /**
-   * Globally unique identifier for the user.
-   */
+  /** Globally unique identifier for the user. */
   @AutoValue
   public abstract static class UUID {
     /**
@@ -87,7 +83,6 @@ public class AuthUser {
 
   @Override
   public String toString() {
-    return String.format("AuthUser[uuid=%s, username=%s]", getUUID(),
-        getUsername());
+    return String.format("AuthUser[uuid=%s, username=%s]", getUUID(), getUsername());
   }
 }

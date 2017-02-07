@@ -22,18 +22,16 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 /**
  * Information for {@link AccountManager#authenticate(AuthRequest)}.
- * <p>
- * Callers should populate this object with as much information as possible
- * about the user account. For example, OpenID authentication might return
- * registration information including a display name for the user, and an email
- * address for them. These fields however are optional, as not all OpenID
- * providers return them, and not all non-OpenID systems can use them.
+ *
+ * <p>Callers should populate this object with as much information as possible about the user
+ * account. For example, OpenID authentication might return registration information including a
+ * display name for the user, and an email address for them. These fields however are optional, as
+ * not all OpenID providers return them, and not all non-OpenID systems can use them.
  */
 public class AuthRequest {
   /** Create a request for a local username, such as from LDAP. */
   public static AuthRequest forUser(final String username) {
-    final AccountExternalId.Key i =
-        new AccountExternalId.Key(SCHEME_GERRIT, username);
+    final AccountExternalId.Key i = new AccountExternalId.Key(SCHEME_GERRIT, username);
     final AuthRequest r = new AuthRequest(i.get());
     r.setUserName(username);
     return r;
@@ -41,8 +39,7 @@ public class AuthRequest {
 
   /** Create a request for an external username. */
   public static AuthRequest forExternalUser(String username) {
-    AccountExternalId.Key i =
-        new AccountExternalId.Key(SCHEME_EXTERNAL, username);
+    AccountExternalId.Key i = new AccountExternalId.Key(SCHEME_EXTERNAL, username);
     AuthRequest r = new AuthRequest(i.get());
     r.setUserName(username);
     return r;
@@ -50,13 +47,12 @@ public class AuthRequest {
 
   /**
    * Create a request for an email address registration.
-   * <p>
-   * This type of request should be used only to attach a new email address to
-   * an existing user account.
+   *
+   * <p>This type of request should be used only to attach a new email address to an existing user
+   * account.
    */
   public static AuthRequest forEmail(final String email) {
-    final AccountExternalId.Key i =
-        new AccountExternalId.Key(SCHEME_MAILTO, email);
+    final AccountExternalId.Key i = new AccountExternalId.Key(SCHEME_MAILTO, email);
     final AuthRequest r = new AuthRequest(i.get());
     r.setEmailAddress(email);
     return r;
@@ -92,8 +88,7 @@ public class AuthRequest {
 
   public void setLocalUser(final String localUser) {
     if (isScheme(SCHEME_GERRIT)) {
-      final AccountExternalId.Key key =
-          new AccountExternalId.Key(SCHEME_GERRIT, localUser);
+      final AccountExternalId.Key key = new AccountExternalId.Key(SCHEME_GERRIT, localUser);
       externalId = key.get();
     }
   }

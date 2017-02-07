@@ -28,65 +28,51 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.transport.PostUploadHook;
 import org.eclipse.jgit.transport.PostUploadHookChain;
 import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.UploadPack;
 
-import java.io.IOException;
-import java.util.List;
-
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
-  @Inject
-  private ReviewDb db;
+  @Inject private ReviewDb db;
 
-  @Inject
-  private TransferConfig config;
+  @Inject private TransferConfig config;
 
-  @Inject
-  private TagCache tagCache;
+  @Inject private TagCache tagCache;
 
-  @Inject
-  private ChangeNotes.Factory changeNotesFactory;
+  @Inject private ChangeNotes.Factory changeNotesFactory;
 
-  @Inject
-  @Nullable
-  private SearchingChangeCacheImpl changeCache;
+  @Inject @Nullable private SearchingChangeCacheImpl changeCache;
 
-  @Inject
-  private DynamicSet<PreUploadHook> preUploadHooks;
+  @Inject private DynamicSet<PreUploadHook> preUploadHooks;
 
-  @Inject
-  private DynamicSet<PostUploadHook> postUploadHooks;
+  @Inject private DynamicSet<PostUploadHook> postUploadHooks;
 
-  @Inject
-  private UploadValidators.Factory uploadValidatorsFactory;
+  @Inject private UploadValidators.Factory uploadValidatorsFactory;
 
-  @Inject
-  private SshSession session;
+  @Inject private SshSession session;
 
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
-        throw new Failure(1, "fatal: upload-pack not permitted on this server");
+      throw new Failure(1, "fatal: upload-pack not permitted on this server");
     }
 
     final UploadPack up = new UploadPack(repo);
     up.setAdvertiseRefsHook(
         new VisibleRefFilter(
-            tagCache, changeNotesFactory, changeCache, repo, projectControl, db,
-            true));
+            tagCache, changeNotesFactory, changeCache, repo, projectControl, db, true));
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
-    up.setPostUploadHook(
-        PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+    up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
 
     List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
-    allPreUploadHooks.add(uploadValidatorsFactory.create(project, repo,
-        session.getRemoteAddressAsString()));
+    allPreUploadHooks.add(
+        uploadValidatorsFactory.create(project, repo, session.getRemoteAddressAsString()));
     up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
     try {
       up.upload(in, out, err);

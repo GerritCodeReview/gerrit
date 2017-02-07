@@ -15,12 +15,9 @@
 package com.google.gerrit.server.auth;
 
 import com.google.gerrit.common.Nullable;
-
 import java.util.Objects;
 
-/**
- * Defines an abstract request for user authentication to Gerrit.
- */
+/** Defines an abstract request for user authentication to Gerrit. */
 public abstract class AuthRequest {
   private final String username;
   private final String password;

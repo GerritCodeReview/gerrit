@@ -31,8 +31,7 @@ public class PluginModule extends LifecycleModule {
     listener().to(PluginLoader.class);
 
     DynamicSet.setOf(binder(), ServerPluginProvider.class);
-    DynamicSet.bind(binder(), ServerPluginProvider.class).to(
-        JarPluginProvider.class);
+    DynamicSet.bind(binder(), ServerPluginProvider.class).to(JarPluginProvider.class);
     bind(UniversalServerPluginProvider.class);
   }
 }

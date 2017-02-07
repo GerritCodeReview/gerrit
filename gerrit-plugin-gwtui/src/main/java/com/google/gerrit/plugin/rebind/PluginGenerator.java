@@ -24,19 +24,18 @@ import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
-
 import java.io.PrintWriter;
 
 /**
- * Write the top layer in the Gadget bootstrap sandwich and generate a stub
- * manifest that will be completed by the linker.
+ * Write the top layer in the Gadget bootstrap sandwich and generate a stub manifest that will be
+ * completed by the linker.
  *
- * Based on gwt-gadgets GadgetGenerator class
+ * <p>Based on gwt-gadgets GadgetGenerator class
  */
 public class PluginGenerator extends Generator {
   @Override
-  public String generate(TreeLogger logger, GeneratorContext context,
-      String typeName) throws UnableToCompleteException {
+  public String generate(TreeLogger logger, GeneratorContext context, String typeName)
+      throws UnableToCompleteException {
 
     // The TypeOracle knows about all types in the type system
     TypeOracle typeOracle = context.getTypeOracle();
@@ -54,18 +53,18 @@ public class PluginGenerator extends Generator {
     validateType(logger, sourceType);
 
     // Pick a name for the generated class to not conflict.
-    String generatedSimpleSourceName = sourceType.getSimpleSourceName()
-        + "PluginImpl";
+    String generatedSimpleSourceName = sourceType.getSimpleSourceName() + "PluginImpl";
 
     // Begin writing the generated source.
-    ClassSourceFileComposerFactory f = new ClassSourceFileComposerFactory(
-        sourceType.getPackage().getName(), generatedSimpleSourceName);
+    ClassSourceFileComposerFactory f =
+        new ClassSourceFileComposerFactory(
+            sourceType.getPackage().getName(), generatedSimpleSourceName);
     f.addImport(GWT.class.getName());
     f.setSuperclass(typeName);
 
     // All source gets written through this Writer
-    PrintWriter out = context.tryCreate(logger,
-        sourceType.getPackage().getName(), generatedSimpleSourceName);
+    PrintWriter out =
+        context.tryCreate(logger, sourceType.getPackage().getName(), generatedSimpleSourceName);
 
     // If an implementation already exists, we don't need to do any work
     if (out != null) {
@@ -78,11 +77,9 @@ public class PluginGenerator extends Generator {
     return f.getCreatedClassName();
   }
 
-  protected void validateType(TreeLogger logger, JClassType type)
-      throws UnableToCompleteException {
+  protected void validateType(TreeLogger logger, JClassType type) throws UnableToCompleteException {
     if (!type.isDefaultInstantiable()) {
-      logger.log(TreeLogger.ERROR, "Plugin types must be default instantiable",
-          null);
+      logger.log(TreeLogger.ERROR, "Plugin types must be default instantiable", null);
       throw new UnableToCompleteException();
     }
   }

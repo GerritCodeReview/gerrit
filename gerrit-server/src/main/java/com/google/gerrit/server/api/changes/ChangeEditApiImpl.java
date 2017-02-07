@@ -34,7 +34,6 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -57,7 +56,8 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   private final ChangeResource changeResource;
 
   @Inject
-  public ChangeEditApiImpl(ChangeEdits.Detail editDetail,
+  public ChangeEditApiImpl(
+      ChangeEdits.Detail editDetail,
       ChangeEdits.Post changeEditsPost,
       DeleteChangeEdit deleteChangeEdit,
       RebaseChangeEdit.Rebase rebaseChangeEdit,
@@ -126,8 +126,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   }
 
   @Override
-  public void publish(PublishChangeEditInput publishChangeEditInput)
-      throws RestApiException {
+  public void publish(PublishChangeEditInput publishChangeEditInput) throws RestApiException {
     try {
       publishChangeEdit.apply(changeResource, publishChangeEditInput);
     } catch (IOException | OrmException | UpdateException e) {
@@ -136,23 +135,18 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   }
 
   @Override
-  public Optional<BinaryResult> getFile(String filePath)
-      throws RestApiException {
+  public Optional<BinaryResult> getFile(String filePath) throws RestApiException {
     try {
       ChangeEditResource changeEditResource = getChangeEditResource(filePath);
-      Response<BinaryResult> fileResponse =
-          changeEditsGet.apply(changeEditResource);
-      return fileResponse.isNone()
-          ? Optional.empty()
-          : Optional.of(fileResponse.value());
+      Response<BinaryResult> fileResponse = changeEditsGet.apply(changeEditResource);
+      return fileResponse.isNone() ? Optional.empty() : Optional.of(fileResponse.value());
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot retrieve file of change edit", e);
     }
   }
 
   @Override
-  public void renameFile(String oldFilePath, String newFilePath)
-      throws RestApiException {
+  public void renameFile(String oldFilePath, String newFilePath) throws RestApiException {
     try {
       ChangeEdits.Post.Input renameInput = new ChangeEdits.Post.Input();
       renameInput.oldPath = oldFilePath;
@@ -175,8 +169,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   }
 
   @Override
-  public void modifyFile(String filePath, RawInput newContent)
-      throws RestApiException {
+  public void modifyFile(String filePath, RawInput newContent) throws RestApiException {
     try {
       changeEditsPut.apply(changeResource.getControl(), filePath, newContent);
     } catch (IOException | OrmException e) {
@@ -196,8 +189,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public String getCommitMessage() throws RestApiException {
     try {
-      try (BinaryResult binaryResult =
-          getChangeEditCommitMessage.apply(changeResource)) {
+      try (BinaryResult binaryResult = getChangeEditCommitMessage.apply(changeResource)) {
         return binaryResult.asString();
       }
     } catch (IOException | OrmException e) {
@@ -206,21 +198,18 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   }
 
   @Override
-  public void modifyCommitMessage(String newCommitMessage)
-      throws RestApiException {
+  public void modifyCommitMessage(String newCommitMessage) throws RestApiException {
     ChangeEdits.EditMessage.Input input = new ChangeEdits.EditMessage.Input();
     input.message = newCommitMessage;
     try {
       modifyChangeEditCommitMessage.apply(changeResource, input);
     } catch (IOException | OrmException e) {
-      throw new RestApiException("Cannot modify commit message of change edit",
-          e);
+      throw new RestApiException("Cannot modify commit message of change edit", e);
     }
   }
 
   private ChangeEditResource getChangeEditResource(String filePath)
-      throws ResourceNotFoundException, AuthException, IOException,
-      OrmException {
+      throws ResourceNotFoundException, AuthException, IOException, OrmException {
     return changeEdits.parse(changeResource, IdString.fromDecoded(filePath));
   }
 }

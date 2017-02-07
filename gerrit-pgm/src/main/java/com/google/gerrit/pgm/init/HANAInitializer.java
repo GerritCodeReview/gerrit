@@ -26,8 +26,7 @@ public class HANAInitializer implements DatabaseConfigInitializer {
   public void initConfig(Section databaseSection) {
     final String defInstanceNumber = "00";
     databaseSection.string("Server hostname", "hostname", "localhost");
-    databaseSection.string("Instance number", "instance", defInstanceNumber,
-        false);
+    databaseSection.string("Instance number", "instance", defInstanceNumber, false);
     String instance = databaseSection.get("instance");
     Integer instanceNumber = Ints.tryParse(instance);
     if (instanceNumber == null || instanceNumber < 0 || instanceNumber > 99) {

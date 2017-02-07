@@ -25,8 +25,9 @@ abstract class LdapType {
   static LdapType guessType(final DirContext ctx) throws NamingException {
     final Attributes rootAtts = ctx.getAttributes("");
     Attribute supported = rootAtts.get("supportedCapabilities");
-    if (supported != null && (supported.contains("1.2.840.113556.1.4.800")
-          || supported.contains("1.2.840.113556.1.4.1851"))) {
+    if (supported != null
+        && (supported.contains("1.2.840.113556.1.4.800")
+            || supported.contains("1.2.840.113556.1.4.1851"))) {
       return new ActiveDirectory();
     }
 

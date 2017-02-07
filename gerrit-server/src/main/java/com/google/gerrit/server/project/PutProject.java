@@ -25,7 +25,6 @@ public class PutProject implements RestModifyView<ProjectResource, ProjectInput>
   @Override
   public Response<?> apply(ProjectResource resource, ProjectInput input)
       throws ResourceConflictException {
-    throw new ResourceConflictException("Project \"" + resource.getName()
-        + "\" already exists");
+    throw new ResourceConflictException("Project \"" + resource.getName() + "\" already exists");
   }
 }

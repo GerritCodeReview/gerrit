@@ -23,8 +23,7 @@ class ReviewerinPredicate extends ChangeOperatorPredicate {
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountGroup.UUID uuid;
 
-  ReviewerinPredicate(IdentifiedUser.GenericFactory userFactory,
-    AccountGroup.UUID uuid) {
+  ReviewerinPredicate(IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
     super(ChangeQueryBuilder.FIELD_REVIEWERIN, uuid.toString());
     this.userFactory = userFactory;
     this.uuid = uuid;

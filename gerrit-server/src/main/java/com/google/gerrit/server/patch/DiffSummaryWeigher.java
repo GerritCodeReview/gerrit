@@ -17,17 +17,26 @@ package com.google.gerrit.server.patch;
 import com.google.common.cache.Weigher;
 
 /** Computes memory usage for {@link DiffSummary} in bytes of memory used. */
-public class DiffSummaryWeigher implements
-    Weigher<DiffSummaryKey, DiffSummary> {
+public class DiffSummaryWeigher implements Weigher<DiffSummaryKey, DiffSummary> {
 
   @Override
   public int weigh(DiffSummaryKey key, DiffSummary value) {
-    int size = 16 + 4 * 8 + 2 * 36 // Size of DiffSummaryKey, 64 bit JVM
-        + 16 + 8 // Size of DiffSummary
-        + 16 + 8; // String[]
+    int size =
+        16
+            + 4 * 8
+            + 2 * 36 // Size of DiffSummaryKey, 64 bit JVM
+            + 16
+            + 8 // Size of DiffSummary
+            + 16
+            + 8; // String[]
     for (String p : value.getPaths()) {
-      size += 16 + 8 + 4 * 4 // String
-          + 16 + 8 + p.length() * 2; // char[]
+      size +=
+          16
+              + 8
+              + 4 * 4 // String
+              + 16
+              + 8
+              + p.length() * 2; // char[]
     }
     return size;
   }

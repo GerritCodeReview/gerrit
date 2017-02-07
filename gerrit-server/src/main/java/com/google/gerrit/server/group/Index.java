@@ -24,13 +24,11 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.Index.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 public class Index implements RestModifyView<GroupResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final GroupCache groupCache;
 
@@ -48,8 +46,8 @@ public class Index implements RestModifyView<GroupResource, Input> {
 
     AccountGroup group = GroupDescriptions.toAccountGroup(rsrc.getGroup());
     if (group == null) {
-      throw new UnprocessableEntityException(String
-          .format("External Group Not Allowed: %s", rsrc.getGroupUUID().get()));
+      throw new UnprocessableEntityException(
+          String.format("External Group Not Allowed: %s", rsrc.getGroupUUID().get()));
     }
 
     // evicting the group from the cache, reindexes the group

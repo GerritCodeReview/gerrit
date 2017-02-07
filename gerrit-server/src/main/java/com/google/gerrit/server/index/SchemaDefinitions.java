@@ -21,12 +21,11 @@ import com.google.common.collect.ImmutableSortedMap;
 
 /**
  * Definitions of the various schema versions over a given Gerrit data type.
- * <p>
- * A <em>schema</em> is a description of the fields that are indexed over the
- * given data type. This class contains all the versions of a schema defined
- * over its data type, exposed as a map of version number to schema definition.
- * If you are interested in the classes responsible for backend-specific runtime
- * implementations, see the implementations of {@link IndexDefinition}.
+ *
+ * <p>A <em>schema</em> is a description of the fields that are indexed over the given data type.
+ * This class contains all the versions of a schema defined over its data type, exposed as a map of
+ * version number to schema definition. If you are interested in the classes responsible for
+ * backend-specific runtime implementations, see the implementations of {@link IndexDefinition}.
  */
 public abstract class SchemaDefinitions<V> {
   private final String name;
@@ -47,8 +46,7 @@ public abstract class SchemaDefinitions<V> {
 
   public final Schema<V> get(int version) {
     Schema<V> schema = schemas.get(version);
-    checkArgument(schema != null,
-        "Unrecognized %s schema version: %s", name, version);
+    checkArgument(schema != null, "Unrecognized %s schema version: %s", name, version);
     return schema;
   }
 

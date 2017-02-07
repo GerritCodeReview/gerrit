@@ -29,15 +29,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PostWatchedProjects
@@ -49,7 +47,8 @@ public class PostWatchedProjects
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  public PostWatchedProjects(Provider<IdentifiedUser> self,
+  public PostWatchedProjects(
+      Provider<IdentifiedUser> self,
       GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
       AccountCache accountCache,
@@ -62,11 +61,9 @@ public class PostWatchedProjects
   }
 
   @Override
-  public List<ProjectWatchInfo> apply(AccountResource rsrc,
-      List<ProjectWatchInfo> input) throws OrmException, RestApiException,
-          IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
+  public List<ProjectWatchInfo> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
+      throws OrmException, RestApiException, IOException, ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to edit project watches");
     }
     Account.Id accountId = rsrc.getUser().getAccountId();
@@ -75,17 +72,16 @@ public class PostWatchedProjects
     return getWatchedProjects.apply(rsrc);
   }
 
-  private Map<ProjectWatchKey, Set<NotifyType>> asMap(
-      List<ProjectWatchInfo> input) throws BadRequestException,
-          UnprocessableEntityException, IOException {
+  private Map<ProjectWatchKey, Set<NotifyType>> asMap(List<ProjectWatchInfo> input)
+      throws BadRequestException, UnprocessableEntityException, IOException {
     Map<ProjectWatchKey, Set<NotifyType>> m = new HashMap<>();
     for (ProjectWatchInfo info : input) {
       if (info.project == null) {
         throw new BadRequestException("project name must be specified");
       }
 
-      ProjectWatchKey key = ProjectWatchKey.create(
-          projectsCollection.parse(info.project).getNameKey(), info.filter);
+      ProjectWatchKey key =
+          ProjectWatchKey.create(projectsCollection.parse(info.project).getNameKey(), info.filter);
       if (m.containsKey(key)) {
         throw new BadRequestException(
             "duplicate entry for project " + format(info.project, info.filter));
@@ -119,8 +115,6 @@ public class PostWatchedProjects
 
   private static String format(String project, String filter) {
     return project
-        + (filter != null && !WatchConfig.FILTER_ALL.equals(filter)
-            ? " and filter " + filter
-            : "");
+        + (filter != null && !WatchConfig.FILTER_ALL.equals(filter) ? " and filter " + filter : "");
   }
 }

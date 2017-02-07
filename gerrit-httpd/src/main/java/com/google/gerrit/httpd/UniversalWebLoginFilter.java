@@ -22,10 +22,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-
 import java.io.IOException;
 import java.util.Optional;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -53,7 +51,8 @@ public class UniversalWebLoginFilter implements Filter {
   }
 
   @Inject
-  public UniversalWebLoginFilter(DynamicItem<WebSession> session,
+  public UniversalWebLoginFilter(
+      DynamicItem<WebSession> session,
       DynamicSet<WebLoginListener> webLoginListeners,
       Provider<CurrentUser> userProvider) {
     this.session = session;
@@ -62,12 +61,11 @@ public class UniversalWebLoginFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) throws ServletException {
-  }
+  public void init(FilterConfig filterConfig) throws ServletException {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponseRecorder wrappedResponse =
         new HttpServletResponseRecorder((HttpServletResponse) response);
@@ -78,13 +76,11 @@ public class UniversalWebLoginFilter implements Filter {
 
     if (!loggedInUserBefore.isPresent() && loggedInUserAfter.isPresent()) {
       for (WebLoginListener loginListener : webLoginListeners) {
-        loginListener.onLogin(loggedInUserAfter.get(), httpRequest,
-                              wrappedResponse);
+        loginListener.onLogin(loggedInUserAfter.get(), httpRequest, wrappedResponse);
       }
     } else if (loggedInUserBefore.isPresent() && !loggedInUserAfter.isPresent()) {
       for (WebLoginListener loginListener : webLoginListeners) {
-        loginListener.onLogout(loggedInUserBefore.get(), httpRequest,
-                               wrappedResponse);
+        loginListener.onLogout(loggedInUserBefore.get(), httpRequest, wrappedResponse);
       }
     }
 
@@ -92,13 +88,11 @@ public class UniversalWebLoginFilter implements Filter {
   }
 
   private Optional<IdentifiedUser> loggedInUser() {
-    return session.get().isSignedIn() ?
-             Optional.of(userProvider.get().asIdentifiedUser()) :
-             Optional.empty();
+    return session.get().isSignedIn()
+        ? Optional.of(userProvider.get().asIdentifiedUser())
+        : Optional.empty();
   }
 
   @Override
-  public void destroy() {
-  }
-
+  public void destroy() {}
 }

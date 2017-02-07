@@ -33,16 +33,13 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-import java.io.IOException;
-
 public class Schema_126 extends SchemaVersion {
-  private static final String COMMIT_MSG =
-      "Fix default permissions on user branches";
+  private static final String COMMIT_MSG = "Fix default permissions on user branches";
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -50,7 +47,8 @@ public class Schema_126 extends SchemaVersion {
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_126(Provider<Schema_125> prior,
+  Schema_126(
+      Provider<Schema_125> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       SystemGroupBackend systemGroupBackend,
@@ -65,12 +63,10 @@ public class Schema_126 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (Repository git = repoManager.openRepository(allUsersName);
-        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED,
-            allUsersName, git)) {
+        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
       ProjectConfig config = ProjectConfig.read(md);
 
-      String refsUsersShardedId =
-          RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}";
+      String refsUsersShardedId = RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}";
       config.remove(config.getAccessSection(refsUsersShardedId));
 
       GroupReference registered = systemGroupBackend.getGroup(REGISTERED_USERS);

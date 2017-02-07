@@ -8,7 +8,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-
 import com.googlecode.prolog_cafe.exceptions.JavaException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -39,8 +38,7 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
     Term listHead = Prolog.Nil;
     try {
       ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
-      LabelTypes types =
-          StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes();
+      LabelTypes types = StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes();
 
       for (PatchSetApproval a : cd.currentApprovals()) {
         LabelType t = types.byLabel(a.getLabelId());
@@ -48,18 +46,14 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
           continue;
         }
 
-        StructureTerm labelTerm = new StructureTerm(
-            sym_label,
-            SymbolTerm.intern(t.getName()),
-            new IntegerTerm(a.getValue()));
+        StructureTerm labelTerm =
+            new StructureTerm(
+                sym_label, SymbolTerm.intern(t.getName()), new IntegerTerm(a.getValue()));
 
-        StructureTerm userTerm = new StructureTerm(
-            sym_user,
-            new IntegerTerm(a.getAccountId().get()));
+        StructureTerm userTerm =
+            new StructureTerm(sym_user, new IntegerTerm(a.getAccountId().get()));
 
-        listHead = new ListTerm(
-            new StructureTerm(sym_commit_label, labelTerm, userTerm),
-            listHead);
+        listHead = new ListTerm(new StructureTerm(sym_commit_label, labelTerm, userTerm), listHead);
       }
     } catch (OrmException err) {
       throw new JavaException(this, 1, err);

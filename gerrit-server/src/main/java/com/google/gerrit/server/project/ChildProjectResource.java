@@ -40,9 +40,7 @@ public class ChildProjectResource implements RestResource {
   }
 
   public boolean isDirectChild() {
-    ProjectState firstParent =
-        Iterables.getFirst(child.getProjectState().parents(), null);
-    return firstParent != null
-        && parent.getNameKey().equals(firstParent.getProject().getNameKey());
+    ProjectState firstParent = Iterables.getFirst(child.getProjectState().parents(), null);
+    return firstParent != null && parent.getNameKey().equals(firstParent.getProject().getNameKey());
   }
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.data;
 
 public class MessageAttribute {
-    public Long timestamp;
-    public AccountAttribute reviewer;
-    public String message;
+  public Long timestamp;
+  public AccountAttribute reviewer;
+  public String message;
 }

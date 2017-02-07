@@ -30,7 +30,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -42,9 +41,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
   private final AuthConfig authConfig;
 
   @Inject
-  GetExternalIds(Provider<ReviewDb> db,
-      Provider<CurrentUser> self,
-      AuthConfig authConfig) {
+  GetExternalIds(Provider<ReviewDb> db, Provider<CurrentUser> self, AuthConfig authConfig) {
     this.db = db;
     this.self = self;
     this.authConfig = authConfig;
@@ -57,27 +54,23 @@ public class GetExternalIds implements RestReadView<AccountResource> {
       throw new AuthException("not allowed to get external IDs");
     }
 
-    Collection<AccountExternalId> ids = db.get().accountExternalIds()
-        .byAccount(resource.getUser().getAccountId()).toList();
+    Collection<AccountExternalId> ids =
+        db.get().accountExternalIds().byAccount(resource.getUser().getAccountId()).toList();
     if (ids.isEmpty()) {
       return ImmutableList.of();
     }
-    List<AccountExternalIdInfo> result =
-        Lists.newArrayListWithCapacity(ids.size());
+    List<AccountExternalIdInfo> result = Lists.newArrayListWithCapacity(ids.size());
     for (AccountExternalId id : ids) {
       AccountExternalIdInfo info = new AccountExternalIdInfo();
       info.identity = id.getExternalId();
       info.emailAddress = id.getEmailAddress();
-      info.trusted =
-          toBoolean(authConfig.isIdentityTrustable(Collections.singleton(id)));
+      info.trusted = toBoolean(authConfig.isIdentityTrustable(Collections.singleton(id)));
       // The identity can be deleted only if its not the one used to
       // establish this web session, and if only if an identity was
       // actually used to establish this web session.
       if (!id.isScheme(SCHEME_USERNAME)) {
-        AccountExternalId.Key last = resource.getUser()
-            .getLastLoginExternalIdKey();
-        info.canDelete =
-            toBoolean(last == null || !last.get().equals(info.identity));
+        AccountExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
+        info.canDelete = toBoolean(last == null || !last.get().equals(info.identity));
       }
       result.add(info);
     }
@@ -88,4 +81,3 @@ public class GetExternalIds implements RestReadView<AccountResource> {
     return v ? v : null;
   }
 }
-

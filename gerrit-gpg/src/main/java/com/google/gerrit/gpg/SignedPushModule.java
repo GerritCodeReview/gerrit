@@ -29,7 +29,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
@@ -39,16 +44,8 @@ import org.eclipse.jgit.transport.SignedPushConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 class SignedPushModule extends AbstractModule {
-  private static final Logger log =
-      LoggerFactory.getLogger(SignedPushModule.class);
+  private static final Logger log = LoggerFactory.getLogger(SignedPushModule.class);
 
   @Override
   protected void configure() {
@@ -56,8 +53,7 @@ class SignedPushModule extends AbstractModule {
       throw new ProvisionException("Bouncy Castle PGP not installed");
     }
     bind(PublicKeyStore.class).toProvider(StoreProvider.class);
-    DynamicSet.bind(binder(), ReceivePackInitializer.class)
-        .to(Initializer.class);
+    DynamicSet.bind(binder(), ReceivePackInitializer.class).to(Initializer.class);
   }
 
   @Singleton
@@ -67,7 +63,8 @@ class SignedPushModule extends AbstractModule {
     private final ProjectCache projectCache;
 
     @Inject
-    Initializer(@GerritServerConfig Config cfg,
+    Initializer(
+        @GerritServerConfig Config cfg,
         @EnableSignedPush boolean enableSignedPush,
         SignedPushPreReceiveHook hook,
         ProjectCache projectCache) {
@@ -95,9 +92,11 @@ class SignedPushModule extends AbstractModule {
         rp.setSignedPushConfig(null);
         return;
       } else if (signedPushConfig == null) {
-        log.error("receive.enableSignedPush is true for project {} but"
-            + " false in gerrit.config, so signed push verification is"
-            + " disabled", project.get());
+        log.error(
+            "receive.enableSignedPush is true for project {} but"
+                + " false in gerrit.config, so signed push verification is"
+                + " disabled",
+            project.get());
         rp.setSignedPushConfig(null);
         return;
       }
@@ -119,8 +118,7 @@ class SignedPushModule extends AbstractModule {
     private final AllUsersName allUsers;
 
     @Inject
-    StoreProvider(GitRepositoryManager repoManager,
-        AllUsersName allUsers) {
+    StoreProvider(GitRepositoryManager repoManager, AllUsersName allUsers) {
       this.repoManager = repoManager;
       this.allUsers = allUsers;
     }
@@ -159,5 +157,4 @@ class SignedPushModule extends AbstractModule {
     }
     return sb.toString();
   }
-
 }

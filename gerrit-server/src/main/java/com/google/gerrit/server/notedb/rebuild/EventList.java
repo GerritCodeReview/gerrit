@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -74,9 +73,9 @@ class EventList<E extends Event> implements Iterable<E> {
     long t = e.when.getTime();
     long tFirst = getFirstTime();
     long tLast = getLastTime();
-    checkArgument(t >= tLast,
-        "event %s is before previous event in list %s", e, last);
-    if (t - tLast > ChangeRebuilderImpl.MAX_DELTA_MS || t - tFirst > ChangeRebuilderImpl.MAX_WINDOW_MS) {
+    checkArgument(t >= tLast, "event %s is before previous event in list %s", e, last);
+    if (t - tLast > ChangeRebuilderImpl.MAX_DELTA_MS
+        || t - tFirst > ChangeRebuilderImpl.MAX_WINDOW_MS) {
       return false; // Too much time elapsed.
     }
 
@@ -102,8 +101,8 @@ class EventList<E extends Event> implements Iterable<E> {
   PatchSet.Id getPatchSetId() {
     PatchSet.Id id = checkNotNull(get(0).psId);
     for (int i = 1; i < size(); i++) {
-      checkState(get(i).psId.equals(id),
-          "mismatched patch sets in EventList: %s != %s", id, get(i).psId);
+      checkState(
+          get(i).psId.equals(id), "mismatched patch sets in EventList: %s != %s", id, get(i).psId);
     }
     return id;
   }
@@ -111,8 +110,11 @@ class EventList<E extends Event> implements Iterable<E> {
   Account.Id getAccountId() {
     Account.Id id = get(0).user;
     for (int i = 1; i < size(); i++) {
-      checkState(Objects.equals(id, get(i).user),
-          "mismatched users in EventList: %s != %s", id, get(i).user);
+      checkState(
+          Objects.equals(id, get(i).user),
+          "mismatched users in EventList: %s != %s",
+          id,
+          get(i).user);
     }
     return id;
   }
@@ -120,8 +122,11 @@ class EventList<E extends Event> implements Iterable<E> {
   Account.Id getRealAccountId() {
     Account.Id id = get(0).realUser;
     for (int i = 1; i < size(); i++) {
-      checkState(Objects.equals(id, get(i).realUser),
-          "mismatched real users in EventList: %s != %s", id, get(i).realUser);
+      checkState(
+          Objects.equals(id, get(i).realUser),
+          "mismatched real users in EventList: %s != %s",
+          id,
+          get(i).realUser);
     }
     return id;
   }

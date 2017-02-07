@@ -31,19 +31,16 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 @Singleton
 public class GetAgreements implements RestReadView<AccountResource> {
-  private static final Logger log =
-      LoggerFactory.getLogger(GetAgreements.class);
+  private static final Logger log = LoggerFactory.getLogger(GetAgreements.class);
 
   private final Provider<CurrentUser> self;
   private final ProjectCache projectCache;
@@ -51,20 +48,19 @@ public class GetAgreements implements RestReadView<AccountResource> {
   private final boolean agreementsEnabled;
 
   @Inject
-  GetAgreements(Provider<CurrentUser> self,
+  GetAgreements(
+      Provider<CurrentUser> self,
       ProjectCache projectCache,
       AgreementJson agreementJson,
       @GerritServerConfig Config config) {
     this.self = self;
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
-    this.agreementsEnabled =
-        config.getBoolean("auth", "contributorAgreements", false);
+    this.agreementsEnabled = config.getBoolean("auth", "contributorAgreements", false);
   }
 
   @Override
-  public List<AgreementInfo> apply(AccountResource resource)
-      throws RestApiException {
+  public List<AgreementInfo> apply(AccountResource resource) throws RestApiException {
     if (!agreementsEnabled) {
       throw new MethodNotAllowedException("contributor agreements disabled");
     }
@@ -88,8 +84,13 @@ public class GetAgreements implements RestReadView<AccountResource> {
           if (rule.getGroup().getUUID() != null) {
             groupIds.add(rule.getGroup().getUUID());
           } else {
-            log.warn("group \"" + rule.getGroup().getName() + "\" does not " +
-                "exist, referenced in CLA \"" + ca.getName() + "\"");
+            log.warn(
+                "group \""
+                    + rule.getGroup().getName()
+                    + "\" does not "
+                    + "exist, referenced in CLA \""
+                    + ca.getName()
+                    + "\"");
           }
         }
       }

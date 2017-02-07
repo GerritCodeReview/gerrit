@@ -24,16 +24,14 @@ import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a vote that was removed from a change. */
 public class DeleteVoteSender extends ReplyToChangeSender {
-  public interface Factory extends
-      ReplyToChangeSender.Factory<DeleteVoteSender> {
+  public interface Factory extends ReplyToChangeSender.Factory<DeleteVoteSender> {
     @Override
     DeleteVoteSender create(Project.NameKey project, Change.Id change);
   }
 
   @Inject
-  protected DeleteVoteSender(EmailArguments ea,
-      @Assisted Project.NameKey project,
-      @Assisted Change.Id id)
+  protected DeleteVoteSender(
+      EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "deleteVote", newChangeData(ea, project, id));
   }

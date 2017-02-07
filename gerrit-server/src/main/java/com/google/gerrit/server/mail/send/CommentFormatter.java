@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail.send;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 import com.google.gerrit.common.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,12 +37,11 @@ public class CommentFormatter {
   }
 
   /**
-   * Take a string of comment text that was written using the wiki-Like format
-   * and emit a list of blocks that can be rendered to block-level HTML. This
-   * method does not escape HTML.
+   * Take a string of comment text that was written using the wiki-Like format and emit a list of
+   * blocks that can be rendered to block-level HTML. This method does not escape HTML.
    *
-   * Adapted from the {@code wikify} method found in:
-   *   com.google.gwtexpui.safehtml.client.SafeHtml
+   * <p>Adapted from the {@code wikify} method found in:
+   * com.google.gwtexpui.safehtml.client.SafeHtml
    *
    * @param source The raw, unescaped comment in the Gerrit wiki-like format.
    * @return List of block objects, each with unescaped comment content.
@@ -69,30 +67,25 @@ public class CommentFormatter {
   }
 
   /**
-   * Take a block of comment text that contains a list and potentially
-   * paragraphs (but does not contain blank lines), generate appropriate block
-   * elements and append them to the output list.
+   * Take a block of comment text that contains a list and potentially paragraphs (but does not
+   * contain blank lines), generate appropriate block elements and append them to the output list.
    *
-   * In simple cases, this will generate a single list block. For example, on
-   * the following input.
+   * <p>In simple cases, this will generate a single list block. For example, on the following
+   * input.
    *
-   *    * Item one.
-   *    * Item two.
-   *    * item three.
+   * <p>* Item one. * Item two. * item three.
    *
-   * However, if the list is adjacent to a paragraph, it will need to also
-   * generate that paragraph. Consider the following input.
+   * <p>However, if the list is adjacent to a paragraph, it will need to also generate that
+   * paragraph. Consider the following input.
    *
-   *    A bit of text describing the context of the list:
-   *    * List item one.
-   *    * List item two.
-   *    * Et cetera.
+   * <p>A bit of text describing the context of the list: * List item one. * List item two. * Et
+   * cetera.
    *
-   * In this case, {@code makeList} generates a paragraph block object
-   * containing the non-bullet-prefixed text, followed by a list block.
+   * <p>In this case, {@code makeList} generates a paragraph block object containing the
+   * non-bullet-prefixed text, followed by a list block.
    *
-   * Adapted from the {@code wikifyList} method found in:
-   *   com.google.gwtexpui.safehtml.client.SafeHtml
+   * <p>Adapted from the {@code wikifyList} method found in:
+   * com.google.gwtexpui.safehtml.client.SafeHtml
    *
    * @param p The block containing the list (as well as potential paragraphs).
    * @param out The list of blocks to append to.
@@ -179,12 +172,10 @@ public class CommentFormatter {
   }
 
   private static boolean isPreFormat(String p) {
-    return p.startsWith(" ") || p.startsWith("\t")
-        || p.contains("\n ") || p.contains("\n\t");
+    return p.startsWith(" ") || p.startsWith("\t") || p.contains("\n ") || p.contains("\n\t");
   }
 
   private static boolean isList(String p) {
-    return p.startsWith("- ") || p.startsWith("* ")
-        || p.contains("\n- ") || p.contains("\n* ");
+    return p.startsWith("- ") || p.startsWith("* ") || p.contains("\n- ") || p.contains("\n* ");
   }
 }

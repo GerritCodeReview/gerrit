@@ -24,8 +24,8 @@ public class ConfigRestApiServlet extends RestApiServlet {
   private static final long serialVersionUID = 1L;
 
   @Inject
-  ConfigRestApiServlet(RestApiServlet.Globals globals,
-      Provider<ConfigCollection> configCollection) {
+  ConfigRestApiServlet(
+      RestApiServlet.Globals globals, Provider<ConfigCollection> configCollection) {
     super(globals, configCollection);
   }
 }

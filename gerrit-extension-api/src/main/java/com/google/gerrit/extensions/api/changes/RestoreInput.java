@@ -17,7 +17,5 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
 public class RestoreInput {
-  @DefaultInput
-  public String message;
+  @DefaultInput public String message;
 }
-

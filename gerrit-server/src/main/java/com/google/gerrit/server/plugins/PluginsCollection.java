@@ -27,17 +27,16 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PluginsCollection implements
-    RestCollection<TopLevelResource, PluginResource>,
-    AcceptsCreate<TopLevelResource> {
+public class PluginsCollection
+    implements RestCollection<TopLevelResource, PluginResource>, AcceptsCreate<TopLevelResource> {
 
   private final DynamicMap<RestView<PluginResource>> views;
   private final PluginLoader loader;
   private final Provider<ListPlugins> list;
 
   @Inject
-  PluginsCollection(DynamicMap<RestView<PluginResource>> views,
-      PluginLoader loader, Provider<ListPlugins> list) {
+  PluginsCollection(
+      DynamicMap<RestView<PluginResource>> views, PluginLoader loader, Provider<ListPlugins> list) {
     this.views = views;
     this.loader = loader;
     this.list = list;

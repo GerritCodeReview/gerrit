@@ -43,8 +43,7 @@ public class ActionButton extends Button implements ClickHandler {
     this(project, null, null, null, null, action);
   }
 
-  public ActionButton(Project.NameKey project, BranchInfo branch,
-      ActionInfo action) {
+  public ActionButton(Project.NameKey project, BranchInfo branch, ActionInfo action) {
     this(project, branch, null, null, null, action);
   }
 
@@ -52,18 +51,18 @@ public class ActionButton extends Button implements ClickHandler {
     this(null, null, change, null, null, action);
   }
 
-  public ActionButton(ChangeInfo change, RevisionInfo revision,
-      ActionInfo action) {
+  public ActionButton(ChangeInfo change, RevisionInfo revision, ActionInfo action) {
     this(null, null, change, null, revision, action);
   }
 
-  private ActionButton(Project.NameKey project, BranchInfo branch,
-      ChangeInfo change, EditInfo edit, RevisionInfo revision,
+  private ActionButton(
+      Project.NameKey project,
+      BranchInfo branch,
+      ChangeInfo change,
+      EditInfo edit,
+      RevisionInfo revision,
       ActionInfo action) {
-    super(new SafeHtmlBuilder()
-      .openDiv()
-      .append(action.label())
-      .closeDiv());
+    super(new SafeHtmlBuilder().openDiv().append(action.label()).closeDiv());
     setStyleName("");
     setTitle(action.title());
     setEnabled(action.enabled());

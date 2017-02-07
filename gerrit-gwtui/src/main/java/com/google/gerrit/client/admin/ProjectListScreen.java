@@ -38,7 +38,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-
 import java.util.List;
 
 public class ProjectListScreen extends PaginatedProjectScreen {
@@ -81,74 +80,75 @@ public class ProjectListScreen extends PaginatedProjectScreen {
     next = PagingHyperlink.createNext();
     next.setVisible(false);
 
-    projects = new ProjectsTable() {
-      @Override
-      protected void initColumnHeaders() {
-        super.initColumnHeaders();
-        table.setText(0, ProjectsTable.C_REPO_BROWSER,
-            Util.C.projectRepoBrowser());
-        table.getFlexCellFormatter().
-          addStyleName(0, ProjectsTable.C_REPO_BROWSER,
-              Gerrit.RESOURCES.css().dataHeader());
-      }
-
-      @Override
-      protected void onOpenRow(final int row) {
-        History.newItem(link(getRowItem(row)));
-      }
-
-      private String link(final ProjectInfo item) {
-        return Dispatcher.toProject(item.name_key());
-      }
-
-      @Override
-      protected void insert(int row, ProjectInfo k) {
-        super.insert(row, k);
-        table.getFlexCellFormatter().addStyleName(row,
-            ProjectsTable.C_REPO_BROWSER, Gerrit.RESOURCES.css().dataCell());
-      }
-
-      @Override
-      protected void populate(final int row, final ProjectInfo k) {
-        Image state = new Image();
-        switch (k.state()) {
-          case HIDDEN:
-            state.setResource(Gerrit.RESOURCES.redNot());
-            state.setTitle(Util.toLongString(k.state()));
-            table.setWidget(row, ProjectsTable.C_STATE, state);
-            break;
-          case READ_ONLY:
-            state.setResource(Gerrit.RESOURCES.readOnly());
-            state.setTitle(Util.toLongString(k.state()));
-            table.setWidget(row, ProjectsTable.C_STATE, state);
-            break;
-          case ACTIVE:
-          default:
-            // Intentionally left blank, do not show an icon when active.
-            break;
-        }
-
-        FlowPanel fp = new FlowPanel();
-        fp.add(new ProjectSearchLink(k.name_key()));
-        fp.add(new HighlightingInlineHyperlink(k.name(), link(k), match));
-        table.setWidget(row, ProjectsTable.C_NAME, fp);
-        table.setText(row, ProjectsTable.C_DESCRIPTION, k.description());
-        addWebLinks(row, k);
-
-        setRowItem(row, k);
-      }
-
-      private void addWebLinks(int row, ProjectInfo k) {
-        List<WebLinkInfo> webLinks = Natives.asList(k.webLinks());
-        if (webLinks != null && !webLinks.isEmpty()) {
-          FlowPanel p = new FlowPanel();
-          table.setWidget(row, ProjectsTable.C_REPO_BROWSER, p);
-          for (WebLinkInfo weblink : webLinks) {
-            p.add(weblink.toAnchor());
+    projects =
+        new ProjectsTable() {
+          @Override
+          protected void initColumnHeaders() {
+            super.initColumnHeaders();
+            table.setText(0, ProjectsTable.C_REPO_BROWSER, Util.C.projectRepoBrowser());
+            table
+                .getFlexCellFormatter()
+                .addStyleName(0, ProjectsTable.C_REPO_BROWSER, Gerrit.RESOURCES.css().dataHeader());
           }
-        }
-      }
-    };
+
+          @Override
+          protected void onOpenRow(final int row) {
+            History.newItem(link(getRowItem(row)));
+          }
+
+          private String link(final ProjectInfo item) {
+            return Dispatcher.toProject(item.name_key());
+          }
+
+          @Override
+          protected void insert(int row, ProjectInfo k) {
+            super.insert(row, k);
+            table
+                .getFlexCellFormatter()
+                .addStyleName(row, ProjectsTable.C_REPO_BROWSER, Gerrit.RESOURCES.css().dataCell());
+          }
+
+          @Override
+          protected void populate(final int row, final ProjectInfo k) {
+            Image state = new Image();
+            switch (k.state()) {
+              case HIDDEN:
+                state.setResource(Gerrit.RESOURCES.redNot());
+                state.setTitle(Util.toLongString(k.state()));
+                table.setWidget(row, ProjectsTable.C_STATE, state);
+                break;
+              case READ_ONLY:
+                state.setResource(Gerrit.RESOURCES.readOnly());
+                state.setTitle(Util.toLongString(k.state()));
+                table.setWidget(row, ProjectsTable.C_STATE, state);
+                break;
+              case ACTIVE:
+              default:
+                // Intentionally left blank, do not show an icon when active.
+                break;
+            }
+
+            FlowPanel fp = new FlowPanel();
+            fp.add(new ProjectSearchLink(k.name_key()));
+            fp.add(new HighlightingInlineHyperlink(k.name(), link(k), match));
+            table.setWidget(row, ProjectsTable.C_NAME, fp);
+            table.setText(row, ProjectsTable.C_DESCRIPTION, k.description());
+            addWebLinks(row, k);
+
+            setRowItem(row, k);
+          }
+
+          private void addWebLinks(int row, ProjectInfo k) {
+            List<WebLinkInfo> webLinks = Natives.asList(k.webLinks());
+            if (webLinks != null && !webLinks.isEmpty()) {
+              FlowPanel p = new FlowPanel();
+              table.setWidget(row, ProjectsTable.C_REPO_BROWSER, p);
+              for (WebLinkInfo weblink : webLinks) {
+                p.add(weblink.toAnchor());
+              }
+            }
+          }
+        };
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);
 
     add(projects);
@@ -167,22 +167,24 @@ public class ProjectListScreen extends PaginatedProjectScreen {
     hp.add(filterLabel);
     filterTxt = new NpTextBox();
     filterTxt.setValue(match);
-    filterTxt.addKeyUpHandler(new KeyUpHandler() {
-      @Override
-      public void onKeyUp(KeyUpEvent event) {
-        Query q = new Query(filterTxt.getValue())
-          .open(event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
-        if (match.equals(q.qMatch)) {
-          q.start(start);
-        }
-        if (q.open || !match.equals(q.qMatch)) {
-          if (query == null) {
-            q.run();
+    filterTxt.addKeyUpHandler(
+        new KeyUpHandler() {
+          @Override
+          public void onKeyUp(KeyUpEvent event) {
+            Query q =
+                new Query(filterTxt.getValue())
+                    .open(event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
+            if (match.equals(q.qMatch)) {
+              q.start(start);
+            }
+            if (q.open || !match.equals(q.qMatch)) {
+              if (query == null) {
+                q.run();
+              }
+              query = q;
+            }
           }
-          query = q;
-        }
-      }
-    });
+        });
     hp.add(filterTxt);
     add(hp);
   }
@@ -223,7 +225,10 @@ public class ProjectListScreen extends PaginatedProjectScreen {
 
     Query run() {
       int limit = open ? 1 : pageSize + 1;
-      ProjectMap.match(qMatch, limit, qStart,
+      ProjectMap.match(
+          qMatch,
+          limit,
+          qStart,
           new GerritCallback<ProjectMap>() {
             @Override
             public void onSuccess(ProjectMap result) {

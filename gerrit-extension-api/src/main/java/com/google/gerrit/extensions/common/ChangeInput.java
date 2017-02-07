@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ChangeStatus;
-
 import java.util.Map;
 
 public class ChangeInput {
@@ -34,5 +33,6 @@ public class ChangeInput {
 
   /** Who to send email notifications to after change is created. */
   public NotifyHandling notify = NotifyHandling.ALL;
+
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

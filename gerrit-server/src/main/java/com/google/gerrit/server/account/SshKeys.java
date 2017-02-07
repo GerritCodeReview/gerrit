@@ -26,22 +26,21 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-import java.io.IOException;
-
 @Singleton
-public class SshKeys implements
-    ChildCollection<AccountResource, AccountResource.SshKey> {
+public class SshKeys implements ChildCollection<AccountResource, AccountResource.SshKey> {
   private final DynamicMap<RestView<AccountResource.SshKey>> views;
   private final GetSshKeys list;
   private final Provider<CurrentUser> self;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
   @Inject
-  SshKeys(DynamicMap<RestView<AccountResource.SshKey>> views,
-      GetSshKeys list, Provider<CurrentUser> self,
+  SshKeys(
+      DynamicMap<RestView<AccountResource.SshKey>> views,
+      GetSshKeys list,
+      Provider<CurrentUser> self,
       VersionedAuthorizedKeys.Accessor authorizedKeys) {
     this.views = views;
     this.list = list;
@@ -56,10 +55,8 @@ public class SshKeys implements
 
   @Override
   public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
-      throws ResourceNotFoundException, OrmException, IOException,
-      ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new ResourceNotFoundException();
     }
     return parse(rsrc.getUser(), id);

@@ -23,12 +23,10 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetUsername implements RestReadView<AccountResource> {
   @Inject
-  public GetUsername() {
-  }
+  public GetUsername() {}
 
   @Override
-  public String apply(AccountResource rsrc) throws AuthException,
-      ResourceNotFoundException {
+  public String apply(AccountResource rsrc) throws AuthException, ResourceNotFoundException {
     String username = rsrc.getUser().getAccount().getUserName();
     if (username == null) {
       throw new ResourceNotFoundException();

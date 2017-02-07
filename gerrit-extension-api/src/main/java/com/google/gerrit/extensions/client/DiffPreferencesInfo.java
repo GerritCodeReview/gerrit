@@ -32,8 +32,7 @@ public class DiffPreferencesInfo {
   public static final short WHOLE_FILE_CONTEXT = -1;
 
   /** Typical valid choices for the default context setting. */
-  public static final short[] CONTEXT_CHOICES =
-      {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
+  public static final short[] CONTEXT_CHOICES = {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
 
   public enum Whitespace {
     IGNORE_NONE,

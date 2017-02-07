@@ -24,40 +24,38 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HashtagsEdited {
-  private static final Logger log =
-      LoggerFactory.getLogger(HashtagsEdited.class);
+  private static final Logger log = LoggerFactory.getLogger(HashtagsEdited.class);
 
   private final DynamicSet<HashtagsEditedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  public HashtagsEdited(DynamicSet<HashtagsEditedListener> listeners,
-      EventUtil util) {
+  public HashtagsEdited(DynamicSet<HashtagsEditedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, Account editor,
-      ImmutableSortedSet<String> hashtags, Set<String> added,
-      Set<String> removed, Timestamp when) {
+  public void fire(
+      Change change,
+      Account editor,
+      ImmutableSortedSet<String> hashtags,
+      Set<String> added,
+      Set<String> removed,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.accountInfo(editor),
-          hashtags, added, removed,
-          when);
+      Event event =
+          new Event(
+              util.changeInfo(change), util.accountInfo(editor), hashtags, added, removed, when);
       for (HashtagsEditedListener l : listeners) {
         try {
           l.onHashtagsEdited(event);
@@ -70,15 +68,19 @@ public class HashtagsEdited {
     }
   }
 
-  private static class Event extends AbstractChangeEvent
-      implements HashtagsEditedListener.Event {
+  private static class Event extends AbstractChangeEvent implements HashtagsEditedListener.Event {
 
     private Collection<String> updatedHashtags;
     private Collection<String> addedHashtags;
     private Collection<String> removedHashtags;
 
-    Event(ChangeInfo change, AccountInfo editor, Collection<String> updated,
-        Collection<String> added, Collection<String> removed, Timestamp when) {
+    Event(
+        ChangeInfo change,
+        AccountInfo editor,
+        Collection<String> updated,
+        Collection<String> added,
+        Collection<String> removed,
+        Timestamp when) {
       super(change, editor, when, NotifyHandling.ALL);
       this.updatedHashtags = updated;
       this.addedHashtags = added;

@@ -19,27 +19,33 @@ import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.List;
 
 public interface ProjectApi {
   ProjectApi create() throws RestApiException;
+
   ProjectApi create(ProjectInput in) throws RestApiException;
+
   ProjectInfo get() throws RestApiException;
 
   String description() throws RestApiException;
+
   void description(DescriptionInput in) throws RestApiException;
 
   ProjectAccessInfo access() throws RestApiException;
+
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
 
   ConfigInfo config() throws RestApiException;
+
   ConfigInfo config(ConfigInput in) throws RestApiException;
 
   ListRefsRequest<BranchInfo> branches();
+
   ListRefsRequest<TagInfo> tags();
 
   void deleteBranches(DeleteBranchesInput in) throws RestApiException;
+
   void deleteTags(DeleteTagsInput in) throws RestApiException;
 
   abstract class ListRefsRequest<T extends RefInfo> {
@@ -88,17 +94,18 @@ public interface ProjectApi {
   }
 
   List<ProjectInfo> children() throws RestApiException;
+
   List<ProjectInfo> children(boolean recursive) throws RestApiException;
+
   ChildProjectApi child(String name) throws RestApiException;
 
   /**
    * Look up a branch by refname.
-   * <p>
-   * <strong>Note:</strong> This method eagerly reads the branch. Methods that
-   * mutate the branch do not necessarily re-read the branch. Therefore, calling
-   * a getter method on an instance after calling a mutation method on that same
-   * instance is not guaranteed to reflect the mutation. It is not recommended
-   * to store references to {@code BranchApi} instances.
+   *
+   * <p><strong>Note:</strong> This method eagerly reads the branch. Methods that mutate the branch
+   * do not necessarily re-read the branch. Therefore, calling a getter method on an instance after
+   * calling a mutation method on that same instance is not guaranteed to reflect the mutation. It
+   * is not recommended to store references to {@code BranchApi} instances.
    *
    * @param ref branch name, with or without "refs/heads/" prefix.
    * @throws RestApiException if a problem occurred reading the project.
@@ -108,7 +115,9 @@ public interface ProjectApi {
 
   /**
    * Look up a tag by refname.
+   *
    * <p>
+   *
    * @param ref tag name, with or without "refs/tags/" prefix.
    * @throws RestApiException if a problem occurred reading the project.
    * @return API for accessing the tag.
@@ -116,9 +125,9 @@ public interface ProjectApi {
   TagApi tag(String ref) throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements ProjectApi {
     @Override
     public ProjectApi create() {

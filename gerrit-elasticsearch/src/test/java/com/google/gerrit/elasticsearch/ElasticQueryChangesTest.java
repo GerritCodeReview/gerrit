@@ -20,7 +20,7 @@ import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
@@ -28,14 +28,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.concurrent.ExecutionException;
-
 public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
   private static ElasticNodeInfo nodeInfo;
 
   @BeforeClass
-  public static void startIndexService()
-      throws InterruptedException, ExecutionException {
+  public static void startIndexService() throws InterruptedException, ExecutionException {
     if (nodeInfo != null) {
       // do not start Elasticsearch twice
       return;
@@ -67,8 +64,7 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
     ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port);
-    return Guice.createInjector(
-        new InMemoryModule(elasticsearchConfig, notesMigration));
+    return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }
 
   @Test
@@ -78,5 +74,4 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     String nameEmail = user.asIdentifiedUser().getNameEmail();
     assertQuery("owner: \"" + nameEmail + "\"\\");
   }
-
 }

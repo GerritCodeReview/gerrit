@@ -18,6 +18,8 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface ProgressCss extends CssResource {
   String container();
+
   String text();
+
   String bar();
 }

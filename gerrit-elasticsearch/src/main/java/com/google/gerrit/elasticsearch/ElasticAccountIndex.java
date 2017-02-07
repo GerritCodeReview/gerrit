@@ -41,28 +41,25 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.Bulk.Builder;
 import io.searchbox.core.Search;
 import io.searchbox.core.search.sort.Sort;
 import io.searchbox.core.search.sort.Sort.Sorting;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ElasticAccountIndex extends
-    AbstractElasticIndex<Account.Id, AccountState> implements AccountIndex {
+public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
+    implements AccountIndex {
   static class AccountMapping {
     MappingProperties accounts;
 
@@ -74,8 +71,7 @@ public class ElasticAccountIndex extends
   static final String ACCOUNTS = "accounts";
   static final String ACCOUNTS_PREFIX = ACCOUNTS + "_";
 
-  private static final Logger log =
-      LoggerFactory.getLogger(ElasticAccountIndex.class);
+  private static final Logger log = LoggerFactory.getLogger(ElasticAccountIndex.class);
 
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
@@ -94,23 +90,25 @@ public class ElasticAccountIndex extends
 
   @Override
   public void replace(AccountState as) throws IOException {
-    Bulk bulk = new Bulk.Builder()
-        .defaultIndex(indexName)
-        .defaultType(ACCOUNTS)
-        .addAction(insert(ACCOUNTS, as))
-        .refresh(refresh)
-        .build();
+    Bulk bulk =
+        new Bulk.Builder()
+            .defaultIndex(indexName)
+            .defaultType(ACCOUNTS)
+            .addAction(insert(ACCOUNTS, as))
+            .refresh(refresh)
+            .build();
     JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {
       throw new IOException(
-          String.format("Failed to replace account %s in index %s: %s",
+          String.format(
+              "Failed to replace account %s in index %s: %s",
               as.getAccount().getId(), indexName, result.getErrorMessage()));
     }
   }
 
   @Override
-  public DataSource<AccountState> getSource(Predicate<AccountState> p,
-      QueryOptions opts) throws QueryParseException {
+  public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
+      throws QueryParseException {
     return new QuerySource(p, opts);
   }
 
@@ -121,8 +119,7 @@ public class ElasticAccountIndex extends
 
   @Override
   protected String getMappings() {
-    ImmutableMap<String, AccountMapping> mappings =
-        ImmutableMap.of("mappings", mapping);
+    ImmutableMap<String, AccountMapping> mappings = ImmutableMap.of("mappings", mapping);
     return gson.toJson(mappings);
   }
 
@@ -135,24 +132,25 @@ public class ElasticAccountIndex extends
     private final Search search;
     private final Set<String> fields;
 
-    QuerySource(Predicate<AccountState> p, QueryOptions opts)
-        throws QueryParseException {
+    QuerySource(Predicate<AccountState> p, QueryOptions opts) throws QueryParseException {
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.accountFields(opts);
-      SearchSourceBuilder searchSource = new SearchSourceBuilder()
-          .query(qb)
-          .from(opts.start())
-          .size(opts.limit())
-          .fields(Lists.newArrayList(fields));
+      SearchSourceBuilder searchSource =
+          new SearchSourceBuilder()
+              .query(qb)
+              .from(opts.start())
+              .size(opts.limit())
+              .fields(Lists.newArrayList(fields));
 
       Sort sort = new Sort(AccountField.ID.getName(), Sorting.ASC);
       sort.setIgnoreUnmapped();
 
-      search = new Search.Builder(searchSource.toString())
-          .addType(ACCOUNTS)
-          .addIndex(indexName)
-          .addSort(ImmutableList.of(sort))
-          .build();
+      search =
+          new Search.Builder(searchSource.toString())
+              .addType(ACCOUNTS)
+              .addIndex(indexName)
+              .addSort(ImmutableList.of(sort))
+              .build();
     }
 
     @Override
@@ -210,8 +208,7 @@ public class ElasticAccountIndex extends
         source = json.getAsJsonObject().get("fields");
       }
 
-      Account.Id id = new Account.Id(
-          source.getAsJsonObject().get(ID.getName()).getAsInt());
+      Account.Id id = new Account.Id(source.getAsJsonObject().get(ID.getName()).getAsInt());
       // Use the AccountCache rather than depending on any stored fields in the
       // document (of which there shouldn't be any). The most expensive part to
       // compute anyway is the effective group IDs, and we don't have a good way

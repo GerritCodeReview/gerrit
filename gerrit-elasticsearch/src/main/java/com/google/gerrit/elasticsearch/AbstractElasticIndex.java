@@ -34,16 +34,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.protobuf.ProtobufCodec;
-
-import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.JestResult;
 import io.searchbox.client.config.HttpClientConfig;
@@ -53,10 +43,17 @@ import io.searchbox.core.Delete;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
-  protected static <T> List<T> decodeProtos(JsonObject doc, String fieldName,
-      ProtobufCodec<T> codec) {
+  protected static <T> List<T> decodeProtos(
+      JsonObject doc, String fieldName, ProtobufCodec<T> codec) {
     JsonArray field = doc.getAsJsonArray(fieldName);
     if (field == null) {
       return null;
@@ -76,7 +73,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final Gson gson;
   protected final ElasticQueryBuilder queryBuilder;
 
-  AbstractElasticIndex(@GerritServerConfig Config cfg,
+  AbstractElasticIndex(
+      @GerritServerConfig Config cfg,
       FillArgs fillArgs,
       SitePaths sitePaths,
       Schema<V> schema,
@@ -84,17 +82,18 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
     this.schema = schema;
-    this.gson = new GsonBuilder()
-        .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+    this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     this.queryBuilder = new ElasticQueryBuilder();
     String protocol = getRequiredConfigOption(cfg, "protocol");
     String hostname = getRequiredConfigOption(cfg, "hostname");
     String port = getRequiredConfigOption(cfg, "port");
 
-    this.indexName = String.format("%s%s%04d",
-        Strings.nullToEmpty(cfg.getString("index", null, "prefix")),
-        indexName,
-        schema.getVersion());
+    this.indexName =
+        String.format(
+            "%s%s%04d",
+            Strings.nullToEmpty(cfg.getString("index", null, "prefix")),
+            indexName,
+            schema.getVersion());
 
     // By default Elasticsearch has a 1s delay before changes are available in
     // the index.  Setting refresh(true) on calls to the index makes the index
@@ -110,12 +109,12 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
     String url = buildUrl(protocol, hostname, port);
     JestClientFactory factory = new JestClientFactory();
-    factory.setHttpClientConfig(new HttpClientConfig
-        .Builder(url)
-        .multiThreaded(true)
-        .discoveryEnabled(!refresh)
-        .discoveryFrequency(1L, TimeUnit.MINUTES)
-        .build());
+    factory.setHttpClientConfig(
+        new HttpClientConfig.Builder(url)
+            .multiThreaded(true)
+            .discoveryEnabled(!refresh)
+            .discoveryFrequency(1L, TimeUnit.MINUTES)
+            .build());
     client = (JestHttpClient) factory.getObject();
   }
 
@@ -139,33 +138,30 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     Bulk bulk = addActions(new Bulk.Builder(), c).refresh(refresh).build();
     JestResult result = client.execute(bulk);
     if (!result.isSucceeded()) {
-      throw new IOException(String.format(
-          "Failed to delete change %s in index %s: %s", c, indexName,
-          result.getErrorMessage()));
+      throw new IOException(
+          String.format(
+              "Failed to delete change %s in index %s: %s",
+              c, indexName, result.getErrorMessage()));
     }
   }
 
   @Override
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
-    JestResult result = client.execute(
-        new IndicesExists.Builder(indexName).build());
+    JestResult result = client.execute(new IndicesExists.Builder(indexName).build());
     if (result.isSucceeded()) {
-      result = client.execute(
-          new DeleteIndex.Builder(indexName).build());
+      result = client.execute(new DeleteIndex.Builder(indexName).build());
       if (!result.isSucceeded()) {
-        throw new IOException(String.format(
-            "Failed to delete index %s: %s", indexName,
-            result.getErrorMessage()));
+        throw new IOException(
+            String.format("Failed to delete index %s: %s", indexName, result.getErrorMessage()));
       }
     }
 
     // Recreate the index.
-    result = client.execute(
-        new CreateIndex.Builder(indexName).settings(getMappings()).build());
+    result = client.execute(new CreateIndex.Builder(indexName).settings(getMappings()).build());
     if (!result.isSucceeded()) {
-      String error = String.format("Failed to create index %s: %s",
-          indexName, result.getErrorMessage());
+      String error =
+          String.format("Failed to create index %s: %s", indexName, result.getErrorMessage());
       throw new IOException(error);
     }
   }
@@ -178,20 +174,13 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected Delete delete(String type, K c) {
     String id = c.toString();
-    return new Delete.Builder(id)
-        .index(indexName)
-        .type(type)
-        .build();
+    return new Delete.Builder(id).index(indexName).type(type).build();
   }
 
   protected io.searchbox.core.Index insert(String type, V v) throws IOException {
     String id = getId(v);
     String doc = toDoc(v);
-    return new io.searchbox.core.Index.Builder(doc)
-        .index(indexName)
-        .type(type)
-        .id(id)
-        .build();
+    return new io.searchbox.core.Index.Builder(doc).index(indexName).type(type).id(id).build();
   }
 
   private String toDoc(V v) throws IOException {
@@ -221,8 +210,13 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       return new URL(protocol, hostname, Integer.parseInt(port), "").toString();
     } catch (MalformedURLException | NumberFormatException e) {
       throw new RuntimeException(
-          "Cannot build url to Elasticsearch from values: protocol=" + protocol
-              + " hostname=" + hostname + " port=" + port, e);
+          "Cannot build url to Elasticsearch from values: protocol="
+              + protocol
+              + " hostname="
+              + hostname
+              + " port="
+              + port,
+          e);
     }
   }
 }

@@ -20,13 +20,12 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.servlet.RequestScoped;
-
 import java.util.function.Consumer;
 
 /**
  * Information about the currently logged in user.
- * <p>
- * This is a {@link RequestScoped} property managed by Guice.
+ *
+ * <p>This is a {@link RequestScoped} property managed by Guice.
  *
  * @see AnonymousUser
  * @see IdentifiedUser
@@ -38,16 +37,14 @@ public abstract class CurrentUser {
       return new PropertyKey<>();
     }
 
-    private PropertyKey() {
-    }
+    private PropertyKey() {}
   }
 
   private final CapabilityControl.Factory capabilityControlFactory;
   private AccessPath accessPath = AccessPath.UNKNOWN;
 
   private CapabilityControl capabilities;
-  private PropertyKey<AccountExternalId.Key> lastLoginExternalIdPropertyKey =
-      PropertyKey.create();
+  private PropertyKey<AccountExternalId.Key> lastLoginExternalIdPropertyKey = PropertyKey.create();
 
   protected CurrentUser(CapabilityControl.Factory capabilityControlFactory) {
     this.capabilityControlFactory = capabilityControlFactory;
@@ -64,21 +61,19 @@ public abstract class CurrentUser {
 
   /**
    * Identity of the authenticated user.
-   * <p>
-   * In the normal case where a user authenticates as themselves
-   * {@code getRealUser() == this}.
-   * <p>
-   * If {@code X-Gerrit-RunAs} or {@code suexec} was used this method returns
-   * the identity of the account that has permission to act on behalf of this
-   * user.
+   *
+   * <p>In the normal case where a user authenticates as themselves {@code getRealUser() == this}.
+   *
+   * <p>If {@code X-Gerrit-RunAs} or {@code suexec} was used this method returns the identity of the
+   * account that has permission to act on behalf of this user.
    */
   public CurrentUser getRealUser() {
     return this;
   }
 
   /**
-   * If the {@link #getRealUser()} has an account ID associated with it, call
-   * the given setter with that ID.
+   * If the {@link #getRealUser()} has an account ID associated with it, call the given setter with
+   * that ID.
    */
   public void updateRealAccountId(Consumer<Account.Id> setter) {
     if (getRealUser().isIdentifiedUser()) {
@@ -88,12 +83,11 @@ public abstract class CurrentUser {
 
   /**
    * Get the set of groups the user is currently a member of.
-   * <p>
-   * The returned set may be a subset of the user's actual groups; if the user's
-   * account is currently deemed to be untrusted then the effective group set is
-   * only the anonymous and registered user groups. To enable additional groups
-   * (and gain their granted permissions) the user must update their account to
-   * use only trusted authentication providers.
+   *
+   * <p>The returned set may be a subset of the user's actual groups; if the user's account is
+   * currently deemed to be untrusted then the effective group set is only the anonymous and
+   * registered user groups. To enable additional groups (and gain their granted permissions) the
+   * user must update their account to use only trusted authentication providers.
    *
    * @return active groups for this user.
    */
@@ -151,8 +145,7 @@ public abstract class CurrentUser {
    * @param key unique property key.
    * @param value value to store; or {@code null} to clear the value.
    */
-  public <T> void put(PropertyKey<T> key, @Nullable T value) {
-  }
+  public <T> void put(PropertyKey<T> key, @Nullable T value) {}
 
   public void setLastLoginExternalIdKey(AccountExternalId.Key externalIdKey) {
     put(lastLoginExternalIdPropertyKey, externalIdKey);

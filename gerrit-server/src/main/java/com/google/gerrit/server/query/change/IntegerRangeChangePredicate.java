@@ -19,11 +19,11 @@ import com.google.gerrit.server.index.IntegerRangePredicate;
 import com.google.gerrit.server.query.Matchable;
 import com.google.gerrit.server.query.QueryParseException;
 
-public abstract class IntegerRangeChangePredicate
-    extends IntegerRangePredicate<ChangeData> implements Matchable<ChangeData> {
+public abstract class IntegerRangeChangePredicate extends IntegerRangePredicate<ChangeData>
+    implements Matchable<ChangeData> {
 
-  protected IntegerRangeChangePredicate(FieldDef<ChangeData, Integer> type,
-      String value) throws QueryParseException {
+  protected IntegerRangeChangePredicate(FieldDef<ChangeData, Integer> type, String value)
+      throws QueryParseException {
     super(type, value);
   }
 

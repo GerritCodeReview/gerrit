@@ -25,7 +25,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +46,8 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
   private final DownloadSchemeInfo schemeInfo;
   private final String schemeName;
 
-  public DownloadUrlLink(DownloadPanel downloadPanel,
-      DownloadSchemeInfo schemeInfo, String schemeName) {
+  public DownloadUrlLink(
+      DownloadPanel downloadPanel, DownloadSchemeInfo schemeInfo, String schemeName) {
     super(schemeName);
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
     Roles.getTabRole().set(getElement());
@@ -75,16 +74,17 @@ public class DownloadUrlLink extends Anchor implements ClickHandler {
       prefs.downloadScheme(schemeName);
       GeneralPreferences in = GeneralPreferences.create();
       in.downloadScheme(schemeName);
-      AccountApi.self().view("preferences")
-          .put(in, new AsyncCallback<JavaScriptObject>() {
-            @Override
-            public void onSuccess(JavaScriptObject result) {
-            }
+      AccountApi.self()
+          .view("preferences")
+          .put(
+              in,
+              new AsyncCallback<JavaScriptObject>() {
+                @Override
+                public void onSuccess(JavaScriptObject result) {}
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          });
+                @Override
+                public void onFailure(Throwable caught) {}
+              });
     }
   }
 

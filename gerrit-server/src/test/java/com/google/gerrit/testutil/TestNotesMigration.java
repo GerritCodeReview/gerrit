@@ -25,8 +25,7 @@ import com.google.inject.Singleton;
 public class TestNotesMigration extends NotesMigration {
   private volatile boolean readChanges;
   private volatile boolean writeChanges;
-  private volatile PrimaryStorage changePrimaryStorage =
-      PrimaryStorage.REVIEW_DB;
+  private volatile PrimaryStorage changePrimaryStorage = PrimaryStorage.REVIEW_DB;
   private volatile boolean failOnLoad;
 
   @Override
@@ -78,8 +77,7 @@ public class TestNotesMigration extends NotesMigration {
     return this;
   }
 
-  public TestNotesMigration setChangePrimaryStorage(
-      PrimaryStorage changePrimaryStorage) {
+  public TestNotesMigration setChangePrimaryStorage(PrimaryStorage changePrimaryStorage) {
     this.changePrimaryStorage = checkNotNull(changePrimaryStorage);
     return this;
   }

@@ -35,9 +35,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -48,6 +45,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class SystemGroupBackend extends AbstractGroupBackend {
@@ -70,10 +68,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       new AccountGroup.UUID(SYSTEM_GROUP_SCHEME + "Change-Owner");
 
   private static final AccountGroup.UUID[] all = {
-      ANONYMOUS_USERS,
-      REGISTERED_USERS,
-      PROJECT_OWNERS,
-      CHANGE_OWNER,
+    ANONYMOUS_USERS, REGISTERED_USERS, PROJECT_OWNERS, CHANGE_OWNER,
   };
 
   public static boolean isSystemGroup(AccountGroup.UUID uuid) {
@@ -96,8 +91,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   @VisibleForTesting
   public SystemGroupBackend(@GerritServerConfig Config cfg) {
     SortedMap<String, GroupReference> n = new TreeMap<>();
-    ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u =
-        ImmutableMap.builder();
+    ImmutableMap.Builder<AccountGroup.UUID, GroupReference> u = ImmutableMap.builder();
 
     ImmutableSet.Builder<String> reservedNamesBuilder = ImmutableSet.builder();
     for (AccountGroup.UUID uuid : all) {
@@ -105,8 +99,8 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       String defaultName = uuid.get().substring(c + 1).replace('-', ' ');
       reservedNamesBuilder.add(defaultName);
       String configuredName = cfg.getString("groups", uuid.get(), "name");
-      GroupReference ref = new GroupReference(uuid,
-          MoreObjects.firstNonNull(configuredName, defaultName));
+      GroupReference ref =
+          new GroupReference(uuid, MoreObjects.firstNonNull(configuredName, defaultName));
       n.put(ref.getName().toLowerCase(Locale.US), ref);
       u.put(ref.getUUID(), ref);
     }
@@ -182,9 +176,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    return new ListGroupMembership(ImmutableSet.of(
-        ANONYMOUS_USERS,
-        REGISTERED_USERS));
+    return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS));
   }
 
   public static class NameCheck implements StartupCheck {
@@ -192,8 +184,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     private final GroupCache groupCache;
 
     @Inject
-    NameCheck(@GerritServerConfig Config cfg,
-        GroupCache groupCache) {
+    NameCheck(@GerritServerConfig Config cfg, GroupCache groupCache) {
       this.cfg = cfg;
       this.groupCache = groupCache;
     }
@@ -201,14 +192,12 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     @Override
     public void check() throws StartupException {
       Map<AccountGroup.UUID, String> configuredNames = new HashMap<>();
-      Map<String, AccountGroup.UUID> byLowerCaseConfiguredName =
-          new HashMap<>();
+      Map<String, AccountGroup.UUID> byLowerCaseConfiguredName = new HashMap<>();
       for (AccountGroup.UUID uuid : all) {
         String configuredName = cfg.getString("groups", uuid.get(), "name");
         if (configuredName != null) {
           configuredNames.put(uuid, configuredName);
-          byLowerCaseConfiguredName.put(configuredName.toLowerCase(Locale.US),
-              uuid);
+          byLowerCaseConfiguredName.put(configuredName.toLowerCase(Locale.US), uuid);
         }
       }
       if (configuredNames.isEmpty()) {
@@ -217,15 +206,18 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       for (AccountGroup g : groupCache.all()) {
         String name = g.getName().toLowerCase(Locale.US);
         if (byLowerCaseConfiguredName.keySet().contains(name)) {
-          AccountGroup.UUID uuidSystemGroup =
-              byLowerCaseConfiguredName.get(name);
-          throw new StartupException(String.format(
-              "The configured name '%s' for system group '%s' is ambiguous"
-                  + " with the name '%s' of existing group '%s'."
-                  + " Please remove/change the value for groups.%s.name in"
-                  + " gerrit.config.",
-              configuredNames.get(uuidSystemGroup), uuidSystemGroup.get(),
-              g.getName(), g.getGroupUUID().get(), uuidSystemGroup.get()));
+          AccountGroup.UUID uuidSystemGroup = byLowerCaseConfiguredName.get(name);
+          throw new StartupException(
+              String.format(
+                  "The configured name '%s' for system group '%s' is ambiguous"
+                      + " with the name '%s' of existing group '%s'."
+                      + " Please remove/change the value for groups.%s.name in"
+                      + " gerrit.config.",
+                  configuredNames.get(uuidSystemGroup),
+                  uuidSystemGroup.get(),
+                  g.getName(),
+                  g.getGroupUUID().get(),
+                  uuidSystemGroup.get()));
         }
       }
     }

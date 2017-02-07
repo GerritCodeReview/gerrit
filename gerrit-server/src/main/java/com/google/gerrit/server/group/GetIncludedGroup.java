@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GetIncludedGroup implements RestReadView<IncludedGroupResource>  {
+public class GetIncludedGroup implements RestReadView<IncludedGroupResource> {
   private final GroupJson json;
 
   @Inject

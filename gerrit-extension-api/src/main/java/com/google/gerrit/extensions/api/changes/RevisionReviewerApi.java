@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.Map;
 
 public interface RevisionReviewerApi {
@@ -27,9 +26,9 @@ public interface RevisionReviewerApi {
   void deleteVote(DeleteVoteInput input) throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements RevisionReviewerApi {
     @Override
     public Map<String, Short> votes() {

@@ -21,8 +21,7 @@ import com.google.gerrit.metrics.Histogram1;
 
 /** Optimized version of {@link BucketedHistogram} for single dimension. */
 class HistogramImpl1<F1> extends BucketedHistogram implements BucketedMetric {
-  HistogramImpl1(DropWizardMetricMaker metrics, String name,
-      Description desc, Field<F1> field1) {
+  HistogramImpl1(DropWizardMetricMaker metrics, String name, Description desc, Field<F1> field1) {
     super(metrics, name, desc, field1);
   }
 
@@ -44,8 +43,7 @@ class HistogramImpl1<F1> extends BucketedHistogram implements BucketedMetric {
   @Override
   String name(Object field1) {
     @SuppressWarnings("unchecked")
-    Function<Object, String> fmt =
-        (Function<Object, String>) fields[0].formatter();
+    Function<Object, String> fmt = (Function<Object, String>) fields[0].formatter();
 
     return fmt.apply(field1).replace('/', '-');
   }

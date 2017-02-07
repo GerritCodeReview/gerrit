@@ -14,6 +14,7 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Metric;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -26,19 +27,18 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import com.codahale.metrics.Metric;
-
 @Singleton
-class MetricsCollection implements
-    ChildCollection<ConfigResource, MetricResource> {
+class MetricsCollection implements ChildCollection<ConfigResource, MetricResource> {
   private final DynamicMap<RestView<MetricResource>> views;
   private final Provider<ListMetrics> list;
   private final Provider<CurrentUser> user;
   private final DropWizardMetricMaker metrics;
 
   @Inject
-  MetricsCollection(DynamicMap<RestView<MetricResource>> views,
-      Provider<ListMetrics> list, Provider<CurrentUser> user,
+  MetricsCollection(
+      DynamicMap<RestView<MetricResource>> views,
+      Provider<ListMetrics> list,
+      Provider<CurrentUser> user,
       DropWizardMetricMaker metrics) {
     this.views = views;
     this.list = list;

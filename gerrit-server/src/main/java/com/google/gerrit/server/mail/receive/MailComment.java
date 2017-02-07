@@ -29,10 +29,9 @@ public class MailComment {
   String fileName;
   String message;
 
-  public MailComment() { }
+  public MailComment() {}
 
-  public MailComment(String message, String fileName, Comment inReplyTo,
-      CommentType type) {
+  public MailComment(String message, String fileName, Comment inReplyTo, CommentType type) {
     this.message = message;
     this.fileName = fileName;
     this.inReplyTo = inReplyTo;

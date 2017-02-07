@@ -14,13 +14,10 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.gerrit.metrics.CallbackMetric0;
 
-import com.codahale.metrics.MetricRegistry;
-
-class CallbackMetricImpl0<V>
-    extends CallbackMetric0<V>
-    implements CallbackMetricGlue {
+class CallbackMetricImpl0<V> extends CallbackMetric0<V> implements CallbackMetricGlue {
   @SuppressWarnings("unchecked")
   static <V> V zeroFor(Class<V> valueClass) {
     if (valueClass == Integer.class) {
@@ -36,8 +33,7 @@ class CallbackMetricImpl0<V>
     } else if (valueClass == Boolean.class) {
       return (V) Boolean.FALSE;
     } else {
-      throw new IllegalArgumentException("unsupported value type "
-          + valueClass.getName());
+      throw new IllegalArgumentException("unsupported value type " + valueClass.getName());
     }
   }
 
@@ -46,8 +42,8 @@ class CallbackMetricImpl0<V>
   private final String name;
   private volatile V value;
 
-  CallbackMetricImpl0(DropWizardMetricMaker metrics, MetricRegistry registry,
-      String name, Class<V> valueType) {
+  CallbackMetricImpl0(
+      DropWizardMetricMaker metrics, MetricRegistry registry, String name, Class<V> valueType) {
     this.metrics = metrics;
     this.registry = registry;
     this.name = name;
@@ -55,12 +51,10 @@ class CallbackMetricImpl0<V>
   }
 
   @Override
-  public void beginSet() {
-  }
+  public void beginSet() {}
 
   @Override
-  public void endSet() {
-  }
+  public void endSet() {}
 
   @Override
   public void set(V value) {
@@ -75,12 +69,14 @@ class CallbackMetricImpl0<V>
 
   @Override
   public void register(final Runnable trigger) {
-    registry.register(name, new com.codahale.metrics.Gauge<V>() {
-      @Override
-      public V getValue() {
-        trigger.run();
-        return value;
-      }
-    });
+    registry.register(
+        name,
+        new com.codahale.metrics.Gauge<V>() {
+          @Override
+          public V getValue() {
+            trigger.run();
+            return value;
+          }
+        });
   }
 }

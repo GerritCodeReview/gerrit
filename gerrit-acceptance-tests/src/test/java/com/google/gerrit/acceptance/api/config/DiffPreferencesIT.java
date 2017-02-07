@@ -20,7 +20,6 @@ import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-
 import org.junit.Test;
 
 @NoHttpd
@@ -28,8 +27,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
 
   @Test
   public void getDiffPreferences() throws Exception {
-    DiffPreferencesInfo result =
-        gApi.config().server().getDefaultDiffPreferences();
+    DiffPreferencesInfo result = gApi.config().server().getDefaultDiffPreferences();
     assertPrefs(result, DiffPreferencesInfo.defaults());
   }
 
@@ -38,8 +36,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     int newLineLength = DiffPreferencesInfo.defaults().lineLength + 10;
     DiffPreferencesInfo update = new DiffPreferencesInfo();
     update.lineLength = newLineLength;
-    DiffPreferencesInfo result =
-        gApi.config().server().setDefaultDiffPreferences(update);
+    DiffPreferencesInfo result = gApi.config().server().setDefaultDiffPreferences(update);
     assertThat(result.lineLength).named("lineLength").isEqualTo(newLineLength);
 
     result = gApi.config().server().getDefaultDiffPreferences();

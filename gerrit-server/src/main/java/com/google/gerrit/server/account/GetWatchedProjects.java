@@ -27,9 +27,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +34,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class GetWatchedProjects implements RestReadView<AccountResource> {
@@ -45,8 +43,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  public GetWatchedProjects(Provider<IdentifiedUser> self,
-      WatchConfig.Accessor watchConfig) {
+  public GetWatchedProjects(Provider<IdentifiedUser> self, WatchConfig.Accessor watchConfig) {
     this.self = self;
     this.watchConfig = watchConfig;
   }
@@ -54,40 +51,34 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc)
       throws OrmException, AuthException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("It is not allowed to list project watches "
-          + "of other users");
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("It is not allowed to list project watches " + "of other users");
     }
     Account.Id accountId = rsrc.getUser().getAccountId();
     List<ProjectWatchInfo> projectWatchInfos = new ArrayList<>();
-    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : watchConfig
-        .getProjectWatches(accountId).entrySet()) {
+    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e :
+        watchConfig.getProjectWatches(accountId).entrySet()) {
       ProjectWatchInfo pwi = new ProjectWatchInfo();
       pwi.filter = e.getKey().filter();
       pwi.project = e.getKey().project().get();
-      pwi.notifyAbandonedChanges =
-          toBoolean(e.getValue().contains(NotifyType.ABANDONED_CHANGES));
-      pwi.notifyNewChanges =
-          toBoolean(e.getValue().contains(NotifyType.NEW_CHANGES));
-      pwi.notifyNewPatchSets =
-          toBoolean(e.getValue().contains(NotifyType.NEW_PATCHSETS));
-      pwi.notifySubmittedChanges =
-          toBoolean(e.getValue().contains(NotifyType.SUBMITTED_CHANGES));
-      pwi.notifyAllComments =
-          toBoolean(e.getValue().contains(NotifyType.ALL_COMMENTS));
+      pwi.notifyAbandonedChanges = toBoolean(e.getValue().contains(NotifyType.ABANDONED_CHANGES));
+      pwi.notifyNewChanges = toBoolean(e.getValue().contains(NotifyType.NEW_CHANGES));
+      pwi.notifyNewPatchSets = toBoolean(e.getValue().contains(NotifyType.NEW_PATCHSETS));
+      pwi.notifySubmittedChanges = toBoolean(e.getValue().contains(NotifyType.SUBMITTED_CHANGES));
+      pwi.notifyAllComments = toBoolean(e.getValue().contains(NotifyType.ALL_COMMENTS));
       projectWatchInfos.add(pwi);
     }
-    Collections.sort(projectWatchInfos, new Comparator<ProjectWatchInfo>() {
-      @Override
-      public int compare(ProjectWatchInfo pwi1, ProjectWatchInfo pwi2) {
-        return ComparisonChain.start()
-            .compare(pwi1.project, pwi2.project)
-            .compare(Strings.nullToEmpty(pwi1.filter),
-                Strings.nullToEmpty(pwi2.filter))
-            .result();
-      }
-    });
+    Collections.sort(
+        projectWatchInfos,
+        new Comparator<ProjectWatchInfo>() {
+          @Override
+          public int compare(ProjectWatchInfo pwi1, ProjectWatchInfo pwi2) {
+            return ComparisonChain.start()
+                .compare(pwi1.project, pwi2.project)
+                .compare(Strings.nullToEmpty(pwi1.filter), Strings.nullToEmpty(pwi2.filter))
+                .result();
+          }
+        });
     return projectWatchInfos;
   }
 

@@ -16,13 +16,11 @@ package com.google.gerrit.server.git;
 
 import com.google.auto.value.AutoValue;
 import com.google.protobuf.ByteString;
-
+import java.io.IOException;
+import java.io.InputStream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 @AutoValue
 public abstract class InsertedObject {
@@ -45,7 +43,9 @@ public abstract class InsertedObject {
   }
 
   public abstract ObjectId id();
+
   public abstract int type();
+
   public abstract ByteString data();
 
   ObjectLoader newLoader() {

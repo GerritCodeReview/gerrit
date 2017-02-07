@@ -15,17 +15,15 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.common.GitPerson;
-
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.sql.Timestamp;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /**
  * Converters to classes in {@code com.google.gerrit.extensions.common}.
- * <p>
- * The server frequently needs to convert internal types to types exposed in the
- * extension API, but the converters themselves are not part of this API. This
- * class contains such converters as static utility methods.
+ *
+ * <p>The server frequently needs to convert internal types to types exposed in the extension API,
+ * but the converters themselves are not part of this API. This class contains such converters as
+ * static utility methods.
  */
 public class CommonConverters {
   public static GitPerson toGitPerson(PersonIdent ident) {
@@ -37,6 +35,5 @@ public class CommonConverters {
     return result;
   }
 
-  private CommonConverters() {
-  }
+  private CommonConverters() {}
 }

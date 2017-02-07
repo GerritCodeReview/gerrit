@@ -59,8 +59,7 @@ public class DraftActions {
     };
   }
 
-  private static AsyncCallback<JavaScriptObject> mine(
-      final Button... draftButtons) {
+  private static AsyncCallback<JavaScriptObject> mine(final Button... draftButtons) {
     setEnabled(false, draftButtons);
     return new GerritCallback<JavaScriptObject>() {
       @Override

@@ -23,9 +23,7 @@ import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
-
 import dk.brics.automaton.Automaton;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -99,11 +97,11 @@ public abstract class RefPatternMatcher {
         // allows the pattern prefix to be clipped, saving time on
         // evaluation.
         String replacement = ":PLACEHOLDER:";
-        Map<String, String> params = ImmutableMap.of(
-            RefPattern.USERID_SHARDED, replacement,
-            RefPattern.USERNAME, replacement);
-        Automaton am =
-            RefPattern.toRegExp(template.replace(params)).toAutomaton();
+        Map<String, String> params =
+            ImmutableMap.of(
+                RefPattern.USERID_SHARDED, replacement,
+                RefPattern.USERNAME, replacement);
+        Automaton am = RefPattern.toRegExp(template.replace(params)).toAutomaton();
         String rePrefix = am.getCommonPrefix();
         prefix = rePrefix.substring(0, rePrefix.indexOf(replacement));
       } else {
@@ -125,9 +123,7 @@ public abstract class RefPatternMatcher {
           u = username;
         }
 
-        Account.Id accountId = user.isIdentifiedUser()
-            ? user.getAccountId()
-            : null;
+        Account.Id accountId = user.isIdentifiedUser() ? user.getAccountId() : null;
         RefPatternMatcher next = getMatcher(expand(template, u, accountId));
         if (next != null && next.match(expand(ref, u, accountId), user)) {
           return true;
@@ -163,8 +159,8 @@ public abstract class RefPatternMatcher {
       return parameterizedRef;
     }
 
-    private String expand(ParameterizedString parameterizedRef, String userName,
-        Account.Id accountId) {
+    private String expand(
+        ParameterizedString parameterizedRef, String userName, Account.Id accountId) {
       Map<String, String> params = new HashMap<>();
       params.put(RefPattern.USERNAME, userName);
       if (accountId != null) {

@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.launcher.GerritLauncher;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -27,8 +26,7 @@ class FontsDevServlet extends ResourceServlet {
 
   private final Path fonts;
 
-  FontsDevServlet(Cache<Path, Resource> cache, BuildSystem builder)
-      throws IOException {
+  FontsDevServlet(Cache<Path, Resource> cache, BuildSystem builder) throws IOException {
     super(cache, true);
     Objects.requireNonNull(builder);
 

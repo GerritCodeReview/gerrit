@@ -16,17 +16,14 @@ package com.googlesource.gerrit.convertkey;
 
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSchException;
-
-import org.apache.sshd.common.util.Buffer;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-
-import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.security.KeyPair;
 import java.security.GeneralSecurityException;
+import java.security.KeyPair;
+import org.apache.sshd.common.util.Buffer;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
 public class ConvertKey {
   public static void main(String[] args)
@@ -69,5 +66,4 @@ public class ConvertKey {
       System.out.println(privout);
     }
   }
-
 }

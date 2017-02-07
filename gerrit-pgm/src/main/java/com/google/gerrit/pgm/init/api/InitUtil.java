@@ -18,11 +18,6 @@ import static com.google.gerrit.common.FileUtil.modified;
 
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Die;
-
-import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.SystemReader;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,6 +32,9 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Arrays;
+import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.SystemReader;
 
 /** Utility functions to help initialize a site. */
 public class InitUtil {
@@ -121,8 +119,7 @@ public class InitUtil {
     return name;
   }
 
-  public static void extract(Path dst, Class<?> sibling, String name)
-      throws IOException {
+  public static void extract(Path dst, Class<?> sibling, String name) throws IOException {
     try (InputStream in = open(sibling, name)) {
       if (in != null) {
         copy(dst, ByteStreams.toByteArray(in));
@@ -147,8 +144,7 @@ public class InitUtil {
     return in;
   }
 
-  public static void copy(Path dst, byte[] buf)
-      throws FileNotFoundException, IOException {
+  public static void copy(Path dst, byte[] buf) throws FileNotFoundException, IOException {
     // If the file already has the content we want to put there,
     // don't attempt to overwrite the file.
     //
@@ -203,6 +199,5 @@ public class InitUtil {
     return port;
   }
 
-  private InitUtil() {
-  }
+  private InitUtil() {}
 }

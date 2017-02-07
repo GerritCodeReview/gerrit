@@ -21,28 +21,23 @@ import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
-
 import java.sql.Timestamp;
 
 public class GitPersonSubject extends Subject<GitPersonSubject, GitPerson> {
 
-  private static final SubjectFactory<GitPersonSubject, GitPerson>
-      GIT_PERSON_SUBJECT_FACTORY =
+  private static final SubjectFactory<GitPersonSubject, GitPerson> GIT_PERSON_SUBJECT_FACTORY =
       new SubjectFactory<GitPersonSubject, GitPerson>() {
         @Override
-        public GitPersonSubject getSubject(FailureStrategy failureStrategy,
-            GitPerson gitPerson) {
+        public GitPersonSubject getSubject(FailureStrategy failureStrategy, GitPerson gitPerson) {
           return new GitPersonSubject(failureStrategy, gitPerson);
         }
       };
 
   public static GitPersonSubject assertThat(GitPerson gitPerson) {
-    return assertAbout(GIT_PERSON_SUBJECT_FACTORY)
-        .that(gitPerson);
+    return assertAbout(GIT_PERSON_SUBJECT_FACTORY).that(gitPerson);
   }
 
-  private GitPersonSubject(FailureStrategy failureStrategy,
-      GitPerson gitPerson) {
+  private GitPersonSubject(FailureStrategy failureStrategy, GitPerson gitPerson) {
     super(failureStrategy, gitPerson);
   }
 

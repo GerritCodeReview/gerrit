@@ -18,26 +18,27 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gwtorm.server.OrmException;
-
 import java.sql.Timestamp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class ChangeMessageEvent extends Event {
-  private static final Pattern TOPIC_SET_REGEXP =
-      Pattern.compile("^Topic set to (.+)$");
+  private static final Pattern TOPIC_SET_REGEXP = Pattern.compile("^Topic set to (.+)$");
   private static final Pattern TOPIC_CHANGED_REGEXP =
       Pattern.compile("^Topic changed from (.+) to (.+)$");
-  private static final Pattern TOPIC_REMOVED_REGEXP =
-      Pattern.compile("^Topic (.+) removed$");
+  private static final Pattern TOPIC_REMOVED_REGEXP = Pattern.compile("^Topic (.+) removed$");
 
   private final ChangeMessage message;
   private final Change noteDbChange;
 
-  ChangeMessageEvent(ChangeMessage message, Change noteDbChange,
-      Timestamp changeCreatedOn) {
-    super(message.getPatchSetId(), message.getAuthor(), message.getRealAuthor(),
-        message.getWrittenOn(), changeCreatedOn, message.getTag());
+  ChangeMessageEvent(ChangeMessage message, Change noteDbChange, Timestamp changeCreatedOn) {
+    super(
+        message.getPatchSetId(),
+        message.getAuthor(),
+        message.getRealAuthor(),
+        message.getWrittenOn(),
+        changeCreatedOn,
+        message.getTag());
     this.message = message;
     this.noteDbChange = noteDbChange;
   }

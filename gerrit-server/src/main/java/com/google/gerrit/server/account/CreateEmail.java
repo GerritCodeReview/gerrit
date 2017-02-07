@@ -36,11 +36,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class CreateEmail implements RestModifyView<AccountResource, EmailInput> {
   private static final Logger log = LoggerFactory.getLogger(CreateEmail.class);
@@ -58,7 +56,8 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   private final boolean isDevMode;
 
   @Inject
-  CreateEmail(Provider<CurrentUser> self,
+  CreateEmail(
+      Provider<CurrentUser> self,
       Realm realm,
       AuthConfig authConfig,
       AccountManager accountManager,
@@ -77,10 +76,9 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   @Override
   public Response<EmailInfo> apply(AccountResource rsrc, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, OrmException, EmailException,
-      MethodNotAllowedException, IOException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+          ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
+          IOException {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to add email address");
     }
 
@@ -92,8 +90,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throw new BadRequestException("invalid email address");
     }
 
-    if (input.noConfirmation
-        && !self.get().getCapabilities().canModifyAccount()) {
+    if (input.noConfirmation && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to use no_confirmation");
     }
 
@@ -106,8 +103,8 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, OrmException, EmailException,
-      MethodNotAllowedException, IOException {
+          ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
+          IOException {
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }
@@ -119,15 +116,12 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
         log.warn("skipping email validation in developer mode");
       }
       try {
-        accountManager.link(user.getAccountId(),
-            AuthRequest.forEmail(email));
+        accountManager.link(user.getAccountId(), AuthRequest.forEmail(email));
       } catch (AccountException e) {
         throw new ResourceConflictException(e.getMessage());
       }
       if (input.preferred) {
-        putPreferred.apply(
-            new AccountResource.Email(user, email),
-            null);
+        putPreferred.apply(new AccountResource.Email(user, email), null);
         info.preferred = true;
       }
     } else {

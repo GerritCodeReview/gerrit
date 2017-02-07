@@ -18,13 +18,13 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 
 /**
  * Metric whose value increments during the life of the process.
- * <p>
- * Suitable uses are "total requests handled", "bytes sent", etc.
- * Use {@link Description#setRate()} to suggest the monitoring system
- * should also track the rate of increments if this is of interest.
- * <p>
- * For an instantaneous read of a value that can change over time
- * (e.g. "memory in use") use a {@link CallbackMetric}.
+ *
+ * <p>Suitable uses are "total requests handled", "bytes sent", etc. Use {@link
+ * Description#setRate()} to suggest the monitoring system should also track the rate of increments
+ * if this is of interest.
+ *
+ * <p>For an instantaneous read of a value that can change over time (e.g. "memory in use") use a
+ * {@link CallbackMetric}.
  *
  * @param <F1> type of the field.
  * @param <F2> type of the field.

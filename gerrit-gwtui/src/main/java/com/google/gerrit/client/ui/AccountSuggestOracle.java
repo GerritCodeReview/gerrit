@@ -21,7 +21,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.SuggestOracle;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,9 @@ import java.util.List;
 public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   public void _onRequestSuggestions(final Request req, final Callback cb) {
-    AccountApi.suggest(req.getQuery(), req.getLimit(),
+    AccountApi.suggest(
+        req.getQuery(),
+        req.getLimit(),
         new GerritCallback<JsArray<AccountInfo>>() {
           @Override
           public void onSuccess(JsArray<AccountInfo> in) {
@@ -61,11 +62,10 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
     public static String format(AccountInfo info, String query) {
       String s = FormatUtil.nameEmail(info);
-      if (query != null && !containsQuery(s, query) &&
-          info.secondaryEmails() != null) {
+      if (query != null && !containsQuery(s, query) && info.secondaryEmails() != null) {
         for (String email : Natives.asList(info.secondaryEmails())) {
-          AccountInfo info2 = AccountInfo.create(info._accountId(), info.name(),
-              email, info.username());
+          AccountInfo info2 =
+              AccountInfo.create(info._accountId(), info.name(), email, info.username());
           String s2 = FormatUtil.nameEmail(info2);
           if (containsQuery(s2, query)) {
             s = s2;

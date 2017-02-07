@@ -20,7 +20,6 @@ import static com.google.gerrit.server.mail.MetadataName.toHeaderWithDelimiter;
 
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.MetadataName;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
@@ -35,13 +34,11 @@ public class MetadataParserTest {
     b.dateReceived(new DateTime());
     b.subject("");
 
-    b.addAdditionalHeader(
-        toHeaderWithDelimiter(MetadataName.CHANGE_ID) + "cid");
+    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.CHANGE_ID) + "cid");
     b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.PATCH_SET) + "1");
+    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment");
     b.addAdditionalHeader(
-        toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE) +"comment");
-    b.addAdditionalHeader(toHeaderWithDelimiter(MetadataName.TIMESTAMP) +
-        "Tue, 25 Oct 2016 02:11:35 -0700");
+        toHeaderWithDelimiter(MetadataName.TIMESTAMP) + "Tue, 25 Oct 2016 02:11:35 -0700");
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");
     b.from(author);
@@ -51,8 +48,8 @@ public class MetadataParserTest {
     assertThat(meta.changeId).isEqualTo("cid");
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
-    assertThat(meta.timestamp.getTime()).isEqualTo(
-        new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
+    assertThat(meta.timestamp.getTime())
+        .isEqualTo(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
   }
 
   @Test
@@ -65,14 +62,11 @@ public class MetadataParserTest {
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid" + "\n");
+    stringBuilder.append(toFooterWithDelimiter(MetadataName.PATCH_SET) + "1" + "\n");
+    stringBuilder.append(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment" + "\n");
     stringBuilder.append(
-        toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid" + "\n");
-    stringBuilder.append(
-        toFooterWithDelimiter(MetadataName.PATCH_SET) + "1" + "\n");
-    stringBuilder.append(
-        toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment" + "\n");
-    stringBuilder.append(toFooterWithDelimiter(MetadataName.TIMESTAMP) +
-        "Tue, 25 Oct 2016 02:11:35 -0700" + "\n");
+        toFooterWithDelimiter(MetadataName.TIMESTAMP) + "Tue, 25 Oct 2016 02:11:35 -0700" + "\n");
     b.textContent(stringBuilder.toString());
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");
@@ -83,8 +77,8 @@ public class MetadataParserTest {
     assertThat(meta.changeId).isEqualTo("cid");
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
-    assertThat(meta.timestamp.getTime()).isEqualTo(
-        new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
+    assertThat(meta.timestamp.getTime())
+        .isEqualTo(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
   }
 
   @Test
@@ -97,14 +91,15 @@ public class MetadataParserTest {
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("<p>" +
-        toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid" + "</p>");
-    stringBuilder.append("<p>" + toFooterWithDelimiter(MetadataName.PATCH_SET) +
-        "1" + "</p>");
-    stringBuilder.append("<p>" +
-        toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment" + "</p>");
-    stringBuilder.append("<p>" + toFooterWithDelimiter(MetadataName.TIMESTAMP) +
-        "Tue, 25 Oct 2016 02:11:35 -0700" + "</p>");
+    stringBuilder.append("<p>" + toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid" + "</p>");
+    stringBuilder.append("<p>" + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1" + "</p>");
+    stringBuilder.append(
+        "<p>" + toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment" + "</p>");
+    stringBuilder.append(
+        "<p>"
+            + toFooterWithDelimiter(MetadataName.TIMESTAMP)
+            + "Tue, 25 Oct 2016 02:11:35 -0700"
+            + "</p>");
     b.htmlContent(stringBuilder.toString());
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");
@@ -115,7 +110,7 @@ public class MetadataParserTest {
     assertThat(meta.changeId).isEqualTo("cid");
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
-    assertThat(meta.timestamp.getTime()).isEqualTo(
-        new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
+    assertThat(meta.timestamp.getTime())
+        .isEqualTo(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC).getMillis());
   }
 }

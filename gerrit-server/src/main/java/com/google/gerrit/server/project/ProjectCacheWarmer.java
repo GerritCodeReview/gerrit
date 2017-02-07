@@ -20,21 +20,18 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ProjectCacheWarmer implements LifecycleListener {
-  private static final Logger log =
-      LoggerFactory.getLogger(ProjectCacheWarmer.class);
+  private static final Logger log = LoggerFactory.getLogger(ProjectCacheWarmer.class);
 
   private final Config config;
   private final ProjectCache cache;
@@ -50,36 +47,37 @@ public class ProjectCacheWarmer implements LifecycleListener {
     int cpus = Runtime.getRuntime().availableProcessors();
     if (config.getBoolean("cache", "projects", "loadOnStartup", false)) {
       final ThreadPoolExecutor pool =
-          new ScheduledThreadPoolExecutor(config.getInt("cache", "projects",
-              "loadThreads", cpus), new ThreadFactoryBuilder().setNameFormat(
-              "ProjectCacheLoader-%d").build());
+          new ScheduledThreadPoolExecutor(
+              config.getInt("cache", "projects", "loadThreads", cpus),
+              new ThreadFactoryBuilder().setNameFormat("ProjectCacheLoader-%d").build());
       ExecutorService scheduler = Executors.newFixedThreadPool(1);
 
       log.info("Loading project cache");
-      scheduler.execute(new Runnable() {
-        @Override
-        public void run() {
-          for (final Project.NameKey name : cache.all()) {
-            pool.execute(new Runnable() {
-              @Override
-              public void run() {
-                cache.get(name);
+      scheduler.execute(
+          new Runnable() {
+            @Override
+            public void run() {
+              for (final Project.NameKey name : cache.all()) {
+                pool.execute(
+                    new Runnable() {
+                      @Override
+                      public void run() {
+                        cache.get(name);
+                      }
+                    });
               }
-            });
-          }
-          pool.shutdown();
-          try {
-            pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-            log.info("Finished loading project cache");
-          } catch (InterruptedException e) {
-            log.warn("Interrupted while waiting for project cache to load");
-          }
-        }
-      });
+              pool.shutdown();
+              try {
+                pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+                log.info("Finished loading project cache");
+              } catch (InterruptedException e) {
+                log.warn("Interrupted while waiting for project cache to load");
+              }
+            }
+          });
     }
   }
 
   @Override
-  public void stop() {
-  }
+  public void stop() {}
 }

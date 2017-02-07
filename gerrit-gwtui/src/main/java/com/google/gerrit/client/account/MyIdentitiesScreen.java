@@ -30,7 +30,6 @@ import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -50,23 +49,24 @@ public class MyIdentitiesScreen extends SettingsScreen {
 
     deleteIdentity = new Button(Util.C.buttonDeleteIdentity());
     deleteIdentity.setEnabled(false);
-    deleteIdentity.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        identites.deleteChecked();
-      }
-    });
+    deleteIdentity.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            identites.deleteChecked();
+          }
+        });
     add(deleteIdentity);
 
-    if (Gerrit.info().auth().isOpenId()
-        || Gerrit.info().auth().isOAuth()) {
+    if (Gerrit.info().auth().isOpenId() || Gerrit.info().auth().isOAuth()) {
       Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
-      linkIdentity.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          Location.assign(Gerrit.loginRedirect(History.getToken()) + "?link");
-        }
-      });
+      linkIdentity.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+              Location.assign(Gerrit.loginRedirect(History.getToken()) + "?link");
+            }
+          });
       add(linkIdentity);
     }
   }
@@ -74,8 +74,8 @@ public class MyIdentitiesScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SEC
-        .myExternalIds(new ScreenLoadCallback<List<AccountExternalId>>(this) {
+    Util.ACCOUNT_SEC.myExternalIds(
+        new ScreenLoadCallback<List<AccountExternalId>>(this) {
           @Override
           public void preDisplay(final List<AccountExternalId> result) {
             identites.display(result);
@@ -98,12 +98,13 @@ public class MyIdentitiesScreen extends SettingsScreen {
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
 
-      updateDeleteHandler = new ValueChangeHandler<Boolean>() {
-        @Override
-        public void onValueChange(ValueChangeEvent<Boolean> event) {
-          updateDeleteButton();
-        }
-      };
+      updateDeleteHandler =
+          new ValueChangeHandler<Boolean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+              updateDeleteButton();
+            }
+          };
     }
 
     void deleteChecked() {
@@ -125,11 +126,12 @@ public class MyIdentitiesScreen extends SettingsScreen {
         updateDeleteButton();
       } else {
         deleteIdentity.setEnabled(false);
-        Util.ACCOUNT_SEC.deleteExternalIds(keys,
+        Util.ACCOUNT_SEC.deleteExternalIds(
+            keys,
             new GerritCallback<Set<AccountExternalId.Key>>() {
               @Override
               public void onSuccess(final Set<AccountExternalId.Key> removed) {
-                for (int row = 1; row < table.getRowCount();) {
+                for (int row = 1; row < table.getRowCount(); ) {
                   final AccountExternalId k = getRowItem(row);
                   if (k != null && removed.contains(k.getKey())) {
                     table.removeRow(row);
@@ -168,16 +170,18 @@ public class MyIdentitiesScreen extends SettingsScreen {
     }
 
     void display(final List<AccountExternalId> result) {
-      Collections.sort(result, new Comparator<AccountExternalId>() {
-        @Override
-        public int compare(AccountExternalId a, AccountExternalId b) {
-          return emailOf(a).compareTo(emailOf(b));
-        }
+      Collections.sort(
+          result,
+          new Comparator<AccountExternalId>() {
+            @Override
+            public int compare(AccountExternalId a, AccountExternalId b) {
+              return emailOf(a).compareTo(emailOf(b));
+            }
 
-        private String emailOf(final AccountExternalId a) {
-          return a.getEmailAddress() != null ? a.getEmailAddress() : "";
-        }
-      });
+            private String emailOf(final AccountExternalId a) {
+              return a.getEmailAddress() != null ? a.getEmailAddress() : "";
+            }
+          });
 
       while (1 < table.getRowCount()) {
         table.removeRow(table.getRowCount() - 1);
@@ -211,8 +215,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
         table.setText(row, 2, "");
       } else {
         table.setText(row, 2, Util.C.untrustedProvider());
-        fmt.addStyleName(row, 2, Gerrit.RESOURCES.css()
-            .identityUntrustedExternalId());
+        fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().identityUntrustedExternalId());
       }
       if (k.getEmailAddress() != null && k.getEmailAddress().length() > 0) {
         table.setText(row, 3, k.getEmailAddress());

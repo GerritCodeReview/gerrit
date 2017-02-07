@@ -30,12 +30,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collection;
 
 @Singleton
-public class RevisionReviewers implements
-    ChildCollection<RevisionResource, ReviewerResource> {
+public class RevisionReviewers implements ChildCollection<RevisionResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
@@ -44,7 +42,8 @@ public class RevisionReviewers implements
   private final ListRevisionReviewers list;
 
   @Inject
-  RevisionReviewers(Provider<ReviewDb> dbProvider,
+  RevisionReviewers(
+      Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       AccountsCollection accounts,
       ReviewerResource.Factory resourceFactory,
@@ -70,18 +69,15 @@ public class RevisionReviewers implements
 
   @Override
   public ReviewerResource parse(RevisionResource rsrc, IdString id)
-      throws OrmException, ResourceNotFoundException, AuthException,
-      MethodNotAllowedException {
+      throws OrmException, ResourceNotFoundException, AuthException, MethodNotAllowedException {
     if (!rsrc.isCurrent()) {
-      throw new MethodNotAllowedException(
-          "Cannot access on non-current patch set");
+      throw new MethodNotAllowedException("Cannot access on non-current patch set");
     }
 
-    Account.Id accountId =
-        accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
+    Account.Id accountId = accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
 
-    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(
-        dbProvider.get(), rsrc.getNotes()).all();
+    Collection<Account.Id> reviewers =
+        approvalsUtil.getReviewers(dbProvider.get(), rsrc.getNotes()).all();
     if (reviewers.contains(accountId)) {
       return resourceFactory.create(rsrc, accountId);
     }

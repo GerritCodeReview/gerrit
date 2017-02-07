@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.PostCaches.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +38,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
     public Operation operation;
     public List<String> caches;
 
-    public Input() {
-    }
+    public Input() {}
 
     public Input(Operation op) {
       this(op, null);
@@ -53,15 +51,15 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
   }
 
   public enum Operation {
-    FLUSH_ALL, FLUSH
+    FLUSH_ALL,
+    FLUSH
   }
 
   private final DynamicMap<Cache<?, ?>> cacheMap;
   private final FlushCache flushCache;
 
   @Inject
-  public PostCaches(DynamicMap<Cache<?, ?>> cacheMap,
-      FlushCache flushCache) {
+  public PostCaches(DynamicMap<Cache<?, ?>> cacheMap, FlushCache flushCache) {
     this.cacheMap = cacheMap;
     this.flushCache = flushCache;
   }
@@ -83,8 +81,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
         return Response.ok("");
       case FLUSH:
         if (input.caches == null || input.caches.isEmpty()) {
-          throw new BadRequestException(
-              "caches must be specified for operation 'FLUSH'");
+          throw new BadRequestException("caches must be specified for operation 'FLUSH'");
         }
         flush(input.caches);
         return Response.ok("");
@@ -96,8 +93,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
   private void flushAll() throws AuthException {
     for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
       CacheResource cacheResource =
-          new CacheResource(e.getPluginName(), e.getExportName(),
-              e.getProvider());
+          new CacheResource(e.getPluginName(), e.getExportName(), e.getProvider());
       if (FlushCache.WEB_SESSIONS.equals(cacheResource.getName())) {
         continue;
       }
@@ -105,8 +101,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
     }
   }
 
-  private void flush(List<String> cacheNames)
-      throws UnprocessableEntityException, AuthException {
+  private void flush(List<String> cacheNames) throws UnprocessableEntityException, AuthException {
     List<CacheResource> cacheResources = new ArrayList<>(cacheNames.size());
 
     for (String n : cacheNames) {
@@ -122,8 +117,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
       if (cache != null) {
         cacheResources.add(new CacheResource(pluginName, cacheName, cache));
       } else {
-        throw new UnprocessableEntityException(String.format(
-            "cache %s not found", n));
+        throw new UnprocessableEntityException(String.format("cache %s not found", n));
       }
     }
 

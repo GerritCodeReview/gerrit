@@ -19,12 +19,10 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 /** Ticks periodically to force refresh events for {@link ProjectCacheImpl}. */
 @Singleton
@@ -44,21 +42,26 @@ public class ProjectCacheClock {
     } else if (10 < checkFrequencyMillis) {
       // Start with generation 1 (to avoid magic 0 below).
       generation = 1;
-      ScheduledExecutorService executor = Executors.newScheduledThreadPool(
-          1,
-          new ThreadFactoryBuilder()
-            .setNameFormat("ProjectCacheClock-%d")
-            .setDaemon(true)
-            .setPriority(Thread.MIN_PRIORITY)
-            .build());
-      executor.scheduleAtFixedRate(new Runnable() {
-        @Override
-        public void run() {
-          // This is not exactly thread-safe, but is OK for our use.
-          // The only thread that writes the volatile is this task.
-          generation = generation + 1;
-        }
-      }, checkFrequencyMillis, checkFrequencyMillis, TimeUnit.MILLISECONDS);
+      ScheduledExecutorService executor =
+          Executors.newScheduledThreadPool(
+              1,
+              new ThreadFactoryBuilder()
+                  .setNameFormat("ProjectCacheClock-%d")
+                  .setDaemon(true)
+                  .setPriority(Thread.MIN_PRIORITY)
+                  .build());
+      executor.scheduleAtFixedRate(
+          new Runnable() {
+            @Override
+            public void run() {
+              // This is not exactly thread-safe, but is OK for our use.
+              // The only thread that writes the volatile is this task.
+              generation = generation + 1;
+            }
+          },
+          checkFrequencyMillis,
+          checkFrequencyMillis,
+          TimeUnit.MILLISECONDS);
     } else {
       // Magic generation 0 triggers ProjectState to always
       // check on each needsRefresh() request we make to it.
@@ -72,13 +75,12 @@ public class ProjectCacheClock {
 
   private static long checkFrequency(Config serverConfig) {
     String freq = serverConfig.getString("cache", "projects", "checkFrequency");
-    if (freq != null
-        && ("disabled".equalsIgnoreCase(freq) || "off".equalsIgnoreCase(freq))) {
+    if (freq != null && ("disabled".equalsIgnoreCase(freq) || "off".equalsIgnoreCase(freq))) {
       return Long.MAX_VALUE;
     }
     return TimeUnit.MILLISECONDS.convert(
-        ConfigUtil.getTimeUnit(serverConfig,
-            "cache", "projects", "checkFrequency",
-            5, TimeUnit.MINUTES), TimeUnit.MINUTES);
+        ConfigUtil.getTimeUnit(
+            serverConfig, "cache", "projects", "checkFrequency", 5, TimeUnit.MINUTES),
+        TimeUnit.MINUTES);
   }
 }

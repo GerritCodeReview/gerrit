@@ -20,11 +20,9 @@ import static com.google.gerrit.server.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.server.index.SchemaUtil.schema;
 
 import com.google.gerrit.testutil.GerritBaseTests;
-
+import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
-
-import java.util.Map;
 
 public class SchemaUtilTest extends GerritBaseTests {
   static class TestSchemas {
@@ -40,8 +38,7 @@ public class SchemaUtilTest extends GerritBaseTests {
 
   @Test
   public void schemasFromClassBuildsMap() {
-    Map<Integer, Schema<String>> all =
-        SchemaUtil.schemasFromClass(TestSchemas.class, String.class);
+    Map<Integer, Schema<String>> all = SchemaUtil.schemasFromClass(TestSchemas.class, String.class);
     assertThat(all.keySet()).containsExactly(1, 2, 4);
     assertThat(all.get(1)).isEqualTo(TestSchemas.V1);
     assertThat(all.get(2)).isEqualTo(TestSchemas.V2);
@@ -56,18 +53,22 @@ public class SchemaUtilTest extends GerritBaseTests {
     // PersonIdent allows empty email, which should be extracted as the empty
     // string. However, it converts empty names to null internally.
     assertThat(getPersonParts(new PersonIdent("", ""))).containsExactly("");
-    assertThat(getPersonParts(new PersonIdent("foo bar", "")))
-        .containsExactly("foo", "bar", "");
+    assertThat(getPersonParts(new PersonIdent("foo bar", ""))).containsExactly("foo", "bar", "");
 
     assertThat(getPersonParts(new PersonIdent("", "foo@example.com")))
+        .containsExactly("foo@example.com", "foo", "example.com", "example", "com");
+    assertThat(getPersonParts(new PersonIdent("foO J. bAr", "bA-z@exAmple.cOm")))
         .containsExactly(
-            "foo@example.com", "foo", "example.com", "example", "com");
-    assertThat(
-            getPersonParts(new PersonIdent("foO J. bAr", "bA-z@exAmple.cOm")))
-        .containsExactly(
-            "foo", "j", "bar",
-            "ba-z@example.com", "ba-z", "ba", "z",
-            "example.com", "example", "com");
+            "foo",
+            "j",
+            "bar",
+            "ba-z@example.com",
+            "ba-z",
+            "ba",
+            "z",
+            "example.com",
+            "example",
+            "com");
   }
 
   @Test

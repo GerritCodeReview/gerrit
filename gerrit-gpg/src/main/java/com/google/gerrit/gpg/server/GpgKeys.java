@@ -45,7 +45,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
@@ -54,16 +59,8 @@ import org.eclipse.jgit.util.NB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 @Singleton
-public class GpgKeys implements
-    ChildCollection<AccountResource, GpgKey> {
+public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   private static final Logger log = LoggerFactory.getLogger(GpgKeys.class);
 
   public static String MIME_TYPE = "application/pgp-keys";
@@ -75,7 +72,8 @@ public class GpgKeys implements
   private final GerritPublicKeyChecker.Factory checkerFactory;
 
   @Inject
-  GpgKeys(DynamicMap<RestView<GpgKey>> views,
+  GpgKeys(
+      DynamicMap<RestView<GpgKey>> views,
       Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
@@ -88,15 +86,13 @@ public class GpgKeys implements
   }
 
   @Override
-  public ListGpgKeys list()
-      throws ResourceNotFoundException, AuthException {
+  public ListGpgKeys list() throws ResourceNotFoundException, AuthException {
     return new ListGpgKeys();
   }
 
   @Override
   public GpgKey parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, PGPException, OrmException,
-      IOException {
+      throws ResourceNotFoundException, PGPException, OrmException, IOException {
     checkVisible(self, parent);
     String str = CharMatcher.whitespace().removeFrom(id.get()).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
@@ -118,8 +114,7 @@ public class GpgKeys implements
     throw new ResourceNotFoundException(id);
   }
 
-  static byte[] parseFingerprint(String str,
-      Iterable<AccountExternalId> existingExtIds)
+  static byte[] parseFingerprint(String str, Iterable<AccountExternalId> existingExtIds)
       throws ResourceNotFoundException {
     str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
@@ -153,8 +148,7 @@ public class GpgKeys implements
   public class ListGpgKeys implements RestReadView<AccountResource> {
     @Override
     public Map<String, GpgKeyInfo> apply(AccountResource rsrc)
-        throws OrmException, PGPException, IOException,
-        ResourceNotFoundException {
+        throws OrmException, PGPException, IOException, ResourceNotFoundException {
       checkVisible(self, rsrc);
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {
@@ -165,18 +159,16 @@ public class GpgKeys implements
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
             if (Arrays.equals(keyRing.getPublicKey().getFingerprint(), fp)) {
               found = true;
-              GpgKeyInfo info = toJson(
-                  keyRing.getPublicKey(),
-                  checkerFactory.create(rsrc.getUser(), store),
-                  store);
+              GpgKeyInfo info =
+                  toJson(
+                      keyRing.getPublicKey(), checkerFactory.create(rsrc.getUser(), store), store);
               keys.put(info.id, info);
               info.id = null;
               break;
             }
           }
           if (!found) {
-            log.warn("No public key stored for fingerprint {}",
-                Fingerprint.toString(fp));
+            log.warn("No public key stored for fingerprint {}", Fingerprint.toString(fp));
           }
         }
       }
@@ -190,8 +182,7 @@ public class GpgKeys implements
     private final GerritPublicKeyChecker.Factory checkerFactory;
 
     @Inject
-    Get(Provider<PublicKeyStore> storeProvider,
-        GerritPublicKeyChecker.Factory checkerFactory) {
+    Get(Provider<PublicKeyStore> storeProvider, GerritPublicKeyChecker.Factory checkerFactory) {
       this.storeProvider = storeProvider;
       this.checkerFactory = checkerFactory;
     }
@@ -208,14 +199,13 @@ public class GpgKeys implements
   }
 
   @VisibleForTesting
-  public static FluentIterable<AccountExternalId> getGpgExtIds(ReviewDb db,
-      Account.Id accountId) throws OrmException {
+  public static FluentIterable<AccountExternalId> getGpgExtIds(ReviewDb db, Account.Id accountId)
+      throws OrmException {
     return FluentIterable.from(db.accountExternalIds().byAccount(accountId))
         .filter(in -> in.isScheme(SCHEME_GPGKEY));
   }
 
-  private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc)
-      throws OrmException {
+  private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc) throws OrmException {
     return getGpgExtIds(db.get(), rsrc.getUser().getAccountId());
   }
 
@@ -233,8 +223,7 @@ public class GpgKeys implements
     }
   }
 
-  public static GpgKeyInfo toJson(PGPPublicKey key, CheckResult checkResult)
-      throws IOException {
+  public static GpgKeyInfo toJson(PGPPublicKey key, CheckResult checkResult) throws IOException {
     GpgKeyInfo info = new GpgKeyInfo();
 
     if (key != null) {
@@ -261,8 +250,8 @@ public class GpgKeys implements
     return info;
   }
 
-  static GpgKeyInfo toJson(PGPPublicKey key, PublicKeyChecker checker,
-      PublicKeyStore store) throws IOException {
+  static GpgKeyInfo toJson(PGPPublicKey key, PublicKeyChecker checker, PublicKeyStore store)
+      throws IOException {
     return toJson(key, checker.setStore(store).check(key));
   }
 

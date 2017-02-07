@@ -15,7 +15,6 @@
 package com.google.gwtexpui.safehtml.client;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,13 +23,11 @@ import java.util.List;
 
 /**
  * A suggestion oracle that tries to highlight the matched text.
- * <p>
- * Suggestions supplied by the implementation of
- * {@link #onRequestSuggestions(Request, Callback)} are modified to wrap all
- * occurrences of the
- * {@link com.google.gwt.user.client.ui.SuggestOracle.Request#getQuery()}
- * substring in HTML {@code &lt;strong&gt;} tags, so they can be emphasized to
- * the user.
+ *
+ * <p>Suggestions supplied by the implementation of {@link #onRequestSuggestions(Request, Callback)}
+ * are modified to wrap all occurrences of the {@link
+ * com.google.gwt.user.client.ui.SuggestOracle.Request#getQuery()} substring in HTML {@code
+ * &lt;strong&gt;} tags, so they can be emphasized to the user.
  */
 public abstract class HighlightSuggestOracle extends SuggestOracle {
   private static String escape(String ds) {
@@ -44,19 +41,20 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
 
   @Override
   public final void requestSuggestions(Request request, Callback cb) {
-    onRequestSuggestions(request, new Callback() {
-      @Override
-      public void onSuggestionsReady(final Request request,
-          final Response response) {
-        final String qpat = getQueryPattern(request.getQuery());
-        final boolean html = isHTML();
-        final ArrayList<Suggestion> r = new ArrayList<>();
-        for (final Suggestion s : response.getSuggestions()) {
-          r.add(new BoldSuggestion(qpat, s, html));
-        }
-        cb.onSuggestionsReady(request, new Response(r));
-      }
-    });
+    onRequestSuggestions(
+        request,
+        new Callback() {
+          @Override
+          public void onSuggestionsReady(final Request request, final Response response) {
+            final String qpat = getQueryPattern(request.getQuery());
+            final boolean html = isHTML();
+            final ArrayList<Suggestion> r = new ArrayList<>();
+            for (final Suggestion s : response.getSuggestions()) {
+              r.add(new BoldSuggestion(qpat, s, html));
+            }
+            cb.onSuggestionsReady(request, new Response(r));
+          }
+        });
   }
 
   protected String getQueryPattern(final String query) {
@@ -64,10 +62,9 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
   }
 
   /**
-   * @return true if
-   *         {@link com.google.gwt.user.client.ui.SuggestOracle.Suggestion#getDisplayString()}
-   *         returns HTML; false if the text must be escaped before evaluating
-   *         in an HTML like context.
+   * @return true if {@link
+   *     com.google.gwt.user.client.ui.SuggestOracle.Suggestion#getDisplayString()} returns HTML;
+   *     false if the text must be escaped before evaluating in an HTML like context.
    */
   protected boolean isHTML() {
     return false;
@@ -114,17 +111,19 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
     }
 
     /**
-     * Split the query by whitespace and filter out query terms which are
-     * substrings of other query terms.
+     * Split the query by whitespace and filter out query terms which are substrings of other query
+     * terms.
      */
     private static List<String> splitQuery(String query) {
       List<String> queryTerms = Arrays.asList(query.split("\\s+"));
-      Collections.sort(queryTerms, new Comparator<String>() {
-        @Override
-        public int compare(String s1, String s2) {
-          return Integer.compare(s2.length(), s1.length());
-        }
-      });
+      Collections.sort(
+          queryTerms,
+          new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+              return Integer.compare(s2.length(), s1.length());
+            }
+          });
 
       List<String> result = new ArrayList<>();
       for (String s : queryTerms) {
@@ -143,7 +142,7 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
     }
 
     private static native String sgi(String inString, String pat, String newHtml)
-    /*-{ return inString.replace(RegExp(pat, 'gi'), newHtml); }-*/;
+        /*-{ return inString.replace(RegExp(pat, 'gi'), newHtml); }-*/ ;
 
     @Override
     public String getDisplayString() {

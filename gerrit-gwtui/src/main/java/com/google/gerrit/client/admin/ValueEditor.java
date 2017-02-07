@@ -37,30 +37,24 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ValueBoxBase;
 import com.google.gwt.user.client.ui.Widget;
-
 import java.text.ParseException;
 import java.util.List;
 
-public class ValueEditor<T> extends Composite implements HasEditorErrors<T>,
-    IsEditor<ValueBoxEditor<T>>, LeafValueEditor<T>, Focusable {
-  interface Binder extends UiBinder<Widget, ValueEditor<?>> {
-  }
+public class ValueEditor<T> extends Composite
+    implements HasEditorErrors<T>, IsEditor<ValueBoxEditor<T>>, LeafValueEditor<T>, Focusable {
+  interface Binder extends UiBinder<Widget, ValueEditor<?>> {}
 
   static final Binder uiBinder = GWT.create(Binder.class);
 
-  @UiField
-  SimplePanel textPanel;
+  @UiField SimplePanel textPanel;
   private Label textLabel;
   private StartEditHandlers startHandlers;
 
-  @UiField
-  Image editIcon;
+  @UiField Image editIcon;
 
-  @UiField
-  SimplePanel editPanel;
+  @UiField SimplePanel editPanel;
 
-  @UiField
-  DivElement errorLabel;
+  @UiField DivElement errorLabel;
 
   private ValueBoxBase<T> editChild;
   private ValueBoxEditor<T> editProxy;

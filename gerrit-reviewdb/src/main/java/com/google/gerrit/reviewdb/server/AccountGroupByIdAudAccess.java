@@ -22,18 +22,16 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface AccountGroupByIdAudAccess extends
-    Access<AccountGroupByIdAud, AccountGroupByIdAud.Key> {
+public interface AccountGroupByIdAudAccess
+    extends Access<AccountGroupByIdAud, AccountGroupByIdAud.Key> {
   @Override
   @PrimaryKey("key")
-  AccountGroupByIdAud get(AccountGroupByIdAud.Key key)
-      throws OrmException;
+  AccountGroupByIdAud get(AccountGroupByIdAud.Key key) throws OrmException;
 
   @Query("WHERE key.groupId = ? AND key.includeUUID = ?")
-  ResultSet<AccountGroupByIdAud> byGroupInclude(AccountGroup.Id groupId,
-      AccountGroup.UUID incGroupUUID) throws OrmException;
+  ResultSet<AccountGroupByIdAud> byGroupInclude(
+      AccountGroup.Id groupId, AccountGroup.UUID incGroupUUID) throws OrmException;
 
   @Query("WHERE key.groupId = ?")
-  ResultSet<AccountGroupByIdAud> byGroup(AccountGroup.Id groupId)
-      throws OrmException;
+  ResultSet<AccountGroupByIdAud> byGroup(AccountGroup.Id groupId) throws OrmException;
 }

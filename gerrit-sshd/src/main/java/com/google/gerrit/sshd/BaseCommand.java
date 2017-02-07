@@ -33,17 +33,6 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.EndOfOptionsHandler;
 import com.google.inject.Inject;
-
-import org.apache.sshd.common.SshException;
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.Environment;
-import org.apache.sshd.server.ExitCallback;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,6 +44,15 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
+import org.apache.sshd.common.SshException;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.ExitCallback;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
@@ -74,24 +72,17 @@ public abstract class BaseCommand implements Command {
 
   private ExitCallback exit;
 
-  @Inject
-  private SshScope sshScope;
+  @Inject private SshScope sshScope;
 
-  @Inject
-  private CmdLineParser.Factory cmdLineParserFactory;
+  @Inject private CmdLineParser.Factory cmdLineParserFactory;
 
-  @Inject
-  private RequestCleanup cleanup;
+  @Inject private RequestCleanup cleanup;
 
-  @Inject
-  @CommandExecutor
-  private WorkQueue.Executor executor;
+  @Inject @CommandExecutor private WorkQueue.Executor executor;
 
-  @Inject
-  private CurrentUser user;
+  @Inject private CurrentUser user;
 
-  @Inject
-  private SshScope.Context context;
+  @Inject private SshScope.Context context;
 
   /** Commands declared by a plugin can be scoped by the plugin name. */
   @Inject(optional = true)
@@ -162,10 +153,10 @@ public abstract class BaseCommand implements Command {
 
   /**
    * Pass all state into the command, then run its start method.
-   * <p>
-   * This method copies all critical state, like the input and output streams,
-   * into the supplied command. The caller must still invoke {@code cmd.start()}
-   * if wants to pass control to the command.
+   *
+   * <p>This method copies all critical state, like the input and output streams, into the supplied
+   * command. The caller must still invoke {@code cmd.start()} if wants to pass control to the
+   * command.
    *
    * @param cmd the command that will receive the current state.
    */
@@ -178,8 +169,8 @@ public abstract class BaseCommand implements Command {
 
   /**
    * Parses the command line argument, injecting parsed values into fields.
-   * <p>
-   * This method must be explicitly invoked to cause a parse.
+   *
+   * <p>This method must be explicitly invoked to cause a parse.
    *
    * @throws UnloggedFailure if the command line arguments were invalid.
    * @see Option
@@ -191,11 +182,11 @@ public abstract class BaseCommand implements Command {
 
   /**
    * Parses the command line argument, injecting parsed values into fields.
-   * <p>
-   * This method must be explicitly invoked to cause a parse.
    *
-   * @param options object whose fields declare Option and Argument annotations
-   *        to describe the parameters of the command. Usually {@code this}.
+   * <p>This method must be explicitly invoked to cause a parse.
+   *
+   * @param options object whose fields declare Option and Argument annotations to describe the
+   *     parameters of the command. Usually {@code this}.
    * @throws UnloggedFailure if the command line arguments were invalid.
    * @see Option
    * @see Argument
@@ -229,9 +220,8 @@ public abstract class BaseCommand implements Command {
 
   /**
    * Spawn a function into its own thread.
-   * <p>
-   * Typically this should be invoked within {@link Command#start(Environment)},
-   * such as:
+   *
+   * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
    *
    * <pre>
    * startThread(new Runnable() {
@@ -241,23 +231,22 @@ public abstract class BaseCommand implements Command {
    * });
    * </pre>
    *
-   * @param thunk the runnable to execute on the thread, performing the
-   *        command's logic.
+   * @param thunk the runnable to execute on the thread, performing the command's logic.
    */
   protected void startThread(final Runnable thunk) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        thunk.run();
-      }
-    });
+    startThread(
+        new CommandRunnable() {
+          @Override
+          public void run() throws Exception {
+            thunk.run();
+          }
+        });
   }
 
   /**
    * Spawn a function into its own thread.
-   * <p>
-   * Typically this should be invoked within {@link Command#start(Environment)},
-   * such as:
+   *
+   * <p>Typically this should be invoked within {@link Command#start(Environment)}, such as:
    *
    * <pre>
    * startThread(new CommandRunnable() {
@@ -266,18 +255,16 @@ public abstract class BaseCommand implements Command {
    *   }
    * });
    * </pre>
-   * <p>
-   * If the function throws an exception, it is translated to a simple message
-   * for the client, a non-zero exit code, and the stack trace is logged.
    *
-   * @param thunk the runnable to execute on the thread, performing the
-   *        command's logic.
+   * <p>If the function throws an exception, it is translated to a simple message for the client, a
+   * non-zero exit code, and the stack trace is logged.
+   *
+   * @param thunk the runnable to execute on the thread, performing the command's logic.
    */
   protected void startThread(final CommandRunnable thunk) {
     final TaskThunk tt = new TaskThunk(thunk);
 
-    if (isAdminHighPriorityCommand()
-        && user.getCapabilities().canAdministrateServer()) {
+    if (isAdminHighPriorityCommand() && user.getCapabilities().canAdministrateServer()) {
       // Admin commands should not block the main work threads (there
       // might be an interactive shell there), nor should they wait
       // for the main work threads.
@@ -294,10 +281,10 @@ public abstract class BaseCommand implements Command {
 
   /**
    * Terminate this command and return a result code to the remote client.
-   * <p>
-   * Commands should invoke this at most once. Once invoked, the command may
-   * lose access to request based resources as any callbacks previously
-   * registered with {@link RequestCleanup} will fire.
+   *
+   * <p>Commands should invoke this at most once. Once invoked, the command may lose access to
+   * request based resources as any callbacks previously registered with {@link RequestCleanup} will
+   * fire.
    *
    * @param rc exit code for the remote client.
    */
@@ -314,11 +301,9 @@ public abstract class BaseCommand implements Command {
   }
 
   private int handleError(final Throwable e) {
-    if ((e.getClass() == IOException.class
-         && "Pipe closed".equals(e.getMessage()))
+    if ((e.getClass() == IOException.class && "Pipe closed".equals(e.getMessage()))
         || //
-        (e.getClass() == SshException.class
-         && "Already closed".equals(e.getMessage()))
+        (e.getClass() == SshException.class && "Already closed".equals(e.getMessage()))
         || //
         e.getClass() == InterruptedIOException.class) {
       // This is sshd telling us the client just dropped off while
@@ -355,7 +340,6 @@ public abstract class BaseCommand implements Command {
         log.warn("Cannot send failure message to client", e2);
       }
       return f.exitCode;
-
     }
 
     try {
@@ -507,9 +491,8 @@ public abstract class BaseCommand implements Command {
     /**
      * Create a new failure.
      *
-     * @param exitCode exit code to return the client, which indicates the
-     *        failure status of this command. Should be between 1 and 255,
-     *        inclusive.
+     * @param exitCode exit code to return the client, which indicates the failure status of this
+     *     command. Should be between 1 and 255, inclusive.
      * @param msg message to also send to the client's stderr.
      */
     public Failure(final int exitCode, final String msg) {
@@ -519,12 +502,11 @@ public abstract class BaseCommand implements Command {
     /**
      * Create a new failure.
      *
-     * @param exitCode exit code to return the client, which indicates the
-     *        failure status of this command. Should be between 1 and 255,
-     *        inclusive.
+     * @param exitCode exit code to return the client, which indicates the failure status of this
+     *     command. Should be between 1 and 255, inclusive.
      * @param msg message to also send to the client's stderr.
-     * @param why stack trace to include in the server's log, but is not sent to
-     *        the client's stderr.
+     * @param why stack trace to include in the server's log, but is not sent to the client's
+     *     stderr.
      */
     public Failure(final int exitCode, final String msg, final Throwable why) {
       super(msg, why);
@@ -548,9 +530,8 @@ public abstract class BaseCommand implements Command {
     /**
      * Create a new failure.
      *
-     * @param exitCode exit code to return the client, which indicates the
-     *        failure status of this command. Should be between 1 and 255,
-     *        inclusive.
+     * @param exitCode exit code to return the client, which indicates the failure status of this
+     *     command. Should be between 1 and 255, inclusive.
      * @param msg message to also send to the client's stderr.
      */
     public UnloggedFailure(final int exitCode, final String msg) {
@@ -560,15 +541,13 @@ public abstract class BaseCommand implements Command {
     /**
      * Create a new failure.
      *
-     * @param exitCode exit code to return the client, which indicates the
-     *        failure status of this command. Should be between 1 and 255,
-     *        inclusive.
+     * @param exitCode exit code to return the client, which indicates the failure status of this
+     *     command. Should be between 1 and 255, inclusive.
      * @param msg message to also send to the client's stderr.
-     * @param why stack trace to include in the server's log, but is not sent to
-     *        the client's stderr.
+     * @param why stack trace to include in the server's log, but is not sent to the client's
+     *     stderr.
      */
-    public UnloggedFailure(final int exitCode, final String msg,
-        final Throwable why) {
+    public UnloggedFailure(final int exitCode, final String msg, final Throwable why) {
       super(exitCode, msg, why);
     }
   }

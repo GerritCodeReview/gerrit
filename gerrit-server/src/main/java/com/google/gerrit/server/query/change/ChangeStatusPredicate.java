@@ -20,7 +20,6 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +28,12 @@ import java.util.TreeMap;
 
 /**
  * Predicate for a {@link Status}.
- * <p>
- * The actual name of this operator can differ, it usually comes as {@code
- * status:} but may also be {@code is:} to help do-what-i-meanery for end-users
- * searching for changes. Either operator name has the same meaning.
- * <p>
- * Status names are looked up by prefix case-insensitively.
+ *
+ * <p>The actual name of this operator can differ, it usually comes as {@code status:} but may also
+ * be {@code is:} to help do-what-i-meanery for end-users searching for changes. Either operator
+ * name has the same meaning.
+ *
+ * <p>Status names are looked up by prefix case-insensitively.
  */
 public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   private static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
@@ -64,15 +63,12 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
     return status.name().toLowerCase();
   }
 
-  public static Predicate<ChangeData> parse(String value)
-      throws QueryParseException {
+  public static Predicate<ChangeData> parse(String value) throws QueryParseException {
     String lower = value.toLowerCase();
-    NavigableMap<String, Predicate<ChangeData>> head =
-        PREDICATES.tailMap(lower, true);
+    NavigableMap<String, Predicate<ChangeData>> head = PREDICATES.tailMap(lower, true);
     if (!head.isEmpty()) {
       // Assume no statuses share a common prefix so we can only walk one entry.
-      Map.Entry<String, Predicate<ChangeData>> e =
-          head.entrySet().iterator().next();
+      Map.Entry<String, Predicate<ChangeData>> e = head.entrySet().iterator().next();
       if (e.getKey().startsWith(lower)) {
         return e.getValue();
       }

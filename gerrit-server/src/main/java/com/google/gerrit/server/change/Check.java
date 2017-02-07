@@ -25,11 +25,10 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
 import java.util.EnumSet;
 
-public class Check implements RestReadView<ChangeResource>,
-    RestModifyView<ChangeResource, FixInput> {
+public class Check
+    implements RestReadView<ChangeResource>, RestModifyView<ChangeResource, FixInput> {
   private final ChangeJson.Factory jsonFactory;
 
   @Inject
@@ -38,8 +37,7 @@ public class Check implements RestReadView<ChangeResource>,
   }
 
   @Override
-  public Response<ChangeInfo> apply(ChangeResource rsrc)
-      throws RestApiException, OrmException {
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException, OrmException {
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 

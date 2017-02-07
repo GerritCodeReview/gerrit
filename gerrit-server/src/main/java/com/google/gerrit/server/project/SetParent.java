@@ -33,17 +33,14 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.SetParent.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-
-import java.io.IOException;
 
 @Singleton
 public class SetParent implements RestModifyView<ProjectResource, Input> {
   public static class Input {
-    @DefaultInput
-    public String parent;
+    @DefaultInput public String parent;
     public String commitMessage;
   }
 
@@ -52,27 +49,25 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
   private final AllProjectsName allProjects;
 
   @Inject
-  SetParent(ProjectCache cache,
-      MetaDataUpdate.Server updateFactory,
-      AllProjectsName allProjects) {
+  SetParent(ProjectCache cache, MetaDataUpdate.Server updateFactory, AllProjectsName allProjects) {
     this.cache = cache;
     this.updateFactory = updateFactory;
     this.allProjects = allProjects;
   }
 
   @Override
-  public String apply(ProjectResource rsrc, Input input) throws AuthException,
-      ResourceConflictException, ResourceNotFoundException,
-      UnprocessableEntityException, IOException {
+  public String apply(ProjectResource rsrc, Input input)
+      throws AuthException, ResourceConflictException, ResourceNotFoundException,
+          UnprocessableEntityException, IOException {
     return apply(rsrc, input, true);
   }
 
   public String apply(ProjectResource rsrc, Input input, boolean checkIfAdmin)
-      throws AuthException, ResourceConflictException,
-      ResourceNotFoundException, UnprocessableEntityException, IOException {
+      throws AuthException, ResourceConflictException, ResourceNotFoundException,
+          UnprocessableEntityException, IOException {
     ProjectControl ctl = rsrc.getControl();
-    String parentName = MoreObjects.firstNonNull(
-        Strings.emptyToNull(input.parent), allProjects.get());
+    String parentName =
+        MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
     validateParentUpdate(ctl, parentName, checkIfAdmin);
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
@@ -81,8 +76,7 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
 
       String msg = Strings.emptyToNull(input.commitMessage);
       if (msg == null) {
-        msg = String.format(
-              "Changed parent to %s.\n", parentName);
+        msg = String.format("Changed parent to %s.\n", parentName);
       } else if (!msg.endsWith("\n")) {
         msg += "\n";
       }
@@ -97,39 +91,40 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(rsrc.getName());
     } catch (ConfigInvalidException e) {
-      throw new ResourceConflictException(String.format(
-          "invalid project.config: %s", e.getMessage()));
+      throw new ResourceConflictException(
+          String.format("invalid project.config: %s", e.getMessage()));
     }
   }
 
-  public void validateParentUpdate(final ProjectControl ctl, String newParent,
-      boolean checkIfAdmin) throws AuthException, ResourceConflictException,
-      UnprocessableEntityException {
+  public void validateParentUpdate(final ProjectControl ctl, String newParent, boolean checkIfAdmin)
+      throws AuthException, ResourceConflictException, UnprocessableEntityException {
     IdentifiedUser user = ctl.getUser().asIdentifiedUser();
     if (checkIfAdmin && !user.getCapabilities().canAdministrateServer()) {
       throw new AuthException("not administrator");
     }
 
     if (ctl.getProject().getNameKey().equals(allProjects)) {
-      throw new ResourceConflictException("cannot set parent of "
-          + allProjects.get());
+      throw new ResourceConflictException("cannot set parent of " + allProjects.get());
     }
 
     newParent = Strings.emptyToNull(newParent);
     if (newParent != null) {
       ProjectState parent = cache.get(new Project.NameKey(newParent));
       if (parent == null) {
-        throw new UnprocessableEntityException("parent project " + newParent
-            + " not found");
+        throw new UnprocessableEntityException("parent project " + newParent + " not found");
       }
 
-      if (Iterables.tryFind(parent.tree(), p -> {
-            return p.getProject().getNameKey()
-                .equals(ctl.getProject().getNameKey());
-          }).isPresent()) {
-        throw new ResourceConflictException("cycle exists between "
-            + ctl.getProject().getName() + " and "
-            + parent.getProject().getName());
+      if (Iterables.tryFind(
+              parent.tree(),
+              p -> {
+                return p.getProject().getNameKey().equals(ctl.getProject().getNameKey());
+              })
+          .isPresent()) {
+        throw new ResourceConflictException(
+            "cycle exists between "
+                + ctl.getProject().getName()
+                + " and "
+                + parent.getProject().getName());
       }
     }
   }

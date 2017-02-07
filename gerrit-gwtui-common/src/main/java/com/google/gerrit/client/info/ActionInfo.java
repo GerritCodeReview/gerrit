@@ -19,11 +19,14 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class ActionInfo extends JavaScriptObject {
 
   public final native String id() /*-{ return this.id; }-*/;
+
   public final native String method() /*-{ return this.method; }-*/;
+
   public final native String label() /*-{ return this.label; }-*/;
+
   public final native String title() /*-{ return this.title; }-*/;
+
   public final native boolean enabled() /*-{ return this.enabled || false; }-*/;
 
-  protected ActionInfo() {
-  }
+  protected ActionInfo() {}
 }

@@ -33,7 +33,11 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -45,18 +49,11 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-
 public class Schema_108 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
 
   @Inject
-  Schema_108(Provider<Schema_107> prior,
-      GitRepositoryManager repoManager) {
+  Schema_108(Provider<Schema_107> prior, GitRepositoryManager repoManager) {
     super(prior);
     this.repoManager = repoManager;
   }
@@ -64,14 +61,12 @@ public class Schema_108 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     ui.message("Listing all changes ...");
-    SetMultimap<Project.NameKey, Change.Id> openByProject =
-        getOpenChangesByProject(db, ui);
+    SetMultimap<Project.NameKey, Change.Id> openByProject = getOpenChangesByProject(db, ui);
     ui.message("done");
 
     ui.message("Updating groups for open changes ...");
     int i = 0;
-    for (Map.Entry<Project.NameKey, Collection<Change.Id>> e
-        : openByProject.asMap().entrySet()) {
+    for (Map.Entry<Project.NameKey, Collection<Change.Id>> e : openByProject.asMap().entrySet()) {
       try (Repository repo = repoManager.openRepository(e.getKey());
           RevWalk rw = new RevWalk(repo)) {
         updateProjectGroups(db, repo, rw, (Set<Change.Id>) e.getValue(), ui);
@@ -85,8 +80,9 @@ public class Schema_108 extends SchemaVersion {
     ui.message("done");
   }
 
-  private void updateProjectGroups(ReviewDb db, Repository repo, RevWalk rw,
-      Set<Change.Id> changes, UpdateUI ui) throws OrmException, IOException {
+  private void updateProjectGroups(
+      ReviewDb db, Repository repo, RevWalk rw, Set<Change.Id> changes, UpdateUI ui)
+      throws OrmException, IOException {
     // Match sorting in ReceiveCommits.
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -121,8 +117,7 @@ public class Schema_108 extends SchemaVersion {
       }
     }
 
-    GroupCollector collector =
-        GroupCollector.createForSchemaUpgradeOnly(changeRefsBySha, db);
+    GroupCollector collector = GroupCollector.createForSchemaUpgradeOnly(changeRefsBySha, db);
     RevCommit c;
     while ((c = rw.next()) != null) {
       collector.visit(c);
@@ -131,12 +126,12 @@ public class Schema_108 extends SchemaVersion {
     updateGroups(db, collector, patchSetsBySha);
   }
 
-  private static void updateGroups(ReviewDb db, GroupCollector collector,
-      ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha) throws OrmException {
+  private static void updateGroups(
+      ReviewDb db, GroupCollector collector, ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha)
+      throws OrmException {
     Map<PatchSet.Id, PatchSet> patchSets =
         db.patchSets().toMap(db.patchSets().get(patchSetsBySha.values()));
-    for (Map.Entry<ObjectId, Collection<String>> e
-        : collector.getGroups().asMap().entrySet()) {
+    for (Map.Entry<ObjectId, Collection<String>> e : collector.getGroups().asMap().entrySet()) {
       for (PatchSet.Id psId : patchSetsBySha.get(e.getKey())) {
         PatchSet ps = patchSets.get(psId);
         if (ps != null) {
@@ -148,8 +143,8 @@ public class Schema_108 extends SchemaVersion {
     db.patchSets().update(patchSets.values());
   }
 
-  private SetMultimap<Project.NameKey, Change.Id> getOpenChangesByProject(
-      ReviewDb db, UpdateUI ui) throws OrmException {
+  private SetMultimap<Project.NameKey, Change.Id> getOpenChangesByProject(ReviewDb db, UpdateUI ui)
+      throws OrmException {
     SortedSet<NameKey> projects = repoManager.list();
     SortedSet<NameKey> nonExistentProjects = Sets.newTreeSet();
     SetMultimap<Project.NameKey, Change.Id> openByProject =
@@ -174,8 +169,9 @@ public class Schema_108 extends SchemaVersion {
     if (!nonExistentProjects.isEmpty()) {
       ui.message("Detected open changes referring to the following non-existent projects:");
       ui.message(Joiner.on(", ").join(nonExistentProjects));
-      ui.message("It is highly recommended to remove\n"
-          + "the obsolete open changes, comments and patch-sets from your DB.\n");
+      ui.message(
+          "It is highly recommended to remove\n"
+              + "the obsolete open changes, comments and patch-sets from your DB.\n");
     }
     return openByProject;
   }

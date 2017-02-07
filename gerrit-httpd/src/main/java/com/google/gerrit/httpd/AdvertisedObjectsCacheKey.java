@@ -25,5 +25,6 @@ abstract class AdvertisedObjectsCacheKey {
   }
 
   public abstract Account.Id account();
+
   public abstract Project.NameKey project();
 }

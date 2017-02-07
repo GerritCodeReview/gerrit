@@ -32,15 +32,12 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
-import java.io.IOException;
-
 @Singleton
-public class RebaseChangeEdit implements
-    ChildCollection<ChangeResource, ChangeEditResource>,
-    AcceptsPost<ChangeResource> {
+public class RebaseChangeEdit
+    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
 
   private final Rebase rebase;
 
@@ -72,23 +69,20 @@ public class RebaseChangeEdit implements
 
   @Singleton
   public static class Rebase implements RestModifyView<ChangeResource, Rebase.Input> {
-    public static class Input {
-    }
+    public static class Input {}
 
     private final GitRepositoryManager repositoryManager;
     private final ChangeEditModifier editModifier;
 
     @Inject
-    Rebase(GitRepositoryManager repositoryManager,
-        ChangeEditModifier editModifier) {
+    Rebase(GitRepositoryManager repositoryManager, ChangeEditModifier editModifier) {
       this.repositoryManager = repositoryManager;
       this.editModifier = editModifier;
     }
 
     @Override
     public Response<?> apply(ChangeResource rsrc, Rebase.Input in)
-        throws AuthException, ResourceConflictException, IOException,
-        OrmException {
+        throws AuthException, ResourceConflictException, IOException, OrmException {
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
         editModifier.rebaseEdit(repository, rsrc.getControl());

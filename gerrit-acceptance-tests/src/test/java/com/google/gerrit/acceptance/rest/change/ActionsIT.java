@@ -37,7 +37,10 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
-
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -45,22 +48,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.EnumSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 public class ActionsIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
   }
 
-  @Inject
-  private ChangeJson.Factory changeJsonFactory;
+  @Inject private ChangeJson.Factory changeJsonFactory;
 
-  @Inject
-  private DynamicSet<ActionVisitor> actionVisitors;
+  @Inject private DynamicSet<ActionVisitor> actionVisitors;
 
   private RegistrationHandle visitorHandle;
 
@@ -109,8 +105,8 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isNull();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("This change depends on other " +
-          "changes which are not ready");
+      assertThat(info.title)
+          .isEqualTo("This change depends on other " + "changes which are not ready");
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
 
@@ -227,14 +223,17 @@ public class ActionsIT extends AbstractDaemonTest {
     approve(changeId);
 
     // create another change with the same topic
-    String changeId2 = createChangeWithTopic(testRepo, "foo2", "touching b",
-        "b.txt", "real content").getChangeId();
+    String changeId2 =
+        createChangeWithTopic(testRepo, "foo2", "touching b", "b.txt", "real content")
+            .getChangeId();
     approve(changeId2);
 
     // collide with the other change in the same topic
     testRepo.reset("HEAD~2");
-    String collidingChange = createChangeWithTopic(testRepo, "off_topic",
-        "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage").getChangeId();
+    String collidingChange =
+        createChangeWithTopic(
+                testRepo, "off_topic", "rewriting file b", "b.txt", "garbage\ngarbage\ngarbage")
+            .getChangeId();
     gApi.changes().id(collidingChange).current().review(ReviewInput.approve());
     gApi.changes().id(collidingChange).current().submit();
 
@@ -252,8 +251,7 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revisionActionsTwoChangesInTopicWithAncestorReady()
-      throws Exception {
+  public void revisionActionsTwoChangesInTopicWithAncestorReady() throws Exception {
     String changeId = createChange().getChangeId();
     approve(changeId);
     approve(changeId);
@@ -269,9 +267,11 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isTrue();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("Submit all 2 changes of the same " +
-          "topic (3 changes including ancestors " +
-          "and other changes related by topic)");
+      assertThat(info.title)
+          .isEqualTo(
+              "Submit all 2 changes of the same "
+                  + "topic (3 changes including ancestors "
+                  + "and other changes related by topic)");
     } else {
       noSubmitWholeTopicAssertions(actions, 2);
     }
@@ -292,8 +292,7 @@ public class ActionsIT extends AbstractDaemonTest {
     noSubmitWholeTopicAssertions(actions, 3);
   }
 
-  private void noSubmitWholeTopicAssertions(Map<String, ActionInfo> actions,
-      int nrChanges) {
+  private void noSubmitWholeTopicAssertions(Map<String, ActionInfo> actions, int nrChanges) {
     ActionInfo info = actions.get("submit");
     assertThat(info.enabled).isTrue();
     if (nrChanges == 1) {
@@ -305,22 +304,22 @@ public class ActionsIT extends AbstractDaemonTest {
     if (nrChanges == 1) {
       assertThat(info.title).isEqualTo("Submit patch set 1 into master");
     } else {
-      assertThat(info.title).isEqualTo(String.format(
-          "Submit patch set 1 and ancestors (%d changes " +
-          "altogether) into master", nrChanges));
+      assertThat(info.title)
+          .isEqualTo(
+              String.format(
+                  "Submit patch set 1 and ancestors (%d changes " + "altogether) into master",
+                  nrChanges));
     }
   }
 
   @Test
   public void changeActionVisitor() throws Exception {
     String id = createChange().getChangeId();
-    ChangeInfo origChange =
-        gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+    ChangeInfo origChange = gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
 
     class Visitor implements ActionVisitor {
       @Override
-      public boolean visit(String name, ActionInfo actionInfo,
-          ChangeInfo changeInfo) {
+      public boolean visit(String name, ActionInfo actionInfo, ChangeInfo changeInfo) {
         assertThat(changeInfo).isNotNull();
         assertThat(changeInfo._number).isEqualTo(origChange._number);
         if (name.equals("followup")) {
@@ -333,8 +332,8 @@ public class ActionsIT extends AbstractDaemonTest {
       }
 
       @Override
-      public boolean visit(String name, ActionInfo actionInfo,
-          ChangeInfo changeInfo, RevisionInfo revisionInfo) {
+      public boolean visit(
+          String name, ActionInfo actionInfo, ChangeInfo changeInfo, RevisionInfo revisionInfo) {
         throw new UnsupportedOperationException();
       }
     }
@@ -346,10 +345,8 @@ public class ActionsIT extends AbstractDaemonTest {
     Visitor v = new Visitor();
     visitorHandle = actionVisitors.add(v);
 
-    Map<String, ActionInfo> newActions = gApi.changes()
-        .id(id)
-        .get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS))
-        .actions;
+    Map<String, ActionInfo> newActions =
+        gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS)).actions;
 
     Set<String> expectedNames = new TreeSet<>(origActions.keySet());
     expectedNames.remove("followup");
@@ -363,19 +360,17 @@ public class ActionsIT extends AbstractDaemonTest {
   @Test
   public void revisionActionVisitor() throws Exception {
     String id = createChange().getChangeId();
-    ChangeInfo origChange =
-        gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
+    ChangeInfo origChange = gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS));
 
     class Visitor implements ActionVisitor {
       @Override
-      public boolean visit(String name, ActionInfo actionInfo,
-          ChangeInfo changeInfo) {
+      public boolean visit(String name, ActionInfo actionInfo, ChangeInfo changeInfo) {
         return true; // Do nothing; implicitly called for CURRENT_ACTIONS.
       }
 
       @Override
-      public boolean visit(String name, ActionInfo actionInfo,
-          ChangeInfo changeInfo, RevisionInfo revisionInfo) {
+      public boolean visit(
+          String name, ActionInfo actionInfo, ChangeInfo changeInfo, RevisionInfo revisionInfo) {
         assertThat(changeInfo).isNotNull();
         assertThat(changeInfo._number).isEqualTo(origChange._number);
         assertThat(revisionInfo).isNotNull();
@@ -390,8 +385,7 @@ public class ActionsIT extends AbstractDaemonTest {
       }
     }
 
-    Map<String, ActionInfo> origActions =
-        gApi.changes().id(id).current().actions();
+    Map<String, ActionInfo> origActions = gApi.changes().id(id).current().actions();
     assertThat(origActions.keySet()).containsAllOf("cherrypick", "rebase");
     assertThat(origActions.get("rebase").label).isEqualTo("Rebase");
 
@@ -400,23 +394,20 @@ public class ActionsIT extends AbstractDaemonTest {
 
     // Test different codepaths within ActionJson...
     // ...via revision API.
-    visitedRevisionActionsAssertions(
-        origActions, gApi.changes().id(id).current().actions());
+    visitedRevisionActionsAssertions(origActions, gApi.changes().id(id).current().actions());
 
     // ...via change API with option.
-    EnumSet<ListChangesOption> opts =
-        EnumSet.of(CURRENT_ACTIONS, CURRENT_REVISION);
+    EnumSet<ListChangesOption> opts = EnumSet.of(CURRENT_ACTIONS, CURRENT_REVISION);
     ChangeInfo changeInfo = gApi.changes().id(id).get(opts);
-    RevisionInfo revisionInfo =
-        Iterables.getOnlyElement(changeInfo.revisions.values());
+    RevisionInfo revisionInfo = Iterables.getOnlyElement(changeInfo.revisions.values());
     visitedRevisionActionsAssertions(origActions, revisionInfo.actions);
 
     // ...via ChangeJson directly.
-    ChangeData cd = changeDataFactory.create(
-        db, project, new Change.Id(origChange._number));
-    revisionInfo = changeJsonFactory.create(opts)
-        .getRevisionInfo(
-            cd.changeControl(), Iterables.getOnlyElement(cd.patchSets()));
+    ChangeData cd = changeDataFactory.create(db, project, new Change.Id(origChange._number));
+    revisionInfo =
+        changeJsonFactory
+            .create(opts)
+            .getRevisionInfo(cd.changeControl(), Iterables.getOnlyElement(cd.patchSets()));
     visitedRevisionActionsAssertions(origActions, revisionInfo.actions);
   }
 
@@ -441,30 +432,33 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createCommitAndPush(
-      TestRepository<InMemoryRepository> repo, String ref,
-      String commitMsg, String fileName, String content) throws Exception {
-    return pushFactory
-        .create(db, admin.getIdent(), repo, commitMsg, fileName, content)
-        .to(ref);
+      TestRepository<InMemoryRepository> repo,
+      String ref,
+      String commitMsg,
+      String fileName,
+      String content)
+      throws Exception {
+    return pushFactory.create(db, admin.getIdent(), repo, commitMsg, fileName, content).to(ref);
   }
 
   private PushOneCommit.Result createChangeWithTopic(
-      TestRepository<InMemoryRepository> repo, String topic,
-      String commitMsg, String fileName, String content) throws Exception {
+      TestRepository<InMemoryRepository> repo,
+      String topic,
+      String commitMsg,
+      String fileName,
+      String content)
+      throws Exception {
     assertThat(topic).isNotEmpty();
-    return createCommitAndPush(repo, "refs/for/master/" + name(topic),
-        commitMsg, fileName, content);
+    return createCommitAndPush(
+        repo, "refs/for/master/" + name(topic), commitMsg, fileName, content);
   }
 
-  private PushOneCommit.Result createChangeWithTopic()
-      throws Exception {
-    return createChangeWithTopic(testRepo, "foo2",
-        "a message", "a.txt", "content\n");
+  private PushOneCommit.Result createChangeWithTopic() throws Exception {
+    return createChangeWithTopic(testRepo, "foo2", "a message", "a.txt", "content\n");
   }
 
-  private PushOneCommit.Result createDraftWithTopic()
-      throws Exception {
-    return createCommitAndPush(testRepo, "refs/drafts/master/" + name("foo2"),
-        "a message", "a.txt", "content\n");
+  private PushOneCommit.Result createDraftWithTopic() throws Exception {
+    return createCommitAndPush(
+        testRepo, "refs/drafts/master/" + name("foo2"), "a message", "a.txt", "content\n");
   }
 }

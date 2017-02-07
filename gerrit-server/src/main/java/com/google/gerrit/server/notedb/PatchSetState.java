@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 public enum PatchSetState {
-  /** Published and visible to anyone who can see the change; the default.*/
+  /** Published and visible to anyone who can see the change; the default. */
   PUBLISHED,
 
   /** Draft patch set, only visible to certain users. */
@@ -23,9 +23,9 @@ public enum PatchSetState {
 
   /**
    * Deleted patch set.
-   * <p>
-   * Used internally as a tombstone; patch sets exposed by public NoteDb
-   * interfaces never have this state.
+   *
+   * <p>Used internally as a tombstone; patch sets exposed by public NoteDb interfaces never have
+   * this state.
    */
   DELETED;
 }

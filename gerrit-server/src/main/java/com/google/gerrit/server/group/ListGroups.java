@@ -41,9 +41,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,6 +53,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.kohsuke.args4j.Option;
 
 /** List groups visible to the calling user. */
 public class ListGroups implements RestReadView<TopLevelResource> {
@@ -72,8 +70,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GroupJson json;
   private final GroupBackend groupBackend;
 
-  private EnumSet<ListGroupsOption> options =
-      EnumSet.noneOf(ListGroupsOption.class);
+  private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
   private boolean visibleToAll;
   private Account.Id user;
   private boolean owned;
@@ -82,30 +79,41 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private String matchSubstring;
   private String suggest;
 
-  @Option(name = "--project", aliases = {"-p"},
-      usage = "projects for which the groups should be listed")
+  @Option(
+    name = "--project",
+    aliases = {"-p"},
+    usage = "projects for which the groups should be listed"
+  )
   public void addProject(ProjectControl project) {
     projects.add(project);
   }
 
-  @Option(name = "--visible-to-all",
-      usage = "to list only groups that are visible to all registered users")
+  @Option(
+    name = "--visible-to-all",
+    usage = "to list only groups that are visible to all registered users"
+  )
   public void setVisibleToAll(boolean visibleToAll) {
     this.visibleToAll = visibleToAll;
   }
 
-  @Option(name = "--user", aliases = {"-u"},
-      usage = "user for which the groups should be listed")
+  @Option(
+    name = "--user",
+    aliases = {"-u"},
+    usage = "user for which the groups should be listed"
+  )
   public void setUser(Account.Id user) {
     this.user = user;
   }
 
-  @Option(name = "--owned", usage = "to list only groups that are owned by the"
-      + " specified user or by the calling user if no user was specifed")
+  @Option(
+    name = "--owned",
+    usage =
+        "to list only groups that are owned by the"
+            + " specified user or by the calling user if no user was specifed"
+  )
   public void setOwned(boolean owned) {
     this.owned = owned;
   }
-
 
   /**
    * Add a group to inspect.
@@ -114,37 +122,59 @@ public class ListGroups implements RestReadView<TopLevelResource> {
    * @deprecated use {@link #addGroup(AccountGroup.UUID)}.
    */
   @Deprecated
-  @Option(name = "--query", aliases = {"-q"},
-      usage = "group to inspect (deprecated: use --group/-g instead)")
+  @Option(
+    name = "--query",
+    aliases = {"-q"},
+    usage = "group to inspect (deprecated: use --group/-g instead)"
+  )
   void addGroup_Deprecated(AccountGroup.UUID uuid) {
     addGroup(uuid);
   }
 
-  @Option(name = "--group", aliases = {"-g"}, usage = "group to inspect")
+  @Option(
+    name = "--group",
+    aliases = {"-g"},
+    usage = "group to inspect"
+  )
   public void addGroup(AccountGroup.UUID uuid) {
     groupsToInspect.add(uuid);
   }
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
-      usage = "maximum number of groups to list")
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of groups to list"
+  )
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
-  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT",
-      usage = "number of groups to skip")
+  @Option(
+    name = "--start",
+    aliases = {"-S"},
+    metaVar = "CNT",
+    usage = "number of groups to skip"
+  )
   public void setStart(int start) {
     this.start = start;
   }
 
-  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH",
-      usage = "match group substring")
+  @Option(
+    name = "--match",
+    aliases = {"-m"},
+    metaVar = "MATCH",
+    usage = "match group substring"
+  )
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
   }
 
-  @Option(name = "--suggest", aliases = {"-s"},
-      usage = "to get a suggestion of groups")
+  @Option(
+    name = "--suggest",
+    aliases = {"-s"},
+    usage = "to get a suggestion of groups"
+  )
   public void setSuggest(String suggest) {
     this.suggest = suggest;
   }
@@ -160,7 +190,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  protected ListGroups(final GroupCache groupCache,
+  protected ListGroups(
+      final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
       final GroupControl.GenericFactory genericGroupControlFactory,
       final Provider<IdentifiedUser> identifiedUser,
@@ -195,9 +226,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       throws OrmException, BadRequestException {
     SortedMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
-      output.put(MoreObjects.firstNonNull(
-          info.name,
-          "Group " + Url.decode(info.id)), info);
+      output.put(MoreObjects.firstNonNull(info.name, "Group " + Url.decode(info.id)), info);
       info.name = null;
     }
     return output;
@@ -209,13 +238,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
 
     if (owned) {
-      return getGroupsOwnedBy(
-          user != null ? userFactory.create(user) : identifiedUser.get());
+      return getGroupsOwnedBy(user != null ? userFactory.create(user) : identifiedUser.get());
     }
 
     if (user != null) {
-      return accountGetGroups.apply(
-          new AccountResource(userFactory.create(user)));
+      return accountGetGroups.apply(new AccountResource(userFactory.create(user)));
     }
 
     return getAllGroups();
@@ -249,8 +276,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       if (limit > 0 && ++found > limit) {
         break;
       }
-      groupInfos.add(json.addOptions(options).format(
-          GroupDescriptions.forAccountGroup(group)));
+      groupInfos.add(json.addOptions(options).format(GroupDescriptions.forAccountGroup(group)));
     }
     return groupInfos;
   }
@@ -261,10 +287,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           "You should only have no more than one --project and -n with --suggest");
     }
 
-    List<GroupReference> groupRefs = Lists.newArrayList(Iterables.limit(
-        groupBackend.suggest(
-            suggest, Iterables.getFirst(projects, null)),
-        limit <= 0 ? 10 : Math.min(limit, 10)));
+    List<GroupReference> groupRefs =
+        Lists.newArrayList(
+            Iterables.limit(
+                groupBackend.suggest(suggest, Iterables.getFirst(projects, null)),
+                limit <= 0 ? 10 : Math.min(limit, 10)));
 
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());
     for (final GroupReference ref : groupRefs) {
@@ -304,16 +331,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return false;
   }
 
-  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
-      throws OrmException {
+  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) throws OrmException {
     List<GroupInfo> groups = new ArrayList<>();
     int found = 0;
     int foundIndex = 0;
     for (AccountGroup g : filterGroups(groupCache.all())) {
       GroupControl ctl = groupControlFactory.controlFor(g);
       try {
-        if (genericGroupControlFactory.controlFor(user, g.getGroupUUID())
-            .isOwner()) {
+        if (genericGroupControlFactory.controlFor(user, g.getGroupUUID()).isOwner()) {
           if (foundIndex++ < start) {
             continue;
           }
@@ -331,11 +356,12 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private List<AccountGroup> filterGroups(Collection<AccountGroup> groups) {
     List<AccountGroup> filteredGroups = new ArrayList<>(groups.size());
-    boolean isAdmin =
-        identifiedUser.get().getCapabilities().canAdministrateServer();
+    boolean isAdmin = identifiedUser.get().getCapabilities().canAdministrateServer();
     for (AccountGroup group : groups) {
       if (!Strings.isNullOrEmpty(matchSubstring)) {
-        if (!group.getName().toLowerCase(Locale.US)
+        if (!group
+            .getName()
+            .toLowerCase(Locale.US)
             .contains(matchSubstring.toLowerCase(Locale.US))) {
           continue;
         }
@@ -343,8 +369,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       if (visibleToAll && !group.isVisibleToAll()) {
         continue;
       }
-      if (!groupsToInspect.isEmpty()
-          && !groupsToInspect.contains(group.getGroupUUID())) {
+      if (!groupsToInspect.isEmpty() && !groupsToInspect.contains(group.getGroupUUID())) {
         continue;
       }
       if (!isAdmin) {

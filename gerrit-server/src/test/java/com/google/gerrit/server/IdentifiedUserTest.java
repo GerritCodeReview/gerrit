@@ -37,25 +37,21 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
-
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 @RunWith(ConfigSuite.class)
 public class IdentifiedUserTest {
-  @ConfigSuite.Parameter
-  public Config config;
+  @ConfigSuite.Parameter public Config config;
 
   private IdentifiedUser identifiedUser;
 
-  @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject private IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private static final String[] TEST_CASES = {
     "",
@@ -66,37 +62,42 @@ public class IdentifiedUserTest {
   @Before
   public void setUp() throws Exception {
     final FakeAccountCache accountCache = new FakeAccountCache();
-    final Realm mockRealm = new FakeRealm() {
-      HashSet<String> emails = new HashSet<>(Arrays.asList(TEST_CASES));
+    final Realm mockRealm =
+        new FakeRealm() {
+          HashSet<String> emails = new HashSet<>(Arrays.asList(TEST_CASES));
 
-      @Override
-      public boolean hasEmailAddress(IdentifiedUser who, String email) {
-        return emails.contains(email);
-      }
+          @Override
+          public boolean hasEmailAddress(IdentifiedUser who, String email) {
+            return emails.contains(email);
+          }
 
-      @Override
-      public Set<String> getEmailAddresses(IdentifiedUser who) {
-        return emails;
-      }
-    };
+          @Override
+          public Set<String> getEmailAddresses(IdentifiedUser who) {
+            return emails;
+          }
+        };
 
-    AbstractModule mod = new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
-          .toInstance(Boolean.FALSE);
-        bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
-        bind(String.class).annotatedWith(AnonymousCowardName.class)
-          .toProvider(AnonymousCowardNameProvider.class);
-        bind(String.class).annotatedWith(CanonicalWebUrl.class)
-          .toInstance("http://localhost:8080/");
-        bind(AccountCache.class).toInstance(accountCache);
-        bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
-        bind(CapabilityControl.Factory.class)
-          .toProvider(Providers.<CapabilityControl.Factory>of(null));
-        bind(Realm.class).toInstance(mockRealm);
-      }
-    };
+    AbstractModule mod =
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(Boolean.class)
+                .annotatedWith(DisableReverseDnsLookup.class)
+                .toInstance(Boolean.FALSE);
+            bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
+            bind(String.class)
+                .annotatedWith(AnonymousCowardName.class)
+                .toProvider(AnonymousCowardNameProvider.class);
+            bind(String.class)
+                .annotatedWith(CanonicalWebUrl.class)
+                .toInstance("http://localhost:8080/");
+            bind(AccountCache.class).toInstance(accountCache);
+            bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
+            bind(CapabilityControl.Factory.class)
+                .toProvider(Providers.<CapabilityControl.Factory>of(null));
+            bind(Realm.class).toInstance(mockRealm);
+          }
+        };
 
     Injector injector = Guice.createInjector(mod);
     injector.injectMembers(this);
@@ -121,7 +122,6 @@ public class IdentifiedUserTest {
 
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[2])).isTrue();
     assertThat(identifiedUser.hasEmailAddress(TEST_CASES[2].toLowerCase())).isTrue();
-
 
     assertThat(identifiedUser.hasEmailAddress("non-exist@email.com")).isFalse();
     /* assert again to test cached email address by IdentifiedUser.invalidEmails */

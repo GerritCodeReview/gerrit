@@ -21,6 +21,7 @@ import org.junit.Test;
 public class EventTypesTest {
   public static class TestEvent extends Event {
     private static final String TYPE = "test-event";
+
     public TestEvent() {
       super(TYPE);
     }
@@ -28,6 +29,7 @@ public class EventTypesTest {
 
   public static class AnotherTestEvent extends Event {
     private static final String TYPE = "another-test-event";
+
     public AnotherTestEvent() {
       super("another-test-event");
     }
@@ -38,8 +40,7 @@ public class EventTypesTest {
     EventTypes.register(TestEvent.TYPE, TestEvent.class);
     EventTypes.register(AnotherTestEvent.TYPE, AnotherTestEvent.class);
     assertThat(EventTypes.getClass(TestEvent.TYPE)).isEqualTo(TestEvent.class);
-    assertThat(EventTypes.getClass(AnotherTestEvent.TYPE))
-      .isEqualTo(AnotherTestEvent.class);
+    assertThat(EventTypes.getClass(AnotherTestEvent.TYPE)).isEqualTo(AnotherTestEvent.class);
   }
 
   @Test

@@ -20,14 +20,15 @@ import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
 import java.util.List;
 
-@CommandMetaData(name = "ls-projects", description = "List projects visible to the caller",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "ls-projects",
+  description = "List projects visible to the caller",
+  runsAt = MASTER_OR_SLAVE
+)
 final class ListProjectsCommand extends SshCommand {
-  @Inject
-  private ListProjects impl;
+  @Inject private ListProjects impl;
 
   @Override
   public void run() throws Exception {

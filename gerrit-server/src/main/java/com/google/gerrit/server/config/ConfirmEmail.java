@@ -29,14 +29,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
   public static class Input {
-    @DefaultInput
-    public String token;
+    @DefaultInput public String token;
   }
 
   private final Provider<CurrentUser> self;
@@ -44,7 +42,8 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
   private final AccountManager accountManager;
 
   @Inject
-  public ConfirmEmail(Provider<CurrentUser> self,
+  public ConfirmEmail(
+      Provider<CurrentUser> self,
       EmailTokenVerifier emailTokenVerifier,
       AccountManager accountManager) {
     this.self = self;
@@ -54,8 +53,8 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
 
   @Override
   public Response<?> apply(ConfigResource rsrc, Input input)
-      throws AuthException, UnprocessableEntityException, AccountException,
-      OrmException, IOException {
+      throws AuthException, UnprocessableEntityException, AccountException, OrmException,
+          IOException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");

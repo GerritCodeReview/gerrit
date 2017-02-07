@@ -25,20 +25,18 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
-
 import java.util.List;
 
 class FileComments extends Composite {
   interface Binder extends UiBinder<HTMLPanel, FileComments> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField InlineHyperlink path;
   @UiField FlowPanel comments;
 
-  FileComments(CommentLinkProcessor clp,
-      PatchSet.Id defaultPs,
-      String title,
-      List<CommentInfo> list) {
+  FileComments(
+      CommentLinkProcessor clp, PatchSet.Id defaultPs, String title, List<CommentInfo> list) {
     initWidget(uiBinder.createAndBindUi(this));
 
     path.setTargetHistoryToken(url(defaultPs, list.get(0)));

@@ -24,20 +24,17 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Implement NoteDb migration stages using {@code gerrit.config}.
- * <p>
- * This class controls the state of the migration according to options in
- * {@code gerrit.config}. In general, any changes to these options should only
- * be made by adventurous administrators, who know what they're doing, on
- * non-production data, for the purposes of testing the NoteDb implementation.
- * Changing options quite likely requires re-running {@code RebuildNoteDb}. For
+ *
+ * <p>This class controls the state of the migration according to options in {@code gerrit.config}.
+ * In general, any changes to these options should only be made by adventurous administrators, who
+ * know what they're doing, on non-production data, for the purposes of testing the NoteDb
+ * implementation. Changing options quite likely requires re-running {@code RebuildNoteDb}. For
  * these reasons, the options remain undocumented.
  */
 @Singleton
@@ -62,17 +59,16 @@ public class ConfigNotesMigration extends NotesMigration {
     for (NoteDbTable t : NoteDbTable.values()) {
       keys.add(t.key().toLowerCase());
     }
-    Set<String> allowed = ImmutableSet.of(
-        PRIMARY_STORAGE.toLowerCase(),
-        READ.toLowerCase(),
-        WRITE.toLowerCase(),
-        SEQUENCE.toLowerCase());
+    Set<String> allowed =
+        ImmutableSet.of(
+            PRIMARY_STORAGE.toLowerCase(),
+            READ.toLowerCase(),
+            WRITE.toLowerCase(),
+            SEQUENCE.toLowerCase());
     for (String t : cfg.getSubsections(NOTE_DB)) {
-      checkArgument(keys.contains(t.toLowerCase()),
-          "invalid NoteDb table: %s", t);
+      checkArgument(keys.contains(t.toLowerCase()), "invalid NoteDb table: %s", t);
       for (String key : cfg.getNames(NOTE_DB, t)) {
-        checkArgument(allowed.contains(key.toLowerCase()),
-            "invalid NoteDb key: %s.%s", t, key);
+        checkArgument(allowed.contains(key.toLowerCase()), "invalid NoteDb key: %s.%s", t, key);
       }
     }
   }
@@ -107,8 +103,8 @@ public class ConfigNotesMigration extends NotesMigration {
     // NoteDb. This decision for the default may be reevaluated later.
     readChangeSequence = cfg.getBoolean(NOTE_DB, CHANGES.key(), SEQUENCE, false);
 
-    changePrimaryStorage = cfg.getEnum(
-        NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
+    changePrimaryStorage =
+        cfg.getEnum(NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
 
     writeAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), WRITE, false);
     readAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), READ, false);

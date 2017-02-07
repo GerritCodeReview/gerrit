@@ -15,11 +15,9 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.common.collect.ComparisonChain;
-
 import java.util.Objects;
 
-public class AccountExternalIdInfo
-    implements Comparable<AccountExternalIdInfo> {
+public class AccountExternalIdInfo implements Comparable<AccountExternalIdInfo> {
   public String identity;
   public String emailAddress;
   public Boolean trusted;
@@ -35,7 +33,7 @@ public class AccountExternalIdInfo
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof  AccountExternalIdInfo) {
+    if (o instanceof AccountExternalIdInfo) {
       AccountExternalIdInfo a = (AccountExternalIdInfo) o;
       return (Objects.equals(a.identity, identity))
           && (Objects.equals(a.emailAddress, emailAddress))

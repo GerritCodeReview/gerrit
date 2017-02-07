@@ -100,10 +100,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -117,6 +113,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
@@ -139,7 +137,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final NotifyUtil notifyUtil;
 
   @Inject
-  PostReview(Provider<ReviewDb> db,
+  PostReview(
+      Provider<ReviewDb> db,
       BatchUpdate.Factory batchUpdateFactory,
       ChangesCollection changes,
       ChangeData.Factory changeDataFactory,
@@ -177,8 +176,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return apply(revision, input, TimeUtil.nowTs());
   }
 
-  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input,
-      Timestamp ts)
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
@@ -220,8 +218,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // Prevent notifications because setting reviewers is batched.
         reviewerInput.notify = NotifyHandling.NONE;
 
-        PostReviewers.Addition result = postReviewers.prepareApplication(
-            revision.getChangeResource(), reviewerInput, true);
+        PostReviewers.Addition result =
+            postReviewers.prepareApplication(revision.getChangeResource(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;
@@ -242,15 +240,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     output.labels = input.labels;
 
-    try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-          revision.getChange().getProject(), revision.getUser(), ts)) {
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
       Account.Id id = bu.getUser().getAccountId();
       boolean ccOrReviewer = input.labels != null && !input.labels.isEmpty();
 
       if (!ccOrReviewer) {
         // Check if user was already CCed or reviewing prior to this review.
-        ReviewerSet currentReviewers = approvalsUtil.getReviewers(
-            db.get(), revision.getChangeResource().getNotes());
+        ReviewerSet currentReviewers =
+            approvalsUtil.getReviewers(db.get(), revision.getChangeResource().getNotes());
         ccOrReviewer = currentReviewers.all().contains(id);
       }
 
@@ -281,29 +280,29 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // User posting this review isn't currently in the reviewer or CC list,
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
-        PostReviewers.Addition selfAddition =
-            postReviewers.ccCurrentUser(bu.getUser(), revision);
+        PostReviewers.Addition selfAddition = postReviewers.ccCurrentUser(bu.getUser(), revision);
         bu.addOp(revision.getChange().getId(), selfAddition.op);
       }
 
-      bu.addOp(revision.getChange().getId(),
-          new Op(revision.getPatchSet().getId(), input, accountsToNotify,
-              reviewerResults));
+      bu.addOp(
+          revision.getChange().getId(),
+          new Op(revision.getPatchSet().getId(), input, accountsToNotify, reviewerResults));
       bu.execute();
 
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
         reviewerResult.gatherResults();
       }
 
-      emailReviewers(revision.getChange(), reviewerResults, input.notify,
-          accountsToNotify);
+      emailReviewers(revision.getChange(), reviewerResults, input.notify, accountsToNotify);
     }
 
     return Response.ok(output);
   }
 
-  private void emailReviewers(Change change,
-      List<PostReviewers.Addition> reviewerAdditions, NotifyHandling notify,
+  private void emailReviewers(
+      Change change,
+      List<PostReviewers.Addition> reviewerAdditions,
+      NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
@@ -318,12 +317,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
-      throws BadRequestException, AuthException, UnprocessableEntityException,
-      OrmException {
+      throws BadRequestException, AuthException, UnprocessableEntityException, OrmException {
     if (in.labels == null || in.labels.isEmpty()) {
-      throw new AuthException(String.format(
-          "label required to post review on behalf of \"%s\"",
-          in.onBehalfOf));
+      throw new AuthException(
+          String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
     if (in.drafts == null) {
       in.drafts = DraftHandling.KEEP;
@@ -332,15 +329,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       throw new AuthException("not allowed to modify other user's drafts");
     }
 
-
     ChangeControl caller = rev.getControl();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
       LabelType type = caller.getLabelTypes().byLabel(ent.getKey());
       if (type == null && in.strictLabels) {
-        throw new BadRequestException(String.format(
-            "label \"%s\" is not a configured label", ent.getKey()));
+        throw new BadRequestException(
+            String.format("label \"%s\" is not a configured label", ent.getKey()));
       } else if (type == null) {
         itr.remove();
         continue;
@@ -352,40 +348,40 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       PermissionRange r = caller.getRange(Permission.forLabelAs(type.getName()));
       if (r == null || r.isEmpty() || !r.contains(ent.getValue())) {
-        throw new AuthException(String.format(
-            "not permitted to modify label \"%s\" on behalf of \"%s\"",
-            ent.getKey(), in.onBehalfOf));
+        throw new AuthException(
+            String.format(
+                "not permitted to modify label \"%s\" on behalf of \"%s\"",
+                ent.getKey(), in.onBehalfOf));
       }
     }
     if (in.labels.isEmpty()) {
-      throw new AuthException(String.format(
-          "label required to post review on behalf of \"%s\"",
-          in.onBehalfOf));
+      throw new AuthException(
+          String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
-    ChangeControl target = caller.forUser(
-        accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
+    ChangeControl target =
+        caller.forUser(accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
     if (!target.getRefControl().isVisible()) {
-      throw new UnprocessableEntityException(String.format(
-          "on_behalf_of account %s cannot see destination ref",
-          target.getUser().getAccountId()));
+      throw new UnprocessableEntityException(
+          String.format(
+              "on_behalf_of account %s cannot see destination ref",
+              target.getUser().getAccountId()));
     }
     return new RevisionResource(changes.parse(target), rev.getPatchSet());
   }
 
-  private void checkLabels(RevisionResource revision, boolean strict,
-      Map<String, Short> labels) throws BadRequestException, AuthException {
+  private void checkLabels(RevisionResource revision, boolean strict, Map<String, Short> labels)
+      throws BadRequestException, AuthException {
     ChangeControl ctl = revision.getControl();
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
 
-      LabelType lt = revision.getControl().getLabelTypes()
-          .byLabel(ent.getKey());
+      LabelType lt = revision.getControl().getLabelTypes().byLabel(ent.getKey());
       if (lt == null) {
         if (strict) {
-          throw new BadRequestException(String.format(
-              "label \"%s\" is not a configured label", ent.getKey()));
+          throw new BadRequestException(
+              String.format("label \"%s\" is not a configured label", ent.getKey()));
         }
         itr.remove();
         continue;
@@ -399,9 +395,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       if (lt.getValue(ent.getValue()) == null) {
         if (strict) {
-          throw new BadRequestException(String.format(
-              "label \"%s\": %d is not a valid value",
-              ent.getKey(), ent.getValue()));
+          throw new BadRequestException(
+              String.format("label \"%s\": %d is not a valid value", ent.getKey(), ent.getValue()));
         }
         itr.remove();
         continue;
@@ -411,9 +406,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PermissionRange range = ctl.getRange(Permission.forLabel(name));
       if (range == null || !range.contains(ent.getValue())) {
         if (strict) {
-          throw new AuthException(String.format(
-              "Applying label \"%s\": %d is restricted",
-              ent.getKey(), ent.getValue()));
+          throw new AuthException(
+              String.format(
+                  "Applying label \"%s\": %d is restricted", ent.getKey(), ent.getValue()));
         } else if (range == null || range.isEmpty()) {
           ent.setValue((short) 0);
         } else {
@@ -423,15 +418,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private <T extends CommentInput> void checkComments(RevisionResource revision,
-      Map<String, List<T>> commentsPerPath)
+  private <T extends CommentInput> void checkComments(
+      RevisionResource revision, Map<String, List<T>> commentsPerPath)
       throws BadRequestException, OrmException {
     cleanUpComments(commentsPerPath);
     ensureCommentsAreAddable(revision, commentsPerPath);
   }
 
-  private <T extends CommentInput> void cleanUpComments(
-      Map<String, List<T>> commentsPerPath) {
+  private <T extends CommentInput> void cleanUpComments(Map<String, List<T>> commentsPerPath) {
     Iterator<List<T>> mapValueIterator = commentsPerPath.values().iterator();
     while (mapValueIterator.hasNext()) {
       List<T> comments = mapValueIterator.next();
@@ -471,8 +465,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
       PatchSet.Id patchSetId = revision.getChange().currentPatchSetId();
-      ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths,
-          patchSetId);
+      ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
 
       List<T> comments = entry.getValue();
       for (T comment : comments) {
@@ -482,42 +475,37 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private Set<String> getAffectedFilePaths(RevisionResource revision)
-      throws OrmException {
-    ChangeData changeData = changeDataFactory.create(db.get(),
-        revision.getControl());
+  private Set<String> getAffectedFilePaths(RevisionResource revision) throws OrmException {
+    ChangeData changeData = changeDataFactory.create(db.get(), revision.getControl());
     return new HashSet<>(changeData.filePaths(revision.getPatchSet()));
   }
 
-  private void ensurePathRefersToAvailableOrMagicFile(String path,
-      Set<String> availableFilePaths, PatchSet.Id patchSetId)
+  private void ensurePathRefersToAvailableOrMagicFile(
+      String path, Set<String> availableFilePaths, PatchSet.Id patchSetId)
       throws BadRequestException {
     if (!availableFilePaths.contains(path) && !Patch.isMagic(path)) {
-      throw new BadRequestException(String.format(
-          "file %s not found in revision %s", path, patchSetId));
+      throw new BadRequestException(
+          String.format("file %s not found in revision %s", path, patchSetId));
     }
   }
 
-  private void ensureLineIsNonNegative(Integer line, String path)
-      throws BadRequestException {
+  private void ensureLineIsNonNegative(Integer line, String path) throws BadRequestException {
     if (line != null && line < 0) {
-      throw new BadRequestException(String.format(
-          "negative line number %d not allowed on %s", line, path));
+      throw new BadRequestException(
+          String.format("negative line number %d not allowed on %s", line, path));
     }
   }
 
   private <T extends CommentInput> void ensureCommentNotOnMagicFilesOfAutoMerge(
       String path, T comment) throws BadRequestException {
-    if (Patch.isMagic(path) && comment.side == Side.PARENT
-        && comment.parent == null) {
-      throw new BadRequestException(
-          String.format("cannot comment on %s on auto-merge", path));
+    if (Patch.isMagic(path) && comment.side == Side.PARENT && comment.parent == null) {
+      throw new BadRequestException(String.format("cannot comment on %s on auto-merge", path));
     }
   }
 
-  private void checkRobotComments(RevisionResource revision,
-      Map<String, List<RobotCommentInput>> in)
-          throws BadRequestException, OrmException {
+  private void checkRobotComments(
+      RevisionResource revision, Map<String, List<RobotCommentInput>> in)
+      throws BadRequestException, OrmException {
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();
       for (RobotCommentInput c : e.getValue()) {
@@ -529,130 +517,146 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     checkComments(revision, in);
   }
 
-  private void ensureRobotIdIsSet(String robotId, String commentPath)
-      throws BadRequestException {
+  private void ensureRobotIdIsSet(String robotId, String commentPath) throws BadRequestException {
     if (robotId == null) {
-      throw new BadRequestException(String
-          .format("robotId is missing for robot comment on %s", commentPath));
+      throw new BadRequestException(
+          String.format("robotId is missing for robot comment on %s", commentPath));
     }
   }
 
   private void ensureRobotRunIdIsSet(String robotRunId, String commentPath)
       throws BadRequestException {
     if (robotRunId == null) {
-      throw new BadRequestException(String
-          .format("robotRunId is missing for robot comment on %s",
-              commentPath));
+      throw new BadRequestException(
+          String.format("robotRunId is missing for robot comment on %s", commentPath));
     }
   }
 
   private void ensureFixSuggestionsAreAddable(
-      List<FixSuggestionInfo> fixSuggestionInfos, String commentPath)
-      throws BadRequestException {
+      List<FixSuggestionInfo> fixSuggestionInfos, String commentPath) throws BadRequestException {
     if (fixSuggestionInfos == null) {
       return;
     }
 
     for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
       ensureDescriptionIsSet(commentPath, fixSuggestionInfo.description);
-      ensureFixReplacementsAreAddable(commentPath,
-          fixSuggestionInfo.replacements);
+      ensureFixReplacementsAreAddable(commentPath, fixSuggestionInfo.replacements);
     }
   }
 
   private void ensureDescriptionIsSet(String commentPath, String description)
       throws BadRequestException {
     if (description == null) {
-      throw new BadRequestException(String.format("A description is required "
-          + "for the suggested fix of the robot comment on %s", commentPath));
+      throw new BadRequestException(
+          String.format(
+              "A description is required " + "for the suggested fix of the robot comment on %s",
+              commentPath));
     }
   }
 
-  private void ensureFixReplacementsAreAddable(String commentPath,
-      List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
+  private void ensureFixReplacementsAreAddable(
+      String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     ensureReplacementsArePresent(commentPath, fixReplacementInfos);
 
     for (FixReplacementInfo fixReplacementInfo : fixReplacementInfos) {
       ensureReplacementPathIsSet(commentPath, fixReplacementInfo.path);
-      ensureReplacementPathRefersToFileOfComment(commentPath,
-          fixReplacementInfo.path);
+      ensureReplacementPathRefersToFileOfComment(commentPath, fixReplacementInfo.path);
       ensureRangeIsSet(commentPath, fixReplacementInfo.range);
       ensureRangeIsValid(commentPath, fixReplacementInfo.range);
       ensureReplacementStringIsSet(commentPath, fixReplacementInfo.replacement);
     }
   }
 
-  private void ensureReplacementsArePresent(String commentPath,
-      List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
+  private void ensureReplacementsArePresent(
+      String commentPath, List<FixReplacementInfo> fixReplacementInfos) throws BadRequestException {
     if (fixReplacementInfos == null || fixReplacementInfos.isEmpty()) {
-      throw new BadRequestException(String.format("At least one replacement is "
-          + "required for the suggested fix of the robot comment on %s",
-          commentPath));
+      throw new BadRequestException(
+          String.format(
+              "At least one replacement is "
+                  + "required for the suggested fix of the robot comment on %s",
+              commentPath));
     }
   }
 
-  private void ensureReplacementPathIsSet(String commentPath,
-      String replacementPath) throws BadRequestException {
+  private void ensureReplacementPathIsSet(String commentPath, String replacementPath)
+      throws BadRequestException {
     if (replacementPath == null) {
-      throw new BadRequestException(String.format("A file path must be given "
-          + "for the replacement of the robot comment on %s", commentPath));
+      throw new BadRequestException(
+          String.format(
+              "A file path must be given " + "for the replacement of the robot comment on %s",
+              commentPath));
     }
   }
 
-  private void ensureReplacementPathRefersToFileOfComment(String commentPath,
-      String replacementPath) throws BadRequestException {
+  private void ensureReplacementPathRefersToFileOfComment(
+      String commentPath, String replacementPath) throws BadRequestException {
     if (!Objects.equals(commentPath, replacementPath)) {
-      throw new BadRequestException(String.format("Replacements may only be "
-          + "specified for the file %s on which the robot comment was added",
-          commentPath));
+      throw new BadRequestException(
+          String.format(
+              "Replacements may only be "
+                  + "specified for the file %s on which the robot comment was added",
+              commentPath));
     }
   }
 
-  private void ensureRangeIsSet(String commentPath,
-      com.google.gerrit.extensions.client.Comment.Range range)
+  private void ensureRangeIsSet(
+      String commentPath, com.google.gerrit.extensions.client.Comment.Range range)
       throws BadRequestException {
     if (range == null) {
-      throw new BadRequestException(String.format("A range must be given "
-          + "for the replacement of the robot comment on %s", commentPath));
+      throw new BadRequestException(
+          String.format(
+              "A range must be given " + "for the replacement of the robot comment on %s",
+              commentPath));
     }
   }
 
-  private void ensureRangeIsValid(String commentPath,
-      com.google.gerrit.extensions.client.Comment.Range range)
+  private void ensureRangeIsValid(
+      String commentPath, com.google.gerrit.extensions.client.Comment.Range range)
       throws BadRequestException {
     if (range == null) {
       return;
     }
     if (!range.isValid()) {
-      throw new BadRequestException(String.format("Range (%s:%s - %s:%s) is not"
-          + " valid for the replacement of the robot comment on %s",
-          range.startLine, range.startCharacter, range.endLine,
-          range.endCharacter, commentPath));
+      throw new BadRequestException(
+          String.format(
+              "Range (%s:%s - %s:%s) is not"
+                  + " valid for the replacement of the robot comment on %s",
+              range.startLine,
+              range.startCharacter,
+              range.endLine,
+              range.endCharacter,
+              commentPath));
     }
   }
 
-  private void ensureReplacementStringIsSet(String commentPath,
-      String replacement) throws BadRequestException {
+  private void ensureReplacementStringIsSet(String commentPath, String replacement)
+      throws BadRequestException {
     if (replacement == null) {
-      throw new BadRequestException(String.format("A content for replacement "
-          + "must be indicated for the replacement of the robot comment on %s",
-          commentPath));
+      throw new BadRequestException(
+          String.format(
+              "A content for replacement "
+                  + "must be indicated for the replacement of the robot comment on %s",
+              commentPath));
     }
   }
 
-  /**
-   * Used to compare Comments with CommentInput comments.
-   */
+  /** Used to compare Comments with CommentInput comments. */
   @AutoValue
   abstract static class CommentSetEntry {
-    private static CommentSetEntry create(String filename, int patchSetId,
-        Integer line, Side side, HashCode message, Comment.Range range) {
-      return new AutoValue_PostReview_CommentSetEntry(filename, patchSetId,
-          line, side, message, range);
+    private static CommentSetEntry create(
+        String filename,
+        int patchSetId,
+        Integer line,
+        Side side,
+        HashCode message,
+        Comment.Range range) {
+      return new AutoValue_PostReview_CommentSetEntry(
+          filename, patchSetId, line, side, message, range);
     }
 
     public static CommentSetEntry create(Comment comment) {
-      return create(comment.key.filename,
+      return create(
+          comment.key.filename,
           comment.key.patchSetId,
           comment.lineNbr,
           Side.fromShort(comment.side),
@@ -661,11 +665,18 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     abstract String filename();
+
     abstract int patchSetId();
-    @Nullable abstract Integer line();
+
+    @Nullable
+    abstract Integer line();
+
     abstract Side side();
+
     abstract HashCode message();
-    @Nullable abstract Comment.Range range();
+
+    @Nullable
+    abstract Comment.Range range();
   }
 
   private class Op extends BatchUpdate.Op {
@@ -683,7 +694,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private Map<String, Short> approvals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(PatchSet.Id psId, ReviewInput in,
+    private Op(
+        PatchSet.Id psId,
+        ReviewInput in,
         ListMultimap<RecipientType, Account.Id> accountsToNotify,
         List<PostReviewers.Addition> reviewerResults) {
       this.psId = psId;
@@ -694,8 +707,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException,
-        UnprocessableEntityException {
+        throws OrmException, ResourceConflictException, UnprocessableEntityException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
@@ -712,22 +724,28 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (message == null) {
         return;
       }
-      if (in.notify.compareTo(NotifyHandling.NONE) > 0
-          || !accountsToNotify.isEmpty()) {
-        email.create(
-            in.notify,
-            accountsToNotify,
-            notes,
-            ps,
-            user,
-            message,
-            comments,
-            in.message,
-            labelDelta).sendAsync();
+      if (in.notify.compareTo(NotifyHandling.NONE) > 0 || !accountsToNotify.isEmpty()) {
+        email
+            .create(
+                in.notify,
+                accountsToNotify,
+                notes,
+                ps,
+                user,
+                message,
+                comments,
+                in.message,
+                labelDelta)
+            .sendAsync();
       }
       commentAdded.fire(
-          notes.getChange(), ps, user.getAccount(), message.getMessage(),
-          approvals, oldApprovals, ctx.getWhen());
+          notes.getChange(),
+          ps,
+          user.getAccount(),
+          message.getMessage(),
+          approvals,
+          oldApprovals,
+          ctx.getWhen());
     }
 
     private boolean insertComments(ChangeContext ctx)
@@ -749,9 +767,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<Comment> toDel = new ArrayList<>();
       List<Comment> toPublish = new ArrayList<>();
 
-      Set<CommentSetEntry> existingIds = in.omitDuplicateComments
-          ? readExistingComments(ctx)
-          : Collections.emptySet();
+      Set<CommentSetEntry> existingIds =
+          in.omitDuplicateComments ? readExistingComments(ctx) : Collections.emptySet();
 
       for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
         String path = ent.getKey();
@@ -759,8 +776,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String parent = Url.decode(c.inReplyTo);
           Comment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
-            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message,
-                c.unresolved, parent);
+            e = commentsUtil.newComment(ctx, path, psId, c.side(), c.message, c.unresolved, parent);
           } else {
             e.writtenOn = ctx.getWhen();
             e.side = c.side();
@@ -812,16 +828,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !newRobotComments.isEmpty();
     }
 
-    private List<RobotComment> getNewRobotComments(ChangeContext ctx)
-        throws OrmException {
+    private List<RobotComment> getNewRobotComments(ChangeContext ctx) throws OrmException {
       List<RobotComment> toAdd = new ArrayList<>(in.robotComments.size());
 
-      Set<CommentSetEntry> existingIds = in.omitDuplicateComments
-          ? readExistingRobotComments(ctx)
-          : Collections.emptySet();
+      Set<CommentSetEntry> existingIds =
+          in.omitDuplicateComments ? readExistingRobotComments(ctx) : Collections.emptySet();
 
-      for (Map.Entry<String, List<RobotCommentInput>> ent :
-          in.robotComments.entrySet()) {
+      for (Map.Entry<String, List<RobotCommentInput>> ent : in.robotComments.entrySet()) {
         String path = ent.getKey();
         for (RobotCommentInput c : ent.getValue()) {
           RobotComment e = createRobotCommentFromInput(ctx, path, c);
@@ -834,20 +847,24 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return toAdd;
     }
 
-    private RobotComment createRobotCommentFromInput(ChangeContext ctx,
-        String path, RobotCommentInput robotCommentInput) throws OrmException {
-      RobotComment robotComment = commentsUtil.newRobotComment(
-          ctx, path, psId, robotCommentInput.side(), robotCommentInput.message,
-          robotCommentInput.robotId, robotCommentInput.robotRunId);
+    private RobotComment createRobotCommentFromInput(
+        ChangeContext ctx, String path, RobotCommentInput robotCommentInput) throws OrmException {
+      RobotComment robotComment =
+          commentsUtil.newRobotComment(
+              ctx,
+              path,
+              psId,
+              robotCommentInput.side(),
+              robotCommentInput.message,
+              robotCommentInput.robotId,
+              robotCommentInput.robotRunId);
       robotComment.parentUuid = Url.decode(robotCommentInput.inReplyTo);
       robotComment.url = robotCommentInput.url;
       robotComment.properties = robotCommentInput.properties;
-      robotComment.setLineNbrAndRange(robotCommentInput.line,
-          robotCommentInput.range);
+      robotComment.setLineNbrAndRange(robotCommentInput.line, robotCommentInput.range);
       robotComment.tag = in.tag;
       setCommentRevId(robotComment, patchListCache, ctx.getChange(), ps);
-      robotComment.fixSuggestions =
-          createFixSuggestionsFromInput(robotCommentInput.fixSuggestions);
+      robotComment.fixSuggestions = createFixSuggestionsFromInput(robotCommentInput.fixSuggestions);
       return robotComment;
     }
 
@@ -857,72 +874,65 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return Collections.emptyList();
       }
 
-      List<FixSuggestion> fixSuggestions =
-          new ArrayList<>(fixSuggestionInfos.size());
+      List<FixSuggestion> fixSuggestions = new ArrayList<>(fixSuggestionInfos.size());
       for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
         fixSuggestions.add(createFixSuggestionFromInput(fixSuggestionInfo));
       }
       return fixSuggestions;
     }
 
-    private FixSuggestion createFixSuggestionFromInput(
-        FixSuggestionInfo fixSuggestionInfo) {
-      List<FixReplacement> fixReplacements =
-          toFixReplacements(fixSuggestionInfo.replacements);
+    private FixSuggestion createFixSuggestionFromInput(FixSuggestionInfo fixSuggestionInfo) {
+      List<FixReplacement> fixReplacements = toFixReplacements(fixSuggestionInfo.replacements);
       String fixId = ChangeUtil.messageUuid();
-      return new FixSuggestion(fixId, fixSuggestionInfo.description,
-          fixReplacements);
+      return new FixSuggestion(fixId, fixSuggestionInfo.description, fixReplacements);
     }
 
-    private List<FixReplacement> toFixReplacements(
-        List<FixReplacementInfo> fixReplacementInfos) {
-      return fixReplacementInfos.stream()
-          .map(this::toFixReplacement)
-          .collect(Collectors.toList());
+    private List<FixReplacement> toFixReplacements(List<FixReplacementInfo> fixReplacementInfos) {
+      return fixReplacementInfos.stream().map(this::toFixReplacement).collect(Collectors.toList());
     }
 
-    private FixReplacement toFixReplacement(
-        FixReplacementInfo fixReplacementInfo) {
+    private FixReplacement toFixReplacement(FixReplacementInfo fixReplacementInfo) {
       Comment.Range range = new Comment.Range(fixReplacementInfo.range);
-      return new FixReplacement(fixReplacementInfo.path, range,
-          fixReplacementInfo.replacement);
+      return new FixReplacement(fixReplacementInfo.path, range, fixReplacementInfo.replacement);
     }
 
-    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)
-        throws OrmException {
-      return commentsUtil.publishedByChange(ctx.getDb(), ctx.getNotes())
-          .stream().map(CommentSetEntry::create).collect(toSet());
+    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) throws OrmException {
+      return commentsUtil
+          .publishedByChange(ctx.getDb(), ctx.getNotes())
+          .stream()
+          .map(CommentSetEntry::create)
+          .collect(toSet());
     }
 
-    private Set<CommentSetEntry> readExistingRobotComments(ChangeContext ctx)
-        throws OrmException {
-      return commentsUtil.robotCommentsByChange(ctx.getNotes())
-          .stream().map(CommentSetEntry::create).collect(toSet());
+    private Set<CommentSetEntry> readExistingRobotComments(ChangeContext ctx) throws OrmException {
+      return commentsUtil
+          .robotCommentsByChange(ctx.getNotes())
+          .stream()
+          .map(CommentSetEntry::create)
+          .collect(toSet());
     }
 
-    private Map<String, Comment> changeDrafts(ChangeContext ctx)
-        throws OrmException {
+    private Map<String, Comment> changeDrafts(ChangeContext ctx) throws OrmException {
       Map<String, Comment> drafts = new HashMap<>();
-      for (Comment c : commentsUtil.draftByChangeAuthor(
-          ctx.getDb(), ctx.getNotes(), user.getAccountId())) {
+      for (Comment c :
+          commentsUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), user.getAccountId())) {
         c.tag = in.tag;
         drafts.put(c.key.uuid, c);
       }
       return drafts;
     }
 
-    private Map<String, Comment> patchSetDrafts(ChangeContext ctx)
-        throws OrmException {
+    private Map<String, Comment> patchSetDrafts(ChangeContext ctx) throws OrmException {
       Map<String, Comment> drafts = new HashMap<>();
-      for (Comment c : commentsUtil.draftByPatchSetAuthor(ctx.getDb(),
-          psId, user.getAccountId(), ctx.getNotes())) {
+      for (Comment c :
+          commentsUtil.draftByPatchSetAuthor(
+              ctx.getDb(), psId, user.getAccountId(), ctx.getNotes())) {
         drafts.put(c.key.uuid, c);
       }
       return drafts;
     }
 
-    private Map<String, Short> approvalsByKey(
-        Collection<PatchSetApproval> patchsetApprovals) {
+    private Map<String, Short> approvalsByKey(Collection<PatchSetApproval> patchsetApprovals) {
       Map<String, Short> labels = new HashMap<>();
       for (PatchSetApproval psa : patchsetApprovals) {
         labels.put(psa.getLabel(), psa.getValue());
@@ -930,8 +940,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return labels;
     }
 
-    private Comment publishComment(ChangeContext ctx,
-        Comment c, PatchSet ps) throws OrmException {
+    private Comment publishComment(ChangeContext ctx, Comment c, PatchSet ps) throws OrmException {
       c.writtenOn = ctx.getWhen();
       c.tag = in.tag;
       // Draft may have been created by a different real user; copy the current
@@ -942,9 +951,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return c;
     }
 
-    private void publishAllRevisions(ChangeContext ctx,
-        Map<String, Comment> drafts, List<Comment> ups)
-        throws OrmException {
+    private void publishAllRevisions(
+        ChangeContext ctx, Map<String, Comment> drafts, List<Comment> ups) throws OrmException {
       boolean needOtherPatchSets = false;
       for (Comment c : drafts.values()) {
         if (c.key.patchSetId != psId.get()) {
@@ -952,17 +960,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           break;
         }
       }
-      Map<PatchSet.Id, PatchSet> patchSets = needOtherPatchSets
-          ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
-          : ImmutableMap.of(psId, ps);
+      Map<PatchSet.Id, PatchSet> patchSets =
+          needOtherPatchSets
+              ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
+              : ImmutableMap.of(psId, ps);
       for (Comment e : drafts.values()) {
-        ups.add(publishComment(ctx, e, patchSets
-            .get(new PatchSet.Id(ctx.getChange().getId(), e.key.patchSetId))));
+        ups.add(
+            publishComment(
+                ctx, e, patchSets.get(new PatchSet.Id(ctx.getChange().getId(), e.key.patchSetId))));
       }
     }
 
-    private Map<String, Short> getAllApprovals(LabelTypes labelTypes,
-        Map<String, Short> current, Map<String, Short> input) {
+    private Map<String, Short> getAllApprovals(
+        LabelTypes labelTypes, Map<String, Short> current, Map<String, Short> input) {
       Map<String, Short> allApprovals = new HashMap<>();
       for (LabelType lt : labelTypes.getLabelTypes()) {
         allApprovals.put(lt.getName(), (short) 0);
@@ -1014,10 +1024,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return false;
     }
 
-    private boolean updateLabels(ChangeContext ctx)
-        throws OrmException, ResourceConflictException {
-      Map<String, Short> inLabels = MoreObjects.firstNonNull(in.labels,
-          Collections.<String, Short> emptyMap());
+    private boolean updateLabels(ChangeContext ctx) throws OrmException, ResourceConflictException {
+      Map<String, Short> inLabels =
+          MoreObjects.firstNonNull(in.labels, Collections.<String, Short>emptyMap());
 
       // If no labels were modified and change is closed, abort early.
       // This avoids trying to record a modified label caused by a user
@@ -1030,10 +1039,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchSetApproval> ups = new ArrayList<>();
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
-      Map<String, Short> allApprovals = getAllApprovals(labelTypes,
-          approvalsByKey(current.values()), inLabels);
-      Map<String, Short> previous = getPreviousApprovals(allApprovals,
-          approvalsByKey(current.values()));
+      Map<String, Short> allApprovals =
+          getAllApprovals(labelTypes, approvalsByKey(current.values()), inLabels);
+      Map<String, Short> previous =
+          getPreviousApprovals(allApprovals, approvalsByKey(current.values()));
 
       ChangeUpdate update = ctx.getUpdate(psId);
       for (Map.Entry<String, Short> ent : allApprovals.entrySet()) {
@@ -1069,8 +1078,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           oldApprovals.put(normName, null);
           approvals.put(normName, c.getValue());
         } else if (c == null) {
-          c = ApprovalsUtil.newApproval(
-              psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen());
+          c = ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
@@ -1086,8 +1094,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // Return early if user is not a reviewer and not posting any labels.
       // This allows us to preserve their CC status.
-      if (current.isEmpty() && del.isEmpty() && ups.isEmpty() &&
-          !isReviewer(ctx)) {
+      if (current.isEmpty() && del.isEmpty() && ups.isEmpty() && !isReviewer(ctx)) {
         return false;
       }
 
@@ -1097,9 +1104,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !del.isEmpty() || !ups.isEmpty();
     }
 
-    private void validatePostSubmitLabels(ChangeContext ctx,
-        LabelTypes labelTypes, Map<String, Short> previous,
-        List<PatchSetApproval> ups, List<PatchSetApproval> del)
+    private void validatePostSubmitLabels(
+        ChangeContext ctx,
+        LabelTypes labelTypes,
+        Map<String, Short> previous,
+        List<PatchSetApproval> ups,
+        List<PatchSetApproval> del)
         throws ResourceConflictException {
       if (ctx.getChange().getStatus().isOpen()) {
         return; // Not closed, nothing to validate.
@@ -1114,8 +1124,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // make it possible to take a merged change and make it no longer
       // submittable.
       List<PatchSetApproval> reduced = new ArrayList<>(ups.size() + del.size());
-      List<String> disallowed =
-          new ArrayList<>(labelTypes.getLabelTypes().size());
+      List<String> disallowed = new ArrayList<>(labelTypes.getLabelTypes().size());
 
       for (PatchSetApproval psa : del) {
         LabelType lt = checkNotNull(labelTypes.byLabel(psa.getLabel()));
@@ -1152,29 +1161,32 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (!disallowed.isEmpty()) {
         throw new ResourceConflictException(
             "Voting on labels disallowed after submit: "
-                + disallowed.stream().distinct().sorted()
-                    .collect(joining(", ")));
+                + disallowed.stream().distinct().sorted().collect(joining(", ")));
       }
       if (!reduced.isEmpty()) {
         throw new ResourceConflictException(
             "Cannot reduce vote on labels for closed change: "
-                + reduced.stream().map(p -> p.getLabel()).distinct().sorted()
+                + reduced
+                    .stream()
+                    .map(p -> p.getLabel())
+                    .distinct()
+                    .sorted()
                     .collect(joining(", ")));
       }
     }
 
-    private void forceCallerAsReviewer(ChangeContext ctx,
-        Map<String, PatchSetApproval> current, List<PatchSetApproval> ups,
+    private void forceCallerAsReviewer(
+        ChangeContext ctx,
+        Map<String, PatchSetApproval> current,
+        List<PatchSetApproval> ups,
         List<PatchSetApproval> del) {
       if (current.isEmpty() && ups.isEmpty()) {
         // TODO Find another way to link reviewers to changes.
         if (del.isEmpty()) {
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
-          LabelId labelId = ctx.getControl().getLabelTypes().getLabelTypes()
-              .get(0).getLabelId();
-          PatchSetApproval c = ApprovalsUtil.newApproval(
-              psId, user, labelId, 0, ctx.getWhen());
+          LabelId labelId = ctx.getControl().getLabelTypes().getLabelTypes().get(0).getLabelId();
+          PatchSetApproval c = ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
@@ -1188,17 +1200,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ups.add(c);
         }
       }
-      ctx.getUpdate(ctx.getChange().currentPatchSetId())
-          .putReviewer(user.getAccountId(), REVIEWER);
+      ctx.getUpdate(ctx.getChange().currentPatchSetId()).putReviewer(user.getAccountId(), REVIEWER);
     }
 
-    private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx,
-        List<PatchSetApproval> del) throws OrmException {
+    private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, List<PatchSetApproval> del)
+        throws OrmException {
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       Map<String, PatchSetApproval> current = new HashMap<>();
 
-      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-          ctx.getDb(), ctx.getControl(), psId, user.getAccountId())) {
+      for (PatchSetApproval a :
+          approvalsUtil.byPatchSetUser(ctx.getDb(), ctx.getControl(), psId, user.getAccountId())) {
         if (a.isLegacySubmit()) {
           continue;
         }
@@ -1213,8 +1224,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return current;
     }
 
-    private boolean insertMessage(ChangeContext ctx)
-        throws OrmException {
+    private boolean insertMessage(ChangeContext ctx) throws OrmException {
       String msg = Strings.nullToEmpty(in.message).trim();
 
       StringBuilder buf = new StringBuilder();
@@ -1233,9 +1243,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return false;
       }
 
-      message = ChangeMessagesUtil.newMessage(
-          psId, user, ctx.getWhen(),
-          "Patch Set " + psId.get() + ":" + buf, in.tag);
+      message =
+          ChangeMessagesUtil.newMessage(
+              psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, in.tag);
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), message);
       return true;
     }

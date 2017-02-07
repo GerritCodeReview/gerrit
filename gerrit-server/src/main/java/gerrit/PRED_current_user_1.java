@@ -19,7 +19,6 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
-
 import com.googlecode.prolog_cafe.exceptions.EvaluationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -47,8 +46,7 @@ public class PRED_current_user_1 extends Predicate.P1 {
 
     CurrentUser curUser = StoredValues.CURRENT_USER.getOrNull(engine);
     if (curUser == null) {
-      throw new EvaluationException(
-          "Current user not available in this rule type");
+      throw new EvaluationException("Current user not available in this rule type");
     }
     Term resultTerm;
 

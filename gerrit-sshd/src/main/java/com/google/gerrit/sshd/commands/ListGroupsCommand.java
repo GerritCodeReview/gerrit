@@ -35,16 +35,16 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.io.PrintWriter;
 import org.kohsuke.args4j.Option;
 
-import java.io.PrintWriter;
-
-@CommandMetaData(name = "ls-groups", description = "List groups visible to the caller",
-  runsAt = MASTER_OR_SLAVE)
+@CommandMetaData(
+  name = "ls-groups",
+  description = "List groups visible to the caller",
+  runsAt = MASTER_OR_SLAVE
+)
 public class ListGroupsCommand extends SshCommand {
-  @Inject
-  private MyListGroups impl;
+  @Inject private MyListGroups impl;
 
   @Override
   public void run() throws Exception {
@@ -59,15 +59,20 @@ public class ListGroupsCommand extends SshCommand {
     parseCommandLine(impl);
   }
 
-    private static class MyListGroups extends ListGroups {
-    @Option(name = "--verbose", aliases = {"-v"},
-        usage = "verbose output format with tab-separated columns for the " +
-            "group name, UUID, description, owner group name, " +
-            "owner group UUID, and whether the group is visible to all")
+  private static class MyListGroups extends ListGroups {
+    @Option(
+      name = "--verbose",
+      aliases = {"-v"},
+      usage =
+          "verbose output format with tab-separated columns for the "
+              + "group name, UUID, description, owner group name, "
+              + "owner group UUID, and whether the group is visible to all"
+    )
     private boolean verboseOutput;
 
     @Inject
-    MyListGroups(final GroupCache groupCache,
+    MyListGroups(
+        final GroupCache groupCache,
         final GroupControl.Factory groupControlFactory,
         final GroupControl.GenericFactory genericGroupControlFactory,
         final Provider<IdentifiedUser> identifiedUser,
@@ -75,8 +80,15 @@ public class ListGroupsCommand extends SshCommand {
         final GetGroups accountGetGroups,
         final GroupJson json,
         GroupBackend groupBackend) {
-      super(groupCache, groupControlFactory, genericGroupControlFactory,
-          identifiedUser, userFactory, accountGetGroups, json, groupBackend);
+      super(
+          groupCache,
+          groupControlFactory,
+          genericGroupControlFactory,
+          identifiedUser,
+          userFactory,
+          accountGetGroups,
+          json,
+          groupBackend);
     }
 
     void display(final PrintWriter out) throws OrmException, BadRequestException {
@@ -84,16 +96,17 @@ public class ListGroupsCommand extends SshCommand {
       for (final GroupInfo info : get()) {
         formatter.addColumn(MoreObjects.firstNonNull(info.name, "n/a"));
         if (verboseOutput) {
-          AccountGroup o = info.ownerId != null
-              ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
-              : null;
+          AccountGroup o =
+              info.ownerId != null
+                  ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
+                  : null;
 
           formatter.addColumn(Url.decode(info.id));
           formatter.addColumn(Strings.nullToEmpty(info.description));
           formatter.addColumn(o != null ? o.getName() : "n/a");
           formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
-          formatter.addColumn(Boolean.toString(MoreObjects.firstNonNull(
-              info.options.visibleToAll, Boolean.FALSE)));
+          formatter.addColumn(
+              Boolean.toString(MoreObjects.firstNonNull(info.options.visibleToAll, Boolean.FALSE)));
         }
         formatter.nextLine();
       }

@@ -71,16 +71,18 @@ public class CreateProjectScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
-      @Override
-      public void onSuccess(AccountCapabilities ac) {
-        if (ac.canPerform(CREATE_PROJECT)) {
-          display();
-        } else {
-          Gerrit.display(PageLinks.ADMIN_CREATE_PROJECT, new NotFoundScreen());
-        }
-      }
-    }, CREATE_PROJECT);
+    AccountCapabilities.all(
+        new GerritCallback<AccountCapabilities>() {
+          @Override
+          public void onSuccess(AccountCapabilities ac) {
+            if (ac.canPerform(CREATE_PROJECT)) {
+              display();
+            } else {
+              Gerrit.display(PageLinks.ADMIN_CREATE_PROJECT, new NotFoundScreen());
+            }
+          }
+        },
+        CREATE_PROJECT);
   }
 
   @Override
@@ -96,15 +98,16 @@ public class CreateProjectScreen extends Screen {
     addCreateProjectPanel();
 
     /* popup */
-    projectsPopup = new ProjectListPopup() {
-      @Override
-      protected void onMovePointerTo(String projectName) {
-        // prevent user input from being overwritten by simply poping up
-        if (!projectsPopup.isPoppingUp() || "".equals(parent.getText())) {
-          parent.setText(projectName);
-        }
-      }
-    };
+    projectsPopup =
+        new ProjectListPopup() {
+          @Override
+          protected void onMovePointerTo(String projectName) {
+            // prevent user input from being overwritten by simply poping up
+            if (!projectsPopup.isPoppingUp() || "".equals(parent.getText())) {
+              parent.setText(projectName);
+            }
+          }
+        };
     projectsPopup.initPopup(Util.C.projects(), PageLinks.ADMIN_PROJECTS);
   }
 
@@ -131,61 +134,68 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void initCreateTxt() {
-    project = new NpTextBox() {
-      @Override
-      public void onBrowserEvent(Event event) {
-        super.onBrowserEvent(event);
-        if (event.getTypeInt() == Event.ONPASTE) {
-          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            @Override
-            public void execute() {
-              if (project.getValue().trim().length() != 0) {
-                create.setEnabled(true);
-              }
+    project =
+        new NpTextBox() {
+          @Override
+          public void onBrowserEvent(Event event) {
+            super.onBrowserEvent(event);
+            if (event.getTypeInt() == Event.ONPASTE) {
+              Scheduler.get()
+                  .scheduleDeferred(
+                      new ScheduledCommand() {
+                        @Override
+                        public void execute() {
+                          if (project.getValue().trim().length() != 0) {
+                            create.setEnabled(true);
+                          }
+                        }
+                      });
             }
-          });
-        }
-      }
-    };
+          }
+        };
     project.sinkEvents(Event.ONPASTE);
     project.setVisibleLength(50);
-    project.addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          doCreateProject();
-        }
-      }
-    });
+    project.addKeyPressHandler(
+        new KeyPressHandler() {
+          @Override
+          public void onKeyPress(KeyPressEvent event) {
+            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+              doCreateProject();
+            }
+          }
+        });
     new OnEditEnabler(create, project);
   }
 
   private void initCreateButton() {
     create = new Button(Util.C.buttonCreateProject());
     create.setEnabled(false);
-    create.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doCreateProject();
-      }
-    });
+    create.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doCreateProject();
+          }
+        });
 
     browse = new Button(Util.C.buttonBrowseProjects());
-    browse.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        int top = grid.getAbsoluteTop() - 50; // under page header
-        // Try to place it to the right of everything else, but not
-        // right justified
-        int left =
-            5 + Math.max(
-                grid.getAbsoluteLeft() + grid.getOffsetWidth(),
-                suggestedParentsTab.getAbsoluteLeft()
-                    + suggestedParentsTab.getOffsetWidth());
-        projectsPopup.setPreferredCoordinates(top, left);
-        projectsPopup.displayPopup();
-      }
-    });
+    browse.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            int top = grid.getAbsoluteTop() - 50; // under page header
+            // Try to place it to the right of everything else, but not
+            // right justified
+            int left =
+                5
+                    + Math.max(
+                        grid.getAbsoluteLeft() + grid.getOffsetWidth(),
+                        suggestedParentsTab.getAbsoluteLeft()
+                            + suggestedParentsTab.getOffsetWidth());
+            projectsPopup.setPreferredCoordinates(top, left);
+            projectsPopup.displayPopup();
+          }
+        });
   }
 
   private void initParentBox() {
@@ -194,40 +204,43 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void initSuggestedParents() {
-    suggestedParentsTab = new ProjectsTable() {
-      {
-        table.setText(0, 1, Util.C.parentSuggestions());
-      }
-
-      @Override
-      protected void populate(final int row, final ProjectInfo k) {
-        final Anchor projectLink = new Anchor(k.name());
-        projectLink.addClickHandler(new ClickHandler() {
+    suggestedParentsTab =
+        new ProjectsTable() {
+          {
+            table.setText(0, 1, Util.C.parentSuggestions());
+          }
 
           @Override
-          public void onClick(ClickEvent event) {
-            parent.setText(getRowItem(row).name());
+          protected void populate(final int row, final ProjectInfo k) {
+            final Anchor projectLink = new Anchor(k.name());
+            projectLink.addClickHandler(
+                new ClickHandler() {
+
+                  @Override
+                  public void onClick(ClickEvent event) {
+                    parent.setText(getRowItem(row).name());
+                  }
+                });
+
+            table.setWidget(row, 2, projectLink);
+            table.setText(row, 3, k.description());
+
+            setRowItem(row, k);
           }
-        });
-
-        table.setWidget(row, 2, projectLink);
-        table.setText(row, 3, k.description());
-
-        setRowItem(row, k);
-      }
-    };
+        };
     suggestedParentsTab.setVisible(false);
 
-    ProjectMap.parentCandidates(new GerritCallback<ProjectMap>() {
-      @Override
-      public void onSuccess(ProjectMap list) {
-        if (!list.isEmpty()) {
-          suggestedParentsTab.setVisible(true);
-          suggestedParentsTab.display(list);
-          suggestedParentsTab.finishDisplay();
-        }
-      }
-    });
+    ProjectMap.parentCandidates(
+        new GerritCallback<ProjectMap>() {
+          @Override
+          public void onSuccess(ProjectMap list) {
+            if (!list.isEmpty()) {
+              suggestedParentsTab.setVisible(true);
+              suggestedParentsTab.display(list);
+              suggestedParentsTab.finishDisplay();
+            }
+          }
+        });
   }
 
   private void addGrid(final VerticalPanel fp) {
@@ -251,13 +264,18 @@ public class CreateProjectScreen extends Screen {
     }
 
     enableForm(false);
-    ProjectApi.createProject(projectName, parentName, emptyCommit.getValue(),
-        permissionsOnly.getValue(), new AsyncCallback<VoidResult>() {
+    ProjectApi.createProject(
+        projectName,
+        parentName,
+        emptyCommit.getValue(),
+        permissionsOnly.getValue(),
+        new AsyncCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
             String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
-            History.newItem(Dispatcher.toProjectAdmin(new Project.NameKey(
-                nameWithoutSuffix), ProjectScreen.INFO));
+            History.newItem(
+                Dispatcher.toProjectAdmin(
+                    new Project.NameKey(nameWithoutSuffix), ProjectScreen.INFO));
           }
 
           @Override

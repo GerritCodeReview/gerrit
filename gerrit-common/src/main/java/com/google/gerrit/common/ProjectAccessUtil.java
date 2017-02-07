@@ -16,7 +16,6 @@ package com.google.gerrit.common;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;

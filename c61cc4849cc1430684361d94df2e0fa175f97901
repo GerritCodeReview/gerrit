@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f4c323d_81bb7830",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 2:47:07 PM",
+      "side": 1,
+      "message": "Since `_setRange` depends on the comments being sorted, I think either `_sortComments` should be called at the start of `_setRange`, or even, since it\u0027s so simple, just inlined there.",
+      "revId": "c61cc4849cc1430684361d94df2e0fa175f97901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

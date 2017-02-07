@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1486477440 -0500\nnonce AFJA6ocD7a1TOmth2Gg8MmtkwsyeKgOdQ1/F9kFrOhgB608V72cyIL9rhz3BNuYbTus7WqPgLiAY\n\n0000000000000000000000000000000000000000 c2951f09d2d416ac7116901e9185c3850e8fb68e refs/for/master%r\u003dekempin,r\u003ddavid.ostrovsky@gmail.com,r\u003djrn@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYmdiAAAoJEF/XxZqaEoiMYdAQAM68gsPULX1kN4Q5QA4EgClA\nmF5aRwa6WFaw+zrDFZeb/2mycPaiCtQOiQ9+F0Up731DsxfHUGD/6S37wmpaC/C3\n0NEU4z0T3ObMDfuo/Qkm+n7SY+AprAzu28aMMuN7FOr071dZWmPhrxxB6cXwGT+b\nxS2dEMERy3b7Mc5gXTwttcM9TiEYL1Ip4BMwYwwk5ES71JTXNXby/mQPkz4KPL3W\nv3WUgZfia5AnyScpZrzRV9HegMZAzxt77C1yOoIqjjvQqlgySIMB035wgw8qGz9T\ndzonJ0znCP+iJrTNzDaPjqFmT5YPv+/37svqJ8sgf22DYFgeLxVUROwwE5zCJGYK\n/hs208l+7NZTDi5d0Fh2QGtmhIe6PYG0KvMt0OH31sYyllJtjCzQiS/AvKzbAf0U\nU2DvB7TsM2fxglsR74330z9nLeU4iT8f33V1VcRXFzfUZGw6Oc8plVWHH9tPQPhC\n+IHnWEcd40k5TLDWKmbbreQQlTN2+zTOrqY6lPHrec1hEulsULQ5SIHmElWwjjDK\nX6vAYxWSEIQp3qvK8FCBxBpMsw/GgAUfVV0IQQ1Fuo/H5VM8ItBVoGRV8F8ewkEy\nPAEJO19pER2dOkbj6/dPske8mN7V+qX+gJjo7CX29BvtY/KGWS5MUzB2uYqBOqWf\n1/7d7FlUWuLwjGbsaxur\n\u003d5tqk\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "94b8c546_1369670a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 7, 2017 7:07:01 AM",
+      "side": 1,
+      "message": "Thanks for doing it. It\u0027s great, as we really cannot assume that every contributor uses Mac Os X and its packaging tool. In fact, I\u0027m on Linux.",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "c2951f09d2d416ac7116901e9185c3850e8fb68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17964d4b_f4ca9b5a",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 7, 2017 7:07:01 AM",
+      "side": 1,
+      "message": "Is that stale now? It\u0027s not a dev, but a gjf in charge now for sane formatting.",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 45
+      },
+      "revId": "c2951f09d2d416ac7116901e9185c3850e8fb68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e992997_4ce16fc9",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 7, 2017 7:07:01 AM",
+      "side": 1,
+      "message": "gjf is released on Central as well: [1]. And at lest every maintainer has Maven set up and running. I wonder if it can just be:[2]\n\n  mvn -DgroupId\u003dcom.google.googlejavaformat -DartifactId\u003dgoogle-java-format -Dversion\u003d$VERSION \\\n  -DrepoUrl\u003d\"http://repo1.maven.org/maven2\" dependency:get\n\nThe usage of it could be just be a wrapper script that uses the JAR from $HOME/.m2/repository. But I can see, how casual contributor would be upset to set up Maven first to change one line in Gerrit ;-)\n\n* [1] https://mvnrepository.com/artifact/com.google.googlejavaformat/google-java-format/1.2\n* [2] http://stackoverflow.com/questions/3601570/how-to-download-jars-from-maven-central-without-writing-any-pom-xml",
+      "revId": "c2951f09d2d416ac7116901e9185c3850e8fb68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

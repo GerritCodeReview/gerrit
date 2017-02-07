@@ -5,6 +5,10 @@
 The optional file `'$site_path'/etc/gerrit.config` is a Git-style
 config file that controls many host specific settings for Gerrit.
 
+Some test change.
+Just ignore this.
+Thanks :)
+
 [NOTE]
 The contents of the `etc/gerrit.config` file are cached at startup
 by Gerrit.  If you modify any properties in this file, Gerrit needs

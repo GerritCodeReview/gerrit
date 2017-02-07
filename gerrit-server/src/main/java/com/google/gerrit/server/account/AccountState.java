@@ -32,6 +32,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.codec.DecoderException;
+import org.bouncycastle.util.Arrays;
+import org.bouncycastle.util.Strings;
 
 public class AccountState {
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
@@ -70,14 +73,33 @@ public class AccountState {
     return account.getUserName();
   }
 
-  /** @return the password matching the requested username; or null. */
-  public String getPassword(String username) {
+  public boolean checkPassword(String password, String username) {
+    if (password == null) {
+      return false;
+    }
     for (AccountExternalId id : getExternalIds()) {
       if (id.isScheme(AccountExternalId.SCHEME_USERNAME) && username.equals(id.getSchemeRest())) {
-        return id.getPassword();
+        String hashedStr = id.getHashedPassword();
+        if (hashedStr != null && !hashedStr.isEmpty()) {
+          try {
+            if (HashedPassword.decode(hashedStr).checkPassword(password)) {
+              return true;
+            }
+          } catch (DecoderException e) {
+            continue;
+          }
+        }
+
+        String want = id.getPassword();
+        if (want != null && !want.isEmpty()) {
+          byte wantBytes[] = Strings.toByteArray(want);
+          byte gotBytes[] = Strings.toByteArray(password);
+          // Constant-time comparison.
+          return Arrays.areEqual(wantBytes, gotBytes);
+        }
       }
     }
-    return null;
+    return false;
   }
 
   /** The external identities that identify the account holder. */

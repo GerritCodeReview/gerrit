@@ -161,7 +161,6 @@ public class ProjectQoSFilter implements Filter {
     private final Object lock = new Object();
     private boolean done;
     private Thread worker;
-    private String fullName;
 
     TaskThunk(final WorkQueue.Executor executor, final Continuation cont,
         final HttpServletRequest req) {
@@ -220,33 +219,28 @@ public class ProjectQoSFilter implements Filter {
 
     @Override
     public String toString() {
-
-      if (fullName != null) {
-        return fullName;
-      }
-
-      CurrentUser who = user.get();
-      if (who.isIdentifiedUser()) {
-        String username = who.asIdentifiedUser().getUserName();
-        if (username != null && !username.isEmpty()) {
-          fullName = name + " (" + username + ")";
-          return fullName;
-        }
-      }
-
       return name;
     }
 
     private String generateName(HttpServletRequest req) {
+      String userName = "";
+
+      CurrentUser who = user.get();
+      if (who.isIdentifiedUser()) {
+        String name = who.asIdentifiedUser().getUserName();
+        if (name != null && !name.isEmpty()) {
+          userName = " (" + name + ")";
+        }
+      }
 
       String uri = req.getServletPath();
       Matcher m = URI_PATTERN.matcher(uri);
       if (m.matches()) {
         String path = m.group(1);
         String cmd = m.group(2);
-        return cmd + " " + path;
+        return cmd + " " + path + userName;
       } else {
-        return req.getMethod() + " " + uri;
+        return req.getMethod() + " " + uri + userName;
       }
     }
   }

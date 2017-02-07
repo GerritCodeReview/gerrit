@@ -192,7 +192,7 @@ Optional:
 
 Never:
 
-  * local variables: it clutters the code, and make the code less
+  * local variables: it clutters the code, and makes the code less
   readable. When copying old code to new location, finals should
   be removed
   * method parameters: similar to local variables
@@ -221,7 +221,6 @@ Here are some guidelines that Gerrit uses:
     should be before the instance members.
   * Annotations should go before language keywords (`final`, `private`, etc) +
     Example: `@Assisted @Nullable final type varName`
-  * The `@Inject`-ed constructor arguments should be listed one per line.
   * Imports should be mostly alphabetical (uppercase sorts before
     all lowercase, which means classes come before packages at the
     same level).

@@ -40,6 +40,24 @@
       "revId": "a461a3d45a7563207cbc16dcf31bcaab29826796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fd07035_d0259d1a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 8:53:44 AM",
+      "side": 0,
+      "message": "I think postponing this is fine. Maybe we will not do it since the GWT UI goes away.",
+      "parentUuid": "d143100a_c5496b63",
+      "revId": "a461a3d45a7563207cbc16dcf31bcaab29826796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

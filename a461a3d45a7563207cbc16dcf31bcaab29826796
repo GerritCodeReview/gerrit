@@ -22,6 +22,24 @@
       "revId": "a461a3d45a7563207cbc16dcf31bcaab29826796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d143100a_c5496b63",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "Feb 7, 2017 7:42:03 AM",
+      "side": 0,
+      "message": "I had the same concern and mentioned it in a comment on the bug report. That\u0027s also what I was hinting at in the commit message.\nShould we fix the disabled/enabled state of all relevant buttons within this change, a follow-up one, or postpone that for the moment? What do you think?",
+      "parentUuid": "ec247db2_f32f73f6",
+      "revId": "a461a3d45a7563207cbc16dcf31bcaab29826796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

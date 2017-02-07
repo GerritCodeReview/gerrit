@@ -209,6 +209,24 @@
       "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85a546b8_1329d3c9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-07T17:29:18Z",
+      "side": 1,
+      "message": "\u003e It will not work due:\n \u003e - ProjectBasicAuthFilter filters only requests that are Git\n \u003e specific (therefore we need this additional filter that acts when\n \u003e there is no \"/a\" prefix\n\nThe LfsPluginServlet.URL_REGEX specifies /a as optional. If, here, we define that requests for LfsPluginServlet.URL_REGEX go through the ProjectBasicAuthFilter then any request matching LfsPluginServlet.URL_REGEX should go through this filter including those not containing the /a prefix (but otherwise matching the regex). What am I missing?",
+      "parentUuid": "5343ebaa_45a7fed6",
+      "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

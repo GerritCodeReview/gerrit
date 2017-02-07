@@ -16,6 +16,24 @@
       "revId": "c61cc4849cc1430684361d94df2e0fa175f97901",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cf48c53_8ed4ae3d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 7, 2017 2:52:33 PM",
+      "side": 1,
+      "message": "However, this is called in a forEach loop. i think it\u0027s better to only do the sort once",
+      "parentUuid": "0f4c323d_81bb7830",
+      "revId": "c61cc4849cc1430684361d94df2e0fa175f97901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

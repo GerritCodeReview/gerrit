@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a71d1e_ac516253",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MetadataParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 1:39:49 AM",
+      "side": 1,
+      "message": "Should this log message contain the message id?",
+      "revId": "46093962e13e27b59fe3bd70bebff27c95b918c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5792e1b3_b2d4fa20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MetadataParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 1:39:49 AM",
+      "side": 1,
+      "message": "same here",
+      "revId": "46093962e13e27b59fe3bd70bebff27c95b918c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

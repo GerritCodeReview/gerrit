@@ -135,12 +135,15 @@
      */
     _setInitialExpandedState: function() {
       var comment;
-      for (var i = 0; i < this._orderedComments.length; i++) {
-        comment = this._orderedComments[i];
-        comment.collapsed =
-            this._orderedComments.length - i - 1 >= UNRESOLVED_EXPAND_COUNT ||
-            !this._unresolved;
+      if (this._orderedComments) {
+        for (var i = 0; i < this._orderedComments.length; i++) {
+          comment = this._orderedComments[i];
+          comment.collapsed =
+              this._orderedComments.length - i - 1 >= UNRESOLVED_EXPAND_COUNT ||
+              !this._unresolved;
+        }
       }
+
     },
 
     _sortedComments: function(comments) {

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "db1dd94a_16b8e425",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 7, 2017 7:21:20 AM",
+      "side": 1,
+      "message": "nit: this fits in the previous line",
+      "range": {
+        "startLine": 201,
+        "startChar": 5,
+        "endLine": 201,
+        "endChar": 37
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1d0c6bb_910d001b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 5
@@ -64,6 +87,29 @@
         "startChar": 2,
         "endLine": 39,
         "endChar": 8
+      },
+      "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee6cde15_1cefcb99",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 7, 2017 7:21:20 AM",
+      "side": 1,
+      "message": "nit: fit in one line (see other JS Objects)",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 3
       },
       "revId": "634fe705b6a4d18c4b09535413121fc4a9b47663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

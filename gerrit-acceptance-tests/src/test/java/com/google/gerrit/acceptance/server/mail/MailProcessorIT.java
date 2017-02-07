@@ -285,7 +285,7 @@ public class MailProcessorIT extends AbstractDaemonTest {
         + "Gerrit-MessageType: comment\n"
         + "Gerrit-Comment-Date: "
         + timestamp
-        + "\n";
+        + " \n";
   }
 
   private MailMessage.Builder messageBuilderWithDefaultFields() {

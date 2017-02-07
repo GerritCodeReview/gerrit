@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5e9b9a91_0575a5c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 5:41:29 AM",
+      "side": 1,
+      "message": "Yes :)",
+      "parentUuid": "6eeb48f5_75b07c38",
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42f5934a_e99ccb8e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 4
@@ -377,6 +395,30 @@
       "side": 1,
       "message": "Then I think we should also change MyWatchedProjectsScreen as it also calls display() first.",
       "parentUuid": "632bd70b_ec97648d",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 39
+      },
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eb2b706_6daa62c9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 5:41:29 AM",
+      "side": 1,
+      "message": "Makes sense, can you make separate change for this?",
+      "parentUuid": "a3ed5f51_17648b3d",
       "range": {
         "startLine": 81,
         "startChar": 12,

@@ -34,6 +34,24 @@
       "revId": "c61cc4849cc1430684361d94df2e0fa175f97901",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "864c1a3d_688904cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 2:59:23 PM",
+      "side": 1,
+      "message": "Oh, you\u0027re right. I hadn\u0027t read that correctly.\n\nHowever, they can be nicely packaged together, since they do go together. For example:\n\n_setRanges: function(comments) {\n  comments \u003d this._sortComments(comments);\n         // ... Or just inline the function here.\n  comments.forEach(function(comment){\n    this.setRange(comments, comment);\n  }.bind(this));\n},\n\nThat way, call sites can be `this._setRanges(comments);` on l.756 and `this._setRanges(baseComments);` on l.776.",
+      "parentUuid": "2cf48c53_8ed4ae3d",
+      "revId": "c61cc4849cc1430684361d94df2e0fa175f97901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

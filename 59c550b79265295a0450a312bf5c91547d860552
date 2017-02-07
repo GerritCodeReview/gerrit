@@ -17,6 +17,24 @@
       "revId": "59c550b79265295a0450a312bf5c91547d860552",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74297187_08c29b78",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 7, 2017 9:33:25 AM",
+      "side": 1,
+      "message": "Let\u0027s go with hard-coding a hash. We\u0027re already used to doing that for maven jars in the build system. It\u0027s still a little inconsistent because this is a shell script rather than WORKSPACE, but I don\u0027t really see the advantage of\n\nThat said, I will change this to use download_file.py, which gives us hash checking for free, at least. (And caching for that matter.)",
+      "parentUuid": "da5e0ac8_3135bd24",
+      "revId": "59c550b79265295a0450a312bf5c91547d860552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "f0a5988f_a43d6124",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 10:51:08 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91e72142_152717a5",
+      "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a52f6f63_5f039337",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 1
@@ -39,6 +57,24 @@
       "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcbd5bf8_62f2623f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 10:51:08 AM",
+      "side": 1,
+      "message": "This is for adding timing logs for rendering groups of diffs (in addition to the timing logs for individual diffs that already appear). See ll.706,710 of gr-file-list.js for where it\u0027s used.",
+      "parentUuid": "a52f6f63_5f039337",
+      "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "58182ade_8380c95f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 10:51:08 AM",
+      "side": 1,
+      "message": "Do you mean the way the parens are highlighted differently?",
+      "parentUuid": "f706d59a_1a7600bb",
+      "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18a4dc7c_5e3c8a41",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
         "patchSetId": 1
@@ -73,6 +127,24 @@
       "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be192be7_08341dbd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 10:51:08 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18a4dc7c_5e3c8a41",
+      "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
@@ -22,13 +21,9 @@ import com.google.gwtjsonrpc.client.JsonUtil;
 public class Util {
   public static final AccountConstants C = GWT.create(AccountConstants.class);
   public static final AccountMessages M = GWT.create(AccountMessages.class);
-  public static final AccountSecurity ACCOUNT_SEC;
   public static final ProjectAdminService PROJECT_SVC;
 
   static {
-    ACCOUNT_SEC = GWT.create(AccountSecurity.class);
-    JsonUtil.bind(ACCOUNT_SEC, "rpc/AccountSecurity");
-
     PROJECT_SVC = GWT.create(ProjectAdminService.class);
     JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
   }

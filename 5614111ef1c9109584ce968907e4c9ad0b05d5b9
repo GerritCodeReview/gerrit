@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "228c5cb4_069cbc05",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 2:41:19 PM",
+      "side": 1,
+      "message": "Nitpicking the wording -- feel free to ignore.\n\nWhat if we insert a positive, active statement at the beginning. This might make it clear that PG is actively doing something and not just refusing to start the reply.\n\n  \"Saving... Try again after all comments are saved.\"\n\nIf users are already frustrated by their slow connections and keep trying to reply because their comments are eeking through the network, it\u0027d be good to make the alert message emphasize that it\u0027s doing work.\n\nJust a thought. Maybe you can think of a better wording.",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 22,
+        "endChar": 61
+      },
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab1a9c78_53c3337f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -31,6 +54,93 @@
       "side": 1,
       "message": "I don\u0027t think that\u0027s a good idea, because the action will either be blocking (which is frustrating for users) OR it\u0027s non-blocking, which can lead to a TON of edge cases.",
       "parentUuid": "ab1a9c78_53c3337f",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c4c1fc3_5c3cea1e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 2:41:19 PM",
+      "side": 1,
+      "message": "It\u0027ll be less frustrating to have the UI take an immediate response (such as the alert) than having the UI wait, leaving the user in doubt whether it\u0027s doing anything. On slow internet connections this might be several seconds even.\n\nMaybe the best of both worlds (but I\u0027m not sure how hard it would be) would be to display the alert AND start the reply once the request has closed.",
+      "parentUuid": "88dcd620_5c8e15d2",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a553bdf_cc3099fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 2:41:19 PM",
+      "side": 1,
+      "message": "This is only used for saving comment drafts, is that right? Maybe it\u0027s a premature generalization to make it work for other kinds of requests.\n\nConsider making this...\n\n  _pendingSaveDraftRequests\n\nUp to you.\n\nIt\u0027d make this code cleaner, and it wouldn\u0027t be so hard to generalize it later, if need be.",
+      "range": {
+        "startLine": 108,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 22
+      },
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeca516b_3276038d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 2:41:19 PM",
+      "side": 1,
+      "message": "Cool!",
+      "range": {
+        "startLine": 777,
+        "startChar": 4,
+        "endLine": 777,
+        "endChar": 24
+      },
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b235e4a_58dfa8c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 2:41:19 PM",
+      "side": 1,
+      "message": "Why not just use an integer to count the number of active requests?\n\nif (!this._pendingRequests.hasOwnProperty(Requests.SEND_DIFF_DRAFT)) {\n  this._pendingRequests[Requests.SEND_DIFF_DRAFT] \u003d 0;\n}\nthis._pendingRequests[Requests.SEND_DIFF_DRAFT]++;\n\nWith...\n\n  this._pendingRequests[Requests.SEND_DIFF_DRAFT]--;\n\n...instead of the pop?",
+      "range": {
+        "startLine": 793,
+        "startChar": 6,
+        "endLine": 796,
+        "endChar": 62
+      },
       "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

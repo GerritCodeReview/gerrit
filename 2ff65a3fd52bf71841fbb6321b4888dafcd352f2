@@ -22,6 +22,24 @@
       "revId": "2ff65a3fd52bf71841fbb6321b4888dafcd352f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5b4eeeb_b3a16f16",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 4:02:04 PM",
+      "side": 1,
+      "message": "Whoops, total brainfart.",
+      "parentUuid": "28a3c937_2dae6de7",
+      "revId": "2ff65a3fd52bf71841fbb6321b4888dafcd352f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

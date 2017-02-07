@@ -87,7 +87,7 @@ To provide the plugin jar as binary data in the request body the
 following curl command can be used:
 
 ----
-  curl --digest --user admin:TNNuLkWsIV8w -X PUT --data-binary @delete-project-2.8.jar 'http://gerrit:8080/a/plugins/delete-project'
+  curl --user admin:TNNuLkWsIV8w -X PUT --data-binary @delete-project-2.8.jar 'http://gerrit:8080/a/plugins/delete-project'
 ----
 
 As response a link:#plugin-info[PluginInfo] entity is returned that

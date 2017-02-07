@@ -22,6 +22,24 @@
       "revId": "debaf78b5696a2da0d5ff10cb8e52782ef31f55e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "164c35f1_17d7a904",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 10:23:45 AM",
+      "side": 0,
+      "message": "I\u0027m not sure what takes precedence here, promise or done():\nhttp://mochajs.org/#working-with-promises\n\nI\u0027d say let\u0027s do one or the other.",
+      "parentUuid": "07dfcb35_be354543",
+      "revId": "debaf78b5696a2da0d5ff10cb8e52782ef31f55e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

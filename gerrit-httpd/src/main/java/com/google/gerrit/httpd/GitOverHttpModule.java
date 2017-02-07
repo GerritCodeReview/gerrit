@@ -46,7 +46,8 @@ public class GitOverHttpModule extends ServletModule {
         authFilter = ProjectBasicAuthFilter.class;
       }
     } else {
-      authFilter = ProjectDigestFilter.class;
+      // NOSUBMIT - what should this look like now without ProjectDigest filter?
+      authFilter = ProjectBasicAuthFilter.class;
     }
 
     if (isHttpEnabled()) {

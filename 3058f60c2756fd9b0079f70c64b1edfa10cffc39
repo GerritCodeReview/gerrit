@@ -87,6 +87,24 @@
       "revId": "3058f60c2756fd9b0079f70c64b1edfa10cffc39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69ed9e98_37e18fce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "Feb 7, 2017 9:47:49 AM",
+      "side": 1,
+      "message": "I actually attempted to do that early. The problem I faced was with some of the data bindings and the fact that when we save answers, we also send API requests/get responses back with \u0027side\u0027. So, it would be more than just re-naming parameters, we\u0027d also have to catch a few additional places as well.  I\u0027m not opposed to discussing, but would rather do this as a separate thing, perhaps, if we decide to go that route? because I think it could have a fair amount of discussion on its own.",
+      "parentUuid": "87048006_749dff4d",
+      "revId": "3058f60c2756fd9b0079f70c64b1edfa10cffc39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

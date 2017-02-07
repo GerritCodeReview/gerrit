@@ -77,14 +77,14 @@ limitations under the License.
     }
 
     suite('24 hours time format preference', function() {
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI(
           {time_format: 'HHMM_24', relative_date_in_change_table: false}
         ).then(function() {
           element = fixture('basic');
           sandbox.stub(element, '_getTzString').returns('');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -119,7 +119,7 @@ limitations under the License.
     });
 
     suite('12 hours time format preference', function() {
-      setup(function(done) {
+      setup(function() {
         // relative_date_in_change_table is not set when false.
         return stubRestAPI(
           {time_format: 'HHMM_12'}
@@ -127,7 +127,7 @@ limitations under the License.
           element = fixture('basic');
           sandbox.stub(element, '_getTzString').returns('');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -139,14 +139,14 @@ limitations under the License.
     });
 
     suite('relative date preference', function() {
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI(
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(function() {
           element = fixture('basic');
           sandbox.stub(element, '_getTzString').returns('');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -164,13 +164,13 @@ limitations under the License.
     });
 
     suite('logged in', function() {
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI(
           {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(function() {
           element = fixture('basic');
           sandbox.stub(element, '_getTzString').returns('');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -181,11 +181,11 @@ limitations under the License.
     });
 
     suite('logged out', function() {
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI(null).then(function() {
           element = fixture('basic');
           sandbox.stub(element, '_getTzString').returns('');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 

@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 public class EmailReviewComments implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailReviewComments.class);
 
-  interface Factory {
+  public interface Factory {
     EmailReviewComments create(
         NotifyHandling notify,
         ListMultimap<RecipientType, Account.Id> accountsToNotify,
@@ -111,7 +111,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.labels = labels;
   }
 
-  void sendAsync() {
+  public void sendAsync() {
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
   }

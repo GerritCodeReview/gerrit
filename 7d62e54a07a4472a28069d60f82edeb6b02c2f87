@@ -40,6 +40,24 @@
       "revId": "7d62e54a07a4472a28069d60f82edeb6b02c2f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f584b70_98fd135a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailReceiver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "Feb 7, 2017 7:52:54 AM",
+      "side": 0,
+      "message": "As I said, I was able to reproduce the breakage locally.",
+      "parentUuid": "820086ce_300e4349",
+      "revId": "7d62e54a07a4472a28069d60f82edeb6b02c2f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

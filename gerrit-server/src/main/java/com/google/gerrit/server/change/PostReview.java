@@ -83,10 +83,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -98,6 +94,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
@@ -118,7 +116,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final PostReviewers postReviewers;
 
   @Inject
-  PostReview(Provider<ReviewDb> db,
+  PostReview(
+      Provider<ReviewDb> db,
       BatchUpdate.Factory batchUpdateFactory,
       ChangesCollection changes,
       ChangeData.Factory changeDataFactory,
@@ -152,8 +151,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return apply(revision, input, TimeUtil.nowTs());
   }
 
-  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input,
-      Timestamp ts)
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
@@ -181,8 +179,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
       for (AddReviewerInput reviewerInput : input.reviewers) {
-        PostReviewers.Addition result = postReviewers.prepareApplication(
-            revision.getChangeResource(), reviewerInput);
+        PostReviewers.Addition result =
+            postReviewers.prepareApplication(revision.getChangeResource(), reviewerInput);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
           hasError = true;
@@ -203,16 +201,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     output.labels = input.labels;
 
-    try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-          revision.getChange().getProject(), revision.getUser(), ts)) {
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
       // Apply reviewer changes first. Revision emails should be sent to the
       // updated set of reviewers.
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
       }
-      bu.addOp(
-          revision.getChange().getId(),
-          new Op(revision.getPatchSet().getId(), input));
+      bu.addOp(revision.getChange().getId(), new Op(revision.getPatchSet().getId(), input));
       bu.execute();
 
       for (PostReviewers.Addition reviewerResult : reviewerResults) {
@@ -224,12 +221,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
-      throws BadRequestException, AuthException, UnprocessableEntityException,
-      OrmException {
+      throws BadRequestException, AuthException, UnprocessableEntityException, OrmException {
     if (in.labels == null || in.labels.isEmpty()) {
-      throw new AuthException(String.format(
-          "label required to post review on behalf of \"%s\"",
-          in.onBehalfOf));
+      throw new AuthException(
+          String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
     ChangeControl caller = rev.getControl();
@@ -238,8 +233,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Map.Entry<String, Short> ent = itr.next();
       LabelType type = caller.getLabelTypes().byLabel(ent.getKey());
       if (type == null && in.strictLabels) {
-        throw new BadRequestException(String.format(
-            "label \"%s\" is not a configured label", ent.getKey()));
+        throw new BadRequestException(
+            String.format("label \"%s\" is not a configured label", ent.getKey()));
       } else if (type == null) {
         itr.remove();
         continue;
@@ -247,34 +242,33 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       PermissionRange r = caller.getRange(Permission.forLabelAs(type.getName()));
       if (r == null || r.isEmpty() || !r.contains(ent.getValue())) {
-        throw new AuthException(String.format(
-            "not permitted to modify label \"%s\" on behalf of \"%s\"",
-            ent.getKey(), in.onBehalfOf));
+        throw new AuthException(
+            String.format(
+                "not permitted to modify label \"%s\" on behalf of \"%s\"",
+                ent.getKey(), in.onBehalfOf));
       }
     }
     if (in.labels.isEmpty()) {
-      throw new AuthException(String.format(
-          "label required to post review on behalf of \"%s\"",
-          in.onBehalfOf));
+      throw new AuthException(
+          String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
     ChangeControl target = caller.forUser(accounts.parse(in.onBehalfOf));
     return new RevisionResource(changes.parse(target), rev.getPatchSet());
   }
 
-  private void checkLabels(RevisionResource revision, boolean strict,
-      Map<String, Short> labels) throws BadRequestException, AuthException {
+  private void checkLabels(RevisionResource revision, boolean strict, Map<String, Short> labels)
+      throws BadRequestException, AuthException {
     ChangeControl ctl = revision.getControl();
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
 
-      LabelType lt = revision.getControl().getLabelTypes()
-          .byLabel(ent.getKey());
+      LabelType lt = revision.getControl().getLabelTypes().byLabel(ent.getKey());
       if (lt == null) {
         if (strict) {
-          throw new BadRequestException(String.format(
-              "label \"%s\" is not a configured label", ent.getKey()));
+          throw new BadRequestException(
+              String.format("label \"%s\" is not a configured label", ent.getKey()));
         }
         itr.remove();
         continue;
@@ -288,9 +282,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       if (lt.getValue(ent.getValue()) == null) {
         if (strict) {
-          throw new BadRequestException(String.format(
-              "label \"%s\": %d is not a valid value",
-              ent.getKey(), ent.getValue()));
+          throw new BadRequestException(
+              String.format("label \"%s\": %d is not a valid value", ent.getKey(), ent.getValue()));
         }
         itr.remove();
         continue;
@@ -300,9 +293,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       PermissionRange range = ctl.getRange(Permission.forLabel(name));
       if (range == null || !range.contains(ent.getValue())) {
         if (strict) {
-          throw new AuthException(String.format(
-              "Applying label \"%s\": %d is restricted",
-              ent.getKey(), ent.getValue()));
+          throw new AuthException(
+              String.format(
+                  "Applying label \"%s\": %d is restricted", ent.getKey(), ent.getValue()));
         } else if (range == null || range.isEmpty()) {
           ent.setValue((short) 0);
         } else {
@@ -314,19 +307,20 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private void checkComments(RevisionResource revision, Map<String, List<CommentInput>> in)
       throws BadRequestException, OrmException {
-    Iterator<Map.Entry<String, List<CommentInput>>> mapItr =
-        in.entrySet().iterator();
+    Iterator<Map.Entry<String, List<CommentInput>>> mapItr = in.entrySet().iterator();
     Set<String> filePaths =
-        Sets.newHashSet(changeDataFactory.create(
-            db.get(), revision.getControl()).filePaths(
-                revision.getPatchSet()));
+        Sets.newHashSet(
+            changeDataFactory
+                .create(db.get(), revision.getControl())
+                .filePaths(revision.getPatchSet()));
     while (mapItr.hasNext()) {
       Map.Entry<String, List<CommentInput>> ent = mapItr.next();
       String path = ent.getKey();
       if (!filePaths.contains(path) && !Patch.COMMIT_MSG.equals(path)) {
-        throw new BadRequestException(String.format(
-            "file %s not found in revision %s",
-            path, revision.getChange().currentPatchSetId()));
+        throw new BadRequestException(
+            String.format(
+                "file %s not found in revision %s",
+                path, revision.getChange().currentPatchSetId()));
       }
 
       List<CommentInput> list = ent.getValue();
@@ -343,9 +337,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           continue;
         }
         if (c.line != null && c.line < 0) {
-          throw new BadRequestException(String.format(
-              "negative line number %d not allowed on %s",
-              c.line, path));
+          throw new BadRequestException(
+              String.format("negative line number %d not allowed on %s", c.line, path));
         }
         c.message = Strings.nullToEmpty(c.message).trim();
         if (c.message.isEmpty()) {
@@ -358,19 +351,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  /**
-   * Used to compare PatchLineComments with CommentInput comments.
-   */
+  /** Used to compare PatchLineComments with CommentInput comments. */
   @AutoValue
   abstract static class CommentSetEntry {
-    private static CommentSetEntry create(Patch.Key key,
-        Integer line, Side side, HashCode message, CommentRange range) {
-      return new AutoValue_PostReview_CommentSetEntry(key, line, side, message,
-          range);
+    private static CommentSetEntry create(
+        Patch.Key key, Integer line, Side side, HashCode message, CommentRange range) {
+      return new AutoValue_PostReview_CommentSetEntry(key, line, side, message, range);
     }
 
     public static CommentSetEntry create(PatchLineComment comment) {
-      return create(comment.getKey().getParentKey(),
+      return create(
+          comment.getKey().getParentKey(),
           comment.getLine(),
           Side.fromShort(comment.getSide()),
           Hashing.sha1().hashString(comment.getMessage(), UTF_8),
@@ -378,10 +369,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     abstract Patch.Key key();
-    @Nullable abstract Integer line();
+
+    @Nullable
+    abstract Integer line();
+
     abstract Side side();
+
     abstract HashCode message();
-    @Nullable abstract CommentRange range();
+
+    @Nullable
+    abstract CommentRange range();
   }
 
   private class Op extends BatchUpdate.Op {
@@ -403,8 +400,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException {
+    public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
@@ -421,17 +417,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return;
       }
       if (in.notify.compareTo(NotifyHandling.NONE) > 0) {
-        email.create(
-            in.notify,
-            notes,
-            ps,
-            user,
-            message,
-            comments).sendAsync();
+        email.create(in.notify, notes, ps, user, message, comments).sendAsync();
       }
       commentAdded.fire(
-          notes.getChange(), ps, user.getAccount(), message.getMessage(),
-          approvals, oldApprovals, ctx.getWhen());
+          notes.getChange(),
+          ps,
+          user.getAccount(),
+          message.getMessage(),
+          approvals,
+          oldApprovals,
+          ctx.getWhen());
     }
 
     private boolean insertComments(ChangeContext ctx) throws OrmException {
@@ -452,9 +447,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchLineComment> del = new ArrayList<>();
       List<PatchLineComment> ups = new ArrayList<>();
 
-      Set<CommentSetEntry> existingIds = in.omitDuplicateComments
-          ? readExistingComments(ctx)
-          : Collections.<CommentSetEntry>emptySet();
+      Set<CommentSetEntry> existingIds =
+          in.omitDuplicateComments
+              ? readExistingComments(ctx)
+              : Collections.<CommentSetEntry>emptySet();
 
       for (Map.Entry<String, List<CommentInput>> ent : map.entrySet()) {
         String path = ent.getKey();
@@ -462,11 +458,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String parent = Url.decode(c.inReplyTo);
           PatchLineComment e = drafts.remove(Url.decode(c.id));
           if (e == null) {
-            e = new PatchLineComment(
-                new PatchLineComment.Key(new Patch.Key(psId, path), null),
-                c.line != null ? c.line : 0,
-                user.getAccountId(),
-                parent, ctx.getWhen());
+            e =
+                new PatchLineComment(
+                    new PatchLineComment.Key(new Patch.Key(psId, path), null),
+                    c.line != null ? c.line : 0,
+                    user.getAccountId(),
+                    parent,
+                    ctx.getWhen());
           } else if (parent != null) {
             e.setParentUuid(parent);
           }
@@ -477,11 +475,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           e.setMessage(c.message);
           e.setTag(in.tag);
           if (c.range != null) {
-            e.setRange(new CommentRange(
-                c.range.startLine,
-                c.range.startCharacter,
-                c.range.endLine,
-                c.range.endCharacter));
+            e.setRange(
+                new CommentRange(
+                    c.range.startLine,
+                    c.range.startCharacter,
+                    c.range.endLine,
+                    c.range.endCharacter));
             e.setLine(c.range.endLine);
           }
           if (existingIds.contains(CommentSetEntry.create(e))) {
@@ -517,39 +516,34 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !del.isEmpty() || !ups.isEmpty();
     }
 
-    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx)
-        throws OrmException {
+    private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) throws OrmException {
       Set<CommentSetEntry> r = new HashSet<>();
-      for (PatchLineComment c : plcUtil.publishedByChange(ctx.getDb(),
-            ctx.getNotes())) {
+      for (PatchLineComment c : plcUtil.publishedByChange(ctx.getDb(), ctx.getNotes())) {
         r.add(CommentSetEntry.create(c));
       }
       return r;
     }
 
-    private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx)
-        throws OrmException {
+    private Map<String, PatchLineComment> changeDrafts(ChangeContext ctx) throws OrmException {
       Map<String, PatchLineComment> drafts = new HashMap<>();
-      for (PatchLineComment c : plcUtil.draftByChangeAuthor(
-          ctx.getDb(), ctx.getNotes(), user.getAccountId())) {
+      for (PatchLineComment c :
+          plcUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), user.getAccountId())) {
         c.setTag(in.tag);
         drafts.put(c.getKey().get(), c);
       }
       return drafts;
     }
 
-    private Map<String, PatchLineComment> patchSetDrafts(ChangeContext ctx)
-        throws OrmException {
+    private Map<String, PatchLineComment> patchSetDrafts(ChangeContext ctx) throws OrmException {
       Map<String, PatchLineComment> drafts = new HashMap<>();
-      for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(ctx.getDb(),
-          psId, user.getAccountId(), ctx.getNotes())) {
+      for (PatchLineComment c :
+          plcUtil.draftByPatchSetAuthor(ctx.getDb(), psId, user.getAccountId(), ctx.getNotes())) {
         drafts.put(c.getKey().get(), c);
       }
       return drafts;
     }
 
-    private Map<String, Short> approvalsByKey(
-        Collection<PatchSetApproval> patchsetApprovals) {
+    private Map<String, Short> approvalsByKey(Collection<PatchSetApproval> patchsetApprovals) {
       Map<String, Short> labels = new HashMap<>();
       for (PatchSetApproval psa : patchsetApprovals) {
         labels.put(psa.getLabel(), psa.getValue());
@@ -557,8 +551,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return labels;
     }
 
-    private PatchLineComment publishComment(ChangeContext ctx,
-        PatchLineComment c, PatchSet ps) throws OrmException {
+    private PatchLineComment publishComment(ChangeContext ctx, PatchLineComment c, PatchSet ps)
+        throws OrmException {
       c.setStatus(PatchLineComment.Status.PUBLISHED);
       c.setWrittenOn(ctx.getWhen());
       c.setTag(in.tag);
@@ -566,8 +560,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return c;
     }
 
-    private void publishAllRevisions(ChangeContext ctx,
-        Map<String, PatchLineComment> drafts, List<PatchLineComment> ups)
+    private void publishAllRevisions(
+        ChangeContext ctx, Map<String, PatchLineComment> drafts, List<PatchLineComment> ups)
         throws OrmException {
       boolean needOtherPatchSets = false;
       for (PatchLineComment c : drafts.values()) {
@@ -576,16 +570,17 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           break;
         }
       }
-      Map<PatchSet.Id, PatchSet> patchSets = needOtherPatchSets
-          ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
-          : ImmutableMap.of(psId, ps);
+      Map<PatchSet.Id, PatchSet> patchSets =
+          needOtherPatchSets
+              ? psUtil.byChangeAsMap(ctx.getDb(), ctx.getNotes())
+              : ImmutableMap.of(psId, ps);
       for (PatchLineComment e : drafts.values()) {
         ups.add(publishComment(ctx, e, patchSets.get(e.getPatchSetId())));
       }
     }
 
-    private Map<String, Short> getAllApprovals(LabelTypes labelTypes,
-        Map<String, Short> current, Map<String, Short> input) {
+    private Map<String, Short> getAllApprovals(
+        LabelTypes labelTypes, Map<String, Short> current, Map<String, Short> input) {
       Map<String, Short> allApprovals = new HashMap<>();
       for (LabelType lt : labelTypes.getLabelTypes()) {
         allApprovals.put(lt.getName(), (short) 0);
@@ -615,10 +610,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return previous;
     }
 
-    private boolean updateLabels(ChangeContext ctx)
-        throws OrmException, ResourceConflictException {
-      Map<String, Short> inLabels = MoreObjects.firstNonNull(in.labels,
-          Collections.<String, Short> emptyMap());
+    private boolean updateLabels(ChangeContext ctx) throws OrmException, ResourceConflictException {
+      Map<String, Short> inLabels =
+          MoreObjects.firstNonNull(in.labels, Collections.<String, Short>emptyMap());
 
       // If no labels were modified and change is closed, abort early.
       // This avoids trying to record a modified label caused by a user
@@ -631,10 +625,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       List<PatchSetApproval> ups = new ArrayList<>();
       Map<String, PatchSetApproval> current = scanLabels(ctx, del);
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
-      Map<String, Short> allApprovals = getAllApprovals(labelTypes,
-          approvalsByKey(current.values()), inLabels);
-      Map<String, Short> previous = getPreviousApprovals(allApprovals,
-          approvalsByKey(current.values()));
+      Map<String, Short> allApprovals =
+          getAllApprovals(labelTypes, approvalsByKey(current.values()), inLabels);
+      Map<String, Short> previous =
+          getPreviousApprovals(allApprovals, approvalsByKey(current.values()));
 
       ChangeUpdate update = ctx.getUpdate(psId);
       for (Map.Entry<String, Short> ent : allApprovals.entrySet()) {
@@ -669,11 +663,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           oldApprovals.put(normName, null);
           approvals.put(normName, c.getValue());
         } else if (c == null) {
-          c = new PatchSetApproval(new PatchSetApproval.Key(
-                  psId,
-                  user.getAccountId(),
-                  lt.getLabelId()),
-              ent.getValue(), ctx.getWhen());
+          c =
+              new PatchSetApproval(
+                  new PatchSetApproval.Key(psId, user.getAccountId(), lt.getLabelId()),
+                  ent.getValue(),
+                  ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
@@ -685,8 +679,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
-      if ((!del.isEmpty() || !ups.isEmpty())
-          && ctx.getChange().getStatus().isClosed()) {
+      if ((!del.isEmpty() || !ups.isEmpty()) && ctx.getChange().getStatus().isClosed()) {
         throw new ResourceConflictException("change is closed");
       }
       forceCallerAsReviewer(ctx, current, ups, del);
@@ -695,20 +688,24 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !del.isEmpty() || !ups.isEmpty();
     }
 
-    private void forceCallerAsReviewer(ChangeContext ctx,
-        Map<String, PatchSetApproval> current, List<PatchSetApproval> ups,
+    private void forceCallerAsReviewer(
+        ChangeContext ctx,
+        Map<String, PatchSetApproval> current,
+        List<PatchSetApproval> ups,
         List<PatchSetApproval> del) {
       if (current.isEmpty() && ups.isEmpty()) {
         // TODO Find another way to link reviewers to changes.
         if (del.isEmpty()) {
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
-          PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
-              psId,
-              user.getAccountId(),
-              ctx.getControl().getLabelTypes().getLabelTypes().get(0)
-                  .getLabelId()),
-              (short) 0, ctx.getWhen());
+          PatchSetApproval c =
+              new PatchSetApproval(
+                  new PatchSetApproval.Key(
+                      psId,
+                      user.getAccountId(),
+                      ctx.getControl().getLabelTypes().getLabelTypes().get(0).getLabelId()),
+                  (short) 0,
+                  ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
           ups.add(c);
@@ -722,17 +719,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ups.add(c);
         }
       }
-      ctx.getUpdate(ctx.getChange().currentPatchSetId())
-          .putReviewer(user.getAccountId(), REVIEWER);
+      ctx.getUpdate(ctx.getChange().currentPatchSetId()).putReviewer(user.getAccountId(), REVIEWER);
     }
 
-    private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx,
-        List<PatchSetApproval> del) throws OrmException {
+    private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, List<PatchSetApproval> del)
+        throws OrmException {
       LabelTypes labelTypes = ctx.getControl().getLabelTypes();
       Map<String, PatchSetApproval> current = new HashMap<>();
 
-      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-          ctx.getDb(), ctx.getControl(), psId, user.getAccountId())) {
+      for (PatchSetApproval a :
+          approvalsUtil.byPatchSetUser(ctx.getDb(), ctx.getControl(), psId, user.getAccountId())) {
         if (a.isLegacySubmit()) {
           continue;
         }
@@ -747,8 +743,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return current;
     }
 
-    private boolean insertMessage(ChangeContext ctx)
-        throws OrmException {
+    private boolean insertMessage(ChangeContext ctx) throws OrmException {
       String msg = Strings.nullToEmpty(in.message).trim();
 
       StringBuilder buf = new StringBuilder();
@@ -767,17 +762,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return false;
       }
 
-      message = new ChangeMessage(
-          new ChangeMessage.Key(
-            psId.getParentKey(), ChangeUtil.messageUUID(ctx.getDb())),
-          user.getAccountId(),
-          ctx.getWhen(),
-          psId);
+      message =
+          new ChangeMessage(
+              new ChangeMessage.Key(psId.getParentKey(), ChangeUtil.messageUUID(ctx.getDb())),
+              user.getAccountId(),
+              ctx.getWhen(),
+              psId);
       message.setTag(in.tag);
-      message.setMessage(String.format(
-          "Patch Set %d:%s",
-          psId.get(),
-          buf.toString()));
+      message.setMessage(String.format("Patch Set %d:%s", psId.get(), buf.toString()));
       cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), message);
       return true;
     }

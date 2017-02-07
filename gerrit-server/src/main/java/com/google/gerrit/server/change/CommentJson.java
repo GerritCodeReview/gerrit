@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,12 +68,9 @@ class CommentJson {
     return commentInfo;
   }
 
-  Map<String, List<CommentInfo>> format(Iterable<PatchLineComment> l)
-      throws OrmException {
+  Map<String, List<CommentInfo>> format(Iterable<PatchLineComment> l) throws OrmException {
     Map<String, List<CommentInfo>> out = new TreeMap<>();
-    AccountLoader accountLoader = fillAccounts
-        ? accountLoaderFactory.create(true)
-        : null;
+    AccountLoader accountLoader = fillAccounts ? accountLoaderFactory.create(true) : null;
 
     for (PatchLineComment c : l) {
       CommentInfo o = toCommentInfo(c, accountLoader);
@@ -98,19 +94,18 @@ class CommentJson {
     return out;
   }
 
-  List<CommentInfo> formatAsList(Iterable<PatchLineComment> l)
-      throws OrmException {
-    final AccountLoader accountLoader = fillAccounts
-        ? accountLoaderFactory.create(true)
-        : null;
-    List<CommentInfo> out = FluentIterable
-        .from(l)
-        .transform(new Function<PatchLineComment, CommentInfo>() {
-          @Override
-          public CommentInfo apply(PatchLineComment c) {
-            return toCommentInfo(c, accountLoader);
-          }
-        }).toSortedList(COMMENT_INFO_ORDER);
+  List<CommentInfo> formatAsList(Iterable<PatchLineComment> l) throws OrmException {
+    final AccountLoader accountLoader = fillAccounts ? accountLoaderFactory.create(true) : null;
+    List<CommentInfo> out =
+        FluentIterable.from(l)
+            .transform(
+                new Function<PatchLineComment, CommentInfo>() {
+                  @Override
+                  public CommentInfo apply(PatchLineComment c) {
+                    return toCommentInfo(c, accountLoader);
+                  }
+                })
+            .toSortedList(COMMENT_INFO_ORDER);
 
     if (accountLoader != null) {
       accountLoader.fill();

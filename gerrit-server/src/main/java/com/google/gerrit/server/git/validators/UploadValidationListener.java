@@ -17,21 +17,18 @@ package com.google.gerrit.server.git.validators;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.validators.ValidationException;
-
+import java.util.Collection;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.UploadPack;
 
-import java.util.Collection;
-
 /**
  * Listener to provide validation for upload operations.
  *
- * Invoked by Gerrit before it begins to send a pack to the client.
+ * <p>Invoked by Gerrit before it begins to send a pack to the client.
  *
- * Implementors can block the upload operation by throwing a
- * ValidationException. The exception's message text will be reported to
- * the end-user over the client's protocol connection.
+ * <p>Implementors can block the upload operation by throwing a ValidationException. The exception's
+ * message text will be reported to the end-user over the client's protocol connection.
  */
 @ExtensionPoint
 public interface UploadValidationListener {
@@ -42,17 +39,20 @@ public interface UploadValidationListener {
    * @param repository The repository
    * @param project The project
    * @param remoteHost Remote address/hostname of the user
-   * @param wants The list of wanted objects. These may be RevObject or
-   *        RevCommit if the processor parsed them. Implementors should not rely
-   *        on the values being parsed.
-   * @param haves The list of common objects. Empty on an initial clone request.
-   *        These may be RevObject or RevCommit if the processor parsed them.
-   *        Implementors should not rely on the values being parsed.
-   * @throws ValidationException to block the upload and send a message
-   *         back to the end-user over the client's protocol connection.
+   * @param wants The list of wanted objects. These may be RevObject or RevCommit if the processor
+   *     parsed them. Implementors should not rely on the values being parsed.
+   * @param haves The list of common objects. Empty on an initial clone request. These may be
+   *     RevObject or RevCommit if the processor parsed them. Implementors should not rely on the
+   *     values being parsed.
+   * @throws ValidationException to block the upload and send a message back to the end-user over
+   *     the client's protocol connection.
    */
-  void onPreUpload(Repository repository, Project project,
-      String remoteHost, UploadPack up, Collection<? extends ObjectId> wants,
+  void onPreUpload(
+      Repository repository,
+      Project project,
+      String remoteHost,
+      UploadPack up,
+      Collection<? extends ObjectId> wants,
       Collection<? extends ObjectId> haves)
       throws ValidationException;
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.server.query;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.gwtorm.server.OrmException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -85,8 +84,11 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
   @Override
   public boolean match(final T object) throws OrmException {
     for (final Predicate<T> c : children) {
-      checkState(c.isMatchable(), "match invoked, but child predicate %s "
-          + "doesn't implement %s", c, Matchable.class.getName());
+      checkState(
+          c.isMatchable(),
+          "match invoked, but child predicate %s " + "doesn't implement %s",
+          c,
+          Matchable.class.getName());
       if (c.asMatchable().match(object)) {
         return true;
       }

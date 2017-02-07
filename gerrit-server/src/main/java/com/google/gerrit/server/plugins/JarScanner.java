@@ -27,17 +27,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-
-import org.eclipse.jgit.util.IO;
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -55,16 +44,24 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+import org.eclipse.jgit.util.IO;
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.Attribute;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 public class JarScanner implements PluginContentScanner {
-  private static final int SKIP_ALL = ClassReader.SKIP_CODE
-      | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
+  private static final int SKIP_ALL =
+      ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private static final Function<ClassData, ExtensionMetaData> CLASS_DATA_TO_EXTENSION_META_DATA =
       new Function<ClassData, ExtensionMetaData>() {
         @Override
         public ExtensionMetaData apply(ClassData classData) {
-          return new ExtensionMetaData(classData.className,
-              classData.annotationValue);
+          return new ExtensionMetaData(classData.className, classData.annotationValue);
         }
       };
 
@@ -80,8 +77,7 @@ public class JarScanner implements PluginContentScanner {
       throws InvalidPluginException {
     Set<String> descriptors = new HashSet<>();
     Multimap<String, JarScanner.ClassData> rawMap = ArrayListMultimap.create();
-    Map<Class<? extends Annotation>, String> classObjToClassDescr =
-        new HashMap<>();
+    Map<Class<? extends Annotation>, String> classObjToClassDescr = new HashMap<>();
 
     for (Class<? extends Annotation> annotation : annotations) {
       String descriptor = Type.getType(annotation).getDescriptor();
@@ -102,19 +98,22 @@ public class JarScanner implements PluginContentScanner {
       } catch (IOException err) {
         throw new InvalidPluginException("Cannot auto-register", err);
       } catch (RuntimeException err) {
-        PluginLoader.log.warn(String.format(
-            "Plugin %s has invalid class file %s inside of %s", pluginName,
-            entry.getName(), jarFile.getName()), err);
+        PluginLoader.log.warn(
+            String.format(
+                "Plugin %s has invalid class file %s inside of %s",
+                pluginName, entry.getName(), jarFile.getName()),
+            err);
         continue;
       }
 
       if (!Strings.isNullOrEmpty(def.annotationName)) {
         if (def.isConcrete()) {
-            rawMap.put(def.annotationName, def);
+          rawMap.put(def.annotationName, def);
         } else {
-          PluginLoader.log.warn(String.format(
-              "Plugin %s tries to @%s(\"%s\") abstract class %s", pluginName,
-              def.annotationName, def.annotationValue, def.className));
+          PluginLoader.log.warn(
+              String.format(
+                  "Plugin %s tries to @%s(\"%s\") abstract class %s",
+                  pluginName, def.annotationName, def.annotationValue, def.className));
         }
       }
     }
@@ -125,11 +124,9 @@ public class JarScanner implements PluginContentScanner {
     for (Class<? extends Annotation> annotoation : annotations) {
       String descr = classObjToClassDescr.get(annotoation);
       Collection<ClassData> discoverdData = rawMap.get(descr);
-      Collection<ClassData> values =
-          firstNonNull(discoverdData, Collections.<ClassData> emptySet());
+      Collection<ClassData> values = firstNonNull(discoverdData, Collections.<ClassData>emptySet());
 
-      result.put(annotoation,
-          transform(values, CLASS_DATA_TO_EXTENSION_META_DATA));
+      result.put(annotoation, transform(values, CLASS_DATA_TO_EXTENSION_META_DATA));
     }
 
     return result.build();
@@ -154,8 +151,9 @@ public class JarScanner implements PluginContentScanner {
       try {
         new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
       } catch (RuntimeException err) {
-        PluginLoader.log.warn(String.format("Jar %s has invalid class file %s",
-            jarFile.getName(), entry.getName()), err);
+        PluginLoader.log.warn(
+            String.format("Jar %s has invalid class file %s", jarFile.getName(), entry.getName()),
+            err);
         continue;
       }
 
@@ -183,8 +181,7 @@ public class JarScanner implements PluginContentScanner {
     return false;
   }
 
-  private static byte[] read(JarFile jarFile, JarEntry entry)
-      throws IOException {
+  private static byte[] read(JarFile jarFile, JarEntry entry) throws IOException {
     byte[] data = new byte[(int) entry.getSize()];
     try (InputStream in = jarFile.getInputStream(entry)) {
       IO.readFully(in, data, 0, data.length);
@@ -207,13 +204,17 @@ public class JarScanner implements PluginContentScanner {
     }
 
     boolean isConcrete() {
-      return (access & Opcodes.ACC_ABSTRACT) == 0
-          && (access & Opcodes.ACC_INTERFACE) == 0;
+      return (access & Opcodes.ACC_ABSTRACT) == 0 && (access & Opcodes.ACC_INTERFACE) == 0;
     }
 
     @Override
-    public void visit(int version, int access, String name, String signature,
-        String superName, String[] interfaces) {
+    public void visit(
+        int version,
+        int access,
+        String name,
+        String signature,
+        String superName,
+        String[] interfaces) {
       this.className = Type.getObjectType(name).getClassName();
       this.access = access;
       this.superName = superName;
@@ -221,8 +222,7 @@ public class JarScanner implements PluginContentScanner {
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-      Optional<String> found =
-          Iterables.tryFind(exports, Predicates.equalTo(desc));
+      Optional<String> found = Iterables.tryFind(exports, Predicates.equalTo(desc));
       if (visible && found.isPresent()) {
         annotationName = desc;
         return new AbstractAnnotationVisitor() {
@@ -236,40 +236,33 @@ public class JarScanner implements PluginContentScanner {
     }
 
     @Override
-    public void visitSource(String arg0, String arg1) {
-    }
+    public void visitSource(String arg0, String arg1) {}
 
     @Override
-    public void visitOuterClass(String arg0, String arg1, String arg2) {
-    }
+    public void visitOuterClass(String arg0, String arg1, String arg2) {}
 
     @Override
-    public MethodVisitor visitMethod(int arg0, String arg1, String arg2,
-        String arg3, String[] arg4) {
+    public MethodVisitor visitMethod(
+        int arg0, String arg1, String arg2, String arg3, String[] arg4) {
       return null;
     }
 
     @Override
-    public void visitInnerClass(String arg0, String arg1, String arg2, int arg3) {
-    }
+    public void visitInnerClass(String arg0, String arg1, String arg2, int arg3) {}
 
     @Override
-    public FieldVisitor visitField(int arg0, String arg1, String arg2,
-        String arg3, Object arg4) {
+    public FieldVisitor visitField(int arg0, String arg1, String arg2, String arg3, Object arg4) {
       return null;
     }
 
     @Override
-    public void visitEnd() {
-    }
+    public void visitEnd() {}
 
     @Override
-    public void visitAttribute(Attribute arg0) {
-    }
+    public void visitAttribute(Attribute arg0) {}
   }
 
-  private abstract static class AbstractAnnotationVisitor extends
-      AnnotationVisitor {
+  private abstract static class AbstractAnnotationVisitor extends AnnotationVisitor {
     AbstractAnnotationVisitor() {
       super(Opcodes.ASM4);
     }
@@ -285,12 +278,10 @@ public class JarScanner implements PluginContentScanner {
     }
 
     @Override
-    public void visitEnum(String arg0, String arg1, String arg2) {
-    }
+    public void visitEnum(String arg0, String arg1, String arg2) {}
 
     @Override
-    public void visitEnd() {
-    }
+    public void visitEnd() {}
   }
 
   @Override
@@ -305,26 +296,25 @@ public class JarScanner implements PluginContentScanner {
 
   @Override
   public Enumeration<PluginEntry> entries() {
-    return Collections.enumeration(Lists.transform(
-        Collections.list(jarFile.entries()),
-        new Function<JarEntry, PluginEntry>() {
-          @Override
-          public PluginEntry apply(JarEntry jarEntry) {
-            try {
-              return resourceOf(jarEntry);
-            } catch (IOException e) {
-              throw new IllegalArgumentException("Cannot convert jar entry "
-                  + jarEntry + " to a resource", e);
-            }
-          }
-        }));
+    return Collections.enumeration(
+        Lists.transform(
+            Collections.list(jarFile.entries()),
+            new Function<JarEntry, PluginEntry>() {
+              @Override
+              public PluginEntry apply(JarEntry jarEntry) {
+                try {
+                  return resourceOf(jarEntry);
+                } catch (IOException e) {
+                  throw new IllegalArgumentException(
+                      "Cannot convert jar entry " + jarEntry + " to a resource", e);
+                }
+              }
+            }));
   }
 
   @Override
-  public InputStream getInputStream(PluginEntry entry)
-      throws IOException {
-    return jarFile.getInputStream(jarFile
-        .getEntry(entry.getName()));
+  public InputStream getInputStream(PluginEntry entry) throws IOException {
+    return jarFile.getInputStream(jarFile.getEntry(entry.getName()));
   }
 
   @Override
@@ -333,17 +323,20 @@ public class JarScanner implements PluginContentScanner {
   }
 
   private PluginEntry resourceOf(JarEntry jarEntry) throws IOException {
-    return new PluginEntry(jarEntry.getName(), jarEntry.getTime(),
-        Optional.of(jarEntry.getSize()), attributesOf(jarEntry));
+    return new PluginEntry(
+        jarEntry.getName(),
+        jarEntry.getTime(),
+        Optional.of(jarEntry.getSize()),
+        attributesOf(jarEntry));
   }
 
-  private Map<Object, String> attributesOf(JarEntry jarEntry)
-      throws IOException {
+  private Map<Object, String> attributesOf(JarEntry jarEntry) throws IOException {
     Attributes attributes = jarEntry.getAttributes();
     if (attributes == null) {
       return Collections.emptyMap();
     }
-    return Maps.transformEntries(attributes,
+    return Maps.transformEntries(
+        attributes,
         new Maps.EntryTransformer<Object, Object, String>() {
           @Override
           public String transformEntry(Object key, Object value) {

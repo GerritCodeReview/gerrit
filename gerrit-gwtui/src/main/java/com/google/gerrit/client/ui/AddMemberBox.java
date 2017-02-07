@@ -29,8 +29,8 @@ public class AddMemberBox extends Composite {
   private final Button addMember;
   private final RemoteSuggestBox suggestBox;
 
-  public AddMemberBox(final String buttonLabel, final String hint,
-      final SuggestOracle suggestOracle) {
+  public AddMemberBox(
+      final String buttonLabel, final String hint, final SuggestOracle suggestOracle) {
     addPanel = new FlowPanel();
     addMember = new Button(buttonLabel);
 
@@ -38,12 +38,13 @@ public class AddMemberBox extends Composite {
     suggestBox.setStyleName(Gerrit.RESOURCES.css().addMemberTextBox());
     suggestBox.setVisibleLength(50);
     suggestBox.setHintText(hint);
-    suggestBox.addSelectionHandler(new SelectionHandler<String>() {
-      @Override
-      public void onSelection(SelectionEvent<String> event) {
-        addMember.fireEvent(new ClickEvent() {});
-      }
-    });
+    suggestBox.addSelectionHandler(
+        new SelectionHandler<String>() {
+          @Override
+          public void onSelection(SelectionEvent<String> event) {
+            addMember.fireEvent(new ClickEvent() {});
+          }
+        });
 
     addPanel.add(suggestBox);
     addPanel.add(addMember);

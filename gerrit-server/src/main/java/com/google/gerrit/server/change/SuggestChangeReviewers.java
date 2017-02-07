@@ -28,16 +28,15 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 
 public class SuggestChangeReviewers extends SuggestReviewers
     implements RestReadView<ChangeResource> {
   @Inject
-  SuggestChangeReviewers(AccountVisibility av,
+  SuggestChangeReviewers(
+      AccountVisibility av,
       GenericFactory identifiedUserFactory,
       Provider<ReviewDb> dbProvider,
       @GerritServerConfig Config cfg,
@@ -48,8 +47,8 @@ public class SuggestChangeReviewers extends SuggestReviewers
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
       throws BadRequestException, OrmException, IOException {
-    return reviewersUtil.suggestReviewers(this,
-        rsrc.getControl().getProjectControl(), getVisibility(rsrc));
+    return reviewersUtil.suggestReviewers(
+        this, rsrc.getControl().getProjectControl(), getVisibility(rsrc));
   }
 
   private VisibilityControl getVisibility(final ChangeResource rsrc) {

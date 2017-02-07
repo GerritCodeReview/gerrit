@@ -23,9 +23,8 @@ import com.google.inject.Singleton;
 public class PutBranch implements RestModifyView<BranchResource, BranchInput> {
 
   @Override
-  public Object apply(BranchResource rsrc, BranchInput input)
-      throws ResourceConflictException {
-    throw new ResourceConflictException("Branch \"" + rsrc.getBranchInfo().ref
-        + "\" already exists");
+  public Object apply(BranchResource rsrc, BranchInput input) throws ResourceConflictException {
+    throw new ResourceConflictException(
+        "Branch \"" + rsrc.getBranchInfo().ref + "\" already exists");
   }
 }

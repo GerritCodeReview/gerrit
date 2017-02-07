@@ -56,6 +56,5 @@ public class ReviewDbUtil {
     return db;
   }
 
-  private ReviewDbUtil() {
-  }
+  private ReviewDbUtil() {}
 }

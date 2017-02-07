@@ -22,17 +22,25 @@ import com.google.gerrit.server.account.AuthResult;
 
 public interface WebSession {
   boolean isSignedIn();
+
   String getXGerritAuth();
+
   boolean isValidXGerritAuth(String keyIn);
+
   AccountExternalId.Key getLastLoginExternalId();
+
   CurrentUser getUser();
+
   void login(AuthResult res, boolean rememberMe);
 
   /** Set the user account for this current request only. */
   void setUserAccountId(Account.Id id);
+
   boolean isAccessPathOk(AccessPath path);
+
   void setAccessPathOk(AccessPath path, boolean ok);
 
   void logout();
+
   String getSessionId();
 }

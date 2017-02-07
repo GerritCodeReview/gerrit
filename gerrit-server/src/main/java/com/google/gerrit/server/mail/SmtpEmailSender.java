@@ -25,12 +25,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.apache.commons.net.smtp.AuthSMTPClient;
-import org.apache.commons.net.smtp.SMTPClient;
-import org.apache.commons.net.smtp.SMTPReply;
-import org.eclipse.jgit.lib.Config;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -43,6 +37,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.net.smtp.AuthSMTPClient;
+import org.apache.commons.net.smtp.SMTPClient;
+import org.apache.commons.net.smtp.SMTPReply;
+import org.eclipse.jgit.lib.Config;
 
 /** Sends email via a nearby SMTP server. */
 @Singleton
@@ -58,7 +56,9 @@ public class SmtpEmailSender implements EmailSender {
   }
 
   public enum Encryption {
-    NONE, SSL, TLS
+    NONE,
+    SSL,
+    TLS
   }
 
   private final boolean enabled;
@@ -78,17 +78,21 @@ public class SmtpEmailSender implements EmailSender {
   SmtpEmailSender(@GerritServerConfig final Config cfg) {
     enabled = cfg.getBoolean("sendemail", null, "enable", true);
     connectTimeout =
-        Ints.checkedCast(ConfigUtil.getTimeUnit(cfg, "sendemail", null,
-            "connectTimeout", DEFAULT_CONNECT_TIMEOUT, TimeUnit.MILLISECONDS));
-
+        Ints.checkedCast(
+            ConfigUtil.getTimeUnit(
+                cfg,
+                "sendemail",
+                null,
+                "connectTimeout",
+                DEFAULT_CONNECT_TIMEOUT,
+                TimeUnit.MILLISECONDS));
 
     smtpHost = cfg.getString("sendemail", null, "smtpserver");
     if (smtpHost == null) {
       smtpHost = "127.0.0.1";
     }
 
-    smtpEncryption =
-        cfg.getEnum("sendemail", null, "smtpencryption", Encryption.NONE);
+    smtpEncryption = cfg.getEnum("sendemail", null, "smtpencryption", Encryption.NONE);
     sslVerify = cfg.getBoolean("sendemail", null, "sslverify", true);
 
     final int defaultPort;
@@ -145,15 +149,17 @@ public class SmtpEmailSender implements EmailSender {
   }
 
   @Override
-  public void send(final Address from, Collection<Address> rcpt,
-      final Map<String, EmailHeader> callerHeaders, final String body)
+  public void send(
+      final Address from,
+      Collection<Address> rcpt,
+      final Map<String, EmailHeader> callerHeaders,
+      final String body)
       throws EmailException {
     if (!isEnabled()) {
       throw new EmailException("Sending email is disabled");
     }
 
-    final Map<String, EmailHeader> hdrs =
-        new LinkedHashMap<>(callerHeaders);
+    final Map<String, EmailHeader> hdrs = new LinkedHashMap<>(callerHeaders);
     setMissingHeader(hdrs, "MIME-Version", "1.0");
     setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
     setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
@@ -163,10 +169,9 @@ public class SmtpEmailSender implements EmailSender {
       setMissingHeader(hdrs, "Importance", importance);
     }
     if (expiryDays > 0) {
-      Date expiry = new Date(TimeUtil.nowMs() +
-        expiryDays * 24 * 60 * 60 * 1000L );
-      setMissingHeader(hdrs, "Expiry-Date",
-        new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
+      Date expiry = new Date(TimeUtil.nowMs() + expiryDays * 24 * 60 * 60 * 1000L);
+      setMissingHeader(
+          hdrs, "Expiry-Date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
     }
 
     StringBuffer rejected = new StringBuffer();
@@ -174,8 +179,7 @@ public class SmtpEmailSender implements EmailSender {
       final SMTPClient client = open();
       try {
         if (!client.setSender(from.email)) {
-          throw new EmailException("Server " + smtpHost
-              + " rejected from address " + from.email);
+          throw new EmailException("Server " + smtpHost + " rejected from address " + from.email);
         }
 
         /* Do not prevent the email from being sent to "good" users simply
@@ -188,9 +192,13 @@ public class SmtpEmailSender implements EmailSender {
         for (Address addr : rcpt) {
           if (!client.addRecipient(addr.email)) {
             String error = client.getReplyString();
-            rejected.append("Server ").append(smtpHost)
-                    .append(" rejected recipient ").append(addr)
-                    .append(": ").append(error);
+            rejected
+                .append("Server ")
+                .append(smtpHost)
+                .append(" rejected recipient ")
+                .append(addr)
+                .append(": ")
+                .append(error);
           }
         }
 
@@ -200,8 +208,12 @@ public class SmtpEmailSender implements EmailSender {
            * information. That piece of the puzzle is vital if zero recipients
            * are accepted and the server consequently rejects the DATA command.
            */
-          throw new EmailException(rejected + "Server " + smtpHost
-              + " rejected DATA command: " + client.getReplyString());
+          throw new EmailException(
+              rejected
+                  + "Server "
+                  + smtpHost
+                  + " rejected DATA command: "
+                  + client.getReplyString());
         }
         try (Writer w = new BufferedWriter(messageDataWriter)) {
           for (Map.Entry<String, EmailHeader> h : hdrs.entrySet()) {
@@ -219,8 +231,8 @@ public class SmtpEmailSender implements EmailSender {
         }
 
         if (!client.completePendingCommand()) {
-          throw new EmailException("Server " + smtpHost
-              + " rejected message body: " + client.getReplyString());
+          throw new EmailException(
+              "Server " + smtpHost + " rejected message body: " + client.getReplyString());
         }
 
         client.logout();
@@ -235,8 +247,8 @@ public class SmtpEmailSender implements EmailSender {
     }
   }
 
-  private void setMissingHeader(final Map<String, EmailHeader> hdrs,
-      final String name, final String value) {
+  private void setMissingHeader(
+      final Map<String, EmailHeader> hdrs, final String name, final String value) {
     if (!hdrs.containsKey(name) || hdrs.get(name).isEmpty()) {
       hdrs.put(name, new EmailHeader.String(value));
     }
@@ -256,12 +268,10 @@ public class SmtpEmailSender implements EmailSender {
       String replyString = client.getReplyString();
       if (!SMTPReply.isPositiveCompletion(replyCode)) {
         throw new EmailException(
-            String.format("SMTP server rejected connection: %d: %s",
-                replyCode, replyString));
+            String.format("SMTP server rejected connection: %d: %s", replyCode, replyString));
       }
       if (!client.login()) {
-        throw new EmailException(
-            "SMTP server rejected HELO/EHLO greeting: " + replyString);
+        throw new EmailException("SMTP server rejected HELO/EHLO greeting: " + replyString);
       }
 
       if (smtpEncryption == Encryption.TLS) {

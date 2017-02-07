@@ -26,12 +26,9 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
-
 import java.util.concurrent.TimeUnit;
 
-class CacheProvider<K, V>
-    implements Provider<Cache<K, V>>,
-    CacheBinding<K, V> {
+class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V> {
   private final CacheModule module;
   final String name;
   private final TypeLiteral<K> keyType;
@@ -47,10 +44,7 @@ class CacheProvider<K, V>
   private PersistentCacheFactory persistentCacheFactory;
   private boolean frozen;
 
-  CacheProvider(CacheModule module,
-      String name,
-      TypeLiteral<K> keyType,
-      TypeLiteral<V> valType) {
+  CacheProvider(CacheModule module, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     this.module = module;
     this.name = name;
     this.keyType = keyType;
@@ -132,9 +126,7 @@ class CacheProvider<K, V>
   @Override
   @Nullable
   public Long expireAfterWrite(TimeUnit unit) {
-   return expireAfterWrite != null
-       ? unit.convert(expireAfterWrite, SECONDS)
-       : null;
+    return expireAfterWrite != null ? unit.convert(expireAfterWrite, SECONDS) : null;
   }
 
   @Override

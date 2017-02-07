@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,11 +33,9 @@ public class GroupList extends TabFile {
     this.byUUID = byUUID;
   }
 
-  public static GroupList parse(String text, ValidationError.Sink errors)
-      throws IOException {
+  public static GroupList parse(String text, ValidationError.Sink errors) throws IOException {
     List<Row> rows = parse(text, FILE_NAME, TRIM, TRIM, errors);
-    Map<AccountGroup.UUID, GroupReference> groupsByUUID =
-        new HashMap<>(rows.size());
+    Map<AccountGroup.UUID, GroupReference> groupsByUUID = new HashMap<>(rows.size());
     for (Row row : rows) {
       AccountGroup.UUID uuid = new AccountGroup.UUID(row.left);
       String name = row.right;
@@ -105,5 +102,4 @@ public class GroupList extends TabFile {
   public void retainUUIDs(Collection<AccountGroup.UUID> toBeRetained) {
     byUUID.keySet().retainAll(toBeRetained);
   }
-
 }

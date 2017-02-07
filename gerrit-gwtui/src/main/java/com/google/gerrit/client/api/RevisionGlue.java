@@ -24,14 +24,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class RevisionGlue {
   public static void onAction(
-      ChangeInfo change,
-      RevisionInfo revision,
-      ActionInfo action,
-      ActionButton button) {
-    RestApi api = ChangeApi.revision(
-          change.legacyId().get(),
-          revision.name())
-      .view(action.id());
+      ChangeInfo change, RevisionInfo revision, ActionInfo action, ActionButton button) {
+    RestApi api = ChangeApi.revision(change.legacyId().get(), revision.name()).view(action.id());
 
     JavaScriptObject f = get(action.id());
     if (f != null) {
@@ -50,6 +44,5 @@ public class RevisionGlue {
     return $wnd.Gerrit.revision_actions[id];
   }-*/;
 
-  private RevisionGlue() {
-  }
+  private RevisionGlue() {}
 }

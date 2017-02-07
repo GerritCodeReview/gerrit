@@ -20,14 +20,12 @@ import com.google.gerrit.server.git.DestinationList;
 import com.google.gerrit.server.git.TabFile;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /** Preferences for user accounts. */
 public class VersionedAccountDestinations extends VersionedMetaData {
@@ -73,8 +71,7 @@ public class VersionedAccountDestinations extends VersionedMetaData {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException,
-      ConfigInvalidException {
+  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     throw new UnsupportedOperationException("Cannot yet save destinations");
   }
 }

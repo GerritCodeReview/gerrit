@@ -36,6 +36,5 @@ public class OptionUtil {
     return Iterables.transform(COMMA_OR_SPACE.split(value), TO_LOWER_CASE);
   }
 
-  private OptionUtil() {
-  }
+  private OptionUtil() {}
 }

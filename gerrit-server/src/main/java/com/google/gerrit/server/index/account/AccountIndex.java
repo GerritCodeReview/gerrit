@@ -20,7 +20,6 @@ import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
 
 public interface AccountIndex extends Index<Account.Id, AccountState> {
-  public interface Factory extends
-      IndexDefinition.IndexFactory<Account.Id, AccountState, AccountIndex> {
-  }
+  public interface Factory
+      extends IndexDefinition.IndexFactory<Account.Id, AccountState, AccountIndex> {}
 }

@@ -27,7 +27,6 @@ import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RangeUtil;
 import com.google.gerrit.server.util.RangeUtil.Range;
 import com.google.inject.Provider;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -76,12 +75,17 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
   private final String value;
 
-  LabelPredicate(ProjectCache projectCache,
+  LabelPredicate(
+      ProjectCache projectCache,
       ChangeControl.GenericFactory ccFactory,
-      IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      String value, Set<Account.Id> accounts, AccountGroup.UUID group) {
-    super(predicates(new Args(projectCache, ccFactory, userFactory, dbProvider,
-        value, accounts, group)));
+      IdentifiedUser.GenericFactory userFactory,
+      Provider<ReviewDb> dbProvider,
+      String value,
+      Set<Account.Id> accounts,
+      AccountGroup.UUID group) {
+    super(
+        predicates(
+            new Args(projectCache, ccFactory, userFactory, dbProvider, value, accounts, group)));
     this.value = value;
   }
 
@@ -110,27 +114,22 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
         range = new Range(v, 1, 1);
       }
     } else {
-      range = RangeUtil.getRange(
-          parsed.label,
-          parsed.test,
-          parsed.expVal,
-          -MAX_LABEL_VALUE,
-          MAX_LABEL_VALUE);
+      range =
+          RangeUtil.getRange(
+              parsed.label, parsed.test, parsed.expVal, -MAX_LABEL_VALUE, MAX_LABEL_VALUE);
     }
     String prefix = range.prefix;
     int min = range.min;
     int max = range.max;
 
-    List<Predicate<ChangeData>> r =
-        Lists.newArrayListWithCapacity(max - min + 1);
+    List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(max - min + 1);
     for (int i = min; i <= max; i++) {
       r.add(onePredicate(args, prefix, i));
     }
     return r;
   }
 
-  private static Predicate<ChangeData> onePredicate(Args args, String label,
-      int expVal) {
+  private static Predicate<ChangeData> onePredicate(Args args, String label, int expVal) {
     if (expVal != 0) {
       return equalsLabelPredicate(args, label, expVal);
     }
@@ -138,8 +137,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   }
 
   private static Predicate<ChangeData> noLabelQuery(Args args, String label) {
-    List<Predicate<ChangeData>> r =
-        Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
+    List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
     for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
       r.add(equalsLabelPredicate(args, label, i));
       r.add(equalsLabelPredicate(args, label, -i));
@@ -147,8 +145,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     return not(or(r));
   }
 
-  private static Predicate<ChangeData> equalsLabelPredicate(Args args,
-      String label, int expVal) {
+  private static Predicate<ChangeData> equalsLabelPredicate(Args args, String label, int expVal) {
     if (args.accounts == null || args.accounts.isEmpty()) {
       return new EqualsLabelPredicate(args, label, expVal, null);
     }

@@ -41,7 +41,6 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -90,8 +89,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     if (!notesMigration.readChanges()) {
       throw new BadRequestException("Cannot add hashtags; NoteDb is disabled");
     }
-    if (input == null
-        || (input.add == null && input.remove == null)) {
+    if (input == null || (input.add == null && input.remove == null)) {
       updatedHashtags = ImmutableSortedSet.of();
       return false;
     }
@@ -129,23 +127,21 @@ public class SetHashtagsOp extends BatchUpdate.Op {
     return true;
   }
 
-  private void addMessage(Context ctx, ChangeUpdate update)
-      throws OrmException {
+  private void addMessage(Context ctx, ChangeUpdate update) throws OrmException {
     StringBuilder msg = new StringBuilder();
     appendHashtagMessage(msg, "added", toAdd);
     appendHashtagMessage(msg, "removed", toRemove);
-    ChangeMessage cmsg = new ChangeMessage(
-        new ChangeMessage.Key(
-            change.getId(),
-            ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getAccountId(), ctx.getWhen(),
-        change.currentPatchSetId());
+    ChangeMessage cmsg =
+        new ChangeMessage(
+            new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(ctx.getDb())),
+            ctx.getAccountId(),
+            ctx.getWhen(),
+            change.currentPatchSetId());
     cmsg.setMessage(msg.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
   }
 
-  private void appendHashtagMessage(StringBuilder b, String action,
-      Set<String> hashtags) {
+  private void appendHashtagMessage(StringBuilder b, String action, Set<String> hashtags) {
     if (isNullOrEmpty(hashtags)) {
       return;
     }
@@ -166,14 +162,13 @@ public class SetHashtagsOp extends BatchUpdate.Op {
   @Override
   public void postUpdate(Context ctx) throws OrmException {
     if (updated() && fireEvent) {
-      hashtagsEdited.fire(change, ctx.getAccount(), updatedHashtags,
-          toAdd, toRemove, ctx.getWhen());
+      hashtagsEdited.fire(
+          change, ctx.getAccount(), updatedHashtags, toAdd, toRemove, ctx.getWhen());
     }
   }
 
   public ImmutableSortedSet<String> getUpdatedHashtags() {
-    checkState(updatedHashtags != null,
-        "getUpdatedHashtags() only valid after executing op");
+    checkState(updatedHashtags != null, "getUpdatedHashtags() only valid after executing op");
     return updatedHashtags;
   }
 

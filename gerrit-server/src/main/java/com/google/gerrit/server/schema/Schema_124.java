@@ -33,14 +33,6 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,6 +42,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class Schema_124 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
@@ -57,7 +55,8 @@ public class Schema_124 extends SchemaVersion {
   private final PersonIdent serverUser;
 
   @Inject
-  Schema_124(Provider<Schema_123> prior,
+  Schema_124(
+      Provider<Schema_123> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       @GerritPersonIdent PersonIdent serverUser) {
@@ -68,23 +67,22 @@ public class Schema_124 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui)
-      throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     Multimap<Account.Id, AccountSshKey> imports = ArrayListMultimap.create();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery(
-          "SELECT "
-          + "account_id, "
-          + "seq, "
-          + "ssh_public_key, "
-          + "valid "
-          + "FROM account_ssh_keys")) {
+        ResultSet rs =
+            stmt.executeQuery(
+                "SELECT "
+                    + "account_id, "
+                    + "seq, "
+                    + "ssh_public_key, "
+                    + "valid "
+                    + "FROM account_ssh_keys")) {
       while (rs.next()) {
         Account.Id accountId = new Account.Id(rs.getInt(1));
         int seq = rs.getInt(2);
         String sshPublicKey = rs.getString(3);
-        AccountSshKey key = new AccountSshKey(
-            new AccountSshKey.Id(accountId, seq), sshPublicKey);
+        AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, seq), sshPublicKey);
         boolean valid = toBoolean(rs.getString(4));
         if (!valid) {
           key.setInvalid();
@@ -101,15 +99,14 @@ public class Schema_124 extends SchemaVersion {
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
 
-      for (Map.Entry<Account.Id, Collection<AccountSshKey>> e : imports.asMap()
-          .entrySet()) {
-        try (MetaDataUpdate md = new MetaDataUpdate(
-                 GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
+      for (Map.Entry<Account.Id, Collection<AccountSshKey>> e : imports.asMap().entrySet()) {
+        try (MetaDataUpdate md =
+            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
           md.getCommitBuilder().setAuthor(serverUser);
           md.getCommitBuilder().setCommitter(serverUser);
 
-          VersionedAuthorizedKeys authorizedKeys = new VersionedAuthorizedKeys(
-              new SimpleSshKeyCreator(), e.getKey());
+          VersionedAuthorizedKeys authorizedKeys =
+              new VersionedAuthorizedKeys(new SimpleSshKeyCreator(), e.getKey());
           authorizedKeys.load(md);
           authorizedKeys.setKeys(fixInvalidSequenceNumbers(e.getValue()));
           authorizedKeys.commit(md);
@@ -122,22 +119,24 @@ public class Schema_124 extends SchemaVersion {
     }
   }
 
-  private Collection<AccountSshKey> fixInvalidSequenceNumbers(
-      Collection<AccountSshKey> keys) {
+  private Collection<AccountSshKey> fixInvalidSequenceNumbers(Collection<AccountSshKey> keys) {
     Ordering<AccountSshKey> o =
-        Ordering.natural().onResultOf(new Function<AccountSshKey, Integer>() {
-          @Override
-          public Integer apply(AccountSshKey sshKey) {
-            return sshKey.getKey().get();
-          }
-        });
+        Ordering.natural()
+            .onResultOf(
+                new Function<AccountSshKey, Integer>() {
+                  @Override
+                  public Integer apply(AccountSshKey sshKey) {
+                    return sshKey.getKey().get();
+                  }
+                });
     List<AccountSshKey> fixedKeys = new ArrayList<>(keys);
     AccountSshKey minKey = o.min(keys);
     while (minKey.getKey().get() <= 0) {
-      AccountSshKey fixedKey = new AccountSshKey(
-          new AccountSshKey.Id(minKey.getKey().getParentKey(),
-              Math.max(o.max(keys).getKey().get() + 1, 1)),
-          minKey.getSshPublicKey());
+      AccountSshKey fixedKey =
+          new AccountSshKey(
+              new AccountSshKey.Id(
+                  minKey.getKey().getParentKey(), Math.max(o.max(keys).getKey().get() + 1, 1)),
+              minKey.getSshPublicKey());
       Collections.replaceAll(fixedKeys, minKey, fixedKey);
       minKey = o.min(fixedKeys);
     }

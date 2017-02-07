@@ -29,7 +29,6 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.Delta;
 import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
-
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -39,12 +38,9 @@ public class NoteDbChangeStateTest {
     KeyUtil.setEncoderImpl(new StandardKeyEncoder());
   }
 
-  ObjectId SHA1 =
-      ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
-  ObjectId SHA2 =
-      ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
-  ObjectId SHA3 =
-      ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee");
+  ObjectId SHA1 = ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+  ObjectId SHA2 = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+  ObjectId SHA3 = ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee");
 
   @Test
   public void parseWithoutDrafts() {
@@ -59,18 +55,18 @@ public class NoteDbChangeStateTest {
 
   @Test
   public void parseWithDrafts() {
-    NoteDbChangeState state = parse(
-        new Change.Id(1),
-        SHA1.name() + ",2003=" + SHA2.name() + ",1001=" + SHA3.name());
+    NoteDbChangeState state =
+        parse(new Change.Id(1), SHA1.name() + ",2003=" + SHA2.name() + ",1001=" + SHA3.name());
 
     assertThat(state.getChangeId()).isEqualTo(new Change.Id(1));
     assertThat(state.getChangeMetaId()).isEqualTo(SHA1);
-    assertThat(state.getDraftIds()).containsExactly(
-        new Account.Id(1001), SHA3,
-        new Account.Id(2003), SHA2);
+    assertThat(state.getDraftIds())
+        .containsExactly(
+            new Account.Id(1001), SHA3,
+            new Account.Id(2003), SHA2);
 
-    assertThat(state.toString()).isEqualTo(
-        SHA1.name() + ",1001=" + SHA3.name() + ",2003=" + SHA2.name());
+    assertThat(state.toString())
+        .isEqualTo(SHA1.name() + ",1001=" + SHA3.name() + ",2003=" + SHA2.name());
   }
 
   @Test
@@ -80,8 +76,7 @@ public class NoteDbChangeStateTest {
     applyDelta(c, Delta.create(c.getId(), noMetaId(), noDrafts()));
     assertThat(c.getNoteDbState()).isNull();
 
-    applyDelta(c, Delta.create(c.getId(), noMetaId(),
-          drafts(new Account.Id(1001), zeroId())));
+    applyDelta(c, Delta.create(c.getId(), noMetaId(), drafts(new Account.Id(1001), zeroId())));
     assertThat(c.getNoteDbState()).isNull();
   }
 
@@ -106,29 +101,22 @@ public class NoteDbChangeStateTest {
   @Test
   public void applyDeltaToDrafts() {
     Change c = newChange();
-    applyDelta(c, Delta.create(c.getId(), metaId(SHA1),
-          drafts(new Account.Id(1001), SHA2)));
-    assertThat(c.getNoteDbState()).isEqualTo(
-        SHA1.name() + ",1001=" + SHA2.name());
+    applyDelta(c, Delta.create(c.getId(), metaId(SHA1), drafts(new Account.Id(1001), SHA2)));
+    assertThat(c.getNoteDbState()).isEqualTo(SHA1.name() + ",1001=" + SHA2.name());
 
-    applyDelta(c, Delta.create(c.getId(), noMetaId(),
-          drafts(new Account.Id(2003), SHA3)));
-    assertThat(c.getNoteDbState()).isEqualTo(
-        SHA1.name() + ",1001=" + SHA2.name() + ",2003=" + SHA3.name());
+    applyDelta(c, Delta.create(c.getId(), noMetaId(), drafts(new Account.Id(2003), SHA3)));
+    assertThat(c.getNoteDbState())
+        .isEqualTo(SHA1.name() + ",1001=" + SHA2.name() + ",2003=" + SHA3.name());
 
-    applyDelta(c, Delta.create(c.getId(), noMetaId(),
-          drafts(new Account.Id(2003), zeroId())));
-    assertThat(c.getNoteDbState()).isEqualTo(
-        SHA1.name() + ",1001=" + SHA2.name());
+    applyDelta(c, Delta.create(c.getId(), noMetaId(), drafts(new Account.Id(2003), zeroId())));
+    assertThat(c.getNoteDbState()).isEqualTo(SHA1.name() + ",1001=" + SHA2.name());
 
     applyDelta(c, Delta.create(c.getId(), metaId(SHA3), noDrafts()));
-    assertThat(c.getNoteDbState()).isEqualTo(
-        SHA3.name() + ",1001=" + SHA2.name());
+    assertThat(c.getNoteDbState()).isEqualTo(SHA3.name() + ",1001=" + SHA2.name());
   }
 
   private static Change newChange() {
-    return TestChanges.newChange(
-        new Project.NameKey("project"), new Account.Id(12345));
+    return TestChanges.newChange(new Project.NameKey("project"), new Account.Id(12345));
   }
 
   // Static factory methods to avoid type arguments when using as method args.

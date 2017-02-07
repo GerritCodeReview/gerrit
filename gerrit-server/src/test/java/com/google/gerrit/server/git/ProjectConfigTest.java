@@ -28,7 +28,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -44,27 +46,30 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-
 public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   private static final String LABEL_SCORES_CONFIG =
-      "  copyMinScore = " + !LabelType.DEF_COPY_MIN_SCORE + "\n" //
-      + "  copyMaxScore = " + !LabelType.DEF_COPY_MAX_SCORE + "\n" //
-      + "  copyAllScoresOnMergeFirstParentUpdate = "
-      + !LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE + "\n" //
-      + "  copyAllScoresOnTrivialRebase = "
-      + !LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE + "\n" //
-      + "  copyAllScoresIfNoCodeChange = "
-      + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE + "\n" //
-      + "  copyAllScoresIfNoChange = "
-      + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE + "\n";
+      "  copyMinScore = "
+          + !LabelType.DEF_COPY_MIN_SCORE
+          + "\n" //
+          + "  copyMaxScore = "
+          + !LabelType.DEF_COPY_MAX_SCORE
+          + "\n" //
+          + "  copyAllScoresOnMergeFirstParentUpdate = "
+          + !LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE
+          + "\n" //
+          + "  copyAllScoresOnTrivialRebase = "
+          + !LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE
+          + "\n" //
+          + "  copyAllScoresIfNoCodeChange = "
+          + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE
+          + "\n" //
+          + "  copyAllScoresIfNoChange = "
+          + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE
+          + "\n";
 
-  private final GroupReference developers = new GroupReference(
-      new AccountGroup.UUID("X"), "Developers");
-  private final GroupReference staff = new GroupReference(
-      new AccountGroup.UUID("Y"), "Staff");
+  private final GroupReference developers =
+      new GroupReference(new AccountGroup.UUID("X"), "Developers");
+  private final GroupReference staff = new GroupReference(new AccountGroup.UUID("Y"), "Staff");
 
   private Repository db;
   private TestRepository<Repository> util;
@@ -79,24 +84,29 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
   @Test
   public void testReadConfig() throws Exception {
-    RevCommit rev = util.commit(util.tree( //
-        util.file("groups", util.blob(group(developers))), //
-        util.file("project.config", util.blob(""//
-            + "[access \"refs/heads/*\"]\n" //
-            + "  exclusiveGroupPermissions = read submit create\n" //
-            + "  submit = group Developers\n" //
-            + "  push = group Developers\n" //
-            + "  read = group Developers\n" //
-            + "[accounts]\n" //
-            + "  sameGroupVisibility = deny group Developers\n" //
-            + "  sameGroupVisibility = block group Staff\n" //
-            + "[contributor-agreement \"Individual\"]\n" //
-            + "  description = A simple description\n" //
-            + "  accepted = group Developers\n" //
-            + "  accepted = group Staff\n" //
-            + "  autoVerify = group Developers\n" //
-            + "  agreementUrl = http://www.example.com/agree\n")) //
-        ));
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[access \"refs/heads/*\"]\n" //
+                            + "  exclusiveGroupPermissions = read submit create\n" //
+                            + "  submit = group Developers\n" //
+                            + "  push = group Developers\n" //
+                            + "  read = group Developers\n" //
+                            + "[accounts]\n" //
+                            + "  sameGroupVisibility = deny group Developers\n" //
+                            + "  sameGroupVisibility = block group Staff\n" //
+                            + "[contributor-agreement \"Individual\"]\n" //
+                            + "  description = A simple description\n" //
+                            + "  accepted = group Developers\n" //
+                            + "  accepted = group Staff\n" //
+                            + "  autoVerify = group Developers\n" //
+                            + "  agreementUrl = http://www.example.com/agree\n")) //
+                ));
 
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getAccountsSection().getSameGroupVisibility()).hasSize(2);
@@ -126,66 +136,85 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
   @Test
   public void testReadConfigLabelDefaultValue() throws Exception {
-    RevCommit rev = util.commit(util.tree( //
-        util.file("groups", util.blob(group(developers))), //
-        util.file("project.config", util.blob(""//
-            + "[label \"CustomLabel\"]\n" //
-            + "  value = -1 Negative\n" //
-            + "  value =  0 No Score\n" //
-            + "  value =  1 Positive\n")) //
-        ));
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[label \"CustomLabel\"]\n" //
+                            + "  value = -1 Negative\n" //
+                            + "  value =  0 No Score\n" //
+                            + "  value =  1 Positive\n")) //
+                ));
 
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
     Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
-    assertThat((int)dv).isEqualTo(0);
+    assertThat((int) dv).isEqualTo(0);
   }
 
   @Test
   public void testReadConfigLabelDefaultValueInRange() throws Exception {
-    RevCommit rev = util.commit(util.tree( //
-        util.file("groups", util.blob(group(developers))), //
-        util.file("project.config", util.blob(""//
-            + "[label \"CustomLabel\"]\n" //
-            + "  value = -1 Negative\n" //
-            + "  value =  0 No Score\n" //
-            + "  value =  1 Positive\n" //
-            + "  defaultValue = -1\n")) //
-        ));
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[label \"CustomLabel\"]\n" //
+                            + "  value = -1 Negative\n" //
+                            + "  value =  0 No Score\n" //
+                            + "  value =  1 Positive\n" //
+                            + "  defaultValue = -1\n")) //
+                ));
 
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
     Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
-    assertThat((int)dv).isEqualTo(-1);
+    assertThat((int) dv).isEqualTo(-1);
   }
 
   @Test
   public void testReadConfigLabelDefaultValueNotInRange() throws Exception {
-    RevCommit rev = util.commit(util.tree( //
-        util.file("groups", util.blob(group(developers))), //
-        util.file("project.config", util.blob(""//
-            + "[label \"CustomLabel\"]\n" //
-            + "  value = -1 Negative\n" //
-            + "  value =  0 No Score\n" //
-            + "  value =  1 Positive\n" //
-            + "  defaultValue = -2\n")) //
-        ));
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[label \"CustomLabel\"]\n" //
+                            + "  value = -1 Negative\n" //
+                            + "  value =  0 No Score\n" //
+                            + "  value =  1 Positive\n" //
+                            + "  defaultValue = -2\n")) //
+                ));
 
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
-      .isEqualTo("project.config: Invalid defaultValue \"-2\" "
-        + "for label \"CustomLabel\"");
+        .isEqualTo("project.config: Invalid defaultValue \"-2\" " + "for label \"CustomLabel\"");
   }
 
   @Test
   public void testReadConfigLabelScores() throws Exception {
-    RevCommit rev = util.commit(util.tree( //
-        util.file("groups", util.blob(group(developers))), //
-        util.file("project.config", util.blob(""//
-            + "[label \"CustomLabel\"]\n" //
-            + LABEL_SCORES_CONFIG)) //
-        ));
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[label \"CustomLabel\"]\n" //
+                            + LABEL_SCORES_CONFIG)) //
+                ));
 
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
@@ -193,42 +222,47 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     assertThat(type.isCopyMinScore()).isNotEqualTo(LabelType.DEF_COPY_MIN_SCORE);
     assertThat(type.isCopyMaxScore()).isNotEqualTo(LabelType.DEF_COPY_MAX_SCORE);
     assertThat(type.isCopyAllScoresOnMergeFirstParentUpdate())
-      .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
     assertThat(type.isCopyAllScoresOnTrivialRebase())
-      .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
     assertThat(type.isCopyAllScoresIfNoCodeChange())
-      .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
     assertThat(type.isCopyAllScoresIfNoChange())
-      .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
   }
 
   @Test
   public void testEditConfig() throws Exception {
-    RevCommit rev = util.commit(util.tree( //
-        util.file("groups", util.blob(group(developers))), //
-        util.file("project.config", util.blob(""//
-            + "[access \"refs/heads/*\"]\n" //
-            + "  exclusiveGroupPermissions = read submit\n" //
-            + "  submit = group Developers\n" //
-            + "  upload = group Developers\n" //
-            + "  read = group Developers\n" //
-            + "[accounts]\n" //
-            + "  sameGroupVisibility = deny group Developers\n" //
-            + "  sameGroupVisibility = block group Staff\n" //
-            + "[contributor-agreement \"Individual\"]\n" //
-            + "  description = A simple description\n" //
-            + "  accepted = group Developers\n" //
-            + "  autoVerify = group Developers\n" //
-            + "  agreementUrl = http://www.example.com/agree\n" //
-            + "[label \"CustomLabel\"]\n" //
-            + LABEL_SCORES_CONFIG)) //
-        ));
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[access \"refs/heads/*\"]\n" //
+                            + "  exclusiveGroupPermissions = read submit\n" //
+                            + "  submit = group Developers\n" //
+                            + "  upload = group Developers\n" //
+                            + "  read = group Developers\n" //
+                            + "[accounts]\n" //
+                            + "  sameGroupVisibility = deny group Developers\n" //
+                            + "  sameGroupVisibility = block group Staff\n" //
+                            + "[contributor-agreement \"Individual\"]\n" //
+                            + "  description = A simple description\n" //
+                            + "  accepted = group Developers\n" //
+                            + "  autoVerify = group Developers\n" //
+                            + "  agreementUrl = http://www.example.com/agree\n" //
+                            + "[label \"CustomLabel\"]\n" //
+                            + LABEL_SCORES_CONFIG)) //
+                ));
     update(rev);
 
     ProjectConfig cfg = read(rev);
     AccessSection section = cfg.getAccessSection("refs/heads/*");
-    cfg.getAccountsSection().setSameGroupVisibility(
-        Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
+    cfg.getAccountsSection()
+        .setSameGroupVisibility(Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
     Permission submit = section.getPermission(Permission.SUBMIT);
     submit.add(new PermissionRule(cfg.resolve(staff)));
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
@@ -236,36 +270,43 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     ca.setAutoVerify(null);
     ca.setDescription("A new description");
     rev = commit(cfg);
-    assertThat(text(rev, "project.config")).isEqualTo(""//
-        + "[access \"refs/heads/*\"]\n" //
-        + "  exclusiveGroupPermissions = read submit\n" //
-        + "  submit = group Developers\n" //
-        + "\tsubmit = group Staff\n" //
-        + "  upload = group Developers\n" //
-        + "  read = group Developers\n"//
-        + "[accounts]\n" //
-        + "  sameGroupVisibility = group Staff\n" //
-        + "[contributor-agreement \"Individual\"]\n" //
-        + "  description = A new description\n" //
-        + "  accepted = group Staff\n" //
-        + "  agreementUrl = http://www.example.com/agree\n"
-        + "[label \"CustomLabel\"]\n" //
-        + LABEL_SCORES_CONFIG
-        + "\tfunction = MaxWithBlock\n" // label gets this function when it is created
-        + "\tdefaultValue = 0\n"); //  label gets this value when it is created
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "" //
+                + "[access \"refs/heads/*\"]\n" //
+                + "  exclusiveGroupPermissions = read submit\n" //
+                + "  submit = group Developers\n" //
+                + "\tsubmit = group Staff\n" //
+                + "  upload = group Developers\n" //
+                + "  read = group Developers\n" //
+                + "[accounts]\n" //
+                + "  sameGroupVisibility = group Staff\n" //
+                + "[contributor-agreement \"Individual\"]\n" //
+                + "  description = A new description\n" //
+                + "  accepted = group Staff\n" //
+                + "  agreementUrl = http://www.example.com/agree\n"
+                + "[label \"CustomLabel\"]\n" //
+                + LABEL_SCORES_CONFIG
+                + "\tfunction = MaxWithBlock\n" // label gets this function when it is created
+                + "\tdefaultValue = 0\n"); //  label gets this value when it is created
   }
 
   @Test
   public void testEditConfigMissingGroupTableEntry() throws Exception {
-    RevCommit rev = util.commit(util.tree( //
-        util.file("groups", util.blob(group(developers))), //
-        util.file("project.config", util.blob(""//
-            + "[access \"refs/heads/*\"]\n" //
-            + "  exclusiveGroupPermissions = read submit\n" //
-            + "  submit = group People Who Can Submit\n" //
-            + "  upload = group Developers\n" //
-            + "  read = group Developers\n")) //
-        ));
+    RevCommit rev =
+        util.commit(
+            util.tree( //
+                util.file("groups", util.blob(group(developers))), //
+                util.file(
+                    "project.config",
+                    util.blob(
+                        "" //
+                            + "[access \"refs/heads/*\"]\n" //
+                            + "  exclusiveGroupPermissions = read submit\n" //
+                            + "  submit = group People Who Can Submit\n" //
+                            + "  upload = group Developers\n" //
+                            + "  read = group Developers\n")) //
+                ));
     update(rev);
 
     ProjectConfig cfg = read(rev);
@@ -273,28 +314,27 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     Permission submit = section.getPermission(Permission.SUBMIT);
     submit.add(new PermissionRule(cfg.resolve(staff)));
     rev = commit(cfg);
-    assertThat(text(rev, "project.config")).isEqualTo(""//
-        + "[access \"refs/heads/*\"]\n" //
-        + "  exclusiveGroupPermissions = read submit\n" //
-        + "  submit = group People Who Can Submit\n" //
-        + "\tsubmit = group Staff\n" //
-        + "  upload = group Developers\n" //
-        + "  read = group Developers\n");
+    assertThat(text(rev, "project.config"))
+        .isEqualTo(
+            "" //
+                + "[access \"refs/heads/*\"]\n" //
+                + "  exclusiveGroupPermissions = read submit\n" //
+                + "  submit = group People Who Can Submit\n" //
+                + "\tsubmit = group Staff\n" //
+                + "  upload = group Developers\n" //
+                + "  read = group Developers\n");
   }
 
-  private ProjectConfig read(RevCommit rev) throws IOException,
-      ConfigInvalidException {
+  private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {
     ProjectConfig cfg = new ProjectConfig(new Project.NameKey("test"));
     cfg.load(db, rev);
     return cfg;
   }
 
-  private RevCommit commit(ProjectConfig cfg) throws IOException,
-      MissingObjectException, IncorrectObjectTypeException {
-    try (MetaDataUpdate md = new MetaDataUpdate(
-          GitReferenceUpdated.DISABLED,
-          cfg.getProject().getNameKey(),
-          db)) {
+  private RevCommit commit(ProjectConfig cfg)
+      throws IOException, MissingObjectException, IncorrectObjectTypeException {
+    try (MetaDataUpdate md =
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, cfg.getProject().getNameKey(), db)) {
       util.tick(5);
       util.setAuthorAndCommitter(md.getCommitBuilder());
       md.setMessage("Edit\n");
@@ -311,9 +351,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     u.setNewObjectId(rev);
     Result result = u.forceUpdate();
     assert_()
-      .withFailureMessage("Cannot update ref for test: " + result)
-      .that(result)
-      .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
+        .withFailureMessage("Cannot update ref for test: " + result)
+        .that(result)
+        .isAnyOf(Result.FAST_FORWARD, Result.FORCED, Result.NEW, Result.NO_CHANGE);
   }
 
   private String text(RevCommit rev, String path) throws Exception {

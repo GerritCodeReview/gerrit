@@ -21,20 +21,17 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Deprecated
-class HasDraftByLegacyPredicate extends ChangeOperatorPredicate
-    implements ChangeDataSource {
+class HasDraftByLegacyPredicate extends ChangeOperatorPredicate implements ChangeDataSource {
   private final Arguments args;
   private final Account.Id accountId;
 
-  HasDraftByLegacyPredicate(Arguments args,
-      Account.Id accountId) {
+  HasDraftByLegacyPredicate(Arguments args, Account.Id accountId) {
     super(ChangeQueryBuilder.FIELD_DRAFTBY, accountId.toString());
     this.args = args;
     this.accountId = accountId;
@@ -42,16 +39,13 @@ class HasDraftByLegacyPredicate extends ChangeOperatorPredicate
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    return !args.plcUtil
-        .draftByChangeAuthor(args.db.get(), object.notes(), accountId)
-        .isEmpty();
+    return !args.plcUtil.draftByChangeAuthor(args.db.get(), object.notes(), accountId).isEmpty();
   }
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
     Set<Change.Id> ids = new HashSet<>();
-    for (PatchLineComment sc :
-        args.plcUtil.draftByAuthor(args.db.get(), accountId)) {
+    for (PatchLineComment sc : args.plcUtil.draftByAuthor(args.db.get(), accountId)) {
       ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
     }
 

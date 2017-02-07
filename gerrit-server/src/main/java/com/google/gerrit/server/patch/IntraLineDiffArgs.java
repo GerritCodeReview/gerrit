@@ -16,24 +16,31 @@ package com.google.gerrit.server.patch;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.reviewdb.client.Project;
-
+import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 
-import java.util.List;
-
 @AutoValue
 public abstract class IntraLineDiffArgs {
-  public static IntraLineDiffArgs create(Text aText, Text bText, List<Edit> edits,
-      Project.NameKey project, ObjectId commit, String path) {
-    return new AutoValue_IntraLineDiffArgs(aText, bText, edits,
-        project, commit, path);
+  public static IntraLineDiffArgs create(
+      Text aText,
+      Text bText,
+      List<Edit> edits,
+      Project.NameKey project,
+      ObjectId commit,
+      String path) {
+    return new AutoValue_IntraLineDiffArgs(aText, bText, edits, project, commit, path);
   }
 
   public abstract Text aText();
+
   public abstract Text bText();
+
   public abstract List<Edit> edits();
+
   public abstract Project.NameKey project();
+
   public abstract ObjectId commit();
+
   public abstract String path();
 }

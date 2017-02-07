@@ -17,7 +17,6 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-
 import java.util.List;
 
 public class GroupDetail {
@@ -28,8 +27,7 @@ public class GroupDetail {
   public GroupReference ownerGroup;
   public boolean canModify;
 
-  public GroupDetail() {
-  }
+  public GroupDetail() {}
 
   public void setAccounts(AccountInfoCache c) {
     accounts = c;

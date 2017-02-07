@@ -17,7 +17,6 @@ package gerrit;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.project.ChangeControl;
-
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Predicate;

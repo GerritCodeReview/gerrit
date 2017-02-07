@@ -39,7 +39,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Config;
@@ -52,21 +56,15 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Calculates the minimal superset of changes required to be merged.
- * <p>
- * This includes all parents between a change and the tip of its target
- * branch for the merging/rebasing submit strategies. For the cherry-pick
- * strategy no additional changes are included.
- * <p>
- * If change.submitWholeTopic is enabled, also all changes of the topic
- * and their parents are included.
+ *
+ * <p>This includes all parents between a change and the tip of its target branch for the
+ * merging/rebasing submit strategies. For the cherry-pick strategy no additional changes are
+ * included.
+ *
+ * <p>If change.submitWholeTopic is enabled, also all changes of the topic and their parents are
+ * included.
  */
 @Singleton
 public class MergeSuperSet {
@@ -86,7 +84,8 @@ public class MergeSuperSet {
   private final Config cfg;
 
   @Inject
-  MergeSuperSet(@GerritServerConfig Config cfg,
+  MergeSuperSet(
+      @GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       GitRepositoryManager repoManager) {
@@ -97,10 +96,8 @@ public class MergeSuperSet {
   }
 
   public ChangeSet completeChangeSet(ReviewDb db, Change change, CurrentUser user)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      OrmException {
-    ChangeData cd =
-        changeDataFactory.create(db, change.getProject(), change.getId());
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, OrmException {
+    ChangeData cd = changeDataFactory.create(db, change.getProject(), change.getId());
     cd.changeControl(user);
     ChangeSet cs = new ChangeSet(cd, cd.changeControl().isVisible(db, cd));
     if (Submit.wholeTopicEnabled(cfg)) {
@@ -109,8 +106,8 @@ public class MergeSuperSet {
     return completeChangeSetWithoutTopic(db, cs, user);
   }
 
-  private static ImmutableListMultimap<Project.NameKey, ChangeData>
-      byProject(Iterable<ChangeData> changes) throws OrmException {
+  private static ImmutableListMultimap<Project.NameKey, ChangeData> byProject(
+      Iterable<ChangeData> changes) throws OrmException {
     ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
         new ImmutableListMultimap.Builder<>();
     for (ChangeData cd : changes) {
@@ -119,8 +116,7 @@ public class MergeSuperSet {
     return builder.build();
   }
 
-  private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible)
-      throws OrmException {
+  private SubmitType submitType(ChangeData cd, PatchSet ps, boolean visible) throws OrmException {
     // Submit type prolog rules mean that the submit type can depend on the
     // submitting user and the content of the change.
     //
@@ -140,28 +136,26 @@ public class MergeSuperSet {
             ? cd.submitTypeRecord()
             : new SubmitRuleEvaluator(cd).setPatchSet(ps).getSubmitType();
     if (!str.isOk()) {
-      logErrorAndThrow("Failed to get submit type for " + cd.getId()
-          + ": " + str.errorMessage);
+      logErrorAndThrow("Failed to get submit type for " + cd.getId() + ": " + str.errorMessage);
     }
     return str.type;
   }
 
-  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes,
-      CurrentUser user) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException, OrmException {
+  private ChangeSet completeChangeSetWithoutTopic(ReviewDb db, ChangeSet changes, CurrentUser user)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, OrmException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
     Multimap<Project.NameKey, ChangeData> pc =
-        byProject(
-            Iterables.concat(changes.changes(), changes.nonVisibleChanges()));
+        byProject(Iterables.concat(changes.changes(), changes.nonVisibleChanges()));
     for (Project.NameKey project : pc.keySet()) {
       try (Repository repo = repoManager.openRepository(project);
-           RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+          RevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         for (ChangeData cd : pc.get(project)) {
-          checkState(cd.hasChangeControl(),
+          checkState(
+              cd.hasChangeControl(),
               "completeChangeSet forgot to set changeControl for current user"
-              + " at ChangeData creation time");
+                  + " at ChangeData creation time");
           boolean visible = changes.ids().contains(cd.getId());
           if (visible && !cd.changeControl().isVisible(db, cd)) {
             // We thought the change was visible, but it isn't.
@@ -219,9 +213,8 @@ public class MergeSuperSet {
           }
 
           if (!hashes.isEmpty()) {
-            Iterable<ChangeData> destChanges = query()
-                .byCommitsOnBranchNotMerged(
-                  repo, db, cd.change().getDest(), hashes);
+            Iterable<ChangeData> destChanges =
+                query().byCommitsOnBranchNotMerged(repo, db, cd.change().getDest(), hashes);
             for (ChangeData chd : destChanges) {
               chd.changeControl(user);
               dest.add(chd);
@@ -236,20 +229,22 @@ public class MergeSuperSet {
 
   /**
    * Completes {@code cs} with any additional changes from its topics
-   * <p>
-   * {@link #completeChangeSetIncludingTopics} calls this repeatedly,
-   * alternating with {@link #completeChangeSetWithoutTopic}, to discover
-   * what additional changes should be submitted with a change until the
-   * set stops growing.
-   * <p>
-   * {@code topicsSeen} and {@code visibleTopicsSeen} keep track of topics
-   * already explored to avoid wasted work.
+   *
+   * <p>{@link #completeChangeSetIncludingTopics} calls this repeatedly, alternating with {@link
+   * #completeChangeSetWithoutTopic}, to discover what additional changes should be submitted with a
+   * change until the set stops growing.
+   *
+   * <p>{@code topicsSeen} and {@code visibleTopicsSeen} keep track of topics already explored to
+   * avoid wasted work.
    *
    * @return the resulting larger {@link ChangeSet}
    */
   private ChangeSet topicClosure(
-      ReviewDb db, ChangeSet cs, CurrentUser user,
-      Set<String> topicsSeen, Set<String> visibleTopicsSeen)
+      ReviewDb db,
+      ChangeSet cs,
+      CurrentUser user,
+      Set<String> topicsSeen,
+      Set<String> visibleTopicsSeen)
       throws OrmException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
@@ -288,8 +283,7 @@ public class MergeSuperSet {
 
   private ChangeSet completeChangeSetIncludingTopics(
       ReviewDb db, ChangeSet changes, CurrentUser user)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      OrmException {
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, OrmException {
     Set<String> topicsSeen = new HashSet<>();
     Set<String> visibleTopicsSeen = new HashSet<>();
     int oldSeen;
@@ -311,9 +305,8 @@ public class MergeSuperSet {
     // touch the database. This provides reasonable performance when loading the
     // change screen; callers that care about reading the latest value of these
     // fields should clear them explicitly using reloadChanges().
-    Set<String> fields = ImmutableSet.of(
-        ChangeField.CHANGE.getName(),
-        ChangeField.PATCH_SET.getName());
+    Set<String> fields =
+        ImmutableSet.of(ChangeField.CHANGE.getName(), ChangeField.PATCH_SET.getName());
     return queryProvider.get().setRequestedFields(fields);
   }
 

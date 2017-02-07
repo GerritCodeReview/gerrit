@@ -35,25 +35,21 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
-
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** OAuth protocol implementation */
 @SessionScoped
 class OAuthSessionOverOpenID {
   static final String GERRIT_LOGIN = "/login";
-  private static final Logger log = LoggerFactory.getLogger(
-      OAuthSessionOverOpenID.class);
+  private static final Logger log = LoggerFactory.getLogger(OAuthSessionOverOpenID.class);
   private static final SecureRandom randomState = newRandomGenerator();
   private final String state;
   private final DynamicItem<WebSession> webSession;
@@ -67,7 +63,8 @@ class OAuthSessionOverOpenID {
   private boolean linkMode;
 
   @Inject
-  OAuthSessionOverOpenID(DynamicItem<WebSession> webSession,
+  OAuthSessionOverOpenID(
+      DynamicItem<WebSession> webSession,
       Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
       CanonicalWebUrl urlProvider) {
@@ -86,8 +83,9 @@ class OAuthSessionOverOpenID {
     return Strings.emptyToNull(request.getParameter("code")) != null;
   }
 
-  boolean login(HttpServletRequest request, HttpServletResponse response,
-      OAuthServiceProvider oauth) throws IOException {
+  boolean login(
+      HttpServletRequest request, HttpServletResponse response, OAuthServiceProvider oauth)
+      throws IOException {
     log.debug("Login " + this);
 
     if (isOAuthFinal(request)) {
@@ -110,13 +108,12 @@ class OAuthSessionOverOpenID {
     }
     log.debug("Login-PHASE1 " + this);
     redirectToken = LoginUrlToken.getToken(request);
-    response.sendRedirect(oauth.getAuthorizationUrl() +
-        "&state=" + state);
+    response.sendRedirect(oauth.getAuthorizationUrl() + "&state=" + state);
     return false;
   }
 
-  private void authenticateAndRedirect(HttpServletRequest req,
-      HttpServletResponse rsp) throws IOException {
+  private void authenticateAndRedirect(HttpServletRequest req, HttpServletResponse rsp)
+      throws IOException {
     com.google.gerrit.server.account.AuthRequest areq =
         new com.google.gerrit.server.account.AuthRequest(user.getExternalId());
     AuthResult arsp = null;
@@ -150,10 +147,17 @@ class OAuthSessionOverOpenID {
             // This is (for now) a fatal error. There are two records
             // for what might be the same user. The admin would have to
             // link the accounts manually.
-            log.error("OAuth accounts disagree over user identity:\n"
-                + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
-                + "\n" + "  Delgate ID: " + actualId + " is "
-                + user.getExternalId());
+            log.error(
+                "OAuth accounts disagree over user identity:\n"
+                    + "  Claimed ID: "
+                    + claimedId
+                    + " is "
+                    + claimedIdentifier
+                    + "\n"
+                    + "  Delgate ID: "
+                    + actualId
+                    + " is "
+                    + user.getExternalId());
             rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
           }
@@ -163,9 +167,14 @@ class OAuthSessionOverOpenID {
           try {
             accountManager.link(claimedId, areq);
           } catch (OrmException e) {
-            log.error("Cannot link: " +  user.getExternalId()
-                + " to user identity:\n"
-                + "  Claimed ID: " + claimedId + " is " + claimedIdentifier);
+            log.error(
+                "Cannot link: "
+                    + user.getExternalId()
+                    + " to user identity:\n"
+                    + "  Claimed ID: "
+                    + claimedId
+                    + " is "
+                    + claimedIdentifier);
             rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
           }
@@ -174,12 +183,10 @@ class OAuthSessionOverOpenID {
         // Use case 2: link mode activated from the UI
         Account.Id accountId = identifiedUser.get().getAccountId();
         try {
-          log.debug("Linking \"{}\" to \"{}\"", user.getExternalId(),
-              accountId);
+          log.debug("Linking \"{}\" to \"{}\"", user.getExternalId(), accountId);
           accountManager.link(accountId, areq);
         } catch (OrmException e) {
-          log.error("Cannot link: " + user.getExternalId()
-              + " to user identity: " + accountId);
+          log.error("Cannot link: " + user.getExternalId() + " to user identity: " + accountId);
           rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
           return;
         } finally {
@@ -222,8 +229,7 @@ class OAuthSessionOverOpenID {
     try {
       return SecureRandom.getInstance("SHA1PRNG");
     } catch (NoSuchAlgorithmException e) {
-      throw new IllegalArgumentException(
-          "No SecureRandom available for GitHub authentication", e);
+      throw new IllegalArgumentException("No SecureRandom available for GitHub authentication", e);
     }
   }
 

@@ -21,19 +21,19 @@ import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
 import com.google.inject.Injector;
-
-import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 public abstract class Plugin {
   public enum ApiType {
-    EXTENSION, PLUGIN, JS
+    EXTENSION,
+    PLUGIN,
+    JS
   }
 
   /** Unique key that changes whenever a plugin reloads. */
@@ -54,8 +54,7 @@ public abstract class Plugin {
   static ApiType getApiType(Manifest manifest) throws InvalidPluginException {
     Attributes main = manifest.getMainAttributes();
     String v = main.getValue("Gerrit-ApiType");
-    if (Strings.isNullOrEmpty(v)
-        || ApiType.EXTENSION.name().equalsIgnoreCase(v)) {
+    if (Strings.isNullOrEmpty(v) || ApiType.EXTENSION.name().equalsIgnoreCase(v)) {
       return ApiType.EXTENSION;
     } else if (ApiType.PLUGIN.name().equalsIgnoreCase(v)) {
       return ApiType.PLUGIN;
@@ -79,11 +78,8 @@ public abstract class Plugin {
 
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
-  public Plugin(String name,
-      Path srcPath,
-      PluginUser pluginUser,
-      FileSnapshot snapshot,
-      ApiType apiType) {
+  public Plugin(
+      String name, Path srcPath, PluginUser pluginUser, FileSnapshot snapshot, ApiType apiType) {
     this.name = name;
     this.srcFile = srcPath;
     this.apiType = apiType;

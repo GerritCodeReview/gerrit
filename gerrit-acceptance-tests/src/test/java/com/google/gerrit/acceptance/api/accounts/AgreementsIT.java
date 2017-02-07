@@ -42,14 +42,12 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TestTimeUtil;
-
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.List;
 
 public class AgreementsIT extends AbstractDaemonTest {
   private ContributorAgreement ca;
@@ -77,8 +75,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     String g = createGroup("cla-test-group");
     GroupApi groupApi = gApi.groups().id(g);
     groupApi.description("CLA test group");
-    AccountGroup caGroup = groupCache.get(
-        new AccountGroup.UUID(groupApi.detail().id));
+    AccountGroup caGroup = groupCache.get(new AccountGroup.UUID(groupApi.detail().id));
     GroupReference groupRef = GroupReference.forGroup(caGroup);
     PermissionRule rule = new PermissionRule(groupRef);
     rule.setAction(PermissionRule.Action.ALLOW);
@@ -186,8 +183,12 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     // Create a new branch
     setApiUser(admin);
-    BranchInfo dest = gApi.projects().name(project.get())
-        .branch("cherry-pick-to").create(new BranchInput()).get();
+    BranchInfo dest =
+        gApi.projects()
+            .name(project.get())
+            .branch("cherry-pick-to")
+            .create(new BranchInput())
+            .get();
 
     // Create a change succeeds when agreement is not required
     setUseContributorAgreements(InheritableBoolean.FALSE);
@@ -222,8 +223,7 @@ public class AgreementsIT extends AbstractDaemonTest {
       gApi.changes().create(newChangeInput());
       fail("Expected AuthException");
     } catch (AuthException e) {
-      assertThat(e.getMessage()).contains(
-          "A Contributor Agreement must be completed");
+      assertThat(e.getMessage()).contains("A Contributor Agreement must be completed");
     }
 
     // Sign the agreement

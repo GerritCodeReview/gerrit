@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
-
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
@@ -62,40 +61,42 @@ public class NoteDbModule extends FactoryModule {
         bind(ChangeRebuilder.class).to(ChangeRebuilderImpl.class);
       }
     } else {
-      bind(ChangeRebuilder.class).toInstance(new ChangeRebuilder(null) {
-        @Override
-        public Result rebuild(ReviewDb db, Change.Id changeId) {
-          return null;
-        }
+      bind(ChangeRebuilder.class)
+          .toInstance(
+              new ChangeRebuilder(null) {
+                @Override
+                public Result rebuild(ReviewDb db, Change.Id changeId) {
+                  return null;
+                }
 
-        @Override
-        public Result rebuild(NoteDbUpdateManager manager,
-            ChangeBundle bundle) {
-          return null;
-        }
+                @Override
+                public Result rebuild(NoteDbUpdateManager manager, ChangeBundle bundle) {
+                  return null;
+                }
 
-        @Override
-        public boolean rebuildProject(ReviewDb db,
-            ImmutableMultimap<NameKey, Id> allChanges, NameKey project,
-            Repository allUsersRepo) {
-          return false;
-        }
+                @Override
+                public boolean rebuildProject(
+                    ReviewDb db,
+                    ImmutableMultimap<NameKey, Id> allChanges,
+                    NameKey project,
+                    Repository allUsersRepo) {
+                  return false;
+                }
 
-        @Override
-        public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId) {
-          return null;
-        }
+                @Override
+                public NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId) {
+                  return null;
+                }
 
-        @Override
-        public Result execute(ReviewDb db, Change.Id changeId,
-            NoteDbUpdateManager manager) {
-          return null;
-        }
-      });
+                @Override
+                public Result execute(
+                    ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager) {
+                  return null;
+                }
+              });
       bind(new TypeLiteral<Cache<ChangeNotesCache.Key, ChangeNotesState>>() {})
           .annotatedWith(Names.named(ChangeNotesCache.CACHE_NAME))
-          .toInstance(CacheBuilder.newBuilder()
-              .<ChangeNotesCache.Key, ChangeNotesState>build());
+          .toInstance(CacheBuilder.newBuilder().<ChangeNotesCache.Key, ChangeNotesState>build());
     }
   }
 }

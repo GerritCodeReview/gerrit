@@ -20,12 +20,13 @@ public class MySshKeysScreen extends SettingsScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    panel = new SshPanel() {
-      @Override
-      void display() {
-        MySshKeysScreen.this.display();
-      }
-    };
+    panel =
+        new SshPanel() {
+          @Override
+          void display() {
+            MySshKeysScreen.this.display();
+          }
+        };
     add(panel);
   }
 }

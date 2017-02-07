@@ -33,7 +33,6 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
-
 import java.net.SocketAddress;
 
 public class WebModule extends LifecycleModule {
@@ -42,9 +41,7 @@ public class WebModule extends LifecycleModule {
   private final GerritOptions options;
 
   @Inject
-  WebModule(AuthConfig authConfig,
-      GerritOptions options,
-      GitwebCgiConfig gitwebCgiConfig) {
+  WebModule(AuthConfig authConfig, GerritOptions options, GitwebCgiConfig gitwebCgiConfig) {
     this.authConfig = authConfig;
     this.options = options;
     this.gitwebCgiConfig = gitwebCgiConfig;
@@ -71,8 +68,10 @@ public class WebModule extends LifecycleModule {
 
     install(new AsyncReceiveCommits.Module());
 
-    bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
-        HttpRemotePeerProvider.class).in(RequestScoped.class);
+    bind(SocketAddress.class)
+        .annotatedWith(RemotePeer.class)
+        .toProvider(HttpRemotePeerProvider.class)
+        .in(RequestScoped.class);
 
     bind(ProxyProperties.class).toProvider(ProxyPropertiesProvider.class);
 

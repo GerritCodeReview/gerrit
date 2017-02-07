@@ -17,8 +17,8 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 /**
- * Indicates that the commit is already contained in destination branch.
- * Either the commit itself is in the source tree, or the content is merged
+ * Indicates that the commit is already contained in destination branch. Either the commit itself is
+ * in the source tree, or the content is merged
  */
 public class MergeIdenticalTreeException extends RestApiException {
   private static final long serialVersionUID = 1L;

@@ -28,19 +28,15 @@ import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
-  @SitePath
-  private final
-  Path site_path;
+  @SitePath private final Path site_path;
 
   private final AllProjectsCreator allProjectsCreator;
   private final AllUsersCreator allUsersCreator;
@@ -51,7 +47,8 @@ public class SchemaCreator {
   private AccountGroup batch;
 
   @Inject
-  public SchemaCreator(SitePaths site,
+  public SchemaCreator(
+      SitePaths site,
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
@@ -59,7 +56,8 @@ public class SchemaCreator {
     this(site.site_path, ap, auc, au, dst);
   }
 
-  public SchemaCreator(@SitePath Path site,
+  public SchemaCreator(
+      @SitePath Path site,
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
@@ -71,8 +69,7 @@ public class SchemaCreator {
     dataSourceType = dst;
   }
 
-  public void create(final ReviewDb db) throws OrmException, IOException,
-      ConfigInvalidException {
+  public void create(final ReviewDb db) throws OrmException, IOException, ConfigInvalidException {
     final JdbcSchema jdbc = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(jdbc)) {
       jdbc.updateSchema(e);
@@ -84,12 +81,10 @@ public class SchemaCreator {
 
     initSystemConfig(db);
     allProjectsCreator
-      .setAdministrators(GroupReference.forGroup(admin))
-      .setBatchUsers(GroupReference.forGroup(batch))
-      .create();
-    allUsersCreator
-      .setAdministrators(GroupReference.forGroup(admin))
-      .create();
+        .setAdministrators(GroupReference.forGroup(admin))
+        .setBatchUsers(GroupReference.forGroup(batch))
+        .create();
+    allUsersCreator.setAdministrators(GroupReference.forGroup(admin)).create();
     dataSourceType.getIndexScript().run(db);
   }
 
@@ -108,15 +103,13 @@ public class SchemaCreator {
     admin = newGroup(c, "Administrators", null);
     admin.setDescription("Gerrit Site Administrators");
     c.accountGroups().insert(Collections.singleton(admin));
-    c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(admin)));
+    c.accountGroupNames().insert(Collections.singleton(new AccountGroupName(admin)));
 
     batch = newGroup(c, "Non-Interactive Users", null);
     batch.setDescription("Users who perform batch actions on Gerrit");
     batch.setOwnerGroupUUID(admin.getGroupUUID());
     c.accountGroups().insert(Collections.singleton(batch));
-    c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(batch)));
+    c.accountGroupNames().insert(Collections.singleton(new AccountGroupName(batch)));
 
     final SystemConfig s = SystemConfig.create();
     try {

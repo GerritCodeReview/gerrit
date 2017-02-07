@@ -32,7 +32,8 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   private String emailToken;
 
   @Inject
-  public RegisterNewEmailSender(EmailArguments ea,
+  public RegisterNewEmailSender(
+      EmailArguments ea,
       EmailTokenVerifier etv,
       IdentifiedUser callingUser,
       @Assisted final String address) {
@@ -60,8 +61,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   public String getEmailRegistrationToken() {
     if (emailToken == null) {
-      emailToken = checkNotNull(
-          tokenVerifier.encode(user.getAccountId(), addr), "token");
+      emailToken = checkNotNull(tokenVerifier.encode(user.getAccountId(), addr), "token");
     }
     return emailToken;
   }

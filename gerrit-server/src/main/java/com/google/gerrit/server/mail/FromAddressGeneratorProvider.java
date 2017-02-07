@@ -25,22 +25,20 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 /** Creates a {@link FromAddressGenerator} from the {@link GerritServerConfig} */
 @Singleton
-public class FromAddressGeneratorProvider implements
-    Provider<FromAddressGenerator> {
+public class FromAddressGeneratorProvider implements Provider<FromAddressGenerator> {
   private final FromAddressGenerator generator;
 
   @Inject
-  FromAddressGeneratorProvider(@GerritServerConfig final Config cfg,
+  FromAddressGeneratorProvider(
+      @GerritServerConfig final Config cfg,
       @AnonymousCowardName final String anonymousCowardName,
       @GerritPersonIdent final PersonIdent myIdent,
       final AccountCache accountCache) {
@@ -50,9 +48,7 @@ public class FromAddressGeneratorProvider implements
 
     if (from == null || "MIXED".equalsIgnoreCase(from)) {
       ParameterizedString name = new ParameterizedString("${user} (Code Review)");
-      generator =
-          new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
-              srvAddr.email);
+      generator = new PatternGen(srvAddr, accountCache, anonymousCowardName, name, srvAddr.email);
 
     } else if ("USER".equalsIgnoreCase(from)) {
       generator = new UserGen(accountCache, srvAddr);
@@ -66,9 +62,7 @@ public class FromAddressGeneratorProvider implements
       if (name == null || name.getParameterNames().isEmpty()) {
         generator = new ServerGen(a);
       } else {
-        generator =
-            new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
-                a.email);
+        generator = new PatternGen(srvAddr, accountCache, anonymousCowardName, name, a.email);
       }
     }
   }
@@ -101,9 +95,7 @@ public class FromAddressGeneratorProvider implements
       if (fromId != null) {
         Account a = accountCache.get(fromId).getAccount();
         String userEmail = a.getPreferredEmail();
-        return new Address(
-            a.getFullName(),
-            userEmail != null ? userEmail : srvAddr.getEmail());
+        return new Address(a.getFullName(), userEmail != null ? userEmail : srvAddr.getEmail());
       }
       return srvAddr;
     }
@@ -134,9 +126,12 @@ public class FromAddressGeneratorProvider implements
     private final String anonymousCowardName;
     private final ParameterizedString namePattern;
 
-    PatternGen(final Address serverAddress, final AccountCache accountCache,
+    PatternGen(
+        final Address serverAddress,
+        final AccountCache accountCache,
         final String anonymousCowardName,
-        final ParameterizedString namePattern, final String senderEmail) {
+        final ParameterizedString namePattern,
+        final String senderEmail) {
       this.senderEmailPattern = new ParameterizedString(senderEmail);
       this.serverAddress = serverAddress;
       this.accountCache = accountCache;
@@ -169,9 +164,7 @@ public class FromAddressGeneratorProvider implements
       if (senderEmailPattern.getParameterNames().isEmpty()) {
         senderEmail = senderEmailPattern.getRawPattern();
       } else {
-        senderEmail = senderEmailPattern
-            .replace("userHash", hashOf(senderName))
-            .toString();
+        senderEmail = senderEmailPattern.replace("userHash", hashOf(senderName)).toString();
       }
       return new Address(senderName, senderEmail);
     }

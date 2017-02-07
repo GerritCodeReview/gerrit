@@ -36,14 +36,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.Config;
 
-import java.io.IOException;
-
 @Singleton
-public class PutAgreement
-    implements RestModifyView<AccountResource, AgreementInput> {
+public class PutAgreement implements RestModifyView<AccountResource, AgreementInput> {
   private final ProjectCache projectCache;
   private final GroupCache groupCache;
   private final Provider<IdentifiedUser> self;
@@ -52,7 +49,8 @@ public class PutAgreement
   private final boolean agreementsEnabled;
 
   @Inject
-  PutAgreement(ProjectCache projectCache,
+  PutAgreement(
+      ProjectCache projectCache,
       GroupCache groupCache,
       Provider<IdentifiedUser> self,
       AgreementSignup agreementSignup,
@@ -63,8 +61,7 @@ public class PutAgreement
     this.self = self;
     this.agreementSignup = agreementSignup;
     this.addMembers = addMembers;
-    this.agreementsEnabled =
-        config.getBoolean("auth", "contributorAgreements", false);
+    this.agreementsEnabled = config.getBoolean("auth", "contributorAgreements", false);
   }
 
   @Override
@@ -79,8 +76,8 @@ public class PutAgreement
     }
 
     String agreementName = Strings.nullToEmpty(input.name);
-    ContributorAgreement ca = projectCache.getAllProjects().getConfig()
-        .getContributorAgreement(agreementName);
+    ContributorAgreement ca =
+        projectCache.getAllProjects().getConfig().getContributorAgreement(agreementName);
     if (ca == null) {
       throw new UnprocessableEntityException("contributor agreement not found");
     }
@@ -105,5 +102,4 @@ public class PutAgreement
 
     return agreementName;
   }
-
 }

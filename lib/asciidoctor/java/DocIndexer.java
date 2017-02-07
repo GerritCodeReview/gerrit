@@ -15,23 +15,6 @@
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.server.documentation.Constants;
-
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.util.CharArraySet;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.store.IndexInput;
-import org.apache.lucene.store.RAMDirectory;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -50,6 +33,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.store.IndexInput;
+import org.apache.lucene.store.RAMDirectory;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 public class DocIndexer {
   private static final Pattern SECTION_HEADER = Pattern.compile("^=+ (.*)");
@@ -85,8 +83,7 @@ public class DocIndexer {
 
     try (JarOutputStream jar = new JarOutputStream(new FileOutputStream(outFile))) {
       byte[] compressedIndex = zip(index());
-      JarEntry entry = new JarEntry(
-          String.format("%s/%s", Constants.PACKAGE, Constants.INDEX_ZIP));
+      JarEntry entry = new JarEntry(String.format("%s/%s", Constants.PACKAGE, Constants.INDEX_ZIP));
       entry.setSize(compressedIndex.length);
       jar.putNextEntry(entry);
       jar.write(compressedIndex);
@@ -94,11 +91,10 @@ public class DocIndexer {
     }
   }
 
-  private RAMDirectory index() throws IOException,
-      UnsupportedEncodingException, FileNotFoundException {
+  private RAMDirectory index()
+      throws IOException, UnsupportedEncodingException, FileNotFoundException {
     RAMDirectory directory = new RAMDirectory();
-    IndexWriterConfig config = new IndexWriterConfig(
-        new StandardAnalyzer(CharArraySet.EMPTY_SET));
+    IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer(CharArraySet.EMPTY_SET));
     config.setOpenMode(OpenMode.CREATE);
     config.setCommitOnClose(true);
     try (IndexWriter iwriter = new IndexWriter(directory, config)) {
@@ -109,8 +105,8 @@ public class DocIndexer {
         }
 
         String title;
-        try (BufferedReader titleReader = new BufferedReader(
-            new InputStreamReader(new FileInputStream(file), UTF_8))) {
+        try (BufferedReader titleReader =
+            new BufferedReader(new InputStreamReader(new FileInputStream(file), UTF_8))) {
           title = titleReader.readLine();
           if (title != null && title.startsWith("[[")) {
             // Generally the first line of the txt is the title. In a few cases the
@@ -123,13 +119,11 @@ public class DocIndexer {
           title = matcher.group(1);
         }
 
-        String outputFile = AsciiDoctor.mapInFileToOutFile(
-            inputFile, inExt, outExt);
+        String outputFile = AsciiDoctor.mapInFileToOutFile(inputFile, inExt, outExt);
         try (FileReader reader = new FileReader(file)) {
           Document doc = new Document();
           doc.add(new TextField(Constants.DOC_FIELD, reader));
-          doc.add(new StringField(
-            Constants.URL_FIELD, prefix + outputFile, Field.Store.YES));
+          doc.add(new StringField(Constants.URL_FIELD, prefix + outputFile, Field.Store.YES));
           doc.add(new TextField(Constants.TITLE_FIELD, title, Field.Store.YES));
           iwriter.addDocument(doc);
         }

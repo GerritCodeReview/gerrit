@@ -19,13 +19,13 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /** Unique identifier for an end-user request, used in logs and similar. */
 public class RequestId {
   private static final String MACHINE_ID;
+
   static {
     String id;
     try {
@@ -48,10 +48,15 @@ public class RequestId {
 
   private RequestId(String resourceId) {
     Hasher h = Hashing.sha1().newHasher();
-    h.putLong(Thread.currentThread().getId())
-        .putUnencodedChars(MACHINE_ID);
-    str = "[" + resourceId + "-" + TimeUtil.nowTs().getTime() +
-        "-" + h.hash().toString().substring(0, 8) + "]";
+    h.putLong(Thread.currentThread().getId()).putUnencodedChars(MACHINE_ID);
+    str =
+        "["
+            + resourceId
+            + "-"
+            + TimeUtil.nowTs().getTime()
+            + "-"
+            + h.hash().toString().substring(0, 8)
+            + "]";
   }
 
   @Override

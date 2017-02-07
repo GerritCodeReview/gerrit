@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -32,8 +31,7 @@ public class ThreadSettingsConfig {
     sshdThreads = cfg.getInt("sshd", "threads", 2 * cores);
     httpdMaxThreads = cfg.getInt("httpd", "maxThreads", 25);
     int defaultDatabasePoolLimit = sshdThreads + httpdMaxThreads + 2;
-    databasePoolLimit =
-        cfg.getInt("database", "poolLimit", defaultDatabasePoolLimit);
+    databasePoolLimit = cfg.getInt("database", "poolLimit", defaultDatabasePoolLimit);
     sshdBatchThreads = cores == 1 ? 1 : 2;
   }
 

@@ -27,10 +27,13 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.inject.Inject;
-
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -44,22 +47,17 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 class PatchScriptBuilder {
   static final int MAX_CONTEXT = 5000000;
   static final int BIG_FILE = 9000;
 
-  private static final Comparator<Edit> EDIT_SORT = new Comparator<Edit>() {
-    @Override
-    public int compare(final Edit o1, final Edit o2) {
-      return o1.getBeginA() - o2.getBeginA();
-    }
-  };
+  private static final Comparator<Edit> EDIT_SORT =
+      new Comparator<Edit>() {
+        @Override
+        public int compare(final Edit o1, final Edit o2) {
+          return o1.getBeginA() - o2.getBeginA();
+        }
+      };
 
   private Repository db;
   private Project.NameKey projectKey;
@@ -112,8 +110,8 @@ class PatchScriptBuilder {
     bId = b;
   }
 
-  PatchScript toPatchScript(final PatchListEntry content,
-      final CommentDetail comments, final List<Patch> history)
+  PatchScript toPatchScript(
+      final PatchListEntry content, final CommentDetail comments, final List<Patch> history)
       throws IOException {
     reader = db.newObjectReader();
     try {
@@ -123,8 +121,8 @@ class PatchScriptBuilder {
     }
   }
 
-  private PatchScript build(final PatchListEntry content,
-      final CommentDetail comments, final List<Patch> history)
+  private PatchScript build(
+      final PatchListEntry content, final CommentDetail comments, final List<Patch> history)
       throws IOException {
     boolean intralineDifferenceIsPossible = true;
     boolean intralineFailure = false;
@@ -143,11 +141,8 @@ class PatchScriptBuilder {
     } else if (diffPrefs.intralineDifference) {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(
-              IntraLineDiffKey.create(
-                a.id, b.id,
-                diffPrefs.ignoreWhitespace),
-              IntraLineDiffArgs.create(
-                a.src, b.src, edits, projectKey, bId, b.path));
+              IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
+              IntraLineDiffArgs.create(a.src, b.src, edits, projectKey, bId, b.path));
       if (d != null) {
         switch (d.getStatus()) {
           case EDIT_LIST:
@@ -179,8 +174,7 @@ class PatchScriptBuilder {
     }
 
     boolean hugeFile = false;
-    if (a.src == b.src && a.size() <= context
-        && content.getEdits().isEmpty()) {
+    if (a.src == b.src && a.size() <= context && content.getEdits().isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.
@@ -197,7 +191,6 @@ class PatchScriptBuilder {
         // the browser client.
         //
         hugeFile = true;
-
       }
 
       // In order to expand the skipped common lines or syntax highlight the
@@ -209,12 +202,28 @@ class PatchScriptBuilder {
       packContent(diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE);
     }
 
-    return new PatchScript(change.getKey(), content.getChangeType(),
-        content.getOldName(), content.getNewName(), a.fileMode, b.fileMode,
-        content.getHeaderLines(), diffPrefs, a.dst, b.dst, edits,
-        a.displayMethod, b.displayMethod, a.mimeType.toString(),
-        b.mimeType.toString(), comments, history, hugeFile,
-        intralineDifferenceIsPossible, intralineFailure, intralineTimeout,
+    return new PatchScript(
+        change.getKey(),
+        content.getChangeType(),
+        content.getOldName(),
+        content.getNewName(),
+        a.fileMode,
+        b.fileMode,
+        content.getHeaderLines(),
+        diffPrefs,
+        a.dst,
+        b.dst,
+        edits,
+        a.displayMethod,
+        b.displayMethod,
+        a.mimeType.toString(),
+        b.mimeType.toString(),
+        comments,
+        history,
+        hugeFile,
+        intralineDifferenceIsPossible,
+        intralineFailure,
+        intralineTimeout,
         content.getPatchType() == Patch.PatchType.BINARY,
         aId == null ? null : aId.getName(),
         bId == null ? null : bId.getName());
@@ -459,9 +468,10 @@ class PatchScriptBuilder {
 
           id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
           mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
-          reuse = other != null
-              && other.id.equals(id)
-              && (other.mode == mode || isBothFile(other.mode, mode));
+          reuse =
+              other != null
+                  && other.id.equals(id)
+                  && (other.mode == mode || isBothFile(other.mode, mode));
 
           if (reuse) {
             srcContent = other.srcContent;
@@ -484,8 +494,7 @@ class PatchScriptBuilder {
 
           } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
             mimeType = registry.getMimeType(path, srcContent);
-            if ("image".equals(mimeType.getMediaType())
-                && registry.isSafeInline(mimeType)) {
+            if ("image".equals(mimeType.getMediaType()) && registry.isSafeInline(mimeType)) {
               displayMethod = DisplayMethod.IMG;
             }
           }
@@ -519,8 +528,9 @@ class PatchScriptBuilder {
       }
     }
 
-    private TreeWalk find(final ObjectId within) throws MissingObjectException,
-        IncorrectObjectTypeException, CorruptObjectException, IOException {
+    private TreeWalk find(final ObjectId within)
+        throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
+            IOException {
       if (path == null || within == null) {
         return null;
       }

@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
-
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -46,8 +45,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, Permission.OWNER, REGISTERED_USERS, "refs/*");
-    Util.allow(
-        cfg, Permission.PUSH, REGISTERED_USERS, "refs/for/refs/meta/config");
+    Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, "refs/for/refs/meta/config");
     Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, RefNames.REFS_CONFIG);
     saveProjectConfig(project, cfg);
 
@@ -81,16 +79,13 @@ public class ConfigChangeIT extends AbstractDaemonTest {
     gApi.changes().id(id).current().review(ReviewInput.approve());
     gApi.changes().id(id).current().submit();
 
-    assertThat(gApi.changes().id(id).info().status)
-        .isEqualTo(ChangeStatus.MERGED);
-    assertThat(gApi.projects().name(project.get()).get().description)
-        .isEqualTo(desc);
+    assertThat(gApi.changes().id(id).info().status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.projects().name(project.get()).get().description).isEqualTo(desc);
     fetchRefsMetaConfig();
-    assertThat(readProjectConfig().getString("project", null, "description"))
-        .isEqualTo(desc);
+    assertThat(readProjectConfig().getString("project", null, "description")).isEqualTo(desc);
     String changeRev = gApi.changes().id(id).get().currentRevision;
-    String branchRev = gApi.projects().name(project.get())
-        .branch(RefNames.REFS_CONFIG).get().revision;
+    String branchRev =
+        gApi.projects().name(project.get()).branch(RefNames.REFS_CONFIG).get().revision;
     assertThat(changeRev).isEqualTo(branchRev);
     return id;
   }
@@ -106,8 +101,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
 
     setApiUser(user);
     Config cfg = readProjectConfig();
-    assertThat(cfg.getString("access", null, "inheritFrom"))
-        .isAnyOf(null, allProjects.get());
+    assertThat(cfg.getString("access", null, "inheritFrom")).isAnyOf(null, allProjects.get());
     cfg.setString("access", null, "inheritFrom", parent.name);
 
     PushOneCommit.Result r = createConfigChange(cfg);
@@ -119,33 +113,31 @@ public class ConfigChangeIT extends AbstractDaemonTest {
       fail("expected submit to fail");
     } catch (ResourceConflictException e) {
       int n = gApi.changes().id(id).info()._number;
-      assertThat(e).hasMessage(
-          "Failed to submit 1 change due to the following problems:\n"
-          + "Change " + n + ": Change contains a project configuration that"
-          + " changes the parent project.\n"
-          + "The change must be submitted by a Gerrit administrator.");
+      assertThat(e)
+          .hasMessage(
+              "Failed to submit 1 change due to the following problems:\n"
+                  + "Change "
+                  + n
+                  + ": Change contains a project configuration that"
+                  + " changes the parent project.\n"
+                  + "The change must be submitted by a Gerrit administrator.");
     }
 
-    assertThat(gApi.projects().name(project.get()).get().parent)
-        .isEqualTo(allProjects.get());
+    assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(allProjects.get());
     fetchRefsMetaConfig();
     assertThat(readProjectConfig().getString("access", null, "inheritFrom"))
         .isAnyOf(null, allProjects.get());
 
     setApiUser(admin);
     gApi.changes().id(id).current().submit();
-    assertThat(gApi.changes().id(id).info().status)
-        .isEqualTo(ChangeStatus.MERGED);
-    assertThat(gApi.projects().name(project.get()).get().parent)
-        .isEqualTo(parent.name);
+    assertThat(gApi.changes().id(id).info().status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.projects().name(project.get()).get().parent).isEqualTo(parent.name);
     fetchRefsMetaConfig();
-    assertThat(readProjectConfig().getString("access", null, "inheritFrom"))
-        .isEqualTo(parent.name);
+    assertThat(readProjectConfig().getString("access", null, "inheritFrom")).isEqualTo(parent.name);
   }
 
   private void fetchRefsMetaConfig() throws Exception {
-    git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config"))
-        .call();
+    git().fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
     testRepo.reset(RefNames.REFS_CONFIG);
   }
 
@@ -161,12 +153,16 @@ public class ConfigChangeIT extends AbstractDaemonTest {
   }
 
   private PushOneCommit.Result createConfigChange(Config cfg) throws Exception {
-    PushOneCommit.Result r = pushFactory.create(
-            db, user.getIdent(), testRepo,
-            "Update project config",
-            "project.config",
-            cfg.toText())
-        .to("refs/for/refs/meta/config");
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                db,
+                user.getIdent(),
+                testRepo,
+                "Update project config",
+                "project.config",
+                cfg.toText())
+            .to("refs/for/refs/meta/config");
     r.assertOkStatus();
     return r;
   }

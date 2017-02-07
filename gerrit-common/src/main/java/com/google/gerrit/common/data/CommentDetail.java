@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,8 +39,7 @@ public class CommentDetail {
     this.idB = idB;
   }
 
-  protected CommentDetail() {
-  }
+  protected CommentDetail() {}
 
   public boolean include(final PatchLineComment p) {
     final PatchSet.Id psId = p.getKey().getParentKey().getParentKey();
@@ -105,13 +103,13 @@ public class CommentDetail {
   private static List<PatchLineComment> get(
       final Map<Integer, List<PatchLineComment>> m, final int i) {
     final List<PatchLineComment> r = m.get(i);
-    return r != null ? orderComments(r) : Collections.<PatchLineComment> emptyList();
+    return r != null ? orderComments(r) : Collections.<PatchLineComment>emptyList();
   }
 
   /**
-   * Order the comments based on their parent_uuid parent.  It is possible to do this by
-   * iterating over the list only once but it's probably overkill since the number of comments
-   * on a given line will be small most of the time.
+   * Order the comments based on their parent_uuid parent. It is possible to do this by iterating
+   * over the list only once but it's probably overkill since the number of comments on a given line
+   * will be small most of the time.
    *
    * @param comments The list of comments for a given line.
    * @return The comments sorted as they should appear in the UI
@@ -149,11 +147,11 @@ public class CommentDetail {
     return result;
   }
 
-  /**
-   * Add the comments to {@code outResult}, depth first
-   */
-  private static void addChildren(Map<String, List<PatchLineComment>> parentMap,
-      List<PatchLineComment> children, List<PatchLineComment> outResult) {
+  /** Add the comments to {@code outResult}, depth first */
+  private static void addChildren(
+      Map<String, List<PatchLineComment>> parentMap,
+      List<PatchLineComment> children,
+      List<PatchLineComment> outResult) {
     if (children != null) {
       for (PatchLineComment c : children) {
         outResult.add(c);
@@ -162,8 +160,7 @@ public class CommentDetail {
     }
   }
 
-  private Map<Integer, List<PatchLineComment>> index(
-      List<PatchLineComment> in) {
+  private Map<Integer, List<PatchLineComment>> index(List<PatchLineComment> in) {
     HashMap<Integer, List<PatchLineComment>> r = new HashMap<>();
     for (final PatchLineComment p : in) {
       List<PatchLineComment> l = r.get(p.getLine());

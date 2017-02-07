@@ -20,15 +20,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.OutputFormat;
-
+import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
-
-import java.io.IOException;
 
 public class RestSession extends HttpSession {
 
@@ -41,12 +39,10 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse getJsonAccept(String endPoint) throws IOException {
-    return getWithHeader(endPoint,
-        new BasicHeader(HttpHeaders.ACCEPT, "application/json"));
+    return getWithHeader(endPoint, new BasicHeader(HttpHeaders.ACCEPT, "application/json"));
   }
 
-  private RestResponse getWithHeader(String endPoint, Header header)
-      throws IOException {
+  private RestResponse getWithHeader(String endPoint, Header header) throws IOException {
     Request get = Request.Get(url + "/a" + endPoint);
     if (header != null) {
       get.addHeader(header);
@@ -66,22 +62,19 @@ public class RestSession extends HttpSession {
     return putWithHeader(endPoint, null, content);
   }
 
-  public RestResponse putWithHeader(String endPoint, Header header)
-      throws IOException {
+  public RestResponse putWithHeader(String endPoint, Header header) throws IOException {
     return putWithHeader(endPoint, header, null);
   }
 
-  public RestResponse putWithHeader(String endPoint, Header header,
-      Object content) throws IOException {
+  public RestResponse putWithHeader(String endPoint, Header header, Object content)
+      throws IOException {
     Request put = Request.Put(url + "/a" + endPoint);
     if (header != null) {
       put.addHeader(header);
     }
     if (content != null) {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
-      put.body(new StringEntity(
-          OutputFormat.JSON_COMPACT.newGson().toJson(content),
-          UTF_8));
+      put.body(new StringEntity(OutputFormat.JSON_COMPACT.newGson().toJson(content), UTF_8));
     }
     return execute(put);
   }
@@ -90,10 +83,9 @@ public class RestSession extends HttpSession {
     Preconditions.checkNotNull(stream);
     Request put = Request.Put(url + "/a" + endPoint);
     put.addHeader(new BasicHeader("Content-Type", stream.getContentType()));
-    put.body(new BufferedHttpEntity(
-        new InputStreamEntity(
-            stream.getInputStream(),
-            stream.getContentLength())));
+    put.body(
+        new BufferedHttpEntity(
+            new InputStreamEntity(stream.getInputStream(), stream.getContentLength())));
     return execute(put);
   }
 
@@ -105,9 +97,7 @@ public class RestSession extends HttpSession {
     Request post = Request.Post(url + "/a" + endPoint);
     if (content != null) {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
-      post.body(new StringEntity(
-          OutputFormat.JSON_COMPACT.newGson().toJson(content),
-          UTF_8));
+      post.body(new StringEntity(OutputFormat.JSON_COMPACT.newGson().toJson(content), UTF_8));
     }
     return execute(post);
   }

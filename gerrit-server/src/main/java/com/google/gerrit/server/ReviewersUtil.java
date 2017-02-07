@@ -53,7 +53,6 @@ import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,19 +67,22 @@ import java.util.Set;
 public class ReviewersUtil {
   private static final String MAX_SUFFIX = "\u9fa5";
   private static final Ordering<SuggestedReviewerInfo> ORDERING =
-      Ordering.natural().onResultOf(new Function<SuggestedReviewerInfo, String>() {
-        @Nullable
-        @Override
-        public String apply(@Nullable SuggestedReviewerInfo suggestedReviewerInfo) {
-          if (suggestedReviewerInfo == null) {
-            return null;
-          }
-          return suggestedReviewerInfo.account != null
-              ? MoreObjects.firstNonNull(suggestedReviewerInfo.account.email,
-              Strings.nullToEmpty(suggestedReviewerInfo.account.name))
-              : Strings.nullToEmpty(suggestedReviewerInfo.group.name);
-        }
-      });
+      Ordering.natural()
+          .onResultOf(
+              new Function<SuggestedReviewerInfo, String>() {
+                @Nullable
+                @Override
+                public String apply(@Nullable SuggestedReviewerInfo suggestedReviewerInfo) {
+                  if (suggestedReviewerInfo == null) {
+                    return null;
+                  }
+                  return suggestedReviewerInfo.account != null
+                      ? MoreObjects.firstNonNull(
+                          suggestedReviewerInfo.account.email,
+                          Strings.nullToEmpty(suggestedReviewerInfo.account.name))
+                      : Strings.nullToEmpty(suggestedReviewerInfo.group.name);
+                }
+              });
   private final AccountLoader accountLoader;
   private final AccountCache accountCache;
   private final AccountIndexCollection indexes;
@@ -93,7 +95,8 @@ public class ReviewersUtil {
   private final Provider<CurrentUser> currentUser;
 
   @Inject
-  ReviewersUtil(AccountLoader.Factory accountLoaderFactory,
+  ReviewersUtil(
+      AccountLoader.Factory accountLoaderFactory,
       AccountCache accountCache,
       AccountIndexCollection indexes,
       AccountQueryBuilder queryBuilder,
@@ -122,7 +125,8 @@ public class ReviewersUtil {
   }
 
   public List<SuggestedReviewerInfo> suggestReviewers(
-      SuggestReviewers suggestReviewers, ProjectControl projectControl,
+      SuggestReviewers suggestReviewers,
+      ProjectControl projectControl,
       VisibilityControl visibilityControl)
       throws IOException, OrmException, BadRequestException {
     String query = suggestReviewers.getQuery();
@@ -150,8 +154,9 @@ public class ReviewersUtil {
     }
 
     for (GroupReference g : suggestAccountGroup(suggestReviewers, projectControl)) {
-      GroupAsReviewer result = suggestGroupAsReviewer(
-          suggestReviewers, projectControl.getProject(), g, visibilityControl);
+      GroupAsReviewer result =
+          suggestGroupAsReviewer(
+              suggestReviewers, projectControl.getProject(), g, visibilityControl);
       if (result.allowed || result.allowedWithConfirmation) {
         GroupBaseInfo info = new GroupBaseInfo();
         info.id = Url.encode(g.getUUID().get());
@@ -173,9 +178,8 @@ public class ReviewersUtil {
     return reviewer.subList(0, limit);
   }
 
-  private Collection<AccountInfo> suggestAccounts(SuggestReviewers suggestReviewers,
-      VisibilityControl visibilityControl)
-      throws OrmException {
+  private Collection<AccountInfo> suggestAccounts(
+      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl) throws OrmException {
     AccountIndex searchIndex = indexes.getSearchIndex();
     if (searchIndex != null) {
       return suggestAccountsFromIndex(suggestReviewers, visibilityControl);
@@ -184,13 +188,13 @@ public class ReviewersUtil {
   }
 
   private Collection<AccountInfo> suggestAccountsFromIndex(
-      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl)
-      throws OrmException {
+      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl) throws OrmException {
     try {
       Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
-      QueryResult<AccountState> result = queryProcessor
-          .setLimit(suggestReviewers.getLimit())
-          .query(queryBuilder.defaultQuery(suggestReviewers.getQuery()));
+      QueryResult<AccountState> result =
+          queryProcessor
+              .setLimit(suggestReviewers.getLimit())
+              .query(queryBuilder.defaultQuery(suggestReviewers.getQuery()));
       for (AccountState accountState : result.entities()) {
         Account.Id id = accountState.getAccount().getId();
         if (visibilityControl.isVisibleTo(id)) {
@@ -207,8 +211,7 @@ public class ReviewersUtil {
   }
 
   private Collection<AccountInfo> suggestAccountsFromDb(
-      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl)
-          throws OrmException {
+      SuggestReviewers suggestReviewers, VisibilityControl visibilityControl) throws OrmException {
     String query = suggestReviewers.getQuery();
     int limit = suggestReviewers.getLimit();
 
@@ -218,16 +221,15 @@ public class ReviewersUtil {
     Map<Account.Id, AccountInfo> r = new LinkedHashMap<>();
     Map<Account.Id, String> queryEmail = new HashMap<>();
 
-    for (Account p : dbProvider.get().accounts()
-        .suggestByFullName(a, b, limit)) {
+    for (Account p : dbProvider.get().accounts().suggestByFullName(a, b, limit)) {
       if (p.isActive()) {
         addSuggestion(r, p.getId(), visibilityControl);
       }
     }
 
     if (r.size() < limit) {
-      for (Account p : dbProvider.get().accounts()
-          .suggestByPreferredEmail(a, b, limit - r.size())) {
+      for (Account p :
+          dbProvider.get().accounts().suggestByPreferredEmail(a, b, limit - r.size())) {
         if (p.isActive()) {
           addSuggestion(r, p.getId(), visibilityControl);
         }
@@ -235,8 +237,8 @@ public class ReviewersUtil {
     }
 
     if (r.size() < limit) {
-      for (AccountExternalId e : dbProvider.get().accountExternalIds()
-          .suggestByEmailAddress(a, b, limit - r.size())) {
+      for (AccountExternalId e :
+          dbProvider.get().accountExternalIds().suggestByEmailAddress(a, b, limit - r.size())) {
         if (!r.containsKey(e.getAccountId())) {
           Account p = accountCache.get(e.getAccountId()).getAccount();
           if (p.isActive()) {
@@ -258,8 +260,8 @@ public class ReviewersUtil {
     return new ArrayList<>(r.values());
   }
 
-  private boolean addSuggestion(Map<Account.Id, AccountInfo> map,
-      Account.Id account, VisibilityControl visibilityControl)
+  private boolean addSuggestion(
+      Map<Account.Id, AccountInfo> map, Account.Id account, VisibilityControl visibilityControl)
       throws OrmException {
     if (!map.containsKey(account)
         // Can the suggestion see the change?
@@ -275,8 +277,8 @@ public class ReviewersUtil {
   private List<GroupReference> suggestAccountGroup(
       SuggestReviewers suggestReviewers, ProjectControl ctl) {
     return Lists.newArrayList(
-        Iterables.limit(groupBackend.suggest(suggestReviewers.getQuery(), ctl),
-            suggestReviewers.getLimit()));
+        Iterables.limit(
+            groupBackend.suggest(suggestReviewers.getQuery(), ctl), suggestReviewers.getLimit()));
   }
 
   private static class GroupAsReviewer {
@@ -285,22 +287,25 @@ public class ReviewersUtil {
     int size;
   }
 
-  private GroupAsReviewer suggestGroupAsReviewer(SuggestReviewers suggestReviewers,
-      Project project, GroupReference group,
-      VisibilityControl visibilityControl) throws OrmException, IOException {
+  private GroupAsReviewer suggestGroupAsReviewer(
+      SuggestReviewers suggestReviewers,
+      Project project,
+      GroupReference group,
+      VisibilityControl visibilityControl)
+      throws OrmException, IOException {
     GroupAsReviewer result = new GroupAsReviewer();
     int maxAllowed = suggestReviewers.getMaxAllowed();
-    int maxAllowedWithoutConfirmation =
-        suggestReviewers.getMaxAllowedWithoutConfirmation();
+    int maxAllowedWithoutConfirmation = suggestReviewers.getMaxAllowedWithoutConfirmation();
 
     if (!PostReviewers.isLegalReviewerGroup(group.getUUID())) {
       return result;
     }
 
     try {
-      Set<Account> members = groupMembersFactory
-          .create(currentUser.get())
-          .listAccounts(group.getUUID(), project.getNameKey());
+      Set<Account> members =
+          groupMembersFactory
+              .create(currentUser.get())
+              .listAccounts(group.getUUID(), project.getNameKey());
 
       if (members.isEmpty()) {
         return result;

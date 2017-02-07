@@ -21,30 +21,27 @@ import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_R
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
-
+import java.util.Locale;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
-
-import java.util.Locale;
 
 @NoHttpd
 public class BanCommitIT extends AbstractDaemonTest {
 
   @Test
   public void banCommit() throws Exception {
-    RevCommit c = commitBuilder()
-        .add("a.txt", "some content")
-        .create();
+    RevCommit c = commitBuilder().add("a.txt", "some content").create();
 
-    String response =
-        adminSshSession.exec("gerrit ban-commit " + project.get() + " " + c.name());
-    assert_().withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError()).isFalse();
+    String response = adminSshSession.exec("gerrit ban-commit " + project.get() + " " + c.name());
+    assert_()
+        .withFailureMessage(adminSshSession.getError())
+        .that(adminSshSession.hasError())
+        .isFalse();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
 
-    RemoteRefUpdate u = pushHead(testRepo, "refs/heads/master", false)
-        .getRemoteUpdate("refs/heads/master");
+    RemoteRefUpdate u =
+        pushHead(testRepo, "refs/heads/master", false).getRemoteUpdate("refs/heads/master");
     assertThat(u).isNotNull();
     assertThat(u.getStatus()).isEqualTo(REJECTED_OTHER_REASON);
     assertThat(u.getMessage()).startsWith("contains banned commit");

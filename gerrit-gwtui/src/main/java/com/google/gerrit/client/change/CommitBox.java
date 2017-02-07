@@ -49,12 +49,16 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class CommitBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitBox> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
     String collapsed();
+
     String expanded();
+
     String clippy();
+
     String parentWebLink();
   }
 
@@ -99,9 +103,7 @@ class CommitBox extends Composite {
     expanded = !expanded;
   }
 
-  void set(CommentLinkProcessor commentLinkProcessor,
-      ChangeInfo change,
-      String revision) {
+  void set(CommentLinkProcessor commentLinkProcessor, ChangeInfo change, String revision) {
     RevisionInfo revInfo = change.revision(revision);
     CommitInfo commit = revInfo.commit();
 
@@ -109,12 +111,10 @@ class CommitBox extends Composite {
     idText.setText("Change-Id: " + change.changeId());
     idText.setPreviewText(change.changeId());
 
-    formatLink(commit.author(), authorPanel, authorNameEmail, authorDate,
-        change);
-    formatLink(commit.committer(), committerPanel, committerNameEmail,
-        committerDate, change);
-    text.setHTML(commentLinkProcessor.apply(
-        new SafeHtmlBuilder().append(commit.message()).linkify()));
+    formatLink(commit.author(), authorPanel, authorNameEmail, authorDate, change);
+    formatLink(commit.committer(), committerPanel, committerNameEmail, committerDate, change);
+    text.setHTML(
+        commentLinkProcessor.apply(new SafeHtmlBuilder().append(commit.message()).linkify()));
     setWebLinks(webLinkPanel, revInfo.commit());
 
     if (revInfo.commit().parents().length() > 1) {
@@ -174,8 +174,8 @@ class CommitBox extends Composite {
     return copyLabel;
   }
 
-  private static void formatLink(GitPerson person, FlowPanel p,
-      InlineHyperlink name, Element date, ChangeInfo change) {
+  private static void formatLink(
+      GitPerson person, FlowPanel p, InlineHyperlink name, Element date, ChangeInfo change) {
     // only try to fetch the avatar image for author and committer if an avatar
     // plugin is installed, if the change owner has no avatar info assume that
     // no avatar plugin is installed
@@ -184,15 +184,13 @@ class CommitBox extends Composite {
       if (change.owner().email().equals(person.email())) {
         avatar = new AvatarImage(change.owner());
       } else {
-        avatar = new AvatarImage(
-            AccountInfo.create(0, person.name(), person.email(), null));
+        avatar = new AvatarImage(AccountInfo.create(0, person.name(), person.email(), null));
       }
       p.insert(avatar, 0);
     }
 
     name.setText(renderName(person));
-    name.setTargetHistoryToken(PageLinks
-        .toAccountQuery(owner(person), change.status()));
+    name.setTargetHistoryToken(PageLinks.toAccountQuery(owner(person), change.status()));
     date.setInnerText(FormatUtil.mediumFormat(person.date()));
   }
 

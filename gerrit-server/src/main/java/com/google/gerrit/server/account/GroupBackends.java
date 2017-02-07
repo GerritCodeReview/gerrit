@@ -18,40 +18,36 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.server.project.ProjectControl;
-
 import java.util.Collection;
 import java.util.Comparator;
 
-/**
- * Utility class for dealing with a GroupBackend.
- */
+/** Utility class for dealing with a GroupBackend. */
 public class GroupBackends {
 
   public static final Comparator<GroupReference> GROUP_REF_NAME_COMPARATOR =
       new Comparator<GroupReference>() {
-    @Override
-    public int compare(GroupReference a, GroupReference b) {
-      return a.getName().compareTo(b.getName());
-    }
-  };
+        @Override
+        public int compare(GroupReference a, GroupReference b) {
+          return a.getName().compareTo(b.getName());
+        }
+      };
 
   /**
-   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the
-   * result to return the best suggestion, or null if one does not exist.
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the result to return the
+   * best suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
    * @param name the name for which to suggest groups
    * @return the best single GroupReference suggestion
    */
   @Nullable
-  public static GroupReference findBestSuggestion(GroupBackend groupBackend,
-      String name) {
+  public static GroupReference findBestSuggestion(GroupBackend groupBackend, String name) {
     return findBestSuggestion(groupBackend, name, null);
   }
 
   /**
-   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the
-   * result to return the best suggestion, or null if one does not exist.
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the result to return the
+   * best suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
    * @param name the name for which to suggest groups
@@ -59,8 +55,8 @@ public class GroupBackends {
    * @return the best single GroupReference suggestion
    */
   @Nullable
-  public static GroupReference findBestSuggestion(GroupBackend groupBackend,
-      String name, @Nullable ProjectControl project) {
+  public static GroupReference findBestSuggestion(
+      GroupBackend groupBackend, String name, @Nullable ProjectControl project) {
     Collection<GroupReference> refs = groupBackend.suggest(name, project);
     if (refs.size() == 1) {
       return Iterables.getOnlyElement(refs);
@@ -75,22 +71,21 @@ public class GroupBackends {
   }
 
   /**
-   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the
-   * result to return the exact suggestion, or null if one does not exist.
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the result to return the
+   * exact suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
    * @param name the name for which to suggest groups
    * @return the exact single GroupReference suggestion
    */
   @Nullable
-  public static GroupReference findExactSuggestion(
-      GroupBackend groupBackend, String name) {
+  public static GroupReference findExactSuggestion(GroupBackend groupBackend, String name) {
     return findExactSuggestion(groupBackend, name, null);
   }
 
   /**
-   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the
-   * result to return the exact suggestion, or null if one does not exist.
+   * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the result to return the
+   * exact suggestion, or null if one does not exist.
    *
    * @param groupBackend the group backend
    * @param name the name for which to suggest groups
@@ -114,6 +109,5 @@ public class GroupBackends {
     return ref.getName().equalsIgnoreCase(name) || ref.getUUID().get().equals(name);
   }
 
-  private GroupBackends() {
-  }
+  private GroupBackends() {}
 }

@@ -22,7 +22,6 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Provider;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -66,8 +65,12 @@ public abstract class SchemaVersion {
     if (curr.versionNbr == versionNbr) {
       // Nothing to do, we are at the correct schema.
     } else if (curr.versionNbr > versionNbr) {
-      throw new OrmException("Cannot downgrade database schema from version "
-          + curr.versionNbr + " to " + versionNbr + ".");
+      throw new OrmException(
+          "Cannot downgrade database schema from version "
+              + curr.versionNbr
+              + " to "
+              + versionNbr
+              + ".");
     } else {
       upgradeFrom(ui, curr, db);
     }
@@ -82,17 +85,18 @@ public abstract class SchemaVersion {
 
     JdbcSchema s = (JdbcSchema) db;
     final List<String> pruneList = new ArrayList<>();
-    s.pruneSchema(new StatementExecutor() {
-      @Override
-      public void execute(String sql) {
-        pruneList.add(sql);
-      }
+    s.pruneSchema(
+        new StatementExecutor() {
+          @Override
+          public void execute(String sql) {
+            pruneList.add(sql);
+          }
 
-      @Override
-      public void close() {
-        // Do nothing.
-      }
-    });
+          @Override
+          public void close() {
+            // Do nothing.
+          }
+        });
 
     try (JdbcExecutor e = new JdbcExecutor(s)) {
       if (!pruneList.isEmpty()) {
@@ -110,8 +114,8 @@ public abstract class SchemaVersion {
     return r;
   }
 
-  private void updateSchema(List<SchemaVersion> pending, UpdateUI ui,
-      ReviewDb db) throws OrmException, SQLException {
+  private void updateSchema(List<SchemaVersion> pending, UpdateUI ui, ReviewDb db)
+      throws OrmException, SQLException {
     for (SchemaVersion v : pending) {
       ui.message(String.format("Upgrading schema to %d ...", v.getVersionNbr()));
       v.preUpdateSchema(db);
@@ -130,42 +134,37 @@ public abstract class SchemaVersion {
    * @throws OrmException if a Gerrit-specific exception occurred.
    * @throws SQLException if an underlying SQL exception occurred.
    */
-  protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
-  }
+  protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {}
 
-  private void migrateData(List<SchemaVersion> pending, UpdateUI ui,
-      CurrentSchemaVersion curr, ReviewDb db) throws OrmException, SQLException {
+  private void migrateData(
+      List<SchemaVersion> pending, UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
+      throws OrmException, SQLException {
     for (SchemaVersion v : pending) {
-      ui.message(String.format(
-          "Migrating data to schema %d ...",
-          v.getVersionNbr()));
+      ui.message(String.format("Migrating data to schema %d ...", v.getVersionNbr()));
       v.migrateData(db, ui);
       v.finish(curr, db);
     }
   }
 
   /**
-   * Invoked between updateSchema (adds new columns/tables) and pruneSchema
-   * (removes deleted columns/tables).
+   * Invoked between updateSchema (adds new columns/tables) and pruneSchema (removes deleted
+   * columns/tables).
    *
    * @param db open database handle.
    * @param ui interface for interacting with the user.
    * @throws OrmException if a Gerrit-specific exception occurred.
    * @throws SQLException if an underlying SQL exception occurred.
    */
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
-  }
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {}
 
   /** Mark the current schema version. */
-  protected void finish(CurrentSchemaVersion curr, ReviewDb db)
-      throws OrmException {
+  protected void finish(CurrentSchemaVersion curr, ReviewDb db) throws OrmException {
     curr.versionNbr = versionNbr;
     db.schemaVersion().update(Collections.singleton(curr));
   }
 
   /** Rename an existing table. */
-  protected static void renameTable(ReviewDb db, String from, String to)
-      throws OrmException {
+  protected static void renameTable(ReviewDb db, String from, String to) throws OrmException {
     JdbcSchema s = (JdbcSchema) db;
     try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.renameTable(e, from, to);
@@ -194,8 +193,7 @@ public abstract class SchemaVersion {
   }
 
   /** Open a new prepared statement. */
-  protected static PreparedStatement prepareStatement(ReviewDb db, String sql)
-      throws SQLException {
+  protected static PreparedStatement prepareStatement(ReviewDb db, String sql) throws SQLException {
     return ((JdbcSchema) db).getConnection().prepareStatement(sql);
   }
 

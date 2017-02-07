@@ -23,20 +23,17 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
 public class Index implements RestModifyView<AccountResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final AccountCache accountCache;
   private final Provider<CurrentUser> self;
 
   @Inject
-  Index(AccountCache accountCache,
-      Provider<CurrentUser> self) {
+  Index(AccountCache accountCache, Provider<CurrentUser> self) {
     this.accountCache = accountCache;
     this.self = self;
   }
@@ -44,8 +41,7 @@ public class Index implements RestModifyView<AccountResource, Input> {
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
       throws IOException, AuthException, OrmException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canModifyAccount()) {
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to index account");
     }
 

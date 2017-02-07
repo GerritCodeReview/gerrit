@@ -25,15 +25,13 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import org.kohsuke.args4j.Option;
 
 /** List the installed plugins. */
 @RequiresCapability(GlobalCapability.VIEW_PLUGINS)
@@ -44,7 +42,11 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   @Option(name = "--format", usage = "(deprecated) output format")
   private OutputFormat format = OutputFormat.TEXT;
 
-  @Option(name = "--all", aliases = {"-a"}, usage = "List all plugins, including disabled plugins")
+  @Option(
+    name = "--all",
+    aliases = {"-a"},
+    usage = "List all plugins, including disabled plugins"
+  )
   private boolean all;
 
   @Inject
@@ -70,16 +72,19 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   public JsonElement display(PrintWriter stdout) {
     Map<String, PluginInfo> output = new TreeMap<>();
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
-    Collections.sort(plugins, new Comparator<Plugin>() {
-      @Override
-      public int compare(Plugin a, Plugin b) {
-        return a.getName().compareTo(b.getName());
-      }
-    });
+    Collections.sort(
+        plugins,
+        new Comparator<Plugin>() {
+          @Override
+          public int compare(Plugin a, Plugin b) {
+            return a.getName().compareTo(b.getName());
+          }
+        });
 
     if (!format.isJson()) {
       stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
-      stdout.print("-------------------------------------------------------------------------------\n");
+      stdout.print(
+          "-------------------------------------------------------------------------------\n");
     }
 
     for (Plugin p : plugins) {
@@ -87,7 +92,9 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
       if (format.isJson()) {
         output.put(p.getName(), info);
       } else {
-        stdout.format("%-30s %-10s %-8s %s\n", p.getName(),
+        stdout.format(
+            "%-30s %-10s %-8s %s\n",
+            p.getName(),
             Strings.nullToEmpty(info.version),
             p.isDisabled() ? "DISABLED" : "ENABLED",
             p.getSrcFile().getFileName());
@@ -95,12 +102,13 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     }
 
     if (stdout == null) {
-      return OutputFormat.JSON.newGson().toJsonTree(
-          output,
-          new TypeToken<Map<String, Object>>() {}.getType());
+      return OutputFormat.JSON
+          .newGson()
+          .toJsonTree(output, new TypeToken<Map<String, Object>>() {}.getType());
     } else if (format.isJson()) {
-      format.newGson().toJson(output,
-          new TypeToken<Map<String, PluginInfo>>() {}.getType(), stdout);
+      format
+          .newGson()
+          .toJson(output, new TypeToken<Map<String, PluginInfo>>() {}.getType(), stdout);
       stdout.print('\n');
     }
     stdout.flush();

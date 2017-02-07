@@ -25,15 +25,13 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.QueryResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.kohsuke.args4j.Option;
 
 public class QueryChanges implements RestReadView<TopLevelResource> {
   private final ChangeJson.Factory json;
@@ -41,10 +39,20 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private final ChangeQueryProcessor imp;
   private EnumSet<ListChangesOption> options;
 
-  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "Query string")
+  @Option(
+    name = "--query",
+    aliases = {"-q"},
+    metaVar = "QUERY",
+    usage = "Query string"
+  )
   private List<String> queries;
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "Maximum number of results to return")
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "Maximum number of results to return"
+  )
   public void setLimit(int limit) {
     imp.setLimit(limit);
   }
@@ -59,15 +67,18 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     options.addAll(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
-  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT", usage = "Number of changes to skip")
+  @Option(
+    name = "--start",
+    aliases = {"-S"},
+    metaVar = "CNT",
+    usage = "Number of changes to skip"
+  )
   public void setStart(int start) {
     imp.setStart(start);
   }
 
   @Inject
-  QueryChanges(ChangeJson.Factory json,
-      ChangeQueryBuilder qb,
-      ChangeQueryProcessor qp) {
+  QueryChanges(ChangeJson.Factory json, ChangeQueryBuilder qb, ChangeQueryProcessor qp) {
     this.json = json;
     this.qb = qb;
     this.imp = qp;
@@ -94,8 +105,8 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       out = query();
     } catch (QueryParseException e) {
       // This is a hack to detect an operator that requires authentication.
-      Pattern p = Pattern.compile(
-          "^Error in operator (.*:self|is:watched|is:owner|is:reviewer|has:.*)$");
+      Pattern p =
+          Pattern.compile("^Error in operator (.*:self|is:watched|is:owner|is:reviewer|has:.*)$");
       Matcher m = p.matcher(e.getMessage());
       if (m.matches()) {
         String op = m.group(1);
@@ -106,8 +117,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     return out.size() == 1 ? out.get(0) : out;
   }
 
-  private List<List<ChangeInfo>> query()
-      throws OrmException, QueryParseException {
+  private List<List<ChangeInfo>> query() throws OrmException, QueryParseException {
     if (imp.isDisabled()) {
       throw new QueryParseException("query disabled");
     }
@@ -121,8 +131,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
 
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
-    List<List<ChangeInfo>> res = json.create(options)
-        .formatQueryResults(results);
+    List<List<ChangeInfo>> res = json.create(options).formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more()) {

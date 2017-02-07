@@ -18,6 +18,5 @@ package com.google.gerrit.extensions.restapi;
 public class TopLevelResource implements RestResource {
   public static final TopLevelResource INSTANCE = new TopLevelResource();
 
-  private TopLevelResource() {
-  }
+  private TopLevelResource() {}
 }

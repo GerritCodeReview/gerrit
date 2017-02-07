@@ -58,63 +58,49 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 @Singleton
-public class StreamEventsApiListener implements
-    ChangeAbandonedListener,
-    ChangeMergedListener,
-    ChangeRestoredListener,
-    CommentAddedListener,
-    DraftPublishedListener,
-    GitReferenceUpdatedListener,
-    HashtagsEditedListener,
-    NewProjectCreatedListener,
-    ReviewerAddedListener,
-    ReviewerDeletedListener,
-    RevisionCreatedListener,
-    TopicEditedListener {
-  private static final Logger log =
-      LoggerFactory.getLogger(StreamEventsApiListener.class);
+public class StreamEventsApiListener
+    implements ChangeAbandonedListener,
+        ChangeMergedListener,
+        ChangeRestoredListener,
+        CommentAddedListener,
+        DraftPublishedListener,
+        GitReferenceUpdatedListener,
+        HashtagsEditedListener,
+        NewProjectCreatedListener,
+        ReviewerAddedListener,
+        ReviewerDeletedListener,
+        RevisionCreatedListener,
+        TopicEditedListener {
+  private static final Logger log = LoggerFactory.getLogger(StreamEventsApiListener.class);
 
   public static class Module extends AbstractModule {
     @Override
     protected void configure() {
-      DynamicSet.bind(binder(), ChangeAbandonedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), ChangeMergedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), ChangeRestoredListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), CommentAddedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), DraftPublishedListener.class)
-        .to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), ChangeAbandonedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), ChangeMergedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), ChangeRestoredListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), CommentAddedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), DraftPublishedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), HashtagsEditedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), NewProjectCreatedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), ReviewerAddedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), ReviewerDeletedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), RevisionCreatedListener.class)
-        .to(StreamEventsApiListener.class);
-      DynamicSet.bind(binder(), TopicEditedListener.class)
-        .to(StreamEventsApiListener.class);
+          .to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), HashtagsEditedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), NewProjectCreatedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), ReviewerAddedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), ReviewerDeletedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), RevisionCreatedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), TopicEditedListener.class).to(StreamEventsApiListener.class);
     }
   }
 
@@ -127,7 +113,8 @@ public class StreamEventsApiListener implements
   private final ChangeNotes.Factory changeNotesFactory;
 
   @Inject
-  StreamEventsApiListener(DynamicItem<EventDispatcher> dispatcher,
+  StreamEventsApiListener(
+      DynamicItem<EventDispatcher> dispatcher,
       Provider<ReviewDb> db,
       EventFactory eventFactory,
       ProjectCache projectCache,
@@ -155,13 +142,11 @@ public class StreamEventsApiListener implements
     return getNotes(info).getChange();
   }
 
-  private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info)
-      throws OrmException {
+  private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info) throws OrmException {
     return psUtil.get(db.get(), notes, PatchSet.Id.fromRef(info.ref));
   }
 
-  private Supplier<ChangeAttribute> changeAttributeSupplier(
-      final Change change) {
+  private Supplier<ChangeAttribute> changeAttributeSupplier(final Change change) {
     return Suppliers.memoize(
         new Supplier<ChangeAttribute>() {
           @Override
@@ -171,14 +156,12 @@ public class StreamEventsApiListener implements
         });
   }
 
-  private Supplier<AccountAttribute> accountAttributeSupplier(
-      final AccountInfo account) {
+  private Supplier<AccountAttribute> accountAttributeSupplier(final AccountInfo account) {
     return Suppliers.memoize(
         new Supplier<AccountAttribute>() {
           @Override
           public AccountAttribute get() {
-            return eventFactory.asAccountAttribute(
-                new Account.Id(account._accountId));
+            return eventFactory.asAccountAttribute(new Account.Id(account._accountId));
           }
         });
   }
@@ -189,11 +172,9 @@ public class StreamEventsApiListener implements
         new Supplier<PatchSetAttribute>() {
           @Override
           public PatchSetAttribute get() {
-            try (Repository repo =
-                  repoManager.openRepository(change.getProject());
+            try (Repository repo = repoManager.openRepository(change.getProject());
                 RevWalk revWalk = new RevWalk(repo)) {
-              return eventFactory.asPatchSetAttribute(
-                  revWalk, change, patchSet);
+              return eventFactory.asPatchSetAttribute(revWalk, change, patchSet);
             } catch (IOException e) {
               throw new RuntimeException(e);
             }
@@ -201,21 +182,18 @@ public class StreamEventsApiListener implements
         });
   }
 
-  private static Map<String, Short> convertApprovalsMap(
-      Map<String, ApprovalInfo> approvals) {
+  private static Map<String, Short> convertApprovalsMap(Map<String, ApprovalInfo> approvals) {
     Map<String, Short> result = new HashMap<>();
     for (Entry<String, ApprovalInfo> e : approvals.entrySet()) {
-      Short value =
-          e.getValue().value == null ? null : e.getValue().value.shortValue();
+      Short value = e.getValue().value == null ? null : e.getValue().value.shortValue();
       result.put(e.getKey(), value);
     }
     return result;
   }
 
-  private ApprovalAttribute getApprovalAttribute(LabelTypes labelTypes,
-      Entry<String, Short> approval,
-      Map<String, Short> oldApprovals) {
-  ApprovalAttribute a = new ApprovalAttribute();
+  private ApprovalAttribute getApprovalAttribute(
+      LabelTypes labelTypes, Entry<String, Short> approval, Map<String, Short> oldApprovals) {
+    ApprovalAttribute a = new ApprovalAttribute();
     a.type = approval.getKey();
 
     if (oldApprovals != null && !oldApprovals.isEmpty()) {
@@ -234,21 +212,21 @@ public class StreamEventsApiListener implements
   }
 
   private Supplier<ApprovalAttribute[]> approvalsAttributeSupplier(
-      final Change change, Map<String, ApprovalInfo> newApprovals,
+      final Change change,
+      Map<String, ApprovalInfo> newApprovals,
       final Map<String, ApprovalInfo> oldApprovals) {
     final Map<String, Short> approvals = convertApprovalsMap(newApprovals);
     return Suppliers.memoize(
         new Supplier<ApprovalAttribute[]>() {
           @Override
           public ApprovalAttribute[] get() {
-            LabelTypes labelTypes = projectCache.get(
-                change.getProject()).getLabelTypes();
+            LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
             if (approvals.size() > 0) {
               ApprovalAttribute[] r = new ApprovalAttribute[approvals.size()];
               int i = 0;
               for (Map.Entry<String, Short> approval : approvals.entrySet()) {
-                r[i++] = getApprovalAttribute(labelTypes, approval,
-                    convertApprovalsMap(oldApprovals));
+                r[i++] =
+                    getApprovalAttribute(labelTypes, approval, convertApprovalsMap(oldApprovals));
               }
               return r;
             }
@@ -259,8 +237,7 @@ public class StreamEventsApiListener implements
 
   String[] hashtagArray(Collection<String> hashtags) {
     if (hashtags != null && hashtags.size() > 0) {
-      return Sets.newHashSet(hashtags).toArray(
-          new String[hashtags.size()]);
+      return Sets.newHashSet(hashtags).toArray(new String[hashtags.size()]);
     }
     return null;
   }
@@ -306,18 +283,16 @@ public class StreamEventsApiListener implements
       Change change = notes.getChange();
       ReviewerDeletedEvent event = new ReviewerDeletedEvent(change);
       event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change,
-          psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
       event.comment = ev.getComment();
-      event.approvals = approvalsAttributeSupplier(change,
-          ev.getNewApprovals(), ev.getOldApprovals());
+      event.approvals =
+          approvalsAttributeSupplier(change, ev.getNewApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
       log.error("Failed to dispatch event", e);
     }
-
   }
 
   @Override
@@ -328,8 +303,7 @@ public class StreamEventsApiListener implements
       ReviewerAddedEvent event = new ReviewerAddedEvent(change);
 
       event.change = changeAttributeSupplier(change);
-      event.patchSet = patchSetAttributeSupplier(change,
-          psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
 
       dispatcher.get().postEvent(change, event);
@@ -371,18 +345,18 @@ public class StreamEventsApiListener implements
     if (ev.getUpdater() != null) {
       event.submitter = accountAttributeSupplier(ev.getUpdater());
     }
-    final Branch.NameKey refName =
-        new Branch.NameKey(ev.getProjectName(), ev.getRefName());
-    event.refUpdate = Suppliers.memoize(
-        new Supplier<RefUpdateAttribute>() {
-          @Override
-          public RefUpdateAttribute get() {
-            return eventFactory.asRefUpdateAttribute(
-                ObjectId.fromString(ev.getOldObjectId()),
-                ObjectId.fromString(ev.getNewObjectId()),
-                refName);
-          }
-        });
+    final Branch.NameKey refName = new Branch.NameKey(ev.getProjectName(), ev.getRefName());
+    event.refUpdate =
+        Suppliers.memoize(
+            new Supplier<RefUpdateAttribute>() {
+              @Override
+              public RefUpdateAttribute get() {
+                return eventFactory.asRefUpdateAttribute(
+                    ObjectId.fromString(ev.getOldObjectId()),
+                    ObjectId.fromString(ev.getNewObjectId()),
+                    refName);
+              }
+            });
     dispatcher.get().postEvent(refName, event);
   }
 
@@ -413,11 +387,10 @@ public class StreamEventsApiListener implements
       CommentAddedEvent event = new CommentAddedEvent(change);
 
       event.change = changeAttributeSupplier(change);
-      event.author =  accountAttributeSupplier(ev.getWho());
+      event.author = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, ps);
       event.comment = ev.getComment();
-      event.approvals = approvalsAttributeSupplier(
-          change, ev.getApprovals(), ev.getOldApprovals());
+      event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException e) {
@@ -434,8 +407,7 @@ public class StreamEventsApiListener implements
 
       event.change = changeAttributeSupplier(change);
       event.restorer = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change,
-          psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
 
       dispatcher.get().postEvent(change, event);
@@ -453,8 +425,7 @@ public class StreamEventsApiListener implements
 
       event.change = changeAttributeSupplier(change);
       event.submitter = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change,
-          psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.newRev = ev.getNewRevisionId();
 
       dispatcher.get().postEvent(change, event);
@@ -472,8 +443,7 @@ public class StreamEventsApiListener implements
 
       event.change = changeAttributeSupplier(change);
       event.abandoner = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change,
-          psUtil.current(db.get(), notes));
+      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
       event.reason = ev.getReason();
 
       dispatcher.get().postEvent(change, event);

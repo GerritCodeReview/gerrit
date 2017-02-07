@@ -36,8 +36,10 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
   private final PatchLineCommentsUtil plcUtil;
 
   @Inject
-  Comments(DynamicMap<RestView<CommentResource>> views,
-      ListRevisionComments list, Provider<ReviewDb> dbProvider,
+  Comments(
+      DynamicMap<RestView<CommentResource>> views,
+      ListRevisionComments list,
+      Provider<ReviewDb> dbProvider,
       PatchLineCommentsUtil plcUtil) {
     this.views = views;
     this.list = list;
@@ -61,8 +63,8 @@ public class Comments implements ChildCollection<RevisionResource, CommentResour
     String uuid = id.get();
     ChangeNotes notes = rev.getNotes();
 
-    for (PatchLineComment c : plcUtil.publishedByPatchSet(dbProvider.get(),
-        notes, rev.getPatchSet().getId())) {
+    for (PatchLineComment c :
+        plcUtil.publishedByPatchSet(dbProvider.get(), notes, rev.getPatchSet().getId())) {
       if (uuid.equals(c.getKey().get())) {
         return new CommentResource(rev, c);
       }

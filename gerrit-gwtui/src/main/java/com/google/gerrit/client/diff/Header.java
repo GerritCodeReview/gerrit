@@ -58,18 +58,20 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.List;
 
 public class Header extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Header> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
+
   static {
     Resources.I.style().ensureInjected();
   }
 
   private enum ReviewedState {
-    AUTO_REVIEW, LOADED
+    AUTO_REVIEW,
+    LOADED
   }
 
   @UiField CheckBox reviewed;
@@ -99,8 +101,13 @@ public class Header extends Composite {
   private PreferencesAction prefsAction;
   private ReviewedState reviewedState;
 
-  Header(KeyCommandSet keys, PatchSet.Id base, PatchSet.Id patchSetId,
-      String path, DiffView diffSreenType, DiffPreferences prefs) {
+  Header(
+      KeyCommandSet keys,
+      PatchSet.Id base,
+      PatchSet.Id patchSetId,
+      String path,
+      DiffView diffSreenType,
+      DiffPreferences prefs) {
     initWidget(uiBinder.createAndBindUi(this));
     this.keys = keys;
     this.base = base;
@@ -113,9 +120,9 @@ public class Header extends Composite {
       reviewed.getElement().getStyle().setVisibility(Visibility.HIDDEN);
     }
     SafeHtml.setInnerHTML(filePath, formatPath(path));
-    up.setTargetHistoryToken(PageLinks.toChange(
-        patchSetId.getParentKey(),
-        base != null ? base.getId() : null, patchSetId.getId()));
+    up.setTargetHistoryToken(
+        PageLinks.toChange(
+            patchSetId.getParentKey(), base != null ? base.getId() : null, patchSetId.getId()));
   }
 
   public static SafeHtml formatPath(String path) {
@@ -145,35 +152,39 @@ public class Header extends Composite {
 
   @Override
   protected void onLoad() {
-    DiffApi.list(patchSetId, base, new GerritCallback<NativeMap<FileInfo>>() {
-      @Override
-      public void onSuccess(NativeMap<FileInfo> result) {
-        files = result.values();
-        FileInfo.sortFileInfoByPath(files);
-        fileNumber.setInnerText(
-            Integer.toString(Natives.asList(files).indexOf(result.get(path)) + 1));
-        fileCount.setInnerText(Integer.toString(files.length()));
-      }
-    });
+    DiffApi.list(
+        patchSetId,
+        base,
+        new GerritCallback<NativeMap<FileInfo>>() {
+          @Override
+          public void onSuccess(NativeMap<FileInfo> result) {
+            files = result.values();
+            FileInfo.sortFileInfoByPath(files);
+            fileNumber.setInnerText(
+                Integer.toString(Natives.asList(files).indexOf(result.get(path)) + 1));
+            fileCount.setInnerText(Integer.toString(files.length()));
+          }
+        });
 
     if (Gerrit.isSignedIn()) {
-      ChangeApi.revision(patchSetId).view("files")
-        .addParameterTrue("reviewed")
-        .get(new AsyncCallback<JsArrayString>() {
-            @Override
-            public void onSuccess(JsArrayString result) {
-              boolean b = Natives.asList(result).contains(path);
-              reviewed.setValue(b, false);
-              if (!b && reviewedState == ReviewedState.AUTO_REVIEW) {
-                postAutoReviewed();
-              }
-              reviewedState = ReviewedState.LOADED;
-            }
+      ChangeApi.revision(patchSetId)
+          .view("files")
+          .addParameterTrue("reviewed")
+          .get(
+              new AsyncCallback<JsArrayString>() {
+                @Override
+                public void onSuccess(JsArrayString result) {
+                  boolean b = Natives.asList(result).contains(path);
+                  reviewed.setValue(b, false);
+                  if (!b && reviewedState == ReviewedState.AUTO_REVIEW) {
+                    postAutoReviewed();
+                  }
+                  reviewedState = ReviewedState.LOADED;
+                }
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          });
+                @Override
+                public void onFailure(Throwable caught) {}
+              });
     }
   }
 
@@ -189,8 +200,7 @@ public class Header extends Composite {
     project.setInnerText(info.project());
   }
 
-  void init(PreferencesAction pa, List<InlineHyperlink> links,
-      List<WebLinkInfo> webLinks) {
+  void init(PreferencesAction pa, List<InlineHyperlink> links, List<WebLinkInfo> webLinks) {
     prefsAction = pa;
     prefsAction.setPartner(preferences);
 
@@ -205,30 +215,29 @@ public class Header extends Composite {
   @UiHandler("reviewed")
   void onValueChange(ValueChangeEvent<Boolean> event) {
     if (event.getValue()) {
-      reviewed().put(CallbackGroup.<ReviewInfo> emptyCallback());
+      reviewed().put(CallbackGroup.<ReviewInfo>emptyCallback());
     } else {
-      reviewed().delete(CallbackGroup.<ReviewInfo> emptyCallback());
+      reviewed().delete(CallbackGroup.<ReviewInfo>emptyCallback());
     }
   }
 
   private void postAutoReviewed() {
-    reviewed().background().put(new AsyncCallback<ReviewInfo>() {
-        @Override
-        public void onSuccess(ReviewInfo result) {
-          reviewed.setValue(true, false);
-        }
+    reviewed()
+        .background()
+        .put(
+            new AsyncCallback<ReviewInfo>() {
+              @Override
+              public void onSuccess(ReviewInfo result) {
+                reviewed.setValue(true, false);
+              }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
+              @Override
+              public void onFailure(Throwable caught) {}
+            });
   }
 
   private RestApi reviewed() {
-    return ChangeApi.revision(patchSetId)
-        .view("files")
-        .id(path)
-        .view("reviewed");
+    return ChangeApi.revision(patchSetId).view("files").id(path).view("reviewed");
   }
 
   @UiHandler("preferences")
@@ -246,15 +255,16 @@ public class Header extends Composite {
     if (info != null) {
       final String url = url(info);
       link.setTargetHistoryToken(url);
-      link.setTitle(PatchUtil.M.fileNameWithShortcutKey(
-          FileInfo.getFileName(info.path()),
-          Character.toString(key)));
-      KeyCommand k = new KeyCommand(0, key, help) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          Gerrit.display(url);
-        }
-      };
+      link.setTitle(
+          PatchUtil.M.fileNameWithShortcutKey(
+              FileInfo.getFileName(info.path()), Character.toString(key)));
+      KeyCommand k =
+          new KeyCommand(0, key, help) {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+              Gerrit.display(url);
+            }
+          };
       keys.add(k);
       if (link == prev) {
         hasPrev = true;
@@ -294,10 +304,8 @@ public class Header extends Composite {
       nextInfo = curr;
       break;
     }
-    KeyCommand p = setupNav(prev, '[', PatchUtil.C.previousFileHelp(),
-        prevInfo);
-    KeyCommand n = setupNav(next, ']', PatchUtil.C.nextFileHelp(),
-        nextInfo);
+    KeyCommand p = setupNav(prev, '[', PatchUtil.C.previousFileHelp(), prevInfo);
+    KeyCommand n = setupNav(next, ']', PatchUtil.C.nextFileHelp(), nextInfo);
     if (p != null && n != null) {
       keys.pair(p, n);
     }
@@ -332,8 +340,7 @@ public class Header extends Composite {
       default:
         return new Runnable() {
           @Override
-          public void run() {
-          }
+          public void run() {}
         };
     }
   }
@@ -359,8 +366,7 @@ public class Header extends Composite {
       UIObject.setVisible(noDiff, false); // Don't bother showing "No Differences"
     } else {
       JsArray<Region> regions = diff.content();
-      boolean b = regions.length() == 0
-          || (regions.length() == 1 && regions.get(0).ab() != null);
+      boolean b = regions.length() == 0 || (regions.length() == 1 && regions.get(0).ab() != null);
       UIObject.setVisible(noDiff, b);
     }
   }

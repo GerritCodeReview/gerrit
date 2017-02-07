@@ -21,6 +21,8 @@ interface CopyableLabelText extends Constants {
   CopyableLabelText I = GWT.create(CopyableLabelText.class);
 
   String tooltip();
+
   String copied();
+
   String failed();
 }

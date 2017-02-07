@@ -16,7 +16,6 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
-
 import java.sql.Timestamp;
 
 /** A message attached to a {@link Change}. */
@@ -78,11 +77,10 @@ public final class ChangeMessage {
   @Column(id = 6, notNull = false)
   protected String tag;
 
-  protected ChangeMessage() {
-  }
+  protected ChangeMessage() {}
 
-  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
-      final Timestamp wo, final PatchSet.Id psid) {
+  public ChangeMessage(
+      final ChangeMessage.Key k, final Account.Id a, final Timestamp wo, final PatchSet.Id psid) {
     key = k;
     author = a;
     writtenOn = wo;
@@ -140,12 +138,18 @@ public final class ChangeMessage {
   @Override
   public String toString() {
     return "ChangeMessage{"
-        + "key=" + key
-        + ", author=" + author
-        + ", writtenOn=" + writtenOn
-        + ", patchset=" + patchset
-        + ", tag=" + tag
-        + ", message=[" + message
+        + "key="
+        + key
+        + ", author="
+        + author
+        + ", writtenOn="
+        + writtenOn
+        + ", patchset="
+        + patchset
+        + ", tag="
+        + tag
+        + ", message=["
+        + message
         + "]}";
   }
 }

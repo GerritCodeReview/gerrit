@@ -157,10 +157,10 @@ public class GitwebType {
   /**
    * Replace standard path separator with custom configured path separator.
    *
-   * @param urlSegment URL segment (e.g. branch or project name) in which to
-   *     replace the path separator.
-   * @return the segment with the standard path separator replaced by the custom
-   *   {@link #getPathSeparator()}.
+   * @param urlSegment URL segment (e.g. branch or project name) in which to replace the path
+   *     separator.
+   * @return the segment with the standard path separator replaced by the custom {@link
+   *     #getPathSeparator()}.
    */
   public String replacePathSeparator(String urlSegment) {
     if ('/' != pathSeparator) {

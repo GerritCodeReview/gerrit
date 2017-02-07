@@ -22,11 +22,9 @@ import static org.junit.Assert.assertNotNull;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Provider;
-
-import org.junit.Test;
-
 import java.nio.file.Paths;
 import java.util.Collections;
+import org.junit.Test;
 
 public class LibrariesTest {
   @Test
@@ -36,12 +34,16 @@ public class LibrariesTest {
 
     replay(ui);
 
-    Libraries lib = new Libraries(new Provider<LibraryDownloader>() {
-      @Override
-      public LibraryDownloader get() {
-        return new LibraryDownloader(ui, site);
-      }
-    }, Collections.<String> emptyList(), false);
+    Libraries lib =
+        new Libraries(
+            new Provider<LibraryDownloader>() {
+              @Override
+              public LibraryDownloader get() {
+                return new LibraryDownloader(ui, site);
+              }
+            },
+            Collections.<String>emptyList(),
+            false);
 
     assertNotNull(lib.bouncyCastleProvider);
     assertNotNull(lib.mysqlDriver);

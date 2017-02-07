@@ -13,18 +13,6 @@
 // limitations under the License.
 
 import com.google.common.io.ByteStreams;
-
-import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.AttributesBuilder;
-import org.asciidoctor.Options;
-import org.asciidoctor.OptionsBuilder;
-import org.asciidoctor.SafeMode;
-import org.asciidoctor.internal.JRubyAsciidoctor;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,6 +24,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.AttributesBuilder;
+import org.asciidoctor.Options;
+import org.asciidoctor.OptionsBuilder;
+import org.asciidoctor.SafeMode;
+import org.asciidoctor.internal.JRubyAsciidoctor;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 public class AsciiDoctor {
 
@@ -60,15 +58,13 @@ public class AsciiDoctor {
   @Option(name = "--tmp", usage = "temporary output path")
   private File tmpdir;
 
-  @Option(name = "-a", usage =
-      "a list of attributes, in the form key or key=value pair")
+  @Option(name = "-a", usage = "a list of attributes, in the form key or key=value pair")
   private List<String> attributes = new ArrayList<>();
 
   @Argument(usage = "input files")
   private List<String> inputFiles = new ArrayList<>();
 
-  public static String mapInFileToOutFile(
-      String inFile, String inExt, String outExt) {
+  public static String mapInFileToOutFile(String inFile, String inExt, String outExt) {
     String basename = new File(inFile).getName();
     if (basename.endsWith(inExt)) {
       basename = basename.substring(0, basename.length() - inExt.length());
@@ -85,8 +81,12 @@ public class AsciiDoctor {
   private Options createOptions(File outputFile) {
     OptionsBuilder optionsBuilder = OptionsBuilder.options();
 
-    optionsBuilder.backend(backend).docType(DOCTYPE).eruby(ERUBY)
-      .safe(SafeMode.UNSAFE).baseDir(basedir);
+    optionsBuilder
+        .backend(backend)
+        .docType(DOCTYPE)
+        .eruby(ERUBY)
+        .safe(SafeMode.UNSAFE)
+        .baseDir(basedir);
     // XXX(fishywang): ideally we should just output to a string and add the
     // content into zip. But asciidoctor will actually ignore all attributes if
     // not output to a file. So we *have* to output to a file then read the
@@ -123,8 +123,7 @@ public class AsciiDoctor {
     try {
       parser.parseArgument(parameters);
       if (inputFiles.isEmpty()) {
-        throw new CmdLineException(parser,
-            "asciidoctor: FAILED: input file missing");
+        throw new CmdLineException(parser, "asciidoctor: FAILED: input file missing");
       }
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
@@ -150,20 +149,21 @@ public class AsciiDoctor {
         zipFile(out, outName, zip);
       }
 
-      File[] cssFiles = tmpdir.listFiles(new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-          return name.endsWith(".css");
-        }
-      });
+      File[] cssFiles =
+          tmpdir.listFiles(
+              new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                  return name.endsWith(".css");
+                }
+              });
       for (File css : cssFiles) {
         zipFile(css, css.getName(), zip);
       }
     }
   }
 
-  public static void zipFile(File file, String name, ZipOutputStream zip)
-      throws IOException {
+  public static void zipFile(File file, String name, ZipOutputStream zip) throws IOException {
     zip.putNextEntry(new ZipEntry(name));
     try (FileInputStream input = new FileInputStream(file)) {
       ByteStreams.copy(input, zip);

@@ -37,20 +37,18 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.io.IOException;
 
 @Singleton
-public class CherryPick implements RestModifyView<RevisionResource, CherryPickInput>,
-    UiAction<RevisionResource> {
+public class CherryPick
+    implements RestModifyView<RevisionResource, CherryPickInput>, UiAction<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
 
   @Inject
-  CherryPick(Provider<ReviewDb> dbProvider,
-      CherryPickChange cherryPickChange,
-      ChangeJson.Factory json) {
+  CherryPick(
+      Provider<ReviewDb> dbProvider, CherryPickChange cherryPickChange, ChangeJson.Factory json) {
     this.dbProvider = dbProvider;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
@@ -82,18 +80,18 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
     String refName = RefNames.fullName(input.destination);
     RefControl refControl = projectControl.controlForRef(refName);
     if (!refControl.canUpload()) {
-      throw new AuthException("Not allowed to cherry pick "
-          + revision.getChange().getId().toString() + " to "
-          + input.destination);
+      throw new AuthException(
+          "Not allowed to cherry pick "
+              + revision.getChange().getId().toString()
+              + " to "
+              + input.destination);
     }
 
     try {
       Change.Id cherryPickedChangeId =
-          cherryPickChange.cherryPick(revision.getChange(),
-              revision.getPatchSet(), input.message, refName,
-              refControl);
-      return json.create(ChangeJson.NO_OPTIONS).format(revision.getProject(),
-          cherryPickedChangeId);
+          cherryPickChange.cherryPick(
+              revision.getChange(), revision.getPatchSet(), input.message, refName, refControl);
+      return json.create(ChangeJson.NO_OPTIONS).format(revision.getProject(), cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());
     } catch (IntegrationException | NoSuchChangeException e) {
@@ -104,9 +102,8 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     return new UiAction.Description()
-      .setLabel("Cherry Pick")
-      .setTitle("Cherry pick change to a different branch")
-      .setVisible(resource.getControl().getProjectControl().canUpload()
-          && resource.isCurrent());
+        .setLabel("Cherry Pick")
+        .setTitle("Cherry pick change to a different branch")
+        .setVisible(resource.getControl().getProjectControl().canUpload() && resource.isCurrent());
   }
 }

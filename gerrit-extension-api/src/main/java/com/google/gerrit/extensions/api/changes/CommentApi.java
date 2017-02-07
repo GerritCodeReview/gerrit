@@ -22,9 +22,9 @@ public interface CommentApi {
   CommentInfo get() throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements CommentApi {
     @Override
     public CommentInfo get() throws RestApiException {

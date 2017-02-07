@@ -36,31 +36,31 @@ public class HttpPluginModule extends ServletModule {
     serveRegex(LfsPluginServlet.URL_REGEX).with(LfsPluginServlet.class);
 
     bind(StartPluginListener.class)
-      .annotatedWith(UniqueAnnotations.create())
-      .to(HttpPluginServlet.class);
+        .annotatedWith(UniqueAnnotations.create())
+        .to(HttpPluginServlet.class);
 
     bind(ReloadPluginListener.class)
-      .annotatedWith(UniqueAnnotations.create())
-      .to(HttpPluginServlet.class);
+        .annotatedWith(UniqueAnnotations.create())
+        .to(HttpPluginServlet.class);
 
     bind(StartPluginListener.class)
-      .annotatedWith(UniqueAnnotations.create())
-      .to(LfsPluginServlet.class);
+        .annotatedWith(UniqueAnnotations.create())
+        .to(LfsPluginServlet.class);
 
     bind(ReloadPluginListener.class)
-      .annotatedWith(UniqueAnnotations.create())
-      .to(LfsPluginServlet.class);
+        .annotatedWith(UniqueAnnotations.create())
+        .to(LfsPluginServlet.class);
 
-    bind(ModuleGenerator.class)
-      .to(HttpAutoRegisterModuleGenerator.class);
+    bind(ModuleGenerator.class).to(HttpAutoRegisterModuleGenerator.class);
 
-    install(new CacheModule() {
-      @Override
-      protected void configure() {
-        cache(PLUGIN_RESOURCES, ResourceKey.class, Resource.class)
-          .maximumWeight(2 << 20)
-          .weigher(ResourceWeigher.class);
-      }
-    });
+    install(
+        new CacheModule() {
+          @Override
+          protected void configure() {
+            cache(PLUGIN_RESOURCES, ResourceKey.class, Resource.class)
+                .maximumWeight(2 << 20)
+                .weigher(ResourceWeigher.class);
+          }
+        });
   }
 }

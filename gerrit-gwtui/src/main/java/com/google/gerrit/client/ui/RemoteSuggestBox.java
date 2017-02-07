@@ -32,8 +32,11 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBoxBase;
 
-public class RemoteSuggestBox extends Composite implements Focusable, HasText,
-    HasSelectionHandlers<String>, HasCloseHandlers<RemoteSuggestBox> {
+public class RemoteSuggestBox extends Composite
+    implements Focusable,
+        HasText,
+        HasSelectionHandlers<String>,
+        HasCloseHandlers<RemoteSuggestBox> {
   private final RemoteSuggestOracle remoteSuggestOracle;
   private final DefaultSuggestionDisplay display;
   private final HintTextBox textBox;
@@ -45,37 +48,39 @@ public class RemoteSuggestBox extends Composite implements Focusable, HasText,
     display = new DefaultSuggestionDisplay();
 
     textBox = new HintTextBox();
-    textBox.addKeyDownHandler(new KeyDownHandler() {
-      @Override
-      public void onKeyDown(KeyDownEvent e) {
-        submitOnSelection = false;
+    textBox.addKeyDownHandler(
+        new KeyDownHandler() {
+          @Override
+          public void onKeyDown(KeyDownEvent e) {
+            submitOnSelection = false;
 
-        if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-          CloseEvent.fire(RemoteSuggestBox.this, RemoteSuggestBox.this);
-        } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-          if (display.isSuggestionListShowing()) {
-            if (textBox.getValue().equals(remoteSuggestOracle.getLast())) {
-              submitOnSelection = true;
-            } else {
-              display.hideSuggestions();
+            if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
+              CloseEvent.fire(RemoteSuggestBox.this, RemoteSuggestBox.this);
+            } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+              if (display.isSuggestionListShowing()) {
+                if (textBox.getValue().equals(remoteSuggestOracle.getLast())) {
+                  submitOnSelection = true;
+                } else {
+                  display.hideSuggestions();
+                }
+              } else {
+                SelectionEvent.fire(RemoteSuggestBox.this, getText());
+              }
             }
-          } else {
-            SelectionEvent.fire(RemoteSuggestBox.this, getText());
           }
-        }
-      }
-    });
+        });
 
     suggestBox = new SuggestBox(remoteSuggestOracle, textBox, display);
-    suggestBox.addSelectionHandler(new SelectionHandler<Suggestion>() {
-      @Override
-      public void onSelection(SelectionEvent<Suggestion> event) {
-        textBox.setFocus(true);
-        if (submitOnSelection) {
-          SelectionEvent.fire(RemoteSuggestBox.this, getText());
-        }
-      }
-    });
+    suggestBox.addSelectionHandler(
+        new SelectionHandler<Suggestion>() {
+          @Override
+          public void onSelection(SelectionEvent<Suggestion> event) {
+            textBox.setFocus(true);
+            if (submitOnSelection) {
+              SelectionEvent.fire(RemoteSuggestBox.this, getText());
+            }
+          }
+        });
     initWidget(suggestBox);
   }
 

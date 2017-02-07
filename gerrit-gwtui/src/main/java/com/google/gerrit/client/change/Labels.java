@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -73,15 +72,16 @@ class Labels extends Grid {
     if (user != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
       final Change.Id changeId = screen.getPatchSetId().getParentKey();
-      ChangeApi.reviewer(changeId.get(), user).delete(
-          new GerritCallback<JavaScriptObject>() {
-            @Override
-            public void onSuccess(JavaScriptObject result) {
-              if (screen.isCurrentView()) {
-                Gerrit.display(PageLinks.toChange(changeId));
-              }
-            }
-          });
+      ChangeApi.reviewer(changeId.get(), user)
+          .delete(
+              new GerritCallback<JavaScriptObject>() {
+                @Override
+                public void onSuccess(JavaScriptObject result) {
+                  if (screen.isCurrentView()) {
+                    Gerrit.display(PageLinks.toChange(changeId));
+                  }
+                }
+              });
     }
   }
 
@@ -91,15 +91,16 @@ class Labels extends Grid {
     if (user != null && vote != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
       final Change.Id changeId = screen.getPatchSetId().getParentKey();
-      ChangeApi.vote(changeId.get(), user, vote).delete(
-          new GerritCallback<JavaScriptObject>() {
-            @Override
-            public void onSuccess(JavaScriptObject result) {
-              if (screen.isCurrentView()) {
-                Gerrit.display(PageLinks.toChange(changeId));
-              }
-            }
-          });
+      ChangeApi.vote(changeId.get(), user, vote)
+          .delete(
+              new GerritCallback<JavaScriptObject>() {
+                @Override
+                public void onSuccess(JavaScriptObject result) {
+                  if (screen.isCurrentView()) {
+                    Gerrit.display(PageLinks.toChange(changeId));
+                  }
+                }
+              });
     }
   }
 
@@ -189,8 +190,7 @@ class Labels extends Grid {
         html.setStyleName(style.label_reject());
       }
       html.append(val).append(" ");
-      html.append(formatUserList(style, m.get(v), removable,
-          label.name(), null));
+      html.append(formatUserList(style, m.get(v), removable, label.name(), null));
       html.closeSpan();
     }
     return html.toBlockWidget();
@@ -210,13 +210,11 @@ class Labels extends Grid {
   }
 
   private static boolean isApproved(LabelInfo label, ApprovalInfo ai) {
-    return label.approved() != null
-        && label.approved()._accountId() == ai._accountId();
+    return label.approved() != null && label.approved()._accountId() == ai._accountId();
   }
 
   private static boolean isRejected(LabelInfo label, ApprovalInfo ai) {
-    return label.rejected() != null
-        && label.rejected()._accountId() == ai._accountId();
+    return label.rejected() != null && label.rejected()._accountId() == ai._accountId();
   }
 
   private String getStyleForLabel(LabelInfo label) {
@@ -234,34 +232,37 @@ class Labels extends Grid {
     }
   }
 
-  static SafeHtml formatUserList(ChangeScreen.Style style,
+  static SafeHtml formatUserList(
+      ChangeScreen.Style style,
       Collection<? extends AccountInfo> in,
       Set<Integer> removable,
       String label,
       Map<Integer, VotableInfo> votable) {
     List<AccountInfo> users = new ArrayList<>(in);
-    Collections.sort(users, new Comparator<AccountInfo>() {
-      @Override
-      public int compare(AccountInfo a, AccountInfo b) {
-        String as = name(a);
-        String bs = name(b);
-        if (as.isEmpty()) {
-          return 1;
-        } else if (bs.isEmpty()) {
-          return -1;
-        }
-        return as.compareTo(bs);
-      }
+    Collections.sort(
+        users,
+        new Comparator<AccountInfo>() {
+          @Override
+          public int compare(AccountInfo a, AccountInfo b) {
+            String as = name(a);
+            String bs = name(b);
+            if (as.isEmpty()) {
+              return 1;
+            } else if (bs.isEmpty()) {
+              return -1;
+            }
+            return as.compareTo(bs);
+          }
 
-      private String name(AccountInfo a) {
-        if (a.name() != null) {
-          return a.name();
-        } else if (a.email() != null) {
-          return a.email();
-        }
-        return "";
-      }
-    });
+          private String name(AccountInfo a) {
+            if (a.name() != null) {
+              return a.name();
+            } else if (a.email() != null) {
+              return a.email();
+            }
+            return "";
+          }
+        });
 
     SafeHtmlBuilder html = new SafeHtmlBuilder();
     Iterator<? extends AccountInfo> itr = users.iterator();
@@ -285,8 +286,7 @@ class Labels extends Grid {
           if (!s.isEmpty()) {
             StringBuilder sb = new StringBuilder(Util.C.votable());
             sb.append(" ");
-            for (Iterator<String> it = vi.votableLabels().iterator();
-                it.hasNext();) {
+            for (Iterator<String> it = vi.votableLabels().iterator(); it.hasNext(); ) {
               sb.append(it.next());
               if (it.hasNext()) {
                 sb.append(", ");
@@ -305,9 +305,7 @@ class Labels extends Grid {
         html.setAttribute(DATA_VOTE, label);
       }
       if (img != null) {
-        html.openElement("img")
-            .setStyleName(style.avatar())
-            .setAttribute("src", img.url());
+        html.openElement("img").setStyleName(style.avatar()).setAttribute("src", img.url());
         if (img.width() > 0) {
           html.setAttribute("width", img.width());
         }
@@ -326,8 +324,7 @@ class Labels extends Grid {
           html.setAttribute("title", Util.M.removeReviewer(name))
               .setAttribute("onclick", REMOVE_REVIEWER + "(event)");
         }
-        html.append("×")
-            .closeElement("button");
+        html.append("×").closeElement("button");
       }
       html.closeSpan();
       if (itr.hasNext()) {

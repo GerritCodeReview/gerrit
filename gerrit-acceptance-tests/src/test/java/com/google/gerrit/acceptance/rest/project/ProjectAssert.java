@@ -27,16 +27,13 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
-
 import java.util.List;
 import java.util.Set;
 
 public class ProjectAssert {
   public static IterableSubject<
-        ? extends IterableSubject<
-            ?, Project.NameKey, Iterable<Project.NameKey>>,
-        Project.NameKey,
-        Iterable<Project.NameKey>>
+          ? extends IterableSubject<?, Project.NameKey, Iterable<Project.NameKey>>, Project.NameKey,
+          Iterable<Project.NameKey>>
       assertThatNameList(Iterable<ProjectInfo> actualIt) {
     List<ProjectInfo> actual = ImmutableList.copyOf(actualIt);
     for (ProjectInfo info : actual) {
@@ -45,13 +42,15 @@ public class ProjectAssert {
           .that(Url.decode(info.id))
           .isEqualTo(info.name);
     }
-    return assertThat(Iterables.transform(actual,
-        new Function<ProjectInfo, Project.NameKey>() {
-          @Override
-          public Project.NameKey apply(ProjectInfo in) {
-            return new Project.NameKey(in.name);
-          }
-        }));
+    return assertThat(
+        Iterables.transform(
+            actual,
+            new Function<ProjectInfo, Project.NameKey>() {
+              @Override
+              public Project.NameKey apply(ProjectInfo in) {
+                return new Project.NameKey(in.name);
+              }
+            }));
   }
 
   public static void assertProjectInfo(Project project, ProjectInfo info) {
@@ -66,12 +65,11 @@ public class ProjectAssert {
     } else {
       assertThat(info.parent).isNull();
     }
-    assertThat(Strings.nullToEmpty(info.description)).isEqualTo(
-        project.getDescription());
+    assertThat(Strings.nullToEmpty(info.description)).isEqualTo(project.getDescription());
   }
 
-  public static void assertProjectOwners(Set<AccountGroup.UUID> expectedOwners,
-      ProjectState state) {
+  public static void assertProjectOwners(
+      Set<AccountGroup.UUID> expectedOwners, ProjectState state) {
     for (AccountGroup.UUID g : state.getOwners()) {
       assertThat(expectedOwners.remove(g)).isTrue();
     }

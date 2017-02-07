@@ -37,15 +37,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProjectWatch {
   private static final Logger log = LoggerFactory.getLogger(ProjectWatch.class);
@@ -55,8 +53,11 @@ public class ProjectWatch {
   protected final Project.NameKey project;
   protected final ChangeData changeData;
 
-  public ProjectWatch(EmailArguments args, Project.NameKey project,
-    ProjectState projectState, ChangeData changeData) {
+  public ProjectWatch(
+      EmailArguments args,
+      Project.NameKey project,
+      ProjectState projectState,
+      ChangeData changeData) {
     this.args = args;
     this.project = project;
     this.projectState = projectState;
@@ -78,9 +79,12 @@ public class ProjectWatch {
           try {
             add(matching, nc);
           } catch (QueryParseException e) {
-            log.warn("Project {} has invalid notify {} filter \"{}\": {}",
-                state.getProject().getName(), nc.getName(),
-                nc.getFilter(), e.getMessage());
+            log.warn(
+                "Project {} has invalid notify {} filter \"{}\": {}",
+                state.getProject().getName(),
+                nc.getName(),
+                nc.getFilter(),
+                e.getMessage());
           }
         }
       }
@@ -89,28 +93,23 @@ public class ProjectWatch {
     return matching;
   }
 
-  private Watchers getWatchersFromIndex(NotifyType type)
-      throws OrmException {
+  private Watchers getWatchersFromIndex(NotifyType type) throws OrmException {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
-    for (AccountState a : args.accountQueryProvider.get()
-        .byWatchedProject(project)) {
+    for (AccountState a : args.accountQueryProvider.get().byWatchedProject(project)) {
       Account.Id accountId = a.getAccount().getId();
-      for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e :
-          a.getProjectWatches().entrySet()) {
+      for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : a.getProjectWatches().entrySet()) {
         if (project.equals(e.getKey().project())
-                && add(matching, accountId, e.getKey(), e.getValue(), type)) {
+            && add(matching, accountId, e.getKey(), e.getValue(), type)) {
           // We only want to prevent matching All-Projects if this filter hits
           projectWatchers.add(accountId);
         }
       }
     }
 
-    for (AccountState a : args.accountQueryProvider.get()
-        .byWatchedProject(args.allProjectsName)) {
-      for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e :
-        a.getProjectWatches().entrySet()) {
+    for (AccountState a : args.accountQueryProvider.get().byWatchedProject(args.allProjectsName)) {
+      for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : a.getProjectWatches().entrySet()) {
         if (args.allProjectsName.equals(e.getKey().project())) {
           Account.Id accountId = a.getAccount().getId();
           if (!projectWatchers.contains(accountId)) {
@@ -122,21 +121,19 @@ public class ProjectWatch {
     return matching;
   }
 
-  private Watchers getWatchersFromDb(NotifyType type)
-      throws OrmException {
+  private Watchers getWatchersFromDb(NotifyType type) throws OrmException {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(project)) {
+    for (AccountProjectWatch w : args.db.get().accountProjectWatches().byProject(project)) {
       if (add(matching, w, type)) {
         // We only want to prevent matching All-Projects if this filter hits
         projectWatchers.add(w.getAccountId());
       }
     }
 
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(args.allProjectsName)) {
+    for (AccountProjectWatch w :
+        args.db.get().accountProjectWatches().byProject(args.allProjectsName)) {
       if (!projectWatchers.contains(w.getAccountId())) {
         add(matching, w, type);
       }
@@ -149,6 +146,7 @@ public class ProjectWatch {
       protected final Set<Account.Id> accounts = new HashSet<>();
       protected final Set<Address> emails = new HashSet<>();
     }
+
     protected final List to = new List();
     protected final List cc = new List();
     protected final List bcc = new List();
@@ -166,11 +164,9 @@ public class ProjectWatch {
     }
   }
 
-  private void add(Watchers matching, NotifyConfig nc)
-      throws OrmException, QueryParseException {
+  private void add(Watchers matching, NotifyConfig nc) throws OrmException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
-      CurrentUser user = new SingleGroupUser(args.capabilityControlFactory,
-          ref.getUUID());
+      CurrentUser user = new SingleGroupUser(args.capabilityControlFactory, ref.getUUID());
       if (filterMatch(user, nc.getFilter())) {
         deliverToMembers(matching.list(nc.getHeader()), ref.getUUID());
       }
@@ -183,9 +179,8 @@ public class ProjectWatch {
     }
   }
 
-  private void deliverToMembers(
-      Watchers.List matching,
-      AccountGroup.UUID startUUID) throws OrmException {
+  private void deliverToMembers(Watchers.List matching, AccountGroup.UUID startUUID)
+      throws OrmException {
     ReviewDb db = args.db.get();
     Set<AccountGroup.UUID> seen = new HashSet<>();
     List<AccountGroup.UUID> q = new ArrayList<>();
@@ -219,8 +214,12 @@ public class ProjectWatch {
     }
   }
 
-  private boolean add(Watchers matching, Account.Id accountId,
-      ProjectWatchKey key, Set<NotifyType> watchedTypes, NotifyType type)
+  private boolean add(
+      Watchers matching,
+      Account.Id accountId,
+      ProjectWatchKey key,
+      Set<NotifyType> watchedTypes,
+      NotifyType type)
       throws OrmException {
     IdentifiedUser user = args.identifiedUserFactory.create(accountId);
 

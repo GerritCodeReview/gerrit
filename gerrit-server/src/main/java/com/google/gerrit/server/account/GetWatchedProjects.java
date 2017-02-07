@@ -30,10 +30,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,6 +39,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class GetWatchedProjects implements RestReadView<AccountResource> {
@@ -53,24 +51,22 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
-  public GetWatchedProjects(Provider<ReviewDb> dbProvider,
+  public GetWatchedProjects(
+      Provider<ReviewDb> dbProvider,
       Provider<IdentifiedUser> self,
       @GerritServerConfig Config cfg,
       WatchConfig.Accessor watchConfig) {
     this.dbProvider = dbProvider;
     this.self = self;
-    this.readFromGit =
-        cfg.getBoolean("user", null, "readProjectWatchesFromGit", false);
+    this.readFromGit = cfg.getBoolean("user", null, "readProjectWatchesFromGit", false);
     this.watchConfig = watchConfig;
   }
 
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc)
       throws OrmException, AuthException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("It is not allowed to list project watches "
-          + "of other users");
+    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("It is not allowed to list project watches " + "of other users");
     }
     Account.Id accountId = rsrc.getUser().getAccountId();
     Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
@@ -79,33 +75,28 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
             : readProjectWatchesFromDb(dbProvider.get(), accountId);
 
     List<ProjectWatchInfo> projectWatchInfos = new LinkedList<>();
-    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches
-        .entrySet()) {
+    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches.entrySet()) {
       ProjectWatchInfo pwi = new ProjectWatchInfo();
       pwi.filter = e.getKey().filter();
       pwi.project = e.getKey().project().get();
-      pwi.notifyAbandonedChanges =
-          toBoolean(e.getValue().contains(NotifyType.ABANDONED_CHANGES));
-      pwi.notifyNewChanges =
-          toBoolean(e.getValue().contains(NotifyType.NEW_CHANGES));
-      pwi.notifyNewPatchSets =
-          toBoolean(e.getValue().contains(NotifyType.NEW_PATCHSETS));
-      pwi.notifySubmittedChanges =
-          toBoolean(e.getValue().contains(NotifyType.SUBMITTED_CHANGES));
-      pwi.notifyAllComments =
-          toBoolean(e.getValue().contains(NotifyType.ALL_COMMENTS));
+      pwi.notifyAbandonedChanges = toBoolean(e.getValue().contains(NotifyType.ABANDONED_CHANGES));
+      pwi.notifyNewChanges = toBoolean(e.getValue().contains(NotifyType.NEW_CHANGES));
+      pwi.notifyNewPatchSets = toBoolean(e.getValue().contains(NotifyType.NEW_PATCHSETS));
+      pwi.notifySubmittedChanges = toBoolean(e.getValue().contains(NotifyType.SUBMITTED_CHANGES));
+      pwi.notifyAllComments = toBoolean(e.getValue().contains(NotifyType.ALL_COMMENTS));
       projectWatchInfos.add(pwi);
     }
-    Collections.sort(projectWatchInfos, new Comparator<ProjectWatchInfo>() {
-      @Override
-      public int compare(ProjectWatchInfo pwi1, ProjectWatchInfo pwi2) {
-        return ComparisonChain.start()
-            .compare(pwi1.project, pwi2.project)
-            .compare(Strings.nullToEmpty(pwi1.filter),
-                Strings.nullToEmpty(pwi2.filter))
-            .result();
-      }
-    });
+    Collections.sort(
+        projectWatchInfos,
+        new Comparator<ProjectWatchInfo>() {
+          @Override
+          public int compare(ProjectWatchInfo pwi1, ProjectWatchInfo pwi2) {
+            return ComparisonChain.start()
+                .compare(pwi1.project, pwi2.project)
+                .compare(Strings.nullToEmpty(pwi1.filter), Strings.nullToEmpty(pwi2.filter))
+                .result();
+          }
+        });
     return projectWatchInfos;
   }
 
@@ -115,11 +106,9 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
 
   public static Map<ProjectWatchKey, Set<NotifyType>> readProjectWatchesFromDb(
       ReviewDb db, Account.Id who) throws OrmException {
-    Map<ProjectWatchKey, Set<NotifyType>> projectWatches =
-        new HashMap<>();
+    Map<ProjectWatchKey, Set<NotifyType>> projectWatches = new HashMap<>();
     for (AccountProjectWatch apw : db.accountProjectWatches().byAccount(who)) {
-      ProjectWatchKey key =
-          ProjectWatchKey.create(apw.getProjectNameKey(), apw.getFilter());
+      ProjectWatchKey key = ProjectWatchKey.create(apw.getProjectNameKey(), apw.getFilter());
       Set<NotifyType> notifyValues = EnumSet.noneOf(NotifyType.class);
       for (NotifyType notifyType : NotifyType.values()) {
         if (apw.isNotify(notifyType)) {

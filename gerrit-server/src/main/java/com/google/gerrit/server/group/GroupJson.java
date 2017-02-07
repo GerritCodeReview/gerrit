@@ -31,7 +31,6 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.util.Collection;
 import java.util.EnumSet;
 
@@ -52,7 +51,8 @@ public class GroupJson {
   private EnumSet<ListGroupsOption> options;
 
   @Inject
-  GroupJson(GroupBackend groupBackend,
+  GroupJson(
+      GroupBackend groupBackend,
       GroupControl.Factory groupControlFactory,
       Provider<ListMembers> listMembers,
       Provider<ListIncludedGroups> listIncludes) {
@@ -83,8 +83,7 @@ public class GroupJson {
   public GroupInfo format(GroupDescription.Basic group) throws OrmException {
     GroupInfo info = init(group);
     if (options.contains(MEMBERS) || options.contains(INCLUDES)) {
-      GroupResource rsrc =
-          new GroupResource(groupControlFactory.controlFor(group));
+      GroupResource rsrc = new GroupResource(groupControlFactory.controlFor(group));
       initMembersAndIncludes(rsrc, info);
     }
     return info;
@@ -113,8 +112,7 @@ public class GroupJson {
     return info;
   }
 
-  private GroupInfo initMembersAndIncludes(GroupResource rsrc, GroupInfo info)
-      throws OrmException {
+  private GroupInfo initMembersAndIncludes(GroupResource rsrc, GroupInfo info) throws OrmException {
     if (rsrc.toAccountGroup() == null) {
       return info;
     }

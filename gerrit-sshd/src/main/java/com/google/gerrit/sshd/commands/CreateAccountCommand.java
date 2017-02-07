@@ -29,22 +29,25 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
-/** Create a new user account. **/
+/** Create a new user account. * */
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
 @CommandMetaData(name = "create-account", description = "Create a new batch/role account")
 final class CreateAccountCommand extends SshCommand {
-  @Option(name = "--group", aliases = {"-g"}, metaVar = "GROUP", usage = "groups to add account to")
+  @Option(
+    name = "--group",
+    aliases = {"-g"},
+    metaVar = "GROUP",
+    usage = "groups to add account to"
+  )
   private List<AccountGroup.Id> groups = new ArrayList<>();
 
   @Option(name = "--full-name", metaVar = "NAME", usage = "display name of the account")
@@ -56,30 +59,35 @@ final class CreateAccountCommand extends SshCommand {
   @Option(name = "--ssh-key", metaVar = "-|KEY", usage = "public key for SSH authentication")
   private String sshKey;
 
-  @Option(name = "--http-password", metaVar = "PASSWORD", usage = "password for HTTP authentication")
+  @Option(
+    name = "--http-password",
+    metaVar = "PASSWORD",
+    usage = "password for HTTP authentication"
+  )
   private String httpPassword;
 
   @Argument(index = 0, required = true, metaVar = "USERNAME", usage = "name of the user account")
   private String username;
 
-  @Inject
-  private CreateAccount.Factory createAccountFactory;
+  @Inject private CreateAccount.Factory createAccountFactory;
 
   @Override
-  protected void run() throws OrmException, IOException, ConfigInvalidException,
-      UnloggedFailure {
+  protected void run() throws OrmException, IOException, ConfigInvalidException, UnloggedFailure {
     AccountInput input = new AccountInput();
     input.username = username;
     input.email = email;
     input.name = fullName;
     input.sshKey = readSshKey();
     input.httpPassword = httpPassword;
-    input.groups = Lists.transform(groups, new Function<AccountGroup.Id, String>() {
-      @Override
-      public String apply(AccountGroup.Id id) {
-        return id.toString();
-      }
-    });
+    input.groups =
+        Lists.transform(
+            groups,
+            new Function<AccountGroup.Id, String>() {
+              @Override
+              public String apply(AccountGroup.Id id) {
+                return id.toString();
+              }
+            });
     try {
       createAccountFactory.create(username).apply(TopLevelResource.INSTANCE, input);
     } catch (RestApiException e) {
@@ -93,8 +101,7 @@ final class CreateAccountCommand extends SshCommand {
     }
     if ("-".equals(sshKey)) {
       sshKey = "";
-      BufferedReader br =
-          new BufferedReader(new InputStreamReader(in, UTF_8));
+      BufferedReader br = new BufferedReader(new InputStreamReader(in, UTF_8));
       String line;
       while ((line = br.readLine()) != null) {
         sshKey += line + "\n";

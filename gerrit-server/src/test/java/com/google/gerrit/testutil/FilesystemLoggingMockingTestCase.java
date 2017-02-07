@@ -15,13 +15,11 @@
 package com.google.gerrit.testutil;
 
 import com.google.common.base.Strings;
-
-import org.eclipse.jgit.util.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.eclipse.jgit.util.FileUtils;
 
 public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTestCase {
 
@@ -33,8 +31,7 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
    * @param file The file to test.
    */
   protected void assertExists(File file) {
-    assertTrue("File '" + file.getAbsolutePath() + "' does not exist",
-        file.exists());
+    assertTrue("File '" + file.getAbsolutePath() + "' does not exist", file.exists());
   }
 
   /**
@@ -55,8 +52,7 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
     // Although isDirectory includes checking for existence, we nevertheless
     // explicitly check for existence, to get more appropriate error messages
     assertExists(file);
-    assertTrue("File '" + file.getAbsolutePath() + "' is not a directory",
-        file.isDirectory());
+    assertTrue("File '" + file.getAbsolutePath() + "' is not a directory", file.isDirectory());
   }
 
   /**
@@ -65,8 +61,7 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
    * @param file The directory to create
    */
   protected void assertMkdirs(File file) {
-    assertTrue("Could not create directory '" + file.getAbsolutePath() + "'",
-        file.mkdirs());
+    assertTrue("Could not create directory '" + file.getAbsolutePath() + "'", file.mkdirs());
   }
 
   /**
@@ -88,8 +83,7 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
    * @param file The file to create
    */
   protected void assertCreateFile(File file) throws IOException {
-    assertTrue("Could not create file '" + file.getAbsolutePath() + "'",
-        file.createNewFile());
+    assertTrue("Could not create file '" + file.getAbsolutePath() + "'", file.createNewFile());
   }
 
   /**
@@ -108,10 +102,10 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
   /**
    * Creates a file in the system's default folder for temporary files.
    *
-   * The file/directory automatically gets removed during tearDown.
+   * <p>The file/directory automatically gets removed during tearDown.
    *
-   * The name of the created file begins with 'gerrit_test_', and is located
-   * in the system's default folder for temporary files.
+   * <p>The name of the created file begins with 'gerrit_test_', and is located in the system's
+   * default folder for temporary files.
    *
    * @param suffix Trailing part of the file name.
    * @return The temporary file.
@@ -130,10 +124,10 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
   /**
    * Creates a file in the system's default folder for temporary files.
    *
-   * The file/directory automatically gets removed during tearDown.
+   * <p>The file/directory automatically gets removed during tearDown.
    *
-   * The name of the created file begins with 'gerrit_test_', and is located
-   * in the system's default folder for temporary files.
+   * <p>The name of the created file begins with 'gerrit_test_', and is located in the system's
+   * default folder for temporary files.
    *
    * @return The temporary file.
    * @throws IOException If a file could not be created.
@@ -145,11 +139,11 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
   /**
    * Creates a directory in the system's default folder for temporary files.
    *
-   * The directory (and all it's contained files/directory) automatically get
-   * removed during tearDown.
+   * <p>The directory (and all it's contained files/directory) automatically get removed during
+   * tearDown.
    *
-   * The name of the created directory begins with 'gerrit_test_', and is be
-   * located in the system's default folder for temporary files.
+   * <p>The name of the created directory begins with 'gerrit_test_', and is be located in the
+   * system's default folder for temporary files.
    *
    * @return The temporary directory.
    * @throws IOException If a file could not be created.
@@ -157,8 +151,7 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
   protected File createTempDir() throws IOException {
     File tmp = createTempFile(".dir");
     if (!tmp.delete()) {
-      throw new IOException("Cannot delete temporary file '" + tmp.getPath()
-          + "'");
+      throw new IOException("Cannot delete temporary file '" + tmp.getPath() + "'");
     }
     tmp.mkdir();
     return tmp;
@@ -166,7 +159,7 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
 
   private void cleanupCreatedFiles() throws IOException {
     for (File file : toCleanup) {
-      FileUtils.delete(file,  FileUtils.RECURSIVE);
+      FileUtils.delete(file, FileUtils.RECURSIVE);
     }
   }
 

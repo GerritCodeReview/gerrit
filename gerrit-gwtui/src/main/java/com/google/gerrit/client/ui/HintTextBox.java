@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-
 public class HintTextBox extends NpTextBox {
   private HandlerRegistration hintFocusHandler;
   private HandlerRegistration hintBlurHandler;
@@ -41,7 +40,6 @@ public class HintTextBox extends NpTextBox {
 
   private boolean hintOn;
   private boolean isFocused;
-
 
   @Override
   public String getText() {
@@ -58,7 +56,7 @@ public class HintTextBox extends NpTextBox {
     super.setText(text);
     prevText = text;
 
-    if (! isFocused) {
+    if (!isFocused) {
       blurHint();
     }
   }
@@ -91,42 +89,48 @@ public class HintTextBox extends NpTextBox {
     if (hintText == null) { // first time (was not already set)
       hintText = text;
 
-      hintFocusHandler = addFocusHandler(new FocusHandler() {
-          @Override
-          public void onFocus(FocusEvent event) {
-            focusHint();
-            prevText = getText();
-            isFocused = true;
-          }
-        });
+      hintFocusHandler =
+          addFocusHandler(
+              new FocusHandler() {
+                @Override
+                public void onFocus(FocusEvent event) {
+                  focusHint();
+                  prevText = getText();
+                  isFocused = true;
+                }
+              });
 
-      hintBlurHandler = addBlurHandler(new BlurHandler() {
-          @Override
-          public void onBlur(BlurEvent event) {
-            blurHint();
-            isFocused = false;
-          }
-        });
+      hintBlurHandler =
+          addBlurHandler(
+              new BlurHandler() {
+                @Override
+                public void onBlur(BlurEvent event) {
+                  blurHint();
+                  isFocused = false;
+                }
+              });
 
       /*
-      * There seems to be a strange bug (at least on firefox 3.5.9 ubuntu) with
-      * the textbox under the following circumstances:
-      *  1) The field is not focused with BText in it.
-      *  2) The field receives focus and a focus listener changes the text to FText
-      *  3) The ESC key is pressed and the value of the field has not changed
-      *     (ever) from FText
-      *  4) BUG: The text value gets reset to BText!
-      *
-      *  A counter to this bug seems to be to force setFocus(false) on ESC.
-      */
+       * There seems to be a strange bug (at least on firefox 3.5.9 ubuntu) with
+       * the textbox under the following circumstances:
+       *  1) The field is not focused with BText in it.
+       *  2) The field receives focus and a focus listener changes the text to FText
+       *  3) The ESC key is pressed and the value of the field has not changed
+       *     (ever) from FText
+       *  4) BUG: The text value gets reset to BText!
+       *
+       *  A counter to this bug seems to be to force setFocus(false) on ESC.
+       */
 
       /* Chrome does not create a KeyPressEvent on ESC, so use KeyDownEvents */
-      keyDownHandler = addKeyDownHandler(new KeyDownHandler() {
-          @Override
-          public void onKeyDown(final KeyDownEvent event) {
-            onKey(event.getNativeKeyCode());
-          }
-        });
+      keyDownHandler =
+          addKeyDownHandler(
+              new KeyDownHandler() {
+                @Override
+                public void onKeyDown(final KeyDownEvent event) {
+                  onKey(event.getNativeKeyCode());
+                }
+              });
 
     } else { // Changing an already set Hint
 
@@ -134,7 +138,7 @@ public class HintTextBox extends NpTextBox {
       hintText = text;
     }
 
-    if (! isFocused) {
+    if (!isFocused) {
       blurHint();
     }
   }
@@ -151,11 +155,10 @@ public class HintTextBox extends NpTextBox {
         // recreates the same string as before ESC was pressed, the
         // SuggestBox will think that the string has not changed, and
         // it will not yet provide any Suggestions.
-        ((SuggestBox)p).showSuggestionList();
+        ((SuggestBox) p).showSuggestionList();
 
         // The suggestion list lingers if we don't hide it.
-        ((DefaultSuggestionDisplay) ((SuggestBox) p).getSuggestionDisplay())
-            .hideSuggestions();
+        ((DefaultSuggestionDisplay) ((SuggestBox) p).getSuggestionDisplay()).hideSuggestions();
       }
 
       setFocus(false);
@@ -179,7 +182,7 @@ public class HintTextBox extends NpTextBox {
   }
 
   protected void blurHint() {
-    if (! hintOn && getHintText() != null && "".equals(super.getText())) {
+    if (!hintOn && getHintText() != null && "".equals(super.getText())) {
       hintOn = true;
       super.setText(getHintText());
       if (getHintStyleName() != null) {

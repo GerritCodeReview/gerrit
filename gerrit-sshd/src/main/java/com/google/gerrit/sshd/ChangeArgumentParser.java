@@ -31,7 +31,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +45,8 @@ public class ChangeArgumentParser {
   private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
-  ChangeArgumentParser(CurrentUser currentUser,
+  ChangeArgumentParser(
+      CurrentUser currentUser,
       ChangesCollection changesCollection,
       ChangeFinder changeFinder,
       ReviewDb db,
@@ -65,18 +65,20 @@ public class ChangeArgumentParser {
     addChange(id, changes, null);
   }
 
-  public void addChange(String id, Map<Change.Id, ChangeResource> changes,
-      ProjectControl projectControl) throws UnloggedFailure, OrmException {
+  public void addChange(
+      String id, Map<Change.Id, ChangeResource> changes, ProjectControl projectControl)
+      throws UnloggedFailure, OrmException {
     addChange(id, changes, projectControl, true);
   }
 
-  public void addChange(String id, Map<Change.Id, ChangeResource> changes,
-      ProjectControl projectControl, boolean useIndex) throws UnloggedFailure,
-      OrmException {
+  public void addChange(
+      String id,
+      Map<Change.Id, ChangeResource> changes,
+      ProjectControl projectControl,
+      boolean useIndex)
+      throws UnloggedFailure, OrmException {
     List<ChangeControl> matched =
-        useIndex ?
-            changeFinder.find(id, currentUser) :
-            changeFromNotesFactory(id, currentUser);
+        useIndex ? changeFinder.find(id, currentUser) : changeFromNotesFactory(id, currentUser);
     List<ChangeControl> toAdd = new ArrayList<>(changes.size());
     for (ChangeControl ctl : matched) {
       if (!changes.containsKey(ctl.getId())
@@ -95,17 +97,19 @@ public class ChangeArgumentParser {
     changes.put(ctl.getId(), changesCollection.parse(ctl));
   }
 
-  private List<ChangeControl> changeFromNotesFactory(String id,
-      final CurrentUser currentUser) throws OrmException, UnloggedFailure {
-    List<ChangeNotes> changes =
-        changeNotesFactory.create(db, parseId(id));
+  private List<ChangeControl> changeFromNotesFactory(String id, final CurrentUser currentUser)
+      throws OrmException, UnloggedFailure {
+    List<ChangeNotes> changes = changeNotesFactory.create(db, parseId(id));
     return FluentIterable.from(changes)
-        .transform(new Function<ChangeNotes, ChangeControl>() {
-          @Override
-          public ChangeControl apply(ChangeNotes changeNote) {
-            return controlForChange(changeNote, currentUser);
-          }
-        }).filter(Predicates.notNull()).toList();
+        .transform(
+            new Function<ChangeNotes, ChangeControl>() {
+              @Override
+              public ChangeControl apply(ChangeNotes changeNote) {
+                return controlForChange(changeNote, currentUser);
+              }
+            })
+        .filter(Predicates.notNull())
+        .toList();
   }
 
   private List<Change.Id> parseId(String id) throws UnloggedFailure {

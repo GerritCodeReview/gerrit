@@ -39,17 +39,15 @@ import com.google.gerrit.server.query.InternalQuery;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 public class InternalChangeQuery extends InternalQuery<ChangeData> {
   private static Predicate<ChangeData> ref(Branch.NameKey branch) {
@@ -76,7 +74,8 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
-  InternalChangeQuery(ChangeQueryProcessor queryProcessor,
+  InternalChangeQuery(
+      ChangeQueryProcessor queryProcessor,
       ChangeIndexCollection indexes,
       IndexConfig indexConfig,
       ChangeData.Factory changeDataFactory,
@@ -122,8 +121,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return query(new LegacyChangeIdPredicate(id));
   }
 
-  public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids)
-      throws OrmException {
+  public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) throws OrmException {
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
       preds.add(new LegacyChangeIdPredicate(id));
@@ -131,46 +129,37 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return query(or(preds));
   }
 
-  public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key)
-      throws OrmException {
-    return query(and(
-        ref(branch),
-        project(branch.getParentKey()),
-        change(key)));
+  public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key) throws OrmException {
+    return query(and(ref(branch), project(branch.getParentKey()), change(key)));
   }
 
-  public List<ChangeData> byProject(Project.NameKey project)
-      throws OrmException {
+  public List<ChangeData> byProject(Project.NameKey project) throws OrmException {
     return query(project(project));
   }
 
-  public List<ChangeData> byBranchOpen(Branch.NameKey branch)
-      throws OrmException {
-    return query(and(
-        ref(branch),
-        project(branch.getParentKey()),
-        open()));
+  public List<ChangeData> byBranchOpen(Branch.NameKey branch) throws OrmException {
+    return query(and(ref(branch), project(branch.getParentKey()), open()));
   }
 
-  public List<ChangeData> byBranchNew(Branch.NameKey branch)
-      throws OrmException {
-    return query(and(
-        ref(branch),
-        project(branch.getParentKey()),
-        status(Change.Status.NEW)));
+  public List<ChangeData> byBranchNew(Branch.NameKey branch) throws OrmException {
+    return query(and(ref(branch), project(branch.getParentKey()), status(Change.Status.NEW)));
   }
 
-  public Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo,
-      ReviewDb db, Branch.NameKey branch, List<String> hashes)
+  public Iterable<ChangeData> byCommitsOnBranchNotMerged(
+      Repository repo, ReviewDb db, Branch.NameKey branch, List<String> hashes)
       throws OrmException, IOException {
-    return byCommitsOnBranchNotMerged(repo, db, branch, hashes,
+    return byCommitsOnBranchNotMerged(
+        repo,
+        db,
+        branch,
+        hashes,
         // Account for all commit predicates plus ref, project, status.
         indexConfig.maxTerms() - 3);
   }
 
   @VisibleForTesting
-  Iterable<ChangeData> byCommitsOnBranchNotMerged(Repository repo, ReviewDb db,
-      Branch.NameKey branch, List<String> hashes, int indexLimit)
+  Iterable<ChangeData> byCommitsOnBranchNotMerged(
+      Repository repo, ReviewDb db, Branch.NameKey branch, List<String> hashes, int indexLimit)
       throws OrmException, IOException {
     if (hashes.size() > indexLimit) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
@@ -179,12 +168,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
-      Repository repo, final ReviewDb db, final Branch.NameKey branch,
-      List<String> hashes) throws OrmException, IOException {
+      Repository repo, final ReviewDb db, final Branch.NameKey branch, List<String> hashes)
+      throws OrmException, IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;
-    for (Ref ref :
-        repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
+    for (Ref ref : repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
       String r = ref.getName();
       if ((lastPrefix != null && r.startsWith(lastPrefix))
           || !hashes.contains(ref.getObjectId().name())) {
@@ -199,15 +187,19 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
       }
     }
 
-    return Lists.transform(notesFactory.create(db, branch.getParentKey(),
-        changeIds, new com.google.common.base.Predicate<ChangeNotes>() {
-          @Override
-          public boolean apply(ChangeNotes notes) {
-            Change c = notes.getChange();
-            return c.getDest().equals(branch)
-                && c.getStatus() != Change.Status.MERGED;
-          }
-        }), new Function<ChangeNotes, ChangeData>() {
+    return Lists.transform(
+        notesFactory.create(
+            db,
+            branch.getParentKey(),
+            changeIds,
+            new com.google.common.base.Predicate<ChangeNotes>() {
+              @Override
+              public boolean apply(ChangeNotes notes) {
+                Change c = notes.getChange();
+                return c.getDest().equals(branch) && c.getStatus() != Change.Status.MERGED;
+              }
+            }),
+        new Function<ChangeNotes, ChangeData>() {
           @Override
           public ChangeData apply(ChangeNotes notes) {
             return changeDataFactory.create(db, notes);
@@ -217,11 +209,12 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(
       Branch.NameKey branch, List<String> hashes) throws OrmException {
-    return query(and(
-        ref(branch),
-        project(branch.getParentKey()),
-        not(status(Change.Status.MERGED)),
-        or(commits(hashes))));
+    return query(
+        and(
+            ref(branch),
+            project(branch.getParentKey()),
+            not(status(Change.Status.MERGED)),
+            or(commits(hashes))));
   }
 
   private static List<Predicate<ChangeData>> commits(List<String> hashes) {
@@ -232,13 +225,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return commits;
   }
 
-  public List<ChangeData> byProjectOpen(Project.NameKey project)
-      throws OrmException {
+  public List<ChangeData> byProjectOpen(Project.NameKey project) throws OrmException {
     return query(and(project(project), open()));
   }
 
-  public List<ChangeData> byTopicOpen(String topic)
-      throws OrmException {
+  public List<ChangeData> byTopicOpen(String topic) throws OrmException {
     return query(and(new ExactTopicPredicate(topic), open()));
   }
 
@@ -250,28 +241,24 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return query(commit(hash));
   }
 
-  public List<ChangeData> byProjectCommit(Project.NameKey project,
-      String hash) throws OrmException {
+  public List<ChangeData> byProjectCommit(Project.NameKey project, String hash)
+      throws OrmException {
     return query(and(project(project), commit(hash)));
   }
 
-  public List<ChangeData> byProjectCommits(Project.NameKey project,
-      List<String> hashes) throws OrmException {
+  public List<ChangeData> byProjectCommits(Project.NameKey project, List<String> hashes)
+      throws OrmException {
     int n = indexConfig.maxTerms() - 1;
     checkArgument(hashes.size() <= n, "cannot exceed %s commits", n);
     return query(and(project(project), or(commits(hashes))));
   }
 
-  public List<ChangeData> byBranchCommit(String project, String branch,
-      String hash) throws OrmException {
-    return query(and(
-        new ProjectPredicate(project),
-        new RefPredicate(branch),
-        commit(hash)));
+  public List<ChangeData> byBranchCommit(String project, String branch, String hash)
+      throws OrmException {
+    return query(and(new ProjectPredicate(project), new RefPredicate(branch), commit(hash)));
   }
 
-  public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash)
-      throws OrmException {
+  public List<ChangeData> byBranchCommit(Branch.NameKey branch, String hash) throws OrmException {
     return byBranchCommit(branch.getParentKey().get(), branch.get(), hash);
   }
 
@@ -282,8 +269,8 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
     return query(new SubmissionIdPredicate(cs));
   }
 
-  public List<ChangeData> byProjectGroups(Project.NameKey project,
-      Collection<String> groups) throws OrmException {
+  public List<ChangeData> byProjectGroups(Project.NameKey project, Collection<String> groups)
+      throws OrmException {
     List<GroupPredicate> groupPredicates = new ArrayList<>(groups.size());
     for (String g : groups) {
       groupPredicates.add(new GroupPredicate(g));

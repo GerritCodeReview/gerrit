@@ -26,7 +26,6 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.Map;
 
 public class ReviewerApiImpl implements ReviewerApi {
@@ -40,7 +39,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   private final DeleteReviewer deleteReviewer;
 
   @Inject
-  ReviewerApiImpl(Votes.List listVotes,
+  ReviewerApiImpl(
+      Votes.List listVotes,
       DeleteVote deleteVote,
       DeleteReviewer deleteReviewer,
       @Assisted ReviewerResource reviewer) {

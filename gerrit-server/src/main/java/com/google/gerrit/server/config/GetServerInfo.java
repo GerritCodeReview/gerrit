@@ -40,15 +40,13 @@ import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.lib.Config;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
   private static final String URL_ALIAS = "urlAlias";
@@ -111,8 +109,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.auth = getAuthInfo(authConfig, realm);
     info.change = getChangeInfo(config);
     info.download =
-        getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands,
-            archiveFormats);
+        getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands, archiveFormats);
     info.gerrit = getGerritInfo(config, allProjectsName, allUsersName);
     info.noteDbEnabled = toBoolean(isNoteDbEnabled());
     info.plugin = getPluginInfo();
@@ -173,13 +170,12 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allowDrafts = toBoolean(cfg.getBoolean("change", "allowDrafts", true));
     info.largeChange = cfg.getInt("change", "largeChange", 500);
     info.replyTooltip =
-        Optional.fromNullable(cfg.getString("change", null, "replyTooltip"))
-            .or("Reply and score") + " (Shortcut: a)";
+        Optional.fromNullable(cfg.getString("change", null, "replyTooltip")).or("Reply and score")
+            + " (Shortcut: a)";
     info.replyLabel =
-        Optional.fromNullable(cfg.getString("change", null, "replyLabel"))
-            .or("Reply") + "\u2026";
-    info.updateDelay = (int) ConfigUtil.getTimeUnit(
-        cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
+        Optional.fromNullable(cfg.getString("change", null, "replyLabel")).or("Reply") + "\u2026";
+    info.updateDelay =
+        (int) ConfigUtil.getTimeUnit(cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS);
     info.submitWholeTopic = Submit.wholeTopicEnabled(cfg);
     return info;
   }
@@ -194,22 +190,25 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       DownloadScheme scheme = e.getProvider().get();
       if (scheme.isEnabled() && scheme.getUrl("${project}") != null) {
-        info.schemes.put(e.getExportName(),
-            getDownloadSchemeInfo(scheme, downloadCommands, cloneCommands));
+        info.schemes.put(
+            e.getExportName(), getDownloadSchemeInfo(scheme, downloadCommands, cloneCommands));
       }
     }
-    info.archives = Lists.newArrayList(Iterables.transform(
-        archiveFormats.getAllowed(),
-        new Function<ArchiveFormat, String>() {
-          @Override
-          public String apply(ArchiveFormat in) {
-            return in.getShortName();
-          }
-        }));
+    info.archives =
+        Lists.newArrayList(
+            Iterables.transform(
+                archiveFormats.getAllowed(),
+                new Function<ArchiveFormat, String>() {
+                  @Override
+                  public String apply(ArchiveFormat in) {
+                    return in.getShortName();
+                  }
+                }));
     return info;
   }
 
-  private DownloadSchemeInfo getDownloadSchemeInfo(DownloadScheme scheme,
+  private DownloadSchemeInfo getDownloadSchemeInfo(
+      DownloadScheme scheme,
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<CloneCommand> cloneCommands) {
     DownloadSchemeInfo info = new DownloadSchemeInfo();
@@ -233,8 +232,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       CloneCommand command = e.getProvider().get();
       String c = command.getCommand(scheme, "${project-path}/${project-base-name}");
       if (c != null) {
-        c = c.replaceAll("\\$\\{project-path\\}/\\$\\{project-base-name\\}",
-            "\\$\\{project\\}");
+        c = c.replaceAll("\\$\\{project-path\\}/\\$\\{project-base-name\\}", "\\$\\{project\\}");
         info.cloneCommands.put(commandName, c);
       }
     }
@@ -242,8 +240,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private GerritInfo getGerritInfo(Config cfg, AllProjectsName allProjectsName,
-      AllUsersName allUsersName) {
+  private GerritInfo getGerritInfo(
+      Config cfg, AllProjectsName allProjectsName, AllUsersName allUsersName) {
     GerritInfo info = new GerritInfo();
     info.allProjects = allProjectsName.get();
     info.allUsers = allUsersName.get();
@@ -251,8 +249,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.reportBugText = cfg.getString("gerrit", null, "reportBugText");
     info.docUrl = getDocUrl(cfg);
     info.docSearch = docSearcher.isAvailable();
-    info.editGpgKeys = toBoolean(enableSignedPush
-        && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
+    info.editGpgKeys =
+        toBoolean(enableSignedPush && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
     return info;
   }
 
@@ -273,9 +271,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.hasAvatars = toBoolean(avatar.get() != null);
     info.jsResourcePaths = new ArrayList<>();
     for (WebUiPlugin u : plugins) {
-      info.jsResourcePaths.add(String.format("plugins/%s/%s",
-          u.getPluginName(),
-          u.getJavaScriptResourcePath()));
+      info.jsResourcePaths.add(
+          String.format("plugins/%s/%s", u.getPluginName(), u.getJavaScriptResourcePath()));
     }
     return info;
   }
@@ -283,8 +280,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private Map<String, String> getUrlAliasesInfo(Config cfg) {
     Map<String, String> urlAliases = new HashMap<>();
     for (String subsection : cfg.getSubsections(URL_ALIAS)) {
-      urlAliases.put(cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
-         cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
+      urlAliases.put(
+          cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
+          cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
     }
     return urlAliases;
   }
@@ -392,8 +390,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     public List<String> jsResourcePaths;
   }
 
-  public static class SshdInfo {
-  }
+  public static class SshdInfo {}
 
   public static class SuggestInfo {
     public int from;

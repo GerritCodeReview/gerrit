@@ -38,7 +38,8 @@ class DraftApiImpl implements DraftApi {
   private final DraftCommentResource draft;
 
   @Inject
-  DraftApiImpl(DeleteDraftComment deleteDraft,
+  DraftApiImpl(
+      DeleteDraftComment deleteDraft,
       GetDraftComment getDraft,
       PutDraftComment putDraft,
       @Assisted DraftCommentResource draft) {

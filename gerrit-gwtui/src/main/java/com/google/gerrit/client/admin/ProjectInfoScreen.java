@@ -62,7 +62,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -110,17 +109,17 @@ public class ProjectInfoScreen extends ProjectScreen {
     Resources.I.style().ensureInjected();
     saveProject = new Button(Util.C.buttonSaveChanges());
     saveProject.setStyleName("");
-    saveProject.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        doSave();
-      }
-    });
+    saveProject.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            doSave();
+          }
+        });
 
     ExtensionPanel extensionPanelTop =
         new ExtensionPanel(GerritUiExtensionPoint.PROJECT_INFO_SCREEN_TOP);
-    extensionPanelTop.put(GerritUiExtensionPoint.Key.PROJECT_NAME,
-        getProjectKey().get());
+    extensionPanelTop.put(GerritUiExtensionPoint.Key.PROJECT_NAME, getProjectKey().get());
     add(extensionPanelTop);
 
     add(new ProjectDownloadPanel(getProjectKey().get(), true));
@@ -138,8 +137,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     ExtensionPanel extensionPanelBottom =
         new ExtensionPanel(GerritUiExtensionPoint.PROJECT_INFO_SCREEN_BOTTOM);
-    extensionPanelBottom.put(GerritUiExtensionPoint.Key.PROJECT_NAME,
-        getProjectKey().get());
+    extensionPanelBottom.put(GerritUiExtensionPoint.Key.PROJECT_NAME, getProjectKey().get());
     add(extensionPanelBottom);
   }
 
@@ -149,22 +147,26 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     Project.NameKey project = getProjectKey();
     CallbackGroup cbg = new CallbackGroup();
-    AccessMap.get(project,
-        cbg.add(new GerritCallback<ProjectAccessInfo>() {
-          @Override
-          public void onSuccess(ProjectAccessInfo result) {
-            isOwner = result.isOwner();
-            enableForm();
-            saveProject.setVisible(isOwner);
-          }
-        }));
-    ProjectApi.getConfig(project,
-        cbg.addFinal(new ScreenLoadCallback<ConfigInfo>(this) {
-          @Override
-          public void preDisplay(ConfigInfo result) {
-            display(result);
-          }
-        }));
+    AccessMap.get(
+        project,
+        cbg.add(
+            new GerritCallback<ProjectAccessInfo>() {
+              @Override
+              public void onSuccess(ProjectAccessInfo result) {
+                isOwner = result.isOwner();
+                enableForm();
+                saveProject.setVisible(isOwner);
+              }
+            }));
+    ProjectApi.getConfig(
+        project,
+        cbg.addFinal(
+            new ScreenLoadCallback<ConfigInfo>(this) {
+              @Override
+              public void preDisplay(ConfigInfo result) {
+                display(result);
+              }
+            }));
 
     savedPanel = INFO;
   }
@@ -225,12 +227,13 @@ public class ProjectInfoScreen extends ProjectScreen {
     for (final SubmitType type : SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
-    submitType.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(ChangeEvent event) {
-        setEnabledForUseContentMerge();
-      }
-    });
+    submitType.addChangeHandler(
+        new ChangeHandler() {
+          @Override
+          public void onChange(ChangeEvent event) {
+            setEnabledForUseContentMerge();
+          }
+        });
     saveEnabler.listenTo(submitType);
     grid.add(Util.C.headingProjectSubmitType(), submitType);
 
@@ -279,14 +282,13 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   /**
-   * Enables the {@link #contentMerge} checkbox if the selected submit type
-   * allows the usage of content merge.
-   * If the submit type (currently only 'Fast Forward Only') does not allow
-   * content merge the useContentMerge checkbox gets disabled.
+   * Enables the {@link #contentMerge} checkbox if the selected submit type allows the usage of
+   * content merge. If the submit type (currently only 'Fast Forward Only') does not allow content
+   * merge the useContentMerge checkbox gets disabled.
    */
   private void setEnabledForUseContentMerge() {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(SubmitType
-        .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
+    if (SubmitType.FAST_FORWARD_ONLY.equals(
+        SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
       contentMerge.setEnabled(false);
       InheritedBooleanInfo b = InheritedBooleanInfo.create();
       b.setConfiguredValue(InheritableBoolean.FALSE);
@@ -360,8 +362,9 @@ public class ProjectInfoScreen extends ProjectScreen {
         }
         box.removeItem(inheritedIndex);
       } else {
-        box.setItemText(inheritedIndex, InheritableBoolean.INHERIT.name() + " ("
-            + inheritedBoolean.inheritedValue() + ")");
+        box.setItemText(
+            inheritedIndex,
+            InheritableBoolean.INHERIT.name() + " (" + inheritedBoolean.inheritedValue() + ")");
       }
     }
   }
@@ -418,8 +421,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       LabeledWidgetsGrid g = new LabeledWidgetsGrid();
       g.addHeader(new SmallHeading(Util.M.pluginProjectOptionsTitle(pluginName)));
       pluginOptionsPanel.add(g);
-      NativeMap<ConfigParameterInfo> pluginConfig =
-          info.pluginConfig(pluginName);
+      NativeMap<ConfigParameterInfo> pluginConfig = info.pluginConfig(pluginName);
       pluginConfig.copyKeysIntoChildren("name");
       for (ConfigParameterInfo param : Natives.asList(pluginConfig.values())) {
         HasEnabled w;
@@ -452,18 +454,12 @@ public class ProjectInfoScreen extends ProjectScreen {
     enableForm();
   }
 
-  private TextBox renderTextBox(LabeledWidgetsGrid g,
-      ConfigParameterInfo param) {
-    NpTextBox textBox = param.type().equals("STRING")
-        ? new NpTextBox()
-        : new NpIntTextBox();
+  private TextBox renderTextBox(LabeledWidgetsGrid g, ConfigParameterInfo param) {
+    NpTextBox textBox = param.type().equals("STRING") ? new NpTextBox() : new NpIntTextBox();
     if (param.inheritable()) {
       textBox.setValue(param.configuredValue());
-      Label inheritedLabel =
-          new Label(Util.M.pluginProjectInheritedValue(param
-              .inheritedValue()));
-      inheritedLabel.setStyleName(Gerrit.RESOURCES.css()
-          .pluginProjectConfigInheritedValue());
+      Label inheritedLabel = new Label(Util.M.pluginProjectInheritedValue(param.inheritedValue()));
+      inheritedLabel.setStyleName(Gerrit.RESOURCES.css().pluginProjectConfigInheritedValue());
       HorizontalPanel p = new HorizontalPanel();
       p.add(textBox);
       p.add(inheritedLabel);
@@ -476,8 +472,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     return textBox;
   }
 
-  private CheckBox renderCheckBox(LabeledWidgetsGrid g,
-      ConfigParameterInfo param) {
+  private CheckBox renderCheckBox(LabeledWidgetsGrid g, ConfigParameterInfo param) {
     CheckBox checkBox = new CheckBox(getDisplayName(param));
     checkBox.setValue(Boolean.parseBoolean(param.value()));
     HorizontalPanel p = new HorizontalPanel();
@@ -492,20 +487,18 @@ public class ProjectInfoScreen extends ProjectScreen {
       warningImg.setTitle(param.warning());
       p.add(warningImg);
     }
-    g.add((String)null, p);
+    g.add((String) null, p);
     saveEnabler.listenTo(checkBox);
     return checkBox;
   }
 
-  private ListBox renderListBox(LabeledWidgetsGrid g,
-      ConfigParameterInfo param) {
+  private ListBox renderListBox(LabeledWidgetsGrid g, ConfigParameterInfo param) {
     if (param.permittedValues() == null) {
       return null;
     }
     ListBox listBox = new ListBox();
     if (param.inheritable()) {
-      listBox.addItem(
-          Util.M.pluginProjectInheritedListValue(param.inheritedValue()));
+      listBox.addItem(Util.M.pluginProjectInheritedListValue(param.inheritedValue()));
       if (param.configuredValue() == null) {
         listBox.setSelectedIndex(0);
       }
@@ -537,10 +530,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         // since the listBox is disabled the inherited value cannot be
         // seen and we have to display it explicitly
         Label inheritedLabel =
-            new Label(Util.M.pluginProjectInheritedValue(param
-                .inheritedValue()));
-        inheritedLabel.setStyleName(Gerrit.RESOURCES.css()
-            .pluginProjectConfigInheritedValue());
+            new Label(Util.M.pluginProjectInheritedValue(param.inheritedValue()));
+        inheritedLabel.setStyleName(Gerrit.RESOURCES.css().pluginProjectConfigInheritedValue());
         HorizontalPanel p = new HorizontalPanel();
         p.add(listBox);
         p.add(inheritedLabel);
@@ -553,11 +544,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     return listBox;
   }
 
-  private StringListPanel renderStringListPanel(LabeledWidgetsGrid g,
-      ConfigParameterInfo param) {
+  private StringListPanel renderStringListPanel(LabeledWidgetsGrid g, ConfigParameterInfo param) {
     StringListPanel p =
-        new StringListPanel(null, Arrays.asList(getDisplayName(param)),
-            saveProject, false);
+        new StringListPanel(null, Arrays.asList(getDisplayName(param)), saveProject, false);
     List<List<String>> values = new ArrayList<>();
     for (String v : Natives.asList(param.values())) {
       values.add(Arrays.asList(v));
@@ -615,8 +604,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     actionsGrid.add(Util.C.headingCommands(), actionsPanel);
 
     for (String id : actions.keySet()) {
-      actionsPanel.add(new ActionButton(getProjectKey(),
-          actions.get(id)));
+      actionsPanel.add(new ActionButton(getProjectKey(), actions.get(id)));
     }
 
     // TODO: The user should have create permission on the branch referred to by
@@ -634,12 +622,13 @@ public class ProjectInfoScreen extends ProjectScreen {
     final Button createChange = new Button(Util.C.buttonCreateChange());
     createChange.setStyleName("");
     createChange.setTitle(Util.C.buttonCreateChangeDescription());
-    createChange.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        CreateChangeAction.call(createChange, getProjectKey().get());
-      }
-    });
+    createChange.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            CreateChangeAction.call(createChange, getProjectKey().get());
+          }
+        });
     return createChange;
   }
 
@@ -647,30 +636,37 @@ public class ProjectInfoScreen extends ProjectScreen {
     final Button editConfig = new Button(Util.C.buttonEditConfig());
     editConfig.setStyleName("");
     editConfig.setTitle(Util.C.buttonEditConfigDescription());
-    editConfig.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        EditConfigAction.call(editConfig, getProjectKey().get());
-      }
-    });
+    editConfig.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            EditConfigAction.call(editConfig, getProjectKey().get());
+          }
+        });
     return editConfig;
   }
 
   private void doSave() {
     enableForm(false);
     saveProject.setEnabled(false);
-    InheritableBoolean esp = enableSignedPush != null
-        ? getBool(enableSignedPush) : null;
-    InheritableBoolean rsp = requireSignedPush != null
-        ? getBool(requireSignedPush) : null;
-    ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
-        getBool(contributorAgreements), getBool(contentMerge),
-        getBool(signedOffBy), getBool(newChangeForAllNotInTarget), getBool(requireChangeID),
-        esp, rsp, getBool(rejectImplicitMerges),
+    InheritableBoolean esp = enableSignedPush != null ? getBool(enableSignedPush) : null;
+    InheritableBoolean rsp = requireSignedPush != null ? getBool(requireSignedPush) : null;
+    ProjectApi.setConfig(
+        getProjectKey(),
+        descTxt.getText().trim(),
+        getBool(contributorAgreements),
+        getBool(contentMerge),
+        getBool(signedOffBy),
+        getBool(newChangeForAllNotInTarget),
+        getBool(requireChangeID),
+        esp,
+        rsp,
+        getBool(rejectImplicitMerges),
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),
-        getPluginConfigValues(), new GerritCallback<ConfigInfo>() {
+        getPluginConfigValues(),
+        new GerritCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {
             enableForm();
@@ -694,24 +690,26 @@ public class ProjectInfoScreen extends ProjectScreen {
       for (Entry<String, HasEnabled> e2 : e.getValue().entrySet()) {
         HasEnabled widget = e2.getValue();
         if (widget instanceof TextBox) {
-          values.put(e2.getKey(), ConfigParameterValue.create()
-              .value(((TextBox) widget).getValue().trim()));
+          values.put(
+              e2.getKey(),
+              ConfigParameterValue.create().value(((TextBox) widget).getValue().trim()));
         } else if (widget instanceof CheckBox) {
-          values.put(e2.getKey(), ConfigParameterValue.create()
-              .value(Boolean.toString(((CheckBox) widget).getValue())));
+          values.put(
+              e2.getKey(),
+              ConfigParameterValue.create()
+                  .value(Boolean.toString(((CheckBox) widget).getValue())));
         } else if (widget instanceof ListBox) {
           ListBox listBox = (ListBox) widget;
           // the inherited value is at index 0,
           // if it is selected no value should be set on this project
-          String value = listBox.getSelectedIndex() > 0
-              ? listBox.getValue(listBox.getSelectedIndex()) : null;
-          values.put(e2.getKey(), ConfigParameterValue.create()
-              .value(value));
+          String value =
+              listBox.getSelectedIndex() > 0 ? listBox.getValue(listBox.getSelectedIndex()) : null;
+          values.put(e2.getKey(), ConfigParameterValue.create().value(value));
         } else if (widget instanceof StringListPanel) {
-          values.put(e2.getKey(),
-              ConfigParameterValue.create().values(
-                  ((StringListPanel) widget).getValues(0)
-                      .toArray(new String[] {})));
+          values.put(
+              e2.getKey(),
+              ConfigParameterValue.create()
+                  .values(((StringListPanel) widget).getValues(0).toArray(new String[] {})));
         } else {
           throw new UnsupportedOperationException("unsupported widget type");
         }

@@ -19,7 +19,6 @@ import static com.google.gerrit.reviewdb.client.PatchSet.joinGroups;
 import static com.google.gerrit.reviewdb.client.PatchSet.splitGroups;
 
 import com.google.common.collect.ImmutableList;
-
 import org.junit.Test;
 
 public class PatchSetTest {
@@ -83,8 +82,7 @@ public class PatchSetTest {
 
   @Test
   public void testToRefName() {
-    assertThat(new PatchSet.Id(new Change.Id(1), 23).toRefName())
-        .isEqualTo("refs/changes/01/1/23");
+    assertThat(new PatchSet.Id(new Change.Id(1), 23).toRefName()).isEqualTo("refs/changes/01/1/23");
     assertThat(new PatchSet.Id(new Change.Id(1234), 5).toRefName())
         .isEqualTo("refs/changes/34/1234/5");
   }

@@ -25,7 +25,6 @@ import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,18 +43,18 @@ public class AndSource<T> extends AndPredicate<T>
     this(that, null, 0);
   }
 
-  public AndSource(Predicate<T> that,
-      IsVisibleToPredicate<T> isVisibleToPredicate) {
+  public AndSource(Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate) {
     this(that, isVisibleToPredicate, 0);
   }
 
-  public AndSource(Predicate<T> that,
-      IsVisibleToPredicate<T> isVisibleToPredicate, int start) {
+  public AndSource(Predicate<T> that, IsVisibleToPredicate<T> isVisibleToPredicate, int start) {
     this(ImmutableList.of(that), isVisibleToPredicate, start);
   }
 
-  public AndSource(Collection<? extends Predicate<T>> that,
-      IsVisibleToPredicate<T> isVisibleToPredicate, int start) {
+  public AndSource(
+      Collection<? extends Predicate<T>> that,
+      IsVisibleToPredicate<T> isVisibleToPredicate,
+      int start) {
     super(that);
     checkArgument(start >= 0, "negative start: %s", start);
     this.isVisibleToPredicate = isVisibleToPredicate;
@@ -157,12 +156,13 @@ public class AndSource<T> extends AndPredicate<T>
 
   private Iterable<T> buffer(ResultSet<T> scanner) {
     return FluentIterable.from(Iterables.partition(scanner, 50))
-        .transformAndConcat(new Function<List<T>, List<T>>() {
-          @Override
-          public List<T> apply(List<T> buffer) {
-            return transformBuffer(buffer);
-          }
-        });
+        .transformAndConcat(
+            new Function<List<T>, List<T>>() {
+              @Override
+              public List<T> apply(List<T> buffer) {
+                return transformBuffer(buffer);
+              }
+            });
   }
 
   protected List<T> transformBuffer(List<T> buffer) throws OrmRuntimeException {
@@ -190,9 +190,7 @@ public class AndSource<T> extends AndPredicate<T>
       cmp = a.estimateCost() - b.estimateCost();
     }
 
-    if (cmp == 0
-        && a instanceof DataSource
-        && b instanceof DataSource) {
+    if (cmp == 0 && a instanceof DataSource && b instanceof DataSource) {
       DataSource<?> as = (DataSource<?>) a;
       DataSource<?> bs = (DataSource<?>) b;
       cmp = as.getCardinality() - bs.getCardinality();

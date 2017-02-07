@@ -31,11 +31,9 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.testutil.ConfigSuite;
-
+import java.util.Collection;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
-
-import java.util.Collection;
 
 public class DraftChangeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
@@ -53,8 +51,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     RestResponse response = deleteChange(changeId, adminRestSession);
-    assertThat(response.getEntityContent())
-        .isEqualTo("Change is not a draft: " + c._number);
+    assertThat(response.getEntityContent()).isEqualTo("Change is not a draft: " + c._number);
     response.assertConflict();
   }
 
@@ -142,8 +139,7 @@ public class DraftChangeIT extends AbstractDaemonTest {
     assertThat(label.all.get(0).value).isEqualTo(1);
   }
 
-  private static RestResponse deleteChange(String changeId,
-      RestSession s) throws Exception {
+  private static RestResponse deleteChange(String changeId, RestSession s) throws Exception {
     return s.delete("/changes/" + changeId);
   }
 
@@ -152,12 +148,9 @@ public class DraftChangeIT extends AbstractDaemonTest {
   }
 
   private RestResponse publishPatchSet(String changeId) throws Exception {
-    PatchSet patchSet = Iterables.getOnlyElement(
-        queryProvider.get().byKeyPrefix(changeId)).currentPatchSet();
-    return adminRestSession.post("/changes/"
-        + changeId
-        + "/revisions/"
-        + patchSet.getRevision().get()
-        + "/publish");
+    PatchSet patchSet =
+        Iterables.getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).currentPatchSet();
+    return adminRestSession.post(
+        "/changes/" + changeId + "/revisions/" + patchSet.getRevision().get() + "/publish");
   }
 }

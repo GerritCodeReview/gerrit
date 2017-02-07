@@ -30,15 +30,12 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.kohsuke.args4j.Option;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Option;
 
-public class TestSubmitRule
-    implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
+public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
@@ -48,7 +45,8 @@ public class TestSubmitRule
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitRule(Provider<ReviewDb> db,
+  TestSubmitRule(
+      Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
       AccountLoader.Factory infoFactory) {
@@ -68,14 +66,16 @@ public class TestSubmitRule
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-    SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
-        changeDataFactory.create(db.get(), rsrc.getControl()));
+    SubmitRuleEvaluator evaluator =
+        new SubmitRuleEvaluator(changeDataFactory.create(db.get(), rsrc.getControl()));
 
-    List<SubmitRecord> records = evaluator.setPatchSet(rsrc.getPatchSet())
-          .setLogErrors(false)
-          .setSkipSubmitFilters(input.filters == Filters.SKIP)
-          .setRule(input.rule)
-          .evaluate();
+    List<SubmitRecord> records =
+        evaluator
+            .setPatchSet(rsrc.getPatchSet())
+            .setLogErrors(false)
+            .setSkipSubmitFilters(input.filters == Filters.SKIP)
+            .setRule(input.rule)
+            .evaluate();
     List<Record> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {
@@ -104,9 +104,7 @@ public class TestSubmitRule
 
       if (r.labels != null) {
         for (SubmitRecord.Label n : r.labels) {
-          AccountInfo who = n.appliedBy != null
-              ? accounts.get(n.appliedBy)
-              : new AccountInfo(null);
+          AccountInfo who = n.appliedBy != null ? accounts.get(n.appliedBy) : new AccountInfo(null);
           label(n, who);
         }
       }
@@ -148,6 +146,5 @@ public class TestSubmitRule
     }
   }
 
-  static class None {
-  }
+  static class None {}
 }

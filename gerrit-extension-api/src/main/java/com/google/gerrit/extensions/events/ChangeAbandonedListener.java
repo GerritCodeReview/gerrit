@@ -23,6 +23,7 @@ public interface ChangeAbandonedListener {
   interface Event extends RevisionEvent {
     @Deprecated
     AccountInfo getAbandoner();
+
     String getReason();
   }
 

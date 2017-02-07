@@ -45,7 +45,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -55,13 +55,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.IOException;
-
 /**
  * Utility functions to manipulate change edits.
- * <p>
- * This class contains methods to retrieve, publish and delete edits.
- * For changing edits see {@link ChangeEditModifier}.
+ *
+ * <p>This class contains methods to retrieve, publish and delete edits. For changing edits see
+ * {@link ChangeEditModifier}.
  */
 @Singleton
 public class ChangeEditUtil {
@@ -77,7 +75,8 @@ public class ChangeEditUtil {
   private final PatchSetUtil psUtil;
 
   @Inject
-  ChangeEditUtil(GitRepositoryManager gitManager,
+  ChangeEditUtil(
+      GitRepositoryManager gitManager,
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeIndexer indexer,
@@ -101,8 +100,8 @@ public class ChangeEditUtil {
 
   /**
    * Retrieve edit for a change and the user from the request scope.
-   * <p>
-   * At most one change edit can exist per user and change.
+   *
+   * <p>At most one change edit can exist per user and change.
    *
    * @param change
    * @return edit for this change for this user, if present.
@@ -113,8 +112,7 @@ public class ChangeEditUtil {
   public Optional<ChangeEdit> byChange(Change change)
       throws AuthException, IOException, OrmException {
     try {
-      return byChange(
-          changeControlFactory.controlFor(db.get(), change, user.get()));
+      return byChange(changeControlFactory.controlFor(db.get(), change, user.get()));
     } catch (NoSuchChangeException e) {
       throw new IOException(e);
     }
@@ -122,16 +120,15 @@ public class ChangeEditUtil {
 
   /**
    * Retrieve edit for a change and the given user.
-   * <p>
-   * At most one change edit can exist per user and change.
+   *
+   * <p>At most one change edit can exist per user and change.
    *
    * @param ctl control with user to retrieve change edits for.
    * @return edit for this change for this user, if present.
    * @throws AuthException if this is not a logged-in user.
    * @throws IOException if an error occurs.
    */
-  public Optional<ChangeEdit> byChange(ChangeControl ctl)
-      throws AuthException, IOException {
+  public Optional<ChangeEdit> byChange(ChangeControl ctl) throws AuthException, IOException {
     if (!ctl.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -141,9 +138,8 @@ public class ChangeEditUtil {
       int n = change.currentPatchSetId().get();
       String[] refNames = new String[n];
       for (int i = n; i > 0; i--) {
-        refNames[i - 1] = RefNames.refsEdit(
-            u.getAccountId(), change.getId(),
-            new PatchSet.Id(change.getId(), i));
+        refNames[i - 1] =
+            RefNames.refsEdit(u.getAccountId(), change.getId(), new PatchSet.Id(change.getId(), i));
       }
       Ref ref = repo.getRefDatabase().firstExactRef(refNames);
       if (ref == null) {
@@ -158,8 +154,7 @@ public class ChangeEditUtil {
   }
 
   /**
-   * Promote change edit to patch set, by squashing the edit into
-   * its parent.
+   * Promote change edit to patch set, by squashing the edit into its parent.
    *
    * @param edit change edit to publish
    * @throws NoSuchChangeException
@@ -168,20 +163,25 @@ public class ChangeEditUtil {
    * @throws UpdateException
    * @throws RestApiException
    */
-  public void publish(ChangeEdit edit) throws NoSuchChangeException,
-      IOException, OrmException, RestApiException, UpdateException {
+  public void publish(ChangeEdit edit)
+      throws NoSuchChangeException, IOException, OrmException, RestApiException, UpdateException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject());
         RevWalk rw = new RevWalk(repo);
         ObjectInserter inserter = repo.newObjectInserter()) {
       PatchSet basePatchSet = edit.getBasePatchSet();
       if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
-        throw new ResourceConflictException(
-            "only edit for current patch set can be published");
+        throw new ResourceConflictException("only edit for current patch set can be published");
       }
 
       Change updatedChange =
-          insertPatchSet(edit, change, repo, rw, inserter, basePatchSet,
+          insertPatchSet(
+              edit,
+              change,
+              repo,
+              rw,
+              inserter,
+              basePatchSet,
               squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
       // TODO(davido): This should happen in the same BatchRefUpdate.
       deleteRef(repo, edit);
@@ -196,8 +196,7 @@ public class ChangeEditUtil {
    * @throws IOException
    * @throws OrmException
    */
-  public void delete(ChangeEdit edit)
-      throws IOException, OrmException {
+  public void delete(ChangeEdit edit) throws IOException, OrmException {
     Change change = edit.getChange();
     try (Repository repo = gitManager.openRepository(change.getProject())) {
       deleteRef(repo, edit);
@@ -205,24 +204,22 @@ public class ChangeEditUtil {
     indexer.index(db.get(), change);
   }
 
-  private PatchSet getBasePatchSet(ChangeControl ctl, Ref ref)
-      throws IOException {
+  private PatchSet getBasePatchSet(ChangeControl ctl, Ref ref) throws IOException {
     try {
       int pos = ref.getName().lastIndexOf("/");
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
-      return psUtil.get(db.get(), ctl.getNotes(),
-          new PatchSet.Id(ctl.getId(), Integer.parseInt(psId)));
+      return psUtil.get(
+          db.get(), ctl.getNotes(), new PatchSet.Id(ctl.getId(), Integer.parseInt(psId)));
     } catch (OrmException | NumberFormatException e) {
       throw new IOException(e);
     }
   }
 
-  private RevCommit squashEdit(RevWalk rw, ObjectInserter inserter,
-      RevCommit edit, PatchSet basePatchSet)
+  private RevCommit squashEdit(
+      RevWalk rw, ObjectInserter inserter, RevCommit edit, PatchSet basePatchSet)
       throws IOException, ResourceConflictException {
-    RevCommit parent = rw.parseCommit(ObjectId.fromString(
-        basePatchSet.getRevision().get()));
+    RevCommit parent = rw.parseCommit(ObjectId.fromString(basePatchSet.getRevision().get()));
     if (parent.getTree().equals(edit.getTree())
         && edit.getFullMessage().equals(parent.getFullMessage())) {
       throw new ResourceConflictException("identical tree and message");
@@ -230,20 +227,21 @@ public class ChangeEditUtil {
     return writeSquashedCommit(rw, inserter, parent, edit);
   }
 
-  private Change insertPatchSet(ChangeEdit edit, Change change,
-      Repository repo, RevWalk rw, ObjectInserter oi, PatchSet basePatchSet,
-      RevCommit squashed) throws NoSuchChangeException, RestApiException,
-      UpdateException, OrmException, IOException {
-    ChangeControl ctl =
-        changeControlFactory.controlFor(db.get(), change, edit.getUser());
-    PatchSet.Id psId =
-        ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
-    PatchSetInserter inserter =
-        patchSetInserterFactory.create(ctl, psId, squashed);
+  private Change insertPatchSet(
+      ChangeEdit edit,
+      Change change,
+      Repository repo,
+      RevWalk rw,
+      ObjectInserter oi,
+      PatchSet basePatchSet,
+      RevCommit squashed)
+      throws NoSuchChangeException, RestApiException, UpdateException, OrmException, IOException {
+    ChangeControl ctl = changeControlFactory.controlFor(db.get(), change, edit.getUser());
+    PatchSet.Id psId = ChangeUtil.nextPatchSetId(repo, change.currentPatchSetId());
+    PatchSetInserter inserter = patchSetInserterFactory.create(ctl, psId, squashed);
 
-    StringBuilder message = new StringBuilder("Patch Set ")
-      .append(inserter.getPatchSetId().get())
-      .append(": ");
+    StringBuilder message =
+        new StringBuilder("Patch Set ").append(inserter.getPatchSetId().get()).append(": ");
 
     ProjectState project = projectCache.get(change.getDest().getParentKey());
     // Previously checked that the base patch set is the current patch set.
@@ -252,27 +250,27 @@ public class ChangeEditUtil {
     if (kind == ChangeKind.NO_CODE_CHANGE) {
       message.append("Commit message was updated.");
     } else {
-      message.append("Published edit on patch set ")
-        .append(basePatchSet.getPatchSetId())
-        .append(".");
+      message
+          .append("Published edit on patch set ")
+          .append(basePatchSet.getPatchSetId())
+          .append(".");
     }
 
-    try (BatchUpdate bu = updateFactory.create(
-        db.get(), change.getProject(), ctl.getUser(),
-        TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        updateFactory.create(db.get(), change.getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       bu.setRepository(repo, rw, oi);
-      bu.addOp(change.getId(), inserter
-        .setDraft(change.getStatus() == Status.DRAFT ||
-            basePatchSet.isDraft())
-        .setMessage(message.toString()));
+      bu.addOp(
+          change.getId(),
+          inserter
+              .setDraft(change.getStatus() == Status.DRAFT || basePatchSet.isDraft())
+              .setMessage(message.toString()));
       bu.execute();
     }
 
     return inserter.getChange();
   }
 
-  private static void deleteRef(Repository repo, ChangeEdit edit)
-      throws IOException {
+  private static void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
     String refName = edit.getRefName();
     RefUpdate ru = repo.updateRef(refName, true);
     ru.setExpectedOldObjectId(edit.getRef().getObjectId());
@@ -291,14 +289,12 @@ public class ChangeEditUtil {
       case REJECTED_CURRENT_BRANCH:
       case RENAMED:
       default:
-        throw new IOException(String.format("Failed to delete ref %s: %s",
-            refName, result));
+        throw new IOException(String.format("Failed to delete ref %s: %s", refName, result));
     }
   }
 
-  private static RevCommit writeSquashedCommit(RevWalk rw,
-      ObjectInserter inserter, RevCommit parent, RevCommit edit)
-      throws IOException {
+  private static RevCommit writeSquashedCommit(
+      RevWalk rw, ObjectInserter inserter, RevCommit parent, RevCommit edit) throws IOException {
     CommitBuilder mergeCommit = new CommitBuilder();
     for (int i = 0; i < parent.getParentCount(); i++) {
       mergeCommit.addParentId(parent.getParent(i));
@@ -311,8 +307,8 @@ public class ChangeEditUtil {
     return rw.parseCommit(commit(inserter, mergeCommit));
   }
 
-  private static ObjectId commit(ObjectInserter inserter,
-      CommitBuilder mergeCommit) throws IOException {
+  private static ObjectId commit(ObjectInserter inserter, CommitBuilder mergeCommit)
+      throws IOException {
     ObjectId id = inserter.insert(mergeCommit);
     inserter.flush();
     return id;

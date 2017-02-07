@@ -65,12 +65,10 @@ import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.sql.Timestamp;
 
 public class FileTable extends FlowPanel {
-  private static final FileTableResources R = GWT
-      .create(FileTableResources.class);
+  private static final FileTableResources R = GWT.create(FileTableResources.class);
 
   interface FileTableResources extends ClientBundle {
     @Source("file_table.css")
@@ -79,20 +77,35 @@ public class FileTable extends FlowPanel {
 
   interface FileTableCss extends CssResource {
     String table();
+
     String nohover();
+
     String pointer();
+
     String reviewed();
+
     String status();
+
     String pathColumn();
+
     String commonPrefix();
+
     String renameCopySource();
+
     String draftColumn();
+
     String newColumn();
+
     String commentColumn();
+
     String deltaColumn1();
+
     String deltaColumn2();
+
     String inserted();
+
     String deleted();
+
     String restoreDelete();
   }
 
@@ -157,7 +170,7 @@ public class FileTable extends FlowPanel {
   }
 
   private static boolean onOpen(NativeEvent e, int idx) {
-    if (link.handleAsClick(e.<Event> cast())) {
+    if (link.handleAsClick(e.<Event>cast())) {
       MyTable t = getMyTable(e);
       if (t != null) {
         t.onOpenRow(1 + idx);
@@ -197,8 +210,13 @@ public class FileTable extends FlowPanel {
     R.css().ensureInjected();
   }
 
-  public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen.Style style,
-      Widget replyButton, Mode mode, boolean editExists) {
+  public void set(
+      PatchSet.Id base,
+      PatchSet.Id curr,
+      ChangeScreen.Style style,
+      Widget replyButton,
+      Mode mode,
+      boolean editExists) {
     this.base = base;
     this.curr = curr;
     this.style = style;
@@ -207,15 +225,15 @@ public class FileTable extends FlowPanel {
     this.editExists = editExists;
   }
 
-  void setValue(NativeMap<FileInfo> fileMap,
+  void setValue(
+      NativeMap<FileInfo> fileMap,
       Timestamp myLastReply,
       @Nullable NativeMap<JsArray<CommentInfo>> comments,
       @Nullable NativeMap<JsArray<CommentInfo>> drafts) {
     JsArray<FileInfo> list = fileMap.values();
     FileInfo.sortFileInfoByPath(list);
 
-    DisplayCommand cmd = new DisplayCommand(fileMap, list,
-        myLastReply, comments, drafts);
+    DisplayCommand cmd = new DisplayCommand(fileMap, list, myLastReply, comments, drafts);
     if (cmd.execute()) {
       cmd.showProgressBar();
       Scheduler.get().scheduleIncremental(cmd);
@@ -283,8 +301,8 @@ public class FileTable extends FlowPanel {
 
   private String url(FileInfo info) {
     return info.binary()
-      ? Dispatcher.toUnified(base, curr, info.path())
-      : mode == Mode.REVIEW
+        ? Dispatcher.toUnified(base, curr, info.path())
+        : mode == Mode.REVIEW
             ? Dispatcher.toPatch(base, curr, info.path())
             : Dispatcher.toEditScreen(curr, info.path());
   }
@@ -302,61 +320,59 @@ public class FileTable extends FlowPanel {
           new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()),
           new NextKeyCommand(0, 'j', Util.C.patchTableNext()));
       keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.patchTableOpenDiff()));
-      keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
-          Util.C.patchTableOpenDiff()));
+      keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C.patchTableOpenDiff()));
 
       keysNavigation.add(
           new OpenFileCommand(list.length() - 1, 0, '[', Resources.C.openLastFile()),
           new OpenFileCommand(0, 0, ']', Resources.C.openCommitMessage()));
 
-      keysAction.add(new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          int row = getCurrentRow();
-          if (1 <= row && row <= MyTable.this.list.length()) {
-            FileInfo info = MyTable.this.list.get(row - 1);
-            InputElement b = getReviewed(info);
-            boolean c = !b.isChecked();
-            setReviewed(info, c);
-            b.setChecked(c);
-          }
-        }
-      });
+      keysAction.add(
+          new KeyCommand(0, 'r', PatchUtil.C.toggleReviewed()) {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+              int row = getCurrentRow();
+              if (1 <= row && row <= MyTable.this.list.length()) {
+                FileInfo info = MyTable.this.list.get(row - 1);
+                InputElement b = getReviewed(info);
+                boolean c = !b.isChecked();
+                setReviewed(info, c);
+                b.setChecked(c);
+              }
+            }
+          });
 
-      setSavePointerId(
-          (base != null ? base.toString() + ".." : "")
-          + curr.toString());
+      setSavePointerId((base != null ? base.toString() + ".." : "") + curr.toString());
     }
 
     void onDelete(int idx) {
       String path = list.get(idx).path();
-      ChangeEditApi.delete(curr.getParentKey().get(), path,
+      ChangeEditApi.delete(
+          curr.getParentKey().get(),
+          path,
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              Gerrit.display(PageLinks.toChangeInEditMode(
-                  curr.getParentKey()));
+              Gerrit.display(PageLinks.toChangeInEditMode(curr.getParentKey()));
             }
 
             @Override
-            public void onFailure(Throwable caught) {
-            }
+            public void onFailure(Throwable caught) {}
           });
     }
 
     void onRestore(int idx) {
       String path = list.get(idx).path();
-      ChangeEditApi.restore(curr.getParentKey().get(), path,
+      ChangeEditApi.restore(
+          curr.getParentKey().get(),
+          path,
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              Gerrit.display(PageLinks.toChangeInEditMode(
-                  curr.getParentKey()));
+              Gerrit.display(PageLinks.toChangeInEditMode(curr.getParentKey()));
             }
 
             @Override
-            public void onFailure(Throwable caught) {
-            }
+            public void onFailure(Throwable caught) {}
           });
     }
 
@@ -365,10 +381,7 @@ public class FileTable extends FlowPanel {
     }
 
     private void setReviewed(FileInfo info, boolean r) {
-      RestApi api = ChangeApi.revision(curr)
-          .view("files")
-          .id(info.path())
-          .view("reviewed");
+      RestApi api = ChangeApi.revision(curr).view("files").id(info.path()).view("reviewed");
       if (r) {
         api.put(CallbackGroup.<ReviewInfo>emptyCallback());
       } else {
@@ -471,7 +484,8 @@ public class FileTable extends FlowPanel {
     private long bytesInserted;
     private long bytesDeleted;
 
-    private DisplayCommand(NativeMap<FileInfo> map,
+    private DisplayCommand(
+        NativeMap<FileInfo> map,
         JsArray<FileInfo> list,
         Timestamp myLastReply,
         @Nullable NativeMap<JsArray<CommentInfo>> comments,
@@ -482,8 +496,7 @@ public class FileTable extends FlowPanel {
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
-      this.showChangeSizeBars =
-          Gerrit.getUserPreferences().sizeBarInChangeTable();
+      this.showChangeSizeBars = Gerrit.getUserPreferences().sizeBarInChangeTable();
       myTable.addStyleName(R.css().table());
     }
 
@@ -577,14 +590,8 @@ public class FileTable extends FlowPanel {
       }
       sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTh().append(Util.C.patchTableColumnName()).closeTh();
-      sb.openTh()
-        .setAttribute("colspan", 3)
-        .append(Util.C.patchTableColumnComments())
-        .closeTh();
-      sb.openTh()
-        .setAttribute("colspan", 2)
-        .append(Util.C.patchTableColumnSize())
-        .closeTh();
+      sb.openTh().setAttribute("colspan", 3).append(Util.C.patchTableColumnComments()).closeTh();
+      sb.openTh().setAttribute("colspan", 2).append(Util.C.patchTableColumnSize()).closeTh();
       sb.closeTr();
     }
 
@@ -608,10 +615,10 @@ public class FileTable extends FlowPanel {
       sb.openTd().setStyleName(R.css().reviewed());
       if (hasUser) {
         sb.openElement("input")
-          .setAttribute("title", Resources.C.reviewedFileTitle())
-          .setAttribute("type", "checkbox")
-          .setAttribute("onclick", REVIEWED + "(event," + info._row() + ")")
-          .closeSelf();
+            .setAttribute("title", Resources.C.reviewedFileTitle())
+            .setAttribute("type", "checkbox")
+            .setAttribute("onclick", REVIEWED + "(event," + info._row() + ")")
+            .closeSelf();
       }
       sb.closeTd();
     }
@@ -622,19 +629,17 @@ public class FileTable extends FlowPanel {
         if (!Patch.COMMIT_MSG.equals(info.path())) {
           boolean editable = isEditable(info);
           sb.openDiv()
-            .openElement("button")
-            .setAttribute("title", Resources.C.restoreFileInline())
-            .setAttribute("onclick", RESTORE + "(event," + info._row() + ")")
-            .append(new ImageResourceRenderer().render(
-                Gerrit.RESOURCES.editUndo()))
-            .closeElement("button");
+              .openElement("button")
+              .setAttribute("title", Resources.C.restoreFileInline())
+              .setAttribute("onclick", RESTORE + "(event," + info._row() + ")")
+              .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.editUndo()))
+              .closeElement("button");
           if (editable) {
             sb.openElement("button")
-              .setAttribute("title", Resources.C.removeFileInline())
-              .setAttribute("onclick", DELETE + "(event," + info._row() + ")")
-              .append(new ImageResourceRenderer().render(
-                  Gerrit.RESOURCES.redNot()))
-              .closeElement("button");
+                .setAttribute("title", Resources.C.removeFileInline())
+                .setAttribute("onclick", DELETE + "(event," + info._row() + ")")
+                .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.redNot()))
+                .closeElement("button");
           }
           sb.closeDiv();
         }
@@ -644,8 +649,7 @@ public class FileTable extends FlowPanel {
 
     private boolean isEditable(FileInfo info) {
       String status = info.status();
-      return status == null
-          || !ChangeType.DELETED.matches(status);
+      return status == null || !ChangeType.DELETED.matches(status);
     }
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
@@ -659,16 +663,14 @@ public class FileTable extends FlowPanel {
     }
 
     private void columnPath(SafeHtmlBuilder sb, FileInfo info) {
-      sb.openTd()
-        .setStyleName(R.css().pathColumn())
-        .openAnchor();
+      sb.openTd().setStyleName(R.css().pathColumn()).openAnchor();
 
       String path = info.path();
       if (mode == Mode.EDIT && !isEditable(info)) {
         sb.setAttribute("onclick", RESTORE + "(event," + info._row() + ")");
       } else {
         sb.setAttribute("href", "#" + url(info))
-          .setAttribute("onclick", OPEN + "(event," + info._row() + ")");
+            .setAttribute("onclick", OPEN + "(event," + info._row() + ")");
       }
 
       if (Patch.COMMIT_MSG.equals(path)) {
@@ -676,9 +678,10 @@ public class FileTable extends FlowPanel {
       } else if (Gerrit.getUserPreferences().muteCommonPathPrefixes()) {
         int commonPrefixLen = commonPrefix(path);
         if (commonPrefixLen > 0) {
-          sb.openSpan().setStyleName(R.css().commonPrefix())
-            .append(path.substring(0, commonPrefixLen))
-            .closeSpan();
+          sb.openSpan()
+              .setStyleName(R.css().commonPrefix())
+              .append(path.substring(0, commonPrefixLen))
+              .closeSpan();
         }
         sb.append(path.substring(commonPrefixLen));
         lastPath = path;
@@ -689,15 +692,13 @@ public class FileTable extends FlowPanel {
       sb.closeAnchor();
       if (info.oldPath() != null) {
         sb.br();
-        sb.openSpan().setStyleName(R.css().renameCopySource())
-          .append(info.oldPath())
-          .closeSpan();
+        sb.openSpan().setStyleName(R.css().renameCopySource()).append(info.oldPath()).closeSpan();
       }
       sb.closeTd();
     }
 
     private int commonPrefix(String path) {
-      for (int n = path.length(); n > 0;) {
+      for (int n = path.length(); n > 0; ) {
         int s = path.lastIndexOf('/', n);
         if (s < 0) {
           return 0;
@@ -780,22 +781,16 @@ public class FileTable extends FlowPanel {
           sb.append(info.linesInserted() + info.linesDeleted());
         } else if (!ChangeType.DELETED.matches(info.status())) {
           if (ChangeType.ADDED.matches(info.status())) {
-            sb.append(info.linesInserted())
-              .append(" lines");
+            sb.append(info.linesInserted()).append(" lines");
           } else {
-            sb.append("+")
-              .append(info.linesInserted())
-              .append(", -")
-              .append(info.linesDeleted());
+            sb.append("+").append(info.linesInserted()).append(", -").append(info.linesDeleted());
           }
         }
       } else if (info.binary()) {
         sb.append(formatBytes(info.sizeDelta()));
         long oldSize = info.size() - info.sizeDelta();
         if (oldSize != 0) {
-          sb.append(" (")
-            .append(formatPercentage(oldSize, info.sizeDelta()))
-            .append(")");
+          sb.append(" (").append(formatPercentage(oldSize, info.sizeDelta())).append(")");
         }
       }
       sb.closeTd();
@@ -804,7 +799,8 @@ public class FileTable extends FlowPanel {
     private void columnDelta2(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn2());
       if (showChangeSizeBars
-          && !Patch.COMMIT_MSG.equals(info.path()) && !info.binary()
+          && !Patch.COMMIT_MSG.equals(info.path())
+          && !info.binary()
           && (info.linesInserted() != 0 || info.linesDeleted() != 0)) {
         int w = 80;
         int t = inserted + deleted;
@@ -812,21 +808,19 @@ public class FileTable extends FlowPanel {
         int d = Math.max(5, (int) (((double) w) * info.linesDeleted() / t));
 
         sb.setAttribute(
-            "title",
-            Util.M.patchTableSize_LongModify(info.linesInserted(),
-                info.linesDeleted()));
+            "title", Util.M.patchTableSize_LongModify(info.linesInserted(), info.linesDeleted()));
 
         if (0 < info.linesInserted()) {
           sb.openDiv()
-            .setStyleName(R.css().inserted())
-            .setAttribute("style", "width:" + i + "px")
-            .closeDiv();
+              .setStyleName(R.css().inserted())
+              .setAttribute("style", "width:" + i + "px")
+              .closeDiv();
         }
         if (0 < info.linesDeleted()) {
           sb.openDiv()
-            .setStyleName(R.css().deleted())
-            .setAttribute("style", "width:" + d + "px")
-            .closeDiv();
+              .setStyleName(R.css().deleted())
+              .setAttribute("style", "width:" + d + "px")
+              .closeDiv();
         }
       }
       sb.closeTd();
@@ -854,15 +848,16 @@ public class FileTable extends FlowPanel {
           sb.br();
         }
         if (binOldSize != 0) {
-          sb.append(Util.M.patchTableSize_ModifyBinaryFilesWithPercentages(
-              formatAbsBytes(bytesInserted),
-              formatAbsPercentage(binOldSize, bytesInserted),
-              formatAbsBytes(bytesDeleted),
-              formatAbsPercentage(binOldSize, bytesDeleted)));
+          sb.append(
+              Util.M.patchTableSize_ModifyBinaryFilesWithPercentages(
+                  formatAbsBytes(bytesInserted),
+                  formatAbsPercentage(binOldSize, bytesInserted),
+                  formatAbsBytes(bytesDeleted),
+                  formatAbsPercentage(binOldSize, bytesDeleted)));
         } else {
-          sb.append(Util.M.patchTableSize_ModifyBinaryFiles(
-              formatAbsBytes(bytesInserted),
-              formatAbsBytes(bytesDeleted)));
+          sb.append(
+              Util.M.patchTableSize_ModifyBinaryFiles(
+                  formatAbsBytes(bytesInserted), formatAbsBytes(bytesDeleted)));
         }
       }
       sb.closeTh();
@@ -881,15 +876,15 @@ public class FileTable extends FlowPanel {
         }
         if (0 < inserted) {
           sb.openDiv()
-          .setStyleName(R.css().inserted())
-          .setAttribute("style", "width:" + i + "px")
-          .closeDiv();
+              .setStyleName(R.css().inserted())
+              .setAttribute("style", "width:" + i + "px")
+              .closeDiv();
         }
         if (0 < deleted) {
           sb.openDiv()
-            .setStyleName(R.css().deleted())
-            .setAttribute("style", "width:" + d + "px")
-            .closeDiv();
+              .setStyleName(R.css().deleted())
+              .setAttribute("style", "width:" + d + "px")
+              .closeDiv();
         }
       }
       sb.closeTh();

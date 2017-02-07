@@ -26,10 +26,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.util.Collection;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of GroupBackend for the internal group system. */
 @Singleton
@@ -47,7 +45,8 @@ public class InternalGroupBackend implements GroupBackend {
   private final IncludingGroupMembership.Factory groupMembershipFactory;
 
   @Inject
-  InternalGroupBackend(GroupControl.Factory groupControlFactory,
+  InternalGroupBackend(
+      GroupControl.Factory groupControlFactory,
       GroupCache groupCache,
       IncludingGroupMembership.Factory groupMembershipFactory) {
     this.groupControlFactory = groupControlFactory;
@@ -75,17 +74,18 @@ public class InternalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(final String name,
-      final ProjectControl project) {
-    Iterable<AccountGroup> filtered = Iterables.filter(groupCache.all(),
-        new Predicate<AccountGroup>() {
-          @Override
-          public boolean apply(AccountGroup group) {
-            // startsWithIgnoreCase && isVisible
-            return group.getName().regionMatches(true, 0, name, 0, name.length())
-                && groupControlFactory.controlFor(group).isVisible();
-          }
-        });
+  public Collection<GroupReference> suggest(final String name, final ProjectControl project) {
+    Iterable<AccountGroup> filtered =
+        Iterables.filter(
+            groupCache.all(),
+            new Predicate<AccountGroup>() {
+              @Override
+              public boolean apply(AccountGroup group) {
+                // startsWithIgnoreCase && isVisible
+                return group.getName().regionMatches(true, 0, name, 0, name.length())
+                    && groupControlFactory.controlFor(group).isVisible();
+              }
+            });
     return Lists.newArrayList(Iterables.transform(filtered, ACT_GROUP_TO_GROUP_REF));
   }
 

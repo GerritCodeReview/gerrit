@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.events;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
-
 import java.util.Map;
 
 /** Notified whenever a comment is added to a change. */
@@ -26,8 +25,11 @@ public interface CommentAddedListener {
   interface Event extends RevisionEvent {
     @Deprecated
     AccountInfo getAuthor();
+
     String getComment();
+
     Map<String, ApprovalInfo> getApprovals();
+
     Map<String, ApprovalInfo> getOldApprovals();
   }
 

@@ -38,7 +38,8 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
   private final PatchLineCommentsUtil plcUtil;
 
   @Inject
-  DraftComments(DynamicMap<RestView<DraftCommentResource>> views,
+  DraftComments(
+      DynamicMap<RestView<DraftCommentResource>> views,
       Provider<CurrentUser> user,
       ListRevisionDrafts list,
       Provider<ReviewDb> dbProvider,
@@ -66,8 +67,9 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
       throws ResourceNotFoundException, OrmException, AuthException {
     checkIdentifiedUser();
     String uuid = id.get();
-    for (PatchLineComment c : plcUtil.draftByPatchSetAuthor(dbProvider.get(),
-        rev.getPatchSet().getId(), rev.getAccountId(), rev.getNotes())) {
+    for (PatchLineComment c :
+        plcUtil.draftByPatchSetAuthor(
+            dbProvider.get(), rev.getPatchSet().getId(), rev.getAccountId(), rev.getNotes())) {
       if (uuid.equals(c.getKey().get())) {
         return new DraftCommentResource(rev, c);
       }

@@ -28,45 +28,47 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReviewerDeleted {
-  private static final Logger log =
-      LoggerFactory.getLogger(ReviewerDeleted.class);
+  private static final Logger log = LoggerFactory.getLogger(ReviewerDeleted.class);
 
   private final DynamicSet<ReviewerDeletedListener> listeners;
   private final EventUtil util;
 
   @Inject
-  ReviewerDeleted(DynamicSet<ReviewerDeletedListener> listeners,
-      EventUtil util) {
+  ReviewerDeleted(DynamicSet<ReviewerDeletedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }
 
-  public void fire(Change change, PatchSet patchSet, Account reviewer,
-      Account remover, String message,
+  public void fire(
+      Change change,
+      PatchSet patchSet,
+      Account reviewer,
+      Account remover,
+      String message,
       Map<String, Short> newApprovals,
-      Map<String, Short> oldApprovals, Timestamp when) {
+      Map<String, Short> oldApprovals,
+      Timestamp when) {
     if (!listeners.iterator().hasNext()) {
       return;
     }
     try {
-      Event event = new Event(
-          util.changeInfo(change),
-          util.revisionInfo(change.getProject(), patchSet),
-          util.accountInfo(reviewer),
-          util.accountInfo(remover),
-          message,
-          util.approvals(reviewer, newApprovals, when),
-          util.approvals(reviewer, oldApprovals, when),
-          when);
+      Event event =
+          new Event(
+              util.changeInfo(change),
+              util.revisionInfo(change.getProject(), patchSet),
+              util.accountInfo(reviewer),
+              util.accountInfo(remover),
+              message,
+              util.approvals(reviewer, newApprovals, when),
+              util.approvals(reviewer, oldApprovals, when),
+              when);
       for (ReviewerDeletedListener listener : listeners) {
         try {
           listener.onReviewerDeleted(event);
@@ -74,11 +76,9 @@ public class ReviewerDeleted {
           util.logEventListenerError(this, listener, e);
         }
       }
-    } catch (PatchListNotAvailableException | GpgException | IOException
-        | OrmException e) {
+    } catch (PatchListNotAvailableException | GpgException | IOException | OrmException e) {
       log.error("Couldn't fire event", e);
     }
-
   }
 
   private static class Event extends AbstractRevisionEvent
@@ -88,10 +88,15 @@ public class ReviewerDeleted {
     private final Map<String, ApprovalInfo> newApprovals;
     private final Map<String, ApprovalInfo> oldApprovals;
 
-    Event(ChangeInfo change, RevisionInfo revision, AccountInfo reviewer,
-        AccountInfo remover, String comment,
+    Event(
+        ChangeInfo change,
+        RevisionInfo revision,
+        AccountInfo reviewer,
+        AccountInfo remover,
+        String comment,
         Map<String, ApprovalInfo> newApprovals,
-        Map<String, ApprovalInfo> oldApprovals, Timestamp when) {
+        Map<String, ApprovalInfo> oldApprovals,
+        Timestamp when) {
       super(change, revision, remover, when, NotifyHandling.ALL);
       this.reviewer = reviewer;
       this.comment = comment;

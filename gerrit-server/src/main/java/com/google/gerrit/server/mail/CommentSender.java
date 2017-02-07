@@ -36,21 +36,18 @@ import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
-  private static final Logger log = LoggerFactory
-      .getLogger(CommentSender.class);
+  private static final Logger log = LoggerFactory.getLogger(CommentSender.class);
 
   public interface Factory {
     CommentSender create(Project.NameKey project, Change.Id id);
@@ -60,16 +57,17 @@ public class CommentSender extends ReplyToChangeSender {
   private final PatchLineCommentsUtil plcUtil;
 
   @Inject
-  public CommentSender(EmailArguments ea,
+  public CommentSender(
+      EmailArguments ea,
       PatchLineCommentsUtil plcUtil,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id id) throws OrmException {
+      @Assisted Change.Id id)
+      throws OrmException {
     super(ea, "comment", newChangeData(ea, project, id));
     this.plcUtil = plcUtil;
   }
 
-  public void setPatchLineComments(final List<PatchLineComment> plc)
-      throws OrmException {
+  public void setPatchLineComments(final List<PatchLineComment> plc) throws OrmException {
     inlineComments = plc;
 
     Set<String> paths = new HashSet<>();
@@ -144,14 +142,15 @@ public class CommentSender extends ReplyToChangeSender {
 
           if (patchList != null) {
             try {
-              currentFileData =
-                  new PatchFile(repo, patchList, pk.get());
+              currentFileData = new PatchFile(repo, patchList, pk.get());
             } catch (IOException e) {
-              log.warn(String.format(
-                  "Cannot load %s from %s in %s",
-                  pk.getFileName(),
-                  patchList.getNewId().name(),
-                  projectState.getProject().getName()), e);
+              log.warn(
+                  String.format(
+                      "Cannot load %s from %s in %s",
+                      pk.getFileName(),
+                      patchList.getNewId().name(),
+                      projectState.getProject().getName()),
+                  e);
               currentFileData = null;
             }
           }
@@ -166,23 +165,23 @@ public class CommentSender extends ReplyToChangeSender {
     return cmts.toString();
   }
 
-  private void appendComment(StringBuilder out, int contextLines,
-      PatchFile currentFileData, PatchLineComment comment) {
+  private void appendComment(
+      StringBuilder out, int contextLines, PatchFile currentFileData, PatchLineComment comment) {
     short side = comment.getSide();
     CommentRange range = comment.getRange();
     if (range != null) {
-      String prefix = "PS" + getCommentPsId(comment).get()
-        + ", Line " + range.getStartLine() + ": ";
+      String prefix =
+          "PS" + getCommentPsId(comment).get() + ", Line " + range.getStartLine() + ": ";
       for (int n = range.getStartLine(); n <= range.getEndLine(); n++) {
-        out.append(n == range.getStartLine()
-            ? prefix
-            : Strings.padStart(": ", prefix.length(), ' '));
+        out.append(
+            n == range.getStartLine() ? prefix : Strings.padStart(": ", prefix.length(), ' '));
         try {
           String s = currentFileData.getLine(side, n);
           if (n == range.getStartLine() && n == range.getEndLine()) {
-            s = s.substring(
-                Math.min(range.getStartCharacter(), s.length()),
-                Math.min(range.getEndCharacter(), s.length()));
+            s =
+                s.substring(
+                    Math.min(range.getStartCharacter(), s.length()),
+                    Math.min(range.getEndCharacter(), s.length()));
           } else if (n == range.getStartLine()) {
             s = s.substring(Math.min(range.getStartCharacter(), s.length()));
           } else if (n == range.getEndLine()) {
@@ -235,14 +234,12 @@ public class CommentSender extends ReplyToChangeSender {
   private void appendQuotedParent(StringBuilder out, PatchLineComment child) {
     if (child.getParentUuid() != null) {
       Optional<PatchLineComment> parent;
-      PatchLineComment.Key key = new PatchLineComment.Key(
-          child.getKey().getParentKey(),
-          child.getParentUuid());
+      PatchLineComment.Key key =
+          new PatchLineComment.Key(child.getKey().getParentKey(), child.getParentUuid());
       try {
         parent = plcUtil.get(args.db.get(), changeData.notes(), key);
       } catch (OrmException e) {
-        log.warn("Could not find the parent of this comment: "
-            + child.toString());
+        log.warn("Could not find the parent of this comment: " + child.toString());
         parent = Optional.absent();
       }
       if (parent.isPresent()) {
@@ -269,11 +266,14 @@ public class CommentSender extends ReplyToChangeSender {
     PatchSet.Id ps = patch.getParentKey();
     Change.Id c = ps.getParentKey();
     return new StringBuilder()
-      .append(url)
-      .append("#/c/").append(c)
-      .append('/').append(ps.get())
-      .append('/').append(KeyUtil.encode(patch.get()))
-      .toString();
+        .append(url)
+        .append("#/c/")
+        .append(c)
+        .append('/')
+        .append(ps.get())
+        .append('/')
+        .append(KeyUtil.encode(patch.get()))
+        .toString();
   }
 
   private Repository getRepository() {

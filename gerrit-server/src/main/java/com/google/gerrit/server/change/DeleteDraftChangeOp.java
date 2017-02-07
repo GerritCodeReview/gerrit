@@ -36,14 +36,12 @@ import com.google.gerrit.server.git.BatchUpdateReviewDb;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.ReceiveCommand;
-
-import java.io.IOException;
-import java.util.List;
 
 class DeleteDraftChangeOp extends BatchUpdate.Op {
   static boolean allowDrafts(Config cfg) {
@@ -60,7 +58,6 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     return ReviewDbUtil.unwrapDb(db);
   }
 
-
   private final PatchSetUtil psUtil;
   private final StarredChangesUtil starredChangesUtil;
   private final DynamicItem<AccountPatchReviewStore> accountPatchReviewStore;
@@ -69,7 +66,8 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   private Change.Id id;
 
   @Inject
-  DeleteDraftChangeOp(PatchSetUtil psUtil,
+  DeleteDraftChangeOp(
+      PatchSetUtil psUtil,
       StarredChangesUtil starredChangesUtil,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
       @GerritServerConfig Config cfg) {
@@ -80,9 +78,10 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws RestApiException,
-      OrmException, IOException, NoSuchChangeException {
-    checkState(ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
+  public boolean updateChange(ChangeContext ctx)
+      throws RestApiException, OrmException, IOException, NoSuchChangeException {
+    checkState(
+        ctx.getOrder() == BatchUpdate.Order.DB_BEFORE_REPO,
         "must use DeleteDraftChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteDraftChangeOp");
 
@@ -99,12 +98,15 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
     if (!ctx.getControl().canDeleteDraft(ctx.getDb())) {
       throw new AuthException("Not permitted to delete this draft change");
     }
-    List<PatchSet> patchSets = ImmutableList.copyOf(
-        psUtil.byChange(ctx.getDb(), ctx.getNotes()));
+    List<PatchSet> patchSets = ImmutableList.copyOf(psUtil.byChange(ctx.getDb(), ctx.getNotes()));
     for (PatchSet ps : patchSets) {
       if (!ps.isDraft()) {
-        throw new ResourceConflictException("Cannot delete draft change " + id
-            + ": patch set " + ps.getPatchSetId() + " is not a draft");
+        throw new ResourceConflictException(
+            "Cannot delete draft change "
+                + id
+                + ": patch set "
+                + ps.getPatchSetId()
+                + " is not a draft");
       }
       accountPatchReviewStore.get().clearReviewed(ps.getId());
     }
@@ -128,11 +130,8 @@ class DeleteDraftChangeOp extends BatchUpdate.Op {
   public void updateRepo(RepoContext ctx) throws IOException {
     String prefix = new PatchSet.Id(id, 1).toRefName();
     prefix = prefix.substring(0, prefix.length() - 1);
-    for (Ref ref
-        : ctx.getRepository().getRefDatabase().getRefs(prefix).values()) {
-      ctx.addRefUpdate(
-          new ReceiveCommand(
-            ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
+    for (Ref ref : ctx.getRepository().getRefDatabase().getRefs(prefix).values()) {
+      ctx.addRefUpdate(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
     }
   }
 }

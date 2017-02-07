@@ -22,75 +22,68 @@ import com.google.gerrit.server.query.change.ChangeData;
 
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
-  static final Schema<ChangeData> V25 = schema(
-      ChangeField.LEGACY_ID,
-      ChangeField.ID,
-      ChangeField.STATUS,
-      ChangeField.PROJECT,
-      ChangeField.PROJECTS,
-      ChangeField.REF,
-      ChangeField.EXACT_TOPIC,
-      ChangeField.FUZZY_TOPIC,
-      ChangeField.UPDATED,
-      ChangeField.FILE_PART,
-      ChangeField.PATH,
-      ChangeField.OWNER,
-      ChangeField.LEGACY_REVIEWER,
-      ChangeField.COMMIT,
-      ChangeField.TR,
-      ChangeField.LABEL,
-      ChangeField.COMMIT_MESSAGE,
-      ChangeField.COMMENT,
-      ChangeField.CHANGE,
-      ChangeField.APPROVAL,
-      ChangeField.MERGEABLE,
-      ChangeField.ADDED,
-      ChangeField.DELETED,
-      ChangeField.DELTA,
-      ChangeField.HASHTAG,
-      ChangeField.COMMENTBY,
-      ChangeField.PATCH_SET,
-      ChangeField.GROUP,
-      ChangeField.SUBMISSIONID,
-      ChangeField.EDITBY,
-      ChangeField.REVIEWEDBY,
-      ChangeField.EXACT_COMMIT,
-      ChangeField.AUTHOR,
-      ChangeField.COMMITTER);
+  static final Schema<ChangeData> V25 =
+      schema(
+          ChangeField.LEGACY_ID,
+          ChangeField.ID,
+          ChangeField.STATUS,
+          ChangeField.PROJECT,
+          ChangeField.PROJECTS,
+          ChangeField.REF,
+          ChangeField.EXACT_TOPIC,
+          ChangeField.FUZZY_TOPIC,
+          ChangeField.UPDATED,
+          ChangeField.FILE_PART,
+          ChangeField.PATH,
+          ChangeField.OWNER,
+          ChangeField.LEGACY_REVIEWER,
+          ChangeField.COMMIT,
+          ChangeField.TR,
+          ChangeField.LABEL,
+          ChangeField.COMMIT_MESSAGE,
+          ChangeField.COMMENT,
+          ChangeField.CHANGE,
+          ChangeField.APPROVAL,
+          ChangeField.MERGEABLE,
+          ChangeField.ADDED,
+          ChangeField.DELETED,
+          ChangeField.DELTA,
+          ChangeField.HASHTAG,
+          ChangeField.COMMENTBY,
+          ChangeField.PATCH_SET,
+          ChangeField.GROUP,
+          ChangeField.SUBMISSIONID,
+          ChangeField.EDITBY,
+          ChangeField.REVIEWEDBY,
+          ChangeField.EXACT_COMMIT,
+          ChangeField.AUTHOR,
+          ChangeField.COMMITTER);
+
+  @Deprecated static final Schema<ChangeData> V26 = schema(V25, ChangeField.DRAFTBY);
+
+  @Deprecated static final Schema<ChangeData> V27 = schema(V26.getFields().values());
+
+  @Deprecated static final Schema<ChangeData> V28 = schema(V27, ChangeField.STARREDBY);
+
+  @Deprecated static final Schema<ChangeData> V29 = schema(V28, ChangeField.HASHTAG_CASE_AWARE);
 
   @Deprecated
-  static final Schema<ChangeData> V26 = schema(V25, ChangeField.DRAFTBY);
+  static final Schema<ChangeData> V30 = schema(V29, ChangeField.STAR, ChangeField.STARBY);
 
   @Deprecated
-  static final Schema<ChangeData> V27 = schema(V26.getFields().values());
-
-  @Deprecated
-  static final Schema<ChangeData> V28 = schema(V27, ChangeField.STARREDBY);
-
-  @Deprecated
-  static final Schema<ChangeData> V29 =
-      schema(V28, ChangeField.HASHTAG_CASE_AWARE);
-
-  @Deprecated
-  static final Schema<ChangeData> V30 =
-      schema(V29, ChangeField.STAR, ChangeField.STARBY);
-
-  @Deprecated
-  static final Schema<ChangeData> V31 = new Schema.Builder<ChangeData>()
-      .add(V30)
-      .remove(ChangeField.STARREDBY)
-      .build();
+  static final Schema<ChangeData> V31 =
+      new Schema.Builder<ChangeData>().add(V30).remove(ChangeField.STARREDBY).build();
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V32 = new Schema.Builder<ChangeData>()
-      .add(V31)
-      .remove(ChangeField.LEGACY_REVIEWER)
-      .add(ChangeField.REVIEWER)
-      .build();
+  static final Schema<ChangeData> V32 =
+      new Schema.Builder<ChangeData>()
+          .add(V31)
+          .remove(ChangeField.LEGACY_REVIEWER)
+          .add(ChangeField.REVIEWER)
+          .build();
 
   public static final String NAME = "changes";
-  public static final ChangeSchemaDefinitions INSTANCE =
-      new ChangeSchemaDefinitions();
+  public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();
 
   private ChangeSchemaDefinitions() {
     super(NAME, ChangeData.class);

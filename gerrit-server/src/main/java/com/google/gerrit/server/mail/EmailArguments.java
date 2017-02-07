@@ -43,11 +43,9 @@ import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.util.List;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.PersonIdent;
-
-import java.util.List;
 
 public class EmailArguments {
   final GitRepositoryManager server;
@@ -81,13 +79,17 @@ public class EmailArguments {
   final Provider<InternalAccountQuery> accountQueryProvider;
 
   @Inject
-  EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
-      GroupBackend groupBackend, GroupIncludeCache groupIncludes,
+  EmailArguments(
+      GitRepositoryManager server,
+      ProjectCache projectCache,
+      GroupBackend groupBackend,
+      GroupIncludeCache groupIncludes,
       AccountCache accountCache,
       PatchListCache patchListCache,
       ApprovalsUtil approvalsUtil,
       FromAddressGenerator fromAddressGenerator,
-      EmailSender emailSender, PatchSetInfoFactory patchSetInfoFactory,
+      EmailSender emailSender,
+      PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
       CapabilityControl.Factory capabilityControlFactory,
       ChangeNotes.Factory changeNotesFactory,

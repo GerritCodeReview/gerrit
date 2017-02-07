@@ -17,14 +17,11 @@ package com.google.gerrit.server.ssh;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
- * Marker on the list of {@link java.net.SocketAddress}es configured to be
- * advertised by the server.
+ * Marker on the list of {@link java.net.SocketAddress}es configured to be advertised by the server.
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface SshAdvertisedAddresses {
-}
+public @interface SshAdvertisedAddresses {}

@@ -21,15 +21,18 @@ import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
 
-public class AccountIsVisibleToPredicate
-    extends IsVisibleToPredicate<AccountState> {
+public class AccountIsVisibleToPredicate extends IsVisibleToPredicate<AccountState> {
   private static String describe(CurrentUser user) {
     if (user.isIdentifiedUser()) {
       return user.getAccountId().toString();
     }
     if (user instanceof SingleGroupUser) {
-      return "group:" + user.getEffectiveGroups().getKnownGroups() //
-          .iterator().next().toString();
+      return "group:"
+          + user.getEffectiveGroups()
+              .getKnownGroups() //
+              .iterator()
+              .next()
+              .toString();
     }
     return user.toString();
   }
@@ -37,8 +40,7 @@ public class AccountIsVisibleToPredicate
   private final AccountControl accountControl;
 
   AccountIsVisibleToPredicate(AccountControl accountControl) {
-    super(AccountQueryBuilder.FIELD_VISIBLETO,
-        describe(accountControl.getUser()));
+    super(AccountQueryBuilder.FIELD_VISIBLETO, describe(accountControl.getUser()));
     this.accountControl = accountControl;
   }
 

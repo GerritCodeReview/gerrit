@@ -24,20 +24,17 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.concurrent.Callable;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Repository;
 
 public abstract class ChangeRebuilder {
   public static class NoPatchSetsException extends OrmException {
     private static final long serialVersionUID = 1L;
 
     NoPatchSetsException(Change.Id changeId) {
-      super("Change " + changeId
-          + " cannot be rebuilt because it has no patch sets");
+      super("Change " + changeId + " cannot be rebuilt because it has no patch sets");
     }
   }
 
@@ -49,34 +46,33 @@ public abstract class ChangeRebuilder {
 
   public final ListenableFuture<Result> rebuildAsync(
       final Change.Id id, ListeningExecutorService executor) {
-    return executor.submit(new Callable<Result>() {
-        @Override
-      public Result call() throws Exception {
-        try (ReviewDb db = schemaFactory.open()) {
-          return rebuild(db, id);
-        }
-      }
-    });
+    return executor.submit(
+        new Callable<Result>() {
+          @Override
+          public Result call() throws Exception {
+            try (ReviewDb db = schemaFactory.open()) {
+              return rebuild(db, id);
+            }
+          }
+        });
   }
 
   public abstract Result rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException;
+      throws NoSuchChangeException, IOException, OrmException, ConfigInvalidException;
 
-  public abstract Result rebuild(NoteDbUpdateManager manager,
-      ChangeBundle bundle) throws NoSuchChangeException, IOException,
-      OrmException, ConfigInvalidException;
+  public abstract Result rebuild(NoteDbUpdateManager manager, ChangeBundle bundle)
+      throws NoSuchChangeException, IOException, OrmException, ConfigInvalidException;
 
-  public abstract boolean rebuildProject(ReviewDb db,
+  public abstract boolean rebuildProject(
+      ReviewDb db,
       ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
-      Project.NameKey project, Repository allUsersRepo)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException;
+      Project.NameKey project,
+      Repository allUsersRepo)
+      throws NoSuchChangeException, IOException, OrmException, ConfigInvalidException;
 
   public abstract NoteDbUpdateManager stage(ReviewDb db, Change.Id changeId)
       throws NoSuchChangeException, IOException, OrmException;
 
-  public abstract Result execute(ReviewDb db, Change.Id changeId,
-      NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
-      IOException;
+  public abstract Result execute(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
+      throws NoSuchChangeException, OrmException, IOException;
 }

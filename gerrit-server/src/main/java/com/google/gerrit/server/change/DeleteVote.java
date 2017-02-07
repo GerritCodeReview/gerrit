@@ -48,17 +48,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class DeleteVote
-    implements RestModifyView<VoteResource, DeleteVoteInput> {
+public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput> {
   private static final Logger log = LoggerFactory.getLogger(DeleteVote.class);
 
   private final Provider<ReviewDb> db;
@@ -71,7 +68,8 @@ public class DeleteVote
   private final DeleteVoteSender.Factory deleteVoteSenderFactory;
 
   @Inject
-  DeleteVote(Provider<ReviewDb> db,
+  DeleteVote(
+      Provider<ReviewDb> db,
       BatchUpdate.Factory batchUpdateFactory,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
@@ -103,10 +101,10 @@ public class DeleteVote
     }
     ReviewerResource r = rsrc.getReviewer();
     Change change = r.getChange();
-    try (BatchUpdate bu = batchUpdateFactory.create(db.get(),
-          change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
-      bu.addOp(change.getId(),
-          new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel(), input));
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            db.get(), change.getProject(), r.getControl().getUser(), TimeUtil.nowTs())) {
+      bu.addOp(change.getId(), new Op(r.getReviewerUser().getAccountId(), rsrc.getLabel(), input));
       bu.execute();
     }
 
@@ -145,8 +143,7 @@ public class DeleteVote
       Map<String, Short> currentApprovals = new HashMap<>();
       for (LabelType lt : labelTypes.getLabelTypes()) {
         currentApprovals.put(lt.getName(), (short) 0);
-        for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-            ctx.getDb(), ctl, psId, accountId)) {
+        for (PatchSetApproval a : approvalsUtil.byPatchSetUser(ctx.getDb(), ctl, psId, accountId)) {
           if (lt.getLabelId().equals(a.getLabelId())) {
             currentApprovals.put(lt.getName(), a.getValue());
           }
@@ -154,8 +151,7 @@ public class DeleteVote
       }
       // removing votes so we need to determine the new set of approval scores
       newApprovals.putAll(currentApprovals);
-      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(
-            ctx.getDb(), ctl, psId, accountId)) {
+      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(ctx.getDb(), ctl, psId, accountId)) {
         if (ctl.canRemoveReviewer(a)) {
           if (a.getLabel().equals(label)) {
             // set the approval to 0 if vote is being removed
@@ -163,12 +159,13 @@ public class DeleteVote
             // set old value only if the vote changed
             oldApprovals.put(a.getLabel(), a.getValue());
             msg.append("Removed ")
-                .append(a.getLabel()).append(formatLabelValue(a.getValue()))
-                .append(" by ").append(userFactory.create(a.getAccountId())
-                    .getNameEmail())
+                .append(a.getLabel())
+                .append(formatLabelValue(a.getValue()))
+                .append(" by ")
+                .append(userFactory.create(a.getAccountId()).getNameEmail())
                 .append("\n");
             psa = a;
-            a.setValue((short)0);
+            a.setValue((short) 0);
             ctx.getUpdate(psId).removeApprovalFor(a.getAccountId(), label);
             break;
           }
@@ -183,14 +180,13 @@ public class DeleteVote
 
       if (msg.length() > 0) {
         changeMessage =
-            new ChangeMessage(new ChangeMessage.Key(change.getId(),
-                ChangeUtil.messageUUID(ctx.getDb())),
+            new ChangeMessage(
+                new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(ctx.getDb())),
                 ctx.getAccountId(),
                 ctx.getWhen(),
                 change.currentPatchSetId());
         changeMessage.setMessage(msg.toString());
-        cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId),
-            changeMessage);
+        cmUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
       }
       return true;
     }
@@ -204,8 +200,7 @@ public class DeleteVote
       IdentifiedUser user = ctx.getIdentifiedUser();
       if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
         try {
-          ReplyToChangeSender cm = deleteVoteSenderFactory.create(
-              ctx.getProject(), change.getId());
+          ReplyToChangeSender cm = deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
           cm.setNotify(input.notify);
@@ -215,9 +210,15 @@ public class DeleteVote
         }
       }
 
-      voteDeleted.fire(change, ps,
-          newApprovals, oldApprovals, input.notify, changeMessage.getMessage(),
-          user.getAccount(), ctx.getWhen());
+      voteDeleted.fire(
+          change,
+          ps,
+          newApprovals,
+          oldApprovals,
+          input.notify,
+          changeMessage.getMessage(),
+          user.getAccount(),
+          ctx.getWhen());
     }
   }
 

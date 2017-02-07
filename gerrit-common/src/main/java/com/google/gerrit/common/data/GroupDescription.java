@@ -17,13 +17,9 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-/**
- * Group methods exposed by the GroupBackend.
- */
+/** Group methods exposed by the GroupBackend. */
 public class GroupDescription {
-  /**
-   * The Basic information required to be exposed by any Group.
-   */
+  /** The Basic information required to be exposed by any Group. */
   public interface Basic {
     /** @return the non-null UUID of the group. */
     AccountGroup.UUID getGroupUUID();
@@ -32,31 +28,25 @@ public class GroupDescription {
     String getName();
 
     /**
-     * @return optional email address to send to the group's members. If
-     *         provided, Gerrit will use this email address to send
-     *         change notifications to the group.
+     * @return optional email address to send to the group's members. If provided, Gerrit will use
+     *     this email address to send change notifications to the group.
      */
     @Nullable
     String getEmailAddress();
 
     /**
-     * @return optional URL to information about the group. Typically a URL to a
-     *         web page that permits users to apply to join the group, or manage
-     *         their membership.
+     * @return optional URL to information about the group. Typically a URL to a web page that
+     *     permits users to apply to join the group, or manage their membership.
      */
     @Nullable
     String getUrl();
   }
 
-  /**
-   * The extended information exposed by internal groups backed by an
-   * AccountGroup.
-   */
+  /** The extended information exposed by internal groups backed by an AccountGroup. */
   public interface Internal extends Basic {
     /** @return the backing AccountGroup. */
     AccountGroup getAccountGroup();
   }
 
-  private GroupDescription() {
-  }
+  private GroupDescription() {}
 }

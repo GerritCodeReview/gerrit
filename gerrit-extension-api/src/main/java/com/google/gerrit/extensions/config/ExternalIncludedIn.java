@@ -16,27 +16,25 @@ package com.google.gerrit.extensions.config;
 
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 import java.util.Collection;
 
 @ExtensionPoint
 public interface ExternalIncludedIn {
 
   /**
-   * Returns additional entries for IncludedInInfo as multimap where the
-   * key is the row title and the the values are a list of systems that include
-   * the given commit (e.g. names of servers on which this commit is deployed).
+   * Returns additional entries for IncludedInInfo as multimap where the key is the row title and
+   * the the values are a list of systems that include the given commit (e.g. names of servers on
+   * which this commit is deployed).
    *
-   * The tags and branches in which the commit is included are provided so that
-   * a RevWalk can be avoided when a system runs a certain tag or branch.
+   * <p>The tags and branches in which the commit is included are provided so that a RevWalk can be
+   * avoided when a system runs a certain tag or branch.
    *
    * @param project the name of the project
-   * @param commit the ID of the commit for which it should be checked if it is
-   *        included
+   * @param commit the ID of the commit for which it should be checked if it is included
    * @param tags the tags that include the commit
    * @param branches the branches that include the commit
    * @return additional entries for IncludedInInfo
    */
-  Multimap<String, String> getIncludedIn(String project, String commit,
-      Collection<String> tags, Collection<String> branches);
+  Multimap<String, String> getIncludedIn(
+      String project, String commit, Collection<String> tags, Collection<String> branches);
 }

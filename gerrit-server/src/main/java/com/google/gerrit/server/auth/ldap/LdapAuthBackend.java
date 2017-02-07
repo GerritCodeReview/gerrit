@@ -27,20 +27,15 @@ import com.google.gerrit.server.auth.UserNotAllowedException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-
+import java.util.Locale;
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import javax.security.auth.login.LoginException;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Locale;
-
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
-import javax.security.auth.login.LoginException;
-
-/**
- * Implementation of AuthBackend for the LDAP authentication system.
- */
+/** Implementation of AuthBackend for the LDAP authentication system. */
 public class LdapAuthBackend implements AuthBackend {
   private static final Logger log = LoggerFactory.getLogger(LdapAuthBackend.class);
 
@@ -49,13 +44,10 @@ public class LdapAuthBackend implements AuthBackend {
   private final boolean lowerCaseUsername;
 
   @Inject
-  public LdapAuthBackend(Helper helper,
-      AuthConfig authConfig,
-      @GerritServerConfig Config config) {
+  public LdapAuthBackend(Helper helper, AuthConfig authConfig, @GerritServerConfig Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
-    this.lowerCaseUsername =
-        config.getBoolean("ldap", "localUsernameToLowerCase", false);
+    this.lowerCaseUsername = config.getBoolean("ldap", "localUsernameToLowerCase", false);
   }
 
   @Override
@@ -65,15 +57,14 @@ public class LdapAuthBackend implements AuthBackend {
 
   @Override
   public AuthUser authenticate(AuthRequest req)
-      throws MissingCredentialsException, InvalidCredentialsException,
-      UnknownUserException, UserNotAllowedException, AuthException {
+      throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
+          UserNotAllowedException, AuthException {
     if (req.getUsername() == null) {
       throw new MissingCredentialsException();
     }
 
-    final String username = lowerCaseUsername
-        ? req.getUsername().toLowerCase(Locale.US)
-        : req.getUsername();
+    final String username =
+        lowerCaseUsername ? req.getUsername().toLowerCase(Locale.US) : req.getUsername();
     try {
       final DirContext ctx;
       if (authConfig.getAuthType() == AuthType.LDAP_BIND) {

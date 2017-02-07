@@ -29,12 +29,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -43,6 +38,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Allows running a request as another user account. */
 @Singleton
@@ -63,7 +60,8 @@ class RunAsFilter implements Filter {
   private final AccountResolver accountResolver;
 
   @Inject
-  RunAsFilter(Provider<ReviewDb> db,
+  RunAsFilter(
+      Provider<ReviewDb> db,
       AuthConfig config,
       DynamicItem<WebSession> session,
       AccountResolver accountResolver) {
@@ -74,27 +72,21 @@ class RunAsFilter implements Filter {
   }
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse res = (HttpServletResponse) response;
 
     String runas = req.getHeader(RUN_AS);
     if (runas != null) {
       if (!enabled) {
-        replyError(req, res,
-            SC_FORBIDDEN,
-            RUN_AS + " disabled by auth.enableRunAs = false",
-            null);
+        replyError(req, res, SC_FORBIDDEN, RUN_AS + " disabled by auth.enableRunAs = false", null);
         return;
       }
 
       CurrentUser self = session.get().getUser();
       if (!self.getCapabilities().canRunAs()) {
-        replyError(req, res,
-            SC_FORBIDDEN,
-            "not permitted to use " + RUN_AS,
-            null);
+        replyError(req, res, SC_FORBIDDEN, "not permitted to use " + RUN_AS, null);
         return;
       }
 
@@ -103,17 +95,11 @@ class RunAsFilter implements Filter {
         target = accountResolver.find(db.get(), runas);
       } catch (OrmException e) {
         log.warn("cannot resolve account for " + RUN_AS, e);
-        replyError(req, res,
-            SC_INTERNAL_SERVER_ERROR,
-            "cannot resolve " + RUN_AS,
-            e);
+        replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
         return;
       }
       if (target == null) {
-        replyError(req, res,
-            SC_FORBIDDEN,
-            "no account matches " + RUN_AS,
-            null);
+        replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
         return;
       }
       session.get().setUserAccountId(target.getId());
@@ -123,10 +109,8 @@ class RunAsFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) {
-  }
+  public void init(FilterConfig filterConfig) {}
 
   @Override
-  public void destroy() {
-  }
+  public void destroy() {}
 }

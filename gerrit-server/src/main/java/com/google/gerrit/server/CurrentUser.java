@@ -22,8 +22,8 @@ import com.google.inject.servlet.RequestScoped;
 
 /**
  * Information about the currently logged in user.
- * <p>
- * This is a {@link RequestScoped} property managed by Guice.
+ *
+ * <p>This is a {@link RequestScoped} property managed by Guice.
  *
  * @see AnonymousUser
  * @see IdentifiedUser
@@ -35,8 +35,7 @@ public abstract class CurrentUser {
       return new PropertyKey<>();
     }
 
-    private PropertyKey() {
-    }
+    private PropertyKey() {}
   }
 
   private final CapabilityControl.Factory capabilityControlFactory;
@@ -59,13 +58,11 @@ public abstract class CurrentUser {
 
   /**
    * Identity of the authenticated user.
-   * <p>
-   * In the normal case where a user authenticates as themselves
-   * {@code getRealUser() == this}.
-   * <p>
-   * If {@code X-Gerrit-RunAs} or {@code suexec} was used this method returns
-   * the identity of the account that has permission to act on behalf of this
-   * user.
+   *
+   * <p>In the normal case where a user authenticates as themselves {@code getRealUser() == this}.
+   *
+   * <p>If {@code X-Gerrit-RunAs} or {@code suexec} was used this method returns the identity of the
+   * account that has permission to act on behalf of this user.
    */
   public CurrentUser getRealUser() {
     return this;
@@ -73,12 +70,11 @@ public abstract class CurrentUser {
 
   /**
    * Get the set of groups the user is currently a member of.
-   * <p>
-   * The returned set may be a subset of the user's actual groups; if the user's
-   * account is currently deemed to be untrusted then the effective group set is
-   * only the anonymous and registered user groups. To enable additional groups
-   * (and gain their granted permissions) the user must update their account to
-   * use only trusted authentication providers.
+   *
+   * <p>The returned set may be a subset of the user's actual groups; if the user's account is
+   * currently deemed to be untrusted then the effective group set is only the anonymous and
+   * registered user groups. To enable additional groups (and gain their granted permissions) the
+   * user must update their account to use only trusted authentication providers.
    *
    * @return active groups for this user.
    */
@@ -136,6 +132,5 @@ public abstract class CurrentUser {
    * @param key unique property key.
    * @param value value to store; or {@code null} to clear the value.
    */
-  public <T> void put(PropertyKey<T> key, @Nullable T value) {
-  }
+  public <T> void put(PropertyKey<T> key, @Nullable T value) {}
 }

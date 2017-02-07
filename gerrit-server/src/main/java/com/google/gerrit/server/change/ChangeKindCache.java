@@ -20,19 +20,17 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /**
  * Cache of {@link ChangeKind} per commit.
- * <p>
- * This is immutable conditioned on the merge strategy (unless the JGit strategy
- * implementation changes, which might invalidate old entries).
+ *
+ * <p>This is immutable conditioned on the merge strategy (unless the JGit strategy implementation
+ * changes, which might invalidate old entries).
  */
 public interface ChangeKindCache {
-  ChangeKind getChangeKind(ProjectState project, Repository repo,
-      ObjectId prior, ObjectId next);
+  ChangeKind getChangeKind(ProjectState project, Repository repo, ObjectId prior, ObjectId next);
 
   ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch);
 

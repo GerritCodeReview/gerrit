@@ -23,8 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class FilesInCommitCollection implements
-    ChildCollection<CommitResource, FileResource> {
+public class FilesInCommitCollection implements ChildCollection<CommitResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
 
   @Inject
@@ -38,8 +37,7 @@ public class FilesInCommitCollection implements
   }
 
   @Override
-  public FileResource parse(CommitResource parent, IdString id)
-      throws ResourceNotFoundException {
+  public FileResource parse(CommitResource parent, IdString id) throws ResourceNotFoundException {
     return new FileResource(parent.getProject(), parent.getCommit(), id.get());
   }
 

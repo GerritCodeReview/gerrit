@@ -32,13 +32,6 @@ import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.kohsuke.args4j.Option;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,28 +40,53 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.kohsuke.args4j.Option;
 
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final DynamicMap<RestView<BranchResource>> branchViews;
   private final WebLinks webLinks;
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of branches to list")
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of branches to list"
+  )
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
-  @Option(name = "--start", aliases = {"-s"}, metaVar = "CNT", usage = "number of branches to skip")
+  @Option(
+    name = "--start",
+    aliases = {"-s"},
+    metaVar = "CNT",
+    usage = "number of branches to skip"
+  )
   public void setStart(int start) {
     this.start = start;
   }
 
-  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match branches substring")
+  @Option(
+    name = "--match",
+    aliases = {"-m"},
+    metaVar = "MATCH",
+    usage = "match branches substring"
+  )
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
   }
 
-  @Option(name = "--regex", aliases = {"-r"}, metaVar = "REGEX", usage = "match branches regex")
+  @Option(
+    name = "--regex",
+    aliases = {"-r"},
+    metaVar = "REGEX",
+    usage = "match branches regex"
+  )
   public void setMatchRegex(String matchRegex) {
     this.matchRegex = matchRegex;
   }
@@ -79,7 +97,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private String matchRegex;
 
   @Inject
-  public ListBranches(GitRepositoryManager repoManager,
+  public ListBranches(
+      GitRepositoryManager repoManager,
       DynamicMap<RestView<BranchResource>> branchViews,
       WebLinks webLinks) {
     this.repoManager = repoManager;
@@ -102,14 +121,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
       throws IOException, ResourceNotFoundException {
     List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
-      Collection<Ref> heads =
-          db.getRefDatabase().getRefs(Constants.R_HEADS).values();
+      Collection<Ref> heads = db.getRefDatabase().getRefs(Constants.R_HEADS).values();
       refs = new ArrayList<>(heads.size() + 3);
       refs.addAll(heads);
-      refs.addAll(db.getRefDatabase().exactRef(
-          Constants.HEAD,
-          RefNames.REFS_CONFIG,
-          RefNames.REFS_USERS_DEFAULT).values());
+      refs.addAll(
+          db.getRefDatabase()
+              .exactRef(Constants.HEAD, RefNames.REFS_CONFIG, RefNames.REFS_USERS_DEFAULT)
+              .values());
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException();
     }
@@ -175,17 +193,16 @@ public class ListBranches implements RestReadView<ProjectResource> {
     }
   }
 
-  private BranchInfo createBranchInfo(Ref ref, RefControl refControl,
-      Set<String> targets) {
+  private BranchInfo createBranchInfo(Ref ref, RefControl refControl, Set<String> targets) {
     BranchInfo info = new BranchInfo();
     info.ref = ref.getName();
     info.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
-    info.canDelete = !targets.contains(ref.getName()) && refControl.canDelete()
-        ? true : null;
-    for (UiAction.Description d : UiActions.from(
-        branchViews,
-        new BranchResource(refControl.getProjectControl(), info),
-        Providers.of(refControl.getUser()))) {
+    info.canDelete = !targets.contains(ref.getName()) && refControl.canDelete() ? true : null;
+    for (UiAction.Description d :
+        UiActions.from(
+            branchViews,
+            new BranchResource(refControl.getProjectControl(), info),
+            Providers.of(refControl.getUser()))) {
       if (info.actions == null) {
         info.actions = new TreeMap<>();
       }

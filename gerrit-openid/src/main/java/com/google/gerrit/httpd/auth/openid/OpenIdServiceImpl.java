@@ -34,7 +34,13 @@ import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
@@ -59,19 +65,9 @@ import org.openid4java.util.HttpClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @Singleton
 class OpenIdServiceImpl {
-  private static final Logger log =
-      LoggerFactory.getLogger(OpenIdServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(OpenIdServiceImpl.class);
 
   static final String RETURN_URL = "OpenID";
 
@@ -84,12 +80,9 @@ class OpenIdServiceImpl {
   private static final String OPENID_MODE = "openid.mode";
   private static final String OMODE_CANCEL = "cancel";
 
-  private static final String SCHEMA_EMAIL =
-      "http://schema.openid.net/contact/email";
-  private static final String SCHEMA_FIRSTNAME =
-      "http://schema.openid.net/namePerson/first";
-  private static final String SCHEMA_LASTNAME =
-      "http://schema.openid.net/namePerson/last";
+  private static final String SCHEMA_EMAIL = "http://schema.openid.net/contact/email";
+  private static final String SCHEMA_FIRSTNAME = "http://schema.openid.net/namePerson/first";
+  private static final String SCHEMA_LASTNAME = "http://schema.openid.net/namePerson/last";
 
   private final DynamicItem<WebSession> webSession;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -103,16 +96,17 @@ class OpenIdServiceImpl {
   private final int papeMaxAuthAge;
 
   @Inject
-  OpenIdServiceImpl(final DynamicItem<WebSession> cf,
+  OpenIdServiceImpl(
+      final DynamicItem<WebSession> cf,
       final Provider<IdentifiedUser> iu,
       CanonicalWebUrl up,
-      @GerritServerConfig final Config config, final AuthConfig ac,
+      @GerritServerConfig final Config config,
+      final AuthConfig ac,
       final AccountManager am,
       ProxyProperties proxyProperties) {
 
     if (proxyProperties.getProxyUrl() != null) {
-      final org.openid4java.util.ProxyProperties proxy =
-          new org.openid4java.util.ProxyProperties();
+      final org.openid4java.util.ProxyProperties proxy = new org.openid4java.util.ProxyProperties();
       URL url = proxyProperties.getProxyUrl();
       proxy.setProxyHostName(url.getHost());
       proxy.setProxyPort(url.getPort());
@@ -128,13 +122,24 @@ class OpenIdServiceImpl {
     manager = new ConsumerManager();
     allowedOpenIDs = ac.getAllowedOpenIDs();
     openIdDomains = ac.getOpenIdDomains();
-    papeMaxAuthAge = (int) ConfigUtil.getTimeUnit(config, //
-        "auth", null, "maxOpenIdSessionAge", -1, TimeUnit.SECONDS);
+    papeMaxAuthAge =
+        (int)
+            ConfigUtil.getTimeUnit(
+                config, //
+                "auth",
+                null,
+                "maxOpenIdSessionAge",
+                -1,
+                TimeUnit.SECONDS);
   }
 
   @SuppressWarnings("unchecked")
-  DiscoveryResult discover(HttpServletRequest req, String openidIdentifier,
-      final SignInMode mode, final boolean remember, final String returnToken) {
+  DiscoveryResult discover(
+      HttpServletRequest req,
+      String openidIdentifier,
+      final SignInMode mode,
+      final boolean remember,
+      final String returnToken) {
     final State state;
     state = init(req, openidIdentifier, mode, remember, returnToken);
     if (state == null) {
@@ -173,9 +178,7 @@ class OpenIdServiceImpl {
       return new DiscoveryResult(DiscoveryResult.Status.ERROR);
     }
 
-    return new DiscoveryResult(
-        aReq.getDestinationUrl(false),
-        aReq.getParameterMap());
+    return new DiscoveryResult(aReq.getDestinationUrl(false), aReq.getParameterMap());
   }
 
   private boolean requestRegistration(final AuthRequest aReq) {
@@ -199,8 +202,7 @@ class OpenIdServiceImpl {
   }
 
   /** Called by {@link OpenIdLoginServlet} doGet, doPost */
-  void doAuth(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws Exception {
+  void doAuth(final HttpServletRequest req, final HttpServletResponse rsp) throws Exception {
     if (OMODE_CANCEL.equals(req.getParameter(OPENID_MODE))) {
       cancel(req, rsp);
       return;
@@ -243,15 +245,17 @@ class OpenIdServiceImpl {
     }
 
     final VerificationResult result =
-        manager.verify(state.retTo.toString(), new ParameterList(req
-            .getParameterMap()), state.discovered);
+        manager.verify(
+            state.retTo.toString(), new ParameterList(req.getParameterMap()), state.discovered);
     if (result.getVerifiedId() == null /* authentication failure */) {
       if ("Nonce verification failed.".equals(result.getStatusMsg())) {
         // We might be suffering from clock skew on this system.
         //
-        log.error("OpenID failure: " + result.getStatusMsg()
-            + "  Likely caused by clock skew on this server,"
-            + " install/configure NTP.");
+        log.error(
+            "OpenID failure: "
+                + result.getStatusMsg()
+                + "  Likely caused by clock skew on this server,"
+                + " install/configure NTP.");
         cancelWithError(req, rsp, result.getStatusMsg());
 
       } else if (result.getStatusMsg() != null) {
@@ -295,8 +299,7 @@ class OpenIdServiceImpl {
     }
 
     if (authRsp.hasExtension(SRegMessage.OPENID_NS_SREG)) {
-      final MessageExtension ext =
-          authRsp.getExtension(SRegMessage.OPENID_NS_SREG);
+      final MessageExtension ext = authRsp.getExtension(SRegMessage.OPENID_NS_SREG);
       if (ext instanceof SRegResponse) {
         sregRsp = (SRegResponse) ext;
       }
@@ -374,10 +377,17 @@ class OpenIdServiceImpl {
           // This is (for now) a fatal error. There are two records
           // for what might be the same user.
           //
-          log.error("OpenID accounts disagree over user identity:\n"
-              + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
-              + "\n" + "  Delgate ID: " + actualId + " is "
-              + areq.getExternalId());
+          log.error(
+              "OpenID accounts disagree over user identity:\n"
+                  + "  Claimed ID: "
+                  + claimedId
+                  + " is "
+                  + claimedIdentifier
+                  + "\n"
+                  + "  Delgate ID: "
+                  + actualId
+                  + " is "
+                  + areq.getExternalId());
           cancelWithError(req, rsp, "Contact site administrator");
           return;
         }
@@ -423,8 +433,7 @@ class OpenIdServiceImpl {
           webSession.get().login(arsp, remember);
           if (arsp.isNew() && claimedIdentifier != null) {
             final com.google.gerrit.server.account.AuthRequest linkReq =
-                new com.google.gerrit.server.account.AuthRequest(
-                    claimedIdentifier);
+                new com.google.gerrit.server.account.AuthRequest(claimedIdentifier);
             linkReq.setDisplayName(areq.getDisplayName());
             linkReq.setEmailAddress(areq.getEmailAddress());
             accountManager.link(arsp.getAccountId(), linkReq);
@@ -432,12 +441,13 @@ class OpenIdServiceImpl {
           callback(arsp.isNew(), req, rsp);
           break;
 
-        case LINK_IDENTIY: {
-          arsp = accountManager.link(identifiedUser.get().getAccountId(), areq);
-          webSession.get().login(arsp, remember);
-          callback(false, req, rsp);
-          break;
-        }
+        case LINK_IDENTIY:
+          {
+            arsp = accountManager.link(identifiedUser.get().getAccountId(), areq);
+            webSession.get().login(arsp, remember);
+            callback(false, req, rsp);
+            break;
+          }
       }
     } catch (AccountException e) {
       log.error("OpenID authentication failure", e);
@@ -464,8 +474,9 @@ class OpenIdServiceImpl {
     }
   }
 
-  private void callback(final boolean isNew, final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  private void callback(
+      final boolean isNew, final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     String token = req.getParameter(P_TOKEN);
     if (token == null || token.isEmpty() || token.startsWith("/SignInFailure,")) {
       token = PageLinks.MINE;
@@ -480,16 +491,16 @@ class OpenIdServiceImpl {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private void cancel(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  private void cancel(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     if (isSignIn(signInMode(req))) {
       webSession.get().logout();
     }
     callback(false, req, rsp);
   }
 
-  private void cancelWithError(final HttpServletRequest req,
-      final HttpServletResponse rsp, final String errorDetail)
+  private void cancelWithError(
+      final HttpServletRequest req, final HttpServletResponse rsp, final String errorDetail)
       throws IOException {
     final SignInMode mode = signInMode(req);
     if (isSignIn(mode)) {
@@ -506,8 +517,12 @@ class OpenIdServiceImpl {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private State init(HttpServletRequest req, final String openidIdentifier,
-      final SignInMode mode, final boolean remember, final String returnToken) {
+  private State init(
+      HttpServletRequest req,
+      final String openidIdentifier,
+      final SignInMode mode,
+      final boolean remember,
+      final String returnToken) {
     final List<?> list;
     try {
       list = manager.discover(openidIdentifier);

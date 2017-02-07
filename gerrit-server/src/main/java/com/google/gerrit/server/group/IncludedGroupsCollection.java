@@ -34,9 +34,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class IncludedGroupsCollection implements
-    ChildCollection<GroupResource, IncludedGroupResource>,
-    AcceptsCreate<GroupResource> {
+public class IncludedGroupsCollection
+    implements ChildCollection<GroupResource, IncludedGroupResource>, AcceptsCreate<GroupResource> {
   private final DynamicMap<RestView<IncludedGroupResource>> views;
   private final ListIncludedGroups list;
   private final GroupsCollection groupsCollection;
@@ -44,7 +43,8 @@ public class IncludedGroupsCollection implements
   private final AddIncludedGroups put;
 
   @Inject
-  IncludedGroupsCollection(DynamicMap<RestView<IncludedGroupResource>> views,
+  IncludedGroupsCollection(
+      DynamicMap<RestView<IncludedGroupResource>> views,
       ListIncludedGroups list,
       GroupsCollection groupsCollection,
       Provider<ReviewDb> dbProvider,
@@ -63,8 +63,7 @@ public class IncludedGroupsCollection implements
 
   @Override
   public IncludedGroupResource parse(GroupResource resource, IdString id)
-      throws MethodNotAllowedException, AuthException,
-      ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, AuthException, ResourceNotFoundException, OrmException {
     AccountGroup parent = resource.toAccountGroup();
     if (parent == null) {
       throw new MethodNotAllowedException();
@@ -72,19 +71,18 @@ public class IncludedGroupsCollection implements
 
     GroupDescription.Basic member =
         groupsCollection.parse(TopLevelResource.INSTANCE, id).getGroup();
-    if (isMember(parent, member)
-        && resource.getControl().canSeeGroup()) {
+    if (isMember(parent, member) && resource.getControl().canSeeGroup()) {
       return new IncludedGroupResource(resource, member);
     }
     throw new ResourceNotFoundException(id);
   }
 
-  private boolean isMember(AccountGroup parent, GroupDescription.Basic member)
-      throws OrmException {
-    return dbProvider.get().accountGroupById().get(
-        new AccountGroupById.Key(
-            parent.getId(),
-            member.getGroupUUID())) != null;
+  private boolean isMember(AccountGroup parent, GroupDescription.Basic member) throws OrmException {
+    return dbProvider
+            .get()
+            .accountGroupById()
+            .get(new AccountGroupById.Key(parent.getId(), member.getGroupUUID()))
+        != null;
   }
 
   @SuppressWarnings("unchecked")

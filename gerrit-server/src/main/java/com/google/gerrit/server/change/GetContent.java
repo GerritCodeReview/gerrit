@@ -29,14 +29,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-
-import java.io.IOException;
 
 @Singleton
 public class GetContent implements RestReadView<FileResource> {
@@ -59,12 +57,10 @@ public class GetContent implements RestReadView<FileResource> {
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException, NoSuchChangeException,
-      OrmException {
+      throws ResourceNotFoundException, IOException, NoSuchChangeException, OrmException {
     String path = rsrc.getPatchKey().get();
     if (Patch.COMMIT_MSG.equals(path)) {
-      String msg = getMessage(
-          rsrc.getRevision().getChangeResource().getNotes());
+      String msg = getMessage(rsrc.getRevision().getChangeResource().getNotes());
       return BinaryResult.create(msg)
           .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
           .base64();
@@ -85,8 +81,7 @@ public class GetContent implements RestReadView<FileResource> {
 
     try (Repository git = gitManager.openRepository(notes.getProjectName());
         RevWalk revWalk = new RevWalk(git)) {
-      RevCommit commit = revWalk.parseCommit(
-          ObjectId.fromString(ps.getRevision().get()));
+      RevCommit commit = revWalk.parseCommit(ObjectId.fromString(ps.getRevision().get()));
       return commit.getFullMessage();
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);

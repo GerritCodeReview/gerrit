@@ -22,16 +22,6 @@ import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.dev.codeserver.CompileDir.PolicyFile;
 import com.google.gwt.dev.codeserver.Pages.ErrorPage;
 import com.google.gwt.dev.json.JsonObject;
-
-import org.eclipse.jetty.http.MimeTypes;
-import org.eclipse.jetty.server.HttpConnection;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.servlets.GzipFilter;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -44,25 +34,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jetty.http.MimeTypes;
+import org.eclipse.jetty.server.HttpConnection;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.servlets.GzipFilter;
 
 /**
  * The web server for Super Dev Mode, also known as the code server. The URLs handled include:
+ *
  * <ul>
- *   <li>HTML pages for the front page and module pages</li>
- *   <li>JavaScript that implementing the bookmarklets</li>
- *   <li>The web API for recompiling a GWT app</li>
- *   <li>The output files and log files from the GWT compiler</li>
- *   <li>Java source code (for source-level debugging)</li>
+ *   <li>HTML pages for the front page and module pages
+ *   <li>JavaScript that implementing the bookmarklets
+ *   <li>The web API for recompiling a GWT app
+ *   <li>The output files and log files from the GWT compiler
+ *   <li>Java source code (for source-level debugging)
  * </ul>
  *
  * <p>EXPERIMENTAL. There is no authentication, encryption, or XSS protection, so this server is
- * only safe to run on localhost.</p>
+ * only safe to run on localhost.
  */
 // This file was copied from GWT project and adjusted to run against
 // Jetty 9.2.2. The original diff can be found here:
@@ -75,11 +73,9 @@ public class WebServer {
   private static final Pattern SAFE_FILENAME =
       Pattern.compile("([a-zA-Z0-9_-]+\\.)+[a-zA-Z0-9_-]+"); // an extension is required
 
-  private static final Pattern SAFE_MODULE_PATH =
-      Pattern.compile("/(" + SAFE_DIRECTORY + ")/$");
+  private static final Pattern SAFE_MODULE_PATH = Pattern.compile("/(" + SAFE_DIRECTORY + ")/$");
 
-  static final Pattern SAFE_DIRECTORY_PATH =
-      Pattern.compile("/(" + SAFE_DIRECTORY + "/)+$");
+  static final Pattern SAFE_DIRECTORY_PATH = Pattern.compile("/(" + SAFE_DIRECTORY + "/)+$");
 
   /* visible for testing */
   static final Pattern SAFE_FILE_PATH =
@@ -104,8 +100,14 @@ public class WebServer {
 
   private Server server;
 
-  WebServer(SourceHandler handler, JsonExporter jsonExporter, OutboxTable outboxes,
-      JobRunner runner, JobEventTable eventTable, String bindAddress, int port) {
+  WebServer(
+      SourceHandler handler,
+      JsonExporter jsonExporter,
+      OutboxTable outboxes,
+      JobRunner runner,
+      JobEventTable eventTable,
+      String bindAddress,
+      int port) {
     this.handler = handler;
     this.jsonExporter = jsonExporter;
     this.outboxes = outboxes;
@@ -129,13 +131,16 @@ public class WebServer {
 
     ServletContextHandler newHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
     newHandler.setContextPath("/");
-    newHandler.addServlet(new ServletHolder(new HttpServlet() {
-      @Override
-      protected void doGet(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
-        handleRequest(request.getPathInfo(), request, response, logger);
-      }
-    }), "/*");
+    newHandler.addServlet(
+        new ServletHolder(
+            new HttpServlet() {
+              @Override
+              protected void doGet(HttpServletRequest request, HttpServletResponse response)
+                  throws ServletException, IOException {
+                handleRequest(request.getPathInfo(), request, response, logger);
+              }
+            }),
+        "/*");
     newHandler.addFilter(GzipFilter.class, "/*", EnumSet.allOf(DispatcherType.class));
     newServer.setHandler(newHandler);
     try {
@@ -158,14 +163,18 @@ public class WebServer {
 
   /**
    * Returns the location of the compiler output. (Changes after every recompile.)
+   *
    * @param outputModuleName the module name that the GWT compiler used in its output.
    */
   public File getCurrentWarDir(String outputModuleName) {
     return outboxes.findByOutputModuleName(outputModuleName).getWarDir();
   }
 
-  private void handleRequest(String target, HttpServletRequest request,
-      HttpServletResponse response, TreeLogger parentLogger)
+  private void handleRequest(
+      String target,
+      HttpServletRequest request,
+      HttpServletResponse response,
+      TreeLogger parentLogger)
       throws IOException {
 
     if (request.getMethod().equalsIgnoreCase("get")) {
@@ -191,9 +200,7 @@ public class WebServer {
     }
   }
 
-  /**
-   * Returns the page that should be sent in response to a GET request, or null for no response.
-   */
+  /** Returns the page that should be sent in response to a GET request, or null for no response. */
   private Response doGet(String target, HttpServletRequest request, TreeLogger logger)
       throws IOException {
 
@@ -204,8 +211,7 @@ public class WebServer {
 
     if (target.equals("/dev_mode_on.js")) {
       JsonObject json = jsonExporter.exportDevModeOnVars();
-      return Responses.newJavascriptResponse("__gwt_codeserver_config", json,
-          "dev_mode_on.js");
+      return Responses.newJavascriptResponse("__gwt_codeserver_config", json, "dev_mode_on.js");
     }
 
     // Recompile on request from the bookmarklet.
@@ -295,9 +301,7 @@ public class WebServer {
     return null; // not handled
   }
 
-  /**
-   * Returns a file that the compiler wrote to its war directory.
-   */
+  /** Returns a file that the compiler wrote to its war directory. */
   private Response makeCompilerOutputPage(String target) {
 
     int secondSlash = target.indexOf('/', 1);
@@ -447,9 +451,7 @@ public class WebServer {
     return Responses.newFileResponse("text/plain", fileToSend);
   }
 
-  /**
-   * Sends the log file as html with errors highlighted in red.
-   */
+  /** Sends the log file as html with errors highlighted in red. */
   private Response makeLogPage(final Outbox box) {
     final File file = box.getCompileLog();
     if (!file.isFile()) {
@@ -486,8 +488,8 @@ public class WebServer {
   private static final Pattern ERROR_PATTERN = Pattern.compile("\\[ERROR\\]");
 
   /**
-   * Copies in to out line by line, escaping each line for html characters and highlighting
-   * error lines. Closes <code>in</code> when done.
+   * Copies in to out line by line, escaping each line for html characters and highlighting error
+   * lines. Closes <code>in</code> when done.
    */
   private static void sendLogAsHtml(BufferedReader in, HtmlWriter out) throws IOException {
     try {
@@ -519,8 +521,8 @@ public class WebServer {
   }
 
   /**
-   * Returns the binding properties from the web page where dev mode is being used. (As passed in
-   * by dev_mode_on.js in a JSONP request to "/recompile".)
+   * Returns the binding properties from the web page where dev mode is being used. (As passed in by
+   * dev_mode_on.js in a JSONP request to "/recompile".)
    */
   private Map<String, String> getBindingProperties(HttpServletRequest request) {
     Map<String, String> result = new HashMap<>();
@@ -534,8 +536,10 @@ public class WebServer {
   }
 
   private static void setHandled(HttpServletRequest request) {
-    Request baseRequest = (request instanceof Request) ? (Request) request :
-        HttpConnection.getCurrentConnection().getHttpChannel().getRequest();
+    Request baseRequest =
+        (request instanceof Request)
+            ? (Request) request
+            : HttpConnection.getCurrentConnection().getHttpChannel().getRequest();
     baseRequest.setHandled(true);
   }
 }

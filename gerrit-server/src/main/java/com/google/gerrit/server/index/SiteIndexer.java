@@ -19,17 +19,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
-
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.util.io.NullOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.util.io.NullOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   private static final Logger log = LoggerFactory.getLogger(SiteIndexer.class);
@@ -66,8 +64,7 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
 
   protected int totalWork = -1;
   protected OutputStream progressOut = NullOutputStream.INSTANCE;
-  protected PrintWriter verboseWriter =
-      new PrintWriter(NullOutputStream.INSTANCE);
+  protected PrintWriter verboseWriter = new PrintWriter(NullOutputStream.INSTANCE);
 
   public void setTotalWork(int num) {
     totalWork = num;
@@ -83,11 +80,10 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
 
   public abstract Result indexAll(I index);
 
-  protected final void addErrorListener(ListenableFuture<?> future,
-      String desc, ProgressMonitor progress, AtomicBoolean ok) {
+  protected final void addErrorListener(
+      ListenableFuture<?> future, String desc, ProgressMonitor progress, AtomicBoolean ok) {
     future.addListener(
-        new ErrorListener(future, desc, progress, ok),
-        MoreExecutors.directExecutor());
+        new ErrorListener(future, desc, progress, ok), MoreExecutors.directExecutor());
   }
 
   private static class ErrorListener implements Runnable {
@@ -96,8 +92,8 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
     private final ProgressMonitor progress;
     private final AtomicBoolean ok;
 
-    private ErrorListener(ListenableFuture<?> future, String desc,
-        ProgressMonitor progress, AtomicBoolean ok) {
+    private ErrorListener(
+        ListenableFuture<?> future, String desc, ProgressMonitor progress, AtomicBoolean ok) {
       this.future = future;
       this.desc = desc;
       this.progress = progress;

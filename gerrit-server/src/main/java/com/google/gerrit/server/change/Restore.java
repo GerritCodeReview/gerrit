@@ -44,13 +44,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
-    UiAction<ChangeResource> {
+public class Restore
+    implements RestModifyView<ChangeResource, RestoreInput>, UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Restore.class);
 
   private final RestoredSender.Factory restoredSenderFactory;
@@ -62,7 +61,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final ChangeRestored changeRestored;
 
   @Inject
-  Restore(RestoredSender.Factory restoredSenderFactory,
+  Restore(
+      RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
@@ -87,8 +87,9 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     }
 
     Op op = new Op(input);
-    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate u =
+        batchUpdateFactory.create(
+            dbProvider.get(), req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op).execute();
     }
     return json.create(ChangeJson.NO_OPTIONS).format(op.change);
@@ -106,8 +107,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx) throws OrmException,
-        ResourceConflictException {
+    public boolean updateChange(ChangeContext ctx) throws OrmException, ResourceConflictException {
       change = ctx.getChange();
       if (change == null || change.getStatus() != Status.ABANDONED) {
         throw new ResourceConflictException("change is " + status(change));
@@ -132,13 +132,12 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
         msg.append(input.message.trim());
       }
 
-      ChangeMessage message = new ChangeMessage(
-          new ChangeMessage.Key(
-              change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getAccountId(),
-          ctx.getWhen(),
-          change.currentPatchSetId());
+      ChangeMessage message =
+          new ChangeMessage(
+              new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(ctx.getDb())),
+              ctx.getAccountId(),
+              ctx.getWhen(),
+              change.currentPatchSetId());
       message.setMessage(msg.toString());
       return message;
     }
@@ -146,18 +145,15 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     @Override
     public void postUpdate(Context ctx) throws OrmException {
       try {
-        ReplyToChangeSender cm =
-            restoredSenderFactory.create(ctx.getProject(), change.getId());
+        ReplyToChangeSender cm = restoredSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
         cm.setChangeMessage(message.getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception e) {
         log.error("Cannot email update for change " + change.getId(), e);
       }
-      changeRestored.fire(change, patchSet,
-          ctx.getAccount(),
-          Strings.emptyToNull(input.message),
-          ctx.getWhen());
+      changeRestored.fire(
+          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
     }
   }
 
@@ -170,10 +166,9 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       log.error("Cannot check canRestore status. Assuming false.", e);
     }
     return new UiAction.Description()
-      .setLabel("Restore")
-      .setTitle("Restore the change")
-      .setVisible(resource.getChange().getStatus() == Status.ABANDONED
-          && canRestore);
+        .setLabel("Restore")
+        .setTitle("Restore the change")
+        .setVisible(resource.getChange().getStatus() == Status.ABANDONED && canRestore);
   }
 
   private static String status(Change change) {

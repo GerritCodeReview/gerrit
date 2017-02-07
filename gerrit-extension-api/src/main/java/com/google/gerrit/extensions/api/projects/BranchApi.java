@@ -25,15 +25,13 @@ public interface BranchApi {
 
   void delete() throws RestApiException;
 
-  /**
-   * Returns the content of a file from the HEAD revision.
-   */
+  /** Returns the content of a file from the HEAD revision. */
   BinaryResult file(String path) throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements BranchApi {
     @Override
     public BranchApi create(BranchInput in) throws RestApiException {

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
-
 import java.util.Collection;
 import java.util.Map;
 
@@ -35,12 +34,12 @@ public interface EmailSender {
    * Sends an email message.
    *
    * @param from who the message is from.
-   * @param rcpt one or more address where the message will be delivered to.
-   *        This list overrides any To or CC headers in {@code headers}.
+   * @param rcpt one or more address where the message will be delivered to. This list overrides any
+   *     To or CC headers in {@code headers}.
    * @param headers message headers.
    * @param body text to appear in the body of the message.
    * @throws EmailException the message cannot be sent.
    */
-  void send(Address from, Collection<Address> rcpt,
-      Map<String, EmailHeader> headers, String body) throws EmailException;
+  void send(Address from, Collection<Address> rcpt, Map<String, EmailHeader> headers, String body)
+      throws EmailException;
 }

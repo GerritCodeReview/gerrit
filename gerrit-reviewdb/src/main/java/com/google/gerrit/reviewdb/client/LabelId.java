@@ -29,8 +29,7 @@ public class LabelId extends StringKey<com.google.gwtorm.client.Key<?>> {
   @Column(id = 1)
   public String id;
 
-  public LabelId() {
-  }
+  public LabelId() {}
 
   public LabelId(final String n) {
     id = n;

@@ -26,39 +26,38 @@ import com.google.gerrit.server.config.ListCapabilities.CapabilityInfo;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
 
 public class ListCapabilitiesTest {
   private Injector injector;
 
   @Before
   public void setUp() throws Exception {
-    AbstractModule mod = new AbstractModule() {
-      @Override
-      protected void configure() {
-        DynamicMap.mapOf(binder(), CapabilityDefinition.class);
-        bind(CapabilityDefinition.class)
-          .annotatedWith(Exports.named("printHello"))
-          .toInstance(new CapabilityDefinition() {
-            @Override
-            public String getDescription() {
-              return "Print Hello";
-            }
-          });
-      }
-    };
+    AbstractModule mod =
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            DynamicMap.mapOf(binder(), CapabilityDefinition.class);
+            bind(CapabilityDefinition.class)
+                .annotatedWith(Exports.named("printHello"))
+                .toInstance(
+                    new CapabilityDefinition() {
+                      @Override
+                      public String getDescription() {
+                        return "Print Hello";
+                      }
+                    });
+          }
+        };
     injector = Guice.createInjector(mod);
   }
 
   @Test
   public void testList() throws Exception {
     Map<String, CapabilityInfo> m =
-        injector.getInstance(ListCapabilities.class)
-            .apply(new ConfigResource());
+        injector.getInstance(ListCapabilities.class).apply(new ConfigResource());
     for (String id : GlobalCapability.getAllNames()) {
       assertTrue("contains " + id, m.containsKey(id));
       assertEquals(id, m.get(id).id);

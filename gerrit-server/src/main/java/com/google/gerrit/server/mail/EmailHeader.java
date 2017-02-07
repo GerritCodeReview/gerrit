@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -65,8 +64,7 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof String)
-          && Objects.equals(value, ((String) o).value);
+      return (o instanceof String) && Objects.equals(value, ((String) o).value);
     }
 
     @Override
@@ -95,9 +93,7 @@ public abstract class EmailHeader {
       case '_':
         return false;
       default:
-        if (('a' <= cp && cp <= 'z')
-            || ('A' <= cp && cp <= 'Z')
-            || ('0' <= cp && cp <= '9')) {
+        if (('a' <= cp && cp <= 'z') || ('A' <= cp && cp <= 'Z') || ('0' <= cp && cp <= '9')) {
           return false;
         }
         return true;
@@ -115,7 +111,7 @@ public abstract class EmailHeader {
 
       } else if (needsQuotedPrintableWithinPhrase(cp)) {
         byte[] buf = new java.lang.String(Character.toChars(cp)).getBytes(UTF_8);
-        for (byte b: buf) {
+        for (byte b : buf) {
           r.append('=');
           r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());
           r.append(Integer.toHexString(b & 0x0f).toUpperCase());
@@ -161,8 +157,7 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof Date)
-          && Objects.equals(value, ((Date) o).value);
+      return (o instanceof Date) && Objects.equals(value, ((Date) o).value);
     }
 
     @Override
@@ -174,8 +169,7 @@ public abstract class EmailHeader {
   public static class AddressList extends EmailHeader {
     private final List<Address> list = new ArrayList<>();
 
-    public AddressList() {
-    }
+    public AddressList() {}
 
     public AddressList(Address addr) {
       add(addr);
@@ -190,7 +184,7 @@ public abstract class EmailHeader {
     }
 
     void remove(java.lang.String email) {
-      for (Iterator<Address> i = list.iterator(); i.hasNext();) {
+      for (Iterator<Address> i = list.iterator(); i.hasNext(); ) {
         if (i.next().email.equals(email)) {
           i.remove();
         }
@@ -233,8 +227,7 @@ public abstract class EmailHeader {
 
     @Override
     public boolean equals(Object o) {
-      return (o instanceof AddressList)
-          && Objects.equals(list, ((AddressList) o).list);
+      return (o instanceof AddressList) && Objects.equals(list, ((AddressList) o).list);
     }
 
     @Override

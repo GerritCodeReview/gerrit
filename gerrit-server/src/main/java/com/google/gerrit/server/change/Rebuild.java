@@ -27,24 +27,19 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class Rebuild implements RestModifyView<ChangeResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
   private final ChangeRebuilder rebuilder;
 
   @Inject
-  Rebuild(Provider<ReviewDb> db,
-      NotesMigration migration,
-      ChangeRebuilder rebuilder) {
+  Rebuild(Provider<ReviewDb> db, NotesMigration migration, ChangeRebuilder rebuilder) {
     this.db = db;
     this.migration = migration;
     this.rebuilder = rebuilder;
@@ -52,16 +47,14 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws ResourceNotFoundException, IOException, OrmException,
-      ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, OrmException, ConfigInvalidException {
     if (!migration.commitChangeWrites()) {
       throw new ResourceNotFoundException();
     }
     try {
       rebuilder.rebuild(db.get(), rsrc.getId());
     } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(
-          IdString.fromDecoded(rsrc.getId().toString()));
+      throw new ResourceNotFoundException(IdString.fromDecoded(rsrc.getId().toString()));
     }
     return Response.none();
   }

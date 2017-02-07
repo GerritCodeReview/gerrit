@@ -21,11 +21,9 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
-
-import java.io.IOException;
 
 public class DownloadContent implements RestReadView<FileResource> {
   private final FileContentUtil fileContentUtil;
@@ -40,13 +38,11 @@ public class DownloadContent implements RestReadView<FileResource> {
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException, NoSuchChangeException,
-      OrmException {
+      throws ResourceNotFoundException, IOException, NoSuchChangeException, OrmException {
     String path = rsrc.getPatchKey().get();
     ProjectState projectState =
         rsrc.getRevision().getControl().getProjectControl().getProjectState();
-    ObjectId revstr = ObjectId.fromString(
-        rsrc.getRevision().getPatchSet().getRevision().get());
+    ObjectId revstr = ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get());
     return fileContentUtil.downloadContent(projectState, revstr, path, parent);
   }
 }

@@ -16,6 +16,9 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -29,23 +32,16 @@ import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 class ReadOnlyRepository extends Repository {
-  private static final String MSG =
-      "Cannot modify a " + ReadOnlyRepository.class.getSimpleName();
+  private static final String MSG = "Cannot modify a " + ReadOnlyRepository.class.getSimpleName();
 
   private static BaseRepositoryBuilder<?, ?> builder(Repository r) {
     checkNotNull(r);
-    BaseRepositoryBuilder<?, ?> builder = new BaseRepositoryBuilder<>()
-        .setFS(r.getFS())
-        .setGitDir(r.getDirectory());
+    BaseRepositoryBuilder<?, ?> builder =
+        new BaseRepositoryBuilder<>().setFS(r.getFS()).setGitDir(r.getDirectory());
 
     if (!r.isBare()) {
-      builder.setWorkTree(r.getWorkTree())
-          .setIndexFile(r.getIndexFile());
+      builder.setWorkTree(r.getWorkTree()).setIndexFile(r.getIndexFile());
     }
     return builder;
   }
@@ -129,8 +125,7 @@ class ReadOnlyRepository extends Repository {
     }
 
     @Override
-    public RefRename newRename(String fromName, String toName)
-        throws IOException {
+    public RefRename newRename(String fromName, String toName) throws IOException {
       throw new UnsupportedOperationException(MSG);
     }
 

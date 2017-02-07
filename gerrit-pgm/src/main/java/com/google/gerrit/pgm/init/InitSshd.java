@@ -26,14 +26,12 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 /** Initialize the {@code sshd} configuration section. */
 @Singleton
@@ -44,7 +42,10 @@ class InitSshd implements InitStep {
   private final Section sshd;
 
   @Inject
-  InitSshd(final ConsoleUI ui, final SitePaths site, final Libraries libraries,
+  InitSshd(
+      final ConsoleUI ui,
+      final SitePaths site,
+      final Libraries libraries,
       final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
@@ -105,23 +106,39 @@ class InitSshd implements InitStep {
 
         System.err.print(" rsa...");
         System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen",
-            "-q" /* quiet */,
-            "-t", "rsa",
-            "-P", "",
-            "-C", comment,
-            "-f", site.ssh_rsa.toAbsolutePath().toString(),
-            }).waitFor();
+        Runtime.getRuntime()
+            .exec(
+                new String[] {
+                  "ssh-keygen",
+                  "-q" /* quiet */,
+                  "-t",
+                  "rsa",
+                  "-P",
+                  "",
+                  "-C",
+                  comment,
+                  "-f",
+                  site.ssh_rsa.toAbsolutePath().toString(),
+                })
+            .waitFor();
 
         System.err.print(" dsa...");
         System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen",
-            "-q" /* quiet */,
-            "-t", "dsa",
-            "-P", "",
-            "-C", comment,
-            "-f", site.ssh_dsa.toAbsolutePath().toString(),
-            }).waitFor();
+        Runtime.getRuntime()
+            .exec(
+                new String[] {
+                  "ssh-keygen",
+                  "-q" /* quiet */,
+                  "-t",
+                  "dsa",
+                  "-P",
+                  "",
+                  "-C",
+                  comment,
+                  "-f",
+                  site.ssh_dsa.toAbsolutePath().toString(),
+                })
+            .waitFor();
 
       } else {
         // Generate the SSH daemon host key ourselves. This is complex
@@ -165,6 +182,5 @@ class InitSshd implements InitStep {
   }
 
   @Override
-  public void postRun() throws Exception {
-  }
+  public void postRun() throws Exception {}
 }

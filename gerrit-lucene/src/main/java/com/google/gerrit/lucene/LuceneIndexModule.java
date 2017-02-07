@@ -34,20 +34,17 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
-
-import org.apache.lucene.search.BooleanQuery;
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import org.apache.lucene.search.BooleanQuery;
+import org.eclipse.jgit.lib.Config;
 
 public class LuceneIndexModule extends LifecycleModule {
-  private static final String SINGLE_VERSIONS =
-      "LuceneIndexModule/SingleVersions";
+  private static final String SINGLE_VERSIONS = "LuceneIndexModule/SingleVersions";
 
   public static LuceneIndexModule singleVersionAllLatest(int threads) {
-    return new LuceneIndexModule(ImmutableMap.<String, Integer> of(), threads);
+    return new LuceneIndexModule(ImmutableMap.<String, Integer>of(), threads);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(
@@ -93,8 +90,8 @@ public class LuceneIndexModule extends LifecycleModule {
   @Provides
   @Singleton
   IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
-    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "maxTerms",
-        BooleanQuery.getMaxClauseCount()));
+    BooleanQuery.setMaxClauseCount(
+        cfg.getInt("index", "maxTerms", BooleanQuery.getMaxClauseCount()));
     return IndexConfig.fromConfig(cfg);
   }
 
@@ -129,8 +126,7 @@ public class LuceneIndexModule extends LifecycleModule {
       this.defs = defs;
       this.singleVersions = singleVersions;
 
-      disabled = ImmutableSet.copyOf(
-          cfg.getStringList("index", null, "testDisable"));
+      disabled = ImmutableSet.copyOf(cfg.getStringList("index", null, "testDisable"));
     }
 
     @Override
@@ -140,8 +136,7 @@ public class LuceneIndexModule extends LifecycleModule {
       }
     }
 
-    private <K, V, I extends Index<K, V>> void start(
-        IndexDefinition<K, V, I> def) {
+    private <K, V, I extends Index<K, V>> void start(IndexDefinition<K, V, I> def) {
       if (disabled.contains(def.getName())) {
         return;
       }
@@ -152,8 +147,8 @@ public class LuceneIndexModule extends LifecycleModule {
       } else {
         schema = def.getSchemas().get(v);
         if (schema == null) {
-          throw new ProvisionException(String.format(
-                "Unrecognized %s schema version: %s", def.getName(), v));
+          throw new ProvisionException(
+              String.format("Unrecognized %s schema version: %s", def.getName(), v));
         }
       }
       I index = def.getIndexFactory().create(schema);

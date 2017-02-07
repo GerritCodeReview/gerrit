@@ -25,12 +25,10 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AbandonUtil {
@@ -62,20 +60,22 @@ public class AbandonUtil {
     }
 
     try {
-      String query = "status:new age:"
-          + TimeUnit.MILLISECONDS.toMinutes(cfg.getAbandonAfter())
-          + "m";
+      String query =
+          "status:new age:" + TimeUnit.MILLISECONDS.toMinutes(cfg.getAbandonAfter()) + "m";
       if (!cfg.getAbandonIfMergeable()) {
         query += " -is:mergeable";
       }
-      List<ChangeData> changesToAbandon = queryProcessor.enforceVisibility(false)
-          .query(queryBuilder.parse(query)).entities();
+      List<ChangeData> changesToAbandon =
+          queryProcessor.enforceVisibility(false).query(queryBuilder.parse(query)).entities();
       int count = 0;
       for (ChangeData cd : changesToAbandon) {
         try {
-          if (noNeedToAbandon(cd, query)){
-            log.debug("Change data \"{}\" does not satisfy the query \"{}\" any"
-                + " more, hence skipping it in clean up", cd, query);
+          if (noNeedToAbandon(cd, query)) {
+            log.debug(
+                "Change data \"{}\" does not satisfy the query \"{}\" any"
+                    + " more, hence skipping it in clean up",
+                cd,
+                query);
             continue;
           }
           abandon.abandon(changeControl(cd), cfg.getAbandonMessage());
@@ -83,13 +83,12 @@ public class AbandonUtil {
         } catch (ResourceConflictException e) {
           // Change was already merged or abandoned.
         } catch (Throwable e) {
-          log.error(String.format(
-              "Failed to auto-abandon inactive open change %d.",
-                  cd.getId().get()), e);
+          log.error(
+              String.format("Failed to auto-abandon inactive open change %d.", cd.getId().get()),
+              e);
         }
       }
-      log.info(String.format("Auto-Abandoned %d of %d changes.",
-          count, changesToAbandon.size()));
+      log.info(String.format("Auto-Abandoned %d of %d changes.", count, changesToAbandon.size()));
     } catch (QueryParseException | OrmException e) {
       log.error("Failed to query inactive open changes for auto-abandoning.", e);
     }
@@ -98,8 +97,8 @@ public class AbandonUtil {
   private boolean noNeedToAbandon(ChangeData cd, String query)
       throws OrmException, QueryParseException {
     String newQuery = query + " change:" + cd.getId();
-    List<ChangeData> changesToAbandon = queryProcessor.enforceVisibility(false)
-        .query(queryBuilder.parse(newQuery)).entities();
+    List<ChangeData> changesToAbandon =
+        queryProcessor.enforceVisibility(false).query(queryBuilder.parse(newQuery)).entities();
     return changesToAbandon.isEmpty();
   }
 

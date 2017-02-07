@@ -28,7 +28,6 @@ import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.StatementExecutor;
-
 import java.util.Map;
 
 public class ReviewDbWrapper implements ReviewDb {
@@ -257,8 +256,7 @@ public class ReviewDbWrapper implements ReviewDb {
     }
   }
 
-  public static class PatchSetApprovalAccessWrapper
-      implements PatchSetApprovalAccess {
+  public static class PatchSetApprovalAccessWrapper implements PatchSetApprovalAccess {
     protected final PatchSetApprovalAccess delegate;
 
     protected PatchSetApprovalAccessWrapper(PatchSetApprovalAccess delegate) {
@@ -276,8 +274,7 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public ResultSet<PatchSetApproval> iterateAllEntities()
-        throws OrmException {
+    public ResultSet<PatchSetApproval> iterateAllEntities() throws OrmException {
       return delegate.iterateAllEntities();
     }
 
@@ -287,14 +284,12 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public Map<PatchSetApproval.Key, PatchSetApproval> toMap(
-        Iterable<PatchSetApproval> c) {
+    public Map<PatchSetApproval.Key, PatchSetApproval> toMap(Iterable<PatchSetApproval> c) {
       return delegate.toMap(c);
     }
 
     @Override
-    public CheckedFuture<PatchSetApproval, OrmException> getAsync(
-        PatchSetApproval.Key key) {
+    public CheckedFuture<PatchSetApproval, OrmException> getAsync(PatchSetApproval.Key key) {
       return delegate.getAsync(key);
     }
 
@@ -305,32 +300,27 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public void insert(Iterable<PatchSetApproval> instances)
-        throws OrmException {
+    public void insert(Iterable<PatchSetApproval> instances) throws OrmException {
       delegate.insert(instances);
     }
 
     @Override
-    public void update(Iterable<PatchSetApproval> instances)
-        throws OrmException {
+    public void update(Iterable<PatchSetApproval> instances) throws OrmException {
       delegate.update(instances);
     }
 
     @Override
-    public void upsert(Iterable<PatchSetApproval> instances)
-        throws OrmException {
+    public void upsert(Iterable<PatchSetApproval> instances) throws OrmException {
       delegate.upsert(instances);
     }
 
     @Override
-    public void deleteKeys(Iterable<PatchSetApproval.Key> keys)
-        throws OrmException {
+    public void deleteKeys(Iterable<PatchSetApproval.Key> keys) throws OrmException {
       delegate.deleteKeys(keys);
     }
 
     @Override
-    public void delete(Iterable<PatchSetApproval> instances)
-        throws OrmException {
+    public void delete(Iterable<PatchSetApproval> instances) throws OrmException {
       delegate.delete(instances);
     }
 
@@ -340,8 +330,8 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public PatchSetApproval atomicUpdate(PatchSetApproval.Key key,
-        AtomicUpdate<PatchSetApproval> update) throws OrmException {
+    public PatchSetApproval atomicUpdate(
+        PatchSetApproval.Key key, AtomicUpdate<PatchSetApproval> update) throws OrmException {
       return delegate.atomicUpdate(key, update);
     }
 
@@ -351,26 +341,23 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public ResultSet<PatchSetApproval> byChange(Change.Id id)
-        throws OrmException {
+    public ResultSet<PatchSetApproval> byChange(Change.Id id) throws OrmException {
       return delegate.byChange(id);
     }
 
     @Override
-    public ResultSet<PatchSetApproval> byPatchSet(PatchSet.Id id)
-        throws OrmException {
+    public ResultSet<PatchSetApproval> byPatchSet(PatchSet.Id id) throws OrmException {
       return delegate.byPatchSet(id);
     }
 
     @Override
-    public ResultSet<PatchSetApproval> byPatchSetUser(PatchSet.Id patchSet,
-        Account.Id account) throws OrmException {
+    public ResultSet<PatchSetApproval> byPatchSetUser(PatchSet.Id patchSet, Account.Id account)
+        throws OrmException {
       return delegate.byPatchSetUser(patchSet, account);
     }
   }
 
-  public static class ChangeMessageAccessWrapper
-      implements ChangeMessageAccess {
+  public static class ChangeMessageAccessWrapper implements ChangeMessageAccess {
     protected final ChangeMessageAccess delegate;
 
     protected ChangeMessageAccessWrapper(ChangeMessageAccess delegate) {
@@ -398,20 +385,17 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public Map<ChangeMessage.Key, ChangeMessage> toMap(
-        Iterable<ChangeMessage> c) {
+    public Map<ChangeMessage.Key, ChangeMessage> toMap(Iterable<ChangeMessage> c) {
       return delegate.toMap(c);
     }
 
     @Override
-    public CheckedFuture<ChangeMessage, OrmException> getAsync(
-        ChangeMessage.Key key) {
+    public CheckedFuture<ChangeMessage, OrmException> getAsync(ChangeMessage.Key key) {
       return delegate.getAsync(key);
     }
 
     @Override
-    public ResultSet<ChangeMessage> get(Iterable<ChangeMessage.Key> keys)
-        throws OrmException {
+    public ResultSet<ChangeMessage> get(Iterable<ChangeMessage.Key> keys) throws OrmException {
       return delegate.get(keys);
     }
 
@@ -431,8 +415,7 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public void deleteKeys(Iterable<ChangeMessage.Key> keys)
-        throws OrmException {
+    public void deleteKeys(Iterable<ChangeMessage.Key> keys) throws OrmException {
       delegate.deleteKeys(keys);
     }
 
@@ -447,8 +430,8 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public ChangeMessage atomicUpdate(ChangeMessage.Key key,
-        AtomicUpdate<ChangeMessage> update) throws OrmException {
+    public ChangeMessage atomicUpdate(ChangeMessage.Key key, AtomicUpdate<ChangeMessage> update)
+        throws OrmException {
       return delegate.atomicUpdate(key, update);
     }
 
@@ -463,8 +446,7 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public ResultSet<ChangeMessage> byPatchSet(PatchSet.Id id)
-        throws OrmException {
+    public ResultSet<ChangeMessage> byPatchSet(PatchSet.Id id) throws OrmException {
       return delegate.byPatchSet(id);
     }
 
@@ -472,7 +454,6 @@ public class ReviewDbWrapper implements ReviewDb {
     public ResultSet<ChangeMessage> all() throws OrmException {
       return delegate.all();
     }
-
   }
 
   public static class PatchSetAccessWrapper implements PatchSetAccess {
@@ -513,8 +494,7 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public ResultSet<PatchSet> get(Iterable<PatchSet.Id> keys)
-        throws OrmException {
+    public ResultSet<PatchSet> get(Iterable<PatchSet.Id> keys) throws OrmException {
       return delegate.get(keys);
     }
 
@@ -563,11 +543,9 @@ public class ReviewDbWrapper implements ReviewDb {
     public ResultSet<PatchSet> byChange(Change.Id id) throws OrmException {
       return delegate.byChange(id);
     }
-
   }
 
-  public static class PatchLineCommentAccessWrapper
-      implements PatchLineCommentAccess {
+  public static class PatchLineCommentAccessWrapper implements PatchLineCommentAccess {
     protected PatchLineCommentAccess delegate;
 
     protected PatchLineCommentAccessWrapper(PatchLineCommentAccess delegate) {
@@ -585,8 +563,7 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public ResultSet<PatchLineComment> iterateAllEntities()
-        throws OrmException {
+    public ResultSet<PatchLineComment> iterateAllEntities() throws OrmException {
       return delegate.iterateAllEntities();
     }
 
@@ -596,14 +573,12 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public Map<PatchLineComment.Key, PatchLineComment> toMap(
-        Iterable<PatchLineComment> c) {
+    public Map<PatchLineComment.Key, PatchLineComment> toMap(Iterable<PatchLineComment> c) {
       return delegate.toMap(c);
     }
 
     @Override
-    public CheckedFuture<PatchLineComment, OrmException> getAsync(
-        PatchLineComment.Key key) {
+    public CheckedFuture<PatchLineComment, OrmException> getAsync(PatchLineComment.Key key) {
       return delegate.getAsync(key);
     }
 
@@ -614,32 +589,27 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public void insert(Iterable<PatchLineComment> instances)
-        throws OrmException {
+    public void insert(Iterable<PatchLineComment> instances) throws OrmException {
       delegate.insert(instances);
     }
 
     @Override
-    public void update(Iterable<PatchLineComment> instances)
-        throws OrmException {
+    public void update(Iterable<PatchLineComment> instances) throws OrmException {
       delegate.update(instances);
     }
 
     @Override
-    public void upsert(Iterable<PatchLineComment> instances)
-        throws OrmException {
+    public void upsert(Iterable<PatchLineComment> instances) throws OrmException {
       delegate.upsert(instances);
     }
 
     @Override
-    public void deleteKeys(Iterable<PatchLineComment.Key> keys)
-        throws OrmException {
+    public void deleteKeys(Iterable<PatchLineComment.Key> keys) throws OrmException {
       delegate.deleteKeys(keys);
     }
 
     @Override
-    public void delete(Iterable<PatchLineComment> instances)
-        throws OrmException {
+    public void delete(Iterable<PatchLineComment> instances) throws OrmException {
       delegate.delete(instances);
     }
 
@@ -649,8 +619,8 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public PatchLineComment atomicUpdate(PatchLineComment.Key key,
-        AtomicUpdate<PatchLineComment> update) throws OrmException {
+    public PatchLineComment atomicUpdate(
+        PatchLineComment.Key key, AtomicUpdate<PatchLineComment> update) throws OrmException {
       return delegate.atomicUpdate(key, update);
     }
 
@@ -660,20 +630,18 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public ResultSet<PatchLineComment> byChange(Change.Id id)
-        throws OrmException {
+    public ResultSet<PatchLineComment> byChange(Change.Id id) throws OrmException {
       return delegate.byChange(id);
     }
 
     @Override
-    public ResultSet<PatchLineComment> byPatchSet(PatchSet.Id id)
-        throws OrmException {
+    public ResultSet<PatchLineComment> byPatchSet(PatchSet.Id id) throws OrmException {
       return delegate.byPatchSet(id);
     }
 
     @Override
-    public ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id,
-        String file) throws OrmException {
+    public ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id, String file)
+        throws OrmException {
       return delegate.publishedByChangeFile(id, file);
     }
 
@@ -690,14 +658,13 @@ public class ReviewDbWrapper implements ReviewDb {
     }
 
     @Override
-    public ResultSet<PatchLineComment> draftByChangeFileAuthor(Change.Id id,
-        String file, Account.Id author) throws OrmException {
+    public ResultSet<PatchLineComment> draftByChangeFileAuthor(
+        Change.Id id, String file, Account.Id author) throws OrmException {
       return delegate.draftByChangeFileAuthor(id, file, author);
     }
 
     @Override
-    public ResultSet<PatchLineComment> draftByAuthor(Account.Id author)
-        throws OrmException {
+    public ResultSet<PatchLineComment> draftByAuthor(Account.Id author) throws OrmException {
       return delegate.draftByAuthor(author);
     }
   }

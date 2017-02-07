@@ -38,9 +38,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GroupsCollection implements
-    RestCollection<TopLevelResource, GroupResource>,
-    AcceptsCreate<TopLevelResource> {
+public class GroupsCollection
+    implements RestCollection<TopLevelResource, GroupResource>, AcceptsCreate<TopLevelResource> {
   private final DynamicMap<RestView<GroupResource>> views;
   private final Provider<ListGroups> list;
   private final CreateGroup.Factory createGroup;
@@ -49,7 +48,8 @@ public class GroupsCollection implements
   private final Provider<CurrentUser> self;
 
   @Inject
-  GroupsCollection(final DynamicMap<RestView<GroupResource>> views,
+  GroupsCollection(
+      final DynamicMap<RestView<GroupResource>> views,
       final Provider<ListGroups> list,
       final CreateGroup.Factory createGroup,
       final GroupControl.Factory groupControlFactory,
@@ -64,8 +64,7 @@ public class GroupsCollection implements
   }
 
   @Override
-  public RestView<TopLevelResource> list() throws ResourceNotFoundException,
-      AuthException {
+  public RestView<TopLevelResource> list() throws ResourceNotFoundException, AuthException {
     final CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
@@ -100,49 +99,40 @@ public class GroupsCollection implements
   /**
    * Parses a group ID from a request body and returns the group.
    *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy
-   *        group ID
+   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
    * @return the group
-   * @throws UnprocessableEntityException thrown if the group ID cannot be
-   *         resolved or if the group is not visible to the calling user
+   * @throws UnprocessableEntityException thrown if the group ID cannot be resolved or if the group
+   *     is not visible to the calling user
    */
-  public GroupDescription.Basic parse(String id)
-      throws UnprocessableEntityException {
+  public GroupDescription.Basic parse(String id) throws UnprocessableEntityException {
     GroupDescription.Basic group = parseId(id);
     if (group == null || !groupControlFactory.controlFor(group).isVisible()) {
-      throw new UnprocessableEntityException(String.format(
-          "Group Not Found: %s", id));
+      throw new UnprocessableEntityException(String.format("Group Not Found: %s", id));
     }
     return group;
   }
 
   /**
-   * Parses a group ID from a request body and returns the group if it is a
-   * Gerrit internal group.
+   * Parses a group ID from a request body and returns the group if it is a Gerrit internal group.
    *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy
-   *        group ID
+   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
    * @return the group
-   * @throws UnprocessableEntityException thrown if the group ID cannot be
-   *         resolved, if the group is not visible to the calling user or if
-   *         it's an external group
+   * @throws UnprocessableEntityException thrown if the group ID cannot be resolved, if the group is
+   *     not visible to the calling user or if it's an external group
    */
-  public GroupDescription.Basic parseInternal(String id)
-      throws UnprocessableEntityException {
+  public GroupDescription.Basic parseInternal(String id) throws UnprocessableEntityException {
     GroupDescription.Basic group = parse(id);
     if (GroupDescriptions.toAccountGroup(group) == null) {
-      throw new UnprocessableEntityException(String.format(
-          "External Group Not Allowed: %s", id));
+      throw new UnprocessableEntityException(String.format("External Group Not Allowed: %s", id));
     }
     return group;
   }
 
   /**
-   * Parses a group ID and returns the group without making any permission
-   * check whether the current user can see the group.
+   * Parses a group ID and returns the group without making any permission check whether the current
+   * user can see the group.
    *
-   * @param id ID of the group, can be a group UUID, a group name or a legacy
-   *        group ID
+   * @param id ID of the group, can be a group UUID, a group name or a legacy group ID
    * @return the group, null if no group is found for the given group ID
    */
   public GroupDescription.Basic parseId(String id) {

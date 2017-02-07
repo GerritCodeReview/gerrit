@@ -81,9 +81,7 @@ public class Permission implements Comparable<Permission> {
 
   /** @return true if the name is recognized as a permission name. */
   public static boolean isPermission(String varName) {
-    return isLabel(varName)
-        || isLabelAs(varName)
-        || NAMES_LC.contains(varName.toLowerCase());
+    return isLabel(varName) || isLabelAs(varName) || NAMES_LC.contains(varName.toLowerCase());
   }
 
   public static boolean hasRange(String varName) {
@@ -130,8 +128,7 @@ public class Permission implements Comparable<Permission> {
   protected boolean exclusiveGroup;
   protected List<PermissionRule> rules;
 
-  protected Permission() {
-  }
+  protected Permission() {}
 
   public Permission(String name) {
     this.name = name;
@@ -178,7 +175,7 @@ public class Permission implements Comparable<Permission> {
 
   public void removeRule(GroupReference group) {
     if (rules != null) {
-      for (Iterator<PermissionRule> itr = rules.iterator(); itr.hasNext();) {
+      for (Iterator<PermissionRule> itr = rules.iterator(); itr.hasNext(); ) {
         if (sameGroup(itr.next(), group)) {
           itr.remove();
         }
@@ -277,8 +274,7 @@ public class Permission implements Comparable<Permission> {
   @Override
   public String toString() {
     StringBuilder bldr = new StringBuilder();
-    bldr.append(name)
-        .append(" ");
+    bldr.append(name).append(" ");
     if (exclusiveGroup) {
       bldr.append("[exclusive] ");
     }

@@ -14,7 +14,6 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Optional;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
@@ -22,9 +21,8 @@ import java.util.Map;
 /**
  * Plugin static resource entry
  *
- * Bean representing a static resource inside a plugin.
- * All static resources are available at {@code <plugin web url>/static}
- * and served by the HttpPluginServlet.
+ * <p>Bean representing a static resource inside a plugin. All static resources are available at
+ * {@code <plugin web url>/static} and served by the HttpPluginServlet.
  */
 public class PluginEntry {
   public static final String ATTR_CHARACTER_ENCODING = "Character-Encoding";
@@ -45,8 +43,7 @@ public class PluginEntry {
   private final Optional<Long> size;
   private final Map<Object, String> attrs;
 
-  public PluginEntry(String name, long time, Optional<Long> size,
-      Map<Object, String> attrs) {
+  public PluginEntry(String name, long time, Optional<Long> size, Map<Object, String> attrs) {
     this.name = name;
     this.time = time;
     this.size = size;

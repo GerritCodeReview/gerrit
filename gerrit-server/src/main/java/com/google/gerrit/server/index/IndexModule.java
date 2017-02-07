@@ -42,17 +42,15 @@ import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Collection;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Module for non-indexer-specific secondary index setup.
- * <p>
- * This module should not be used directly except by specific secondary indexer
- * implementations (e.g. Lucene).
+ *
+ * <p>This module should not be used directly except by specific secondary indexer implementations
+ * (e.g. Lucene).
  */
 public class IndexModule extends LifecycleModule {
   public enum IndexType {
@@ -60,14 +58,12 @@ public class IndexModule extends LifecycleModule {
   }
 
   public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
-      ImmutableList.<SchemaDefinitions<?>> of(
-          AccountSchemaDefinitions.INSTANCE,
-          ChangeSchemaDefinitions.INSTANCE);
+      ImmutableList.<SchemaDefinitions<?>>of(
+          AccountSchemaDefinitions.INSTANCE, ChangeSchemaDefinitions.INSTANCE);
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
-    Config cfg = injector.getInstance(
-        Key.get(Config.class, GerritServerConfig.class));
+    Config cfg = injector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     return cfg.getEnum("index", null, "type", IndexType.LUCENE);
   }
 
@@ -81,8 +77,8 @@ public class IndexModule extends LifecycleModule {
     this.batchExecutor = null;
   }
 
-  public IndexModule(ListeningExecutorService interactiveExecutor,
-      ListeningExecutorService batchExecutor) {
+  public IndexModule(
+      ListeningExecutorService interactiveExecutor, ListeningExecutorService batchExecutor) {
     this.threads = -1;
     this.interactiveExecutor = interactiveExecutor;
     this.batchExecutor = batchExecutor;
@@ -103,38 +99,40 @@ public class IndexModule extends LifecycleModule {
 
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
-      AccountIndexDefinition accounts,
-      ChangeIndexDefinition changes) {
+      AccountIndexDefinition accounts, ChangeIndexDefinition changes) {
     Collection<IndexDefinition<?, ?, ?>> result =
-        ImmutableList.<IndexDefinition<?, ?, ?>> of(
-            accounts,
-            changes);
-    Set<String> expected = FluentIterable.from(ALL_SCHEMA_DEFS)
-        .transform(new Function<SchemaDefinitions<?>, String>() {
-          @Override
-          public String apply(SchemaDefinitions<?> in) {
-            return in.getName();
-          }
-        }).toSet();
-    Set<String> actual = FluentIterable.from(result)
-        .transform(new Function<IndexDefinition<?, ?, ?>, String>() {
-          @Override
-          public String apply(IndexDefinition<?, ?, ?> in) {
-            return in.getName();
-          }
-        }).toSet();
+        ImmutableList.<IndexDefinition<?, ?, ?>>of(accounts, changes);
+    Set<String> expected =
+        FluentIterable.from(ALL_SCHEMA_DEFS)
+            .transform(
+                new Function<SchemaDefinitions<?>, String>() {
+                  @Override
+                  public String apply(SchemaDefinitions<?> in) {
+                    return in.getName();
+                  }
+                })
+            .toSet();
+    Set<String> actual =
+        FluentIterable.from(result)
+            .transform(
+                new Function<IndexDefinition<?, ?, ?>, String>() {
+                  @Override
+                  public String apply(IndexDefinition<?, ?, ?> in) {
+                    return in.getName();
+                  }
+                })
+            .toSet();
     if (!expected.equals(actual)) {
       throw new ProvisionException(
-          "need index definitions for all schemas: "
-          + expected + " != " + actual);
+          "need index definitions for all schemas: " + expected + " != " + actual);
     }
     return result;
   }
 
   @Provides
   @Singleton
-  AccountIndexer getAccountIndexer(AccountIndexerImpl.Factory factory,
-      AccountIndexCollection indexes) {
+  AccountIndexer getAccountIndexer(
+      AccountIndexerImpl.Factory factory, AccountIndexCollection indexes) {
     return factory.create(indexes);
   }
 
@@ -153,8 +151,7 @@ public class IndexModule extends LifecycleModule {
   @Singleton
   @IndexExecutor(INTERACTIVE)
   ListeningExecutorService getInteractiveIndexExecutor(
-      @GerritServerConfig Config config,
-      WorkQueue workQueue) {
+      @GerritServerConfig Config config, WorkQueue workQueue) {
     if (interactiveExecutor != null) {
       return interactiveExecutor;
     }
@@ -165,16 +162,14 @@ public class IndexModule extends LifecycleModule {
     if (threads <= 0) {
       threads = Runtime.getRuntime().availableProcessors() / 2 + 1;
     }
-    return MoreExecutors.listeningDecorator(
-        workQueue.createQueue(threads, "Index-Interactive"));
+    return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "Index-Interactive"));
   }
 
   @Provides
   @Singleton
   @IndexExecutor(BATCH)
   ListeningExecutorService getBatchIndexExecutor(
-      @GerritServerConfig Config config,
-      WorkQueue workQueue) {
+      @GerritServerConfig Config config, WorkQueue workQueue) {
     if (batchExecutor != null) {
       return batchExecutor;
     }
@@ -182,7 +177,6 @@ public class IndexModule extends LifecycleModule {
     if (threads <= 0) {
       threads = Runtime.getRuntime().availableProcessors();
     }
-    return MoreExecutors.listeningDecorator(
-        workQueue.createQueue(threads, "Index-Batch"));
+    return MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "Index-Batch"));
   }
 }

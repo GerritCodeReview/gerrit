@@ -23,6 +23,7 @@ public interface ChangeRestoredListener {
   interface Event extends RevisionEvent {
     @Deprecated
     AccountInfo getRestorer();
+
     String getReason();
   }
 

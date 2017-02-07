@@ -24,8 +24,7 @@ public class StarPredicate extends ChangeIndexPredicate {
   private final String label;
 
   StarPredicate(Account.Id accountId, String label) {
-    super(ChangeField.STAR,
-        StarredChangesUtil.StarField.create(accountId, label).toString());
+    super(ChangeField.STAR, StarredChangesUtil.StarField.create(accountId, label).toString());
     this.accountId = accountId;
     this.label = label;
   }

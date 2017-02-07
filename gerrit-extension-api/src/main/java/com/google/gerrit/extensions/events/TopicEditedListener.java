@@ -23,6 +23,7 @@ public interface TopicEditedListener {
   interface Event extends ChangeEvent {
     @Deprecated
     AccountInfo getEditor();
+
     String getOldTopic();
   }
 

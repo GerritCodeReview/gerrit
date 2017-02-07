@@ -66,7 +66,17 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -83,36 +93,22 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ChangeRebuilderImpl extends ChangeRebuilder {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeRebuilderImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeRebuilderImpl.class);
 
   /**
-   * The maximum amount of time between the ReviewDb timestamp of the first and
-   * last events batched together into a single NoteDb update.
-   * <p>
-   * Used to account for the fact that different records with their own
-   * timestamps (e.g. {@link PatchSetApproval} and {@link ChangeMessage})
-   * historically didn't necessarily use the same timestamp, and tended to call
-   * {@code System.currentTimeMillis()} independently.
+   * The maximum amount of time between the ReviewDb timestamp of the first and last events batched
+   * together into a single NoteDb update.
+   *
+   * <p>Used to account for the fact that different records with their own timestamps (e.g. {@link
+   * PatchSetApproval} and {@link ChangeMessage}) historically didn't necessarily use the same
+   * timestamp, and tended to call {@code System.currentTimeMillis()} independently.
    */
   static final long MAX_WINDOW_MS = SECONDS.toMillis(3);
 
   /**
-   * The maximum amount of time between two consecutive events to consider them
-   * to be in the same batch.
+   * The maximum amount of time between two consecutive events to consider them to be in the same
+   * batch.
    */
   private static final long MAX_DELTA_MS = SECONDS.toMillis(1);
 
@@ -128,7 +124,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private final String anonymousCowardName;
 
   @Inject
-  ChangeRebuilderImpl(SchemaFactory<ReviewDb> schemaFactory,
+  ChangeRebuilderImpl(
+      SchemaFactory<ReviewDb> schemaFactory,
       AccountCache accountCache,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ChangeNoteUtil changeNoteUtil,
@@ -154,15 +151,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
   @Override
   public Result rebuild(ReviewDb db, Change.Id changeId)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException {
+      throws NoSuchChangeException, IOException, OrmException, ConfigInvalidException {
     db = ReviewDbUtil.unwrapDb(db);
     Change change = db.changes().get(changeId);
     if (change == null) {
       throw new NoSuchChangeException(changeId);
     }
-    try (NoteDbUpdateManager manager =
-        updateManagerFactory.create(change.getProject())) {
+    try (NoteDbUpdateManager manager = updateManagerFactory.create(change.getProject())) {
       buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
       return execute(db, changeId, manager);
     }
@@ -180,16 +175,16 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     private static final long serialVersionUID = 1L;
 
     ConflictingUpdateException(Change change, String expectedNoteDbState) {
-      super(String.format(
-          "Expected change %s to have noteDbState %s but was %s",
-          change.getId(), expectedNoteDbState, change.getNoteDbState()));
+      super(
+          String.format(
+              "Expected change %s to have noteDbState %s but was %s",
+              change.getId(), expectedNoteDbState, change.getNoteDbState()));
     }
   }
 
   @Override
-  public Result rebuild(NoteDbUpdateManager manager,
-      ChangeBundle bundle) throws NoSuchChangeException, IOException,
-      OrmException, ConfigInvalidException {
+  public Result rebuild(NoteDbUpdateManager manager, ChangeBundle bundle)
+      throws NoSuchChangeException, IOException, OrmException, ConfigInvalidException {
     Change change = new Change(bundle.getChange());
     buildUpdates(manager, bundle);
     return manager.stageAndApplyDelta(change);
@@ -203,17 +198,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     if (change == null) {
       throw new NoSuchChangeException(changeId);
     }
-    NoteDbUpdateManager manager =
-        updateManagerFactory.create(change.getProject());
+    NoteDbUpdateManager manager = updateManagerFactory.create(change.getProject());
     buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
     manager.stage();
     return manager;
   }
 
   @Override
-  public Result execute(ReviewDb db, Change.Id changeId,
-      NoteDbUpdateManager manager) throws NoSuchChangeException, OrmException,
-      IOException {
+  public Result execute(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)
+      throws NoSuchChangeException, OrmException, IOException {
     db = ReviewDbUtil.unwrapDb(db);
     Change change = db.changes().get(changeId);
     if (change == null) {
@@ -224,21 +217,24 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     Result r = manager.stageAndApplyDelta(change);
     final String newNoteDbState = change.getNoteDbState();
     try {
-      db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
-        @Override
-        public Change update(Change change) {
-          String currNoteDbState = change.getNoteDbState();
-          if (Objects.equals(currNoteDbState, newNoteDbState)) {
-            // Another thread completed the same rebuild we were about to.
-            throw new AbortUpdateException();
-          } else if (!Objects.equals(oldNoteDbState, currNoteDbState)) {
-            // Another thread updated the state to something else.
-            throw new ConflictingUpdateException(change, oldNoteDbState);
-          }
-          change.setNoteDbState(newNoteDbState);
-          return change;
-        }
-      });
+      db.changes()
+          .atomicUpdate(
+              changeId,
+              new AtomicUpdate<Change>() {
+                @Override
+                public Change update(Change change) {
+                  String currNoteDbState = change.getNoteDbState();
+                  if (Objects.equals(currNoteDbState, newNoteDbState)) {
+                    // Another thread completed the same rebuild we were about to.
+                    throw new AbortUpdateException();
+                  } else if (!Objects.equals(oldNoteDbState, currNoteDbState)) {
+                    // Another thread updated the state to something else.
+                    throw new ConflictingUpdateException(change, oldNoteDbState);
+                  }
+                  change.setNoteDbState(newNoteDbState);
+                  return change;
+                }
+              });
     } catch (ConflictingUpdateException e) {
       // Rethrow as an OrmException so the caller knows to use staged results.
       // Strictly speaking they are not completely up to date, but result we
@@ -246,9 +242,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       // the other thread.
       throw new OrmException(e.getMessage());
     } catch (AbortUpdateException e) {
-      if (NoteDbChangeState.parse(changeId, newNoteDbState).isUpToDate(
-          manager.getChangeRepo().cmds.getRepoRefCache(),
-          manager.getAllUsersRepo().cmds.getRepoRefCache())) {
+      if (NoteDbChangeState.parse(changeId, newNoteDbState)
+          .isUpToDate(
+              manager.getChangeRepo().cmds.getRepoRefCache(),
+              manager.getAllUsersRepo().cmds.getRepoRefCache())) {
         // If the state in ReviewDb matches NoteDb at this point, it means
         // another thread successfully completed this rebuild. It's ok to not
         // execute the update in this case, since the object referenced in the
@@ -269,21 +266,21 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   @Override
-  public boolean rebuildProject(ReviewDb db,
+  public boolean rebuildProject(
+      ReviewDb db,
       ImmutableMultimap<Project.NameKey, Change.Id> allChanges,
-      Project.NameKey project, Repository allUsersRepo)
-      throws NoSuchChangeException, IOException, OrmException,
-      ConfigInvalidException {
+      Project.NameKey project,
+      Repository allUsersRepo)
+      throws NoSuchChangeException, IOException, OrmException, ConfigInvalidException {
     checkArgument(allChanges.containsKey(project));
     boolean ok = true;
     ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
-    pm.beginTask(
-        FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
+    pm.beginTask(FormatUtil.elide(project.get(), 50), allChanges.get(project).size());
     try (NoteDbUpdateManager manager = updateManagerFactory.create(project);
         ObjectInserter allUsersInserter = allUsersRepo.newObjectInserter();
         RevWalk allUsersRw = new RevWalk(allUsersInserter.newReader())) {
-      manager.setAllUsersRepo(allUsersRepo, allUsersRw, allUsersInserter,
-          new ChainedReceiveCommands(allUsersRepo));
+      manager.setAllUsersRepo(
+          allUsersRepo, allUsersRw, allUsersInserter, new ChainedReceiveCommands(allUsersRepo));
       for (Change.Id changeId : allChanges.get(project)) {
         try {
           buildUpdates(manager, ChangeBundle.fromReviewDb(db, changeId));
@@ -314,8 +311,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // We will rebuild all events, except for draft comments, in buckets based
     // on author and timestamp.
     List<Event> events = new ArrayList<>();
-    Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
-        ArrayListMultimap.create();
+    Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents = ArrayListMultimap.create();
 
     events.addAll(getHashtagsEvents(change, manager));
 
@@ -324,22 +320,20 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     deleteDraftRefs(change, manager.getAllUsersRepo());
 
     Integer minPsNum = getMinPatchSetNum(bundle);
-    Set<PatchSet.Id> psIds =
-        Sets.newHashSetWithExpectedSize(bundle.getPatchSets().size());
+    Set<PatchSet.Id> psIds = Sets.newHashSetWithExpectedSize(bundle.getPatchSets().size());
 
     for (PatchSet ps : bundle.getPatchSets()) {
       if (ps.getId().get() > currPsId.get()) {
         log.info(
             "Skipping patch set {}, which is higher than current patch set {}",
-            ps.getId(), currPsId);
+            ps.getId(),
+            currPsId);
         continue;
       }
       psIds.add(ps.getId());
-      events.add(new PatchSetEvent(
-          change, ps, manager.getChangeRepo().rw));
+      events.add(new PatchSetEvent(change, ps, manager.getChangeRepo().rw));
       for (PatchLineComment c : getPatchLineComments(bundle, ps)) {
-        PatchLineCommentEvent e =
-            new PatchLineCommentEvent(c, change, ps, patchListCache);
+        PatchLineCommentEvent e = new PatchLineCommentEvent(c, change, ps, patchListCache);
         if (c.getStatus() == Status.PUBLISHED) {
           events.add(e);
         } else {
@@ -362,8 +356,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     Change noteDbChange = new Change(null, null, null, null, null);
     for (ChangeMessage msg : bundle.getChangeMessages()) {
       if (msg.getPatchSetId() == null || psIds.contains(msg.getPatchSetId())) {
-        events.add(
-            new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
+        events.add(new ChangeMessageEvent(msg, noteDbChange, change.getCreatedOn()));
       }
     }
 
@@ -381,8 +374,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
 
     EventList<PatchLineCommentEvent> plcel = new EventList<>();
     for (Account.Id author : draftCommentEvents.keys()) {
-      for (PatchLineCommentEvent e :
-          EVENT_ORDER.sortedCopy(draftCommentEvents.get(author))) {
+      for (PatchLineCommentEvent e : EVENT_ORDER.sortedCopy(draftCommentEvents.get(author))) {
         if (!plcel.canAdd(e)) {
           flushEventsToDraftUpdate(manager, plcel, change);
           checkState(plcel.canAdd(e));
@@ -404,19 +396,21 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return minPsNum;
   }
 
-  private static List<PatchLineComment> getPatchLineComments(ChangeBundle bundle,
-      final PatchSet ps) {
+  private static List<PatchLineComment> getPatchLineComments(
+      ChangeBundle bundle, final PatchSet ps) {
     return FluentIterable.from(bundle.getPatchLineComments())
-        .filter(new Predicate<PatchLineComment>() {
-          @Override
-          public boolean apply(PatchLineComment in) {
-            return in.getPatchSetId().equals(ps.getId());
-          }
-        }).toSortedList(PatchLineCommentsUtil.PLC_ORDER);
+        .filter(
+            new Predicate<PatchLineComment>() {
+              @Override
+              public boolean apply(PatchLineComment in) {
+                return in.getPatchSetId().equals(ps.getId());
+              }
+            })
+        .toSortedList(PatchLineCommentsUtil.PLC_ORDER);
   }
 
-  private void sortAndFillEvents(Change change, Change noteDbChange,
-      List<Event> events, Integer minPsNum) {
+  private void sortAndFillEvents(
+      Change change, Change noteDbChange, List<Event> events, Integer minPsNum) {
     Collections.sort(events, EVENT_ORDER);
     events.add(new FinalUpdatesEvent(change, noteDbChange));
 
@@ -449,26 +443,27 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
   }
 
-  private void flushEventsToUpdate(NoteDbUpdateManager manager,
-      EventList<Event> events, Change change) throws OrmException, IOException {
+  private void flushEventsToUpdate(
+      NoteDbUpdateManager manager, EventList<Event> events, Change change)
+      throws OrmException, IOException {
     if (events.isEmpty()) {
       return;
     }
     Comparator<String> labelNameComparator;
     if (projectCache != null) {
-      labelNameComparator = projectCache.get(change.getProject())
-          .getLabelTypes().nameComparator();
+      labelNameComparator = projectCache.get(change.getProject()).getLabelTypes().nameComparator();
     } else {
       // No project cache available, bail and use natural ordering; there's no
       // semantic difference anyway difference.
       labelNameComparator = Ordering.natural();
     }
-    ChangeUpdate update = updateFactory.create(
-        change,
-        events.getAccountId(),
-        events.newAuthorIdent(),
-        events.getWhen(),
-        labelNameComparator);
+    ChangeUpdate update =
+        updateFactory.create(
+            change,
+            events.getAccountId(),
+            events.newAuthorIdent(),
+            events.getWhen(),
+            labelNameComparator);
     update.setAllowWriteToNewRef(true);
     update.setPatchSetId(events.getPatchSetId());
     update.setTag(events.getTag());
@@ -479,17 +474,15 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     events.clear();
   }
 
-  private void flushEventsToDraftUpdate(NoteDbUpdateManager manager,
-      EventList<PatchLineCommentEvent> events, Change change)
+  private void flushEventsToDraftUpdate(
+      NoteDbUpdateManager manager, EventList<PatchLineCommentEvent> events, Change change)
       throws OrmException {
     if (events.isEmpty()) {
       return;
     }
-    ChangeDraftUpdate update = draftUpdateFactory.create(
-        change,
-        events.getAccountId(),
-        events.newAuthorIdent(),
-        events.getWhen());
+    ChangeDraftUpdate update =
+        draftUpdateFactory.create(
+            change, events.getAccountId(), events.newAuthorIdent(), events.getWhen());
     update.setPatchSetId(events.getPatchSetId());
     for (PatchLineCommentEvent e : events) {
       e.applyDraft(update);
@@ -498,8 +491,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     events.clear();
   }
 
-  private List<HashtagsEvent> getHashtagsEvents(Change change,
-      NoteDbUpdateManager manager) throws IOException {
+  private List<HashtagsEvent> getHashtagsEvents(Change change, NoteDbUpdateManager manager)
+      throws IOException {
     String refName = changeMetaRef(change.getId());
     Optional<ObjectId> old = manager.getChangeRepo().getObjectId(refName);
     if (!old.isPresent()) {
@@ -513,8 +506,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     for (RevCommit commit : rw) {
       Account.Id authorId;
       try {
-        authorId =
-            changeNoteUtil.parseIdent(commit.getAuthorIdent(), change.getId());
+        authorId = changeNoteUtil.parseIdent(commit.getAuthorIdent(), change.getId());
       } catch (ConfigInvalidException e) {
         continue; // Corrupt data, no valid hashtags in this commit.
       }
@@ -524,10 +516,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         continue;
       }
 
-      Timestamp commitTime =
-          new Timestamp(commit.getCommitterIdent().getWhen().getTime());
-      events.add(new HashtagsEvent(psId, authorId, commitTime, hashtags,
-            change.getCreatedOn()));
+      Timestamp commitTime = new Timestamp(commit.getCommitterIdent().getWhen().getTime());
+      events.add(new HashtagsEvent(psId, authorId, commitTime, hashtags, change.getCreatedOn()));
     }
     return events;
   }
@@ -556,8 +546,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     return new PatchSet.Id(change.getId(), psId);
   }
 
-  private void deleteChangeMetaRef(Change change, ChainedReceiveCommands cmds)
-      throws IOException {
+  private void deleteChangeMetaRef(Change change, ChainedReceiveCommands cmds) throws IOException {
     String refName = changeMetaRef(change.getId());
     Optional<ObjectId> old = cmds.get(refName);
     if (old.isPresent()) {
@@ -565,31 +554,34 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
   }
 
-  private void deleteDraftRefs(Change change, OpenRepo allUsersRepo)
-      throws IOException {
-    for (Ref r : allUsersRepo.repo.getRefDatabase()
-        .getRefs(RefNames.refsDraftCommentsPrefix(change.getId())).values()) {
-      allUsersRepo.cmds.add(
-          new ReceiveCommand(r.getObjectId(), ObjectId.zeroId(), r.getName()));
+  private void deleteDraftRefs(Change change, OpenRepo allUsersRepo) throws IOException {
+    for (Ref r :
+        allUsersRepo
+            .repo
+            .getRefDatabase()
+            .getRefs(RefNames.refsDraftCommentsPrefix(change.getId()))
+            .values()) {
+      allUsersRepo.cmds.add(new ReceiveCommand(r.getObjectId(), ObjectId.zeroId(), r.getName()));
     }
   }
 
-  private static final Ordering<Event> EVENT_ORDER = new Ordering<Event>() {
-    @Override
-    public int compare(Event a, Event b) {
-      return ComparisonChain.start()
-          .compare(a.when, b.when)
-          .compareTrueFirst(isPatchSet(a), isPatchSet(b))
-          .compareTrueFirst(a.predatesChange, b.predatesChange)
-          .compare(a.who, b.who, ReviewDbUtil.intKeyOrdering())
-          .compare(a.psId, b.psId, ReviewDbUtil.intKeyOrdering().nullsLast())
-          .result();
-    }
+  private static final Ordering<Event> EVENT_ORDER =
+      new Ordering<Event>() {
+        @Override
+        public int compare(Event a, Event b) {
+          return ComparisonChain.start()
+              .compare(a.when, b.when)
+              .compareTrueFirst(isPatchSet(a), isPatchSet(b))
+              .compareTrueFirst(a.predatesChange, b.predatesChange)
+              .compare(a.who, b.who, ReviewDbUtil.intKeyOrdering())
+              .compare(a.psId, b.psId, ReviewDbUtil.intKeyOrdering().nullsLast())
+              .result();
+        }
 
-    private boolean isPatchSet(Event e) {
-      return e instanceof PatchSetEvent;
-    }
-  };
+        private boolean isPatchSet(Event e) {
+          return e instanceof PatchSetEvent;
+        }
+      };
 
   private abstract static class Event {
     // NOTE: EventList only supports direct subclasses, not an arbitrary
@@ -601,8 +593,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     final boolean predatesChange;
     PatchSet.Id psId;
 
-    protected Event(PatchSet.Id psId, Account.Id who, Timestamp when,
-        Timestamp changeCreatedOn, String tag) {
+    protected Event(
+        PatchSet.Id psId, Account.Id who, Timestamp when, Timestamp changeCreatedOn, String tag) {
       this.psId = psId;
       this.who = who;
       this.tag = tag;
@@ -612,20 +604,26 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
 
     protected void checkUpdate(AbstractChangeUpdate update) {
-      checkState(Objects.equals(update.getPatchSetId(), psId),
+      checkState(
+          Objects.equals(update.getPatchSetId(), psId),
           "cannot apply event for %s to update for %s",
-          update.getPatchSetId(), psId);
-      checkState(when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
+          update.getPatchSetId(),
+          psId);
+      checkState(
+          when.getTime() - update.getWhen().getTime() <= MAX_WINDOW_MS,
           "event at %s outside update window starting at %s",
-          when, update.getWhen());
-      checkState(Objects.equals(update.getNullableAccountId(), who),
+          when,
+          update.getWhen());
+      checkState(
+          Objects.equals(update.getNullableAccountId(), who),
           "cannot apply event by %s to update by %s",
-          who, update.getNullableAccountId());
+          who,
+          update.getNullableAccountId());
     }
 
     /**
-     * @return whether this event type must be unique per {@link ChangeUpdate},
-     *     i.e. there may be at most one of this type.
+     * @return whether this event type must be unique per {@link ChangeUpdate}, i.e. there may be at
+     *     most one of this type.
      */
     abstract boolean uniquePerUpdate();
 
@@ -674,8 +672,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       long t = e.when.getTime();
       long tFirst = getFirstTime();
       long tLast = getLastTime();
-      checkArgument(t >= tLast,
-          "event %s is before previous event in list %s", e, last);
+      checkArgument(t >= tLast, "event %s is before previous event in list %s", e, last);
       if (t - tLast > MAX_DELTA_MS || t - tFirst > MAX_WINDOW_MS) {
         return false; // Too much time elapsed.
       }
@@ -702,8 +699,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     PatchSet.Id getPatchSetId() {
       PatchSet.Id id = checkNotNull(get(0).psId);
       for (int i = 1; i < size(); i++) {
-        checkState(get(i).psId.equals(id),
-            "mismatched patch sets in EventList: %s != %s", id, get(i).psId);
+        checkState(
+            get(i).psId.equals(id),
+            "mismatched patch sets in EventList: %s != %s",
+            id,
+            get(i).psId);
       }
       return id;
     }
@@ -711,8 +711,11 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     Account.Id getAccountId() {
       Account.Id id = get(0).who;
       for (int i = 1; i < size(); i++) {
-        checkState(Objects.equals(id, get(i).who),
-            "mismatched users in EventList: %s != %s", id, get(i).who);
+        checkState(
+            Objects.equals(id, get(i).who),
+            "mismatched users in EventList: %s != %s",
+            id,
+            get(i).who);
       }
       return id;
     }
@@ -723,8 +726,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         return new PersonIdent(serverIdent, getWhen());
       }
       return changeNoteUtil.newIdent(
-          accountCache.get(id).getAccount(), getWhen(), serverIdent,
-          anonymousCowardName);
+          accountCache.get(id).getAccount(), getWhen(), serverIdent, anonymousCowardName);
     }
 
     String getTag() {
@@ -755,8 +757,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
 
     CreateChangeEvent(Change change, Integer minPsNum) {
-      super(psId(change, minPsNum), change.getOwner(), change.getCreatedOn(),
-          change.getCreatedOn(), null);
+      super(
+          psId(change, minPsNum),
+          change.getOwner(),
+          change.getCreatedOn(),
+          change.getCreatedOn(),
+          null);
       this.change = change;
     }
 
@@ -776,8 +782,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     private PatchSetApproval psa;
 
     ApprovalEvent(PatchSetApproval psa, Timestamp changeCreatedOn) {
-      super(psa.getPatchSetId(), psa.getAccountId(), psa.getGranted(),
-          changeCreatedOn, psa.getTag());
+      super(
+          psa.getPatchSetId(), psa.getAccountId(), psa.getGranted(), changeCreatedOn, psa.getTag());
       this.psa = psa;
     }
 
@@ -803,8 +809,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
           // Reviewers aren't generally associated with a particular patch set
           // (although as an implementation detail they were in ReviewDb). Just
           // use the latest patch set at the time of the event.
-          null,
-          reviewer.getColumnKey(), reviewer.getValue(), changeCreatedOn, null);
+          null, reviewer.getColumnKey(), reviewer.getValue(), changeCreatedOn, null);
       this.reviewer = reviewer;
     }
 
@@ -827,8 +832,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     private boolean createChange;
 
     PatchSetEvent(Change change, PatchSet ps, RevWalk rw) {
-      super(ps.getId(), ps.getUploader(), ps.getCreatedOn(),
-          change.getCreatedOn(), null);
+      super(ps.getId(), ps.getUploader(), ps.getCreatedOn(), change.getCreatedOn(), null);
       this.change = change;
       this.ps = ps;
       this.rw = rw;
@@ -858,8 +862,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       }
     }
 
-    private void setRevision(ChangeUpdate update, PatchSet ps)
-        throws IOException {
+    private void setRevision(ChangeUpdate update, PatchSet ps) throws IOException {
       String rev = ps.getRevision().get();
       String cert = ps.getPushCertificate();
       ObjectId id;
@@ -884,10 +887,13 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     private final PatchSet ps;
     private final PatchListCache cache;
 
-    PatchLineCommentEvent(PatchLineComment c, Change change, PatchSet ps,
-        PatchListCache cache) {
-      super(PatchLineCommentsUtil.getCommentPsId(c), c.getAuthor(),
-          c.getWrittenOn(), change.getCreatedOn(), c.getTag());
+    PatchLineCommentEvent(PatchLineComment c, Change change, PatchSet ps, PatchListCache cache) {
+      super(
+          PatchLineCommentsUtil.getCommentPsId(c),
+          c.getAuthor(),
+          c.getWrittenOn(),
+          change.getCreatedOn(),
+          c.getTag());
       this.c = c;
       this.change = change;
       this.ps = ps;
@@ -919,9 +925,17 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private static class HashtagsEvent extends Event {
     private final Set<String> hashtags;
 
-    HashtagsEvent(PatchSet.Id psId, Account.Id who, Timestamp when,
-        Set<String> hashtags, Timestamp changeCreatdOn) {
-      super(psId, who, when, changeCreatdOn,
+    HashtagsEvent(
+        PatchSet.Id psId,
+        Account.Id who,
+        Timestamp when,
+        Set<String> hashtags,
+        Timestamp changeCreatdOn) {
+      super(
+          psId,
+          who,
+          when,
+          changeCreatdOn,
           // Somewhat confusingly, hashtags do not use the setTag method on
           // AbstractChangeUpdate, so pass null as the tag.
           null);
@@ -942,25 +956,24 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   }
 
   private static class ChangeMessageEvent extends Event {
-    private static final Pattern TOPIC_SET_REGEXP =
-        Pattern.compile("^Topic set to (.+)$");
+    private static final Pattern TOPIC_SET_REGEXP = Pattern.compile("^Topic set to (.+)$");
     private static final Pattern TOPIC_CHANGED_REGEXP =
         Pattern.compile("^Topic changed from (.+) to (.+)$");
-    private static final Pattern TOPIC_REMOVED_REGEXP =
-        Pattern.compile("^Topic (.+) removed$");
+    private static final Pattern TOPIC_REMOVED_REGEXP = Pattern.compile("^Topic (.+) removed$");
 
-    private static final Pattern STATUS_ABANDONED_REGEXP =
-        Pattern.compile("^Abandoned(\n.*)*$");
-    private static final Pattern STATUS_RESTORED_REGEXP =
-        Pattern.compile("^Restored(\n.*)*$");
+    private static final Pattern STATUS_ABANDONED_REGEXP = Pattern.compile("^Abandoned(\n.*)*$");
+    private static final Pattern STATUS_RESTORED_REGEXP = Pattern.compile("^Restored(\n.*)*$");
 
     private final ChangeMessage message;
     private final Change noteDbChange;
 
-    ChangeMessageEvent(ChangeMessage message, Change noteDbChange,
-        Timestamp changeCreatedOn) {
-      super(message.getPatchSetId(), message.getAuthor(),
-          message.getWrittenOn(), changeCreatedOn, message.getTag());
+    ChangeMessageEvent(ChangeMessage message, Change noteDbChange, Timestamp changeCreatedOn) {
+      super(
+          message.getPatchSetId(),
+          message.getAuthor(),
+          message.getWrittenOn(),
+          changeCreatedOn,
+          message.getTag());
       this.message = message;
       this.noteDbChange = noteDbChange;
     }
@@ -1028,8 +1041,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     private final Change noteDbChange;
 
     FinalUpdatesEvent(Change change, Change noteDbChange) {
-      super(change.currentPatchSetId(), change.getOwner(),
-          change.getLastUpdatedOn(), change.getCreatedOn(), null);
+      super(
+          change.currentPatchSetId(),
+          change.getOwner(),
+          change.getLastUpdatedOn(),
+          change.getCreatedOn(),
+          null);
       this.change = change;
       this.noteDbChange = noteDbChange;
     }

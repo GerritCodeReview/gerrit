@@ -17,14 +17,12 @@ package com.google.gerrit.server.config;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
 /**
- * Used to populate the groups of users that are allowed to run
- * receive-pack on the server.
+ * Used to populate the groups of users that are allowed to run receive-pack on the server.
  *
- * Gerrit.config example:
+ * <p>Gerrit.config example:
  *
  * <pre>
  * [receive]
@@ -33,5 +31,4 @@ import java.lang.annotation.Retention;
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface GitReceivePackGroups {
-}
+public @interface GitReceivePackGroups {}

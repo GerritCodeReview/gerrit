@@ -24,8 +24,7 @@ public abstract class ChangeRegexPredicate extends RegexPredicate<ChangeData>
     super(def, value);
   }
 
-  protected ChangeRegexPredicate(FieldDef<ChangeData, ?> def, String name,
-      String value) {
+  protected ChangeRegexPredicate(FieldDef<ChangeData, ?> def, String name, String value) {
     super(def, name, value);
   }
 }

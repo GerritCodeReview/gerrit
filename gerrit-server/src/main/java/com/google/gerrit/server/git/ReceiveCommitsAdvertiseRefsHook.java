@@ -26,7 +26,10 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
-
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
@@ -36,22 +39,15 @@ import org.eclipse.jgit.transport.UploadPack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-
 /** Exposes only the non refs/changes/ reference names. */
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
-  private static final Logger log = LoggerFactory
-      .getLogger(ReceiveCommitsAdvertiseRefsHook.class);
+  private static final Logger log = LoggerFactory.getLogger(ReceiveCommitsAdvertiseRefsHook.class);
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final Project.NameKey projectName;
 
   public ReceiveCommitsAdvertiseRefsHook(
-      Provider<InternalChangeQuery> queryProvider,
-      Project.NameKey projectName) {
+      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName) {
     this.queryProvider = queryProvider;
     this.projectName = projectName;
   }
@@ -63,8 +59,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   }
 
   @Override
-  public void advertiseRefs(BaseReceivePack rp)
-      throws ServiceMayNotContinueException {
+  public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
     Map<String, Ref> oldRefs = rp.getAdvertisedRefs();
     if (oldRefs == null) {
       try {
@@ -92,10 +87,8 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     int limit = 32;
     try {
       Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
-      for (ChangeData cd : queryProvider.get()
-          .enforceVisibility(true)
-          .setLimit(limit)
-          .byProjectOpen(projectName)) {
+      for (ChangeData cd :
+          queryProvider.get().enforceVisibility(true).setLimit(limit).byProjectOpen(projectName)) {
         PatchSet ps = cd.currentPatchSet();
         if (ps != null) {
           r.add(ObjectId.fromString(ps.getRevision().get()));

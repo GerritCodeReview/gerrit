@@ -19,7 +19,6 @@ import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +26,7 @@ import org.slf4j.LoggerFactory;
 // TODO(dborowitz): Not necessary once we switch to NoteDb.
 /** Utility to limit threads used by a batch program. */
 public class ThreadLimiter {
-  private static final Logger log =
-      LoggerFactory.getLogger(ThreadLimiter.class);
+  private static final Logger log = LoggerFactory.getLogger(ThreadLimiter.class);
 
   public static int limitThreads(Injector dbInjector, int threads) {
     return limitThreads(
@@ -38,19 +36,16 @@ public class ThreadLimiter {
         threads);
   }
 
-  private static int limitThreads(Config cfg, DataSourceType dst,
-      ThreadSettingsConfig threadSettingsConfig, int threads) {
-    boolean usePool = cfg.getBoolean("database", "connectionpool",
-        dst.usePool());
+  private static int limitThreads(
+      Config cfg, DataSourceType dst, ThreadSettingsConfig threadSettingsConfig, int threads) {
+    boolean usePool = cfg.getBoolean("database", "connectionpool", dst.usePool());
     int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
     if (usePool && threads > poolLimit) {
-      log.warn("Limiting program to " + poolLimit
-          + " threads due to database.poolLimit");
+      log.warn("Limiting program to " + poolLimit + " threads due to database.poolLimit");
       return poolLimit;
     }
     return threads;
   }
 
-  private ThreadLimiter() {
-  }
+  private ThreadLimiter() {}
 }

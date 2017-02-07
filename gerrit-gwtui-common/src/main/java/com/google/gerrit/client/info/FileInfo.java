@@ -18,71 +18,75 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-
 import java.util.Collections;
 import java.util.Comparator;
 
 public class FileInfo extends JavaScriptObject {
   public final native String path() /*-{ return this.path; }-*/;
-  public final native String oldPath() /*-{ return this.old_path; }-*/;
-  public final native int linesInserted() /*-{ return this.lines_inserted || 0; }-*/;
-  public final native int linesDeleted() /*-{ return this.lines_deleted || 0; }-*/;
-  public final native boolean binary() /*-{ return this.binary || false; }-*/;
-  public final native String status() /*-{ return this.status; }-*/;
 
+  public final native String oldPath() /*-{ return this.old_path; }-*/;
+
+  public final native int linesInserted() /*-{ return this.lines_inserted || 0; }-*/;
+
+  public final native int linesDeleted() /*-{ return this.lines_deleted || 0; }-*/;
+
+  public final native boolean binary() /*-{ return this.binary || false; }-*/;
+
+  public final native String status() /*-{ return this.status; }-*/;
 
   // JSNI methods cannot have 'long' as a parameter type or a return type and
   // it's suggested to use double in this case:
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html#important
   public final long size() {
-    return (long)_size();
+    return (long) _size();
   }
+
   private native double _size() /*-{ return this.size || 0; }-*/;
 
   public final long sizeDelta() {
-    return (long)_sizeDelta();
+    return (long) _sizeDelta();
   }
+
   private native double _sizeDelta() /*-{ return this.size_delta || 0; }-*/;
 
   public final native int _row() /*-{ return this._row }-*/;
+
   public final native void _row(int r) /*-{ this._row = r }-*/;
 
   public static void sortFileInfoByPath(JsArray<FileInfo> list) {
-    Collections.sort(Natives.asList(list), new Comparator<FileInfo>() {
-      @Override
-      public int compare(FileInfo a, FileInfo b) {
-        if (Patch.COMMIT_MSG.equals(a.path())) {
-          return -1;
-        } else if (Patch.COMMIT_MSG.equals(b.path())) {
-          return 1;
-        }
-        // Look at file suffixes to check if it makes sense to use a different order
-        int s1 = a.path().lastIndexOf('.');
-        int s2 = b.path().lastIndexOf('.');
-        if (s1 > 0 && s2 > 0 &&
-            a.path().substring(0, s1).equals(b.path().substring(0, s2))) {
-            String suffixA = a.path().substring(s1);
-            String suffixB = b.path().substring(s2);
-            // C++ and C: give priority to header files (.h/.hpp/...)
-            if (suffixA.indexOf(".h") == 0) {
-                return -1;
-            } else if (suffixB.indexOf(".h") == 0) {
-                return 1;
+    Collections.sort(
+        Natives.asList(list),
+        new Comparator<FileInfo>() {
+          @Override
+          public int compare(FileInfo a, FileInfo b) {
+            if (Patch.COMMIT_MSG.equals(a.path())) {
+              return -1;
+            } else if (Patch.COMMIT_MSG.equals(b.path())) {
+              return 1;
             }
-        }
-        return a.path().compareTo(b.path());
-      }
-    });
+            // Look at file suffixes to check if it makes sense to use a different order
+            int s1 = a.path().lastIndexOf('.');
+            int s2 = b.path().lastIndexOf('.');
+            if (s1 > 0 && s2 > 0 && a.path().substring(0, s1).equals(b.path().substring(0, s2))) {
+              String suffixA = a.path().substring(s1);
+              String suffixB = b.path().substring(s2);
+              // C++ and C: give priority to header files (.h/.hpp/...)
+              if (suffixA.indexOf(".h") == 0) {
+                return -1;
+              } else if (suffixB.indexOf(".h") == 0) {
+                return 1;
+              }
+            }
+            return a.path().compareTo(b.path());
+          }
+        });
   }
 
   public static String getFileName(String path) {
-    String fileName = Patch.COMMIT_MSG.equals(path)
-        ? "Commit Message"
-        : path;
+    String fileName = Patch.COMMIT_MSG.equals(path) ? "Commit Message" : path;
     int s = fileName.lastIndexOf('/');
     return s >= 0 ? fileName.substring(s + 1) : fileName;
   }
 
-  protected FileInfo() {
-  }
+  protected FileInfo() {}
 }

@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
 import java.util.List;
 
 public class AddKeySender extends OutgoingEmail {
@@ -36,7 +35,8 @@ public class AddKeySender extends OutgoingEmail {
   private final List<String> gpgKeys;
 
   @AssistedInject
-  public AddKeySender(EmailArguments ea,
+  public AddKeySender(
+      EmailArguments ea,
       IdentifiedUser callingUser,
       @Assisted IdentifiedUser user,
       @Assisted AccountSshKey sshKey) {
@@ -48,7 +48,8 @@ public class AddKeySender extends OutgoingEmail {
   }
 
   @AssistedInject
-  public AddKeySender(EmailArguments ea,
+  public AddKeySender(
+      EmailArguments ea,
       IdentifiedUser callingUser,
       @Assisted IdentifiedUser user,
       @Assisted List<String> gpgKeys) {
@@ -62,8 +63,7 @@ public class AddKeySender extends OutgoingEmail {
   @Override
   protected void init() throws EmailException {
     super.init();
-    setHeader("Subject",
-        String.format("[Gerrit Code Review] New %s Keys Added", getKeyType()));
+    setHeader("Subject", String.format("[Gerrit Code Review] New %s Keys Added", getKeyType()));
     add(RecipientType.TO, new Address(getEmail()));
   }
 
@@ -73,9 +73,8 @@ public class AddKeySender extends OutgoingEmail {
      * Don't send an email if no keys are added, or an admin is adding a key to
      * a user.
      */
-    return (sshKey != null || gpgKeys.size() > 0) &&
-        (user.equals(callingUser) ||
-        !callingUser.getCapabilities().canAdministrateServer());
+    return (sshKey != null || gpgKeys.size() > 0)
+        && (user.equals(callingUser) || !callingUser.getCapabilities().canAdministrateServer());
   }
 
   @Override

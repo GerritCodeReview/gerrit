@@ -23,18 +23,16 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface AccountGroupMemberAuditAccess extends
-    Access<AccountGroupMemberAudit, AccountGroupMemberAudit.Key> {
+public interface AccountGroupMemberAuditAccess
+    extends Access<AccountGroupMemberAudit, AccountGroupMemberAudit.Key> {
   @Override
   @PrimaryKey("key")
-  AccountGroupMemberAudit get(AccountGroupMemberAudit.Key key)
-      throws OrmException;
+  AccountGroupMemberAudit get(AccountGroupMemberAudit.Key key) throws OrmException;
 
   @Query("WHERE key.groupId = ? AND key.accountId = ?")
-  ResultSet<AccountGroupMemberAudit> byGroupAccount(AccountGroup.Id groupId,
-      Account.Id accountId) throws OrmException;
+  ResultSet<AccountGroupMemberAudit> byGroupAccount(AccountGroup.Id groupId, Account.Id accountId)
+      throws OrmException;
 
   @Query("WHERE key.groupId = ?")
-  ResultSet<AccountGroupMemberAudit> byGroup(AccountGroup.Id groupId)
-      throws OrmException;
+  ResultSet<AccountGroupMemberAudit> byGroup(AccountGroup.Id groupId) throws OrmException;
 }

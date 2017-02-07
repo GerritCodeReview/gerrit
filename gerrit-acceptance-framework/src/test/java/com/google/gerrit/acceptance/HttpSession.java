@@ -15,13 +15,11 @@
 package com.google.gerrit.acceptance;
 
 import com.google.common.base.CharMatcher;
-
+import java.io.IOException;
+import java.net.URI;
 import org.apache.http.HttpHost;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
-
-import java.io.IOException;
-import java.net.URI;
 
 public class HttpSession {
 
@@ -31,10 +29,10 @@ public class HttpSession {
   public HttpSession(GerritServer server, TestAccount account) {
     this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl());
     URI uri = URI.create(url);
-    this.executor = Executor
-        .newInstance()
-        .auth(new HttpHost(uri.getHost(), uri.getPort()),
-            account.username, account.httpPassword);
+    this.executor =
+        Executor.newInstance()
+            .auth(
+                new HttpHost(uri.getHost(), uri.getPort()), account.username, account.httpPassword);
   }
 
   protected RestResponse execute(Request request) throws IOException {

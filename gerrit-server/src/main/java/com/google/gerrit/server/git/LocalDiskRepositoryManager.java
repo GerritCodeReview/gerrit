@@ -22,7 +22,21 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
@@ -40,31 +54,12 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton
-public class LocalDiskRepositoryManager implements GitRepositoryManager,
-    LifecycleListener {
-  private static final Logger log =
-      LoggerFactory.getLogger(LocalDiskRepositoryManager.class);
+public class LocalDiskRepositoryManager implements GitRepositoryManager, LifecycleListener {
+  private static final Logger log = LoggerFactory.getLogger(LocalDiskRepositoryManager.class);
 
-  private static final String UNNAMED =
-      "Unnamed repository; edit this file to name it for gitweb.";
+  private static final String UNNAMED = "Unnamed repository; edit this file to name it for gitweb.";
 
   public static class Module extends LifecycleModule {
     @Override
@@ -93,9 +88,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
       cfg.fromConfig(serverConfig);
       if (serverConfig.getString("core", null, "streamFileThreshold") == null) {
         long mx = Runtime.getRuntime().maxMemory();
-        int limit = (int) Math.min(
-            mx / 4, // don't use more than 1/4 of the heap.
-            2047 << 20); // cannot exceed array length
+        int limit =
+            (int)
+                Math.min(
+                    mx / 4, // don't use more than 1/4 of the heap.
+                    2047 << 20); // cannot exceed array length
         if ((5 << 20) < limit && limit % (1 << 20) != 0) {
           // If the limit is at least 5 MiB but is not a whole multiple
           // of MiB round up to the next one full megabyte. This is a very
@@ -111,17 +108,14 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
         } else {
           desc = String.format("%d", limit);
         }
-        log.info(String.format(
-            "Defaulting core.streamFileThreshold to %s",
-            desc));
+        log.info(String.format("Defaulting core.streamFileThreshold to %s", desc));
         cfg.setStreamFileThreshold(limit);
       }
       cfg.install();
     }
 
     @Override
-    public void stop() {
-    }
+    public void stop() {}
   }
 
   private final Path basePath;
@@ -129,8 +123,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
   private volatile SortedSet<Project.NameKey> names = new TreeSet<>();
 
   @Inject
-  LocalDiskRepositoryManager(SitePaths site,
-      @GerritServerConfig Config cfg) {
+  LocalDiskRepositoryManager(SitePaths site, @GerritServerConfig Config cfg) {
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
@@ -145,8 +138,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
   }
 
   @Override
-  public void stop() {
-  }
+  public void stop() {}
 
   /**
    * Return the basePath under which the specified project is stored.
@@ -159,8 +151,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
   }
 
   @Override
-  public Repository openRepository(Project.NameKey name)
-      throws RepositoryNotFoundException {
+  public Repository openRepository(Project.NameKey name) throws RepositoryNotFoundException {
     return openRepository(getBasePath(name), name);
   }
 
@@ -183,11 +174,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
         }
       } else {
         final File directory = gitDir;
-        if (FileKey.isGitRepository(new File(directory, Constants.DOT_GIT),
-            FS.DETECTED)) {
+        if (FileKey.isGitRepository(new File(directory, Constants.DOT_GIT), FS.DETECTED)) {
           onCreateProject(name);
-        } else if (FileKey.isGitRepository(new File(directory.getParentFile(),
-            directory.getName() + Constants.DOT_GIT_EXT), FS.DETECTED)) {
+        } else if (FileKey.isGitRepository(
+            new File(directory.getParentFile(), directory.getName() + Constants.DOT_GIT_EXT),
+            FS.DETECTED)) {
           onCreateProject(name);
         } else {
           throw new RepositoryNotFoundException(gitDir);
@@ -236,20 +227,21 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
       db.create(true /* bare */);
 
       StoredConfig config = db.getConfig();
-      config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-        null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
+      config.setBoolean(
+          ConfigConstants.CONFIG_CORE_SECTION,
+          null,
+          ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES,
+          true);
       config.save();
 
       // JGit only writes to the reflog for refs/meta/config if the log file
       // already exists.
       //
-      File metaConfigLog =
-          new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
-      if (!metaConfigLog.getParentFile().mkdirs()
-          || !metaConfigLog.createNewFile()) {
-        log.error(String.format(
-            "Failed to create ref log for %s in repository %s",
-            RefNames.REFS_CONFIG, name));
+      File metaConfigLog = new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
+      if (!metaConfigLog.getParentFile().mkdirs() || !metaConfigLog.createNewFile()) {
+        log.error(
+            String.format(
+                "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name));
       }
 
       onCreateProject(name);
@@ -310,8 +302,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
     //
     try (Repository e = openRepository(name)) {
       String old = getProjectDescription(e);
-      if ((old == null && description == null)
-          || (old != null && old.equals(description))) {
+      if ((old == null && description == null) || (old != null && old.equals(description))) {
         return;
       }
 
@@ -337,25 +328,25 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
   private boolean isUnreasonableName(final Project.NameKey nameKey) {
     final String name = nameKey.get();
 
-    return name.length() == 0  // no empty paths
-      || name.charAt(name.length() - 1) == '/' // no suffix
-      || name.indexOf('\\') >= 0 // no windows/dos style paths
-      || name.charAt(0) == '/' // no absolute paths
-      || new File(name).isAbsolute() // no absolute paths
-      || name.startsWith("../") // no "l../etc/passwd"
-      || name.contains("/../") // no "foo/../etc/passwd"
-      || name.contains("/./") // "foo/./foo" is insane to ask
-      || name.contains("//") // windows UNC path can be "//..."
-      || name.contains(".git/") // no path segments that end with '.git' as "foo.git/bar"
-      || name.contains("?") // common unix wildcard
-      || name.contains("%") // wildcard or string parameter
-      || name.contains("*") // wildcard
-      || name.contains(":") // Could be used for absolute paths in windows?
-      || name.contains("<") // redirect input
-      || name.contains(">") // redirect output
-      || name.contains("|") // pipe
-      || name.contains("$") // dollar sign
-      || name.contains("\r"); // carriage return
+    return name.length() == 0 // no empty paths
+        || name.charAt(name.length() - 1) == '/' // no suffix
+        || name.indexOf('\\') >= 0 // no windows/dos style paths
+        || name.charAt(0) == '/' // no absolute paths
+        || new File(name).isAbsolute() // no absolute paths
+        || name.startsWith("../") // no "l../etc/passwd"
+        || name.contains("/../") // no "foo/../etc/passwd"
+        || name.contains("/./") // "foo/./foo" is insane to ask
+        || name.contains("//") // windows UNC path can be "//..."
+        || name.contains(".git/") // no path segments that end with '.git' as "foo.git/bar"
+        || name.contains("?") // common unix wildcard
+        || name.contains("%") // wildcard or string parameter
+        || name.contains("*") // wildcard
+        || name.contains(":") // Could be used for absolute paths in windows?
+        || name.contains("<") // redirect input
+        || name.contains(">") // redirect output
+        || name.contains("|") // pipe
+        || name.contains("$") // dollar sign
+        || name.contains("\r"); // carriage return
   }
 
   @Override
@@ -375,11 +366,13 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
 
   protected void scanProjects(ProjectVisitor visitor) {
     try {
-      Files.walkFileTree(visitor.startFolder,
-          EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE, visitor);
+      Files.walkFileTree(
+          visitor.startFolder,
+          EnumSet.of(FileVisitOption.FOLLOW_LINKS),
+          Integer.MAX_VALUE,
+          visitor);
     } catch (IOException e) {
-      log.error("Error walking repository tree "
-          + visitor.startFolder.toAbsolutePath(), e);
+      log.error("Error walking repository tree " + visitor.startFolder.toAbsolutePath(), e);
     }
   }
 
@@ -396,8 +389,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
     }
 
     @Override
-    public FileVisitResult preVisitDirectory(Path dir,
-        BasicFileAttributes attrs) throws IOException {
+    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+        throws IOException {
       if (!dir.equals(startFolder) && isRepo(dir)) {
         addProject(dir);
         return FileVisitResult.SKIP_SUBTREE;
@@ -416,8 +409,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager,
       Project.NameKey nameKey = getProjectName(p);
       if (getBasePath(nameKey).equals(startFolder)) {
         if (isUnreasonableName(nameKey)) {
-          log.warn(
-              "Ignoring unreasonably named repository " + p.toAbsolutePath());
+          log.warn("Ignoring unreasonably named repository " + p.toAbsolutePath());
         } else {
           found.add(nameKey);
         }

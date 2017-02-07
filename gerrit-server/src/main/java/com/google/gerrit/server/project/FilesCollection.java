@@ -21,12 +21,10 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
-public class FilesCollection implements
-    ChildCollection<BranchResource, FileResource> {
+public class FilesCollection implements ChildCollection<BranchResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
 
   @Inject
@@ -42,9 +40,7 @@ public class FilesCollection implements
   @Override
   public FileResource parse(BranchResource parent, IdString id) {
     return new FileResource(
-        parent.getControl(),
-        ObjectId.fromString(parent.getRevision()),
-        id.get());
+        parent.getControl(), ObjectId.fromString(parent.getRevision()), id.get());
   }
 
   @Override

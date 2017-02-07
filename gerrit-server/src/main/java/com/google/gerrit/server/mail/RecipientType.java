@@ -15,5 +15,7 @@
 package com.google.gerrit.server.mail;
 
 public enum RecipientType {
-  TO, CC, BCC
+  TO,
+  CC,
+  BCC
 }

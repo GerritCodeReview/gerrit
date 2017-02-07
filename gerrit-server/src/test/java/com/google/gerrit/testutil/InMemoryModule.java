@@ -70,10 +70,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.RequestScoped;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -81,6 +77,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class InMemoryModule extends FactoryModule {
   public static Config newDefaultConfig() {
@@ -131,13 +129,14 @@ public class InMemoryModule extends FactoryModule {
 
     // For simplicity, don't create child injectors, just use this one to get a
     // few required modules.
-    Injector cfgInjector = Guice.createInjector(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(Config.class).annotatedWith(GerritServerConfig.class)
-            .toInstance(cfg);
-      }
-    });
+    Injector cfgInjector =
+        Guice.createInjector(
+            new AbstractModule() {
+              @Override
+              protected void configure() {
+                bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
+              }
+            });
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new SearchingChangeCacheImpl.Module());
@@ -154,49 +153,43 @@ public class InMemoryModule extends FactoryModule {
     bind(String.class)
         .annotatedWith(AnonymousCowardName.class)
         .toProvider(AnonymousCowardNameProvider.class);
-    bind(String.class)
-        .annotatedWith(GerritServerId.class)
-        .toInstance("gerrit");
-    bind(AllProjectsName.class)
-        .toProvider(AllProjectsNameProvider.class);
-    bind(AllUsersName.class)
-        .toProvider(AllUsersNameProvider.class);
-    bind(GitRepositoryManager.class)
-        .to(InMemoryRepositoryManager.class);
+    bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
+    bind(AllProjectsName.class).toProvider(AllProjectsNameProvider.class);
+    bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
+    bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
-    bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class)
-        .in(SINGLETON);
+    bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
     bind(NotesMigration.class).toInstance(notesMigration);
     bind(ListeningExecutorService.class)
         .annotatedWith(ChangeUpdateExecutor.class)
         .toInstance(MoreExecutors.newDirectExecutorService());
 
-    bind(DataSourceType.class)
-      .to(InMemoryH2Type.class);
-    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})
-        .to(InMemoryDatabase.class);
+    bind(DataSourceType.class).to(InMemoryH2Type.class);
+    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(InMemoryDatabase.class);
 
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
     install(NoSshKeyCache.module());
-    install(new CanonicalWebUrlModule() {
-      @Override
-      protected Class<? extends Provider<String>> provider() {
-        return CanonicalWebUrlProvider.class;
-      }
-    });
+    install(
+        new CanonicalWebUrlModule() {
+          @Override
+          protected Class<? extends Provider<String>> provider() {
+            return CanonicalWebUrlProvider.class;
+          }
+        });
     //Replacement of DiffExecutorModule to not use thread pool in the tests
-    install(new AbstractModule() {
-      @Override
-      protected void configure() {
-      }
-      @Provides
-      @Singleton
-      @DiffExecutor
-      public ExecutorService createDiffExecutor() {
-        return MoreExecutors.newDirectExecutorService();
-      }
-    });
+    install(
+        new AbstractModule() {
+          @Override
+          protected void configure() {}
+
+          @Provides
+          @Singleton
+          @DiffExecutor
+          public ExecutorService createDiffExecutor() {
+            return MoreExecutors.newDirectExecutorService();
+          }
+        });
     install(new DefaultCacheFactory.Module());
     install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
@@ -215,8 +208,7 @@ public class InMemoryModule extends FactoryModule {
           install(luceneIndexModule());
           break;
         default:
-          throw new ProvisionException(
-              "index type unsupported in tests: " + indexType);
+          throw new ProvisionException("index type unsupported in tests: " + indexType);
       }
     }
   }
@@ -230,8 +222,7 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  InMemoryDatabase getInMemoryDatabase(SchemaCreator schemaCreator)
-      throws OrmException {
+  InMemoryDatabase getInMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
     return new InMemoryDatabase(schemaCreator);
   }
 
@@ -242,13 +233,14 @@ public class InMemoryModule extends FactoryModule {
       if (version > 0) {
         singleVersions.put(ChangeSchemaDefinitions.INSTANCE.getName(), version);
       }
-      Class<?> clazz =
-          Class.forName("com.google.gerrit.lucene.LuceneIndexModule");
-      Method m = clazz.getMethod(
-          "singleVersionWithExplicitVersions", Map.class, int.class);
+      Class<?> clazz = Class.forName("com.google.gerrit.lucene.LuceneIndexModule");
+      Method m = clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class);
       return (Module) m.invoke(null, singleVersions, 0);
-    } catch (ClassNotFoundException | SecurityException | NoSuchMethodException
-        | IllegalArgumentException | IllegalAccessException
+    } catch (ClassNotFoundException
+        | SecurityException
+        | NoSuchMethodException
+        | IllegalArgumentException
+        | IllegalAccessException
         | InvocationTargetException e) {
       e.printStackTrace();
       ProvisionException pe = new ProvisionException(e.getMessage());

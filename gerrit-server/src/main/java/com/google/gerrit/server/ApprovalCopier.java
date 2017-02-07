@@ -36,22 +36,19 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Copies approvals between patch sets.
- * <p>
- * The result of a copy may either be stored, as when stamping approvals in the
- * database at submit time, or refreshed on demand, as when reading approvals
- * from the NoteDb.
+ *
+ * <p>The result of a copy may either be stored, as when stamping approvals in the database at
+ * submit time, or refreshed on demand, as when reading approvals from the NoteDb.
  */
 @Singleton
 public class ApprovalCopier {
@@ -63,7 +60,8 @@ public class ApprovalCopier {
   private final PatchSetUtil psUtil;
 
   @Inject
-  ApprovalCopier(GitRepositoryManager repoManager,
+  ApprovalCopier(
+      GitRepositoryManager repoManager,
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
@@ -77,13 +75,12 @@ public class ApprovalCopier {
     this.psUtil = psUtil;
   }
 
-  public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps)
-      throws OrmException {
+  public void copy(ReviewDb db, ChangeControl ctl, PatchSet ps) throws OrmException {
     db.patchSetApprovals().insert(getForPatchSet(db, ctl, ps));
   }
 
-  Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
-      ChangeControl ctl, PatchSet.Id psId) throws OrmException {
+  Iterable<PatchSetApproval> getForPatchSet(ReviewDb db, ChangeControl ctl, PatchSet.Id psId)
+      throws OrmException {
     PatchSet ps = psUtil.get(db, ctl.getNotes(), psId);
     if (ps == null) {
       return Collections.emptyList();
@@ -91,41 +88,39 @@ public class ApprovalCopier {
     return getForPatchSet(db, ctl, ps);
   }
 
-  private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db,
-      ChangeControl ctl, PatchSet ps) throws OrmException {
+  private Iterable<PatchSetApproval> getForPatchSet(ReviewDb db, ChangeControl ctl, PatchSet ps)
+      throws OrmException {
     checkNotNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(db, ctl);
     try {
-      ProjectState project =
-          projectCache.checkedGet(cd.change().getDest().getParentKey());
+      ProjectState project = projectCache.checkedGet(cd.change().getDest().getParentKey());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
       checkNotNull(all, "all should not be null");
 
-      Table<String, Account.Id, PatchSetApproval> wontCopy =
-          HashBasedTable.create();
-      Table<String, Account.Id, PatchSetApproval> byUser =
-          HashBasedTable.create();
+      Table<String, Account.Id, PatchSetApproval> wontCopy = HashBasedTable.create();
+      Table<String, Account.Id, PatchSetApproval> byUser = HashBasedTable.create();
       for (PatchSetApproval psa : all.get(ps.getId())) {
         byUser.put(psa.getLabel(), psa.getAccountId(), psa);
       }
 
       TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
 
-      try (Repository repo =
-          repoManager.openRepository(project.getProject().getNameKey())) {
+      try (Repository repo = repoManager.openRepository(project.getProject().getNameKey())) {
         // Walk patch sets strictly less than current in descending order.
-        Collection<PatchSet> allPrior = patchSets.descendingMap()
-            .tailMap(ps.getId().get(), false)
-            .values();
+        Collection<PatchSet> allPrior =
+            patchSets.descendingMap().tailMap(ps.getId().get(), false).values();
         for (PatchSet priorPs : allPrior) {
           List<PatchSetApproval> priorApprovals = all.get(priorPs.getId());
           if (priorApprovals.isEmpty()) {
             continue;
           }
 
-          ChangeKind kind = changeKindCache.getChangeKind(project, repo,
-              ObjectId.fromString(priorPs.getRevision().get()),
-              ObjectId.fromString(ps.getRevision().get()));
+          ChangeKind kind =
+              changeKindCache.getChangeKind(
+                  project,
+                  repo,
+                  ObjectId.fromString(priorPs.getRevision().get()),
+                  ObjectId.fromString(ps.getRevision().get()));
 
           for (PatchSetApproval psa : priorApprovals) {
             if (wontCopy.contains(psa.getLabel(), psa.getAccountId())) {
@@ -138,8 +133,7 @@ public class ApprovalCopier {
               wontCopy.put(psa.getLabel(), psa.getAccountId(), psa);
               continue;
             }
-            byUser.put(psa.getLabel(), psa.getAccountId(),
-                copy(psa, ps.getId()));
+            byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.getId()));
           }
         }
         return labelNormalizer.normalize(ctl, byUser.values()).getNormalized();
@@ -149,8 +143,7 @@ public class ApprovalCopier {
     }
   }
 
-  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd)
-      throws OrmException {
+  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd) throws OrmException {
     Collection<PatchSet> patchSets = cd.patchSets();
     TreeMap<Integer, PatchSet> result = new TreeMap<>();
     for (PatchSet ps : patchSets) {
@@ -159,15 +152,14 @@ public class ApprovalCopier {
     return result;
   }
 
-  private static boolean canCopy(ProjectState project, PatchSetApproval psa,
-      PatchSet.Id psId, ChangeKind kind) {
+  private static boolean canCopy(
+      ProjectState project, PatchSetApproval psa, PatchSet.Id psId, ChangeKind kind) {
     int n = psa.getKey().getParentKey().get();
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
       return false;
-    } else if (
-        (type.isCopyMinScore() && type.isMaxNegative(psa))
+    } else if ((type.isCopyMinScore() && type.isMaxNegative(psa))
         || (type.isCopyMaxScore() && type.isMaxPositive(psa))) {
       return true;
     }

@@ -24,22 +24,17 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSch;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class SystemInfoServiceImpl implements SystemInfoService {
-  private static final Logger log =
-      LoggerFactory.getLogger(SystemInfoServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(SystemInfoServiceImpl.class);
 
   private static final JSch JSCH = new JSch();
 
@@ -48,21 +43,17 @@ class SystemInfoServiceImpl implements SystemInfoService {
   private final ProjectCache projectCache;
 
   @Inject
-  SystemInfoServiceImpl(SshInfo daemon,
-      Provider<HttpServletRequest> hsr,
-      ProjectCache pc) {
+  SystemInfoServiceImpl(SshInfo daemon, Provider<HttpServletRequest> hsr, ProjectCache pc) {
     hostKeys = daemon.getHostKeys();
     httpRequest = hsr;
     projectCache = pc;
   }
 
   @Override
-  public void contributorAgreements(
-      final AsyncCallback<List<ContributorAgreement>> callback) {
+  public void contributorAgreements(final AsyncCallback<List<ContributorAgreement>> callback) {
     Collection<ContributorAgreement> agreements =
         projectCache.getAllProjects().getConfig().getContributorAgreements();
-    List<ContributorAgreement> cas =
-        Lists.newArrayListWithCapacity(agreements.size());
+    List<ContributorAgreement> cas = Lists.newArrayListWithCapacity(agreements.size());
     for (ContributorAgreement ca : agreements) {
       cas.add(ca.forUi());
     }

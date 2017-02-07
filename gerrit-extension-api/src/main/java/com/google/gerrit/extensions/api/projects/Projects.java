@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,12 +26,11 @@ import java.util.SortedMap;
 public interface Projects {
   /**
    * Look up a project by name.
-   * <p>
-   * <strong>Note:</strong> This method eagerly reads the project. Methods that
-   * mutate the project do not necessarily re-read the project. Therefore,
-   * calling a getter method on an instance after calling a mutation method on
-   * that same instance is not guaranteed to reflect the mutation. It is not
-   * recommended to store references to {@code ProjectApi} instances.
+   *
+   * <p><strong>Note:</strong> This method eagerly reads the project. Methods that mutate the
+   * project do not necessarily re-read the project. Therefore, calling a getter method on an
+   * instance after calling a mutation method on that same instance is not guaranteed to reflect the
+   * mutation. It is not recommended to store references to {@code ProjectApi} instances.
    *
    * @param name project name.
    * @return API for accessing the project.
@@ -62,7 +60,10 @@ public interface Projects {
 
   abstract class ListRequest {
     public enum FilterType {
-      CODE, PARENT_CANDIDATES, PERMISSIONS, ALL
+      CODE,
+      PARENT_CANDIDATES,
+      PERMISSIONS,
+      ALL
     }
 
     private final List<String> branches = new ArrayList<>();
@@ -86,8 +87,7 @@ public interface Projects {
       return Collections.unmodifiableList(result);
     }
 
-    public abstract SortedMap<String, ProjectInfo> getAsMap()
-        throws RestApiException;
+    public abstract SortedMap<String, ProjectInfo> getAsMap() throws RestApiException;
 
     public ListRequest withDescription(boolean description) {
       this.description = description;
@@ -172,9 +172,9 @@ public interface Projects {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements Projects {
     @Override
     public ProjectApi name(String name) throws RestApiException {

@@ -28,7 +28,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -38,8 +37,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
   private final List list;
 
   @Inject
-  Votes(DynamicMap<RestView<VoteResource>> views,
-      List list) {
+  Votes(DynamicMap<RestView<VoteResource>> views, List list) {
     this.views = views;
     this.list = list;
   }
@@ -66,8 +64,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
     private final ApprovalsUtil approvalsUtil;
 
     @Inject
-    List(Provider<ReviewDb> db,
-        ApprovalsUtil approvalsUtil) {
+    List(Provider<ReviewDb> db, ApprovalsUtil approvalsUtil) {
       this.db = db;
       this.approvalsUtil = approvalsUtil;
     }
@@ -75,11 +72,12 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
     @Override
     public Map<String, Short> apply(ReviewerResource rsrc) throws OrmException {
       Map<String, Short> votes = new TreeMap<>();
-      Iterable<PatchSetApproval> byPatchSetUser = approvalsUtil.byPatchSetUser(
-          db.get(),
-          rsrc.getControl(),
-          rsrc.getChange().currentPatchSetId(),
-          rsrc.getReviewerUser().getAccountId());
+      Iterable<PatchSetApproval> byPatchSetUser =
+          approvalsUtil.byPatchSetUser(
+              db.get(),
+              rsrc.getControl(),
+              rsrc.getChange().currentPatchSetId(),
+              rsrc.getReviewerUser().getAccountId());
       for (PatchSetApproval psa : byPatchSetUser) {
         votes.put(psa.getLabel(), psa.getValue());
       }

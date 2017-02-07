@@ -40,15 +40,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.TemporaryBuffer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -59,13 +50,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.TemporaryBuffer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
-  protected static ChangeData newChangeData(EmailArguments ea,
-      Project.NameKey project, Change.Id id) {
+  protected static ChangeData newChangeData(
+      EmailArguments ea, Project.NameKey project, Change.Id id) {
     return ea.changeDataFactory.create(ea.db.get(), project, id);
   }
 
@@ -80,8 +78,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
-  protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd)
-      throws OrmException {
+  protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd) throws OrmException {
     super(ea, mc, cd.change().getDest());
     changeData = cd;
     change = cd.change();
@@ -93,7 +90,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     super.setFrom(id);
 
     /** Is the from user in an email squelching group? */
-    final IdentifiedUser user =  args.identifiedUserFactory.create(id);
+    final IdentifiedUser user = args.identifiedUserFactory.create(id);
     emailOnlyAuthors = !user.getCapabilities().canEmailReviewers();
   }
 
@@ -143,8 +140,7 @@ public abstract class ChangeEmail extends NotificationEmail {
    *
    * @throws EmailException if an error occurred.
    */
-  protected void formatFooter() throws EmailException {
-  }
+  protected void formatFooter() throws EmailException {}
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   @Override
@@ -165,8 +161,8 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     if (patchSet != null && patchSetInfo == null) {
       try {
-        patchSetInfo = args.patchSetInfoFactory.get(
-            args.db.get(), changeData.notes(), patchSet.getId());
+        patchSetInfo =
+            args.patchSetInfoFactory.get(args.db.get(), changeData.notes(), patchSet.getId());
       } catch (PatchSetInfoNotAvailableException | OrmException err) {
         patchSetInfo = null;
       }
@@ -191,7 +187,8 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   private void setCommitIdHeader() {
-    if (patchSet != null && patchSet.getRevision() != null
+    if (patchSet != null
+        && patchSet.getRevision() != null
         && patchSet.getRevision().get() != null
         && patchSet.getRevision().get().length() > 0) {
       setHeader("X-Gerrit-Commit", patchSet.getRevision().get());
@@ -214,8 +211,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   public String getChangeMessageThreadId() throws EmailException {
-    return velocify("<gerrit.${change.createdOn.time}.$change.key.get()" +
-                    "@$email.gerritHost>");
+    return velocify("<gerrit.${change.createdOn.time}.$change.key.get()" + "@$email.gerritHost>");
   }
 
   /** Format the sender's "cover letter", {@link #getCoverLetter()}. */
@@ -258,16 +254,22 @@ public abstract class ChangeEmail extends NotificationEmail {
           if (Patch.COMMIT_MSG.equals(p.getNewName())) {
             continue;
           }
-          detail.append(p.getChangeType().getCode())
-                .append(" ").append(p.getNewName()).append("\n");
+          detail
+              .append(p.getChangeType().getCode())
+              .append(" ")
+              .append(p.getNewName())
+              .append("\n");
         }
-        detail.append(MessageFormat.format("" //
-            + "{0,choice,0#0 files|1#1 file|1<{0} files} changed, " //
-            + "{1,choice,0#0 insertions|1#1 insertion|1<{1} insertions}(+), " //
-            + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
-            + "\n", patchList.getPatches().size() - 1, //
-            patchList.getInsertions(), //
-            patchList.getDeletions()));
+        detail.append(
+            MessageFormat.format(
+                "" //
+                    + "{0,choice,0#0 files|1#1 file|1<{0} files} changed, " //
+                    + "{1,choice,0#0 insertions|1#1 insertion|1<{1} insertions}(+), " //
+                    + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
+                    + "\n",
+                patchList.getPatches().size() - 1, //
+                patchList.getInsertions(), //
+                patchList.getDeletions()));
         detail.append("\n");
       }
       return detail.toString();
@@ -295,7 +297,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     final ProjectState r;
 
     r = args.projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.UUID> emptySet();
+    return r != null ? r.getOwners() : Collections.<AccountGroup.UUID>emptySet();
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
@@ -317,8 +319,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       //
       Multimap<Account.Id, String> stars =
           args.starredChangesUtil.byChangeFromIndex(change.getId());
-      for (Map.Entry<Account.Id, Collection<String>> e :
-          stars.asMap().entrySet()) {
+      for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
         if (e.getValue().contains(StarredChangesUtil.DEFAULT_LABEL)) {
           super.add(RecipientType.BCC, e.getKey());
         }
@@ -343,15 +344,13 @@ public abstract class ChangeEmail extends NotificationEmail {
       return new Watchers();
     }
 
-    ProjectWatch watch = new ProjectWatch(
-        args, branch.getParentKey(), projectState, changeData);
+    ProjectWatch watch = new ProjectWatch(args, branch.getParentKey(), projectState, changeData);
     return watch.getWatchers(type);
   }
 
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
-    if (!NotifyHandling.ALL.equals(notify)
-        && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+    if (!NotifyHandling.ALL.equals(notify) && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
       return;
     }
 
@@ -366,8 +365,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
-    if (!NotifyHandling.ALL.equals(notify)
-        && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+    if (!NotifyHandling.ALL.equals(notify) && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
       return;
     }
 
@@ -382,7 +380,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected void add(final RecipientType rt, final Account.Id to) {
-    if (! emailOnlyAuthors || authors.contains(to)) {
+    if (!emailOnlyAuthors || authors.contains(to)) {
       super.add(rt, to);
     }
   }
@@ -390,8 +388,10 @@ public abstract class ChangeEmail extends NotificationEmail {
   @Override
   protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return projectState == null
-        || projectState.controlFor(args.identifiedUserFactory.create(to))
-            .controlFor(args.db.get(), change).isVisible(args.db.get());
+        || projectState
+            .controlFor(args.identifiedUserFactory.create(to))
+            .controlFor(args.db.get(), change)
+            .isVisible(args.db.get());
   }
 
   /** Find all users who are authors of any part of this change. */
@@ -457,8 +457,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     int maxSize = args.settings.maximumDiffSize;
-    TemporaryBuffer.Heap buf =
-        new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxSize), maxSize);
+    TemporaryBuffer.Heap buf = new TemporaryBuffer.Heap(Math.min(HEAP_EST_SIZE, maxSize), maxSize);
     try (DiffFormatter fmt = new DiffFormatter(buf)) {
       try (Repository git = args.server.openRepository(change.getProject())) {
         try {

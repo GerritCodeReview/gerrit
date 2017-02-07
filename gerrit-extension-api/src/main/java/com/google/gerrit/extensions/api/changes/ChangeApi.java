@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +31,11 @@ public interface ChangeApi {
 
   /**
    * Look up the current revision for the change.
-   * <p>
-   * <strong>Note:</strong> This method eagerly reads the revision. Methods that
-   * mutate the revision do not necessarily re-read the revision. Therefore,
-   * calling a getter method on an instance after calling a mutation method on
-   * that same instance is not guaranteed to reflect the mutation. It is not
-   * recommended to store references to {@code RevisionApi} instances.
+   *
+   * <p><strong>Note:</strong> This method eagerly reads the revision. Methods that mutate the
+   * revision do not necessarily re-read the revision. Therefore, calling a getter method on an
+   * instance after calling a mutation method on that same instance is not guaranteed to reflect the
+   * mutation. It is not recommended to store references to {@code RevisionApi} instances.
    *
    * @return API for accessing the revision.
    * @throws RestApiException if an error occurred.
@@ -60,24 +58,28 @@ public interface ChangeApi {
 
   /**
    * Look up the reviewer of the change.
+   *
    * <p>
-   * @param id ID of the account, can be a string of the format
-   *     "Full Name &lt;mail@example.com&gt;", just the email address, a full name
-   *     if it is unique, an account ID, a user name or 'self' for the
-   *     calling user.
+   *
+   * @param id ID of the account, can be a string of the format "Full Name
+   *     &lt;mail@example.com&gt;", just the email address, a full name if it is unique, an account
+   *     ID, a user name or 'self' for the calling user.
    * @return API for accessing the reviewer.
-   * @throws RestApiException if id is not account ID or is a user that isn't
-   *     known to be a reviewer for this change.
+   * @throws RestApiException if id is not account ID or is a user that isn't known to be a reviewer
+   *     for this change.
    */
   ReviewerApi reviewer(String id) throws RestApiException;
 
   void abandon() throws RestApiException;
+
   void abandon(AbandonInput in) throws RestApiException;
 
   void restore() throws RestApiException;
+
   void restore(RestoreInput in) throws RestApiException;
 
   void move(String destination) throws RestApiException;
+
   void move(MoveInput in) throws RestApiException;
 
   /**
@@ -95,26 +97,26 @@ public interface ChangeApi {
   ChangeApi revert(RevertInput in) throws RestApiException;
 
   List<ChangeInfo> submittedTogether() throws RestApiException;
-  SubmittedTogetherInfo submittedTogether(
-      EnumSet<SubmittedTogetherOption> options) throws RestApiException;
 
-  /**
-   * Publishes a draft change.
-   */
+  SubmittedTogetherInfo submittedTogether(EnumSet<SubmittedTogetherOption> options)
+      throws RestApiException;
+
+  /** Publishes a draft change. */
   void publish() throws RestApiException;
 
-  /**
-   * Deletes a draft change.
-   */
+  /** Deletes a draft change. */
   void delete() throws RestApiException;
 
   String topic() throws RestApiException;
+
   void topic(String topic) throws RestApiException;
 
   void addReviewer(AddReviewerInput in) throws RestApiException;
+
   void addReviewer(String in) throws RestApiException;
 
   SuggestedReviewersRequest suggestReviewers() throws RestApiException;
+
   SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException;
 
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
@@ -126,13 +128,12 @@ public interface ChangeApi {
   /** Retrieve change edit when exists. */
   EditInfo getEdit() throws RestApiException;
 
-  /**
-   * Set hashtags on a change
-   **/
+  /** Set hashtags on a change */
   void setHashtags(HashtagsInput input) throws RestApiException;
 
   /**
    * Get hashtags on a change.
+   *
    * @return hashtags
    * @throws RestApiException
    */
@@ -141,8 +142,8 @@ public interface ChangeApi {
   /**
    * Get all published comments on a change.
    *
-   * @return comments in a map keyed by path; comments have the {@code revision}
-   *     field set to indicate their patch set.
+   * @return comments in a map keyed by path; comments have the {@code revision} field set to
+   *     indicate their patch set.
    * @throws RestApiException
    */
   Map<String, List<CommentInfo>> comments() throws RestApiException;
@@ -150,14 +151,16 @@ public interface ChangeApi {
   /**
    * Get all draft comments for the current user on a change.
    *
-   * @return drafts in a map keyed by path; comments have the {@code revision}
-   *     field set to indicate their patch set.
+   * @return drafts in a map keyed by path; comments have the {@code revision} field set to indicate
+   *     their patch set.
    * @throws RestApiException
    */
   Map<String, List<CommentInfo>> drafts() throws RestApiException;
 
   ChangeInfo check() throws RestApiException;
+
   ChangeInfo check(FixInput fix) throws RestApiException;
+
   void index() throws RestApiException;
 
   abstract class SuggestedReviewersRequest {
@@ -186,9 +189,9 @@ public interface ChangeApi {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements ChangeApi {
     @Override
     public String id() {
@@ -356,8 +359,8 @@ public interface ChangeApi {
     }
 
     @Override
-    public SubmittedTogetherInfo submittedTogether(
-        EnumSet<SubmittedTogetherOption> options) throws RestApiException {
+    public SubmittedTogetherInfo submittedTogether(EnumSet<SubmittedTogetherOption> options)
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

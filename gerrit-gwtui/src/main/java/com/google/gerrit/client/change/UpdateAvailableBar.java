@@ -24,7 +24,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +31,7 @@ import java.util.List;
 /** Displays the "New Message From ..." panel in bottom right on updates. */
 abstract class UpdateAvailableBar extends Composite {
   interface Binder extends UiBinder<HTMLPanel, UpdateAvailableBar> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private Timestamp updated;
@@ -72,5 +72,6 @@ abstract class UpdateAvailableBar extends Composite {
   }
 
   abstract void onShow();
+
   abstract void onIgnore(Timestamp newTime);
 }

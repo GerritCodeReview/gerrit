@@ -23,11 +23,6 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
-
-import net.codemirror.lib.CodeMirror;
-import net.codemirror.lib.Pos;
-import net.codemirror.lib.TextMarker.FromTo;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,6 +32,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.Pos;
+import net.codemirror.lib.TextMarker.FromTo;
 
 /** Tracks comment widgets for {@link DiffScreen}. */
 abstract class CommentManager {
@@ -172,8 +170,8 @@ abstract class CommentManager {
    * Create a new {@link DraftBox} at the specified line and focus it.
    *
    * @param side which side the draft will appear on.
-   * @param line the line the draft will be at. Lines are 1-based. Line 0 is a
-   *        special case creating a file level comment.
+   * @param line the line the draft will be at. Lines are 1-based. Line 0 is a special case creating
+   *     a file level comment.
    */
   void insertNewDraft(DisplaySide side, int line) {
     if (line == 0) {
@@ -184,17 +182,20 @@ abstract class CommentManager {
     if (0 < group.getBoxCount()) {
       CommentBox last = group.getCommentBox(group.getBoxCount() - 1);
       if (last instanceof DraftBox) {
-        ((DraftBox)last).setEdit(true);
+        ((DraftBox) last).setEdit(true);
       } else {
-        ((PublishedBox)last).doReply();
+        ((PublishedBox) last).doReply();
       }
     } else {
-      addDraftBox(side, CommentInfo.create(
-          getPath(),
-          getStoredSideFromDisplaySide(side),
-          getParentNumFromDisplaySide(side),
-          line,
-          null)).setEdit(true);
+      addDraftBox(
+              side,
+              CommentInfo.create(
+                  getPath(),
+                  getStoredSideFromDisplaySide(side),
+                  getParentNumFromDisplaySide(side),
+                  line,
+                  null))
+          .setEdit(true);
     }
   }
 
@@ -233,12 +234,9 @@ abstract class CommentManager {
   DraftBox addDraftBox(DisplaySide side, CommentInfo info) {
     int cmLinePlusOne = host.getCmLine(info.line() - 1, side) + 1;
     CommentGroup group = group(side, cmLinePlusOne);
-    DraftBox box = new DraftBox(
-        group,
-        getCommentLinkProcessor(),
-        getPatchSetIdFromSide(side),
-        info,
-        isExpandAll());
+    DraftBox box =
+        new DraftBox(
+            group, getCommentLinkProcessor(), getPatchSetIdFromSide(side), info, isExpandAll());
 
     if (info.inReplyTo() != null) {
       PublishedBox r = getPublished().get(info.inReplyTo());
@@ -248,9 +246,10 @@ abstract class CommentManager {
     }
 
     group.add(box);
-    box.setAnnotation(host.getDiffTable().scrollbar.draft(
-        host.getCmFromSide(side),
-        Math.max(0, cmLinePlusOne - 1)));
+    box.setAnnotation(
+        host.getDiffTable()
+            .scrollbar
+            .draft(host.getCmFromSide(side), Math.max(0, cmLinePlusOne - 1)));
     return box;
   }
 
@@ -274,9 +273,8 @@ abstract class CommentManager {
         // It is only necessary to search one side to find a comment
         // on either side of the editor pair.
         SortedMap<Integer, CommentGroup> map = getMapForNav(src.side());
-        int line = src.extras().hasActiveLine()
-            ? src.getLineNumber(src.extras().activeLine()) + 1
-            : 0;
+        int line =
+            src.extras().hasActiveLine() ? src.getLineNumber(src.extras().activeLine()) + 1 : 0;
 
         CommentGroup g;
         if (dir == Direction.NEXT) {
@@ -355,17 +353,17 @@ abstract class CommentManager {
       if (side != null) {
         int cmLinePlusOne = host.getCmLine(info.line() - 1, side) + 1;
         CommentGroup group = group(side, cmLinePlusOne);
-        PublishedBox box = new PublishedBox(
-            group,
-            getCommentLinkProcessor(),
-            getPatchSetIdFromSide(side),
-            info,
-            side,
-            isOpen());
+        PublishedBox box =
+            new PublishedBox(
+                group,
+                getCommentLinkProcessor(),
+                getPatchSetIdFromSide(side),
+                info,
+                side,
+                isOpen());
         group.add(box);
-        box.setAnnotation(host.getDiffTable().scrollbar.comment(
-            host.getCmFromSide(side),
-            cmLinePlusOne - 1));
+        box.setAnnotation(
+            host.getDiffTable().scrollbar.comment(host.getCmFromSide(side), cmLinePlusOne - 1));
         getPublished().put(info.id(), box);
       }
     }
@@ -399,9 +397,9 @@ abstract class CommentManager {
         if (deltaBefore < -context || deltaAfter < -context) {
           temp.add(skip); // Size guaranteed to be greater than 1
         } else if (deltaBefore > context && deltaAfter > context) {
-          SkippedLine before = new SkippedLine(
-              skip.getStartA(), skip.getStartB(),
-              skip.getSize() - deltaAfter - context);
+          SkippedLine before =
+              new SkippedLine(
+                  skip.getStartA(), skip.getStartB(), skip.getSize() - deltaAfter - context);
           skip.incrementStart(deltaBefore + context);
           checkAndAddSkip(temp, before);
           checkAndAddSkip(temp, skip);
@@ -421,8 +419,7 @@ abstract class CommentManager {
     return skips;
   }
 
-  abstract void newDraftOnGutterClick(CodeMirror cm, String gutterClass,
-      int line);
+  abstract void newDraftOnGutterClick(CodeMirror cm, String gutterClass, int line);
 
   abstract CommentGroup getCommentGroupOnActiveLine(CodeMirror cm);
 

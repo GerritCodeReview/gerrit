@@ -35,8 +35,8 @@ import com.google.inject.Singleton;
 
 @RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
 @Singleton
-public class CachesCollection implements
-    ChildCollection<ConfigResource, CacheResource>, AcceptsPost<ConfigResource> {
+public class CachesCollection
+    implements ChildCollection<ConfigResource, CacheResource>, AcceptsPost<ConfigResource> {
 
   private final DynamicMap<RestView<CacheResource>> views;
   private final Provider<ListCaches> list;
@@ -45,8 +45,10 @@ public class CachesCollection implements
   private final PostCaches postCaches;
 
   @Inject
-  CachesCollection(DynamicMap<RestView<CacheResource>> views,
-      Provider<ListCaches> list, Provider<CurrentUser> self,
+  CachesCollection(
+      DynamicMap<RestView<CacheResource>> views,
+      Provider<ListCaches> list,
+      Provider<CurrentUser> self,
       DynamicMap<Cache<?, ?>> cacheMap,
       PostCaches postCaches) {
     this.views = views;

@@ -57,7 +57,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import com.google.inject.util.Providers;
-
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -67,14 +73,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
 
 public class ReplaceOp extends BatchUpdate.Op {
   public interface Factory {
@@ -93,8 +91,7 @@ public class ReplaceOp extends BatchUpdate.Op {
         @Nullable PushCertificate pushCertificate);
   }
 
-  private static final Logger log =
-      LoggerFactory.getLogger(ReplaceOp.class);
+  private static final Logger log = LoggerFactory.getLogger(ReplaceOp.class);
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
 
@@ -136,7 +133,8 @@ public class ReplaceOp extends BatchUpdate.Op {
   private MergedByPushOp mergedByPushOp;
 
   @AssistedInject
-  ReplaceOp(AccountResolver accountResolver,
+  ReplaceOp(
+      AccountResolver accountResolver,
       ApprovalCopier approvalCopier,
       ApprovalsUtil approvalsUtil,
       ChangeControl.GenericFactory changeControlFactory,
@@ -193,21 +191,21 @@ public class ReplaceOp extends BatchUpdate.Op {
 
   @Override
   public void updateRepo(RepoContext ctx) throws Exception {
-    changeKind = changeKindCache.getChangeKind(projectControl.getProjectState(),
-        ctx.getRepository(), priorCommit, commit);
+    changeKind =
+        changeKindCache.getChangeKind(
+            projectControl.getProjectState(), ctx.getRepository(), priorCommit, commit);
 
     if (checkMergedInto) {
       Ref mergedInto = findMergedInto(ctx, dest.get(), commit);
       if (mergedInto != null) {
-        mergedByPushOp = mergedByPushOpFactory.create(
-            requestScopePropagator, patchSetId, mergedInto.getName());
+        mergedByPushOp =
+            mergedByPushOpFactory.create(requestScopePropagator, patchSetId, mergedInto.getName());
       }
     }
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx)
-      throws OrmException, IOException {
+  public boolean updateChange(ChangeContext ctx) throws OrmException, IOException {
     change = ctx.getChange();
     if (change == null || change.getStatus().isClosed()) {
       rejectMessage = CHANGE_IS_CLOSED;
@@ -215,9 +213,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     }
     if (groups.isEmpty()) {
       PatchSet prevPs = psUtil.current(ctx.getDb(), ctx.getNotes());
-      groups = prevPs != null
-          ? prevPs.getGroups()
-          : ImmutableList.<String> of();
+      groups = prevPs != null ? prevPs.getGroups() : ImmutableList.<String>of();
     }
 
     ChangeUpdate update = ctx.getUpdate(patchSetId);
@@ -233,8 +229,7 @@ public class ReplaceOp extends BatchUpdate.Op {
         hashtags.addAll(ctx.getNotes().getHashtags());
         update.setHashtags(hashtags);
       }
-      if (magicBranch.topic != null
-          && !magicBranch.topic.equals(ctx.getChange().getTopic())) {
+      if (magicBranch.topic != null && !magicBranch.topic.equals(ctx.getChange().getTopic())) {
         update.setTopic(magicBranch.topic);
       }
     }
@@ -243,29 +238,44 @@ public class ReplaceOp extends BatchUpdate.Op {
     if (change.getStatus() == Change.Status.DRAFT && !draft) {
       update.setStatus(Change.Status.NEW);
     }
-    newPatchSet = psUtil.insert(
-        ctx.getDb(), ctx.getRevWalk(), update, patchSetId, commit, draft, groups,
-        pushCertificate != null
-          ? pushCertificate.toTextWithSignature()
-          : null);
+    newPatchSet =
+        psUtil.insert(
+            ctx.getDb(),
+            ctx.getRevWalk(),
+            update,
+            patchSetId,
+            commit,
+            draft,
+            groups,
+            pushCertificate != null ? pushCertificate.toTextWithSignature() : null);
 
-    recipients.add(getRecipientsFromFooters(
-        ctx.getDb(), accountResolver, draft, commit.getFooterLines()));
+    recipients.add(
+        getRecipientsFromFooters(ctx.getDb(), accountResolver, draft, commit.getFooterLines()));
     recipients.remove(ctx.getAccountId());
     ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getControl());
-    MailRecipients oldRecipients =
-        getRecipientsFromReviewers(cd.reviewers());
+    MailRecipients oldRecipients = getRecipientsFromReviewers(cd.reviewers());
     approvalCopier.copy(ctx.getDb(), ctx.getControl(), newPatchSet);
-    approvalsUtil.addReviewers(ctx.getDb(), update,
-        projectControl.getLabelTypes(), change, newPatchSet, info,
-        recipients.getReviewers(), oldRecipients.getAll());
-    approvalsUtil.addApprovals(ctx.getDb(), update,
-        projectControl.getLabelTypes(), newPatchSet, ctx.getControl(),
+    approvalsUtil.addReviewers(
+        ctx.getDb(),
+        update,
+        projectControl.getLabelTypes(),
+        change,
+        newPatchSet,
+        info,
+        recipients.getReviewers(),
+        oldRecipients.getAll());
+    approvalsUtil.addApprovals(
+        ctx.getDb(),
+        update,
+        projectControl.getLabelTypes(),
+        newPatchSet,
+        ctx.getControl(),
         approvals);
     recipients.add(oldRecipients);
 
-    String approvalMessage = ApprovalsUtil.renderMessageWithApprovals(
-        patchSetId.get(), approvals, scanLabels(ctx, approvals));
+    String approvalMessage =
+        ApprovalsUtil.renderMessageWithApprovals(
+            patchSetId.get(), approvals, scanLabels(ctx, approvals));
     String kindMessage = changeKindMessage(changeKind);
     StringBuilder message = new StringBuilder(approvalMessage);
     if (!Strings.isNullOrEmpty(kindMessage)) {
@@ -276,18 +286,19 @@ public class ReplaceOp extends BatchUpdate.Op {
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n").append(reviewMessage);
     }
-    msg = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(),
-            ChangeUtil.messageUUID(ctx.getDb())),
-        ctx.getAccountId(), ctx.getWhen(), patchSetId);
+    msg =
+        new ChangeMessage(
+            new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(ctx.getDb())),
+            ctx.getAccountId(),
+            ctx.getWhen(),
+            patchSetId);
     msg.setMessage(message.toString());
     cmUtil.addChangeMessage(ctx.getDb(), update, msg);
 
     if (mergedByPushOp == null) {
       resetChange(ctx, msg);
     } else {
-      mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet))
-          .updateChange(ctx);
+      mergedByPushOp.setPatchSetProvider(Providers.of(newPatchSet)).updateChange(ctx);
     }
 
     return true;
@@ -307,14 +318,14 @@ public class ReplaceOp extends BatchUpdate.Op {
     }
   }
 
-  private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx,
-      Map<String, Short> approvals) throws OrmException {
+  private Map<String, PatchSetApproval> scanLabels(ChangeContext ctx, Map<String, Short> approvals)
+      throws OrmException {
     Map<String, PatchSetApproval> current = new HashMap<>();
     // We optimize here and only retrieve current when approvals provided
     if (!approvals.isEmpty()) {
-      for (PatchSetApproval a : approvalsUtil.byPatchSetUser(ctx.getDb(),
-          ctx.getControl(), priorPatchSetId,
-          ctx.getAccountId())) {
+      for (PatchSetApproval a :
+          approvalsUtil.byPatchSetUser(
+              ctx.getDb(), ctx.getControl(), priorPatchSetId, ctx.getAccountId())) {
         if (a.isLegacySubmit()) {
           continue;
         }
@@ -328,8 +339,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     return current;
   }
 
-  private void resetChange(ChangeContext ctx, ChangeMessage msg)
-      throws OrmException {
+  private void resetChange(ChangeContext ctx, ChangeMessage msg) throws OrmException {
     Change change = ctx.getChange();
     if (change.getStatus().isClosed()) {
       ctx.getDb().patchSets().delete(Collections.singleton(newPatchSet));
@@ -367,35 +377,37 @@ public class ReplaceOp extends BatchUpdate.Op {
     // BatchUpdate's perspective there is no ref update. Thus we have to fire it
     // manually.
     final Account account = ctx.getAccount();
-    gitRefUpdated.fire(ctx.getProject(), newPatchSet.getRefName(),
-        ObjectId.zeroId(), commit, account);
+    gitRefUpdated.fire(
+        ctx.getProject(), newPatchSet.getRefName(), ObjectId.zeroId(), commit, account);
 
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
-      Runnable sender = new Runnable() {
-        @Override
-        public void run() {
-          try {
-            ReplacePatchSetSender cm = replacePatchSetFactory.create(
-                projectControl.getProject().getNameKey(), change.getId());
-            cm.setFrom(account.getId());
-            cm.setPatchSet(newPatchSet, info);
-            cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
-            if (magicBranch != null && magicBranch.notify != null) {
-              cm.setNotify(magicBranch.notify);
+      Runnable sender =
+          new Runnable() {
+            @Override
+            public void run() {
+              try {
+                ReplacePatchSetSender cm =
+                    replacePatchSetFactory.create(
+                        projectControl.getProject().getNameKey(), change.getId());
+                cm.setFrom(account.getId());
+                cm.setPatchSet(newPatchSet, info);
+                cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
+                if (magicBranch != null && magicBranch.notify != null) {
+                  cm.setNotify(magicBranch.notify);
+                }
+                cm.addReviewers(recipients.getReviewers());
+                cm.addExtraCC(recipients.getCcOnly());
+                cm.send();
+              } catch (Exception e) {
+                log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
+              }
             }
-            cm.addReviewers(recipients.getReviewers());
-            cm.addExtraCC(recipients.getCcOnly());
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
-          }
-        }
 
-        @Override
-        public String toString() {
-          return "send-email newpatchset";
-        }
-      };
+            @Override
+            public String toString() {
+              return "send-email newpatchset";
+            }
+          };
 
       if (requestScopePropagator != null) {
         sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
@@ -404,11 +416,9 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
-    NotifyHandling notify = magicBranch != null && magicBranch.notify != null
-        ? magicBranch.notify
-        : NotifyHandling.ALL;
-    revisionCreated.fire(change, newPatchSet, ctx.getAccount(),
-        ctx.getWhen(), notify);
+    NotifyHandling notify =
+        magicBranch != null && magicBranch.notify != null ? magicBranch.notify : NotifyHandling.ALL;
+    revisionCreated.fire(change, newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
     try {
       fireCommentAddedEvent(ctx);
     } catch (Exception e) {
@@ -419,8 +429,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     }
   }
 
-  private void fireCommentAddedEvent(final Context ctx)
-      throws NoSuchChangeException, OrmException {
+  private void fireCommentAddedEvent(final Context ctx) throws NoSuchChangeException, OrmException {
     if (approvals.isEmpty()) {
       return;
     }
@@ -430,8 +439,8 @@ public class ReplaceOp extends BatchUpdate.Op {
      * For labels that are set in this operation, the value was modified, so
      * show a transition from an oldValue of 0 to the new value.
      */
-    ChangeControl changeControl = changeControlFactory.controlFor(
-        ctx.getDb(), change, ctx.getUser());
+    ChangeControl changeControl =
+        changeControlFactory.controlFor(ctx.getDb(), change, ctx.getUser());
     List<LabelType> labels = changeControl.getLabelTypes().getLabelTypes();
     Map<String, Short> allApprovals = new HashMap<>();
     Map<String, Short> oldApprovals = new HashMap<>();
@@ -446,9 +455,8 @@ public class ReplaceOp extends BatchUpdate.Op {
       }
     }
 
-    commentAdded.fire(change, newPatchSet,
-        ctx.getAccount(), null,
-        allApprovals, oldApprovals, ctx.getWhen());
+    commentAdded.fire(
+        change, newPatchSet, ctx.getAccount(), null, allApprovals, oldApprovals, ctx.getWhen());
   }
 
   public PatchSet getPatchSet() {
@@ -464,8 +472,7 @@ public class ReplaceOp extends BatchUpdate.Op {
       RefDatabase refDatabase = ctx.getRepository().getRefDatabase();
 
       Ref firstRef = refDatabase.exactRef(first);
-      if (firstRef != null
-          && isMergedInto(ctx.getRevWalk(), commit, firstRef)) {
+      if (firstRef != null && isMergedInto(ctx.getRevWalk(), commit, firstRef)) {
         return firstRef;
       }
 
@@ -481,8 +488,7 @@ public class ReplaceOp extends BatchUpdate.Op {
     }
   }
 
-  private static boolean isMergedInto(RevWalk rw, RevCommit commit, Ref ref)
-      throws IOException {
+  private static boolean isMergedInto(RevWalk rw, RevCommit commit, Ref ref) throws IOException {
     return rw.isMergedInto(commit, rw.parseCommit(ref.getObjectId()));
   }
 }

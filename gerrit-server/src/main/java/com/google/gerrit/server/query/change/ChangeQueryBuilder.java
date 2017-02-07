@@ -74,12 +74,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -88,19 +82,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 
-/**
- * Parses a query string meant to be applied to change objects.
- */
+/** Parses a query string meant to be applied to change objects. */
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
-  public interface ChangeOperatorFactory
-      extends OperatorFactory<ChangeData, ChangeQueryBuilder> {
-  }
+  public interface ChangeOperatorFactory extends OperatorFactory<ChangeData, ChangeQueryBuilder> {}
 
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
-  private static final Pattern DEF_CHANGE = Pattern.compile(
-      "^(?:[1-9][0-9]*|(?:[^~]+~[^~]+~)?[iI][0-9a-f]{4,}.*)$");
+  private static final Pattern DEF_CHANGE =
+      Pattern.compile("^(?:[1-9][0-9]*|(?:[^~]+~[^~]+~)?[iI][0-9a-f]{4,}.*)$");
 
   // NOTE: As new search operations are added, please keep the
   // SearchSuggestOracle up to date.
@@ -153,7 +147,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
 
-
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
 
@@ -192,7 +185,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     @Inject
     @VisibleForTesting
-    public Arguments(Provider<ReviewDb> db,
+    public Arguments(
+        Provider<ReviewDb> db,
         Provider<InternalChangeQuery> queryProvider,
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
@@ -221,13 +215,35 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         @GerritServerConfig Config cfg) {
-      this(db, queryProvider, rewriter, opFactories, userFactory, self,
-          capabilityControlFactory, changeControlGenericFactory, notesFactory,
-          changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
-          allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, submitDryRun, conflictsCache,
-          trackingFooters, indexes != null ? indexes.getSearchIndex() : null,
-          indexConfig, listMembers, starredChangesUtil, accountCache,
+      this(
+          db,
+          queryProvider,
+          rewriter,
+          opFactories,
+          userFactory,
+          self,
+          capabilityControlFactory,
+          changeControlGenericFactory,
+          notesFactory,
+          changeDataFactory,
+          fillArgs,
+          plcUtil,
+          accountResolver,
+          groupBackend,
+          allProjectsName,
+          allUsersName,
+          patchListCache,
+          repoManager,
+          projectCache,
+          listChildProjects,
+          submitDryRun,
+          conflictsCache,
+          trackingFooters,
+          indexes != null ? indexes.getSearchIndex() : null,
+          indexConfig,
+          listMembers,
+          starredChangesUtil,
+          accountCache,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
@@ -261,46 +277,68 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         boolean allowsDrafts) {
-     this.db = db;
-     this.queryProvider = queryProvider;
-     this.rewriter = rewriter;
-     this.opFactories = opFactories;
-     this.userFactory = userFactory;
-     this.self = self;
-     this.capabilityControlFactory = capabilityControlFactory;
-     this.notesFactory = notesFactory;
-     this.changeControlGenericFactory = changeControlGenericFactory;
-     this.changeDataFactory = changeDataFactory;
-     this.fillArgs = fillArgs;
-     this.plcUtil = plcUtil;
-     this.accountResolver = accountResolver;
-     this.groupBackend = groupBackend;
-     this.allProjectsName = allProjectsName;
-     this.allUsersName = allUsersName;
-     this.patchListCache = patchListCache;
-     this.repoManager = repoManager;
-     this.projectCache = projectCache;
-     this.listChildProjects = listChildProjects;
-     this.submitDryRun = submitDryRun;
-     this.conflictsCache = conflictsCache;
-     this.trackingFooters = trackingFooters;
-     this.index = index;
-     this.indexConfig = indexConfig;
-     this.listMembers = listMembers;
-     this.starredChangesUtil = starredChangesUtil;
-     this.accountCache = accountCache;
-     this.allowsDrafts = allowsDrafts;
+      this.db = db;
+      this.queryProvider = queryProvider;
+      this.rewriter = rewriter;
+      this.opFactories = opFactories;
+      this.userFactory = userFactory;
+      this.self = self;
+      this.capabilityControlFactory = capabilityControlFactory;
+      this.notesFactory = notesFactory;
+      this.changeControlGenericFactory = changeControlGenericFactory;
+      this.changeDataFactory = changeDataFactory;
+      this.fillArgs = fillArgs;
+      this.plcUtil = plcUtil;
+      this.accountResolver = accountResolver;
+      this.groupBackend = groupBackend;
+      this.allProjectsName = allProjectsName;
+      this.allUsersName = allUsersName;
+      this.patchListCache = patchListCache;
+      this.repoManager = repoManager;
+      this.projectCache = projectCache;
+      this.listChildProjects = listChildProjects;
+      this.submitDryRun = submitDryRun;
+      this.conflictsCache = conflictsCache;
+      this.trackingFooters = trackingFooters;
+      this.index = index;
+      this.indexConfig = indexConfig;
+      this.listMembers = listMembers;
+      this.starredChangesUtil = starredChangesUtil;
+      this.accountCache = accountCache;
+      this.allowsDrafts = allowsDrafts;
     }
 
     Arguments asUser(CurrentUser otherUser) {
-      return new Arguments(db, queryProvider, rewriter, opFactories, userFactory,
+      return new Arguments(
+          db,
+          queryProvider,
+          rewriter,
+          opFactories,
+          userFactory,
           Providers.of(otherUser),
-          capabilityControlFactory, changeControlGenericFactory, notesFactory,
-          changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
-          allProjectsName, allUsersName, patchListCache, repoManager,
-          projectCache, listChildProjects, submitDryRun,
-          conflictsCache, trackingFooters, index, indexConfig, listMembers,
-          starredChangesUtil, accountCache, allowsDrafts);
+          capabilityControlFactory,
+          changeControlGenericFactory,
+          notesFactory,
+          changeDataFactory,
+          fillArgs,
+          plcUtil,
+          accountResolver,
+          groupBackend,
+          allProjectsName,
+          allUsersName,
+          patchListCache,
+          repoManager,
+          projectCache,
+          listChildProjects,
+          submitDryRun,
+          conflictsCache,
+          trackingFooters,
+          index,
+          indexConfig,
+          listMembers,
+          starredChangesUtil,
+          accountCache,
+          allowsDrafts);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -351,8 +389,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @VisibleForTesting
   protected ChangeQueryBuilder(
-      Definition<ChangeData, ? extends QueryBuilder<ChangeData>> def,
-      Arguments args) {
+      Definition<ChangeData, ? extends QueryBuilder<ChangeData>> def, Arguments args) {
     super(def);
     this.args = args;
   }
@@ -493,8 +530,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> conflicts(String value) throws OrmException,
-      QueryParseException {
+  public Predicate<ChangeData> conflicts(String value) throws OrmException, QueryParseException {
     return new ConflictsPredicate(args, value, parseChange(value));
   }
 
@@ -518,8 +554,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> parentproject(String name) {
-    return new ParentProjectPredicate(args.projectCache, args.listChildProjects,
-        args.self, name);
+    return new ParentProjectPredicate(args.projectCache, args.listChildProjects, args.self, name);
   }
 
   @Operator
@@ -581,8 +616,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> label(String name) throws QueryParseException,
-      OrmException {
+  public Predicate<ChangeData> label(String name) throws QueryParseException, OrmException {
     Set<Account.Id> accounts = null;
     AccountGroup.UUID group = null;
 
@@ -593,7 +627,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // label:CodeReview=1,android_approvers
     //  user/groups without a label will first attempt to match user
     String[] splitReviewer = name.split(",", 2);
-    name = splitReviewer[0];        // remove all but the vote piece, e.g.'CodeReview=1'
+    name = splitReviewer[0]; // remove all but the vote piece, e.g.'CodeReview=1'
 
     if (splitReviewer.length == 2) {
       // process the user/group piece
@@ -605,15 +639,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         } else if (pair.getKey().equalsIgnoreCase(ARG_ID_GROUP)) {
           group = parseGroup(pair.getValue()).getUUID();
         } else {
-          throw new QueryParseException(
-              "Invalid argument identifier '"   + pair.getKey() + "'");
+          throw new QueryParseException("Invalid argument identifier '" + pair.getKey() + "'");
         }
       }
 
       for (String value : lblArgs.positional) {
-       if (accounts != null || group != null) {
-          throw new QueryParseException("more than one user/group specified (" +
-              value + ")");
+        if (accounts != null || group != null) {
+          throw new QueryParseException("more than one user/group specified (" + value + ")");
         }
         try {
           accounts = parseAccount(value);
@@ -632,14 +664,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // expand a group predicate into multiple user predicates
     if (group != null) {
       Set<Account.Id> allMembers =
-          new HashSet<>(Lists.transform(
-              args.listMembers.get().setRecursive(true).apply(group),
-              new Function<AccountInfo, Account.Id>() {
-                @Override
-                public Account.Id apply(AccountInfo accountInfo) {
-                  return new Account.Id(accountInfo._accountId);
-                }
-              }));
+          new HashSet<>(
+              Lists.transform(
+                  args.listMembers.get().setRecursive(true).apply(group),
+                  new Function<AccountInfo, Account.Id>() {
+                    @Override
+                    public Account.Id apply(AccountInfo accountInfo) {
+                      return new Account.Id(accountInfo._accountId);
+                    }
+                  }));
       int maxLimit = args.indexConfig.maxLimit();
       if (allMembers.size() > maxLimit) {
         // limit the number of query terms otherwise Gerrit will barf
@@ -649,9 +682,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     }
 
-    return new LabelPredicate(args.projectCache,
-        args.changeControlGenericFactory, args.userFactory, args.db,
-        name, accounts, group);
+    return new LabelPredicate(
+        args.projectCache,
+        args.changeControlGenericFactory,
+        args.userFactory,
+        args.db,
+        name,
+        accounts,
+        group);
   }
 
   @Operator
@@ -665,13 +703,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> starredby(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> starredby(String who) throws QueryParseException, OrmException {
     return starredby(parseAccount(who));
   }
 
-  private Predicate<ChangeData> starredby(Set<Account.Id> who)
-      throws QueryParseException {
+  private Predicate<ChangeData> starredby(Set<Account.Id> who) throws QueryParseException {
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(who.size());
     for (Account.Id id : who) {
       p.add(starredby(id));
@@ -680,8 +716,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @SuppressWarnings("deprecation")
-  private Predicate<ChangeData> starredby(Account.Id who)
-      throws QueryParseException {
+  private Predicate<ChangeData> starredby(Account.Id who) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.STAR)) {
       return new StarPredicate(who, StarredChangesUtil.DEFAULT_LABEL);
     }
@@ -693,16 +728,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     try {
       // starred changes are not contained in the index, we must read them from
       // git
-      return new IsStarredByLegacyPredicate(who, args.starredChangesUtil
-          .byAccount(who, StarredChangesUtil.DEFAULT_LABEL));
+      return new IsStarredByLegacyPredicate(
+          who, args.starredChangesUtil.byAccount(who, StarredChangesUtil.DEFAULT_LABEL));
     } catch (OrmException e) {
       throw new QueryParseException("Failed to query starred changes.", e);
     }
   }
 
   @Operator
-  public Predicate<ChangeData> watchedby(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> watchedby(String who) throws QueryParseException, OrmException {
     Set<Account.Id> m = parseAccount(who);
     List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
 
@@ -726,8 +760,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> draftby(String who) throws QueryParseException,
-      OrmException {
+  public Predicate<ChangeData> draftby(String who) throws QueryParseException, OrmException {
     Set<Account.Id> m = parseAccount(who);
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
@@ -744,8 +777,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> visibleto(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> visibleto(String who) throws QueryParseException, OrmException {
     if ("self".equals(who)) {
       return is_visible();
     }
@@ -773,8 +805,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
-    return new ChangeIsVisibleToPredicate(args.db, args.notesFactory,
-        args.changeControlGenericFactory, user);
+    return new ChangeIsVisibleToPredicate(
+        args.db, args.notesFactory, args.changeControlGenericFactory, user);
   }
 
   public Predicate<ChangeData> is_visible() throws QueryParseException {
@@ -782,14 +814,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> o(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> o(String who) throws QueryParseException, OrmException {
     return owner(who);
   }
 
   @Operator
-  public Predicate<ChangeData> owner(String who) throws QueryParseException,
-      OrmException {
+  public Predicate<ChangeData> owner(String who) throws QueryParseException, OrmException {
     return owner(parseAccount(who));
   }
 
@@ -802,8 +832,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> ownerin(String group)
-      throws QueryParseException {
+  public Predicate<ChangeData> ownerin(String group) throws QueryParseException {
     GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
     if (g == null) {
       throw error("Group " + group + " not found");
@@ -812,14 +841,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> r(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> r(String who) throws QueryParseException, OrmException {
     return reviewer(who);
   }
 
   @Operator
-  public Predicate<ChangeData> reviewer(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> reviewer(String who) throws QueryParseException, OrmException {
     Set<Account.Id> m = parseAccount(who);
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
@@ -829,8 +856,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> reviewerin(String group)
-      throws QueryParseException {
+  public Predicate<ChangeData> reviewerin(String group) throws QueryParseException {
     GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
     if (g == null) {
       throw error("Group " + group + " not found");
@@ -858,32 +884,27 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> added(String value)
-      throws QueryParseException {
+  public Predicate<ChangeData> added(String value) throws QueryParseException {
     return new AddedPredicate(value);
   }
 
   @Operator
-  public Predicate<ChangeData> deleted(String value)
-      throws QueryParseException {
+  public Predicate<ChangeData> deleted(String value) throws QueryParseException {
     return new DeletedPredicate(value);
   }
 
   @Operator
-  public Predicate<ChangeData> size(String value)
-      throws QueryParseException {
+  public Predicate<ChangeData> size(String value) throws QueryParseException {
     return delta(value);
   }
 
   @Operator
-  public Predicate<ChangeData> delta(String value)
-      throws QueryParseException {
+  public Predicate<ChangeData> delta(String value) throws QueryParseException {
     return new DeltaPredicate(value);
   }
 
   @Operator
-  public Predicate<ChangeData> commentby(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> commentby(String who) throws QueryParseException, OrmException {
     return commentby(parseAccount(who));
   }
 
@@ -896,8 +917,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> from(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> from(String who) throws QueryParseException, OrmException {
     Set<Account.Id> ownerIds = parseAccount(who);
     return Predicate.or(owner(ownerIds), commentby(ownerIds));
   }
@@ -912,8 +932,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         return parse(query);
       }
     } catch (RepositoryNotFoundException e) {
-      throw new QueryParseException("Unknown named query (no " +
-          args.allUsersName + " repo): " + name, e);
+      throw new QueryParseException(
+          "Unknown named query (no " + args.allUsersName + " repo): " + name, e);
     } catch (IOException | ConfigInvalidException e) {
       throw new QueryParseException("Error parsing named query: " + name, e);
     }
@@ -921,26 +941,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> reviewedby(String who)
-      throws QueryParseException, OrmException {
+  public Predicate<ChangeData> reviewedby(String who) throws QueryParseException, OrmException {
     return IsReviewedPredicate.create(parseAccount(who));
   }
 
   @Operator
-  public Predicate<ChangeData> destination(String name)
-      throws QueryParseException {
+  public Predicate<ChangeData> destination(String name) throws QueryParseException {
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
-      VersionedAccountDestinations d =
-          VersionedAccountDestinations.forUser(self());
+      VersionedAccountDestinations d = VersionedAccountDestinations.forUser(self());
       d.load(git);
-      Set<Branch.NameKey> destinations =
-          d.getDestinationList().getDestinations(name);
+      Set<Branch.NameKey> destinations = d.getDestinationList().getDestinations(name);
       if (destinations != null) {
         return new DestinationPredicate(destinations, name);
       }
     } catch (RepositoryNotFoundException e) {
-      throw new QueryParseException("Unknown named destination (no " +
-          args.allUsersName + " repo): " + name, e);
+      throw new QueryParseException(
+          "Unknown named destination (no " + args.allUsersName + " repo): " + name, e);
     } catch (IOException | ConfigInvalidException e) {
       throw new QueryParseException("Error parsing named destination: " + name, e);
     }
@@ -1003,8 +1019,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return Predicate.or(predicates);
   }
 
-  private Set<Account.Id> parseAccount(String who)
-      throws QueryParseException, OrmException {
+  private Set<Account.Id> parseAccount(String who) throws QueryParseException, OrmException {
     if ("self".equals(who)) {
       return Collections.singleton(self());
     }
@@ -1016,22 +1031,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private GroupReference parseGroup(String group) throws QueryParseException {
-    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend,
-        group);
+    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
     if (g == null) {
       throw error("Group " + group + " not found");
     }
     return g;
   }
 
-  private List<Change> parseChange(String value) throws OrmException,
-      QueryParseException {
+  private List<Change> parseChange(String value) throws OrmException, QueryParseException {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
-      return asChanges(
-          args.queryProvider.get().byLegacyChangeId(Change.Id.parse(value)));
+      return asChanges(args.queryProvider.get().byLegacyChangeId(Change.Id.parse(value)));
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
-      List<Change> changes =
-          asChanges(args.queryProvider.get().byKeyPrefix(parseChangeId(value)));
+      List<Change> changes = asChanges(args.queryProvider.get().byKeyPrefix(parseChangeId(value)));
       if (changes.isEmpty()) {
         throw error("Change " + value + " not found");
       }

@@ -67,7 +67,8 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
-
+import java.sql.Timestamp;
+import java.util.TimeZone;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -77,16 +78,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 
-import java.sql.Timestamp;
-import java.util.TimeZone;
-
 @Ignore
 public abstract class AbstractChangeNotesTest extends GerritBaseTests {
-  private static final TimeZone TZ =
-      TimeZone.getTimeZone("America/Los_Angeles");
+  private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
 
-  private static final NotesMigration MIGRATION =
-      new TestNotesMigration().setAllEnabled(true);
+  private static final NotesMigration MIGRATION = new TestNotesMigration().setAllEnabled(true);
 
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;
@@ -100,20 +96,15 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   protected RevWalk rw;
   protected TestRepository<InMemoryRepository> tr;
 
-  @Inject
-  protected IdentifiedUser.GenericFactory userFactory;
+  @Inject protected IdentifiedUser.GenericFactory userFactory;
 
-  @Inject
-  protected NoteDbUpdateManager.Factory updateManagerFactory;
+  @Inject protected NoteDbUpdateManager.Factory updateManagerFactory;
 
-  @Inject
-  protected AllUsersName allUsers;
+  @Inject protected AllUsersName allUsers;
 
-  @Inject
-  protected ChangeNoteUtil noteUtil;
+  @Inject protected ChangeNoteUtil noteUtil;
 
-  @Inject
-  protected AbstractChangeNotes.Args args;
+  @Inject protected AbstractChangeNotes.Args args;
 
   private Injector injector;
   private String systemTimeZone;
@@ -123,8 +114,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     setTimeForTesting();
     KeyUtil.setEncoderImpl(new StandardKeyEncoder());
 
-    serverIdent = new PersonIdent(
-        "Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
+    serverIdent = new PersonIdent("Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
     project = new Project.NameKey("test-project");
     repoManager = new InMemoryRepositoryManager();
     repo = repoManager.createRepository(project);
@@ -140,39 +130,42 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou);
 
-    injector = Guice.createInjector(new FactoryModule() {
-      @Override
-      public void configure() {
-        Config cfg = new Config();
-        install(new GitModule());
-        install(NoteDbModule.forTest(cfg));
-        bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
-        bind(String.class).annotatedWith(GerritServerId.class)
-            .toInstance("gerrit");
-        bind(NotesMigration.class).toInstance(MIGRATION);
-        bind(GitRepositoryManager.class).toInstance(repoManager);
-        bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
-        bind(CapabilityControl.Factory.class)
-            .toProvider(Providers.<CapabilityControl.Factory> of(null));
-        bind(Config.class).annotatedWith(GerritServerConfig.class)
-            .toInstance(cfg);
-        bind(String.class).annotatedWith(AnonymousCowardName.class)
-            .toProvider(AnonymousCowardNameProvider.class);
-        bind(String.class).annotatedWith(CanonicalWebUrl.class)
-            .toInstance("http://localhost:8080/");
-        bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
-            .toInstance(Boolean.FALSE);
-        bind(Realm.class).to(FakeRealm.class);
-        bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
-        bind(AccountCache.class).toInstance(accountCache);
-        bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
-            .toInstance(serverIdent);
-        bind(GitReferenceUpdated.class)
-            .toInstance(GitReferenceUpdated.DISABLED);
-        bind(MetricMaker.class).to(DisabledMetricMaker.class);
-        bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
-      }
-    });
+    injector =
+        Guice.createInjector(
+            new FactoryModule() {
+              @Override
+              public void configure() {
+                Config cfg = new Config();
+                install(new GitModule());
+                install(NoteDbModule.forTest(cfg));
+                bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
+                bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
+                bind(NotesMigration.class).toInstance(MIGRATION);
+                bind(GitRepositoryManager.class).toInstance(repoManager);
+                bind(ProjectCache.class).toProvider(Providers.<ProjectCache>of(null));
+                bind(CapabilityControl.Factory.class)
+                    .toProvider(Providers.<CapabilityControl.Factory>of(null));
+                bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
+                bind(String.class)
+                    .annotatedWith(AnonymousCowardName.class)
+                    .toProvider(AnonymousCowardNameProvider.class);
+                bind(String.class)
+                    .annotatedWith(CanonicalWebUrl.class)
+                    .toInstance("http://localhost:8080/");
+                bind(Boolean.class)
+                    .annotatedWith(DisableReverseDnsLookup.class)
+                    .toInstance(Boolean.FALSE);
+                bind(Realm.class).to(FakeRealm.class);
+                bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
+                bind(AccountCache.class).toInstance(accountCache);
+                bind(PersonIdent.class)
+                    .annotatedWith(GerritPersonIdent.class)
+                    .toInstance(serverIdent);
+                bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+                bind(MetricMaker.class).to(DisabledMetricMaker.class);
+                bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(null));
+              }
+            });
 
     injector.injectMembers(this);
     repoManager.createRepository(allUsers);
@@ -202,8 +195,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return c;
   }
 
-  protected ChangeUpdate newUpdate(Change c, CurrentUser user)
-      throws Exception {
+  protected ChangeUpdate newUpdate(Change c, CurrentUser user) throws Exception {
     ChangeUpdate update = TestChanges.newUpdate(injector, c, user);
     update.setPatchSetId(c.currentPatchSetId());
     update.setAllowWriteToNewRef(true);
@@ -214,8 +206,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return new ChangeNotes(args, c).load();
   }
 
-  protected static SubmitRecord submitRecord(String status,
-      String errorMessage, SubmitRecord.Label... labels) {
+  protected static SubmitRecord submitRecord(
+      String status, String errorMessage, SubmitRecord.Label... labels) {
     SubmitRecord rec = new SubmitRecord();
     rec.status = SubmitRecord.Status.valueOf(status);
     rec.errorMessage = errorMessage;
@@ -225,8 +217,8 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return rec;
   }
 
-  protected static SubmitRecord.Label submitLabel(String name, String status,
-      Account.Id appliedBy) {
+  protected static SubmitRecord.Label submitLabel(
+      String name, String status, Account.Id appliedBy) {
     SubmitRecord.Label label = new SubmitRecord.Label();
     label.label = name;
     label.status = SubmitRecord.Label.Status.valueOf(status);
@@ -234,24 +226,53 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
     return label;
   }
 
-  protected PatchLineComment newPublishedComment(PatchSet.Id psId,
-      String filename, String UUID, CommentRange range, int line,
-      IdentifiedUser commenter, String parentUUID, Timestamp t,
-      String message, short side, String commitSHA1) {
-    return newComment(psId, filename, UUID, range, line, commenter,
-        parentUUID, t, message, side, commitSHA1,
+  protected PatchLineComment newPublishedComment(
+      PatchSet.Id psId,
+      String filename,
+      String UUID,
+      CommentRange range,
+      int line,
+      IdentifiedUser commenter,
+      String parentUUID,
+      Timestamp t,
+      String message,
+      short side,
+      String commitSHA1) {
+    return newComment(
+        psId,
+        filename,
+        UUID,
+        range,
+        line,
+        commenter,
+        parentUUID,
+        t,
+        message,
+        side,
+        commitSHA1,
         PatchLineComment.Status.PUBLISHED);
   }
 
-  protected PatchLineComment newComment(PatchSet.Id psId,
-      String filename, String UUID, CommentRange range, int line,
-      IdentifiedUser commenter, String parentUUID, Timestamp t,
-      String message, short side, String commitSHA1,
+  protected PatchLineComment newComment(
+      PatchSet.Id psId,
+      String filename,
+      String UUID,
+      CommentRange range,
+      int line,
+      IdentifiedUser commenter,
+      String parentUUID,
+      Timestamp t,
+      String message,
+      short side,
+      String commitSHA1,
       PatchLineComment.Status status) {
-    PatchLineComment comment = new PatchLineComment(
-        new PatchLineComment.Key(
-            new Patch.Key(psId, filename), UUID),
-        line, commenter.getAccountId(), parentUUID, t);
+    PatchLineComment comment =
+        new PatchLineComment(
+            new PatchLineComment.Key(new Patch.Key(psId, filename), UUID),
+            line,
+            commenter.getAccountId(),
+            parentUUID,
+            t);
     comment.setSide(side);
     comment.setMessage(message);
     comment.setRange(range);

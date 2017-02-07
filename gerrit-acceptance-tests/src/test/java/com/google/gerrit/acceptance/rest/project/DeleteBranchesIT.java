@@ -27,18 +27,16 @@ import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
-
+import java.util.HashMap;
+import java.util.List;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.List;
-
 @NoHttpd
 public class DeleteBranchesIT extends AbstractDaemonTest {
-  private static final List<String> BRANCHES = ImmutableList.of(
-      "refs/heads/test-1", "refs/heads/test-2", "refs/heads/test-3");
+  private static final List<String> BRANCHES =
+      ImmutableList.of("refs/heads/test-1", "refs/heads/test-2", "refs/heads/test-3");
 
   @Before
   public void setUp() throws Exception {
@@ -83,8 +81,8 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
       project().deleteBranches(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForBranches(
-          ImmutableList.of("refs/heads/does-not-exist")));
+      assertThat(e)
+          .hasMessage(errorMessageForBranches(ImmutableList.of("refs/heads/does-not-exist")));
     }
     assertBranchesDeleted();
   }
@@ -101,8 +99,8 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
       project().deleteBranches(input);
       fail("Expected ResourceConflictException");
     } catch (ResourceConflictException e) {
-      assertThat(e).hasMessage(errorMessageForBranches(
-          ImmutableList.of("refs/heads/does-not-exist")));
+      assertThat(e)
+          .hasMessage(errorMessageForBranches(ImmutableList.of("refs/heads/does-not-exist")));
     }
     assertBranchesDeleted();
   }
@@ -110,16 +108,16 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   private String errorMessageForBranches(List<String> branches) {
     StringBuilder message = new StringBuilder();
     for (String branch : branches) {
-      message.append("Cannot delete ")
-        .append(branch)
-        .append(": it doesn't exist or you do not have permission ")
-        .append("to delete it\n");
+      message
+          .append("Cannot delete ")
+          .append(branch)
+          .append(": it doesn't exist or you do not have permission ")
+          .append("to delete it\n");
     }
     return message.toString();
   }
 
-  private HashMap<String, RevCommit> initialRevisions(List<String> branches)
-      throws Exception {
+  private HashMap<String, RevCommit> initialRevisions(List<String> branches) throws Exception {
     HashMap<String, RevCommit> result = new HashMap<>();
     for (String branch : branches) {
       result.put(branch, getRemoteHead(project, branch));
@@ -127,13 +125,10 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     return result;
   }
 
-  private void assertRefUpdatedEvents(HashMap<String, RevCommit> revisions)
-      throws Exception {
+  private void assertRefUpdatedEvents(HashMap<String, RevCommit> revisions) throws Exception {
     for (String branch : revisions.keySet()) {
       RevCommit revision = revisions.get(branch);
-      eventRecorder.assertRefUpdatedEvents(project.get(), branch,
-          null, revision,
-          revision, null);
+      eventRecorder.assertRefUpdatedEvents(project.get(), branch, null, revision, revision, null);
     }
   }
 
@@ -142,8 +137,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   }
 
   private void assertBranches(List<String> branches) throws Exception {
-    List<String> expected = Lists.newArrayList(
-        "HEAD", RefNames.REFS_CONFIG, "refs/heads/master");
+    List<String> expected = Lists.newArrayList("HEAD", RefNames.REFS_CONFIG, "refs/heads/master");
     expected.addAll(branches);
     assertRefNames(expected, project().branches().get());
   }

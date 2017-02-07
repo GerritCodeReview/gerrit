@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.GetDetail.AccountDetailInfo;
-
 import org.junit.Test;
 
 public class GetAccountDetailIT extends AbstractDaemonTest {

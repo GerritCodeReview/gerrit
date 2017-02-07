@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.util;
 
+import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-
-import java.io.IOException;
 
 public class GitUtil {
 
@@ -28,15 +27,13 @@ public class GitUtil {
    * @param git
    * @param commitId
    * @param parentNum
-   * @return the {@code paretNo} parent of given commit or {@code null}
-   *             when {@code parentNo} exceed number of {@code commitId} parents.
-   * @throws IncorrectObjectTypeException
-   *             the supplied id is not a commit or an annotated tag.
-   * @throws IOException
-   *             a pack file or loose object could not be read.
+   * @return the {@code paretNo} parent of given commit or {@code null} when {@code parentNo} exceed
+   *     number of {@code commitId} parents.
+   * @throws IncorrectObjectTypeException the supplied id is not a commit or an annotated tag.
+   * @throws IOException a pack file or loose object could not be read.
    */
-  public static RevCommit getParent(Repository git,
-      ObjectId commitId, int parentNum) throws IOException {
+  public static RevCommit getParent(Repository git, ObjectId commitId, int parentNum)
+      throws IOException {
     try (RevWalk walk = new RevWalk(git)) {
       RevCommit commit = walk.parseCommit(commitId);
       if (commit.getParentCount() > parentNum) {
@@ -46,6 +43,5 @@ public class GitUtil {
     return null;
   }
 
-  private GitUtil() {
-  }
+  private GitUtil() {}
 }

@@ -27,16 +27,15 @@ public final class HostPlatform {
 
   private static boolean computeWin32() {
     final String osDotName =
-        AccessController.doPrivileged(new PrivilegedAction<String>() {
-          @Override
-          public String run() {
-            return System.getProperty("os.name");
-          }
-        });
-    return osDotName != null
-        && osDotName.toLowerCase().contains("windows");
+        AccessController.doPrivileged(
+            new PrivilegedAction<String>() {
+              @Override
+              public String run() {
+                return System.getProperty("os.name");
+              }
+            });
+    return osDotName != null && osDotName.toLowerCase().contains("windows");
   }
 
-  private HostPlatform() {
-  }
+  private HostPlatform() {}
 }

@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.plugins.InstallPlugin.Input;
 import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
 import com.google.inject.Inject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -37,8 +36,7 @@ import java.util.zip.ZipException;
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   static class Input {
-    @DefaultInput
-    String url;
+    @DefaultInput String url;
     RawInput raw;
   }
 
@@ -61,11 +59,8 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     try {
       try (InputStream in = openStream(input)) {
         String pluginName = loader.installPluginFromStream(name, in);
-        ListPlugins.PluginInfo info =
-            new ListPlugins.PluginInfo(loader.get(pluginName));
-        return created
-            ? Response.created(info)
-            : Response.ok(info);
+        ListPlugins.PluginInfo info = new ListPlugins.PluginInfo(loader.get(pluginName));
+        return created ? Response.created(info) : Response.ok(info);
       }
     } catch (PluginInstallException e) {
       StringWriter buf = new StringWriter();
@@ -83,8 +78,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     }
   }
 
-  private InputStream openStream(Input input)
-      throws IOException, BadRequestException {
+  private InputStream openStream(Input input) throws IOException, BadRequestException {
     if (input.raw != null) {
       return input.raw.getInputStream();
     }
@@ -108,7 +102,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     public Response<PluginInfo> apply(PluginResource resource, Input input)
         throws BadRequestException, MethodNotAllowedException, IOException {
       return new InstallPlugin(loader, resource.getName(), false)
-        .apply(TopLevelResource.INSTANCE, input);
+          .apply(TopLevelResource.INSTANCE, input);
     }
   }
 }

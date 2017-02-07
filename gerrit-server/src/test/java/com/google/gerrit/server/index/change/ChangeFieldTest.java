@@ -26,14 +26,12 @@ import com.google.gerrit.testutil.GerritBaseTests;
 import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ChangeFieldTest extends GerritBaseTests {
   static {
@@ -52,8 +50,7 @@ public class ChangeFieldTest extends GerritBaseTests {
 
   @Test
   public void reviewerFieldValues() {
-    Table<ReviewerStateInternal, Account.Id, Timestamp> t =
-        HashBasedTable.create();
+    Table<ReviewerStateInternal, Account.Id, Timestamp> t = HashBasedTable.create();
     Timestamp t1 = TimeUtil.nowTs();
     t.put(ReviewerStateInternal.REVIEWER, new Account.Id(1), t1);
     Timestamp t2 = TimeUtil.nowTs();
@@ -61,13 +58,10 @@ public class ChangeFieldTest extends GerritBaseTests {
     ReviewerSet reviewers = ReviewerSet.fromTable(t);
 
     List<String> values = ChangeField.getReviewerFieldValues(reviewers);
-    assertThat(values).containsExactly(
-        "REVIEWER,1",
-        "REVIEWER,1," + t1.getTime(),
-        "CC,2",
-        "CC,2," + t2.getTime());
+    assertThat(values)
+        .containsExactly(
+            "REVIEWER,1", "REVIEWER,1," + t1.getTime(), "CC,2", "CC,2," + t2.getTime());
 
-    assertThat(ChangeField.parseReviewerFieldValues(values))
-        .isEqualTo(reviewers);
+    assertThat(ChangeField.parseReviewerFieldValues(values)).isEqualTo(reviewers);
   }
 }

@@ -20,17 +20,15 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
-
 import java.util.List;
 import java.util.Set;
 
 /**
  * Execute a single query over a secondary index, for use by Gerrit internals.
- * <p>
- * By default, visibility of returned entities is not enforced (unlike in {@link
- * QueryProcessor}). The methods in this class are not typically used by
- * user-facing paths, but rather by internal callers that need to process all
- * matching results.
+ *
+ * <p>By default, visibility of returned entities is not enforced (unlike in {@link
+ * QueryProcessor}). The methods in this class are not typically used by user-facing paths, but
+ * rather by internal callers that need to process all matching results.
  */
 public class InternalQuery<T> {
   private final QueryProcessor<T> queryProcessor;
@@ -38,9 +36,10 @@ public class InternalQuery<T> {
 
   protected final IndexConfig indexConfig;
 
-  protected InternalQuery(QueryProcessor<T> queryProcessor,
+  protected InternalQuery(
+      QueryProcessor<T> queryProcessor,
       IndexCollection<?, T, ? extends Index<?, T>> indexes,
-          IndexConfig indexConfig) {
+      IndexConfig indexConfig) {
     this.queryProcessor = queryProcessor.enforceVisibility(false);
     this.indexes = indexes;
     this.indexConfig = indexConfig;
@@ -62,7 +61,7 @@ public class InternalQuery<T> {
   }
 
   public InternalQuery<T> noFields() {
-    queryProcessor.setRequestedFields(ImmutableSet.<String> of());
+    queryProcessor.setRequestedFields(ImmutableSet.<String>of());
     return this;
   }
 

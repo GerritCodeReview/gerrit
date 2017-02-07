@@ -24,8 +24,7 @@ public class AccountGroupName {
   @Column(id = 2)
   protected AccountGroup.Id groupId;
 
-  protected AccountGroupName() {
-  }
+  protected AccountGroupName() {}
 
   public AccountGroupName(AccountGroup.NameKey name, AccountGroup.Id groupId) {
     this.name = name;

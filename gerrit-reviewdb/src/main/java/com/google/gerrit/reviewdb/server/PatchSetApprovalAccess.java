@@ -24,8 +24,7 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface PatchSetApprovalAccess extends
-    Access<PatchSetApproval, PatchSetApproval.Key> {
+public interface PatchSetApprovalAccess extends Access<PatchSetApproval, PatchSetApproval.Key> {
   @Override
   @PrimaryKey("key")
   PatchSetApproval get(PatchSetApproval.Key key) throws OrmException;
@@ -37,6 +36,6 @@ public interface PatchSetApprovalAccess extends
   ResultSet<PatchSetApproval> byPatchSet(PatchSet.Id id) throws OrmException;
 
   @Query("WHERE key.patchSetId = ? AND key.accountId = ?")
-  ResultSet<PatchSetApproval> byPatchSetUser(PatchSet.Id patchSet,
-      Account.Id account) throws OrmException;
+  ResultSet<PatchSetApproval> byPatchSetUser(PatchSet.Id patchSet, Account.Id account)
+      throws OrmException;
 }

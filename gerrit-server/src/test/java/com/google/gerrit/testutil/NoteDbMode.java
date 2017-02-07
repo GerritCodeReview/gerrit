@@ -30,8 +30,8 @@ public enum NoteDbMode {
   READ_WRITE,
 
   /**
-   * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check
-   * that the results match.
+   * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check that the results
+   * match.
    */
   CHECK;
 
@@ -49,8 +49,7 @@ public enum NoteDbMode {
     value = value.toUpperCase().replace("-", "_");
     Optional<NoteDbMode> mode = Enums.getIfPresent(NoteDbMode.class, value);
     if (!mode.isPresent()) {
-      throw new IllegalArgumentException(
-          "Invalid value for " + VAR + ": " + System.getenv(VAR));
+      throw new IllegalArgumentException("Invalid value for " + VAR + ": " + System.getenv(VAR));
     }
     return mode.get();
   }

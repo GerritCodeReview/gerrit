@@ -31,7 +31,7 @@ class PluginScannerThread extends Thread {
 
   @Override
   public void run() {
-    for (;;) {
+    for (; ; ) {
       try {
         if (done.await(checkFrequencyMillis, TimeUnit.MILLISECONDS)) {
           return;

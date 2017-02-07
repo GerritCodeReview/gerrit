@@ -17,11 +17,10 @@ package com.google.gerrit.server.mail;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 
-import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import org.junit.Test;
 
 public class ValidatorTest {
   private static final String UNSUPPORTED_PREFIX = "#! ";
@@ -33,8 +32,7 @@ public class ValidatorTest {
 
   @Test
   public void validateTopLevelDomains() throws Exception {
-    try (InputStream in =
-        this.getClass().getResourceAsStream("tlds-alpha-by-domain.txt")) {
+    try (InputStream in = this.getClass().getResourceAsStream("tlds-alpha-by-domain.txt")) {
       if (in == null) {
         throw new Exception("TLD list not found");
       }
@@ -46,18 +44,17 @@ public class ValidatorTest {
           continue;
         }
         if (tld.startsWith(UNSUPPORTED_PREFIX)) {
-          String test = "test@example."
-              + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
+          String test = "test@example." + tld.toLowerCase().substring(UNSUPPORTED_PREFIX.length());
           assert_()
-            .withFailureMessage("expected invalid TLD \"" + test + "\"")
-            .that(OutgoingEmailValidator.isValid(test))
-            .isFalse();
+              .withFailureMessage("expected invalid TLD \"" + test + "\"")
+              .that(OutgoingEmailValidator.isValid(test))
+              .isFalse();
         } else {
           String test = "test@example." + tld.toLowerCase();
           assert_()
-            .withFailureMessage("failed to validate TLD \"" + test + "\"")
-            .that(OutgoingEmailValidator.isValid(test))
-            .isTrue();
+              .withFailureMessage("failed to validate TLD \"" + test + "\"")
+              .that(OutgoingEmailValidator.isValid(test))
+              .isTrue();
         }
       }
     }

@@ -62,7 +62,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
@@ -85,8 +84,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Revert revert;
   private final Restore restore;
   private final SubmittedTogether submittedTogether;
-  private final PublishDraftPatchSet.CurrentRevision
-    publishDraftChange;
+  private final PublishDraftPatchSet.CurrentRevision publishDraftChange;
   private final DeleteDraftChange deleteDraftChange;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
@@ -102,7 +100,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Move move;
 
   @Inject
-  ChangeApiImpl(Changes changeApi,
+  ChangeApiImpl(
+      Changes changeApi,
       Reviewers reviewers,
       Revisions revisions,
       ReviewerApiImpl.Factory reviewerApi,
@@ -172,8 +171,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public RevisionApi revision(String id) throws RestApiException {
     try {
-      return revisionApi.create(
-          revisions.parse(change, IdString.fromDecoded(id)));
+      return revisionApi.create(revisions.parse(change, IdString.fromDecoded(id)));
     } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot parse revision", e);
     }
@@ -182,8 +180,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ReviewerApi reviewer(String id) throws RestApiException {
     try {
-      return reviewerApi.create(
-          reviewers.parse(change, IdString.fromDecoded(id)));
+      return reviewerApi.create(reviewers.parse(change, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse reviewer", e);
     }
@@ -242,8 +239,7 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
       return changeApi.id(revert.apply(change, in)._number);
-    } catch (OrmException | IOException | UpdateException
-        | NoSuchChangeException e) {
+    } catch (OrmException | IOException | UpdateException | NoSuchChangeException e) {
       throw new RestApiException("Cannot revert change", e);
     }
   }
@@ -259,8 +255,8 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public SubmittedTogetherInfo submittedTogether(
-      EnumSet<SubmittedTogetherOption> options) throws RestApiException {
+  public SubmittedTogetherInfo submittedTogether(EnumSet<SubmittedTogetherOption> options)
+      throws RestApiException {
     try {
       return submittedTogether.apply(change, options);
     } catch (IOException | OrmException e) {
@@ -329,8 +325,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public SuggestedReviewersRequest suggestReviewers(String query)
-      throws RestApiException {
+  public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
     return suggestReviewers().withQuery(query);
   }
 
@@ -346,8 +341,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public ChangeInfo get(EnumSet<ListChangesOption> s)
-      throws RestApiException {
+  public ChangeInfo get(EnumSet<ListChangesOption> s) throws RestApiException {
     try {
       return changeJson.create(s).format(change);
     } catch (OrmException e) {

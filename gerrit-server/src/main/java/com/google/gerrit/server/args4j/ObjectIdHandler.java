@@ -16,7 +16,6 @@ package com.google.gerrit.server.args4j;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -28,8 +27,10 @@ import org.kohsuke.args4j.spi.Setter;
 public class ObjectIdHandler extends OptionHandler<ObjectId> {
 
   @Inject
-  public ObjectIdHandler(@Assisted final CmdLineParser parser,
-      @Assisted final OptionDef option, @Assisted final Setter<ObjectId> setter) {
+  public ObjectIdHandler(
+      @Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option,
+      @Assisted final Setter<ObjectId> setter) {
     super(parser, option, setter);
   }
 

@@ -19,7 +19,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.util.TreeFormatter.TreeNode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -36,8 +35,10 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   private final SortedSet<ProjectNode> children = new TreeSet<>();
 
   @Inject
-  protected ProjectNode(final AllProjectsName allProjectsName,
-      @Assisted final Project project, @Assisted final boolean isVisible) {
+  protected ProjectNode(
+      final AllProjectsName allProjectsName,
+      @Assisted final Project project,
+      @Assisted final boolean isVisible) {
     this.allProjectsName = allProjectsName;
     this.project = project;
     this.isVisible = isVisible;
@@ -46,8 +47,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   /**
    * Returns the project parent name.
    *
-   * @return Project parent name, {@code null} for the 'All-Projects' root
-   *         project
+   * @return Project parent name, {@code null} for the 'All-Projects' root project
    */
   public Project.NameKey getParentName() {
     return project.getParent(allProjectsName);

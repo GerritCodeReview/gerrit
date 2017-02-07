@@ -38,7 +38,16 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
-
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -50,20 +59,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-
 public class ChangeKindCacheImpl implements ChangeKindCache {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeKindCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(ChangeKindCacheImpl.class);
 
   private static final String ID_CACHE = "change_kind";
 
@@ -86,7 +83,6 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     private final ProjectCache projectCache;
     private final GitRepositoryManager repoManager;
 
-
     @Inject
     NoCache(
         @GerritServerConfig Config serverConfig,
@@ -100,28 +96,30 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     @Override
-    public ChangeKind getChangeKind(ProjectState project, Repository repo,
-        ObjectId prior, ObjectId next) {
+    public ChangeKind getChangeKind(
+        ProjectState project, Repository repo, ObjectId prior, ObjectId next) {
       try {
         Key key = new Key(prior, next, useRecursiveMerge);
         return new Loader(key, repo).call();
       } catch (IOException e) {
-        log.warn("Cannot check trivial rebase of new patch set " + next.name()
-            + " in " + project.getProject().getName(), e);
+        log.warn(
+            "Cannot check trivial rebase of new patch set "
+                + next.name()
+                + " in "
+                + project.getProject().getName(),
+            e);
         return ChangeKind.REWORK;
       }
     }
 
     @Override
-    public ChangeKind getChangeKind(ReviewDb db, Change change,
-        PatchSet patch) {
-      return getChangeKindInternal(this, db, change, patch, changeDataFactory,
-          projectCache, repoManager);
+    public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
+      return getChangeKindInternal(
+          this, db, change, patch, changeDataFactory, projectCache, repoManager);
     }
 
     @Override
-    public ChangeKind getChangeKind(Repository repo, ChangeData cd,
-        PatchSet patch) {
+    public ChangeKind getChangeKind(Repository repo, ChangeData cd, PatchSet patch) {
       return getChangeKindInternal(this, repo, cd, patch, projectCache);
     }
   }
@@ -135,8 +133,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
     private Key(ObjectId prior, ObjectId next, boolean useRecursiveMerge) {
       checkNotNull(next, "next");
-      String strategyName = MergeUtil.mergeStrategyName(
-          true, useRecursiveMerge);
+      String strategyName = MergeUtil.mergeStrategyName(true, useRecursiveMerge);
       this.prior = prior.copy();
       this.next = next.copy();
       this.strategyName = strategyName;
@@ -222,8 +219,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         }
 
         if ((prior.getParentCount() != 1 || next.getParentCount() != 1)
-            && (!onlyFirstParentChanged(prior, next)
-                || prior.getParentCount() == 0)) {
+            && (!onlyFirstParentChanged(prior, next) || prior.getParentCount() == 0)) {
           // Trivial rebases done by machine only work well on 1 parent.
           return ChangeKind.REWORK;
         }
@@ -232,8 +228,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         // having the same tree as would exist when the prior commit is
         // cherry-picked onto the next commit's new first parent.
         try (ObjectInserter ins = new InMemoryInserter(repo)) {
-          ThreeWayMerger merger =
-              MergeUtil.newThreeWayMerger(repo, ins, key.strategyName);
+          ThreeWayMerger merger = MergeUtil.newThreeWayMerger(repo, ins, key.strategyName);
           merger.setBase(prior.getParent(0));
           if (merger.merge(next.getParent(0), prior)
               && merger.getResultTreeId().equals(next.getTree())) {
@@ -296,7 +291,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   public static class ChangeKindWeigher implements Weigher<Key, ChangeKind> {
     @Override
     public int weigh(Key key, ChangeKind changeKind) {
-      return 16 + 2 * 36 + 2 * key.strategyName.length() // Size of Key, 64 bit JVM
+      return 16
+          + 2 * 36
+          + 2 * key.strategyName.length() // Size of Key, 64 bit JVM
           + 2 * changeKind.name().length(); // Size of ChangeKind, 64 bit JVM
     }
   }
@@ -322,27 +319,30 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   }
 
   @Override
-  public ChangeKind getChangeKind(ProjectState project, Repository repo,
-      ObjectId prior, ObjectId next) {
+  public ChangeKind getChangeKind(
+      ProjectState project, Repository repo, ObjectId prior, ObjectId next) {
     try {
       Key key = new Key(prior, next, useRecursiveMerge);
       return cache.get(key, new Loader(key, repo));
     } catch (ExecutionException e) {
-      log.warn("Cannot check trivial rebase of new patch set " + next.name()
-          + " in " + project.getProject().getName(), e);
+      log.warn(
+          "Cannot check trivial rebase of new patch set "
+              + next.name()
+              + " in "
+              + project.getProject().getName(),
+          e);
       return ChangeKind.REWORK;
     }
   }
 
   @Override
   public ChangeKind getChangeKind(ReviewDb db, Change change, PatchSet patch) {
-    return getChangeKindInternal(this, db, change, patch, changeDataFactory,
-        projectCache, repoManager);
+    return getChangeKindInternal(
+        this, db, change, patch, changeDataFactory, projectCache, repoManager);
   }
 
   @Override
-  public ChangeKind getChangeKind(Repository repo, ChangeData cd,
-      PatchSet patch) {
+  public ChangeKind getChangeKind(Repository repo, ChangeData cd, PatchSet patch) {
     return getChangeKindInternal(this, repo, cd, patch, projectCache);
   }
 
@@ -361,9 +361,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         Collection<PatchSet> patchSetCollection = change.patchSets();
         PatchSet priorPs = patch;
         for (PatchSet ps : patchSetCollection) {
-          if (ps.getId().get() < patch.getId().get() &&
-              (ps.getId().get() > priorPs.getId().get() ||
-                  priorPs == patch)) {
+          if (ps.getId().get() < patch.getId().get()
+              && (ps.getId().get() > priorPs.getId().get() || priorPs == patch)) {
             // We only want the previous patch set, so walk until the last one
             priorPs = ps;
           }
@@ -375,14 +374,20 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         // and deletes the draft.
         if (priorPs != patch) {
           kind =
-              cache.getChangeKind(projectState, repo,
+              cache.getChangeKind(
+                  projectState,
+                  repo,
                   ObjectId.fromString(priorPs.getRevision().get()),
                   ObjectId.fromString(patch.getRevision().get()));
         }
       } catch (IOException | OrmException e) {
         // Do nothing; assume we have a complex change
-        log.warn("Unable to get change kind for patchSet " + patch.getPatchSetId() +
-            "of change " + change.getId(), e);
+        log.warn(
+            "Unable to get change kind for patchSet "
+                + patch.getPatchSetId()
+                + "of change "
+                + change.getId(),
+            e);
       }
     }
     return kind;
@@ -402,13 +407,17 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     // the repository.
     if (patch.getId().get() > 1) {
       try (Repository repo = repoManager.openRepository(change.getProject())) {
-        kind = getChangeKindInternal(cache, repo,
-            changeDataFactory.create(db, change), patch,
-            projectCache);
+        kind =
+            getChangeKindInternal(
+                cache, repo, changeDataFactory.create(db, change), patch, projectCache);
       } catch (IOException e) {
         // Do nothing; assume we have a complex change
-        log.warn("Unable to get change kind for patchSet " + patch.getPatchSetId() +
-            "of change " + change.getChangeId(), e);
+        log.warn(
+            "Unable to get change kind for patchSet "
+                + patch.getPatchSetId()
+                + "of change "
+                + change.getChangeId(),
+            e);
       }
     }
     return kind;

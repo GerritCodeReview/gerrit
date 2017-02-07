@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.AccountInfo;
-
 import java.util.Collection;
 
 /** Notified whenever a Change's Hashtags are edited. */
@@ -25,8 +24,11 @@ public interface HashtagsEditedListener {
   interface Event extends ChangeEvent {
     @Deprecated
     AccountInfo getEditor();
+
     Collection<String> getHashtags();
+
     Collection<String> getAddedHashtags();
+
     Collection<String> getRemovedHashtags();
   }
 

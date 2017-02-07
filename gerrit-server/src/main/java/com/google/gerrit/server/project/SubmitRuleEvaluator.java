@@ -29,7 +29,6 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -39,26 +38,21 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Evaluates a submit-like Prolog rule found in the rules.pl file of the current
- * project and filters the results through rules found in the parent projects,
- * all the way up to All-Projects.
+ * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
+ * the results through rules found in the parent projects, all the way up to All-Projects.
  */
 public class SubmitRuleEvaluator {
-  private static final Logger log = LoggerFactory
-      .getLogger(SubmitRuleEvaluator.class);
+  private static final Logger log = LoggerFactory.getLogger(SubmitRuleEvaluator.class);
 
-  private static final String DEFAULT_MSG =
-      "Error evaluating project rules, check server log";
+  private static final String DEFAULT_MSG = "Error evaluating project rules, check server log";
 
   public static List<SubmitRecord> defaultRuleError() {
     return createRuleError(DEFAULT_MSG);
@@ -76,15 +70,14 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * Exception thrown when the label term of a submit record
-   * unexpectedly didn't contain a user term.
+   * Exception thrown when the label term of a submit record unexpectedly didn't contain a user
+   * term.
    */
   private static class UserTermExpected extends Exception {
     private static final long serialVersionUID = 1L;
 
     UserTermExpected(SubmitRecord.Label label) {
-      super(String.format("A label with the status %s must contain a user.",
-          label.toString()));
+      super(String.format("A label with the status %s must contain a user.", label.toString()));
     }
   }
 
@@ -108,21 +101,23 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param ps patch set of the change to evaluate. If not set, the current
-   * patch set will be loaded from {@link #evaluate()} or {@link
-   * #getSubmitType}.
+   * @param ps patch set of the change to evaluate. If not set, the current patch set will be loaded
+   *     from {@link #evaluate()} or {@link #getSubmitType}.
    * @return this
    */
   public SubmitRuleEvaluator setPatchSet(PatchSet ps) {
-    checkArgument(ps.getId().getParentKey().equals(cd.getId()),
-        "Patch set %s does not match change %s", ps.getId(), cd.getId());
+    checkArgument(
+        ps.getId().getParentKey().equals(cd.getId()),
+        "Patch set %s does not match change %s",
+        ps.getId(),
+        cd.getId());
     patchSet = ps;
     return this;
   }
 
   /**
-   * @param fast if true, infer label information from rules rather than reading
-   *     from project config.
+   * @param fast if true, infer label information from rules rather than reading from project
+   *     config.
    * @return this
    */
   public SubmitRuleEvaluator setFastEvalLabels(boolean fast) {
@@ -167,8 +162,8 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param log whether to log error messages in addition to returning error
-   *     records. If true, error record messages will be less descriptive.
+   * @param log whether to log error messages in addition to returning error records. If true, error
+   *     record messages will be less descriptive.
    */
   public SubmitRuleEvaluator setLogErrors(boolean log) {
     logErrors = log;
@@ -183,8 +178,8 @@ public class SubmitRuleEvaluator {
   /**
    * Evaluate the submit rules.
    *
-   * @return List of {@link SubmitRecord} objects returned from the evaluated
-   *     rules, including any errors.
+   * @return List of {@link SubmitRecord} objects returned from the evaluated rules, including any
+   *     errors.
    */
   public List<SubmitRecord> evaluate() {
     Change c = control.getChange();
@@ -200,8 +195,7 @@ public class SubmitRuleEvaluator {
       try {
         initPatchSet();
       } catch (OrmException e) {
-        return ruleError("Error looking up patch set "
-            + control.getChange().currentPatchSetId());
+        return ruleError("Error looking up patch set " + control.getChange().currentPatchSetId());
       }
       if (patchSet.isDraft()) {
         return cannotSubmitDraft();
@@ -210,9 +204,13 @@ public class SubmitRuleEvaluator {
 
     List<Term> results;
     try {
-      results = evaluateImpl("locate_submit_rule", "can_submit",
-          "locate_submit_filter", "filter_submit_results",
-          control.getUser());
+      results =
+          evaluateImpl(
+              "locate_submit_rule",
+              "can_submit",
+              "locate_submit_filter",
+              "filter_submit_results",
+              control.getUser());
     } catch (RuleEvalException e) {
       return ruleError(e.getMessage(), e);
     }
@@ -222,9 +220,10 @@ public class SubmitRuleEvaluator {
       // at least one result informing the caller of the labels that are
       // required for this change to be submittable. Each label will indicate
       // whether or not that is actually possible given the permissions.
-      return ruleError(String.format("Submit rule '%s' for change %s of %s has "
-            + "no solution.", getSubmitRuleName(), cd.getId(),
-            getProjectName()));
+      return ruleError(
+          String.format(
+              "Submit rule '%s' for change %s of %s has " + "no solution.",
+              getSubmitRuleName(), cd.getId(), getProjectName()));
     }
 
     return resultsToSubmitRecord(getSubmitRule(), results);
@@ -250,13 +249,12 @@ public class SubmitRuleEvaluator {
   /**
    * Convert the results from Prolog Cafe's format to Gerrit's common format.
    *
-   * can_submit/1 terminates when an ok(P) record is found. Therefore walk
-   * the results backwards, using only that ok(P) record if it exists. This
-   * skips partial results that occur early in the output. Later after the loop
-   * the out collection is reversed to restore it to the original ordering.
+   * <p>can_submit/1 terminates when an ok(P) record is found. Therefore walk the results backwards,
+   * using only that ok(P) record if it exists. This skips partial results that occur early in the
+   * output. Later after the loop the out collection is reversed to restore it to the original
+   * ordering.
    */
-  private List<SubmitRecord> resultsToSubmitRecord(
-      Term submitRule, List<Term> results) {
+  private List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
     List<SubmitRecord> out = new ArrayList<>(results.size());
     for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
       Term submitRecord = results.get(resultIdx);
@@ -337,9 +335,14 @@ public class SubmitRuleEvaluator {
   }
 
   private List<SubmitRecord> invalidResult(Term rule, Term record, String reason) {
-    return ruleError(String.format("Submit rule %s for change %s of %s output "
-        + "invalid result: %s%s", rule, cd.getId(), getProjectName(), record,
-        (reason == null ? "" : ". Reason: " + reason)));
+    return ruleError(
+        String.format(
+            "Submit rule %s for change %s of %s output " + "invalid result: %s%s",
+            rule,
+            cd.getId(),
+            getProjectName(),
+            record,
+            (reason == null ? "" : ". Reason: " + reason)));
   }
 
   private List<SubmitRecord> invalidResult(Term rule, Term record) {
@@ -371,19 +374,16 @@ public class SubmitRuleEvaluator {
     try {
       initPatchSet();
     } catch (OrmException e) {
-      return typeError("Error looking up patch set "
-          + control.getChange().currentPatchSetId());
+      return typeError("Error looking up patch set " + control.getChange().currentPatchSetId());
     }
 
     try {
       if (control.getChange().getStatus() == Change.Status.DRAFT
           && !control.isDraftVisible(cd.db(), cd)) {
-        return SubmitTypeRecord.error(
-            "Patch set " + patchSet.getId() + " not found");
+        return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
       }
       if (patchSet.isDraft() && !control.isDraftVisible(cd.db(), cd)) {
-        return SubmitTypeRecord.error(
-            "Patch set " + patchSet.getId() + " not found");
+        return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
       }
     } catch (OrmException err) {
       String msg = "Cannot read patch set " + patchSet.getId();
@@ -393,37 +393,57 @@ public class SubmitRuleEvaluator {
 
     List<Term> results;
     try {
-      results = evaluateImpl("locate_submit_type", "get_submit_type",
-          "locate_submit_type_filter", "filter_submit_type_results",
-          // Do not include current user in submit type evaluation. This is used
-          // for mergeability checks, which are stored persistently and so must
-          // have a consistent view of the submit type.
-          null);
+      results =
+          evaluateImpl(
+              "locate_submit_type",
+              "get_submit_type",
+              "locate_submit_type_filter",
+              "filter_submit_type_results",
+              // Do not include current user in submit type evaluation. This is used
+              // for mergeability checks, which are stored persistently and so must
+              // have a consistent view of the submit type.
+              null);
     } catch (RuleEvalException e) {
       return typeError(e.getMessage(), e);
     }
 
     if (results.isEmpty()) {
       // Should never occur for a well written rule
-      return typeError("Submit rule '" + getSubmitRuleName() + "' for change "
-          + cd.getId() + " of " + getProjectName() + " has no solution.");
+      return typeError(
+          "Submit rule '"
+              + getSubmitRuleName()
+              + "' for change "
+              + cd.getId()
+              + " of "
+              + getProjectName()
+              + " has no solution.");
     }
 
     Term typeTerm = results.get(0);
     if (!(typeTerm instanceof SymbolTerm)) {
-      return typeError("Submit rule '" + getSubmitRuleName() + "' for change "
-          + cd.getId() + " of " + getProjectName()
-          + " did not return a symbol.");
+      return typeError(
+          "Submit rule '"
+              + getSubmitRuleName()
+              + "' for change "
+              + cd.getId()
+              + " of "
+              + getProjectName()
+              + " did not return a symbol.");
     }
 
     String typeName = ((SymbolTerm) typeTerm).name();
     try {
-      return SubmitTypeRecord.OK(
-          SubmitType.valueOf(typeName.toUpperCase()));
+      return SubmitTypeRecord.OK(SubmitType.valueOf(typeName.toUpperCase()));
     } catch (IllegalArgumentException e) {
-      return typeError("Submit type rule " + getSubmitRule() + " for change "
-          + cd.getId() + " of " + getProjectName() + " output invalid result: "
-          + typeName);
+      return typeError(
+          "Submit type rule "
+              + getSubmitRule()
+              + " for change "
+              + cd.getId()
+              + " of "
+              + getProjectName()
+              + " output invalid result: "
+              + typeName);
     }
   }
 
@@ -448,7 +468,8 @@ public class SubmitRuleEvaluator {
       String userRuleWrapperName,
       String filterRuleLocatorName,
       String filterRuleWrapperName,
-      CurrentUser user) throws RuleEvalException {
+      CurrentUser user)
+      throws RuleEvalException {
     PrologEnvironment env = getPrologEnvironment(user);
     try {
       Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
@@ -458,31 +479,31 @@ public class SubmitRuleEvaluator {
 
       List<Term> results = new ArrayList<>();
       try {
-        for (Term[] template : env.all("gerrit", userRuleWrapperName, sr,
-              new VariableTerm())) {
+        for (Term[] template : env.all("gerrit", userRuleWrapperName, sr, new VariableTerm())) {
           results.add(template[1]);
         }
       } catch (ReductionLimitException err) {
-        throw new RuleEvalException(String.format(
-            "%s on change %d of %s",
-            err.getMessage(), cd.getId().get(), getProjectName()));
+        throw new RuleEvalException(
+            String.format(
+                "%s on change %d of %s", err.getMessage(), cd.getId().get(), getProjectName()));
       } catch (RuntimeException err) {
-        throw new RuleEvalException(String.format(
-            "Exception calling %s on change %d of %s",
-            sr, cd.getId().get(), getProjectName()), err);
+        throw new RuleEvalException(
+            String.format(
+                "Exception calling %s on change %d of %s", sr, cd.getId().get(), getProjectName()),
+            err);
       } finally {
         reductionsConsumed = env.getReductions();
       }
 
       Term resultsTerm = toListTerm(results);
       if (!skipFilters) {
-        resultsTerm = runSubmitFilters(
-            resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
+        resultsTerm =
+            runSubmitFilters(resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
       }
       List<Term> r;
       if (resultsTerm instanceof ListTerm) {
         r = new ArrayList<>();
-        for (Term t = resultsTerm; t instanceof ListTerm;) {
+        for (Term t = resultsTerm; t instanceof ListTerm; ) {
           ListTerm l = (ListTerm) t;
           r.add(l.car().dereference());
           t = l.cdr().dereference();
@@ -497,8 +518,7 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private PrologEnvironment getPrologEnvironment(CurrentUser user)
-      throws RuleEvalException {
+  private PrologEnvironment getPrologEnvironment(CurrentUser user) throws RuleEvalException {
     ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
@@ -510,9 +530,7 @@ public class SubmitRuleEvaluator {
     } catch (CompileException err) {
       String msg;
       if (rule == null && control.getProjectControl().isOwner()) {
-        msg = String.format(
-            "Cannot load rules.pl for %s: %s",
-            getProjectName(), err.getMessage());
+        msg = String.format("Cannot load rules.pl for %s: %s", getProjectName(), err.getMessage());
       } else if (rule != null) {
         msg = err.getMessage();
       } else {
@@ -529,8 +547,11 @@ public class SubmitRuleEvaluator {
     return env;
   }
 
-  private Term runSubmitFilters(Term results, PrologEnvironment env,
-      String filterRuleLocatorName, String filterRuleWrapperName)
+  private Term runSubmitFilters(
+      Term results,
+      PrologEnvironment env,
+      String filterRuleLocatorName,
+      String filterRuleWrapperName)
       throws RuleEvalException {
     ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment childEnv = env;
@@ -539,30 +560,32 @@ public class SubmitRuleEvaluator {
       try {
         parentEnv = parentState.newPrologEnvironment();
       } catch (CompileException err) {
-        throw new RuleEvalException("Cannot consult rules.pl for "
-            + parentState.getProject().getName(), err);
+        throw new RuleEvalException(
+            "Cannot consult rules.pl for " + parentState.getProject().getName(), err);
       }
 
       parentEnv.copyStoredValues(childEnv);
-      Term filterRule =
-          parentEnv.once("gerrit", filterRuleLocatorName, new VariableTerm());
+      Term filterRule = parentEnv.once("gerrit", filterRuleLocatorName, new VariableTerm());
       try {
         if (fastEvalLabels) {
           env.once("gerrit", "assume_range_from_label");
         }
 
         Term[] template =
-            parentEnv.once("gerrit", filterRuleWrapperName, filterRule,
-                results, new VariableTerm());
+            parentEnv.once(
+                "gerrit", filterRuleWrapperName, filterRule, results, new VariableTerm());
         results = template[2];
       } catch (ReductionLimitException err) {
-        throw new RuleEvalException(String.format(
-            "%s on change %d of %s",
-            err.getMessage(), cd.getId().get(), parentState.getProject().getName()));
+        throw new RuleEvalException(
+            String.format(
+                "%s on change %d of %s",
+                err.getMessage(), cd.getId().get(), parentState.getProject().getName()));
       } catch (RuntimeException err) {
-        throw new RuleEvalException(String.format(
-            "Exception calling %s on change %d of %s",
-            filterRule, cd.getId().get(), parentState.getProject().getName()), err);
+        throw new RuleEvalException(
+            String.format(
+                "Exception calling %s on change %d of %s",
+                filterRule, cd.getId().get(), parentState.getProject().getName()),
+            err);
       } finally {
         reductionsConsumed += env.getReductions();
       }
@@ -579,8 +602,7 @@ public class SubmitRuleEvaluator {
     return list;
   }
 
-  private void appliedBy(SubmitRecord.Label label, Term status)
-      throws UserTermExpected {
+  private void appliedBy(SubmitRecord.Label label, Term status) throws UserTermExpected {
     if (status instanceof StructureTerm && status.arity() == 1) {
       Term who = status.arg(0);
       if (isUser(who)) {

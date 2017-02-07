@@ -30,8 +30,7 @@ import com.google.inject.Singleton;
 @RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
 @Singleton
 public class FlushCache implements RestModifyView<CacheResource, Input> {
-  public static class Input {
-  }
+  public static class Input {}
 
   public static final String WEB_SESSIONS = "web_sessions";
 
@@ -43,12 +42,9 @@ public class FlushCache implements RestModifyView<CacheResource, Input> {
   }
 
   @Override
-  public Response<String> apply(CacheResource rsrc, Input input)
-      throws AuthException {
-    if (WEB_SESSIONS.equals(rsrc.getName())
-        && !self.get().getCapabilities().canMaintainServer()) {
-      throw new AuthException(String.format(
-          "only site maintainers can flush %s", WEB_SESSIONS));
+  public Response<String> apply(CacheResource rsrc, Input input) throws AuthException {
+    if (WEB_SESSIONS.equals(rsrc.getName()) && !self.get().getCapabilities().canMaintainServer()) {
+      throw new AuthException(String.format("only site maintainers can flush %s", WEB_SESSIONS));
     }
 
     rsrc.getCache().invalidateAll();

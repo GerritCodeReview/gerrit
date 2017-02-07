@@ -100,8 +100,7 @@ public class RestApi {
     return path.toString();
   }
 
-  public <T extends JavaScriptObject>
-  void get(AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void get(AsyncCallback<T> cb) {
     get(path(), wrap(cb));
   }
 
@@ -109,62 +108,51 @@ public class RestApi {
     get(NativeString.unwrap(cb));
   }
 
-  private static native void get(String p, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.get_raw(p, r) }-*/;
+  private static native void get(String p, JavaScriptObject r)/*-{ $wnd.Gerrit.get_raw(p, r) }-*/ ;
 
-  public <T extends JavaScriptObject>
-  void put(AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
     put(path(), wrap(cb));
   }
 
-  private static native void put(String p, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.put_raw(p, r) }-*/;
+  private static native void put(String p, JavaScriptObject r)/*-{ $wnd.Gerrit.put_raw(p, r) }-*/ ;
 
-  public <T extends JavaScriptObject>
-  void put(String content, AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void put(String content, AsyncCallback<T> cb) {
     put(path(), content, wrap(cb));
   }
 
-  private static native
-  void put(String p, String c, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.put_raw(p, c, r) }-*/;
+  private static native void put(String p, String c, JavaScriptObject r)
+      /*-{ $wnd.Gerrit.put_raw(p, c, r) }-*/ ;
 
-  public <T extends JavaScriptObject>
-  void put(JavaScriptObject content, AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void put(JavaScriptObject content, AsyncCallback<T> cb) {
     put(path(), content, wrap(cb));
   }
 
-  private static native
-  void put(String p, JavaScriptObject c, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.put_raw(p, c, r) }-*/;
+  private static native void put(String p, JavaScriptObject c, JavaScriptObject r)
+      /*-{ $wnd.Gerrit.put_raw(p, c, r) }-*/ ;
 
-  public <T extends JavaScriptObject>
-  void post(String content, AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void post(String content, AsyncCallback<T> cb) {
     post(path(), content, wrap(cb));
   }
 
-  private static native
-  void post(String p, String c, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.post_raw(p, c, r) }-*/;
+  private static native void post(String p, String c, JavaScriptObject r)
+      /*-{ $wnd.Gerrit.post_raw(p, c, r) }-*/ ;
 
-  public <T extends JavaScriptObject>
-  void post(JavaScriptObject content, AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void post(JavaScriptObject content, AsyncCallback<T> cb) {
     post(path(), content, wrap(cb));
   }
 
-  private static native
-  void post(String p, JavaScriptObject c, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.post_raw(p, c, r) }-*/;
+  private static native void post(String p, JavaScriptObject c, JavaScriptObject r)
+      /*-{ $wnd.Gerrit.post_raw(p, c, r) }-*/ ;
 
   public void delete(AsyncCallback<NoContent> cb) {
     delete(path(), wrap(cb));
   }
 
   private static native void delete(String p, JavaScriptObject r)
-  /*-{ $wnd.Gerrit.del_raw(p, r) }-*/;
+      /*-{ $wnd.Gerrit.del_raw(p, r) }-*/ ;
 
-  private static native <T extends JavaScriptObject>
-  JavaScriptObject wrap(AsyncCallback<T> b) /*-{
+  private static native <T extends JavaScriptObject> JavaScriptObject wrap(
+      AsyncCallback<T> b) /*-{
     return function(r) {
       b.@com.google.gwt.user.client.rpc.AsyncCallback::onSuccess(Ljava/lang/Object;)(r)
     }

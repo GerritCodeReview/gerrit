@@ -46,16 +46,14 @@ public abstract class LabelVote {
     if (sign == 0) {
       return create(text, (short) 1);
     }
-    return create(text.substring(0, i),
-        (short)(sign * Short.parseShort(text.substring(i + 1))));
+    return create(text.substring(0, i), (short) (sign * Short.parseShort(text.substring(i + 1))));
   }
 
   public static LabelVote parseWithEquals(String text) {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     int e = text.lastIndexOf('=');
     checkArgument(e >= 0, "Label vote missing '=': %s", text);
-    return create(text.substring(0, e),
-        Short.parseShort(text.substring(e + 1), text.length()));
+    return create(text.substring(0, e), Short.parseShort(text.substring(e + 1), text.length()));
   }
 
   public static LabelVote create(String label, short value) {
@@ -67,6 +65,7 @@ public abstract class LabelVote {
   }
 
   public abstract String label();
+
   public abstract short value();
 
   public String format() {

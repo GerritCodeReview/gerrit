@@ -41,20 +41,19 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutTopic implements RestModifyView<ChangeResource, Input>,
-    UiAction<ChangeResource> {
+public class PutTopic implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final TopicEdited topicEdited;
 
   public static class Input {
-    @DefaultInput
-    public String topic;
+    @DefaultInput public String topic;
   }
 
   @Inject
-  PutTopic(Provider<ReviewDb> dbProvider,
+  PutTopic(
+      Provider<ReviewDb> dbProvider,
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
       TopicEdited topicEdited) {
@@ -73,13 +72,14 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     }
 
     Op op = new Op(input != null ? input : new Input());
-    try (BatchUpdate u = batchUpdateFactory.create(dbProvider.get(),
-        req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate u =
+        batchUpdateFactory.create(
+            dbProvider.get(), req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);
       u.execute();
     }
     return Strings.isNullOrEmpty(op.newTopicName)
-        ? Response.<String> none()
+        ? Response.<String>none()
         : Response.ok(op.newTopicName);
   }
 
@@ -109,18 +109,17 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
       } else if (newTopicName.isEmpty()) {
         summary = "Topic " + oldTopicName + " removed";
       } else {
-        summary = String.format("Topic changed from %s to %s",
-            oldTopicName, newTopicName);
+        summary = String.format("Topic changed from %s to %s", oldTopicName, newTopicName);
       }
       change.setTopic(Strings.emptyToNull(newTopicName));
       update.setTopic(change.getTopic());
 
-      ChangeMessage cmsg = new ChangeMessage(
-          new ChangeMessage.Key(
-              change.getId(),
-              ChangeUtil.messageUUID(ctx.getDb())),
-          ctx.getAccountId(), ctx.getWhen(),
-          change.currentPatchSetId());
+      ChangeMessage cmsg =
+          new ChangeMessage(
+              new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(ctx.getDb())),
+              ctx.getAccountId(),
+              ctx.getWhen(),
+              change.currentPatchSetId());
       cmsg.setMessage(summary);
       cmUtil.addChangeMessage(ctx.getDb(), update, cmsg);
       return true;
@@ -129,10 +128,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
     @Override
     public void postUpdate(Context ctx) {
       if (change != null) {
-        topicEdited.fire(change,
-            ctx.getAccount(),
-            oldTopicName,
-            ctx.getWhen());
+        topicEdited.fire(change, ctx.getAccount(), oldTopicName, ctx.getWhen());
       }
     }
   }
@@ -140,7 +136,7 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
   @Override
   public UiAction.Description getDescription(ChangeResource resource) {
     return new UiAction.Description()
-      .setLabel("Edit Topic")
-      .setVisible(resource.getControl().canEditTopicName());
+        .setLabel("Edit Topic")
+        .setVisible(resource.getControl().canEditTopicName());
   }
 }

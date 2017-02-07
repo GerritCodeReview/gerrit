@@ -22,16 +22,12 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
+import java.util.Locale;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Config;
 
-import java.util.Locale;
-
-/**
- * Authenticates users with kerberos (gssapi-with-mic).
- */
+/** Authenticates users with kerberos (gssapi-with-mic). */
 @Singleton
 class GerritGSSAuthenticator extends GSSAuthenticator {
   private final AccountCache accounts;
@@ -41,7 +37,8 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
   private final Config config;
 
   @Inject
-  GerritGSSAuthenticator(AccountCache accounts,
+  GerritGSSAuthenticator(
+      AccountCache accounts,
       SshScope sshScope,
       SshLog sshLog,
       IdentifiedUser.GenericFactory userFactory,
@@ -54,8 +51,7 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
   }
 
   @Override
-  public boolean validateIdentity(final ServerSession session,
-      final String identity) {
+  public boolean validateIdentity(final ServerSession session, final String identity) {
     final SshSession sd = session.getAttribute(SshSession.KEY);
     int at = identity.indexOf('@');
     String username;
@@ -71,7 +67,12 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
     Account account = state == null ? null : state.getAccount();
     boolean active = account != null && account.isActive();
     if (active) {
-      return SshUtil.success(username, session, sshScope, sshLog, sd,
+      return SshUtil.success(
+          username,
+          session,
+          sshScope,
+          sshLog,
+          sd,
           SshUtil.createUser(sd, userFactory, account.getId()));
     }
     return false;

@@ -16,10 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.strategy.CommitMergeStatus;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +24,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
 
 public class RebaseSorter {
   private final CodeReviewRevWalk rw;
@@ -35,16 +33,18 @@ public class RebaseSorter {
   private final RevCommit initialTip;
   private final Set<RevCommit> alreadyAccepted;
 
-  public RebaseSorter(CodeReviewRevWalk rw, RevCommit initialTip,
-      Set<RevCommit> alreadyAccepted, RevFlag canMergeFlag) {
+  public RebaseSorter(
+      CodeReviewRevWalk rw,
+      RevCommit initialTip,
+      Set<RevCommit> alreadyAccepted,
+      RevFlag canMergeFlag) {
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
     this.initialTip = initialTip;
     this.alreadyAccepted = alreadyAccepted;
   }
 
-  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming)
-      throws IOException {
+  public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> incoming) throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(incoming);
     while (!sort.isEmpty()) {
@@ -90,13 +90,11 @@ public class RebaseSorter {
   }
 
   private boolean isAlreadyMerged(CodeReviewCommit commit) throws IOException {
-    try (CodeReviewRevWalk mirw =
-        CodeReviewCommit.newRevWalk(rw.getObjectReader())) {
+    try (CodeReviewRevWalk mirw = CodeReviewCommit.newRevWalk(rw.getObjectReader())) {
       mirw.reset();
       mirw.markStart(commit);
       for (RevCommit accepted : alreadyAccepted) {
-        if (mirw.isMergedInto(mirw.parseCommit(accepted),
-            mirw.parseCommit(commit))) {
+        if (mirw.isMergedInto(mirw.parseCommit(accepted), mirw.parseCommit(commit))) {
           return true;
         }
       }

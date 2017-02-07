@@ -14,15 +14,13 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Metric;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker.TimerImpl;
-
-import com.codahale.metrics.Metric;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,8 +34,7 @@ abstract class BucketedTimer implements BucketedMetric {
   private final Map<Object, TimerImpl> cells;
   private final Object lock = new Object();
 
-  BucketedTimer(DropWizardMetricMaker metrics, String name,
-      Description desc, Field<?>... fields) {
+  BucketedTimer(DropWizardMetricMaker metrics, String name, Description desc, Field<?>... fields) {
     this.metrics = metrics;
     this.name = name;
     this.ordering = desc.getFieldOrdering();
@@ -98,7 +95,7 @@ abstract class BucketedTimer implements BucketedMetric {
   public Map<Object, Metric> getCells() {
     return Maps.transformValues(
         cells,
-        new Function<TimerImpl, Metric> () {
+        new Function<TimerImpl, Metric>() {
           @Override
           public Metric apply(TimerImpl in) {
             return in.metric;

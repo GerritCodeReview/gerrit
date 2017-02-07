@@ -31,13 +31,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-/**
- * Parses a query string meant to be applied to account objects.
- */
+/** Parses a query string meant to be applied to account objects. */
 public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public interface ChangeOperatorFactory
-      extends OperatorFactory<AccountState, AccountQueryBuilder> {
-  }
+      extends OperatorFactory<AccountState, AccountQueryBuilder> {}
 
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_EMAIL = "email";
@@ -103,8 +100,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   @Operator
-  public Predicate<AccountState> limit(String query)
-      throws QueryParseException {
+  public Predicate<AccountState> limit(String query) throws QueryParseException {
     Integer limit = Ints.tryParse(query);
     if (limit == null) {
       throw error("Invalid limit: " + query);
@@ -124,7 +120,8 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   public Predicate<AccountState> defaultQuery(String query) {
     return Predicate.and(
-        Lists.transform(Splitter.on(' ').omitEmptyStrings().splitToList(query),
+        Lists.transform(
+            Splitter.on(' ').omitEmptyStrings().splitToList(query),
             new Function<String, Predicate<AccountState>>() {
               @Override
               public Predicate<AccountState> apply(String s) {
@@ -135,8 +132,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
   @Override
   protected Predicate<AccountState> defaultField(String query) {
-    Predicate<AccountState> defaultPredicate =
-        AccountPredicates.defaultPredicate(query);
+    Predicate<AccountState> defaultPredicate = AccountPredicates.defaultPredicate(query);
     if ("self".equalsIgnoreCase(query)) {
       try {
         return Predicate.or(defaultPredicate, AccountPredicates.id(self()));

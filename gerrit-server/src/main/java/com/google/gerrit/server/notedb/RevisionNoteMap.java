@@ -17,39 +17,38 @@ package com.google.gerrit.server.notedb;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RevId;
-
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 class RevisionNoteMap {
   final NoteMap noteMap;
   final ImmutableMap<RevId, RevisionNote> revisionNotes;
 
-  static RevisionNoteMap parse(ChangeNoteUtil noteUtil,
-      Change.Id changeId, ObjectReader reader, NoteMap noteMap,
-      boolean draftsOnly) throws ConfigInvalidException, IOException {
+  static RevisionNoteMap parse(
+      ChangeNoteUtil noteUtil,
+      Change.Id changeId,
+      ObjectReader reader,
+      NoteMap noteMap,
+      boolean draftsOnly)
+      throws ConfigInvalidException, IOException {
     Map<RevId, RevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {
-      RevisionNote rn = new RevisionNote(
-          noteUtil, changeId, reader, note.getData(), draftsOnly);
+      RevisionNote rn = new RevisionNote(noteUtil, changeId, reader, note.getData(), draftsOnly);
       result.put(new RevId(note.name()), rn);
     }
     return new RevisionNoteMap(noteMap, ImmutableMap.copyOf(result));
   }
 
   static RevisionNoteMap emptyMap() {
-    return new RevisionNoteMap(NoteMap.newEmptyMap(),
-        ImmutableMap.<RevId, RevisionNote> of());
+    return new RevisionNoteMap(NoteMap.newEmptyMap(), ImmutableMap.<RevId, RevisionNote>of());
   }
 
-  private RevisionNoteMap(NoteMap noteMap,
-      ImmutableMap<RevId, RevisionNote> revisionNotes) {
+  private RevisionNoteMap(NoteMap noteMap, ImmutableMap<RevId, RevisionNote> revisionNotes) {
     this.noteMap = noteMap;
     this.revisionNotes = revisionNotes;
   }

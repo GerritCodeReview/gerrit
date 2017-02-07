@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.git;
 
 import com.google.gerrit.acceptance.NoHttpd;
-
 import org.junit.Before;
 
 @NoHttpd

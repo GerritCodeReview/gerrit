@@ -51,7 +51,9 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -59,17 +61,11 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 public class PatchSetInserter extends BatchUpdate.Op {
-  private static final Logger log =
-      LoggerFactory.getLogger(PatchSetInserter.class);
+  private static final Logger log = LoggerFactory.getLogger(PatchSetInserter.class);
 
   public interface Factory {
-    PatchSetInserter create(ChangeControl ctl, PatchSet.Id psId,
-        RevCommit commit);
+    PatchSetInserter create(ChangeControl ctl, PatchSet.Id psId, RevCommit commit);
   }
 
   // Injected fields.
@@ -93,8 +89,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   // Fields exposed as setters.
   private SshInfo sshInfo;
   private String message;
-  private CommitValidators.Policy validatePolicy =
-      CommitValidators.Policy.GERRIT;
+  private CommitValidators.Policy validatePolicy = CommitValidators.Policy.GERRIT;
   private boolean draft;
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
@@ -110,7 +105,8 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private ReviewerSet oldReviewers;
 
   @AssistedInject
-  public PatchSetInserter(ApprovalsUtil approvalsUtil,
+  public PatchSetInserter(
+      ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -200,8 +196,9 @@ public class PatchSetInserter extends BatchUpdate.Op {
       throws AuthException, ResourceConflictException, IOException, OrmException {
     init();
     validate(ctx);
-    ctx.addRefUpdate(new ReceiveCommand(ObjectId.zeroId(),
-        commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
+    ctx.addRefUpdate(
+        new ReceiveCommand(
+            ObjectId.zeroId(), commit, getPatchSetId().toRefName(), ReceiveCommand.Type.CREATE));
   }
 
   @Override
@@ -215,9 +212,10 @@ public class PatchSetInserter extends BatchUpdate.Op {
     update.setSubjectForCommit("Create patch set " + psId.get());
 
     if (!change.getStatus().isOpen() && !allowClosed) {
-      throw new ResourceConflictException(String.format(
-          "Cannot create new patch set of change %s because it is %s",
-          change.getId(), change.getStatus().name().toLowerCase()));
+      throw new ResourceConflictException(
+          String.format(
+              "Cannot create new patch set of change %s because it is %s",
+              change.getId(), change.getStatus().name().toLowerCase()));
     }
 
     List<String> newGroups = groups;
@@ -227,17 +225,21 @@ public class PatchSetInserter extends BatchUpdate.Op {
         newGroups = prevPs.getGroups();
       }
     }
-    patchSet = psUtil.insert(db, ctx.getRevWalk(), ctx.getUpdate(psId),
-        psId, commit, draft, newGroups, null);
+    patchSet =
+        psUtil.insert(
+            db, ctx.getRevWalk(), ctx.getUpdate(psId), psId, commit, draft, newGroups, null);
 
     if (sendMail) {
       oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());
     }
 
     if (message != null) {
-      changeMessage = new ChangeMessage(
-          new ChangeMessage.Key(ctl.getId(), ChangeUtil.messageUUID(db)),
-          ctx.getAccountId(), ctx.getWhen(), patchSet.getId());
+      changeMessage =
+          new ChangeMessage(
+              new ChangeMessage.Key(ctl.getId(), ChangeUtil.messageUUID(db)),
+              ctx.getAccountId(),
+              ctx.getWhen(),
+              patchSet.getId());
       changeMessage.setMessage(message);
     }
 
@@ -259,8 +261,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
   public void postUpdate(Context ctx) throws OrmException {
     if (sendMail) {
       try {
-        ReplacePatchSetSender cm = replacePatchSetFactory.create(
-            ctx.getProject(), change.getId());
+        ReplacePatchSetSender cm = replacePatchSetFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
@@ -268,17 +269,13 @@ public class PatchSetInserter extends BatchUpdate.Op {
         cm.addExtraCC(oldReviewers.byState(CC));
         cm.send();
       } catch (Exception err) {
-        log.error("Cannot send email for new patch set on change "
-            + change.getId(), err);
+        log.error("Cannot send email for new patch set on change " + change.getId(), err);
       }
     }
 
-    NotifyHandling notify = sendMail
-        ? NotifyHandling.ALL
-        : NotifyHandling.NONE;
+    NotifyHandling notify = sendMail ? NotifyHandling.ALL : NotifyHandling.NONE;
     if (fireRevisionCreated) {
-      revisionCreated.fire(change, patchSet, ctx.getAccount(),
-          ctx.getWhen(), notify);
+      revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
     }
   }
 
@@ -289,37 +286,38 @@ public class PatchSetInserter extends BatchUpdate.Op {
   }
 
   private void validate(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException,
-      OrmException {
-    CommitValidators cv = commitValidatorsFactory.create(
-        origCtl.getRefControl(), sshInfo, ctx.getRepository());
+      throws AuthException, ResourceConflictException, IOException, OrmException {
+    CommitValidators cv =
+        commitValidatorsFactory.create(origCtl.getRefControl(), sshInfo, ctx.getRepository());
 
     if (!origCtl.canAddPatchSet(ctx.getDb())) {
       throw new AuthException("cannot add patch set");
     }
 
     String refName = getPatchSetId().toRefName();
-    CommitReceivedEvent event = new CommitReceivedEvent(
-        new ReceiveCommand(
-            ObjectId.zeroId(),
-            commit.getId(),
-            refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
-        origCtl.getProjectControl().getProject(),
-        origCtl.getRefControl().getRefName(),
-        commit, ctx.getIdentifiedUser());
+    CommitReceivedEvent event =
+        new CommitReceivedEvent(
+            new ReceiveCommand(
+                ObjectId.zeroId(),
+                commit.getId(),
+                refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
+            origCtl.getProjectControl().getProject(),
+            origCtl.getRefControl().getRefName(),
+            commit,
+            ctx.getIdentifiedUser());
 
     try {
       switch (validatePolicy) {
-      case RECEIVE_COMMITS:
-        NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(
-            ctx.getRepository(), ctx.getRevWalk());
-        cv.validateForReceiveCommits(event, rejectCommits);
-        break;
-      case GERRIT:
-        cv.validateForGerritCommits(event);
-        break;
-      case NONE:
-        break;
+        case RECEIVE_COMMITS:
+          NoteMap rejectCommits =
+              BanCommit.loadRejectCommitsMap(ctx.getRepository(), ctx.getRevWalk());
+          cv.validateForReceiveCommits(event, rejectCommits);
+          break;
+        case GERRIT:
+          cv.validateForGerritCommits(event);
+          break;
+        case NONE:
+          break;
       }
     } catch (CommitValidationException e) {
       throw new ResourceConflictException(e.getFullMessage());

@@ -22,10 +22,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ChangeIndexCollection extends
-    IndexCollection<Change.Id, ChangeData, ChangeIndex> {
+public class ChangeIndexCollection extends IndexCollection<Change.Id, ChangeData, ChangeIndex> {
   @Inject
   @VisibleForTesting
-  public ChangeIndexCollection() {
-  }
+  public ChangeIndexCollection() {}
 }

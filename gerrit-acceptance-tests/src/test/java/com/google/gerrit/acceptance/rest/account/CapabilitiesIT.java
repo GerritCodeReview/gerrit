@@ -33,28 +33,28 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.junit.Test;
 
 public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
   public void testCapabilitiesUser() throws Exception {
-    Iterable<String> all = Iterables.filter(GlobalCapability.getAllNames(),
-        new Predicate<String>() {
-          @Override
-          public boolean apply(String in) {
-            return !ADMINISTRATE_SERVER.equals(in) && !PRIORITY.equals(in);
-          }
-        });
+    Iterable<String> all =
+        Iterables.filter(
+            GlobalCapability.getAllNames(),
+            new Predicate<String>() {
+              @Override
+              public boolean apply(String in) {
+                return !ADMINISTRATE_SERVER.equals(in) && !PRIORITY.equals(in);
+              }
+            });
 
     allowGlobalCapabilities(REGISTERED_USERS, all);
     try {
-      RestResponse r =
-          userRestSession.get("/accounts/self/capabilities");
+      RestResponse r = userRestSession.get("/accounts/self/capabilities");
       r.assertOK();
-      CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
-          new TypeToken<CapabilityInfo>() {}.getType());
+      CapabilityInfo info =
+          (new Gson()).fromJson(r.getReader(), new TypeToken<CapabilityInfo>() {}.getType());
       for (String c : GlobalCapability.getAllNames()) {
         if (ADMINISTRATE_SERVER.equals(c)) {
           assertThat(info.administrateServer).isFalse();
@@ -67,8 +67,10 @@ public class CapabilitiesIT extends AbstractDaemonTest {
           assertThat(info.queryLimit.min).isEqualTo((short) 0);
           assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
         } else {
-          assert_().withFailureMessage(String.format("capability %s was not granted", c))
-            .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
+          assert_()
+              .withFailureMessage(String.format("capability %s was not granted", c))
+              .that((Boolean) CapabilityInfo.class.getField(c).get(info))
+              .isTrue();
         }
       }
     } finally {
@@ -78,11 +80,10 @@ public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
   public void testCapabilitiesAdmin() throws Exception {
-    RestResponse r =
-        adminRestSession.get("/accounts/self/capabilities");
+    RestResponse r = adminRestSession.get("/accounts/self/capabilities");
     r.assertOK();
-    CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
-        new TypeToken<CapabilityInfo>() {}.getType());
+    CapabilityInfo info =
+        (new Gson()).fromJson(r.getReader(), new TypeToken<CapabilityInfo>() {}.getType());
     for (String c : GlobalCapability.getAllNames()) {
       if (BATCH_CHANGES_LIMIT.equals(c)) {
         // It does not have default value for any user as it can override the
@@ -91,8 +92,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       } else if (PRIORITY.equals(c)) {
         assertThat(info.priority).isFalse();
       } else if (QUERY_LIMIT.equals(c)) {
-        assert_().withFailureMessage("missing queryLimit")
-          .that(info.queryLimit).isNotNull();
+        assert_().withFailureMessage("missing queryLimit").that(info.queryLimit).isNotNull();
         assertThat(info.queryLimit.min).isEqualTo((short) 0);
         assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
       } else if (ACCESS_DATABASE.equals(c)) {
@@ -100,8 +100,10 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       } else if (RUN_AS.equals(c)) {
         assertThat(info.runAs).isFalse();
       } else {
-        assert_().withFailureMessage(String.format("capability %s was not granted", c))
-          .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
+        assert_()
+            .withFailureMessage(String.format("capability %s was not granted", c))
+            .that((Boolean) CapabilityInfo.class.getField(c).get(info))
+            .isTrue();
       }
     }
   }

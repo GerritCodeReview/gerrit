@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +29,7 @@ public class PerRequestProjectControlCache {
   private final Map<Project.NameKey, ProjectControl> controls;
 
   @Inject
-  PerRequestProjectControlCache(ProjectCache projectCache,
-      CurrentUser userProvider) {
+  PerRequestProjectControlCache(ProjectCache projectCache, CurrentUser userProvider) {
     this.projectCache = projectCache;
     this.user = userProvider;
     this.controls = new HashMap<>();

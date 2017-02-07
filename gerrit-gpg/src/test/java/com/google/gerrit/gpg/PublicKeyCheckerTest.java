@@ -38,7 +38,15 @@ import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.gpg.testutil.TestKey;
-
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPSignature;
@@ -53,19 +61,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 public class PublicKeyCheckerTest {
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+  @Rule public ExpectedException thrown = ExpectedException.none();
 
   private InMemoryRepository repo;
   private PublicKeyStore store;
@@ -97,8 +94,7 @@ public class PublicKeyCheckerTest {
   public void keyExpiringInFuture() throws Exception {
     TestKey k = validKeyWithExpiration();
 
-    PublicKeyChecker checker = new PublicKeyChecker()
-        .setStore(store);
+    PublicKeyChecker checker = new PublicKeyChecker().setStore(store);
     assertNoProblems(checker, k);
 
     checker.setEffectiveTime(parseDate("2015-07-10 12:00:00 -0400"));
@@ -115,8 +111,7 @@ public class PublicKeyCheckerTest {
 
   @Test
   public void selfRevokedKeyIsRevoked() throws Exception {
-    assertProblems(selfRevokedKey(),
-        "Key is revoked (key material has been compromised)");
+    assertProblems(selfRevokedKey(), "Key is revoked (key material has been compromised)");
   }
 
   // Test keys specific to this test are at the bottom of this class. Each test
@@ -165,8 +160,7 @@ public class PublicKeyCheckerTest {
     save();
 
     PublicKeyChecker checker = newChecker(1, kd);
-    assertProblems(checker, ka,
-        "No path to a trusted key", notTrusted(kb), notTrusted(kc));
+    assertProblems(checker, ka, "No path to a trusted key", notTrusted(kb), notTrusted(kc));
   }
 
   @Test
@@ -177,10 +171,8 @@ public class PublicKeyCheckerTest {
     save();
 
     PublicKeyChecker checker = newChecker(10, keyA());
-    assertProblems(checker, kf,
-        "No path to a trusted key", notTrusted(kg));
-    assertProblems(checker, kg,
-        "No path to a trusted key", notTrusted(kf));
+    assertProblems(checker, kf, "No path to a trusted key", notTrusted(kg));
+    assertProblems(checker, kg, "No path to a trusted key", notTrusted(kf));
   }
 
   @Test
@@ -196,8 +188,7 @@ public class PublicKeyCheckerTest {
     // J trusts I to a depth of 1, so I itself is valid, but I's certification
     // of K is not valid.
     assertNoProblems(checker, ki);
-    assertProblems(checker, kh,
-        "No path to a trusted key", notTrusted(ki));
+    assertProblems(checker, kh, "No path to a trusted key", notTrusted(ki));
   }
 
   @Test
@@ -206,9 +197,7 @@ public class PublicKeyCheckerTest {
     add(validKeyWithoutExpiration());
     save();
 
-    assertProblems(k,
-        "Key is revoked (key material has been compromised):"
-          + " test6 compromised");
+    assertProblems(k, "Key is revoked (key material has been compromised):" + " test6 compromised");
 
     PGPPublicKeyRing kr = removeRevokers(k.getPublicKeyRing());
     store.add(kr);
@@ -219,20 +208,17 @@ public class PublicKeyCheckerTest {
   }
 
   @Test
-  public void revokedKeyDueToCompromiseRevokesKeyRetroactively()
-      throws Exception {
+  public void revokedKeyDueToCompromiseRevokesKeyRetroactively() throws Exception {
     TestKey k = add(revokedCompromisedKey());
     add(validKeyWithoutExpiration());
     save();
 
-    String problem =
-        "Key is revoked (key material has been compromised): test6 compromised";
+    String problem = "Key is revoked (key material has been compromised): test6 compromised";
     assertProblems(k, problem);
 
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    PublicKeyChecker checker = new PublicKeyChecker()
-        .setStore(store)
-        .setEffectiveTime(df.parse("2010-01-01 12:00:00"));
+    PublicKeyChecker checker =
+        new PublicKeyChecker().setStore(store).setEffectiveTime(df.parse("2010-01-01 12:00:00"));
     assertProblems(checker, k, problem);
   }
 
@@ -241,9 +227,7 @@ public class PublicKeyCheckerTest {
     TestKey k = add(revokedCompromisedKey());
     save();
 
-    assertProblems(k,
-        "Key is revoked (key material has been compromised):"
-          + " test6 compromised");
+    assertProblems(k, "Key is revoked (key material has been compromised):" + " test6 compromised");
   }
 
   @Test
@@ -252,29 +236,26 @@ public class PublicKeyCheckerTest {
     add(validKeyWithoutExpiration());
     save();
 
-    assertProblems(k,
-        "Key is revoked (retired and no longer valid): test7 not used");
+    assertProblems(k, "Key is revoked (retired and no longer valid): test7 not used");
   }
 
   @Test
-  public void revokedKeyDueToNoLongerBeingUsedDoesNotRevokeKeyRetroactively()
-      throws Exception {
+  public void revokedKeyDueToNoLongerBeingUsedDoesNotRevokeKeyRetroactively() throws Exception {
     TestKey k = add(revokedNoLongerUsedKey());
     add(validKeyWithoutExpiration());
     save();
 
-    assertProblems(k,
-        "Key is revoked (retired and no longer valid): test7 not used");
+    assertProblems(k, "Key is revoked (retired and no longer valid): test7 not used");
 
-    PublicKeyChecker checker = new PublicKeyChecker()
-        .setStore(store)
-        .setEffectiveTime(parseDate("2010-01-01 12:00:00 -0400"));
+    PublicKeyChecker checker =
+        new PublicKeyChecker()
+            .setStore(store)
+            .setEffectiveTime(parseDate("2010-01-01 12:00:00 -0400"));
     assertNoProblems(checker, k);
   }
 
   @Test
-  public void keyRevokedByExpiredKeyAfterExpirationIsNotRevoked()
-      throws Exception {
+  public void keyRevokedByExpiredKeyAfterExpirationIsNotRevoked() throws Exception {
     TestKey k = add(keyRevokedByExpiredKeyAfterExpiration());
     add(expiredKey());
     save();
@@ -284,15 +265,13 @@ public class PublicKeyCheckerTest {
   }
 
   @Test
-  public void keyRevokedByExpiredKeyBeforeExpirationIsRevoked()
-      throws Exception {
+  public void keyRevokedByExpiredKeyBeforeExpirationIsRevoked() throws Exception {
     TestKey k = add(keyRevokedByExpiredKeyBeforeExpiration());
     add(expiredKey());
     save();
 
     PublicKeyChecker checker = new PublicKeyChecker().setStore(store);
-    assertProblems(checker, k,
-        "Key is revoked (retired and no longer valid): test9 not used");
+    assertProblems(checker, k, "Key is revoked (retired and no longer valid): test9 not used");
 
     // Set time between key creation and revocation.
     checker.setEffectiveTime(parseDate("2005-08-01 13:00:00 -0400"));
@@ -318,9 +297,7 @@ public class PublicKeyCheckerTest {
       Fingerprint fp = new Fingerprint(k.getPublicKey().getFingerprint());
       fps.put(fp.getId(), fp);
     }
-    return new PublicKeyChecker()
-        .enableTrust(maxTrustDepth, fps)
-        .setStore(store);
+    return new PublicKeyChecker().enableTrust(maxTrustDepth, fps).setStore(store);
   }
 
   private TestKey add(TestKey k) {
@@ -351,16 +328,13 @@ public class PublicKeyCheckerTest {
     }
   }
 
-  private void assertProblems(PublicKeyChecker checker, TestKey k,
-      String first, String... rest) {
-    CheckResult result = checker.setStore(store)
-        .check(k.getPublicKey());
+  private void assertProblems(PublicKeyChecker checker, TestKey k, String first, String... rest) {
+    CheckResult result = checker.setStore(store).check(k.getPublicKey());
     assertEquals(list(first, rest), result.getProblems());
   }
 
   private void assertNoProblems(PublicKeyChecker checker, TestKey k) {
-    CheckResult result = checker.setStore(store)
-        .check(k.getPublicKey());
+    CheckResult result = checker.setStore(store).check(k.getPublicKey());
     assertEquals(Collections.emptyList(), result.getProblems());
   }
 
@@ -373,21 +347,18 @@ public class PublicKeyCheckerTest {
   }
 
   private void assertProblems(PGPPublicKey k, String first, String... rest) {
-    CheckResult result = new PublicKeyChecker()
-        .setStore(store)
-        .check(k);
+    CheckResult result = new PublicKeyChecker().setStore(store).check(k);
     assertEquals(list(first, rest), result.getProblems());
   }
 
   private void assertNoProblems(PGPPublicKey k) {
-    CheckResult result = new PublicKeyChecker()
-        .setStore(store)
-        .check(k);
+    CheckResult result = new PublicKeyChecker().setStore(store).check(k);
     assertEquals(Collections.emptyList(), result.getProblems());
   }
 
   private static String notTrusted(TestKey k) {
-    return "Certification by " + keyToString(k.getPublicKey())
+    return "Certification by "
+        + keyToString(k.getPublicKey())
         + " is valid, but key is not trusted";
   }
 

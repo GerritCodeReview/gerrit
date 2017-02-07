@@ -22,11 +22,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
-
 import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -89,7 +87,7 @@ public abstract class RegexListSearcher<T> implements Function<T, String> {
     }
 
     if (prefixOnly) {
-      return begin < end ? list.subList(begin, end) : ImmutableList.<T> of();
+      return begin < end ? list.subList(begin, end) : ImmutableList.<T>of();
     }
 
     return Iterables.filter(

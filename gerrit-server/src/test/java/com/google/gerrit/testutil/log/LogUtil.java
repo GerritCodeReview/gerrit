@@ -14,15 +14,14 @@
 
 package com.google.gerrit.testutil.log;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
+import org.apache.log4j.Appender;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggingEvent;
 
 public class LogUtil {
   /**
@@ -32,8 +31,8 @@ public class LogUtil {
    * @param collection The collection to log into.
    * @return The logger's original settings.
    */
-  public static LoggerSettings logToCollection(String logName,
-      Collection<LoggingEvent> collection) {
+  public static LoggerSettings logToCollection(
+      String logName, Collection<LoggingEvent> collection) {
     Logger logger = LogManager.getLogger(logName);
     LoggerSettings loggerSettings = new LoggerSettings(logger);
     logger.removeAllAppenders();
@@ -43,9 +42,7 @@ public class LogUtil {
     return loggerSettings;
   }
 
-  /**
-   * Capsule for a logger's settings that get mangled by rerouting logging to a collection
-   */
+  /** Capsule for a logger's settings that get mangled by rerouting logging to a collection */
   public static class LoggerSettings {
     private final boolean additive;
     private final List<Appender> appenders;
@@ -63,10 +60,10 @@ public class LogUtil {
       while (appenders.hasMoreElements()) {
         Object appender = appenders.nextElement();
         if (appender instanceof Appender) {
-          this.appenders.add((Appender)appender);
+          this.appenders.add((Appender) appender);
         } else {
-          throw new RuntimeException("getAllAppenders of " + logger
-              + " contained an object that is not an Appender");
+          throw new RuntimeException(
+              "getAllAppenders of " + logger + " contained an object that is not an Appender");
         }
       }
     }

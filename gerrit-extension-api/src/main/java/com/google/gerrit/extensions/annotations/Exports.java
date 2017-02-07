@@ -21,6 +21,5 @@ public final class Exports {
     return new ExportImpl(name);
   }
 
-  private Exports() {
-  }
+  private Exports() {}
 }

@@ -15,19 +15,16 @@
 package com.google.gerrit.pgm;
 
 import com.google.gerrit.pgm.util.AbstractProgram;
-
 import com.googlecode.prolog_cafe.exceptions.HaltException;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologClassLoader;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
-
-import org.kohsuke.args4j.Option;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.kohsuke.args4j.Option;
 
 public class PrologShell extends AbstractProgram {
   @Option(name = "-s", metaVar = "FILE.pl", usage = "file to load")
@@ -67,11 +64,12 @@ public class PrologShell extends AbstractProgram {
   }
 
   private void banner() {
-    System.err.format("Gerrit Code Review %s - Interactive Prolog Shell",
+    System.err.format(
+        "Gerrit Code Review %s - Interactive Prolog Shell",
         com.google.gerrit.common.Version.getVersion());
     System.err.println();
-    System.err.println("(type Ctrl-D or \"halt.\" to exit,"
-        + " \"['path/to/file.pl'].\" to load a file)");
+    System.err.println(
+        "(type Ctrl-D or \"halt.\" to exit," + " \"['path/to/file.pl'].\" to load a file)");
     System.err.println();
     System.err.flush();
   }

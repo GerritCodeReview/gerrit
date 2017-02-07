@@ -23,8 +23,8 @@ import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface AccountProjectWatchAccess extends
-    Access<AccountProjectWatch, AccountProjectWatch.Key> {
+public interface AccountProjectWatchAccess
+    extends Access<AccountProjectWatch, AccountProjectWatch.Key> {
   @Override
   @PrimaryKey("key")
   AccountProjectWatch get(AccountProjectWatch.Key key) throws OrmException;

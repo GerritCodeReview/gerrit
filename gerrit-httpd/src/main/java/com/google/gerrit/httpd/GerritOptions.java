@@ -22,12 +22,11 @@ public class GerritOptions {
   private final boolean enablePolyGerrit;
   private final boolean forcePolyGerritDev;
 
-  public GerritOptions(Config cfg, boolean headless, boolean slave,
-      boolean forcePolyGerritDev) {
+  public GerritOptions(Config cfg, boolean headless, boolean slave, boolean forcePolyGerritDev) {
     this.headless = headless;
     this.slave = slave;
-    this.enablePolyGerrit = forcePolyGerritDev
-        || cfg.getBoolean("gerrit", null, "enablePolyGerrit", false);
+    this.enablePolyGerrit =
+        forcePolyGerritDev || cfg.getBoolean("gerrit", null, "enablePolyGerrit", false);
     this.forcePolyGerritDev = forcePolyGerritDev;
   }
 

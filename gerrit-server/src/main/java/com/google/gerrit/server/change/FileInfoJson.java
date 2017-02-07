@@ -31,14 +31,12 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class FileInfoJson {
@@ -46,9 +44,7 @@ public class FileInfoJson {
   private final GitRepositoryManager repoManager;
 
   @Inject
-  FileInfoJson(
-      PatchListCache patchListCache,
-      GitRepositoryManager repoManager) {
+  FileInfoJson(PatchListCache patchListCache, GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
     this.patchListCache = patchListCache;
   }
@@ -60,16 +56,13 @@ public class FileInfoJson {
 
   Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
-    ObjectId a = (base == null)
-        ? null
-        : ObjectId.fromString(base.getRevision().get());
+    ObjectId a = (base == null) ? null : ObjectId.fromString(base.getRevision().get());
     ObjectId b = ObjectId.fromString(revision.get());
     return toFileInfoMap(change, a, b);
   }
 
   Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, int parent)
-      throws RepositoryNotFoundException, IOException,
-          PatchListNotAvailableException {
+      throws RepositoryNotFoundException, IOException, PatchListNotAvailableException {
     ObjectId b = ObjectId.fromString(revision.get());
     ObjectId a;
     try (Repository git = repoManager.openRepository(change.getProject())) {
@@ -78,16 +71,16 @@ public class FileInfoJson {
     return toFileInfoMap(change, a, b);
   }
 
-  private Map<String, FileInfo> toFileInfoMap(Change change,
-      ObjectId a, ObjectId b) throws PatchListNotAvailableException {
-    PatchList list = patchListCache.get(
-        new PatchListKey(a, b, Whitespace.IGNORE_NONE), change.getProject());
+  private Map<String, FileInfo> toFileInfoMap(Change change, ObjectId a, ObjectId b)
+      throws PatchListNotAvailableException {
+    PatchList list =
+        patchListCache.get(new PatchListKey(a, b, Whitespace.IGNORE_NONE), change.getProject());
 
     Map<String, FileInfo> files = new TreeMap<>();
     for (PatchListEntry e : list.getPatches()) {
       FileInfo d = new FileInfo();
-      d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
-          ? e.getChangeType().getCode() : null;
+      d.status =
+          e.getChangeType() != Patch.ChangeType.MODIFIED ? e.getChangeType().getCode() : null;
       d.oldPath = e.getOldName();
       d.sizeDelta = e.getSizeDelta();
       d.size = e.getSize();

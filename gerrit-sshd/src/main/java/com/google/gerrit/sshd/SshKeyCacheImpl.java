@@ -31,23 +31,20 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Provides the {@link SshKeyCacheEntry}. */
 @Singleton
 public class SshKeyCacheImpl implements SshKeyCache {
-  private static final Logger log =
-      LoggerFactory.getLogger(SshKeyCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(SshKeyCacheImpl.class);
   private static final String CACHE_NAME = "sshkeys";
 
   static final Iterable<SshKeyCacheEntry> NO_SUCH_USER = none();
@@ -57,10 +54,8 @@ public class SshKeyCacheImpl implements SshKeyCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME,
-            String.class,
-            new TypeLiteral<Iterable<SshKeyCacheEntry>>(){})
-          .loader(Loader.class);
+        cache(CACHE_NAME, String.class, new TypeLiteral<Iterable<SshKeyCacheEntry>>() {})
+            .loader(Loader.class);
         bind(SshKeyCacheImpl.class);
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
         bind(SshKeyCreator.class).to(SshKeyCreatorImpl.class);
@@ -69,15 +64,13 @@ public class SshKeyCacheImpl implements SshKeyCache {
   }
 
   private static Iterable<SshKeyCacheEntry> none() {
-    return Collections.unmodifiableCollection(Arrays
-        .asList(new SshKeyCacheEntry[0]));
+    return Collections.unmodifiableCollection(Arrays.asList(new SshKeyCacheEntry[0]));
   }
 
   private final LoadingCache<String, Iterable<SshKeyCacheEntry>> cache;
 
   @Inject
-  SshKeyCacheImpl(
-      @Named(CACHE_NAME) LoadingCache<String, Iterable<SshKeyCacheEntry>> cache) {
+  SshKeyCacheImpl(@Named(CACHE_NAME) LoadingCache<String, Iterable<SshKeyCacheEntry>> cache) {
     this.cache = cache;
   }
 
@@ -102,8 +95,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema,
-        VersionedAuthorizedKeys.Accessor authorizedKeys) {
+    Loader(SchemaFactory<ReviewDb> schema, VersionedAuthorizedKeys.Accessor authorizedKeys) {
       this.schema = schema;
       this.authorizedKeys = authorizedKeys;
     }
@@ -111,8 +103,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
       try (ReviewDb db = schema.open()) {
-        AccountExternalId.Key key =
-            new AccountExternalId.Key(SCHEME_USERNAME, username);
+        AccountExternalId.Key key = new AccountExternalId.Key(SCHEME_USERNAME, username);
         AccountExternalId user = db.accountExternalIds().get(key);
         if (user == null) {
           return NO_SUCH_USER;

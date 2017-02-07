@@ -24,8 +24,7 @@ import com.google.gerrit.metrics.Histogram3;
 
 /** Generalized implementation of N-dimensional Histogram metrics. */
 class HistogramImplN extends BucketedHistogram implements BucketedMetric {
-  HistogramImplN(DropWizardMetricMaker metrics, String name,
-      Description desc, Field<?>... fields) {
+  HistogramImplN(DropWizardMetricMaker metrics, String name, Description desc, Field<?>... fields) {
     super(metrics, name, desc, fields);
   }
 
@@ -65,8 +64,7 @@ class HistogramImplN extends BucketedHistogram implements BucketedMetric {
     ImmutableList<Object> keyList = (ImmutableList<Object>) key;
     String[] parts = new String[fields.length];
     for (int i = 0; i < fields.length; i++) {
-      Function<Object, String> fmt =
-          (Function<Object, String>) fields[i].formatter();
+      Function<Object, String> fmt = (Function<Object, String>) fields[i].formatter();
 
       parts[i] = fmt.apply(keyList.get(i)).replace('/', '-');
     }

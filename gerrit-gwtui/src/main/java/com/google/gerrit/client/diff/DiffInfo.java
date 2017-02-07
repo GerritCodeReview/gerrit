@@ -22,16 +22,20 @@ import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
-
 import java.util.LinkedList;
 import java.util.List;
 
 public class DiffInfo extends JavaScriptObject {
   public final native FileMeta metaA() /*-{ return this.meta_a; }-*/;
+
   public final native FileMeta metaB() /*-{ return this.meta_b; }-*/;
+
   public final native JsArrayString diffHeader() /*-{ return this.diff_header; }-*/;
+
   public final native JsArray<Region> content() /*-{ return this.content; }-*/;
+
   public final native JsArray<DiffWebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
+
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
 
   public final List<WebLinkInfo> sideBySideWebLinks() {
@@ -47,12 +51,10 @@ public class DiffInfo extends JavaScriptObject {
     List<DiffWebLinkInfo> allDiffWebLinks = Natives.asList(webLinks());
     if (allDiffWebLinks != null) {
       for (DiffWebLinkInfo webLink : allDiffWebLinks) {
-        if (diffView == DiffView.SIDE_BY_SIDE
-            && webLink.showOnSideBySideDiffView()) {
+        if (diffView == DiffView.SIDE_BY_SIDE && webLink.showOnSideBySideDiffView()) {
           filteredDiffWebLinks.add(webLink);
         }
-        if (diffView == DiffView.UNIFIED_DIFF
-            && webLink.showOnUnifiedDiffView()) {
+        if (diffView == DiffView.UNIFIED_DIFF && webLink.showOnUnifiedDiffView()) {
           filteredDiffWebLinks.add(webLink);
         }
       }
@@ -63,17 +65,15 @@ public class DiffInfo extends JavaScriptObject {
   public final ChangeType changeType() {
     return ChangeType.valueOf(changeTypeRaw());
   }
-  private native String changeTypeRaw()
-  /*-{ return this.change_type }-*/;
+
+  private native String changeTypeRaw()/*-{ return this.change_type }-*/ ;
 
   public final IntraLineStatus intralineStatus() {
     String s = intralineStatusRaw();
-    return s != null
-        ? IntraLineStatus.valueOf(s)
-        : IntraLineStatus.OFF;
+    return s != null ? IntraLineStatus.valueOf(s) : IntraLineStatus.OFF;
   }
-  private native String intralineStatusRaw()
-  /*-{ return this.intraline_status }-*/;
+
+  private native String intralineStatusRaw()/*-{ return this.intraline_status }-*/ ;
 
   public final boolean hasSkip() {
     JsArray<Region> c = content();
@@ -141,42 +141,50 @@ public class DiffInfo extends JavaScriptObject {
     }
   }
 
-  protected DiffInfo() {
-  }
+  protected DiffInfo() {}
 
   public enum IntraLineStatus {
-    OFF, OK, TIMEOUT, FAILURE
+    OFF,
+    OK,
+    TIMEOUT,
+    FAILURE
   }
 
   public static class FileMeta extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
+
     public final native String contentType() /*-{ return this.content_type; }-*/;
+
     public final native int lines() /*-{ return this.lines || 0 }-*/;
+
     public final native JsArray<WebLinkInfo> webLinks() /*-{ return this.web_links; }-*/;
 
-    protected FileMeta() {
-    }
+    protected FileMeta() {}
   }
 
   public static class Region extends JavaScriptObject {
     public final native JsArrayString ab() /*-{ return this.ab; }-*/;
+
     public final native JsArrayString a() /*-{ return this.a; }-*/;
+
     public final native JsArrayString b() /*-{ return this.b; }-*/;
+
     public final native int skip() /*-{ return this.skip || 0; }-*/;
+
     public final native boolean common() /*-{ return this.common || false; }-*/;
 
     public final native JsArray<Span> editA() /*-{ return this.edit_a }-*/;
+
     public final native JsArray<Span> editB() /*-{ return this.edit_b }-*/;
 
-    protected Region() {
-    }
+    protected Region() {}
   }
 
   public static class Span extends JavaScriptObject {
     public final native int skip() /*-{ return this[0]; }-*/;
+
     public final native int mark() /*-{ return this[1]; }-*/;
 
-    protected Span() {
-    }
+    protected Span() {}
   }
 }

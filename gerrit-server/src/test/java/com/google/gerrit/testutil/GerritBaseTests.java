@@ -20,6 +20,5 @@ import org.junit.rules.ExpectedException;
 
 @Ignore
 public abstract class GerritBaseTests {
-  @Rule
-  public ExpectedException exception = ExpectedException.none();
+  @Rule public ExpectedException exception = ExpectedException.none();
 }

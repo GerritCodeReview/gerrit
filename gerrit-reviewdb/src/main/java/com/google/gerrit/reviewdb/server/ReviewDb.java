@@ -26,12 +26,13 @@ import com.google.gwtorm.server.Sequence;
 
 /**
  * The review service database schema.
- * <p>
- * Root entities that are at the top level of some important data graph:
+ *
+ * <p>Root entities that are at the top level of some important data graph:
+ *
  * <ul>
- * <li>{@link Account}: Per-user account registration, preferences, identity.</li>
- * <li>{@link Change}: All review information about a single proposed change.</li>
- * <li>{@link SystemConfig}: Server-wide settings, managed by administrator.</li>
+ *   <li>{@link Account}: Per-user account registration, preferences, identity.
+ *   <li>{@link Change}: All review information about a single proposed change.
+ *   <li>{@link SystemConfig}: Server-wide settings, managed by administrator.
  * </ul>
  */
 public interface ReviewDb extends Schema {

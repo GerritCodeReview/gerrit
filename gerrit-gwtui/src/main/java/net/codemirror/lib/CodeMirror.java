@@ -23,7 +23,6 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import net.codemirror.lib.TextMarker.FromTo;
 
 /**
@@ -33,7 +32,7 @@ import net.codemirror.lib.TextMarker.FromTo;
  */
 public class CodeMirror extends JavaScriptObject {
   public static void preload() {
-    initLibrary(CallbackGroup.<Void> emptyCallback());
+    initLibrary(CallbackGroup.<Void>emptyCallback());
   }
 
   public static void initLibrary(AsyncCallback<Void> cb) {
@@ -42,7 +41,9 @@ public class CodeMirror extends JavaScriptObject {
 
   interface Style extends CssResource {
     String activeLine();
+
     String showTabs();
+
     String margin();
   }
 
@@ -79,14 +80,16 @@ public class CodeMirror extends JavaScriptObject {
   public final native String getStringOption(String o) /*-{ return this.getOption(o) }-*/;
 
   public final native String getValue() /*-{ return this.getValue() }-*/;
+
   public final native void setValue(String v) /*-{ this.setValue(v) }-*/;
 
   public final native int changeGeneration(boolean closeEvent)
-  /*-{ return this.changeGeneration(closeEvent) }-*/;
-  public final native boolean isClean(int generation)
-  /*-{ return this.isClean(generation) }-*/;
+      /*-{ return this.changeGeneration(closeEvent) }-*/ ;
+
+  public final native boolean isClean(int generation)/*-{ return this.isClean(generation) }-*/ ;
 
   public final native void setWidth(double w) /*-{ this.setSize(w, null) }-*/;
+
   public final native void setHeight(double h) /*-{ this.setSize(null, h) }-*/;
 
   public final int getHeight() {
@@ -94,20 +97,21 @@ public class CodeMirror extends JavaScriptObject {
   }
 
   public final void adjustHeight(int localHeader) {
-    int rest = Gerrit.getHeaderFooterHeight()
-        + localHeader
-        + 5; // Estimate
+    int rest = Gerrit.getHeaderFooterHeight() + localHeader + 5; // Estimate
     setHeight(Window.getClientHeight() - rest);
   }
 
   public final native String getLine(int n) /*-{ return this.getLine(n) }-*/;
+
   public final native double barHeight() /*-{ return this.display.barHeight }-*/;
+
   public final native double barWidth() /*-{ return this.display.barWidth }-*/;
+
   public final native int lastLine() /*-{ return this.lastLine() }-*/;
+
   public final native void refresh() /*-{ this.refresh() }-*/;
 
-  public final native TextMarker markText(Pos from, Pos to,
-      Configuration options) /*-{
+  public final native TextMarker markText(Pos from, Pos to, Configuration options) /*-{
     return this.markText(from, to, options)
   }-*/;
 
@@ -130,46 +134,39 @@ public class CodeMirror extends JavaScriptObject {
         return "wrap";
       }
     };
+
     abstract String value();
   }
 
-  public final void addLineClass(int line, LineClassWhere where,
-      String className) {
+  public final void addLineClass(int line, LineClassWhere where, String className) {
     addLineClassNative(line, where.value(), className);
   }
 
-  private native void addLineClassNative(int line, String where,
-      String lineClass) /*-{
+  private native void addLineClassNative(int line, String where, String lineClass) /*-{
     this.addLineClass(line, where, lineClass)
   }-*/;
 
-  public final void addLineClass(LineHandle line, LineClassWhere where,
-      String className) {
+  public final void addLineClass(LineHandle line, LineClassWhere where, String className) {
     addLineClassNative(line, where.value(), className);
   }
 
-  private native void addLineClassNative(LineHandle line, String where,
-      String lineClass) /*-{
+  private native void addLineClassNative(LineHandle line, String where, String lineClass) /*-{
     this.addLineClass(line, where, lineClass)
   }-*/;
 
-  public final void removeLineClass(int line, LineClassWhere where,
-      String className) {
+  public final void removeLineClass(int line, LineClassWhere where, String className) {
     removeLineClassNative(line, where.value(), className);
   }
 
-  private native void removeLineClassNative(int line, String where,
-      String lineClass) /*-{
+  private native void removeLineClassNative(int line, String where, String lineClass) /*-{
     this.removeLineClass(line, where, lineClass)
   }-*/;
 
-  public final void removeLineClass(LineHandle line, LineClassWhere where,
-      String className) {
+  public final void removeLineClass(LineHandle line, LineClassWhere where, String className) {
     removeLineClassNative(line, where.value(), className);
   }
 
-  private native void removeLineClassNative(LineHandle line, String where,
-      String lineClass) /*-{
+  private native void removeLineClassNative(LineHandle line, String where, String lineClass) /*-{
     this.removeLineClass(line, where, lineClass)
   }-*/;
 
@@ -177,8 +174,7 @@ public class CodeMirror extends JavaScriptObject {
     this.addWidget(pos, node, false)
   }-*/;
 
-  public final native LineWidget addLineWidget(int line, Element node,
-      Configuration options) /*-{
+  public final native LineWidget addLineWidget(int line, Element node, Configuration options) /*-{
     return this.addLineWidget(line, node, options)
   }-*/;
 
@@ -291,7 +287,9 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public final native void setCursor(Pos p) /*-{ this.setCursor(p) }-*/;
+
   public final native Pos getCursor() /*-{ return this.getCursor() }-*/;
+
   public final native Pos getCursor(String start) /*-{
     return this.getCursor(start)
   }-*/;
@@ -301,6 +299,7 @@ public class CodeMirror extends JavaScriptObject {
   }
 
   public final native void setSelection(Pos p) /*-{ this.setSelection(p) }-*/;
+
   public final native void setSelection(Pos anchor, Pos head) /*-{
     this.setSelection(anchor, head)
   }-*/;
@@ -310,6 +309,7 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public final native void addKeyMap(KeyMap map) /*-{ this.addKeyMap(map) }-*/;
+
   public final native void removeKeyMap(KeyMap map) /*-{ this.removeKeyMap(map) }-*/;
 
   public final native LineHandle getLineHandle(int line) /*-{
@@ -391,7 +391,8 @@ public class CodeMirror extends JavaScriptObject {
     return this.setGutterMarker(line, gutterId, value);
   }-*/;
 
-  public final native LineHandle setGutterMarker(LineHandle line, String gutterId, Element value) /*-{
+  public final native LineHandle setGutterMarker(
+      LineHandle line, String gutterId, Element value) /*-{
     return this.setGutterMarker(line, gutterId, value);
   }-*/;
 
@@ -399,28 +400,26 @@ public class CodeMirror extends JavaScriptObject {
     return this.state.search && !!this.state.search.query;
   }-*/;
 
-  protected CodeMirror() {
-  }
+  protected CodeMirror() {}
 
   public static class Viewport extends JavaScriptObject {
     public final native int from() /*-{ return this.from }-*/;
+
     public final native int to() /*-{ return this.to }-*/;
+
     public final boolean contains(int line) {
       return from() <= line && line < to();
     }
 
-    protected Viewport() {
-    }
+    protected Viewport() {}
   }
 
   public static class LineHandle extends JavaScriptObject {
-    protected LineHandle(){
-    }
+    protected LineHandle() {}
   }
 
   public static class RegisteredHandler extends JavaScriptObject {
-    protected RegisteredHandler() {
-    }
+    protected RegisteredHandler() {}
   }
 
   public interface EventHandler {
@@ -432,8 +431,7 @@ public class CodeMirror extends JavaScriptObject {
   }
 
   public interface GutterClickHandler {
-    void handle(CodeMirror instance, int line, String gutter,
-        NativeEvent clickEvent);
+    void handle(CodeMirror instance, int line, String gutter, NativeEvent clickEvent);
   }
 
   public interface BeforeSelectionChangeHandler {

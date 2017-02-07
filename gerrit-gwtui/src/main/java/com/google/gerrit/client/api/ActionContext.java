@@ -142,33 +142,39 @@ public class ActionContext extends JavaScriptObject {
     };
   }-*/;
 
-  static final native ActionContext create(RestApi f)/*-{
+  static final native ActionContext create(RestApi f) /*-{
     return new $wnd.Gerrit.ActionContext(f);
   }-*/;
 
   final native void set(ActionInfo a) /*-{ this.action=a; }-*/;
+
   final native void set(ChangeInfo c) /*-{ this.change=c; }-*/;
+
   final native void set(EditInfo e) /*-{ this.edit=e; }-*/;
+
   final native void set(Project.NameKey p) /*-{ this.project=p; }-*/;
+
   final native void set(BranchInfo b) /*-{ this.branch=b }-*/;
+
   final native void set(RevisionInfo r) /*-{ this.revision=r; }-*/;
 
   final native void button(ActionButton b) /*-{ this._b=b; }-*/;
+
   final native ActionButton button() /*-{ return this._b; }-*/;
 
   public final native boolean has_popup() /*-{ return this.hasOwnProperty('_p') }-*/;
+
   public final native void hide() /*-{ this.hide(); }-*/;
 
-  protected ActionContext() {
-  }
+  protected ActionContext() {}
 
   static final void get(RestApi api, JavaScriptObject cb) {
     api.get(wrap(cb));
   }
 
   /**
-   * The same as {@link #get(RestApi, JavaScriptObject)} but without converting
-   * a {@link NativeString} result to String.
+   * The same as {@link #get(RestApi, JavaScriptObject)} but without converting a {@link
+   * NativeString} result to String.
    */
   static final void getRaw(RestApi api, final JavaScriptObject cb) {
     api.get(wrapRaw(cb));
@@ -183,8 +189,8 @@ public class ActionContext extends JavaScriptObject {
   }
 
   /**
-   * The same as {@link #post(RestApi, JavaScriptObject, JavaScriptObject)} but
-   * without converting a {@link NativeString} result to String.
+   * The same as {@link #post(RestApi, JavaScriptObject, JavaScriptObject)} but without converting a
+   * {@link NativeString} result to String.
    */
   static final void postRaw(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
     if (NativeString.is(in)) {
@@ -199,8 +205,8 @@ public class ActionContext extends JavaScriptObject {
   }
 
   /**
-   * The same as {@link #post(RestApi, String, JavaScriptObject)} but without
-   * converting a {@link NativeString} result to String.
+   * The same as {@link #post(RestApi, String, JavaScriptObject)} but without converting a {@link
+   * NativeString} result to String.
    */
   static final void postRaw(RestApi api, String in, JavaScriptObject cb) {
     api.post(in, wrapRaw(cb));
@@ -211,8 +217,8 @@ public class ActionContext extends JavaScriptObject {
   }
 
   /**
-   * The same as {@link #put(RestApi, JavaScriptObject)} but without converting
-   * a {@link NativeString} result to String.
+   * The same as {@link #put(RestApi, JavaScriptObject)} but without converting a {@link
+   * NativeString} result to String.
    */
   static final void putRaw(RestApi api, JavaScriptObject cb) {
     api.put(wrapRaw(cb));
@@ -227,8 +233,8 @@ public class ActionContext extends JavaScriptObject {
   }
 
   /**
-   * The same as {@link #put(RestApi, JavaScriptObject, JavaScriptObject)} but
-   * without converting a {@link NativeString} result to String.
+   * The same as {@link #put(RestApi, JavaScriptObject, JavaScriptObject)} but without converting a
+   * {@link NativeString} result to String.
    */
   static final void putRaw(RestApi api, JavaScriptObject in, JavaScriptObject cb) {
     if (NativeString.is(in)) {
@@ -243,8 +249,8 @@ public class ActionContext extends JavaScriptObject {
   }
 
   /**
-   * The same as {@link #put(RestApi, String, JavaScriptObject)} but without
-   * converting a {@link NativeString} result to String.
+   * The same as {@link #put(RestApi, String, JavaScriptObject)} but without converting a {@link
+   * NativeString} result to String.
    */
   static final void putRaw(RestApi api, String in, JavaScriptObject cb) {
     api.put(in, wrapRaw(cb));
@@ -255,8 +261,8 @@ public class ActionContext extends JavaScriptObject {
   }
 
   /**
-   * The same as {@link #delete(RestApi, JavaScriptObject)} but without
-   * converting a {@link NativeString} result to String.
+   * The same as {@link #delete(RestApi, JavaScriptObject)} but without converting a {@link
+   * NativeString} result to String.
    */
   static final void deleteRaw(RestApi api, JavaScriptObject cb) {
     api.delete(wrapRaw(cb));

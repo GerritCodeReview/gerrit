@@ -23,25 +23,18 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 public interface FileApi {
   BinaryResult content() throws RestApiException;
 
-  /**
-   * Diff against the revision's parent version of the file.
-   */
+  /** Diff against the revision's parent version of the file. */
   DiffInfo diff() throws RestApiException;
 
-  /**
-   * @param base revision id of the revision to be used as the
-   * diff base
-   */
+  /** @param base revision id of the revision to be used as the diff base */
   DiffInfo diff(String base) throws RestApiException;
 
-  /**
-   * @param parent 1-based parent number to diff against
-   */
+  /** @param parent 1-based parent number to diff against */
   DiffInfo diff(int parent) throws RestApiException;
 
   /**
-   * Creates a request to retrieve the diff. On the returned request formatting
-   * options for the diff can be set.
+   * Creates a request to retrieve the diff. On the returned request formatting options for the diff
+   * can be set.
    */
   DiffRequest diffRequest() throws RestApiException;
 
@@ -91,9 +84,9 @@ public interface FileApi {
   }
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements FileApi {
     @Override
     public BinaryResult content() throws RestApiException {

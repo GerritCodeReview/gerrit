@@ -44,17 +44,14 @@ import com.google.gerrit.server.group.GroupsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class SetAccess implements
-    RestModifyView<ProjectResource, ProjectAccessInput> {
+public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessInput> {
   protected final GroupBackend groupBackend;
   private final GroupsCollection groupsCollection;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
@@ -65,7 +62,8 @@ public class SetAccess implements
   private final Provider<IdentifiedUser> identifiedUser;
 
   @Inject
-  private SetAccess(GroupBackend groupBackend,
+  private SetAccess(
+      GroupBackend groupBackend,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
@@ -84,11 +82,9 @@ public class SetAccess implements
   }
 
   @Override
-  public ProjectAccessInfo apply(ProjectResource rsrc,
-      ProjectAccessInput input)
-      throws ResourceNotFoundException, ResourceConflictException,
-      IOException, AuthException, BadRequestException,
-      UnprocessableEntityException{
+  public ProjectAccessInfo apply(ProjectResource rsrc, ProjectAccessInput input)
+      throws ResourceNotFoundException, ResourceConflictException, IOException, AuthException,
+          BadRequestException, UnprocessableEntityException {
     List<AccessSection> removals = getAccessSections(input.remove);
     List<AccessSection> additions = getAccessSections(input.add);
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
@@ -96,29 +92,27 @@ public class SetAccess implements
     ProjectControl projectControl = rsrc.getControl();
     ProjectConfig config;
 
-    Project.NameKey newParentProjectName = input.parent == null ?
-        null : new Project.NameKey(input.parent);
+    Project.NameKey newParentProjectName =
+        input.parent == null ? null : new Project.NameKey(input.parent);
 
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
       config = ProjectConfig.read(md);
 
       // Perform removal checks
       for (AccessSection section : removals) {
-        boolean isGlobalCapabilities =
-            AccessSection.GLOBAL_CAPABILITIES.equals(section.getName());
+        boolean isGlobalCapabilities = AccessSection.GLOBAL_CAPABILITIES.equals(section.getName());
 
         if (isGlobalCapabilities) {
           checkGlobalCapabilityPermissions(config.getName());
         } else if (!projectControl.controlForRef(section.getName()).isOwner()) {
-          throw new AuthException("You are not allowed to edit permissions"
-              + "for ref: " + section.getName());
+          throw new AuthException(
+              "You are not allowed to edit permissions" + "for ref: " + section.getName());
         }
       }
       // Perform addition checks
       for (AccessSection section : additions) {
         String name = section.getName();
-        boolean isGlobalCapabilities =
-            AccessSection.GLOBAL_CAPABILITIES.equals(name);
+        boolean isGlobalCapabilities = AccessSection.GLOBAL_CAPABILITIES.equals(name);
 
         if (isGlobalCapabilities) {
           checkGlobalCapabilityPermissions(config.getName());
@@ -127,18 +121,16 @@ public class SetAccess implements
             throw new BadRequestException("invalid section name");
           }
           if (!projectControl.controlForRef(name).isOwner()) {
-            throw new AuthException("You are not allowed to edit permissions"
-                + "for ref: " + name);
+            throw new AuthException("You are not allowed to edit permissions" + "for ref: " + name);
           }
           RefPattern.validate(name);
         }
 
         // Check all permissions for soundness
         for (Permission p : section.getPermissions()) {
-          if (isGlobalCapabilities
-              && !GlobalCapability.isCapability(p.getName())) {
-            throw new BadRequestException("Cannot add non-global capability "
-                + p.getName() + " to global capabilities");
+          if (isGlobalCapabilities && !GlobalCapability.isCapability(p.getName())) {
+            throw new BadRequestException(
+                "Cannot add non-global capability " + p.getName() + " to global capabilities");
           }
         }
       }
@@ -163,16 +155,14 @@ public class SetAccess implements
 
       // Apply additions
       for (AccessSection section : additions) {
-        AccessSection currentAccessSection =
-            config.getAccessSection(section.getName());
+        AccessSection currentAccessSection = config.getAccessSection(section.getName());
 
         if (currentAccessSection == null) {
           // Add AccessSection
           config.replace(section);
         } else {
           for (Permission p : section.getPermissions()) {
-            Permission currentPermission =
-                currentAccessSection.getPermission(p.getName());
+            Permission currentPermission = currentAccessSection.getPermission(p.getName());
             if (currentPermission == null) {
               // Add Permission
               currentAccessSection.addPermission(p);
@@ -186,14 +176,16 @@ public class SetAccess implements
         }
       }
 
-      if (newParentProjectName != null &&
-          !config.getProject().getNameKey().equals(allProjects) &&
-          !config.getProject().getParent(allProjects)
-              .equals(newParentProjectName)) {
+      if (newParentProjectName != null
+          && !config.getProject().getNameKey().equals(allProjects)
+          && !config.getProject().getParent(allProjects).equals(newParentProjectName)) {
         try {
-          setParent.get().validateParentUpdate(projectControl,
-              MoreObjects.firstNonNull(newParentProjectName, allProjects).get(),
-              true);
+          setParent
+              .get()
+              .validateParentUpdate(
+                  projectControl,
+                  MoreObjects.firstNonNull(newParentProjectName, allProjects).get(),
+                  true);
         } catch (UnprocessableEntityException e) {
           throw new ResourceConflictException(e.getMessage(), e);
         }
@@ -220,25 +212,22 @@ public class SetAccess implements
     return getAccess.apply(rsrc.getNameKey());
   }
 
-  private List<AccessSection> getAccessSections(
-      Map<String, AccessSectionInfo> sectionInfos)
+  private List<AccessSection> getAccessSections(Map<String, AccessSectionInfo> sectionInfos)
       throws UnprocessableEntityException {
     List<AccessSection> sections = new LinkedList<>();
     if (sectionInfos == null) {
       return sections;
     }
 
-    for (Map.Entry<String, AccessSectionInfo> entry :
-      sectionInfos.entrySet()) {
+    for (Map.Entry<String, AccessSectionInfo> entry : sectionInfos.entrySet()) {
       AccessSection accessSection = new AccessSection(entry.getKey());
 
       if (entry.getValue().permissions == null) {
         continue;
       }
 
-      for (Map.Entry<String, PermissionInfo> permissionEntry : entry
-          .getValue().permissions
-          .entrySet()) {
+      for (Map.Entry<String, PermissionInfo> permissionEntry :
+          entry.getValue().permissions.entrySet()) {
         Permission p = new Permission(permissionEntry.getKey());
         if (permissionEntry.getValue().exclusive != null) {
           p.setExclusiveGroup(permissionEntry.getValue().exclusive);
@@ -251,14 +240,12 @@ public class SetAccess implements
             permissionEntry.getValue().rules.entrySet()) {
           PermissionRuleInfo pri = permissionRuleInfoEntry.getValue();
 
-          GroupDescription.Basic group = groupsCollection
-              .parseId(permissionRuleInfoEntry.getKey());
+          GroupDescription.Basic group = groupsCollection.parseId(permissionRuleInfoEntry.getKey());
           if (group == null) {
             throw new UnprocessableEntityException(
-              permissionRuleInfoEntry.getKey() + " is not a valid group ID");
+                permissionRuleInfoEntry.getKey() + " is not a valid group ID");
           }
-          PermissionRule r = new PermissionRule(
-              GroupReference.forGroup(group));
+          PermissionRule r = new PermissionRule(GroupReference.forGroup(group));
           if (pri != null) {
             if (pri.max != null) {
               r.setMax(pri.max);
@@ -281,16 +268,16 @@ public class SetAccess implements
   }
 
   private void checkGlobalCapabilityPermissions(Project.NameKey projectName)
-    throws BadRequestException, AuthException {
+      throws BadRequestException, AuthException {
 
     if (!allProjects.equals(projectName)) {
-      throw new BadRequestException("Cannot edit global capabilities "
-        + "for projects other than " + allProjects.get());
+      throw new BadRequestException(
+          "Cannot edit global capabilities " + "for projects other than " + allProjects.get());
     }
 
     if (!identifiedUser.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("Editing global capabilities "
-        + "requires " + GlobalCapability.ADMINISTRATE_SERVER);
+      throw new AuthException(
+          "Editing global capabilities " + "requires " + GlobalCapability.ADMINISTRATE_SERVER);
     }
   }
 }

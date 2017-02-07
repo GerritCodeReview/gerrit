@@ -35,13 +35,18 @@ public class GerritInfo extends JavaScriptObject {
   }
 
   public final native String allProjects() /*-{ return this.all_projects; }-*/;
+
   public final native String allUsers() /*-{ return this.all_users; }-*/;
+
   public final native boolean docSearch() /*-{ return this.doc_search; }-*/;
+
   public final native String docUrl() /*-{ return this.doc_url; }-*/;
+
   public final native boolean editGpgKeys() /*-{ return this.edit_gpg_keys || false; }-*/;
+
   public final native String reportBugUrl() /*-{ return this.report_bug_url; }-*/;
+
   public final native String reportBugText() /*-{ return this.report_bug_text; }-*/;
 
-  protected GerritInfo() {
-  }
+  protected GerritInfo() {}
 }

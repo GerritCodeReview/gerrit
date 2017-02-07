@@ -27,12 +27,10 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-
-import java.util.concurrent.ExecutionException;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
@@ -79,8 +77,8 @@ public class PatchListCacheImpl implements PatchListCache {
     this.intraLoaderFactory = intraLoaderFactory;
 
     this.computeIntraline =
-        cfg.getBoolean("cache", INTRA_NAME, "enabled",
-            cfg.getBoolean("cache", "diff", "intraline", true));
+        cfg.getBoolean(
+            "cache", INTRA_NAME, "enabled", cfg.getBoolean("cache", "diff", "intraline", true));
   }
 
   @Override
@@ -101,8 +99,7 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
-  public PatchList get(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException {
+  public PatchList get(Change change, PatchSet patchSet) throws PatchListNotAvailableException {
     return get(change, patchSet, null);
   }
 
@@ -116,8 +113,7 @@ public class PatchListCacheImpl implements PatchListCache {
       throws PatchListNotAvailableException {
     Project.NameKey project = change.getProject();
     if (patchSet.getRevision() == null) {
-      throw new PatchListNotAvailableException(
-          "revision is null for " + patchSet.getId());
+      throw new PatchListNotAvailableException("revision is null for " + patchSet.getId());
     }
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     Whitespace ws = Whitespace.IGNORE_NONE;
@@ -128,8 +124,7 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
-  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key,
-      IntraLineDiffArgs args) {
+  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key, IntraLineDiffArgs args) {
     if (computeIntraline) {
       try {
         return intraCache.get(key, intraLoaderFactory.create(key, args));

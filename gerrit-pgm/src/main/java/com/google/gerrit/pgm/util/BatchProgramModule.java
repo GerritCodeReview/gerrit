@@ -73,27 +73,23 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Module for programs that perform batch operations on a site.
- * <p>
- * Any program that requires this module likely also requires using
- * {@link ThreadLimiter} to limit the number of threads accessing the database
- * concurrently.
+ *
+ * <p>Any program that requires this module likely also requires using {@link ThreadLimiter} to
+ * limit the number of threads accessing the database concurrently.
  */
 public class BatchProgramModule extends FactoryModule {
   private final Config cfg;
   private final Module reviewDbModule;
 
   @Inject
-  BatchProgramModule(@GerritServerConfig Config cfg,
-      PerThreadReviewDbModule reviewDbModule) {
+  BatchProgramModule(@GerritServerConfig Config cfg, PerThreadReviewDbModule reviewDbModule) {
     this.cfg = cfg;
     this.reviewDbModule = reviewDbModule;
   }
@@ -109,20 +105,23 @@ public class BatchProgramModule extends FactoryModule {
     // Plugins are not loaded and we're just running through each change
     // once, so don't worry about cache removal.
     bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
-        .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
+        .toInstance(DynamicSet.<CacheRemovalListener>emptySet());
     bind(new TypeLiteral<DynamicMap<Cache<?, ?>>>() {})
-        .toInstance(DynamicMap.<Cache<?, ?>> emptyMap());
+        .toInstance(DynamicMap.<Cache<?, ?>>emptyMap());
     bind(new TypeLiteral<List<CommentLinkInfo>>() {})
-        .toProvider(CommentLinkProvider.class).in(SINGLETON);
-    bind(String.class).annotatedWith(CanonicalWebUrl.class)
+        .toProvider(CommentLinkProvider.class)
+        .in(SINGLETON);
+    bind(String.class)
+        .annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
-    bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
-        .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
+    bind(Boolean.class)
+        .annotatedWith(DisableReverseDnsLookup.class)
+        .toProvider(DisableReverseDnsLookupProvider.class)
+        .in(SINGLETON);
     bind(Realm.class).to(FakeRealm.class);
-    bind(IdentifiedUser.class)
-      .toProvider(Providers.<IdentifiedUser> of(null));
-    bind(ReplacePatchSetSender.Factory.class).toProvider(
-        Providers.<ReplacePatchSetSender.Factory>of(null));
+    bind(IdentifiedUser.class).toProvider(Providers.<IdentifiedUser>of(null));
+    bind(ReplacePatchSetSender.Factory.class)
+        .toProvider(Providers.<ReplacePatchSetSender.Factory>of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);
     factory(BatchUpdate.Factory.class);
     factory(MergeUtil.Factory.class);
@@ -131,18 +130,17 @@ public class BatchProgramModule extends FactoryModule {
 
     // As Reindex is a batch program, don't assume the index is available for
     // the change cache.
-    bind(SearchingChangeCacheImpl.class).toProvider(
-        Providers.<SearchingChangeCacheImpl>of(null));
+    bind(SearchingChangeCacheImpl.class).toProvider(Providers.<SearchingChangeCacheImpl>of(null));
 
     bind(new TypeLiteral<ImmutableSet<GroupReference>>() {})
-      .annotatedWith(AdministrateServerGroups.class)
-      .toInstance(ImmutableSet.<GroupReference> of());
+        .annotatedWith(AdministrateServerGroups.class)
+        .toInstance(ImmutableSet.<GroupReference>of());
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
-      .annotatedWith(GitUploadPackGroups.class)
-      .toInstance(Collections.<AccountGroup.UUID> emptySet());
+        .annotatedWith(GitUploadPackGroups.class)
+        .toInstance(Collections.<AccountGroup.UUID>emptySet());
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
-      .annotatedWith(GitReceivePackGroups.class)
-      .toInstance(Collections.<AccountGroup.UUID> emptySet());
+        .annotatedWith(GitReceivePackGroups.class)
+        .toInstance(Collections.<AccountGroup.UUID>emptySet());
     bind(ChangeControl.Factory.class);
     factory(ProjectControl.AssistedFactory.class);
 
@@ -165,10 +163,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(ChangeData.Factory.class);
     factory(ProjectState.Factory.class);
 
-    bind(ChangeJson.Factory.class).toProvider(
-        Providers.<ChangeJson.Factory>of(null));
-    bind(AccountVisibility.class)
-        .toProvider(AccountVisibilityProvider.class)
-        .in(SINGLETON);
+    bind(ChangeJson.Factory.class).toProvider(Providers.<ChangeJson.Factory>of(null));
+    bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
   }
 }

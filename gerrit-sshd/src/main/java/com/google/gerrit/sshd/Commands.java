@@ -16,10 +16,8 @@ package com.google.gerrit.sshd;
 
 import com.google.auto.value.AutoAnnotation;
 import com.google.inject.Key;
-
-import org.apache.sshd.server.Command;
-
 import java.lang.annotation.Annotation;
+import org.apache.sshd.server.Command;
 
 /** Utilities to support {@link CommandName} construction. */
 public class Commands {
@@ -37,13 +35,11 @@ public class Commands {
     return Key.get(Command.class, name);
   }
 
-  public static Key<Command> key(final CommandName parent,
-      final String name) {
+  public static Key<Command> key(final CommandName parent, final String name) {
     return Key.get(Command.class, named(parent, name));
   }
 
-  public static Key<Command> key(final CommandName parent,
-      final String name, final String descr) {
+  public static Key<Command> key(final CommandName parent, final String name, final String descr) {
     return Key.get(Command.class, named(parent, name, descr));
   }
 
@@ -59,8 +55,7 @@ public class Commands {
   }
 
   /** Create a CommandName annotation for the supplied name and description. */
-  public static CommandName named(final CommandName parent, final String name,
-      final String descr) {
+  public static CommandName named(final CommandName parent, final String name, final String descr) {
     return new NestedCommandNameImpl(parent, name, descr);
   }
 
@@ -101,8 +96,7 @@ public class Commands {
       this.descr = "";
     }
 
-    NestedCommandNameImpl(final CommandName parent, final String name,
-        final String descr) {
+    NestedCommandNameImpl(final CommandName parent, final String name, final String descr) {
       this.parent = parent;
       this.name = name;
       this.descr = descr;
@@ -140,6 +134,5 @@ public class Commands {
     }
   }
 
-  private Commands() {
-  }
+  private Commands() {}
 }

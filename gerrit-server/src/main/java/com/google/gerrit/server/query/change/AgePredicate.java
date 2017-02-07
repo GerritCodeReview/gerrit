@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
-
 import java.sql.Timestamp;
 
 public class AgePredicate extends TimestampRangeChangePredicate {

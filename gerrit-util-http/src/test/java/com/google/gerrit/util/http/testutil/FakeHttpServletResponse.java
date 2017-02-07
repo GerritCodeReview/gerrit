@@ -23,20 +23,17 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.net.HttpHeaders;
-
-import org.eclipse.jgit.util.RawParseUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Locale;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /** Simple fake implementation of {@link HttpServletResponse}. */
 public class FakeHttpServletResponse implements HttpServletResponse {
@@ -48,8 +45,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   private ServletOutputStream outputStream;
   private PrintWriter writer;
 
-  public FakeHttpServletResponse() {
-  }
+  public FakeHttpServletResponse() {}
 
   @Override
   public synchronized void flushBuffer() throws IOException {
@@ -85,22 +81,23 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   public synchronized ServletOutputStream getOutputStream() {
     checkState(writer == null, "getWriter() already called");
     if (outputStream == null) {
-      outputStream = new ServletOutputStream() {
-        @Override
-        public void write(int c) throws IOException {
-          actualBody.write(c);
-        }
+      outputStream =
+          new ServletOutputStream() {
+            @Override
+            public void write(int c) throws IOException {
+              actualBody.write(c);
+            }
 
-        @Override
-        public boolean isReady() {
-          return true;
-        }
+            @Override
+            public boolean isReady() {
+              return true;
+            }
 
-        @Override
-        public void setWriteListener(WriteListener listener) {
-          throw new UnsupportedOperationException();
-        }
-      };
+            @Override
+            public void setWriteListener(WriteListener listener) {
+              throw new UnsupportedOperationException();
+            }
+          };
     }
     return outputStream;
   }
@@ -136,8 +133,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public void setCharacterEncoding(String name) {
-    checkArgument(UTF_8.equals(Charset.forName(name)),
-        "unsupported charset: %s", name);
+    checkArgument(UTF_8.equals(Charset.forName(name)), "unsupported charset: %s", name);
   }
 
   @Override
@@ -265,8 +261,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public String getHeader(String name) {
-    return Iterables.getFirst(
-        headers.get(checkNotNull(name.toLowerCase())), null);
+    return Iterables.getFirst(headers.get(checkNotNull(name.toLowerCase())), null);
   }
 
   @Override

@@ -17,7 +17,6 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -112,10 +111,7 @@ public final class PatchLineComment {
   @Column(id = 7, notNull = false, length = Integer.MAX_VALUE)
   protected String message;
 
-  /**
-   * The parent of this comment, or null if this is the first comment on this
-   * line
-   */
+  /** The parent of this comment, or null if this is the first comment on this line */
   @Column(id = 8, length = 40, notNull = false)
   protected String parentUuid;
 
@@ -128,17 +124,15 @@ public final class PatchLineComment {
   /**
    * The RevId for the commit to which this comment is referring.
    *
-   * Note that this field is not stored in the database. It is just provided
-   * for users of this class to avoid a lookup when they don't have easy access
-   * to a ReviewDb.
+   * <p>Note that this field is not stored in the database. It is just provided for users of this
+   * class to avoid a lookup when they don't have easy access to a ReviewDb.
    */
   protected RevId revId;
 
-  protected PatchLineComment() {
-  }
+  protected PatchLineComment() {}
 
-  public PatchLineComment(PatchLineComment.Key id, int line, Account.Id a,
-      String parentUuid, Timestamp when) {
+  public PatchLineComment(
+      PatchLineComment.Key id, int line, Account.Id a, String parentUuid, Timestamp when) {
     key = id;
     lineNbr = line;
     author = a;
@@ -158,11 +152,12 @@ public final class PatchLineComment {
     parentUuid = o.parentUuid;
     revId = o.revId;
     if (o.range != null) {
-      range = new CommentRange(
-          o.range.getStartLine(),
-          o.range.getStartCharacter(),
-          o.range.getEndLine(),
-          o.range.getEndCharacter());
+      range =
+          new CommentRange(
+              o.range.getStartLine(),
+              o.range.getStartCharacter(),
+              o.range.getEndLine(),
+              o.range.getEndCharacter());
     }
   }
 
@@ -228,9 +223,10 @@ public final class PatchLineComment {
 
   public void setRange(Range r) {
     if (r != null) {
-      range = new CommentRange(
-          r.startLine, r.startCharacter,
-          r.endLine, r.endCharacter);
+      range =
+          new CommentRange(
+              r.startLine, r.startCharacter,
+              r.endLine, r.endCharacter);
     } else {
       range = null;
     }
@@ -294,12 +290,9 @@ public final class PatchLineComment {
     builder.append("writtenOn=").append(writtenOn.toString()).append(',');
     builder.append("status=").append(status).append(',');
     builder.append("side=").append(side).append(',');
-    builder.append("message=").append(Objects.toString(message, ""))
-      .append(',');
-    builder.append("parentUuid=").append(Objects.toString(parentUuid, ""))
-      .append(',');
-    builder.append("range=").append(Objects.toString(range, ""))
-      .append(',');
+    builder.append("message=").append(Objects.toString(message, "")).append(',');
+    builder.append("parentUuid=").append(Objects.toString(parentUuid, "")).append(',');
+    builder.append("range=").append(Objects.toString(range, "")).append(',');
     builder.append("revId=").append(revId != null ? revId.get() : "");
     builder.append("tag=").append(Objects.toString(tag, ""));
     builder.append('}');

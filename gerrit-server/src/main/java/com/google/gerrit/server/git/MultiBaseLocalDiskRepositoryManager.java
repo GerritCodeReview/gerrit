@@ -22,21 +22,16 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-
+import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 
-import java.nio.file.Path;
-
-public class MultiBaseLocalDiskRepositoryManager extends
-    LocalDiskRepositoryManager {
+public class MultiBaseLocalDiskRepositoryManager extends LocalDiskRepositoryManager {
 
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
-      bind(GitRepositoryManager.class).to(
-          MultiBaseLocalDiskRepositoryManager.class);
-      bind(LocalDiskRepositoryManager.class).to(
-          MultiBaseLocalDiskRepositoryManager.class);
+      bind(GitRepositoryManager.class).to(MultiBaseLocalDiskRepositoryManager.class);
+      bind(LocalDiskRepositoryManager.class).to(MultiBaseLocalDiskRepositoryManager.class);
       listener().to(MultiBaseLocalDiskRepositoryManager.class);
       listener().to(MultiBaseLocalDiskRepositoryManager.Lifecycle.class);
     }
@@ -45,24 +40,23 @@ public class MultiBaseLocalDiskRepositoryManager extends
   private final RepositoryConfig config;
 
   @Inject
-  MultiBaseLocalDiskRepositoryManager(SitePaths site,
-      @GerritServerConfig Config cfg,
-      RepositoryConfig config) {
+  MultiBaseLocalDiskRepositoryManager(
+      SitePaths site, @GerritServerConfig Config cfg, RepositoryConfig config) {
     super(site, cfg);
     this.config = config;
 
     for (Path alternateBasePath : config.getAllBasePaths()) {
-      checkState(alternateBasePath.isAbsolute(),
-          "repository.<name>.basePath must be absolute: %s", alternateBasePath);
+      checkState(
+          alternateBasePath.isAbsolute(),
+          "repository.<name>.basePath must be absolute: %s",
+          alternateBasePath);
     }
   }
 
   @Override
   public Path getBasePath(NameKey name) {
     Path alternateBasePath = config.getBasePath(name);
-    return alternateBasePath != null
-        ? alternateBasePath
-        : super.getBasePath(name);
+    return alternateBasePath != null ? alternateBasePath : super.getBasePath(name);
   }
 
   @Override

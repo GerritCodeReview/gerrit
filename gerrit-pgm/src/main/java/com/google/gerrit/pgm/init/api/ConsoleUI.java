@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.common.Die;
-
 import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
@@ -43,8 +42,10 @@ public abstract class ConsoleUI {
   protected static <T extends Enum<?>> T[] all(final T value) {
     try {
       return (T[]) value.getClass().getMethod("values").invoke(null);
-    } catch (IllegalArgumentException | NoSuchMethodException
-        | InvocationTargetException | IllegalAccessException
+    } catch (IllegalArgumentException
+        | NoSuchMethodException
+        | InvocationTargetException
+        | IllegalAccessException
         | SecurityException e) {
       throw new IllegalArgumentException("Cannot obtain enumeration values", e);
     }
@@ -69,12 +70,12 @@ public abstract class ConsoleUI {
   public abstract String readString(String def, String fmt, Object... args);
 
   /** Prompt the user to make a choice from an allowed list of values. */
-  public abstract String readString(String def, Set<String> allowedValues,
-      String fmt, Object... args);
+  public abstract String readString(
+      String def, Set<String> allowedValues, String fmt, Object... args);
 
   /** Prompt the user for an integer value, suggesting a default. */
   public int readInt(int def, String fmt, Object... args) {
-    for (;;) {
+    for (; ; ) {
       String p = readString(String.valueOf(def), fmt, args);
       try {
         return Integer.parseInt(p.trim(), 10);
@@ -88,8 +89,7 @@ public abstract class ConsoleUI {
   public abstract String password(String fmt, Object... args);
 
   /** Prompt the user to make a choice from an enumeration's values. */
-  public abstract <T extends Enum<?>> T readEnum(T def, String fmt,
-      Object... args);
+  public abstract <T extends Enum<?>> T readEnum(T def, String fmt, Object... args);
 
   private static class Interactive extends ConsoleUI {
     private final Console console;
@@ -106,7 +106,7 @@ public abstract class ConsoleUI {
     @Override
     public boolean yesno(Boolean def, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
-      for (;;) {
+      for (; ; ) {
         String y = "y";
         String n = "n";
         if (def != null) {
@@ -161,9 +161,8 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public String readString(String def, Set<String> allowedValues, String fmt,
-        Object... args) {
-      for (;;) {
+    public String readString(String def, Set<String> allowedValues, String fmt, Object... args) {
+      for (; ; ) {
         String r = readString(def, fmt, args);
         if (allowedValues.contains(r.toLowerCase())) {
           return r.toLowerCase();
@@ -181,7 +180,7 @@ public abstract class ConsoleUI {
     @Override
     public String password(String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
-      for (;;) {
+      for (; ; ) {
         final char[] a1 = console.readPassword("%-30s : ", prompt);
         if (a1 == null) {
           throw abort();
@@ -206,7 +205,7 @@ public abstract class ConsoleUI {
     public <T extends Enum<?>> T readEnum(T def, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       final T[] options = all(def);
-      for (;;) {
+      for (; ; ) {
         String r = console.readLine("%-30s [%s/?]: ", prompt, def.toString());
         if (r == null) {
           throw abort();
@@ -259,14 +258,12 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public String readString(String def, Set<String> allowedValues, String fmt,
-        Object... args) {
+    public String readString(String def, Set<String> allowedValues, String fmt, Object... args) {
       return def;
     }
 
     @Override
-    public void waitForUser() {
-    }
+    public void waitForUser() {}
 
     @Override
     public String password(String fmt, Object... args) {
@@ -279,11 +276,9 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public void header(String fmt, Object... args) {
-    }
+    public void header(String fmt, Object... args) {}
 
     @Override
-    public void message(String fmt, Object... args) {
-    }
+    public void message(String fmt, Object... args) {}
   }
 }

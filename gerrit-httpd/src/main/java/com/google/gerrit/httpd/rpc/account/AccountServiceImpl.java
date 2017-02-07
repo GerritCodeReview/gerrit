@@ -23,12 +23,12 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-class AccountServiceImpl extends BaseServiceImplementation implements
-    AccountService {
+class AccountServiceImpl extends BaseServiceImplementation implements AccountService {
   private final AgreementInfoFactory.Factory agreementInfoFactory;
 
   @Inject
-  AccountServiceImpl(final Provider<ReviewDb> schema,
+  AccountServiceImpl(
+      final Provider<ReviewDb> schema,
       final Provider<IdentifiedUser> identifiedUser,
       final AgreementInfoFactory.Factory agreementInfoFactory) {
     super(schema, identifiedUser);

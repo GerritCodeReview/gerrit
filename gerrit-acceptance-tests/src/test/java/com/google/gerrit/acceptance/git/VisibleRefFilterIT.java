@@ -44,7 +44,9 @@ import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.DisabledReviewDb;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -52,27 +54,17 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 @NoHttpd
 public class VisibleRefFilterIT extends AbstractDaemonTest {
-  @Inject
-  private ChangeEditModifier editModifier;
+  @Inject private ChangeEditModifier editModifier;
 
-  @Inject
-  private ProjectControl.GenericFactory projectControlFactory;
+  @Inject private ProjectControl.GenericFactory projectControlFactory;
 
-  @Inject
-  @Nullable
-  private SearchingChangeCacheImpl changeCache;
+  @Inject @Nullable private SearchingChangeCacheImpl changeCache;
 
-  @Inject
-  private TagCache tagCache;
+  @Inject private TagCache tagCache;
 
-  @Inject
-  private Provider<CurrentUser> userProvider;
+  @Inject private Provider<CurrentUser> userProvider;
 
   private AccountGroup.UUID admins;
 
@@ -83,8 +75,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    admins = groupCache.get(new AccountGroup.NameKey("Administrators"))
-        .getGroupUUID();
+    admins = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID();
     setUpPermissions();
     setUpChanges();
   }
@@ -106,19 +97,16 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   }
 
   private void setUpChanges() throws Exception {
-    gApi.projects()
-        .name(project.get())
-        .branch("branch")
-        .create(new BranchInput());
+    gApi.projects().name(project.get()).branch("branch").create(new BranchInput());
 
     allow(Permission.SUBMIT, admins, "refs/for/refs/heads/*");
-    PushOneCommit.Result mr = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/for/master%submit");
+    PushOneCommit.Result mr =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master%submit");
     mr.assertOkStatus();
     c1 = mr.getChange().getId();
     r1 = changeRefPrefix(c1);
-    PushOneCommit.Result br = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/for/branch%submit");
+    PushOneCommit.Result br =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/branch%submit");
     br.assertOkStatus();
     c2 = br.getChange().getId();
     r2 = changeRefPrefix(c2);
@@ -183,12 +171,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
 
     setApiUser(user);
-    assertRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        "refs/heads/master",
-        "refs/tags/master-tag");
+    assertRefs("HEAD", r1 + "1", r1 + "meta", "refs/heads/master", "refs/tags/master-tag");
   }
 
   @Test
@@ -267,8 +250,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   public void draftRefs() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
 
-    PushOneCommit.Result br = pushFactory.create(db, admin.getIdent(), testRepo)
-        .to("refs/drafts/master");
+    PushOneCommit.Result br =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/drafts/master");
     br.assertOkStatus();
     Change.Id c3 = br.getChange().getId();
     String r3 = changeRefPrefix(c3);
@@ -311,8 +294,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
           repo,
-          new VisibleRefFilter(tagCache, notesFactory, null, repo,
-              projectControl(), db, true),
+          new VisibleRefFilter(tagCache, notesFactory, null, repo, projectControl(), db, true),
           // Can't use stored values from the index so DB must be enabled.
           false,
           "HEAD",
@@ -334,16 +316,12 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       setApiUser(user);
       assertRefs(repo, newFilter(db, repo, allProjects), true);
 
-      allowGlobalCapabilities(
-          REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+      allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
       try {
         setApiUser(user);
-        assertRefs(
-            repo, newFilter(db, repo, allProjects), true,
-            "refs/sequences/changes");
+        assertRefs(repo, newFilter(db, repo, allProjects), true, "refs/sequences/changes");
       } finally {
-        removeGlobalCapabilities(
-            REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+        removeGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
       }
     }
   }
@@ -351,24 +329,31 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   /**
    * Assert that refs seen by a non-admin user match expected.
    *
-   * @param expectedWithMeta expected refs, in order. If NoteDb is disabled by
-   *     the configuration, any NoteDb refs (i.e. ending in "/meta") are removed
-   *     from the expected list before comparing to the actual results.
+   * @param expectedWithMeta expected refs, in order. If NoteDb is disabled by the configuration,
+   *     any NoteDb refs (i.e. ending in "/meta") are removed from the expected list before
+   *     comparing to the actual results.
    * @throws Exception
    */
   private void assertRefs(String... expectedWithMeta) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       assertRefs(
           repo,
-          new VisibleRefFilter(tagCache, notesFactory, changeCache, repo,
-              projectControl(), new DisabledReviewDb(), true),
+          new VisibleRefFilter(
+              tagCache,
+              notesFactory,
+              changeCache,
+              repo,
+              projectControl(),
+              new DisabledReviewDb(),
+              true),
           true,
           expectedWithMeta);
     }
   }
 
-  private void assertRefs(Repository repo, VisibleRefFilter filter,
-      boolean disableDb, String... expectedWithMeta) throws Exception {
+  private void assertRefs(
+      Repository repo, VisibleRefFilter filter, boolean disableDb, String... expectedWithMeta)
+      throws Exception {
     List<String> expected = new ArrayList<>(expectedWithMeta.length);
     for (String r : expectedWithMeta) {
       if (notesMigration.writeChanges() || !r.endsWith(RefNames.META_SUFFIX)) {
@@ -382,8 +367,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     }
     try {
       Map<String, Ref> all = repo.getAllRefs();
-      assertThat(filter.filter(all, false).keySet())
-          .containsExactlyElementsIn(expected);
+      assertThat(filter.filter(all, false).keySet()).containsExactlyElementsIn(expected);
     } finally {
       if (disableDb) {
         enableDb(ctx);
@@ -395,11 +379,15 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     return projectControlFactory.controlFor(project, userProvider.get());
   }
 
-  private VisibleRefFilter newFilter(ReviewDb db, Repository repo,
-      Project.NameKey project) throws Exception {
+  private VisibleRefFilter newFilter(ReviewDb db, Repository repo, Project.NameKey project)
+      throws Exception {
     return new VisibleRefFilter(
-        tagCache, notesFactory, null, repo,
+        tagCache,
+        notesFactory,
+        null,
+        repo,
         projectControlFactory.controlFor(project, userProvider.get()),
-        db, true);
+        db,
+        true);
   }
 }

@@ -32,13 +32,12 @@ public class AccountLinkPanel extends FlowPanel {
     addStyleName(Gerrit.RESOURCES.css().accountLinkPanel());
 
     InlineHyperlink l =
-        new InlineHyperlink(FormatUtil.name(info), PageLinks.toAccountQuery(
-            owner(info), status)) {
-      @Override
-      public void go() {
-        Gerrit.display(getTargetHistoryToken());
-      }
-    };
+        new InlineHyperlink(FormatUtil.name(info), PageLinks.toAccountQuery(owner(info), status)) {
+          @Override
+          public void go() {
+            Gerrit.display(getTargetHistoryToken());
+          }
+        };
     l.setTitle(FormatUtil.nameEmail(info));
 
     add(new AvatarImage(info));

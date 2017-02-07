@@ -21,15 +21,13 @@ import static com.google.gerrit.client.RelativeDateFormatter.SECOND_IN_MILLIS;
 import static com.google.gerrit.client.RelativeDateFormatter.YEAR_IN_MILLIS;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
 import org.eclipse.jgit.util.RelativeDateFormatter;
 import org.junit.Test;
 
-import java.util.Date;
-
 public class RelativeDateFormatterTest {
 
-  private static void assertFormat(long ageFromNow, long timeUnit,
-      String expectedFormat) {
+  private static void assertFormat(long ageFromNow, long timeUnit, String expectedFormat) {
     Date d = new Date(System.currentTimeMillis() - ageFromNow * timeUnit);
     String s = RelativeDateFormatter.format(d);
     assertEquals(expectedFormat, s);

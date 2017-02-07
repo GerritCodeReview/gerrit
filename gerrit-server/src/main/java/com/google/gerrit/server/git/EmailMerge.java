@@ -32,18 +32,19 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
-
+import java.util.concurrent.ExecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.ExecutorService;
 
 public class EmailMerge implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailMerge.class);
 
   public interface Factory {
-    EmailMerge create(Project.NameKey project, Change.Id changeId,
-        Account.Id submitter, NotifyHandling notifyHandling);
+    EmailMerge create(
+        Project.NameKey project,
+        Change.Id changeId,
+        Account.Id submitter,
+        NotifyHandling notifyHandling);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -59,7 +60,8 @@ public class EmailMerge implements Runnable, RequestContext {
   private ReviewDb db;
 
   @Inject
-  EmailMerge(@SendEmailExecutor ExecutorService executor,
+  EmailMerge(
+      @SendEmailExecutor ExecutorService executor,
       MergedSender.Factory mergedSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,

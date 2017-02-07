@@ -18,24 +18,21 @@ import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.mail.Address;
-
 import com.jcraft.jsch.KeyPair;
-
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class TestAccount {
-  public static FluentIterable<Account.Id> ids(
-      Iterable<TestAccount> accounts) {
+  public static FluentIterable<Account.Id> ids(Iterable<TestAccount> accounts) {
     return FluentIterable.from(accounts)
-        .transform(new Function<TestAccount, Account.Id>() {
-          @Override
-          public Account.Id apply(TestAccount in) {
-            return in.id;
-          }
-        });
+        .transform(
+            new Function<TestAccount, Account.Id>() {
+              @Override
+              public Account.Id apply(TestAccount in) {
+                return in.id;
+              }
+            });
   }
 
   public static FluentIterable<Account.Id> ids(TestAccount... accounts) {
@@ -44,12 +41,13 @@ public class TestAccount {
 
   public static FluentIterable<String> names(Iterable<TestAccount> accounts) {
     return FluentIterable.from(accounts)
-        .transform(new Function<TestAccount, String>() {
-          @Override
-          public String apply(TestAccount in) {
-            return in.fullName;
-          }
-        });
+        .transform(
+            new Function<TestAccount, String>() {
+              @Override
+              public String apply(TestAccount in) {
+                return in.fullName;
+              }
+            });
   }
 
   public static FluentIterable<String> names(TestAccount... accounts) {
@@ -64,8 +62,13 @@ public class TestAccount {
   public final KeyPair sshKey;
   public final String httpPassword;
 
-  TestAccount(Account.Id id, String username, String email, String fullName,
-      KeyPair sshKey, String httpPassword) {
+  TestAccount(
+      Account.Id id,
+      String username,
+      String email,
+      String fullName,
+      KeyPair sshKey,
+      String httpPassword) {
     this.id = id;
     this.username = username;
     this.email = email;
@@ -86,7 +89,8 @@ public class TestAccount {
   }
 
   public String getHttpUrl(GerritServer server) {
-    return String.format("http://%s:%s@%s:%d",
+    return String.format(
+        "http://%s:%s@%s:%d",
         username,
         httpPassword,
         server.getHttpAddress().getAddress().getHostAddress(),

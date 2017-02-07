@@ -37,14 +37,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Collections;
 
 @Singleton
-public class DeleteDraftComment
-    implements RestModifyView<DraftCommentResource, Input> {
-  static class Input {
-  }
+public class DeleteDraftComment implements RestModifyView<DraftCommentResource, Input> {
+  static class Input {}
 
   private final Provider<ReviewDb> db;
   private final PatchLineCommentsUtil plcUtil;
@@ -53,7 +50,8 @@ public class DeleteDraftComment
   private final PatchListCache patchListCache;
 
   @Inject
-  DeleteDraftComment(Provider<ReviewDb> db,
+  DeleteDraftComment(
+      Provider<ReviewDb> db,
       PatchLineCommentsUtil plcUtil,
       PatchSetUtil psUtil,
       BatchUpdate.Factory updateFactory,
@@ -68,9 +66,12 @@ public class DeleteDraftComment
   @Override
   public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    try (BatchUpdate bu = updateFactory.create(
-        db.get(), rsrc.getChange().getProject(), rsrc.getControl().getUser(),
-        TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        updateFactory.create(
+            db.get(),
+            rsrc.getChange().getProject(),
+            rsrc.getControl().getUser(),
+            TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().getKey());
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
@@ -86,10 +87,8 @@ public class DeleteDraftComment
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, OrmException {
-      Optional<PatchLineComment> maybeComment =
-          plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
+    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException, OrmException {
+      Optional<PatchLineComment> maybeComment = plcUtil.get(ctx.getDb(), ctx.getNotes(), key);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }
@@ -100,8 +99,7 @@ public class DeleteDraftComment
       }
       PatchLineComment c = maybeComment.get();
       setCommentRevId(c, patchListCache, ctx.getChange(), ps);
-      plcUtil.deleteComments(
-          ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
+      plcUtil.deleteComments(ctx.getDb(), ctx.getUpdate(psId), Collections.singleton(c));
       ctx.bumpLastUpdatedOn(false);
       return true;
     }

@@ -17,23 +17,23 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
-
 import java.nio.file.Path;
 
 class MultipleProvidersForPluginException extends IllegalArgumentException {
   private static final long serialVersionUID = 1L;
 
-  MultipleProvidersForPluginException(Path pluginSrcPath,
-      Iterable<ServerPluginProvider> providersHandlers) {
-    super(pluginSrcPath.toAbsolutePath()
-        + " is claimed to be handled by more than one plugin provider: "
-        + providersListToString(providersHandlers));
+  MultipleProvidersForPluginException(
+      Path pluginSrcPath, Iterable<ServerPluginProvider> providersHandlers) {
+    super(
+        pluginSrcPath.toAbsolutePath()
+            + " is claimed to be handled by more than one plugin provider: "
+            + providersListToString(providersHandlers));
   }
 
-  private static String providersListToString(
-      Iterable<ServerPluginProvider> providersHandlers) {
+  private static String providersListToString(Iterable<ServerPluginProvider> providersHandlers) {
     Iterable<String> providerNames =
-        Iterables.transform(providersHandlers,
+        Iterables.transform(
+            providersHandlers,
             new Function<ServerPluginProvider, String>() {
               @Override
               public String apply(ServerPluginProvider provider) {

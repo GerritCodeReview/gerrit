@@ -36,20 +36,16 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.inject.Inject;
-
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Sandboxed
 public class SuggestReviewersIT extends AbstractDaemonTest {
-  @Inject
-  private CreateGroup.Factory createGroupFactory;
+  @Inject private CreateGroup.Factory createGroupFactory;
 
-  @Inject
-  private GroupsCollection groups;
+  @Inject private GroupsCollection groups;
 
   private AccountGroup group1;
   private AccountGroup group2;
@@ -76,20 +72,18 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @GerritConfig(name = "accounts.visibility", value = "NONE")
   public void suggestReviewersNoResult1() throws Exception {
     String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, name("u"), 6);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("u"), 6);
     assertThat(reviewers).isEmpty();
   }
 
   @Test
-  @GerritConfigs(
-      {@GerritConfig(name = "suggest.from", value = "1"),
-       @GerritConfig(name = "accounts.visibility", value = "NONE")
-      })
+  @GerritConfigs({
+    @GerritConfig(name = "suggest.from", value = "1"),
+    @GerritConfig(name = "accounts.visibility", value = "NONE")
+  })
   public void suggestReviewersNoResult2() throws Exception {
     String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, name("u"), 6);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("u"), 6);
     assertThat(reviewers).isEmpty();
   }
 
@@ -97,16 +91,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @GerritConfig(name = "suggest.from", value = "2")
   public void suggestReviewersNoResult3() throws Exception {
     String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, name("").substring(0, 1), 6);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("").substring(0, 1), 6);
     assertThat(reviewers).isEmpty();
   }
 
   @Test
   public void suggestReviewersChange() throws Exception {
     String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, name("u"), 6);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("u"), 6);
     assertThat(reviewers).hasSize(6);
     reviewers = suggestReviewers(changeId, name("u"), 5);
     assertThat(reviewers).hasSize(5);
@@ -122,8 +114,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
-    assertThat(Iterables.getOnlyElement(reviewers).account.name)
-        .isEqualTo(user2.fullName);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(user2.fullName);
 
     setApiUser(user1);
     reviewers = suggestReviewers(changeId, user2.fullName, 2);
@@ -132,14 +123,12 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     setApiUser(user2);
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
-    assertThat(Iterables.getOnlyElement(reviewers).account.name)
-        .isEqualTo(user2.fullName);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(user2.fullName);
 
     setApiUser(user3);
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
-    assertThat(Iterables.getOnlyElement(reviewers).account.name)
-        .isEqualTo(user2.fullName);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(user2.fullName);
   }
 
   @Test
@@ -165,20 +154,17 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers).isEmpty();
 
     setApiUser(user1); // Clear cached group info.
-    allowGlobalCapabilities(group1.getGroupUUID(),
-        GlobalCapability.VIEW_ALL_ACCOUNTS);
+    allowGlobalCapabilities(group1.getGroupUUID(), GlobalCapability.VIEW_ALL_ACCOUNTS);
     reviewers = suggestReviewers(changeId, user2.username, 2);
     assertThat(reviewers).hasSize(1);
-    assertThat(Iterables.getOnlyElement(reviewers).account.name)
-        .isEqualTo(user2.fullName);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(user2.fullName);
   }
 
   @Test
   @GerritConfig(name = "suggest.maxSuggestedReviewers", value = "2")
   public void suggestReviewersMaxNbrSuggestions() throws Exception {
     String changeId = createChange().getChangeId();
-    List<SuggestedReviewerInfo> reviewers =
-        suggestReviewers(changeId, name("user"), 5);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("user"), 5);
     assertThat(reviewers).hasSize(2);
   }
 
@@ -238,17 +224,15 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersWithoutLimitOptionSpecified() throws Exception {
     String changeId = createChange().getChangeId();
     String query = user3.username;
-    List<SuggestedReviewerInfo> suggestedReviewerInfos = gApi.changes()
-        .id(changeId)
-        .suggestReviewers(query)
-        .get();
+    List<SuggestedReviewerInfo> suggestedReviewerInfos =
+        gApi.changes().id(changeId).suggestReviewers(query).get();
     assertThat(suggestedReviewerInfos).hasSize(1);
   }
 
   @Test
   @GerritConfigs({
-    @GerritConfig(name = "addreviewer.maxAllowed", value="2"),
-    @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value="1"),
+    @GerritConfig(name = "addreviewer.maxAllowed", value = "2"),
+    @GerritConfig(name = "addreviewer.maxWithoutConfirmation", value = "1"),
   })
   public void suggestReviewersGroupSizeConsiderations() throws Exception {
     AccountGroup largeGroup = group("large");
@@ -284,45 +268,38 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewer.confirm).isTrue();
   }
 
-  private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
-      String query) throws Exception {
-    return gApi.changes()
-        .id(changeId)
-        .suggestReviewers(query)
-        .get();
+  private List<SuggestedReviewerInfo> suggestReviewers(String changeId, String query)
+      throws Exception {
+    return gApi.changes().id(changeId).suggestReviewers(query).get();
   }
 
-  private List<SuggestedReviewerInfo> suggestReviewers(String changeId,
-      String query, int n) throws Exception {
-    return gApi.changes()
-        .id(changeId)
-        .suggestReviewers(query)
-        .withLimit(n)
-        .get();
+  private List<SuggestedReviewerInfo> suggestReviewers(String changeId, String query, int n)
+      throws Exception {
+    return gApi.changes().id(changeId).suggestReviewers(query).withLimit(n).get();
   }
 
   private AccountGroup group(String name) throws Exception {
-    GroupInfo group = createGroupFactory.create(name(name))
-        .apply(TopLevelResource.INSTANCE, null);
+    GroupInfo group = createGroupFactory.create(name(name)).apply(TopLevelResource.INSTANCE, null);
     GroupDescription.Basic d = groups.parseInternal(Url.decode(group.id));
     return GroupDescriptions.toAccountGroup(d);
   }
 
-  private TestAccount user(String name, String fullName, String emailName,
-      AccountGroup... groups) throws Exception {
-    String[] groupNames = FluentIterable.from(Arrays.asList(groups))
-        .transform(new Function<AccountGroup, String>() {
-          @Override
-          public String apply(AccountGroup in) {
-            return in.getName();
-          }
-        }).toArray(String.class);
-    return accounts.create(name(name), name(emailName) + "@example.com",
-        fullName, groupNames);
+  private TestAccount user(String name, String fullName, String emailName, AccountGroup... groups)
+      throws Exception {
+    String[] groupNames =
+        FluentIterable.from(Arrays.asList(groups))
+            .transform(
+                new Function<AccountGroup, String>() {
+                  @Override
+                  public String apply(AccountGroup in) {
+                    return in.getName();
+                  }
+                })
+            .toArray(String.class);
+    return accounts.create(name(name), name(emailName) + "@example.com", fullName, groupNames);
   }
 
-  private TestAccount user(String name, String fullName, AccountGroup... groups)
-      throws Exception {
+  private TestAccount user(String name, String fullName, AccountGroup... groups) throws Exception {
     return user(name, fullName, name, groups);
   }
 }

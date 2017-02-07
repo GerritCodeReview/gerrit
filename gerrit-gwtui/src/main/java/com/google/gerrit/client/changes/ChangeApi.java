@@ -27,10 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * A collection of static methods which work on the Gerrit REST API for specific
- * changes.
- */
+/** A collection of static methods which work on the Gerrit REST API for specific changes. */
 public class ChangeApi {
   /** Abandon the change, ending its review. */
   public static void abandon(int id, String msg, AsyncCallback<ChangeInfo> cb) {
@@ -39,15 +36,20 @@ public class ChangeApi {
     call(id, "abandon").post(input, cb);
   }
 
-  /** Create a new change.
+  /**
+   * Create a new change.
    *
-   * The new change is created as DRAFT unless the draft workflow is disabled
-   * by `change.allowDrafts = false` in the configuration, in which case the
-   * new change is created as NEW.
-   *
+   * <p>The new change is created as DRAFT unless the draft workflow is disabled by
+   * `change.allowDrafts = false` in the configuration, in which case the new change is created as
+   * NEW.
    */
-  public static void createChange(String project, String branch, String topic,
-      String subject, String base, AsyncCallback<ChangeInfo> cb) {
+  public static void createChange(
+      String project,
+      String branch,
+      String topic,
+      String subject,
+      String base,
+      AsyncCallback<ChangeInfo> cb) {
     CreateChangeInput input = CreateChangeInput.create();
     input.project(emptyToNull(project));
     input.branch(emptyToNull(branch));
@@ -98,11 +100,7 @@ public class ChangeApi {
   }
 
   public static RestApi blame(PatchSet.Id id, String path, boolean base) {
-    return revision(id)
-        .view("files")
-        .id(path)
-        .view("blame")
-        .addParameter("base", base);
+    return revision(id).view("files").id(path).view("blame").addParameter("base", base);
   }
 
   public static RestApi actions(int id, String revision) {
@@ -158,9 +156,7 @@ public class ChangeApi {
   }
 
   public static RestApi suggestReviewers(int id, String q, int n) {
-    return change(id).view("suggest_reviewers")
-        .addParameter("q", q)
-        .addParameter("n", n);
+    return change(id).view("suggest_reviewers").addParameter("q", q).addParameter("n", n);
   }
 
   public static RestApi vote(int id, int reviewer, String vote) {
@@ -178,12 +174,14 @@ public class ChangeApi {
   public static RestApi hashtags(int changeId) {
     return change(changeId).view("hashtags");
   }
+
   public static RestApi hashtag(int changeId, String hashtag) {
     return change(changeId).view("hashtags").id(hashtag);
   }
 
   /** Submit a specific revision of a change. */
-  public static void cherrypick(int id, String commit, String destination, String message, AsyncCallback<ChangeInfo> cb) {
+  public static void cherrypick(
+      int id, String commit, String destination, String message, AsyncCallback<ChangeInfo> cb) {
     CherryPickInput cherryPickInput = CherryPickInput.create();
     cherryPickInput.setMessage(message);
     cherryPickInput.setDestination(destination);
@@ -191,8 +189,8 @@ public class ChangeApi {
   }
 
   /** Edit commit message for specific revision of a change. */
-  public static void message(int id, String commit, String message,
-      AsyncCallback<JavaScriptObject> cb) {
+  public static void message(
+      int id, String commit, String message, AsyncCallback<JavaScriptObject> cb) {
     CherryPickInput input = CherryPickInput.create();
     input.setMessage(message);
     call(id, commit, "message").post(input, cb);
@@ -246,14 +244,14 @@ public class ChangeApi {
 
   private static class Input extends JavaScriptObject {
     final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
+
     final native void message(String m) /*-{ if(m)this.message=m; }-*/;
 
     static Input create() {
       return (Input) createObject();
     }
 
-    protected Input() {
-    }
+    protected Input() {}
   }
 
   private static class CreateChangeInput extends JavaScriptObject {
@@ -262,25 +260,30 @@ public class ChangeApi {
     }
 
     public final native void branch(String b) /*-{ if(b)this.branch=b; }-*/;
-    public final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
-    public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
-    public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
-    public final native void baseChange(String b) /*-{ if(b)this.base_change=b; }-*/;
-    public final native void status(String s)  /*-{ if(s)this.status=s; }-*/;
 
-    protected CreateChangeInput() {
-    }
+    public final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
+
+    public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
+
+    public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
+
+    public final native void baseChange(String b) /*-{ if(b)this.base_change=b; }-*/;
+
+    public final native void status(String s) /*-{ if(s)this.status=s; }-*/;
+
+    protected CreateChangeInput() {}
   }
 
   private static class CherryPickInput extends JavaScriptObject {
     static CherryPickInput create() {
       return (CherryPickInput) createObject();
     }
+
     final native void setDestination(String d) /*-{ this.destination = d; }-*/;
+
     final native void setMessage(String m) /*-{ this.message = m; }-*/;
 
-    protected CherryPickInput() {
-    }
+    protected CherryPickInput() {}
   }
 
   private static class RebaseInput extends JavaScriptObject {
@@ -290,8 +293,7 @@ public class ChangeApi {
       return (RebaseInput) createObject();
     }
 
-    protected RebaseInput() {
-    }
+    protected RebaseInput() {}
   }
 
   private static RestApi call(int id, String action) {
@@ -311,11 +313,7 @@ public class ChangeApi {
     return str == null || str.isEmpty() ? null : str;
   }
 
-  public static void commitWithLinks(int changeId, String revision,
-      Callback<CommitInfo> callback) {
-    revision(changeId, revision)
-        .view("commit")
-        .addParameterTrue("links")
-        .get(callback);
+  public static void commitWithLinks(int changeId, String revision, Callback<CommitInfo> callback) {
+    revision(changeId, revision).view("commit").addParameterTrue("links").get(callback);
   }
 }

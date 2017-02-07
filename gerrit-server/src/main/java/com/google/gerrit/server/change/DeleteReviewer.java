@@ -52,22 +52,18 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
-  private static final Logger log = LoggerFactory
-      .getLogger(DeleteReviewer.class);
+  private static final Logger log = LoggerFactory.getLogger(DeleteReviewer.class);
 
-  public static class Input {
-  }
+  public static class Input {}
 
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
@@ -81,7 +77,8 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   private final NotesMigration migration;
 
   @Inject
-  DeleteReviewer(Provider<ReviewDb> dbProvider,
+  DeleteReviewer(
+      Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
@@ -106,9 +103,12 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   @Override
   public Response<?> apply(ReviewerResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    try (BatchUpdate bu = batchUpdateFactory.create(dbProvider.get(),
-        rsrc.getChangeResource().getProject(),
-        rsrc.getChangeResource().getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        batchUpdateFactory.create(
+            dbProvider.get(),
+            rsrc.getChangeResource().getProject(),
+            rsrc.getChangeResource().getUser(),
+            TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getReviewerUser().getAccount());
       bu.addOp(rsrc.getChange().getId(), op);
       bu.execute();
@@ -134,8 +134,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     public boolean updateChange(ChangeContext ctx)
         throws AuthException, ResourceNotFoundException, OrmException {
       Account.Id reviewerId = reviewer.getId();
-      if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all()
-          .contains(reviewerId)) {
+      if (!approvalsUtil.getReviewers(ctx.getDb(), ctx.getNotes()).all().contains(reviewerId)) {
         throw new ResourceNotFoundException();
       }
       currChange = ctx.getChange();
@@ -154,11 +153,14 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
           if (a.getPatchSetId().equals(currPs.getId()) && a.getValue() != 0) {
             oldApprovals.put(a.getLabel(), a.getValue());
             if (msg.length() == 0) {
-              msg.append("Removed reviewer ").append(reviewer.getFullName())
+              msg.append("Removed reviewer ")
+                  .append(reviewer.getFullName())
                   .append(" with the following votes:\n\n");
             }
-            msg.append("* ").append(a.getLabel())
-                .append(formatLabelValue(a.getValue())).append(" by ")
+            msg.append("* ")
+                .append(a.getLabel())
+                .append(formatLabelValue(a.getValue()))
+                .append(" by ")
                 .append(userFactory.create(a.getAccountId()).getNameEmail())
                 .append("\n");
           }
@@ -172,10 +174,12 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       update.removeReviewer(reviewerId);
 
       if (msg.length() > 0) {
-        changeMessage = new ChangeMessage(
-            new ChangeMessage.Key(currChange.getId(),
-                ChangeUtil.messageUUID(ctx.getDb())),
-            ctx.getAccountId(), ctx.getWhen(), currPs.getId());
+        changeMessage =
+            new ChangeMessage(
+                new ChangeMessage.Key(currChange.getId(), ChangeUtil.messageUUID(ctx.getDb())),
+                ctx.getAccountId(),
+                ctx.getWhen(),
+                currPs.getId());
         changeMessage.setMessage(msg.toString());
         cmUtil.addChangeMessage(ctx.getDb(), update, changeMessage);
       }
@@ -190,15 +194,19 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       }
 
       emailReviewers(ctx.getProject(), currChange, del, changeMessage);
-      reviewerDeleted.fire(currChange, currPs, reviewer,
+      reviewerDeleted.fire(
+          currChange,
+          currPs,
+          reviewer,
           ctx.getAccount(),
           changeMessage.getMessage(),
-          newApprovals, oldApprovals,
+          newApprovals,
+          oldApprovals,
           ctx.getWhen());
     }
 
-    private Iterable<PatchSetApproval> approvals(ChangeContext ctx,
-        final Account.Id accountId) throws OrmException {
+    private Iterable<PatchSetApproval> approvals(ChangeContext ctx, final Account.Id accountId)
+        throws OrmException {
       Change.Id changeId = ctx.getNotes().getChangeId();
       Iterable<PatchSetApproval> approvals;
 
@@ -213,8 +221,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         db = ReviewDbUtil.unwrapDb(db);
         approvals = db.patchSetApprovals().byChange(changeId);
       } else {
-        approvals =
-            approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
+        approvals = approvalsUtil.byChange(ctx.getDb(), ctx.getNotes()).values();
       }
 
       return Iterables.filter(
@@ -235,8 +242,11 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     }
   }
 
-  private void emailReviewers(Project.NameKey projectName, Change change,
-      List<PatchSetApproval> dels, ChangeMessage changeMessage) {
+  private void emailReviewers(
+      Project.NameKey projectName,
+      Change change,
+      List<PatchSetApproval> dels,
+      ChangeMessage changeMessage) {
 
     // The user knows they removed themselves, don't bother emailing them.
     List<Account.Id> toMail = Lists.newArrayListWithCapacity(dels.size());
@@ -248,12 +258,10 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     }
     if (!toMail.isEmpty()) {
       try {
-        DeleteReviewerSender cm =
-            deleteReviewerSenderFactory.create(projectName, change.getId());
+        DeleteReviewerSender cm = deleteReviewerSenderFactory.create(projectName, change.getId());
         cm.setFrom(userId);
         cm.addReviewers(toMail);
-        cm.setChangeMessage(changeMessage.getMessage(),
-            changeMessage.getWrittenOn());
+        cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
         cm.send();
       } catch (Exception err) {
         log.error("Cannot email update for change " + change.getId(), err);

@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,48 +33,62 @@ public interface RevisionApi {
   void review(ReviewInput in) throws RestApiException;
 
   void submit() throws RestApiException;
+
   void submit(SubmitInput in) throws RestApiException;
+
   void publish() throws RestApiException;
+
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
+
   ChangeApi rebase() throws RestApiException;
+
   ChangeApi rebase(RebaseInput in) throws RestApiException;
+
   boolean canRebase() throws RestApiException;
 
   void setReviewed(String path, boolean reviewed) throws RestApiException;
+
   Set<String> reviewed() throws RestApiException;
 
   Map<String, FileInfo> files() throws RestApiException;
+
   Map<String, FileInfo> files(String base) throws RestApiException;
+
   Map<String, FileInfo> files(int parentNum) throws RestApiException;
+
   FileApi file(String path);
+
   MergeableInfo mergeable() throws RestApiException;
+
   MergeableInfo mergeableOtherBranches() throws RestApiException;
 
   Map<String, List<CommentInfo>> comments() throws RestApiException;
+
   Map<String, List<CommentInfo>> drafts() throws RestApiException;
 
   List<CommentInfo> commentsAsList() throws RestApiException;
+
   List<CommentInfo> draftsAsList() throws RestApiException;
 
   DraftApi createDraft(DraftInput in) throws RestApiException;
+
   DraftApi draft(String id) throws RestApiException;
 
   CommentApi comment(String id) throws RestApiException;
 
-  /**
-   * Returns patch of revision.
-   */
+  /** Returns patch of revision. */
   BinaryResult patch() throws RestApiException;
 
   Map<String, ActionInfo> actions() throws RestApiException;
 
   SubmitType submitType() throws RestApiException;
+
   SubmitType testSubmitType(TestSubmitRuleInput in) throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
   class NotImplemented implements RevisionApi {
     @Override
     public void delete() throws RestApiException {
@@ -213,8 +226,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public SubmitType testSubmitType(TestSubmitRuleInput in)
-        throws RestApiException {
+    public SubmitType testSubmitType(TestSubmitRuleInput in) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -39,14 +39,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -56,23 +48,30 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MergeabilityCacheImpl implements MergeabilityCache {
-  private static final Logger log =
-      LoggerFactory.getLogger(MergeabilityCacheImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(MergeabilityCacheImpl.class);
 
   private static final String CACHE_NAME = "mergeability";
 
-  public static final BiMap<SubmitType, Character> SUBMIT_TYPES = ImmutableBiMap.of(
-        SubmitType.FAST_FORWARD_ONLY, 'F',
-        SubmitType.MERGE_IF_NECESSARY, 'M',
-        SubmitType.REBASE_IF_NECESSARY, 'R',
-        SubmitType.MERGE_ALWAYS, 'A',
-        SubmitType.CHERRY_PICK, 'C');
+  public static final BiMap<SubmitType, Character> SUBMIT_TYPES =
+      ImmutableBiMap.of(
+          SubmitType.FAST_FORWARD_ONLY, 'F',
+          SubmitType.MERGE_IF_NECESSARY, 'M',
+          SubmitType.REBASE_IF_NECESSARY, 'R',
+          SubmitType.MERGE_ALWAYS, 'A',
+          SubmitType.CHERRY_PICK, 'C');
 
   static {
-    checkState(SUBMIT_TYPES.size() == SubmitType.values().length,
+    checkState(
+        SUBMIT_TYPES.size() == SubmitType.values().length,
         "SubmitType <-> char BiMap needs updating");
   }
 
@@ -89,9 +88,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
   }
 
   public static ObjectId toId(Ref ref) {
-    return ref != null && ref.getObjectId() != null
-        ? ref.getObjectId()
-        : ObjectId.zeroId();
+    return ref != null && ref.getObjectId() != null ? ref.getObjectId() : ObjectId.zeroId();
   }
 
   public static class EntryKey implements Serializable {
@@ -102,8 +99,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     private SubmitType submitType;
     private String mergeStrategy;
 
-    public EntryKey(ObjectId commit, ObjectId into, SubmitType submitType,
-        String mergeStrategy) {
+    public EntryKey(ObjectId commit, ObjectId into, SubmitType submitType, String mergeStrategy) {
       this.commit = checkNotNull(commit, "commit");
       this.into = checkNotNull(into, "into");
       this.submitType = checkNotNull(submitType, "submitType");
@@ -188,8 +184,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     }
 
     @Override
-    public Boolean call()
-        throws NoSuchProjectException, IntegrationException, IOException {
+    public Boolean call() throws NoSuchProjectException, IntegrationException, IOException {
       if (key.into.equals(ObjectId.zeroId())) {
         return true; // Assume yes on new branch.
       }
@@ -197,17 +192,17 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
         Set<RevCommit> accepted = SubmitDryRun.getAlreadyAccepted(repo, rw);
         accepted.add(rw.parseCommit(key.into));
         accepted.addAll(Arrays.asList(rw.parseCommit(key.commit).getParents()));
-        return submitDryRun.run(
-            key.submitType, repo, rw, dest, key.into, key.commit, accepted);
+        return submitDryRun.run(key.submitType, repo, rw, dest, key.into, key.commit, accepted);
       }
     }
   }
 
-  public static class MergeabilityWeigher
-      implements Weigher<EntryKey, Boolean> {
+  public static class MergeabilityWeigher implements Weigher<EntryKey, Boolean> {
     @Override
     public int weigh(EntryKey k, Boolean v) {
-      return 16 + 2 * (16 + 20) + 3 * 8 // Size of EntryKey, 64-bit JVM.
+      return 16
+          + 2 * (16 + 20)
+          + 3 * 8 // Size of EntryKey, 64-bit JVM.
           + 8; // Size of Boolean.
     }
   }
@@ -217,31 +212,36 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
   @Inject
   MergeabilityCacheImpl(
-      SubmitDryRun submitDryRun,
-      @Named(CACHE_NAME) Cache<EntryKey, Boolean> cache) {
+      SubmitDryRun submitDryRun, @Named(CACHE_NAME) Cache<EntryKey, Boolean> cache) {
     this.submitDryRun = submitDryRun;
     this.cache = cache;
   }
 
   @Override
-  public boolean get(ObjectId commit, Ref intoRef, SubmitType submitType,
-      String mergeStrategy, Branch.NameKey dest, Repository repo) {
+  public boolean get(
+      ObjectId commit,
+      Ref intoRef,
+      SubmitType submitType,
+      String mergeStrategy,
+      Branch.NameKey dest,
+      Repository repo) {
     ObjectId into = intoRef != null ? intoRef.getObjectId() : ObjectId.zeroId();
     EntryKey key = new EntryKey(commit, into, submitType, mergeStrategy);
     try {
       return cache.get(key, new Loader(key, dest, repo));
     } catch (ExecutionException | UncheckedExecutionException e) {
-      log.error(String.format("Error checking mergeability of %s into %s (%s)",
-            key.commit.name(), key.into.name(), key.submitType.name()),
+      log.error(
+          String.format(
+              "Error checking mergeability of %s into %s (%s)",
+              key.commit.name(), key.into.name(), key.submitType.name()),
           e.getCause());
       return false;
     }
   }
 
   @Override
-  public Boolean getIfPresent(ObjectId commit, Ref intoRef,
-      SubmitType submitType, String mergeStrategy) {
-    return cache.getIfPresent(
-        new EntryKey(commit, toId(intoRef), submitType, mergeStrategy));
+  public Boolean getIfPresent(
+      ObjectId commit, Ref intoRef, SubmitType submitType, String mergeStrategy) {
+    return cache.getIfPresent(new EntryKey(commit, toId(intoRef), submitType, mergeStrategy));
   }
 }

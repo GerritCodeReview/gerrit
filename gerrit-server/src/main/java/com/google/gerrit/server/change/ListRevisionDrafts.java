@@ -23,7 +23,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.List;
 import java.util.Map;
 
@@ -34,18 +33,16 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   protected final PatchLineCommentsUtil plcUtil;
 
   @Inject
-  ListRevisionDrafts(Provider<ReviewDb> db,
-      Provider<CommentJson> commentJson,
-      PatchLineCommentsUtil plcUtil) {
+  ListRevisionDrafts(
+      Provider<ReviewDb> db, Provider<CommentJson> commentJson, PatchLineCommentsUtil plcUtil) {
     this.db = db;
     this.commentJson = commentJson;
     this.plcUtil = plcUtil;
   }
 
-  protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
-      throws OrmException {
-    return plcUtil.draftByPatchSetAuthor(db.get(), rsrc.getPatchSet().getId(),
-        rsrc.getAccountId(), rsrc.getNotes());
+  protected Iterable<PatchLineComment> listComments(RevisionResource rsrc) throws OrmException {
+    return plcUtil.draftByPatchSetAuthor(
+        db.get(), rsrc.getPatchSet().getId(), rsrc.getAccountId(), rsrc.getNotes());
   }
 
   protected boolean includeAuthorInfo() {
@@ -53,17 +50,11 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
-      throws OrmException {
-    return commentJson.get()
-        .setFillAccounts(includeAuthorInfo())
-        .format(listComments(rsrc));
+  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc) throws OrmException {
+    return commentJson.get().setFillAccounts(includeAuthorInfo()).format(listComments(rsrc));
   }
 
-  public List<CommentInfo> getComments(RevisionResource rsrc)
-      throws OrmException {
-    return commentJson.get()
-        .setFillAccounts(includeAuthorInfo())
-        .formatAsList(listComments(rsrc));
+  public List<CommentInfo> getComments(RevisionResource rsrc) throws OrmException {
+    return commentJson.get().setFillAccounts(includeAuthorInfo()).formatAsList(listComments(rsrc));
   }
 }

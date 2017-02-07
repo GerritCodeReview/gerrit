@@ -19,13 +19,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Widget to display within a {@link ViewSite}.
- *<p>
- * Implementations must override {@code protected void onLoad()} and
- * arrange for {@link #display()} to be invoked once the DOM within the view is
- * consistent for presentation to the user. Typically this means that the
- * subclass can start RPCs within {@code onLoad()} and then invoke
- * {@code display()} from within the AsyncCallback's
- * {@code onSuccess(Object)} method.
+ *
+ * <p>Implementations must override {@code protected void onLoad()} and arrange for {@link
+ * #display()} to be invoked once the DOM within the view is consistent for presentation to the
+ * user. Typically this means that the subclass can start RPCs within {@code onLoad()} and then
+ * invoke {@code display()} from within the AsyncCallback's {@code onSuccess(Object)} method.
  */
 public abstract class View extends Composite {
   ViewSite<? extends View> site;

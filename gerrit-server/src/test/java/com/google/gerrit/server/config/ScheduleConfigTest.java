@@ -20,11 +20,10 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
 
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.joda.time.DateTime;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
 
 public class ScheduleConfigTest {
 
@@ -43,8 +42,7 @@ public class ScheduleConfigTest {
     assertEquals(ms(19, HOURS) + ms(30, MINUTES), initialDelay("05:30", "1d"));
 
     assertEquals(ms(1, HOURS), initialDelay("11:00", "1w"));
-    assertEquals(ms(7, DAYS) - ms(4, HOURS) - ms(30, MINUTES),
-        initialDelay("05:30", "1w"));
+    assertEquals(ms(7, DAYS) - ms(4, HOURS) - ms(30, MINUTES), initialDelay("05:30", "1w"));
 
     assertEquals(ms(3, DAYS) + ms(1, HOURS), initialDelay("Mon 11:00", "1w"));
     assertEquals(ms(1, HOURS), initialDelay("Fri 11:00", "1w"));
@@ -71,9 +69,8 @@ public class ScheduleConfigTest {
   }
 
   private static long initialDelay(String startTime, String interval) {
-    return new ScheduleConfig(
-        config(startTime, interval),
-        "section", "subsection", NOW).getInitialDelay();
+    return new ScheduleConfig(config(startTime, interval), "section", "subsection", NOW)
+        .getInitialDelay();
   }
 
   private static Config config(String startTime, String interval) {

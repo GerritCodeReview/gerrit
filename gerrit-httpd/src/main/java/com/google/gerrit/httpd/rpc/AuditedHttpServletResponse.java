@@ -15,13 +15,10 @@
 package com.google.gerrit.httpd.rpc;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-class AuditedHttpServletResponse
-    extends HttpServletResponseWrapper
-    implements HttpServletResponse {
+class AuditedHttpServletResponse extends HttpServletResponseWrapper implements HttpServletResponse {
   private int status;
 
   AuditedHttpServletResponse(HttpServletResponse response) {

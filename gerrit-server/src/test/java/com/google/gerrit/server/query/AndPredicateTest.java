@@ -23,9 +23,8 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.Test;
-
 import java.util.List;
+import org.junit.Test;
 
 public class AndPredicateTest extends PredicateTest {
   @Test
@@ -69,8 +68,8 @@ public class AndPredicateTest extends PredicateTest {
     assertChildren("iterator().remove()", n, of(a, b));
   }
 
-  private static void assertChildren(String o, Predicate<String> p,
-      List<? extends Predicate<String>> l) {
+  private static void assertChildren(
+      String o, Predicate<String> p, List<? extends Predicate<String>> l) {
     assertEquals(o + " did not affect child", l, p.getChildren());
   }
 

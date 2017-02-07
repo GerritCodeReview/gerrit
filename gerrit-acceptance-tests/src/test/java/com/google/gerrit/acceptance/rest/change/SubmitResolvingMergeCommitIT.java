@@ -30,7 +30,10 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -39,18 +42,11 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 @NoHttpd
 public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
-  @Inject
-  private MergeSuperSet mergeSuperSet;
+  @Inject private MergeSuperSet mergeSuperSet;
 
-  @Inject
-  private Submit submit;
+  @Inject private Submit submit;
 
   @ConfigSuite.Default
   public static Config submitWholeTopicEnabled() {
@@ -70,15 +66,15 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     */
 
     PushOneCommit.Result a = createChange("A");
-    PushOneCommit.Result b = createChange("B", "new.txt", "No conflict line",
-        ImmutableList.of(a.getCommit()));
+    PushOneCommit.Result b =
+        createChange("B", "new.txt", "No conflict line", ImmutableList.of(a.getCommit()));
     PushOneCommit.Result c = createChange("C", ImmutableList.of(b.getCommit()));
     PushOneCommit.Result d = createChange("D", ImmutableList.of(c.getCommit()));
 
     PushOneCommit.Result e = createChange("E", ImmutableList.of(a.getCommit()));
     PushOneCommit.Result f = createChange("F", ImmutableList.of(e.getCommit()));
-    PushOneCommit.Result g = createChange("G", "new.txt", "Conflicting line",
-        ImmutableList.of(f.getCommit()));
+    PushOneCommit.Result g =
+        createChange("G", "new.txt", "Conflicting line", ImmutableList.of(f.getCommit()));
     PushOneCommit.Result h = createChange("H", ImmutableList.of(g.getCommit()));
 
     approve(a.getChangeId());
@@ -97,8 +93,9 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     assertNotMergeable(g.getChange());
     assertNotMergeable(h.getChange());
 
-    PushOneCommit.Result m = createChange("M", "new.txt", "Resolved conflict",
-        ImmutableList.of(d.getCommit(), h.getCommit()));
+    PushOneCommit.Result m =
+        createChange(
+            "M", "new.txt", "Resolved conflict", ImmutableList.of(d.getCommit(), h.getCommit()));
     approve(m.getChangeId());
 
     assertChangeSetMergeable(m.getChange(), true);
@@ -126,17 +123,18 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     */
 
     PushOneCommit.Result a = createChange("A");
-    PushOneCommit.Result b = createChange("B", "new.txt", "No conflict line",
-        ImmutableList.of(a.getCommit()));
-    PushOneCommit.Result c = createChange("C", "new.txt", "No conflict line #2",
-        ImmutableList.of(b.getCommit()));
+    PushOneCommit.Result b =
+        createChange("B", "new.txt", "No conflict line", ImmutableList.of(a.getCommit()));
+    PushOneCommit.Result c =
+        createChange("C", "new.txt", "No conflict line #2", ImmutableList.of(b.getCommit()));
     PushOneCommit.Result d = createChange("D", ImmutableList.of(c.getCommit()));
-    PushOneCommit.Result e = createChange("E", "new.txt", "Conflicting line",
-        ImmutableList.of(a.getCommit()));
-    PushOneCommit.Result f = createChange("F", "new.txt", "Resolved conflict",
-        ImmutableList.of(b.getCommit(), e.getCommit()));
-    PushOneCommit.Result g = createChange("G", "new.txt", "Conflicting line #2",
-        ImmutableList.of(f.getCommit()));
+    PushOneCommit.Result e =
+        createChange("E", "new.txt", "Conflicting line", ImmutableList.of(a.getCommit()));
+    PushOneCommit.Result f =
+        createChange(
+            "F", "new.txt", "Resolved conflict", ImmutableList.of(b.getCommit(), e.getCommit()));
+    PushOneCommit.Result g =
+        createChange("G", "new.txt", "Conflicting line #2", ImmutableList.of(f.getCommit()));
 
     assertMergeable(e.getChange());
 
@@ -187,37 +185,50 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     String project2Name = name("Project2");
     gApi.projects().create(project1Name);
     gApi.projects().create(project2Name);
-    TestRepository<InMemoryRepository> project1 =
-        cloneProject(new Project.NameKey(project1Name));
-    TestRepository<InMemoryRepository> project2 =
-        cloneProject(new Project.NameKey(project2Name));
+    TestRepository<InMemoryRepository> project1 = cloneProject(new Project.NameKey(project1Name));
+    TestRepository<InMemoryRepository> project2 = cloneProject(new Project.NameKey(project2Name));
 
     PushOneCommit.Result a = createChange(project1, "A");
-    PushOneCommit.Result b = createChange(project1, "B", "new.txt",
-        "No conflict line", ImmutableList.of(a.getCommit()));
-    PushOneCommit.Result c = createChange(project1, "C", "new.txt",
-        "No conflict line #2", ImmutableList.of(b.getCommit()));
+    PushOneCommit.Result b =
+        createChange(project1, "B", "new.txt", "No conflict line", ImmutableList.of(a.getCommit()));
+    PushOneCommit.Result c =
+        createChange(
+            project1, "C", "new.txt", "No conflict line #2", ImmutableList.of(b.getCommit()));
 
     approve(a.getChangeId());
     approve(b.getChangeId());
     approve(c.getChangeId());
     submit(c.getChangeId());
 
-    PushOneCommit.Result e = createChange(project1, "E", "new.txt",
-        "Conflicting line", ImmutableList.of(a.getCommit()));
-    PushOneCommit.Result f = createChange(project1, "F", "new.txt",
-        "Resolved conflict", ImmutableList.of(b.getCommit(), e.getCommit()));
-    PushOneCommit.Result g = createChange(project1, "G", "new.txt",
-        "Conflicting line #2", ImmutableList.of(f.getCommit()),
-        "refs/for/master/" + name("topic1"));
+    PushOneCommit.Result e =
+        createChange(project1, "E", "new.txt", "Conflicting line", ImmutableList.of(a.getCommit()));
+    PushOneCommit.Result f =
+        createChange(
+            project1,
+            "F",
+            "new.txt",
+            "Resolved conflict",
+            ImmutableList.of(b.getCommit(), e.getCommit()));
+    PushOneCommit.Result g =
+        createChange(
+            project1,
+            "G",
+            "new.txt",
+            "Conflicting line #2",
+            ImmutableList.of(f.getCommit()),
+            "refs/for/master/" + name("topic1"));
 
     PushOneCommit.Result h = createChange(project2, "H");
-    PushOneCommit.Result i = createChange(project2, "I", "new.txt",
-        "No conflict line", ImmutableList.of(h.getCommit()));
-    PushOneCommit.Result j = createChange(project2, "J", "new.txt",
-        "Conflicting line", ImmutableList.of(h.getCommit()));
+    PushOneCommit.Result i =
+        createChange(project2, "I", "new.txt", "No conflict line", ImmutableList.of(h.getCommit()));
+    PushOneCommit.Result j =
+        createChange(project2, "J", "new.txt", "Conflicting line", ImmutableList.of(h.getCommit()));
     PushOneCommit.Result k =
-        createChange(project2, "K", "new.txt", "Sadly conflicting topic-wise",
+        createChange(
+            project2,
+            "K",
+            "new.txt",
+            "Sadly conflicting topic-wise",
             ImmutableList.of(i.getCommit(), j.getCommit()),
             "refs/for/master/" + name("topic1"));
 
@@ -235,7 +246,11 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     assertChangeSetMergeable(k.getChange(), false);
 
     PushOneCommit.Result l =
-        createChange(project1, "L", "new.txt", "Resolving conflicts again",
+        createChange(
+            project1,
+            "L",
+            "new.txt",
+            "Resolving conflicts again",
             ImmutableList.of(c.getCommit(), g.getCommit()),
             "refs/for/master/" + name("topic1"));
 
@@ -262,18 +277,19 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     */
 
     PushOneCommit.Result a = createChange("A");
-    PushOneCommit.Result b = createChange("B", "new.txt", "No conflict line",
-        ImmutableList.of(a.getCommit()));
+    PushOneCommit.Result b =
+        createChange("B", "new.txt", "No conflict line", ImmutableList.of(a.getCommit()));
 
     approve(a.getChangeId());
     approve(b.getChangeId());
     submit(b.getChangeId());
 
-    PushOneCommit.Result c = createChange("C", "new.txt", "Create conflicts",
-        ImmutableList.of(a.getCommit()));
+    PushOneCommit.Result c =
+        createChange("C", "new.txt", "Create conflicts", ImmutableList.of(a.getCommit()));
     PushOneCommit.Result e = createChange("E", ImmutableList.of(c.getCommit()));
-    PushOneCommit.Result d = createChange("D", "new.txt", "Resolves conflicts",
-        ImmutableList.of(c.getCommit(), e.getCommit()));
+    PushOneCommit.Result d =
+        createChange(
+            "D", "new.txt", "Resolves conflicts", ImmutableList.of(c.getCommit(), e.getCommit()));
 
     approve(c.getChangeId());
     approve(e.getChangeId());
@@ -283,17 +299,12 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   private void submit(String changeId) throws Exception {
-    gApi.changes()
-        .id(changeId)
-        .current()
-        .submit();
+    gApi.changes().id(changeId).current().submit();
   }
 
   private void assertChangeSetMergeable(ChangeData change, boolean expected)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
-      OrmException {
-    ChangeSet cs =
-        mergeSuperSet.completeChangeSet(db, change.change(), user(admin));
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, OrmException {
+    ChangeSet cs = mergeSuperSet.completeChangeSet(db, change.change(), user(admin));
     assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);
   }
 
@@ -308,18 +319,18 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   private void assertMerged(String changeId) throws Exception {
-    assertThat(gApi
-        .changes()
-        .id(changeId)
-        .get()
-        .status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(gApi.changes().id(changeId).get().status).isEqualTo(ChangeStatus.MERGED);
   }
 
-  private PushOneCommit.Result createChange(TestRepository<?> repo,
-      String subject, String fileName, String content, List<RevCommit> parents,
-      String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo,
-        subject, fileName, content);
+  private PushOneCommit.Result createChange(
+      TestRepository<?> repo,
+      String subject,
+      String fileName,
+      String content,
+      List<RevCommit> parents,
+      String ref)
+      throws Exception {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo, subject, fileName, content);
 
     if (!parents.isEmpty()) {
       push.setParents(parents);
@@ -335,33 +346,34 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     return result;
   }
 
-  private PushOneCommit.Result createChange(TestRepository<?> repo,
-      String subject) throws Exception {
-    return createChange(repo, subject, "x", "x", new ArrayList<RevCommit>(),
-        "refs/for/master");
+  private PushOneCommit.Result createChange(TestRepository<?> repo, String subject)
+      throws Exception {
+    return createChange(repo, subject, "x", "x", new ArrayList<RevCommit>(), "refs/for/master");
   }
 
-  private PushOneCommit.Result createChange(TestRepository<?> repo,
-      String subject, String fileName, String content, List<RevCommit> parents)
-          throws Exception {
-    return createChange(repo, subject, fileName, content, parents,
-        "refs/for/master");
+  private PushOneCommit.Result createChange(
+      TestRepository<?> repo,
+      String subject,
+      String fileName,
+      String content,
+      List<RevCommit> parents)
+      throws Exception {
+    return createChange(repo, subject, fileName, content, parents, "refs/for/master");
   }
 
   @Override
   protected PushOneCommit.Result createChange(String subject) throws Exception {
-    return createChange(testRepo, subject, "", "",
-        Collections.<RevCommit> emptyList(), "refs/for/master");
+    return createChange(
+        testRepo, subject, "", "", Collections.<RevCommit>emptyList(), "refs/for/master");
   }
 
-  private PushOneCommit.Result createChange(String subject,
-      List<RevCommit> parents) throws Exception {
+  private PushOneCommit.Result createChange(String subject, List<RevCommit> parents)
+      throws Exception {
     return createChange(testRepo, subject, "", "", parents, "refs/for/master");
   }
 
-  private PushOneCommit.Result createChange(String subject, String fileName,
-      String content, List<RevCommit> parents) throws Exception {
-    return createChange(testRepo, subject, fileName, content, parents,
-        "refs/for/master");
+  private PushOneCommit.Result createChange(
+      String subject, String fileName, String content, List<RevCommit> parents) throws Exception {
+    return createChange(testRepo, subject, fileName, content, parents, "refs/for/master");
   }
 }

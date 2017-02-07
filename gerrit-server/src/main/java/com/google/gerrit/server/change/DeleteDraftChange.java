@@ -30,14 +30,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class DeleteDraftChange implements
-    RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
-  public static class Input {
-  }
+public class DeleteDraftChange
+    implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
+  public static class Input {}
 
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory updateFactory;
@@ -45,7 +43,8 @@ public class DeleteDraftChange implements
   private final boolean allowDrafts;
 
   @Inject
-  public DeleteDraftChange(Provider<ReviewDb> db,
+  public DeleteDraftChange(
+      Provider<ReviewDb> db,
       BatchUpdate.Factory updateFactory,
       Provider<DeleteDraftChangeOp> opProvider,
       @GerritServerConfig Config cfg) {
@@ -58,8 +57,8 @@ public class DeleteDraftChange implements
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    try (BatchUpdate bu = updateFactory.create(
-        db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+    try (BatchUpdate bu =
+        updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
       bu.setOrder(BatchUpdate.Order.DB_BEFORE_REPO);
       bu.addOp(id, opProvider.get());
@@ -72,11 +71,12 @@ public class DeleteDraftChange implements
   public UiAction.Description getDescription(ChangeResource rsrc) {
     try {
       return new UiAction.Description()
-        .setLabel("Delete")
-        .setTitle("Delete draft change " + rsrc.getId())
-        .setVisible(allowDrafts
-            && rsrc.getChange().getStatus() == Status.DRAFT
-            && rsrc.getControl().canDeleteDraft(db.get()));
+          .setLabel("Delete")
+          .setTitle("Delete draft change " + rsrc.getId())
+          .setVisible(
+              allowDrafts
+                  && rsrc.getChange().getStatus() == Status.DRAFT
+                  && rsrc.getControl().canDeleteDraft(db.get()));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }

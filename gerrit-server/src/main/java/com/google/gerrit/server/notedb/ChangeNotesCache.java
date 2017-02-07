@@ -28,28 +28,22 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ObjectId;
-
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class ChangeNotesCache {
-  @VisibleForTesting
-  static final String CACHE_NAME = "change_notes";
+  @VisibleForTesting static final String CACHE_NAME = "change_notes";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
         bind(ChangeNotesCache.class);
-        cache(CACHE_NAME,
-            Key.class,
-            ChangeNotesState.class)
-          .maximumWeight(1000);
+        cache(CACHE_NAME, Key.class, ChangeNotesState.class).maximumWeight(1000);
       }
     };
   }
@@ -57,7 +51,9 @@ public class ChangeNotesCache {
   @AutoValue
   public abstract static class Key {
     abstract Project.NameKey project();
+
     abstract Change.Id changeId();
+
     abstract ObjectId id();
   }
 
@@ -67,13 +63,13 @@ public class ChangeNotesCache {
 
     /**
      * The {@link RevisionNoteMap} produced while parsing this change.
-     * <p>
-     * These instances are mutable and non-threadsafe, so it is only safe to
-     * return it to the caller that actually incurred the cache miss. It is only
-     * used as an optimization; {@link ChangeNotes} is capable of lazily loading
-     * it as necessary.
+     *
+     * <p>These instances are mutable and non-threadsafe, so it is only safe to return it to the
+     * caller that actually incurred the cache miss. It is only used as an optimization; {@link
+     * ChangeNotes} is capable of lazily loading it as necessary.
      */
-    @Nullable abstract RevisionNoteMap revisionNoteMap();
+    @Nullable
+    abstract RevisionNoteMap revisionNoteMap();
   }
 
   private class Loader implements Callable<ChangeNotesState> {
@@ -89,8 +85,8 @@ public class ChangeNotesCache {
 
     @Override
     public ChangeNotesState call() throws ConfigInvalidException, IOException {
-      ChangeNotesParser parser = new ChangeNotesParser(
-          key.changeId(), key.id(), rw, args.noteUtil, args.metrics);
+      ChangeNotesParser parser =
+          new ChangeNotesParser(key.changeId(), key.id(), rw, args.noteUtil, args.metrics);
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.
@@ -103,23 +99,21 @@ public class ChangeNotesCache {
   private final Args args;
 
   @Inject
-  ChangeNotesCache(
-      @Named(CACHE_NAME) Cache<Key, ChangeNotesState> cache,
-      Args args) {
+  ChangeNotesCache(@Named(CACHE_NAME) Cache<Key, ChangeNotesState> cache, Args args) {
     this.cache = cache;
     this.args = args;
   }
 
-  Value get(Project.NameKey project, Change.Id changeId,
-      ObjectId metaId, ChangeNotesRevWalk rw) throws IOException {
+  Value get(Project.NameKey project, Change.Id changeId, ObjectId metaId, ChangeNotesRevWalk rw)
+      throws IOException {
     try {
-      Key key =
-          new AutoValue_ChangeNotesCache_Key(project, changeId, metaId.copy());
+      Key key = new AutoValue_ChangeNotesCache_Key(project, changeId, metaId.copy());
       Loader loader = new Loader(key, rw);
       ChangeNotesState s = cache.get(key, loader);
       return new AutoValue_ChangeNotesCache_Value(s, loader.revisionNoteMap);
     } catch (ExecutionException e) {
-      throw new IOException(String.format(
+      throw new IOException(
+          String.format(
               "Error loading %s in %s at %s",
               RefNames.changeMetaRef(changeId), project, metaId.name()),
           e);

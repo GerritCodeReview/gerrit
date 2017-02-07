@@ -21,7 +21,6 @@ import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -40,16 +39,22 @@ public class SuggestReviewers {
   protected String query;
   protected final int maxSuggestedReviewers;
 
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
-      usage = "maximum number of reviewers to list")
+  @Option(
+    name = "--limit",
+    aliases = {"-n"},
+    metaVar = "CNT",
+    usage = "maximum number of reviewers to list"
+  )
   public void setLimit(int l) {
-    this.limit =
-        l <= 0 ? maxSuggestedReviewers : Math.min(l,
-            maxSuggestedReviewers);
+    this.limit = l <= 0 ? maxSuggestedReviewers : Math.min(l, maxSuggestedReviewers);
   }
 
-  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY",
-      usage = "match reviewers query")
+  @Option(
+    name = "--query",
+    aliases = {"-q"},
+    metaVar = "QUERY",
+    usage = "match reviewers query"
+  )
   public void setQuery(String q) {
     this.query = q;
   }
@@ -79,7 +84,8 @@ public class SuggestReviewers {
   }
 
   @Inject
-  public SuggestReviewers(AccountVisibility av,
+  public SuggestReviewers(
+      AccountVisibility av,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       Provider<ReviewDb> dbProvider,
       @GerritServerConfig Config cfg,
@@ -91,18 +97,18 @@ public class SuggestReviewers {
         cfg.getInt("suggest", "maxSuggestedReviewers", DEFAULT_MAX_SUGGESTED);
     this.limit = this.maxSuggestedReviewers;
     String suggest = cfg.getString("suggest", null, "accounts");
-    if ("OFF".equalsIgnoreCase(suggest)
-        || "false".equalsIgnoreCase(suggest)) {
+    if ("OFF".equalsIgnoreCase(suggest) || "false".equalsIgnoreCase(suggest)) {
       this.suggestAccounts = false;
     } else {
       this.suggestAccounts = (av != AccountVisibility.NONE);
     }
 
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
-    this.maxAllowed = cfg.getInt("addreviewer", "maxAllowed",
-        PostReviewers.DEFAULT_MAX_REVIEWERS);
-    this.maxAllowedWithoutConfirmation = cfg.getInt(
-        "addreviewer", "maxWithoutConfirmation",
-        PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+    this.maxAllowed = cfg.getInt("addreviewer", "maxAllowed", PostReviewers.DEFAULT_MAX_REVIEWERS);
+    this.maxAllowedWithoutConfirmation =
+        cfg.getInt(
+            "addreviewer",
+            "maxWithoutConfirmation",
+            PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
   }
 }

@@ -27,7 +27,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,7 +40,8 @@ public class AccountControl {
     private final AccountVisibility accountVisibility;
 
     @Inject
-    Factory(final ProjectCache projectCache,
+    Factory(
+        final ProjectCache projectCache,
         final GroupControl.Factory groupControlFactory,
         final Provider<CurrentUser> user,
         final IdentifiedUser.GenericFactory userFactory,
@@ -54,8 +54,8 @@ public class AccountControl {
     }
 
     public AccountControl get() {
-      return new AccountControl(projectCache, groupControlFactory, user.get(),
-          userFactory, accountVisibility);
+      return new AccountControl(
+          projectCache, groupControlFactory, user.get(), userFactory, accountVisibility);
     }
   }
 
@@ -65,13 +65,13 @@ public class AccountControl {
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountVisibility accountVisibility;
 
-  AccountControl(final ProjectCache projectCache,
-        final GroupControl.Factory groupControlFactory,
-        final CurrentUser user,
-        final IdentifiedUser.GenericFactory userFactory,
-        final AccountVisibility accountVisibility) {
-    this.accountsSection =
-        projectCache.getAllProjects().getConfig().getAccountsSection();
+  AccountControl(
+      final ProjectCache projectCache,
+      final GroupControl.Factory groupControlFactory,
+      final CurrentUser user,
+      final IdentifiedUser.GenericFactory userFactory,
+      final AccountVisibility accountVisibility) {
+    this.accountsSection = projectCache.getAllProjects().getConfig().getAccountsSection();
     this.groupControlFactory = groupControlFactory;
     this.user = user;
     this.userFactory = userFactory;
@@ -83,65 +83,63 @@ public class AccountControl {
   }
 
   /**
-   * Returns true if the current user is allowed to see the otherUser, based
-   * on the account visibility policy. Depending on the group membership
-   * realms supported, this may not be able to determine SAME_GROUP or
-   * VISIBLE_GROUP correctly (defaulting to not being visible). This is because
-   * {@link GroupMembership#getKnownGroups()} may only return a subset of the
-   * effective groups.
+   * Returns true if the current user is allowed to see the otherUser, based on the account
+   * visibility policy. Depending on the group membership realms supported, this may not be able to
+   * determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
+   * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
+   * groups.
    */
   public boolean canSee(Account otherUser) {
     return canSee(otherUser.getId());
   }
 
   /**
-   * Returns true if the current user is allowed to see the otherUser, based
-   * on the account visibility policy. Depending on the group membership
-   * realms supported, this may not be able to determine SAME_GROUP or
-   * VISIBLE_GROUP correctly (defaulting to not being visible). This is because
-   * {@link GroupMembership#getKnownGroups()} may only return a subset of the
-   * effective groups.
+   * Returns true if the current user is allowed to see the otherUser, based on the account
+   * visibility policy. Depending on the group membership realms supported, this may not be able to
+   * determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
+   * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
+   * groups.
    */
   public boolean canSee(final Account.Id otherUser) {
-    return canSee(new OtherUser() {
-      @Override
-      Account.Id getId() {
-        return otherUser;
-      }
+    return canSee(
+        new OtherUser() {
+          @Override
+          Account.Id getId() {
+            return otherUser;
+          }
 
-      @Override
-      IdentifiedUser createUser() {
-        return userFactory.create(otherUser);
-      }
-    });
+          @Override
+          IdentifiedUser createUser() {
+            return userFactory.create(otherUser);
+          }
+        });
   }
 
   /**
-   * Returns true if the current user is allowed to see the otherUser, based
-   * on the account visibility policy. Depending on the group membership
-   * realms supported, this may not be able to determine SAME_GROUP or
-   * VISIBLE_GROUP correctly (defaulting to not being visible). This is because
-   * {@link GroupMembership#getKnownGroups()} may only return a subset of the
-   * effective groups.
+   * Returns true if the current user is allowed to see the otherUser, based on the account
+   * visibility policy. Depending on the group membership realms supported, this may not be able to
+   * determine SAME_GROUP or VISIBLE_GROUP correctly (defaulting to not being visible). This is
+   * because {@link GroupMembership#getKnownGroups()} may only return a subset of the effective
+   * groups.
    */
   public boolean canSee(final AccountState otherUser) {
-    return canSee(new OtherUser() {
-      @Override
-      Account.Id getId() {
-        return otherUser.getAccount().getId();
-      }
+    return canSee(
+        new OtherUser() {
+          @Override
+          Account.Id getId() {
+            return otherUser.getAccount().getId();
+          }
 
-      @Override
-      IdentifiedUser createUser() {
-        return userFactory.create(otherUser);
-      }
-    });
+          @Override
+          IdentifiedUser createUser() {
+            return userFactory.create(otherUser);
+          }
+        });
   }
 
   private boolean canSee(OtherUser otherUser) {
     // Special case: I can always see myself.
-    if (user.isIdentifiedUser()
-        && user.getAccountId().equals(otherUser.getId())) {
+    if (user.isIdentifiedUser() && user.getAccountId().equals(otherUser.getId())) {
       return true;
     }
     if (user.getCapabilities().canViewAllAccounts()) {
@@ -151,32 +149,34 @@ public class AccountControl {
     switch (accountVisibility) {
       case ALL:
         return true;
-      case SAME_GROUP: {
-        Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser.getUser());
-        for (PermissionRule rule : accountsSection.getSameGroupVisibility()) {
-          if (rule.isBlock() || rule.isDeny()) {
-            usersGroups.remove(rule.getGroup().getUUID());
-          }
-        }
-
-        if (user.getEffectiveGroups().containsAnyOf(usersGroups)) {
-          return true;
-        }
-        break;
-      }
-      case VISIBLE_GROUP: {
-        Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser.getUser());
-        for (AccountGroup.UUID usersGroup : usersGroups) {
-          try {
-            if (groupControlFactory.controlFor(usersGroup).isVisible()) {
-              return true;
+      case SAME_GROUP:
+        {
+          Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser.getUser());
+          for (PermissionRule rule : accountsSection.getSameGroupVisibility()) {
+            if (rule.isBlock() || rule.isDeny()) {
+              usersGroups.remove(rule.getGroup().getUUID());
             }
-          } catch (NoSuchGroupException e) {
-            continue;
           }
+
+          if (user.getEffectiveGroups().containsAnyOf(usersGroups)) {
+            return true;
+          }
+          break;
         }
-        break;
-      }
+      case VISIBLE_GROUP:
+        {
+          Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser.getUser());
+          for (AccountGroup.UUID usersGroup : usersGroups) {
+            try {
+              if (groupControlFactory.controlFor(usersGroup).isVisible()) {
+                return true;
+              }
+            } catch (NoSuchGroupException e) {
+              continue;
+            }
+          }
+          break;
+        }
       case NONE:
         break;
       default:
@@ -186,14 +186,15 @@ public class AccountControl {
   }
 
   private Set<AccountGroup.UUID> groupsOf(IdentifiedUser user) {
-    return new HashSet<>(Sets.filter(
-      user.getEffectiveGroups().getKnownGroups(),
-      new Predicate<AccountGroup.UUID>() {
-        @Override
-        public boolean apply(AccountGroup.UUID in) {
-          return !SystemGroupBackend.isSystemGroup(in);
-        }
-      }));
+    return new HashSet<>(
+        Sets.filter(
+            user.getEffectiveGroups().getKnownGroups(),
+            new Predicate<AccountGroup.UUID>() {
+              @Override
+              public boolean apply(AccountGroup.UUID in) {
+                return !SystemGroupBackend.isSystemGroup(in);
+              }
+            }));
   }
 
   private abstract static class OtherUser {
@@ -207,6 +208,7 @@ public class AccountControl {
     }
 
     abstract IdentifiedUser createUser();
+
     abstract Account.Id getId();
   }
 }

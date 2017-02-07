@@ -29,15 +29,13 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
-
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Set;
 
 public class FromAddressGeneratorProviderTest {
   private Config config;
@@ -52,8 +50,7 @@ public class FromAddressGeneratorProviderTest {
   }
 
   private FromAddressGenerator create() {
-    return new FromAddressGeneratorProvider(config, "Anonymous Coward", ident,
-        accountCache).get();
+    return new FromAddressGeneratorProvider(config, "Anonymous Coward", ident, accountCache).get();
   }
 
   private void setFrom(final String newFrom) {
@@ -301,8 +298,10 @@ public class FromAddressGeneratorProviderTest {
     final Account account = new Account(userId, TimeUtil.nowTs());
     account.setFullName(name);
     account.setPreferredEmail(email);
-    return new AccountState(account, Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountExternalId> emptySet(),
+    return new AccountState(
+        account,
+        Collections.<AccountGroup.UUID>emptySet(),
+        Collections.<AccountExternalId>emptySet(),
         new HashMap<ProjectWatchKey, Set<NotifyType>>());
   }
 }

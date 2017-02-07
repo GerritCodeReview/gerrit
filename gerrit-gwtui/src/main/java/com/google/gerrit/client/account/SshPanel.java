@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -66,12 +65,13 @@ class SshPanel extends Composite {
     final FlowPanel body = new FlowPanel();
 
     showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
-    showAddKeyBlock.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        showAddKeyBlock(true);
-      }
-    });
+    showAddKeyBlock.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            showAddKeyBlock(true);
+          }
+        });
 
     keys = new SshKeyTable();
     body.add(keys);
@@ -79,12 +79,13 @@ class SshPanel extends Composite {
       final FlowPanel fp = new FlowPanel();
       deleteKey = new Button(Util.C.buttonDeleteSshKey());
       deleteKey.setEnabled(false);
-      deleteKey.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          keys.deleteChecked();
-        }
-      });
+      deleteKey.addClickHandler(
+          new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+              keys.deleteChecked();
+            }
+          });
       fp.add(deleteKey);
       fp.add(showAddKeyBlock);
       body.add(fp);
@@ -110,35 +111,37 @@ class SshPanel extends Composite {
     addKeyBlock.add(buttons);
 
     clearNew = new Button(Util.C.buttonClearSshKeyInput());
-    clearNew.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        addTxt.setText("");
-        addTxt.setFocus(true);
-      }
-    });
+    clearNew.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            addTxt.setText("");
+            addTxt.setFocus(true);
+          }
+        });
     buttons.add(clearNew);
 
     addNew = new Button(Util.C.buttonAddSshKey());
-    addNew.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doAddNew();
-      }
-    });
+    addNew.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            doAddNew();
+          }
+        });
     buttons.add(addNew);
 
     closeAddKeyBlock = new Button(Util.C.buttonCloseAddSshKey());
-    closeAddKeyBlock.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        showAddKeyBlock(false);
-      }
-    });
+    closeAddKeyBlock.addClickHandler(
+        new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            showAddKeyBlock(false);
+          }
+        });
     buttons.add(closeAddKeyBlock);
     buttons.setCellWidth(closeAddKeyBlock, "100%");
-    buttons.setCellHorizontalAlignment(closeAddKeyBlock,
-        HasHorizontalAlignment.ALIGN_RIGHT);
+    buttons.setCellHorizontalAlignment(closeAddKeyBlock, HasHorizontalAlignment.ALIGN_RIGHT);
 
     body.add(addKeyBlock);
 
@@ -158,39 +161,42 @@ class SshPanel extends Composite {
     final String txt = addTxt.getText();
     if (txt != null && txt.length() > 0) {
       addNew.setEnabled(false);
-      AccountApi.addSshKey("self", txt, new GerritCallback<SshKeyInfo>() {
-        @Override
-        public void onSuccess(final SshKeyInfo k) {
-          addNew.setEnabled(true);
-          addTxt.setText("");
-          keys.addOneKey(k);
-          if (!keys.isVisible()) {
-            showAddKeyBlock(false);
-            setKeyTableVisible(true);
-            keys.updateDeleteButton();
-          }
-        }
+      AccountApi.addSshKey(
+          "self",
+          txt,
+          new GerritCallback<SshKeyInfo>() {
+            @Override
+            public void onSuccess(final SshKeyInfo k) {
+              addNew.setEnabled(true);
+              addTxt.setText("");
+              keys.addOneKey(k);
+              if (!keys.isVisible()) {
+                showAddKeyBlock(false);
+                setKeyTableVisible(true);
+                keys.updateDeleteButton();
+              }
+            }
 
-        @Override
-        public void onFailure(final Throwable caught) {
-          addNew.setEnabled(true);
+            @Override
+            public void onFailure(final Throwable caught) {
+              addNew.setEnabled(true);
 
-          if (isInvalidSshKey(caught)) {
-            new ErrorDialog(Util.C.invalidSshKeyError()).center();
+              if (isInvalidSshKey(caught)) {
+                new ErrorDialog(Util.C.invalidSshKeyError()).center();
 
-          } else {
-            super.onFailure(caught);
-          }
-        }
+              } else {
+                super.onFailure(caught);
+              }
+            }
 
-        private boolean isInvalidSshKey(final Throwable caught) {
-          if (caught instanceof InvalidSshKeyException) {
-            return true;
-          }
-          return caught instanceof RemoteJsonException
-              && InvalidSshKeyException.MESSAGE.equals(caught.getMessage());
-        }
-      });
+            private boolean isInvalidSshKey(final Throwable caught) {
+              if (caught instanceof InvalidSshKeyException) {
+                return true;
+              }
+              return caught instanceof RemoteJsonException
+                  && InvalidSshKeyException.MESSAGE.equals(caught.getMessage());
+            }
+          });
     }
   }
 
@@ -198,37 +204,39 @@ class SshPanel extends Composite {
   protected void onLoad() {
     super.onLoad();
     refreshSshKeys();
-    Gerrit.SYSTEM_SVC.daemonHostKeys(new GerritCallback<List<SshHostKey>>() {
-      @Override
-      public void onSuccess(final List<SshHostKey> result) {
-        serverKeys.clear();
-        for (final SshHostKey keyInfo : result) {
-          serverKeys.add(new SshHostKeyPanel(keyInfo));
-        }
-        if (++loadCount == 2) {
-          display();
-        }
-      }
-    });
+    Gerrit.SYSTEM_SVC.daemonHostKeys(
+        new GerritCallback<List<SshHostKey>>() {
+          @Override
+          public void onSuccess(final List<SshHostKey> result) {
+            serverKeys.clear();
+            for (final SshHostKey keyInfo : result) {
+              serverKeys.add(new SshHostKeyPanel(keyInfo));
+            }
+            if (++loadCount == 2) {
+              display();
+            }
+          }
+        });
   }
 
   private void refreshSshKeys() {
-    AccountApi.getSshKeys("self", new GerritCallback<JsArray<SshKeyInfo>>() {
-      @Override
-      public void onSuccess(JsArray<SshKeyInfo> result) {
-        keys.display(Natives.asList(result));
-        if (result.length() == 0 && keys.isVisible()) {
-          showAddKeyBlock(true);
-        }
-        if (++loadCount == 2) {
-          display();
-        }
-      }
-    });
+    AccountApi.getSshKeys(
+        "self",
+        new GerritCallback<JsArray<SshKeyInfo>>() {
+          @Override
+          public void onSuccess(JsArray<SshKeyInfo> result) {
+            keys.display(Natives.asList(result));
+            if (result.length() == 0 && keys.isVisible()) {
+              showAddKeyBlock(true);
+            }
+            if (++loadCount == 2) {
+              display();
+            }
+          }
+        });
   }
 
-  void display() {
-  }
+  void display() {}
 
   private void showAddKeyBlock(final boolean show) {
     showAddKeyBlock.setVisible(!show);
@@ -252,12 +260,13 @@ class SshPanel extends Composite {
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
 
-      updateDeleteHandler = new ValueChangeHandler<Boolean>() {
-        @Override
-        public void onValueChange(ValueChangeEvent<Boolean> event) {
-          updateDeleteButton();
-        }
-      };
+      updateDeleteHandler =
+          new ValueChangeHandler<Boolean>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<Boolean> event) {
+              updateDeleteButton();
+            }
+          };
     }
 
     void deleteChecked() {
@@ -272,11 +281,13 @@ class SshPanel extends Composite {
         updateDeleteButton();
       } else {
         deleteKey.setEnabled(false);
-        AccountApi.deleteSshKeys("self", sequenceNumbers,
+        AccountApi.deleteSshKeys(
+            "self",
+            sequenceNumbers,
             new GerritCallback<VoidResult>() {
               @Override
               public void onSuccess(VoidResult result) {
-                for (int row = 1; row < table.getRowCount();) {
+                for (int row = 1; row < table.getRowCount(); ) {
                   final SshKeyInfo k = getRowItem(row);
                   if (k != null && sequenceNumbers.contains(k.seq())) {
                     table.removeRow(row);
@@ -285,7 +296,7 @@ class SshPanel extends Composite {
                   }
                 }
                 if (table.getRowCount() == 1) {
-                  display(Collections.<SshKeyInfo> emptyList());
+                  display(Collections.<SshKeyInfo>emptyList());
                 } else {
                   updateDeleteButton();
                 }
@@ -329,7 +340,9 @@ class SshPanel extends Composite {
       table.setWidget(row, 1, sel);
       if (k.isValid()) {
         table.setText(row, 2, "");
-        fmt.removeStyleName(row, 2, //
+        fmt.removeStyleName(
+            row,
+            2, //
             Gerrit.RESOURCES.css().sshKeyPanelInvalid());
       } else {
         table.setText(row, 2, Util.C.sshKeyInvalid());

@@ -18,10 +18,8 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.util.Types;
-
-import org.kohsuke.args4j.spi.OptionHandler;
-
 import java.lang.reflect.Type;
+import org.kohsuke.args4j.spi.OptionHandler;
 
 /** Utilities to support creating OptionHandler instances. */
 public class OptionHandlerUtil {
@@ -39,11 +37,8 @@ public class OptionHandlerUtil {
   }
 
   public static <T> Module moduleFor(final Class<T> type, Class<? extends OptionHandler<T>> impl) {
-    return new FactoryModuleBuilder()
-        .implement(handlerOf(type), impl)
-        .build(keyFor(type));
+    return new FactoryModuleBuilder().implement(handlerOf(type), impl).build(keyFor(type));
   }
 
-  private OptionHandlerUtil() {
-  }
+  private OptionHandlerUtil() {}
 }

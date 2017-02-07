@@ -17,7 +17,8 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-
+import java.io.IOException;
+import java.util.Collections;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
@@ -31,14 +32,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collections;
-
 public class RefUtil {
   private static final Logger log = LoggerFactory.getLogger(RefUtil.class);
 
-  public static ObjectId parseBaseRevision(Repository repo,
-      Project.NameKey projectName, String baseRevision)
+  public static ObjectId parseBaseRevision(
+      Repository repo, Project.NameKey projectName, String baseRevision)
       throws InvalidRevisionException {
     try {
       ObjectId revid = repo.resolve(baseRevision);
@@ -47,8 +45,8 @@ public class RefUtil {
       }
       return revid;
     } catch (IOException err) {
-      log.error("Cannot resolve \"" + baseRevision + "\" in project \""
-          + projectName.get() + "\"", err);
+      log.error(
+          "Cannot resolve \"" + baseRevision + "\" in project \"" + projectName.get() + "\"", err);
       throw new InvalidRevisionException();
     } catch (RevisionSyntaxException err) {
       log.error("Invalid revision syntax \"" + baseRevision + "\"", err);
@@ -66,9 +64,9 @@ public class RefUtil {
         throw new InvalidRevisionException();
       }
       RefDatabase refDb = repo.getRefDatabase();
-      Iterable<Ref> refs = Iterables.concat(
-          refDb.getRefs(Constants.R_HEADS).values(),
-          refDb.getRefs(Constants.R_TAGS).values());
+      Iterable<Ref> refs =
+          Iterables.concat(
+              refDb.getRefs(Constants.R_HEADS).values(), refDb.getRefs(Constants.R_TAGS).values());
       Ref rc = refDb.exactRef(RefNames.REFS_CONFIG);
       if (rc != null) {
         refs = Iterables.concat(refs, Collections.singleton(rc));
@@ -85,8 +83,9 @@ public class RefUtil {
     } catch (IncorrectObjectTypeException | MissingObjectException err) {
       throw new InvalidRevisionException();
     } catch (IOException err) {
-      log.error("Repository \"" + repo.getDirectory()
-          + "\" may be corrupt; suggest running git fsck", err);
+      log.error(
+          "Repository \"" + repo.getDirectory() + "\" may be corrupt; suggest running git fsck",
+          err);
       throw new InvalidRevisionException();
     }
   }

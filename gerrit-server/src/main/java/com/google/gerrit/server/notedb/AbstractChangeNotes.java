@@ -31,15 +31,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-import java.io.IOException;
-
-/** View of contents at a single ref related to some change. **/
+/** View of contents at a single ref related to some change. * */
 public abstract class AbstractChangeNotes<T> {
   @VisibleForTesting
   @Singleton
@@ -88,16 +86,18 @@ public abstract class AbstractChangeNotes<T> {
       } else if (id != null) {
         id = id.copy();
       }
-      return new AutoValue_AbstractChangeNotes_LoadHandle(
-          checkNotNull(walk), id);
+      return new AutoValue_AbstractChangeNotes_LoadHandle(checkNotNull(walk), id);
     }
 
     public static LoadHandle missing() {
       return new AutoValue_AbstractChangeNotes_LoadHandle(null, null);
     }
 
-    @Nullable public abstract ChangeNotesRevWalk walk();
-    @Nullable public abstract ObjectId id();
+    @Nullable
+    public abstract ChangeNotesRevWalk walk();
+
+    @Nullable
+    public abstract ObjectId id();
 
     @Override
     public void close() {
@@ -196,8 +196,8 @@ public abstract class AbstractChangeNotes<T> {
   protected abstract void loadDefaults();
 
   /**
-   * @return the NameKey for the project where the notes should be stored,
-   *    which is not necessarily the same as the change's project.
+   * @return the NameKey for the project where the notes should be stored, which is not necessarily
+   *     the same as the change's project.
    */
   public abstract Project.NameKey getProjectName();
 
@@ -205,8 +205,7 @@ public abstract class AbstractChangeNotes<T> {
   protected abstract String getRefName();
 
   /** Set up the metadata, parsing any state from the loaded revision. */
-  protected abstract void onLoad(LoadHandle handle)
-      throws IOException, ConfigInvalidException;
+  protected abstract void onLoad(LoadHandle handle) throws IOException, ConfigInvalidException;
 
   @SuppressWarnings("unchecked")
   protected final T self() {

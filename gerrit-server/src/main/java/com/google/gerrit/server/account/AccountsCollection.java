@@ -34,9 +34,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class AccountsCollection implements
-    RestCollection<TopLevelResource, AccountResource>,
-    AcceptsCreate<TopLevelResource> {
+public class AccountsCollection
+    implements RestCollection<TopLevelResource, AccountResource>, AcceptsCreate<TopLevelResource> {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final AccountResolver resolver;
@@ -47,7 +46,8 @@ public class AccountsCollection implements
   private final CreateAccount.Factory createAccountFactory;
 
   @Inject
-  AccountsCollection(Provider<ReviewDb> db,
+  AccountsCollection(
+      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       AccountResolver resolver,
       AccountControl.Factory accountControlFactory,
@@ -80,38 +80,34 @@ public class AccountsCollection implements
   /**
    * Parses a account ID from a request body and returns the user.
    *
-   * @param id ID of the account, can be a string of the format
-   *        "{@code Full Name <email@example.com>}", just the email address,
-   *        a full name if it is unique, an account ID, a user name or
-   *        "{@code self}" for the calling user
+   * @param id ID of the account, can be a string of the format "{@code Full Name
+   *     <email@example.com>}", just the email address, a full name if it is unique, an account ID,
+   *     a user name or "{@code self}" for the calling user
    * @return the user, never null.
-   * @throws UnprocessableEntityException thrown if the account ID cannot be
-   *         resolved or if the account is not visible to the calling user
+   * @throws UnprocessableEntityException thrown if the account ID cannot be resolved or if the
+   *     account is not visible to the calling user
    */
-  public IdentifiedUser parse(String id) throws AuthException,
-      UnprocessableEntityException, OrmException {
+  public IdentifiedUser parse(String id)
+      throws AuthException, UnprocessableEntityException, OrmException {
     IdentifiedUser user = parseId(id);
     if (user == null) {
-      throw new UnprocessableEntityException(String.format(
-          "Account Not Found: %s", id));
+      throw new UnprocessableEntityException(String.format("Account Not Found: %s", id));
     } else if (!accountControlFactory.get().canSee(user.getAccount())) {
-      throw new UnprocessableEntityException(String.format(
-          "Account Not Found: %s", id));
+      throw new UnprocessableEntityException(String.format("Account Not Found: %s", id));
     }
     return user;
   }
 
   /**
-   * Parses an account ID and returns the user without making any permission
-   * check whether the current user can see the account.
+   * Parses an account ID and returns the user without making any permission check whether the
+   * current user can see the account.
    *
-   * @param id ID of the account, can be a string of the format
-   *        "{@code Full Name <email@example.com>}", just the email address,
-   *        a full name if it is unique, an account ID, a user name or
-   *        "{@code self}" for the calling user
+   * @param id ID of the account, can be a string of the format "{@code Full Name
+   *     <email@example.com>}", just the email address, a full name if it is unique, an account ID,
+   *     a user name or "{@code self}" for the calling user
    * @return the user, null if no user is found for the given account ID
-   * @throws AuthException thrown if 'self' is used as account ID and the
-   *         current user is not authenticated
+   * @throws AuthException thrown if 'self' is used as account ID and the current user is not
+   *     authenticated
    * @throws OrmException
    */
   public IdentifiedUser parseId(String id) throws AuthException, OrmException {

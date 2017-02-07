@@ -17,18 +17,13 @@ package com.google.gerrit.server.validators;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.EmailHeader;
-
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Listener to provide validation on outgoing email notification.
- */
+/** Listener to provide validation on outgoing email notification. */
 @ExtensionPoint
 public interface OutgoingEmailValidationListener {
-  /**
-   * Arguments supplied to validateOutgoingEmail.
-   */
+  /** Arguments supplied to validateOutgoingEmail. */
   class Args {
     // in arguments
     public String messageClass;
@@ -43,18 +38,14 @@ public interface OutgoingEmailValidationListener {
   /**
    * Outgoing e-mail validation.
    *
-   * Invoked by Gerrit just before an e-mail is sent, after all e-mail templates
-   * have been applied.
+   * <p>Invoked by Gerrit just before an e-mail is sent, after all e-mail templates have been
+   * applied.
    *
-   * Plugins may modify the following fields in args:
-   * - smtpFromAddress
-   * - smtpRcptTo
-   * - body
-   * - headers
+   * <p>Plugins may modify the following fields in args: - smtpFromAddress - smtpRcptTo - body -
+   * headers
    *
    * @param args E-mail properties. Some are mutable.
    * @throws ValidationException if validation fails.
    */
-  void validateOutgoingEmail(OutgoingEmailValidationListener.Args args)
-      throws ValidationException;
+  void validateOutgoingEmail(OutgoingEmailValidationListener.Args args) throws ValidationException;
 }

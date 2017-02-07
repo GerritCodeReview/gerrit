@@ -39,12 +39,13 @@ public class MyAgreementsScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SVC.myAgreements(new ScreenLoadCallback<AgreementInfo>(this) {
-      @Override
-      public void preDisplay(final AgreementInfo result) {
-        agreements.display(result);
-      }
-    });
+    Util.ACCOUNT_SVC.myAgreements(
+        new ScreenLoadCallback<AgreementInfo>(this) {
+          @Override
+          public void preDisplay(final AgreementInfo result) {
+            agreements.display(result);
+          }
+        });
   }
 
   private static class AgreementTable extends FancyFlexTable<ContributorAgreement> {

@@ -17,13 +17,12 @@ package com.google.gerrit.testutil;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
 import org.joda.time.DateTimeZone;
-
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 /** Static utility methods for dealing with dates and times in tests. */
 public class TestTimeUtil {
@@ -32,18 +31,17 @@ public class TestTimeUtil {
 
   /**
    * Reset the clock to a known start point, then set the clock step.
-   * <p>
-   * The clock is initially set to 2009/09/30 17:00:00 -0400.
+   *
+   * <p>The clock is initially set to 2009/09/30 17:00:00 -0400.
    *
    * @param clockStep amount to increment clock by on each lookup.
    * @param clockStepUnit time unit for {@code clockStep}.
    */
-  public static synchronized void resetWithClockStep(
-      long clockStep, TimeUnit clockStepUnit) {
+  public static synchronized void resetWithClockStep(long clockStep, TimeUnit clockStepUnit) {
     // Set an arbitrary start point so tests are more repeatable.
-    clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0, DateTimeZone.forOffsetHours(-4))
-            .getMillis());
+    clockMs =
+        new AtomicLong(
+            new DateTime(2009, 9, 30, 17, 0, 0, DateTimeZone.forOffsetHours(-4)).getMillis());
     setClockStep(clockStep, clockStepUnit);
   }
 
@@ -53,16 +51,16 @@ public class TestTimeUtil {
    * @param clockStep amount to increment clock by on each lookup.
    * @param clockStepUnit time unit for {@code clockStep}.
    */
-  public static synchronized void setClockStep(
-      long clockStep, TimeUnit clockStepUnit) {
+  public static synchronized void setClockStep(long clockStep, TimeUnit clockStepUnit) {
     checkState(clockMs != null, "call resetWithClockStep first");
     clockStepMs = MILLISECONDS.convert(clockStep, clockStepUnit);
-    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
-      @Override
-      public long getMillis() {
-        return clockMs.getAndAdd(clockStepMs);
-      }
-    });
+    DateTimeUtils.setCurrentMillisProvider(
+        new MillisProvider() {
+          @Override
+          public long getMillis() {
+            return clockMs.getAndAdd(clockStepMs);
+          }
+        });
   }
 
   /** Reset the clock to use the actual system clock. */
@@ -70,6 +68,5 @@ public class TestTimeUtil {
     DateTimeUtils.setCurrentMillisSystem();
   }
 
-  private TestTimeUtil() {
-  }
+  private TestTimeUtil() {}
 }

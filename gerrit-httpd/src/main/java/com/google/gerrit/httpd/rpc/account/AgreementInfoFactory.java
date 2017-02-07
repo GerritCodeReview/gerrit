@@ -23,15 +23,13 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class AgreementInfoFactory extends Handler<AgreementInfo> {
   private static final Logger log = LoggerFactory.getLogger(AgreementInfoFactory.class);
@@ -46,8 +44,7 @@ class AgreementInfoFactory extends Handler<AgreementInfo> {
   private AgreementInfo info;
 
   @Inject
-  AgreementInfoFactory(final IdentifiedUser user,
-      final ProjectCache projectCache) {
+  AgreementInfoFactory(final IdentifiedUser user, final ProjectCache projectCache) {
     this.user = user;
     this.projectCache = projectCache;
   }
@@ -65,8 +62,13 @@ class AgreementInfoFactory extends Handler<AgreementInfo> {
       for (PermissionRule rule : ca.getAccepted()) {
         if ((rule.getAction() == Action.ALLOW) && (rule.getGroup() != null)) {
           if (rule.getGroup().getUUID() == null) {
-            log.warn("group \"" + rule.getGroup().getName() + "\" does not " +
-                " exist, referenced in CLA \"" + ca.getName() + "\"");
+            log.warn(
+                "group \""
+                    + rule.getGroup().getName()
+                    + "\" does not "
+                    + " exist, referenced in CLA \""
+                    + ca.getName()
+                    + "\"");
           } else {
             groupIds.add(new AccountGroup.UUID(rule.getGroup().getUUID().get()));
           }

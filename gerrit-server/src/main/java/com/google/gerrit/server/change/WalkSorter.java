@@ -30,17 +30,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -51,42 +40,49 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper to sort {@link ChangeData}s based on {@link RevWalk} ordering.
- * <p>
- * Split changes by project, and map each change to a single commit based on the
- * latest patch set. The set of patch sets considered may be limited by calling
- * {@link #includePatchSets(Iterable)}. Perform a standard {@link RevWalk} on
- * each project repository, do an approximate topo sort, and record the order in
- * which each change's commit is seen.
- * <p>
- * Once an order within each project is determined, groups of changes are sorted
- * based on the project name. This is slightly more stable than sorting on
- * something like the commit or change timestamp, as it will not unexpectedly
- * reorder large groups of changes on subsequent calls if one of the changes was
- * updated.
+ *
+ * <p>Split changes by project, and map each change to a single commit based on the latest patch
+ * set. The set of patch sets considered may be limited by calling {@link
+ * #includePatchSets(Iterable)}. Perform a standard {@link RevWalk} on each project repository, do
+ * an approximate topo sort, and record the order in which each change's commit is seen.
+ *
+ * <p>Once an order within each project is determined, groups of changes are sorted based on the
+ * project name. This is slightly more stable than sorting on something like the commit or change
+ * timestamp, as it will not unexpectedly reorder large groups of changes on subsequent calls if one
+ * of the changes was updated.
  */
 class WalkSorter {
-  private static final Logger log =
-      LoggerFactory.getLogger(WalkSorter.class);
+  private static final Logger log = LoggerFactory.getLogger(WalkSorter.class);
 
   private static final Ordering<List<PatchSetData>> PROJECT_LIST_SORTER =
-      Ordering.natural().nullsFirst()
+      Ordering.natural()
+          .nullsFirst()
           .onResultOf(
-            new Function<List<PatchSetData>, Project.NameKey>() {
-              @Override
-              public Project.NameKey apply(List<PatchSetData> in) {
-                if (in == null || in.isEmpty()) {
-                  return null;
+              new Function<List<PatchSetData>, Project.NameKey>() {
+                @Override
+                public Project.NameKey apply(List<PatchSetData> in) {
+                  if (in == null || in.isEmpty()) {
+                    return null;
+                  }
+                  try {
+                    return in.get(0).data().change().getProject();
+                  } catch (OrmException e) {
+                    throw new IllegalStateException(e);
+                  }
                 }
-                try {
-                  return in.get(0).data().change().getProject();
-                } catch (OrmException e) {
-                  throw new IllegalStateException(e);
-                }
-              }
-            });
+              });
 
   private final GitRepositoryManager repoManager;
   private final Set<PatchSet.Id> includePatchSets;
@@ -108,26 +104,22 @@ class WalkSorter {
     return this;
   }
 
-  public Iterable<PatchSetData> sort(Iterable<ChangeData> in)
-      throws OrmException, IOException {
-    Multimap<Project.NameKey, ChangeData> byProject =
-        ArrayListMultimap.create();
+  public Iterable<PatchSetData> sort(Iterable<ChangeData> in) throws OrmException, IOException {
+    Multimap<Project.NameKey, ChangeData> byProject = ArrayListMultimap.create();
     for (ChangeData cd : in) {
       byProject.put(cd.change().getProject(), cd);
     }
 
-    List<List<PatchSetData>> sortedByProject =
-        new ArrayList<>(byProject.keySet().size());
-    for (Map.Entry<Project.NameKey, Collection<ChangeData>> e
-        : byProject.asMap().entrySet()) {
+    List<List<PatchSetData>> sortedByProject = new ArrayList<>(byProject.keySet().size());
+    for (Map.Entry<Project.NameKey, Collection<ChangeData>> e : byProject.asMap().entrySet()) {
       sortedByProject.add(sortProject(e.getKey(), e.getValue()));
     }
     Collections.sort(sortedByProject, PROJECT_LIST_SORTER);
     return Iterables.concat(sortedByProject);
   }
 
-  private List<PatchSetData> sortProject(Project.NameKey project,
-      Collection<ChangeData> in) throws OrmException, IOException {
+  private List<PatchSetData> sortProject(Project.NameKey project, Collection<ChangeData> in)
+      throws OrmException, IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       rw.setRetainBody(retainBody);
@@ -176,8 +168,7 @@ class WalkSorter {
         while (!todo.isEmpty()) {
           // Sanity check: we can't pop more than N pending commits, otherwise
           // we have an infinite loop due to programmer error or something.
-          checkState(++i <= commits.size(),
-              "Too many pending steps while sorting %s", commits);
+          checkState(++i <= commits.size(), "Too many pending steps while sorting %s", commits);
           RevCommit t = todo.removeFirst();
           if (t.has(done)) {
             continue;
@@ -199,8 +190,7 @@ class WalkSorter {
     }
   }
 
-  private static Multimap<RevCommit, RevCommit> collectChildren(
-      Set<RevCommit> commits) {
+  private static Multimap<RevCommit, RevCommit> collectChildren(Set<RevCommit> commits) {
     Multimap<RevCommit, RevCommit> children = ArrayListMultimap.create();
     for (RevCommit c : commits) {
       for (RevCommit p : c.getParents()) {
@@ -212,8 +202,11 @@ class WalkSorter {
     return children;
   }
 
-  private static int emit(RevCommit c, Multimap<RevCommit, PatchSetData> byCommit,
-      List<PatchSetData> result, RevFlag done) {
+  private static int emit(
+      RevCommit c,
+      Multimap<RevCommit, PatchSetData> byCommit,
+      List<PatchSetData> result,
+      RevFlag done) {
     if (c.has(done)) {
       return 0;
     }
@@ -226,29 +219,25 @@ class WalkSorter {
     return 0;
   }
 
-  private Multimap<RevCommit, PatchSetData> byCommit(RevWalk rw,
-      Collection<ChangeData> in) throws OrmException, IOException {
-    Multimap<RevCommit, PatchSetData> byCommit =
-        ArrayListMultimap.create(in.size(), 1);
+  private Multimap<RevCommit, PatchSetData> byCommit(RevWalk rw, Collection<ChangeData> in)
+      throws OrmException, IOException {
+    Multimap<RevCommit, PatchSetData> byCommit = ArrayListMultimap.create(in.size(), 1);
     for (ChangeData cd : in) {
       PatchSet maxPs = null;
       for (PatchSet ps : cd.patchSets()) {
-        if (shouldInclude(ps)
-            && (maxPs == null || ps.getId().get() > maxPs.getId().get())) {
+        if (shouldInclude(ps) && (maxPs == null || ps.getId().get() > maxPs.getId().get())) {
           maxPs = ps;
         }
       }
       if (maxPs == null) {
-       continue; // No patch sets matched.
+        continue; // No patch sets matched.
       }
       ObjectId id = ObjectId.fromString(maxPs.getRevision().get());
       try {
         RevCommit c = rw.parseCommit(id);
         byCommit.put(c, PatchSetData.create(cd, maxPs, c));
       } catch (MissingObjectException | IncorrectObjectTypeException e) {
-        log.warn(
-            "missing commit " + id.name() + " for patch set " + maxPs.getId(),
-            e);
+        log.warn("missing commit " + id.name() + " for patch set " + maxPs.getId(), e);
       }
     }
     return byCommit;
@@ -258,8 +247,7 @@ class WalkSorter {
     return includePatchSets.isEmpty() || includePatchSets.contains(ps.getId());
   }
 
-  private static void markStart(RevWalk rw, Iterable<RevCommit> commits)
-      throws IOException {
+  private static void markStart(RevWalk rw, Iterable<RevCommit> commits) throws IOException {
     for (RevCommit c : commits) {
       rw.markStart(c);
     }
@@ -273,7 +261,9 @@ class WalkSorter {
     }
 
     abstract ChangeData data();
+
     abstract PatchSet patchSet();
+
     abstract RevCommit commit();
   }
 }

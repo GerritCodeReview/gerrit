@@ -20,13 +20,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.ProjectState;
-
 import org.eclipse.jgit.lib.Repository;
 
 /**
  * Listener to provide validation of commits before merging.
  *
- * Invoked by Gerrit before a commit is merged.
+ * <p>Invoked by Gerrit before a commit is merged.
  */
 @ExtensionPoint
 public interface MergeValidationListener {
@@ -41,7 +40,8 @@ public interface MergeValidationListener {
    * @param caller the user who initiated the merge request
    * @throws MergeValidationException if the commit fails to validate
    */
-  void onPreMerge(Repository repo,
+  void onPreMerge(
+      Repository repo,
       CodeReviewCommit commit,
       ProjectState destProject,
       Branch.NameKey destBranch,

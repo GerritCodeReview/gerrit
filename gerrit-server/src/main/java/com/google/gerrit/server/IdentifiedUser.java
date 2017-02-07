@@ -34,10 +34,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
-
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.util.SystemReader;
-
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -48,6 +44,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.util.SystemReader;
 
 /** An authenticated user. */
 public class IdentifiedUser extends CurrentUser {
@@ -84,9 +82,17 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(AccountState state) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
-          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, Providers.of((SocketAddress) null), state,
+      return new IdentifiedUser(
+          capabilityControlFactory,
+          authConfig,
+          realm,
+          anonymousCowardName,
+          canonicalUrl,
+          accountCache,
+          groupBackend,
+          disableReverseDnsLookup,
+          Providers.of((SocketAddress) null),
+          state,
           null);
     }
 
@@ -98,19 +104,28 @@ public class IdentifiedUser extends CurrentUser {
       return runAs(remotePeer, id, null);
     }
 
-    public IdentifiedUser runAs(SocketAddress remotePeer, Account.Id id,
-        @Nullable CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
-          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, Providers.of(remotePeer), id, caller);
+    public IdentifiedUser runAs(
+        SocketAddress remotePeer, Account.Id id, @Nullable CurrentUser caller) {
+      return new IdentifiedUser(
+          capabilityControlFactory,
+          authConfig,
+          realm,
+          anonymousCowardName,
+          canonicalUrl,
+          accountCache,
+          groupBackend,
+          disableReverseDnsLookup,
+          Providers.of(remotePeer),
+          id,
+          caller);
     }
   }
 
   /**
    * Create an IdentifiedUser, relying on current request state.
-   * <p>
-   * Can only be used from within a module that has defined request scoped
-   * {@code @RemotePeer SocketAddress} and {@code ReviewDb} providers.
+   *
+   * <p>Can only be used from within a module that has defined request scoped {@code @RemotePeer
+   * SocketAddress} and {@code ReviewDb} providers.
    */
   @Singleton
   public static class RequestFactory {
@@ -147,22 +162,39 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
-          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, remotePeerProvider, id, null);
+      return new IdentifiedUser(
+          capabilityControlFactory,
+          authConfig,
+          realm,
+          anonymousCowardName,
+          canonicalUrl,
+          accountCache,
+          groupBackend,
+          disableReverseDnsLookup,
+          remotePeerProvider,
+          id,
+          null);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
-          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, remotePeerProvider, id, caller);
+      return new IdentifiedUser(
+          capabilityControlFactory,
+          authConfig,
+          realm,
+          anonymousCowardName,
+          canonicalUrl,
+          accountCache,
+          groupBackend,
+          disableReverseDnsLookup,
+          remotePeerProvider,
+          id,
+          caller);
     }
   }
 
   private static final GroupMembership registeredGroups =
-      new ListGroupMembership(ImmutableSet.of(
-          SystemGroupBackend.ANONYMOUS_USERS,
-          SystemGroupBackend.REGISTERED_USERS));
+      new ListGroupMembership(
+          ImmutableSet.of(SystemGroupBackend.ANONYMOUS_USERS, SystemGroupBackend.REGISTERED_USERS));
 
   private final Provider<String> canonicalUrl;
   private final AccountCache accountCache;
@@ -171,8 +203,7 @@ public class IdentifiedUser extends CurrentUser {
   private final GroupBackend groupBackend;
   private final String anonymousCowardName;
   private final Boolean disableReverseDnsLookup;
-  private final Set<String> validEmails =
-      Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
+  private final Set<String> validEmails = Sets.newTreeSet(String.CASE_INSENSITIVE_ORDER);
 
   private final Provider<SocketAddress> remotePeerProvider;
   private final Account.Id accountId;
@@ -196,9 +227,18 @@ public class IdentifiedUser extends CurrentUser {
       @Nullable Provider<SocketAddress> remotePeerProvider,
       AccountState state,
       @Nullable CurrentUser realUser) {
-    this(capabilityControlFactory, authConfig, realm, anonymousCowardName,
-        canonicalUrl, accountCache, groupBackend, disableReverseDnsLookup,
-        remotePeerProvider, state.getAccount().getId(), realUser);
+    this(
+        capabilityControlFactory,
+        authConfig,
+        realm,
+        anonymousCowardName,
+        canonicalUrl,
+        accountCache,
+        groupBackend,
+        disableReverseDnsLookup,
+        remotePeerProvider,
+        state.getAccount().getId(),
+        realUser);
     this.state = state;
   }
 

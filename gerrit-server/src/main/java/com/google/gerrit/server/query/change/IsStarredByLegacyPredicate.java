@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
-
 import java.util.List;
 import java.util.Set;
 
@@ -36,8 +35,7 @@ class IsStarredByLegacyPredicate extends OrPredicate<ChangeData> {
   private final Account.Id accountId;
   private final Set<Change.Id> starredChanges;
 
-  IsStarredByLegacyPredicate(Account.Id accountId,
-      Set<Change.Id> starredChanges) {
+  IsStarredByLegacyPredicate(Account.Id accountId, Set<Change.Id> starredChanges) {
     super(predicates(starredChanges));
     this.accountId = accountId;
     this.starredChanges = starredChanges;

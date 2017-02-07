@@ -31,15 +31,25 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import java.util.TreeSet;
 
 class Actions extends Composite {
   private static final String[] CORE = {
-    "abandon", "cherrypick", "followup", "hashtags", "publish",
-    "rebase", "restore", "revert", "submit", "topic", "/",};
+    "abandon",
+    "cherrypick",
+    "followup",
+    "hashtags",
+    "publish",
+    "rebase",
+    "restore",
+    "revert",
+    "submit",
+    "topic",
+    "/",
+  };
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Button cherrypick;
@@ -90,17 +100,15 @@ class Actions extends Composite {
 
     initChangeActions(info, hasUser);
 
-    NativeMap<ActionInfo> actionMap = revInfo.hasActions()
-        ? revInfo.actions()
-        : NativeMap.<ActionInfo> create();
+    NativeMap<ActionInfo> actionMap =
+        revInfo.hasActions() ? revInfo.actions() : NativeMap.<ActionInfo>create();
     actionMap.copyKeysIntoChildren("id");
     reloadRevisionActions(actionMap);
   }
 
   private void initChangeActions(ChangeInfo info, boolean hasUser) {
-    NativeMap<ActionInfo> actions = info.hasActions()
-        ? info.actions()
-        : NativeMap.<ActionInfo> create();
+    NativeMap<ActionInfo> actions =
+        info.hasActions() ? info.actions() : NativeMap.<ActionInfo>create();
     actions.copyKeysIntoChildren("id");
 
     if (hasUser) {
@@ -123,10 +131,7 @@ class Actions extends Composite {
       ActionInfo action = actions.get("submit");
       submit.setTitle(action.title());
       submit.setEnabled(action.enabled());
-      submit.setHTML(new SafeHtmlBuilder()
-          .openDiv()
-          .append(action.label())
-          .closeDiv());
+      submit.setHTML(new SafeHtmlBuilder().openDiv().append(action.label()).closeDiv());
       submit.setEnabled(action.enabled());
     }
     submit.setVisible(canSubmit);
@@ -161,8 +166,7 @@ class Actions extends Composite {
   @UiHandler("followUp")
   void onFollowUp(@SuppressWarnings("unused") ClickEvent e) {
     if (followUpAction == null) {
-      followUpAction = new FollowUpAction(followUp, project,
-          branch, topic, key);
+      followUpAction = new FollowUpAction(followUp, project, branch, topic, key);
     }
     followUpAction.show();
   }
@@ -185,8 +189,8 @@ class Actions extends Composite {
 
   @UiHandler("rebase")
   void onRebase(@SuppressWarnings("unused") ClickEvent e) {
-    RebaseAction.call(rebase, project, changeInfo.branch(), changeId, revision,
-        rebaseParentNotCurrent);
+    RebaseAction.call(
+        rebase, project, changeInfo.branch(), changeId, revision, rebaseParentNotCurrent);
   }
 
   @UiHandler("submit")

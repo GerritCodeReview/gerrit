@@ -25,7 +25,6 @@ import com.google.gerrit.client.ui.SuggestAfterTypingNCharsOracle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,22 +36,23 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   protected void _onRequestSuggestions(final Request req, final Callback cb) {
     ChangeApi.suggestReviewers(changeId.get(), req.getQuery(), req.getLimit())
-        .get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
-          @Override
-          public void onSuccess(JsArray<SuggestReviewerInfo> result) {
-            List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
-            for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
-              r.add(new RestReviewerSuggestion(reviewer, req.getQuery()));
-            }
-            cb.onSuggestionsReady(req, new Response(r));
-          }
+        .get(
+            new GerritCallback<JsArray<SuggestReviewerInfo>>() {
+              @Override
+              public void onSuccess(JsArray<SuggestReviewerInfo> result) {
+                List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
+                for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
+                  r.add(new RestReviewerSuggestion(reviewer, req.getQuery()));
+                }
+                cb.onSuggestionsReady(req, new Response(r));
+              }
 
-          @Override
-          public void onFailure(Throwable err) {
-            List<Suggestion> r = Collections.emptyList();
-            cb.onSuggestionsReady(req, new Response(r));
-          }
-        });
+              @Override
+              public void onFailure(Throwable err) {
+                List<Suggestion> r = Collections.emptyList();
+                cb.onSuggestionsReady(req, new Response(r));
+              }
+            });
   }
 
   public void setChange(Change.Id changeId) {
@@ -65,13 +65,12 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
     RestReviewerSuggestion(SuggestReviewerInfo reviewer, String query) {
       if (reviewer.account() != null) {
-        this.replacementString = AccountSuggestOracle.AccountSuggestion
-            .format(reviewer.account(), query);
+        this.replacementString =
+            AccountSuggestOracle.AccountSuggestion.format(reviewer.account(), query);
         this.displayString = replacementString;
       } else {
         this.replacementString = reviewer.group().name();
-        this.displayString =
-            replacementString + " (" + Util.C.suggestedGroupLabel() + ")";
+        this.displayString = replacementString + " (" + Util.C.suggestedGroupLabel() + ")";
       }
     }
 
@@ -88,8 +87,9 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   public static class SuggestReviewerInfo extends JavaScriptObject {
     public final native AccountInfo account() /*-{ return this.account; }-*/;
+
     public final native GroupBaseInfo group() /*-{ return this.group; }-*/;
-    protected SuggestReviewerInfo() {
-    }
+
+    protected SuggestReviewerInfo() {}
   }
 }

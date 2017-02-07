@@ -23,7 +23,6 @@ import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,8 +44,7 @@ class RevisionNoteBuilder {
     RevisionNoteBuilder get(RevId revId) {
       RevisionNoteBuilder b = builders.get(revId);
       if (b == null) {
-        b = new RevisionNoteBuilder(
-            revisionNoteMap.revisionNotes.get(revId));
+        b = new RevisionNoteBuilder(revisionNoteMap.revisionNotes.get(revId));
         builders.put(revId, b);
       }
       return b;
@@ -80,8 +78,8 @@ class RevisionNoteBuilder {
   }
 
   void putComment(PatchLineComment comment) {
-    checkArgument(!delete.contains(comment.getKey()),
-        "cannot both delete and put %s", comment.getKey());
+    checkArgument(
+        !delete.contains(comment.getKey()), "cannot both delete and put %s", comment.getKey());
     put.put(comment.getKey(), comment);
   }
 

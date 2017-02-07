@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-
 import java.util.List;
 
 public class AccountGroupAuditLogScreen extends AccountGroupScreen {
@@ -52,7 +51,8 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
 
   @Override
   protected void display(GroupInfo group, boolean canModify) {
-    GroupApi.getAuditLog(group.getGroupUUID(),
+    GroupApi.getAuditLog(
+        group.getGroupUUID(),
         new GerritCallback<JsArray<GroupAuditEventInfo>>() {
           @Override
           public void onSuccess(JsArray<GroupAuditEventInfo> result) {
@@ -112,9 +112,8 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
         case REMOVE_GROUP:
           GroupInfo member = auditEvent.memberAsGroup();
           if (AccountGroup.isInternalGroup(member.getGroupUUID())) {
-            table.setWidget(row, 3,
-                new Hyperlink(member.name(),
-                    Dispatcher.toGroup(member.getGroupUUID())));
+            table.setWidget(
+                row, 3, new Hyperlink(member.name(), Dispatcher.toGroup(member.getGroupUUID())));
             fmt.getElement(row, 3).setTitle(null);
           } else if (member.url() != null) {
             Anchor a = new Anchor();
@@ -125,8 +124,7 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
             fmt.getElement(row, 3).setTitle(null);
           } else {
             table.setText(row, 3, member.name());
-            fmt.getElement(row, 3).setTitle(
-                "UUID " + member.getGroupUUID().get());
+            fmt.getElement(row, 3).setTitle("UUID " + member.getGroupUUID().get());
           }
           break;
       }

@@ -40,7 +40,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
@@ -53,23 +61,12 @@ import org.kohsuke.args4j.spi.FieldSetter;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
 
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 /**
  * Extended command line parser which handles --foo=value arguments.
- * <p>
- * The args4j package does not natively handle --foo=value and instead prefers
- * to see --foo value on the command line. Many users are used to the GNU style
- * --foo=value long option, so we convert from the GNU style format to the
- * args4j style format prior to invoking args4j for parsing.
+ *
+ * <p>The args4j package does not natively handle --foo=value and instead prefers to see --foo value
+ * on the command line. Many users are used to the GNU style --foo=value long option, so we convert
+ * from the GNU style format to the args4j style format prior to invoking args4j for parsing.
  */
 public class CmdLineParser {
   public interface Factory {
@@ -83,16 +80,13 @@ public class CmdLineParser {
   private Map<String, OptionHandler> options;
 
   /**
-   * Creates a new command line owner that parses arguments/options and set them
-   * into the given object.
+   * Creates a new command line owner that parses arguments/options and set them into the given
+   * object.
    *
-   * @param bean instance of a class annotated by
-   *        {@link org.kohsuke.args4j.Option} and
-   *        {@link org.kohsuke.args4j.Argument}. this object will receive
-   *        values.
-   *
-   * @throws IllegalAnnotationError if the option bean class is using args4j
-   *         annotations incorrectly.
+   * @param bean instance of a class annotated by {@link org.kohsuke.args4j.Option} and {@link
+   *     org.kohsuke.args4j.Argument}. this object will receive values.
+   * @throws IllegalAnnotationError if the option bean class is using args4j annotations
+   *     incorrectly.
    */
   @Inject
   public CmdLineParser(OptionHandlers handlers, @Assisted final Object bean)
@@ -222,8 +216,7 @@ public class CmdLineParser {
     parser.parseArgument(tmp.toArray(new String[tmp.size()]));
   }
 
-  public void parseOptionMap(Map<String, String[]> parameters)
-      throws CmdLineException {
+  public void parseOptionMap(Map<String, String[]> parameters) throws CmdLineException {
     Multimap<String, String> map = LinkedHashMultimap.create();
     for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
       for (String val : ent.getValue()) {
@@ -233,8 +226,7 @@ public class CmdLineParser {
     parseOptionMap(map);
   }
 
-  public void parseOptionMap(Multimap<String, String> params)
-      throws CmdLineException {
+  public void parseOptionMap(Multimap<String, String> params) throws CmdLineException {
     List<String> tmp = Lists.newArrayListWithCapacity(2 * params.size());
     for (final String key : params.keySet()) {
       String name = makeOption(key);
@@ -298,28 +290,33 @@ public class CmdLineParser {
   }
 
   private boolean toBoolean(String name, String value) throws CmdLineException {
-    if ("true".equals(value) || "t".equals(value)
-        || "yes".equals(value) || "y".equals(value)
+    if ("true".equals(value)
+        || "t".equals(value)
+        || "yes".equals(value)
+        || "y".equals(value)
         || "on".equals(value)
         || "1".equals(value)
-        || value == null || "".equals(value)) {
+        || value == null
+        || "".equals(value)) {
       return true;
     }
 
-    if ("false".equals(value) || "f".equals(value)
-        || "no".equals(value) || "n".equals(value)
+    if ("false".equals(value)
+        || "f".equals(value)
+        || "no".equals(value)
+        || "n".equals(value)
         || "off".equals(value)
         || "0".equals(value)) {
       return false;
     }
 
-    throw new CmdLineException(parser, String.format(
-        "invalid boolean \"%s=%s\"", name, value));
+    throw new CmdLineException(parser, String.format("invalid boolean \"%s=%s\"", name, value));
   }
 
   private class MyParser extends org.kohsuke.args4j.CmdLineParser {
     @SuppressWarnings("rawtypes")
     private List<OptionHandler> optionsList;
+
     private HelpOption help;
 
     MyParser(final Object bean) {
@@ -329,8 +326,7 @@ public class CmdLineParser {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    protected OptionHandler createOptionHandler(final OptionDef option,
-        final Setter setter) {
+    protected OptionHandler createOptionHandler(final OptionDef option, final Setter setter) {
       if (isHandlerSpecified(option) || isEnum(setter) || isPrimitive(setter)) {
         return add(super.createOptionHandler(option, setter));
       }

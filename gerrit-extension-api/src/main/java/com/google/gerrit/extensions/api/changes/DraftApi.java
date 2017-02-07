@@ -20,14 +20,14 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface DraftApi extends CommentApi {
   CommentInfo update(DraftInput in) throws RestApiException;
+
   void delete() throws RestApiException;
 
   /**
-   * A default implementation which allows source compatibility
-   * when adding new methods to the interface.
-   **/
-  class NotImplemented extends CommentApi.NotImplemented
-      implements DraftApi {
+   * A default implementation which allows source compatibility when adding new methods to the
+   * interface.
+   */
+  class NotImplemented extends CommentApi.NotImplemented implements DraftApi {
     @Override
     public CommentInfo update(DraftInput in) throws RestApiException {
       throw new NotImplementedException();

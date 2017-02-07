@@ -27,13 +27,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.slf4j.Logger;
 
 @Singleton
 public class ListIncludedGroups implements RestReadView<GroupResource> {
@@ -44,47 +42,48 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
   private final GroupJson json;
 
   @Inject
-  ListIncludedGroups(GroupControl.Factory controlFactory,
-      Provider<ReviewDb> dbProvider, GroupJson json) {
+  ListIncludedGroups(
+      GroupControl.Factory controlFactory, Provider<ReviewDb> dbProvider, GroupJson json) {
     this.controlFactory = controlFactory;
     this.dbProvider = dbProvider;
     this.json = json;
   }
 
   @Override
-  public List<GroupInfo> apply(GroupResource rsrc)
-      throws MethodNotAllowedException, OrmException {
+  public List<GroupInfo> apply(GroupResource rsrc) throws MethodNotAllowedException, OrmException {
     if (rsrc.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     }
 
     boolean ownerOfParent = rsrc.getControl().isOwner();
     List<GroupInfo> included = new ArrayList<>();
-    for (AccountGroupById u : dbProvider.get()
-        .accountGroupById()
-        .byGroup(rsrc.toAccountGroup().getId())) {
+    for (AccountGroupById u :
+        dbProvider.get().accountGroupById().byGroup(rsrc.toAccountGroup().getId())) {
       try {
         GroupControl i = controlFactory.controlFor(u.getIncludeUUID());
         if (ownerOfParent || i.isVisible()) {
           included.add(json.format(i.getGroup()));
         }
       } catch (NoSuchGroupException notFound) {
-        log.warn(String.format("Group %s no longer available, included into %s",
-            u.getIncludeUUID(),
-            rsrc.getGroup().getName()));
+        log.warn(
+            String.format(
+                "Group %s no longer available, included into %s",
+                u.getIncludeUUID(), rsrc.getGroup().getName()));
         continue;
       }
     }
-    Collections.sort(included, new Comparator<GroupInfo>() {
-      @Override
-      public int compare(GroupInfo a, GroupInfo b) {
-        int cmp = nullToEmpty(a.name).compareTo(nullToEmpty(b.name));
-        if (cmp != 0) {
-          return cmp;
-        }
-        return nullToEmpty(a.id).compareTo(nullToEmpty(b.id));
-      }
-    });
+    Collections.sort(
+        included,
+        new Comparator<GroupInfo>() {
+          @Override
+          public int compare(GroupInfo a, GroupInfo b) {
+            int cmp = nullToEmpty(a.name).compareTo(nullToEmpty(b.name));
+            if (cmp != 0) {
+              return cmp;
+            }
+            return nullToEmpty(a.id).compareTo(nullToEmpty(b.id));
+          }
+        });
     return included;
   }
 }

@@ -14,16 +14,14 @@
 
 package com.google.gerrit.metrics.dropwizard;
 
+import com.codahale.metrics.Gauge;
+import com.codahale.metrics.Metric;
+import com.codahale.metrics.MetricRegistry;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
-
-import com.codahale.metrics.Gauge;
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricRegistry;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,8 +38,13 @@ abstract class BucketedCallback<V> implements BucketedMetric {
   protected volatile Runnable trigger;
   private final Object lock = new Object();
 
-  BucketedCallback(DropWizardMetricMaker metrics, MetricRegistry registry,
-      String name, Class<V> valueType, Description desc, Field<?>... fields) {
+  BucketedCallback(
+      DropWizardMetricMaker metrics,
+      MetricRegistry registry,
+      String name,
+      Class<V> valueType,
+      Description desc,
+      Field<?>... fields) {
     this.metrics = metrics;
     this.registry = registry;
     this.name = name;
@@ -126,7 +129,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
   public Map<Object, Metric> getCells() {
     return Maps.transformValues(
         cells,
-        new Function<ValueGauge, Metric> () {
+        new Function<ValueGauge, Metric>() {
           @Override
           public Metric apply(ValueGauge in) {
             return in;

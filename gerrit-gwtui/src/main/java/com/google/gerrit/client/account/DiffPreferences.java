@@ -126,52 +126,101 @@ public class DiffPreferences extends JavaScriptObject {
   }
 
   public final native void tabSize(int t) /*-{ this.tab_size = t }-*/;
+
   public final native void lineLength(int c) /*-{ this.line_length = c }-*/;
+
   public final native void context(int c) /*-{ this.context = c }-*/;
+
   public final native void cursorBlinkRate(int r) /*-{ this.cursor_blink_rate = r }-*/;
+
   public final native void intralineDifference(boolean i) /*-{ this.intraline_difference = i }-*/;
+
   public final native void showLineEndings(boolean s) /*-{ this.show_line_endings = s }-*/;
+
   public final native void showTabs(boolean s) /*-{ this.show_tabs = s }-*/;
-  public final native void showWhitespaceErrors(boolean s) /*-{ this.show_whitespace_errors = s }-*/;
+
+  public final native void showWhitespaceErrors(
+      boolean s) /*-{ this.show_whitespace_errors = s }-*/;
+
   public final native void syntaxHighlighting(boolean s) /*-{ this.syntax_highlighting = s }-*/;
+
   public final native void hideTopMenu(boolean s) /*-{ this.hide_top_menu = s }-*/;
-  public final native void autoHideDiffTableHeader(boolean s) /*-{ this.auto_hide_diff_table_header = s }-*/;
+
+  public final native void autoHideDiffTableHeader(
+      boolean s) /*-{ this.auto_hide_diff_table_header = s }-*/;
+
   public final native void hideLineNumbers(boolean s) /*-{ this.hide_line_numbers = s }-*/;
+
   public final native void expandAllComments(boolean e) /*-{ this.expand_all_comments = e }-*/;
+
   public final native void manualReview(boolean r) /*-{ this.manual_review = r }-*/;
+
   public final native void renderEntireFile(boolean r) /*-{ this.render_entire_file = r }-*/;
+
   public final native void retainHeader(boolean r) /*-{ this.retain_header = r }-*/;
+
   public final native void hideEmptyPane(boolean s) /*-{ this.hide_empty_pane = s }-*/;
+
   public final native void skipUnchanged(boolean s) /*-{ this.skip_unchanged = s }-*/;
+
   public final native void skipUncommented(boolean s) /*-{ this.skip_uncommented = s }-*/;
+
   public final native void skipDeleted(boolean s) /*-{ this.skip_deleted = s }-*/;
+
   public final native void matchBrackets(boolean m) /*-{ this.match_brackets = m }-*/;
+
   public final native void lineWrapping(boolean w) /*-{ this.line_wrapping = w }-*/;
-  public final native boolean intralineDifference() /*-{ return this.intraline_difference || false }-*/;
+
+  public final native boolean
+      intralineDifference() /*-{ return this.intraline_difference || false }-*/;
+
   public final native boolean showLineEndings() /*-{ return this.show_line_endings || false }-*/;
+
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
-  public final native boolean showWhitespaceErrors() /*-{ return this.show_whitespace_errors || false }-*/;
-  public final native boolean syntaxHighlighting() /*-{ return this.syntax_highlighting || false }-*/;
+
+  public final native boolean
+      showWhitespaceErrors() /*-{ return this.show_whitespace_errors || false }-*/;
+
+  public final native boolean
+      syntaxHighlighting() /*-{ return this.syntax_highlighting || false }-*/;
+
   public final native boolean hideTopMenu() /*-{ return this.hide_top_menu || false }-*/;
-  public final native boolean autoHideDiffTableHeader() /*-{ return this.auto_hide_diff_table_header || false }-*/;
+
+  public final native boolean
+      autoHideDiffTableHeader() /*-{ return this.auto_hide_diff_table_header || false }-*/;
+
   public final native boolean hideLineNumbers() /*-{ return this.hide_line_numbers || false }-*/;
-  public final native boolean expandAllComments() /*-{ return this.expand_all_comments || false }-*/;
+
+  public final native boolean
+      expandAllComments() /*-{ return this.expand_all_comments || false }-*/;
+
   public final native boolean manualReview() /*-{ return this.manual_review || false }-*/;
+
   public final native boolean renderEntireFile() /*-{ return this.render_entire_file || false }-*/;
+
   public final native boolean hideEmptyPane() /*-{ return this.hide_empty_pane || false }-*/;
+
   public final native boolean retainHeader() /*-{ return this.retain_header || false }-*/;
+
   public final native boolean skipUnchanged() /*-{ return this.skip_unchanged || false }-*/;
+
   public final native boolean skipUncommented() /*-{ return this.skip_uncommented || false }-*/;
+
   public final native boolean skipDeleted() /*-{ return this.skip_deleted || false }-*/;
+
   public final native boolean matchBrackets() /*-{ return this.match_brackets || false }-*/;
+
   public final native boolean lineWrapping() /*-{ return this.line_wrapping || false }-*/;
 
   private native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
+
   private native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;
+
   private native String ignoreWhitespaceRaw() /*-{ return this.ignore_whitespace }-*/;
+
   private native String themeRaw() /*-{ return this.theme }-*/;
+
   private native int get(String n, int d) /*-{ return this.hasOwnProperty(n) ? this[n] : d }-*/;
 
-  protected DiffPreferences() {
-  }
+  protected DiffPreferences() {}
 }

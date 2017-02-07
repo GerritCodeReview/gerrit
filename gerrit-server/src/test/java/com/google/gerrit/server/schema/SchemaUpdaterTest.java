@@ -37,19 +37,17 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Guice;
 import com.google.inject.TypeLiteral;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SchemaUpdaterTest {
   private LifecycleManager lifecycle;
@@ -71,69 +69,67 @@ public class SchemaUpdaterTest {
   }
 
   @Test
-  public void testUpdate() throws OrmException, FileNotFoundException,
-      IOException {
+  public void testUpdate() throws OrmException, FileNotFoundException, IOException {
     db.create();
 
     final Path site = Paths.get(UUID.randomUUID().toString());
     final SitePaths paths = new SitePaths(site);
-    SchemaUpdater u = Guice.createInjector(new FactoryModule() {
-      @Override
-      protected void configure() {
-        bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toInstance(db);
-        bind(SitePaths.class).toInstance(paths);
+    SchemaUpdater u =
+        Guice.createInjector(
+                new FactoryModule() {
+                  @Override
+                  protected void configure() {
+                    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toInstance(db);
+                    bind(SitePaths.class).toInstance(paths);
 
-        Config cfg = new Config();
-        cfg.setString("user", null, "name", "Gerrit Code Review");
-        cfg.setString("user", null, "email", "gerrit@localhost");
+                    Config cfg = new Config();
+                    cfg.setString("user", null, "name", "Gerrit Code Review");
+                    cfg.setString("user", null, "email", "gerrit@localhost");
 
-        bind(Config.class) //
-            .annotatedWith(GerritServerConfig.class) //
-            .toInstance(cfg);
+                    bind(Config.class) //
+                        .annotatedWith(GerritServerConfig.class) //
+                        .toInstance(cfg);
 
-        bind(PersonIdent.class) //
-            .annotatedWith(GerritPersonIdent.class) //
-            .toProvider(GerritPersonIdentProvider.class);
+                    bind(PersonIdent.class) //
+                        .annotatedWith(GerritPersonIdent.class) //
+                        .toProvider(GerritPersonIdentProvider.class);
 
-        bind(AllProjectsName.class)
-            .toInstance(new AllProjectsName("All-Projects"));
-        bind(AllUsersName.class)
-            .toInstance(new AllUsersName("All-Users"));
+                    bind(AllProjectsName.class).toInstance(new AllProjectsName("All-Projects"));
+                    bind(AllUsersName.class).toInstance(new AllUsersName("All-Users"));
 
-        bind(GitRepositoryManager.class)
-            .toInstance(new InMemoryRepositoryManager());
+                    bind(GitRepositoryManager.class).toInstance(new InMemoryRepositoryManager());
 
-        bind(String.class) //
-          .annotatedWith(AnonymousCowardName.class) //
-          .toProvider(AnonymousCowardNameProvider.class);
+                    bind(String.class) //
+                        .annotatedWith(AnonymousCowardName.class) //
+                        .toProvider(AnonymousCowardNameProvider.class);
 
-        bind(DataSourceType.class).to(InMemoryH2Type.class);
-      }
-    }).getInstance(SchemaUpdater.class);
+                    bind(DataSourceType.class).to(InMemoryH2Type.class);
+                  }
+                })
+            .getInstance(SchemaUpdater.class);
 
-    u.update(new UpdateUI() {
-      @Override
-      public void message(String msg) {
-      }
+    u.update(
+        new UpdateUI() {
+          @Override
+          public void message(String msg) {}
 
-      @Override
-      public boolean yesno(boolean def, String msg) {
-        return def;
-      }
+          @Override
+          public boolean yesno(boolean def, String msg) {
+            return def;
+          }
 
-      @Override
-      public boolean isBatch() {
-        return true;
-      }
+          @Override
+          public boolean isBatch() {
+            return true;
+          }
 
-      @Override
-      public void pruneSchema(StatementExecutor e, List<String> pruneList)
-          throws OrmException {
-        for (String sql : pruneList) {
-          e.execute(sql);
-        }
-      }
-    });
+          @Override
+          public void pruneSchema(StatementExecutor e, List<String> pruneList) throws OrmException {
+            for (String sql : pruneList) {
+              e.execute(sql);
+            }
+          }
+        });
 
     db.assertSchemaVersion();
     final SystemConfig sc = db.getSystemConfig();

@@ -30,23 +30,19 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Universal implementation of the GroupBackend that works with the injected
- * set of GroupBackends.
+ * Universal implementation of the GroupBackend that works with the injected set of GroupBackends.
  */
 @Singleton
 public class UniversalGroupBackend implements GroupBackend {
-  private static final Logger log =
-      LoggerFactory.getLogger(UniversalGroupBackend.class);
+  private static final Logger log = LoggerFactory.getLogger(UniversalGroupBackend.class);
 
   private final DynamicSet<GroupBackend> backends;
 
@@ -100,46 +96,44 @@ public class UniversalGroupBackend implements GroupBackend {
   }
 
   private class UniversalGroupMembership implements GroupMembership {
-   private final Map<GroupBackend, GroupMembership> memberships;
+    private final Map<GroupBackend, GroupMembership> memberships;
 
-   private UniversalGroupMembership(IdentifiedUser user) {
-     ImmutableMap.Builder<GroupBackend, GroupMembership> builder =
-         ImmutableMap.builder();
-     for (GroupBackend g : backends) {
-       builder.put(g, g.membershipsOf(user));
-     }
-     this.memberships = builder.build();
-   }
+    private UniversalGroupMembership(IdentifiedUser user) {
+      ImmutableMap.Builder<GroupBackend, GroupMembership> builder = ImmutableMap.builder();
+      for (GroupBackend g : backends) {
+        builder.put(g, g.membershipsOf(user));
+      }
+      this.memberships = builder.build();
+    }
 
-   @Nullable
-   private GroupMembership membership(AccountGroup.UUID uuid) {
-     if (uuid != null) {
-       for (Map.Entry<GroupBackend, GroupMembership> m : memberships.entrySet()) {
-         if (m.getKey().handles(uuid)) {
-           return m.getValue();
-         }
-       }
-     }
-     return null;
-   }
+    @Nullable
+    private GroupMembership membership(AccountGroup.UUID uuid) {
+      if (uuid != null) {
+        for (Map.Entry<GroupBackend, GroupMembership> m : memberships.entrySet()) {
+          if (m.getKey().handles(uuid)) {
+            return m.getValue();
+          }
+        }
+      }
+      return null;
+    }
 
-   @Override
-   public boolean contains(AccountGroup.UUID uuid) {
-     if (uuid == null) {
-       return false;
-     }
-     GroupMembership m = membership(uuid);
-     if (m == null) {
-       log.debug("Unknown GroupMembership for UUID: " + uuid);
-       return false;
-     }
-     return m.contains(uuid);
-   }
+    @Override
+    public boolean contains(AccountGroup.UUID uuid) {
+      if (uuid == null) {
+        return false;
+      }
+      GroupMembership m = membership(uuid);
+      if (m == null) {
+        log.debug("Unknown GroupMembership for UUID: " + uuid);
+        return false;
+      }
+      return m.contains(uuid);
+    }
 
     @Override
     public boolean containsAnyOf(Iterable<AccountGroup.UUID> uuids) {
-      Multimap<GroupMembership, AccountGroup.UUID> lookups =
-          ArrayListMultimap.create();
+      Multimap<GroupMembership, AccountGroup.UUID> lookups = ArrayListMultimap.create();
       for (AccountGroup.UUID uuid : uuids) {
         if (uuid == null) {
           continue;
@@ -151,8 +145,8 @@ public class UniversalGroupBackend implements GroupBackend {
         }
         lookups.put(m, uuid);
       }
-      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry
-          : lookups .asMap().entrySet()) {
+      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry :
+          lookups.asMap().entrySet()) {
         GroupMembership m = entry.getKey();
         Collection<AccountGroup.UUID> ids = entry.getValue();
         if (ids.size() == 1) {
@@ -168,8 +162,7 @@ public class UniversalGroupBackend implements GroupBackend {
 
     @Override
     public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> uuids) {
-      Multimap<GroupMembership, AccountGroup.UUID> lookups =
-          ArrayListMultimap.create();
+      Multimap<GroupMembership, AccountGroup.UUID> lookups = ArrayListMultimap.create();
       for (AccountGroup.UUID uuid : uuids) {
         if (uuid == null) {
           continue;
@@ -182,8 +175,8 @@ public class UniversalGroupBackend implements GroupBackend {
         lookups.put(m, uuid);
       }
       Set<AccountGroup.UUID> groups = new HashSet<>();
-      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry
-          : lookups.asMap().entrySet()) {
+      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry :
+          lookups.asMap().entrySet()) {
         groups.addAll(entry.getKey().intersection(entry.getValue()));
       }
       return groups;

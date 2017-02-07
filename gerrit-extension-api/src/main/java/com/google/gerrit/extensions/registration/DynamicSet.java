@@ -24,7 +24,6 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Named;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -34,16 +33,17 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A set of members that can be modified as plugins reload.
- * <p>
- * DynamicSets are always mapped as singletons in Guice. Sets store Providers
- * internally, and resolve the provider to an instance on demand. This enables
- * registrations to decide between singleton and non-singleton members.
+ *
+ * <p>DynamicSets are always mapped as singletons in Guice. Sets store Providers internally, and
+ * resolve the provider to an instance on demand. This enables registrations to decide between
+ * singleton and non-singleton members.
  */
 public class DynamicSet<T> implements Iterable<T> {
   /**
    * Declare a singleton {@code DynamicSet<T>} with a binder.
-   * <p>
-   * Sets must be defined in a Guice module before they can be bound:
+   *
+   * <p>Sets must be defined in a Guice module before they can be bound:
+   *
    * <pre>
    *   DynamicSet.setOf(binder(), Interface.class);
    *   DynamicSet.bind(binder(), Interface.class).to(Impl.class);
@@ -59,8 +59,9 @@ public class DynamicSet<T> implements Iterable<T> {
 
   /**
    * Declare a singleton {@code DynamicSet<T>} with a binder.
-   * <p>
-   * Sets must be defined in a Guice module before they can be bound:
+   *
+   * <p>Sets must be defined in a Guice module before they can be bound:
+   *
    * <pre>
    *   DynamicSet.setOf(binder(), new TypeLiteral&lt;Thing&lt;Foo&gt;&gt;() {});
    * </pre>
@@ -70,12 +71,11 @@ public class DynamicSet<T> implements Iterable<T> {
    */
   public static <T> void setOf(Binder binder, TypeLiteral<T> member) {
     @SuppressWarnings("unchecked")
-    Key<DynamicSet<T>> key = (Key<DynamicSet<T>>) Key.get(
-        Types.newParameterizedType(DynamicSet.class, member.getType()));
+    Key<DynamicSet<T>> key =
+        (Key<DynamicSet<T>>)
+            Key.get(Types.newParameterizedType(DynamicSet.class, member.getType()));
     binder.disableCircularProxies();
-    binder.bind(key)
-      .toProvider(new DynamicSetProvider<>(member))
-      .in(Scopes.SINGLETON);
+    binder.bind(key).toProvider(new DynamicSetProvider<>(member)).in(Scopes.SINGLETON);
   }
 
   /**
@@ -107,13 +107,10 @@ public class DynamicSet<T> implements Iterable<T> {
    *
    * @param binder a new binder created in the module.
    * @param type type of entries in the set.
-   * @param name {@code @Named} annotation to apply instead of a unique
-   *        annotation.
+   * @param name {@code @Named} annotation to apply instead of a unique annotation.
    * @return a binder to continue configuring the new set member.
    */
-  public static <T> LinkedBindingBuilder<T> bind(Binder binder,
-      Class<T> type,
-      Named name) {
+  public static <T> LinkedBindingBuilder<T> bind(Binder binder, Class<T> type, Named name) {
     binder.disableCircularProxies();
     return bind(binder, TypeLiteral.get(type));
   }
@@ -123,20 +120,16 @@ public class DynamicSet<T> implements Iterable<T> {
    *
    * @param binder a new binder created in the module.
    * @param type type of entries in the set.
-   * @param name {@code @Named} annotation to apply instead of a unique
-   *        annotation.
+   * @param name {@code @Named} annotation to apply instead of a unique annotation.
    * @return a binder to continue configuring the new set member.
    */
-  public static <T> LinkedBindingBuilder<T> bind(Binder binder,
-      TypeLiteral<T> type,
-      Named name) {
+  public static <T> LinkedBindingBuilder<T> bind(Binder binder, TypeLiteral<T> type, Named name) {
     binder.disableCircularProxies();
     return binder.bind(type).annotatedWith(name);
   }
 
   public static <T> DynamicSet<T> emptySet() {
-    return new DynamicSet<>(
-        Collections.<AtomicReference<Provider<T>>> emptySet());
+    return new DynamicSet<>(Collections.<AtomicReference<Provider<T>>>emptySet());
   }
 
   private final CopyOnWriteArrayList<AtomicReference<Provider<T>>> items;
@@ -236,12 +229,12 @@ public class DynamicSet<T> implements Iterable<T> {
   /**
    * Add one new element that may be hot-replaceable in the future.
    *
-   * @param key unique description from the item's Guice binding. This can be
-   *        later obtained from the registration handle to facilitate matching
-   *        with the new equivalent instance during a hot reload.
+   * @param key unique description from the item's Guice binding. This can be later obtained from
+   *     the registration handle to facilitate matching with the new equivalent instance during a
+   *     hot reload.
    * @param item the item to add to the collection right now. Must not be null.
-   * @return a handle that can remove this item later, or hot-swap the item
-   *         without it ever leaving the collection.
+   * @return a handle that can remove this item later, or hot-swap the item without it ever leaving
+   *     the collection.
    */
   public ReloadableRegistrationHandle<T> add(Key<T> key, Provider<T> item) {
     AtomicReference<Provider<T>> ref = new AtomicReference<>(item);
@@ -254,9 +247,7 @@ public class DynamicSet<T> implements Iterable<T> {
     private final Key<T> key;
     private final Provider<T> item;
 
-    ReloadableHandle(AtomicReference<Provider<T>> ref,
-        Key<T> key,
-        Provider<T> item) {
+    ReloadableHandle(AtomicReference<Provider<T>> ref, Key<T> key, Provider<T> item) {
       this.ref = ref;
       this.key = key;
       this.item = item;

@@ -62,7 +62,7 @@ public class Tooltip {
    * @param text message to display on hover.
    */
   public static void setLabel(UIObject o, String text) {
-   setLabel(o.getElement(), text);
+    setLabel(o.getElement(), text);
   }
 
   /**
@@ -75,6 +75,5 @@ public class Tooltip {
     e.setAttribute("aria-label", text != null ? text : "");
   }
 
-  private Tooltip() {
-  }
+  private Tooltip() {}
 }

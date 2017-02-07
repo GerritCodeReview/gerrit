@@ -19,7 +19,6 @@ import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.inject.Singleton;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletContext;
 
 @Singleton
@@ -46,8 +44,7 @@ class UnzippedDistribution implements PluginsDistribution {
     if (list != null) {
       for (File p : list) {
         String pluginJarName = p.getName();
-        String pluginName = pluginJarName.substring(0,
-                pluginJarName.length() - JAR.length());
+        String pluginName = pluginJarName.substring(0, pluginJarName.length() - JAR.length());
         try (InputStream in = new FileInputStream(p)) {
           processor.process(pluginName, in);
         }
@@ -61,8 +58,7 @@ class UnzippedDistribution implements PluginsDistribution {
     String[] list = getPluginsDir().list();
     if (list != null) {
       for (String pluginJarName : list) {
-        String pluginName = pluginJarName.substring(0,
-            pluginJarName.length() - JAR.length());
+        String pluginName = pluginJarName.substring(0, pluginJarName.length() - JAR.length());
         names.add(pluginName);
       }
     }

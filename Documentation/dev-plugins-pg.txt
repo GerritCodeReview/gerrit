@@ -4,6 +4,7 @@ CAUTION: Work in progress. Hard hat area. +
 This document will be populated with details along with implementation. +
 link:https://groups.google.com/d/topic/repo-discuss/vb8WJ4m0hK0/discussion[Join the discussion.]
 
+[[loading]]
 == Plugin loading and initialization
 
 link:https://gerrit-review.googlesource.com/Documentation/js-api.html#_entry_point[Entry point] for the plugin and the loading method is based on link:http://w3c.github.io/webcomponents/spec/imports/[HTML Imports] spec.

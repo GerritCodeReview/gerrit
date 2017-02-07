@@ -54,6 +54,14 @@
     return this._name;
   };
 
+  Plugin.prototype.registerStyleModule =
+      function(insertionPointName, moduleName) {
+    if (!Gerrit._styleModules[insertionPointName]) {
+      Gerrit._styleModules[insertionPointName] = [];
+    }
+    Gerrit._styleModules[insertionPointName].push(moduleName);
+  };
+
   Plugin.prototype.getServerInfo = function() {
     return document.createElement('gr-rest-api-interface').getConfig();
   };
@@ -80,6 +88,9 @@
 
   // Number of plugins to initialize, -1 means 'not yet known'.
   Gerrit._pluginsPending = -1;
+
+  // Hash of style modules to be applied, insertion point to shared style name.
+  Gerrit._styleModules = {};
 
   Gerrit.getPluginName = function() {
     console.warn('Gerrit.getPluginName is not supported in PolyGerrit.',

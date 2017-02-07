@@ -36,7 +36,7 @@ then
         exit 1
 fi
 
-curl --digest -u $gerrituser -w '%{http_code}' -o preview \
+curl -u $gerrituser -w '%{http_code}' -o preview \
     $server/a/changes/$changeId/revisions/current/preview_submit?format=tgz >http_code
 if ! grep 200 http_code >/dev/null
 then

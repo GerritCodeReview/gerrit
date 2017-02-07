@@ -157,7 +157,7 @@ class ProjectBasicAuthFilter implements Filter {
       setUserIdentified(whoAuthResult.getAccountId());
       return true;
     } catch (NoSuchUserException e) {
-      if (password.equals(who.getPassword(who.getUserName()))) {
+      if (who.checkPassword(password, who.getUserName())) {
         return succeedAuthentication(who);
       }
       log.warn("Authentication failed for " + username, e);
@@ -196,8 +196,7 @@ class ProjectBasicAuthFilter implements Filter {
 
   private boolean passwordMatchesTheUserGeneratedOne(
       AccountState who, String username, String password) {
-    String accountPassword = who.getPassword(username);
-    return accountPassword != null && password != null && accountPassword.equals(password);
+    return who.checkPassword(password, username);
   }
 
   private String encoding(HttpServletRequest req) {

@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -215,9 +216,22 @@ public class RevisionIT extends AbstractDaemonTest {
 
     setApiUser(user);
     ReviewInput in = new ReviewInput();
-    in.label("Code-Review", 0);
+    in.label("Code-Review", 1);
     in.message = "Still LGTM";
     revision(r).review(in);
+
+    ApprovalInfo cr =
+        gApi.changes()
+            .id(changeId)
+            .get(EnumSet.of(ListChangesOption.DETAILED_LABELS))
+            .labels
+            .get("Code-Review")
+            .all
+            .stream()
+            .filter(a -> a._accountId == user.getId().get())
+            .findFirst()
+            .get();
+    assertThat(cr.postSubmit).isTrue();
   }
 
   @Test

@@ -248,6 +248,55 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
+  public void diffChangesSanitizesSubjectsBeforeComparison() throws Exception {
+    Change c1 = TestChanges.newChange(new Project.NameKey("project"), new Account.Id(100));
+    c1.setCurrentPatchSet(c1.currentPatchSetId(), "Subject\r\rbody", "Original");
+    Change c2 = clone(c1);
+    c2.setCurrentPatchSet(c2.currentPatchSetId(), "Subject  body", "Original");
+
+    // Both ReviewDb, exact match required
+    ChangeBundle b1 =
+        new ChangeBundle(
+            c1, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 =
+        new ChangeBundle(
+            c2, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "subject differs for Change.Id "
+            + c1.getId()
+            + ":"
+            + " {Subject\r\rbody} != {Subject  body}");
+
+    // Both NoteDb, exact match required (although it should be impossible to
+    // create a NoteDb change with '\r' in the subject).
+    b1 =
+        new ChangeBundle(
+            c1, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
+    b2 =
+        new ChangeBundle(
+            c2, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "subject differs for Change.Id "
+            + c1.getId()
+            + ":"
+            + " {Subject\r\rbody} != {Subject  body}");
+
+    // One ReviewDb, one NoteDb, '\r' is normalized to ' '.
+    b1 =
+        new ChangeBundle(
+            c1, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
+    b2 =
+        new ChangeBundle(
+            c2, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+  }
+
+  @Test
   public void diffChangesConsidersEmptyReviewDbTopicEquivalentToNullInNoteDb() throws Exception {
     Change c1 = TestChanges.newChange(new Project.NameKey("project"), new Account.Id(100));
     c1.setTopic("");
@@ -306,9 +355,9 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
-  public void diffChangesIgnoresLeadingWhitespaceInReviewDbTopics() throws Exception {
+  public void diffChangesIgnoresLeadingAndTrailingWhitespaceInReviewDbTopics() throws Exception {
     Change c1 = TestChanges.newChange(new Project.NameKey("project"), new Account.Id(100));
-    c1.setTopic(" abc");
+    c1.setTopic(" abc ");
     Change c2 = clone(c1);
     c2.setTopic("abc");
 
@@ -319,7 +368,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     ChangeBundle b2 =
         new ChangeBundle(
             c2, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
-    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " { abc} != {abc}");
+    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " { abc } != {abc}");
 
     // Leading whitespace in ReviewDb topic is ignored.
     b1 =
@@ -331,7 +380,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     assertNoDiffs(b1, b2);
     assertNoDiffs(b2, b1);
 
-    // Must match except for the leading whitespace.
+    // Must match except for the leading/trailing whitespace.
     Change c3 = clone(c1);
     c3.setTopic("cba");
     b1 =
@@ -340,7 +389,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     b2 =
         new ChangeBundle(
             c3, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
-    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " { abc} != {cba}");
+    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " { abc } != {cba}");
   }
 
   @Test
@@ -1196,6 +1245,157 @@ public class ChangeBundleTest extends GerritBaseTests {
   }
 
   @Test
+  public void diffPatchSetsIgnoresLeadingAndTrailingWhitespaceInReviewDbDescriptions()
+      throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+
+    PatchSet ps1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
+    ps1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    ps1.setUploader(accountId);
+    ps1.setCreatedOn(TimeUtil.nowTs());
+    ps1.setDescription(" abc ");
+    PatchSet ps2 = clone(ps1);
+    ps2.setDescription("abc");
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 =
+        new ChangeBundle(
+            c, messages(), patchSets(ps1), approvals(), comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 =
+        new ChangeBundle(
+            c, messages(), patchSets(ps2), approvals(), comments(), reviewers(), REVIEW_DB);
+    assertDiffs(
+        b1, b2, "description differs for PatchSet.Id " + ps1.getId() + ":" + " { abc } != {abc}");
+
+    // Whitespace in ReviewDb description is ignored.
+    b1 =
+        new ChangeBundle(
+            c, messages(), patchSets(ps1), approvals(), comments(), reviewers(), REVIEW_DB);
+    b2 =
+        new ChangeBundle(
+            c, messages(), patchSets(ps2), approvals(), comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // Must match except for the leading/trailing whitespace.
+    PatchSet ps3 = clone(ps1);
+    ps3.setDescription("cba");
+    b1 =
+        new ChangeBundle(
+            c, messages(), patchSets(ps1), approvals(), comments(), reviewers(), REVIEW_DB);
+    b2 =
+        new ChangeBundle(
+            c, messages(), patchSets(ps3), approvals(), comments(), reviewers(), NOTE_DB);
+    assertDiffs(
+        b1, b2, "description differs for PatchSet.Id " + ps1.getId() + ":" + " { abc } != {cba}");
+  }
+
+  @Test
+  public void diffPatchSetsIgnoresCreatedOnWhenReviewDbIsNonMonotonic() throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+
+    Timestamp beforePs1 = TimeUtil.nowTs();
+
+    PatchSet goodPs1 = new PatchSet(new PatchSet.Id(c.getId(), 1));
+    goodPs1.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    goodPs1.setUploader(accountId);
+    goodPs1.setCreatedOn(TimeUtil.nowTs());
+    PatchSet goodPs2 = new PatchSet(new PatchSet.Id(c.getId(), 2));
+    goodPs2.setRevision(new RevId("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    goodPs2.setUploader(accountId);
+    goodPs2.setCreatedOn(TimeUtil.nowTs());
+    assertThat(goodPs2.getCreatedOn()).isGreaterThan(goodPs1.getCreatedOn());
+
+    PatchSet badPs2 = clone(goodPs2);
+    badPs2.setCreatedOn(beforePs1);
+    assertThat(badPs2.getCreatedOn()).isLessThan(goodPs1.getCreatedOn());
+
+    // Both ReviewDb, exact match required.
+    ChangeBundle b1 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(goodPs1, goodPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            REVIEW_DB);
+    ChangeBundle b2 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(goodPs1, badPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            REVIEW_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "createdOn differs for PatchSet.Id "
+            + badPs2.getId()
+            + ":"
+            + " {2009-09-30 17:00:18.0} != {2009-09-30 17:00:06.0}");
+
+    // Non-monotonic in ReviewDb but monotonic in NoteDb, timestamps are
+    // ignored, including for ps1.
+    PatchSet badPs1 = clone(goodPs1);
+    badPs1.setCreatedOn(TimeUtil.nowTs());
+    b1 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(badPs1, badPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            REVIEW_DB);
+    b2 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(goodPs1, goodPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // Non-monotonic in NoteDb but monotonic in ReviewDb, timestamps are not
+    // ignored.
+    b1 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(goodPs1, goodPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            REVIEW_DB);
+    b2 =
+        new ChangeBundle(
+            c,
+            messages(),
+            patchSets(badPs1, badPs2),
+            approvals(),
+            comments(),
+            reviewers(),
+            NOTE_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "createdOn differs for PatchSet.Id "
+            + badPs1.getId()
+            + " in NoteDb vs. ReviewDb:"
+            + " {2009-09-30 17:00:24.0} != {2009-09-30 17:00:12.0}",
+        "createdOn differs for PatchSet.Id "
+            + badPs2.getId()
+            + " in NoteDb vs. ReviewDb:"
+            + " {2009-09-30 17:00:06.0} != {2009-09-30 17:00:18.0}");
+  }
+
+  @Test
   public void diffPatchSetApprovalKeySets() throws Exception {
     Change c = TestChanges.newChange(project, accountId);
     int id = c.getId().get();
@@ -1346,6 +1546,62 @@ public class ChangeBundleTest extends GerritBaseTests {
             c, messages(), latest(c), approvals(a2), comments(), reviewers(), REVIEW_DB);
     assertNoDiffs(b1, b2);
     assertNoDiffs(b2, b1);
+  }
+
+  @Test
+  public void diffPatchSetApprovalsIgnoresPostSubmitBitOnZeroVote() throws Exception {
+    Change c = TestChanges.newChange(project, accountId);
+    c.setStatus(Change.Status.MERGED);
+    PatchSetApproval a1 =
+        new PatchSetApproval(
+            new PatchSetApproval.Key(c.currentPatchSetId(), accountId, new LabelId("Code-Review")),
+            (short) 0,
+            TimeUtil.nowTs());
+    a1.setPostSubmit(false);
+    PatchSetApproval a2 = clone(a1);
+    a2.setPostSubmit(true);
+
+    // Both are ReviewDb, exact match is required.
+    ChangeBundle b1 =
+        new ChangeBundle(
+            c, messages(), latest(c), approvals(a1), comments(), reviewers(), REVIEW_DB);
+    ChangeBundle b2 =
+        new ChangeBundle(
+            c, messages(), latest(c), approvals(a2), comments(), reviewers(), REVIEW_DB);
+    assertDiffs(
+        b1,
+        b2,
+        "postSubmit differs for PatchSetApproval.Key "
+            + c.getId()
+            + "%2C1,100,Code-Review:"
+            + " {false} != {true}");
+
+    // One NoteDb, postSubmit is ignored.
+    b1 =
+        new ChangeBundle(
+            c, messages(), latest(c), approvals(a1), comments(), reviewers(), REVIEW_DB);
+    b2 =
+        new ChangeBundle(c, messages(), latest(c), approvals(a2), comments(), reviewers(), NOTE_DB);
+    assertNoDiffs(b1, b2);
+    assertNoDiffs(b2, b1);
+
+    // postSubmit is not ignored if vote isn't 0.
+    a1.setValue((short) 1);
+    a2.setValue((short) 1);
+    assertDiffs(
+        b1,
+        b2,
+        "postSubmit differs for PatchSetApproval.Key "
+            + c.getId()
+            + "%2C1,100,Code-Review:"
+            + " {false} != {true}");
+    assertDiffs(
+        b2,
+        b1,
+        "postSubmit differs for PatchSetApproval.Key "
+            + c.getId()
+            + "%2C1,100,Code-Review:"
+            + " {true} != {false}");
   }
 
   @Test

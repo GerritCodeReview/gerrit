@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import java.sql.Timestamp;
@@ -61,9 +62,12 @@ class EventList<E extends Event> implements Iterable<E> {
     Event last = getLast();
     if (!Objects.equals(e.user, last.user)
         || !Objects.equals(e.realUser, last.realUser)
-        || !e.psId.equals(last.psId)
-        || !Objects.equals(e.tag, last.tag)) {
-      return false; // Different patch set, author, or tag.
+        || !e.psId.equals(last.psId)) {
+      return false; // Different patch set or author.
+    }
+    if (e.canHaveTag() && canHaveTag() && !Objects.equals(e.tag, getTag())) {
+      // We should trust the tag field, and it doesn't match.
+      return false;
     }
     if (e.isPostSubmitApproval() && isSubmit) {
       // Post-submit approvals must come after the update that submits.
@@ -132,7 +136,16 @@ class EventList<E extends Event> implements Iterable<E> {
   }
 
   String getTag() {
-    return getLast().tag;
+    for (E e : Lists.reverse(list)) {
+      if (e.tag != null) {
+        return e.tag;
+      }
+    }
+    return null;
+  }
+
+  private boolean canHaveTag() {
+    return list.stream().anyMatch(Event::canHaveTag);
   }
 
   private E get(int i) {

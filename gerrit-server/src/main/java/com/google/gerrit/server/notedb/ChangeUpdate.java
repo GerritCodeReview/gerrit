@@ -36,6 +36,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_I
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.sanitizeFooter;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -647,6 +648,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
       addFooter(msg, FOOTER_LABEL);
+      // Label names/values are safe to append without sanitizing.
       if (!c.getValue().isPresent()) {
         msg.append('-').append(c.getRowKey());
       } else {
@@ -673,6 +675,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
         if (rec.labels != null) {
           for (SubmitRecord.Label label : rec.labels) {
+            // Label names/values are safe to append without sanitizing.
             addFooter(msg, FOOTER_SUBMITTED_WITH)
                 .append(label.status)
                 .append(": ")
@@ -764,7 +767,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private static void addFooter(StringBuilder sb, FooterKey footer, Object... values) {
     addFooter(sb, footer);
     for (Object value : values) {
-      sb.append(value);
+      sb.append(sanitizeFooter(Objects.toString(value)));
     }
     sb.append('\n');
   }
@@ -778,9 +781,5 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     PersonIdent.appendSanitized(sb, ident.getEmailAddress());
     sb.append('>');
     return sb;
-  }
-
-  private static String sanitizeFooter(String value) {
-    return value.replace('\n', ' ').replace('\0', ' ');
   }
 }

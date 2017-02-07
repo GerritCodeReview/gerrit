@@ -790,7 +790,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
                 PushOneCommit.FILE_NAME,
                 "new contents",
                 r.getChangeId())
-            .to("refs/heads/master");
+            .to("refs/for/master");
     r.assertOkStatus();
 
     PatchSet.Id psId = r.getPatchSetId();
@@ -1214,6 +1214,64 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     TestTimeUtil.setClock(new Timestamp(until.getTime() + MILLISECONDS.convert(1, SECONDS)));
     rebuilderWrapper.rebuild(db, id);
+  }
+
+  @Test
+  public void commitWithCrLineEndings() throws Exception {
+    PushOneCommit.Result r =
+        createChange("Subject\r\rBody\r", PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
+    Change c = r.getChange().change();
+
+    // This assertion demonstrates an arguable bug in JGit's commit subject
+    // parsing, and shows how this kind of data might have gotten into
+    // ReviewDb. If that bug ever gets fixed upstream, this assert may start
+    // failing. If that happens, this test can be rewritten to directly set the
+    // subject field in ReviewDb.
+    assertThat(c.getSubject()).isEqualTo("Subject\r\rBody");
+
+    checker.rebuildAndCheckChanges(c.getId());
+  }
+
+  @Test
+  public void patchSetsOutOfOrder() throws Exception {
+    String id = createChange().getChangeId();
+    amendChange(id);
+    PushOneCommit.Result r = amendChange(id);
+
+    ChangeData cd = r.getChange();
+    PatchSet.Id psId3 = cd.change().currentPatchSetId();
+    assertThat(psId3.get()).isEqualTo(3);
+
+    PatchSet ps1 = db.patchSets().get(new PatchSet.Id(cd.getId(), 1));
+    PatchSet ps3 = db.patchSets().get(psId3);
+    assertThat(ps1.getCreatedOn()).isLessThan(ps3.getCreatedOn());
+
+    // Simulate an old Gerrit bug by setting the created timestamp of the latest
+    // patch set ID to the timestamp of PS1.
+    ps3.setCreatedOn(ps1.getCreatedOn());
+    db.patchSets().update(Collections.singleton(ps3));
+
+    checker.rebuildAndCheckChanges(cd.getId());
+
+    setNotesMigration(true, true);
+    cd = changeDataFactory.create(db, project, cd.getId());
+    assertThat(cd.change().currentPatchSetId()).isEqualTo(psId3);
+
+    List<PatchSet> patchSets = ImmutableList.copyOf(cd.patchSets());
+    assertThat(patchSets).hasSize(3);
+
+    PatchSet newPs1 = patchSets.get(0);
+    assertThat(newPs1.getId()).isEqualTo(ps1.getId());
+    assertThat(newPs1.getCreatedOn()).isEqualTo(ps1.getCreatedOn());
+
+    PatchSet newPs2 = patchSets.get(1);
+    assertThat(newPs2.getCreatedOn()).isGreaterThan(newPs1.getCreatedOn());
+
+    PatchSet newPs3 = patchSets.get(2);
+    assertThat(newPs3.getId()).isEqualTo(ps3.getId());
+    // Migrated with a newer timestamp than the original, to preserve ordering.
+    assertThat(newPs3.getCreatedOn()).isAtLeast(newPs2.getCreatedOn());
+    assertThat(newPs3.getCreatedOn()).isGreaterThan(ps1.getCreatedOn());
   }
 
   private void assertChangesReadOnly(RestApiException e) throws Exception {

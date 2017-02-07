@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.primitives.Ints;
@@ -618,5 +619,18 @@ public class ChangeNoteUtil {
     PersonIdent.appendSanitized(name, ident.getEmailAddress());
     name.append('>');
     appendHeaderField(writer, header, name.toString());
+  }
+
+  private static final CharMatcher INVALID_FOOTER_CHARS = CharMatcher.anyOf("\r\n\0");
+
+  static String sanitizeFooter(String value) {
+    // Remove characters that would confuse JGit's footer parser if they were
+    // included in footer values, for example by splitting the footer block into
+    // multiple paragraphs.
+    //
+    // One painful example: RevCommit#getShorMessage() might return a message
+    // containing "\r\r", which RevCommit#getFooterLines() will treat as an
+    // empty paragraph for the purposes of footer parsing.
+    return INVALID_FOOTER_CHARS.trimAndCollapseFrom(value, ' ');
   }
 }

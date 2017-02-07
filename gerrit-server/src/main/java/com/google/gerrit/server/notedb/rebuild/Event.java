@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl.MAX_WINDOW_MS;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ComparisonChain;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -102,15 +103,25 @@ abstract class Event implements Comparable<Event> {
     return false;
   }
 
+  protected boolean canHaveTag() {
+    return false;
+  }
+
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("psId", psId)
-        .add("effectiveUser", user)
-        .add("realUser", realUser)
-        .add("when", when)
-        .toString();
+    ToStringHelper helper =
+        MoreObjects.toStringHelper(this)
+            .add("psId", psId)
+            .add("effectiveUser", user)
+            .add("realUser", realUser)
+            .add("when", when)
+            .add("tag", tag);
+    addToString(helper);
+    return helper.toString();
   }
+
+  /** @param helper toString helper to add fields to */
+  protected void addToString(ToStringHelper helper) {}
 
   @Override
   public int compareTo(Event other) {

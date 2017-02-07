@@ -22,6 +22,7 @@ import static com.google.gerrit.common.TimeUtil.roundToSecond;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.intKeyOrdering;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.NOTE_DB;
 import static com.google.gerrit.server.notedb.ChangeBundle.Source.REVIEW_DB;
+import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.CharMatcher;
@@ -50,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
@@ -434,21 +436,23 @@ public class ChangeBundle {
       excludeCreatedOn =
           !timestampsDiffer(bundleA, bundleA.getFirstPatchSetTime(), bundleB, b.getCreatedOn());
       aSubj = cleanReviewDbSubject(aSubj);
+      bSubj = cleanNoteDbSubject(bSubj);
       excludeCurrentPatchSetId = !bundleA.validPatchSetPredicate().apply(a.currentPatchSetId());
       excludeSubject = bSubj.startsWith(aSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
-      String aTopic = trimLeadingOrNull(a.getTopic());
+      String aTopic = trimOrNull(a.getTopic());
       excludeTopic =
           Objects.equals(aTopic, b.getTopic()) || "".equals(aTopic) && b.getTopic() == null;
       aUpdated = bundleA.getLatestTimestamp();
     } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
       excludeCreatedOn =
           !timestampsDiffer(bundleA, a.getCreatedOn(), bundleB, bundleB.getFirstPatchSetTime());
+      aSubj = cleanNoteDbSubject(aSubj);
       bSubj = cleanReviewDbSubject(bSubj);
       excludeCurrentPatchSetId = !bundleB.validPatchSetPredicate().apply(b.currentPatchSetId());
       excludeSubject = aSubj.startsWith(bSubj) || excludeCurrentPatchSetId;
       excludeOrigSubj = true;
-      String bTopic = trimLeadingOrNull(b.getTopic());
+      String bTopic = trimOrNull(b.getTopic());
       excludeTopic =
           Objects.equals(bTopic, a.getTopic()) || a.getTopic() == null && "".equals(bTopic);
       bUpdated = bundleB.getLatestTimestamp();
@@ -484,8 +488,8 @@ public class ChangeBundle {
     }
   }
 
-  private static String trimLeadingOrNull(String s) {
-    return s != null ? CharMatcher.whitespace().trimLeadingFrom(s) : null;
+  private static String trimOrNull(String s) {
+    return s != null ? CharMatcher.whitespace().trimFrom(s) : null;
   }
 
   private static String cleanReviewDbSubject(String s) {
@@ -501,7 +505,11 @@ public class ChangeBundle {
     if (rn >= 0) {
       s = s.substring(0, rn);
     }
-    return s;
+    return ChangeNoteUtil.sanitizeFooter(s);
+  }
+
+  private static String cleanNoteDbSubject(String s) {
+    return ChangeNoteUtil.sanitizeFooter(s);
   }
 
   /**
@@ -642,12 +650,47 @@ public class ChangeBundle {
       List<String> diffs, ChangeBundle bundleA, ChangeBundle bundleB) {
     Map<PatchSet.Id, PatchSet> as = bundleA.patchSets;
     Map<PatchSet.Id, PatchSet> bs = bundleB.patchSets;
-    for (PatchSet.Id id : diffKeySets(diffs, as, bs)) {
+    Set<PatchSet.Id> ids = diffKeySets(diffs, as, bs);
+
+    // Old versions of Gerrit had a bug that created patch sets during
+    // rebase or submission with a createdOn timestamp earlier than the patch
+    // set it was replacing. (In the cases I examined, it was equal to createdOn
+    // for the change, but we're not counting on this exact behavior.)
+    //
+    // ChangeRebuilder ensures patch set events come out in order, but it's hard
+    // to predict what the resulting timestamps would look like. So, completely
+    // ignore the createdOn timestamps if both:
+    //   * ReviewDb timestamps are non-monotonic.
+    //   * NoteDb timestamps are monotonic.
+    boolean excludeCreatedOn = false;
+    if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+      excludeCreatedOn = !createdOnIsMonotonic(as, ids) && createdOnIsMonotonic(bs, ids);
+    } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+      excludeCreatedOn = createdOnIsMonotonic(as, ids) && !createdOnIsMonotonic(bs, ids);
+    }
+
+    for (PatchSet.Id id : ids) {
       PatchSet a = as.get(id);
       PatchSet b = bs.get(id);
       String desc = describe(id);
       String pushCertField = "pushCertificate";
-      diffColumnsExcluding(diffs, PatchSet.class, desc, bundleA, a, bundleB, b, pushCertField);
+
+      boolean excludeDesc = false;
+      if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
+        excludeDesc = Objects.equals(trimOrNull(a.getDescription()), b.getDescription());
+      } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
+        excludeDesc = Objects.equals(a.getDescription(), trimOrNull(b.getDescription()));
+      }
+
+      List<String> exclude = Lists.newArrayList(pushCertField);
+      if (excludeCreatedOn) {
+        exclude.add("createdOn");
+      }
+      if (excludeDesc) {
+        exclude.add("description");
+      }
+
+      diffColumnsExcluding(diffs, PatchSet.class, desc, bundleA, a, bundleB, b, exclude);
       diffValues(diffs, desc, trimPushCert(a), trimPushCert(b), pushCertField);
     }
   }
@@ -657,6 +700,18 @@ public class ChangeBundle {
       return null;
     }
     return CharMatcher.is('\n').trimTrailingFrom(ps.getPushCertificate());
+  }
+
+  private static boolean createdOnIsMonotonic(
+      Map<?, PatchSet> patchSets, Set<PatchSet.Id> limitToIds) {
+    List<PatchSet> orderedById =
+        patchSets
+            .values()
+            .stream()
+            .filter(ps -> limitToIds.contains(ps.getId()))
+            .sorted(ChangeUtil.PS_ID_ORDER)
+            .collect(toList());
+    return Ordering.natural().onResultOf(PatchSet::getCreatedOn).isOrdered(orderedById);
   }
 
   private static void diffPatchSetApprovals(
@@ -675,22 +730,42 @@ public class ChangeBundle {
       // actual submit, so the timestamps may not line up. This shouldn't really
       // happen, because postSubmit shouldn't be set in ReviewDb until after the
       // change is submitted in ReviewDb, but you never know.
+      //
+      // Due to a quirk of PostReview, post-submit 0 votes might not have the
+      // postSubmit bit set in ReviewDb. As these are only used for tombstone
+      // purposes, ignore the postSubmit bit in NoteDb in this case.
       Timestamp ta = a.getGranted();
       Timestamp tb = b.getGranted();
       PatchSet psa = checkNotNull(bundleA.patchSets.get(a.getPatchSetId()));
       PatchSet psb = checkNotNull(bundleB.patchSets.get(b.getPatchSetId()));
       boolean excludeGranted = false;
+      boolean excludePostSubmit = false;
       List<String> exclude = new ArrayList<>(1);
       if (bundleA.source == REVIEW_DB && bundleB.source == NOTE_DB) {
         excludeGranted =
             (ta.before(psa.getCreatedOn()) && tb.equals(psb.getCreatedOn()))
                 || ta.compareTo(tb) < 0;
+        excludePostSubmit = a.getValue() == 0 && b.isPostSubmit();
       } else if (bundleA.source == NOTE_DB && bundleB.source == REVIEW_DB) {
         excludeGranted =
             tb.before(psb.getCreatedOn()) && ta.equals(psa.getCreatedOn()) || tb.compareTo(ta) < 0;
+        excludePostSubmit = b.getValue() == 0 && a.isPostSubmit();
       }
+
+      // Legacy submit approvals may or may not have tags associated with them,
+      // depending on whether ChangeRebuilder happened to group them with the
+      // status change.
+      boolean excludeTag =
+          bundleA.source != bundleB.source && a.isLegacySubmit() && b.isLegacySubmit();
+
       if (excludeGranted) {
         exclude.add("granted");
+      }
+      if (excludePostSubmit) {
+        exclude.add("postSubmit");
+      }
+      if (excludeTag) {
+        exclude.add("tag");
       }
 
       diffColumnsExcluding(diffs, PatchSetApproval.class, desc, bundleA, a, bundleB, b, exclude);

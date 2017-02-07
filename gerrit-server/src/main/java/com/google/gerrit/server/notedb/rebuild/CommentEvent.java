@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -51,11 +52,21 @@ class CommentEvent extends Event {
   }
 
   @Override
+  protected boolean canHaveTag() {
+    return true;
+  }
+
+  @Override
   void apply(ChangeUpdate update) throws OrmException {
     checkUpdate(update);
     if (c.revId == null) {
       setCommentRevId(c, cache, change, ps);
     }
     update.putComment(PatchLineComment.Status.PUBLISHED, c);
+  }
+
+  @Override
+  protected void addToString(ToStringHelper helper) {
+    helper.add("message", c.message);
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb.rebuild;
 
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -60,5 +61,10 @@ class DraftCommentEvent extends Event {
       setCommentRevId(c, cache, change, ps);
     }
     draftUpdate.putComment(c);
+  }
+
+  @Override
+  protected void addToString(ToStringHelper helper) {
+    helper.add("message", c.message);
   }
 }

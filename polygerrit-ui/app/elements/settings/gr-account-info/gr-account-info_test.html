@@ -35,7 +35,7 @@ limitations under the License.
     var element;
     var account;
     var config;
-    var nameInput;
+    var sandbox;
 
     function valueOf(title) {
       var sections = Polymer.dom(element.root).querySelectorAll('section');
@@ -49,6 +49,7 @@ limitations under the License.
     }
 
     setup(function(done) {
+      sandbox = sinon.sandbox.create();
       account = {
         _account_id: 123,
         name: 'user name',
@@ -66,11 +67,12 @@ limitations under the License.
         },
       });
       element = fixture('basic');
-
-      nameInput = element.$.nameSection.querySelector('.value input');
-
       // Allow the element to render.
       element.loadData().then(function() { flush(done); });
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('basic account info render', function() {
@@ -102,33 +104,61 @@ limitations under the License.
 
       assert.isTrue(element.mutable);
       assert.isTrue(displaySpan.hasAttribute('hidden'));
-      assert.equal(nameInput.bindValue, account.name);
+      assert.equal(element.$.nameInput.bindValue, account.name);
       assert.isFalse(inputSpan.hasAttribute('hidden'));
     });
 
-    test('account info edit', function(done) {
-      element.set('_serverConfig',
+    suite('account info edit', function() {
+      var accountChangedSpy;
+      var nameStub;
+      var statusStub;
+
+      setup(function() {
+        accountChangedSpy = sandbox.spy(element, '_accountChanged');
+        element.set('_serverConfig',
           {auth: {editable_account_fields: ['FULL_NAME']}});
 
-      var setStub = sinon.stub(element.$.restAPI, 'setAccountName',
-          function(name) { return Promise.resolve(); });
+        nameStub = sandbox.stub(element.$.restAPI, 'setAccountName',
+            function(name) { return Promise.resolve(); });
+        statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+            function(status) { return Promise.resolve(); });
+      });
 
-      var nameChangedSpy = sinon.spy(element, '_nameChanged');
+      test('name', function(done) {
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
 
-      assert.isTrue(element.mutable);
-      assert.isFalse(element.hasUnsavedChanges);
+        element.set('_account.name', 'new name');
 
-      element.set('_account.name', 'new name');
+        assert.isTrue(accountChangedSpy.called);
+        assert.isTrue(element.hasUnsavedChanges);
 
-      assert.isTrue(nameChangedSpy.called);
-      assert.isTrue(element.hasUnsavedChanges);
+        MockInteractions.pressAndReleaseKeyOn(element.$.nameInput, 13);
 
-      MockInteractions.pressAndReleaseKeyOn(nameInput, 13);
+        assert.isTrue(nameStub.called);
+        nameStub.lastCall.returnValue.then(function() {
+          assert.equal(nameStub.lastCall.args[0], 'new name');
+          done();
+        });
+      });
 
-      assert.isTrue(setStub.called);
-      setStub.lastCall.returnValue.then(function() {
-        assert.equal(setStub.lastCall.args[0], 'new name');
-        done();
+      test('status', function(done) {
+        assert.isTrue(element.mutable);
+        assert.isFalse(element.hasUnsavedChanges);
+
+        element.set('_account.status', 'new status');
+
+        assert.isTrue(accountChangedSpy.called);
+        assert.isTrue(element.hasUnsavedChanges);
+
+        MockInteractions.pressAndReleaseKeyOn(element.$.statusInput, 13);
+        flushAsynchronousOperations();
+
+        assert.isTrue(statusStub.called);
+        statusStub.lastCall.returnValue.then(function() {
+          assert.equal(statusStub.lastCall.args[0], 'new status');
+          done();
+        });
       });
     });
   });

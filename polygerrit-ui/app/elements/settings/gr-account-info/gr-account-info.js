@@ -48,7 +48,7 @@
     },
 
     observers: [
-      '_nameChanged(_account.name)',
+      '_accountChanged(_account.*)',
     ],
 
     loadData: function() {
@@ -75,7 +75,10 @@
       }
 
       this._saving = true;
-      return this.$.restAPI.setAccountName(this._account.name).then(function() {
+      return Promise.all([
+        this.$.restAPI.setAccountName(this._account.name),
+        this.$.restAPI.setAccountStatus(this._account.status),
+      ]).then(function() {
         this.hasUnsavedChanges = false;
         this._saving = false;
         this.fire('account-detail-update');
@@ -86,12 +89,12 @@
       return config.auth.editable_account_fields.indexOf('FULL_NAME') !== -1;
     },
 
-    _nameChanged: function() {
+    _accountChanged: function() {
       if (this._loading) { return; }
       this.hasUnsavedChanges = true;
     },
 
-    _handleNameKeydown: function(e) {
+    _handleKeydown: function(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this.save();

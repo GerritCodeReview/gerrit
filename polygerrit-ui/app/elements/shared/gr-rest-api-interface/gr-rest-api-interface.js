@@ -288,6 +288,23 @@
       }.bind(this));
     },
 
+    setAccountStatus: function(status, opt_errFn, opt_ctx) {
+      return this.send('PUT', '/accounts/self/status', {status: status},
+        opt_errFn, opt_ctx).then(function(response) {
+        // If result of getAccount is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        var cachedAccount = this._cache['/accounts/self/detail'];
+        if (cachedAccount) {
+          return this.getResponseObject(response).then(function(newStatus) {
+            // Replace object in cache with new object to force UI updates.
+            // TODO(logan): Polyfill for Object.assign in IE
+            this._cache['/accounts/self/detail'] = Object.assign(
+                {}, cachedAccount, {status: newStatus});
+          }.bind(this));
+        }
+      }.bind(this));
+    },
+
     getAccountGroups: function() {
       return this._fetchSharedCacheURL('/accounts/self/groups');
     },

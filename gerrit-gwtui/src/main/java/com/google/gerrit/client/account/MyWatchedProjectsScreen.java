@@ -225,8 +225,8 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
         new GerritCallback<JsArray<ProjectWatchInfo>>() {
           @Override
           public void onSuccess(JsArray<ProjectWatchInfo> watchedProjects) {
-            display();
             watchesTab.display(watchedProjects);
+            display();
           }
         });
   }

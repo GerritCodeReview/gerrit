@@ -16,6 +16,24 @@
       "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88dcd620_5c8e15d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 7, 2017 11:13:21 AM",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s a good idea, because the action will either be blocking (which is frustrating for users) OR it\u0027s non-blocking, which can lead to a TON of edge cases.",
+      "parentUuid": "ab1a9c78_53c3337f",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

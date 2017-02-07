@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec247db2_f32f73f6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 3:05:55 AM",
+      "side": 0,
+      "message": "Removing this here means that the \u0027Delete Change\u0027 button gets no longer disabled, when the user clicks on the \u0027Publish\u0027 button. This can lead to exceptions in the server if the user clicks quickly on \u0027Publish\u0027 and then on \u0027Delete Change\u0027. E.g. the publish operation can fail with [1] if in the middle of the operation the change is suddenly deleted. I\u0027m not sure though if it\u0027s important to fix this, as there is a popup dialog for \u0027Delete Change\u0027, so the user can\u0027t trigger \u0027Delete Change\u0027 that quickly after \u0027Publish\u0027. But I wonder if on delete change we are concerned about races with other requests in general (maybe not).\n\n[1] ERROR com.google.gerrit.httpd.restapi.RestApiServlet : Error in POST /changes/7/revisions/002a04fe2faf1ae39ed8885eb2556ff70dafc020/publish\ncom.google.gerrit.server.git.UpdateException: com.google.gwtorm.server.OrmException: NoteDb is required to read change 7\n\tat com.google.gerrit.server.git.BatchUpdate$ChangeTask.call(BatchUpdate.java:1064)\n\tat com.google.gerrit.server.git.BatchUpdate$ChangeTask.call(BatchUpdate.java:957)\n\tat com.google.gerrit.server.git.BatchUpdate$ChangeTask.call(BatchUpdate.java:1)\n        ...",
+      "range": {
+        "startLine": 668,
+        "startChar": 8,
+        "endLine": 668,
+        "endChar": 20
+      },
+      "revId": "a461a3d45a7563207cbc16dcf31bcaab29826796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

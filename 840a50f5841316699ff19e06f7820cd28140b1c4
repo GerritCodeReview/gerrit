@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9df7e36_580bcdad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 3:05:55 AM",
+      "side": 1,
+      "message": "Not related to this change, but maybe that class should be renamed to ChangeActions, as deleting a change is no longer limited to draft changes.",
+      "range": {
+        "startLine": 197,
+        "startChar": 6,
+        "endLine": 197,
+        "endChar": 18
+      },
+      "revId": "840a50f5841316699ff19e06f7820cd28140b1c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

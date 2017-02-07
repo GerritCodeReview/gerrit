@@ -53,6 +53,24 @@
       "revId": "59c550b79265295a0450a312bf5c91547d860552",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfbce644_501cb6bc",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "Feb 7, 2017 9:34:12 AM",
+      "side": 1,
+      "message": "Messages crossed. Using download_file.py sounds perfect.",
+      "parentUuid": "e8e28f0a_6b0170fb",
+      "revId": "59c550b79265295a0450a312bf5c91547d860552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

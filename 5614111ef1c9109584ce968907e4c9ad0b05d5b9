@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab1a9c78_53c3337f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 10:12:47 AM",
+      "side": 1,
+      "message": "Can we wait instead?",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

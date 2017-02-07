@@ -163,13 +163,14 @@
       }
       var messages = this.messages || [];
       var index = message._index;
-      var authorId = message.author._account_id;
+      var authorId = message.author && message.author._account_id;
       var mDate = util.parseDate(message.date).getTime();
       // NB: Messages array has oldest messages first.
       var nextMDate;
       if (index > 0) {
         for (var i = index - 1; i >= 0; i--) {
-          if (messages[i].author._account_id === authorId) {
+          if (messages[i] && messages[i].author &&
+              messages[i].author._account_id === authorId) {
             nextMDate = util.parseDate(messages[i].date).getTime();
             break;
           }
@@ -179,7 +180,8 @@
       for (var file in comments) {
         var fileComments = comments[file];
         for (var i = 0; i < fileComments.length; i++) {
-          if (fileComments[i].author._account_id !== authorId) {
+          if (fileComments[i].author &&
+              fileComments[i].author._account_id !== authorId) {
             continue;
           }
           var cDate = util.parseDate(fileComments[i].updated).getTime();

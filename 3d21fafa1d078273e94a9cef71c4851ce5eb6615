@@ -22,6 +22,24 @@
       "revId": "3d21fafa1d078273e94a9cef71c4851ce5eb6615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e434d0a3_a566f189",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "Feb 7, 2017 12:33:47 AM",
+      "side": 1,
+      "message": "Initially I did it as upper-case but then had to use protocol.name().toLowerCase() in several lines below (72, 87, 88). Therefore, I was thinking that it is more pragmatic to adjust the constants.\n\nI can change this constants to be Strings. The code would likely be simpler than enum with upper-case constants.\n\nLet me know your opinion.",
+      "parentUuid": "cca2a51a_16ee55ba",
+      "revId": "3d21fafa1d078273e94a9cef71c4851ce5eb6615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

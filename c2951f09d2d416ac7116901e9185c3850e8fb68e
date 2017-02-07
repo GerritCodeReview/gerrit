@@ -26,6 +26,24 @@
     },
     {
       "key": {
+        "uuid": "bc8414a2_c2c69272",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 7, 2017 7:15:57 AM",
+      "side": 1,
+      "message": "It\u0027s not just about the availability of homebrew, we also want to make sure everyone is using the same version.",
+      "parentUuid": "94b8c546_1369670a",
+      "revId": "c2951f09d2d416ac7116901e9185c3850e8fb68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17964d4b_f4ca9b5a",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -49,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "38003dc6_fe545e3e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 7, 2017 7:15:57 AM",
+      "side": 1,
+      "message": "I meant \"style\" here in the broader sense, not just formatting. I will take a shot at rewording to make this clearer.",
+      "parentUuid": "17964d4b_f4ca9b5a",
+      "revId": "c2951f09d2d416ac7116901e9185c3850e8fb68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e992997_4ce16fc9",
         "filename": "tools/setup_gjf.sh",
         "patchSetId": 1
@@ -60,6 +96,24 @@
       "writtenOn": "Feb 7, 2017 7:07:01 AM",
       "side": 1,
       "message": "gjf is released on Central as well: [1]. And at lest every maintainer has Maven set up and running. I wonder if it can just be:[2]\n\n  mvn -DgroupId\u003dcom.google.googlejavaformat -DartifactId\u003dgoogle-java-format -Dversion\u003d$VERSION \\\n  -DrepoUrl\u003d\"http://repo1.maven.org/maven2\" dependency:get\n\nThe usage of it could be just be a wrapper script that uses the JAR from $HOME/.m2/repository. But I can see, how casual contributor would be upset to set up Maven first to change one line in Gerrit ;-)\n\n* [1] https://mvnrepository.com/artifact/com.google.googlejavaformat/google-java-format/1.2\n* [2] http://stackoverflow.com/questions/3601570/how-to-download-jars-from-maven-central-without-writing-any-pom-xml",
+      "revId": "c2951f09d2d416ac7116901e9185c3850e8fb68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ff76393_249409ed",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 7, 2017 7:15:57 AM",
+      "side": 1,
+      "message": "\u003e gjf is released on Central as well\n\n\u003e But I can see, how casual contributor would be upset to set up Maven first to change one line in Gerrit ;-)\n \n\nYup :)\n\nGiven that this script has to download *something*, and we still need to set up the wrapper, I prefer the download location from the project\u0027s canonical homepage, which is Github.",
+      "parentUuid": "8e992997_4ce16fc9",
       "revId": "c2951f09d2d416ac7116901e9185c3850e8fb68e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -17,6 +17,24 @@
       "revId": "9c99cc231a87d06a07b6ba66f5efd729445eb21d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41f19703_f9fa941c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ApprovalEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 1:54:57 AM",
+      "side": 1,
+      "message": "Done\n\nNot sure if this was intentional like this. Changing it for now, to get it submitted. Please undo if it was intended like this.",
+      "parentUuid": "2602192c_8063421d",
+      "revId": "9c99cc231a87d06a07b6ba66f5efd729445eb21d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

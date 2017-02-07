@@ -35,6 +35,24 @@
       "revId": "59c550b79265295a0450a312bf5c91547d860552",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e28f0a_6b0170fb",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "Feb 7, 2017 9:33:35 AM",
+      "side": 1,
+      "message": "By which I mean something like\n\n sha1\u003d$(openssl sha1 \"$dir/$name\" | sed -e \"s/.* //\")\n if [[ \"$sha1\" !\u003d \"$GJF_SHA1\" ]]; then\n  ... fail ...\n fi\n\nOr it can use \"git hash-object -t blob\" (without -w) to avoid using the openssl tool.",
+      "parentUuid": "da5e0ac8_3135bd24",
+      "revId": "59c550b79265295a0450a312bf5c91547d860552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

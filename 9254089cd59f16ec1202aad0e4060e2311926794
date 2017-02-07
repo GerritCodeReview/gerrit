@@ -22,6 +22,30 @@
       "revId": "9254089cd59f16ec1202aad0e4060e2311926794",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2ea06f4_554a46c3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/Util.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 0,
+      "message": "As hanwen mentioned in comments, we should remove the backend code latter (about one week) until the UI update is completely rolled out?",
+      "parentUuid": "d8e2c81e_184c13f6",
+      "range": {
+        "startLine": 25,
+        "startChar": 22,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "9254089cd59f16ec1202aad0e4060e2311926794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

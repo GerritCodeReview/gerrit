@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6eeb48f5_75b07c38",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Then all the scheme will be moved to ExternalIdInfo, too?",
+      "parentUuid": "a8276615_181365d1",
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42f5934a_e99ccb8e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "Feb 7, 2017 5:26:09 AM",
       "side": 1,
       "message": "nit: remove final for arguments if final is not required",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 40
+      },
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4a03a8b_ebcd2254",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42f5934a_e99ccb8e",
       "range": {
         "startLine": 39,
         "startChar": 35,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "43ec5474_386c88ef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa908b33_513c601b",
+      "range": {
+        "startLine": 43,
+        "startChar": 32,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81e408b6_e365e262",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 4
@@ -76,6 +142,30 @@
       "writtenOn": "Feb 7, 2017 5:26:09 AM",
       "side": 1,
       "message": "nit: reformat this, even with the old style the \u0027else if (isScheme(....)) {\u0027 lines fit each into a single line",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d13d70d8_719a8684",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81e408b6_e365e262",
       "range": {
         "startLine": 54,
         "startChar": 4,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "2a26701d_f15e2102",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ede0e39_a09643d8",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 50
+      },
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be61311a_0abc9279",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
         "patchSetId": 4
@@ -122,6 +236,30 @@
       "writtenOn": "Feb 7, 2017 5:26:09 AM",
       "side": 1,
       "message": "nit: unneeded parenthesis",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7c17d02_aa066d28",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdScheme.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be61311a_0abc9279",
       "range": {
         "startLine": 69,
         "startChar": 11,
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "259b9ac9_7638fed4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "737d4eae_a76b5304",
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb06b99e_5122d021",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 4
@@ -168,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "248803ef_daae5c85",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb06b99e_5122d021",
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "632bd70b_ec97648d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
         "patchSetId": 4
@@ -179,6 +353,30 @@
       "writtenOn": "Feb 7, 2017 5:26:09 AM",
       "side": 1,
       "message": "I think these calls should be swapped.\n\nIn the old version we used a ScreenLoadCallback with preDisplay that invoked identites.display(results) and ScreenLoadCallback calls preDisplay before display().",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 39
+      },
+      "revId": "7d7672e6cea4e147787f8e006167cbfc0392def8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3ed5f51_17648b3d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyIdentitiesScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 7, 2017 5:35:38 AM",
+      "side": 1,
+      "message": "Then I think we should also change MyWatchedProjectsScreen as it also calls display() first.",
+      "parentUuid": "632bd70b_ec97648d",
       "range": {
         "startLine": 81,
         "startChar": 12,

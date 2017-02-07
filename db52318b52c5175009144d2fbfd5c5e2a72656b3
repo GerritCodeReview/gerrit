@@ -16,6 +16,24 @@
       "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2daa176_f1353e9d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 1:47:50 PM",
+      "side": 1,
+      "message": "Yes.\nTechnically, it only wraps sections, but there\u0027s not much besides that.",
+      "parentUuid": "811d8789_dacacc2b",
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

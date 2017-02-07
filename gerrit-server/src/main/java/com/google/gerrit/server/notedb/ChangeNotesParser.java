@@ -570,12 +570,15 @@ class ChangeNotesParser {
     if (status == null) {
       throw invalidFooter(FOOTER_STATUS, statusLines.get(0));
     }
-    // All approvals after MERGED and before the next status change get the
-    // postSubmit bit. (Currently the state can't change from MERGED to
-    // something else, but just in case.)
+    // All approvals after MERGED and before the next status change get the postSubmit
+    // bit. (Currently the state can't change from MERGED to something else, but just in case.) The
+    // exception is the legacy SUBM approval, which is never considered post-submit, but might end
+    // up sorted after the submit during rebuilding.
     if (status == Change.Status.MERGED) {
       for (PatchSetApproval psa : bufferedApprovals) {
-        psa.setPostSubmit(true);
+        if (!psa.isLegacySubmit()) {
+          psa.setPostSubmit(true);
+        }
       }
     }
     bufferedApprovals.clear();

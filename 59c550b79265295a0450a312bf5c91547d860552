@@ -71,6 +71,24 @@
       "revId": "59c550b79265295a0450a312bf5c91547d860552",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f05e01f_ecdc5bae",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "Feb 7, 2017 9:49:21 AM",
+      "side": 1,
+      "message": "\u003e but I don\u0027t really see the advantage of\n\n...shoehorning this simple script into a bazel build.",
+      "parentUuid": "cfbce644_501cb6bc",
+      "revId": "59c550b79265295a0450a312bf5c91547d860552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

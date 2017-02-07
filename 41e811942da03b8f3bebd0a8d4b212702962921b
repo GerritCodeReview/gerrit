@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65d1a522_3206d0dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 10:27:48 AM",
+      "side": 1,
+      "message": "(not required, but maybe you\u0027ll like it)\nthis._orderedComments.forEach(function(comment, i) {\n  comment.collapsed \u003d this._orderedComments.length -\n      i - 1 \u003e\u003d UNRESOLVED_EXPAND_COUNT || !this._unresolved;\n}.bind(this));\n\nOr something like that.",
+      "revId": "41e811942da03b8f3bebd0a8d4b212702962921b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

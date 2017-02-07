@@ -140,7 +140,7 @@ class ProjectBasicAuthFilter implements Filter {
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
-      if (passwordMatchesTheUserGeneratedOne(who, username, password)) {
+      if (who.checkPassword(password, username)) {
         return succeedAuthentication(who);
       }
     }
@@ -157,7 +157,7 @@ class ProjectBasicAuthFilter implements Filter {
       setUserIdentified(whoAuthResult.getAccountId());
       return true;
     } catch (NoSuchUserException e) {
-      if (password.equals(who.getPassword(who.getUserName()))) {
+      if (who.checkPassword(password, who.getUserName())) {
         return succeedAuthentication(who);
       }
       log.warn("Authentication failed for " + username, e);
@@ -192,12 +192,6 @@ class ProjectBasicAuthFilter implements Filter {
     ws.setUserAccountId(id);
     ws.setAccessPathOk(AccessPath.GIT, true);
     ws.setAccessPathOk(AccessPath.REST_API, true);
-  }
-
-  private boolean passwordMatchesTheUserGeneratedOne(
-      AccountState who, String username, String password) {
-    String accountPassword = who.getPassword(username);
-    return accountPassword != null && password != null && accountPassword.equals(password);
   }
 
   private String encoding(HttpServletRequest req) {

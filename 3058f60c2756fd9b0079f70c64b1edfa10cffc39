@@ -70,6 +70,23 @@
       "revId": "3058f60c2756fd9b0079f70c64b1edfa10cffc39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87048006_749dff4d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 6, 2017 5:24:52 PM",
+      "side": 1,
+      "message": "\u003e @Wyatt I would like to, but would advocate for doing this after we get rid of GWT. I don\u0027t really want to refactor their code, and \u0027side\u0027 is returned by the API.\n\nI don\u0027t mean to rewrite the name in the API or GWT, but rather as it appears in parameter lists like this, and also as property keys on elements, such as GR-DIFF-COMMENT-THREAD.",
+      "revId": "3058f60c2756fd9b0079f70c64b1edfa10cffc39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

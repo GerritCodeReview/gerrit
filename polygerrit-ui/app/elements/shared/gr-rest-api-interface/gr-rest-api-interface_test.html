@@ -20,6 +20,7 @@ limitations under the License.
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
+<script src="../../../scripts/util.js"></script>
 
 <link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
 <link rel="import" href="gr-rest-api-interface.html">
@@ -133,11 +134,13 @@ limitations under the License.
           '/COMMIT_MSG': [],
           'sieve.go': [
             {
+              updated: '2017-02-03 22:32:28.000000000',
               message: 'this isn’t quite right',
             },
             {
               side: 'PARENT',
               message: 'how did this work in the first place?',
+              updated: '2017-02-03 22:33:28.000000000',
             },
           ],
         });
@@ -149,11 +152,13 @@ limitations under the License.
             side: 'PARENT',
             message: 'how did this work in the first place?',
             path: 'sieve.go',
+            updated: '2017-02-03 22:33:28.000000000',
           });
           assert.equal(obj.comments.length, 1);
           assert.deepEqual(obj.comments[0], {
             message: 'this isn’t quite right',
             path: 'sieve.go',
+            updated: '2017-02-03 22:32:28.000000000',
           });
           done();
         });
@@ -167,10 +172,12 @@ limitations under the License.
             'sieve.go': [
               {
                 message: 'this isn’t quite right',
+                updated: '2017-02-03 22:32:28.000000000',
               },
               {
                 side: 'PARENT',
                 message: 'how did this work in the first place?',
+                updated: '2017-02-03 22:33:28.000000000',
               },
             ],
           });
@@ -180,13 +187,16 @@ limitations under the License.
             'sieve.go': [
               {
                 message: 'What on earth are you thinking, here?',
+                updated: '2017-02-03 22:32:28.000000000',
               },
               {
                 side: 'PARENT',
                 message: 'Yeah not sure how this worked either?',
+                updated: '2017-02-03 22:33:28.000000000',
               },
               {
                 message: '¯\\_(ツ)_/¯',
+                updated: '2017-02-04 22:33:28.000000000',
               },
             ],
           });
@@ -198,15 +208,18 @@ limitations under the License.
           assert.deepEqual(obj.baseComments[0], {
             message: 'this isn’t quite right',
             path: 'sieve.go',
+            updated: '2017-02-03 22:32:28.000000000',
           });
           assert.equal(obj.comments.length, 2);
           assert.deepEqual(obj.comments[0], {
             message: 'What on earth are you thinking, here?',
             path: 'sieve.go',
+            updated: '2017-02-03 22:32:28.000000000',
           });
           assert.deepEqual(obj.comments[1], {
             message: '¯\\_(ツ)_/¯',
             path: 'sieve.go',
+            updated: '2017-02-04 22:33:28.000000000',
           });
           done();
         });

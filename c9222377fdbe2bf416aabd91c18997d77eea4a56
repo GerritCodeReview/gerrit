@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a216257_05e0897b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPasswordScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-07T13:38:28Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "c9222377fdbe2bf416aabd91c18997d77eea4a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77dec184_9a93774e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPasswordScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-07T13:38:28Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "c9222377fdbe2bf416aabd91c18997d77eea4a56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -252,7 +252,7 @@
         var selectorEl = this.$$('iron-selector[data-label="' + label + '"]');
 
         // The user may have not voted on this label.
-        if (!selectorEl.selectedItem) { continue; }
+        if (!selectorEl || !selectorEl.selectedItem) { continue; }
 
         var selectedVal = selectorEl.selectedItem.getAttribute('data-value');
         selectedVal = parseInt(selectedVal, 10);

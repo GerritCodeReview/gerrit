@@ -74,7 +74,8 @@
     _sortByDate: function(threadGroups) {
       if (!threadGroups.length) { return; }
       return threadGroups.sort(function(a, b) {
-        return a.start_datetime > b.start_datetime;
+        return util.parseDate(a.start_datetime) -
+            util.parseDate(b.start_datetime);
       });
     },
 

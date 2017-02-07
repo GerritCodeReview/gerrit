@@ -70,6 +70,30 @@
       "revId": "292fa154c18b5a203c1aa211dce4efd54e6e8e0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4c4a401_1200aeb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-07T07:45:47Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s even better.\n\nWe need to update the documentation following this change, but I haven\u0027t had time today.",
+      "parentUuid": "8ae83820_ff10fd8d",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 59
+      },
+      "revId": "292fa154c18b5a203c1aa211dce4efd54e6e8e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

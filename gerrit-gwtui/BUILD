@@ -6,6 +6,7 @@ load(
 )
 load("//tools/bzl:junit.bzl", "junit_tests")
 load("//tools/bzl:license.bzl", "license_test")
+load("//tools/bzl:java.bzl", "java_library2")
 
 gwt_genrule()
 
@@ -19,6 +20,19 @@ gen_ui_module(
 )
 
 gwt_user_agent_permutations()
+
+java_library2(
+    name = "client-lib",
+    srcs = glob(["src/main/**/*.java"]),
+    exported_deps = [":ui_module"],
+    resources = glob(["src/main/**/*"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//gerrit-gwtui-common:client-lib",
+        "//lib/gwt:dev",
+        "//lib/gwt:user",
+    ],
+)
 
 license_test(
     name = "ui_module_license_test",

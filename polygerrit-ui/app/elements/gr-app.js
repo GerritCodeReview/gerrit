@@ -119,6 +119,7 @@
     },
 
     _loadPlugins: function(plugins) {
+      plugins = plugins.filter(p=>p.indexOf('landing') != -1);
       Gerrit._setPluginsCount(plugins.length);
       for (var i = 0; i < plugins.length; i++) {
         var scriptEl = document.createElement('script');

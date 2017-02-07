@@ -16,10 +16,11 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior.html">
+<link rel="import" href="../../plugin/gr-external-style/gr-external-style.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
-<link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
+<link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
@@ -68,7 +69,7 @@ limitations under the License.
       .notApproved {
         background-color: #ffd4d4;
       }
-      .labelStatus {
+      .labelStatus .value {
         max-width: 9em;
       }
       .webLink {
@@ -93,156 +94,170 @@ limitations under the License.
         .title {
           padding-right: .5em;
         }
+        section.assignee {
+          @apply(--change-metadata-assignee);
+        }
+        section.labelStatus {
+          @apply(--change-metadata-label-status);
+        }
+        section.strategy {
+          @apply(--change-metadata-strategy);
+        }
+        section.topic {
+          @apply(--change-metadata-topic);
+        }
       }
     </style>
-    <section>
+    <gr-external-style name="change-metadata">
+      <section>
       <span class="title">Updated</span>
-      <span class="value">
-        <gr-date-formatter
-            date-str="[[change.updated]]"></gr-date-formatter>
-      </span>
-    </section>
-    <section>
-      <span class="title">Owner</span>
-      <span class="value">
-        <gr-account-link account="[[change.owner]]"></gr-account-link>
-      </span>
-    </section>
-    <template is="dom-if" if="[[_showReviewersByState]]">
-      <section>
-        <span class="title">Assignee</span>
         <span class="value">
-          <gr-account-list
-              max-count="1"
-              id="assigneeValue"
-              placeholder="Add assignee..."
-              accounts="{{_assignee}}"
-              change="[[change]]"
-              readonly="[[!mutable]]"
-              allow-any-user></gr-account-list>
+          <gr-date-formatter
+              date-str="[[change.updated]]"></gr-date-formatter>
         </span>
       </section>
       <section>
-        <span class="title">Reviewers</span>
+        <span class="title">Owner</span>
         <span class="value">
-          <gr-reviewer-list
-              change="{{change}}"
-              mutable="[[mutable]]"
-              reviewers-only></gr-reviewer-list>
+          <gr-account-link account="[[change.owner]]"></gr-account-link>
         </span>
       </section>
+      <template is="dom-if" if="[[_showReviewersByState]]">
+        <section class="assignee">
+          <span class="title">Assignee</span>
+          <span class="value">
+            <gr-account-list
+                max-count="1"
+                id="assigneeValue"
+                placeholder="Add assignee..."
+                accounts="{{_assignee}}"
+                change="[[change]]"
+                readonly="[[!mutable]]"
+                allow-any-user></gr-account-list>
+          </span>
+        </section>
+        <section>
+          <span class="title">Reviewers</span>
+          <span class="value">
+            <gr-reviewer-list
+                change="{{change}}"
+                mutable="[[mutable]]"
+                reviewers-only></gr-reviewer-list>
+          </span>
+        </section>
+        <section>
+          <span class="title">CC</span>
+          <span class="value">
+            <gr-reviewer-list
+                change="{{change}}"
+                mutable="[[mutable]]"
+                ccs-only></gr-reviewer-list>
+          </span>
+        </section>
+      </template>
+      <template is="dom-if" if="[[!_showReviewersByState]]">
+        <section>
+          <span class="title">Assignee</span>
+          <span class="value">
+            <gr-account-list
+                max-count="1"
+                id="assigneeValue"
+                placeholder="Add assignee..."
+                accounts="{{_assignee}}"
+                change="[[change]]"
+                readonly="[[!mutable]]"
+                allow-any-user></gr-account-list>
+          </span>
+        </section>
+        <section>
+          <span class="title">Reviewers</span>
+          <span class="value">
+            <gr-reviewer-list
+                change="{{change}}"
+                mutable="[[mutable]]"></gr-reviewer-list>
+          </span>
+        </section>
+      </template>
       <section>
-        <span class="title">CC</span>
-        <span class="value">
-          <gr-reviewer-list
-              change="{{change}}"
-              mutable="[[mutable]]"
-              ccs-only></gr-reviewer-list>
-        </span>
+        <span class="title">Project</span>
+        <span class="value">[[change.project]]</span>
       </section>
-    </template>
-    <template is="dom-if" if="[[!_showReviewersByState]]">
       <section>
-        <span class="title">Assignee</span>
-        <span class="value">
-          <gr-account-list
-              max-count="1"
-              id="assigneeValue"
-              placeholder="Add assignee..."
-              accounts="{{_assignee}}"
-              change="[[change]]"
-              readonly="[[!mutable]]"
-              allow-any-user></gr-account-list>
-        </span>
+        <span class="title">Branch</span>
+        <span class="value">[[change.branch]]</span>
       </section>
-      <section>
-        <span class="title">Reviewers</span>
+      <section class="topic">
+        <span class="title">Topic</span>
         <span class="value">
-          <gr-reviewer-list
-              change="{{change}}"
-              mutable="[[mutable]]"></gr-reviewer-list>
-        </span>
-      </section>
-    </template>
-    <section>
-      <span class="title">Project</span>
-      <span class="value">[[change.project]]</span>
-    </section>
-    <section>
-      <span class="title">Branch</span>
-      <span class="value">[[change.branch]]</span>
-    </section>
-    <section>
-      <span class="title">Topic</span>
-      <span class="value">
-        <template is="dom-if" if="[[change.topic]]">
-          <gr-linked-chip
-              text="[[change.topic]]"
-              href="[[_computeTopicHref(change.topic)]]"
-              removable="[[!_topicReadOnly]]"
-              on-remove="_handleTopicRemoved"></gr-linked-chip>
-        </template>
-        <template is="dom-if" if="[[!change.topic]]">
-          <gr-editable-label
-              value="{{change.topic}}"
-              placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
-              read-only="[[_topicReadOnly]]"
-              on-changed="_handleTopicChanged"></gr-editable-label>
-        </template>
-      </span>
-    </section>
-    <section class="strategy" hidden$="[[_computeHideStrategy(change)]]" hidden>
-      <span class="title">Strategy</span>
-      <span class="value">[[_computeStrategy(change)]]</span>
-    </section>
-    <template is="dom-repeat"
-        items="[[_computeLabelNames(change.labels)]]" as="labelName">
-      <section>
-        <span class="title">[[labelName]]</span>
-        <span class="value">
-          <template is="dom-repeat"
-              items="[[_computeLabelValues(labelName, change.labels.*)]]"
-              as="label">
-            <div class="labelValueContainer">
-              <span class$="[[label.className]]">
-                <gr-label
-                    has-tooltip
-                    title="[[_computeValueTooltip(label.value, labelName)]]"
-                    class="labelValue">
-                  [[label.value]]
-                </gr-label>
-                <gr-account-chip
-                    account="[[label.account]]"
-                    data-account-id$="[[label.account._account_id]]"
-                    label-name="[[labelName]]"
-                    removable="[[_computeCanDeleteVote(label.account, mutable)]]"
-                    transparent-background
-                    on-remove="_onDeleteVote"></gr-account-chip>
-              </span>
-            </div>
+          <template is="dom-if" if="[[change.topic]]">
+            <gr-linked-chip
+                text="[[change.topic]]"
+                href="[[_computeTopicHref(change.topic)]]"
+                removable="[[!_topicReadOnly]]"
+                on-remove="_handleTopicRemoved"></gr-linked-chip>
+          </template>
+          <template is="dom-if" if="[[!change.topic]]">
+            <gr-editable-label
+                value="{{change.topic}}"
+                placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
+                read-only="[[_topicReadOnly]]"
+                on-changed="_handleTopicChanged"></gr-editable-label>
           </template>
         </span>
       </section>
-    </template>
-    <template is="dom-if" if="[[_showLabelStatus]]">
-      <section>
-        <span class="title">Label Status</span>
-        <span class="value labelStatus">
-          [[_computeSubmitStatus(change.labels)]]
+      <section class="strategy" hidden$="[[_computeHideStrategy(change)]]" hidden>
+        <span class="title">Strategy</span>
+        <span class="value">[[_computeStrategy(change)]]</span>
+      </section>
+      <template is="dom-repeat"
+          items="[[_computeLabelNames(change.labels)]]" as="labelName">
+        <section>
+          <span class="title">[[labelName]]</span>
+          <span class="value">
+            <template is="dom-repeat"
+                items="[[_computeLabelValues(labelName, change.labels.*)]]"
+                as="label">
+              <div class="labelValueContainer">
+                <span class$="[[label.className]]">
+                  <gr-label
+                      has-tooltip
+                      title="[[_computeValueTooltip(label.value, labelName)]]"
+                      class="labelValue">
+                    [[label.value]]
+                  </gr-label>
+                  <gr-account-chip
+                      account="[[label.account]]"
+                      data-account-id$="[[label.account._account_id]]"
+                      label-name="[[labelName]]"
+                      removable="[[_computeCanDeleteVote(label.account, mutable)]]"
+                      transparent-background
+                      on-remove="_onDeleteVote"></gr-account-chip>
+                </span>
+              </div>
+            </template>
+          </span>
+        </section>
+      </template>
+      <template is="dom-if" if="[[_showLabelStatus]]">
+        <section class="labelStatus">
+          <span class="title">Label Status</span>
+          <span class="value">
+            [[_computeSubmitStatus(change.labels)]]
+          </span>
+        </section>
+      </template>
+      <section id="webLinks" hidden$="[[!_computeWebLinks(commitInfo)]]">
+        <span class="title">Links</span>
+        <span class="value">
+          <template is="dom-repeat"
+              items="[[_computeWebLinks(commitInfo)]]" as="link">
+            <a href="[[link.url]]" class="webLink" rel="noopener" target="_blank">
+              [[link.name]]
+            </a>
+          </template>
         </span>
       </section>
-    </template>
-    <section id="webLinks" hidden$="[[!_computeWebLinks(commitInfo)]]">
-      <span class="title">Links</span>
-      <span class="value">
-        <template is="dom-repeat"
-            items="[[_computeWebLinks(commitInfo)]]" as="link">
-          <a href="[[link.url]]" class="webLink" rel="noopener" target="_blank">
-            [[link.name]]
-          </a>
-        </template>
-      </span>
-    </section>
+    </gr-external-style>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-metadata.js"></script>

@@ -38,6 +38,7 @@ java_library(
         "//lib:args4j",
         "//lib:automaton",
         "//lib:blame-cache",
+        "//lib/bouncycastle:bcprov-without-neverlink",
         "//lib:grappa",
         "//lib:gson",
         "//lib:guava",

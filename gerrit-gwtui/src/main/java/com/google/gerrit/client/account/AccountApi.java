@@ -181,6 +181,21 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("password.http").put(in, cb);
   }
 
+  /** Clear HTTP password */
+  public static void clearHttpPassword(String account, AsyncCallback<VoidResult> cb) {
+    new RestApi("/accounts/").id(account).view("password.http").delete(cb);
+  }
+
+  /** Retrieve account external ids */
+  public static void getExternalIds(AsyncCallback<JsArray<ExternalIdInfo>> cb) {
+    self().view("external.ids").get(cb);
+  }
+
+  /** Delete account external ids */
+  public static void deleteExternalIds(Set<String> ids, AsyncCallback<VoidResult> cb) {
+    self().view("external.ids:delete").post(Natives.arrayOf(ids), cb);
+  }
+
   /** Enter a contributor agreement */
   public static void enterAgreement(String account, String name, AsyncCallback<NativeString> cb) {
     AgreementInput in = AgreementInput.create();

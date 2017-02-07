@@ -710,6 +710,25 @@
           opt_patchNum, opt_path);
     },
 
+    _setRange: function(comments, comment) {
+      if (comment.in_reply_to && !comment.range) {
+        for (var i = 0; i < comments.length; i++) {
+          if (comments[i].id === comment.in_reply_to) {
+            comment.range = comments[i].range;
+            break;
+          }
+        }
+      }
+      return comment;
+    },
+
+    _sortComments: function(comments) {
+      comments = comments || [];
+      return comments.sort(function(a, b) {
+        return util.parseDate(a.updated) - util.parseDate(b.updated);
+      });
+    },
+
     _getDiffComments: function(changeNum, endpoint, opt_basePatchNum,
         opt_patchNum, opt_path) {
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
@@ -734,19 +753,10 @@
 
         // Sort comments by date so that parent ranges can be propagated in a
         // single pass.
-        comments = comments.sort(function(a, b) {
-          return a.updated > b.updated;
-        });
+        comments = this._sortComments(comments);
         comments.forEach(function(comment){
-          if (comment.in_reply_to && !comment.range) {
-            for (var i = 0; i < comments.length; i++) {
-              if (comments[i].id === comment.in_reply_to) {
-                comment.range = comments[i].range;
-                break;
-              }
-            }
-          }
-        });
+          comment = this._setRange(comments, comment);
+        }, this);
 
         if (opt_basePatchNum == PARENT_PATCH_NUM) {
           baseComments = comments.filter(onlyParent);
@@ -762,8 +772,14 @@
             opt_basePatchNum);
         promises.push(this.fetchJSON(baseURL).then(function(response) {
           baseComments = (response[opt_path] || []).filter(withoutParent);
+
+          baseComments = this._sortComments(baseComments);
+          baseComments.forEach(function(comment){
+            comment = this._setRange(baseComments, comment);
+          }, this);
+
           baseComments.forEach(setPath);
-        }));
+        }.bind(this)));
       }
 
       return Promise.all(promises).then(function() {

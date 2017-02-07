@@ -15,7 +15,10 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -28,16 +31,21 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -48,8 +56,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -69,6 +79,9 @@ public class MailProcessor {
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<ReviewDb> reviewDb;
   private final DynamicMap<MailFilter> mailFilters;
+  private final EmailReviewComments.Factory outgoingMailFactory;
+  private final CommentAdded commentAdded;
+  private final ApprovalsUtil approvalsUtil;
   private final Provider<String> canonicalUrl;
 
   @Inject
@@ -83,6 +96,9 @@ public class MailProcessor {
       Provider<InternalChangeQuery> queryProvider,
       Provider<ReviewDb> reviewDb,
       DynamicMap<MailFilter> mailFilters,
+      EmailReviewComments.Factory outgoingMailFactory,
+      ApprovalsUtil approvalsUtil,
+      CommentAdded commentAdded,
       @CanonicalWebUrl Provider<String> canonicalUrl) {
     this.accountByEmailCache = accountByEmailCache;
     this.buf = buf;
@@ -94,6 +110,9 @@ public class MailProcessor {
     this.queryProvider = queryProvider;
     this.reviewDb = reviewDb;
     this.mailFilters = mailFilters;
+    this.outgoingMailFactory = outgoingMailFactory;
+    this.commentAdded = commentAdded;
+    this.approvalsUtil = approvalsUtil;
     this.canonicalUrl = canonicalUrl;
   }
 
@@ -192,6 +211,10 @@ public class MailProcessor {
     private final PatchSet.Id psId;
     private final List<MailComment> parsedComments;
     private final String tag;
+    private ChangeMessage changeMessage;
+    private List<Comment> comments;
+    private PatchSet patchSet;
+    private ChangeControl changeControl;
 
     private Op(PatchSet.Id psId, List<MailComment> parsedComments, String messageId) {
       this.psId = psId;
@@ -202,8 +225,9 @@ public class MailProcessor {
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, UnprocessableEntityException {
-      PatchSet ps = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
-      if (ps == null) {
+      changeControl = ctx.getControl();
+      patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
+      if (patchSet == null) {
         throw new OrmException("patch set not found: " + psId);
       }
 
@@ -217,10 +241,9 @@ public class MailProcessor {
         changeMsg += "\n" + numComments(parsedComments.size());
       }
 
-      ChangeMessage msg = ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
-      changeMessagesUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), msg);
-
-      List<Comment> comments = new ArrayList<>();
+      changeMessage = ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);
+      changeMessagesUtil.addChangeMessage(ctx.getDb(), ctx.getUpdate(psId), changeMessage);
+      comments = new ArrayList<>();
       for (MailComment c : parsedComments) {
         if (c.type == MailComment.CommentType.CHANGE_MESSAGE) {
           continue;
@@ -241,7 +264,7 @@ public class MailProcessor {
           side = Side.fromShort(c.inReplyTo.side);
         } else {
           fileName = c.fileName;
-          psForComment = ps;
+          psForComment = patchSet;
           side = Side.REVISION;
         }
 
@@ -271,6 +294,38 @@ public class MailProcessor {
           comments);
 
       return true;
+    }
+
+    @Override
+    public void postUpdate(Context ctx) throws Exception {
+      // Send email notifications
+      outgoingMailFactory
+          .create(
+              NotifyHandling.ALL,
+              ArrayListMultimap.create(),
+              changeControl.getNotes(),
+              patchSet,
+              ctx.getUser().asIdentifiedUser(),
+              changeMessage,
+              comments,
+              null,
+              ImmutableList.of())
+          .sendAsync();
+      // Get previous approvals from this user
+      Map<String, Short> approvals = new HashMap<>();
+      approvalsUtil
+          .byPatchSetUser(ctx.getDb(), changeControl, psId, ctx.getAccountId())
+          .forEach(a -> approvals.put(a.getLabel(), a.getValue()));
+      // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
+      // are always the same here.
+      commentAdded.fire(
+          changeControl.getChange(),
+          patchSet,
+          ctx.getAccount(),
+          changeMessage.getMessage(),
+          approvals,
+          approvals,
+          ctx.getWhen());
     }
   }
 

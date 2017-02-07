@@ -208,6 +208,33 @@ public class MailProcessorIT extends AbstractDaemonTest {
     gApi.accounts().id("user").setActive(true);
   }
 
+  @Test
+  public void sendNotificationAfterPersistingComments() throws Exception {
+    String changeId = createChangeWithReview();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
+    // Build Message
+    MailMessage.Builder b = messageBuilderWithDefaultFields();
+    b.from(user.emailAddress);
+    String txt =
+        newPlaintextBody(
+            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
+            "Test Message",
+            null,
+            null,
+            null);
+    b.textContent(txt + textFooterForChange(changeId, ts));
+
+    sender.clear();
+    mailProcessor.process(b.build());
+
+    assertNotifyTo(admin);
+  }
+
   private static CommentInput newComment(String path, Side side, int line, String message) {
     CommentInput c = new CommentInput();
     c.path = path;

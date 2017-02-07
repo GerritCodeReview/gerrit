@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91e72142_152717a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 4:54:25 PM",
+      "side": 1,
+      "message": "Casing",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 20
+      },
+      "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a52f6f63_5f039337",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 4:54:25 PM",
+      "side": 1,
+      "message": "Can you explain the addition of this?",
+      "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f706d59a_1a7600bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 4:54:25 PM",
+      "side": 1,
+      "message": "Unrelated: Some wonky syntax highlighting on this line.",
+      "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18a4dc7c_5e3c8a41",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 6, 2017 4:54:25 PM",
+      "side": 1,
+      "message": "Wrap at 80ch",
+      "revId": "4ee9f5f6dff6addd68a9c5807f52160b1cbb3784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

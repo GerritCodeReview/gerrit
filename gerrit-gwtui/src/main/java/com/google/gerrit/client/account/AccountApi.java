@@ -174,21 +174,11 @@ public class AccountApi {
     group.done();
   }
 
-  /** Retrieve the HTTP password */
-  public static void getHttpPassword(String account, AsyncCallback<NativeString> cb) {
-    new RestApi("/accounts/").id(account).view("password.http").get(cb);
-  }
-
   /** Generate a new HTTP password */
   public static void generateHttpPassword(String account, AsyncCallback<NativeString> cb) {
     HttpPasswordInput in = HttpPasswordInput.create();
     in.generate(true);
     new RestApi("/accounts/").id(account).view("password.http").put(in, cb);
-  }
-
-  /** Clear HTTP password */
-  public static void clearHttpPassword(String account, AsyncCallback<VoidResult> cb) {
-    new RestApi("/accounts/").id(account).view("password.http").delete(cb);
   }
 
   /** Enter a contributor agreement */

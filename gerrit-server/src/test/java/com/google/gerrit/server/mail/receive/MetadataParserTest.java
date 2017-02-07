@@ -62,11 +62,11 @@ public class MetadataParserTest {
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append(toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid" + "\n");
-    stringBuilder.append(toFooterWithDelimiter(MetadataName.PATCH_SET) + "1" + "\n");
+    stringBuilder.append(toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid" + "\r\n");
+    stringBuilder.append("> " + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1" + "\n");
     stringBuilder.append(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment" + "\n");
     stringBuilder.append(
-        toFooterWithDelimiter(MetadataName.TIMESTAMP) + "Tue, 25 Oct 2016 02:11:35 -0700" + "\n");
+        toFooterWithDelimiter(MetadataName.TIMESTAMP) + "Tue, 25 Oct 2016 02:11:35 -0700" + "\r\n");
     b.textContent(stringBuilder.toString());
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");
@@ -91,15 +91,16 @@ public class MetadataParserTest {
     b.subject("");
 
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("<p>" + toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid" + "</p>");
-    stringBuilder.append("<p>" + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1" + "</p>");
     stringBuilder.append(
-        "<p>" + toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment" + "</p>");
+        "<div id\"someid\">" + toFooterWithDelimiter(MetadataName.CHANGE_ID) + "cid" + "</div>");
+    stringBuilder.append("<div>" + toFooterWithDelimiter(MetadataName.PATCH_SET) + "1" + "</div>");
     stringBuilder.append(
-        "<p>"
+        "<div>" + toFooterWithDelimiter(MetadataName.MESSAGE_TYPE) + "comment" + "</div>");
+    stringBuilder.append(
+        "<div>"
             + toFooterWithDelimiter(MetadataName.TIMESTAMP)
             + "Tue, 25 Oct 2016 02:11:35 -0700"
-            + "</p>");
+            + "</div>");
     b.htmlContent(stringBuilder.toString());
 
     Address author = new Address("Diffy", "test@gerritcodereview.com");

@@ -111,6 +111,48 @@
     },
     {
       "key": {
+        "uuid": "17b36d72_06738cab",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-02-07T12:03:08Z",
+      "side": 1,
+      "message": "it might be more precise without \".\"\n^(?:(?!/a/))(?:/p/|/)?(.+)(?:/info/lfs/objects/batch)$",
+      "parentUuid": "3a1b9efd_dac459c9",
+      "range": {
+        "startLine": 30,
+        "startChar": 17,
+        "endLine": 30,
+        "endChar": 18
+      },
+      "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c894ca_8ef28407",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-02-07T12:03:08Z",
+      "side": 1,
+      "message": "Right, I didn\u0027t want to have auth duplicated in case \"/a\" is in the URL (for instance when one uses gerrit checkout-url from UI - with download plugin).",
+      "parentUuid": "5c73a6d6_8cc0cc86",
+      "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bd25021_5dfdc17f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
         "patchSetId": 2
@@ -146,6 +188,24 @@
       "side": 1,
       "message": "Correction:\n\n\u003e What is we here put the LfPluginServlet.URL_REGEX)?\n\nWhat if ...",
       "parentUuid": "3bd25021_5dfdc17f",
+      "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5343ebaa_45a7fed6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-02-07T12:03:08Z",
+      "side": 1,
+      "message": "It will not work due:\n- ProjectBasicAuthFilter filters only requests that are Git specific (therefore we need this additional filter that acts when there is no \"/a\" prefix\n- it works as long as we don\u0027t enable auth checking in LFS (performed in [1]) as it accepts everything without checking if user has rights to it\n\nAgain solution is to either modify repository\u0027s lfs.url to contain \"a/\" prefix (impractical probably achievable on proxy to rewrite URL) or make sure that Git LFS requests are filtered regardless of prefix presence - this patch ;)\n\n\n[1] https://gerrit-review.googlesource.com/#/c/93991/",
+      "parentUuid": "aae8fce7_0955ff8f",
       "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

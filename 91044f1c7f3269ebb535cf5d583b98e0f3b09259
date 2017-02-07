@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2af5c136_7c32079d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 6, 2017 5:54:18 PM",
+      "side": 1,
+      "message": "This method could benefit from a JSDoc that describes the case it normalizes. From the code, I believe that triple-clicking results in the range ending one or two levels higher than it should and and ends on the next line. Is this right?",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 28
+      },
+      "revId": "91044f1c7f3269ebb535cf5d583b98e0f3b09259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

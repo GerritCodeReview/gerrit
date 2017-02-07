@@ -94,6 +94,30 @@
       "revId": "292fa154c18b5a203c1aa211dce4efd54e6e8e0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "add26098_b0995610",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-07T07:49:35Z",
+      "side": 1,
+      "message": "On a side note: google-java_format is already using parallelization and will keep all CPU cores busy, otherwise we could have used GNU parallel.",
+      "parentUuid": "e4c4a401_1200aeb0",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 59
+      },
+      "revId": "292fa154c18b5a203c1aa211dce4efd54e6e8e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

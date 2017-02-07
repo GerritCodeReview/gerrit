@@ -23,9 +23,14 @@ import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.MetadataName;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.format.DateTimeParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Parse metadata from inbound email */
 public class MetadataParser {
+  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class.getName());
+
   public static MailMetadata parse(MailMessage m) {
     MailMetadata metadata = new MailMetadata();
     // Find author
@@ -40,8 +45,12 @@ public class MetadataParser {
         String ps = header.substring(toHeaderWithDelimiter(MetadataName.PATCH_SET).length());
         metadata.patchSet = Ints.tryParse(ps);
       } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.TIMESTAMP))) {
-        String ts = header.substring(toHeaderWithDelimiter(MetadataName.TIMESTAMP).length());
-        metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+        String ts = header.substring(toHeaderWithDelimiter(MetadataName.TIMESTAMP).length()).trim();
+        try {
+          metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+        } catch (DateTimeParseException e) {
+          log.error("Error while parsing timestamp from email header", e);
+        }
       } else if (header.startsWith(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE))) {
         metadata.messageType =
             header.substring(toHeaderWithDelimiter(MetadataName.MESSAGE_TYPE).length());
@@ -82,7 +91,11 @@ public class MetadataParser {
             Ints.tryParse(extractFooter(toFooterWithDelimiter(MetadataName.PATCH_SET), line));
       } else if (metadata.timestamp == null && line.contains(MetadataName.TIMESTAMP)) {
         String ts = extractFooter(toFooterWithDelimiter(MetadataName.TIMESTAMP), line);
-        metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+        try {
+          metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
+        } catch (DateTimeParseException e) {
+          log.error("Error while parsing timestamp from email footer: " + e);
+        }
       } else if (metadata.messageType == null && line.contains(MetadataName.MESSAGE_TYPE)) {
         metadata.messageType =
             extractFooter(toFooterWithDelimiter(MetadataName.MESSAGE_TYPE), line);
@@ -91,6 +104,6 @@ public class MetadataParser {
   }
 
   private static String extractFooter(String key, String line) {
-    return line.substring(line.indexOf(key) + key.length(), line.length());
+    return line.substring(line.indexOf(key) + key.length(), line.length()).trim();
   }
 }

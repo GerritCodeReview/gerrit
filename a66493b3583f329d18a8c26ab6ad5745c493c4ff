@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "710196d3_107c8361",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 7, 2017 1:08:32 PM",
+      "side": 1,
+      "message": "Also basically immaterial to the change, but I don\u0027t really like this kind of formatting for function call chaining. In the same way we don\u0027t put each arg to a function on its own line, do we really need to put the call to reload on its own line? I think it\u0027s just as readable, and I value my vertical space.\n\nFeel free to ignore me though.",
+      "range": {
+        "startLine": 733,
+        "startChar": 6,
+        "endLine": 738,
+        "endChar": 24
+      },
+      "revId": "a66493b3583f329d18a8c26ab6ad5745c493c4ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

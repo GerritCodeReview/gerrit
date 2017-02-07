@@ -53,16 +53,6 @@ public class TestNotesMigration extends NotesMigration {
   }
 
   @Override
-  public boolean readAccounts() {
-    return false;
-  }
-
-  @Override
-  public boolean writeAccounts() {
-    return false;
-  }
-
-  @Override
   public boolean failOnLoad() {
     return failOnLoad;
   }

@@ -70,10 +70,6 @@ public abstract class NotesMigration {
   /** @return default primary storage for new changes. */
   public abstract PrimaryStorage changePrimaryStorage();
 
-  public abstract boolean readAccounts();
-
-  public abstract boolean writeAccounts();
-
   /**
    * Whether to fail when reading any data from NoteDb.
    *
@@ -102,6 +98,6 @@ public abstract class NotesMigration {
   }
 
   public boolean enabled() {
-    return writeChanges() || readChanges() || writeAccounts() || readAccounts();
+    return writeChanges() || readChanges();
   }
 }

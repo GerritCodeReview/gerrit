@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.notedb.NoteDbTable.ACCOUNTS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 
 import com.google.common.collect.ImmutableSet;
@@ -24,7 +23,6 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
@@ -55,10 +53,7 @@ public class ConfigNotesMigration extends NotesMigration {
   private static final String WRITE = "write";
 
   private static void checkConfig(Config cfg) {
-    Set<String> keys = new HashSet<>();
-    for (NoteDbTable t : NoteDbTable.values()) {
-      keys.add(t.key().toLowerCase());
-    }
+    Set<String> keys = ImmutableSet.of(CHANGES.key());
     Set<String> allowed =
         ImmutableSet.of(
             PRIMARY_STORAGE.toLowerCase(),
@@ -75,10 +70,8 @@ public class ConfigNotesMigration extends NotesMigration {
 
   public static Config allEnabledConfig() {
     Config cfg = new Config();
-    for (NoteDbTable t : NoteDbTable.values()) {
-      cfg.setBoolean(NOTE_DB, t.key(), WRITE, true);
-      cfg.setBoolean(NOTE_DB, t.key(), READ, true);
-    }
+    cfg.setBoolean(NOTE_DB, CHANGES.key(), WRITE, true);
+    cfg.setBoolean(NOTE_DB, CHANGES.key(), READ, true);
     return cfg;
   }
 
@@ -86,9 +79,6 @@ public class ConfigNotesMigration extends NotesMigration {
   private final boolean readChanges;
   private final boolean readChangeSequence;
   private final PrimaryStorage changePrimaryStorage;
-
-  private final boolean writeAccounts;
-  private final boolean readAccounts;
 
   @Inject
   ConfigNotesMigration(@GerritServerConfig Config cfg) {
@@ -105,9 +95,6 @@ public class ConfigNotesMigration extends NotesMigration {
 
     changePrimaryStorage =
         cfg.getEnum(NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
-
-    writeAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), WRITE, false);
-    readAccounts = cfg.getBoolean(NOTE_DB, ACCOUNTS.key(), READ, false);
   }
 
   @Override
@@ -128,15 +115,5 @@ public class ConfigNotesMigration extends NotesMigration {
   @Override
   public PrimaryStorage changePrimaryStorage() {
     return changePrimaryStorage;
-  }
-
-  @Override
-  public boolean writeAccounts() {
-    return writeAccounts;
-  }
-
-  @Override
-  public boolean readAccounts() {
-    return readAccounts;
   }
 }

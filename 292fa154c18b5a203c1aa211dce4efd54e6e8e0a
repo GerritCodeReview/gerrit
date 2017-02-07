@@ -22,6 +22,30 @@
       "revId": "292fa154c18b5a203c1aa211dce4efd54e6e8e0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816b565d_b0c5d74b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-07T07:42:25Z",
+      "side": 1,
+      "message": "This command applies formatting to the entire java code base.\n\nYou can try using `git ls-files --modified` instead, to only apply the formatting to the files you\u0027ve modified.",
+      "parentUuid": "80fee387_335aaca6",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 59
+      },
+      "revId": "292fa154c18b5a203c1aa211dce4efd54e6e8e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

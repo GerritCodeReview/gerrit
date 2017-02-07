@@ -56,10 +56,10 @@ limitations under the License.
     }
 
     suite('test show change number not logged in', function() {
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI(null).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -69,13 +69,13 @@ limitations under the License.
     });
 
     suite('test show change number preference enabled', function() {
-      setup(function(done) {
-        return stubRestAPI({legacycid_in_change_table: true,
+      return setup(function() {
+         return stubRestAPI({legacycid_in_change_table: true,
             time_format: 'HHMM_12',
             change_table: [],
           }).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -85,12 +85,12 @@ limitations under the License.
     });
 
     suite('test show change number preference disabled', function() {
-      setup(function(done) {
+      setup(function() {
         // legacycid_in_change_table is not set when false.
         return stubRestAPI({time_format: 'HHMM_12', change_table: []}).then(
             function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -127,7 +127,7 @@ limitations under the License.
           changeTableColumns, labelNames));
     });
 
-    test('keyboard shortcuts', function(done) {
+    test('keyboard shortcuts', function() {
       element.selectedIndex = 0;
       element.changes = [
         {_number: 0},
@@ -249,7 +249,7 @@ limitations under the License.
     suite('empty column preference', function() {
       var element;
 
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI({
           legacycid_in_change_table: true,
             time_format: 'HHMM_12',
@@ -257,7 +257,7 @@ limitations under the License.
           }
         ).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -276,7 +276,7 @@ limitations under the License.
     suite('full column preference', function() {
       var element;
 
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI({
             legacycid_in_change_table: true,
             time_format: 'HHMM_12',
@@ -291,7 +291,7 @@ limitations under the License.
             ],
           }).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -306,7 +306,7 @@ limitations under the License.
     suite('partial column preference', function() {
       var element;
 
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI({
             legacycid_in_change_table: true,
             time_format: 'HHMM_12',
@@ -320,7 +320,7 @@ limitations under the License.
             ],
           }).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 
@@ -341,7 +341,7 @@ limitations under the License.
 
       /* This would only exist if somebody manually updated the config
       file. */
-      setup(function(done) {
+      setup(function() {
         return stubRestAPI({
             legacycid_in_change_table: true,
             time_format: 'HHMM_12',
@@ -350,7 +350,7 @@ limitations under the License.
             ],
           }).then(function() {
           element = fixture('basic');
-          element._loadPreferences().then(function() { done(); });
+          return element._loadPreferences();
         });
       });
 

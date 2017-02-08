@@ -278,6 +278,10 @@ has:edit::
 +
 True if the change has inline edit created by the current user.
 
+has:unresolved::
++
+True if the change has unresolved comments.
+
 [[is]]
 [[is-starred]]
 is:starred::
@@ -417,6 +421,16 @@ link:rest-api-changes.html#submit-record[SubmitRecord]. This operator
 only applies to the top-level status; individual label statuses can be
 searched link:#labels[by label].
 
+[[unresolved]]
+unresolved:'RELATION''NUMBER'::
++
+True if the number of unresolved comments satisfies the given relation for the given number.
++
+For example, unresolved:>0 will be true for any change which has at least one unresolved
+comment while unresolved:0 will be true for any change which has all comments resolved.
++
+Valid relations are >=, >, <=, <, or no relation, which will match if the number of unresolved
+comments is exactly equal.
 
 == Argument Quoting
 

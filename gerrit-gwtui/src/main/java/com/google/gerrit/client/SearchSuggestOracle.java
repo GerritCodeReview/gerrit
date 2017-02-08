@@ -118,6 +118,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("has:edit");
     suggestions.add("has:star");
     suggestions.add("has:stars");
+    suggestions.add("has:unresolved");
     suggestions.add("star:");
 
     suggestions.add("is:");
@@ -147,6 +148,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("deleted:");
     suggestions.add("delta:");
     suggestions.add("size:");
+
+    suggestions.add("unresolvedcount:");
 
     if (Gerrit.isNoteDbEnabled()) {
       suggestions.add("hashtag:");

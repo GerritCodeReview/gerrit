@@ -92,7 +92,6 @@
    * set of action buttons.
    */
   var MENU_ACTION_KEYS = [
-    'abandon',
     'cherrypick',
     '/', // '/' is the key for the delete action.
   ];
@@ -452,6 +451,8 @@
         this._handleRevisionAction(key);
       } else if (key === ChangeActions.REVERT) {
         this.showRevertDialog();
+      } else if (key === ChangeActions.ABANDON) {
+        this._showActionDialog(this.$.confirmAbandonDialog);
       } else if (key === QUICK_APPROVE_ACTION.key) {
         var action = this._allActionValues.find(function(o) {
           return o.key === key;

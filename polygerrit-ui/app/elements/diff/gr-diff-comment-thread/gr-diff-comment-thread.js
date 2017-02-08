@@ -47,6 +47,7 @@
       },
 
       _showActions: Boolean,
+      _lastComment: Object,
       _orderedComments: Array,
       _unresolved: {
         type: Boolean,
@@ -77,15 +78,19 @@
       this._setInitialExpandedState();
     },
 
-    addOrEditDraft: function(opt_lineNum) {
+    addOrEditDraft: function(opt_lineNum, opt_range) {
       var lastComment = this.comments[this.comments.length - 1];
       if (lastComment && lastComment.__draft) {
         var commentEl = this._commentElWithDraftID(
             lastComment.id || lastComment.__draftID);
         commentEl.editing = true;
+
+        // If the comment was collapsed, re-open it to make it clear which
+        // actions are available.
+        commentEl.collapsed = false;
       } else {
-        this.addDraft(opt_lineNum,
-            lastComment ? lastComment.range : undefined);
+        var range = opt_range || lastComment ? lastComment.range : undefined;
+        this.addDraft(opt_lineNum, range);
       }
     },
 
@@ -102,7 +107,14 @@
 
     _commentsChanged: function(changeRecord) {
       this._orderedComments = this._sortedComments(this.comments);
-      this._unresolved = this._getLastComment().unresolved;
+      if (this._orderedComments.length) {
+        this._lastComment = this._getLastComment();
+        this._unresolved = this._lastComment.unresolved;
+      }
+    },
+
+    _hideActions: function(_showActions, _lastComment) {
+      return !_showActions || !_lastComment || !!_lastComment.__draft;
     },
 
     _getLastComment: function() {
@@ -191,23 +203,31 @@
       }
     },
 
-    _handleCommentReply: function(e) {
-      var comment = e.detail.comment;
+    _processCommentReply: function(opt_quote) {
+      var comment = this._lastComment;
       var quoteStr;
-      if (e.detail.quote) {
+      if (opt_quote) {
         var msg = comment.message;
         quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       }
       this._createReplyComment(comment, quoteStr, true, comment.unresolved);
     },
 
+    _handleCommentReply: function(e) {
+      this._processCommentReply();
+    },
+
+    _handleCommentQuote: function(e) {
+      this._processCommentReply(true);
+    },
+
     _handleCommentAck: function(e) {
-      var comment = e.detail.comment;
+      var comment = this._lastComment;
       this._createReplyComment(comment, 'Ack', false, comment.unresolved);
     },
 
     _handleCommentDone: function(e) {
-      var comment = e.detail.comment;
+      var comment = this._lastComment;
       this._createReplyComment(comment, 'Done', false, false);
     },
 

@@ -43,6 +43,7 @@ limitations under the License.
     var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
       });
@@ -147,6 +148,17 @@ limitations under the License.
       assert.isFalse(commentElStub.called);
       assert.isTrue(addDraftStub.called);
     });
+
+    test('_hideActions', function() {
+      var showActions = true;
+      var lastComment = {};
+      assert.equal(element._hideActions(showActions, lastComment), false);
+      showActions = false;
+      assert.equal(element._hideActions(showActions, lastComment), true);
+      var showActions = true;
+      lastComment.__draft = true;
+      assert.equal(element._hideActions(showActions, lastComment), true);
+    });
   });
 
   suite('comment action tests', function() {
@@ -189,33 +201,35 @@ limitations under the License.
     test('reply', function(done) {
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('create-reply-comment', function() {
-        var drafts = element._orderedComments.filter(function(c) {
-          return c.__draft == true;
-        });
-        assert.equal(drafts.length, 1);
-        assert.notOk(drafts[0].message, 'message should be empty');
-        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-        done();
+
+      var replyBtn = element.$.replyBtn;
+      MockInteractions.tap(replyBtn);
+      flushAsynchronousOperations();
+
+      var drafts = element._orderedComments.filter(function(c) {
+        return c.__draft == true;
       });
-      commentEl.fire('create-reply-comment', {comment: commentEl.comment},
-          {bubbles: false});
+      assert.equal(drafts.length, 1);
+      assert.notOk(drafts[0].message, 'message should be empty');
+      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+      done();
     });
 
     test('quote reply', function(done) {
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('create-reply-comment', function() {
-        var drafts = element._orderedComments.filter(function(c) {
+
+      var quoteBtn = element.$.quoteBtn;
+      MockInteractions.tap(quoteBtn);
+      flushAsynchronousOperations();
+
+      var drafts = element._orderedComments.filter(function(c) {
           return c.__draft == true;
-        });
-        assert.equal(drafts.length, 1);
-        assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
-        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-        done();
       });
-      commentEl.fire('create-reply-comment', {comment: commentEl.comment,
-          quote: true}, {bubbles: false});
+      assert.equal(drafts.length, 1);
+      assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
+      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+      done();
     });
 
     test('quote reply multiline', function(done) {
@@ -233,27 +247,32 @@ limitations under the License.
 
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('create-reply-comment', function() {
-        var drafts = element._orderedComments.filter(function(c) {
-          return c.__draft == true;
-        });
-        assert.equal(drafts.length, 1);
-        assert.equal(drafts[0].message,
-            '> is this a crossover episode!?\n> It might be!\n\n');
-        assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-        done();
+
+      var quoteBtn = element.$.quoteBtn;
+      MockInteractions.tap(quoteBtn);
+      flushAsynchronousOperations();
+
+      var drafts = element._orderedComments.filter(function(c) {
+        return c.__draft == true;
       });
-      commentEl.fire('create-reply-comment', {comment: commentEl.comment,
-          quote: true}, {bubbles: false});
+      assert.equal(drafts.length, 1);
+      assert.equal(drafts[0].message,
+          '> is this a crossover episode!?\n> It might be!\n\n');
+      assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+      done();
     });
 
     test('ack', function(done) {
       element.changeNum = '42';
       element.patchNum = '1';
+
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('create-ack-comment', function() {
-        var drafts = element._orderedComments.filter(function(c) {
+
+      var ackBtn = element.$.ackBtn;
+      MockInteractions.tap(ackBtn);
+      flush(function() {
+        var drafts = element.comments.filter(function(c) {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 1);
@@ -261,8 +280,6 @@ limitations under the License.
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         done();
       });
-      commentEl.fire('create-ack-comment', {comment: commentEl.comment},
-          {bubbles: false});
     });
 
     test('done', function(done) {
@@ -270,8 +287,11 @@ limitations under the License.
       element.patchNum = '1';
       var commentEl = element.$$('gr-diff-comment');
       assert.ok(commentEl);
-      commentEl.addEventListener('create-done-comment', function() {
-        var drafts = element._orderedComments.filter(function(c) {
+
+      var doneBtn = element.$.doneBtn;
+      MockInteractions.tap(doneBtn);
+      flush(function() {
+        var drafts = element.comments.filter(function(c) {
           return c.__draft == true;
         });
         assert.equal(drafts.length, 1);
@@ -280,8 +300,6 @@ limitations under the License.
         assert.isFalse(drafts[0].unresolved);
         done();
       });
-      commentEl.fire('create-done-comment', {comment: commentEl.comment},
-          {bubbles: false});
     });
 
     test('please fix', function(done) {
@@ -328,7 +346,7 @@ limitations under the License.
     });
 
     test('first editing comment does not add __otherEditing attribute',
-        function(done) {
+        function() {
       var commentEl = element.$$('gr-diff-comment');
       element.comments = [{
         author: {
@@ -341,101 +359,16 @@ limitations under the License.
         updated: '2015-12-08 19:48:33.843000000',
         __draft: true,
       }];
+
+      var replyBtn = element.$.replyBtn;
+      MockInteractions.tap(replyBtn);
       flushAsynchronousOperations();
 
-      commentEl.addEventListener('create-reply-comment', function() {
-        var editing = element._orderedComments.filter(function(c) {
-          return c.__editing == true;
-        });
-        assert.equal(editing.length, 1);
-        assert.equal(!!editing[0].__otherEditing, false);
-        done();
+      var editing = element._orderedComments.filter(function(c) {
+        return c.__editing == true;
       });
-      commentEl.fire('create-reply-comment', {comment: commentEl.comment},
-          {bubbles: false});
-    });
-
-    test('two editing comments adds __otherEditing attribute', function(done) {
-      var commentEl = element.$$('gr-diff-comment');
-      element.comments = [{
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        id: 'baf0414d_60047215',
-        line: 5,
-        message: 'is this a crossover episode!?',
-        updated: '2015-12-08 19:48:33.843000000',
-        __editing: true,
-        __draft: true,
-      }];
-      flushAsynchronousOperations();
-
-      commentEl.addEventListener('create-reply-comment', function() {
-        var editing = element._orderedComments.filter(function(c) {
-          return c.__editing == true;
-        });
-        assert.equal(editing.length, 2);
-        assert.equal(editing[1].__otherEditing, true);
-        done();
-      });
-      commentEl.fire('create-reply-comment', {comment: commentEl.comment},
-          {bubbles: false});
-    });
-
-    test('When editing other comments, local storage set after discard',
-        function(done) {
-      element.changeNum = '42';
-      element.patchNum = '1';
-      element.comments = [{
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        id: 'baf0414d_60047215',
-        in_reply_to: 'baf0414d_60047215',
-        line: 5,
-        message: 'is this a crossover episode!?',
-        updated: '2015-12-08 19:48:31.843000000',
-      },
-      {
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        __draftID: '1',
-        in_reply_to: 'baf0414d_60047215',
-        line: 5,
-        message: 'yes',
-        updated: '2015-12-08 19:48:32.843000000',
-        __draft: true,
-        __editing: true,
-      },
-      {
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com',
-        },
-        __draftID: '2',
-        in_reply_to: 'baf0414d_60047215',
-        line: 5,
-        message: 'no',
-        updated: '2015-12-08 19:48:33.843000000',
-        __draft: true,
-        __editing: true,
-      }];
-      var storageStub = sinon.stub(element.$.storage, 'setDraftComment');
-      flushAsynchronousOperations();
-
-      var draftEl =
-          Polymer.dom(element.root).querySelectorAll('gr-diff-comment')[1];
-      assert.ok(draftEl);
-      draftEl.addEventListener('comment-discard', function() {
-        assert.isTrue(storageStub.called);
-        storageStub.restore();
-        done();
-      });
-      draftEl.fire('comment-discard', null, {bubbles: false});
+      assert.equal(editing.length, 1);
+      assert.equal(!!editing[0].__otherEditing, false);
     });
 
     test('When not editing other comments, local storage not set after discard',

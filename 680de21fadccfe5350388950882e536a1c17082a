@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e1c88c0_4898d96f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 11:46:05 PM",
+      "side": 1,
+      "message": "Can you explain here in the commit message that the calls were done in the wrong order when converting the screen from old RPC to REST in [1] and ScreenLoadCallback was replaced by a GerritCallback?\n\n[1] https://gerrit-review.googlesource.com/77324",
+      "revId": "680de21fadccfe5350388950882e536a1c17082a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

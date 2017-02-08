@@ -116,6 +116,10 @@
      * @return {!Object} fixed normalized range
      */
     _fixTripleClickSelection: function(range, domRange) {
+      if (!range.start) {
+        // Selection outside of current diff.
+        return range;
+      }
       var start = range.start;
       var end = range.end;
       var endsAtOtherSideLineNum =

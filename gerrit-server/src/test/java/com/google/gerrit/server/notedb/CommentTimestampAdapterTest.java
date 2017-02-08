@@ -35,8 +35,15 @@ public class CommentTimestampAdapterTest {
   /** Arbitrary time outside of a DST transition, as a reasonable Java 8 representation. */
   private static final ZonedDateTime NON_DST = ZonedDateTime.parse(NON_DST_STR);
 
+  /** {@link #NON_DST_STR} truncated to seconds. */
+  private static final String NON_DST_STR_TRUNC = "2017-02-07T10:20:30Z";
+
   /** Arbitrary time outside of a DST transition, as an unreasonable Timestamp representation. */
   private static final Timestamp NON_DST_TS = Timestamp.from(NON_DST.toInstant());
+
+  /** {@link #NON_DST_TS} truncated to seconds. */
+  private static final Timestamp NON_DST_TS_TRUNC =
+      Timestamp.from(ZonedDateTime.parse(NON_DST_STR_TRUNC).toInstant());
 
   /**
    * Real live ms since epoch timestamp of a comment that was posted during the PDT to PST
@@ -100,8 +107,9 @@ public class CommentTimestampAdapterTest {
   @Test
   public void legacyAdapterCanParseOutputOfNewAdapter() {
     String instantJson = gson.toJson(NON_DST_TS);
-    assertThat(instantJson).isEqualTo('"' + NON_DST_STR + '"');
-    assertThat(legacyGson.fromJson(instantJson, Timestamp.class)).isEqualTo(NON_DST_TS);
+    assertThat(instantJson).isEqualTo('"' + NON_DST_STR_TRUNC + '"');
+    Timestamp result = legacyGson.fromJson(instantJson, Timestamp.class);
+    assertThat(result).isEqualTo(NON_DST_TS_TRUNC);
   }
 
   @Test
@@ -128,8 +136,9 @@ public class CommentTimestampAdapterTest {
   @Test
   public void newAdapterRoundTrip() {
     String json = gson.toJson(NON_DST_TS);
-    assertThat(json).isEqualTo('"' + NON_DST_STR + '"');
-    assertThat(gson.fromJson(json, Timestamp.class)).isEqualTo(NON_DST_TS);
+    // Round-trip lossily truncates ms, but that's ok.
+    assertThat(json).isEqualTo('"' + NON_DST_STR_TRUNC + '"');
+    assertThat(gson.fromJson(json, Timestamp.class)).isEqualTo(NON_DST_TS_TRUNC);
   }
 
   @Test
@@ -153,7 +162,12 @@ public class CommentTimestampAdapterTest {
     c.revId = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
 
     String json = gson.toJson(c);
-    assertThat(json).contains("\"writtenOn\": \"" + NON_DST_STR + "\",");
-    assertThat(gson.fromJson(json, Comment.class)).isEqualTo(c);
+    assertThat(json).contains("\"writtenOn\": \"" + NON_DST_STR_TRUNC + "\",");
+
+    Comment result = gson.fromJson(json, Comment.class);
+    // Round-trip lossily truncates ms, but that's ok.
+    assertThat(result.writtenOn).isEqualTo(NON_DST_TS_TRUNC);
+    result.writtenOn = NON_DST_TS;
+    assertThat(result).isEqualTo(c);
   }
 }

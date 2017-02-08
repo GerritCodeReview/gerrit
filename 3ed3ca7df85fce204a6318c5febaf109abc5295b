@@ -40,6 +40,24 @@
       "revId": "3ed3ca7df85fce204a6318c5febaf109abc5295b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43fc6fc2_0d35820e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-08T21:16:01Z",
+      "side": 1,
+      "message": "The ternary you have here is essentially the same as what I wrote in Ia66529e44. I agree that it\u0027s the functionally the same in this case, and isn\u0027t a big deal IMO.\n\nThe reason I dislike using a `{}` to mean `null` or `undefined` is in case we ever want to pass the comment into any function called by this. That function might reasonably check whether there was a previous comment by comparing the parameter for null/undefined, but if `{}` is used, it\u0027ll be wrong. ...But anyway that\u0027s partly speculation.\n\nIs this needed following Ia66529e44?",
+      "parentUuid": "e2051b2d_7a5dfaff",
+      "revId": "3ed3ca7df85fce204a6318c5febaf109abc5295b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

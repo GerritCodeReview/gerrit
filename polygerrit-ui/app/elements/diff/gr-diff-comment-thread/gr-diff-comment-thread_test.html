@@ -527,13 +527,13 @@ limitations under the License.
       test('_setInitialExpandedState', function() {
         element._unresolved = true;
         element._setInitialExpandedState();
-        var comments = getComments();
+        getComments();
         for (var i = 0; i < element.comments.length; i++) {
           assert.isFalse(element.comments[i].collapsed);
         }
         element._unresolved = false;
         element._setInitialExpandedState();
-        var comments = getComments();
+        getComments();
         for (var i = 0; i < element.comments.length; i++) {
           assert.isTrue(element.comments[i].collapsed);
         }
@@ -549,6 +549,17 @@ limitations under the License.
       element.commentSide = 'left';
       var draft = element._newDraft();
       assert.equal(draft.__commentSide, 'left');
+    });
+
+    test('new comment gets created', function() {
+      element.comments = [];
+      element.addOrEditDraft(1);
+      assert.equal(element.comments.length, 1);
+      // Mock a submitted comment.
+      element.comments[0].__draft = false;
+      element.comments[0].id = element.comments[0].__draftID;
+      element.addOrEditDraft(1);
+      assert.equal(element.comments.length, 2);
     });
   });
 </script>

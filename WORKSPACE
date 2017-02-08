@@ -771,60 +771,60 @@ maven_jar(
     sha1 = "df4b50061e8e4c348ce243b921f53ee63ba9bbe1",
 )
 
-JETTY_VERS = "9.3.15.v20161220"
+JETTY_VERS = "9.3.16.v20170120"
 
 maven_jar(
     name = "jetty_servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-    sha1 = "e730f488cc01b3d566d3ad052cdb4ee383048410",
+    sha1 = "70c5525078de5520e522a0529bcc1ce601d082d3",
 )
 
 maven_jar(
     name = "jetty_security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-    sha1 = "976a4560814e33ad72554c33281eb39413f03644",
+    sha1 = "90026d339d41de140dfa9dfa06a35dbff5f36f82",
 )
 
 maven_jar(
     name = "jetty_servlets",
     artifact = "org.eclipse.jetty:jetty-servlets:" + JETTY_VERS,
-    sha1 = "2118bdbc41fee57279d44da7679d1dbf5b511e99",
+    sha1 = "691a3ef337194ef2588b3c9a517caf3b03a67390",
 )
 
 maven_jar(
     name = "jetty_server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-    sha1 = "598b96d749ebf99b1790dff64f0e6e2b6990cdcd",
+    sha1 = "4358b6c92db7a898bc7e4c576fb058e3a542eb3b",
 )
 
 maven_jar(
     name = "jetty_jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-    sha1 = "8bc2f2b269bcbecc16d61a9a530c0b2fb5d5486e",
+    sha1 = "0a579cfc2cbe627bcf712eb88a131ff65b8af7f7",
 )
 
 maven_jar(
     name = "jetty_continuation",
     artifact = "org.eclipse.jetty:jetty-continuation:" + JETTY_VERS,
-    sha1 = "7d56b0381b9ed43ae7a160e558e7e16dcf621aa9",
+    sha1 = "bf514565141b99252629b06de978e19e392446ff",
 )
 
 maven_jar(
     name = "jetty_http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-    sha1 = "8e56b579c4ef70c6b4e6a60e8074c024ceecbd1f",
+    sha1 = "1f370bf0145ef4a18bc8af32fa3796feb3487fa8",
 )
 
 maven_jar(
     name = "jetty_io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-    sha1 = "3b100e43d2dc4206762c7af4514199d9fca153bb",
+    sha1 = "f233dce3fcf39c26eb74a2744ac79473d485388f",
 )
 
 maven_jar(
     name = "jetty_util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-    sha1 = "fc69fc2b0b476e5b5b14fc4a35a2c5edc539be62",
+    sha1 = "8dc6481f0c5471d47892731e3463c7968f7e5d62",
 )
 
 maven_jar(

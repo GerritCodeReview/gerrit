@@ -84,7 +84,8 @@
             lastComment.id || lastComment.__draftID);
         commentEl.editing = true;
       } else {
-        this.addDraft(opt_lineNum, lastComment.range);
+        this.addDraft(opt_lineNum,
+            lastComment ? lastComment.range : undefined);
       }
     },
 

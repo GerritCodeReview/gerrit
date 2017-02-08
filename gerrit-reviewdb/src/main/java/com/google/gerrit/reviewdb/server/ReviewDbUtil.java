@@ -42,8 +42,8 @@ public class ReviewDbUtil {
   }
 
   public static ReviewDb unwrapDb(ReviewDb db) {
-    if (db instanceof DisabledChangesReviewDbWrapper) {
-      return ((DisabledChangesReviewDbWrapper) db).unsafeGetDelegate();
+    if (db instanceof DisallowReadFromChangesReviewDbWrapper) {
+      return ((DisallowReadFromChangesReviewDbWrapper) db).unsafeGetDelegate();
     }
     return db;
   }

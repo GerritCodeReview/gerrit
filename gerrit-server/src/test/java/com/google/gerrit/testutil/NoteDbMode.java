@@ -21,22 +21,25 @@ import com.google.common.base.Strings;
 
 public enum NoteDbMode {
   /** NoteDb is disabled. */
-  OFF,
+  OFF(false),
 
   /** Writing data to NoteDb is enabled. */
-  WRITE,
+  WRITE(false),
 
   /** Reading and writing all data to NoteDb is enabled. */
-  READ_WRITE,
+  READ_WRITE(true),
 
   /** Changes are created with their primary storage as NoteDb. */
-  PRIMARY,
+  PRIMARY(true),
+
+  /** All change tables are entirely disabled. */
+  DISABLE_CHANGE_REVIEW_DB(true),
 
   /**
    * Run tests with NoteDb disabled, then convert ReviewDb to NoteDb and check that the results
    * match.
    */
-  CHECK;
+  CHECK(false);
 
   private static final String ENV_VAR = "GERRIT_NOTEDB";
   private static final String SYS_PROP = "gerrit.notedb";
@@ -65,6 +68,12 @@ public enum NoteDbMode {
   }
 
   public static boolean readWrite() {
-    return get() == READ_WRITE || get() == PRIMARY;
+    return get().readWrite;
+  }
+
+  private final boolean readWrite;
+
+  private NoteDbMode(boolean readWrite) {
+    this.readWrite = readWrite;
   }
 }

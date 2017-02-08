@@ -47,6 +47,7 @@ public class ConfigNotesMigration extends NotesMigration {
   private static final String NOTE_DB = "noteDb";
 
   // All of these names must be reflected in the allowed set in checkConfig.
+  private static final String DISABLE_REVIEW_DB = "disableReviewDb";
   private static final String PRIMARY_STORAGE = "primaryStorage";
   private static final String READ = "read";
   private static final String SEQUENCE = "sequence";
@@ -56,6 +57,7 @@ public class ConfigNotesMigration extends NotesMigration {
     Set<String> keys = ImmutableSet.of(CHANGES.key());
     Set<String> allowed =
         ImmutableSet.of(
+            DISABLE_REVIEW_DB.toLowerCase(),
             PRIMARY_STORAGE.toLowerCase(),
             READ.toLowerCase(),
             WRITE.toLowerCase(),
@@ -79,6 +81,7 @@ public class ConfigNotesMigration extends NotesMigration {
   private final boolean readChanges;
   private final boolean readChangeSequence;
   private final PrimaryStorage changePrimaryStorage;
+  private final boolean disableChangeReviewDb;
 
   @Inject
   ConfigNotesMigration(@GerritServerConfig Config cfg) {
@@ -95,6 +98,11 @@ public class ConfigNotesMigration extends NotesMigration {
 
     changePrimaryStorage =
         cfg.getEnum(NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, PrimaryStorage.REVIEW_DB);
+    disableChangeReviewDb = cfg.getBoolean(NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false);
+
+    checkArgument(
+        !(disableChangeReviewDb && changePrimaryStorage != PrimaryStorage.NOTE_DB),
+        "cannot disable ReviewDb for changes if default change primary storage is ReviewDb");
   }
 
   @Override
@@ -115,5 +123,10 @@ public class ConfigNotesMigration extends NotesMigration {
   @Override
   public PrimaryStorage changePrimaryStorage() {
     return changePrimaryStorage;
+  }
+
+  @Override
+  public boolean disableChangeReviewDb() {
+    return disableChangeReviewDb;
   }
 }

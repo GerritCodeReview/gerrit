@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd7ee4cf_a44b7e50",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 8, 2017 10:55:51 AM",
+      "side": 1,
+      "message": "It seems to me that using `null` or `undefined` here would be better than using an empty object. Both branches of this method should work in both cases: where there is a `lastComment` and where there isn\u0027t one. So IMO there should still be a null/undefined check, instead of fudging the branches with an empty object.",
+      "range": {
+        "startLine": 81,
+        "startChar": 63,
+        "endLine": 81,
+        "endChar": 69
+      },
+      "revId": "3ed3ca7df85fce204a6318c5febaf109abc5295b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

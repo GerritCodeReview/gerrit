@@ -17,14 +17,17 @@ package com.google.gerrit.acceptance.api.revision;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.common.RobotCommentInfoSubject.assertThatList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
@@ -362,6 +365,31 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage("robot comments not supported");
     gApi.changes().id(changeId).current().review(reviewInput);
+  }
+
+  @Test
+  public void queryChangesWithUnresolvedCommentCount() throws Exception {
+    assume().that(notesMigration.enabled()).isTrue();
+
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(
+                db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
+            .to("refs/for/master");
+
+    addRobotComment(r2.getChangeId(), createRobotCommentInputWithMandatoryFields());
+
+    AcceptanceTestRequestScope.Context ctx = disableDb();
+    try {
+      ChangeInfo result = Iterables.getOnlyElement(query(r2.getChangeId()));
+      // currently, we create all robot comments as 'resolved' by default.
+      // if we allow users to resolve a robot comment, then this test should
+      // be modified.
+      assertThat(result.unresolvedCommentCount).isEqualTo(0);
+    } finally {
+      enableDb(ctx);
+    }
   }
 
   private RobotCommentInput createRobotCommentInputWithMandatoryFields() {

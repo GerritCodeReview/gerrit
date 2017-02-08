@@ -477,6 +477,7 @@ public class ChangeJson {
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
+    out.unresolvedCommentCount = cd.unresolvedCommentCount();
 
     if (user.isIdentifiedUser()) {
       Collection<String> stars = cd.stars().get(user.getAccountId());

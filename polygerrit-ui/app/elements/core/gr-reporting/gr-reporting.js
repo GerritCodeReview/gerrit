@@ -98,7 +98,7 @@
       };
       document.dispatchEvent(new CustomEvent(type, {detail: detail}));
       if (type === ERROR.TYPE) {
-        console.error(eventValue.error);
+        console.error(eventValue.error || eventName);
       } else {
         console.log(eventName + ': ' + eventValue);
       }
@@ -106,7 +106,7 @@
 
     cachingReporter: function(type, category, eventName, eventValue) {
       if (type === ERROR.TYPE) {
-        console.error(eventValue.error);
+        console.error(eventValue.error || eventName);
       }
       if (Gerrit._arePluginsLoaded()) {
         if (pending.length) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf6af2d8_114840a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "Feb 7, 2017 4:03:26 PM",
+      "side": 1,
+      "message": "Also this indentation level seems overly deep.",
+      "revId": "5696d52b96a2dd9de65365a44872f5b28e87338a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

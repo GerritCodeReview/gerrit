@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32ab1ba7_6dce8967",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2017-02-08T09:50:03Z",
+      "side": 1,
+      "message": "Bug: Issue 5478",
+      "revId": "0f0696fe3cf53dc2203045ad7a6169382f834fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

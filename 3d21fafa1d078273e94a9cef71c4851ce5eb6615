@@ -10,7 +10,7 @@
       "author": {
         "id": 1011123
       },
-      "writtenOn": "Feb 6, 2017 1:23:53 AM",
+      "writtenOn": "2017-02-06T09:23:53Z",
       "side": 1,
       "message": "These should be upper case.",
       "range": {
@@ -33,13 +33,30 @@
       "author": {
         "id": 1003873
       },
-      "writtenOn": "Feb 7, 2017 12:33:47 AM",
+      "writtenOn": "2017-02-07T08:33:47Z",
       "side": 1,
       "message": "Initially I did it as upper-case but then had to use protocol.name().toLowerCase() in several lines below (72, 87, 88). Therefore, I was thinking that it is more pragmatic to adjust the constants.\n\nI can change this constants to be Strings. The code would likely be simpler than enum with upper-case constants.\n\nLet me know your opinion.",
       "parentUuid": "cca2a51a_16ee55ba",
       "revId": "3d21fafa1d078273e94a9cef71c4851ce5eb6615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ffdf950_d76d45ae",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-02-08T20:46:18Z",
+      "side": 1,
+      "message": "shouldn\u0027t we also support https proxy protocol ?",
+      "revId": "3d21fafa1d078273e94a9cef71c4851ce5eb6615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

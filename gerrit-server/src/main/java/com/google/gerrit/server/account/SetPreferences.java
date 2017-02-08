@@ -104,7 +104,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
           UserConfigSections.GENERAL,
           null,
           i,
-          GeneralPreferencesInfo.defaults());
+          loader.readDefaultsFromGit(md.getRepository(), null));
 
       storeMyChangeTableColumns(prefs, i.changeTable);
       storeMyMenus(prefs, i.my);

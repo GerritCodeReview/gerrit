@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
@@ -41,6 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
+@Sandboxed
 public class GeneralPreferencesIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsers;
 
@@ -121,5 +123,40 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
     // assert hard-coded defaults
     assertPrefs(o, d, "my", "changeTable", "changesPerPage");
+  }
+
+  @Test
+  public void overwriteConfiguredDefaults() throws Exception {
+    GeneralPreferencesInfo d = GeneralPreferencesInfo.defaults();
+    int configuredChangesPerPage = d.changesPerPage * 2;
+    GeneralPreferencesInfo update = new GeneralPreferencesInfo();
+    update.changesPerPage = configuredChangesPerPage;
+    gApi.config().server().setDefaultPreferences(update);
+
+    GeneralPreferencesInfo o = gApi.accounts().id(admin.getId().toString()).getPreferences();
+    assertThat(o.changesPerPage).isEqualTo(configuredChangesPerPage);
+    assertPrefs(o, d, "my", "changeTable", "changesPerPage");
+
+    int newChangesPerPage = configuredChangesPerPage * 2;
+    GeneralPreferencesInfo i = new GeneralPreferencesInfo();
+    i.changesPerPage = newChangesPerPage;
+    GeneralPreferencesInfo a = gApi.accounts().id(admin.getId().toString()).setPreferences(i);
+    assertThat(a.changesPerPage).isEqualTo(newChangesPerPage);
+    assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+
+    a = gApi.accounts().id(admin.getId().toString()).getPreferences();
+    assertThat(a.changesPerPage).isEqualTo(newChangesPerPage);
+    assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+
+    // overwrite the configured default with original hard-coded default
+    i = new GeneralPreferencesInfo();
+    i.changesPerPage = d.changesPerPage;
+    a = gApi.accounts().id(admin.getId().toString()).setPreferences(i);
+    assertThat(a.changesPerPage).isEqualTo(d.changesPerPage);
+    assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+
+    a = gApi.accounts().id(admin.getId().toString()).getPreferences();
+    assertThat(a.changesPerPage).isEqualTo(d.changesPerPage);
+    assertPrefs(a, d, "my", "changeTable", "changesPerPage");
   }
 }

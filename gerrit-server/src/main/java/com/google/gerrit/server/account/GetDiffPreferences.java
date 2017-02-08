@@ -69,26 +69,28 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
       Account.Id id, GitRepositoryManager gitMgr, AllUsersName allUsersName, DiffPreferencesInfo in)
       throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (Repository git = gitMgr.openRepository(allUsersName)) {
-      // Load all users prefs.
-      VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
-      dp.load(git);
-      DiffPreferencesInfo allUserPrefs = new DiffPreferencesInfo();
-      loadSection(
-          dp.getConfig(),
-          UserConfigSections.DIFF,
-          null,
-          allUserPrefs,
-          DiffPreferencesInfo.defaults(),
-          in);
-
-      // Load user prefs
       VersionedAccountPreferences p = VersionedAccountPreferences.forUser(id);
       p.load(git);
       DiffPreferencesInfo prefs = new DiffPreferencesInfo();
       loadSection(
-          p.getConfig(), UserConfigSections.DIFF, null, prefs, updateDefaults(allUserPrefs), in);
+          p.getConfig(), UserConfigSections.DIFF, null, prefs, readDefaultsFromGit(git, in), in);
       return prefs;
     }
+  }
+
+  static DiffPreferencesInfo readDefaultsFromGit(Repository git, DiffPreferencesInfo in)
+      throws ConfigInvalidException, IOException {
+    VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
+    dp.load(git);
+    DiffPreferencesInfo allUserPrefs = new DiffPreferencesInfo();
+    loadSection(
+        dp.getConfig(),
+        UserConfigSections.DIFF,
+        null,
+        allUserPrefs,
+        DiffPreferencesInfo.defaults(),
+        in);
+    return updateDefaults(allUserPrefs);
   }
 
   private static DiffPreferencesInfo updateDefaults(DiffPreferencesInfo input) {

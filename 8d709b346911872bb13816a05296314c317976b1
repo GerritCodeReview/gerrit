@@ -52,6 +52,24 @@
       "revId": "8d709b346911872bb13816a05296314c317976b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "207ea0a7_c8205b29",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/ConfigAnnotationParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 7, 2017 11:54:38 PM",
+      "side": 1,
+      "message": "Good idea: https://gerrit-review.googlesource.com/#/c/96691/",
+      "parentUuid": "e3632d9b_a55cd756",
+      "revId": "8d709b346911872bb13816a05296314c317976b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -40,6 +40,10 @@ import java.time.temporal.TemporalAccessor;
  *
  * <p>This adapter is mutually compatible with the old adapter: the old adapter is able to read the
  * UTC instant format, and this adapter can fall back to parsing the old format.
+ *
+ * <p>Older Gson versions are not able to parse milliseconds out of ISO 8601 instants, so this
+ * implementation truncates to seconds when writing. This is no worse than the truncation that
+ * happens to fit NoteDb timestamps into git commit formatting.
  */
 class CommentTimestampAdapter extends TypeAdapter<Timestamp> {
   private static final DateTimeFormatter FALLBACK =
@@ -47,7 +51,8 @@ class CommentTimestampAdapter extends TypeAdapter<Timestamp> {
 
   @Override
   public void write(JsonWriter out, Timestamp ts) throws IOException {
-    out.value(ISO_INSTANT.format(ts.toInstant()));
+    Timestamp truncated = new Timestamp(ts.getTime() / 1000 * 1000);
+    out.value(ISO_INSTANT.format(truncated.toInstant()));
   }
 
   @Override

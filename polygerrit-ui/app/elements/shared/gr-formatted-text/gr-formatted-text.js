@@ -36,6 +36,10 @@
       if (this.noTrailingMargin) {
         this.classList.add('noTrailingMargin');
       }
+
+      if (this.compact) {
+        this.classList.add('compact');
+      }
     },
 
     /**

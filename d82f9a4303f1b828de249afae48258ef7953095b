@@ -227,6 +227,24 @@
       "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d67cfcfe_812ef5d8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-02-08T07:25:39Z",
+      "side": 1,
+      "message": "There will be no user if requests don\u0027t go over ProjectBasicAuthFilter. If one calls Git LFS with \"/a\" prefix it will go automatically over this filter, however IMHO all LFS requests should go over this filter so that if basic auth is given to the request (that will be the case when anonymous access is not granted and LfsPluginServlet returns 401) user is read from it and added to the request and finally LfsPluginServlet can authorize against it see [1]. LfsPluginServlet uses Provider\u003cCurrentUser\u003e to get the user from request and this is the way to make sure that user is there when Git LFS client uses either basic or digest auth.\n\n[1] https://gerrit-review.googlesource.com/#/c/93991/",
+      "parentUuid": "85a546b8_1329d3c9",
+      "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

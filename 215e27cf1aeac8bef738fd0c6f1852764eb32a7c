@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1483090360 +0100\nnonce AHDV6GnIOWqe6eAvn7zwuunkz6qKFYa3Ql5G2hCVNCiwCBCCQ9ULIprwPeYFuYM23BXUPHBbUlPU\n\n0000000000000000000000000000000000000000 215e27cf1aeac8bef738fd0c6f1852764eb32a7c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYZim4AAoJEFG1/Zeg0O9RBssIAJqh/LhrC9nxplRMszaO1WRj\nGVl9a5VYtNuqYXmoHqwQiRkj8ObDNF/+FrhM8kAesqrRMswTyGq92loh8OCm6N29\n6eFsf1bkV8nVereIP9gAuCl3ggPI/pyd807984dHDEm7IHG8yQintirOMSF9woDW\nQ0Hd3+EVwAdti1bcbZF2QgNdExlpZXOnKQK9JLwytok+HH/22dYMOBYjL9RSAoYZ\npfPEXuWxZ05UvT6EoPvcRqHi6cH1TfkcVYWjTOAOJtn6vcApzY3t2rch8a+saX0z\nkG5hc6N5SOo+8kFrpEWuoYBOOPVGpx8+M3ZHtVumgfsrzwpgcKZM+EVZeo2hGFU\u003d\n\u003dRXEY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3923a845_e98b8d69",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/AssigneeSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-08T14:06:42Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "215e27cf1aeac8bef738fd0c6f1852764eb32a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f83c617_4d1df2a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/AssigneeSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-08T14:06:42Z",
+      "side": 1,
+      "message": "query can be an empty string (and I would guess also null) so I would call .trim() after appending to get rid of the leading blank",
+      "range": {
+        "startLine": 65,
+        "startChar": 10,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "215e27cf1aeac8bef738fd0c6f1852764eb32a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f69f4d18_67b9a7a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/AssigneeSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-08T14:06:42Z",
+      "side": 1,
+      "message": "return req.getQuery() (this is just a getter, so no need for a local variable, also above - no need for a string builder)",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "215e27cf1aeac8bef738fd0c6f1852764eb32a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7ec92b3_c6705a11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-08T14:06:42Z",
+      "side": 1,
+      "message": "the query doesn\u0027t necessarily start with cansee (at least that is how you concatenate the strings in GWT)",
+      "range": {
+        "startLine": 162,
+        "startChar": 14,
+        "endLine": 162,
+        "endChar": 24
+      },
+      "revId": "215e27cf1aeac8bef738fd0c6f1852764eb32a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

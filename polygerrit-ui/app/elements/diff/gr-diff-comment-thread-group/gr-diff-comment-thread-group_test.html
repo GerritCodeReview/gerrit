@@ -165,6 +165,32 @@ limitations under the License.
       ];
 
       assert.deepEqual(element._sortByDate(threadGroups), expectedResult);
+
+      // When a comment doesn't have a date, the one without the date should be
+      // last.
+      var threadGroups = [
+        {
+          start_datetime: '2015-12-23 15:00:20.396000000',
+          comments: [],
+          locationRange: 'line',
+        },
+        {
+          comments: [],
+          locationRange: 'range-1-1-1-2',
+        },
+      ];
+
+      var expectedResult = [
+        {
+          start_datetime: '2015-12-23 15:00:20.396000000',
+          comments: [],
+          locationRange: 'line',
+        },
+        {
+          comments: [],
+          locationRange: 'range-1-1-1-2',
+        },
+      ];
     });
 
     test('_calculateLocationRange', function() {

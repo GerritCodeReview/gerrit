@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6fb797ab_6cc31639",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "Feb 7, 2017 4:50:30 PM",
+      "side": 1,
+      "message": "it is still useful so tests can avoid calling?\n\n(i.e. s/for tests avoid/so tests can avoid/)",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86a632a3_cf822a71",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 3

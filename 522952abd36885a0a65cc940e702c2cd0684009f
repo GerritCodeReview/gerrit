@@ -67,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "1eb80999_6c13fc85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "Feb 7, 2017 4:56:06 PM",
+      "side": 1,
+      "message": "\u003e This is checking that \u0027name\u0027 doesn\u0027t start with refs/,\n\nAh, right. I misread the logic of the check.  Thanks.\n\n\u003e or in other words that it is a suffix that doesn\u0027t have refs/sequences/ already prepended to it.\n\nIn that case shouldn\u0027t we be checking against RefNames.REFS_SEQUENCES rather than Constants.R_REFS?",
+      "parentUuid": "ec031370_7ace9bcb",
+      "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2ecffd6_65de1cb8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 3

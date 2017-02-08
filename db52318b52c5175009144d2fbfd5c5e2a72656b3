@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "037d9664_5b22da61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 9:31:33 PM",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae4c29cd_77de35dd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "9d3ee0c9_4ea6f0ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 9:31:33 PM",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ae4c29cd_77de35dd",
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d4999a0_5e70566f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -56,6 +97,24 @@
       "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46b191ea_06089367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 9:31:33 PM",
+      "side": 1,
+      "message": "Plugin authors can provide a static .css.\nBut external stylesheets were deprecated:\nhttps://www.polymer-project.org/1.0/docs/devguide/styling#external-stylesheets",
+      "parentUuid": "3d4999a0_5e70566f",
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -153,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "bbee8c0c_6497f005",
+        "filename": "polygerrit-ui/app/elements/core/gr-import-style/gr-import-style.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 9:31:33 PM",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3be3aa0b_3aa3fbef",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dda51274_a4a5fc4e",
         "filename": "polygerrit-ui/app/elements/core/gr-import-style/gr-import-style.js",
         "patchSetId": 1
@@ -167,6 +250,24 @@
       "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73c6b0e9_68abc4ee",
+        "filename": "polygerrit-ui/app/elements/core/gr-import-style/gr-import-style.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "Feb 7, 2017 9:31:33 PM",
+      "side": 1,
+      "message": "\u003e Does this work when shadow DOM is enabled? \n\ntl;dr: No.\nThere\u0027s a standard way, but it\u0027s expensive and shadow-dom-only (@import)\nhttp://stackoverflow.com/questions/27746590/external-stylesheets-for-shadow-dom-in-web-components\n\n\u003e Is there need to invoke `scopeSubtree` or `updateStyles` following this?\n\nNo.",
+      "parentUuid": "dda51274_a4a5fc4e",
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

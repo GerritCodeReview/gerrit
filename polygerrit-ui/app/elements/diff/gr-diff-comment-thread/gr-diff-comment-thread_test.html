@@ -40,12 +40,18 @@ limitations under the License.
 <script>
   suite('gr-diff-comment-thread tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
       });
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('comments are sorted correctly', function() {
@@ -110,6 +116,36 @@ limitations under the License.
           updated: '2015-12-25 15:00:20.396000000',
         }
       ]);
+    });
+
+    test('addOrEditDraft w/ edit draft', function() {
+      element.comments = [{
+        id: 'jacks_reply',
+        message: 'i like you, too',
+        in_reply_to: 'sallys_confession',
+        updated: '2015-12-25 15:00:20.396000000',
+        __draft: true,
+      }];
+      var commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+          function() { return {}; });
+      var addDraftStub = sandbox.stub(element, 'addDraft');
+
+      element.addOrEditDraft(123);
+
+      assert.isTrue(commentElStub.called);
+      assert.isFalse(addDraftStub.called);
+    });
+
+    test('addOrEditDraft w/o edit draft', function() {
+      element.comments = [];
+      var commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+          function() { return {}; });
+      var addDraftStub = sandbox.stub(element, 'addDraft');
+
+      element.addOrEditDraft(123);
+
+      assert.isFalse(commentElStub.called);
+      assert.isTrue(addDraftStub.called);
     });
   });
 

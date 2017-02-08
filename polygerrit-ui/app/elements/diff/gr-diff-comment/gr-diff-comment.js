@@ -372,7 +372,7 @@
 
     _handleCancel: function(e) {
       e.preventDefault();
-      if (this.comment.message === null ||
+      if (!this.comment.message ||
           this.comment.message.trim().length === 0) {
         this._fireDiscard();
         return;

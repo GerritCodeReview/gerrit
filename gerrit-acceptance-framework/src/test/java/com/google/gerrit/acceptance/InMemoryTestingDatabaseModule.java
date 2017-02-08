@@ -78,7 +78,6 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     bind(DataSourceType.class).to(InMemoryH2Type.class);
 
-    bind(NotesMigration.class).to(TestNotesMigration.class);
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};
     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
@@ -99,6 +98,13 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
   @Singleton
   KeyPairProvider createHostKey() {
     return getHostKeys();
+  }
+
+  @Provides
+  @Singleton
+  NotesMigration getNotesMigration(TestNotesMigration testNotesMigration) {
+    testNotesMigration.setFromEnv();
+    return testNotesMigration;
   }
 
   private static SimpleGeneratorHostKeyProvider keys;

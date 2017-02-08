@@ -344,7 +344,6 @@ public abstract class AbstractDaemonTest {
     }
 
     server.getTestInjector().injectMembers(this);
-    notesMigration.setFromEnv();
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
     admin = accounts.admin();

@@ -221,9 +221,6 @@ Here are some guidelines that Gerrit uses:
     should be before the instance members.
   * Annotations should go before language keywords (`final`, `private`, etc) +
     Example: `@Assisted @Nullable final type varName`
-  * Imports should be mostly alphabetical (uppercase sorts before
-    all lowercase, which means classes come before packages at the
-    same level).
   * Prefer to open multiple AutoCloseable resources in the same
     try-with-resources block instead of nesting the try-with-resources
     blocks and increasing the indentation level more than necessary.

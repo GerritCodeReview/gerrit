@@ -33,6 +33,7 @@ var (
 	port     = flag.String("port", ":8081", "Port to serve HTTP requests on")
 	prod     = flag.Bool("prod", false, "Serve production assets")
 	scheme   = flag.String("scheme", "https", "URL scheme")
+	plugins  = flag.String("plugins", "", "Path to local plugins folder")
 )
 
 func main() {
@@ -49,6 +50,11 @@ func main() {
 	http.HandleFunc("/config/", handleRESTProxy)
 	http.HandleFunc("/projects/", handleRESTProxy)
 	http.HandleFunc("/accounts/self/detail", handleAccountDetail)
+	if len(*plugins) > 0 {
+		http.Handle("/plugins/", http.StripPrefix("/plugins/",
+			http.FileServer(http.Dir(*plugins))))
+		log.Println("Local plugins at", *plugins)
+	}
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
 }

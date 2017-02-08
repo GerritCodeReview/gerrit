@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -68,7 +69,11 @@ public interface AccountApi {
 
   List<ChangeInfo> getStarredChanges() throws RestApiException;
 
+  List<EmailInfo> getEmails() throws RestApiException;
+
   void addEmail(EmailInput input) throws RestApiException;
+
+  void deleteEmail(String email) throws RestApiException;
 
   void setStatus(String status) throws RestApiException;
 
@@ -190,7 +195,17 @@ public interface AccountApi {
     }
 
     @Override
+    public List<EmailInfo> getEmails() {
+      throw new NotImplementedException();
+    }
+
+    @Override
     public void addEmail(EmailInput input) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void deleteEmail(String email) {
       throw new NotImplementedException();
     }
 

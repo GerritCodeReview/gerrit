@@ -29,6 +29,7 @@ import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.FluentIterable;
@@ -54,6 +55,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.GpgKeys;
@@ -80,6 +82,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
@@ -374,24 +377,19 @@ public class AccountIT extends AbstractDaemonTest {
 
             // Not in the list of TLDs but added to override in OutgoingEmailValidator
             "new.email@example.local");
+    Set<String> currentEmails = getEmails();
     for (String email : emails) {
+      assertThat(currentEmails).doesNotContain(email);
       EmailInput input = new EmailInput();
       input.email = email;
       input.noConfirmation = true;
       gApi.accounts().self().addEmail(input);
     }
-  }
 
-  @Test
-  public void putStatus() throws Exception {
-    List<String> statuses = ImmutableList.of("OOO", "Busy");
-    AccountInfo info;
-    for (String status : statuses) {
-      gApi.accounts().self().setStatus(status);
-      admin.status = status;
-      info = gApi.accounts().self().get();
-      assertUser(info, admin);
-    }
+    // enforce a new request context so that emails that are cached in
+    // IdentifiedUser are reloaded
+    setApiUser(admin);
+    assertThat(getEmails()).containsAllIn(emails);
   }
 
   @Test
@@ -419,6 +417,39 @@ public class AccountIT extends AbstractDaemonTest {
       } catch (BadRequestException e) {
         assertThat(e).hasMessage("invalid email address");
       }
+    }
+  }
+
+  @Test
+  public void deleteEmail() throws Exception {
+    String email = "foo.bar@example.com";
+    EmailInput input = new EmailInput();
+    input.email = email;
+    input.noConfirmation = true;
+    gApi.accounts().self().addEmail(input);
+
+    // enforce a new request context so that emails that are cached in
+    // IdentifiedUser are reloaded
+    setApiUser(admin);
+    assertThat(getEmails()).contains(email);
+
+    gApi.accounts().self().deleteEmail(input.email);
+
+    // enforce a new request context so that emails that are cached in
+    // IdentifiedUser are reloaded
+    setApiUser(admin);
+    assertThat(getEmails()).doesNotContain(email);
+  }
+
+  @Test
+  public void putStatus() throws Exception {
+    List<String> statuses = ImmutableList.of("OOO", "Busy");
+    AccountInfo info;
+    for (String status : statuses) {
+      gApi.accounts().self().setStatus(status);
+      admin.status = status;
+      info = gApi.accounts().self().get();
+      assertUser(info, admin);
     }
   }
 
@@ -850,5 +881,9 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info.email).isEqualTo(account.email);
     assertThat(info.username).isEqualTo(account.username);
     assertThat(info.status).isEqualTo(account.status);
+  }
+
+  private Set<String> getEmails() throws RestApiException {
+    return gApi.accounts().self().getEmails().stream().map(e -> e.email).collect(toSet());
   }
 }

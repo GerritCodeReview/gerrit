@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d05b5cd7_628d3641",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 4:37:43 PM",
+      "side": 1,
+      "message": "Nit: this can be...\n\n return !!this._pendingRequests[Requests.SEND_DIFF_DRAFT];",
+      "range": {
+        "startLine": 815,
+        "startChar": 6,
+        "endLine": 817,
+        "endChar": 16
+      },
+      "revId": "fefac0bad1793ad5b6be31d058b3df5c2b3161e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

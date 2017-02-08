@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f521da9b_381dcc60",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 8, 2017 12:12:28 AM",
+      "side": 1,
+      "message": "Those should stay at the top of the class, see [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 60
+      },
+      "revId": "828cc6b2d00c07b7136e24aa6a43b1dc7dad1914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

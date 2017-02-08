@@ -39,6 +39,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -164,27 +165,29 @@ public class MergedByPushOp extends BatchUpdate.Op {
     if (!correctBranch) {
       return;
     }
-    sendEmailExecutor.submit(
-        requestScopePropagator.wrap(
-            new Runnable() {
-              @Override
-              public void run() {
-                try {
-                  MergedSender cm =
-                      mergedSenderFactory.create(ctx.getProject(), psId.getParentKey());
-                  cm.setFrom(ctx.getAccountId());
-                  cm.setPatchSet(patchSet, info);
-                  cm.send();
-                } catch (Exception e) {
-                  log.error("Cannot send email for submitted patch set " + psId, e);
-                }
-              }
+    @SuppressWarnings("unused") // Runnable already handles errors
+    Future<?> possiblyIgnoredError =
+        sendEmailExecutor.submit(
+            requestScopePropagator.wrap(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    try {
+                      MergedSender cm =
+                          mergedSenderFactory.create(ctx.getProject(), psId.getParentKey());
+                      cm.setFrom(ctx.getAccountId());
+                      cm.setPatchSet(patchSet, info);
+                      cm.send();
+                    } catch (Exception e) {
+                      log.error("Cannot send email for submitted patch set " + psId, e);
+                    }
+                  }
 
-              @Override
-              public String toString() {
-                return "send-email merged";
-              }
-            }));
+                  @Override
+                  public String toString() {
+                    return "send-email merged";
+                  }
+                }));
 
     changeMerged.fire(
         change, patchSet, ctx.getAccount(), patchSet.getRevision().get(), ctx.getWhen());

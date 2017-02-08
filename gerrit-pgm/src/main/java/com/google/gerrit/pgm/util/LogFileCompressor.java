@@ -31,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.concurrent.Future;
 import java.util.zip.GZIPOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,9 +64,12 @@ public class LogFileCompressor implements Runnable {
       ZoneId zone = ZoneId.systemDefault();
       LocalDate now = LocalDate.now(zone);
       long milliSecondsUntil11pm = now.atStartOfDay(zone).plusHours(23).toInstant().toEpochMilli();
-      queue
-          .getDefaultQueue()
-          .scheduleAtFixedRate(compressor, milliSecondsUntil11pm, HOURS.toMillis(24), MILLISECONDS);
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          queue
+              .getDefaultQueue()
+              .scheduleAtFixedRate(
+                  compressor, milliSecondsUntil11pm, HOURS.toMillis(24), MILLISECONDS);
     }
 
     @Override

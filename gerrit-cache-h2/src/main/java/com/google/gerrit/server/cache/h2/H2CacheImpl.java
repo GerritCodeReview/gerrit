@@ -46,6 +46,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
@@ -196,7 +197,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     cal.add(Calendar.DAY_OF_MONTH, 1);
 
     long delay = cal.getTimeInMillis() - TimeUtil.nowMs();
-    service.schedule(() -> prune(service), delay, TimeUnit.MILLISECONDS);
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        service.schedule(() -> prune(service), delay, TimeUnit.MILLISECONDS);
   }
 
   static class ValueHolder<V> {

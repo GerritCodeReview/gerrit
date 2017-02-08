@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,9 +53,11 @@ public class GarbageCollectionRunner implements Runnable {
       } else if (delay < 0 || interval <= 0) {
         gcLog.warn(String.format("Ignoring invalid gc schedule configuration: %s", scheduleConfig));
       } else {
-        queue
-            .getDefaultQueue()
-            .scheduleAtFixedRate(gcRunner, delay, interval, TimeUnit.MILLISECONDS);
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError =
+            queue
+                .getDefaultQueue()
+                .scheduleAtFixedRate(gcRunner, delay, interval, TimeUnit.MILLISECONDS);
       }
     }
 

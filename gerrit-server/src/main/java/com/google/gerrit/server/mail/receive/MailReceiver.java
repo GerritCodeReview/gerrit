@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,7 +134,8 @@ public abstract class MailReceiver implements LifecycleListener {
               }
               return null;
             };
-        workQueue.getDefaultQueue().submit(task);
+        @SuppressWarnings("unused")
+        Future<?> possiblyIgnoredError = workQueue.getDefaultQueue().submit(task);
       } else {
         // Synchronous processing is used only in tests.
         try {

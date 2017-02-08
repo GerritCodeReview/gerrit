@@ -35,6 +35,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,7 +90,8 @@ public class EmailMerge implements Runnable, RequestContext {
   }
 
   public void sendAsync() {
-    sendEmailsExecutor.submit(this);
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
   }
 
   @Override

@@ -49,6 +49,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -169,22 +170,28 @@ public class GerritServer {
     } else {
       site = initSite(cfg);
       daemonService = Executors.newSingleThreadExecutor();
-      daemonService.submit(
-          new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-              int rc =
-                  daemon.main(
-                      new String[] {
-                        "-d", site.getPath(), "--headless", "--console-log", "--show-stack-trace",
-                      });
-              if (rc != 0) {
-                System.err.println("Failed to start Gerrit daemon");
-                serverStarted.reset();
-              }
-              return null;
-            }
-          });
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          daemonService.submit(
+              new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                  int rc =
+                      daemon.main(
+                          new String[] {
+                            "-d",
+                            site.getPath(),
+                            "--headless",
+                            "--console-log",
+                            "--show-stack-trace",
+                          });
+                  if (rc != 0) {
+                    System.err.println("Failed to start Gerrit daemon");
+                    serverStarted.reset();
+                  }
+                  return null;
+                }
+              });
       serverStarted.await();
       System.out.println("Gerrit Server Started");
     }

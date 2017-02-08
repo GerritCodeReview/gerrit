@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -82,6 +83,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -334,6 +336,7 @@ public class ChangeData {
   private Map<Integer, Optional<PatchList>> patchLists;
   private Map<Integer, Optional<DiffSummary>> diffSummaries;
   private Collection<Comment> publishedComments;
+  private Collection<RobotComment> robotComments;
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
@@ -351,6 +354,7 @@ public class ChangeData {
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
+  private Integer unresolvedCommentCount;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
@@ -991,6 +995,34 @@ public class ChangeData {
       publishedComments = commentsUtil.publishedByChange(db, notes());
     }
     return publishedComments;
+  }
+
+  public Collection<RobotComment> robotComments() throws OrmException {
+    if (robotComments == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
+      }
+      robotComments = commentsUtil.robotCommentsByChange(notes());
+    }
+    return robotComments;
+  }
+
+  public Integer unresolvedCommentCount() throws OrmException {
+    if (unresolvedCommentCount == null) {
+      if (!lazyLoad) {
+        return null;
+      }
+      Long count =
+          Stream.concat(publishedComments().stream(), robotComments().stream())
+              .filter(c -> (c.unresolved == Boolean.TRUE))
+              .count();
+      unresolvedCommentCount = count.intValue();
+    }
+    return unresolvedCommentCount;
+  }
+
+  public void setUnresolvedCommentCount(Integer count) {
+    this.unresolvedCommentCount = count;
   }
 
   public List<ChangeMessage> messages() throws OrmException {

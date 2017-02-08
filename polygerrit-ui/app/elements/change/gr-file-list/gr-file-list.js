@@ -102,7 +102,7 @@
       _maxFilesForBulkActions: {
         type: Number,
         readOnly: true,
-        value: 50,
+        value: 225,
       },
     },
 
@@ -649,9 +649,8 @@
       return 'SIDE_BY_SIDE';
     },
 
-    _fileListActionsVisible: function(shownFilesRecord,
-        maxFilesForBulkActions) {
-      return shownFilesRecord.base.length <= maxFilesForBulkActions;
+    _fileListActionsVisible: function(numFilesShown, maxFilesForBulkActions) {
+      return numFilesShown <= maxFilesForBulkActions;
     },
 
     _computePatchSetDescription: function(revisions, patchNum) {

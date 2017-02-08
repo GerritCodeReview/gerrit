@@ -189,15 +189,15 @@ limitations under the License.
       <div>Files</div>
       <div class="rightControls">
         <template is="dom-if"
-            if="[[_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
+            if="[[_fileListActionsVisible(_numFilesShown, _maxFilesForBulkActions)]]">
           <gr-button link on-tap="_expandAllDiffs">Show diffs</gr-button>
           <span class="separator">/</span>
           <gr-button link on-tap="_collapseAllDiffs">Hide diffs</gr-button>
         </template>
         <template is="dom-if"
-            if="[[!_fileListActionsVisible(_shownFiles.*, _maxFilesForBulkActions)]]">
+            if="[[!_fileListActionsVisible(_numFilesShown, _maxFilesForBulkActions)]]">
           <div class="warning">
-            Bulk actions disabled because there are too many files.
+            Bulk file list actions disabled for large amounts of files
           </div>
         </template>
         <span class="separator">/</span>

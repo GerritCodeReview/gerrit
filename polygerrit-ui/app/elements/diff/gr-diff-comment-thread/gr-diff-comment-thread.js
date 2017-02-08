@@ -78,8 +78,8 @@
     },
 
     addOrEditDraft: function(opt_lineNum) {
-      var lastComment = this.comments[this.comments.length - 1];
-      if (lastComment && lastComment.__draft) {
+      var lastComment = this.comments[this.comments.length - 1] || {};
+      if (lastComment.__draft) {
         var commentEl = this._commentElWithDraftID(
             lastComment.id || lastComment.__draftID);
         commentEl.editing = true;

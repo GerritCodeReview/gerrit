@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d222d838_bad99d7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-02-08T21:42:34Z",
+      "side": 1,
+      "message": "throws",
+      "range": {
+        "startLine": 20,
+        "startChar": 82,
+        "endLine": 20,
+        "endChar": 87
+      },
+      "revId": "3ebe1131edb8b69bfe78525e25f89e58ae9964c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0186f6c_8b187627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-02-08T21:42:34Z",
+      "side": 1,
+      "message": "cost can be 4..31 inclusive, see https://github.com/bcgit/bc-java/blob/ae63147936376e85e068c7b63373d4e930c3fe58/core/src/main/java/org/bouncycastle/crypto/generators/BCrypt.java#L604",
+      "revId": "3ebe1131edb8b69bfe78525e25f89e58ae9964c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

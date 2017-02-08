@@ -22,6 +22,30 @@
       "revId": "d224d064bc16b7af9ab1473e0fb775ffaf86bf14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2cb475_3b01a382",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "Feb 8, 2017 12:44:52 AM",
+      "side": 1,
+      "message": "Right.Then getSchemeRest(String) should also be updated.",
+      "parentUuid": "44b965ad_7cda10eb",
+      "range": {
+        "startLine": 77,
+        "startChar": 27,
+        "endLine": 77,
+        "endChar": 36
+      },
+      "revId": "d224d064bc16b7af9ab1473e0fb775ffaf86bf14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

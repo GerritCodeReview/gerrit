@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "9e39275a_2a4f4b23",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 7, 2017 4:18:44 PM",
+      "side": 1,
+      "message": "I like that a lot, actually. Done.",
+      "parentUuid": "228c5cb4_069cbc05",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab1a9c78_53c3337f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -78,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "6fa409f7_4562865a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 7, 2017 4:18:44 PM",
+      "side": 1,
+      "message": "I looked into this, and there was no way that really made much sense. I could setTimeout and recurse on this function, but that seems kind of bad.\n\nAlso, from a UX perspective, it seems to not make much sense to start the reply once the request has closed if the wait is itself non-blocking. Imagine you\u0027re on a slow connection (totally valid use case), and you\u0027re trying to save but it\u0027s taking a while. If it\u0027s a 6sec round trip or something, you could feasibly start another action of some kind and be abruptly interrupted by the reply dialog that you no longer want.",
+      "parentUuid": "1c4c1fc3_5c3cea1e",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a553bdf_cc3099fc",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -98,6 +134,24 @@
       "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d741742_2b06b8d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 7, 2017 4:18:44 PM",
+      "side": 1,
+      "message": "Leaving it as is, as discussed offline.",
+      "parentUuid": "0a553bdf_cc3099fc",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -124,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "ec2f6ecb_d06a0248",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 7, 2017 4:18:44 PM",
+      "side": 1,
+      "message": ":D",
+      "parentUuid": "aeca516b_3276038d",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b235e4a_58dfa8c5",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -144,6 +216,24 @@
       "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78475d86_79c1f3fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "Feb 7, 2017 4:18:44 PM",
+      "side": 1,
+      "message": "Yeah, that\u0027s definitely smarter. Done.",
+      "parentUuid": "8b235e4a_58dfa8c5",
+      "revId": "5614111ef1c9109584ce968907e4c9ad0b05d5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

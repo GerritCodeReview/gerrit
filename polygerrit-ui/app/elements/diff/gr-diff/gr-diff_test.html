@@ -128,16 +128,16 @@ limitations under the License.
             projectConfig: {foo: 'bar'},
           },
           left: [
-            {id: 'bc1', side: 'PARENT'},
-            {id: 'bc2', side: 'PARENT'},
-            {id: 'bd1', __draft: true, side: 'PARENT'},
-            {id: 'bd2', __draft: true, side: 'PARENT'},
+            {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+            {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
+            {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+            {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
           ],
           right: [
-            {id: 'c1'},
-            {id: 'c2'},
-            {id: 'd1', __draft: true},
-            {id: 'd2', __draft: true},
+            {id: 'c1', __commentSide: 'right'},
+            {id: 'c2', __commentSide: 'right'},
+            {id: 'd1', __draft: true, __commentSide: 'right'},
+            {id: 'd2', __draft: true, __commentSide: 'right'},
           ],
         };
 
@@ -155,21 +155,22 @@ limitations under the License.
             projectConfig: {foo: 'bar'},
           },
           left: [
-            {id: 'bc1', side: 'PARENT'},
-            {id: 'bc2', side: 'PARENT'},
-            {id: 'bd1', __draft: true, side: 'PARENT'},
-            {id: 'bd2', __draft: true, side: 'PARENT'},
+            {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+            {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
+            {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+            {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
           ],
           right: [
-            {id: 'c1'},
-            {id: 'c2'},
-            {id: 'd1', __draft: true},
-            {id: 'd2', __draft: true},
+            {id: 'c1', __commentSide: 'right'},
+            {id: 'c2', __commentSide: 'right'},
+            {id: 'd1', __draft: true, __commentSide: 'right'},
+            {id: 'd2', __draft: true, __commentSide: 'right'},
           ],
         }));
 
-        element._removeComment({id: 'bc2', side: 'PARENT'});
-        assert.equal(JSON.stringify(element._comments), JSON.stringify({
+        element._removeComment({id: 'bc2', side: 'PARENT',
+            __commentSide: 'left'});
+        assert.deepEqual(element._comments, {
           meta: {
             changeNum: '42',
             patchRange: {
@@ -180,20 +181,20 @@ limitations under the License.
             projectConfig: {foo: 'bar'},
           },
           left: [
-            {id: 'bc1', side: 'PARENT'},
-            {id: 'bd1', __draft: true, side: 'PARENT'},
-            {id: 'bd2', __draft: true, side: 'PARENT'},
+            {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+            {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+            {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
           ],
           right: [
-            {id: 'c1'},
-            {id: 'c2'},
-            {id: 'd1', __draft: true},
-            {id: 'd2', __draft: true},
+            {id: 'c1', __commentSide: 'right'},
+            {id: 'c2', __commentSide: 'right'},
+            {id: 'd1', __draft: true, __commentSide: 'right'},
+            {id: 'd2', __draft: true, __commentSide: 'right'},
           ],
-        }));
+        });
 
-        element._removeComment({id: 'd2'});
-        assert.deepEqual(JSON.stringify(element._comments), JSON.stringify({
+        element._removeComment({id: 'd2', __commentSide: 'right'});
+        assert.deepEqual(element._comments, {
           meta: {
             changeNum: '42',
             patchRange: {
@@ -204,21 +205,22 @@ limitations under the License.
             projectConfig: {foo: 'bar'},
           },
           left: [
-            {id: 'bc1', side: 'PARENT'},
-            {id: 'bd1', __draft: true, side: 'PARENT'},
-            {id: 'bd2', __draft: true, side: 'PARENT'},
+            {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+            {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+            {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
           ],
           right: [
-            {id: 'c1'},
-            {id: 'c2'},
-            {id: 'd1', __draft: true},
+            {id: 'c1', __commentSide: 'right'},
+            {id: 'c2', __commentSide: 'right'},
+            {id: 'd1', __draft: true, __commentSide: 'right'},
           ],
-        }));
+        });
       });
 
       test('thread groups', function() {
         var contentEl = document.createElement('div');
-        var rangeToCheck = 'line';
+        var rangeToCheck = 'line-left';
+        var commentSide = 'left';
         var patchNum = 1;
         var side = 'PARENT';
         var range = {
@@ -227,6 +229,10 @@ limitations under the License.
           endLine: 1,
           endChar: 2,
         };
+
+        element.changeNum = 123;
+        element.patchRange = {basePatchNum: 1, patchNum: 2};
+        element.path = 'file.txt';
 
         sandbox.stub(element.$.diffBuilder, 'createCommentThreadGroup',
             function() {
@@ -237,8 +243,8 @@ limitations under the License.
         assert.isNotOk(element._getThreadGroupForLine(contentEl));
 
         // A thread group gets created.
-        assert.isOk(
-            element._getOrCreateThreadAtLineRange(contentEl, patchNum, side));
+        assert.isOk(element._getOrCreateThreadAtLineRange(contentEl, patchNum,
+            commentSide, side));
 
         // Try to fetch a thread with a different range.
         range = {
@@ -249,7 +255,7 @@ limitations under the License.
         };
 
         assert.isOk(element._getOrCreateThreadAtLineRange(
-            contentEl, patchNum, side, range));
+            contentEl, patchNum, commentSide, side, range));
         // The new thread group can be fetched.
         assert.isOk(element._getThreadGroupForLine(contentEl));
 
@@ -443,12 +449,12 @@ limitations under the License.
       test('get comments and drafts', function(done) {
         var comments = {
           baseComments: [
-            {id: 'bc1'},
-            {id: 'bc2'},
+            {id: 'bc1', __commentSide: 'left'},
+            {id: 'bc2', __commentSide: 'left'},
           ],
           comments: [
-            {id: 'c1'},
-            {id: 'c2'},
+            {id: 'c1', __commentSide: 'right'},
+            {id: 'c2', __commentSide: 'right'},
           ],
         };
         var diffCommentsStub = sandbox.stub(element, '_getDiffComments',
@@ -456,12 +462,12 @@ limitations under the License.
 
         var drafts = {
           baseComments: [
-            {id: 'bd1'},
-            {id: 'bd2'},
+            {id: 'bd1', __commentSide: 'left'},
+            {id: 'bd2', __commentSide: 'left'},
           ],
           comments: [
-            {id: 'd1'},
-            {id: 'd2'},
+            {id: 'd1', __commentSide: 'right'},
+            {id: 'd2', __commentSide: 'right'},
           ],
         };
 
@@ -470,12 +476,12 @@ limitations under the License.
 
         var robotComments = {
           baseComments: [
-            {id: 'br1'},
-            {id: 'br2'},
+            {id: 'br1', __commentSide: 'left'},
+            {id: 'br2', __commentSide: 'left'},
           ],
           comments: [
-            {id: 'r1'},
-            {id: 'r2'},
+            {id: 'r1', __commentSide: 'right'},
+            {id: 'r2', __commentSide: 'right'},
           ],
         };
 
@@ -503,20 +509,20 @@ limitations under the License.
               projectConfig: {foo: 'bar'},
             },
             left: [
-              {id: 'bc1'},
-              {id: 'bc2'},
-              {id: 'bd1', __draft: true},
-              {id: 'bd2', __draft: true},
-              {id: 'br1'},
-              {id: 'br2'},
+              {id: 'bc1', __commentSide: 'left'},
+              {id: 'bc2', __commentSide: 'left'},
+              {id: 'bd1', __draft: true, __commentSide: 'left'},
+              {id: 'bd2', __draft: true, __commentSide: 'left'},
+              {id: 'br1', __commentSide: 'left'},
+              {id: 'br2', __commentSide: 'left'},
             ],
             right: [
-              {id: 'c1'},
-              {id: 'c2'},
-              {id: 'd1', __draft: true},
-              {id: 'd2', __draft: true},
-              {id: 'r1'},
-              {id: 'r2'},
+              {id: 'c1', __commentSide: 'right'},
+              {id: 'c2', __commentSide: 'right'},
+              {id: 'd1', __draft: true, __commentSide: 'right'},
+              {id: 'd2', __draft: true, __commentSide: 'right'},
+              {id: 'r1', __commentSide: 'right'},
+              {id: 'r2', __commentSide: 'right'},
             ],
           });
 
@@ -538,22 +544,23 @@ limitations under the License.
               projectConfig: {foo: 'bar'},
             },
             left: [
-              {id: 'bc1', side: 'PARENT'},
-              {id: 'bc2', side: 'PARENT'},
-              {id: 'bd1', __draft: true, side: 'PARENT'},
-              {id: 'bd2', __draft: true, side: 'PARENT'},
+              {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
+              {id: 'bc2', side: 'PARENT', __commentSide: 'left'},
+              {id: 'bd1', __draft: true, side: 'PARENT', __commentSide: 'left'},
+              {id: 'bd2', __draft: true, side: 'PARENT', __commentSide: 'left'},
             ],
             right: [
-              {id: 'c1'},
-              {id: 'c2'},
-              {id: 'd1', __draft: true},
-              {id: 'd2', __draft: true},
+              {id: 'c1', __commentSide: 'right'},
+              {id: 'c2', __commentSide: 'right'},
+              {id: 'd1', __draft: true, __commentSide: 'right'},
+              {id: 'd2', __draft: true, __commentSide: 'right'},
             ],
           };
         });
 
         test('creating a draft', function() {
-          var comment = {__draft: true, __draftID: 'tempID', side: 'PARENT'};
+          var comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
+              __commentSide: 'left'};
           element.fire('comment-update', {comment: comment});
           assert.include(element._comments.left, comment);
         });
@@ -562,9 +569,11 @@ limitations under the License.
           var draftID = 'tempID';
           var id = 'savedID';
           element._comments.left.push(
-              {__draft: true, __draftID: draftID, side: 'PARENT'});
+              {__draft: true, __draftID: draftID, side: 'PARENT',
+              __commentSide: 'left'});
           element.fire('comment-update', {comment:
-              {id: id, __draft: true, __draftID: draftID, side: 'PARENT'},
+              {id: id, __draft: true, __draftID: draftID, side: 'PARENT',
+              __commentSide: 'left'},
           });
           var drafts = element._comments.left.filter(function(item) {
             return item.__draftID === draftID;

@@ -54,26 +54,31 @@ limitations under the License.
           id: 'sallys_confession',
           message: 'i like you, jack',
           updated: '2015-12-23 15:00:20.396000000',
+          __commentSide: 'left',
         }, {
           id: 'jacks_reply',
           message: 'i like you, too',
           updated: '2015-12-24 15:00:20.396000000',
+          __commentSide: 'left',
         },
       ];
 
       var expectedThreadGroups = [
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
+          commentSide: 'left',
           comments: [{
               id: 'sallys_confession',
               message: 'i like you, jack',
               updated: '2015-12-23 15:00:20.396000000',
+              __commentSide: 'left',
             }, {
               id: 'jacks_reply',
               message: 'i like you, too',
               updated: '2015-12-24 15:00:20.396000000',
+              __commentSide: 'left',
             }],
-          locationRange: 'line',
+          locationRange: 'line-left',
         },
       ];
 
@@ -89,25 +94,30 @@ limitations under the License.
             start_character: 1,
             end_line: 1,
             end_character: 2,
-          }
+          },
+          __commentSide: 'left',
         });
 
       expectedThreadGroups = [
         {
           start_datetime: '2015-12-23 15:00:20.396000000',
+          commentSide: 'left',
           comments: [{
               id: 'sallys_confession',
               message: 'i like you, jack',
               updated: '2015-12-23 15:00:20.396000000',
+              __commentSide: 'left',
             }, {
               id: 'jacks_reply',
               message: 'i like you, too',
               updated: '2015-12-24 15:00:20.396000000',
+              __commentSide: 'left',
             }],
-          locationRange: 'line',
+          locationRange: 'line-left',
         },
         {
           start_datetime: '2015-12-24 15:00:10.396000000',
+          commentSide: 'left',
           comments: [{
             id: 'betsys_confession',
             message: 'i like you, jack',
@@ -118,8 +128,9 @@ limitations under the License.
               end_line: 1,
               end_character: 2,
             },
+            __commentSide: 'left',
           }],
-          locationRange: 'range-1-1-1-2',
+          locationRange: 'range-1-1-1-2-left',
         },
       ];
 
@@ -157,13 +168,15 @@ limitations under the License.
     });
 
     test('_calculateLocationRange', function() {
+      var comment = {__commentSide: 'left'};
       var range = {
         start_line: 1,
         start_character: 2,
         end_line: 3,
         end_character: 4,
       };
-      assert.equal(element._calculateLocationRange(range), 'range-1-2-3-4');
+      assert.equal(
+        element._calculateLocationRange(range, comment), 'range-1-2-3-4-left');
     });
 
     test('thread groups are updated when comments change', function() {

@@ -40,7 +40,7 @@
       '_commentsChanged(comments.*)',
     ],
 
-    addNewThread: function(locationRange) {
+    addNewThread: function(locationRange, commentSide) {
       this.push('_threadGroups', {
         comments: [],
         locationRange: locationRange,
@@ -79,11 +79,12 @@
       });
     },
 
-    _calculateLocationRange: function(range) {
+    _calculateLocationRange: function(range, comment) {
       return 'range-' + range.start_line + '-' +
           range.start_character + '-' +
           range.end_line + '-' +
-          range.end_character;
+          range.end_character + '-' +
+          comment.__commentSide;
     },
 
     _getThreadGroups: function(comments) {
@@ -92,9 +93,9 @@
       comments.forEach(function(comment) {
         var locationRange;
         if (!comment.range) {
-          locationRange = 'line';
+          locationRange = 'line-' + comment.__commentSide;
         } else {
-          locationRange = this._calculateLocationRange(comment.range);
+          locationRange = this._calculateLocationRange(comment.range, comment);
         }
 
         if (threadGroups[locationRange]) {
@@ -104,6 +105,7 @@
             start_datetime: comment.updated,
             comments: [comment],
             locationRange: locationRange,
+            commentSide: comment.__commentSide,
           };
         }
       }.bind(this));

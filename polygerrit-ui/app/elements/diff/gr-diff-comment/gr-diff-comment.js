@@ -114,6 +114,7 @@
         value: '',
         observer: '_messageTextChanged',
       },
+      commentSide: String,
 
       resolved: {
         type: Boolean,
@@ -171,6 +172,7 @@
           if (this.comment.__draftID) {
             comment.__draftID = this.comment.__draftID;
           }
+          comment.__commentSide = this.commentSide;
           this.comment = comment;
           this.editing = false;
           this._fireSave();

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5fe77d71_381cf7c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 8, 2017 12:14:20 AM",
+      "side": 1,
+      "message": "also this should be at the very bottom (see other Info JS classes)\n\nWith my previous comment I really just meant you should move the one method I marked with the comment but not more :)",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "828cc6b2d00c07b7136e24aa6a43b1dc7dad1914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f521da9b_381dcc60",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
         "patchSetId": 9

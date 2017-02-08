@@ -26,6 +26,41 @@
     },
     {
       "key": {
+        "uuid": "ec031370_7ace9bcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "Feb 7, 2017 4:48:27 PM",
+      "side": 1,
+      "message": "This is checking that \u0027name\u0027 doesn\u0027t start with refs/, or in other words that it is a suffix that doesn\u0027t have refs/sequences/ already prepended to it.\n\nMight be simpler to avoid the check. The RepoSequence constructor doesn\u0027t have an analogous check, so I guess it\u0027s allowed to have a sequence with name starting with \"refs/\", even though that would be confusing.\n\nAn alternative check would be to disallow anything with / in it:\n\n private static String validSequenceName(String name) {\n   checkNotNull(name, \"name\");\n   checkArgument(!name.contains(\u0027/\u0027), \"expected ref suffix, got %s\", name);\n   return name;\n }\n\nand to use that here and in the RepoSequence constructor.",
+      "parentUuid": "86a632a3_cf822a71",
+      "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ecffd6_65de1cb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "Feb 7, 2017 4:48:27 PM",
+      "side": 1,
+      "message": "optional --- feel free to add a TODO if this is complicated: could this go in the same pack and ref transaction as the permission grant?",
+      "revId": "522952abd36885a0a65cc940e702c2cd0684009f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a097d26e_374672e2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 3

@@ -159,6 +159,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_SUBMISSIONID = "submissionid";
   public static final String FIELD_TR = "tr";
+  public static final String FIELD_UNRESOLVED_COMMENT_COUNT = "unresolvedcount";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
 

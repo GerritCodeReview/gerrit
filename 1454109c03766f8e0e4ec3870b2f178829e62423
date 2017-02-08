@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86a0c322_e3cfbb2a",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "Feb 8, 2017 5:56:24 AM",
+      "side": 1,
+      "message": "this is causing the license test to fail, but if I use bcprov as is, then I get \n\n1) printTest(com.googlesource.gerrit.plugins.cookbook.CookbookIT)\njava.lang.NoClassDefFoundError: org/bouncycastle/crypto/generators/BCrypt\n\nin the cookbook test.",
+      "range": {
+        "startLine": 41,
+        "startChar": 11,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

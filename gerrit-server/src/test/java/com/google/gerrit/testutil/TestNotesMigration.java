@@ -26,6 +26,7 @@ public class TestNotesMigration extends NotesMigration {
   private volatile boolean readChanges;
   private volatile boolean writeChanges;
   private volatile PrimaryStorage changePrimaryStorage = PrimaryStorage.REVIEW_DB;
+  private volatile boolean disableChangeReviewDb;
   private volatile boolean failOnLoad;
 
   @Override
@@ -43,6 +44,11 @@ public class TestNotesMigration extends NotesMigration {
   @Override
   public PrimaryStorage changePrimaryStorage() {
     return changePrimaryStorage;
+  }
+
+  @Override
+  public boolean disableChangeReviewDb() {
+    return disableChangeReviewDb;
   }
 
   // Increase visbility from superclass, as tests may want to check whether
@@ -72,6 +78,11 @@ public class TestNotesMigration extends NotesMigration {
     return this;
   }
 
+  public TestNotesMigration setDisableChangeReviewDb(boolean disableChangeReviewDb) {
+    this.disableChangeReviewDb = disableChangeReviewDb;
+    return this;
+  }
+
   public TestNotesMigration setFailOnLoad(boolean failOnLoad) {
     this.failOnLoad = failOnLoad;
     return this;
@@ -87,16 +98,25 @@ public class TestNotesMigration extends NotesMigration {
         setWriteChanges(true);
         setReadChanges(true);
         setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
+        setDisableChangeReviewDb(false);
         break;
       case WRITE:
         setWriteChanges(true);
         setReadChanges(false);
         setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
+        setDisableChangeReviewDb(false);
         break;
       case PRIMARY:
         setWriteChanges(true);
         setReadChanges(true);
         setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
+        setDisableChangeReviewDb(false);
+        break;
+      case DISABLE_CHANGE_REVIEW_DB:
+        setWriteChanges(true);
+        setReadChanges(true);
+        setChangePrimaryStorage(PrimaryStorage.NOTE_DB);
+        setDisableChangeReviewDb(true);
         break;
       case CHECK:
       case OFF:
@@ -104,6 +124,7 @@ public class TestNotesMigration extends NotesMigration {
         setWriteChanges(false);
         setReadChanges(false);
         setChangePrimaryStorage(PrimaryStorage.REVIEW_DB);
+        setDisableChangeReviewDb(false);
         break;
     }
     return this;

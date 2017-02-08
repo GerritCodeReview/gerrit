@@ -71,6 +71,15 @@ public abstract class NotesMigration {
   public abstract PrimaryStorage changePrimaryStorage();
 
   /**
+   * Disable ReviewDb access for changes.
+   *
+   * <p>When set, ReviewDb operations involving the Changes table become no-ops. Lookups return no
+   * results; updates do nothing, as does opening, committing, or rolling back a transaction on the
+   * Changes table.
+   */
+  public abstract boolean disableChangeReviewDb();
+
+  /**
    * Whether to fail when reading any data from NoteDb.
    *
    * <p>Used in conjunction with {@link #readChanges()} for tests.

@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "6f0f36e9_cca9ff76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 4:01:38 PM",
+      "side": 1,
+      "message": "Is this to be able to compute the prefix? Can we provide it as part of the plugin API?",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae4c29cd_77de35dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 4:01:38 PM",
+      "side": 1,
+      "message": "Cool!",
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d4999a0_5e70566f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 4:01:38 PM",
+      "side": 1,
+      "message": "Is there no way to allow plugin authors to just provide a CSS file? It seems unlikely to me, based on my limited experience with Polymer custom styling.",
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "811d8789_dacacc2b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
         "patchSetId": 1
@@ -52,6 +109,64 @@
       "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff036f4_35208790",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 4:01:38 PM",
+      "side": 1,
+      "message": "\u003e Should we consider optionally letting the user --ignore-whitespace or something?\n\nSounds like a part of Issue 4314.",
+      "parentUuid": "81fef8b6_40793af4",
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3be3aa0b_3aa3fbef",
+        "filename": "polygerrit-ui/app/elements/core/gr-import-style/gr-import-style.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 4:01:38 PM",
+      "side": 1,
+      "message": "Why not use an array of strings here?",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dda51274_a4a5fc4e",
+        "filename": "polygerrit-ui/app/elements/core/gr-import-style/gr-import-style.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "Feb 7, 2017 4:01:38 PM",
+      "side": 1,
+      "message": "Does this work when shadow DOM is enabled? Is there need to invoke `scopeSubtree` or `updateStyles` following this?",
+      "revId": "db52318b52c5175009144d2fbfd5c5e2a72656b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

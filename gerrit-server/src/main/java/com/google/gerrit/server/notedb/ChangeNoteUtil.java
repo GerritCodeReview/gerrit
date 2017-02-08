@@ -102,11 +102,18 @@ public class ChangeNoteUtil {
     return dateFormatter.formatDate(newIdent);
   }
 
+  static Gson newGson() {
+    return new GsonBuilder()
+        .registerTypeAdapter(Timestamp.class, new CommentTimestampAdapter().nullSafe())
+        .setPrettyPrinting()
+        .create();
+  }
+
   private final AccountCache accountCache;
   private final PersonIdent serverIdent;
   private final String anonymousCowardName;
   private final String serverId;
-  private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+  private final Gson gson = newGson();
   private final boolean writeJson;
 
   @Inject

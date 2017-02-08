@@ -77,6 +77,16 @@ previous options, unless otherwise noted.
   Due to an implementation detail, writes to Changes or related tables still
   result in write calls to the database layer, but they are inside a transaction
   that is always rolled back.
+- `noteDb.changes.disableReviewDb=true`: All access to Changes or related tables
+  is disabled; reads return no results, and writes are no-ops. Assumes the state
+  of all changes in NoteDb is accurate, and so is only safe once all changes are
+  NoteDb primary. Otherwise, reading changes only from NoteDb might result in
+  inaccurate results, and writing to NoteDb would compound the problem. +
+  Thus it is up to an admin of a previously-ReviewDb site to ensure
+  MigratePrimaryStorage has been run for all changes. Note that the current
+  implementation of the `rebuild-note-db` program does not do this. +
+  In this phase, it would be possible to delete the Changes tables out from
+  under a running server with no effect.
 
 [[migration]]
 == Migration

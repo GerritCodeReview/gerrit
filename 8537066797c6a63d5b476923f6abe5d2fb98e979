@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ceb2a3e_0f0118e2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "Feb 7, 2017 11:41:31 PM",
+      "side": 1,
+      "message": "I think those shouldn\u0027t be static now and there should be no need to pass in the identity string.",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 50
+      },
+      "revId": "8537066797c6a63d5b476923f6abe5d2fb98e979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

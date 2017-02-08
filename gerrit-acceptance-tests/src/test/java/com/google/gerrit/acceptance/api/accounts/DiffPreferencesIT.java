@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.GitUtil.fetch;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
@@ -35,6 +36,7 @@ import org.junit.After;
 import org.junit.Test;
 
 @NoHttpd
+@Sandboxed
 public class DiffPreferencesIT extends AbstractDaemonTest {
   @Inject private AllUsersName allUsers;
 
@@ -135,5 +137,40 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
 
     // assert hard-coded defaults
     assertPrefs(o, d, "lineLength", "tabSize", "fontSize");
+  }
+
+  @Test
+  public void overwriteConfiguredDefaults() throws Exception {
+    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
+    int configuredDefaultLineLength = d.lineLength + 10;
+    DiffPreferencesInfo update = new DiffPreferencesInfo();
+    update.lineLength = configuredDefaultLineLength;
+    gApi.config().server().setDefaultDiffPreferences(update);
+
+    DiffPreferencesInfo o = gApi.accounts().id(admin.getId().toString()).getDiffPreferences();
+    assertThat(o.lineLength).isEqualTo(configuredDefaultLineLength);
+    assertPrefs(o, d, "lineLength");
+
+    int newLineLength = configuredDefaultLineLength + 10;
+    DiffPreferencesInfo i = new DiffPreferencesInfo();
+    i.lineLength = newLineLength;
+    DiffPreferencesInfo a = gApi.accounts().id(admin.getId().toString()).setDiffPreferences(i);
+    assertThat(a.lineLength).isEqualTo(newLineLength);
+    assertPrefs(a, d, "lineLength");
+
+    a = gApi.accounts().id(admin.getId().toString()).getDiffPreferences();
+    assertThat(a.lineLength).isEqualTo(newLineLength);
+    assertPrefs(a, d, "lineLength");
+
+    // overwrite the configured default with original hard-coded default
+    i = new DiffPreferencesInfo();
+    i.lineLength = d.lineLength;
+    a = gApi.accounts().id(admin.getId().toString()).setDiffPreferences(i);
+    assertThat(a.lineLength).isEqualTo(d.lineLength);
+    assertPrefs(a, d, "lineLength");
+
+    a = gApi.accounts().id(admin.getId().toString()).getDiffPreferences();
+    assertThat(a.lineLength).isEqualTo(d.lineLength);
+    assertPrefs(a, d, "lineLength");
   }
 }

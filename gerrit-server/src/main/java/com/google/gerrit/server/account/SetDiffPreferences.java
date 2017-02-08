@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.GetDiffPreferences.readDefaultsFromGit;
 import static com.google.gerrit.server.account.GetDiffPreferences.readFromGit;
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
@@ -74,18 +75,12 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     DiffPreferencesInfo out = new DiffPreferencesInfo();
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
+      DiffPreferencesInfo allUserPrefs = readDefaultsFromGit(md.getRepository(), null);
       VersionedAccountPreferences prefs = VersionedAccountPreferences.forUser(userId);
       prefs.load(md);
-      DiffPreferencesInfo defaults = DiffPreferencesInfo.defaults();
-      storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in, defaults);
+      storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in, allUserPrefs);
       prefs.commit(md);
-      loadSection(
-          prefs.getConfig(),
-          UserConfigSections.DIFF,
-          null,
-          out,
-          DiffPreferencesInfo.defaults(),
-          null);
+      loadSection(prefs.getConfig(), UserConfigSections.DIFF, null, out, allUserPrefs, null);
     }
     return out;
   }

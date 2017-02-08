@@ -44,6 +44,15 @@
         value: 40,
       },
 
+      /**
+       * List the IDs of dropdown buttons to be disabled. (Note this only
+       * diisables bittons and not link entries.)
+       */
+      disabledIds: {
+        type: Array,
+        value: function() { return []; },
+      },
+
       _hasAvatars: String,
     },
 
@@ -76,7 +85,13 @@
 
     _handleItemTap: function(e) {
       var id = e.target.getAttribute('data-id');
-      if (id) { this.dispatchEvent(new CustomEvent('tap-item-' + id)); }
+      if (id && this.disabledIds.indexOf(id) === -1) {
+        this.dispatchEvent(new CustomEvent('tap-item-' + id));
+      }
+    },
+
+    _computeDisabledClass: function(id, disabledIdsRecord) {
+      return disabledIdsRecord.base.indexOf(id) === -1 ? '' : 'disabled';
     },
   });
 })();

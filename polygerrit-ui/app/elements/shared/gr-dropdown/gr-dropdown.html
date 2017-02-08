@@ -62,12 +62,16 @@ limitations under the License.
         display: block;
         padding: .85em 1em;
       }
+      li .itemAction.disabled {
+        color: #ccc;
+        cursor: default;
+      }
       li .itemAction:link,
       li .itemAction:visited {
         color: #00e;
         text-decoration: none;
       }
-      li .itemAction:hover {
+      li .itemAction:not(.disabled):hover {
         background-color: #6B82D6;
         color: #fff;
       }
@@ -127,7 +131,7 @@ limitations under the License.
               initial-count="75">
             <li>
               <span
-                  class="itemAction"
+                  class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
                   data-id$="[[link.id]]"
                   on-tap="_handleItemTap"
                   hidden$="[[link.url]]">[[link.name]]</span>

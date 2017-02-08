@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b70b387_f42ad894",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummaryLoader.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-08T20:34:39Z",
+      "side": 1,
+      "message": "test inline comment",
+      "revId": "a72419febc3713399b9e89f2238f723af80c0fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

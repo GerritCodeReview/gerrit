@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -44,15 +45,5 @@ public class GetEmails implements RestReadView<AccountResource> {
           }
         });
     return emails;
-  }
-
-  public static class EmailInfo {
-    public String email;
-    public Boolean preferred;
-    public Boolean pendingConfirmation;
-
-    void preferred(String e) {
-      this.preferred = e != null && e.equals(email) ? true : null;
-    }
   }
 }

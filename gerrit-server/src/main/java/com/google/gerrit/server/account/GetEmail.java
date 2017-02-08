@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.GetEmails.EmailInfo;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

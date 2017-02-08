@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.AgreementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
 import com.google.gerrit.server.account.DeleteActive;
+import com.google.gerrit.server.account.DeleteEmail;
 import com.google.gerrit.server.account.DeleteExternalIds;
 import com.google.gerrit.server.account.DeleteSshKey;
 import com.google.gerrit.server.account.DeleteWatchedProjects;
@@ -51,6 +53,7 @@ import com.google.gerrit.server.account.GetAgreements;
 import com.google.gerrit.server.account.GetAvatar;
 import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GetEditPreferences;
+import com.google.gerrit.server.account.GetEmails;
 import com.google.gerrit.server.account.GetExternalIds;
 import com.google.gerrit.server.account.GetPreferences;
 import com.google.gerrit.server.account.GetSshKeys;
@@ -100,7 +103,9 @@ public class AccountApiImpl implements AccountApi {
   private final Stars stars;
   private final Stars.Get starsGet;
   private final Stars.Post starsPost;
+  private final GetEmails getEmails;
   private final CreateEmail.Factory createEmailFactory;
+  private final DeleteEmail deleteEmail;
   private final GpgApiAdapter gpgApiAdapter;
   private final GetSshKeys getSshKeys;
   private final AddSshKey addSshKey;
@@ -135,7 +140,9 @@ public class AccountApiImpl implements AccountApi {
       Stars stars,
       Stars.Get starsGet,
       Stars.Post starsPost,
+      GetEmails getEmails,
       CreateEmail.Factory createEmailFactory,
+      DeleteEmail deleteEmail,
       GpgApiAdapter gpgApiAdapter,
       GetSshKeys getSshKeys,
       AddSshKey addSshKey,
@@ -169,7 +176,9 @@ public class AccountApiImpl implements AccountApi {
     this.stars = stars;
     this.starsGet = starsGet;
     this.starsPost = starsPost;
+    this.getEmails = getEmails;
     this.createEmailFactory = createEmailFactory;
+    this.deleteEmail = deleteEmail;
     this.getSshKeys = getSshKeys;
     this.addSshKey = addSshKey;
     this.deleteSshKey = deleteSshKey;
@@ -354,12 +363,27 @@ public class AccountApiImpl implements AccountApi {
   }
 
   @Override
+  public List<EmailInfo> getEmails() {
+    return getEmails.apply(account);
+  }
+
+  @Override
   public void addEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
       createEmailFactory.create(input.email).apply(rsrc, input);
     } catch (EmailException | OrmException | IOException e) {
       throw new RestApiException("Cannot add email", e);
+    }
+  }
+
+  @Override
+  public void deleteEmail(String email) throws RestApiException {
+    AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), email);
+    try {
+      deleteEmail.apply(rsrc, null);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot delete email", e);
     }
   }
 

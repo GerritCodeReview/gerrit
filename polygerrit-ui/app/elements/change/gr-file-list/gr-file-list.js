@@ -102,7 +102,7 @@
       _maxFilesForBulkActions: {
         type: Number,
         readOnly: true,
-        value: 50,
+        value: 225,
       },
       _expandedFilePaths: {
         type: Array,

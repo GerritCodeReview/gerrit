@@ -22,6 +22,29 @@
       "revId": "8537066797c6a63d5b476923f6abe5d2fb98e979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39b96bcc_6f9a4f23",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ExternalIdInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "Feb 7, 2017 11:46:07 PM",
+      "side": 1,
+      "message": "nit: put this up to the public methods so that public and private methods aren\u0027t mixed",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 3
+      },
+      "revId": "8537066797c6a63d5b476923f6abe5d2fb98e979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

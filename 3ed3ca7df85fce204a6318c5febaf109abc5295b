@@ -10,7 +10,7 @@
       "author": {
         "id": 1026519
       },
-      "writtenOn": "Feb 8, 2017 10:55:51 AM",
+      "writtenOn": "2017-02-08T18:55:51Z",
       "side": 1,
       "message": "It seems to me that using `null` or `undefined` here would be better than using an empty object. Both branches of this method should work in both cases: where there is a `lastComment` and where there isn\u0027t one. So IMO there should still be a null/undefined check, instead of fudging the branches with an empty object.",
       "range": {
@@ -22,6 +22,24 @@
       "revId": "3ed3ca7df85fce204a6318c5febaf109abc5295b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2051b2d_7a5dfaff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-08T19:01:27Z",
+      "side": 1,
+      "message": "I disagree.\n\nI understand your point, but all this does is pass the valid \u0027undefined\u0027 value to this.addDraft when there is no last comment. I *could* do this...\n\n    addOrEditDraft: function(opt_lineNum) {\n      var lastComment \u003d this.comments[this.comments.length - 1];\n      if (lastComment \u0026\u0026 lastComment.__draft) {\n        var commentEl \u003d this._commentElWithDraftID(\n            lastComment.id || lastComment.__draftID);\n        commentEl.editing \u003d true;\n      } else {\n        var range \u003d lastComment ? lastComment.range || undefined;\n        this.addDraft(opt_lineNum, range);\n      }\n    },\n\n...but it\u0027s more vertical space for what is functionally the same result, with no more clarity for the code.",
+      "parentUuid": "bd7ee4cf_a44b7e50",
+      "revId": "3ed3ca7df85fce204a6318c5febaf109abc5295b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -55,7 +55,7 @@ class ConfigAnnotationParser {
       if (!Strings.isNullOrEmpty(c.value())) {
         cfg.setString(l.get(0), l.get(1), l.get(2), c.value());
       } else {
-        cfg.setStringList(l.get(0), l.get(1), l.get(2), Arrays.asList(c.value()));
+        cfg.setStringList(l.get(0), l.get(1), l.get(2), Arrays.asList(c.values()));
       }
     } else {
       throw new IllegalArgumentException(

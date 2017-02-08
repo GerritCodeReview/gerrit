@@ -12,30 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance;
+package com.google.gerrit.acceptance.annotation;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
-import org.eclipse.jgit.lib.Config;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import org.junit.Test;
 
 public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
-
-  @Inject @GerritServerConfig Config serverConfig;
-
   @Test
   @GerritConfig(name = "x.y", value = "z")
   public void testOne() {
-    assertThat(serverConfig.getString("x", null, "y")).isEqualTo("z");
+    assertThat(cfg.getString("x", null, "y")).isEqualTo("z");
   }
 
   @Test
   @GerritConfig(name = "x.y", value = "z")
   @GerritConfig(name = "a.b", value = "c")
   public void testMultiple() {
-    assertThat(serverConfig.getString("x", null, "y")).isEqualTo("z");
-    assertThat(serverConfig.getString("a", null, "b")).isEqualTo("c");
+    assertThat(cfg.getString("x", null, "y")).isEqualTo("z");
+    assertThat(cfg.getString("a", null, "b")).isEqualTo("c");
+  }
+
+  @Test
+  @GerritConfig(name = "x.y", values = { "a", "b" })
+  public void testList() {
+    assertThat(cfg.getStringList("x", null, "y")).asList().containsExactly("a" , "b");
   }
 }

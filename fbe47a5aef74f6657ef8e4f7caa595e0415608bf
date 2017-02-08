@@ -22,6 +22,24 @@
       "revId": "fbe47a5aef74f6657ef8e4f7caa595e0415608bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f061f61_476e9817",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-08T22:06:02Z",
+      "side": 1,
+      "message": "No.\nAt the moment, gr-diff-highlight react to selection change event, so if there are multiple instances on the page, for example in gr-change-view, all instances react to selection.\nThis change makes gr-diff-highlight to ignore selections for other instances, thus reacting only its own selection.\n\nCommit message updated.",
+      "parentUuid": "62f5fc9e_572eb28b",
+      "revId": "fbe47a5aef74f6657ef8e4f7caa595e0415608bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -24,22 +24,22 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
-public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
+public class DisallowReadFromChangesReviewDbWrapper extends ReviewDbWrapper {
   private static final String MSG = "This table has been migrated to NoteDb";
 
-  private final DisabledChangeAccess changes;
-  private final DisabledPatchSetApprovalAccess patchSetApprovals;
-  private final DisabledChangeMessageAccess changeMessages;
-  private final DisabledPatchSetAccess patchSets;
-  private final DisabledPatchLineCommentAccess patchComments;
+  private final Changes changes;
+  private final PatchSetApprovals patchSetApprovals;
+  private final ChangeMessages changeMessages;
+  private final PatchSets patchSets;
+  private final PatchLineComments patchComments;
 
-  public DisabledChangesReviewDbWrapper(ReviewDb db) {
+  public DisallowReadFromChangesReviewDbWrapper(ReviewDb db) {
     super(db);
-    changes = new DisabledChangeAccess(delegate.changes());
-    patchSetApprovals = new DisabledPatchSetApprovalAccess(delegate.patchSetApprovals());
-    changeMessages = new DisabledChangeMessageAccess(delegate.changeMessages());
-    patchSets = new DisabledPatchSetAccess(delegate.patchSets());
-    patchComments = new DisabledPatchLineCommentAccess(delegate.patchComments());
+    changes = new Changes(delegate.changes());
+    patchSetApprovals = new PatchSetApprovals(delegate.patchSetApprovals());
+    changeMessages = new ChangeMessages(delegate.changeMessages());
+    patchSets = new PatchSets(delegate.patchSets());
+    patchComments = new PatchLineComments(delegate.patchComments());
   }
 
   public ReviewDb unsafeGetDelegate() {
@@ -71,9 +71,9 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     return patchComments;
   }
 
-  private static class DisabledChangeAccess extends ChangeAccessWrapper {
+  private static class Changes extends ChangeAccessWrapper {
 
-    protected DisabledChangeAccess(ChangeAccess delegate) {
+    protected Changes(ChangeAccess delegate) {
       super(delegate);
     }
 
@@ -103,8 +103,8 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
   }
 
-  private static class DisabledPatchSetApprovalAccess extends PatchSetApprovalAccessWrapper {
-    DisabledPatchSetApprovalAccess(PatchSetApprovalAccess delegate) {
+  private static class PatchSetApprovals extends PatchSetApprovalAccessWrapper {
+    PatchSetApprovals(PatchSetApprovalAccess delegate) {
       super(delegate);
     }
 
@@ -139,8 +139,8 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
   }
 
-  private static class DisabledChangeMessageAccess extends ChangeMessageAccessWrapper {
-    DisabledChangeMessageAccess(ChangeMessageAccess delegate) {
+  private static class ChangeMessages extends ChangeMessageAccessWrapper {
+    ChangeMessages(ChangeMessageAccess delegate) {
       super(delegate);
     }
 
@@ -180,8 +180,8 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
   }
 
-  private static class DisabledPatchSetAccess extends PatchSetAccessWrapper {
-    DisabledPatchSetAccess(PatchSetAccess delegate) {
+  private static class PatchSets extends PatchSetAccessWrapper {
+    PatchSets(PatchSetAccess delegate) {
       super(delegate);
     }
 
@@ -211,8 +211,8 @@ public class DisabledChangesReviewDbWrapper extends ReviewDbWrapper {
     }
   }
 
-  private static class DisabledPatchLineCommentAccess extends PatchLineCommentAccessWrapper {
-    DisabledPatchLineCommentAccess(PatchLineCommentAccess delegate) {
+  private static class PatchLineComments extends PatchLineCommentAccessWrapper {
+    PatchLineComments(PatchLineCommentAccess delegate) {
       super(delegate);
     }
 

@@ -51,9 +51,20 @@ cat > "$launcher" <<EOF
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+function abs_script_dir_path {
+    SOURCE=\${BASH_SOURCE[0]}
+    while [ -h "\$SOURCE" ]; do
+      DIR=\$( cd -P \$( dirname "\$SOURCE") && pwd )
+      SOURCE=\$(readlink "\$SOURCE")
+      [[ \$SOURCE != /* ]] && SOURCE="\$DIR/\$SOURCE"
+    done
+    DIR=\$( cd -P \$( dirname "\$SOURCE" ) && pwd )
+    echo \$DIR
+}
+
 set -e
 
-dir="\$(dirname "\$(readlink -f "\$(type -p "\$0")")")"
+dir="\$(abs_script_dir_path "\$0")"
 exec java -jar "\$dir/$name" "\$@"
 EOF
 

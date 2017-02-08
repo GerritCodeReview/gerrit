@@ -84,6 +84,7 @@ limitations under the License.
           on-tap-item-cherrypick="_handleCherrypickTap"
           on-tap-item-delete="_handleDeleteTap"
           hidden$="[[_shouldHideActions(_menuActions.*, _loading)]]"
+          disabled-ids="[[_disabledMenuActions]]"
           items="[[_menuActions]]">More</gr-dropdown>
       <section hidden$="[[_shouldHideActions(_topLevelActions.*, _loading)]]">
         <template

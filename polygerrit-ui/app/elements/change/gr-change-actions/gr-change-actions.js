@@ -170,6 +170,10 @@
         type: Array,
         value: function() { return []; },
       },
+      _disabledMenuActions: {
+        type: Array,
+        value: function() { return []; },
+      },
     },
 
     ActionType: ActionType,
@@ -281,6 +285,7 @@
           this._keyCount(revisionActionsChangeRecord) === 0 &&
               additionalActions.length === 0;
       this._actionLoadingMessage = null;
+      this._disabledMenuActions = [];
     },
 
     _getValuesFor: function(obj) {
@@ -563,9 +568,16 @@
     _setLoadingOnButtonWithKey: function(key) {
       this._actionLoadingMessage = this._computeLoadingLabel(key);
 
-      // Return a NoOp for menu keys. @see Issue 5366
-      if (MENU_ACTION_KEYS.indexOf(key) !== -1) { return function() {}; }
+      // If the action appears in the overflow menu.
+      if (MENU_ACTION_KEYS.indexOf(key) !== -1) {
+        this.push('_disabledMenuActions', key === '/' ? 'delete' : key);
+        return function() {
+          this._actionLoadingMessage = null;
+          this._disabledMenuActions = [];
+        }.bind(this);
+      }
 
+      // Otherwise it's a top-level action.
       var buttonEl = this.$$('[data-action-key="' + key + '"]');
       buttonEl.setAttribute('loading', true);
       buttonEl.disabled = true;

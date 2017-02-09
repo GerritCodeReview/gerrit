@@ -10,9 +10,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Does the request still work if we simply omit the --digest?",
+      "range": {
+        "startLine": 1444,
+        "startChar": 2,
+        "endLine": 1448,
+        "endChar": 48
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed3dc32a_e17e992e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "that\u0027s what this change does? You mean: \"would it work we left --digest in place\" ?",
+      "parentUuid": "a3f8307b_c45e9b6d",
       "range": {
         "startLine": 1444,
         "startChar": 2,
@@ -33,7 +57,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "nit: Inline this method.",
       "range": {
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ead7e2ef_f5107da4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce95388e_eca4d777",
+      "range": {
+        "startLine": 197,
+        "startChar": 18,
+        "endLine": 197,
+        "endChar": 52
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1150c45_24c9e860",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
         "patchSetId": 7
@@ -56,9 +104,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "This string follows a special format: {Base64 encoded salt}:{Base64 encoded hashed password}. We should mention that within this class. Given the name of the field, I would expect the string to be only the hashed password. It would be even better to find a more expressive name for the field. The code which uses the getter and setter of this field is confusing to read if you don\u0027t know about the format and encoding.",
+      "range": {
+        "startLine": 94,
+        "startChar": 19,
+        "endLine": 94,
+        "endChar": 33
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff5e44a3_bfef990a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "the layout of the string is an implementation detail of the HashedPassword class. Documenting the format here may give the impression that people should construct these on their own, which is what I don\u0027t want.",
+      "parentUuid": "f1150c45_24c9e860",
       "range": {
         "startLine": 94,
         "startChar": 19,
@@ -79,7 +151,7 @@
       "author": {
         "id": 1024147
       },
-      "writtenOn": "Feb 8, 2017 5:56:24 AM",
+      "writtenOn": "2017-02-08T13:56:24Z",
       "side": 1,
       "message": "this is causing the license test to fail, but if I use bcprov as is, then I get \n\n1) printTest(com.googlesource.gerrit.plugins.cookbook.CookbookIT)\njava.lang.NoClassDefFoundError: org/bouncycastle/crypto/generators/BCrypt\n\nin the cookbook test.",
       "range": {
@@ -102,9 +174,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "optional: Rename + reorder to\n\n checkCredentials(String username, String password)",
+      "range": {
+        "startLine": 75,
+        "startChar": 17,
+        "endLine": 75,
+        "endChar": 64
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09a374a8_159a328c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "it only checks passwords, not other credentials (cookie, oauth tokens), so that would be a misleading name.",
+      "parentUuid": "bea806d8_0cdefba6",
       "range": {
         "startLine": 75,
         "startChar": 17,
@@ -125,7 +221,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Could this be null for entries which haven\u0027t been migrated yet?",
       "range": {
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "7dca980e_84a8c529",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41e83edb_2222aa12",
+      "range": {
+        "startLine": 81,
+        "startChar": 15,
+        "endLine": 81,
+        "endChar": 24
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6596b14c_772f0a6b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 7
@@ -148,7 +268,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Other code parts assume that the password can be null.",
       "range": {
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "b5256c93_0c78d434",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6596b14c_772f0a6b",
+      "range": {
+        "startLine": 87,
+        "startChar": 12,
+        "endLine": 87,
+        "endChar": 27
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17f9eb4f_8f78330d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 7
@@ -171,9 +315,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Why don\u0027t we use password.equals(want)?",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 9
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92a3dd08_06b3f3fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "see https://codahale.com/a-lesson-in-timing-attacks/",
+      "parentUuid": "17f9eb4f_8f78330d",
       "range": {
         "startLine": 86,
         "startChar": 8,
@@ -194,9 +362,27 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "If we don\u0027t provide any implementation within this class, why don\u0027t we remove the REST endpoint?",
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6f1b645_33edb3c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "oh, that would generate 404 as well. Good point.",
+      "parentUuid": "01302d9e_a3ea2edc",
       "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -211,9 +397,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "MyPasswordScreen uses this REST endpoint. Do we have any plans what to do with the UI?",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcf08b32_b4836732",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "We removed it in this commit, \n\nhttps://gerrit-review.googlesource.com/c/94951/\n\ndid I miss a reference?",
+      "parentUuid": "a275c50a_a0436a7e",
       "range": {
         "startLine": 37,
         "startChar": 4,
@@ -234,12 +444,30 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Please reorder the methods of this class according to our conventions [1] and place similar methods (like the static factory methods) together.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization",
       "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26e0d277_14c1720b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d171d773_7062a03d",
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -251,7 +479,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "If you configured codec appropriately (e.g. use new Base64(-1)) and called encodeToString() on it, the output wouldn\u0027t be divided into lines.",
       "range": {
@@ -266,6 +494,30 @@
     },
     {
       "key": {
+        "uuid": "e04f5ad0_fe428248",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e534100_b2cb08c4",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 53
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fca986e5_cd1e7913",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 7
@@ -274,7 +526,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "That\u0027s a static method. Use Base64.encodeBase64String() or an instance method instead.",
       "range": {
@@ -289,6 +541,30 @@
     },
     {
       "key": {
+        "uuid": "10a6089e_510f77a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca986e5_cd1e7913",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 35
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70be469b_6735df3a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 7
@@ -297,7 +573,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Same here.",
       "range": {
@@ -312,6 +588,30 @@
     },
     {
       "key": {
+        "uuid": "bfb1b2f4_5fb1e391",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70be469b_6735df3a",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e36590fe_7acac1b8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 7
@@ -320,7 +620,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Should be private.",
       "range": {
@@ -335,6 +635,30 @@
     },
     {
       "key": {
+        "uuid": "833676d5_4d127bb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e36590fe_7acac1b8",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ecad5fd_0476c821",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 7
@@ -343,7 +667,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "bits",
       "range": {
@@ -358,6 +682,30 @@
     },
     {
       "key": {
+        "uuid": "7c528936_775a84e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ecad5fd_0476c821",
+      "range": {
+        "startLine": 32,
+        "startChar": 24,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2744d4c_e6f8b1ae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 7
@@ -366,7 +714,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Use Base64 or an instance method.",
       "range": {
@@ -389,7 +737,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Same here.",
       "range": {
@@ -404,6 +752,54 @@
     },
     {
       "key": {
+        "uuid": "8c620b64_9c258e60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb017bcf_7748b7ae",
+      "range": {
+        "startLine": 40,
+        "startChar": 61,
+        "endLine": 40,
+        "endChar": 66
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5ff9753_06ff1725",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2744d4c_e6f8b1ae",
+      "range": {
+        "startLine": 40,
+        "startChar": 30,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c7baf1c_de2564bb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/InternalAuthBackend.java",
         "patchSetId": 7
@@ -412,9 +808,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "This method returns a boolean value which is silently ignored. The previously used method threw an InvalidCredentialsException on mismatch.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5610dd41_03976407",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/InternalAuthBackend.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "that is an interesting observation, because all the tests passed with my change :)",
+      "parentUuid": "3c7baf1c_de2564bb",
       "range": {
         "startLine": 66,
         "startChar": 4,
@@ -435,7 +855,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "nit: In Java, single-letter variables are discouraged for most situations.",
       "range": {
@@ -458,7 +878,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Just use List here. There\u0027s no reason to require an ArrayList.",
       "range": {
@@ -473,6 +893,54 @@
     },
     {
       "key": {
+        "uuid": "6c037ea9_88447e20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc9cd20a_b5ff8aa6",
+      "range": {
+        "startLine": 34,
+        "startChar": 33,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73add8fa_56b73ddb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b70cb66_9c67793c",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 13
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d28f1e87_8e5140bf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 7
@@ -481,7 +949,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "optional: Could you use a more meaningful and pronounceable name for pw and hpw?",
       "range": {
@@ -496,6 +964,30 @@
     },
     {
       "key": {
+        "uuid": "610a6631_ab9c2d11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d28f1e87_8e5140bf",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 15
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8656bb22_ee740841",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 7
@@ -504,7 +996,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "All Elements of the iterated list are added to this list. Why don\u0027t you use db.accountExternalIds.().all().toList() and iterate over that list?",
       "range": {
@@ -519,6 +1011,30 @@
     },
     {
       "key": {
+        "uuid": "92b45f64_e5919699",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "ah, much nicer.",
+      "parentUuid": "8656bb22_ee740841",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 16
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f71a953_31b2245c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
         "patchSetId": 7
@@ -527,9 +1043,27 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "optional: Use pronounceable variable names.",
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2e82c11_1c00a3c8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7f71a953_31b2245c",
       "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -544,9 +1078,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Why do we need this?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 22
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "215cc344_eb76280e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "habits from other project.  Removed.",
+      "parentUuid": "e2ce7149_93b5353a",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -567,9 +1125,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "A more relevant test would be to check the result of roundtrip.checkPassword(password).",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 59
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "184f43bc_b07fa94b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "that\u0027s already tested in l.53, but added.",
+      "parentUuid": "356db360_3bc3cdf6",
       "range": {
         "startLine": 39,
         "startChar": 4,
@@ -590,9 +1172,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Shouldn\u0027t we also have a test which exceeds the limit?\n\nBy the way, 70 seems a bit arbitrary as 71 also makes the test succeed. What is the idea of this test?",
+      "range": {
+        "startLine": 44,
+        "startChar": 36,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ab1f4cd_c9588812",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "the password is truncated at 72.  \n\nMost strings are declared as varchar(255) in the DB.  I don\u0027t know where the constant is defined, though.",
+      "parentUuid": "4920e91d_65511443",
       "range": {
         "startLine": 44,
         "startChar": 36,
@@ -613,9 +1219,33 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 8, 2017 8:40:49 AM",
+      "writtenOn": "2017-02-08T16:40:49Z",
       "side": 1,
       "message": "Where does this limit come from?",
+      "range": {
+        "startLine": 45,
+        "startChar": 77,
+        "endLine": 45,
+        "endChar": 80
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa629922_5b480a89",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T11:45:33Z",
+      "side": 1,
+      "message": "I don\u0027t know.",
+      "parentUuid": "4f9d1a94_c52df527",
       "range": {
         "startLine": 45,
         "startChar": 77,

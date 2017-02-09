@@ -16,6 +16,24 @@
       "revId": "a3adc64fdb4499a13c7289978d968da2694ddd88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31cac81e_ab67f14d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T23:43:50Z",
+      "side": 1,
+      "message": "Or, TODO(wyatta) since I assigned issue 5526 to myself.",
+      "parentUuid": "44875568_404c3b81",
+      "revId": "a3adc64fdb4499a13c7289978d968da2694ddd88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -3549,9 +3549,18 @@ If the IMAP protocol is used for retrieving emails, IMAPv4 IDLE can be used to
 keep the connection with the email server alive and receive a push when a new
 email is delivered to the inbox. In this case, Gerrit will process the email
 immediately and will not have a fetch delay.
-
 +
 Defaults to false.
+
+[[receiveemail.inboundAddress]]receiveemail.inboundAddress::
++
+Inbound address is the address at which Gerrit receives emails. This should
+only be set if this address differs from <<sendemail.from,sendemail.from>>.
+It well be set as Reply-To address on outgoing email where Gerrit can parse
+back a users's reply.
++
+Defaults to an empty string which adds <<sendemail.from,sendemail.from>> as
+Reply-To if inbound email is enabled and the review's author otherwise.
 
 [[sendemail]]
 === Section sendemail

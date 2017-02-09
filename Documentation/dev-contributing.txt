@@ -144,7 +144,7 @@ by clicking the 'Obtain Password' link on the
 link:https://gerrit-review.googlesource.com/#/settings/http-password[HTTP
 Password tab of the user settings page].
 
-
+[[Style]]
 === Style
 
 Gerrit generally follows the

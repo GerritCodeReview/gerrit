@@ -4,7 +4,9 @@ load("//tools/maven:package.bzl", "maven_package")
 MAVEN_REPOSITORY = "sonatype-nexus-staging"
 
 # TODO(davido): support snapshot repositories
-MAVEN_RELEASE_URL = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+URL = "https://oss.sonatype.org/service/local/staging/deploy/maven2" \
+    if GERRIT_VERSION.endswith('-SNAPSHOT') \
+    else 'https://oss.sonatype.org/content/repositories/snapshots' 
 
 maven_package(
     src = {
@@ -26,7 +28,7 @@ maven_package(
         "gerrit-plugin-gwtui": "//gerrit-plugin-gwtui:gwtui-api_deploy.jar",
     },
     repository = MAVEN_REPOSITORY,
-    url = MAVEN_RELEASE_URL,
+    url = URL,
     version = GERRIT_VERSION,
     war = {"gerrit-war": "//:release"},
 )

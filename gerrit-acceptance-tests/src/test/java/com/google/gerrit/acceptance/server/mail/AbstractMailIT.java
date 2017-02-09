@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.mail;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
@@ -40,15 +41,21 @@ public class AbstractMailIT extends AbstractDaemonTest {
   }
 
   protected String createChangeWithReview() throws Exception {
+    return createChangeWithReview(admin, admin);
+  }
+
+  protected String createChangeWithReview(TestAccount changeOwner, TestAccount reviewer)
+      throws Exception {
     // Create change
     String file = "gerrit-server/test.txt";
     String contents = "contents \nlorem \nipsum \nlorem";
     PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, "first subject", file, contents);
+        pushFactory.create(db, changeOwner.getIdent(), testRepo, "first subject", file, contents);
     PushOneCommit.Result r = push.to("refs/for/master");
     String changeId = r.getChangeId();
 
     // Review it
+    setApiUser(reviewer);
     ReviewInput input = new ReviewInput();
     input.message = "I have two comments";
     input.comments = new HashMap<>();

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa3d123_39785b25",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T23:55:11Z",
+      "side": 1,
+      "message": "Wrap these attributes onto their own lines?",
+      "revId": "49d897bff93d0117eb59dab6e48e5424d46bc859",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "114a0cdb_af5f1e0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T23:55:11Z",
+      "side": 1,
+      "message": "The changes in this file should not be needed now.",
+      "revId": "49d897bff93d0117eb59dab6e48e5424d46bc859",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

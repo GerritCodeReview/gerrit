@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e68be990_e3710fb3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-09T18:05:50Z",
+      "side": 1,
+      "message": "I agree.  I\u0027ll create a ticket to do that in another change.",
+      "parentUuid": "b11d4071_5061702f",
+      "range": {
+        "startLine": 44,
+        "startChar": 17,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb0eb766_3597ae35",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-09T17:59:59Z",
       "side": 1,
       "message": "It sounds like there should not be a `patchNum` property on the thread group, since a group isn\u0027t restricted to a single patch. Should it maybe be a patch range?",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b16aa7b_f6ebd274",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-09T18:05:50Z",
+      "side": 1,
+      "message": "A thread needs the property. the thread group doesn\u0027t per-se, but it passes it down to the thread if a new thread is created with no comments. I think the name is part of the confusion here as well.",
+      "parentUuid": "fb0eb766_3597ae35",
       "range": {
         "startLine": 47,
         "startChar": 18,

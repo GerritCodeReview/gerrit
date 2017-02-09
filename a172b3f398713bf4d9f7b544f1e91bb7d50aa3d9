@@ -26,6 +26,76 @@
     },
     {
       "key": {
+        "uuid": "3203d8da_9c109a64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-09T08:41:22Z",
+      "side": 1,
+      "message": "I think adding it to the docs would be even better.",
+      "parentUuid": "c8e152ee_a22f1a7e",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 54
+      },
+      "revId": "a172b3f398713bf4d9f7b544f1e91bb7d50aa3d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77e164cf_a7e6b705",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-09T08:41:22Z",
+      "side": 1,
+      "message": "We might want to start documenting the various NoteDb config options and what they mean somewhere.",
+      "range": {
+        "startLine": 50,
+        "startChar": 51,
+        "endLine": 50,
+        "endChar": 66
+      },
+      "revId": "a172b3f398713bf4d9f7b544f1e91bb7d50aa3d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecd36e7e_03d7b2ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/NoChangesReviewDbWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-09T08:41:22Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 45,
+        "startChar": 41,
+        "endLine": 45,
+        "endChar": 45
+      },
+      "revId": "a172b3f398713bf4d9f7b544f1e91bb7d50aa3d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "623170f4_d9e6c79c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
         "patchSetId": 3

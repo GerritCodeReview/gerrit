@@ -40,10 +40,11 @@
       '_commentsChanged(comments.*)',
     ],
 
-    addNewThread: function(locationRange, commentSide) {
+    addNewThread: function(locationRange) {
       this.push('_threadGroups', {
         comments: [],
         locationRange: locationRange,
+        patchNum: this.patchNum,
       });
     },
 
@@ -95,6 +96,16 @@
           comment.__commentSide;
     },
 
+    /**
+    * Determines what the patchNum of a thread should be. Use patchNum from
+    * comment if it exists, otherwise the property of the thread group.
+    * This is needed for switching between side-by-side and unified views when
+    * there are unsaved drafts.
+    */
+    _getPatchNum: function(comment) {
+      return comment.patchNum || this.patchNum;
+    },
+
     _getThreadGroups: function(comments) {
       var threadGroups = {};
 
@@ -114,6 +125,7 @@
             comments: [comment],
             locationRange: locationRange,
             commentSide: comment.__commentSide,
+            patchNum: this._getPatchNum(comment),
           };
         }
       }.bind(this));

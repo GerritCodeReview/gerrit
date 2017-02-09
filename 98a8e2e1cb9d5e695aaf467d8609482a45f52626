@@ -22,6 +22,30 @@
       "revId": "98a8e2e1cb9d5e695aaf467d8609482a45f52626",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4167243_515af470",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-09T22:39:34Z",
+      "side": 1,
+      "message": "http://imgur.com/a/ylZU9\n\nIn the top image, the margin is not 0.\nIn the second image, the margin is 0.\nIn the third image, the margin is 0 for everything (but the draft). Because the draft has buttons (the discard/edit buttons) the margin is needed to look aesthetically pleasing.\n\nI believe the only case in which this is used is with a \u003cp\u003e.",
+      "parentUuid": "63d89d5d_8ef00665",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "98a8e2e1cb9d5e695aaf467d8609482a45f52626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

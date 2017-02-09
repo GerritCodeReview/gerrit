@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
@@ -152,6 +151,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
                   bw.writeBundle(NullProgressMonitor.INSTANCE, bos);
                   f.putEntry(aos, path, bos.toByteArray());
                 }
+              } catch (NoSuchProjectException e) {
+                throw new IOException(e);
               } catch (LimitExceededException e) {
                 throw new NotImplementedException(
                     "The bundle is too big to " + "generate at the server");

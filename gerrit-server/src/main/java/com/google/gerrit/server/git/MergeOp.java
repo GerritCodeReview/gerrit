@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
-import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -79,7 +78,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -466,11 +464,9 @@ public class MergeOp implements AutoCloseable {
           new SubmitStrategyListener(submitInput, strategies, commitStatus),
           submissionId,
           dryrun);
-    } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException("Repository not found", e);
-    } catch (IOException e) {
-      throw new RestApiException();
-    } catch (SubmoduleException e) {
+    } catch (NoSuchProjectException e) {
+      throw new ResourceNotFoundException(e.getMessage());
+    } catch (IOException | SubmoduleException e) {
       throw new IntegrationException(e);
     } catch (UpdateException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
@@ -500,7 +496,7 @@ public class MergeOp implements AutoCloseable {
 
   private List<SubmitStrategy> getSubmitStrategies(
       Map<Branch.NameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp, boolean dryrun)
-      throws IntegrationException, IOException {
+      throws IntegrationException, NoSuchProjectException, IOException {
     List<SubmitStrategy> strategies = new ArrayList<>();
     Set<Branch.NameKey> allBranches = submoduleOp.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
@@ -739,8 +735,8 @@ public class MergeOp implements AutoCloseable {
   private OpenRepo openRepo(Project.NameKey project) throws IntegrationException {
     try {
       return orm.getRepo(project);
-    } catch (RepositoryNotFoundException noProject) {
-      logWarn("Project " + project.get() + " no longer exists, " + "abandoning open changes.");
+    } catch (NoSuchProjectException e) {
+      logWarn("Project " + project + " no longer exists, " + "abandoning open changes.");
       abandonAllOpenChangeForDeletedProject(project);
     } catch (IOException e) {
       throw new IntegrationException("Error opening project " + project, e);

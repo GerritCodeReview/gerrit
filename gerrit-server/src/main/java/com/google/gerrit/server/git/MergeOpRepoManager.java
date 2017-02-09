@@ -183,22 +183,26 @@ public class MergeOpRepoManager implements AutoCloseable {
     return submissionId;
   }
 
-  public OpenRepo getRepo(Project.NameKey project) throws IOException {
+  public OpenRepo getRepo(Project.NameKey project) throws NoSuchProjectException, IOException {
     if (openRepos.containsKey(project)) {
       return openRepos.get(project);
     }
 
     ProjectState projectState = projectCache.get(project);
     if (projectState == null) {
-      throw new RepositoryNotFoundException(project.get());
+      throw new NoSuchProjectException(project);
     }
-    OpenRepo or = new OpenRepo(repoManager.openRepository(project), projectState);
-    openRepos.put(project, or);
-    return or;
+    try {
+      OpenRepo or = new OpenRepo(repoManager.openRepository(project), projectState);
+      openRepos.put(project, or);
+      return or;
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchProjectException(project, e);
+    }
   }
 
   public List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects)
-      throws IOException {
+      throws NoSuchProjectException, IOException {
     List<BatchUpdate> updates = new ArrayList<>(projects.size());
     for (Project.NameKey project : projects) {
       updates.add(getRepo(project).getUpdate());

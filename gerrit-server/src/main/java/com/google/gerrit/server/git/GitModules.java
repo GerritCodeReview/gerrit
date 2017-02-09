@@ -60,7 +60,7 @@ public class GitModules {
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted Branch.NameKey branch,
       @Assisted MergeOpRepoManager orm)
-      throws IOException {
+      throws NoSuchProjectException, IOException {
     this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);

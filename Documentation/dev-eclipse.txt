@@ -45,12 +45,15 @@ Filters on a folder, they will be overwritten the next time you run
 [[Formatting]]
 == Code Formatter Settings
 
-Import `tools/GoogleFormat.xml` using Window -> Preferences ->
-Java -> Code Style -> Formatter -> Import...
-
-This will define the 'Google Format' profile, which the project
-settings prefer when formatting source code.
-
+To format source code, Gerrit uses the
+link:https://github.com/google/google-java-format[`google-java-format`]
+tool (version 1.3), which automatically formats code to follow the
+style guide. There is also Eclipse plugin that allows to format the code
+partially or full compilation unit with Eclipse key binding: `Ctrl-A` to
+optionally select an area to format, followed by `Ctrl+Shift+F`. Download
+the plugin from the corresponding project release page and put it in eclipse's
+dropin directory. Now, gjf is also in charge for formatting the code in
+Eclipse.
 
 == Site Initialization
 

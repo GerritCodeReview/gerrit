@@ -36,8 +36,11 @@ public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "x.y", values = { "a", "b" })
+  @GerritConfig(
+    name = "x.y",
+    values = {"a", "b"}
+  )
   public void testList() {
-    assertThat(cfg.getStringList("x", null, "y")).asList().containsExactly("a" , "b");
+    assertThat(cfg.getStringList("x", null, "y")).asList().containsExactly("a", "b");
   }
 }

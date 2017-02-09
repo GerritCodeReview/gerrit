@@ -399,11 +399,16 @@ limitations under the License.
     });
 
     test('_setLoadingOnButtonWithKey overflow menu', function() {
-      // TODO(wyatta): Should not throw error when setting loading on an
-      // overflow action. @see Issue 5366
       var key = 'cherrypick';
       var cleanup = element._setLoadingOnButtonWithKey(key);
+      assert.equal(element._actionLoadingMessage, 'Cherry-Picking...');
+      assert.include(element._disabledMenuActions, 'cherrypick');
       assert.isFunction(cleanup);
+
+      cleanup();
+
+      assert.notOk(element._actionLoadingMessage);
+      assert.notInclude(element._disabledMenuActions, 'cherrypick');
     });
 
     suite('revert change', function() {

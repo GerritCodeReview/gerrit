@@ -80,5 +80,16 @@ limitations under the License.
       MockInteractions.tap(element.$$('.itemAction'));
       assert.isTrue(stub.called);
     });
+
+    test('disabled non link item', function() {
+      element.items = [{name: 'item one', id: 'foo'}];
+      element.disabledIds = ['foo'];
+
+      var stub = sinon.stub();
+      element.addEventListener('tap-item-foo', stub);
+      flushAsynchronousOperations();
+      MockInteractions.tap(element.$$('.itemAction'));
+      assert.isFalse(stub.called);
+    });
   });
 </script>

@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37f0e09e_0f0868a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:35:47Z",
+      "side": 1,
+      "message": "Why increase the width?",
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db0e1049_0103ce3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:35:47Z",
+      "side": 1,
+      "message": "Nitpicky nit: Since this only ever appears on the element that already has the ID `commitMessage` it feels a little redundant to also put the word `commit` in this class-name. What if it were merely `collapsed` and this selector became ...\n\n  #commitMessage.collapsed\n\n... ?",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 22
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee88288f_0d5c7252",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:35:47Z",
+      "side": 1,
+      "message": "Nit: Is this not the toggle *container*? The element with `.collapseToggle` doesn\u0027t hold the tap handler.",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 23
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5313ee7a_93dd63d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:35:47Z",
+      "side": 1,
+      "message": "Maybe this isn\u0027t needed and this can be selected by ...\n\n  .collapseToggle gr-button\n\n... since there\u0027s only one element in the `.collapseToggle` anyway.",
+      "range": {
+        "startLine": 203,
+        "startChar": 6,
+        "endLine": 203,
+        "endChar": 27
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3423f418_9d77eedb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:35:47Z",
+      "side": 1,
+      "message": "It has an ID and a class, but there\u0027s only one of these per element, correct? It looks like the class is only used by the CSS and the ID is only used by the test. Why not drop the class and select it by ID in the CSS? Same with the button itself. Just an option.",
+      "range": {
+        "startLine": 356,
+        "startChar": 18,
+        "endLine": 357,
+        "endChar": 40
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49c4d63_529eab6d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:35:47Z",
+      "side": 1,
+      "message": "Nitpicking the wording: what about...\n\n  Show less\n\n...for symmetry?",
+      "range": {
+        "startLine": 1042,
+        "startChar": 40,
+        "endLine": 1042,
+        "endChar": 48
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca048d70_c9ca17ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:35:47Z",
+      "side": 1,
+      "message": "Nit: insert newlines between the tests.",
+      "range": {
+        "startLine": 979,
+        "startChar": 6,
+        "endLine": 980,
+        "endChar": 10
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

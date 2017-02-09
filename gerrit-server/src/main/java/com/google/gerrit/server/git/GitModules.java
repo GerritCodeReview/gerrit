@@ -60,36 +60,32 @@ public class GitModules {
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted Branch.NameKey branch,
       @Assisted MergeOpRepoManager orm)
-      throws IOException {
+      throws NoSuchProjectException, IOException {
     this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
-    try {
-      OpenRepo or = orm.openRepo(project);
-      ObjectId id = or.repo.resolve(branch.get());
-      if (id == null) {
-        throw new IOException("Cannot open branch " + branch.get());
-      }
-      RevCommit commit = or.rw.parseCommit(id);
-
-      try (TreeWalk tw = TreeWalk.forPath(or.repo, GIT_MODULES, commit.getTree())) {
-        if (tw == null || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
-          subscriptions = Collections.emptySet();
-          logDebug("The .gitmodules file doesn't exist in " + branch);
-          return;
-        }
-      }
-      BlobBasedConfig bbc;
-      try {
-        bbc = new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
-      } catch (ConfigInvalidException e) {
-        throw new IOException(
-            "Could not read .gitmodules of super project: " + branch.getParentKey(), e);
-      }
-      subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl, branch).parseAllSections();
-    } catch (NoSuchProjectException e) {
-      throw new IOException(e);
+    OpenRepo or = orm.getRepo(project);
+    ObjectId id = or.repo.resolve(branch.get());
+    if (id == null) {
+      throw new IOException("Cannot open branch " + branch.get());
     }
+    RevCommit commit = or.rw.parseCommit(id);
+
+    try (TreeWalk tw = TreeWalk.forPath(or.repo, GIT_MODULES, commit.getTree())) {
+      if (tw == null || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
+        subscriptions = Collections.emptySet();
+        logDebug("The .gitmodules file doesn't exist in " + branch);
+        return;
+      }
+    }
+    BlobBasedConfig bbc;
+    try {
+      bbc = new BlobBasedConfig(null, or.repo, commit, GIT_MODULES);
+    } catch (ConfigInvalidException e) {
+      throw new IOException(
+          "Could not read .gitmodules of super project: " + branch.getParentKey(), e);
+    }
+    subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl, branch).parseAllSections();
   }
 
   public Collection<SubmoduleSubscription> subscribedTo(Branch.NameKey src) {

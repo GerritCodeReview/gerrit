@@ -45,6 +45,56 @@
       "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57943ab1_5724d975",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-09T07:24:01Z",
+      "side": 1,
+      "message": " ",
+      "parentUuid": "1547434f_97c83b1b",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "tag": "mailMessageId\u003d\u003cCAM7sg\u003d1n-7R4Gjumuka14H9gXK2tPd+9WM_x4EWOr_+vXwy2Nw@mail.gmail.com\u003e",
+      "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad8945e7_a090390b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-09T07:24:01Z",
+      "side": 1,
+      "message": "Thanks for that comment",
+      "parentUuid": "1547434f_97c83b1b",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "tag": "mailMessageId\u003d\u003cCAM7sg\u003d1n-7R4Gjumuka14H9gXK2tPd+9WM_x4EWOr_+vXwy2Nw@mail.gmail.com\u003e",
+      "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

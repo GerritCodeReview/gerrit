@@ -581,6 +581,22 @@ limitations under the License.
       assert.equal(element._computeHostClass(false), '');
     });
 
+    test('addDraft sets unresolved state correctly', function() {
+      var unresolved = true;
+      element.comments = [];
+      element.addDraft(null, null, unresolved);
+      assert.equal(element.comments[0].unresolved, true);
+
+      unresolved = false; // comment should get added as actually resolved.
+      element.comments = [];
+      element.addDraft(null, null, unresolved);
+      assert.equal(element.comments[0].unresolved, false);
+
+      element.comments = [];
+      element.addDraft();
+      assert.equal(element.comments[0].unresolved, true);
+    });
+
     test('_newDraft', function() {
       element.commentSide = 'left';
       var draft = element._newDraft();

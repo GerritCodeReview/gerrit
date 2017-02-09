@@ -85,14 +85,15 @@
         commentEl.editing = true;
       } else {
         this.addDraft(opt_lineNum,
-            lastComment ? lastComment.range : undefined);
+            lastComment ? lastComment.range : undefined,
+            lastComment ? lastComment.unresolved : undefined);
       }
     },
 
-    addDraft: function(opt_lineNum, opt_range) {
+    addDraft: function(opt_lineNum, opt_range, opt_unresolved) {
       var draft = this._newDraft(opt_lineNum, opt_range);
       draft.__editing = true;
-      draft.unresolved = true;
+      draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
       this.push('comments', draft);
     },
 

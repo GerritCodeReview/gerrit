@@ -10,7 +10,7 @@
       "author": {
         "id": 1030912
       },
-      "writtenOn": "Feb 7, 2017 1:38:58 AM",
+      "writtenOn": "2017-02-07T09:38:58Z",
       "side": 1,
       "message": "An arbitrary comment.",
       "range": {
@@ -22,6 +22,29 @@
       "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1547434f_97c83b1b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-09T07:21:55Z",
+      "side": 1,
+      "message": "test comment",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

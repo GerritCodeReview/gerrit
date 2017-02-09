@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c81e9bb5_a86325c1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "yes, it depends on the authfilter (and before, you could configure it to use basic auth too.)\n\nNow, there is just less choice on what to use. :)",
+      "parentUuid": "57f16ba2_bfd89abd",
+      "range": {
+        "startLine": 1444,
+        "startChar": 2,
+        "endLine": 1448,
+        "endChar": 48
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce95388e_eca4d777",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
         "patchSetId": 7
@@ -682,6 +706,30 @@
       "side": 1,
       "message": "They seem to have missed the function I mentioned previously.",
       "parentUuid": "4dfd2459_b7eab3da",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ab25be0_4e2eeb6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/96911/",
+      "parentUuid": "fec40be4_a6c4a9f5",
       "range": {
         "startLine": 37,
         "startChar": 4,

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "45c39bd9_27bf6e65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "If you write \n\n  try  {\n   a.b().c().d()\n  } catch ( . .)\n\nit is less obvious which of the chained calls might throw an exception.",
+      "parentUuid": "9e681b53_011b781d",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 54
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2cfceba7_20ef0684",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 11
@@ -59,6 +83,30 @@
       "writtenOn": "2017-02-09T16:58:50Z",
       "side": 1,
       "message": "If we always swallow the exception, we should rather introduce HashedPassword#canDecode and check it before calling HashedPassword#decode. To avoid checking for the exception in this case, we should switch to some kind of RuntimeException.",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c1fa867_a29dccd2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "the exception is for future use. \n\nOnce the password hashes move to notedb, they can potentially be edited by hand, and you have to do validation before accepting a change to the user configuration.",
+      "parentUuid": "2cfceba7_20ef0684",
       "range": {
         "startLine": 87,
         "startChar": 11,
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "9572e722_7186ac54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cb91944_bce7713d",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a13c729c_08fab8b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 11
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "9e8eb0e6_67e4b83c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a13c729c_08fab8b2",
+      "range": {
+        "startLine": 36,
+        "startChar": 79,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23ed8643_00cbefe3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 11
@@ -151,6 +247,30 @@
       "writtenOn": "2017-02-09T16:37:04Z",
       "side": 1,
       "message": "If we are paranoid enough to use constant-time algorithms for comparisons, we shouldn\u0027t expose the encoded/hashed password in an exception. We swallow it in AccountState for the moment but that might change in the future.",
+      "range": {
+        "startLine": 41,
+        "startChar": 65,
+        "endLine": 41,
+        "endChar": 72
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa0758e9_fd1c0633",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "good point.",
+      "parentUuid": "23ed8643_00cbefe3",
       "range": {
         "startLine": 41,
         "startChar": 65,
@@ -186,6 +306,29 @@
     },
     {
       "key": {
+        "uuid": "3785e8a0_ba9f48b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 47,
+        "startChar": 56,
+        "endLine": 47,
+        "endChar": 63
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce4edf5c_4720bce6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 11
@@ -209,6 +352,30 @@
     },
     {
       "key": {
+        "uuid": "a022929e_c85a564a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce4edf5c_4720bce6",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d323bcf1_a50bb840",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 11
@@ -229,6 +396,30 @@
       "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a66c5acb_1d3b08b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d323bcf1_a50bb840",
+      "range": {
+        "startLine": 50,
+        "startChar": 15,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +469,30 @@
     },
     {
       "key": {
+        "uuid": "eec20cc2_562281c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "debe668b_42f4bc39",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 15
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fc755ec_fff68e5e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 11
@@ -298,6 +513,30 @@
       "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42c2f403_253ad2ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fc755ec_fff68e5e",
+      "range": {
+        "startLine": 59,
+        "startChar": 36,
+        "endLine": 59,
+        "endChar": 48
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -324,6 +563,30 @@
     },
     {
       "key": {
+        "uuid": "c38c03e6_ce2359b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d612c713_a75a676d",
+      "range": {
+        "startLine": 92,
+        "startChar": 29,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7f84994_e38ca6fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 11
@@ -344,6 +607,30 @@
       "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3732ad6f_08959a7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T17:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7f84994_e38ca6fe",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 20
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

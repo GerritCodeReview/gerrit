@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "111cdebc_8889eb1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T23:46:51Z",
+      "side": 1,
+      "message": "According to the comment log in issue 4563, 90390 was rolled back and the change was re-applied in 90450.\n\nWhich one have you based this on?\n\nAnyway, rather than using the change number, it would be better to refer to the abbreviated Change-Id so that it gets automatically hyperlinked here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "e5a972d6b2c0d987262470383012ffbb3f71b49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee13b46f_e847d577",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 1

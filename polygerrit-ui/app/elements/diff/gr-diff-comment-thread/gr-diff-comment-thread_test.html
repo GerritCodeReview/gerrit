@@ -516,8 +516,10 @@ limitations under the License.
 
     test('_newDraft', function() {
       element.commentSide = 'left';
+      element.patchNum = 3;
       var draft = element._newDraft();
       assert.equal(draft.__commentSide, 'left');
+      assert.equal(draft.patchNum, 3);
     });
 
     test('new comment gets created', function() {

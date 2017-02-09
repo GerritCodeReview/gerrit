@@ -69,11 +69,11 @@ limitations under the License.
     });
 
     suite('test show change number preference enabled', function() {
-      return setup(function() {
-         return stubRestAPI({legacycid_in_change_table: true,
-            time_format: 'HHMM_12',
-            change_table: [],
-          }).then(function() {
+      setup(function() {
+        return stubRestAPI({legacycid_in_change_table: true,
+           time_format: 'HHMM_12',
+           change_table: [],
+        }).then(function() {
           element = fixture('basic');
           return element._loadPreferences();
         });

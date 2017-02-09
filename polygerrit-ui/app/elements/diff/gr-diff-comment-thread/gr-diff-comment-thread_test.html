@@ -532,8 +532,10 @@ limitations under the License.
 
     test('_newDraft', function() {
       element.commentSide = 'left';
+      element.patchNum = 3;
       var draft = element._newDraft();
       assert.equal(draft.__commentSide, 'left');
+      assert.equal(draft.patchNum, 3);
     });
 
     test('new comment gets created', function() {
@@ -541,8 +543,8 @@ limitations under the License.
       element.addOrEditDraft(1);
       assert.equal(element.comments.length, 1);
       // Mock a submitted comment.
-      element.comments[0].__draft = false;
       element.comments[0].id = element.comments[0].__draftID;
+      element.comments[0].__draft = false;
       element.addOrEditDraft(1);
       assert.equal(element.comments.length, 2);
     });

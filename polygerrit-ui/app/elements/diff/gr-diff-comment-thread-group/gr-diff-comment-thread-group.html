@@ -28,14 +28,14 @@ limitations under the License.
         margin-top: .2em;
       }
     </style>
-    <template is="dom-repeat" items="[[_threadGroups]]"
+    <template is="dom-repeat" items="[[_threads]]"
         as="thread">
       <gr-diff-comment-thread
           comments="[[thread.comments]]"
           comment-side="[[thread.commentSide]]"
           change-num="[[changeNum]]"
           location-range="[[thread.locationRange]]"
-          patch-num="[[patchNum]]"
+          patch-num="[[thread.patchNum]]"
           path="[[path]]"
           side="[[side]]"
           project-config="[[projectConfig]]"></gr-diff-comment-thread>

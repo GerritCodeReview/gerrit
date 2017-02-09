@@ -148,6 +148,7 @@ public class CommentsUtil {
       @Nullable Boolean unresolved,
       @Nullable String parentUuid)
       throws OrmException, UnprocessableEntityException {
+    Comment.Range range = null;
     if (unresolved == null) {
       if (parentUuid == null) {
         // Default to false if comment is not descended from another.
@@ -160,6 +161,7 @@ public class CommentsUtil {
           throw new UnprocessableEntityException("Invalid parentUuid supplied for comment");
         }
         unresolved = parent.get().unresolved;
+        range = parent.get().range;
       }
     }
     Comment c =
@@ -172,6 +174,9 @@ public class CommentsUtil {
             serverId,
             unresolved);
     c.parentUuid = parentUuid;
+    if (range != null) {
+      c.range = range;
+    }
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
   }

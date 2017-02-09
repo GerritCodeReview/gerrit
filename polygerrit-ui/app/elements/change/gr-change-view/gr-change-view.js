@@ -686,15 +686,6 @@
       return label;
     },
 
-    _switchToMostRecentPatchNum: function() {
-      this._reload().then(function() {
-        var patchNum = this._computeLatestPatchNum(this._allPatchSets);
-        if (patchNum !== this._patchRange.patchNum) {
-          this._changePatchNum(patchNum);
-        }
-      }.bind(this));
-    },
-
     _handleAKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e) ||
@@ -714,9 +705,8 @@
 
     _handleCapitalRKey: function(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-
       e.preventDefault();
-      this._switchToMostRecentPatchNum();
+      page.show('/c/' + this._change._number);
     },
 
     _handleSKey: function(e) {

@@ -101,16 +101,6 @@ limitations under the License.
 
       test('shift + R should fetch and navigate to the latest patch set',
           function(done) {
-        // Prevent all network requests to prevent random exceptions.
-        sandbox.stub(window, 'fetch', function() {
-          return Promise.resolve({
-            ok: true,
-            text: function() {
-              return Promise.resolve(')]}\'\n');
-            },
-          });
-        });
-
         element._changeNum = '42';
         element._patchRange = {
           basePatchNum: 'PARENT',
@@ -118,6 +108,7 @@ limitations under the License.
         };
         element._change = {
           change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+          _number: 42,
           revisions: {
             rev1: {_number: 1},
           },
@@ -128,23 +119,9 @@ limitations under the License.
         };
 
         sandbox.stub(element.$.actions, 'reload');
-        sandbox.stub(element.$.restAPI, '_getChangeDetail', function() {
-          // Mock change obj.
-          return Promise.resolve({
-            change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-            revisions: {
-              rev1: {_number: 1, commit: {}},
-              rev13: {_number: 13},
-            },
-            current_revision: 'rev1',
-            status: 'NEW',
-            labels: {},
-            actions: {},
-          });
-        });
 
         var showStub = sandbox.stub(page, 'show', function(arg) {
-          assert.equal(arg, '/c/42/13');
+          assert.equal(arg, '/c/42');
           done();
         });
 

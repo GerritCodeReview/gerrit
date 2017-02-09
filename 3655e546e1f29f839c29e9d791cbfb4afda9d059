@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b11d4071_5061702f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T17:59:59Z",
+      "side": 1,
+      "message": "Side note: should this property be called `_threads`, since the element it appears on is the group? /aside",
+      "range": {
+        "startLine": 44,
+        "startChar": 17,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb0eb766_3597ae35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T17:59:59Z",
+      "side": 1,
+      "message": "It sounds like there should not be a `patchNum` property on the thread group, since a group isn\u0027t restricted to a single patch. Should it maybe be a patch range?",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51089283_f0477c05",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T17:59:59Z",
+      "side": 1,
+      "message": "Indentation is off here.",
+      "range": {
+        "startLine": 99,
+        "startChar": 3,
+        "endLine": 104,
+        "endChar": 5
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

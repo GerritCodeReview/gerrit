@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "54f02305_4d01b32f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-09T12:59:57Z",
+      "side": 1,
+      "message": "\u003e One option would be to give the enumerations values, as shown here:\n \u003e \n \u003e http://stackoverflow.com/a/26152169/381622\n\nI knew all of that :-) but didn\u0027t want to create a private enum which has almost the same number of lines of code as the configureProxy method,\nwhich is the only place using it.\nFor me, this doesn\u0027t pull its own weight for a private enum used in a tiny scope. We would anyway use protocol.getValue() everywhere... because we basically work with strings.",
+      "parentUuid": "a535a778_fdf5f88a",
+      "revId": "3d21fafa1d078273e94a9cef71c4851ce5eb6615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ffdf950_d76d45ae",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
         "patchSetId": 3

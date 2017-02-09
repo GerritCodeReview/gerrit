@@ -288,7 +288,7 @@ public class MergeSuperSet {
       closeOrm = true;
     }
     try {
-      OpenRepo or = orm.openRepo(project);
+      OpenRepo or = orm.getRepo(project);
       checkState(or.rw.hasRevSort(RevSort.TOPO));
       return or;
     } catch (NoSuchProjectException e) {

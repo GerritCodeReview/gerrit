@@ -3549,7 +3549,6 @@ If the IMAP protocol is used for retrieving emails, IMAPv4 IDLE can be used to
 keep the connection with the email server alive and receive a push when a new
 email is delivered to the inbox. In this case, Gerrit will process the email
 immediately and will not have a fetch delay.
-
 +
 Defaults to false.
 
@@ -3740,6 +3739,16 @@ should expire.
 +
 By default, unset, so no Expiry-Date header is generated.
 
+[[sendemail.replyToAddress]]sendemail.replyToAddress::
++
+A custom Reply-To address should only be provided if Gerrit is set up to
+receive emails and the inbound address differs from
+<<sendemail.from,sendemail.from>>.
+It will be set as Reply-To header on all types of outgoing email where
+Gerrit can parse back a user's reply.
++
+Defaults to an empty string which adds <<sendemail.from,sendemail.from>> as
+Reply-To if inbound email is enabled and the review's author otherwise.
 
 [[site]]
 === Section site

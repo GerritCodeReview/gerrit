@@ -34,6 +34,24 @@
       "revId": "f3831dac4d5a44395f77b24a034a67be6d8a2daa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a2bd6c0_15b876c6",
+        "filename": "tools/maven/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T06:17:08Z",
+      "side": 1,
+      "message": "Let\u0027s leave it like this for now, then.",
+      "parentUuid": "2c587ae2_dea3c447",
+      "revId": "f3831dac4d5a44395f77b24a034a67be6d8a2daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

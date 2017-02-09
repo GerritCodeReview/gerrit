@@ -109,6 +109,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
       ImmutableSet.of(
           // Required for ChangeIsVisibleToPrdicate.
           ChangeField.CHANGE.getName(),
+          ChangeField.REVIEWER.getName(),
           // Required during advertiseOpenChanges.
           ChangeField.PATCH_SET.getName());
 

@@ -340,7 +340,7 @@
     var threadGroupEl =
         document.createElement('gr-diff-comment-thread-group');
     threadGroupEl.changeNum = changeNum;
-    threadGroupEl.patchNum = patchNum;
+    threadGroupEl.patchForNewThreads = patchNum;
     threadGroupEl.path = path;
     threadGroupEl.side = side;
     threadGroupEl.projectConfig = projectConfig;

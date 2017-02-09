@@ -16,6 +16,24 @@
       "revId": "f3831dac4d5a44395f77b24a034a67be6d8a2daa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c587ae2_dea3c447",
+        "filename": "tools/maven/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-09T06:03:57Z",
+      "side": 1,
+      "message": "I wrapped it first, but then ran buildifier and it was unwrapped again. Unsure what to do here.",
+      "parentUuid": "c50d7854_83a8d383",
+      "revId": "f3831dac4d5a44395f77b24a034a67be6d8a2daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

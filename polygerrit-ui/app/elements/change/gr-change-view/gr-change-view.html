@@ -106,7 +106,7 @@ limitations under the License.
       }
       .commitMessage {
         font-family: var(--monospace-font-family);
-        flex: 1 0 72ch;
+        max-width: 100ch;
         margin-right: 2em;
         margin-bottom: 1em;
       }
@@ -187,6 +187,22 @@ limitations under the License.
       }
       .patchInfo-header-wrapper {
         width: 100%;
+      }
+      #commitMessage.collapsed {
+        max-height: 36em;
+        overflow: hidden;
+      }
+      .commitContainer {
+        display: flex;
+        flex-direction: column;
+      }
+      .collapseToggleContainer {
+        display: flex;
+        justify-content: center;
+      }
+      .collapseToggleContainer gr-button {
+        display: block;
+        width: 8em;
       }
       @media screen and (max-width: 50em) {
         .mobile {
@@ -310,27 +326,43 @@ limitations under the License.
           </div>
           <hr class="mobile">
           <div class="commitAndRelated">
-            <div class="commitMessage">
-              <gr-editable-content id="commitMessageEditor"
-                  editing="[[_editingCommitMessage]]"
-                  content="{{_latestCommitMessage}}">
-                <gr-linked-text pre
-                    content="[[_latestCommitMessage]]"
-                    config="[[_projectConfig.commentlinks]]"
-                    remove-zero-width-space></gr-linked-text>
-              </gr-editable-content>
-              <gr-button link
-                  class="editCommitMessage"
-                  on-tap="_handleEditCommitMessage"
-                  hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
-              <div class="changeId" hidden$="[[!_changeIdCommitMessageError]]">
-                <hr>
-                Change-Id:
-                <span
-                    class$="[[_computeChangeIdClass(_changeIdCommitMessageError)]]"
-                    title$="[[_computeTitleAttributeWarning(_changeIdCommitMessageError)]]">
-                  [[_change.change_id]]
-                </span>
+            <div class="commitContainer">
+              <div
+                  id="commitMessage"
+                  class$="commitMessage [[_computeCommitClass(_commitCollapsed, _latestCommitMessage)]]">
+                <gr-editable-content id="commitMessageEditor"
+                    editing="[[_editingCommitMessage]]"
+                    content="{{_latestCommitMessage}}">
+                  <gr-linked-text pre
+                      content="[[_latestCommitMessage]]"
+                      config="[[_projectConfig.commentlinks]]"
+                      remove-zero-width-space></gr-linked-text>
+                </gr-editable-content>
+                <gr-button link
+                    class="editCommitMessage"
+                    on-tap="_handleEditCommitMessage"
+                    hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
+                <div class="changeId" hidden$="[[!_changeIdCommitMessageError]]">
+                  <hr>
+                  Change-Id:
+                  <span
+                      class$="[[_computeChangeIdClass(_changeIdCommitMessageError)]]"
+                      title$="[[_computeTitleAttributeWarning(_changeIdCommitMessageError)]]">
+                    [[_change.change_id]]
+                  </span>
+                </div>
+              </div>
+              <div
+                  id="commitCollapseToggle"
+                  class="collapseToggleContainer"
+                  hidden$="[[_computeCommitToggleHidden(_latestCommitMessage)]]">
+                <gr-button
+                    link
+                    id="commitCollapseToggleButton"
+                    class="collapseToggleButton"
+                    on-tap="_toggleCommitCollapsed">
+                  [[_computeCollapseCommitText(_commitCollapsed)]]
+                </gr-button>
               </div>
             </div>
             <div class="relatedChanges">

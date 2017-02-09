@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09542382_1e18d4ca",
+        "filename": "tools/maven/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-09T05:25:01Z",
+      "side": 1,
+      "message": "May be swap the logic?",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 8,
+        "endChar": 66
+      },
+      "revId": "a9dab25e109dab559cca9ac3006c01ffc471dd3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a56689c9_f210d6bb",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-09T18:00:28Z",
+      "side": 1,
+      "message": "Doh... \u003e 0",
+      "parentUuid": "975fc13c_ef893152",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "ce608d371efece8b2c69d5f6d5ef36990307482e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39d17563_85f92978",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 1

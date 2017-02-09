@@ -442,6 +442,37 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteEmailFromCustomExternalIdSchemes() throws Exception {
+    String email = "foo.bar@example.com";
+    String extId1 = "foo:bar";
+    String extId2 = "foo:baz";
+    db.accountExternalIds()
+        .insert(
+            ImmutableList.of(
+                createExternalIdWithEmail(extId1, email),
+                createExternalIdWithEmail(extId2, email)));
+    accountCache.evict(admin.id);
+    assertThat(
+            gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
+        .containsAllOf(extId1, extId2);
+
+    // enforce a new request context so that emails that are cached in
+    // IdentifiedUser are reloaded
+    setApiUser(admin);
+    assertThat(getEmails()).contains(email);
+
+    gApi.accounts().self().deleteEmail(email);
+
+    // enforce a new request context so that emails that are cached in
+    // IdentifiedUser are reloaded
+    setApiUser(admin);
+    assertThat(getEmails()).doesNotContain(email);
+    assertThat(
+            gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
+        .containsNoneOf(extId1, extId2);
+  }
+
+  @Test
   public void putStatus() throws Exception {
     List<String> statuses = ImmutableList.of("OOO", "Busy");
     AccountInfo info;
@@ -885,5 +916,11 @@ public class AccountIT extends AbstractDaemonTest {
 
   private Set<String> getEmails() throws RestApiException {
     return gApi.accounts().self().getEmails().stream().map(e -> e.email).collect(toSet());
+  }
+
+  private AccountExternalId createExternalIdWithEmail(String id, String email) {
+    AccountExternalId extId = new AccountExternalId(admin.id, new AccountExternalId.Key(id));
+    extId.setEmailAddress(email);
+    return extId;
   }
 }

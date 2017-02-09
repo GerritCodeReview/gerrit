@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1cf2d762_98c5bfb1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-09T23:16:12Z",
+      "side": 1,
+      "message": "The line this replaces was causing wonkiness with flexbox, namely that the 72ch basis was applying to both height and width for some reason. The grow factor was itself added to allow for the area to grow where necessary to accommodate links that are longer than 72ch., linked below. This accomplishes roughly the same behavior without flexbox, wrapping links \u003e100ch (which I doubt will be a surprise to users) and leaving the basis unset.\n\nhttps://gerrit-review.googlesource.com/c/91050/",
+      "parentUuid": "37f0e09e_0f0868a9",
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db0e1049_0103ce3d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83a3b551_c4ba0789",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-09T23:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db0e1049_0103ce3d",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 22
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "256c03c4_9423f09e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-09T23:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee88288f_0d5c7252",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 23
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5313ee7a_93dd63d4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2017-02-09T22:35:47Z",
       "side": 1,
       "message": "Maybe this isn\u0027t needed and this can be selected by ...\n\n  .collapseToggle gr-button\n\n... since there\u0027s only one element in the `.collapseToggle` anyway.",
+      "range": {
+        "startLine": 203,
+        "startChar": 6,
+        "endLine": 203,
+        "endChar": 27
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d6afde6_dcd83c06",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-09T23:16:12Z",
+      "side": 1,
+      "message": "I\u0027m actually planning on using these same classes on new elements for the related changes section for a similar bug, so I\u0027d like these to stay.",
+      "parentUuid": "5313ee7a_93dd63d4",
       "range": {
         "startLine": 203,
         "startChar": 6,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "e4e98776_0bfe5c1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-09T23:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3423f418_9d77eedb",
+      "range": {
+        "startLine": 356,
+        "startChar": 18,
+        "endLine": 357,
+        "endChar": 40
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d49c4d63_529eab6d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "83c3c839_4ff2db8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-09T23:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d49c4d63_529eab6d",
+      "range": {
+        "startLine": 1042,
+        "startChar": 40,
+        "endLine": 1042,
+        "endChar": 48
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca048d70_c9ca17ee",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
         "patchSetId": 2
@@ -154,6 +292,30 @@
       "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ef08526_4811532f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-09T23:16:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca048d70_c9ca17ee",
+      "range": {
+        "startLine": 979,
+        "startChar": 6,
+        "endLine": 980,
+        "endChar": 10
+      },
+      "revId": "726402f50b7235b18fa2a13eae03ae68f5f9abd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

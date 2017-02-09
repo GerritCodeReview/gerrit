@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "253dd106_b5dd0d97",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-09T08:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71fa5c0a_b6fe3075",
+      "revId": "0e1c55fee3bd7c41b387e05ace1c0b428be0b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7fe7d67_ea9a7d3e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "761ee4cd_f42231c9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-09T08:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7fe7d67_ea9a7d3e",
+      "range": {
+        "startLine": 223,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 18
+      },
+      "revId": "0e1c55fee3bd7c41b387e05ace1c0b428be0b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4d39eab_4a443066",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2017-02-09T06:24:05Z",
       "side": 1,
       "message": "Instead of importing these, only import BatchUpdate (L42) and then refer to the specific subclasses explicitly where they are used.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 56
+      },
+      "revId": "0e1c55fee3bd7c41b387e05ace1c0b428be0b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef534e06_c9592e58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-09T08:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4d39eab_4a443066",
       "range": {
         "startLine": 43,
         "startChar": 0,

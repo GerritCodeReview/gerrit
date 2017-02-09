@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -162,6 +163,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
         }
       } catch (LimitExceededException e) {
         throw new NotImplementedException("The bundle is too big to generate at the server");
+      } catch (NoSuchProjectException e) {
+        throw new IOException(e);
       }
     }
 

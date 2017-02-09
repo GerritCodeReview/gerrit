@@ -65,7 +65,7 @@ public class GitModules {
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
     try {
-      OpenRepo or = orm.openRepo(project);
+      OpenRepo or = orm.getRepo(project);
       ObjectId id = or.repo.resolve(branch.get());
       if (id == null) {
         throw new IOException("Cannot open branch " + branch.get());

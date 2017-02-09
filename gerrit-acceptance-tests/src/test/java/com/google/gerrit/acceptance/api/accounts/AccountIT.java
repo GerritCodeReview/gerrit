@@ -473,6 +473,30 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteEmailOfOtherUser() throws Exception {
+    String email = "foo.bar@example.com";
+    EmailInput input = new EmailInput();
+    input.email = email;
+    input.noConfirmation = true;
+    gApi.accounts().id(user.id.get()).addEmail(input);
+
+    setApiUser(user);
+    assertThat(getEmails()).contains(email);
+
+    // admin can delete email of user
+    setApiUser(admin);
+    gApi.accounts().id(user.id.get()).deleteEmail(email);
+
+    setApiUser(user);
+    assertThat(getEmails()).doesNotContain(email);
+
+    // user cannot delete email of admin
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to delete email address");
+    gApi.accounts().id(admin.id.get()).deleteEmail(admin.email);
+  }
+
+  @Test
   public void putStatus() throws Exception {
     List<String> statuses = ImmutableList.of("OOO", "Busy");
     AccountInfo info;

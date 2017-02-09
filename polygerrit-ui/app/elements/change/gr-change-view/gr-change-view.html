@@ -313,7 +313,8 @@ limitations under the License.
             <div class="commitMessage">
               <gr-editable-content id="commitMessageEditor"
                   editing="[[_editingCommitMessage]]"
-                  content="{{_latestCommitMessage}}">
+                  content="{{_latestCommitMessage}}"
+                  remove-zero-width-space>
                 <gr-linked-text pre
                     content="[[_latestCommitMessage]]"
                     config="[[_projectConfig.commentlinks]]"

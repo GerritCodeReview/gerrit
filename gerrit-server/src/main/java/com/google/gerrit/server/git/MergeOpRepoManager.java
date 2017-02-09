@@ -121,7 +121,7 @@ public class MergeOpRepoManager implements AutoCloseable {
       update = null;
     }
 
-    void close() {
+    private void close() {
       if (update != null) {
         update.close();
       }
@@ -228,5 +228,6 @@ public class MergeOpRepoManager implements AutoCloseable {
     for (OpenRepo repo : openRepos.values()) {
       repo.close();
     }
+    openRepos.clear();
   }
 }

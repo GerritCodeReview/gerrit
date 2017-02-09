@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63d89d5d_8ef00665",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:18:49Z",
+      "side": 1,
+      "message": "My question remains: Why only remove margins from paragraphs? What about the three other kinds of comment blocks?\n\nCan you provide a screenshot for how the whitespace is excessive? Does the `no-trailing-margin` flag work for this? That would preserve the internal margins.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 23
+      },
+      "revId": "98a8e2e1cb9d5e695aaf467d8609482a45f52626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

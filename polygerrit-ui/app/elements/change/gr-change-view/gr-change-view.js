@@ -20,6 +20,9 @@
   };
   var CHANGE_ID_REGEX_PATTERN = /^Change-Id\:\s(I[0-9a-f]{8,40})/gm;
   var COMMENT_SAVE = 'Saving... Try again after all comments are saved.';
+
+  var MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
+
   // Maximum length for patch set descriptions.
   var PATCH_DESC_MAX_LENGTH = 500;
   var REVIEWERS_REGEX = /^R=/gm;
@@ -131,6 +134,10 @@
       _changeStatus: {
         type: String,
         computed: '_computeChangeStatus(_change, _patchRange.patchNum)',
+      },
+      _commitCollapsed: {
+        type: Boolean,
+        value: true,
       },
     },
 
@@ -1024,6 +1031,24 @@
 
     _computeChangePermalinkAriaLabel: function(changeNum) {
       return 'Change ' + changeNum;
+    },
+
+    _computeCommitClass: function(collapsed, commitMessage) {
+      if (this._computeCommitToggleHidden(commitMessage)) { return ''; }
+      return collapsed ? 'commitCollapsed' : '';
+    },
+
+    _computeCollapseCommitText: function(collapsed) {
+      return collapsed ? 'Show more' : 'Collapse';
+    },
+
+    _toggleCommitCollapsed: function() {
+      this._commitCollapsed = !this._commitCollapsed;
+    },
+
+    _computeCommitToggleHidden: function(commitMessage) {
+      if (!commitMessage) { return true; }
+      return commitMessage.split('\n').length < MIN_LINES_FOR_COMMIT_COLLAPSE;
     },
   });
 })();

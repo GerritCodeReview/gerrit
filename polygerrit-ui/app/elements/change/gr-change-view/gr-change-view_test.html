@@ -971,5 +971,26 @@ limitations under the License.
       element.serverConfig = {};
       assert.isFalse(element._replyDisabled);
     });
+
+    suite('commit message expand/collapse', function() {
+      test('commitCollapseToggle hidden for short commit message', function() {
+        element._latestCommitMessage = '';
+        assert.isTrue(element.$.commitCollapseToggle.hasAttribute('hidden'));
+      });
+      test('commitCollapseToggle shown for long commit message', function() {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        assert.isFalse(element.$.commitCollapseToggle.hasAttribute('hidden'));
+      });
+      test('commitCollapseToggle functions', function() {
+        element._latestCommitMessage = _.times(31, String).join('\n');
+        assert.isTrue(element._commitCollapsed);
+        assert.isTrue(
+            element.$.commitMessage.classList.contains('commitCollapsed'));
+        MockInteractions.tap(element.$.commitCollapseToggleButton);
+        assert.isFalse(element._commitCollapsed);
+        assert.isFalse(
+            element.$.commitMessage.classList.contains('commitCollapsed'));
+      });
+    });
   });
 </script>

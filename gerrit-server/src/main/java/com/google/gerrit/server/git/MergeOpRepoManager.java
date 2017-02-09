@@ -113,14 +113,6 @@ public class MergeOpRepoManager implements AutoCloseable {
       return update;
     }
 
-    /**
-     * Make sure the update has already executed before reset it. TODO:czhen Have a flag in
-     * BatchUpdate to mark if it has been executed
-     */
-    void resetUpdate() {
-      update = null;
-    }
-
     private void close() {
       if (update != null) {
         update.close();
@@ -191,13 +183,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     return submissionId;
   }
 
-  public OpenRepo getRepo(Project.NameKey project) {
-    OpenRepo or = openRepos.get(project);
-    checkState(or != null, "repo not yet opened: %s", project);
-    return or;
-  }
-
-  public OpenRepo openRepo(Project.NameKey project) throws NoSuchProjectException, IOException {
+  public OpenRepo getRepo(Project.NameKey project) throws NoSuchProjectException, IOException {
     if (openRepos.containsKey(project)) {
       return openRepos.get(project);
     }
@@ -211,11 +197,12 @@ public class MergeOpRepoManager implements AutoCloseable {
       openRepos.put(project, or);
       return or;
     } catch (RepositoryNotFoundException e) {
-      throw new NoSuchProjectException(project);
+      throw new NoSuchProjectException(project, e);
     }
   }
 
-  public List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects) {
+  public List<BatchUpdate> batchUpdates(Collection<Project.NameKey> projects)
+      throws NoSuchProjectException, IOException {
     List<BatchUpdate> updates = new ArrayList<>(projects.size());
     for (Project.NameKey project : projects) {
       updates.add(getRepo(project).getUpdate());

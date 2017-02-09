@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -463,7 +464,9 @@ public class MergeOp implements AutoCloseable {
           new SubmitStrategyListener(submitInput, strategies, commitStatus),
           submissionId,
           dryrun);
-    } catch (SubmoduleException e) {
+    } catch (NoSuchProjectException e) {
+      throw new ResourceNotFoundException(e.getMessage());
+    } catch (IOException | SubmoduleException e) {
       throw new IntegrationException(e);
     } catch (UpdateException e) {
       // BatchUpdate may have inadvertently wrapped an IntegrationException
@@ -493,7 +496,7 @@ public class MergeOp implements AutoCloseable {
 
   private List<SubmitStrategy> getSubmitStrategies(
       Map<Branch.NameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp, boolean dryrun)
-      throws IntegrationException {
+      throws IntegrationException, NoSuchProjectException, IOException {
     List<SubmitStrategy> strategies = new ArrayList<>();
     Set<Branch.NameKey> allBranches = submoduleOp.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
@@ -731,10 +734,10 @@ public class MergeOp implements AutoCloseable {
 
   private OpenRepo openRepo(Project.NameKey project) throws IntegrationException {
     try {
-      return orm.openRepo(project);
-    } catch (NoSuchProjectException noProject) {
-      logWarn("Project " + noProject.project() + " no longer exists, " + "abandoning open changes");
-      abandonAllOpenChangeForDeletedProject(noProject.project());
+      return orm.getRepo(project);
+    } catch (NoSuchProjectException e) {
+      logWarn("Project " + project + " no longer exists, " + "abandoning open changes.");
+      abandonAllOpenChangeForDeletedProject(project);
     } catch (IOException e) {
       throw new IntegrationException("Error opening project " + project, e);
     }

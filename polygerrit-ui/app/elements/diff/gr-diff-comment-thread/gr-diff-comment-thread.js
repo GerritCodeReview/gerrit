@@ -271,6 +271,7 @@
         __draftID: Math.random().toString(36),
         __date: new Date(),
         path: this.path,
+        patchNum: this.patchNum,
         side: this.side,
         __commentSide: this.commentSide,
       };

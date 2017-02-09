@@ -38,7 +38,7 @@
         value: function() { return document.body; },
       },
       commentSide: String,
-      patchNum: String,
+      patchForNewComments: String,
       path: String,
       projectConfig: Object,
       side: {
@@ -270,6 +270,7 @@
         __draftID: Math.random().toString(36),
         __date: new Date(),
         path: this.path,
+        patchNum: this.patchForNewComments,
         side: this.side,
         __commentSide: this.commentSide,
       };

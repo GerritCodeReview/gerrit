@@ -44,6 +44,7 @@
         type: Boolean,
         value: false,
       },
+      removeZeroWidthSpace: Boolean,
       _saveDisabled: {
         computed: '_computeSaveDisabled(disabled, content, _newContent)',
         type: Boolean,
@@ -58,7 +59,10 @@
 
     _editingChanged: function(editing) {
       if (!editing) { return; }
-      this._newContent = this.content;
+
+      // TODO switch linkify sequence, see issue 5526.
+      this._newContent = this.removeZeroWidthSpace ?
+          this.content.replace(/^R=\u200B/gm, 'R=') : this.content;
     },
 
     _computeSaveDisabled: function(disabled, content, newContent) {

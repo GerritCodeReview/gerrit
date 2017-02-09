@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "9e681b53_011b781d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T16:58:50Z",
+      "side": 1,
+      "message": "Why don\u0027t we call checkPassword(..) here and return the value?",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 54
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cfceba7_20ef0684",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T16:58:50Z",
+      "side": 1,
+      "message": "If we always swallow the exception, we should rather introduce HashedPassword#canDecode and check it before calling HashedPassword#decode. To avoid checking for the exception in this case, we should switch to some kind of RuntimeException.",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d02789f4_addf1f2d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 11

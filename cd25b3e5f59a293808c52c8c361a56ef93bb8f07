@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56430f25_6d734368",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T16:37:04Z",
+      "side": 1,
+      "message": "nit: Line too long.",
+      "range": {
+        "startLine": 93,
+        "startChar": 81,
+        "endLine": 93,
+        "endChar": 110
+      },
+      "revId": "cd25b3e5f59a293808c52c8c361a56ef93bb8f07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

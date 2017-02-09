@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "57f16ba2_bfd89abd",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1448,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T16:37:04Z",
+      "side": 1,
+      "message": "I was just thinking that it would depend on what AuthFilter we\u0027ll finally use in GitOverHttpModule, wouldn\u0027t it? Before this change, omitting the --digest resulted in an error. With this change, we automatically use basic authentication. If we stay with that decision, you can ignore my comment.",
+      "parentUuid": "ed3dc32a_e17e992e",
+      "range": {
+        "startLine": 1444,
+        "startChar": 2,
+        "endLine": 1448,
+        "endChar": 48
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce95388e_eca4d777",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
         "patchSetId": 7
@@ -634,6 +658,30 @@
       "side": 1,
       "message": "The polygerrit code doesn\u0027t use it anymore, see https://gerrit-review.googlesource.com/c/94950/",
       "parentUuid": "bfd0a430_f805c5fd",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec40be4_a6c4a9f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T16:37:04Z",
+      "side": 1,
+      "message": "They seem to have missed the function I mentioned previously.",
+      "parentUuid": "4dfd2459_b7eab3da",
       "range": {
         "startLine": 37,
         "startChar": 4,

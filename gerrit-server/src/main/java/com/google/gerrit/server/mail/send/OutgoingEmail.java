@@ -319,6 +319,11 @@ public abstract class OutgoingEmail {
     headers.put(name, new EmailHeader.String(value));
   }
 
+  /** Remove a header from the outgoing message. */
+  protected void removeHeader(final String name) {
+    headers.remove(name);
+  }
+
   protected void setHeader(final String name, final Date date) {
     headers.put(name, new EmailHeader.Date(date));
   }

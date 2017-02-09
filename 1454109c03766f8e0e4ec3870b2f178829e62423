@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "16d49f90_ee2e3e1e",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T14:35:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "15fc27a5_4975037b",
+      "range": {
+        "startLine": 94,
+        "startChar": 19,
+        "endLine": 94,
+        "endChar": 33
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86a0c322_e3cfbb2a",
         "filename": "gerrit-server/BUILD",
         "patchSetId": 7
@@ -178,6 +202,30 @@
       "writtenOn": "2017-02-08T13:56:24Z",
       "side": 1,
       "message": "this is causing the license test to fail, but if I use bcprov as is, then I get \n\n1) printTest(com.googlesource.gerrit.plugins.cookbook.CookbookIT)\njava.lang.NoClassDefFoundError: org/bouncycastle/crypto/generators/BCrypt\n\nin the cookbook test.",
+      "range": {
+        "startLine": 41,
+        "startChar": 11,
+        "endLine": 41,
+        "endChar": 14
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66b9db50_a21630a8",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T14:35:32Z",
+      "side": 1,
+      "message": "looks like all the plugins will need updated dependencies.",
+      "parentUuid": "86a0c322_e3cfbb2a",
       "range": {
         "startLine": 41,
         "startChar": 11,
@@ -426,6 +474,30 @@
     },
     {
       "key": {
+        "uuid": "add7786e_16d00027",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T14:35:32Z",
+      "side": 1,
+      "message": "added comment. This code should go away soon anyway, so I\u0027ll leave it at that.",
+      "parentUuid": "bbc45203_6aa67397",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 9
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01302d9e_a3ea2edc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
         "patchSetId": 7
@@ -538,6 +610,30 @@
       "side": 1,
       "message": "I recall still seeing it when I looked at this patch set. The latest patch set doesn\u0027t include the GWT UI code anymore. However, I still saw a reference to it in PolyGerrit code. gr-rest-api-interface.js has a getAccountHttpPassword function.",
       "parentUuid": "dcf08b32_b4836732",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dfd2459_b7eab3da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-09T14:35:32Z",
+      "side": 1,
+      "message": "The polygerrit code doesn\u0027t use it anymore, see https://gerrit-review.googlesource.com/c/94950/",
+      "parentUuid": "bfd0a430_f805c5fd",
       "range": {
         "startLine": 37,
         "startChar": 4,

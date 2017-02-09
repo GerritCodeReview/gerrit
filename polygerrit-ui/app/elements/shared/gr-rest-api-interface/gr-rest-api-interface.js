@@ -968,11 +968,6 @@
           '/topic', {topic: topic});
     },
 
-    getAccountHttpPassword: function(opt_errFn) {
-      return this._fetchSharedCacheURL('/accounts/self/password.http',
-          opt_errFn);
-    },
-
     deleteAccountHttpPassword: function() {
       return this.send('DELETE', '/accounts/self/password.http');
     },

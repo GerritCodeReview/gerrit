@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1486656368 +0100\nnonce AFJA6ocZqOUGddCXJjciCJBTl/yOejQURivSKB72NK1WPAvuCz3tl8rmnsbuTWU6Wl9GvIqQH+K7\n\n0000000000000000000000000000000000000000 ace2f9183dacd6be4e28c455a2352df306ff44db refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYnJNwAAoJEFG1/Zeg0O9ReDkH/i+zJMp4o19pVQwlTJkp4me9\na+eqG2FMW30Rfqb4tMKVYh9qDv5AdbYWId681JFh9kbuxz5+EBMm1xvrgujNTeHo\nA0WaZpmQplQwRhY2H/lhN+eYhuXjM/46EaxJzYyq4updogz9w1N4UmB5GTOR7+M5\nFOKIIzq0Kor0T921M89KVYKcasBJ/IyW19vT21+iCkjnW7TCLH43hNLNiY1FDi5v\ntATGgldtSldaPEVMhTx5m/tHrUxjF9QZ2irOJqzhqEkaz0vQEjzbzszB11DE5NJk\nk5+c2ybWsmXP0lzUbjXNmOMwsSQus7skimZommevWY9FPFzOzu3QHA1NYA1AWgs\u003d\n\u003du/Tu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2833f3d_f9426e2d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T23:49:53Z",
+      "side": 1,
+      "message": "Side note: maybe we can create a method that does this? i.e. something like:\n\n  newRequestContext()\n\nthat calls setApiUser again with the current API user?\n\nit\u0027s unrelated to this change though, so in a separate commit",
+      "range": {
+        "startLine": 459,
+        "startChar": 4,
+        "endLine": 461,
+        "endChar": 22
+      },
+      "revId": "ace2f9183dacd6be4e28c455a2352df306ff44db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

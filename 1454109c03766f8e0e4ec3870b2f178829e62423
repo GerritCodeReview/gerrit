@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "15fc27a5_4975037b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T14:11:59Z",
+      "side": 1,
+      "message": "I didn\u0027t mean that you should expose the format entirely but that you indicate that this string isn\u0027t directly the hashed password. The comment you added in the next patch set is helpful.",
+      "parentUuid": "ff5e44a3_bfef990a",
+      "range": {
+        "startLine": 94,
+        "startChar": 19,
+        "endLine": 94,
+        "endChar": 33
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86a0c322_e3cfbb2a",
         "filename": "gerrit-server/BUILD",
         "patchSetId": 7
@@ -210,6 +234,30 @@
       "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f34c48cd_54dfb1f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T14:11:59Z",
+      "side": 1,
+      "message": "Well, login credentials normally only include the username and password. If it is misleading for you, let\u0027s leave it as it is.",
+      "parentUuid": "09a374a8_159a328c",
+      "range": {
+        "startLine": 75,
+        "startChar": 17,
+        "endLine": 75,
+        "endChar": 64
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -354,6 +402,30 @@
     },
     {
       "key": {
+        "uuid": "bbc45203_6aa67397",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T14:11:59Z",
+      "side": 1,
+      "message": "I didn\u0027t see that it\u0027s org.bouncycastle.util.Arrays. I assumed it to be java.util.Arrays. We should definitely add a comment here to prevent that somebody else refactors this code by mistake. Extracting it to an own method in addition to the comment would even be better.",
+      "parentUuid": "92a3dd08_06b3f3fc",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 9
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01302d9e_a3ea2edc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
         "patchSetId": 7
@@ -383,6 +455,24 @@
       "side": 1,
       "message": "oh, that would generate 404 as well. Good point.",
       "parentUuid": "01302d9e_a3ea2edc",
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1c974cd_7b571877",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T14:11:59Z",
+      "side": 1,
+      "message": "We also need to adjust the REST documentation.",
+      "parentUuid": "e6f1b645_33edb3c6",
       "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -424,6 +514,30 @@
       "side": 1,
       "message": "We removed it in this commit, \n\nhttps://gerrit-review.googlesource.com/c/94951/\n\ndid I miss a reference?",
       "parentUuid": "a275c50a_a0436a7e",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 42
+      },
+      "revId": "1454109c03766f8e0e4ec3870b2f178829e62423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfd0a430_f805c5fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-09T14:11:59Z",
+      "side": 1,
+      "message": "I recall still seeing it when I looked at this patch set. The latest patch set doesn\u0027t include the GWT UI code anymore. However, I still saw a reference to it in PolyGerrit code. gr-rest-api-interface.js has a getAccountHttpPassword function.",
+      "parentUuid": "dcf08b32_b4836732",
       "range": {
         "startLine": 37,
         "startChar": 4,

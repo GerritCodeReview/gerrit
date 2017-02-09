@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "833dba26_1a6b2ef8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-09T23:59:59Z",
+      "side": 1,
+      "message": "Can you spell this out a little more? Is PreviewSubmit misusing the API? Is it unfeasible to fix it?\n\nWould a TODO comment in MergeOpRepoManager make this easier to understand?",
+      "revId": "b231747e4d61469ae5aee655336e5fcb6c0161cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

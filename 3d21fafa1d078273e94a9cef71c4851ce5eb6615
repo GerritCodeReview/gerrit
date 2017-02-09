@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "a535a778_fdf5f88a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T11:29:37Z",
+      "side": 1,
+      "message": "Using an enum has advantages, i.e. you get type checking for free from the compiler.\n\nOne option would be to give the enumerations values, as shown here:\n\nhttp://stackoverflow.com/a/26152169/381622\n\nthen you use protocol.getValue() instead of protocol.getName()",
+      "parentUuid": "e434d0a3_a566f189",
+      "revId": "3d21fafa1d078273e94a9cef71c4851ce5eb6615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ffdf950_d76d45ae",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
         "patchSetId": 3
@@ -57,6 +75,29 @@
       "revId": "3d21fafa1d078273e94a9cef71c4851ce5eb6615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1817d847_4b9f7c47",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/ProxyUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T11:29:37Z",
+      "side": 1,
+      "message": "use the constant/name/value from the enum?",
+      "range": {
+        "startLine": 79,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 15
+      },
+      "revId": "3d21fafa1d078273e94a9cef71c4851ce5eb6615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

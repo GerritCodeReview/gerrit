@@ -23,6 +23,30 @@
       "revId": "8a46ff071029d715d70bfccb83ad1114b7e29f18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fa07b0f_283a6bca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-09T07:15:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t work and the effective user setting is 80:\n\n* default is 100\n* refs/users/default 80\n* user setting 100\n\nThis works:\n\n* default is 100\n* refs/users/default 80\n* user setting 101",
+      "parentUuid": "190fccea_3ff148ed",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 61
+      },
+      "revId": "8a46ff071029d715d70bfccb83ad1114b7e29f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

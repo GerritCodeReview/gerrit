@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68ef2b45_5cc0e4f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-02-09T20:52:40Z",
+      "side": 1,
+      "message": "I think we can up this to be something larger. 30 or 40",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 24,
+        "endChar": 40
+      },
+      "revId": "68cb4bddd0121615fe2c01a2e14de4149ca3dc12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebccbb49_89bf2488",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-02-09T20:52:40Z",
+      "side": 1,
+      "message": "s/More/more",
+      "range": {
+        "startLine": 1042,
+        "startChar": 31,
+        "endLine": 1042,
+        "endChar": 35
+      },
+      "revId": "68cb4bddd0121615fe2c01a2e14de4149ca3dc12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

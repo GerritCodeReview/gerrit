@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "975fc13c_ef893152",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-09T17:09:38Z",
+      "side": 1,
+      "message": "\u003e 0, I presume.\nDone, but from what I\u0027ve googled both are ok, is there a style I\u0027ve overlooked?",
+      "parentUuid": "3d005793_3f2baefd",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "ce608d371efece8b2c69d5f6d5ef36990307482e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39d17563_85f92978",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "ce608d371efece8b2c69d5f6d5ef36990307482e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23e01ac_43df08ed",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-09T17:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39d17563_85f92978",
+      "range": {
+        "startLine": 56,
+        "startChar": 31,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "ce608d371efece8b2c69d5f6d5ef36990307482e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

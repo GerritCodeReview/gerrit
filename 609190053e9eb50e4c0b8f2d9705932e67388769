@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "712659ed_a3ce6bea",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3555,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-09T16:53:15Z",
+      "side": 1,
+      "message": "Why is this not named \"replyTo\" or \"replyToAddress\"?",
+      "range": {
+        "startLine": 3555,
+        "startChar": 44,
+        "endLine": 3555,
+        "endChar": 58
+      },
+      "revId": "609190053e9eb50e4c0b8f2d9705932e67388769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

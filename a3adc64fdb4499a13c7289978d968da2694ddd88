@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44875568_404c3b81",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-02-09T23:42:14Z",
+      "side": 1,
+      "message": "TODOs should be in the form \"TODO(beckysiegel): ...\"",
+      "revId": "a3adc64fdb4499a13c7289978d968da2694ddd88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

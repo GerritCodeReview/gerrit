@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c50d7854_83a8d383",
+        "filename": "tools/maven/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T05:52:43Z",
+      "side": 1,
+      "message": "this line is really long.  can it be wrapped?\n\nor extract the URLs to variables to make it shorter?",
+      "revId": "f3831dac4d5a44395f77b24a034a67be6d8a2daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

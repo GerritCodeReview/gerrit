@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,7 +51,6 @@ import org.kohsuke.args4j.Option;
 
 @Singleton
 public class PreviewSubmit implements RestReadView<RevisionResource> {
-
   private static int MAX_DEFAULT_BUNDLE_SIZE = 100 * 1024 * 1024;
 
   private final Provider<ReviewDb> dbProvider;
@@ -144,6 +144,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
               } catch (LimitExceededException e) {
                 throw new NotImplementedException(
                     "The bundle is too big to generate at the server");
+              } catch (NoSuchProjectException e) {
+                throw new IOException(e);
               } finally {
                 op.close();
               }

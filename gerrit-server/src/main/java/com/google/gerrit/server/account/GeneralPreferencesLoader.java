@@ -77,14 +77,6 @@ public class GeneralPreferencesLoader {
       // Load all users default prefs
       VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
       dp.load(allUsers);
-      GeneralPreferencesInfo allUserPrefs = new GeneralPreferencesInfo();
-      loadSection(
-          dp.getConfig(),
-          UserConfigSections.GENERAL,
-          null,
-          allUserPrefs,
-          GeneralPreferencesInfo.defaults(),
-          in);
 
       // Load user prefs
       VersionedAccountPreferences p = VersionedAccountPreferences.forUser(id);
@@ -95,11 +87,31 @@ public class GeneralPreferencesLoader {
               UserConfigSections.GENERAL,
               null,
               new GeneralPreferencesInfo(),
-              updateDefaults(allUserPrefs),
+              readDefaultsFromGit(dp.getConfig(), in),
               in);
       loadChangeTableColumns(r, p, dp);
       return loadMyMenusAndUrlAliases(r, p, dp);
     }
+  }
+
+  public GeneralPreferencesInfo readDefaultsFromGit(Repository git, GeneralPreferencesInfo in)
+      throws ConfigInvalidException, IOException {
+    VersionedAccountPreferences dp = VersionedAccountPreferences.forDefault();
+    dp.load(git);
+    return readDefaultsFromGit(dp.getConfig(), in);
+  }
+
+  private GeneralPreferencesInfo readDefaultsFromGit(Config config, GeneralPreferencesInfo in)
+      throws ConfigInvalidException {
+    GeneralPreferencesInfo allUserPrefs = new GeneralPreferencesInfo();
+    loadSection(
+        config,
+        UserConfigSections.GENERAL,
+        null,
+        allUserPrefs,
+        GeneralPreferencesInfo.defaults(),
+        in);
+    return updateDefaults(allUserPrefs);
   }
 
   private GeneralPreferencesInfo updateDefaults(GeneralPreferencesInfo input) {

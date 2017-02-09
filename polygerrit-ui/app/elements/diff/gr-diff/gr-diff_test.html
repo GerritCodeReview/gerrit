@@ -236,15 +236,18 @@ limitations under the License.
 
         sandbox.stub(element.$.diffBuilder, 'createCommentThreadGroup',
             function() {
-          return document.createElement('gr-diff-comment-thread-group');
+          var threadGroup =
+              document.createElement('gr-diff-comment-thread-group');
+          threadGroup.patchForNewThreads = 1;
+          return threadGroup;
         });
 
         // No thread groups.
         assert.isNotOk(element._getThreadGroupForLine(contentEl));
 
         // A thread group gets created.
-        assert.isOk(element._getOrCreateThreadAtLineRange(contentEl, patchNum,
-            commentSide, side));
+        assert.isOk(element._getOrCreateThreadAtLineRange(contentEl,
+            patchNum, commentSide, side));
 
         // Try to fetch a thread with a different range.
         range = {

@@ -49,6 +49,7 @@ limitations under the License.
     });
 
     test('_getThreadGroups', function() {
+      element.patchForNewThreads = 3;
       var comments = [
         {
           id: 'sallys_confession',
@@ -79,12 +80,14 @@ limitations under the License.
               __commentSide: 'left',
             }],
           locationRange: 'line-left',
+          patchNum: 3
         },
       ];
 
       assert.deepEqual(element._getThreadGroups(comments),
           expectedThreadGroups);
 
+      // Patch num should get inherited from comment rather
       comments.push({
           id: 'betsys_confession',
           message: 'i like you, jack',
@@ -113,6 +116,7 @@ limitations under the License.
               updated: '2015-12-24 15:00:20.396000000',
               __commentSide: 'left',
             }],
+          patchNum: 3,
           locationRange: 'line-left',
         },
         {
@@ -130,6 +134,7 @@ limitations under the License.
             },
             __commentSide: 'left',
           }],
+          patchNum: 3,
           locationRange: 'range-1-1-1-2-left',
         },
       ];
@@ -218,21 +223,33 @@ limitations under the License.
 
     test('addNewThread', function() {
       var locationRange = 'range-1-2-3-4';
-      element._threadGroups = [{locationRange: 'line'}];
+      element._threads = [{locationRange: 'line'}];
       element.addNewThread(locationRange);
-      assert(element._threadGroups.length, 2);
+      assert(element._threads.length, 2);
+    });
+
+    test('_getPatchNum', function() {
+      element.patchForNewThreads = 3;
+      var comment = {
+        id: 'sallys_confession',
+        message: 'i like you, jack',
+        updated: '2015-12-23 15:00:20.396000000',
+      };
+      assert.equal(element._getPatchNum(comment), 3);
+      comment.patchNum = 4;
+      assert.equal(element._getPatchNum(comment), 4);
     });
 
     test('removeThread', function() {
       var locationRange = 'range-1-2-3-4';
-      element._threadGroups = [
+      element._threads = [
         {locationRange: 'range-1-2-3-4', comments: []},
         {locationRange: 'line', comments: []}
       ];
       flushAsynchronousOperations();
       element.removeThread(locationRange);
       flushAsynchronousOperations();
-      assert(element._threadGroups.length, 1);
+      assert(element._threads.length, 1);
     });
   });
 </script>

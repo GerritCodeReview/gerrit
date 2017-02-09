@@ -10,7 +10,7 @@
       "author": {
         "id": 1026519
       },
-      "writtenOn": "Feb 3, 2017 2:26:43 PM",
+      "writtenOn": "2017-02-03T22:26:43Z",
       "side": 1,
       "message": "Why remove these margins? Should it also be removing the margin on `ul`s, `blockquote`s and \n`gr-linked-text.pre`s, or is it intended just for paragraphs?\n\nNitpicking the name: what about `.compact` instead of `.short`?",
       "range": {
@@ -33,7 +33,7 @@
       "author": {
         "id": 1030207
       },
-      "writtenOn": "Feb 3, 2017 2:28:57 PM",
+      "writtenOn": "2017-02-03T22:28:57Z",
       "side": 1,
       "message": "compact works.  because the buttons are gone, the extra space is excessive.  We end adding the short/compact class to all but a draft item if it is at the end. I believe in this context it\u0027s only paragraphs? but I might be wrong..",
       "parentUuid": "979fee74_016a67ae",
@@ -51,10 +51,34 @@
       "author": {
         "id": 1026519
       },
-      "writtenOn": "Feb 6, 2017 5:35:18 PM",
+      "writtenOn": "2017-02-07T01:35:18Z",
       "side": 1,
       "message": "\u003e compact works.  because the buttons are gone, the extra space is excessive. \n\nFrom my recent change in formatted text, I suspect that this may not apply the style with shadow DOM enabled. Consider setting this as a property like \n\ncompact: {\n  type: Boolean,\n  value: false,\n},\n\nand \n\nready: function() {\n  if (this.compact) { this.classList.add(\u0027compact\u0027); }\n},\n\n\u003e We end adding the short/compact class to all but a draft item if it is at the end. I believe in this context it\u0027s only paragraphs? but I might be wrong..\n\nI believe the context is any kind of comment, isn\u0027t it? Comments can contain more than just paragraphs.",
       "parentUuid": "e807a06c_0ba4d41f",
+      "revId": "4500b534102d51db2cf00acdd3320b4429ced62d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7665f6de_d55aa9b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T17:50:27Z",
+      "side": 1,
+      "message": "Ping",
+      "parentUuid": "36671839_97010b8f",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 7
+      },
       "revId": "4500b534102d51db2cf00acdd3320b4429ced62d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

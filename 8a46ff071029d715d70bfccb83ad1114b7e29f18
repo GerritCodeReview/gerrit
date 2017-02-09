@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1486550739 +0100\nnonce AFJA6odsV4XrF83aZIgcRy51cEaoY6ty/F4PXrqhQK/gIRloxZze12S7TckPHA6mnz8Ywm0Ml9hi\n\n0000000000000000000000000000000000000000 8a46ff071029d715d70bfccb83ad1114b7e29f18 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYmvbTAAoJEFG1/Zeg0O9RCM8H/RNifSGLCPohOi/GEywnDHU3\niemqJ/yOP5uTVdwxUOSsAKHMz576m3/whyV5O2YCe1mPMR6PFEKKburNYL4xTNjN\nfPdbPr754Em26p87UMtcF0fl/MdAhDT7VxYLWehDmxLkQ3772GMwB0GihOJczWuB\nFC0Mm6mvxdbq0ir46W7VCnrvG/5EKf5hw7vabGmYL7QBdJixjf9SOzV+mHvw938V\nC5AuVswCq9G+cptnbQWVbn0gQqy4PLQ46sM+xVsR22LvBmENTmUze+feAHs/lGji\nyzPfrgBcQuhROqqJ6x398UoPsyRs/zmQMIKGJxQxmE9CJa+Fp884lztyKY9/9Yg\u003d\n\u003dZJ8N\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "190fccea_3ff148ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-09T07:12:44Z",
+      "side": 1,
+      "message": "This statemnt is confusing. First you say overwriting with \"alternative\" default value didn\u0027t work, then you say overwriting it with \"other\" value worked?\n\nWhat is the different between alternative and other i this context?\n\n* default is 100\n* refs/users/default 80\n* user setting 100\n\n?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 61
+      },
+      "revId": "8a46ff071029d715d70bfccb83ad1114b7e29f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

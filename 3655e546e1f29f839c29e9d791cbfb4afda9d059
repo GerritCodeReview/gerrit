@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "95e5fdbd_da598c1f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:41:17Z",
+      "side": 1,
+      "message": "Cool! Thanks.",
+      "parentUuid": "accaad47_4963e07f",
+      "range": {
+        "startLine": 44,
+        "startChar": 17,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb0eb766_3597ae35",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "A thread needs the property. the thread group doesn\u0027t per-se, but it passes it down to the thread if a new thread is created with no comments. I think the name is part of the confusion here as well.",
       "parentUuid": "fb0eb766_3597ae35",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ce53d79_75fc37fb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-09T22:41:17Z",
+      "side": 1,
+      "message": "Yeah, maybe it\u0027s just the name that\u0027s misleading. What if it were renamed to ...\n\n  patch-for-new-threads\n\n... or if it were given a patch-range (since the range does accurately represent what\u0027s in the thread group) and it only ever gives the right-side of the range to new threads?",
+      "parentUuid": "0b16aa7b_f6ebd274",
       "range": {
         "startLine": 47,
         "startChar": 18,

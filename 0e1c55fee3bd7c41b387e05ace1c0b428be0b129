@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71fa5c0a_b6fe3075",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T06:24:05Z",
+      "side": 1,
+      "message": "Add an assertion before this line that comments is not empty?  Otherwise if it is empty, for some reason, the call to comments.get(0) on L281 will fail.",
+      "revId": "0e1c55fee3bd7c41b387e05ace1c0b428be0b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7fe7d67_ea9a7d3e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T06:24:05Z",
+      "side": 1,
+      "message": "Move this before L221, and then the builder calls can be chained?",
+      "range": {
+        "startLine": 223,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 18
+      },
+      "revId": "0e1c55fee3bd7c41b387e05ace1c0b428be0b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4d39eab_4a443066",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-09T06:24:05Z",
+      "side": 1,
+      "message": "Instead of importing these, only import BatchUpdate (L42) and then refer to the specific subclasses explicitly where they are used.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 56
+      },
+      "revId": "0e1c55fee3bd7c41b387e05ace1c0b428be0b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

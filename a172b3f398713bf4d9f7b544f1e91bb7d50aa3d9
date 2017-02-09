@@ -116,6 +116,30 @@
       "revId": "a172b3f398713bf4d9f7b544f1e91bb7d50aa3d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ba609fa_65247e42",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/NoteDbMode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-09T19:57:21Z",
+      "side": 1,
+      "message": "I don\u0027t think we need a 4th set of tests. I will update the CI scripts from PRIMARY -\u003e DISABLE when it makes sense in our googlesource.com migration process.",
+      "parentUuid": "623170f4_d9e6c79c",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "a172b3f398713bf4d9f7b544f1e91bb7d50aa3d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

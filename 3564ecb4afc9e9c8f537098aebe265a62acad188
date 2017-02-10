@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f8ef9d8b_f0f6b892",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-02-10T21:07:43Z",
+      "side": 1,
+      "message": "Maybe use \"draft preview\", or \"alterable preview\" instead of staging?",
+      "parentUuid": "6d265230_b13cdd22",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43d37948_35199033",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -198,6 +222,52 @@
     },
     {
       "key": {
+        "uuid": "7dd9a484_c2623059",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-02-10T21:07:43Z",
+      "side": 1,
+      "message": "How will this work?  How will these changes be pushed?   \n\nWhat happens to these changes if no one has permissions to code-review or verify (...or other approval bit) these changes?  I guess that can happen on normal changes too, but it seems like this will be more likely with \"private\" changes.  It might be worth thinking about this from a workflow perspective a bit more?",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cf78c05_7c40a2bd",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-02-10T21:07:43Z",
+      "side": 1,
+      "message": "I am not sure this part makes sense. Can you explain why this is important, are we tyring to keep the comments private after merge (the code will no longer be)? If so, that feels like perhaps a separate feature \"private comments\" (I am not suggesting we need to implement that, just trying to keep things simple and scoped)?",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 9
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_f6e1e0e2",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -227,6 +297,29 @@
       "side": 1,
       "message": "We already do equivalent acrobatics today in the case of draft changes. We have to read a change and its reviewers[1] to see if it\u0027s a draft and filter visibility appropriately if so. All of this happens already in ChangeControl#isVisible, so we just have to change the implementation of that method.\n\n[1] preferably from the index, see e.g. https://gerrit-review.googlesource.com/96890",
       "parentUuid": "63d6bd38_f6e1e0e2",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3454abb2_ee725390",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-02-10T21:07:43Z",
+      "side": 1,
+      "message": "This feels like feature creep, can you explain why this is needed?",
+      "range": {
+        "startLine": 59,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 5
+      },
       "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -401,6 +494,29 @@
     },
     {
       "key": {
+        "uuid": "cb205302_470610dc",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-02-10T21:07:43Z",
+      "side": 1,
+      "message": "Perhaps it makes sense to add here what features need to be built before migration?  It sounds like to me, that their really are two new primary features that need to be built 1) change edits (for new changes, not just existing changes), and 2) private changes.  Both of those seem like nice independent features that can be developed. \n\nSo far, most of this document has been written from a migration perspective, but it might be nice to also have a section which outlines these 2 new features (if that is really what is being proposed) as new features, ignoring migration a bit, just to make sure it is well understood what you will be building.  In other words, what are the features that as a user I can expect pretending that the draft feature never existed?",
+      "range": {
+        "startLine": 87,
+        "startChar": 3,
+        "endLine": 87,
+        "endChar": 12
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88432cdb_1e94f8a7",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -421,6 +537,29 @@
       "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fa79a12_390f02c2",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2017-02-10T21:07:43Z",
+      "side": 1,
+      "message": "Hmm, I would only do this if it has reviewers, otherwise, why not assume it is a new change edit?  I am not sure, but how will new change edits be handled?  i.e. If I push an edit to a new (non-existing) change, should it effectively be an invisible change to others until the edit is \"published\"?",
+      "range": {
+        "startLine": 90,
+        "startChar": 18,
+        "endLine": 90,
+        "endChar": 19
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

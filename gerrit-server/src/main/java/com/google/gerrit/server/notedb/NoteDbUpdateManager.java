@@ -54,6 +54,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -204,6 +205,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
+  private final ListMultimap<String, NoteDbRewriter> noteDbRewriters;
   private final Set<Change.Id> toDelete;
 
   private OpenRepo changeRepo;
@@ -230,6 +232,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
+    noteDbRewriters = MultimapBuilder.hashKeys().arrayListValues().build();
     toDelete = new HashSet<>();
   }
 
@@ -323,6 +326,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return changeUpdates.isEmpty()
         && draftUpdates.isEmpty()
         && robotCommentUpdates.isEmpty()
+        && noteDbRewriters.isEmpty()
         && toDelete.isEmpty()
         && !hasCommands(changeRepo)
         && !hasCommands(allUsersRepo);
@@ -355,6 +359,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     RobotCommentUpdate rcu = update.getRobotCommentUpdate();
     if (rcu != null) {
       robotCommentUpdates.put(rcu.getRefName(), rcu);
+    }
+    DeleteCommentRewriter deleteCommentRewriter = update.getDeleteCommentRewriter();
+    if (deleteCommentRewriter != null) {
+      noteDbRewriters.put(deleteCommentRewriter.getRefName(), deleteCommentRewriter);
     }
   }
 
@@ -580,6 +588,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (!robotCommentUpdates.isEmpty()) {
       addUpdates(robotCommentUpdates, changeRepo);
     }
+    if (!noteDbRewriters.isEmpty()) {
+      addRewrites(noteDbRewriters, changeRepo);
+    }
+
     for (Change.Id id : toDelete) {
       doDelete(id);
     }
@@ -694,8 +706,39 @@ public class NoteDbUpdateManager implements AutoCloseable {
         }
         curr = next;
       }
+
       if (!old.equals(curr)) {
         or.cmds.add(new ReceiveCommand(old, curr, refName));
+      }
+    }
+  }
+
+  private static void addRewrites(ListMultimap<String, NoteDbRewriter> rewriters, OpenRepo openRepo)
+      throws OrmException, IOException {
+    for (Map.Entry<String, Collection<NoteDbRewriter>> entry : rewriters.asMap().entrySet()) {
+      String refName = entry.getKey();
+      ObjectId oldTip = openRepo.cmds.get(refName).orElse(ObjectId.zeroId());
+
+      if (oldTip.equals(ObjectId.zeroId())) {
+        return; // can't rewrite.
+      }
+
+      ObjectId currTip = oldTip;
+
+      try {
+        for (NoteDbRewriter noteDbRewriter : entry.getValue()) {
+          ObjectId nextTip =
+              noteDbRewriter.rewriteCommitHistory(openRepo.rw, openRepo.tempIns, currTip);
+          if (nextTip != null) {
+            currTip = nextTip;
+          }
+        }
+      } catch (ConfigInvalidException e) {
+        throw new OrmException("Cannot rewrite history", e);
+      }
+
+      if (!oldTip.equals(currTip)) {
+        openRepo.cmds.add(new ReceiveCommand(oldTip, currTip, refName));
       }
     }
   }

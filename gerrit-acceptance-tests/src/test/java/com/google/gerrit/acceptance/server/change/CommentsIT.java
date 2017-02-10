@@ -20,12 +20,14 @@ import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -34,27 +36,41 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
+import com.google.gerrit.server.notedb.DeleteCommentRewriter;
 import com.google.gerrit.testutil.FakeEmailSender;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,6 +82,8 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject private Provider<PostReview> postReview;
 
   @Inject private FakeEmailSender email;
+
+  @Inject private ChangeNoteUtil noteUtil;
 
   private final Integer[] lines = {0, 1};
 
@@ -739,6 +757,161 @@ public class CommentsIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void deleteCommentCannotBeAppliedByUser() throws Exception {
+    PushOneCommit.Result result = createChange();
+    CommentInput targetComment = addComment(result.getChangeId(), "My password: abc123");
+
+    Map<String, List<CommentInfo>> commentsMap =
+        getPublishedComments(result.getChangeId(), result.getCommit().name());
+
+    assertThat(commentsMap.size()).isEqualTo(1);
+    assertThat(commentsMap.get(FILE_NAME)).hasSize(1);
+
+    String targetCommentId = commentsMap.get(targetComment.path).get(0).id;
+    DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.changes().id(result.getChangeId()).current().comment(targetCommentId).delete(input);
+  }
+
+  @Test
+  public void deleteCommentByRewritingCommitHistory() throws Exception {
+    // Create change (the 1st commit on the change's meta branch).
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    Change.Id id = result.getChange().getId();
+
+    // Add two comments in patch set 1 (the 2nd commit on the change's meta branch).
+    ReviewInput reviewInput = new ReviewInput();
+    CommentInput comment1 = newComment(FILE_NAME, Side.REVISION, 0, "My password: abc123", false);
+    CommentInput comment2 = newComment(FILE_NAME, Side.REVISION, 1, "nit: long line", false);
+    reviewInput.comments = ImmutableMap.of(FILE_NAME, Lists.newArrayList(comment1, comment2));
+    reviewInput.label("Code-Review", 1);
+    gApi.changes().id(changeId).current().review(reviewInput);
+
+    // Create patch set 2 (the 3rd commit on the change's meta branch).
+    amendChange(changeId);
+
+    // Add 'comment3' in patch set 2 (the 4th commit on the change's meta branch).
+    CommentInput comment3 = addComment(changeId, "typo");
+
+    Map<String, List<CommentInfo>> commentsMap = getPublishedComments(changeId);
+    assertThat(commentsMap).hasSize(1);
+    assertThat(commentsMap.get(FILE_NAME)).hasSize(3);
+    Optional<CommentInfo> targetCommentInfo =
+        commentsMap
+            .get(FILE_NAME)
+            .stream()
+            .filter(c -> c.message.equals("My password: abc123"))
+            .findFirst();
+    assertThat(targetCommentInfo.isPresent()).isTrue();
+
+    List<RevCommit> commitsBeforeDelete = new ArrayList<>();
+    if (notesMigration.commitChangeWrites()) {
+      commitsBeforeDelete = getCommits(id);
+    }
+
+    // Delete the target comment.
+    String uuid = targetCommentInfo.get().id;
+    DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
+    setApiUser(admin);
+    gApi.changes().id(changeId).revision(result.getCommit().getName()).comment(uuid).delete(input);
+
+    String expectedMsg =
+        String.format("Comment removed by: %s; Reason: %s", admin.fullName, input.reason);
+
+    // Check the comment's message has been replaced in NoteDb.
+    if (notesMigration.commitChangeWrites()) {
+      assertCommits(commitsBeforeDelete, id, uuid, expectedMsg);
+    }
+
+    // Make sure that comments can still be added correctly.
+    CommentInput comment4 = addComment(changeId, "too much space");
+    commentsMap = getPublishedComments(changeId);
+
+    assertThat(commentsMap).hasSize(1);
+    List<CommentInput> comments =
+        Lists.transform(commentsMap.get(FILE_NAME), infoToInput(FILE_NAME));
+
+    // Change comment1's message to the expected message.
+    comment1.message = expectedMsg;
+    assertThat(comments).containsExactly(comment1, comment2, comment3, comment4);
+  }
+
+  private CommentInput addComment(String changeId, String message) throws Exception {
+    ReviewInput input = new ReviewInput();
+    CommentInput comment = newComment(FILE_NAME, Side.REVISION, 0, message, false);
+    input.comments = ImmutableMap.of(comment.path, Lists.newArrayList(comment));
+    gApi.changes().id(changeId).current().review(input);
+    return comment;
+  }
+
+  private List<RevCommit> getCommits(Change.Id changeId)
+      throws IOException, ConfigInvalidException {
+    List<RevCommit> commits = new ArrayList<>();
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk revWalk = new RevWalk(repo)) {
+      Ref metaRef = repo.findRef(RefNames.changeMetaRef(changeId));
+      revWalk.markStart(revWalk.parseCommit(metaRef.getObjectId()));
+
+      RevCommit commit;
+      while ((commit = revWalk.next()) != null) {
+        commits.add(commit);
+      }
+    }
+    return commits;
+  }
+
+  /**
+   * All the commits, which contain the target comment before, should still contain the comment with
+   * the updated message. All the other metas of the commits should be exactly the same.
+   */
+  private void assertCommits(
+      List<RevCommit> beforeDelete,
+      Change.Id changeId,
+      String targetCommentUuid,
+      String expectedMessage)
+      throws IOException, ConfigInvalidException {
+    List<RevCommit> afterDelete = getCommits(changeId);
+    assertThat(afterDelete).hasSize(beforeDelete.size());
+
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectReader reader = repo.newObjectReader()) {
+      for (int i = 0; i < beforeDelete.size(); i++) {
+        RevCommit commitBefore = beforeDelete.get(i);
+        RevCommit commitAfter = afterDelete.get(i);
+
+        Map<String, com.google.gerrit.reviewdb.client.Comment> commentMapBefore =
+            DeleteCommentRewriter.getPublishedComments(
+                noteUtil, changeId, reader, NoteMap.read(reader, commitBefore));
+        Map<String, com.google.gerrit.reviewdb.client.Comment> commentMapAfter =
+            DeleteCommentRewriter.getPublishedComments(
+                noteUtil, changeId, reader, NoteMap.read(reader, commitAfter));
+
+        if (commentMapBefore.containsKey(targetCommentUuid)) {
+          assertThat(commentMapAfter.containsKey(targetCommentUuid)).isTrue();
+          com.google.gerrit.reviewdb.client.Comment comment =
+              commentMapAfter.get(targetCommentUuid);
+          assertThat(comment.message).isEqualTo(expectedMessage);
+          comment.message = commentMapBefore.get(targetCommentUuid).message;
+          commentMapAfter.put(targetCommentUuid, comment);
+          assertThat(commentMapAfter).isEqualTo(commentMapBefore);
+        } else {
+          assertThat(commentMapAfter).doesNotContainKey(targetCommentUuid);
+        }
+
+        // Other metas should always be the same.
+        assertThat(commitAfter.getFullMessage()).isEqualTo(commitBefore.getFullMessage());
+        assertThat(commitAfter.getCommitterIdent()).isEqualTo(commitBefore.getCommitterIdent());
+        assertThat(commitAfter.getAuthorIdent()).isEqualTo(commitBefore.getAuthorIdent());
+        assertThat(commitAfter.getEncoding()).isEqualTo(commitBefore.getEncoding());
+        assertThat(commitAfter.getEncodingName()).isEqualTo(commitBefore.getEncodingName());
+      }
+    }
+  }
+
   private static String extractComments(String msg) {
     // Extract lines between start "....." and end "-- ".
     Pattern p = Pattern.compile(".*[.]{5}\n+(.*)\\n+-- \n.*", Pattern.DOTALL);
@@ -801,6 +974,10 @@ public class CommentsIT extends AbstractDaemonTest {
   private Map<String, List<CommentInfo>> getDraftComments(String changeId, String revId)
       throws Exception {
     return gApi.changes().id(changeId).revision(revId).drafts();
+  }
+
+  private Map<String, List<CommentInfo>> getPublishedComments(String changeId) throws Exception {
+    return gApi.changes().id(changeId).comments();
   }
 
   private CommentInfo getDraftComment(String changeId, String revId, String uuid) throws Exception {

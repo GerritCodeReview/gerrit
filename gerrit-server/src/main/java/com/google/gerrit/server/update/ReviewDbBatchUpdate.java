@@ -173,6 +173,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     private final RevWalk threadLocalRevWalk;
 
     private boolean deleted;
+    private boolean rewriteHistory;
     private boolean bumpLastUpdatedOn = true;
 
     protected ChangeContextImpl(
@@ -223,6 +224,11 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     @Override
     public void deleteChange() {
       deleted = true;
+    }
+
+    @Override
+    public void rewriteHistory() {
+      rewriteHistory = true;
     }
   }
 
@@ -615,6 +621,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
     NoteDbUpdateManager.StagedResult noteDbResult;
     boolean dirty;
     boolean deleted;
+    boolean rewriteNoteDbHistory;
     private String taskId;
 
     private ChangeTask(
@@ -684,7 +691,7 @@ class ReviewDbBatchUpdate extends BatchUpdate {
             updateManager = stageNoteDbUpdate(ctx, deleted);
           }
 
-          if (storage == PrimaryStorage.REVIEW_DB) {
+          if (storage == PrimaryStorage.REVIEW_DB && !rewriteNoteDbHistory) {
             // If primary storage of this change is in ReviewDb, bump
             // lastUpdatedOn or rowVersion and commit. Otherwise, don't waste
             // time updating ReviewDb at all.

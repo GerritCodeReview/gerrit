@@ -44,6 +44,7 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -401,6 +402,30 @@ public class CommentsUtil {
     }
     db.patchComments()
         .delete(toPatchLineComments(update.getId(), PatchLineComment.Status.DRAFT, comments));
+  }
+
+  public void deleteCommentByRewritingHistory(
+      ReviewDb db, ChangeUpdate update, Comment.Key commentKey, PatchSet.Id psId, String newMessage)
+      throws OrmException {
+
+    if (PrimaryStorage.of(update.getChange()).equals(PrimaryStorage.REVIEW_DB)) {
+      PatchLineComment.Key key =
+          new PatchLineComment.Key(new Patch.Key(psId, commentKey.filename), commentKey.uuid);
+      PatchLineComment patchLineComment = db.patchComments().get(key);
+
+      if (patchLineComment == null) {
+        return; // nothing to do.
+      }
+
+      if (!patchLineComment.getStatus().equals(Status.PUBLISHED)) {
+        throw new OrmException(String.format("comment %s is not published", key));
+      }
+
+      patchLineComment.setMessage(newMessage);
+      db.patchComments().upsert(Collections.singleton(patchLineComment));
+    }
+
+    update.deleteCommentByRewritingHistory(commentKey.uuid, newMessage);
   }
 
   public void deleteAllDraftsFromAllUsers(Change.Id changeId) throws IOException {

@@ -253,6 +253,9 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
     public void deleteChange() {
       deleted = true;
     }
+
+    @Override
+    public void rewriteHistory() {}
   }
 
   /** Per-change result status from {@link #executeChangeOps}. */

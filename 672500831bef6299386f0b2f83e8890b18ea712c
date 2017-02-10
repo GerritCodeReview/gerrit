@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2f7b6eb_3c252c10",
+        "filename": ".settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T09:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a3f39aa_d0e3e385",
+      "revId": "672500831bef6299386f0b2f83e8890b18ea712c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f5c7f06_b32a29ca",
         "filename": ".settings/org.eclipse.jdt.ui.prefs",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c84553c8_61ad55de",
+        "filename": ".settings/org.eclipse.jdt.ui.prefs",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T09:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f5c7f06_b32a29ca",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 26
+      },
+      "revId": "672500831bef6299386f0b2f83e8890b18ea712c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e4cb3eb_02af652e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-02-09T23:41:16Z",
       "side": 1,
       "message": "internal",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "672500831bef6299386f0b2f83e8890b18ea712c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "626f3ad7_0bc460c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T09:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e4cb3eb_02af652e",
       "range": {
         "startLine": 7,
         "startChar": 8,

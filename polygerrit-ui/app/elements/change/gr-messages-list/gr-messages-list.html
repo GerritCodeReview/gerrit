@@ -21,7 +21,8 @@ limitations under the License.
 <dom-module id="gr-messages-list">
   <template>
     <style>
-      :host {
+      :host,
+      .container {
         display: block;
       }
       .header {
@@ -30,6 +31,7 @@ limitations under the License.
         margin-bottom: .35em;
       }
       .header,
+      #oldMessagesContainer,
       gr-message {
         padding: 0 var(--default-horizontal-margin);
       }
@@ -40,10 +42,19 @@ limitations under the License.
         0% { background-color: #fff9c4; }
         100% { background-color: #fff; }
       }
+      #oldMessagesContainer {
+        align-items: center;
+        background-color: #fef;
+        display: flex;
+        justify-content: center;
+      }
+      #oldMessagesContainer gr-button {
+        padding: 0.4em;
+      }
     </style>
     <div class="header">
       <h3>Messages</h3>
-      <div>
+      <div class="container">
         <gr-button id="collapse-messages" link
             on-tap="_handleExpandCollapseTap">
           [[_computeExpandCollapseMessage(_expanded)]]
@@ -59,15 +70,26 @@ limitations under the License.
         </span>
       </div>
     </div>
+    <span
+        id="oldMessagesContainer"
+        hidden$="[[_computeShowHideTextHidden(_computedMessagesList, _visibleMessageCount)]]">
+      <gr-button id="oldMessagesBtn" link on-tap="_handleShowAllTap">
+          [[_computeShowHideText(_computedMessagesList)]]
+      </gr-button>
+      /
+      <gr-button id="incrementMessagesBtn" link
+          on-tap="_handleIncrementShownMessages">
+        [[_computeIncrementText(_computedMessagesList, _visibleMessageCount)]]
+      </gr-button>
+    </span>
     <template
         is="dom-repeat"
-        items="[[_computeItems(messages, reviewerUpdates)]]"
+        items="[[_visibleMessages]]"
         as="message">
       <gr-message
           change-num="[[changeNum]]"
           message="[[message]]"
           comments="[[_computeCommentsForMessage(comments, message)]]"
-          hide-automated="[[_hideAutomated]]"
           project-config="[[projectConfig]]"
           show-reply-button="[[showReplyButtons]]"
           on-scroll-to="_handleScrollTo"

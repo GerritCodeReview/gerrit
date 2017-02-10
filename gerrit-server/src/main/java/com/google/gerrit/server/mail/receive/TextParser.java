@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -69,7 +70,12 @@ public class TextParser {
         // This is not a comment, try to advance the file/comment pointers and
         // add previous comment to list if applicable
         if (currentComment != null) {
-          parsedComments.add(currentComment);
+          if (currentComment.type == MailComment.CommentType.CHANGE_MESSAGE) {
+            currentComment.message = ParserUtil.trimQuotation(currentComment.message);
+          }
+          if (!Strings.isNullOrEmpty(currentComment.message)) {
+            parsedComments.add(currentComment);
+          }
           currentComment = null;
         }
 

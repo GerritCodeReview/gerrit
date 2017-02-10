@@ -96,7 +96,7 @@ public class HtmlParser {
           if (lastEncounteredComment == null && lastEncounteredFileName == null) {
             // Remove quotation line, email signature and
             // "Sent from my xyz device"
-            content = ParserUtil.trimQuotationLine(content);
+            content = ParserUtil.trimQuotation(content);
             // TODO(hiesel) Add more sanitizer
             if (!Strings.isNullOrEmpty(content)) {
               parsedComments.add(

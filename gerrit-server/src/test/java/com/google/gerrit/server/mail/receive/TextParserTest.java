@@ -180,6 +180,8 @@ public class TextParserTest extends AbstractParserTest {
   private static String newPlaintextBody(
       String changeMessage, String c1, String c2, String c3, String f1, String f2, String fc1) {
     return (changeMessage == null ? "" : changeMessage + "\n")
+        + "On Thu, Feb 9, 2017 at 8:21 AM, ekempin (Gerrit)\n"
+        + "<noreply-gerritcodereview-qUgXfQecoDLHwp0MldAzig@google.com> wrote: \n"
         + "> Foo Bar has posted comments on this change. (  \n"
         + "> "
         + changeURL

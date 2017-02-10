@@ -231,8 +231,12 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public BinaryResult submitPreview(String format) throws RestApiException {
-    submitPreview.setFormat(format);
-    return submitPreview.apply(revision);
+    try {
+      submitPreview.setFormat(format);
+      return submitPreview.apply(revision);
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot submit preview", e);
+    }
   }
 
   @Override

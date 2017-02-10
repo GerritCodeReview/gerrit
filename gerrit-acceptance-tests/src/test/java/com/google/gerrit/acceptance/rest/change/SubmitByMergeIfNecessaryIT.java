@@ -171,37 +171,38 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change3.getChangeId());
 
     // get a preview before submitting:
-    BinaryResult request = submitPreview(change1b.getChangeId());
-    Map<Branch.NameKey, RevTree> preview = fetchFromBundles(request);
+    try (BinaryResult request = submitPreview(change1b.getChangeId())) {
+      Map<Branch.NameKey, RevTree> preview = fetchFromBundles(request);
 
-    submit(change1b.getChangeId());
+      submit(change1b.getChangeId());
 
-    RevCommit tip1 = getRemoteLog(p1, "master").get(0);
-    RevCommit tip2 = getRemoteLog(p2, "master").get(0);
-    RevCommit tip3 = getRemoteLog(p3, "master").get(0);
+      RevCommit tip1 = getRemoteLog(p1, "master").get(0);
+      RevCommit tip2 = getRemoteLog(p2, "master").get(0);
+      RevCommit tip3 = getRemoteLog(p3, "master").get(0);
 
-    assertThat(tip1.getShortMessage()).isEqualTo(change1b.getCommit().getShortMessage());
+      assertThat(tip1.getShortMessage()).isEqualTo(change1b.getCommit().getShortMessage());
 
-    if (isSubmitWholeTopicEnabled()) {
-      assertThat(tip2.getShortMessage()).isEqualTo(change2b.getCommit().getShortMessage());
-      assertThat(tip3.getShortMessage()).isEqualTo(change3.getCommit().getShortMessage());
+      if (isSubmitWholeTopicEnabled()) {
+        assertThat(tip2.getShortMessage()).isEqualTo(change2b.getCommit().getShortMessage());
+        assertThat(tip3.getShortMessage()).isEqualTo(change3.getCommit().getShortMessage());
 
-      // check that the preview matched what happened:
-      assertThat(preview).hasSize(3);
+        // check that the preview matched what happened:
+        assertThat(preview).hasSize(3);
 
-      assertThat(preview).containsKey(new Branch.NameKey(p1, "refs/heads/master"));
-      assertRevTrees(p1, preview);
+        assertThat(preview).containsKey(new Branch.NameKey(p1, "refs/heads/master"));
+        assertRevTrees(p1, preview);
 
-      assertThat(preview).containsKey(new Branch.NameKey(p2, "refs/heads/master"));
-      assertRevTrees(p2, preview);
+        assertThat(preview).containsKey(new Branch.NameKey(p2, "refs/heads/master"));
+        assertRevTrees(p2, preview);
 
-      assertThat(preview).containsKey(new Branch.NameKey(p3, "refs/heads/master"));
-      assertRevTrees(p3, preview);
-    } else {
-      assertThat(tip2.getShortMessage()).isEqualTo(initialHead2.getShortMessage());
-      assertThat(tip3.getShortMessage()).isEqualTo(initialHead3.getShortMessage());
-      assertThat(preview).hasSize(1);
-      assertThat(preview.get(new Branch.NameKey(p1, "refs/heads/master"))).isNotNull();
+        assertThat(preview).containsKey(new Branch.NameKey(p3, "refs/heads/master"));
+        assertRevTrees(p3, preview);
+      } else {
+        assertThat(tip2.getShortMessage()).isEqualTo(initialHead2.getShortMessage());
+        assertThat(tip3.getShortMessage()).isEqualTo(initialHead3.getShortMessage());
+        assertThat(preview).hasSize(1);
+        assertThat(preview.get(new Branch.NameKey(p1, "refs/heads/master"))).isNotNull();
+      }
     }
   }
 
@@ -270,11 +271,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
               + "and upload the rebased commit for review.";
 
       // Get a preview before submitting:
-      try {
+      try (BinaryResult r = submitPreview(change1b.getChangeId())) {
         // We cannot just use the ExpectedException infrastructure as provided
         // by AbstractDaemonTest, as then we'd stop early and not test the
         // actual submit.
-        submitPreview(change1b.getChangeId());
+
         fail("expected failure");
       } catch (RestApiException e) {
         assertThat(e.getMessage()).isEqualTo(msg);
@@ -545,22 +546,22 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change1.getChangeId());
 
     // get a preview before submitting:
-    BinaryResult request = submitPreview(change1.getChangeId(), "tgz");
+    try (BinaryResult request = submitPreview(change1.getChangeId(), "tgz")) {
+      assertThat(request.getContentType()).isEqualTo("application/x-gzip");
+      File tempfile = File.createTempFile("test", null);
+      request.writeTo(new FileOutputStream(tempfile));
 
-    assertThat(request.getContentType()).isEqualTo("application/x-gzip");
-    File tempfile = File.createTempFile("test", null);
-    request.writeTo(new FileOutputStream(tempfile));
+      InputStream is = new GZIPInputStream(new FileInputStream(tempfile));
 
-    InputStream is = new GZIPInputStream(new FileInputStream(tempfile));
-
-    List<String> untarredFiles = new ArrayList<>();
-    try (TarArchiveInputStream tarInputStream =
-        (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream("tar", is)) {
-      TarArchiveEntry entry = null;
-      while ((entry = (TarArchiveEntry) tarInputStream.getNextEntry()) != null) {
-        untarredFiles.add(entry.getName());
+      List<String> untarredFiles = new ArrayList<>();
+      try (TarArchiveInputStream tarInputStream =
+          (TarArchiveInputStream) new ArchiveStreamFactory().createArchiveInputStream("tar", is)) {
+        TarArchiveEntry entry = null;
+        while ((entry = (TarArchiveEntry) tarInputStream.getNextEntry()) != null) {
+          untarredFiles.add(entry.getName());
+        }
       }
+      assertThat(untarredFiles).containsExactly(name("project-name") + ".git");
     }
-    assertThat(untarredFiles).containsExactly(name("project-name") + ".git");
   }
 }

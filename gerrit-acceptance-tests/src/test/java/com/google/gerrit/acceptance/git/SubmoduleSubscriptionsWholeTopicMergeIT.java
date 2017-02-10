@@ -136,40 +136,41 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     gApi.changes().id(id2).current().review(ReviewInput.approve());
     gApi.changes().id(id3).current().review(ReviewInput.approve());
 
-    BinaryResult request = gApi.changes().id(id1).current().submitPreview();
-    Map<Branch.NameKey, RevTree> preview = fetchFromBundles(request);
+    try (BinaryResult request = gApi.changes().id(id1).current().submitPreview()) {
+      Map<Branch.NameKey, RevTree> preview = fetchFromBundles(request);
 
-    gApi.changes().id(id1).current().submit();
-    ObjectId subRepoId =
-        subRepo
-            .git()
-            .fetch()
-            .setRemote("origin")
-            .call()
-            .getAdvertisedRef("refs/heads/master")
-            .getObjectId();
+      gApi.changes().id(id1).current().submit();
+      ObjectId subRepoId =
+          subRepo
+              .git()
+              .fetch()
+              .setRemote("origin")
+              .call()
+              .getAdvertisedRef("refs/heads/master")
+              .getObjectId();
 
-    expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subRepoId);
+      expectToHaveSubmoduleState(superRepo, "master", "subscribed-to-project", subRepoId);
 
-    // As the submodules have changed commits, the superproject tree will be
-    // different, so we cannot directly compare the trees here, so make
-    // assumptions only about the changed branches:
-    Project.NameKey p1 = new Project.NameKey(name("super-project"));
-    Project.NameKey p2 = new Project.NameKey(name("subscribed-to-project"));
-    assertThat(preview).containsKey(new Branch.NameKey(p1, "refs/heads/master"));
-    assertThat(preview).containsKey(new Branch.NameKey(p2, "refs/heads/master"));
+      // As the submodules have changed commits, the superproject tree will be
+      // different, so we cannot directly compare the trees here, so make
+      // assumptions only about the changed branches:
+      Project.NameKey p1 = new Project.NameKey(name("super-project"));
+      Project.NameKey p2 = new Project.NameKey(name("subscribed-to-project"));
+      assertThat(preview).containsKey(new Branch.NameKey(p1, "refs/heads/master"));
+      assertThat(preview).containsKey(new Branch.NameKey(p2, "refs/heads/master"));
 
-    if ((getSubmitType() == SubmitType.CHERRY_PICK)
-        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
-      // each change is updated and the respective target branch is updated:
-      assertThat(preview).hasSize(5);
-    } else if ((getSubmitType() == SubmitType.REBASE_IF_NECESSARY)) {
-      // Either the first is used first as is, then the second and third need
-      // rebasing, or those two stay as is and the first is rebased.
-      // add in 2 master branches, expect 3 or 4:
-      assertThat(preview.size()).isAnyOf(3, 4);
-    } else {
-      assertThat(preview).hasSize(2);
+      if ((getSubmitType() == SubmitType.CHERRY_PICK)
+          || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
+        // each change is updated and the respective target branch is updated:
+        assertThat(preview).hasSize(5);
+      } else if ((getSubmitType() == SubmitType.REBASE_IF_NECESSARY)) {
+        // Either the first is used first as is, then the second and third need
+        // rebasing, or those two stay as is and the first is rebased.
+        // add in 2 master branches, expect 3 or 4:
+        assertThat(preview.size()).isAnyOf(3, 4);
+      } else {
+        assertThat(preview).hasSize(2);
+      }
     }
   }
 

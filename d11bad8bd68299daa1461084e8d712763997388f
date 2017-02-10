@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb9be356_36d244d1",
+        "filename": "polygerrit-ui/doc/gr-plugin-styling.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-10T23:22:53Z",
+      "side": 1,
+      "message": "Nit: A few typos in here.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 83
+      },
+      "revId": "d11bad8bd68299daa1461084e8d712763997388f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

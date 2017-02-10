@@ -171,9 +171,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change3.getChangeId());
 
     // get a preview before submitting:
-    BinaryResult request = submitPreview(change1b.getChangeId());
-    Map<Branch.NameKey, RevTree> preview = fetchFromBundles(request);
-
+    Map<Branch.NameKey, RevTree> preview;
+    try (BinaryResult request = submitPreview(change1b.getChangeId())) {
+      preview = fetchFromBundles(request);
+    }
     submit(change1b.getChangeId());
 
     RevCommit tip1 = getRemoteLog(p1, "master").get(0);
@@ -270,11 +271,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
               + "and upload the rebased commit for review.";
 
       // Get a preview before submitting:
-      try {
+      try (BinaryResult r = submitPreview(change1b.getChangeId())) {
         // We cannot just use the ExpectedException infrastructure as provided
         // by AbstractDaemonTest, as then we'd stop early and not test the
         // actual submit.
-        submitPreview(change1b.getChangeId());
+
         fail("expected failure");
       } catch (RestApiException e) {
         assertThat(e.getMessage()).isEqualTo(msg);
@@ -545,11 +546,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change1.getChangeId());
 
     // get a preview before submitting:
-    BinaryResult request = submitPreview(change1.getChangeId(), "tgz");
-
-    assertThat(request.getContentType()).isEqualTo("application/x-gzip");
-    File tempfile = File.createTempFile("test", null);
-    request.writeTo(new FileOutputStream(tempfile));
+    File tempfile;
+    try (BinaryResult request = submitPreview(change1.getChangeId(), "tgz")) {
+      assertThat(request.getContentType()).isEqualTo("application/x-gzip");
+      tempfile = File.createTempFile("test", null);
+      request.writeTo(new FileOutputStream(tempfile));
+    }
 
     InputStream is = new GZIPInputStream(new FileInputStream(tempfile));
 

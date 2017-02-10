@@ -136,9 +136,10 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     gApi.changes().id(id2).current().review(ReviewInput.approve());
     gApi.changes().id(id3).current().review(ReviewInput.approve());
 
-    BinaryResult request = gApi.changes().id(id1).current().submitPreview();
-    Map<Branch.NameKey, RevTree> preview = fetchFromBundles(request);
-
+    Map<Branch.NameKey, RevTree> preview;
+    try (BinaryResult request = gApi.changes().id(id1).current().submitPreview()) {
+      preview = fetchFromBundles(request);
+    }
     gApi.changes().id(id1).current().submit();
     ObjectId subRepoId =
         subRepo

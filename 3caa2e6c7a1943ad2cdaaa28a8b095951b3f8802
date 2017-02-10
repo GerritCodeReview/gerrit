@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "008a1072_9330123e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-10T07:11:40Z",
+      "side": 1,
+      "message": "This should be part of the predecessor change \"Bumpg GJF version to 1.3\"",
+      "range": {
+        "startLine": 156,
+        "startChar": 14,
+        "endLine": 156,
+        "endChar": 17
+      },
+      "revId": "3caa2e6c7a1943ad2cdaaa28a8b095951b3f8802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

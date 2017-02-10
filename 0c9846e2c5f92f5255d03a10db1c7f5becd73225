@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "4250e789_a2804bfb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 4176,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "780bd627_f54f8896",
+      "range": {
+        "startLine": 4174,
+        "startChar": 53,
+        "endLine": 4176,
+        "endChar": 28
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c75c9e3_53a3e220",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 11
@@ -65,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a9108862_687d78e9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Let\u0027s add this support when we need to delete a comment permanently.",
+      "parentUuid": "2c75c9e3_53a3e220",
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea152b82_b938a681",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 11
@@ -76,6 +118,30 @@
       "writtenOn": "2017-02-07T16:50:09Z",
       "side": 1,
       "message": "nit: this exception can never be thrown",
+      "range": {
+        "startLine": 872,
+        "startChar": 13,
+        "endLine": 872,
+        "endChar": 38
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08dc9e4f_2ecc41b6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea152b82_b938a681",
       "range": {
         "startLine": 872,
         "startChar": 13,
@@ -111,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "decc9ffa_0097fa3c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Yes. It\u0027s change message.",
+      "parentUuid": "212631f0_f4bd3f87",
+      "range": {
+        "startLine": 898,
+        "startChar": 62,
+        "endLine": 898,
+        "endChar": 69
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e5d7f0b_7008973a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 11
@@ -134,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "b2482153_40dbb024",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e5d7f0b_7008973a",
+      "range": {
+        "startLine": 901,
+        "startChar": 36,
+        "endLine": 901,
+        "endChar": 51
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3478d9dc_1d5cf738",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 11
@@ -145,6 +259,30 @@
       "writtenOn": "2017-02-07T16:50:09Z",
       "side": 1,
       "message": "expectedMsg",
+      "range": {
+        "startLine": 930,
+        "startChar": 19,
+        "endLine": 930,
+        "endChar": 28
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523e203a_7eaa8a9c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3478d9dc_1d5cf738",
       "range": {
         "startLine": 930,
         "startChar": 19,
@@ -203,6 +341,54 @@
     },
     {
       "key": {
+        "uuid": "90ccdeb3_76b603b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16e77e99_08f83fb4",
+      "range": {
+        "startLine": 931,
+        "startChar": 47,
+        "endLine": 931,
+        "endChar": 70
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "674153c8_bbb1c856",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "We will solve this when we add support to delete a comment permanently.",
+      "parentUuid": "23cedc88_b6f8e484",
+      "range": {
+        "startLine": 931,
+        "startChar": 16,
+        "endLine": 931,
+        "endChar": 45
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61b2a2aa_e86585a6",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/DeleteCommentInput.java",
         "patchSetId": 11
@@ -214,6 +400,30 @@
       "writtenOn": "2017-02-07T16:50:09Z",
       "side": 1,
       "message": "I\u0027m not really happy with this option name.\n\nSince the likely user expectation from a Delete Comment REST endpoint is that the comment gets deleted, I would rather invert this option, and maybe name it \"replaceTextOnly\".",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 30
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10c90b15_781cc30c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/DeleteCommentInput.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61b2a2aa_e86585a6",
       "range": {
         "startLine": 27,
         "startChar": 17,
@@ -295,6 +505,54 @@
     },
     {
       "key": {
+        "uuid": "a43748e6_ad575145",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7289d81_64c5b386",
+      "range": {
+        "startLine": 65,
+        "startChar": 50,
+        "endLine": 65,
+        "endChar": 61
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f45820cf_08c9d29e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "436487eb_3b3fec5f",
+      "range": {
+        "startLine": 65,
+        "startChar": 33,
+        "endLine": 65,
+        "endChar": 39
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18bc220e_cc2e0c8d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 11
@@ -306,6 +564,30 @@
       "writtenOn": "2017-02-07T16:50:09Z",
       "side": 1,
       "message": "nit: this exception can never be thrown",
+      "range": {
+        "startLine": 88,
+        "startChar": 38,
+        "endLine": 88,
+        "endChar": 49
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ff9ae5e_555f6a56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18bc220e_cc2e0c8d",
       "range": {
         "startLine": 88,
         "startChar": 38,
@@ -341,6 +623,30 @@
     },
     {
       "key": {
+        "uuid": "be0856f7_485553c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "212a0ddb_efeffb1a",
+      "range": {
+        "startLine": 94,
+        "startChar": 18,
+        "endLine": 95,
+        "endChar": 35
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6135034c_f44bd8e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 11
@@ -352,6 +658,30 @@
       "writtenOn": "2017-02-07T16:50:09Z",
       "side": 1,
       "message": "This is an exception on REST API level and it defines the HTTP response code to the client. I think we shouldn\u0027t use it in such a low level class that has nothing to do with REST and client communication.",
+      "range": {
+        "startLine": 105,
+        "startChar": 18,
+        "endLine": 105,
+        "endChar": 43
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4709f393_9979e671",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Moved this and another one to DeleteComment.",
+      "parentUuid": "6135034c_f44bd8e3",
       "range": {
         "startLine": 105,
         "startChar": 18,
@@ -387,6 +717,30 @@
     },
     {
       "key": {
+        "uuid": "fe8ca8c2_036c7b88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "What do you mean for this?",
+      "parentUuid": "685bb0f8_2aeb110e",
+      "range": {
+        "startLine": 112,
+        "startChar": 54,
+        "endLine": 113,
+        "endChar": 62
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a491733_56df016b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 11
@@ -398,6 +752,30 @@
       "writtenOn": "2017-02-07T16:50:09Z",
       "side": 1,
       "message": "nit: this argument is missing in the JavaDoc",
+      "range": {
+        "startLine": 210,
+        "startChar": 34,
+        "endLine": 210,
+        "endChar": 49
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44510925_f90c1fcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a491733_56df016b",
       "range": {
         "startLine": 210,
         "startChar": 34,
@@ -433,6 +811,30 @@
     },
     {
       "key": {
+        "uuid": "c6c5cede_4cdbe1bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Leave to latter change.",
+      "parentUuid": "7151d1f7_dc1ea1fe",
+      "range": {
+        "startLine": 232,
+        "startChar": 28,
+        "endLine": 233,
+        "endChar": 34
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68b03956_664e9ced",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 11
@@ -444,6 +846,30 @@
       "writtenOn": "2017-02-07T16:50:09Z",
       "side": 1,
       "message": "I think this will not work if it had more than 1 comment, because then the text will be \"(N comments)\" (not \"(N comment)\").",
+      "range": {
+        "startLine": 237,
+        "startChar": 36,
+        "endLine": 237,
+        "endChar": 65
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4af922eb_8788f89b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Hmm.Let\u0027s consider this latter.",
+      "parentUuid": "68b03956_664e9ced",
       "range": {
         "startLine": 237,
         "startChar": 36,
@@ -479,6 +905,30 @@
     },
     {
       "key": {
+        "uuid": "426cad61_7397708d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40695242_01d30ef6",
+      "range": {
+        "startLine": 323,
+        "startChar": 27,
+        "endLine": 323,
+        "endChar": 33
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "471e91c6_c4023e45",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
         "patchSetId": 11
@@ -490,6 +940,30 @@
       "writtenOn": "2017-02-07T16:50:09Z",
       "side": 1,
       "message": "better: unexpected that comment %s was removed by commit %s",
+      "range": {
+        "startLine": 343,
+        "startChar": 54,
+        "endLine": 344,
+        "endChar": 51
+      },
+      "revId": "0c9846e2c5f92f5255d03a10db1c7f5becd73225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28c8c7da_0e8c68c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T15:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "471e91c6_c4023e45",
       "range": {
         "startLine": 343,
         "startChar": 54,

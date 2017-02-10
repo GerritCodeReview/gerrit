@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8f65378_50470ad1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-10T10:34:15Z",
+      "side": 1,
+      "message": "comments",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "4d2bf866e08a00e80a494e677b47317b108ad710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18faaf19_af979d6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-10T10:34:15Z",
+      "side": 1,
+      "message": "1. replaceAll does regex compilation and matching which is not necessary for a single character replacement. This is also why a double backslash was needed in this case.\n\nUse the String.replace(char, char)?\n\n2. According to the Google Java Style Guide [1] it seems preferable to use single quotes in this case:\n\n  \u0027\\u00a0\u0027\n\n3. Seems like the comment explaining the non-printable char has to be in the same line, but I am not sure about that. \n\n[1] https://google.github.io/styleguide/javaguide.html#s2.3.3-non-ascii-characters",
+      "revId": "4d2bf866e08a00e80a494e677b47317b108ad710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -244,7 +244,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         batchUpdateFactory.create(
             db.get(), revision.getChange().getProject(), revision.getUser(), ts)) {
       Account.Id id = bu.getUser().getAccountId();
-      boolean ccOrReviewer = input.labels != null && !input.labels.isEmpty();
+      boolean ccOrReviewer = false;
+      if (input.labels != null && !input.labels.isEmpty()) {
+        ccOrReviewer = input.labels.values().stream().filter(v -> v != 0).findFirst().isPresent();
+      }
 
       if (!ccOrReviewer) {
         // Check if user was already CCed or reviewing prior to this review.

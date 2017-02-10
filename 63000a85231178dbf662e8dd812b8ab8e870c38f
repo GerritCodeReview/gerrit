@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86259ef8_d2eeb66f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-10T08:57:48Z",
+      "side": 1,
+      "message": "nit: don\u0027t we typically use all lowercase for anchor names?",
+      "range": {
+        "startLine": 147,
+        "startChar": 2,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "63000a85231178dbf662e8dd812b8ab8e870c38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10b9921c_1da0bd55",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-10T08:57:48Z",
+      "side": 1,
+      "message": "within",
+      "range": {
+        "startLine": 54,
+        "startChar": 15,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "63000a85231178dbf662e8dd812b8ab8e870c38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

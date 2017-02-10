@@ -21,12 +21,13 @@
  * related to a user submitting a new patchset for a change.
  * @param change
  * @param email
+ * @param fromEmail
  * @param fromName
  * @param patchSet
  * @param projectName
  */
 {template .ReplacePatchSet autoescape="strict" kind="text"}
-  {if $email.reviewerNames}
+  {if $email.reviewerNames and $fromEmail == $change.ownerEmail}
     Hello{sp}
     {foreach $reviewerName in $email.reviewerNames}
       {$reviewerName},{sp}
@@ -43,8 +44,11 @@
       to look at the new patch set (#{$patchSet.patchSetId}).
     {/if}
   {else}
-    {$fromName} has uploaded a new patch set (#{$patchSet.patchSetId}).
-    {if $email.changeUrl} ( {$email.changeUrl}{/if}
+    {$fromName} has uploaded a new patch set (#{$patchSet.patchSetId})
+    {if $fromEmail != $change.ownerEmail}
+      {sp}to the change originally created by {$change.ownerName}
+    {/if}.
+    {if $email.changeUrl} ( {$email.changeUrl} ){/if}
   {/if}{\n}
   {\n}
   Change subject: {$change.subject}{\n}

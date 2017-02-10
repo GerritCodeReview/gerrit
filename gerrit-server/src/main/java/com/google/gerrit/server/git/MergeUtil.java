@@ -304,9 +304,9 @@ public class MergeUtil {
    * <p>This adds the following footers if they are missing:
    *
    * <ul>
-   *   <li> Reviewed-on: <i>url</i>
-   *   <li> Reviewed-by | Tested-by | <i>Other-Label-Name</i>: <i>reviewer</i>
-   *   <li> Change-Id
+   *   <li>Reviewed-on: <i>url</i>
+   *   <li>Reviewed-by | Tested-by | <i>Other-Label-Name</i>: <i>reviewer</i>
+   *   <li>Change-Id
    * </ul>
    *
    * @param n

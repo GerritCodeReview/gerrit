@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ce52d3d0_63fb22fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-10T13:10:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b3f4c1a_ba1f05e2",
+      "range": {
+        "startLine": 1281,
+        "startChar": 56,
+        "endLine": 1281,
+        "endChar": 59
+      },
+      "revId": "eda309404934e266265a5dc65653cf1fbaf82b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18214f71_4df75ac8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2017-02-10T13:06:09Z",
       "side": 1,
       "message": "Make this ImmutableSet (or probably better yet ImmutableSortedSet) so it\u0027s clear that this object is immutable.",
+      "range": {
+        "startLine": 1287,
+        "startChar": 20,
+        "endLine": 1287,
+        "endChar": 23
+      },
+      "revId": "eda309404934e266265a5dc65653cf1fbaf82b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "241a165b_3c4cf567",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-10T13:10:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18214f71_4df75ac8",
       "range": {
         "startLine": 1287,
         "startChar": 20,

@@ -125,6 +125,8 @@ public class Module extends RestApiModule {
 
     child(REVISION_KIND, "comments").to(Comments.class);
     get(COMMENT_KIND).to(GetComment.class);
+    delete(COMMENT_KIND).to(DeleteComment.class);
+    post(COMMENT_KIND, "delete").to(DeleteComment.class);
 
     child(REVISION_KIND, "robotcomments").to(RobotComments.class);
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);

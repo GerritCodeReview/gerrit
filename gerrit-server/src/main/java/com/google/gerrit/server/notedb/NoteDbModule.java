@@ -46,6 +46,7 @@ public class NoteDbModule extends FactoryModule {
 
   @Override
   public void configure() {
+    factory(ChangeCommentUpdate.Factory.class);
     factory(ChangeUpdate.Factory.class);
     factory(ChangeDraftUpdate.Factory.class);
     factory(DraftCommentNotes.Factory.class);

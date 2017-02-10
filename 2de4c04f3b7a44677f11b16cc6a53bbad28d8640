@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "668959b1_dd955eed",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T17:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "448474fd_49bd186c",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 425,
+        "endChar": 15
+      },
+      "revId": "2de4c04f3b7a44677f11b16cc6a53bbad28d8640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "84ba710a_4861d433",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsUnresolvedPredicate.java",
         "patchSetId": 21
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "166f17aa_fa4c13ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsUnresolvedPredicate.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T17:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84ba710a_4861d433",
+      "revId": "2de4c04f3b7a44677f11b16cc6a53bbad28d8640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19294f11_3bc47eba",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 21
@@ -53,6 +95,24 @@
       "writtenOn": "2017-02-10T16:46:05Z",
       "side": 1,
       "message": "Add cd.unresolvedCommentCount() here. This ensures that the field is populated from the index in search results and doesn\u0027t incur a read from the database.",
+      "revId": "2de4c04f3b7a44677f11b16cc6a53bbad28d8640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42440bd_cf5f838b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T17:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19294f11_3bc47eba",
       "revId": "2de4c04f3b7a44677f11b16cc6a53bbad28d8640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

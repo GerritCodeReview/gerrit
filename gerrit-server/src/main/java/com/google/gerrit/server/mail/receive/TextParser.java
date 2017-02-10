@@ -64,6 +64,10 @@ public class TextParser {
     String lastEncounteredFileName = null;
     Comment lastEncounteredComment = null;
     for (String line : lines) {
+      if (line.equals(">")) {
+        // Skip empty lines
+        continue;
+      }
       if (line.startsWith("> ")) {
         line = line.substring("> ".length()).trim();
         // This is not a comment, try to advance the file/comment pointers and

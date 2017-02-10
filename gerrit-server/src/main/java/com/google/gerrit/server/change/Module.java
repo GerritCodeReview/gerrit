@@ -89,10 +89,6 @@ public class Module extends RestApiModule {
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);
     put(CHANGE_KIND, "ignore").to(Ignore.class);
     put(CHANGE_KIND, "unignore").to(Unignore.class);
-    put(CHANGE_KIND, "mute").to(Mute.class);
-    put(CHANGE_KIND, "unmute").to(Unmute.class);
-    post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
-    post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
@@ -136,6 +132,8 @@ public class Module extends RestApiModule {
 
     child(REVISION_KIND, "comments").to(Comments.class);
     get(COMMENT_KIND).to(GetComment.class);
+    delete(COMMENT_KIND).to(DeleteComment.class);
+    post(COMMENT_KIND, "delete").to(DeleteComment.class);
 
     child(REVISION_KIND, "robotcomments").to(RobotComments.class);
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);

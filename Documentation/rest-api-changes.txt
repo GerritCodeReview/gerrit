@@ -2107,62 +2107,6 @@ Only the change owner, a project owner, or an administrator may fix changes.
   }
 ----
 
-[[set-work-in-pogress]]
-== Set Work-In-Progress
---
-'POST /changes/link:#change-id[\{change-id\}]/wip'
---
-
-Marks the change as not ready for review yet.
-
-The request body does not need to include a
-link:#work-in-progress-input[WorkInProgressInput] entity if no review comment
-is added. Actions that create a new patch set in a WIP change default to
-notifying *OWNER* instead of *ALL*.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/wip HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "message": "Refactoring needs to be done before we can proceed here."
-  }
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-----
-
-[[set-ready-for-review]]
-== Set Ready-For-Review
---
-'POST /changes/link:#change-id[\{change-id\}]/ready'
---
-
-Marks the change as ready for review (set WIP property to false).
-
-Activates notifications of reviewer. The request body does not need
-to include a link:#work-in-progress-input[WorkInProgressInput] entity
-if no review comment is added.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/ready HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
-
-  {
-    "message": "Refactoring is done."
-  }
-
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-----
-
 [[mark-private]]
 === Mark Private
 --
@@ -2229,40 +2173,6 @@ Un-marks a change as ignored.
 .Request
 ----
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unignore HTTP/1.0
-----
-
-[[mute]]
-=== Mute
---
-'PUT /changes/link:#change-id[\{change-id\}]/mute'
---
-
-Marks a change as muted.
-
-This allows users to "de-highlight" changes in their dashboard until a new
-patch set is uploaded.
-
-This differs from the link:#ignore[ignore] endpoint, which will mute
-emails and hide the change from dashboard completely until it is
-link:#unignore[unignored] again.
-
-
-.Request
-----
-  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/mute HTTP/1.0
-----
-
-[[unmute]]
-=== Unmute
---
-'PUT /changes/link:#change-id[\{change-id\}]/unmute'
---
-
-Unmutes a change.
-
-.Request
-----
-  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/unmute HTTP/1.0
 ----
 
 [[edit-endpoints]]
@@ -4394,6 +4304,40 @@ describes the published comment.
   }
 ----
 
+[[delete-comment]]
+=== Delete Comment
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]' +
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]/delete'
+--
+
+Deletes a published comment of a revision. Instead of deleting the whole comment, this endpoint just
+replaces the comment's message with a new message, which contains the name of the user who deletes
+the comment and the reason why it's deleted. The reason can be provided in the request body as a
+link:#delete-comment-input[DeleteCommentInput] entity.
+
+Note that only users with the
+link:access-control.html#capability_administrateServer[Administrate Server] global capability are
+permitted to delete a comment.
+
+Please note that some proxies prohibit request bodies for DELETE requests. In this case, if you want
+to specify options, use a POST request:
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/comments/TvcXrmjM/delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "reason": "contains confidential information"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[list-robot-comments]]
 === List Robot Comments
 --
@@ -5441,8 +5385,6 @@ A list of star labels that are applied by the calling user to this
 change. The labels are lexicographically sorted.
 |`reviewed`           |not set if `false`|
 Whether the change was reviewed by the calling user.
-|`muted`              |not set if `false`|
-Whether the change has been link:#mute[muted] by the calling user.
 Only set if link:#reviewed[reviewed] is requested.
 |`submit_type`        |optional|
 The link:project-configuration.html#submit_type[submit type] of the change. +
@@ -5516,8 +5458,6 @@ A list of link:#problem-info[ProblemInfo] entities describing potential
 problems with this change. Only set if link:#check[CHECK] is set.
 |`is_private`         |optional, not set if `false`|
 When present, change is marked as private.
-|`work_in_progress`   |optional, not set if `false`|
-When present, change is marked as Work In Progress.
 |==================================
 
 [[change-input]]
@@ -5729,6 +5669,20 @@ The subject of the commit (header line of the commit message).
 Links to the commit in external sites as a list of
 link:#web-link-info[WebLinkInfo] entities.
 |===========================
+
+[[delete-comment-input]]
+=== DeleteCommentInput
+The `DeleteCommentInput` entity contains the option for deleting a comment.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name               ||Description
+|`reason`                 |optional|
+The reason why the comment should be deleted. +
+If set, the comment's message will be replaced with
+"Comment removed by: `name`; Reason: `reason`",
+or just "Comment removed by: `name`." if not set.
+|=============================
 
 [[delete-reviewer-input]]
 === DeleteReviewerInput
@@ -6778,18 +6732,6 @@ The `WebLinkInfo` entity describes a link to an external site.
 |`url`     |The link URL.
 |`image_url`|URL to the icon of the link.
 |======================
-
-[[work-in-progress-input]]
-=== WorkInProgressInput
-The `WorkInProgressInput` entity contains additional information for a change
-set to WorkInProgress/ReadyForReview.
-
-[options="header",cols="1,^1,5"]
-|=============================
-|Field Name      ||Description
-|`message`       |optional|
-Message to be added as a review comment to the change being set WorkInProgress/ReadyForReview.
-|=============================
 
 GERRIT
 ------

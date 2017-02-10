@@ -16,6 +16,24 @@
       "revId": "69a394df1ab88e192eadc17a47791f5674b1dd30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34c7eca9_e4802849",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooter.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-10T19:21:06Z",
+      "side": 1,
+      "message": "I have added the same information to the GWT settings in a similar style as the SSH key help blurb.",
+      "parentUuid": "6d05c749_50c7cc34",
+      "revId": "69a394df1ab88e192eadc17a47791f5674b1dd30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

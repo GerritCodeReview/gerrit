@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1486763517 -0500\nnonce AFJA6ofF3A1Jk1O5ocJps5VuBO/300aRZVdKIi+HAHn2b4Z/IU3SwuhiFBOnm5LAq32McmjBNfd1\n\n0000000000000000000000000000000000000000 a743024ae03ddc055442e0f645bc4b06215d6feb refs/for/master%r\u003dlogan,r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYnjX9AAoJEF/XxZqaEoiM/D8QAMojBM6LjUGpuaUfhlUDzgUO\nq+PlV8zhjv8cr8U01BLfiB8PxJ6NxMGFpm3tBLU2RWyMORLk9hw+ZRMTEmK92n6v\nXMBR1X2tcTpWqflpVVi65EyZxv12sf3y04J5hdjPjmV6ZX3ElnGhUWeXoHyQiVxY\nQh7N6xXPwXTN4kjVR9zomupGwH8ElkWADP1Lf/El+IoliNOU2TGkVwkUfgcHW5gq\niXjXjqMbV/dO1GLwC5SXYyS2F7BgS45j/F1d2Ey0Hg8zz0et/R5w0/E8AuEmmGl7\njJhpGi1+t6orwkYKMSMFxcis98N1DxdGvtI2lF1kaAqCmF1OLiE6NRMzTPCa9Okk\nQtDSw1Foh9VyzMKhlfDngP9HXXjurqSQHKB1T4eWQlQyV2ZIpBizA47LUeeJ0tKq\nC48Fy6YHdYcr5G3leKMjiRZPB+nOs+rxRRO9BWS4cJWBV/Uw3KPsoAbxntupkkh/\nrnYkIJdacp3QrF3ybJTpIql3K6oXqqg41i+RCXnR1wrw08+V0Rujg+neRKAr5wxp\nP3Nz09YOBWVNIu7xmjkpUlUMJoP/SmW2IC4y8oATULu5JJvLFVw+AG6zVNXQEErQ\ndRiKD88A6pCjgouJepUw6gCgWZG85VYRzb0VCfvV1RLM+tt/zMblme01iWwZcj0y\neED8sBQL86vOsfCW+HnT\n\u003dldo+\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "63358e0c_784f453a",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T22:08:45Z",
+      "side": 1,
+      "message": "Can you add a comment in the commit message why it\u0027s needed?",
+      "range": {
+        "startLine": 708,
+        "startChar": 12,
+        "endLine": 708,
+        "endChar": 33
+      },
+      "revId": "a743024ae03ddc055442e0f645bc4b06215d6feb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "704229f3_c397c5ab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T22:08:45Z",
+      "side": 1,
+      "message": "This is the only difference GwtStyle from PgStyle? Has this test something to do with: https://gerrit-review.googlesource.com/93499?",
+      "range": {
+        "startLine": 980,
+        "startChar": 4,
+        "endLine": 980,
+        "endChar": 58
+      },
+      "revId": "a743024ae03ddc055442e0f645bc4b06215d6feb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

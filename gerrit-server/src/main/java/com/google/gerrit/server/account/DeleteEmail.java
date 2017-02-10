@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -31,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Set;
 
 @Singleton
 public class DeleteEmail implements RestModifyView<AccountResource.Email, Input> {
@@ -69,13 +72,26 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
-    AccountExternalId.Key key = new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
-    AccountExternalId extId = dbProvider.get().accountExternalIds().get(key);
-    if (extId == null) {
+
+    Set<AccountExternalId> extIds =
+        dbProvider
+            .get()
+            .accountExternalIds()
+            .byAccount(user.getAccountId())
+            .toList()
+            .stream()
+            .filter(e -> email.equals(e.getEmailAddress()))
+            .collect(toSet());
+    if (extIds.isEmpty()) {
       throw new ResourceNotFoundException(email);
     }
+
     try {
-      accountManager.unlink(user.getAccountId(), AuthRequest.forEmail(email));
+      for (AccountExternalId extId : extIds) {
+        AuthRequest authRequest = new AuthRequest(extId.getKey().get());
+        authRequest.setEmailAddress(email);
+        accountManager.unlink(user.getAccountId(), authRequest);
+      }
     } catch (AccountException e) {
       throw new ResourceConflictException(e.getMessage());
     }

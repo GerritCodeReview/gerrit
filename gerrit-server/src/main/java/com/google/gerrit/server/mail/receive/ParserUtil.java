@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.gerrit.reviewdb.client.Comment;
+import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
 public class ParserUtil {
@@ -24,39 +25,44 @@ public class ParserUtil {
               + "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})");
 
   /**
-   * Trims the quotation line that email clients add Example: On Sun, Nov 20, 2016 at 10:33 PM,
-   * <gerrit@hiesel.it> wrote:
+   * Trims the quotation that email clients add Example: On Sun, Nov 20, 2016 at 10:33 PM,
+   * <gerrit@gerritcodereview.com> wrote:
    *
    * @param comment Comment parsed from an email.
    * @return Trimmed comment.
    */
-  public static String trimQuotationLine(String comment) {
-    // Identifying the quotation line is hard, as it can be in any language.
-    // We identify this line by it's characteristics: It usually contains a
-    // valid email address, some digits for the date in groups of 1-4 in a row
-    // as well as some characters.
-    StringBuilder b = new StringBuilder();
-    for (String line : comment.split("\n")) {
-      // Count occurrences of digit groups
-      int numConsecutiveDigits = 0;
-      int maxConsecutiveDigits = 0;
-      int numDigitGroups = 0;
-      for (char c : line.toCharArray()) {
-        if (c >= '0' && c <= '9') {
-          numConsecutiveDigits++;
-        } else if (numConsecutiveDigits > 0) {
-          maxConsecutiveDigits = Integer.max(maxConsecutiveDigits, numConsecutiveDigits);
-          numConsecutiveDigits = 0;
-          numDigitGroups++;
-        }
+  public static String trimQuotation(String comment) {
+    StringJoiner j = new StringJoiner("\n");
+    String[] lines = comment.split("\n");
+    for (int i = 0; i < lines.length - 2; i++) {
+      j.add(lines[i]);
+    }
+
+    // Check if the last line contains the full quotation pattern (date + email)
+    String lastLine = lines[lines.length - 1];
+    if (containsQuotationPattern(lastLine)) {
+      if (lines.length > 1) {
+        j.add(lines[lines.length - 2]);
       }
-      if (numDigitGroups < 4
-          || maxConsecutiveDigits > 4
-          || !SIMPLE_EMAIL_PATTERN.matcher(line).find()) {
-        b.append(line);
+      return j.toString().trim();
+    }
+
+    // Check if the second last line + the last line contain the full quotation pattern. This is
+    // necessary, as the quotation line can be split across the last two lines if it gets too long.
+    if (lines.length > 1) {
+      String lastLines = lines[lines.length - 2] + lastLine;
+      if (containsQuotationPattern(lastLines)) {
+        return j.toString().trim();
       }
     }
-    return b.toString().trim();
+
+    // Add the last two lines
+    if (lines.length > 1) {
+      j.add(lines[lines.length - 2]);
+    }
+    j.add(lines[lines.length - 1]);
+
+    return j.toString().trim();
   }
 
   /** Check if string is an inline comment url on a patch set or the base */
@@ -68,5 +74,32 @@ public class ParserUtil {
   /** Generate the fully qualified filepath */
   public static String filePath(String changeUrl, Comment comment) {
     return changeUrl + "/" + comment.key.patchSetId + "/" + comment.key.filename;
+  }
+
+  private static boolean containsQuotationPattern(String s) {
+    // Identifying the quotation line is hard, as it can be in any language.
+    // We identify this line by it's characteristics: It usually contains a
+    // valid email address, some digits for the date in groups of 1-4 in a row
+    // as well as some characters.
+
+    // Count occurrences of digit groups
+    int numConsecutiveDigits = 0;
+    int maxConsecutiveDigits = 0;
+    int numDigitGroups = 0;
+    for (char c : s.toCharArray()) {
+      if (c >= '0' && c <= '9') {
+        numConsecutiveDigits++;
+      } else if (numConsecutiveDigits > 0) {
+        maxConsecutiveDigits = Integer.max(maxConsecutiveDigits, numConsecutiveDigits);
+        numConsecutiveDigits = 0;
+        numDigitGroups++;
+      }
+    }
+    if (numDigitGroups < 4 || maxConsecutiveDigits > 4) {
+      return false;
+    }
+
+    // Check if the string contains an email address
+    return SIMPLE_EMAIL_PATTERN.matcher(s).find();
   }
 }

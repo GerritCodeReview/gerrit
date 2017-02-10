@@ -28,6 +28,10 @@ limitations under the License.
         margin-bottom: 1px;
         white-space: normal;
       }
+      .actions {
+        border-top: 1px dotted #bbb;
+        padding: .5em .7em;
+      }
       #container {
         background-color: #fcfad6;
       }
@@ -36,21 +40,31 @@ limitations under the License.
       }
     </style>
     <div id="container" class$="[[_computeHostClass(_unresolved)]]">
-      <template id="commentList" is="dom-repeat" items="[[_orderedComments]]" as="comment">
+      <template id="commentList" is="dom-repeat" items="[[_orderedComments]]"
+          as="comment">
         <gr-diff-comment
             comment="{{comment}}"
+            robot-button-disabled="[[_hideActions(_showActions, _lastComment)]]"
             change-num="[[changeNum]]"
             patch-num="[[patchNum]]"
             draft="[[comment.__draft]]"
             show-actions="[[_showActions]]"
             comment-side="[[comment.__commentSide]]"
             project-config="[[projectConfig]]"
-            on-comment-discard="_handleCommentDiscard"
-            on-create-ack-comment="_handleCommentAck"
-            on-create-done-comment="_handleCommentDone"
             on-create-fix-comment="_handleCommentFix"
-            on-create-reply-comment="_handleCommentReply"></gr-diff-comment>
+            on-comment-discard="_handleCommentDiscard"></gr-diff-comment>
       </template>
+      <div class="actions"
+          hidden$="[[_hideActions(_showActions, _lastComment)]]">
+        <gr-button id="replyBtn" class="action reply"
+            on-tap="_handleCommentReply">Reply</gr-button>
+        <gr-button id="quoteBtn" class="action quote"
+            on-tap="_handleCommentQuote">Quote</gr-button>
+        <gr-button id="ackBtn" class="action ack" on-tap="_handleCommentAck">
+          Ack</gr-button>
+        <gr-button id="doneBtn" class="action done" on-tap="_handleCommentDone">
+          Done</gr-button>
+      </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>

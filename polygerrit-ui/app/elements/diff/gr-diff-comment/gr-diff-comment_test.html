@@ -98,37 +98,6 @@ limitations under the License.
           'header middle content is not visible');
     });
 
-    test('proper event fires on reply', function(done) {
-      element.addEventListener('create-reply-comment', function(e) {
-        assert.ok(e.detail.comment);
-        done();
-      });
-      MockInteractions.tap(element.$$('.reply'));
-    });
-
-    test('proper event fires on quote', function(done) {
-      element.addEventListener('create-reply-comment', function(e) {
-        assert.ok(e.detail.comment);
-        assert.isTrue(e.detail.quote);
-        done();
-      });
-      MockInteractions.tap(element.$$('.quote'));
-    });
-
-    test('proper event fires on ack', function(done) {
-      element.addEventListener('create-ack-comment', function(e) {
-        done();
-      });
-      MockInteractions.tap(element.$$('.ack'));
-    });
-
-    test('proper event fires on done', function(done) {
-      element.addEventListener('create-done-comment', function(e) {
-        done();
-      });
-      MockInteractions.tap(element.$$('.done'));
-    });
-
     test('clicking on date link does not trigger nav', function() {
       var showStub = sinon.stub(page, 'show');
       var dateEl = element.$$('.date');
@@ -286,10 +255,6 @@ limitations under the License.
       assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
       assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
-      assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
-      assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
-      assert.isFalse(isVisible(element.$$('.ack')), 'ack is not visible');
-      assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
       assert.isFalse(isVisible(element.$$('.resolve')),
           'resolve is not visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
@@ -300,10 +265,6 @@ limitations under the License.
       assert.isTrue(isVisible(element.$$('.discard')), 'discard is visible');
       assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is visible');
-      assert.isFalse(isVisible(element.$$('.reply')), 'reply is not visible');
-      assert.isFalse(isVisible(element.$$('.quote')), 'quote is not visible');
-      assert.isFalse(isVisible(element.$$('.ack')), 'ack is not visible');
-      assert.isFalse(isVisible(element.$$('.done')), 'done is not visible');
       assert.isTrue(isVisible(element.$$('.resolve')), 'resolve is visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
@@ -315,10 +276,6 @@ limitations under the License.
           'discard is not visible');
       assert.isFalse(isVisible(element.$$('.save')), 'save is not visible');
       assert.isFalse(isVisible(element.$$('.cancel')), 'cancel is not visible');
-      assert.isTrue(isVisible(element.$$('.reply')), 'reply is visible');
-      assert.isTrue(isVisible(element.$$('.quote')), 'quote is visible');
-      assert.isTrue(isVisible(element.$$('.ack')), 'ack is visible');
-      assert.isTrue(isVisible(element.$$('.done')), 'done is visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 

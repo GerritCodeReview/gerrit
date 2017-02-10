@@ -42,7 +42,7 @@ public class EmailIT extends AbstractDaemonTest {
     String email = "foo.bar2@example.com";
     assertThat(getEmails()).doesNotContain(email);
 
-    createEmail(email.replaceAll("@", "%40"));
+    createEmail(email.replace("@", "%40"));
     assertThat(getEmails()).contains(email);
   }
 
@@ -67,8 +67,7 @@ public class EmailIT extends AbstractDaemonTest {
     createEmail(email);
     assertThat(getEmails()).contains(email);
 
-    RestResponse r =
-        adminRestSession.delete("/accounts/self/emails/" + email.replaceAll("@", "%40"));
+    RestResponse r = adminRestSession.delete("/accounts/self/emails/" + email.replace("@", "%40"));
     r.assertNoContent();
     assertThat(getEmails()).doesNotContain(email);
   }

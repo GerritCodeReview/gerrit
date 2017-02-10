@@ -696,6 +696,16 @@ public abstract class AbstractDaemonTest {
         identifiedUserFactory.create(account.getId()));
   }
 
+  /**
+   * Enforce a new request context for the current API user.
+   *
+   * <p>This recreates the IdentifiedUser, hence everything which is cached in the IdentifiedUser is
+   * reloaded (e.g. the email addresses of the user).
+   */
+  protected Context resetCurrentApiUser() {
+    return atrScope.set(newRequestContext(atrScope.get().getSession().getAccount()));
+  }
+
   protected Context setApiUser(TestAccount account) {
     return atrScope.set(newRequestContext(account));
   }

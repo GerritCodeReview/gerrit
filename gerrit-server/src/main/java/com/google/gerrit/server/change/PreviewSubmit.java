@@ -40,7 +40,8 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -110,8 +111,8 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     }
   }
 
-  private BinaryResult getBundles(RevisionResource rsrc, final ArchiveFormat f)
-      throws OrmException, RestApiException {
+  private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
+      throws OrmException, RestApiException, IOException {
     ReviewDb db = dbProvider.get();
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = control.getUser().asIdentifiedUser();
@@ -120,42 +121,45 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     BinaryResult bin;
     try (MergeOp op = mergeOpProvider.get()) {
       op.merge(db, change, caller, false, new SubmitInput(), true);
-      final MergeOpRepoManager orm = op.getMergeOpRepoManager();
-      final Set<Project.NameKey> projects = op.getAllProjects();
+      MergeOpRepoManager orm = op.getMergeOpRepoManager();
+      Map<Project.NameKey, LimitedByteArrayOutputStream> bundles = new HashMap<>();
+
+      for (Project.NameKey p : op.getAllProjects()) {
+        OpenRepo or = orm.getRepo(p);
+        BundleWriter bw = new BundleWriter(or.getRepo());
+        bw.setObjectCountCallback(null);
+        bw.setPackConfig(null);
+        Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
+        for (ReceiveCommand r : refs) {
+          bw.include(r.getRefName(), r.getNewId());
+          ObjectId oldId = r.getOldId();
+          if (!oldId.equals(ObjectId.zeroId())) {
+            bw.assume(or.getCodeReviewRevWalk().parseCommit(oldId));
+          }
+        }
+        LimitedByteArrayOutputStream bos =
+            new LimitedByteArrayOutputStream(maxBundleSize, 1024);
+        bw.writeBundle(NullProgressMonitor.INSTANCE, bos);
+        bundles.put(p, bos);
+      }
 
       bin =
           new BinaryResult() {
             @Override
             public void writeTo(OutputStream out) throws IOException {
               try (ArchiveOutputStream aos = f.createArchiveOutputStream(out)) {
-                for (Project.NameKey p : projects) {
-                  OpenRepo or = orm.getRepo(p);
-                  BundleWriter bw = new BundleWriter(or.getRepo());
-                  bw.setObjectCountCallback(null);
-                  bw.setPackConfig(null);
-                  Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
-                  for (ReceiveCommand r : refs) {
-                    bw.include(r.getRefName(), r.getNewId());
-                    ObjectId oldId = r.getOldId();
-                    if (!oldId.equals(ObjectId.zeroId())) {
-                      bw.assume(or.getCodeReviewRevWalk().parseCommit(oldId));
-                    }
-                  }
+                for (Project.NameKey p : bundles.keySet()) {
                   // This naming scheme cannot produce directory/file conflicts
                   // as no projects contains ".git/":
                   String path = p.get() + ".git";
-
-                  LimitedByteArrayOutputStream bos =
-                      new LimitedByteArrayOutputStream(maxBundleSize, 1024);
-                  bw.writeBundle(NullProgressMonitor.INSTANCE, bos);
-                  f.putEntry(aos, path, bos.toByteArray());
+                  f.putEntry(aos, path, bundles.get(p).toByteArray());
                 }
-              } catch (LimitExceededException e) {
-                throw new NotImplementedException(
-                    "The bundle is too big to " + "generate at the server");
               }
             }
           };
+    } catch (LimitExceededException e) {
+      throw new NotImplementedException(
+          "The bundle is too big to generate at the server");
     }
     return bin;
   }

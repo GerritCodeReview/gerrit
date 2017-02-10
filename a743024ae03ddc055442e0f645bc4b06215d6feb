@@ -46,6 +46,30 @@
       "revId": "a743024ae03ddc055442e0f645bc4b06215d6feb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd4d8aa1_d7d59587",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T22:11:49Z",
+      "side": 1,
+      "message": "\u003e This is the only difference GwtStyle from PgStyle?\n\nNo, it also has different values for strictLabels and reviewers.\n\nI mean, you\u0027re likely right that this is the important one. But I think there is value in mirroring the requests as closely as possible.\n\n\u003e Has this test something to do with: https://gerrit-review.googlesource.com/93499?\n\nWell, the issue is that that change didn\u0027t actually make implicit cc\u0027ing work, so in that sense, yes :)",
+      "parentUuid": "704229f3_c397c5ab",
+      "range": {
+        "startLine": 980,
+        "startChar": 4,
+        "endLine": 980,
+        "endChar": 58
+      },
+      "revId": "a743024ae03ddc055442e0f645bc4b06215d6feb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

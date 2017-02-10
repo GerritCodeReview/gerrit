@@ -140,8 +140,8 @@ public class IncludedInResolver {
    * Partition the reference tips into two sets:
    *
    * <ul>
-   *   <li> before = commits with time < target.getCommitTime()
-   *   <li> after = commits with time >= target.getCommitTime()
+   *   <li>before = commits with time < target.getCommitTime()
+   *   <li>after = commits with time >= target.getCommitTime()
    * </ul>
    *
    * Each of the before/after lists is sorted by the the commit time.

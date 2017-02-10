@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
@@ -31,9 +32,11 @@ import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -57,6 +60,7 @@ import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -114,6 +118,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
@@ -945,17 +951,41 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void implicitlyCcOnNonVotingReview() throws Exception {
+  public void implicitlyCcOnNonVotingReviewPgStyle() throws Exception {
     PushOneCommit.Result r = createChange();
     setApiUser(user);
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(new ReviewInput());
+    assertThat(getReviewerState(r.getChangeId(), user.id)).isEmpty();
 
-    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    // If we're not reading from NoteDb, then the CCed user will be returned
-    // in the REVIEWER state.
-    ReviewerState state = notesMigration.readChanges() ? CC : REVIEWER;
-    assertThat(c.reviewers.get(state).stream().map(ai -> ai._accountId).collect(toList()))
-        .containsExactly(user.id.get());
+    // Exact request format made by PG UI at ddc6b7160fe416fed9e7e3180489d44c82fd64f8.
+    ReviewInput in = new ReviewInput();
+    in.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+    in.labels = ImmutableMap.of();
+    in.message = "comment";
+    in.reviewers = ImmutableList.of();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+
+    // If we're not reading from NoteDb, then the CCed user will be returned in the REVIEWER state.
+    assertThat(getReviewerState(r.getChangeId(), user.id))
+        .hasValue(notesMigration.readChanges() ? CC : REVIEWER);
+  }
+
+  @Test
+  public void implicitlyCcOnNonVotingReviewGwtStyle() throws Exception {
+    PushOneCommit.Result r = createChange();
+    setApiUser(user);
+    assertThat(getReviewerState(r.getChangeId(), user.id)).isEmpty();
+
+    // Exact request format made by GWT UI at ddc6b7160fe416fed9e7e3180489d44c82fd64f8.
+    ReviewInput in = new ReviewInput();
+    in.labels = ImmutableMap.of("Code-Review", (short) 0);
+    in.strictLabels = true;
+    in.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+    in.message = "comment";
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+
+    // If we're not reading from NoteDb, then the CCed user will be returned in the REVIEWER state.
+    assertThat(getReviewerState(r.getChangeId(), user.id))
+        .hasValue(notesMigration.readChanges() ? CC : REVIEWER);
   }
 
   @Test
@@ -2288,6 +2318,20 @@ public class ChangeIT extends AbstractDaemonTest {
     List<ChangeControl> ctls = changeFinder.find(r.getChangeId(), atrScope.get().getUser());
     assertThat(ctls).hasSize(1);
     return changeResourceFactory.create(ctls.get(0));
+  }
+
+  private Optional<ReviewerState> getReviewerState(String changeId, Account.Id accountId)
+      throws Exception {
+    ChangeInfo c = gApi.changes().id(changeId).get(EnumSet.of(ListChangesOption.DETAILED_LABELS));
+    Set<ReviewerState> states =
+        c.reviewers
+            .entrySet()
+            .stream()
+            .filter(e -> e.getValue().stream().anyMatch(a -> a._accountId == accountId.get()))
+            .map(e -> e.getKey())
+            .collect(toSet());
+    assertThat(states.size()).named(states.toString()).isAtMost(1);
+    return states.stream().findFirst();
   }
 
   private void setChangeStatus(Change.Id id, Change.Status newStatus) throws Exception {

@@ -143,11 +143,12 @@ limitations under the License.
       <div>
         <a class="feedback"
             href="https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue"
-            rel="noopener" target="_blank">Report bug</a>
+            rel="noopener" target="_blank">Send feedback</a>
         <template is="dom-if" if="[[_computeShowGwtUiLink(_serverConfig)]]">
           |
           <a id="gwtLink" href$="/?polygerrit=0#[[_path]]" rel="external">Old UI</a>
         </template>
+        | Press "?" for keyboard shortcuts
       </div>
     </footer>
     <gr-overlay id="keyboardShortcuts" with-backdrop>

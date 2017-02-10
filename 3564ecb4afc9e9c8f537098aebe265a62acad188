@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "457a8bcf_33e1d5a0",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2017-02-10T21:22:10Z",
+      "side": 1,
+      "message": "have grown over time and are",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d265230_b13cdd22",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

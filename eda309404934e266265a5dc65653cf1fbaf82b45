@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1486731454 +0100\nnonce AFJA6ofMnha3vTFA4gp1vu6UStCqzDO8fEM6mnrjO+gqX10h2kRD0fGQoL7LLNlOVHZkR4Xc9dq6\n\n0000000000000000000000000000000000000000 eda309404934e266265a5dc65653cf1fbaf82b45 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYnbi+AAoJEFG1/Zeg0O9RsE0H/2i4aN10HzsWHjfX+jkZ8Drt\nHsAICY329j2wAEgRDGkFMlZSbU3NTbW5VKWULACUY52Hlon99KmYINgxOHvSOwv7\nEDZPHW59EWsHp5zSbAeU2+6XW3W3nVeDOZINMYm3sJ3d1Q2p8QPAleAhx3/bHzlq\npSlqaKXJ+SbkhOcqo8RNVG3qkqFUEUT/7D34h7oNZJPPph1NfsL3geOE+dw1usfd\n0zDqtJMtc7O9ekyrF4RGFdk5gzN9sXT6TKD5KioUWNA6b68CT9eFcrPfzxg8fgPd\nzv8riuQ/9gUqtxcdc0AdoqQLcT01H+CneRit8kxTB4rJ4FpnKATQ7ih0UrBsuxw\u003d\n\u003dsBLB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b3f4c1a_ba1f05e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T13:06:09Z",
+      "side": 1,
+      "message": "This could be an Iterable and then call ImmutableSortedSet.copyOf on the line below. This avoids having to call copyOf at the call site. Also, since StarredChangesUtil#getLabels returns an ImmutableSortedSet, it would avoid a copy in that case.",
+      "range": {
+        "startLine": 1281,
+        "startChar": 56,
+        "endLine": 1281,
+        "endChar": 59
+      },
+      "revId": "eda309404934e266265a5dc65653cf1fbaf82b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18214f71_4df75ac8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T13:06:09Z",
+      "side": 1,
+      "message": "Make this ImmutableSet (or probably better yet ImmutableSortedSet) so it\u0027s clear that this object is immutable.",
+      "range": {
+        "startLine": 1287,
+        "startChar": 20,
+        "endLine": 1287,
+        "endChar": 23
+      },
+      "revId": "eda309404934e266265a5dc65653cf1fbaf82b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

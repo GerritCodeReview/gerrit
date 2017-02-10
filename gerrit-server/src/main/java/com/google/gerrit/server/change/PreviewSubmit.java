@@ -40,7 +40,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.Set;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -100,35 +99,27 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     if (!control.getUser().isIdentifiedUser()) {
       throw new MethodNotAllowedException("Anonymous users cannot submit");
     }
-    try (BinaryResult b = getBundles(rsrc, f)) {
-      b.disableGzip()
-          .setContentType(f.getMimeType())
-          .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
-      return b;
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Error generating submit preview");
-    }
+
+    return getBundles(rsrc, f);
   }
 
-  private BinaryResult getBundles(RevisionResource rsrc, final ArchiveFormat f)
-      throws OrmException, RestApiException {
+  private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
+      throws RestApiException {
     ReviewDb db = dbProvider.get();
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = control.getUser().asIdentifiedUser();
     Change change = rsrc.getChange();
 
-    BinaryResult bin;
-    try (MergeOp op = mergeOpProvider.get()) {
+    final MergeOp op = mergeOpProvider.get();
+    try {
       op.merge(db, change, caller, false, new SubmitInput(), true);
-      final MergeOpRepoManager orm = op.getMergeOpRepoManager();
-      final Set<Project.NameKey> projects = op.getAllProjects();
-
-      bin =
+      BinaryResult bin =
           new BinaryResult() {
             @Override
             public void writeTo(OutputStream out) throws IOException {
               try (ArchiveOutputStream aos = f.createArchiveOutputStream(out)) {
-                for (Project.NameKey p : projects) {
+                MergeOpRepoManager orm = op.getMergeOpRepoManager();
+                for (Project.NameKey p : op.getAllProjects()) {
                   OpenRepo or = orm.getRepo(p);
                   BundleWriter bw = new BundleWriter(or.getRepo());
                   bw.setObjectCountCallback(null);
@@ -141,22 +132,28 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
                       bw.assume(or.getCodeReviewRevWalk().parseCommit(oldId));
                     }
                   }
-                  // This naming scheme cannot produce directory/file conflicts
-                  // as no projects contains ".git/":
-                  String path = p.get() + ".git";
-
                   LimitedByteArrayOutputStream bos =
                       new LimitedByteArrayOutputStream(maxBundleSize, 1024);
                   bw.writeBundle(NullProgressMonitor.INSTANCE, bos);
+                  // This naming scheme cannot produce directory/file conflicts
+                  // as no projects contains ".git/":
+                  String path = p.get() + ".git";
                   f.putEntry(aos, path, bos.toByteArray());
                 }
               } catch (LimitExceededException e) {
                 throw new NotImplementedException(
                     "The bundle is too big to generate at the server");
+              } finally {
+                op.close();
               }
             }
           };
+      bin.disableGzip().setContentType(f.getMimeType())
+          .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
+      return bin;
+    } catch (OrmException e) {
+      op.close();
+      throw new RestApiException("Error generating submit preview", e);
     }
-    return bin;
   }
 }

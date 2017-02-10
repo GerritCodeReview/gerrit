@@ -24,6 +24,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -343,6 +344,7 @@ public class ChangeData {
   private Set<Account.Id> reviewedBy;
   private Map<Account.Id, Ref> draftsByUser;
   private ImmutableListMultimap<Account.Id, String> stars;
+  private StarsOf starsOf;
   private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
   private List<ReviewerStatusUpdate> reviewerUpdates;
@@ -1207,15 +1209,23 @@ public class ChangeData {
     return starRefs;
   }
 
-  @AutoValue
-  abstract static class ReviewedByEvent {
-    private static ReviewedByEvent create(ChangeMessage msg) {
-      return new AutoValue_ChangeData_ReviewedByEvent(msg.getAuthor(), msg.getWrittenOn());
+  public Set<String> stars(Account.Id accountId) throws OrmException {
+    if (starsOf != null) {
+      if (!starsOf.accountId().equals(accountId)) {
+        starsOf = null;
+      }
     }
-
-    public abstract Account.Id author();
-
-    public abstract Timestamp ts();
+    if (starsOf == null) {
+      if (stars != null) {
+        starsOf = StarsOf.create(accountId, ImmutableSet.copyOf(stars.get(accountId)));
+      } else {
+        if (!lazyLoad) {
+          return ImmutableSet.of();
+        }
+        starsOf = StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, legacyId));
+      }
+    }
+    return starsOf.stars();
   }
 
   @Override
@@ -1253,5 +1263,27 @@ public class ChangeData {
 
   public void setRefStatePatterns(Iterable<byte[]> refStatePatterns) {
     this.refStatePatterns = ImmutableList.copyOf(refStatePatterns);
+  }
+
+  @AutoValue
+  abstract static class ReviewedByEvent {
+    private static ReviewedByEvent create(ChangeMessage msg) {
+      return new AutoValue_ChangeData_ReviewedByEvent(msg.getAuthor(), msg.getWrittenOn());
+    }
+
+    public abstract Account.Id author();
+
+    public abstract Timestamp ts();
+  }
+
+  @AutoValue
+  abstract static class StarsOf {
+    private static StarsOf create(Account.Id accountId, Set<String> stars) {
+      return new AutoValue_ChangeData_StarsOf(accountId, stars);
+    }
+
+    public abstract Account.Id accountId();
+
+    public abstract Set<String> stars();
   }
 }

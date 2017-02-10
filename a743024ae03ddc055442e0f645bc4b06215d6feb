@@ -94,6 +94,30 @@
       "revId": "a743024ae03ddc055442e0f645bc4b06215d6feb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "778a27d2_41136c19",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T22:39:07Z",
+      "side": 1,
+      "message": "So, fixed, PTAL. I\u0027m certain in the debug session last time, against my test server, I was getting non null, but empty label map. In your version there is one \"0\"-vote, and that\u0027s the difference.",
+      "parentUuid": "dd4d8aa1_d7d59587",
+      "range": {
+        "startLine": 980,
+        "startChar": 4,
+        "endLine": 980,
+        "endChar": 58
+      },
+      "revId": "a743024ae03ddc055442e0f645bc4b06215d6feb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

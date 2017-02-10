@@ -57,8 +57,6 @@ public class ExternalIdInfo extends JavaScriptObject implements Comparable<Exter
       // Describe a mailto address as just its email address,
       // which is already shown in the email address field.
       return "";
-    } else if (isScheme("https://www.google.com/accounts/o8/id")) {
-      return OpenIdUtil.C.nameGoogle();
     } else if (isScheme(OpenIdUrls.URL_LAUNCHPAD)) {
       return OpenIdUtil.C.nameLaunchpad();
     } else if (isScheme(OpenIdUrls.URL_YAHOO)) {

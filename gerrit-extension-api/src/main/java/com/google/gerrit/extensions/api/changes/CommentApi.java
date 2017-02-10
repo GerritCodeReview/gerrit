@@ -22,12 +22,26 @@ public interface CommentApi {
   CommentInfo get() throws RestApiException;
 
   /**
+   * Deletes a published comment of a revision. For NoteDb, it deletes the comment by rewriting the
+   * commit history.
+   *
+   * <p>Note instead of deleting the whole comment, this endpoint just replaces the comment's
+   * message.
+   */
+  void delete(DeleteCommentInput input) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
   class NotImplemented implements CommentApi {
     @Override
     public CommentInfo get() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete(DeleteCommentInput input) {
       throw new NotImplementedException();
     }
   }

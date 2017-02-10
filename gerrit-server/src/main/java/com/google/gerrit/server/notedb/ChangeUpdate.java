@@ -123,9 +123,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private final AccountCache accountCache;
+  private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
-  private final NoteDbUpdateManager.Factory updateManagerFactory;
+  private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -156,6 +157,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
+  private DeleteCommentRewriter deleteCommentRewriter;
 
   @AssistedInject
   private ChangeUpdate(
@@ -167,6 +169,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
+      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       ChangeNoteUtil noteUtil) {
@@ -179,6 +182,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
+        deleteCommentRewriterFactory,
         projectCache,
         ctl,
         serverIdent.getWhen(),
@@ -195,6 +199,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
+      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
@@ -208,6 +213,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         updateManagerFactory,
         draftUpdateFactory,
         robotCommentUpdateFactory,
+        deleteCommentRewriterFactory,
         ctl,
         when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
@@ -233,15 +239,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
+      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
     super(cfg, migration, ctl, serverIdent, anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
+    this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
-    this.updateManagerFactory = updateManagerFactory;
+    this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -255,6 +263,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
+      DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
       @Assisted("effective") @Nullable Account.Id accountId,
@@ -278,6 +287,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
+    this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -390,6 +400,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public void deleteComment(Comment c) {
     verifyComment(c);
     createDraftUpdateIfNull().deleteComment(c);
+  }
+
+  public void deleteCommentByRewritingHistory(String uuid, String newMessage) {
+    deleteCommentRewriter =
+        deleteCommentRewriterFactory.create(getChange().getId(), uuid, newMessage);
   }
 
   @VisibleForTesting
@@ -789,6 +804,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   RobotCommentUpdate getRobotCommentUpdate() {
     return robotCommentUpdate;
+  }
+
+  public DeleteCommentRewriter getDeleteCommentRewriter() {
+    return deleteCommentRewriter;
   }
 
   public void setAllowWriteToNewRef(boolean allow) {

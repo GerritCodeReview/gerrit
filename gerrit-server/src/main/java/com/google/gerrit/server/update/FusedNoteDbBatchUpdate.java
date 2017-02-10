@@ -218,6 +218,7 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
     private final Map<PatchSet.Id, ChangeUpdate> updates;
 
     private boolean deleted;
+    private boolean rewriteHistory;
 
     protected ChangeContextImpl(ChangeControl ctl) {
       this.ctl = checkNotNull(ctl);
@@ -252,6 +253,11 @@ class FusedNoteDbBatchUpdate extends BatchUpdate {
     @Override
     public void deleteChange() {
       deleted = true;
+    }
+
+    @Override
+    public void rewriteHistory() {
+      rewriteHistory = true;
     }
   }
 

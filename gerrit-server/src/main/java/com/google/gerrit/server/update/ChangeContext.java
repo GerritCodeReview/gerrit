@@ -70,6 +70,8 @@ public interface ChangeContext extends Context {
    */
   void deleteChange();
 
+  void rewriteHistory();
+
   /**
    * Get notes corresponding to {@link #getControl()}.
    *

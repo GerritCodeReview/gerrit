@@ -214,6 +214,18 @@ To run only tests that do not use SSH:
   bazel test --test_env=GERRIT_USE_SSH=NO //...
 ----
 
+To exclude tests that have been marked as flaky:
+
+----
+  bazel test --test_tag_filters=-flaky //...
+----
+
+To ignore cached test results:
+
+----
+  bazel test --cache_test_results=NO //...
+----
+
 == Dependencies
 
 Dependency JARs are normally downloaded as needed, but you can

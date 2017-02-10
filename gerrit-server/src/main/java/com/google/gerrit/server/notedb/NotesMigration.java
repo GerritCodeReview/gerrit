@@ -57,7 +57,7 @@ public abstract class NotesMigration {
    * readChanges() = false}, writes to NoteDb are simply ignored; if {@code true}, any attempts to
    * write will generate an error.
    */
-  protected abstract boolean writeChanges();
+  public abstract boolean writeChanges();
 
   /**
    * Read sequential change ID numbers from NoteDb.

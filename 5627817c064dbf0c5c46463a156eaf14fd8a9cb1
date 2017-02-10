@@ -34,6 +34,24 @@
       "revId": "5627817c064dbf0c5c46463a156eaf14fd8a9cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13ff0a93_d5e3d374",
+        "filename": "polygerrit-ui/doc/gr-plugin-styling.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-10T23:10:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c537cf_2f90437e",
+      "revId": "5627817c064dbf0c5c46463a156eaf14fd8a9cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

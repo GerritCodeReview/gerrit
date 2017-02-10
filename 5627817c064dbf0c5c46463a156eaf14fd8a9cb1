@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "508e2a9a_17c024bc",
+        "filename": "polygerrit-ui/doc/gr-plugin-styling.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-10T21:46:53Z",
+      "side": 1,
+      "message": "Is scalability a valid concern here? There aren\u0027t _that_ many fields in the change-metadata. If we\u0027re going with a relatively locked-down approach for plugins elsewhere, maybe it makes sense to do that here too.\n\nI guess what I\u0027m asking is for more detail in this section as to the pros and cons, but I think this is a great start.",
+      "revId": "5627817c064dbf0c5c46463a156eaf14fd8a9cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

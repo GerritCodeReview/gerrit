@@ -49,6 +49,7 @@ public class NoteDbModule extends FactoryModule {
   public void configure() {
     factory(ChangeUpdate.Factory.class);
     factory(ChangeDraftUpdate.Factory.class);
+    factory(DeleteCommentRewriter.Factory.class);
     factory(DraftCommentNotes.Factory.class);
     factory(RobotCommentUpdate.Factory.class);
     factory(RobotCommentNotes.Factory.class);

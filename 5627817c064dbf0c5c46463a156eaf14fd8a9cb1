@@ -16,6 +16,24 @@
       "revId": "5627817c064dbf0c5c46463a156eaf14fd8a9cb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c537cf_2f90437e",
+        "filename": "polygerrit-ui/doc/gr-plugin-styling.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-10T21:57:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure what\u0027s your proposal here. Could you please be a bit more concrete? It\u0027s hard for me to make progress based on this.\n\n\u003e more detail\n\nThis design does not scale in my opinion, because at the moment this is a very narrow case.\nI expect more requests from plugin developers, both action-wise (styling, layout, etc) and location-wise (other places at change view, other views), and by providing overly specific interface will be restrictive in future.\n\nI think it\u0027s pretty obvious, but if needed, I can add this to the doc.",
+      "parentUuid": "508e2a9a_17c024bc",
+      "revId": "5627817c064dbf0c5c46463a156eaf14fd8a9cb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -90,7 +90,10 @@ public class HtmlParser {
           && elementName.equals("div")
           && !e.className().startsWith("gmail")) {
         // This is a comment typed by the user
-        String content = e.ownText().trim();
+        String content =
+            e.ownText()
+                .replace('\u00a0', ' ')
+                .trim(); // Replace non-breaking spaces and trim string
         if (!Strings.isNullOrEmpty(content)) {
           if (lastEncounteredComment == null && lastEncounteredFileName == null) {
             // Remove quotation line, email signature and

@@ -41,7 +41,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     b.htmlContent(
         newHtmlBody(
             "Looks good to me",
-            "I have a comment on this.",
+            "I have a comment on this.&nbsp;",
             null,
             "Also have a comment here.",
             null,

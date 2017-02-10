@@ -174,6 +174,23 @@
     },
     {
       "key": {
+        "uuid": "6846caad_d84398fb",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-10T10:18:39Z",
+      "side": 1,
+      "message": "Just a small addition here: When a change is private, we will create a new ref for the owner and all reviewers: refs/private/shardeduserid/changeid.\n\nThis way we can easily check if private refs should be advertised in VisibleRefsFilter by checking if the usersId is contained in the ref name.\n\nThis makes it so that the check in VisibleRefsFilter is efficient and doesn\u0027t create a bottleneck.",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3346dc0_4ab3f3d6",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

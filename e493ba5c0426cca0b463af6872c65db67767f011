@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1111dc8a_79e6cc35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-10T01:10:36Z",
+      "side": 1,
+      "message": "not related to this change but could be fixed at the same time: this concatenation is redundant.",
+      "range": {
+        "startLine": 739,
+        "startChar": 57,
+        "endLine": 739,
+        "endChar": 62
+      },
+      "revId": "e493ba5c0426cca0b463af6872c65db67767f011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6d265230_b13cdd22",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "I think these could use a little more explanation. By \"staging environment\" you mean a place for users to push early versions of changes or patch sets that are not yet ready for review? And \"in private\" specifically refers to restricting visibility to a whitelist of reviewers.",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43d37948_35199033",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -45,6 +68,52 @@
       "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2a261ec_c21e4ef6",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "It\u0027s actually even worse when the current patch set is a draft, or all patch sets are drafts. Some server and/or UI code assumes that the current patch set always exists, and gets confused/errors when it doesn\u0027t.",
+      "range": {
+        "startLine": 19,
+        "startChar": 39,
+        "endLine": 19,
+        "endChar": 44
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a2339d9_9cd29ad4",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "I think this flaw merits its own bullet point. If a change owner thinks a draft patch set on a change with non-draft patch sets is private, they are wrong, because anybody can see the draft by adding themselves as a reviewer.",
+      "range": {
+        "startLine": 22,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -111,6 +180,24 @@
     },
     {
       "key": {
+        "uuid": "1d5be53c_97ea2b55",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "I highlighted the same issue in the very first paragraph, so I think if you lay out the terms a little more clearly there it will go a long way :)",
+      "parentUuid": "41f08547_97870255",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63d6bd38_f6e1e0e2",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -125,6 +212,24 @@
       "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa27e05_50d59fcb",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "We already do equivalent acrobatics today in the case of draft changes. We have to read a change and its reviewers[1] to see if it\u0027s a draft and filter visibility appropriately if so. All of this happens already in ChangeControl#isVisible, so we just have to change the implementation of that method.\n\n[1] preferably from the index, see e.g. https://gerrit-review.googlesource.com/96890",
+      "parentUuid": "63d6bd38_f6e1e0e2",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +279,30 @@
     },
     {
       "key": {
+        "uuid": "c719edf6_7e0327a3",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "I don\u0027t think \"force push\" is the right terminology here, since in the wire protocol that just means a non-ff push. Pushes to refs/for/* are always fast-forwards because the server never advertises refs with that prefix.\n\nI agree with Alice\u0027s concern however. I think it\u0027s possible to use a mechanism other than passing -f to \"git push\" to imply \"forcing\". Something like \"git push -o edit HEAD:refs/for/master\" to push an edit, which would fail if there is an existing edit; and \"git push -o overwrite-edit HEAD:refs/for/master\" to overwrite an existing edit.\n\nThough honestly, my concern with this approach would be that people will just learn to always type \"overwrite-edit\", because that\u0027s what you want most of the time anyway. A person who has learned to always type \"overwrite-edit\" no longer gets any safety from this feature.\n\nI\u0027m not sure what the best solution is here. However, since it seems like figuring this behavior out is just a detail of push option handling in the protocol, I don\u0027t think settling on a best solution needs to block the rest of the implementation.",
+      "parentUuid": "c3884975_71cdd83c",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 25
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6846caad_d84398fb",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -185,6 +314,24 @@
       "writtenOn": "2017-02-10T10:18:39Z",
       "side": 1,
       "message": "Just a small addition here: When a change is private, we will create a new ref for the owner and all reviewers: refs/private/shardeduserid/changeid.\n\nThis way we can easily check if private refs should be advertised in VisibleRefsFilter by checking if the usersId is contained in the ref name.\n\nThis makes it so that the check in VisibleRefsFilter is efficient and doesn\u0027t create a bottleneck.",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4efe685c_6c88d5eb",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "Changing the advertised refname is a little tricky because you then have to make sure that it\u0027s advertised properly in the UI. This might be more effort than it\u0027s worth.\n\nHave you looked at how we do visibility checking for draft changes today? Will that not continue to work?",
+      "parentUuid": "6846caad_d84398fb",
       "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -254,6 +401,29 @@
     },
     {
       "key": {
+        "uuid": "88432cdb_1e94f8a7",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "Congratulations! You get to be the first person to write a schema migration that has to work when changes are only in NoteDb and not ReviewDb. As of this morning, gerrit-review is no longer using ReviewDb for change storage.",
+      "range": {
+        "startLine": 88,
+        "startChar": 8,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "034c2113_5ba2238c",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -265,6 +435,30 @@
       "writtenOn": "2017-01-18T02:02:09Z",
       "side": 1,
       "message": "Is this actually possible?",
+      "range": {
+        "startLine": 92,
+        "startChar": 55,
+        "endLine": 93,
+        "endChar": 35
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e395d7_68d743b3",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-10T15:32:53Z",
+      "side": 1,
+      "message": "Good question. I think it is. Maybe we should have a test of the existing behavior? Might not be worth it at this point, though.",
+      "parentUuid": "034c2113_5ba2238c",
       "range": {
         "startLine": 92,
         "startChar": 55,

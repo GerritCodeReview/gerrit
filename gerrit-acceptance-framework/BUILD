@@ -41,6 +41,7 @@ java_library2(
         "//gerrit-server:testutil",
         "//gerrit-server/src/main/prolog:common",
         "//lib:truth",
+        "//lib:truth-java8-extension",
         "//lib/auto:auto-value",
         "//lib/httpcomponents:fluent-hc",
         "//lib/httpcomponents:httpclient",

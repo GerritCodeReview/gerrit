@@ -22,6 +22,30 @@
       "revId": "801efbd756a74b9128c88c7e5f4295d0a7896138",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd80cf6c_f1f8fcc7",
+        "filename": ".settings/org.eclipse.jdt.ui.prefs",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T09:20:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f439a01f_e8f46961",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 80
+      },
+      "revId": "801efbd756a74b9128c88c7e5f4295d0a7896138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -175,6 +175,17 @@ limitations under the License.
             </span>
           </section>
           <section>
+            <span class="title">Email Format</span>
+            <span class="value">
+              <select
+                  is="gr-select"
+                  bind-value="{{_localPrefs.email_format}}">
+                <option value="HTML_PLAINTEXT">HTML and Plaintext</option>
+                <option value="PLAINTEXT">Plaintext Only</option>
+              </select>
+            </span>
+          </section>
+          <section>
             <span class="title">Diff View</span>
             <span class="value">
               <select

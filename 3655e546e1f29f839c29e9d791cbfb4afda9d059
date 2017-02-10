@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "61f6568d_4a4fb0a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-10T18:00:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95e5fdbd_da598c1f",
+      "range": {
+        "startLine": 44,
+        "startChar": 17,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb0eb766_3597ae35",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
         "patchSetId": 1
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "Here\u0027s my idea (in this new patch): \n- patchForNewThreads as an attribute on thread group\n- patchForNewComments as an attribute on a thread\n- patchNum for an attribute on a comment",
       "parentUuid": "3ce53d79_75fc37fb",
+      "range": {
+        "startLine": 47,
+        "startChar": 18,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "3655e546e1f29f839c29e9d791cbfb4afda9d059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be07e4eb_0ce8c44b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread-group/gr-diff-comment-thread-group.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-10T18:00:40Z",
+      "side": 1,
+      "message": "I feel like I\u0027ve bikeshed-ed the naming of this property, so feel free to ignore me.\n\n\u003e - patchForNewComments as an attribute on a thread\n\nIs not a thread scoped to a single patch? In that regard, it seems find to name it patchNum there, even if it\u0027s only used to create new comments.",
+      "parentUuid": "e1498453_bb753bf8",
       "range": {
         "startLine": 47,
         "startChar": 18,

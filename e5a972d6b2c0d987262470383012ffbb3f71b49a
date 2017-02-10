@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8e6730bf_93bf43ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-10T06:43:23Z",
+      "side": 1,
+      "message": "Ah, OK, sorry, I thought this sentence was added on by you for this cherry pick.",
+      "parentUuid": "0d4084bc_070604ef",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "e5a972d6b2c0d987262470383012ffbb3f71b49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee13b46f_e847d577",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 1

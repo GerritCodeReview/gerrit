@@ -458,9 +458,10 @@
 
       promises.push(this._getChangeDetail(this._changeNum));
 
-      Promise.all(promises)
-          .then(function() { return this.$.diff.reload(); }.bind(this))
-          .then(function() { this._loading = false; }.bind(this));
+      Promise.all(promises).then(function() {
+        this._loading = false;
+        this.$.diff.reload();
+      }.bind(this));
 
       this._loadCommentMap().then(function(commentMap) {
         this._commentMap = commentMap;

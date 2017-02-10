@@ -964,11 +964,11 @@ limitations under the License.
         element._latestCommitMessage = _.times(31, String).join('\n');
         assert.isTrue(element._commitCollapsed);
         assert.isTrue(
-            element.$.commitMessage.classList.contains('commitCollapsed'));
+            element.$.commitMessage.classList.contains('collapsed'));
         MockInteractions.tap(element.$.commitCollapseToggleButton);
         assert.isFalse(element._commitCollapsed);
         assert.isFalse(
-            element.$.commitMessage.classList.contains('commitCollapsed'));
+            element.$.commitMessage.classList.contains('collapsed'));
       });
     });
   });

@@ -1026,7 +1026,7 @@
 
     _computeCommitClass: function(collapsed, commitMessage) {
       if (this._computeCommitToggleHidden(commitMessage)) { return ''; }
-      return collapsed ? 'commitCollapsed' : '';
+      return collapsed ? 'collapsed' : '';
     },
 
     _computeCollapseCommitText: function(collapsed) {

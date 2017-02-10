@@ -16,6 +16,24 @@
       "revId": "c466eb580bb6c150dc75f7530918e9aeb4120e3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05490ec5_f8e1200b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-10T06:40:37Z",
+      "side": 1,
+      "message": "Yes.  Due to this commit [1] that was introduced since 1.2\n\n[1] https://github.com/google/google-java-format/commit/bbb742ea49407938c29e7f6692629354ef3d3b5d",
+      "parentUuid": "725f75e7_a885240e",
+      "revId": "c466eb580bb6c150dc75f7530918e9aeb4120e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

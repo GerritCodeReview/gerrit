@@ -1001,10 +1001,10 @@ public abstract class AbstractDaemonTest {
     grant(Permission.CREATE_SIGNED_TAG, project, R_TAGS + "*");
   }
 
-  protected void assertMailFrom(Message message, String email) throws Exception {
+  protected void assertMailReplyTo(Message message, String email) throws Exception {
     assertThat(message.headers()).containsKey("Reply-To");
     EmailHeader.String replyTo = (EmailHeader.String) message.headers().get("Reply-To");
-    assertThat(replyTo.getString()).isEqualTo(email);
+    assertThat(replyTo.getString()).contains(email);
   }
 
   protected ContributorAgreement configureContributorAgreement(boolean autoVerify)

@@ -25,6 +25,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
@@ -50,6 +51,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -71,6 +73,7 @@ public abstract class OutgoingEmail {
   private final HashSet<Account.Id> rcptTo = new HashSet<>();
   private final Map<String, EmailHeader> headers;
   private final Set<Address> smtpRcptTo = new HashSet<>();
+  private final Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
   private Address smtpFromAddress;
   private StringBuilder textBody;
   private StringBuilder htmlBody;
@@ -145,17 +148,38 @@ public abstract class OutgoingEmail {
         }
 
         // Check the preferences of all recipients. If any user has disabled
-        // his email notifications then drop him from recipients' list
+        // his email notifications then drop him from recipients' list.
+        // In addition, check if users only want to receive plaintext email.
         for (Account.Id id : rcptTo) {
           Account thisUser = args.accountCache.get(id).getAccount();
           GeneralPreferencesInfo prefs = thisUser.getGeneralPreferencesInfo();
           if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
             removeUser(thisUser);
+          } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
+            removeUser(thisUser);
+            smtpRcptToPlaintextOnly.add(
+                new Address(thisUser.getFullName(), thisUser.getPreferredEmail()));
           }
-          if (smtpRcptTo.isEmpty()) {
+          if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
             return;
           }
         }
+      }
+
+      // Set Reply-To only if it hasn't been set by a child class
+      // Reply-To will already be populated for the message types where Gerrit supports
+      // inbound email replies.
+      if (!headers.containsKey("Reply-To")) {
+        StringJoiner j = new StringJoiner(", ");
+        if (fromId != null) {
+          final Address address = toAddress(fromId);
+          if (address != null) {
+            j.add(address.getEmail());
+          }
+        }
+        smtpRcptTo.stream().forEach(a -> j.add(a.getEmail()));
+        smtpRcptToPlaintextOnly.stream().forEach(a -> j.add(a.getEmail()));
+        setHeader("Reply-To", j.toString());
       }
 
       String textPart = textBody.toString();
@@ -166,6 +190,7 @@ public abstract class OutgoingEmail {
       va.headers = headers;
 
       va.body = textPart;
+
       if (useHtml()) {
         va.htmlBody = htmlBody.toString();
       } else {
@@ -180,7 +205,26 @@ public abstract class OutgoingEmail {
         }
       }
 
-      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
+      if (!smtpRcptTo.isEmpty()) {
+        // Send multipart message
+        args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
+      }
+
+      if (!smtpRcptToPlaintextOnly.isEmpty()) {
+        // Send plaintext message
+        Map<String, EmailHeader> shallowCopy = new HashMap<>();
+        shallowCopy.putAll(headers);
+        // Remove To and Cc
+        shallowCopy.remove(HDR_TO);
+        shallowCopy.remove(HDR_CC);
+        for (Address a : smtpRcptToPlaintextOnly) {
+          // Add new To
+          EmailHeader.AddressList to = new EmailHeader.AddressList();
+          to.add(a);
+          shallowCopy.put(HDR_TO, to);
+        }
+        args.emailSender.send(va.smtpFromAddress, smtpRcptToPlaintextOnly, shallowCopy, va.body);
+      }
     }
   }
 
@@ -205,18 +249,6 @@ public abstract class OutgoingEmail {
 
     for (RecipientType recipientType : accountsToNotify.keySet()) {
       add(recipientType, accountsToNotify.get(recipientType));
-    }
-
-    if (fromId != null) {
-      // If we have a user that this message is supposedly caused by
-      // but the From header on the email does not match the user as
-      // it is a generic header for this Gerrit server, include the
-      // Reply-To header with the current user's email address.
-      //
-      final Address a = toAddress(fromId);
-      if (a != null && !smtpFromAddress.getEmail().equals(a.getEmail())) {
-        setHeader("Reply-To", a.getEmail());
-      }
     }
 
     setHeader("X-Gerrit-MessageType", messageClass);

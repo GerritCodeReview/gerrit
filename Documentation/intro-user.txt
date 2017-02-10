@@ -644,6 +644,20 @@ on comments that you write yourself.
 +
 Email notifications are disabled.
 
+- [[email-format]]`Email Format`:
++
+This setting controls the email format Gerrit sends. Note that this
+setting has no effect if the administrator has disabled HTML emails
+for the Gerrit instance.
++
+** `Plaintext Only`:
++
+Email notifications contain only plaintext content.
++
+** `HTML and Plaintext`:
++
+Email notifications contain both HTML and plaintext content.
+
 - [[default-base-for-merges]]`Default Base For Merges`:
 +
 This setting controls which base should be pre-selected in the

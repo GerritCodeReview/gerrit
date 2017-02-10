@@ -17,15 +17,22 @@
 {namespace com.google.gerrit.server.mail.template}
 
 /**
+ * @param change
  * @param email
  * @param fromName
+ * @param fromEmail
  * @param patchSet
  * @param projectName
  */
 {template .ReplacePatchSetHtml autoescape="strict" kind="html"}
   <p>
     {$fromName} <strong>uploaded patch set #{$patchSet.patchSetId}</strong>{sp}
-    to this change.
+    to{sp}
+    {if $fromEmail == $change.ownerEmail}
+      this change.
+    {else}
+      the change owned by {$change.ownerName}.
+    {/if}
   </p>
 
   {if $email.changeUrl}

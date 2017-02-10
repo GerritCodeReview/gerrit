@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.reviewdb.client.PatchLineComment.Status.PUBLISHED;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -44,6 +45,7 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -223,8 +225,7 @@ public class CommentsUtil {
 
   public List<Comment> publishedByChange(ReviewDb db, ChangeNotes notes) throws OrmException {
     if (!migration.readChanges()) {
-      return sort(
-          byCommentStatus(db.patchComments().byChange(notes.getChangeId()), Status.PUBLISHED));
+      return sort(byCommentStatus(db.patchComments().byChange(notes.getChangeId()), PUBLISHED));
     }
 
     notes.load();
@@ -403,6 +404,25 @@ public class CommentsUtil {
         .delete(toPatchLineComments(update.getId(), PatchLineComment.Status.DRAFT, comments));
   }
 
+  public void deleteCommentByRewritingHistory(
+      ReviewDb db, ChangeUpdate update, Comment.Key commentKey, PatchSet.Id psId, String newMessage)
+      throws OrmException {
+    if (PrimaryStorage.of(update.getChange()).equals(PrimaryStorage.REVIEW_DB)) {
+      PatchLineComment.Key key =
+          new PatchLineComment.Key(new Patch.Key(psId, commentKey.filename), commentKey.uuid);
+      PatchLineComment patchLineComment = db.patchComments().get(key);
+
+      if (!patchLineComment.getStatus().equals(PUBLISHED)) {
+        throw new OrmException(String.format("comment %s is not published", key));
+      }
+
+      patchLineComment.setMessage(newMessage);
+      db.patchComments().upsert(Collections.singleton(patchLineComment));
+    }
+
+    update.deleteCommentByRewritingHistory(commentKey.uuid, newMessage);
+  }
+
   public void deleteAllDraftsFromAllUsers(Change.Id changeId) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
@@ -533,7 +553,7 @@ public class CommentsUtil {
       ctx.getUser().updateRealAccountId(d::setRealAuthor);
       setCommentRevId(d, patchListCache, notes.getChange(), ps);
     }
-    putComments(ctx.getDb(), ctx.getUpdate(psId), PatchLineComment.Status.PUBLISHED, drafts);
+    putComments(ctx.getDb(), ctx.getUpdate(psId), PUBLISHED, drafts);
   }
 
   private static PatchSet.Id psId(ChangeNotes notes, Comment c) {

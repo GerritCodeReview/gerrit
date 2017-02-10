@@ -93,6 +93,24 @@
       "revId": "2ddfcd17a88bc3994f83efa736bca936730d10e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b8accc7_5d42613e",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-10T02:01:09Z",
+      "side": 1,
+      "message": "https://github.com/Homebrew/homebrew-core/pull/9820",
+      "parentUuid": "6ae95e87_78f77bc2",
+      "revId": "2ddfcd17a88bc3994f83efa736bca936730d10e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

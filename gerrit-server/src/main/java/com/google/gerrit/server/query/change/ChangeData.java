@@ -342,7 +342,6 @@ public class ChangeData {
   private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
   private Map<Account.Id, Ref> draftsByUser;
-  @Deprecated private Set<Account.Id> starredByUser;
   private ImmutableListMultimap<Account.Id, String> stars;
   private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
@@ -1178,23 +1177,6 @@ public class ChangeData {
 
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
-  }
-
-  @Deprecated
-  public Set<Account.Id> starredBy() throws OrmException {
-    if (starredByUser == null) {
-      if (!lazyLoad) {
-        return Collections.emptySet();
-      }
-      starredByUser =
-          checkNotNull(starredChangesUtil).byChange(legacyId, StarredChangesUtil.DEFAULT_LABEL);
-    }
-    return starredByUser;
-  }
-
-  @Deprecated
-  public void setStarredBy(Set<Account.Id> starredByUser) {
-    this.starredByUser = starredByUser;
   }
 
   public ImmutableListMultimap<Account.Id, String> stars() throws OrmException {

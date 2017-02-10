@@ -836,6 +836,7 @@
     },
 
     _prepareCommitMsgForLinkify: function(msg) {
+      // TODO(wyatta) switch linkify sequence, see issue 5526.
       // This is a zero-with space. It is added to prevent the linkify library
       // from including R= as part of the email address.
       return msg.replace(REVIEWERS_REGEX, 'R=\u200B');

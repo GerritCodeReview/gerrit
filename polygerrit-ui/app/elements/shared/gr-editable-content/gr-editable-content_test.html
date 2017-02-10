@@ -69,6 +69,13 @@ limitations under the License.
       assert.equal(element._newContent, 'stale content');
     });
 
+    test('zero width spaces are removed properly', function() {
+      element.removeZeroWidthSpace = true;
+      element.content = 'R=\u200Btest@google.com';
+      element.editing = true;
+      assert.equal(element._newContent, 'R=test@google.com');
+    });
+
     suite('editing', function() {
       setup(function() {
         element.content = 'current content';

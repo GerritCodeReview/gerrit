@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "52bc0c15_62a7ec9d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "Why is this important? If I needed to know which call throws the exception, I would ask my IDE to highlight it. The pattern you applied is useful when many operations follow the exception throwing call but we have only one here. Having that single call inside the try-statement is much easier to read.\n\nTo simplify debugging, I wouldn\u0027t chain the two calls but use an intermediate local variable inside the try-statement.",
+      "parentUuid": "45c39bd9_27bf6e65",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 54
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2cfceba7_20ef0684",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 11
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "the exception is for future use. \n\nOnce the password hashes move to notedb, they can potentially be edited by hand, and you have to do validation before accepting a change to the user configuration.",
       "parentUuid": "2cfceba7_20ef0684",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91d52545_970431a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "Sure, but couldn\u0027t the same be achieved if we had a HashedPassword#canDecode method? I was thinking of Effective Java #57 and #59 when I saw your code.",
+      "parentUuid": "4c1fa867_a29dccd2",
       "range": {
         "startLine": 87,
         "startChar": 11,

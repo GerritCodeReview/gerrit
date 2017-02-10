@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a315f9fb_2989c078",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "nit: Remove this line.",
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50860597_85a09d9a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountExternalId.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "nit: Line too long.",
+      "range": {
+        "startLine": 93,
+        "startChar": 81,
+        "endLine": 93,
+        "endChar": 110
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf557a3d_fca24096",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "Why do we use this library here and the one without neverlink for the tests?",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 36
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b997c99_94019a5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "nit: Not a complete sentence.",
+      "range": {
+        "startLine": 47,
+        "startChar": 34,
+        "endLine": 47,
+        "endChar": 50
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "378a0443_25b7b1b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "Why don\u0027t you use codec.decode(..)?",
+      "range": {
+        "startLine": 61,
+        "startChar": 18,
+        "endLine": 61,
+        "endChar": 37
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aafae9ea_d3f40ad7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 65,
+        "startChar": 30,
+        "endLine": 65,
+        "endChar": 49
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ca93e80_e1009134",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "Javadoc comments always contain a first sentence which doesn\u0027t start with a tag. By the way, @return would be the correct tag for the return value. Example:\n\n /**\n  * Returns an encoded version of the hashed password including the salt.\n  * \n  * @return one-line string encoding of the password\n  */",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 14
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b17ba78_abd042ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "nit: Missing blank between // and text.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb415761_d634983d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-10T12:35:21Z",
+      "side": 1,
+      "message": "We use ExpectedException to achieve the same. If the test contains just one line, using @Test(expected \u003d DecoderException.class) is also possible.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 5
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

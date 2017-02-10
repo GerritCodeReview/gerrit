@@ -21,7 +21,8 @@ limitations under the License.
 <dom-module id="gr-messages-list">
   <template>
     <style>
-      :host {
+      :host,
+      .container {
         display: block;
       }
       .header {
@@ -43,7 +44,16 @@ limitations under the License.
     </style>
     <div class="header">
       <h3>Messages</h3>
-      <div>
+      <div class="container">
+        <span
+            id="oldMessagesContainer"
+            hidden$="[[_computeShowHideTextHidden(_computedMessagesList)]]">
+          <gr-button id="oldMessagesToggle" link
+              on-tap="_handleShowHideTap">
+            [[_computeShowAllText(_truncateList, _computedMessagesList)]]
+          </gr-button>
+          /
+        </span>
         <gr-button id="collapse-messages" link
             on-tap="_handleExpandCollapseTap">
           [[_computeExpandCollapseMessage(_expanded)]]
@@ -61,7 +71,7 @@ limitations under the License.
     </div>
     <template
         is="dom-repeat"
-        items="[[_computeItems(messages, reviewerUpdates)]]"
+        items="[[_computeShownItems(_truncateList, _computedMessagesList)]]"
         as="message">
       <gr-message
           change-num="[[changeNum]]"

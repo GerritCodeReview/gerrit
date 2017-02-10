@@ -35,6 +35,10 @@ limitations under the License.
     var element;
     var messages;
 
+    var getMessages = function() {
+      return Polymer.dom(element.root).querySelectorAll('gr-message');
+    };
+
     var randomMessage = function(opt_params) {
       var params = opt_params || {};
       var author1 = {
@@ -62,25 +66,39 @@ limitations under the License.
       flushAsynchronousOperations();
     });
 
+    test('show/hide old messages', function() {
+      assert.isTrue(element.$.oldMessagesContainer.hasAttribute('hidden'));
+      element.messages = _.times(10, randomMessage);
+      flushAsynchronousOperations();
+
+      assert.isFalse(element.$.oldMessagesContainer.hasAttribute('hidden'));
+      assert.equal(getMessages().length, 5);
+      assert.equal(element.$.oldMessagesToggle.innerText,
+          'Show 5 older messages');
+      MockInteractions.tap(element.$.oldMessagesToggle);
+      flushAsynchronousOperations();
+
+      assert.equal(getMessages().length, 10);
+      assert.equal(element.$.oldMessagesToggle.innerText,
+          'Hide 5 older messages');
+    });
+
     test('expand/collapse all', function() {
-      var allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
+      var allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
         allMessageEls[i].expanded = false;
       }
       MockInteractions.tap(allMessageEls[1]);
       assert.isTrue(allMessageEls[1].expanded);
 
-      MockInteractions.tap(element.$$('.header gr-button'));
-      allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
+      MockInteractions.tap(element.$$('#collapse-messages'));
+      allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
         assert.isTrue(allMessageEls[i].expanded);
       }
 
       MockInteractions.tap(element.$$('#collapse-messages'));
-      allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
+      allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
         assert.isFalse(allMessageEls[i].expanded);
       }
@@ -88,25 +106,23 @@ limitations under the License.
 
     test('expand/collapse from external keypress', function() {
       element.handleExpandCollapse(true);
-      var allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
+      var allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
         assert.isTrue(allMessageEls[i].expanded);
       }
 
       // Expand/collapse all text also changes.
       assert.equal(element.$$('#collapse-messages').textContent.trim(),
-        'Collapse all');
+          'Collapse all');
 
       element.handleExpandCollapse(false);
-      var allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
+      allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
         assert.isFalse(allMessageEls[i].expanded);
       }
       // Expand/collapse all text also changes.
       assert.equal(element.$$('#collapse-messages').textContent.trim(),
-        'Expand all');
+          'Expand all');
     });
 
     test('hide messages does not appear when no automated messages',
@@ -115,8 +131,7 @@ limitations under the License.
     });
 
     test('scroll to message', function() {
-      var allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
+      var allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
         allMessageEls[i].expanded = false;
       }
@@ -192,7 +207,7 @@ limitations under the License.
             patch_set: 2,
             author: author,
           },
-        ]
+        ],
       };
       var messages = [].concat(
           randomMessage(),
@@ -220,8 +235,7 @@ limitations under the License.
       };
       var isMarvin = isAuthor.bind(null, author);
       flushAsynchronousOperations();
-      var messageElements =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
+      var messageElements = getMessages();
       assert.equal(messageElements.length, messages.length);
       assert.deepEqual(messageElements[1].message, messages[1]);
       assert.deepEqual(messageElements[2].message, messages[2]);
@@ -256,9 +270,8 @@ limitations under the License.
         id: '8c19ccc949c6d482b061be6a28e10782abf0e7af',
       }];
       element.messages = messages;
-      element.comments = comments
-      flushAsynchronousOperations();
-      var messageEls = Polymer.dom(element.root).querySelectorAll('gr-message');
+      element.comments = comments;
+      flushAsynchronousOperations(); var messageEls = getMessages();
       assert.equal(messageEls.length, 1);
       assert.equal(messageEls[0].message.message, messages[0].message);
     });
@@ -267,6 +280,13 @@ limitations under the License.
   suite('gr-messages-list automate tests', function() {
     var element;
     var messages;
+
+    var getMessages = function() {
+      return Polymer.dom(element.root).querySelectorAll('gr-message');
+    };
+    var getHiddenMessages = function() {
+      return Polymer.dom(element.root).querySelectorAll('gr-message[hidden]');
+    };
 
     var randomMessage = function(opt_params) {
       var params = opt_params || {};
@@ -306,8 +326,7 @@ limitations under the License.
     });
 
     test('autogenerated messages are not hidden initially', function() {
-      var allHiddenMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message[hidden]');
+      var allHiddenMessageEls = getHiddenMessages();
 
       //There are no hidden messages.
       assert.isFalse(!!allHiddenMessageEls.length);
@@ -315,15 +334,12 @@ limitations under the License.
 
     test('autogenerated messages are hidden after clicking hide button',
         function() {
-      var allHiddenMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message[hidden]');
+      var allHiddenMessageEls = getHiddenMessages();
 
       element._hideAutomated = false;
       MockInteractions.tap(element.$$('#automatedMessageToggle'));
-      allMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message');
-      allHiddenMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message[hidden]');
+      allMessageEls = getMessages();
+      allHiddenMessageEls = getHiddenMessages();
 
       // Autogenerated messages are now hidden.
       assert.equal(allHiddenMessageEls.length, allMessageEls.length);
@@ -331,17 +347,14 @@ limitations under the License.
 
     test('autogenerated messages are not hidden after clicking show button',
         function() {
-      var allHiddenMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message[hidden]');
+      var allHiddenMessageEls = getHiddenMessages();
 
       element._hideAutomated = true;
       MockInteractions.tap(element.$$('#automatedMessageToggle'));
-      allHiddenMessageEls =
-          Polymer.dom(element.root).querySelectorAll('gr-message[hidden]');
+      allHiddenMessageEls = getHiddenMessages();
 
       //Autogenerated messages are now hidden.
       assert.isFalse(!!allHiddenMessageEls.length);
     });
-});
-
+  });
 </script>

@@ -14,6 +14,8 @@
 (function() {
   'use strict';
 
+  var TRUNCATED_LIST_LENGTH = 5;
+
   Polymer({
     is: 'gr-messages-list',
 
@@ -41,6 +43,14 @@
       _hideAutomated: {
         type: Boolean,
         value: false,
+      },
+      _truncateList: {
+        type: Boolean,
+        value: true,
+      },
+      _computedMessagesList: {
+        type: Array,
+        computed: '_computeItems(messages, reviewerUpdates)',
       },
     },
 
@@ -195,6 +205,27 @@
         }
       }
       return msgComments;
+    },
+
+    _computeShowAllText: function(truncateList, messages) {
+      var numExtraMessages = messages.length - TRUNCATED_LIST_LENGTH;
+      var suffix = numExtraMessages + ' older message';
+      if (numExtraMessages > 1) { suffix += 's'; }
+      return (truncateList ? 'Show ' : 'Hide ') + suffix;
+    },
+
+    _computeShowHideTextHidden: function(messages) {
+      return messages.length <= TRUNCATED_LIST_LENGTH;
+    },
+
+    _handleShowHideTap: function() {
+      this._truncateList = !this._truncateList;
+    },
+
+    _computeShownItems: function(truncateList, messages) {
+      return truncateList ?
+          messages.slice(TRUNCATED_LIST_LENGTH * -1) :
+          messages;
     },
   });
 })();

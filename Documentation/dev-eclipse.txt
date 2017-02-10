@@ -56,6 +56,11 @@ link:https://github.com/google/google-java-format#eclipse[Eclipse plugin]
 for details how to install it. It's important to use the same plugin version
 as the `google-java-format` script.
 
+To match the import order produced by "Organize Imports" functions to that
+of `google-java-format`, the default order must be removed using
+Window -> Preferences -> Java -> Code Style -> Organize Imports...
+Or, alternativerly, import the provided file: `tools/gerrit.importorder`.
+
 == Site Initialization
 
 Build once on the command line with

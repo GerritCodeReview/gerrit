@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8bec378_dd033811",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-02-10T16:20:05Z",
+      "side": 1,
+      "message": "as it was discussed with Sasa it makes more sense to have unified auth IOW when gerrit is configured to accept Digest LFS shouldn\u0027t be allowed to still use Basic.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 51
+      },
+      "revId": "bafe4c976910fdfbbff73c006035b06628dfbfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a8eee61_afe2eb17",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-02-10T16:20:05Z",
+      "side": 1,
+      "message": "unfortunately this makes auth filter being called 2 times when \u0027/a\u0027 prefixed GIT LFS requests are perfomed hence new URL that ignores \u0027/a/\u0027 prefix was introduced...",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 39
+      },
+      "revId": "bafe4c976910fdfbbff73c006035b06628dfbfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

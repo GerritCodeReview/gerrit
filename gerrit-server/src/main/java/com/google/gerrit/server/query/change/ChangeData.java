@@ -24,6 +24,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -342,8 +344,8 @@ public class ChangeData {
   private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
   private Map<Account.Id, Ref> draftsByUser;
-  @Deprecated private Set<Account.Id> starredByUser;
   private ImmutableListMultimap<Account.Id, String> stars;
+  private StarsOf starsOf;
   private ImmutableMap<Account.Id, StarRef> starRefs;
   private ReviewerSet reviewers;
   private List<ReviewerStatusUpdate> reviewerUpdates;
@@ -1180,23 +1182,6 @@ public class ChangeData {
     this.hashtags = hashtags;
   }
 
-  @Deprecated
-  public Set<Account.Id> starredBy() throws OrmException {
-    if (starredByUser == null) {
-      if (!lazyLoad) {
-        return Collections.emptySet();
-      }
-      starredByUser =
-          checkNotNull(starredChangesUtil).byChange(legacyId, StarredChangesUtil.DEFAULT_LABEL);
-    }
-    return starredByUser;
-  }
-
-  @Deprecated
-  public void setStarredBy(Set<Account.Id> starredByUser) {
-    this.starredByUser = starredByUser;
-  }
-
   public ImmutableListMultimap<Account.Id, String> stars() throws OrmException {
     if (stars == null) {
       if (!lazyLoad) {
@@ -1225,15 +1210,23 @@ public class ChangeData {
     return starRefs;
   }
 
-  @AutoValue
-  abstract static class ReviewedByEvent {
-    private static ReviewedByEvent create(ChangeMessage msg) {
-      return new AutoValue_ChangeData_ReviewedByEvent(msg.getAuthor(), msg.getWrittenOn());
+  public Set<String> stars(Account.Id accountId) throws OrmException {
+    if (starsOf != null) {
+      if (!starsOf.accountId().equals(accountId)) {
+        starsOf = null;
+      }
     }
-
-    public abstract Account.Id author();
-
-    public abstract Timestamp ts();
+    if (starsOf == null) {
+      if (stars != null) {
+        starsOf = StarsOf.create(accountId, stars.get(accountId));
+      } else {
+        if (!lazyLoad) {
+          return ImmutableSet.of();
+        }
+        starsOf = StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, legacyId));
+      }
+    }
+    return starsOf.stars();
   }
 
   @Override
@@ -1271,5 +1264,27 @@ public class ChangeData {
 
   public void setRefStatePatterns(Iterable<byte[]> refStatePatterns) {
     this.refStatePatterns = ImmutableList.copyOf(refStatePatterns);
+  }
+
+  @AutoValue
+  abstract static class ReviewedByEvent {
+    private static ReviewedByEvent create(ChangeMessage msg) {
+      return new AutoValue_ChangeData_ReviewedByEvent(msg.getAuthor(), msg.getWrittenOn());
+    }
+
+    public abstract Account.Id author();
+
+    public abstract Timestamp ts();
+  }
+
+  @AutoValue
+  abstract static class StarsOf {
+    private static StarsOf create(Account.Id accountId, Iterable<String> stars) {
+      return new AutoValue_ChangeData_StarsOf(accountId, ImmutableSortedSet.copyOf(stars));
+    }
+
+    public abstract Account.Id accountId();
+
+    public abstract ImmutableSortedSet<String> stars();
   }
 }

@@ -479,7 +479,7 @@ public class ChangeJson {
     out._number = in.getId().get();
 
     if (user.isIdentifiedUser()) {
-      Collection<String> stars = cd.stars().get(user.getAccountId());
+      Collection<String> stars = cd.stars(user.getAccountId());
       out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL) ? true : null;
       if (!stars.isEmpty()) {
         out.stars = stars;

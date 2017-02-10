@@ -22,6 +22,30 @@
       "revId": "248b709cd13f5e7c004e09b6ae305da5150f42c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64e55ce5_39cd0bdd",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-10T17:23:49Z",
+      "side": 1,
+      "message": "Have you pulled the very latest master? There were changes in Eclipse settings file.\n\nHm.. Indeed. I can reporoduce the problem. So let\u0027s check the source code. The import sorting takes place here: [1]. So nothing special there, alphabeticaly. However, in Eclipse, the organize import is managed by it own order definition: [2]. An in fact, when i re-order the import, from the default one:\n\n* java\n* javax\n* org\n* com\n\nto be:\n\n* com\n* java\n* javax\n* org\n\nit\u0027s much closer to gjf, however, Eclipse seems to put new line delimiter between sections. So just removing the order, seems to fix it. Will upload import file and update instructions in a moment.\n\n* [1] https://github.com/google/google-java-format/blob/master/core/src/main/java/com/google/googlejavaformat/java/ImportOrderer.java#L81-L88\n* [2] http://help.eclipse.org/kepler/index.jsp?topic\u003d%2Forg.eclipse.jdt.doc.user%2Freference%2Fpreferences%2Fjava%2Fcodestyle%2Fref-preferences-organize-imports.htm",
+      "parentUuid": "67bcfbf1_7c52c101",
+      "range": {
+        "startLine": 54,
+        "startChar": 39,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "248b709cd13f5e7c004e09b6ae305da5150f42c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

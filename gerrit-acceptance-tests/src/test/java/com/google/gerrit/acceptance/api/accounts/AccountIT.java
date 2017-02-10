@@ -386,9 +386,7 @@ public class AccountIT extends AbstractDaemonTest {
       gApi.accounts().self().addEmail(input);
     }
 
-    // enforce a new request context so that emails that are cached in
-    // IdentifiedUser are reloaded
-    setApiUser(admin);
+    newApiUser();
     assertThat(getEmails()).containsAllIn(emails);
   }
 
@@ -428,16 +426,12 @@ public class AccountIT extends AbstractDaemonTest {
     input.noConfirmation = true;
     gApi.accounts().self().addEmail(input);
 
-    // enforce a new request context so that emails that are cached in
-    // IdentifiedUser are reloaded
-    setApiUser(admin);
+    newApiUser();
     assertThat(getEmails()).contains(email);
 
     gApi.accounts().self().deleteEmail(input.email);
 
-    // enforce a new request context so that emails that are cached in
-    // IdentifiedUser are reloaded
-    setApiUser(admin);
+    newApiUser();
     assertThat(getEmails()).doesNotContain(email);
   }
 
@@ -456,16 +450,12 @@ public class AccountIT extends AbstractDaemonTest {
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
         .containsAllOf(extId1, extId2);
 
-    // enforce a new request context so that emails that are cached in
-    // IdentifiedUser are reloaded
-    setApiUser(admin);
+    newApiUser();
     assertThat(getEmails()).contains(email);
 
     gApi.accounts().self().deleteEmail(email);
 
-    // enforce a new request context so that emails that are cached in
-    // IdentifiedUser are reloaded
-    setApiUser(admin);
+    newApiUser();
     assertThat(getEmails()).doesNotContain(email);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))

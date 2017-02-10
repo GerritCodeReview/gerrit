@@ -111,4 +111,8 @@ public class SshSession {
     b.append(session.getPort());
     return b.toString();
   }
+
+  public TestAccount getAccount() {
+    return account;
+  }
 }

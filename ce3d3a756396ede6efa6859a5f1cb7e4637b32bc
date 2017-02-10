@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faa51374_27720034",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/EmailIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T10:10:55Z",
+      "side": 1,
+      "message": "As in [1], replaceAll() use regular expression when searching targets. As \"@\" does not require regular expression matching, it\u0027s better to use replace() here.\n\n[1]https://docs.oracle.com/javase/7/docs/api/java/lang/String.html#replaceAll(java.lang.String,%20java.lang.String)",
+      "range": {
+        "startLine": 45,
+        "startChar": 22,
+        "endLine": 45,
+        "endChar": 32
+      },
+      "revId": "ce3d3a756396ede6efa6859a5f1cb7e4637b32bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c1c8737_91045f1e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/EmailIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-10T10:10:55Z",
+      "side": 1,
+      "message": "same above.",
+      "range": {
+        "startLine": 71,
+        "startChar": 65,
+        "endLine": 71,
+        "endChar": 75
+      },
+      "revId": "ce3d3a756396ede6efa6859a5f1cb7e4637b32bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

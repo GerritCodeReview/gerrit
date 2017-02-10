@@ -245,6 +245,30 @@
       "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2ea1b9a_cd871141",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-10T09:06:23Z",
+      "side": 1,
+      "message": "\u003e There will be no user if requests don\u0027t go over ProjectBasicAuthFilter. If one calls Git LFS with \"/a\" prefix it will go automatically over this filter,\n\nYes\n\n\u003e however IMHO all LFS requests should go over this filter\n\nYes.\nHowever, I don\u0027t understand why do you think that LfPluginServlet.URL_REGEX will not match\nthose LFS requests without the /a prefix?\n\n\nExample: consider 2 LFS requests\n\n  1. /a/foo/info/lfs/objects/batch\n  2.   /foo/info/lfs/objects/batch\n\nBoth 1 and 2 are matched by the LfPluginServlet.URL_REGEX",
+      "parentUuid": "d67cfcfe_812ef5d8",
+      "range": {
+        "startLine": 63,
+        "startChar": 16,
+        "endLine": 63,
+        "endChar": 29
+      },
+      "revId": "d82f9a4303f1b828de249afae48258ef7953095b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

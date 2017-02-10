@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67bcfbf1_7c52c101",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-02-10T15:44:58Z",
+      "side": 1,
+      "message": "I followed the instructions but it does not work, at least for the imports order.\n\nI make the imports order wrong and neither \"Format\" nor \"Organize imports\" works.\n\nDoes it work for someone, maybe I did not configure the plugin properly?",
+      "range": {
+        "startLine": 54,
+        "startChar": 39,
+        "endLine": 56,
+        "endChar": 30
+      },
+      "revId": "248b709cd13f5e7c004e09b6ae305da5150f42c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

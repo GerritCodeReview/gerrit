@@ -219,6 +219,7 @@ public class TextParserTest extends AbstractParserTest {
         + "> Should entry.getKey() be included in this message?\n"
         + "> \n"
         + (c1 == null ? "" : c1 + "\n")
+        + ">\n"
         + "> \n"
         + "> "
         + changeURL

@@ -2,6 +2,24 @@
   "comments": [
     {
       "key": {
+        "uuid": "75460ff0_17ec7bcb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-10T13:46:11Z",
+      "side": 1,
+      "message": "\u003e",
+      "tag": "mailMessageId\u003d\u003cCAM7sg\u003d1Eefnx-C6SMf8HtC76Cp++Ciioy29VGh2xB2ae\u003dJpHBw@mail.gmail.com\u003e",
+      "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1000d39c_385cc54d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -234,6 +252,44 @@
       "writtenOn": "2017-02-10T13:34:28Z",
       "side": 1,
       "message": "Another test comment.",
+      "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e360e15_fc30002e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-10T13:46:11Z",
+      "side": 1,
+      "message": "Reply on inline-comment\n\u003e\n\u003e\n\u003e",
+      "parentUuid": "773b6f6d_ce5b153f",
+      "tag": "mailMessageId\u003d\u003cCAM7sg\u003d1Eefnx-C6SMf8HtC76Cp++Ciioy29VGh2xB2ae\u003dJpHBw@mail.gmail.com\u003e",
+      "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57efc9f1_94e5aa7e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-10T13:46:11Z",
+      "side": 1,
+      "message": "\u003e",
+      "parentUuid": "773b6f6d_ce5b153f",
+      "tag": "mailMessageId\u003d\u003cCAM7sg\u003d1Eefnx-C6SMf8HtC76Cp++Ciioy29VGh2xB2ae\u003dJpHBw@mail.gmail.com\u003e",
       "revId": "e71a1aa6fea8b47fe502791c4612fa8b5375300b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

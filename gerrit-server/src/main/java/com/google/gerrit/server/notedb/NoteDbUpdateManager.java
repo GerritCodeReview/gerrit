@@ -54,6 +54,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -204,6 +205,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
+  private final ListMultimap<String, NoteDbRewriter> rewriters;
   private final Set<Change.Id> toDelete;
 
   private OpenRepo changeRepo;
@@ -230,6 +232,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
+    rewriters = MultimapBuilder.hashKeys().arrayListValues().build();
     toDelete = new HashSet<>();
   }
 
@@ -323,6 +326,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return changeUpdates.isEmpty()
         && draftUpdates.isEmpty()
         && robotCommentUpdates.isEmpty()
+        && rewriters.isEmpty()
         && toDelete.isEmpty()
         && !hasCommands(changeRepo)
         && !hasCommands(allUsersRepo);
@@ -355,6 +359,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     RobotCommentUpdate rcu = update.getRobotCommentUpdate();
     if (rcu != null) {
       robotCommentUpdates.put(rcu.getRefName(), rcu);
+    }
+    DeleteCommentRewriter deleteCommentRewriter = update.getDeleteCommentRewriter();
+    if (deleteCommentRewriter != null) {
+      rewriters.put(deleteCommentRewriter.getRefName(), deleteCommentRewriter);
     }
   }
 
@@ -580,6 +588,26 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (!robotCommentUpdates.isEmpty()) {
       addUpdates(robotCommentUpdates, changeRepo);
     }
+    if (!rewriters.isEmpty()) {
+      Optional<String> conflictKey =
+          rewriters
+              .keySet()
+              .stream()
+              .filter(
+                  k ->
+                      (changeUpdates.containsKey(k)
+                          || draftUpdates.containsKey(k)
+                          || robotCommentUpdates.containsKey(k)))
+              .findAny();
+      if (conflictKey.isPresent()) {
+        throw new IllegalArgumentException(
+            String.format(
+                "cannot update and rewrite ref %s in one BatchUpdate", conflictKey.get()));
+      }
+
+      addRewrites(rewriters, changeRepo);
+    }
+
     for (Change.Id id : toDelete) {
       doDelete(id);
     }
@@ -696,6 +724,35 @@ public class NoteDbUpdateManager implements AutoCloseable {
       }
       if (!old.equals(curr)) {
         or.cmds.add(new ReceiveCommand(old, curr, refName));
+      }
+    }
+  }
+
+  private static void addRewrites(ListMultimap<String, NoteDbRewriter> rewriters, OpenRepo openRepo)
+      throws OrmException, IOException {
+    for (Map.Entry<String, Collection<NoteDbRewriter>> entry : rewriters.asMap().entrySet()) {
+      String refName = entry.getKey();
+      ObjectId oldTip = openRepo.cmds.get(refName).orElse(ObjectId.zeroId());
+
+      if (oldTip.equals(ObjectId.zeroId())) {
+        throw new OrmException(String.format("Ref %s is empty", refName));
+      }
+
+      ObjectId currTip = oldTip;
+      try {
+        for (NoteDbRewriter noteDbRewriter : entry.getValue()) {
+          ObjectId nextTip =
+              noteDbRewriter.rewriteCommitHistory(openRepo.rw, openRepo.tempIns, currTip);
+          if (nextTip != null) {
+            currTip = nextTip;
+          }
+        }
+      } catch (ConfigInvalidException e) {
+        throw new OrmException("Cannot rewrite commit history", e);
+      }
+
+      if (!oldTip.equals(currTip)) {
+        openRepo.cmds.add(new ReceiveCommand(oldTip, currTip, refName));
       }
     }
   }

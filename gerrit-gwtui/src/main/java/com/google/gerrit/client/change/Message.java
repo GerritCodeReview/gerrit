@@ -14,12 +14,12 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.AvatarImage;
-import com.google.gerrit.client.FormatUtil;
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.api.ApiGlue;
+import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.Patch;

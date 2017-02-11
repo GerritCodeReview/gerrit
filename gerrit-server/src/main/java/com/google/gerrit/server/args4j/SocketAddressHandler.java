@@ -15,8 +15,8 @@
 package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.server.util.SocketUtil;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.net.SocketAddress;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;

@@ -15,19 +15,19 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
-import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.testutil.TestKeys.allValidKeys;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
-import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
-import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
-import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
+import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.fail;

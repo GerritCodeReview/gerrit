@@ -32,9 +32,9 @@ import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
+import java.util.List;
 
 @Singleton
 public class InitPluginStepsLoader {

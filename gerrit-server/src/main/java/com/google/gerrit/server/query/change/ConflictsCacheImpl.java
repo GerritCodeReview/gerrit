@@ -18,8 +18,8 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.inject.Singleton;
 
 @Singleton
 public class ConflictsCacheImpl implements ConflictsCache {

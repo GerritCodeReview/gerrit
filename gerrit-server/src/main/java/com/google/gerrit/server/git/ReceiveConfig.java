@@ -16,8 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
 
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;

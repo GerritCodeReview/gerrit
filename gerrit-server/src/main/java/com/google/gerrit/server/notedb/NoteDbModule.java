@@ -23,8 +23,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.Result;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
+import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.Config;
 
 public class NoteDbModule extends FactoryModule {

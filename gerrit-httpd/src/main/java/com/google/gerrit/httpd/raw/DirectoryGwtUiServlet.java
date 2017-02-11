@@ -17,9 +17,9 @@ package com.google.gerrit.httpd.raw;
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.TimeUtil;
 import java.io.IOException;
+import java.nio.file.attribute.FileTime;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileTime;
 
 class DirectoryGwtUiServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;

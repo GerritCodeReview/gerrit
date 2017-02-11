@@ -25,8 +25,8 @@ import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.change.Votes;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.util.Map;
 
 public class ReviewerApiImpl implements ReviewerApi {

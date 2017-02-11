@@ -27,14 +27,14 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class ChangeResource implements RestResource, HasETag {

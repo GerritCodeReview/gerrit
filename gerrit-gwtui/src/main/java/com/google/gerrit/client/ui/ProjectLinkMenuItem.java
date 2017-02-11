@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class ProjectLinkMenuItem extends LinkMenuItem {

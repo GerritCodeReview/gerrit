@@ -16,12 +16,12 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 
+import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.NotFoundScreen;
-import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.info.GroupInfo;
+import com.google.gerrit.client.NotFoundScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.Screen;

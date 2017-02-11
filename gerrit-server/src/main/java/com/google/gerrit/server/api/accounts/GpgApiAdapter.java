@@ -19,9 +19,9 @@ import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountResource;
 import java.util.List;
 import java.util.Map;
 

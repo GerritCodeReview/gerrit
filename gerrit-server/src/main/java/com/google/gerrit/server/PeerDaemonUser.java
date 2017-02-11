@@ -16,8 +16,8 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.net.SocketAddress;
 
 /** Identity of a peer daemon process that isn't this JVM. */

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.api.ExtensionSettingsScreen;
+import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.common.PageLinks;

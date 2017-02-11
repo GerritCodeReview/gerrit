@@ -15,7 +15,6 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.info.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -23,6 +22,7 @@ import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

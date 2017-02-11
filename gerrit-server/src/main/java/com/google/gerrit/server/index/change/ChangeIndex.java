@@ -17,9 +17,9 @@ package com.google.gerrit.server.index.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
-import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.LegacyChangeIdPredicate;
+import com.google.gerrit.server.query.Predicate;
 
 public interface ChangeIndex extends Index<Change.Id, ChangeData> {
   public interface Factory

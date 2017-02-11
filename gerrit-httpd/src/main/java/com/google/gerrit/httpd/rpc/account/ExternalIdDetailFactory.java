@@ -17,12 +17,12 @@ package com.google.gerrit.httpd.rpc.account;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.Collections;

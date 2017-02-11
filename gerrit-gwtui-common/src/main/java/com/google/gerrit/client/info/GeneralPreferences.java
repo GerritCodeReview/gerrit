@@ -15,8 +15,8 @@
 package com.google.gerrit.client.info;
 
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;

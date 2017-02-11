@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.api.group;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.Url;

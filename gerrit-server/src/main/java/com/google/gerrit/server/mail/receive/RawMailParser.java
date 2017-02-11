@@ -23,16 +23,16 @@ import com.google.common.io.CharStreams;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.server.mail.Address;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import org.apache.james.mime4j.MimeException;
+import java.io.IOException;
+import org.apache.james.mime4j.dom.address.Mailbox;
 import org.apache.james.mime4j.dom.Entity;
 import org.apache.james.mime4j.dom.Message;
 import org.apache.james.mime4j.dom.MessageBuilder;
 import org.apache.james.mime4j.dom.Multipart;
 import org.apache.james.mime4j.dom.TextBody;
-import org.apache.james.mime4j.dom.address.Mailbox;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
+import org.apache.james.mime4j.MimeException;
 import org.joda.time.DateTime;
 
 /**

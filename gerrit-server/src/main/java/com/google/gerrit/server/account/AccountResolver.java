@@ -26,9 +26,9 @@ import com.google.inject.Singleton;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Set;
 
 @Singleton
 public class AccountResolver {

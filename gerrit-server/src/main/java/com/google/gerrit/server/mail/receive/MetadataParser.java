@@ -22,8 +22,8 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.server.mail.MailUtil;
 import com.google.gerrit.server.mail.MetadataName;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.format.DateTimeParseException;
+import java.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

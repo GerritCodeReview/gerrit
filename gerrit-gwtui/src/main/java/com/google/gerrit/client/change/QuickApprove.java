@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ReviewInput;
 import com.google.gerrit.client.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.rpc.GerritCallback;

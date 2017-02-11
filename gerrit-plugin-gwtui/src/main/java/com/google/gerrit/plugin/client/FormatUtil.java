@@ -16,8 +16,8 @@ package com.google.gerrit.plugin.client;
 
 import com.google.gerrit.client.AccountFormatter;
 import com.google.gerrit.client.DateFormatter;
-import com.google.gerrit.client.RelativeDateFormatter;
 import com.google.gerrit.client.info.AccountInfo;
+import com.google.gerrit.client.RelativeDateFormatter;
 import java.util.Date;
 
 public class FormatUtil {

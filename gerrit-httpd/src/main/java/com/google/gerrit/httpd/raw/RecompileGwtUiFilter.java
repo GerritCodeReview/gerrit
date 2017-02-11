@@ -18,8 +18,8 @@ import com.google.gerrit.httpd.raw.BuildSystem.Label;
 import com.google.gwtexpui.linker.server.UserAgentRule;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -29,11 +29,11 @@ import java.util.zip.ZipFile;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 class RecompileGwtUiFilter implements Filter {
   private final boolean gwtuiRecompile =

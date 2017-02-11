@@ -16,8 +16,8 @@ package com.google.gerrit.sshd;
 
 import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.inject.Inject;
 import com.google.inject.binder.LinkedBindingBuilder;
+import com.google.inject.Inject;
 import org.apache.sshd.server.Command;
 
 /**

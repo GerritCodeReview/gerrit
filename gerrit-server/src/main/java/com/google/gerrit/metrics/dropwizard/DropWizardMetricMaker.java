@@ -41,21 +41,21 @@ import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.Histogram2;
 import com.google.gerrit.metrics.Histogram3;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.proc.JGitMetricModule;
+import com.google.gerrit.metrics.proc.ProcMetricModule;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
-import com.google.gerrit.metrics.proc.JGitMetricModule;
-import com.google.gerrit.metrics.proc.ProcMetricModule;
 import com.google.gerrit.server.cache.CacheMetrics;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.Set;
 
 /**
  * Connects Gerrit metric package onto DropWizard.

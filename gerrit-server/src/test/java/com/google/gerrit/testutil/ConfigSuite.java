@@ -32,9 +32,9 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 import org.junit.runner.Runner;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.Suite;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
+import org.junit.runners.Suite;
 
 /**
  * Suite to run tests with different {@code gerrit.config} values.

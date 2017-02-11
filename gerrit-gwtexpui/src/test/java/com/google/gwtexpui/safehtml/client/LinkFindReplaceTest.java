@@ -17,8 +17,8 @@ package com.google.gwtexpui.safehtml.client;
 import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.Test;
 
 public class LinkFindReplaceTest {
   @Rule public ExpectedException exception = ExpectedException.none();

@@ -16,10 +16,10 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.VisibleRefFilter;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshSession;

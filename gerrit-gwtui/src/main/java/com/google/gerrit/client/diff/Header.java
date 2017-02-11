@@ -14,14 +14,14 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.DiffObject;
-import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffInfo.Region;
+import com.google.gerrit.client.DiffObject;
+import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.FileInfo;
 import com.google.gerrit.client.info.WebLinkInfo;

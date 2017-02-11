@@ -17,8 +17,8 @@ package com.google.gwtexpui.user.client;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.Window;
 
 /** A DialogBox that automatically re-centers itself if the window changes */
 public class AutoCenterDialogBox extends DialogBox {

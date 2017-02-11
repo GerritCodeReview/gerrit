@@ -15,8 +15,8 @@
 package com.google.gerrit.pgm.init;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.List;
 
 /** Represents the plugins packaged in the Gerrit distribution */

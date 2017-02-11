@@ -16,9 +16,9 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.TimeUtil;
+import java.nio.file.attribute.FileTime;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileTime;
 
 class WarGwtUiServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;

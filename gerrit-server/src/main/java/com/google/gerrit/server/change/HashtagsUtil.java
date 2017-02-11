@@ -18,9 +18,9 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Set;
 
 public class HashtagsUtil {
   private static final CharMatcher LEADER = CharMatcher.whitespace().or(CharMatcher.is('#'));

@@ -16,12 +16,11 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
+import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
-import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
@@ -32,6 +31,7 @@ import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.reviewdb.client.Project;

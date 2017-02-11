@@ -29,10 +29,10 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Locale;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /** Simple fake implementation of {@link HttpServletResponse}. */

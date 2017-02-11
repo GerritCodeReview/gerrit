@@ -15,10 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.CurrentUser;
 import java.util.Collections;
 import java.util.Set;
 

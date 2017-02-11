@@ -23,8 +23,8 @@ import com.google.gerrit.server.change.GetContent;
 import com.google.gerrit.server.change.GetDiff;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.io.IOException;
 
 class FileApiImpl implements FileApi {

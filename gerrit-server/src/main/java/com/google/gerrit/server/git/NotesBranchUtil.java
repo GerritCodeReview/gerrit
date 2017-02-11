@@ -15,10 +15,10 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.inject.Inject;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.errors.CorruptObjectException;

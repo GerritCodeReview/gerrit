@@ -14,8 +14,8 @@
 
 package com.google.gerrit.extensions.restapi;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 
 /** Raw data stream supplied by the body of a PUT or POST. */
 public interface RawInput {

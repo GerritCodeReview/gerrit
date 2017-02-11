@@ -15,10 +15,10 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.not;
 import static com.google.gerrit.server.query.Predicate.or;
-import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -29,8 +29,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.InternalQuery;
 import com.google.gerrit.server.query.Predicate;

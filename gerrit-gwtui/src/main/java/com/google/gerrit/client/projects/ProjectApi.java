@@ -13,11 +13,11 @@
 // limitations under the License.
 package com.google.gerrit.client.projects;
 
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;

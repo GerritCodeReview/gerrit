@@ -14,15 +14,15 @@
 
 package com.google.gerrit.server.plugins;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.nio.file.NoSuchFileException;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.jar.Manifest;
 import java.util.Map;
 import java.util.Optional;
-import java.util.jar.Manifest;
 
 /**
  * Scans the plugin returning classes and resources.

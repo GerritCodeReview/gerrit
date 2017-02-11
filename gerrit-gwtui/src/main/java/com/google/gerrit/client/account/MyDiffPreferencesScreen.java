@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.diff.PreferencesBox;
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class MyDiffPreferencesScreen extends SettingsScreen {

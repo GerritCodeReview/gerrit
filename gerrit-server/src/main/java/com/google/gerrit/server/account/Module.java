@@ -18,8 +18,8 @@ import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
 import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
 import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
-import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
 import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
+import static com.google.gerrit.server.account.AccountResource.STARRED_CHANGE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;

@@ -17,8 +17,8 @@ package com.google.gerrit.sshd.commands;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;

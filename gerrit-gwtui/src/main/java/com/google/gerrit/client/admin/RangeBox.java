@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
+import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IntegerBox;

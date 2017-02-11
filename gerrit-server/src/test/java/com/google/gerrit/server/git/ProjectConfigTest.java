@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.AccessSection;

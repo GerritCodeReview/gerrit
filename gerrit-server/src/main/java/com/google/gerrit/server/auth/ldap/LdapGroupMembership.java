@@ -19,9 +19,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.ProjectCache;
+import java.util.concurrent.ExecutionException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 class LdapGroupMembership implements GroupMembership {
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;

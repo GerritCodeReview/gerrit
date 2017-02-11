@@ -15,8 +15,8 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.collect.Iterables;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.project.ProjectControl;
 import java.util.Collection;
 import java.util.Comparator;

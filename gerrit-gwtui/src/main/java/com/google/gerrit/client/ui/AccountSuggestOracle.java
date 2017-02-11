@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.account.AccountApi;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;

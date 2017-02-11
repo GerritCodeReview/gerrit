@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.PatchSet;

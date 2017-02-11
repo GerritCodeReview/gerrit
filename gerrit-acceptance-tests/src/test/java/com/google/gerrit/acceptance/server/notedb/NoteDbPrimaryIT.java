@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.server.notedb;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static java.util.concurrent.TimeUnit.DAYS;

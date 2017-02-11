@@ -14,15 +14,15 @@
 
 package net.codemirror.lib;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.diff.DisplaySide;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.Window;
 import net.codemirror.lib.TextMarker.FromTo;
 
 /**

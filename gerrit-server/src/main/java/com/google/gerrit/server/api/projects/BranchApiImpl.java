@@ -20,8 +20,8 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.BranchesCollection;
+import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.CreateBranch;
 import com.google.gerrit.server.project.DeleteBranch;
 import com.google.gerrit.server.project.FileResource;
@@ -29,8 +29,8 @@ import com.google.gerrit.server.project.FilesCollection;
 import com.google.gerrit.server.project.GetContent;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.io.IOException;
 
 public class BranchApiImpl implements BranchApi {

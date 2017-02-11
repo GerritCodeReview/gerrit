@@ -14,12 +14,12 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.editor.EditFileInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;

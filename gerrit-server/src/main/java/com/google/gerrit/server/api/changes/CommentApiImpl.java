@@ -20,8 +20,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.CommentResource;
 import com.google.gerrit.server.change.GetComment;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 
 class CommentApiImpl implements CommentApi {
   interface Factory {

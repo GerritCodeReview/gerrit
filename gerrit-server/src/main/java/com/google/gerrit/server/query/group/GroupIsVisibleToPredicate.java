@@ -16,10 +16,10 @@ package com.google.gerrit.server.query.group;
 
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.query.IsVisibleToPredicate;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
+import com.google.gerrit.server.query.IsVisibleToPredicate;
 import com.google.gwtorm.server.OrmException;
 
 public class GroupIsVisibleToPredicate extends IsVisibleToPredicate<AccountGroup> {

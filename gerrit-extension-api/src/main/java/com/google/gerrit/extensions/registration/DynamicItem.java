@@ -15,12 +15,12 @@
 package com.google.gerrit.extensions.registration;
 
 import com.google.inject.Binder;
+import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 import java.util.concurrent.atomic.AtomicReference;

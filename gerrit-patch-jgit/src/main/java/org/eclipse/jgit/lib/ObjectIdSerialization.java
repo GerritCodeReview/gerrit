@@ -14,8 +14,8 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import org.eclipse.jgit.util.IO;
 

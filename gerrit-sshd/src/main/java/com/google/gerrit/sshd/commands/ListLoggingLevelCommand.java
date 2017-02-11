@@ -23,8 +23,8 @@ import com.google.gerrit.sshd.SshCommand;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.TreeMap;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)

@@ -18,8 +18,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexDefinition;
-import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.account.AccountPredicates;
+import com.google.gerrit.server.query.Predicate;
 
 public interface AccountIndex extends Index<Account.Id, AccountState> {
   public interface Factory

@@ -27,9 +27,9 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.gpg.server.DeleteGpgKey;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.server.PostGpgKeys;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
+import com.google.gerrit.server.IdentifiedUser;
 import java.util.List;
 import java.util.Map;
 

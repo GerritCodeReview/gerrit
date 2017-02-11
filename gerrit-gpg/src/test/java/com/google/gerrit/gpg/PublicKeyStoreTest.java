@@ -14,13 +14,13 @@
 
 package com.google.gerrit.gpg;
 
-import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyObjectId;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
+import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithExpiration;
-import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
+import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

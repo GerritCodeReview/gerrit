@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GerritUiExtensionPoint;
-import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;

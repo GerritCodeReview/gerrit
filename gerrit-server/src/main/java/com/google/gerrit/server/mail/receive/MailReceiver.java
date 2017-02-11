@@ -22,13 +22,13 @@ import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.Collections;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

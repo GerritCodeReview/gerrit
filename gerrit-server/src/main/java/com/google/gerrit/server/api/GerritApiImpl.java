@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.api;
 
-import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.config.Config;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.inject.Inject;

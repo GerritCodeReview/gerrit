@@ -17,10 +17,10 @@ package com.google.gerrit.extensions.restapi;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.binder.ScopedBindingBuilder;
+import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 
 /** Guice DSL for binding {@link RestView} implementations. */
 public abstract class RestApiModule extends FactoryModule {

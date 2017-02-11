@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.Reader;
 import org.apache.http.HttpStatus;
 

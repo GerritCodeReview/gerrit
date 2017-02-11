@@ -26,8 +26,8 @@ import com.google.gerrit.server.CurrentUser;
 import dk.brics.automaton.Automaton;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.Set;
 
 public abstract class RefPatternMatcher {
   public static RefPatternMatcher getMatcher(String pattern) {

@@ -29,8 +29,8 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 import javax.mail.internet.MimeMessage;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.Test;
 
 @NoHttpd
 @RunWith(ConfigSuite.class)

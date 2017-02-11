@@ -19,13 +19,13 @@ import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIM
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;

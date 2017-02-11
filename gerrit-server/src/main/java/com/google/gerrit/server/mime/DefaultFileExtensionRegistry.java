@@ -15,13 +15,13 @@
 package com.google.gerrit.server.mime;
 
 import com.google.common.collect.ImmutableMap;
+import eu.medsea.mimeutil.detector.MimeDetector;
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil;
-import eu.medsea.mimeutil.detector.MimeDetector;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;

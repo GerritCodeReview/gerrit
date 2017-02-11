@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 

@@ -42,8 +42,8 @@ import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.Test;
 
 @RunWith(ConfigSuite.class)
 public class IdentifiedUserTest {

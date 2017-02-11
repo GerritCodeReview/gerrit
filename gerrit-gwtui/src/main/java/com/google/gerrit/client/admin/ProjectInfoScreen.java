@@ -14,15 +14,14 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.GerritUiExtensionPoint;
-import com.google.gerrit.client.StringListPanel;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.api.ExtensionPanel;
 import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.download.DownloadPanel;
+import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritUiExtensionPoint;
 import com.google.gerrit.client.info.ActionInfo;
 import com.google.gerrit.client.info.DownloadInfo.DownloadCommandInfo;
 import com.google.gerrit.client.info.DownloadInfo.DownloadSchemeInfo;
@@ -36,6 +35,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.StringListPanel;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;

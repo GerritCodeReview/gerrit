@@ -15,21 +15,21 @@
 package com.google.gerrit.extensions.registration;
 
 import com.google.inject.Binder;
+import com.google.inject.binder.LinkedBindingBuilder;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.Key;
+import com.google.inject.name.Named;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-import com.google.inject.binder.LinkedBindingBuilder;
-import com.google.inject.internal.UniqueAnnotations;
-import com.google.inject.name.Named;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A set of members that can be modified as plugins reload.

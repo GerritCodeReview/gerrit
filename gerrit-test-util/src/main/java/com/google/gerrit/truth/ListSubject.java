@@ -21,8 +21,8 @@ import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
-import java.util.List;
 import java.util.function.Function;
+import java.util.List;
 
 public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
 

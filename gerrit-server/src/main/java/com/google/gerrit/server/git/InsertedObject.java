@@ -16,8 +16,8 @@ package com.google.gerrit.server.git;
 
 import com.google.auto.value.AutoValue;
 import com.google.protobuf.ByteString;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;

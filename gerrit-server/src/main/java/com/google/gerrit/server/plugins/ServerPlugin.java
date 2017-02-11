@@ -28,9 +28,9 @@ import com.google.inject.Module;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.List;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 public class ServerPlugin extends Plugin {

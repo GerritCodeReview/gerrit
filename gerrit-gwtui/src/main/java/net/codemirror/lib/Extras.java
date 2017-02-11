@@ -19,10 +19,10 @@ import static com.google.gwt.dom.client.Style.Unit.PX;
 import static net.codemirror.lib.CodeMirror.LineClassWhere.WRAP;
 import static net.codemirror.lib.CodeMirror.style;
 
-import com.google.gerrit.client.FormatUtil;
-import com.google.gerrit.client.RangeInfo;
 import com.google.gerrit.client.blame.BlameInfo;
 import com.google.gerrit.client.diff.DisplaySide;
+import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.RangeInfo;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;

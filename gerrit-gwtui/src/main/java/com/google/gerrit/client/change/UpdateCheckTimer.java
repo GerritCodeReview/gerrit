@@ -19,8 +19,8 @@ import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.Timer;
 
 class UpdateCheckTimer extends Timer implements ValueChangeHandler<Boolean> {
   private static final int MAX_PERIOD = 3 * 60 * 1000;

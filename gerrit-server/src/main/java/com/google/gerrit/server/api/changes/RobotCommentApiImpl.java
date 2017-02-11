@@ -20,8 +20,8 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.GetRobotComment;
 import com.google.gerrit.server.change.RobotCommentResource;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 
 public class RobotCommentApiImpl implements RobotCommentApi {
   interface Factory {

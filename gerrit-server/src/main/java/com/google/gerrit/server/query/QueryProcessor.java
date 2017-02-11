@@ -37,9 +37,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public abstract class QueryProcessor<T> {
   @Singleton

@@ -17,8 +17,8 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.util.TreeFormatter.TreeNode;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.util.SortedSet;
 import java.util.TreeSet;
 

@@ -14,12 +14,12 @@
 
 package com.google.gerrit.client.groups;
 
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.GroupInfo;
-import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;

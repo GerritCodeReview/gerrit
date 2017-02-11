@@ -23,9 +23,9 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 class DefaultActions {
   static void invoke(ChangeInfo change, ActionInfo action, RestApi api) {

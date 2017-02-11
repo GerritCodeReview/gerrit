@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;

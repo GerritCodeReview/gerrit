@@ -14,11 +14,11 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.config.ConfigServerApi;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.common.PageLinks;
 
 public class ValidateEmailScreen extends AccountScreen {

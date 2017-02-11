@@ -17,9 +17,9 @@ package net.codemirror.mode;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Set;
 import net.codemirror.lib.Loader;
 
 public class ModeInjector {

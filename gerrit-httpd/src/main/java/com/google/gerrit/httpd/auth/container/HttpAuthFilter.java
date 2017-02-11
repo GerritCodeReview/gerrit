@@ -23,9 +23,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -39,11 +39,11 @@ import java.util.Locale;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Watches request for the host page and requires login if not yet signed in.

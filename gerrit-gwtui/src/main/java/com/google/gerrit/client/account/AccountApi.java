@@ -14,15 +14,15 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.AgreementInfo;
 import com.google.gerrit.client.info.GpgKeyInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.client.VoidResult;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;

@@ -17,19 +17,19 @@ package com.google.gerrit.server.mail;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.errors.NoSuchAccountException;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gwtorm.server.OrmException;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.Set;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 

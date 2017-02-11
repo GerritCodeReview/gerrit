@@ -17,8 +17,8 @@ package com.google.gerrit.server.git.validators;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectState;
 import org.eclipse.jgit.lib.Repository;
 

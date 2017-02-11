@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class ComparisonType {

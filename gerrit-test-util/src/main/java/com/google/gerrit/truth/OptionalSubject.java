@@ -21,8 +21,8 @@ import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 import com.google.common.truth.Truth;
-import java.util.Optional;
 import java.util.function.Function;
+import java.util.Optional;
 
 public class OptionalSubject<S extends Subject<S, ? super T>, T>
     extends Subject<OptionalSubject<S, T>, Optional<T>> {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.index.change;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.index.change.StalenessChecker.refsAreStale;
 import static com.google.gerrit.testutil.TestChanges.newChange;
 import static java.nio.charset.StandardCharsets.UTF_8;

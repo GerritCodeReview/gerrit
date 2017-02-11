@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
+import java.util.jar.Manifest;
 import java.util.Map;
 import java.util.Set;
-import java.util.jar.Manifest;
 
 /**
  * Base plugin scanner for a set of pre-loaded classes.

@@ -24,8 +24,8 @@ import com.google.gerrit.server.change.GetDraftComment;
 import com.google.gerrit.server.change.PutDraftComment;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 
 class DraftApiImpl implements DraftApi {
   interface Factory {

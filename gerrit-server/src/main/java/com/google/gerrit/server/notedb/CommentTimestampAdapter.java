@@ -16,18 +16,18 @@ package com.google.gerrit.server.notedb;
 
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
-import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.google.gson.TypeAdapter;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
+import java.time.ZoneId;
 
 /**
  * Adapter that reads/writes {@link Timestamp}s as ISO 8601 instant in UTC.

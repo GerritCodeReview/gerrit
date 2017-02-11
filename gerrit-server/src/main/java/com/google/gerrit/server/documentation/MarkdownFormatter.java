@@ -21,8 +21,8 @@ import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
 
 import com.google.common.base.Strings;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -30,13 +30,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.pegdown.LinkRenderer;
-import org.pegdown.PegDownProcessor;
-import org.pegdown.ToHtmlSerializer;
 import org.pegdown.ast.HeaderNode;
 import org.pegdown.ast.Node;
 import org.pegdown.ast.RootNode;
 import org.pegdown.ast.TextNode;
+import org.pegdown.LinkRenderer;
+import org.pegdown.PegDownProcessor;
+import org.pegdown.ToHtmlSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

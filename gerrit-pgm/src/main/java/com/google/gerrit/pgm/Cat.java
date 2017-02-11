@@ -16,8 +16,8 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.AbstractProgram;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import org.kohsuke.args4j.Argument;
 
 /** Dump the contents of a file in our archive. */

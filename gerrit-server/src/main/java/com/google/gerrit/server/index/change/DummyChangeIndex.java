@@ -17,9 +17,9 @@ package com.google.gerrit.server.index.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.Predicate;
 import java.io.IOException;
 
 public class DummyChangeIndex implements ChangeIndex {

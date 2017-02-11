@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
 /** Authentication related settings from {@code gerrit.config}. */

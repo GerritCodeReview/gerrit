@@ -15,9 +15,9 @@
 package com.google.gerrit.server.util;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
+import com.google.gerrit.server.RemotePeer;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -27,9 +27,9 @@ import com.google.inject.util.Types;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.SocketAddress;
+import java.util.concurrent.Callable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 /** Propagator for Guice's built-in servlet scope. */
 public class GuiceRequestScopePropagator extends RequestScopePropagator {

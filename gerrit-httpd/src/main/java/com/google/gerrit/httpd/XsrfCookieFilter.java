@@ -18,8 +18,8 @@ import static com.google.common.base.Strings.nullToEmpty;
 
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -27,12 +27,12 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 @Singleton
 public class XsrfCookieFilter implements Filter {

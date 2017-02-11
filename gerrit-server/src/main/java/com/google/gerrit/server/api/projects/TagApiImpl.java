@@ -26,8 +26,8 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.TagResource;
 import com.google.gerrit.server.project.TagsCollection;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.io.IOException;
 
 public class TagApiImpl implements TagApi {

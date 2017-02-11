@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.admin.Util;
+import com.google.gerrit.client.Gerrit;
 
 public class PagingHyperlink extends Hyperlink {
 

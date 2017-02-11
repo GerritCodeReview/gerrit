@@ -15,8 +15,8 @@
 package com.google.gerrit.metrics;
 
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 /** Exports no metrics, useful for running batch programs. */
 public class DisabledMetricMaker extends MetricMaker {

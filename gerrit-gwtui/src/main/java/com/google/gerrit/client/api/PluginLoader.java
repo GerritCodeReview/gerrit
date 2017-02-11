@@ -16,16 +16,16 @@ package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.VoidResult;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.CodeDownloadException;
 import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.Window;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import java.util.List;
 

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;

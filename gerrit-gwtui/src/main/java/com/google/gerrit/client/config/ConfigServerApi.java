@@ -14,12 +14,12 @@
 
 package com.google.gerrit.client.config;
 
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.client.info.ServerInfo;
 import com.google.gerrit.client.info.TopMenuList;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.client.VoidResult;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

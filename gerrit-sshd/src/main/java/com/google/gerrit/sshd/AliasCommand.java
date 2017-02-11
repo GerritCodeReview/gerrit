@@ -17,12 +17,12 @@ package com.google.gerrit.sshd;
 import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.CurrentUser;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 

@@ -40,13 +40,13 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
-import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.AllowedFormats;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
+import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -55,11 +55,11 @@ import com.google.inject.Inject;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {

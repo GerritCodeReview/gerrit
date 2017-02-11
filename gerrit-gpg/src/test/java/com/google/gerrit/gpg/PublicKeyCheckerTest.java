@@ -58,8 +58,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.Test;
 
 public class PublicKeyCheckerTest {
   @Rule public ExpectedException thrown = ExpectedException.none();

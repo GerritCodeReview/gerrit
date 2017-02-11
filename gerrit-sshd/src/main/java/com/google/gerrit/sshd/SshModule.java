@@ -18,16 +18,16 @@ import static com.google.gerrit.extensions.registration.PrivateInternals_Dynamic
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.PeerDaemonUser;
-import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
+import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.sshd.commands.QueryShell;
@@ -37,9 +37,9 @@ import com.google.inject.servlet.RequestScoped;
 import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
+import org.apache.sshd.server.CommandFactory;
 import org.eclipse.jgit.lib.Config;
 
 /** Configures standard dependencies for {@link SshDaemon}. */

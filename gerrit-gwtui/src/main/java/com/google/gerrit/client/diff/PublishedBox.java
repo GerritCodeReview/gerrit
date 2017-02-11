@@ -14,15 +14,15 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.AvatarImage;
-import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.FormatUtil;
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.api.ApiGlue;
+import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.change.ReplyBox;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;

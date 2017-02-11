@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
-import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import java.io.BufferedReader;

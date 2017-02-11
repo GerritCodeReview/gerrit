@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.editor;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.EditPreferences;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;

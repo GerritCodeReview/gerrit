@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextAreaActionDialog;

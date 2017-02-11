@@ -15,8 +15,8 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.gerrit.reviewdb.client.Comment;
-import java.util.StringJoiner;
 import java.util.regex.Pattern;
+import java.util.StringJoiner;
 
 public class ParserUtil {
   private static final Pattern SIMPLE_EMAIL_PATTERN =

@@ -16,15 +16,15 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.SingleVersionModule;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.SingleVersionModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 

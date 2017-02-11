@@ -15,18 +15,18 @@
 package com.google.gerrit.server.util;
 
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.ProvisionException;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
+import com.google.inject.Provides;
+import com.google.inject.ProvisionException;
 
 /**
  * ThreadLocalRequestContext manages the current RequestContext using a ThreadLocal. When the

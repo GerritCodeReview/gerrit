@@ -17,8 +17,8 @@ package com.google.gerrit.metrics;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 /** Describes a metric created by {@link MetricMaker}. */
 public class Description {

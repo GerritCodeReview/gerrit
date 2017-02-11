@@ -16,16 +16,16 @@ package com.google.gerrit.server.config;
 
 import com.google.common.annotations.VisibleForTesting;
 import java.text.MessageFormat;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 import org.eclipse.jgit.lib.Config;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
-import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
+import org.joda.time.MutableDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

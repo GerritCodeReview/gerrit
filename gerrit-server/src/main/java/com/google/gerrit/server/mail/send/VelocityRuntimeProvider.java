@@ -21,10 +21,10 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.nio.file.Files;
 import java.util.Properties;
+import org.apache.velocity.runtime.log.LogChute;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

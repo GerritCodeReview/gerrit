@@ -14,9 +14,9 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
+import com.google.gerrit.server.PluginUser;
 import com.google.inject.Inject;
 import org.junit.After;
 import org.junit.Before;

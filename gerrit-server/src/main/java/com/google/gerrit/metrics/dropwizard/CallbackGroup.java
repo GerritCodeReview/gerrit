@@ -15,8 +15,8 @@
 package com.google.gerrit.metrics.dropwizard;
 
 import com.google.common.collect.ImmutableSet;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Run a user specified trigger only once every 2 seconds.

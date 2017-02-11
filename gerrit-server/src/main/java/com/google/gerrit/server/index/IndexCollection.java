@@ -18,8 +18,8 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /** Dynamic pointers to the index versions used for searching and writing. */
 public abstract class IndexCollection<K, V, I extends Index<K, V>> implements LifecycleListener {

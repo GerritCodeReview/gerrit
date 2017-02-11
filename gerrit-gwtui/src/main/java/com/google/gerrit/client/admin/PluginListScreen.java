@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.api.ExtensionScreen;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.plugins.PluginInfo;
 import com.google.gerrit.client.plugins.PluginMap;
 import com.google.gerrit.client.rpc.Natives;

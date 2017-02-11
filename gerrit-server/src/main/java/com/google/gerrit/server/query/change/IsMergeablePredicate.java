@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gwtorm.server.OrmException;
 
 class IsMergeablePredicate extends ChangeIndexPredicate {

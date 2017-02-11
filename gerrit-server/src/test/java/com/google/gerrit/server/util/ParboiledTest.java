@@ -18,11 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.BaseParser;
 import org.parboiled.Parboiled;
-import org.parboiled.Rule;
-import org.parboiled.annotations.BuildParseTree;
 import org.parboiled.parserunners.ReportingParseRunner;
+import org.parboiled.Rule;
 import org.parboiled.support.ParseTreeUtils;
 import org.parboiled.support.ParsingResult;
 

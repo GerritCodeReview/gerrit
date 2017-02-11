@@ -16,9 +16,9 @@ package com.google.gerrit.client.change;
 
 import static com.google.gerrit.common.PageLinks.op;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeList;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;

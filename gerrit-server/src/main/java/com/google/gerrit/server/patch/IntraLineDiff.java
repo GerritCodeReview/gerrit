@@ -20,8 +20,8 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
 import com.google.gerrit.reviewdb.client.CodedEnum;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;

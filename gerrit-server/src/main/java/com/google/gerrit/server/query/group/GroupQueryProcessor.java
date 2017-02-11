@@ -18,13 +18,13 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.query.group.GroupQueryBuilder.FIELD_LIMIT;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.index.IndexConfig;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.AndSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryProcessor;

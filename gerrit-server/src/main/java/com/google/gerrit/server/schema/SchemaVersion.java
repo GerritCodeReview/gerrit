@@ -29,8 +29,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 /** A version of the database schema. */
 public abstract class SchemaVersion {

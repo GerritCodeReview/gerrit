@@ -26,21 +26,21 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.PutName.Input;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Date;
-import java.util.TimeZone;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.Date;
+import java.util.TimeZone;
 
 @Singleton
 public class PutName implements RestModifyView<GroupResource, Input> {

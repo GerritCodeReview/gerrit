@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.DiffObject;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import java.util.Collection;

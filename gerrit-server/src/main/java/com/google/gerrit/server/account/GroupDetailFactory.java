@@ -21,11 +21,11 @@ import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Inject;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.List;
 
 public class GroupDetailFactory implements Callable<GroupDetail> {
   public interface Factory {

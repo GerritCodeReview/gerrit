@@ -21,16 +21,16 @@ import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.Schema.Values;
-import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.DataSource;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.editor.EditPreferencesBox;
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class MyEditPreferencesScreen extends SettingsScreen {

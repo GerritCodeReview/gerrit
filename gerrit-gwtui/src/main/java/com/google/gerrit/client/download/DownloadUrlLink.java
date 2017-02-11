@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.download;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.DownloadInfo.DownloadSchemeInfo;
 import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gwt.aria.client.Roles;

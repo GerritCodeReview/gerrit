@@ -18,8 +18,8 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.TypeLiteral;
 import java.util.Set;
 

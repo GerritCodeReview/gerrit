@@ -20,8 +20,8 @@ import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
-import com.google.gerrit.sshd.SuExec;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand;
+import com.google.gerrit.sshd.SuExec;
 
 /** Register the commands a Gerrit server supports. */
 public class DefaultCommandModule extends CommandModule {

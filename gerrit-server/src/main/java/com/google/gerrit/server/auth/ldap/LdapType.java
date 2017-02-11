@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
+import javax.naming.NamingException;
 
 abstract class LdapType {
   static final LdapType RFC_2307 = new Rfc2307();

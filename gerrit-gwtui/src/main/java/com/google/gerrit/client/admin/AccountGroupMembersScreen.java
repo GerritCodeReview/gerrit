@@ -16,7 +16,6 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.GroupInfo;
@@ -29,6 +28,7 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;

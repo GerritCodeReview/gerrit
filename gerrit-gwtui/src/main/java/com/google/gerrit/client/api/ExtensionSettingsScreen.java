@@ -16,8 +16,8 @@ package com.google.gerrit.client.api;
 
 import com.google.gerrit.client.account.SettingsScreen;
 import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;

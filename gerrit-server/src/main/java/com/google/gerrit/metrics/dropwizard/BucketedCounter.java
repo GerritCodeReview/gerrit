@@ -18,10 +18,10 @@ import com.codahale.metrics.Metric;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker.CounterImpl;
-import java.util.Map;
+import com.google.gerrit.metrics.Field;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 /** Abstract counter broken down into buckets by {@link Field} values. */
 abstract class BucketedCounter implements BucketedMetric {

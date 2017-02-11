@@ -18,11 +18,11 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.UniversalGroupBackend;
+import com.google.gerrit.server.InternalUser;
 
 public class GroupModule extends FactoryModule {
 

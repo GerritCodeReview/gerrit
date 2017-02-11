@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;

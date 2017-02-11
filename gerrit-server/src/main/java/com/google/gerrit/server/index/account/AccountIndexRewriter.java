@@ -19,9 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.IndexRewriter;
 import com.google.gerrit.server.index.QueryOptions;
+import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

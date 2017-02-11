@@ -20,9 +20,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import com.google.inject.TypeLiteral;
 
 public class ReviewerResource implements RestResource {
   public static final TypeLiteral<RestView<ReviewerResource>> REVIEWER_KIND =

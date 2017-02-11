@@ -22,12 +22,12 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.OutputFormat;
 import java.io.IOException;
-import org.apache.http.Header;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.Header;
+import org.apache.http.HttpStatus;
 import org.apache.http.message.BasicHeader;
 
 public class RestSession extends HttpSession {

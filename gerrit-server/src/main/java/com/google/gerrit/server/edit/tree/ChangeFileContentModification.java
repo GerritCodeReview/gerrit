@@ -19,8 +19,8 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.restapi.RawInput;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;

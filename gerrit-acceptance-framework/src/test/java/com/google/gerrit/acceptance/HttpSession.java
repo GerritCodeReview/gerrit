@@ -18,9 +18,9 @@ import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.Nullable;
 import java.io.IOException;
 import java.net.URI;
-import org.apache.http.HttpHost;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.HttpHost;
 
 public class HttpSession {
   protected TestAccount account;

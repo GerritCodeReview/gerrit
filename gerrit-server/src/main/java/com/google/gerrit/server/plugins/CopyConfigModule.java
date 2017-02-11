@@ -15,13 +15,13 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gwtorm.server.SchemaFactory;

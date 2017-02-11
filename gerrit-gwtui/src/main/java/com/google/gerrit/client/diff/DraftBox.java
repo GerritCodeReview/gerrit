@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.change.LocalComments;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;

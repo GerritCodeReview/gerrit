@@ -32,8 +32,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.Test;
 
 @RunWith(ConfigSuite.class)
 public class CommitMessageOutputTest extends AbstractChangeNotesTest {

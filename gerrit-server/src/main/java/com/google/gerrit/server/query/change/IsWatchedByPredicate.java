@@ -15,8 +15,8 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;

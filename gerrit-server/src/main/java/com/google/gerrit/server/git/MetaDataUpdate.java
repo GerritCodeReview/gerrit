@@ -16,13 +16,13 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;

@@ -231,6 +231,17 @@ java_library(
 )
 
 java_library(
+    name = "truth-java8-extension",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = [
+        ":guava",
+        ":truth",
+        "@truth-java8-extension//jar",
+    ],
+)
+
+java_library(
     name = "javassist",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],

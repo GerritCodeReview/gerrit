@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70a0b5d6_e49cc28a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-11T01:46:04Z",
+      "side": 1,
+      "message": "Extra blank was added here.",
+      "range": {
+        "startLine": 94,
+        "startChar": 36,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "baaacbead98b6e367b6e2686379bf5daf5ee6957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6f60254_7752f4c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/HtmlParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-11T01:46:04Z",
+      "side": 1,
+      "message": "Extra blank was added here.",
+      "range": {
+        "startLine": 94,
+        "startChar": 36,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "baaacbead98b6e367b6e2686379bf5daf5ee6957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

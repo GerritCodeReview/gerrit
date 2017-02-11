@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2401a0b5_65cf6974",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-11T12:22:30Z",
+      "side": 1,
+      "message": "There is a three-in-one proposal here:\n\n* 1. Drop draft changes and draft patch set workflow\n* 2. Extend Edits feature set\n* 3. Introduce unconditionally (!) private changes workflow in Gerrit core (!)\n\nI have concerns, that we are replacing one hard-coded crap workflow, that nobody seems to need, with another one in Gerrit core (!). I object to add it unconditionally. It took years to be able to disable draft workflow in all channels: GIT, UI, REST per configuration.\n\nNote, that other alternative change workflows, like WIP-workflow, is what is urgently needed for open source projects, like OpenStack and LibreOffice, see the wip-plugin implementation: [1]. FTR: I extracted this plugin implementation from another abandoned attempt, done by OpenStack infra team to add such a featue to Gerrit core. Thousands developers, working on the same projects produce hundreds of changes per day and it\u0027s incredibly hard to keep track of what to review in dashboard. WIP bit can be set and unset and as the consequence wip changes disappear from the reviewer\u0027s dashboard.\n\nI don\u0027t fully understand what exactly problem you are trying to solve with private changes feature (if you want to duscuss something secret with your colleague about specific change, talk to her offline, done), but I already have strong impression that none of open source projects I\u0027m aware of (OpenStack, LibreOffice and other) and non open source Gerrit customers, I\u0027m aware of, would ever need it.\n\nThat why I\u0027m sceptical to add it in Gerrit core. If you really need \"private changes workflow\" (can you point me to some public feature requests, discussions, previous attempts to introduce that feature, abandoned changes?) then consider implementing it as a plugin. Of course that would require some efforts. But get right once this support for generic worflows approach could be re-used for different worklfows implementations, like mentioned WIP workflow and would be a huge step forward for this project.\n\nOswald Buddenhagen, told us during Gerri hackathon in Berlin last year, that for QT project he needs stage-tracking workflow per change level: Development, Integration, Pre-Production, Production. After some discussion during the hackaton, we agreed, to enable plugins to contribute to secondary index fields and Dave wrote proposal to repo-discuss what would be needed to make it possible.\n\nMoreover, Dave added this interesting extenion point for visitor pattern in ActionInfos before returning: [2]. ReceiveCommits would need to be extended to allow to set plugin-provided secondary index bits on push, like in:\n\n $ git push origin HEAD:refs/for/master%private-changes-workflow-plugin:private\n $ git push origin HEAD:refs/for/master%private-changes-workflow-plugin:promote-to-public\n $ git push origin HEAD:refs/for/master%private-changes-workflow-plugin:demote-to-private\n\nWith visitor pattern filtering, similar to: [2], ChangeJson could filter the changes marked by the plugins, based on visibility check for current user or (what not),  returned to change list and change screen.\n\nIn the end, instead of disabling/enabling different supported worklows in gerrit config offered in core:\n\n* changes.stage_tracking_workflow \u003d off\n* changes.private_change_workflow \u003d off\n* changes.wip_workflow \u003d on\n\nsite admin just say:\n\n  cp wip-wokflow-plugin.jar \u003cgerrit_site\u003e/plugins\n\nDone.\n\n* [1] https://gerrit.googlesource.com/plugins/wip/+/master/src/main/resources/Documentation/about.md\n* [2] https://gerrit-review.googlesource.com/#/c/91571/",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457a8bcf_33e1d5a0",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -245,6 +268,23 @@
     },
     {
       "key": {
+        "uuid": "f13d4177_b8dccdf9",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-11T12:22:30Z",
+      "side": 1,
+      "message": "What is wrong with gitk or git show before pushing? Or, if everything else fail, you can do it already on stable-2.13 with change edit:\n\n  $ git commit --allow-empty -m \"Let me try something\"\n  $ git push origin HEAD:refs/for/master\n  $ emacs foo.txt\n  $ git add -u\n  $ git commit --amend\n  $ git push origin HEAD:refs/for/master%edit\n\nDone.",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd9a484_c2623059",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1
@@ -262,6 +302,47 @@
         "endLine": 44,
         "endChar": 43
       },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1274fe3e_14841c22",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-11T12:22:30Z",
+      "side": 1,
+      "message": "Fewer features the better. I disagree that this feature is needed and belong to gerrit core. Already today if someone push confidential change, delete it, done.",
+      "parentUuid": "7dd9a484_c2623059",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "117d4494_0b7b3d8e",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-11T12:22:30Z",
+      "side": 1,
+      "message": "Fewer feature the better. I disagree, this feature is needed and belong to gerrit core.",
       "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -528,6 +609,30 @@
       "writtenOn": "2017-02-10T21:07:43Z",
       "side": 1,
       "message": "Perhaps it makes sense to add here what features need to be built before migration?  It sounds like to me, that their really are two new primary features that need to be built 1) change edits (for new changes, not just existing changes), and 2) private changes.  Both of those seem like nice independent features that can be developed. \n\nSo far, most of this document has been written from a migration perspective, but it might be nice to also have a section which outlines these 2 new features (if that is really what is being proposed) as new features, ignoring migration a bit, just to make sure it is well understood what you will be building.  In other words, what are the features that as a user I can expect pretending that the draft feature never existed?",
+      "range": {
+        "startLine": 87,
+        "startChar": 3,
+        "endLine": 87,
+        "endChar": 12
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5abf45_6165962f",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-11T12:22:30Z",
+      "side": 1,
+      "message": "+1. I would like suggest to consider just \"dropping/discontinuation/removal without replacement\" the draft changes/draft patch set workflow feature. We already support disable draft workflow feature per configuration. The migration process has two phases:\n\n* 1. Site admins announce deprecation of uploading/publishing/deletion drafts, from date A.\n* 2. Date A reached: draft workflow is disabled. Site admins publish all existing drafts",
+      "parentUuid": "cb205302_470610dc",
       "range": {
         "startLine": 87,
         "startChar": 3,

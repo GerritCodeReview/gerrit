@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c94cbccd_0f7bab39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-11T21:29:31Z",
+      "side": 1,
+      "message": "This sounds strange. We want a fixed sorting order which works the way for all contributors regardless of their default locale.\n\nLooking at the PR [1] I see that it is about enforcing one fixed locale: US. The intention is good but the commit message here is a bit confusing for me.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "0251de9e12dd9d766acd427425b793c7d3c556cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52765ba_39cadcaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-11T21:29:31Z",
+      "side": 1,
+      "message": "Looks like a verb or something is missing in this text? I read the whole sentence several times but still I couldn\u0027t follow it.",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 72
+      },
+      "revId": "0251de9e12dd9d766acd427425b793c7d3c556cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af81b81f_49127c03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-11T21:29:31Z",
+      "side": 1,
+      "message": "Shall we ask every contributor to follow this instructions?\n\nI propose the following plan:\n* wait until the PR [1] is accepted and until we get google-java-format 1.4 released\n* bump google-java-format version in Gerrit to 1.4\n* submit this change.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 71
+      },
+      "revId": "0251de9e12dd9d766acd427425b793c7d3c556cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

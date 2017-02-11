@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbdddd80_920db5bd",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-11T03:59:44Z",
+      "side": 1,
+      "message": "alternatively",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 18
+      },
+      "revId": "62e1aa5892839959f607437154053c3e554e7bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

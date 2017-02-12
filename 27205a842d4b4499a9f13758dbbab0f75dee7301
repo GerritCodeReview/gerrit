@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6352625c_f4e62080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-12T21:23:45Z",
+      "side": 1,
+      "message": "investigated",
+      "range": {
+        "startLine": 19,
+        "startChar": 41,
+        "endLine": 19,
+        "endChar": 54
+      },
+      "revId": "27205a842d4b4499a9f13758dbbab0f75dee7301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

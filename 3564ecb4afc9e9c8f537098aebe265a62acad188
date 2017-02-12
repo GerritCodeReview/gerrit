@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edf8c3a9_79096e12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-12T19:20:01Z",
+      "side": 1,
+      "message": "\u003e FTR: I extracted this [WIP] plugin implementation from another abandoned attempt, done by OpenStack infra team to add such a featue to Gerrit core.\n\nI missed to add a pointer to David Shrewsbury\u0027s WIP implementation in gerrit core 4 years ago: [1], that wasn\u0027t accepted; it is also meaningful to read Monty Taylor\u0027s (OpenStack Infra Team Lead) explanation for \"Why OpenStack project requires that feature\": [2].\n\n\u003e [...] can you point me to some public feature requests, discussions, previous attempts to introduce that feature, abandoned changes?\n\nFound it in our issue tracker: \"Protected code reviews\": [3]. Is it justified that it is marked as restricted? Link it to this CL? So, seems like other code review systems at Google had this feature in the past.\n\nStill, it is a good idea to check \"What Your Competitors Are Doing\", before adding yet another feature. So, where is the \"private issues or pull requests for public repositories\" feature on GitHub? Here: [4]. That feature request wasn\u0027t even accepted. So, IMHO, \"private/protected changes feature\" is not a core gerrit feature, and could be added as a plugin.\n\n* [1] https://gerrit-review.googlesource.com/36091\n* [2] https://gerrit-review.googlesource.com/#/c/36091/1//COMMIT_MSG@7\n* [3] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4537\n* [4] https://github.com/isaacs/github/issues/37",
+      "parentUuid": "2401a0b5_65cf6974",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457a8bcf_33e1d5a0",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

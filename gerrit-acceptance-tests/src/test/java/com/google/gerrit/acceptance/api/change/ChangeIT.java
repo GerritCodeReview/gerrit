@@ -406,6 +406,25 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(cloneAs = "user")
+  public void deleteChangeAsUserWithDeleteOwnChangesPermission() throws Exception {
+    allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
+
+    try {
+      PushOneCommit.Result changeResult =
+          pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+      String changeId = changeResult.getChangeId();
+
+      setApiUser(user);
+      gApi.changes().id(changeId).delete();
+
+      assertThat(query(changeId)).isEmpty();
+    } finally {
+      removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
+    }
+  }
+
+  @Test
+  @TestProjectInput(cloneAs = "user")
   public void deleteNewChangeOfAnotherUserAsAdmin() throws Exception {
     PushOneCommit.Result changeResult =
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
@@ -416,6 +435,24 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).delete();
 
     assertThat(query(changeId)).isEmpty();
+  }
+
+  @Test
+  public void deleteNewChangeOfAnotherUserWithDeleteOwnChangesPermission() throws Exception {
+    allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
+
+    try {
+      PushOneCommit.Result changeResult = createChange();
+      String changeId = changeResult.getChangeId();
+      Change.Id id = changeResult.getChange().getId();
+
+      setApiUser(user);
+      exception.expect(AuthException.class);
+      exception.expectMessage(String.format("Deleting change %s is not permitted", id));
+      gApi.changes().id(changeId).delete();
+    } finally {
+      removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
+    }
   }
 
   @Test
@@ -470,6 +507,28 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(MethodNotAllowedException.class);
     exception.expectMessage(String.format("Deleting merged change %s is not allowed", id));
     gApi.changes().id(changeId).delete();
+  }
+
+  @Test
+  @TestProjectInput(cloneAs = "user")
+  public void deleteMergedChangeWithDeleteOwnChangesPermission() throws Exception {
+    allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
+
+    try {
+      PushOneCommit.Result changeResult =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+      String changeId = changeResult.getChangeId();
+      Change.Id id = changeResult.getChange().getId();
+
+      merge(changeResult);
+
+      setApiUser(user);
+      exception.expect(MethodNotAllowedException.class);
+      exception.expectMessage(String.format("Deleting merged change %s is not allowed", id));
+      gApi.changes().id(changeId).delete();
+    } finally {
+      removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
+    }
   }
 
   @Test

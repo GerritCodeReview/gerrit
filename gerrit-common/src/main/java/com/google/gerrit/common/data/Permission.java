@@ -28,6 +28,7 @@ public class Permission implements Comparable<Permission> {
   public static final String CREATE_TAG = "createTag";
   public static final String CREATE_SIGNED_TAG = "createSignedTag";
   public static final String DELETE_DRAFTS = "deleteDrafts";
+  public static final String DELETE_PATCHES = "deletePatches";
   public static final String EDIT_HASHTAGS = "editHashtags";
   public static final String EDIT_ASSIGNEE = "editAssignee";
   public static final String EDIT_TOPIC_NAME = "editTopicName";
@@ -77,6 +78,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(EDIT_HASHTAGS.toLowerCase());
     NAMES_LC.add(EDIT_ASSIGNEE.toLowerCase());
     NAMES_LC.add(DELETE_DRAFTS.toLowerCase());
+    NAMES_LC.add(DELETE_PATCHES.toLowerCase());
     NAMES_LC.add(PUBLISH_DRAFTS.toLowerCase());
 
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);

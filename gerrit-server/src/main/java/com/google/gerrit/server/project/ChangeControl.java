@@ -261,7 +261,7 @@ public class ChangeControl {
         return (isOwner() || getRefControl().canDeleteDrafts());
       case NEW:
       case ABANDONED:
-        return isAdmin();
+        return (isAdmin() || (isOwner() && getRefControl().canDeleteChanges()));
       case MERGED:
       default:
         return false;

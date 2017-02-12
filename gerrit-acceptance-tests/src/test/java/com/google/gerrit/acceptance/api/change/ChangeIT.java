@@ -406,6 +406,20 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(cloneAs = "user")
+  public void deleteChangeAsUserWithDeleteOwnChangesPermission() throws Exception {
+    PushOneCommit.Result changeResult =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    String changeId = changeResult.getChangeId();
+    Change.Id id = changeResult.getChange().getId();
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage(String.format("Deleting change %s is not permitted", id));
+    gApi.changes().id(changeId).delete();
+  }
+
+  @Test
+  @TestProjectInput(cloneAs = "user")
   public void deleteNewChangeOfAnotherUserAsAdmin() throws Exception {
     PushOneCommit.Result changeResult =
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");

@@ -273,12 +273,13 @@ right assigned.
 +
 Deletes the change / the currently viewed draft patch set.
 +
-For normal changes, the `Delete Change` button will only be available if the
-user is an administrator and the change hasn't been merged. For draft changes,
-the `Delete Change` / `Delete Revision` buttons will be available if the user
-is the change owner or has the
-link:access-control.html#category_delete_drafts[Delete Drafts] access right
-assigned.
+For open or abandoned changes, the `Delete Change` button will be available
+and if the user is the change owner and is granted the
+link:access-control.html#category_delete_own_changes[Delete Own Changes]
+permission or if they are an administrator. For draft changes,
+the `Delete Change` / `Delete Revision` buttons will be available if the user is
+the change owner or has the
+link:access-control.html#category_delete_drafts[Delete Drafts] access right assigned.
 
 ** [[plugin-actions]]Further actions may be available if plugins are installed.
 

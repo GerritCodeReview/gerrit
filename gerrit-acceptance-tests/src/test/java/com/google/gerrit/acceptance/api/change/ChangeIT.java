@@ -406,6 +406,25 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(cloneAs = "user")
+  public void deleteChangeAsUserWithDeleteOwnChangesPermission() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    Util.allow(cfg, Permission.DELETE_OWN_CHANGES, uuid, "refs/*");
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result changeResult =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    String changeId = changeResult.getChangeId();
+    Change.Id id = changeResult.getChange().getId();
+
+    setApiUser(user);
+    gApi.changes().id(changeId).delete();
+
+    assertThat(query(changeId)).isEmpty();
+  }
+
+  @Test
+  @TestProjectInput(cloneAs = "user")
   public void deleteNewChangeOfAnotherUserAsAdmin() throws Exception {
     PushOneCommit.Result changeResult =
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");

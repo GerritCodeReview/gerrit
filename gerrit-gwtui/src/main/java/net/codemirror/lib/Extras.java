@@ -16,8 +16,8 @@ package net.codemirror.lib;
 
 import static com.google.gwt.dom.client.Style.Display.INLINE_BLOCK;
 import static com.google.gwt.dom.client.Style.Unit.PX;
-import static net.codemirror.lib.CodeMirror.LineClassWhere.WRAP;
 import static net.codemirror.lib.CodeMirror.style;
+import static net.codemirror.lib.CodeMirror.LineClassWhere.WRAP;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.RangeInfo;

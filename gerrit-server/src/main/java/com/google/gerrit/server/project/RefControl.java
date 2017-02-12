@@ -417,6 +417,11 @@ public class RefControl {
     return canPerform(Permission.DELETE_DRAFTS);
   }
 
+  /** @return true if this user can delete their own changes. */
+  public boolean canDeleteOwnChanges() {
+    return canPerform(Permission.DELETE_OWN_CHANGES);
+  }
+
   /** @return true if this user can edit topic names. */
   public boolean canEditTopicName() {
     return canPerform(Permission.EDIT_TOPIC_NAME);

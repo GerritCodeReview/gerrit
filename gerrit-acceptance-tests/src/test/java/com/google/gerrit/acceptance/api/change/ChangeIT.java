@@ -406,6 +406,63 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(cloneAs = "user")
+  public void deleteChangeAsUserWithDeleteOwnChangesPermission() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    Util.allow(cfg, Permission.DELETE_OWN_CHANGES, uuid, "refs/*");
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result changeResult =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    String changeId = changeResult.getChangeId();
+    Change.Id id = changeResult.getChange().getId();
+
+    setApiUser(user);
+    gApi.changes().id(changeId).delete();
+
+    assertThat(query(changeId)).isEmpty();
+  }
+
+  @Test
+  @TestProjectInput(cloneAs = "user")
+  public void deleteChangeAsUserWithDeleteOwnChangesPermissionOfAnotherUserChange() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    Util.allow(cfg, Permission.DELETE_OWN_CHANGES, uuid, "refs/*");
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result changeResult =
+        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/for/master");
+    String changeId = changeResult.getChangeId();
+    Change.Id id = changeResult.getChange().getId();
+
+    setApiUser(user);
+    gApi.changes().id(changeId).delete();
+
+    assertThat(query(changeId)).isEmpty();
+  }
+
+  @Test
+  public void deleteMergedChangeWithDeleteOwnChangesPermission() throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    Util.allow(cfg, Permission.DELETE_OWN_CHANGES, uuid, "refs/*");
+    saveProjectConfig(project, cfg);
+
+    PushOneCommit.Result changeResult = createChange();
+    String changeId = changeResult.getChangeId();
+    Change.Id id = changeResult.getChange().getId();
+
+    merge(changeResult);
+
+    exception.expect(MethodNotAllowedException.class);
+    exception.expectMessage(String.format("Deleting merged change %s is not allowed", id));
+    gApi.changes().id(changeId).delete();
+  }
+
+
+  @Test
+  @TestProjectInput(cloneAs = "user")
   public void deleteNewChangeOfAnotherUserAsAdmin() throws Exception {
     PushOneCommit.Result changeResult =
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");

@@ -881,6 +881,15 @@ The change owner can always delete draft changes (even without having
 the `Delete Drafts` access right assigned).
 
 
+[[category_delete_own_changes]]
+=== Delete Own Changes
+
+This category permits users to delete their own changes.
+
+This permission must not be confused with delete drafts
+as this permission does not affect deleting drafts.
+
+
 [[category_edit_topic_name]]
 === Edit Topic Name
 

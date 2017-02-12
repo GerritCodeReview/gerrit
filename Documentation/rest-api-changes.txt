@@ -1775,11 +1775,13 @@ Publishes a draft change.
 
 Deletes a change.
 
-New or abandoned changes can only be deleted by administrators. The deletion of
-merged changes isn't supported at the moment. Draft changes can only be deleted
-by their owner or other users who have the permissions to view and delete
-drafts. If the draft workflow is disabled, only administrators with those
-permissions may delete draft changes.
+New or abandoned changes can be deleted by their owner if the user is granted
+the link:access-control.html#category_delete_own_changes[Delete Own Changes] permission,
+otherwise only by administrators.
+
+Draft changes can only be deleted by their owner or other users who have the
+permissions to view and delete drafts. If the draft workflow is disabled, only
+administrators with those permissions may delete draft changes.
 
 .Request
 ----

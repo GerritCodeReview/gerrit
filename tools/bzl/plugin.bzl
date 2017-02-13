@@ -30,6 +30,7 @@ def gerrit_plugin(
     resources = resources,
     deps = provided_deps + deps + GWT_PLUGIN_DEPS_NEVERLINK + PLUGIN_DEPS_NEVERLINK,
     visibility = ['//visibility:public'],
+    **kwargs
   )
 
   static_jars = []
@@ -56,6 +57,7 @@ def gerrit_plugin(
       resources = list(set(srcs + resources)),
       runtime_deps = deps + GWT_PLUGIN_DEPS,
       visibility = ['//visibility:public'],
+      **kwargs
     )
     genrule2(
       name = '%s-static' % name,

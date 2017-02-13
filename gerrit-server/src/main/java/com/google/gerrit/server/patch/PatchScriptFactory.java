@@ -193,11 +193,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     PatchSet psEntityB =
         psb.get() == 0 ? new PatchSet(psb) : psUtil.get(db, control.getNotes(), psb);
 
-    if ((psEntityA != null && !control.isPatchVisible(psEntityA, db))
-        || (psEntityB != null && !control.isPatchVisible(psEntityB, db))) {
-      throw new NoSuchChangeException(changeId);
-    }
-
     try (Repository git = repoManager.openRepository(project)) {
       bId = toObjectId(psEntityB);
       if (parentNum < 0) {
@@ -301,9 +296,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       //
       history = new ArrayList<>();
       for (PatchSet ps : psUtil.byChange(db, notes)) {
-        if (!control.isPatchVisible(ps, db)) {
-          continue;
-        }
         String name = fileName;
         if (psa != null) {
           switch (changeType) {

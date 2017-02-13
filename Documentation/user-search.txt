@@ -14,7 +14,6 @@ matches the search, the change will be presented instead of a list.
 |All > Open           | status:open '(or is:open)'
 |All > Merged         | status:merged
 |All > Abandoned      | status:abandoned
-|My > Drafts          | owner:self is:draft
 |My > Watched Changes | status:open is:watched
 |My > Starred Changes | is:starred
 |My > Draft Comments  | has:draft
@@ -318,10 +317,6 @@ Same as `reviewer:self`.
 is:open, is:pending::
 +
 True if the change is open.
-
-is:draft::
-+
-True if the change is a draft.
 
 is:closed::
 +

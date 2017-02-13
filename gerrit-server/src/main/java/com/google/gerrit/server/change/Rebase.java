@@ -135,7 +135,7 @@ public class Rebase
       throw new ResourceConflictException("base revision is missing: " + str);
     }
     PatchSet.Id baseId = base.patchSet().getId();
-    if (!base.control().isPatchVisible(base.patchSet(), db)) {
+    if (!base.control().isPatchVisible(db)) {
       throw new AuthException("base revision not accessible: " + str);
     } else if (change.getId().equals(baseId.getParentKey())) {
       throw new ResourceConflictException("cannot rebase change onto itself");
@@ -220,7 +220,7 @@ public class Rebase
       PatchSet ps = psUtil.current(rebase.dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
-      } else if (!rsrc.getControl().isPatchVisible(ps, rebase.dbProvider.get())) {
+      } else if (!rsrc.getControl().isPatchVisible(rebase.dbProvider.get())) {
         throw new AuthException("current revision not accessible");
       }
       return rebase.apply(new RevisionResource(rsrc, ps), input);

@@ -59,13 +59,8 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
   /** Include users and groups that want notification of events. */
   protected void includeWatchers(NotifyType type) {
-    includeWatchers(type, true);
-  }
-
-  /** Include users and groups that want notification of events. */
-  protected void includeWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
     try {
-      Watchers matching = getWatchers(type, includeWatchersFromNotifyConfig);
+      Watchers matching = getWatchers(type);
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);
       add(RecipientType.BCC, matching.bcc);
@@ -78,8 +73,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
   }
 
   /** Returns all watchers that are relevant */
-  protected abstract Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
-      throws OrmException;
+  protected abstract Watchers getWatchers(NotifyType type) throws OrmException;
 
   /** Add users or email addresses to the TO, CC, or BCC list. */
   protected void add(RecipientType type, Watchers.List list) {

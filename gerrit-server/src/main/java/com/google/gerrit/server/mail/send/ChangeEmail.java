@@ -335,14 +335,14 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   @Override
-  protected final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
+  protected final Watchers getWatchers(NotifyType type)
       throws OrmException {
     if (!NotifyHandling.ALL.equals(notify)) {
       return new Watchers();
     }
 
     ProjectWatch watch = new ProjectWatch(args, branch.getParentKey(), projectState, changeData);
-    return watch.getWatchers(type, includeWatchersFromNotifyConfig);
+    return watch.getWatchers(type);
   }
 
   /** Any user who has published comments on this change. */

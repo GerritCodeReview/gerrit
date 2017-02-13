@@ -26,10 +26,9 @@ import com.google.gwtorm.server.OrmException;
 import java.util.stream.Stream;
 
 class ReviewerPredicate extends ChangeIndexPredicate {
-  static Predicate<ChangeData> forState(
-      Arguments args, Account.Id id, ReviewerStateInternal state) {
+  static Predicate<ChangeData> forState(Account.Id id, ReviewerStateInternal state) {
     checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
-    return create(args, new ReviewerPredicate(state, id));
+    return create(new ReviewerPredicate(state, id));
   }
 
   static Predicate<ChangeData> reviewer(Arguments args, Account.Id id) {
@@ -42,14 +41,14 @@ class ReviewerPredicate extends ChangeIndexPredicate {
       // any reviewer state.
       p = anyReviewerState(id);
     }
-    return create(args, p);
+    return p;
   }
 
-  static Predicate<ChangeData> cc(Arguments args, Account.Id id) {
+  static Predicate<ChangeData> cc(Account.Id id) {
     // As noted above, CC is nebulous without NoteDb, but it certainly doesn't make sense to return
     // Reviewers for cc:foo. Most likely this will just not match anything, but let the index sort
     // it out.
-    return create(args, new ReviewerPredicate(ReviewerStateInternal.CC, id));
+    return new ReviewerPredicate(ReviewerStateInternal.CC, id);
   }
 
   private static Predicate<ChangeData> anyReviewerState(Account.Id id) {

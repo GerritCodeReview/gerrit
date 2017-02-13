@@ -658,7 +658,6 @@ class ReceiveCommits {
         ChangeReportFormatter.Input input =
             new ChangeReportFormatter.Input(u.notes.getChange())
                 .setSubject(subject)
-                .setDraft(u.replaceOp != null && u.replaceOp.getPatchSet().isDraft())
                 .setEdit(edit)
                 .setPrivate(isPrivate)
                 .setWorkInProgress(wip);
@@ -1154,12 +1153,6 @@ class ReceiveCommits {
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
-    @Option(
-      name = "--draft",
-      usage = "Currently disabled, will be removed: mark new/updated changes as draft"
-    )
-    boolean draft;
-
     @Option(name = "--private", usage = "mark new/updated change as private")
     boolean isPrivate;
 
@@ -1232,11 +1225,6 @@ class ReceiveCommits {
       cc.add(id);
     }
 
-    @Option(name = "--publish", usage = "publish new/updated changes")
-    void publish(boolean publish) {
-      draft = !publish;
-    }
-
     @Option(
       name = "--label",
       aliases = {"-l"},
@@ -1288,7 +1276,6 @@ class ReceiveCommits {
         LabelTypes labelTypes,
         NotesMigration notesMigration) {
       this.cmd = cmd;
-      this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
       GeneralPreferencesInfo prefs = user.getAccount().getGeneralPreferencesInfo();
@@ -1460,19 +1447,6 @@ class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.draft) {
-      errors.put(ReceiveError.CODE_REVIEW, ref);
-      reject(
-          cmd,
-          "Creation of drafts is disabled. \n"
-              + "Consider using:\n"
-              + "  1. private changes, e.g. git push origin HEAD:refs/for/master%private\n"
-              + "     https://gerrit-review.googlesource.com/Documentation/intro-user.html#private-changes\n"
-              + "  2. work-in-progress changes, e.g. git push origin HEAD:refs/for/master%wip\n"
-              + "     https://gerrit-review.googlesource.com/Documentation/user-upload.html#wip\n");
-      return;
-    }
-
     try {
       magicBranch.perm.check(RefPermission.CREATE_CHANGE);
     } catch (AuthException denied) {
@@ -1493,11 +1467,6 @@ class ReceiveCommits {
     if (magicBranch.publishComments && magicBranch.noPublishComments) {
       reject(
           cmd, "the options 'publish-comments' and 'no-publish-comments' are mutually exclusive");
-      return;
-    }
-
-    if (magicBranch.draft && magicBranch.submit) {
-      reject(cmd, "cannot submit draft");
       return;
     }
 
@@ -1524,10 +1493,6 @@ class ReceiveCommits {
     String destBranch = magicBranch.dest.get();
     try {
       if (magicBranch.merged) {
-        if (magicBranch.draft) {
-          reject(cmd, "cannot be draft & merged");
-          return;
-        }
         if (magicBranch.base != null) {
           reject(cmd, "cannot use merged with base");
           return;
@@ -2114,9 +2079,7 @@ class ReceiveCommits {
               // Changes already validated in validateNewCommits.
               .setValidate(false);
 
-      if (magicBranch.draft) {
-        ins.setDraft(magicBranch.draft);
-      } else if (magicBranch.merged) {
+      if (magicBranch.merged) {
         ins.setStatus(Change.Status.MERGED);
       }
       cmd = new ReceiveCommand(ObjectId.zeroId(), commit, ins.getPatchSetId().toRefName());
@@ -2138,8 +2101,7 @@ class ReceiveCommits {
         checkNotNull(magicBranch);
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
-        recipients.add(
-            getRecipientsFromFooters(db, accountResolver, magicBranch.draft, footerLines));
+        recipients.add(getRecipientsFromFooters(db, accountResolver, footerLines));
         recipients.remove(me);
         StringBuilder msg =
             new StringBuilder(

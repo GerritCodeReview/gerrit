@@ -161,9 +161,9 @@ public class CreateMergePatchSet
             rsrc.getId(),
             psInserter
                 .setMessage("Uploaded patch set " + nextPsId.get() + ".")
-                .setDraft(ps.isDraft())
                 .setNotify(NotifyHandling.NONE)
-                .setCheckAddPatchSetPermission(false));
+                .setCheckAddPatchSetPermission(false)
+                .setNotify(NotifyHandling.NONE));
         bu.execute();
       }
 

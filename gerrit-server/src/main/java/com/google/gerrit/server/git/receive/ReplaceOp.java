@@ -279,10 +279,6 @@ public class ReplaceOp implements BatchUpdateOp {
       }
     }
 
-    boolean draft = magicBranch != null && magicBranch.draft;
-    if (change.getStatus() == Change.Status.DRAFT && !draft) {
-      update.setStatus(Change.Status.NEW);
-    }
     newPatchSet =
         psUtil.insert(
             ctx.getDb(),
@@ -290,14 +286,12 @@ public class ReplaceOp implements BatchUpdateOp {
             update,
             patchSetId,
             commitId,
-            draft,
             groups,
             pushCertificate != null ? pushCertificate.toTextWithSignature() : null,
             psDescription);
 
     update.setPsDescription(psDescription);
-    recipients.add(
-        getRecipientsFromFooters(ctx.getDb(), accountResolver, draft, commit.getFooterLines()));
+    recipients.add(getRecipientsFromFooters(ctx.getDb(), accountResolver, commit.getFooterLines()));
     recipients.remove(ctx.getAccountId());
     ChangeData cd = changeDataFactory.create(ctx.getDb(), ctx.getControl());
     MailRecipients oldRecipients = getRecipientsFromReviewers(cd.reviewers());
@@ -430,11 +424,7 @@ public class ReplaceOp implements BatchUpdateOp {
     if (magicBranch != null && magicBranch.topic != null) {
       change.setTopic(magicBranch.topic);
     }
-    if (change.getStatus() == Change.Status.DRAFT && newPatchSet.isDraft()) {
-      // Leave in draft status.
-    } else {
-      change.setStatus(Change.Status.NEW);
-    }
+    change.setStatus(Change.Status.NEW);
     change.setCurrentPatchSet(info);
 
     List<String> idList = commit.getFooterLines(CHANGE_ID);

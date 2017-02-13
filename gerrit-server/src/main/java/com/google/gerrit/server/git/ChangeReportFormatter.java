@@ -20,7 +20,6 @@ public interface ChangeReportFormatter {
   public static class Input {
     private final Change change;
     private String subject;
-    private Boolean draft;
     private Boolean edit;
     private Boolean isPrivate;
     private Boolean wip;
@@ -31,11 +30,6 @@ public interface ChangeReportFormatter {
 
     public Input setPrivate(boolean isPrivate) {
       this.isPrivate = isPrivate;
-      return this;
-    }
-
-    public Input setDraft(boolean draft) {
-      this.draft = draft;
       return this;
     }
 
@@ -60,10 +54,6 @@ public interface ChangeReportFormatter {
 
     public String getSubject() {
       return subject == null ? change.getSubject() : subject;
-    }
-
-    public boolean isDraft() {
-      return draft == null ? Change.Status.DRAFT == change.getStatus() : draft;
     }
 
     public boolean isEdit() {

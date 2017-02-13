@@ -139,28 +139,6 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revisionActionsETagWithHiddenDraftInTopic() throws Exception {
-    String change = createChangeWithTopic().getChangeId();
-    approve(change);
-
-    setApiUser(user);
-    String etag1 = getETag(change);
-
-    setApiUser(admin);
-    String draft = createDraftChange("topic").getChangeId();
-    approve(draft);
-
-    setApiUser(user);
-    String etag2 = getETag(change);
-
-    if (isSubmitWholeTopicEnabled()) {
-      assertThat(etag2).isNotEqualTo(etag1);
-    } else {
-      assertThat(etag2).isEqualTo(etag1);
-    }
-  }
-
-  @Test
   public void revisionActionsAnonymousETag() throws Exception {
     String parent = createChange().getChangeId();
     String change = createChangeWithTopic().getChangeId();

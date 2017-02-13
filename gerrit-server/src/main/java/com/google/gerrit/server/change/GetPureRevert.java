@@ -84,7 +84,7 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
     PatchSet currentPatchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
     if (currentPatchSet == null) {
       throw new ResourceConflictException("current revision is missing");
-    } else if (!rsrc.getControl().isPatchVisible(currentPatchSet, dbProvider.get())) {
+    } else if (!rsrc.getControl().isVisible(dbProvider.get())) {
       throw new AuthException("current revision not accessible");
     }
 

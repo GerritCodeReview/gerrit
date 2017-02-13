@@ -142,7 +142,6 @@ public class PageLinks {
     switch (status) {
       case ABANDONED:
         return toChangeQuery(status(status) + " " + op("topic", topic));
-      case DRAFT:
       case MERGED:
       case NEW:
         return toChangeQuery(
@@ -169,7 +168,6 @@ public class PageLinks {
         return "status:abandoned";
       case MERGED:
         return "status:merged";
-      case DRAFT:
       case NEW:
       default:
         return "status:open";

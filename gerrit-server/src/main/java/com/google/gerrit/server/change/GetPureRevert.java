@@ -90,7 +90,7 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
       throw new ResourceConflictException("current revision is missing");
     } else if (!changeControlFactory
         .controlFor(rsrc.getNotes(), rsrc.getUser())
-        .isPatchVisible(currentPatchSet, dbProvider.get())) {
+        .isVisible(dbProvider.get())) {
       throw new AuthException("current revision not accessible");
     }
     return getPureRevert(rsrc.getNotes());

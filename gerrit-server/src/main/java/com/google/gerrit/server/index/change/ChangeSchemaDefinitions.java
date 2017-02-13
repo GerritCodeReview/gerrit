@@ -88,6 +88,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   @Deprecated static final Schema<ChangeData> V45 = schema(V44, ChangeField.REVERT_OF);
 
+  // Removal of draft change workflow requires reindexing
   static final Schema<ChangeData> V46 = schema(V45);
 
   public static final String NAME = "changes";

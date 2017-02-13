@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "7e4c7734_5b133c35",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T12:54:06Z",
+      "side": 1,
+      "message": "Hi, should i rename this to deleteOwnChanges?",
+      "parentUuid": "2530989b_537586b6",
+      "range": {
+        "startLine": 31,
+        "startChar": 47,
+        "endLine": 31,
+        "endChar": 60
+      },
+      "revId": "059cf9d01fa84a0f73e7d8fcfcd0d6af3a26857b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47763162_bab3ea03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 5

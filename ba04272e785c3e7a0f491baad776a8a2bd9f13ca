@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23bc5f3b_95f000bb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-13T14:07:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure that this is the right fix. Isn\u0027t it the purpose of this test to verify that the calls below (cd.change(), cd.patchSets() etc.) can return the data without accessing the database, because these fields have been prepopulated? If you set lazyLoad to false, then the database will not be accessed if a field was not prepopulated, but then this test will no longer be able to detect that fields have not been prepoluated as expected.",
+      "revId": "ba04272e785c3e7a0f491baad776a8a2bd9f13ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91ba4488_cb64f59a",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-13T11:06:21Z",
+      "side": 1,
+      "message": "owned by?",
+      "range": {
+        "startLine": 49,
+        "startChar": 24,
+        "endLine": 49,
+        "endChar": 26
+      },
+      "revId": "5ac440052a71431c458c0cf8e68738ce18a39da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

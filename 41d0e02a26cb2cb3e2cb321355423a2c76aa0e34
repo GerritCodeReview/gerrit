@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb5e7322_95d98d2c",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-13T22:51:17Z",
+      "side": 1,
+      "message": "UX nit: I would like to see this appear in the message list as a sort of collapsed message. Maybe even make it pink like the collapsed sections of diffs.\n\nThat way it will be harder to miss the fact that many messages are hidden.\n\nWhat do you think?",
+      "revId": "41d0e02a26cb2cb3e2cb321355423a2c76aa0e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62247c2e_6483d3d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-13T22:51:17Z",
+      "side": 1,
+      "message": "I believe this needs to also take whether automated messages are hidden into account. If this should be showing the last five messages it\u0027s possible to make that fewer than five (down to zero) by changing that option.\n\nSomething like\n\nif (truncateList) {\n  if (hideAutomated) {\n    return messages\n        .filter(/*.. not automated ..*/)\n        .slice(-TRUNCATED_LIST_LENGTH);\n  } else {\n    return messages.slice(-TRUNCATED_LIST_LENGTH);\n  }\n}\nreturn messages;\n\nThis may also be worth encoding in a test.",
+      "revId": "41d0e02a26cb2cb3e2cb321355423a2c76aa0e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff5b2def_266c9934",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-13T22:51:17Z",
+      "side": 1,
+      "message": "Why multiply by -1 when you can just negate the constant?\n\n -TRUNCATED_LIST_LENGTH",
+      "range": {
+        "startLine": 227,
+        "startChar": 25,
+        "endLine": 227,
+        "endChar": 51
+      },
+      "revId": "41d0e02a26cb2cb3e2cb321355423a2c76aa0e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

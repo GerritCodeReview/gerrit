@@ -78,12 +78,16 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V43 =
       schema(V42, ChangeField.EXACT_AUTHOR, ChangeField.EXACT_COMMITTER);
 
+  @Deprecated
   static final Schema<ChangeData> V44 =
       schema(
           V43,
           ChangeField.STARTED,
           ChangeField.PENDING_REVIEWER,
           ChangeField.PENDING_REVIEWER_BY_EMAIL);
+
+  //Removal of draft change workflow requires reindexing
+  static final Schema<ChangeData> V45 = schema(V44);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

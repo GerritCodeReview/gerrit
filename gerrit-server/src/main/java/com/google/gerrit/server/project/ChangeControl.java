@@ -96,18 +96,12 @@ public class ChangeControl {
       }
     }
 
-    public ChangeControl validateFor(ReviewDb db, Change.Id changeId, CurrentUser user)
-        throws OrmException {
-      return validateFor(db, notesFactory.createChecked(changeId), user);
+    public ChangeControl validateFor(Change.Id changeId, CurrentUser user) throws OrmException {
+      return validateFor(notesFactory.createChecked(changeId), user);
     }
 
-    public ChangeControl validateFor(ReviewDb db, ChangeNotes notes, CurrentUser user)
-        throws OrmException {
-      ChangeControl c = controlFor(notes, user);
-      if (!c.isVisible(db)) {
-        throw new NoSuchChangeException(c.getId());
-      }
-      return c;
+    public ChangeControl validateFor(ChangeNotes notes, CurrentUser user) throws OrmException {
+      return controlFor(notes, user);
     }
   }
 
@@ -218,27 +212,18 @@ public class ChangeControl {
     if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
       return false;
     }
-    if (getChange().getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
-      return false;
-    }
-    return getRefControl().isVisible();
+    return isRefVisible();
   }
 
-  /** Can this user see the given patchset? */
-  public boolean isPatchVisible(PatchSet ps, ReviewDb db) throws OrmException {
-    if (ps != null && ps.isDraft() && !isDraftVisible(db, null)) {
-      return false;
-    }
-    return isVisible(db);
+  /** Can the user see this change? Does not account for draft status */
+  public boolean isRefVisible() {
+    return getRefControl().isVisible();
   }
 
   /** Can this user see the given patchset? */
   public boolean isPatchVisible(PatchSet ps, ChangeData cd) throws OrmException {
     checkArgument(
         cd.getId().equals(ps.getId().getParentKey()), "%s not for change %s", ps, cd.getId());
-    if (ps.isDraft() && !isDraftVisible(cd.db(), cd)) {
-      return false;
-    }
     return isVisible(cd.db());
   }
 
@@ -252,20 +237,9 @@ public class ChangeControl {
         && !isPatchSetLocked(db);
   }
 
-  /** Can this user publish this draft change or any draft patch set of this change? */
-  public boolean canPublish(ReviewDb db) throws OrmException {
-    return (isOwner() || getRefControl().canPublishDrafts()) && isVisible(db);
-  }
-
   /** Can this user delete this change or any patch set of this change? */
-  public boolean canDelete(ReviewDb db, Change.Status status) throws OrmException {
-    if (!isVisible(db)) {
-      return false;
-    }
-
+  public boolean canDelete(Change.Status status) {
     switch (status) {
-      case DRAFT:
-        return isOwner() || getRefControl().canDeleteDrafts() || getProjectControl().isAdmin();
       case NEW:
       case ABANDONED:
         return (isOwner() && getRefControl().canDeleteOwnChanges())
@@ -324,9 +298,7 @@ public class ChangeControl {
 
   /** Can this user add a patch set to this change? */
   private boolean canAddPatchSet(ReviewDb db) throws OrmException {
-    if (!refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
-        || isPatchSetLocked(db)
-        || !isPatchVisible(patchSetUtil.current(db, notes), db)) {
+    if (!refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE) || isPatchSetLocked(db)) {
       return false;
     }
     if (isOwner()) {
@@ -462,13 +434,6 @@ public class ChangeControl {
     return cd != null ? cd : changeDataFactory.create(db, this);
   }
 
-  public boolean isDraftVisible(ReviewDb db, ChangeData cd) throws OrmException {
-    return isOwner()
-        || isReviewer(db, cd)
-        || getRefControl().canViewDrafts()
-        || getUser().isInternalUser();
-  }
-
   private boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
     return isOwner()
         || isReviewer(db, cd)
@@ -557,7 +522,7 @@ public class ChangeControl {
           case ABANDON:
             return canAbandon(db());
           case DELETE:
-            return canDelete(db(), getChange().getStatus());
+            return canDelete(getChange().getStatus());
           case ADD_PATCH_SET:
             return canAddPatchSet(db());
           case EDIT_ASSIGNEE:

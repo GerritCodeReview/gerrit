@@ -15,17 +15,14 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.DeleteChange.Input;
 import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -44,21 +41,13 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
 
   private final Provider<ReviewDb> db;
   private final Provider<DeleteChangeOp> opProvider;
-  private final Provider<CurrentUser> user;
-  private final PermissionBackend permissionBackend;
 
   @Inject
   public DeleteChange(
-      Provider<ReviewDb> db,
-      RetryHelper retryHelper,
-      Provider<DeleteChangeOp> opProvider,
-      Provider<CurrentUser> user,
-      PermissionBackend permissionBackend) {
+      Provider<ReviewDb> db, RetryHelper retryHelper, Provider<DeleteChangeOp> opProvider) {
     super(retryHelper);
     this.db = db;
     this.opProvider = opProvider;
-    this.user = user;
-    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -67,16 +56,8 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
       throws RestApiException, UpdateException, PermissionBackendException {
     if (rsrc.getChange().getStatus() == Change.Status.MERGED) {
       throw new MethodNotAllowedException("delete not permitted");
-    } else if (rsrc.getChange().getStatus() == Change.Status.DRAFT) {
-      // Only an administrator can delete a draft.
-      try {
-        permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-      } catch (AuthException e) {
-        throw new MethodNotAllowedException("Draft workflow is disabled");
-      }
-    } else {
-      rsrc.permissions().database(db).check(ChangePermission.DELETE);
     }
+    rsrc.permissions().database(db).check(ChangePermission.DELETE);
 
     try (BatchUpdate bu =
         updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
@@ -108,10 +89,6 @@ public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, 
       case MERGED:
         // Merged changes should never be deleted.
         return false;
-
-      case DRAFT:
-        // Only administrators may delete.
-        return permissionBackend.user(user).testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
     }
     return false;
   }

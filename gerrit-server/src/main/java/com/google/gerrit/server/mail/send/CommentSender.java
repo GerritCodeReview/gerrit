@@ -155,7 +155,7 @@ public class CommentSender extends ReplyToChangeSender {
     }
     if (notify.compareTo(NotifyHandling.ALL) >= 0) {
       bccStarredBy();
-      includeWatchers(NotifyType.ALL_COMMENTS, !patchSet.isDraft() && !change.isPrivate());
+      includeWatchers(NotifyType.ALL_COMMENTS, !change.isWorkInProgress() && !change.isPrivate());
     }
     removeUsersThatIgnoredTheChange();
 

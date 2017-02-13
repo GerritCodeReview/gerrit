@@ -32,7 +32,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -79,7 +78,6 @@ public class CherryPickChange {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
-  private final PatchSetUtil psUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
 
   @Inject
@@ -94,7 +92,6 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeMessagesUtil changeMessagesUtil,
-      PatchSetUtil psUtil,
       BatchUpdate.Factory batchUpdateFactory) {
     this.db = db;
     this.seq = seq;
@@ -106,7 +103,6 @@ public class CherryPickChange {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeMessagesUtil = changeMessagesUtil;
-    this.psUtil = psUtil;
     this.batchUpdateFactory = batchUpdateFactory;
   }
 
@@ -264,18 +260,16 @@ public class CherryPickChange {
 
   private Change.Id insertPatchSet(
       BatchUpdate bu, Repository git, ChangeControl destCtl, CodeReviewCommit cherryPickCommit)
-      throws IOException, OrmException {
+      throws IOException {
     Change destChange = destCtl.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destCtl, psId, cherryPickCommit);
     PatchSet.Id newPatchSetId = inserter.getPatchSetId();
-    PatchSet current = psUtil.current(db.get(), destCtl.getNotes());
 
     bu.addOp(
         destChange.getId(),
         inserter
             .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
-            .setDraft(current.isDraft())
             .setNotify(NotifyHandling.NONE));
     return destChange.getId();
   }

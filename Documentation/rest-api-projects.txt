@@ -1066,6 +1066,24 @@ As result a link:#project-access-info[ProjectAccessInfo] entity is returned.
   }
 ----
 
+[[index]]
+=== Index all changes in a project
+
+Adds or updates all the changes belonging to a project in the secondary index.
+The indexing task is executed asynchronously in background, so this command
+returns immediately.
+
+.Request
+----
+  POST /projects/MyProject/index HTTP/1.0
+----
+
+.Response
+----
+HTTP/1.1 202 Accepted
+Content-Disposition: attachment
+----
+
 [[branch-endpoints]]
 == Branch Endpoints
 

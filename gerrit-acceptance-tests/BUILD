@@ -1,5 +1,6 @@
 java_library(
     name = "lib",
+    srcs = ["src/test/java/com/google/gerrit/acceptance/Dummy.java"],
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [

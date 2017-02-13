@@ -109,16 +109,6 @@ branch.
 	(option is mutually exclusive with --abandon, --publish --delete, --rebase
 	and --json)
 
---publish::
-	Publish the specified draft patch set(s).
-	(option is mutually exclusive with --submit, --restore, --abandon, --delete
-	and --json)
-
---delete::
-	Delete the specified draft patch set(s).
-	(option is mutually exclusive with --submit, --restore, --abandon, --publish,
-	--rebase and --json)
-
 --code-review::
 --verified::
 	Set the label to the value 'N'.  The exact option names

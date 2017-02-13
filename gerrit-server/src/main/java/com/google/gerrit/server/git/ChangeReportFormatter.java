@@ -73,7 +73,6 @@ public interface ChangeReportFormatter {
       public Input build() {
         setChange(change());
         setSubject(subject() == null ? change().getSubject() : subject());
-        setIsDraft(isDraft() == null ? Change.Status.DRAFT == change().getStatus() : isDraft());
         setIsEdit(isEdit() == null ? false : isEdit());
         setIsPrivate(isPrivate() == null ? change().isPrivate() : isPrivate());
         setIsWorkInProgress(

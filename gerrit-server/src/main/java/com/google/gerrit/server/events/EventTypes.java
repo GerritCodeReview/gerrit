@@ -28,7 +28,6 @@ public class EventTypes {
     register(ChangeRestoredEvent.TYPE, ChangeRestoredEvent.class);
     register(CommentAddedEvent.TYPE, CommentAddedEvent.class);
     register(CommitReceivedEvent.TYPE, CommitReceivedEvent.class);
-    register(DraftPublishedEvent.TYPE, DraftPublishedEvent.class);
     register(HashtagsChangedEvent.TYPE, HashtagsChangedEvent.class);
     register(RefUpdatedEvent.TYPE, RefUpdatedEvent.class);
     register(RefReceivedEvent.TYPE, RefReceivedEvent.class);

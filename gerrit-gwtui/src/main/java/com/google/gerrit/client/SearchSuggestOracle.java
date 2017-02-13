@@ -129,7 +129,6 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("is:reviewer");
     suggestions.add("is:open");
     suggestions.add("is:pending");
-    suggestions.add("is:draft");
     suggestions.add("is:private");
     suggestions.add("is:closed");
     suggestions.add("is:merged");
@@ -145,7 +144,6 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("status:closed");
     suggestions.add("status:merged");
     suggestions.add("status:abandoned");
-    suggestions.add("status:draft");
 
     suggestions.add("added:");
     suggestions.add("deleted:");

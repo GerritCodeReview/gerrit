@@ -398,7 +398,6 @@ abstract class DiffScreen extends Screen {
     if (Gerrit.isSignedIn()) {
       keyMap
           .on("G I", () -> Gerrit.display(PageLinks.MINE))
-          .on("G D", () -> Gerrit.display(PageLinks.toChangeQuery("owner:self is:draft")))
           .on("G C", () -> Gerrit.display(PageLinks.toChangeQuery("has:draft")))
           .on("G W", () -> Gerrit.display(PageLinks.toChangeQuery("is:watched status:open")))
           .on("G S", () -> Gerrit.display(PageLinks.toChangeQuery("is:starred")));

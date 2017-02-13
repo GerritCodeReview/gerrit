@@ -16,6 +16,24 @@
       "revId": "ff04cfc45634c2e8e2743fbf0eb6200175c4ec34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "872aa8c0_45653ffb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-13T21:55:53Z",
+      "side": 1,
+      "message": "Oops, you\u0027re right, I transposed the 8 and the 7. Thanks.",
+      "parentUuid": "a5730d02_ad3db303",
+      "revId": "ff04cfc45634c2e8e2743fbf0eb6200175c4ec34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

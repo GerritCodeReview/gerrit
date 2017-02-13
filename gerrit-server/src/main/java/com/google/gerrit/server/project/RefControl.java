@@ -279,24 +279,9 @@ public class RefControl {
     return canPerform(Permission.REMOVE_REVIEWER);
   }
 
-  /** @return true if this user can view draft changes. */
-  boolean canViewDrafts() {
-    return canPerform(Permission.VIEW_DRAFTS);
-  }
-
   /** @return true if this user can view private changes. */
   boolean canViewPrivateChanges() {
     return canPerform(Permission.VIEW_PRIVATE_CHANGES);
-  }
-
-  /** @return true if this user can publish draft changes. */
-  boolean canPublishDrafts() {
-    return canPerform(Permission.PUBLISH_DRAFTS);
-  }
-
-  /** @return true if this user can delete draft changes. */
-  boolean canDeleteDrafts() {
-    return canPerform(Permission.DELETE_DRAFTS);
   }
 
   /** @return true if this user can delete their own changes. */

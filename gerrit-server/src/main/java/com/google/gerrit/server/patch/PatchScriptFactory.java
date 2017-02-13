@@ -197,8 +197,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     PatchSet psEntityB = psb.get() == 0 ? new PatchSet(psb) : psUtil.get(db, notes, psb);
 
     ChangeControl ctl = changeControlFactory.controlFor(notes, userProvider.get());
-    if ((psEntityA != null && !ctl.isPatchVisible(psEntityA, db))
-        || (psEntityB != null && !ctl.isPatchVisible(psEntityB, db))) {
+    if ((psEntityA != null && !ctl.isVisible(db))
+        || (psEntityB != null && !ctl.isVisible(db))) {
       throw new NoSuchChangeException(changeId);
     }
 
@@ -299,7 +299,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       //
       history = new ArrayList<>();
       for (PatchSet ps : psUtil.byChange(db, notes)) {
-        if (!ctl.isPatchVisible(ps, db)) {
+        if (!ctl.isVisible(db)) {
           continue;
         }
         String name = fileName;

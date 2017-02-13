@@ -49,7 +49,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "auth.httpPasswordUrl", value = "https://example.com/password")
 
   // change
-  @GerritConfig(name = "change.allowDrafts", value = "false")
   @GerritConfig(name = "change.largeChange", value = "300")
   @GerritConfig(name = "change.replyTooltip", value = "Publish votes and draft comments")
   @GerritConfig(name = "change.replyLabel", value = "Vote")
@@ -91,7 +90,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.isGitBasicAuth).isNull();
 
     // change
-    assertThat(i.change.allowDrafts).isNull();
     assertThat(i.change.largeChange).isEqualTo(300);
     assertThat(i.change.replyTooltip).startsWith("Publish votes and draft comments");
     assertThat(i.change.replyLabel).isEqualTo("Vote\u2026");
@@ -166,7 +164,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.isGitBasicAuth).isNull();
 
     // change
-    assertThat(i.change.allowDrafts).isTrue();
     assertThat(i.change.largeChange).isEqualTo(500);
     assertThat(i.change.replyTooltip).startsWith("Reply and score");
     assertThat(i.change.replyLabel).isEqualTo("Reply\u2026");

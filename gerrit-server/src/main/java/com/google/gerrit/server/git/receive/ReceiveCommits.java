@@ -58,7 +58,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -662,7 +661,6 @@ class ReceiveCommits {
             ChangeReportFormatter.Input.builder()
                 .setChange(u.notes.getChange())
                 .setSubject(subject)
-                .setIsDraft(u.replaceOp != null && u.replaceOp.getPatchSet().isDraft())
                 .setIsEdit(edit)
                 .setIsPrivate(isPrivate)
                 .setIsWorkInProgress(wip)
@@ -1239,11 +1237,6 @@ class ReceiveCommits {
       cc.add(id);
     }
 
-    @Option(name = "--publish", usage = "publish new/updated changes")
-    void publish(boolean publish) {
-      draft = !publish;
-    }
-
     @Option(
       name = "--label",
       aliases = {"-l"},
@@ -1295,7 +1288,6 @@ class ReceiveCommits {
         LabelTypes labelTypes,
         NotesMigration notesMigration) {
       this.cmd = cmd;
-      this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
       GeneralPreferencesInfo prefs = user.getAccount().getGeneralPreferencesInfo();
@@ -1467,21 +1459,6 @@ class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.draft) {
-      // TODO(xchangcheng): reject all after repo-tool supports private and wip changes.
-      if (!receiveConfig.allowDrafts) {
-        errors.put(ReceiveError.CODE_REVIEW, ref);
-        reject(cmd, "draft workflow is disabled");
-        return;
-      } else if (projectControl
-          .controlForRef(MagicBranch.NEW_DRAFT_CHANGE + ref)
-          .isBlocked(Permission.PUSH)) {
-        errors.put(ReceiveError.CODE_REVIEW, ref);
-        reject(cmd, "cannot upload drafts");
-        return;
-      }
-    }
-
     try {
       magicBranch.perm.check(RefPermission.CREATE_CHANGE);
     } catch (AuthException denied) {
@@ -1502,11 +1479,6 @@ class ReceiveCommits {
     if (magicBranch.publishComments && magicBranch.noPublishComments) {
       reject(
           cmd, "the options 'publish-comments' and 'no-publish-comments' are mutually exclusive");
-      return;
-    }
-
-    if (magicBranch.draft && magicBranch.submit) {
-      reject(cmd, "cannot submit draft");
       return;
     }
 
@@ -1533,10 +1505,6 @@ class ReceiveCommits {
     String destBranch = magicBranch.dest.get();
     try {
       if (magicBranch.merged) {
-        if (magicBranch.draft) {
-          reject(cmd, "cannot be draft & merged");
-          return;
-        }
         if (magicBranch.base != null) {
           reject(cmd, "cannot use merged with base");
           return;
@@ -2151,7 +2119,7 @@ class ReceiveCommits {
         checkNotNull(magicBranch);
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
-        recipients.add(getRecipientsFromFooters(db, accountResolver, false, footerLines));
+        recipients.add(getRecipientsFromFooters(db, accountResolver, footerLines));
         recipients.remove(me);
         StringBuilder msg =
             new StringBuilder(

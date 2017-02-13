@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ca746e1_5bffe01c",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T21:30:19Z",
+      "side": 1,
+      "message": "Will this work for java_binary? Or will it fail?\n\nBecause i doint think javaopts are supported in java_binary.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 12
+      },
+      "revId": "70b801886d5bd11e58bd9382c36b75e8c8d9d5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "cfbb4bc5_53ce3601",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-13T23:56:03Z",
+      "side": 1,
+      "message": "If I understand right, we\u0027re finding the leaves by finding the comments that don\u0027t have another comment referring to them by the parent ID. Is that right? The number of unresolved comments is the number of such leaves that re not marked as unresolved. Is that right?\n\nBrainstorming ways of doing this O(n) without a nested loop: what if we find the leaves by eliminating the comments that are referred to as parents from a map.\n\n  // Create an object where every comment ID\n  // is the key of an unresolved comment.\n  var idMap \u003d comments.reduce(function(acc, comment) (\n    if (comment.unresolved) {\n      acc[comment.id] \u003d true;\n    }\n  ), {});\n\n  // Set false for the comments that are marked as parents.\n  comments.forEach(function(comment) {\n    idMap[comment.in_reply_to] \u003d false;\n  });\n\n  // The unresolved comments are the comments\n  // that still have true.\n  var unresolvedLeaves \u003d Object.keys(idMap).filter(function(key)) {\n    return idMap.hasOwnProperty(key) \u0026\u0026 idMap[key];\n  });\n\n  var numUnresolvedLeaves \u003d unresolvedLeaves.length;\n\nMaybe I\u0027m overthinking this, though. I\u0027m not sure if that would work.",
+      "range": {
+        "startLine": 317,
+        "startChar": 4,
+        "endLine": 317,
+        "endChar": 28
+      },
+      "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cdf69ad0_c0993cdf",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2

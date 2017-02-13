@@ -295,16 +295,64 @@
       return commentCount ? commentCount + 'c' : '';
     },
 
+    _getCommentsForPath: function(comments, patchNum, path) {
+      return (comments[path] || []).filter(function(c) {
+        return parseInt(c.patch_set, 10) === parseInt(patchNum, 10);
+      });
+    },
+
     _computeCountString: function(comments, patchNum, path, opt_noun) {
       if (!comments) { return ''; }
 
-      var patchComments = (comments[path] || []).filter(function(c) {
-        return parseInt(c.patch_set, 10) === parseInt(patchNum, 10);
-      });
+      var patchComments = this._getCommentsForPath(comments, patchNum, path);
       var num = patchComments.length;
       if (num === 0) { return ''; }
       if (!opt_noun) { return num; }
-      return num + ' ' + opt_noun + (num > 1 ? 's' : '');
+      var output = num + ' ' + opt_noun + (num > 1 ? 's' : '');
+      return output;
+    },
+
+    /**
+     * Computes a string counting the number of unresolved comment threads in a
+     * given file and path.
+     *
+     * @param {Object} comments
+     * @param {Object} drafts
+     * @param {number} patchNum
+     * @param {string} path
+     * @return {string}
+     */
+    _computeUnresolvedString: function(comments, drafts, patchNum, path) {
+      comments = this._getCommentsForPath(comments, patchNum, path);
+      drafts = this._getCommentsForPath(drafts, patchNum, path);
+      comments = comments.concat(drafts);
+
+      comments.sort(function(a, b) {
+        return util.parseDate(a.updated) - util.parseDate(b.updated);
+      });
+      // Create an object where every comment ID
+      // is the key of an unresolved comment.
+      var idMap = comments.reduce(function(acc, comment) {
+        if (comment.unresolved) {
+          acc[comment.id] = true;
+        }
+        return acc;
+      }, {});
+
+      // Set false for the comments that are marked as parents.
+      comments.forEach(function(comment) {
+        idMap[comment.in_reply_to] = false;
+      });
+
+      // The unresolved comments are the comments
+      // that still have true.
+      var unresolvedLeaves = Object.keys(idMap).filter(function(key) {
+        return idMap[key];
+      });
+
+      var numUnresolvedLeaves = unresolvedLeaves.length;
+      if (numUnresolvedLeaves === 0) { return ''; }
+      return '(' + numUnresolvedLeaves + ' unresolved)';
     },
 
     _computeReviewed: function(file, _reviewed) {

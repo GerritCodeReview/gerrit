@@ -16,6 +16,24 @@
       "revId": "0847b0868b143af6fd111c56337354e5d9af314c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06421cfb_be3288d7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-13T21:47:51Z",
+      "side": 1,
+      "message": "Moving it here means that the border and some padding is visible even when both sections are hidden, though. I deemed it better to just duplicate that single line of CSS in two places, as opposed to writing another function to show/hide the whole section.",
+      "parentUuid": "9a391543_18aaa448",
+      "revId": "0847b0868b143af6fd111c56337354e5d9af314c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

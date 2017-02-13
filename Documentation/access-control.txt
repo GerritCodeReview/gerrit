@@ -404,23 +404,11 @@ Further documentation on how to push can be found on the
 link:user-upload.html#push_create[Upload changes] page.
 
 
-==== refs/publish/*
-
-`+refs/publish/*+` is an alternative name to `+refs/for/*+` when pushing new changes
-and patch sets.
-
-
-==== refs/drafts/*
-
-Draft workflow is slated for removal. Push to `+refs/drafts/*+` is disabled.
-
-
 [[access_categories]]
 == Access Categories
 
 Gerrit has several permission categories that can be granted to groups
 within projects, enabling functionality for that group's members.
-
 
 
 [[category_abandon]]
@@ -845,36 +833,6 @@ The change owner and any explicitly added reviewers can always see
 private changes (even without having the `View Private Changes` access
 right assigned).
 
-[[category_view_drafts]]
-=== View Drafts
-
-This category permits users to view draft changes uploaded by other
-users.
-
-The change owner and any explicitly added reviewers can always see
-draft changes (even without having the `View Drafts` access right
-assigned).
-
-
-[[category_publish_drafts]]
-=== Publish Drafts
-
-This category permits users to publish draft changes uploaded by other
-users.
-
-The change owner can always publish draft changes (even without having
-the `Publish Drafts` access right assigned).
-
-
-[[category_delete_drafts]]
-=== Delete Drafts
-
-This category permits users to delete draft changes uploaded by other
-users.
-
-The change owner can always delete draft changes (even without having
-the `Delete Drafts` access right assigned).
-
 
 [[category_delete_own_changes]]
 === Delete Own Changes
@@ -942,13 +900,7 @@ Suggested access rights to grant:
 If it's desired to have the possibility to upload temporarily hidden
 changes there's a specific permission for that.  This enables someone
 to add specific reviewers for early feedback before making the change
-publicly visible.  If you want to allow others than the owners to
-publish a draft you also need to grant them `Publish Drafts`.
-
-Optional access rights to grant:
-
-* xref:category_push[`Push`] to 'refs/drafts/*'
-* xref:category_publish_drafts[`Publish Drafts`] to 'refs/heads/*'
+publicly visible.
 
 
 [[examples_developer]]

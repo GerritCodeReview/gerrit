@@ -675,13 +675,7 @@ public class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(
-            formatChangeUrl(
-                canonicalWebUrl,
-                c.change,
-                c.change.getSubject(),
-                c.change.getStatus() == Change.Status.DRAFT,
-                false));
+        addMessage(formatChangeUrl(canonicalWebUrl, c.change, c.change.getSubject(), false));
       }
       addMessage("");
     }
@@ -710,20 +704,13 @@ public class ReceiveCommits {
         } else {
           subject = u.info.getSubject();
         }
-        addMessage(
-            formatChangeUrl(
-                canonicalWebUrl,
-                u.notes.getChange(),
-                subject,
-                u.replaceOp != null && u.replaceOp.getPatchSet().isDraft(),
-                edit));
+        addMessage(formatChangeUrl(canonicalWebUrl, u.notes.getChange(), subject, edit));
       }
       addMessage("");
     }
   }
 
-  private static String formatChangeUrl(
-      String url, Change change, String subject, boolean draft, boolean edit) {
+  private static String formatChangeUrl(String url, Change change, String subject, boolean edit) {
     StringBuilder m =
         new StringBuilder()
             .append("  ")
@@ -731,9 +718,6 @@ public class ReceiveCommits {
             .append(change.getChangeId())
             .append(" ")
             .append(ChangeUtil.cropSubject(subject));
-    if (draft) {
-      m.append(" [DRAFT]");
-    }
     if (edit) {
       m.append(" [EDIT]");
     }
@@ -1225,12 +1209,6 @@ public class ReceiveCommits {
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
-    @Option(
-      name = "--draft",
-      usage = "Currently disabled, will be removed: " + "mark new/updated changes as draft"
-    )
-    boolean draft;
-
     @Option(name = "--private", usage = "mark new/updated change as private")
     boolean isPrivate;
 
@@ -1303,11 +1281,6 @@ public class ReceiveCommits {
       cc.add(id);
     }
 
-    @Option(name = "--publish", usage = "publish new/updated changes")
-    void publish(boolean publish) {
-      draft = !publish;
-    }
-
     @Option(
       name = "--label",
       aliases = {"-l"},
@@ -1359,7 +1332,6 @@ public class ReceiveCommits {
         LabelTypes labelTypes,
         NotesMigration notesMigration) {
       this.cmd = cmd;
-      this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
       this.notesMigration = notesMigration;
       GeneralPreferencesInfo prefs = user.getAccount().getGeneralPreferencesInfo();
@@ -1531,12 +1503,6 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.draft) {
-      errors.put(Error.CODE_REVIEW, ref);
-      reject(cmd, "Creation of draft refs is not allowed");
-      return;
-    }
-
     try {
       magicBranch.perm.check(RefPermission.CREATE_CHANGE);
     } catch (AuthException denied) {
@@ -1557,11 +1523,6 @@ public class ReceiveCommits {
     if (magicBranch.publishComments && magicBranch.noPublishComments) {
       reject(
           cmd, "the options 'publish-comments' and 'no-publish-comments' are mutually exclusive");
-      return;
-    }
-
-    if (magicBranch.draft && magicBranch.submit) {
-      reject(cmd, "cannot submit draft");
       return;
     }
 
@@ -1588,10 +1549,6 @@ public class ReceiveCommits {
     String destBranch = magicBranch.dest.get();
     try {
       if (magicBranch.merged) {
-        if (magicBranch.draft) {
-          reject(cmd, "cannot be draft & merged");
-          return;
-        }
         if (magicBranch.base != null) {
           reject(cmd, "cannot use merged with base");
           return;
@@ -2176,9 +2133,7 @@ public class ReceiveCommits {
               // Changes already validated in validateNewCommits.
               .setValidate(false);
 
-      if (magicBranch.draft) {
-        ins.setDraft(magicBranch.draft);
-      } else if (magicBranch.merged) {
+      if (magicBranch.merged) {
         ins.setStatus(Change.Status.MERGED);
       }
       cmd = new ReceiveCommand(ObjectId.zeroId(), commit, ins.getPatchSetId().toRefName());
@@ -2200,8 +2155,7 @@ public class ReceiveCommits {
         checkNotNull(magicBranch);
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.labels;
-        recipients.add(
-            getRecipientsFromFooters(db, accountResolver, magicBranch.draft, footerLines));
+        recipients.add(getRecipientsFromFooters(db, accountResolver, footerLines));
         recipients.remove(me);
         StringBuilder msg =
             new StringBuilder(

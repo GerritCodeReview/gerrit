@@ -252,7 +252,6 @@ public class Submit
         }
         // $FALL-THROUGH$
       case ABANDONED:
-      case DRAFT:
       default:
         throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
@@ -320,7 +319,6 @@ public class Submit
       visible =
           change.getStatus().isOpen()
               && resource.isCurrent()
-              && !resource.getPatchSet().isDraft()
               && resource.permissions().test(ChangePermission.SUBMIT);
       MergeOp.checkSubmitRule(cd, false);
     } catch (ResourceConflictException e) {
@@ -533,7 +531,7 @@ public class Submit
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
-      } else if (!rsrc.getControl().isPatchVisible(ps, dbProvider.get())) {
+      } else if (!rsrc.getControl().isVisible(dbProvider.get())) {
         throw new AuthException("current revision not accessible");
       }
 

@@ -332,11 +332,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
     Change change1 = insert(repo, ins1);
-    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.DRAFT);
-    Change change2 = insert(repo, ins2);
     insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
 
-    Change[] expected = new Change[] {change2, change1};
+    Change[] expected = new Change[] {change1};
     assertQuery("status:open", expected);
     assertQuery("status:OPEN", expected);
     assertQuery("status:o", expected);
@@ -348,23 +346,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:pe", expected);
     assertQuery("status:pen", expected);
     assertQuery("is:open", expected);
-  }
-
-  @Test
-  public void byStatusDraft() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
-    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.DRAFT);
-    Change change2 = insert(repo, ins2);
-
-    Change[] expected = new Change[] {change2};
-    assertQuery("status:draft", expected);
-    assertQuery("status:DRAFT", expected);
-    assertQuery("status:d", expected);
-    assertQuery("status:dr", expected);
-    assertQuery("status:dra", expected);
-    assertQuery("status:draf", expected);
-    assertQuery("is:draft", expected);
   }
 
   @Test
@@ -1473,37 +1454,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change = insert(repo, newChangeForCommit(repo, commit));
 
     assertQuery(commit.getId().getName().substring(0, 6), change);
-  }
-
-  @Test
-  public void implicitVisibleTo() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
-    Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.DRAFT), userId);
-
-    String q = "project:repo";
-    assertQuery(q, change2, change1);
-
-    // Second user cannot see first user's drafts.
-    requestContext.setContext(
-        newRequestContext(
-            accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));
-    assertQuery(q, change1);
-  }
-
-  @Test
-  public void explicitVisibleTo() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
-    Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.DRAFT), userId);
-
-    String q = "project:repo";
-    assertQuery(q, change2, change1);
-
-    // Second user cannot see first user's drafts.
-    Account.Id user2 =
-        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
-    assertQuery(q + " visibleto:" + user2.get(), change1);
   }
 
   @Test

@@ -96,7 +96,6 @@ public class PatchSetInserter implements BatchUpdateOp {
   private String description;
   private boolean validate = true;
   private boolean checkAddPatchSetPermission = true;
-  private boolean draft;
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
   private NotifyHandling notify = NotifyHandling.ALL;
@@ -161,11 +160,6 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   public PatchSetInserter setCheckAddPatchSetPermission(boolean checkAddPatchSetPermission) {
     this.checkAddPatchSetPermission = checkAddPatchSetPermission;
-    return this;
-  }
-
-  public PatchSetInserter setDraft(boolean draft) {
-    this.draft = draft;
     return this;
   }
 
@@ -250,7 +244,6 @@ public class PatchSetInserter implements BatchUpdateOp {
             ctx.getUpdate(psId),
             psId,
             commitId,
-            draft,
             newGroups,
             null,
             description);
@@ -272,7 +265,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     patchSetInfo =
         patchSetInfoFactory.get(ctx.getRevWalk(), ctx.getRevWalk().parseCommit(commitId), psId);
-    if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
+    if (!allowClosed) {
       change.setStatus(Change.Status.NEW);
     }
     change.setCurrentPatchSet(patchSetInfo);

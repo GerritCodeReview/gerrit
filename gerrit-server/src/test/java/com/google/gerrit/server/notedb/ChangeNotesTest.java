@@ -1056,7 +1056,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS2").create();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setCommit(rw, commit);
-    update.setPatchSetState(PatchSetState.DRAFT);
     update.putApproval("Code-Review", (short) 1);
     update.setChangeMessage("This is a message");
     update.putComment(
@@ -1077,7 +1076,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId2).isDraft()).isTrue();
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId1, psId2);
     assertThat(notes.getApprovals()).isNotEmpty();
     assertThat(notes.getChangeMessagesByPatchSet()).isNotEmpty();
@@ -1088,9 +1086,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update = newUpdate(c, changeOwner);
     update.setPatchSetState(PatchSetState.PUBLISHED);
     update.commit();
-
-    notes = newNotes(c);
-    assertThat(notes.getPatchSets().get(psId2).isDraft()).isFalse();
 
     // delete ps2
     update = newUpdate(c, changeOwner);

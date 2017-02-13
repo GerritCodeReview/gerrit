@@ -251,7 +251,6 @@ public class CreateChange
         topic = Strings.emptyToNull(topic.trim());
       }
       ins.setTopic(topic);
-      ins.setDraft(input.status == ChangeStatus.DRAFT);
       ins.setPrivate(input.isPrivate != null && input.isPrivate);
       ins.setWorkInProgress(input.workInProgress != null && input.workInProgress);
       ins.setGroups(groups);

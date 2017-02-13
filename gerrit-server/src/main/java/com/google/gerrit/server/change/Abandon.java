@@ -192,7 +192,6 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
         .setTitle("Abandon the change")
         .setVisible(
             change.getStatus().isOpen()
-                && change.getStatus() != Change.Status.DRAFT
                 && rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.ABANDON));
   }
 }

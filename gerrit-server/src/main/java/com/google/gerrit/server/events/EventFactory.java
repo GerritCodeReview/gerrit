@@ -470,7 +470,6 @@ public class EventFactory {
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
-    p.isDraft = patchSet.isDraft();
     PatchSet.Id pId = patchSet.getId();
     try {
       p.parents = new ArrayList<>();

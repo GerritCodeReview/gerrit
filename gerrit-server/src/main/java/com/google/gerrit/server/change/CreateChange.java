@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -100,7 +99,6 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
   private final ChangeFinder changeFinder;
   private final BatchUpdate.Factory updateFactory;
   private final PatchSetUtil psUtil;
-  private final boolean allowDrafts;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
   private final NotifyUtil notifyUtil;
@@ -136,7 +134,6 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
     this.changeFinder = changeFinder;
     this.updateFactory = updateFactory;
     this.psUtil = psUtil;
-    this.allowDrafts = config.getBoolean("change", "allowDrafts", true);
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyUtil = notifyUtil;
@@ -159,12 +156,8 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
     }
 
     if (input.status != null) {
-      if (input.status != ChangeStatus.NEW && input.status != ChangeStatus.DRAFT) {
+      if (input.status != ChangeStatus.NEW) {
         throw new BadRequestException("unsupported change status");
-      }
-
-      if (!allowDrafts && input.status == ChangeStatus.DRAFT) {
-        throw new MethodNotAllowedException("draft workflow is disabled");
       }
     }
 
@@ -260,7 +253,6 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
         topic = Strings.emptyToNull(topic.trim());
       }
       ins.setTopic(topic);
-      ins.setDraft(input.status == ChangeStatus.DRAFT);
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));

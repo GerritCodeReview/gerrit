@@ -72,7 +72,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws ResourceNotFoundException, AuthException, OrmException, IOException {
     if (id.equals("current")) {
       PatchSet ps = psUtil.current(dbProvider.get(), change.getNotes());
-      if (ps != null && visible(change, ps)) {
+      if (ps != null && visible(change)) {
         return new RevisionResource(change, ps).doNotCache();
       }
       throw new ResourceNotFoundException(id);
@@ -80,7 +80,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
     List<RevisionResource> match = Lists.newArrayListWithExpectedSize(2);
     for (RevisionResource rsrc : find(change, id.get())) {
-      if (visible(change, rsrc.getPatchSet())) {
+      if (visible(change)) {
         match.add(rsrc);
       }
     }
@@ -95,8 +95,8 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     }
   }
 
-  private boolean visible(ChangeResource change, PatchSet ps) throws OrmException {
-    return change.getControl().isPatchVisible(ps, dbProvider.get());
+  private boolean visible(ChangeResource change) throws OrmException {
+    return change.getControl().isPatchVisible(dbProvider.get());
   }
 
   private List<RevisionResource> find(ChangeResource change, String id)

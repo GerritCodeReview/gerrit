@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3067975a_8d431c69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsUnresolvedPredicate.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-13T10:18:32Z",
+      "side": 1,
+      "message": "nit: name this \u0027changeData\u0027",
+      "range": {
+        "startLine": 31,
+        "startChar": 43,
+        "endLine": 31,
+        "endChar": 49
+      },
+      "revId": "aa6bbdf7502729b2692f55ce7073a01cb2c081e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

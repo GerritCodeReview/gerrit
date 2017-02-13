@@ -69,7 +69,6 @@ import com.google.gerrit.server.change.Mute;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostPrivate;
 import com.google.gerrit.server.change.PostReviewers;
-import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutAssignee;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Rebase;
@@ -110,7 +109,6 @@ class ChangeApiImpl implements ChangeApi {
   private final Restore restore;
   private final CreateMergePatchSet updateByMerge;
   private final Provider<SubmittedTogether> submittedTogether;
-  private final PublishDraftPatchSet.CurrentRevision publishDraftChange;
   private final Rebase.CurrentRevision rebase;
   private final DeleteChange deleteChange;
   private final GetTopic getTopic;
@@ -153,7 +151,6 @@ class ChangeApiImpl implements ChangeApi {
       Restore restore,
       CreateMergePatchSet updateByMerge,
       Provider<SubmittedTogether> submittedTogether,
-      PublishDraftPatchSet.CurrentRevision publishDraftChange,
       Rebase.CurrentRevision rebase,
       DeleteChange deleteChange,
       GetTopic getTopic,
@@ -194,7 +191,6 @@ class ChangeApiImpl implements ChangeApi {
     this.restore = restore;
     this.updateByMerge = updateByMerge;
     this.submittedTogether = submittedTogether;
-    this.publishDraftChange = publishDraftChange;
     this.rebase = rebase;
     this.deleteChange = deleteChange;
     this.getTopic = getTopic;
@@ -387,13 +383,10 @@ class ChangeApiImpl implements ChangeApi {
     }
   }
 
+  @Deprecated
   @Override
   public void publish() throws RestApiException {
-    try {
-      publishDraftChange.apply(change, null);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot publish change", e);
-    }
+    throw new UnsupportedOperationException("draft workflow is discontinued");
   }
 
   @Override

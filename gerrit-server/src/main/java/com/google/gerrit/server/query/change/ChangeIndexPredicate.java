@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Matchable;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 
 public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
     implements Matchable<ChangeData> {
@@ -31,10 +29,7 @@ public abstract class ChangeIndexPredicate extends IndexPredicate<ChangeData>
     super(def, name, value);
   }
 
-  protected static Predicate<ChangeData> create(Arguments args, Predicate<ChangeData> p) {
-    if (!args.allowsDrafts) {
-      return Predicate.and(p, Predicate.not(new ChangeStatusPredicate(Change.Status.DRAFT)));
-    }
+  protected static Predicate<ChangeData> create(Predicate<ChangeData> p) {
     return p;
   }
 }

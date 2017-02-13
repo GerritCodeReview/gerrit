@@ -459,17 +459,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushForMasterAsDraftIsNotAllowed() throws Exception {
-    // create draft by pushing to 'refs/drafts/'
-    PushOneCommit.Result r = pushTo("refs/drafts/master");
-    r.assertErrorStatus("Creation of draft refs is not allowed");
-
-    // create draft by using 'draft' option
-    r = pushTo("refs/for/master%draft");
-    r.assertErrorStatus("Creation of draft refs is not allowed");
-  }
-
-  @Test
   public void pushForMasterAsEdit() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();

@@ -46,7 +46,7 @@ Only subscribe to specific event types:
 
 ----
   $ ssh -p 29418 review.example.com gerrit stream-events \
-      -s draft-published -s patchset-created -s ref-replicated
+      -s patchset-created -s ref-replicated
 ----
 
 == SCHEMA
@@ -143,21 +143,6 @@ comment:: Review comment cover message.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-=== Draft Published
-
-Sent when a draft change has been published.
-
-type:: "draft-published"
-
-change:: link:json.html#change[change attribute]
-
-patchSet:: link:json.html#patchSet[patchSet attribute]
-
-uploader:: link:json.html#account[account attribute]
-
-eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
-created.
-
 === Dropped Output
 
 Sent to notify a client that events have been dropped.
@@ -200,11 +185,6 @@ created.
 
 Sent when a new change has been uploaded, or a new patch set has been uploaded
 to an existing change.
-
-Note that this event is also sent for changes or patch sets uploaded as draft,
-but is only visible to the change owner, any existing reviewers, and users who
-belong to a group that is granted the
-link:access-control.html#category_view_drafts[View Drafts] capability.
 
 type:: "patchset-created"
 

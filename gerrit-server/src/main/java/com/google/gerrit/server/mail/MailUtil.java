@@ -38,24 +38,18 @@ public class MailUtil {
       DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss ZZZ");
 
   public static MailRecipients getRecipientsFromFooters(
-      ReviewDb db,
-      AccountResolver accountResolver,
-      boolean draftPatchSet,
-      List<FooterLine> footerLines)
+      ReviewDb db, AccountResolver accountResolver, List<FooterLine> footerLines)
       throws OrmException {
     MailRecipients recipients = new MailRecipients();
-    if (!draftPatchSet) {
-      for (FooterLine footerLine : footerLines) {
-        try {
-          if (isReviewer(footerLine)) {
-            recipients.reviewers.add(
-                toAccountId(db, accountResolver, footerLine.getValue().trim()));
-          } else if (footerLine.matches(FooterKey.CC)) {
-            recipients.cc.add(toAccountId(db, accountResolver, footerLine.getValue().trim()));
-          }
-        } catch (NoSuchAccountException e) {
-          continue;
+    for (FooterLine footerLine : footerLines) {
+      try {
+        if (isReviewer(footerLine)) {
+          recipients.reviewers.add(toAccountId(db, accountResolver, footerLine.getValue().trim()));
+        } else if (footerLine.matches(FooterKey.CC)) {
+          recipients.cc.add(toAccountId(db, accountResolver, footerLine.getValue().trim()));
         }
+      } catch (NoSuchAccountException e) {
+        continue;
       }
     }
     return recipients;

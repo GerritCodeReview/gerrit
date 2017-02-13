@@ -141,7 +141,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, ResourceConflictException, RepositoryNotFoundException, IOException {
       change = ctx.getChange();
-      if (change.getStatus() != Status.NEW && change.getStatus() != Status.DRAFT) {
+      if (change.getStatus() != Status.NEW) {
         throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
       }
 

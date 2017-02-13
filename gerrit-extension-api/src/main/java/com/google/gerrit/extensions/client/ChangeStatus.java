@@ -34,22 +34,6 @@ public enum ChangeStatus {
   NEW,
 
   /**
-   * Change is a draft change that only consists of draft patchsets.
-   *
-   * <p>This is a change that is not meant to be submitted or reviewed yet. If the uploader
-   * publishes the change, it becomes a NEW change. Publishing is a one-way action, a change cannot
-   * return to DRAFT status. Draft changes are only visible to the uploader and those explicitly
-   * added as reviewers. Note that currently draft changes cannot be abandoned.
-   *
-   * <p>Changes in the DRAFT state can be moved to:
-   *
-   * <ul>
-   *   <li>{@link #NEW} - when the change is published, it becomes a new change.
-   * </ul>
-   */
-  DRAFT,
-
-  /**
    * Change is closed, and submitted to its destination branch.
    *
    * <p>Once a change has been merged, it cannot be further modified by adding a replacement patch

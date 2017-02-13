@@ -157,16 +157,6 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param allow whether to allow {@link #evaluate()} on draft changes.
-   * @return this
-   */
-  public SubmitRuleEvaluator setAllowDraft(boolean allow) {
-    checkNotStarted();
-    optsBuilder.allowDraft(allow);
-    return this;
-  }
-
-  /**
    * @param skip if true, submit filter will not be applied.
    * @return this
    */
@@ -214,17 +204,6 @@ public class SubmitRuleEvaluator {
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
-    if (!opts.allowDraft()) {
-      try {
-        initPatchSet();
-      } catch (OrmException e) {
-        return ruleError(
-            "Error looking up patch set " + control.getChange().currentPatchSetId(), e);
-      }
-      if (c.getStatus() == Change.Status.DRAFT || patchSet.isDraft()) {
-        return cannotSubmitDraft();
-      }
-    }
 
     List<Term> results;
     try {
@@ -251,24 +230,6 @@ public class SubmitRuleEvaluator {
     }
 
     return resultsToSubmitRecord(getSubmitRule(), results);
-  }
-
-  private List<SubmitRecord> cannotSubmitDraft() {
-    try {
-      if (!control.isDraftVisible(cd.db(), cd)) {
-        return createRuleError("Patch set " + patchSet.getId() + " not found");
-      }
-      if (patchSet.isDraft()) {
-        return createRuleError("Cannot submit draft patch sets");
-      }
-      return createRuleError("Cannot submit draft changes");
-    } catch (OrmException err) {
-      PatchSet.Id psId =
-          patchSet != null ? patchSet.getId() : control.getChange().currentPatchSetId();
-      String msg = "Cannot check visibility of patch set " + psId;
-      log.error(msg, err);
-      return createRuleError(msg);
-    }
   }
 
   /**
@@ -401,20 +362,6 @@ public class SubmitRuleEvaluator {
       initPatchSet();
     } catch (OrmException e) {
       return typeError("Error looking up patch set " + control.getChange().currentPatchSetId(), e);
-    }
-
-    try {
-      if (control.getChange().getStatus() == Change.Status.DRAFT
-          && !control.isDraftVisible(cd.db(), cd)) {
-        return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
-      }
-      if (patchSet.isDraft() && !control.isDraftVisible(cd.db(), cd)) {
-        return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
-      }
-    } catch (OrmException err) {
-      String msg = "Cannot read patch set " + patchSet.getId();
-      log.error(msg, err);
-      return SubmitTypeRecord.error(msg);
     }
 
     List<Term> results;

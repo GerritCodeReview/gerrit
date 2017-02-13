@@ -16,6 +16,24 @@
       "revId": "ba04272e785c3e7a0f491baad776a8a2bd9f13ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "816b2c3d_0fd19fee",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1592,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-13T14:24:32Z",
+      "side": 1,
+      "message": "It is more important to not touch the database than it is that these calls return the correct values. Maybe we need to rename this method to make this clearer. Or split it into two methods, one for checking that the database is not accessed, and one that the values are correct. Only the latter can be ignored when run against an earlier schema version.\n\n(Certainly part of the confusion is that this method long predates the setLazyLoad mechanism in ChangeData.)",
+      "parentUuid": "23bc5f3b_95f000bb",
+      "revId": "ba04272e785c3e7a0f491baad776a8a2bd9f13ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

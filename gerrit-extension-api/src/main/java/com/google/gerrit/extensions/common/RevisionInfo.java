@@ -20,7 +20,6 @@ import java.util.Map;
 
 public class RevisionInfo {
   public transient boolean isCurrent;
-  public Boolean draft;
   public ChangeKind kind;
   public int _number;
   public Timestamp created;

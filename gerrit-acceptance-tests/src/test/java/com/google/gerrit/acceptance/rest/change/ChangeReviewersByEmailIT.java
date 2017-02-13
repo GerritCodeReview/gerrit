@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
@@ -284,16 +283,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     exception.expect(UnprocessableEntityException.class);
     exception.expectMessage("email invalid");
     gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@");
-  }
-
-  @Test
-  public void rejectOnNonPublicChange() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-    PushOneCommit.Result r = createDraftChange();
-
-    exception.expect(BadRequestException.class);
-    exception.expectMessage("change is not publicly visible");
-    gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
   }
 
   @Test

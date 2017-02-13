@@ -164,7 +164,6 @@ public class Abandon
         .setTitle("Abandon the change")
         .setVisible(
             change.getStatus().isOpen()
-                && change.getStatus() != Change.Status.DRAFT
                 && rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.ABANDON));
   }
 }

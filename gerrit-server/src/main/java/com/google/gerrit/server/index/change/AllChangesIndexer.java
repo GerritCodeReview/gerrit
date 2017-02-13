@@ -235,7 +235,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     };
   }
 
-  private static class ProjectIndexer implements Callable<Void> {
+  public static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
     private final ListMultimap<ObjectId, ChangeData> byId;
     private final ProgressMonitor done;
@@ -243,7 +243,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final PrintWriter verboseWriter;
     private final Repository repo;
 
-    private ProjectIndexer(
+    public ProjectIndexer(
         ChangeIndexer indexer,
         ListMultimap<ObjectId, ChangeData> changesByCommitId,
         Repository repo,
@@ -319,8 +319,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       } else {
         log.warn(error);
       }
-
-      verboseWriter.println(error);
+      if (verboseWriter != null) {
+        verboseWriter.println(error);
+      }
     }
   }
 }

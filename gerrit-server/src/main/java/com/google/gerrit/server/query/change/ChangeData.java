@@ -833,7 +833,7 @@ public class ChangeData {
     Predicate<? super PatchSet> predicate =
         ps -> {
           try {
-            return changeControl().isPatchVisible(ps, db);
+            return changeControl().isVisible(db);
           } catch (OrmException e) {
             return false;
           }
@@ -1080,7 +1080,7 @@ public class ChangeData {
         }
         PatchSet ps = currentPatchSet();
         try {
-          if (ps == null || !changeControl().isPatchVisible(ps, db)) {
+          if (ps == null || !changeControl().isVisible(db)) {
             return null;
           }
         } catch (OrmException e) {

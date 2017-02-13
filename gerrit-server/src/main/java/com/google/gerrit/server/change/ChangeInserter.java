@@ -404,7 +404,6 @@ public class ChangeInserter implements InsertChangeOp {
             update,
             psId,
             commitId,
-            false,
             newGroups,
             pushCert,
             patchSetDescription);

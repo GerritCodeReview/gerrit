@@ -16,6 +16,24 @@
       "revId": "56305cb485b3db45423006463ca0ebbced676782",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d3a4a03_87a02c9a",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-13T18:40:36Z",
+      "side": 1,
+      "message": "I think absence of as\u003d\"script\" broke it.\nI\u0027ve tested it using proxy and looks like gr-app.js is loaded once and there are no improper console errors.",
+      "parentUuid": "92f762ae_d3c83519",
+      "revId": "56305cb485b3db45423006463ca0ebbced676782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

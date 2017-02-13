@@ -69,9 +69,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
     rcptToAuthors(RecipientType.CC);
     bccStarredBy();
-    includeWatchers(
-        NotifyType.NEW_PATCHSETS,
-        !patchSet.isDraft() && !change.isWorkInProgress() && !change.isPrivate());
+    includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());
     removeUsersThatIgnoredTheChange();
   }
 

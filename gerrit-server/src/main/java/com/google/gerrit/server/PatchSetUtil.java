@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.ChangeUtil.PS_ID_ORDER;
-import static com.google.gerrit.server.notedb.PatchSetState.DRAFT;
 import static com.google.gerrit.server.notedb.PatchSetState.PUBLISHED;
 import static java.util.function.Function.identity;
 
@@ -34,7 +33,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -104,7 +102,6 @@ public class PatchSetUtil {
       ChangeUpdate update,
       PatchSet.Id psId,
       ObjectId commit,
-      boolean draft,
       List<String> groups,
       String pushCertificate,
       String description)
@@ -116,7 +113,6 @@ public class PatchSetUtil {
     ps.setRevision(new RevId(commit.name()));
     ps.setUploader(update.getAccountId());
     ps.setCreatedOn(new Timestamp(update.getWhen().getTime()));
-    ps.setDraft(draft);
     ps.setGroups(groups);
     ps.setPushCertificate(pushCertificate);
     ps.setDescription(description);
@@ -125,25 +121,14 @@ public class PatchSetUtil {
     update.setCommit(rw, commit, pushCertificate);
     update.setPsDescription(description);
     update.setGroups(groups);
-    if (draft) {
-      update.setPatchSetState(DRAFT);
-    }
 
     return ps;
   }
 
   public void publish(ReviewDb db, ChangeUpdate update, PatchSet ps) throws OrmException {
     ensurePatchSetMatches(ps.getId(), update);
-    ps.setDraft(false);
     update.setPatchSetState(PUBLISHED);
     db.patchSets().update(Collections.singleton(ps));
-  }
-
-  public void delete(ReviewDb db, ChangeUpdate update, PatchSet ps) throws OrmException {
-    ensurePatchSetMatches(ps.getId(), update);
-    checkArgument(ps.isDraft(), "cannot delete non-draft patch set %s", ps.getId());
-    update.setPatchSetState(PatchSetState.DELETED);
-    db.patchSets().delete(Collections.singleton(ps));
   }
 
   private void ensurePatchSetMatches(PatchSet.Id psId, ChangeUpdate update) {

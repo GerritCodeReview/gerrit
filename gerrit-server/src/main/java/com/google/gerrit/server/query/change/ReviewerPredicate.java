@@ -29,27 +29,24 @@ public class ReviewerPredicate extends ChangeIndexPredicate {
   protected static Predicate<ChangeData> forState(
       Arguments args, Account.Id id, ReviewerStateInternal state) {
     checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
-    return create(args, new ReviewerPredicate(state, id));
+    return new ReviewerPredicate(state, id);
   }
 
   protected static Predicate<ChangeData> reviewer(Arguments args, Account.Id id) {
-    Predicate<ChangeData> p;
     if (args.notesMigration.readChanges()) {
       // With NoteDb, Reviewer/CC are clearly distinct states, so only choose reviewer.
-      p = new ReviewerPredicate(ReviewerStateInternal.REVIEWER, id);
-    } else {
-      // Without NoteDb, Reviewer/CC are a bit unpredictable; maintain the old behavior of matching
-      // any reviewer state.
-      p = anyReviewerState(id);
+      return new ReviewerPredicate(ReviewerStateInternal.REVIEWER, id);
     }
-    return create(args, p);
+    // Without NoteDb, Reviewer/CC are a bit unpredictable; maintain the old behavior of matching
+    // any reviewer state.
+    return anyReviewerState(id);
   }
 
   protected static Predicate<ChangeData> cc(Arguments args, Account.Id id) {
     // As noted above, CC is nebulous without NoteDb, but it certainly doesn't make sense to return
     // Reviewers for cc:foo. Most likely this will just not match anything, but let the index sort
     // it out.
-    return create(args, new ReviewerPredicate(ReviewerStateInternal.CC, id));
+    return new ReviewerPredicate(ReviewerStateInternal.CC, id);
   }
 
   protected static Predicate<ChangeData> anyReviewerState(Account.Id id) {

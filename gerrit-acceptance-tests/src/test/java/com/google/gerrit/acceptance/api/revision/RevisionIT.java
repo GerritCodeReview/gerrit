@@ -305,12 +305,6 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteDraft() throws Exception {
-    PushOneCommit.Result r = createDraftChange();
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).delete();
-  }
-
-  @Test
   public void cherryPick() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%topic=someTopic");
     CherryPickInput in = new CherryPickInput();

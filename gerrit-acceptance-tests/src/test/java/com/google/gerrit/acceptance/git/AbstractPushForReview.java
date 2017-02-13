@@ -64,7 +64,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -475,54 +474,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     List<ChangeMessage> msgs = cd.messages();
     assertThat(msgs).isNotEmpty();
     assertThat(Iterables.getLast(msgs).getTag()).isEqualTo(expectedTag);
-  }
-
-  @Test
-  public void pushWorkInProgressChangeWhenNotOwner() throws Exception {
-    TestRepository<?> userRepo = cloneProject(project, user);
-    PushOneCommit.Result r =
-        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master%wip");
-    r.assertOkStatus();
-    assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
-    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
-
-    // Other user trying to move from WIP to ready should fail.
-    GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
-    testRepo.reset("ps");
-    r = amendChange(r.getChangeId(), "refs/for/master%ready", admin, testRepo);
-    r.assertErrorStatus(ReceiveCommits.ONLY_OWNER_CAN_MODIFY_WIP);
-
-    // Other user trying to move from WIP to WIP should succeed.
-    r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
-    r.assertOkStatus();
-    assertThat(r.getChange().change().isWorkInProgress()).isTrue();
-
-    // Push as change owner to move change from WIP to ready.
-    r = pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master%ready");
-    r.assertOkStatus();
-    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
-
-    // Other user trying to move from ready to WIP should fail.
-    GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
-    testRepo.reset("ps");
-    r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
-    r.assertErrorStatus(ReceiveCommits.ONLY_OWNER_CAN_MODIFY_WIP);
-
-    // Other user trying to move from ready to ready should succeed.
-    r = amendChange(r.getChangeId(), "refs/for/master%ready", admin, testRepo);
-    r.assertOkStatus();
-  }
-
-  @Test
-  public void publishDraftChangeByPushingNonDraftPatchSet() throws Exception {
-    PushOneCommit.Result r = createDraftChange();
-    r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
-
-    // publish draft change by pushing non-draft patch set
-    r = amendChange(r.getChangeId(), "refs/for/master");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, null);
   }
 
   @Test

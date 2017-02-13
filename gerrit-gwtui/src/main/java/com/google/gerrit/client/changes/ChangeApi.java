@@ -236,23 +236,10 @@ public class ChangeApi {
     call(project, id, commit, "submit").post(in, cb);
   }
 
-  /** Publish a specific revision of a draft change. */
-  public static void publish(
-      @Nullable String project, int id, String commit, AsyncCallback<JavaScriptObject> cb) {
-    JavaScriptObject in = JavaScriptObject.createObject();
-    call(project, id, commit, "publish").post(in, cb);
-  }
-
   /** Delete a specific draft change. */
   public static void deleteChange(
       @Nullable String project, int id, AsyncCallback<JavaScriptObject> cb) {
     change(project, id).delete(cb);
-  }
-
-  /** Delete a specific draft patch set. */
-  public static void deleteRevision(
-      @Nullable String project, int id, String commit, AsyncCallback<JavaScriptObject> cb) {
-    revision(project, id, commit).delete(cb);
   }
 
   /** Delete change edit. */

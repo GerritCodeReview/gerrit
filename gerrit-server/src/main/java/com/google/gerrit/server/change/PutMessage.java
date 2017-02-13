@@ -101,7 +101,7 @@ public class PutMessage
     PatchSet ps = psUtil.current(db.get(), resource.getNotes());
     if (ps == null) {
       throw new ResourceConflictException("current revision is missing");
-    } else if (!resource.getControl().isPatchVisible(ps, db.get())) {
+    } else if (!resource.getControl().isVisible(db.get())) {
       throw new AuthException("current revision not accessible");
     }
 

@@ -42,7 +42,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -822,23 +821,6 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("rebase not permitted");
     gApi.changes().id(changeId).rebase();
-  }
-
-  @Test
-  public void publish() throws Exception {
-    PushOneCommit.Result r = createDraftChange();
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
-    gApi.changes().id(r.getChangeId()).publish();
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.NEW);
-  }
-
-  @Test
-  public void deleteDraftChange() throws Exception {
-    PushOneCommit.Result r = createDraftChange();
-    assertThat(query(r.getChangeId())).hasSize(1);
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
-    gApi.changes().id(r.getChangeId()).delete();
-    assertThat(query(r.getChangeId())).isEmpty();
   }
 
   @Test
@@ -2268,37 +2250,6 @@ public class ChangeIT extends AbstractDaemonTest {
             "Reviewed-on: " + canonicalWebUrl.get() + change.getChange().getId(),
             "Custom: refs/heads/master");
     assertThat(footers).containsExactlyElementsIn(expectedFooters);
-  }
-
-  @Test
-  public void defaultSearchDoesNotTouchDatabase() throws Exception {
-    setApiUser(admin);
-    PushOneCommit.Result r1 = createChange();
-    gApi.changes()
-        .id(r1.getChangeId())
-        .revision(r1.getCommit().name())
-        .review(ReviewInput.approve());
-    gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
-
-    createChange();
-    createDraftChange();
-
-    setApiUser(user);
-    AcceptanceTestRequestScope.Context ctx = disableDb();
-    try {
-      assertThat(
-              gApi.changes()
-                  .query()
-                  .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
-                  // Options should match defaults in AccountDashboardScreen.
-                  .withOption(ListChangesOption.LABELS)
-                  .withOption(ListChangesOption.DETAILED_ACCOUNTS)
-                  .withOption(ListChangesOption.REVIEWED)
-                  .get())
-          .hasSize(2);
-    } finally {
-      enableDb(ctx);
-    }
   }
 
   @Test

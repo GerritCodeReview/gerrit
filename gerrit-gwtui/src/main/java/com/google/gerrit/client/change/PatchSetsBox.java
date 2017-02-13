@@ -192,9 +192,6 @@ class PatchSetsBox extends Composite {
     }
 
     sb.openTd().setStyleName(style.legacy_id());
-    if (r.draft()) {
-      sb.append(Resources.C.draft()).append(' ');
-    }
     sb.append(r.id());
     sb.closeTd();
 

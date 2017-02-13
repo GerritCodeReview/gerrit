@@ -81,58 +81,6 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void noNotificationForDraftChangesForWatchersInNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
-    nc.setName("team");
-    nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES));
-
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("team", nc);
-    saveProjectConfig(project, cfg);
-
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, "draft change", "a", "a1")
-            .to("refs/for/master%draft");
-    r.assertOkStatus();
-
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
-  public void noNotificationForDraftPatchSetsForWatchersInNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
-    nc.setName("team");
-    nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
-
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("team", nc);
-    saveProjectConfig(project, cfg);
-
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, "subject", "a", "a1")
-            .to("refs/for/master");
-    r.assertOkStatus();
-
-    sender.clear();
-
-    r =
-        pushFactory
-            .create(db, admin.getIdent(), testRepo, "subject", "a", "a2", r.getChangeId())
-            .to("refs/for/master%draft");
-    r.assertOkStatus();
-
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
   public void noNotificationForPrivateChangesForWatchersInNotifyConfig() throws Exception {
     Address addr = new Address("Watcher", "watcher@example.com");
     NotifyConfig nc = new NotifyConfig();
@@ -432,70 +380,6 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // assert email notification
     assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
-  public void watchProjectNoNotificationForDraftChange() throws Exception {
-    // watch project
-    String watchedProject = createProject("watchedProject").get();
-    setApiUser(user);
-    watch(watchedProject, null);
-
-    // push a draft change to watched project -> should not trigger email notification
-    setApiUser(admin);
-    TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "draft change", "a", "a1")
-            .to("refs/for/master%draft");
-    r.assertOkStatus();
-
-    // assert email notification
-    assertThat(sender.getMessages()).isEmpty();
-  }
-
-  @Test
-  public void watchProjectNotifyOnDraftChange() throws Exception {
-    String watchedProject = createProject("watchedProject").get();
-
-    // create group that can view all drafts
-    GroupInfo groupThatCanViewDrafts = gApi.groups().create("groupThatCanViewDrafts").get();
-    grant(
-        Permission.VIEW_DRAFTS,
-        new Project.NameKey(watchedProject),
-        "refs/*",
-        false,
-        new AccountGroup.UUID(groupThatCanViewDrafts.id));
-
-    // watch project as user that can't view drafts
-    setApiUser(user);
-    watch(watchedProject, null);
-
-    // watch project as user that can view all drafts
-    TestAccount userThatCanViewDrafts =
-        accounts.create("user2", "user2@test.com", "User2", groupThatCanViewDrafts.name);
-    setApiUser(userThatCanViewDrafts);
-    watch(watchedProject, null);
-
-    // push a draft change to watched project -> should trigger email notification for
-    // userThatCanViewDrafts, but not for user
-    setApiUser(admin);
-    TestRepository<InMemoryRepository> watchedRepo =
-        cloneProject(new Project.NameKey(watchedProject), admin);
-    PushOneCommit.Result r =
-        pushFactory
-            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
-            .to("refs/for/master%draft");
-    r.assertOkStatus();
-
-    // assert email notification
-    List<Message> messages = sender.getMessages();
-    assertThat(messages).hasSize(1);
-    Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(userThatCanViewDrafts.emailAddress);
-    assertThat(m.body()).contains("Change subject: TRIGGER\n");
-    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
 
   @Test

@@ -63,7 +63,6 @@ import com.google.gerrit.server.change.ListChangeRobotComments;
 import com.google.gerrit.server.change.Move;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
-import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutAssignee;
 import com.google.gerrit.server.change.PutPrivate;
 import com.google.gerrit.server.change.PutTopic;
@@ -103,7 +102,6 @@ class ChangeApiImpl implements ChangeApi {
   private final Restore restore;
   private final CreateMergePatchSet updateByMerge;
   private final Provider<SubmittedTogether> submittedTogether;
-  private final PublishDraftPatchSet.CurrentRevision publishDraftChange;
   private final Rebase.CurrentRevision rebase;
   private final DeleteChange deleteChange;
   private final GetTopic getTopic;
@@ -140,7 +138,6 @@ class ChangeApiImpl implements ChangeApi {
       Restore restore,
       CreateMergePatchSet updateByMerge,
       Provider<SubmittedTogether> submittedTogether,
-      PublishDraftPatchSet.CurrentRevision publishDraftChange,
       Rebase.CurrentRevision rebase,
       DeleteChange deleteChange,
       GetTopic getTopic,
@@ -175,7 +172,6 @@ class ChangeApiImpl implements ChangeApi {
     this.restore = restore;
     this.updateByMerge = updateByMerge;
     this.submittedTogether = submittedTogether;
-    this.publishDraftChange = publishDraftChange;
     this.rebase = rebase;
     this.deleteChange = deleteChange;
     this.getTopic = getTopic;
@@ -340,15 +336,6 @@ class ChangeApiImpl implements ChangeApi {
           .applyInfo(change);
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot query submittedTogether", e);
-    }
-  }
-
-  @Override
-  public void publish() throws RestApiException {
-    try {
-      publishDraftChange.apply(change, null);
-    } catch (UpdateException e) {
-      throw new RestApiException("Cannot publish change", e);
     }
   }
 

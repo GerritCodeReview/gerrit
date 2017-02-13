@@ -734,7 +734,7 @@ public class ChangeField {
   // Submit rule options in this class should never use fastEvalLabels. This
   // slows down indexing slightly but produces correct search results.
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      SubmitRuleOptions.defaults().allowClosed(true).allowDraft(true).build();
+      SubmitRuleOptions.defaults().allowClosed(true).build();
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
       SubmitRuleOptions.defaults().build();

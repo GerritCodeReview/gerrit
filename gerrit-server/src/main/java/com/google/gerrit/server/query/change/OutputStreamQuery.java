@@ -261,7 +261,6 @@ public class OutputStreamQuery {
           c,
           new SubmitRuleEvaluator(accountCache, accounts, emails, d)
               .setAllowClosed(true)
-              .setAllowDraft(true)
               .evaluate());
     }
 
@@ -296,7 +295,7 @@ public class OutputStreamQuery {
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
-      if (current != null && d.changeControl().forUser(user).isPatchVisible(current, d.db())) {
+      if (current != null && d.changeControl().forUser(user).isVisible(d.db())) {
         c.currentPatchSet = eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);
 

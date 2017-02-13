@@ -49,7 +49,6 @@ import com.google.gerrit.server.change.ApplyFix;
 import com.google.gerrit.server.change.CherryPick;
 import com.google.gerrit.server.change.Comments;
 import com.google.gerrit.server.change.CreateDraftComment;
-import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.DraftComments;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
@@ -65,7 +64,6 @@ import com.google.gerrit.server.change.ListRobotComments;
 import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.PreviewSubmit;
-import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutDescription;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.RebaseUtil;
@@ -95,12 +93,10 @@ class RevisionApiImpl implements RevisionApi {
   private final RevisionReviewers revisionReviewers;
   private final RevisionReviewerApiImpl.Factory revisionReviewerApi;
   private final CherryPick cherryPick;
-  private final DeleteDraftPatchSet deleteDraft;
   private final Rebase rebase;
   private final RebaseUtil rebaseUtil;
   private final Submit submit;
   private final PreviewSubmit submitPreview;
-  private final PublishDraftPatchSet publish;
   private final Reviewed.PutReviewed putReviewed;
   private final Reviewed.DeleteReviewed deleteReviewed;
   private final RevisionResource revision;
@@ -137,12 +133,10 @@ class RevisionApiImpl implements RevisionApi {
       RevisionReviewers revisionReviewers,
       RevisionReviewerApiImpl.Factory revisionReviewerApi,
       CherryPick cherryPick,
-      DeleteDraftPatchSet deleteDraft,
       Rebase rebase,
       RebaseUtil rebaseUtil,
       Submit submit,
       PreviewSubmit submitPreview,
-      PublishDraftPatchSet publish,
       Reviewed.PutReviewed putReviewed,
       Reviewed.DeleteReviewed deleteReviewed,
       Files files,
@@ -176,13 +170,11 @@ class RevisionApiImpl implements RevisionApi {
     this.revisionReviewers = revisionReviewers;
     this.revisionReviewerApi = revisionReviewerApi;
     this.cherryPick = cherryPick;
-    this.deleteDraft = deleteDraft;
     this.rebase = rebase;
     this.rebaseUtil = rebaseUtil;
     this.review = review;
     this.submit = submit;
     this.submitPreview = submitPreview;
-    this.publish = publish;
     this.files = files;
     this.putReviewed = putReviewed;
     this.deleteReviewed = deleteReviewed;
@@ -253,20 +245,12 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public void publish() throws RestApiException {
-    try {
-      publish.apply(revision, new PublishDraftPatchSet.Input());
-    } catch (Exception e) {
-      throw asRestApiException("Cannot publish draft patch set", e);
-    }
+    throw new UnsupportedOperationException("draft workflow is discontinued");
   }
 
   @Override
   public void delete() throws RestApiException {
-    try {
-      deleteDraft.apply(revision, null);
-    } catch (Exception e) {
-      throw asRestApiException("Cannot delete draft ps", e);
-    }
+    throw new UnsupportedOperationException("draft workflow is discontinued");
   }
 
   @Override

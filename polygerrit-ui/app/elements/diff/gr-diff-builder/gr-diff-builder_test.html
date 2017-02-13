@@ -241,7 +241,7 @@ limitations under the License.
 
       function checkThreadGroupProps(threadGroupEl, patchNum, side, comments) {
         assert.equal(threadGroupEl.changeNum, '42');
-        assert.equal(threadGroupEl.patchNum, patchNum);
+        assert.equal(threadGroupEl.patchForNewThreads, patchNum);
         assert.equal(threadGroupEl.path, '/path/to/foo');
         assert.equal(threadGroupEl.side, side);
         assert.deepEqual(threadGroupEl.projectConfig, {foo: 'bar'});

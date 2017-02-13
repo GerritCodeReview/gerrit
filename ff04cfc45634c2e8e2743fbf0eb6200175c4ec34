@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5730d02_ad3db303",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-13T21:53:44Z",
+      "side": 1,
+      "message": "Is this correct issue ID? The 4789 says \"restart failed withou log error since 2.13.1\"",
+      "revId": "ff04cfc45634c2e8e2743fbf0eb6200175c4ec34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

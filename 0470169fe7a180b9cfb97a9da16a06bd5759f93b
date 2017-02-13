@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd1470e9_3bbfa92b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-13T13:57:34Z",
+      "side": 1,
+      "message": "+1\ngreat feature",
+      "revId": "0470169fe7a180b9cfb97a9da16a06bd5759f93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "864381d8_4bc05206",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-13T13:57:34Z",
+      "side": 1,
+      "message": "+1",
+      "revId": "0470169fe7a180b9cfb97a9da16a06bd5759f93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

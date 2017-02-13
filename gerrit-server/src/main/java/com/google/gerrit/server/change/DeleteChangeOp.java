@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateReviewDb;
@@ -38,15 +39,10 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 class DeleteChangeOp implements BatchUpdateOp {
-  static boolean allowDrafts(Config cfg) {
-    return cfg.getBoolean("change", "allowDrafts", true);
-  }
-
   static ReviewDb unwrap(ReviewDb db) {
     // This is special. We want to delete exactly the rows that are present in
     // the database, even when reading everything else from NoteDb, so we need
@@ -75,7 +71,7 @@ class DeleteChangeOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, OrmException, IOException, NoSuchChangeException {
+      throws RestApiException, OrmException, IOException, AuthException, NoSuchChangeException {
     checkState(
         ctx.getOrder() == Order.DB_BEFORE_REPO, "must use DeleteChangeOp with DB_BEFORE_REPO");
     checkState(id == null, "cannot reuse DeleteChangeOp");
@@ -94,7 +90,7 @@ class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private void ensureDeletable(ChangeContext ctx, Change.Id id, Collection<PatchSet> patchSets)
-      throws ResourceConflictException, MethodNotAllowedException, IOException {
+      throws ResourceConflictException, MethodNotAllowedException, AuthException, IOException {
     Change.Status status = ctx.getChange().getStatus();
     if (status == Change.Status.MERGED) {
       throw new MethodNotAllowedException("Deleting merged change " + id + " is not allowed");
@@ -108,17 +104,8 @@ class DeleteChangeOp implements BatchUpdateOp {
       }
     }
 
-    if (status == Change.Status.DRAFT) {
-      for (PatchSet ps : patchSets) {
-        if (!ps.isDraft()) {
-          throw new ResourceConflictException(
-              "Cannot delete draft change "
-                  + id
-                  + ": patch set "
-                  + ps.getPatchSetId()
-                  + " is not a draft");
-        }
-      }
+    if (!ctx.getControl().canDelete(status)) {
+      throw new AuthException("Deleting change " + id + " is not permitted");
     }
   }
 

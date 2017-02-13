@@ -61,13 +61,6 @@ The change was successfully merged into the destination branch.
 +
 The change was abandoned.
 
-- [[draft]]`Draft`:
-+
-The change is a draft that is only visible to the change owner, the
-reviewers that were explicitly added to the change, and users who have
-the link:access-control.html#category_view_drafts[View Drafts] global
-capability assigned.
-
 [[commit-info]]
 === Commit Info Block
 
@@ -258,28 +251,14 @@ open changes.
 Users can only cherry-pick changes to branches for which they are
 allowed to upload changes for review.
 
-** [[publish]]`Publish`:
-+
-Publishes the currently viewed draft patch set. If this is the first
-patch set of a change that is published, the change will be published
-as well.
-+
-The `Publish` button is only available if a draft patch set is viewed
-and the user is the change owner or has the
-link:access-control.html#category_publish_drafts[Publish Drafts] access
-right assigned.
-
 ** [[delete]]`Delete Change` / `Delete Revision`:
 +
-Deletes the change / the currently viewed draft patch set.
+Deletes the change.
 +
 For open or abandoned changes, the `Delete Change` button will be available
 and if the user is the change owner and is granted the
 link:access-control.html#category_delete_own_changes[Delete Own Changes]
-permission or if they are an administrator. For draft changes,
-the `Delete Change` / `Delete Revision` buttons will be available if the user is
-the change owner or has the
-link:access-control.html#category_delete_drafts[Delete Drafts] access right assigned.
+permission or if they are an administrator.
 
 ** [[plugin-actions]]Further actions may be available if plugins are installed.
 

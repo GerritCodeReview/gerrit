@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7c5490e_b78aa6b0",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-13T20:58:38Z",
+      "side": 1,
+      "message": "Dave definitely has much better english than me. If Dave voted -0, then I guess it was meant slightly opposing my proposal. Feel free to revert back to how it was in PS-1",
+      "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

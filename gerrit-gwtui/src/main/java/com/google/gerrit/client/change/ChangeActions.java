@@ -25,14 +25,6 @@ import com.google.gwt.user.client.ui.Button;
 
 public class ChangeActions {
 
-  static void publish(Change.Id id, String revision, Button... draftButtons) {
-    ChangeApi.publish(id.get(), revision, cs(id, draftButtons));
-  }
-
-  static void delete(Change.Id id, String revision, Button... draftButtons) {
-    ChangeApi.deleteRevision(id.get(), revision, cs(id, draftButtons));
-  }
-
   static void delete(Change.Id id, Button... draftButtons) {
     ChangeApi.deleteChange(id.get(), mine(draftButtons));
   }

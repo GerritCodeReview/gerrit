@@ -19,11 +19,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import org.eclipse.jgit.lib.Config;
 
 /**
  * Definition of a field stored in the secondary index.
@@ -62,14 +60,11 @@ public abstract class FieldDef<I, T> {
   /** Arguments needed to fill in missing data in the input object. */
   public static class FillArgs {
     public final TrackingFooters trackingFooters;
-    public final boolean allowsDrafts;
     public final AllUsersName allUsers;
 
     @Inject
-    FillArgs(
-        TrackingFooters trackingFooters, @GerritServerConfig Config cfg, AllUsersName allUsers) {
+    FillArgs(TrackingFooters trackingFooters, AllUsersName allUsers) {
       this.trackingFooters = trackingFooters;
-      this.allowsDrafts = cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true);
       this.allUsers = allUsers;
     }
   }

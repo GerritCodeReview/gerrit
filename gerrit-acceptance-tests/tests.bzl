@@ -1,10 +1,5 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-BOUNCYCASTLE = [
-    "//lib/bouncycastle:bcpkix-without-neverlink",
-    "//lib/bouncycastle:bcpg-without-neverlink",
-]
-
 def acceptance_tests(
     group,
     deps = [],
@@ -13,8 +8,10 @@ def acceptance_tests(
     **kwargs):
   junit_tests(
     name = group,
-    deps = deps + BOUNCYCASTLE + [
+    deps = deps + [
       '//gerrit-acceptance-tests:lib',
+      "//lib/bouncycastle:bcpkix",
+      "//lib/bouncycastle:bcpg",
     ],
     tags = labels + [
       'acceptance',

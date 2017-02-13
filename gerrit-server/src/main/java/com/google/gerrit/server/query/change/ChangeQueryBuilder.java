@@ -573,7 +573,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("cc".equalsIgnoreCase(value)) {
-      return ReviewerPredicate.cc(args, self());
+      return ReviewerPredicate.cc(self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
@@ -1311,7 +1311,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (args.index.getSchema().hasField(ChangeField.REVIEWER_BY_EMAIL)) {
       Address address = Address.tryParse(who);
       if (address != null) {
-        reviewerByEmailPredicate = ReviewerByEmailPredicate.forState(args, address, state);
+        reviewerByEmailPredicate = ReviewerByEmailPredicate.forState(address, state);
       }
     }
 
@@ -1323,7 +1323,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
             Predicate.or(
                 accounts
                     .stream()
-                    .map(id -> ReviewerPredicate.forState(args, id, state))
+                    .map(id -> ReviewerPredicate.forState(id, state))
                     .collect(toList()));
       }
     } catch (QueryParseException e) {

@@ -127,7 +127,6 @@ public class ReviewerJson {
           submitRuleEvaluatorFactory
               .create(cd)
               .setFastEvalLabels(true)
-              .setAllowDraft(true)
               .evaluate()) {
         if (rec.labels == null) {
           continue;

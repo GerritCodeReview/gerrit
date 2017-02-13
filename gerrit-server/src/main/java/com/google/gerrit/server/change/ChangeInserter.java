@@ -267,11 +267,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setDraft(boolean draft) {
-    checkState(change == null, "setDraft(boolean) only valid before creating change");
-    return setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
-  }
-
   public ChangeInserter setStatus(Change.Status status) {
     checkState(change == null, "setStatus(Change.Status) only valid before creating change");
     this.status = status;
@@ -363,7 +358,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
       update.setPrivate(isPrivate);
     }
 
-    boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;
     if (newGroups.isEmpty()) {
       newGroups = GroupCollector.getDefaultGroups(commit);
@@ -375,7 +369,6 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
             update,
             psId,
             commit,
-            draft,
             newGroups,
             pushCert,
             patchSetDescription);

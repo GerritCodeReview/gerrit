@@ -169,9 +169,6 @@ public class Abandon
     return new UiAction.Description()
         .setLabel("Abandon")
         .setTitle("Abandon the change")
-        .setVisible(
-            resource.getChange().getStatus().isOpen()
-                && resource.getChange().getStatus() != Change.Status.DRAFT
-                && canAbandon);
+        .setVisible(resource.getChange().getStatus().isOpen() && canAbandon);
   }
 }

@@ -310,16 +310,6 @@ public abstract class AbstractDaemonTest {
     return cfg;
   }
 
-  protected static Config allowDraftsDisabledConfig() {
-    Config cfg = new Config();
-    cfg.setBoolean("change", null, "allowDrafts", false);
-    return cfg;
-  }
-
-  protected boolean isAllowDrafts() {
-    return cfg.getBoolean("change", "allowDrafts", true);
-  }
-
   protected boolean isSubmitWholeTopicEnabled() {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
@@ -589,10 +579,6 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
-  protected PushOneCommit.Result createDraftChange() throws Exception {
-    return pushTo("refs/drafts/master");
-  }
-
   protected PushOneCommit.Result createChange(String subject, String fileName, String content)
       throws Exception {
     PushOneCommit push =
@@ -663,10 +649,6 @@ public abstract class AbstractDaemonTest {
   protected void merge(PushOneCommit.Result r) throws Exception {
     revision(r).review(ReviewInput.approve());
     revision(r).submit();
-  }
-
-  protected PushOneCommit.Result amendChangeAsDraft(String changeId) throws Exception {
-    return amendChange(changeId, "refs/drafts/master");
   }
 
   protected ChangeInfo info(String id) throws RestApiException {

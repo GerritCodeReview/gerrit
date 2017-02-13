@@ -236,7 +236,6 @@ public class Submit
         }
         //$FALL-THROUGH$
       case ABANDONED:
-      case DRAFT:
       default:
         throw new ResourceConflictException("change is " + status(change));
     }
@@ -293,8 +292,7 @@ public class Submit
     PatchSet.Id current = resource.getChange().currentPatchSetId();
     String topic = resource.getChange().getTopic();
     boolean visible =
-        !resource.getPatchSet().isDraft()
-            && resource.getChange().getStatus().isOpen()
+        resource.getChange().getStatus().isOpen()
             && resource.getPatchSet().getId().equals(current)
             && resource.getControl().canSubmit();
     ReviewDb db = dbProvider.get();
@@ -514,7 +512,7 @@ public class Submit
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
-      } else if (!rsrc.getControl().isPatchVisible(ps, dbProvider.get())) {
+      } else if (!rsrc.getControl().isPatchVisible(dbProvider.get())) {
         throw new AuthException("current revision not accessible");
       }
 

@@ -296,54 +296,6 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void uploadPackDraftRefs() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
-
-    PushOneCommit.Result br =
-        pushFactory.create(db, admin.getIdent(), testRepo).to("refs/drafts/master");
-    br.assertOkStatus();
-    Change.Id c5 = br.getChange().getId();
-    String r5 = changeRefPrefix(c5);
-
-    // Only admin can see admin's draft change (5).
-    setApiUser(admin);
-    assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
-        r5 + "1",
-        r5 + "meta",
-        "refs/heads/branch",
-        "refs/heads/master",
-        RefNames.REFS_CONFIG,
-        "refs/tags/branch-tag",
-        "refs/tags/master-tag");
-
-    // user can't.
-    setApiUser(user);
-    assertUploadPackRefs(
-        "HEAD",
-        r1 + "1",
-        r1 + "meta",
-        r2 + "1",
-        r2 + "meta",
-        r3 + "1",
-        r3 + "meta",
-        r4 + "1",
-        r4 + "meta",
-        "refs/heads/branch",
-        "refs/heads/master",
-        "refs/tags/branch-tag",
-        "refs/tags/master-tag");
-  }
-
-  @Test
   public void uploadPackNoSearchingChangeCacheImpl() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
 

@@ -1153,7 +1153,6 @@ public class ChangeJson {
     out.ref = in.getRefName();
     out.created = in.getCreatedOn();
     out.uploader = accountLoader.get(in.getUploader());
-    out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
     out.kind = changeKindCache.getChangeKind(repo, cd, in);
     out.description = in.getDescription();
@@ -1190,9 +1189,7 @@ public class ChangeJson {
       out.files.remove(Patch.MERGE_LIST);
     }
 
-    if ((out.isCurrent || (out.draft != null && out.draft))
-        && has(CURRENT_ACTIONS)
-        && userProvider.get().isIdentifiedUser()) {
+    if ((out.isCurrent) && has(CURRENT_ACTIONS) && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(
           changeInfo, out, new RevisionResource(changeResourceFactory.create(ctl), in));
@@ -1244,7 +1241,7 @@ public class ChangeJson {
     return info;
   }
 
-  private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in) throws OrmException {
+  private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in) {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
 
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {

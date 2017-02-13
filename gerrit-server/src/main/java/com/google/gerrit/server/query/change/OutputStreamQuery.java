@@ -243,8 +243,7 @@ public class OutputStreamQuery {
     }
 
     if (includeSubmitRecords) {
-      eventFactory.addSubmitRecords(
-          c, new SubmitRuleEvaluator(d).setAllowClosed(true).setAllowDraft(true).evaluate());
+      eventFactory.addSubmitRecords(c, new SubmitRuleEvaluator(d).setAllowClosed(true).evaluate());
     }
 
     if (includeCommitMessage) {

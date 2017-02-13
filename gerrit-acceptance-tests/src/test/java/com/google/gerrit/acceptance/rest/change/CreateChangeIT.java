@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
@@ -36,17 +35,14 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.git.ChangeAlreadyMergedException;
-import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.gerrit.testutil.TestTimeUtil;
 import java.util.List;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -58,11 +54,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config allowDraftsDisabled() {
-    return allowDraftsDisabledConfig();
-  }
-
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -124,7 +115,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createNewChangeSignedOffByFooter() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
     setSignedOffByFooter();
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     String message = info.revisions.get(info.currentRevision).commit.message;
@@ -132,19 +122,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
         .contains(
             String.format(
                 "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
-  }
-
-  @Test
-  public void createNewDraftChange() throws Exception {
-    assume().that(isAllowDrafts()).isTrue();
-    assertCreateSucceeds(newChangeInput(ChangeStatus.DRAFT));
-  }
-
-  @Test
-  public void createNewDraftChangeNotAllowed() throws Exception {
-    assume().that(isAllowDrafts()).isFalse();
-    ChangeInput ci = newChangeInput(ChangeStatus.DRAFT);
-    assertCreateFails(ci, MethodNotAllowedException.class, "draft workflow is disabled");
   }
 
   @Test
@@ -297,8 +274,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.status).isEqualTo(in.status);
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();
-    Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
-    assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
     return out;
   }
 
@@ -308,13 +283,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     exception.expect(errType);
     exception.expectMessage(errSubstring);
     gApi.changes().create(in);
-  }
-
-  private ChangeStatus booleanToDraftStatus(Boolean draft) {
-    if (draft == null) {
-      return ChangeStatus.NEW;
-    }
-    return draft ? ChangeStatus.DRAFT : ChangeStatus.NEW;
   }
 
   // TODO(davido): Expose setting of account preferences in the API

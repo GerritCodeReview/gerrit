@@ -229,8 +229,6 @@ public class ChangeScreen extends Screen {
   @UiField Button publishEdit;
   @UiField Button rebaseEdit;
   @UiField Button deleteEdit;
-  @UiField Button publish;
-  @UiField Button deleteRevision;
   @UiField Button openAll;
   @UiField Button editMode;
   @UiField Button reviewMode;
@@ -530,8 +528,7 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void initRevisionsAction(
-      ChangeInfo info, String revision, NativeMap<ActionInfo> actions) {
+  private void initRevisionsAction(ChangeInfo info, String revision) {
     int currentPatchSet;
     if (info.currentRevision() != null && info.revisions().containsKey(info.currentRevision())) {
       currentPatchSet = info.revision(info.currentRevision())._number();
@@ -558,18 +555,6 @@ public class ChangeScreen extends Screen {
     updatePatchSetsTextStyle(isPatchSetCurrent);
     patchSetsAction =
         new PatchSetsAction(info.legacyId(), revision, edit, style, headerLine, patchSets);
-
-    RevisionInfo revInfo = info.revision(revision);
-    if (revInfo.draft()) {
-      if (actions.containsKey("publish")) {
-        publish.setVisible(true);
-        publish.setTitle(actions.get("publish").title());
-      }
-      if (actions.containsKey("/")) {
-        deleteRevision.setVisible(true);
-        deleteRevision.setTitle(actions.get("/").title());
-      }
-    }
   }
 
   private void initDownloadAction(ChangeInfo info, String revision) {
@@ -663,18 +648,6 @@ public class ChangeScreen extends Screen {
   void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteChangeEdit())) {
       EditActions.deleteEdit(changeId, publishEdit, rebaseEdit, deleteEdit);
-    }
-  }
-
-  @UiHandler("publish")
-  void onPublish(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeActions.publish(changeId, revision, publish, deleteRevision);
-  }
-
-  @UiHandler("deleteRevision")
-  void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteDraftRevision())) {
-      ChangeActions.delete(changeId, revision, publish, deleteRevision);
     }
   }
 
@@ -1274,10 +1247,7 @@ public class ChangeScreen extends Screen {
   }
 
   private boolean isSubmittable(ChangeInfo info) {
-    boolean canSubmit =
-        info.status().isOpen()
-            && revision.equals(info.currentRevision())
-            && !info.revision(revision).draft();
+    boolean canSubmit = info.status().isOpen() && revision.equals(info.currentRevision());
     if (canSubmit && info.status() == Change.Status.NEW) {
       for (String name : info.labels()) {
         LabelInfo label = info.label(name);
@@ -1360,7 +1330,7 @@ public class ChangeScreen extends Screen {
     // Properly render revision actions initially while waiting for
     // the callback to populate them correctly.
     NativeMap<ActionInfo> emptyMap = NativeMap.<ActionInfo>create();
-    initRevisionsAction(info, revision, emptyMap);
+    initRevisionsAction(info, revision);
     quickApprove.setVisible(false);
     actions.reloadRevisionActions(emptyMap);
 
@@ -1372,8 +1342,7 @@ public class ChangeScreen extends Screen {
       statusText.setInnerText(Util.C.notCurrent());
       labels.setVisible(false);
     } else {
-      Status s = info.revision(revision).draft() ? Status.DRAFT : info.status();
-      statusText.setInnerText(Util.toLongString(s));
+      statusText.setInnerText(Util.toLongString(info.status()));
     }
 
     if (Gerrit.isSignedIn()) {
@@ -1392,7 +1361,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void renderRevisionInfo(ChangeInfo info, NativeMap<ActionInfo> actionMap) {
-    initRevisionsAction(info, revision, actionMap);
+    initRevisionsAction(info, revision);
     commit.setParentNotCurrent(
         actionMap.containsKey("rebase") && actionMap.get("rebase").enabled());
     actions.reloadRevisionActions(actionMap);

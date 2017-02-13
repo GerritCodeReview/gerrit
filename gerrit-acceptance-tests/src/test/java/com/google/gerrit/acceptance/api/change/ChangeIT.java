@@ -263,17 +263,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void abandonDraft() throws Exception {
-    PushOneCommit.Result r = createDraftChange();
-    String changeId = r.getChangeId();
-    assertThat(info(changeId).status).isEqualTo(ChangeStatus.DRAFT);
-
-    exception.expect(ResourceConflictException.class);
-    exception.expectMessage("draft changes cannot be abandoned");
-    gApi.changes().id(changeId).abandon();
-  }
-
-  @Test
   public void restore() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -361,23 +350,6 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Change is already up to date");
     gApi.changes().id(changeId).current().rebase();
-  }
-
-  @Test
-  public void publish() throws Exception {
-    PushOneCommit.Result r = createChange("refs/drafts/master");
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
-    gApi.changes().id(r.getChangeId()).publish();
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.NEW);
-  }
-
-  @Test
-  public void deleteDraftChange() throws Exception {
-    PushOneCommit.Result r = createChange("refs/drafts/master");
-    assertThat(query(r.getChangeId())).hasSize(1);
-    assertThat(info(r.getChangeId()).status).isEqualTo(ChangeStatus.DRAFT);
-    gApi.changes().id(r.getChangeId()).delete();
-    assertThat(query(r.getChangeId())).isEmpty();
   }
 
   @Test
@@ -1638,7 +1610,6 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
 
     createChange();
-    createDraftChange();
 
     setApiUser(user);
     AcceptanceTestRequestScope.Context ctx = disableDb();
@@ -1793,62 +1764,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createNewPatchSetOnVisibleDraftPatchSet() throws Exception {
-    // Clone separate repositories of the same project as admin and as user
-    TestRepository<InMemoryRepository> adminTestRepo = cloneProject(project, admin);
-    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
-
-    // Create change as admin
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
-    PushOneCommit.Result r1 = push.to("refs/for/master");
-    r1.assertOkStatus();
-
-    // Amend draft as admin
-    PushOneCommit.Result r2 =
-        amendChange(r1.getChangeId(), "refs/drafts/master", admin, adminTestRepo);
-    r2.assertOkStatus();
-
-    // Add user as reviewer to make this patch set visible
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
-    gApi.changes().id(r1.getChangeId()).addReviewer(in);
-
-    // Fetch change
-    GitUtil.fetch(userTestRepo, r2.getPatchSet().getRefName() + ":ps");
-    userTestRepo.reset("ps");
-
-    // Amend change as user
-    PushOneCommit.Result r3 =
-        amendChange(r2.getChangeId(), "refs/drafts/master", user, userTestRepo);
-    r3.assertOkStatus();
-  }
-
-  @Test
-  public void createNewPatchSetOnInvisibleDraftPatchSet() throws Exception {
-    // Clone separate repositories of the same project as admin and as user
-    TestRepository<InMemoryRepository> adminTestRepo = cloneProject(project, admin);
-    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
-
-    // Create change as admin
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
-    PushOneCommit.Result r1 = push.to("refs/for/master");
-    r1.assertOkStatus();
-
-    // Amend draft as admin
-    PushOneCommit.Result r2 =
-        amendChange(r1.getChangeId(), "refs/drafts/master", admin, adminTestRepo);
-    r2.assertOkStatus();
-
-    // Fetch change
-    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
-    userTestRepo.reset("ps");
-
-    // Amend change as user
-    PushOneCommit.Result r3 = amendChange(r1.getChangeId(), "refs/for/master", user, userTestRepo);
-    r3.assertErrorStatus("cannot add patch set to " + r3.getChange().change().getChangeId() + ".");
-  }
-
-  @Test
   public void createNewPatchSetWithoutPermission() throws Exception {
     // Create new project with clean permissions
     Project.NameKey p = createProject("addPatchSet1");
@@ -1917,62 +1832,6 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r2 =
         amendChange(r1.getChangeId(), "refs/for/master", admin, adminTestRepo);
     r2.assertOkStatus();
-  }
-
-  @Test
-  public void createNewPatchSetAsReviewerOnDraftChange() throws Exception {
-    // Clone separate repositories of the same project as admin and as user
-    TestRepository<?> adminTestRepo = cloneProject(project, admin);
-    TestRepository<?> userTestRepo = cloneProject(project, user);
-
-    // Create change as admin
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
-    PushOneCommit.Result r1 = push.to("refs/drafts/master");
-    r1.assertOkStatus();
-
-    // Add user as reviewer
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
-    gApi.changes().id(r1.getChangeId()).addReviewer(in);
-
-    // Fetch change
-    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
-    userTestRepo.reset("ps");
-
-    // Amend change as user
-    PushOneCommit.Result r2 = amendChange(r1.getChangeId(), "refs/for/master", user, userTestRepo);
-    r2.assertOkStatus();
-  }
-
-  @Test
-  public void createNewDraftPatchSetOnDraftChange() throws Exception {
-    // Create new project with clean permissions
-    Project.NameKey p = createProject("addPatchSet4");
-    // Clone separate repositories of the same project as admin and as user
-    TestRepository<?> adminTestRepo = cloneProject(p, admin);
-    TestRepository<?> userTestRepo = cloneProject(p, user);
-
-    // Block default permission
-    block(Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/for/*", p);
-
-    // Create change as admin
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), adminTestRepo);
-    PushOneCommit.Result r1 = push.to("refs/drafts/master");
-    r1.assertOkStatus();
-
-    // Add user as reviewer
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email;
-    gApi.changes().id(r1.getChangeId()).addReviewer(in);
-
-    // Fetch change
-    GitUtil.fetch(userTestRepo, r1.getPatchSet().getRefName() + ":ps");
-    userTestRepo.reset("ps");
-
-    // Amend change as user
-    PushOneCommit.Result r2 =
-        amendChange(r1.getChangeId(), "refs/drafts/master", user, userTestRepo);
-    r2.assertErrorStatus("cannot add patch set to " + r1.getChange().getId().id + ".");
   }
 
   @Test

@@ -135,7 +135,6 @@ public class ReviewerJson {
       for (SubmitRecord rec :
           new SubmitRuleEvaluator(accountCache, accounts, emails, cd)
               .setFastEvalLabels(true)
-              .setAllowDraft(true)
               .evaluate()) {
         if (rec.labels == null) {
           continue;

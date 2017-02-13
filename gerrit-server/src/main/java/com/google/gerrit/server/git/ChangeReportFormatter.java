@@ -27,9 +27,6 @@ public interface ChangeReportFormatter {
     public abstract String subject();
 
     @Nullable
-    public abstract Boolean isDraft();
-
-    @Nullable
     public abstract Boolean isEdit();
 
     @Nullable
@@ -48,8 +45,6 @@ public interface ChangeReportFormatter {
 
       public abstract Builder setSubject(String val);
 
-      public abstract Builder setIsDraft(Boolean val);
-
       public abstract Builder setIsEdit(Boolean val);
 
       public abstract Builder setIsPrivate(Boolean val);
@@ -59,8 +54,6 @@ public interface ChangeReportFormatter {
       abstract Change change();
 
       abstract String subject();
-
-      abstract Boolean isDraft();
 
       abstract Boolean isEdit();
 
@@ -73,7 +66,6 @@ public interface ChangeReportFormatter {
       public Input build() {
         setChange(change());
         setSubject(subject() == null ? change().getSubject() : subject());
-        setIsDraft(isDraft() == null ? Change.Status.DRAFT == change().getStatus() : isDraft());
         setIsEdit(isEdit() == null ? false : isEdit());
         setIsPrivate(isPrivate() == null ? change().isPrivate() : isPrivate());
         setIsWorkInProgress(

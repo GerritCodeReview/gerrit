@@ -26,7 +26,7 @@ request body.
     "subject" : "Let's support 100% Gerrit workflow direct in browser",
     "branch" : "master",
     "topic" : "create-change-in-browser",
-    "status" : "DRAFT"
+    "status" : "NEW"
   }
 ----
 
@@ -47,7 +47,7 @@ the resulting change.
     "topic": "create-change-in-browser",
     "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
     "subject": "Let's support 100% Gerrit workflow direct in browser",
-    "status": "DRAFT",
+    "status": "NEW",
     "created": "2014-05-05 07:15:44.639000000",
     "updated": "2014-05-05 07:15:44.639000000",
     "mergeable": true,
@@ -1748,25 +1748,6 @@ message if the set of changes to be submitted with this change
 includes changes the caller cannot read.
 
 
-[[publish-draft-change]]
-=== Publish Draft Change
---
-'POST /changes/link:#change-id[\{change-id\}]/publish'
---
-
-Publishes a draft change.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/publish HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-----
-
-.Response
-----
-  HTTP/1.1 204 No Content
-----
-
 [[delete-change]]
 === Delete Change
 --
@@ -1778,10 +1759,6 @@ Deletes a change.
 New or abandoned changes can be deleted by their owner if the user is granted
 the link:access-control.html#category_delete_own_changes[Delete Own Changes] permission,
 otherwise only by administrators.
-
-Draft changes can only be deleted by their owner or other users who have the
-permissions to view and delete drafts. If the draft workflow is disabled, only
-administrators with those permissions may delete draft changes.
 
 .Request
 ----
@@ -3633,44 +3610,6 @@ message is contained in the response body.
   "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
 ----
 
-[[publish-draft-revision]]
-=== Publish Draft Revision
---
-'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
---
-
-Publishes a draft revision.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/publish HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-----
-
-.Response
-----
-  HTTP/1.1 204 No Content
-----
-
-[[delete-draft-revision]]
-=== Delete Draft Revision
---
-'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]'
---
-
-Deletes a draft revision.
-
-.Request
-----
-  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1 HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-----
-
-.Response
-----
-  HTTP/1.1 204 No Content
-----
-
 [[get-patch]]
 === Get Patch
 --
@@ -5163,7 +5102,7 @@ The `refs/heads/` prefix is omitted.
 |`subject`            ||
 The subject of the change (header line of the commit message).
 |`status`             ||
-The status of the change (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
+The status of the change (`NEW`, `MERGED`, `ABANDONED`).
 |`created`            ||
 The link:rest-api.html#timestamp[timestamp] of when the change was
 created.
@@ -5268,7 +5207,7 @@ The `refs/heads/` prefix is omitted.
 The subject of the change (header line of the commit message).
 |`topic`              |optional|The topic to which this change belongs.
 |`status`             |optional, default to `NEW`|
-The status of the change (only `NEW` and `DRAFT` accepted here).
+The status of the change (only `NEW` accepted here).
 |`base_change`        |optional|
 A link:#change-id[\{change-id\}] that identifies the base change for a create
 change operation.
@@ -6032,7 +5971,7 @@ link:#commit-info[CommitInfo] entity.
 |`_revision_number`        |optional|The revision number.
 |`_current_revision_number`|optional|The current revision number.
 |`status`                  |optional|The status of the change. The status of
-the change is one of (`NEW`, `MERGED`, `ABANDONED`, `DRAFT`).
+the change is one of (`NEW`, `MERGED`, `ABANDONED`).
 |===========================
 
 [[related-changes-info]]
@@ -6222,7 +6161,6 @@ link:#list-changes[Query Changes].
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
-|`draft`       |not set if `false`|Whether the patch set is a draft.
 |`kind`        ||The change kind. Valid values are `REWORK`, `TRIVIAL_REBASE`,
 `MERGE_FIRST_PARENT_UPDATE`, `NO_CODE_CHANGE`, and `NO_CHANGE`.
 |`_number`     ||The patch set number.

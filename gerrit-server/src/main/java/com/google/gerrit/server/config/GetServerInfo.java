@@ -204,7 +204,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private ChangeConfigInfo getChangeInfo(Config cfg) {
     ChangeConfigInfo info = new ChangeConfigInfo();
     info.allowBlame = toBoolean(cfg.getBoolean("change", "allowBlame", true));
-    info.allowDrafts = toBoolean(cfg.getBoolean("change", "allowDrafts", true));
     info.showAssignee =
         toBoolean(
             cfg.getBoolean("change", "showAssignee", true)

@@ -113,9 +113,6 @@ public interface ChangeApi {
       EnumSet<ListChangesOption> listOptions, EnumSet<SubmittedTogetherOption> submitOptions)
       throws RestApiException;
 
-  /** Publishes a draft change. */
-  void publish() throws RestApiException;
-
   /** Rebase the current revision of a change using default options. */
   void rebase() throws RestApiException;
 
@@ -324,6 +321,7 @@ public interface ChangeApi {
     }
 
     @Override
+<<<<<<< HEAD
     public void publish() {
       throw new NotImplementedException();
     }
@@ -339,6 +337,8 @@ public interface ChangeApi {
     }
 
     @Override
+=======
+>>>>>>> 663f2cc... WIP: Discontinue draft workflow
     public void delete() {
       throw new NotImplementedException();
     }

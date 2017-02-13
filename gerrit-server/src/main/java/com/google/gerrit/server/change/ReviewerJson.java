@@ -110,8 +110,7 @@ public class ReviewerJson {
     ChangeData cd = changeDataFactory.create(db.get(), ctl);
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec :
-          new SubmitRuleEvaluator(cd).setFastEvalLabels(true).setAllowDraft(true).evaluate()) {
+      for (SubmitRecord rec : new SubmitRuleEvaluator(cd).setFastEvalLabels(true).evaluate()) {
         if (rec.labels == null) {
           continue;
         }

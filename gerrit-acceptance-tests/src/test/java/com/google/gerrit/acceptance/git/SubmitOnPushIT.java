@@ -170,12 +170,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushingDraft_Error() throws Exception {
-    PushOneCommit.Result r = pushTo("refs/for/master%draft,submit");
-    r.assertErrorStatus("cannot submit draft");
-  }
-
-  @Test
   public void submitOnPushToNonExistingBranch_Error() throws Exception {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName + "%submit");

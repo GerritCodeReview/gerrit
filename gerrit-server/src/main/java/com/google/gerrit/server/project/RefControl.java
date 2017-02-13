@@ -402,11 +402,6 @@ public class RefControl {
     return canPerform(Permission.REMOVE_REVIEWER);
   }
 
-  /** @return true if this user can view draft changes. */
-  public boolean canViewDrafts() {
-    return canPerform(Permission.VIEW_DRAFTS);
-  }
-
   /** @return true if this user can view private changes. */
   public boolean canViewPrivateChanges() {
     return canPerform(Permission.VIEW_PRIVATE_CHANGES);

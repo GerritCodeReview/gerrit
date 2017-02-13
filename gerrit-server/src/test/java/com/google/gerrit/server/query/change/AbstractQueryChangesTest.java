@@ -1549,6 +1549,37 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byUnresolved() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
+
+    // Change1 has one resolved comment (unresolvedcount = 0)
+    // Change2 has one unresolved comment (unresolvedcount = 1)
+    // Change3 has one resolved comment and one unresolved comment (unresolvedcount = 1)
+    addComment(change1.getChangeId(), "comment 1", false);
+    addComment(change2.getChangeId(), "comment 2", true);
+    addComment(change3.getChangeId(), "comment 3", false);
+    addComment(change3.getChangeId(), "comment 4", true);
+
+    assertQuery("has:unresolved", change3, change2);
+
+    assertQuery("unresolved:0", change1);
+    List<ChangeInfo> changeInfos = assertQuery("unresolved:>=0", change3, change2, change1);
+    assertThat(changeInfos.get(0).unresolvedCommentCount).isEqualTo(1); // Change3
+    assertThat(changeInfos.get(1).unresolvedCommentCount).isEqualTo(1); // Change2
+    assertThat(changeInfos.get(2).unresolvedCommentCount).isEqualTo(0); // Change1
+    assertQuery("unresolved:>0", change3, change2);
+
+    assertQuery("unresolved:<1", change1);
+    assertQuery("unresolved:<=1", change3, change2, change1);
+    assertQuery("unresolved:1", change3, change2);
+    assertQuery("unresolved:>1");
+    assertQuery("unresolved:>=1", change3, change2);
+  }
+
+  @Test
   public void byCommitsOnBranchNotMerged() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     int n = 10;
@@ -1595,6 +1626,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     cd.changedLines();
     cd.reviewedBy();
     cd.reviewers();
+    cd.unresolvedCommentCount();
 
     // TODO(dborowitz): Swap out GitRepositoryManager somehow? Will probably be
     // necessary for NoteDb anyway.
@@ -1931,5 +1963,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected static long lastUpdatedMs(Change c) {
     return c.getLastUpdatedOn().getTime();
+  }
+
+  private void addComment(int changeId, String message, Boolean unresolved) throws Exception {
+    ReviewInput input = new ReviewInput();
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.line = 1;
+    comment.message = message;
+    comment.unresolved = unresolved;
+    input.comments =
+        ImmutableMap.<String, List<ReviewInput.CommentInput>>of(
+            Patch.COMMIT_MSG, ImmutableList.<ReviewInput.CommentInput>of(comment));
+    gApi.changes().id(changeId).current().review(input);
   }
 }

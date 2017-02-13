@@ -159,6 +159,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_SUBMISSIONID = "submissionid";
   public static final String FIELD_TR = "tr";
+  public static final String FIELD_UNRESOLVED_COMMENT_COUNT = "unresolved";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
 
@@ -513,6 +514,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new EditByPredicate(self());
     }
 
+    if ("unresolved".equalsIgnoreCase(value)) {
+      return new IsUnresolvedPredicate();
+    }
+
     // for plugins the value will be operandName_pluginName
     String[] names = value.split("_");
     if (names.length == 2) {
@@ -677,7 +682,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // label:CodeReview=1,jsmith or
     // label:CodeReview=1,group=android_approvers or
     // label:CodeReview=1,android_approvers
-    //  user/groups without a label will first attempt to match user
+    // user/groups without a label will first attempt to match user
     // Special case: votes by owners can be tracked with ",owner":
     // label:Code-Review+2,owner
     // label:Code-Review+2,user=owner
@@ -1054,6 +1059,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw error("invalid value for submittable:" + str);
     }
     return new SubmittablePredicate(status);
+  }
+
+  @Operator
+  public Predicate<ChangeData> unresolved(String value) throws QueryParseException {
+    return new IsUnresolvedPredicate(value);
   }
 
   @Override

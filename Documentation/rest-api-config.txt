@@ -986,10 +986,6 @@ PreferencesInfo] is returned.
         "name": "Changes"
       },
       {
-        "url": "#/q/owner:self+is:draft",
-        "name": "Drafts"
-      },
-      {
         "url": "#/q/has:draft",
         "name": "Draft Comments"
       },
@@ -1066,10 +1062,6 @@ PreferencesInfo] is returned.
       {
         "url": "#/dashboard/self",
         "name": "Changes"
-      },
-      {
-        "url": "#/q/owner:self+is:draft",
-        "name": "Drafts"
       },
       {
         "url": "#/q/has:draft",
@@ -1350,9 +1342,6 @@ section.
 |Field Name           ||Description
 |`allow_blame`        |not set if `false`|
 link:config-gerrit.html#change.allowBlame[Whether blame on side by side diff is
-allowed].
-|`allow_drafts`       |not set if `false`|
-link:config-gerrit.html#change.allowDrafts[Whether draft workflow is
 allowed].
 |`large_change`       ||
 link:config-gerrit.html#change.largeChange[Number of changed lines from

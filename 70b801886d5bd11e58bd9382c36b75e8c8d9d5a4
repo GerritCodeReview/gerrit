@@ -22,6 +22,30 @@
       "revId": "70b801886d5bd11e58bd9382c36b75e8c8d9d5a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82cd52ce_ca8b8b01",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-13T21:34:31Z",
+      "side": 1,
+      "message": "Sure:\n\n* https://bazel.build/versions/master/docs/be/java.html#java_binary.javacopts",
+      "parentUuid": "4ca746e1_5bffe01c",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 12
+      },
+      "revId": "70b801886d5bd11e58bd9382c36b75e8c8d9d5a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

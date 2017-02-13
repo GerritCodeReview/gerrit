@@ -162,7 +162,6 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
             ctl.getId(),
             psInserter
                 .setMessage("Uploaded patch set " + nextPsId.get() + ".")
-                .setDraft(ps.isDraft())
                 .setNotify(NotifyHandling.NONE));
         bu.execute();
       }

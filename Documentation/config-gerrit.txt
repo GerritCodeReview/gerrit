@@ -997,13 +997,6 @@ Allow blame on side by side diff. If set to false, blame cannot be used.
 +
 Default is true.
 
-[[change.allowDrafts]]change.allowDrafts::
-+
-Allow drafts workflow. If set to false, drafts cannot be created,
-deleted or published.
-+
-Default is true.
-
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
 When reviewing diff commits, the left-hand side shows the output of the
@@ -3238,10 +3231,9 @@ operations when multiple changes are impacted at once.
 [[receive.checkMagicRefs]]receive.checkMagicRefs::
 +
 If true, Gerrit will verify the destination repository has
-no references under the magic 'refs/drafts', 'refs/for', or
-'refs/publish' branch namespaces. Names under these locations
-confuse clients when trying to upload code reviews so Gerrit
-requires them to be empty.
+no references under the magic 'refs/for', or 'refs/publish'
+branch namespaces. Names under these locations confuse clients
+when trying to upload code reviews so Gerrit requires them to be empty.
 +
 If false Gerrit skips the sanity check and assumes administrators
 have ensured the repository does not contain any magic references.

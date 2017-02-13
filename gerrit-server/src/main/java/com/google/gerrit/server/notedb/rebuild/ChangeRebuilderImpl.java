@@ -444,9 +444,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     // patch set.
     //
     // Start with the first patch set that actually exists. If there are no patch sets at all,
-    // minPsNum will be null, so just bail and use 1 as the patch set ID. The corresponding patch
-    // set won't exist, but this change is probably corrupt anyway, as deleting the last draft patch
-    // set should have deleted the whole change.
+    // minPsNum will be null, so just bail and use 1 as the patch set ID.
     //
     // Second, ensure timestamps are nondecreasing, by copying the previous timestamp if this
     // happens. This assumes that the only way this can happen is due to dependency constraints, and

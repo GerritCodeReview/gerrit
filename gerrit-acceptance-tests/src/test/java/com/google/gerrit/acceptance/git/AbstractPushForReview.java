@@ -42,6 +42,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.common.data.LabelType;
@@ -61,6 +62,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.EditInfoSubject;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -634,34 +636,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // Other user trying to move from ready to ready should succeed.
     r = amendChange(r.getChangeId(), "refs/for/master%ready", admin, testRepo);
     r.assertOkStatus();
-  }
-
-  @Test
-  public void pushForMasterAsDraft() throws Exception {
-    // create draft by pushing to 'refs/drafts/' will get a private change.
-    PushOneCommit.Result r = pushTo("refs/drafts/master");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, null);
-
-    assertThat(gApi.changes().id(r.getChangeId()).get().isPrivate).isTrue();
-
-    // create draft by using 'draft' option will get a private change, too.
-    r = pushTo("refs/for/master%draft");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, null);
-    assertThat(gApi.changes().id(r.getChangeId()).get().isPrivate).isTrue();
-  }
-
-  @Test
-  public void publishDraftChangeByPushingNonDraftPatchSet() throws Exception {
-    PushOneCommit.Result r = createDraftChange();
-    r.assertOkStatus();
-    r.assertChange(Change.Status.DRAFT, null);
-
-    // publish draft change by pushing non-draft patch set
-    r = amendChange(r.getChangeId(), "refs/for/master");
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, null);
   }
 
   @Test
@@ -1817,6 +1791,42 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = amendChange(r.getChangeId(), "refs/for/master%no-publish-comments");
 
     assertThat(getPublishedComments(r.getChangeId())).isEmpty();
+  }
+
+  @Test
+  public void pushDraftGetsPrivateChange() throws Exception {
+    String changeId1 = createChange("refs/drafts/master").getChangeId();
+    String changeId2 = createChange("refs/for/master%draft").getChangeId();
+
+    ChangeInfo info1 = gApi.changes().id(changeId1).get();
+    ChangeInfo info2 = gApi.changes().id(changeId2).get();
+
+    assertThat(info1.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(info2.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(info1.isPrivate).isEqualTo(true);
+    assertThat(info2.isPrivate).isEqualTo(true);
+    assertThat(info1.revisions).hasSize(1);
+    assertThat(info2.revisions).hasSize(1);
+  }
+
+  @Sandboxed
+  @Test
+  public void pushWithDraftOptionToExistingNewChangeGetsChangeEdit() throws Exception {
+    String changeId = createChange().getChangeId();
+    EditInfoSubject.assertThat(getEdit(changeId)).isAbsent();
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    ChangeStatus originalChangeStatus = changeInfo.status;
+
+    PushOneCommit.Result result = amendChange(changeId, "refs/drafts/master");
+    result.assertOkStatus();
+
+    changeInfo = gApi.changes().id(changeId).get();
+    assertThat(changeInfo.status).isEqualTo(originalChangeStatus);
+    assertThat(changeInfo.isPrivate).isNull();
+    assertThat(changeInfo.revisions).hasSize(1);
+
+    EditInfoSubject.assertThat(getEdit(changeId)).isPresent();
   }
 
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")

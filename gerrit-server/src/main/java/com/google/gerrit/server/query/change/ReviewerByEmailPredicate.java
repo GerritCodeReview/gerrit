@@ -20,14 +20,13 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
 class ReviewerByEmailPredicate extends ChangeIndexPredicate {
 
-  static Predicate<ChangeData> forState(Arguments args, Address adr, ReviewerStateInternal state) {
+  static Predicate<ChangeData> forState(Address adr, ReviewerStateInternal state) {
     checkArgument(state != ReviewerStateInternal.REMOVED, "can't query by removed reviewer");
-    return create(args, new ReviewerByEmailPredicate(state, adr));
+    return new ReviewerByEmailPredicate(state, adr);
   }
 
   private final ReviewerStateInternal state;

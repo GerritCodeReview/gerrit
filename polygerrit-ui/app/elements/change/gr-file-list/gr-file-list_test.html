@@ -362,14 +362,37 @@ limitations under the License.
     test('comment filtering', function() {
       var comments = {
         '/COMMIT_MSG': [
-          {patch_set: 1, message: 'Done'},
-          {patch_set: 1, message: 'oh hay'},
-          {patch_set: 2, message: 'hello'},
+          {patch_set: 1, message: 'Done', updated: '2017-02-08 16:40:49'},
+          {patch_set: 1, message: 'oh hay', updated: '2017-02-09 16:40:49'},
+          {patch_set: 2, message: 'hello', updated: '2017-02-10 16:40:49'},
         ],
         'myfile.txt': [
-          {patch_set: 1, message: 'good news!'},
-          {patch_set: 2, message: 'wat!?'},
-          {patch_set: 2, message: 'hi'},
+          {patch_set: 1, message: 'good news!', updated: '2017-02-08 16:40:49'},
+          {patch_set: 2, message: 'wat!?', updated: '2017-02-09 16:40:49'},
+          {patch_set: 2, message: 'hi', updated: '2017-02-10 16:40:49'},
+        ],
+        'unresolved.file': [
+          {
+            patch_set: 2,
+            message: 'wat!?',
+            updated: '2017-02-09 16:40:49',
+            id: '1',
+            unresolved: true,
+          },
+          {
+            patch_set: 2,
+            message: 'hi',
+            updated: '2017-02-10 16:40:49',
+            id: '2',
+            in_reply_to: '1',
+            unresolved: false,
+          },
+          {
+            patch_set: 2,
+            message: 'good news!',
+            updated: '2017-02-08 16:40:49',
+            unresolved: true,
+          },
         ],
       };
       assert.equal(
@@ -420,6 +443,13 @@ limitations under the License.
       assert.equal(
           element._computeCountString(comments, '2',
           'file_added_in_rev2.txt', 'comment'), '');
+      assert.equal(element._computeCountString(comments, '2',
+          'unresolved.file', 'comment'), '3 comments (1 unresolved)');
+      assert.equal(
+          element._computeUnresolvedString(comments['myfile.txt']), '');
+      assert.equal(
+          element._computeUnresolvedString(comments['unresolved.file']),
+          ' (1 unresolved)');
     });
 
     test('computed properties', function() {

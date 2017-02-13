@@ -304,7 +304,45 @@
       var num = patchComments.length;
       if (num === 0) { return ''; }
       if (!opt_noun) { return num; }
-      return num + ' ' + opt_noun + (num > 1 ? 's' : '');
+      var output = num + ' ' + opt_noun + (num > 1 ? 's' : '');
+      return output + this._computeUnresolvedString(patchComments);
+    },
+
+    /**
+     * Finds all leaf comments in the array and counts the number of unresolved.
+     *
+     * @param {Array} comments [description]
+     * @return {string}
+     */
+    _computeUnresolvedString: function(comments) {
+      comments.sort(function(a, b) {
+        return util.parseDate(a.updated) - util.parseDate(b.updated);
+      });
+
+      var leaves = [];
+      for (var i = 0; i < comments.length; i++) {
+        var comment = comments[i];
+        if (comment.in_reply_to) {
+          var parent;
+          for (var j = 0; j < leaves.length; j++) {
+            if (leaves[j].id === comment.in_reply_to) {
+              parent = leaves.splice(j, 1)[0];
+              leaves.push(comment);
+              break;
+            }
+          }
+          if (!parent) { throw Error('Orphan comment found.'); }
+        } else {
+          leaves.push(comment);
+        }
+      }
+
+      var num = leaves.reduce(function(acc, val) {
+        if (val.unresolved) { return acc + 1; }
+        return acc;
+      }, 0);
+      if (num === 0) { return ''; }
+      return ' (' + num + ' unresolved)';
     },
 
     _computeReviewed: function(file, _reviewed) {

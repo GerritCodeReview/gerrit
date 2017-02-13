@@ -1620,6 +1620,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(cds).hasSize(1);
 
     ChangeData cd = cds.get(0);
+    cd.setLazyLoad(false);
     cd.change();
     cd.patchSets();
     cd.currentApprovals();
@@ -1631,8 +1632,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // TODO(dborowitz): Swap out GitRepositoryManager somehow? Will probably be
     // necessary for NoteDb anyway.
     cd.isMergeable();
-
-    exception.expect(DisabledReviewDb.Disabled.class);
     cd.messages();
   }
 

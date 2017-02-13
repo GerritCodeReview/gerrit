@@ -30,8 +30,6 @@ public class Util {
       return "";
     }
     switch (status) {
-      case DRAFT:
-        return C.statusLongDraft();
       case NEW:
         return C.statusLongNew();
       case MERGED:

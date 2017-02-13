@@ -73,7 +73,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   public void getAndSetPreferences() throws Exception {
     GeneralPreferencesInfo o = gApi.accounts().id(user42.id.toString()).getPreferences();
     assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable");
-    assertThat(o.my).hasSize(7);
+    assertThat(o.my).hasSize(6);
     assertThat(o.changeTable).isEmpty();
 
     GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();

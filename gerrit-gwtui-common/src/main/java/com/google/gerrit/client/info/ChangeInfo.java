@@ -410,8 +410,6 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native String name() /*-{ return this.name; }-*/;
 
-    public final native boolean draft() /*-{ return this.draft || false; }-*/;
-
     public final native AccountInfo uploader() /*-{ return this.uploader; }-*/;
 
     public final native boolean isEdit() /*-{ return this._number == 0; }-*/;

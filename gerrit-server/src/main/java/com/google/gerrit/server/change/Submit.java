@@ -236,7 +236,6 @@ public class Submit
         }
         //$FALL-THROUGH$
       case ABANDONED:
-      case DRAFT:
       default:
         throw new ResourceConflictException("change is " + status(change));
     }
@@ -293,8 +292,7 @@ public class Submit
     PatchSet.Id current = resource.getChange().currentPatchSetId();
     String topic = resource.getChange().getTopic();
     boolean visible =
-        !resource.getPatchSet().isDraft()
-            && resource.getChange().getStatus().isOpen()
+        resource.getChange().getStatus().isOpen()
             && resource.getPatchSet().getId().equals(current)
             && resource.getControl().canSubmit();
     ReviewDb db = dbProvider.get();

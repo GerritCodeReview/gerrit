@@ -334,13 +334,6 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     assertParseSucceeds(
         "Update change\n"
             + "\n"
-            + "Patch-set: 1 (DRAFT)\n"
-            + "Branch: refs/heads/master\n"
-            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
-            + "Subject: Some subject of a change\n");
-    assertParseSucceeds(
-        "Update change\n"
-            + "\n"
             + "Patch-set: 1 (DELETED)\n"
             + "Branch: refs/heads/master\n"
             + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"

@@ -21,6 +21,7 @@ import com.google.gwtorm.server.OrmException;
 class HasDraftByPredicate extends ChangeIndexPredicate {
   private final Account.Id accountId;
 
+  @SuppressWarnings("deprecation")
   HasDraftByPredicate(Account.Id accountId) {
     super(ChangeField.DRAFTBY, accountId.toString());
     this.accountId = accountId;

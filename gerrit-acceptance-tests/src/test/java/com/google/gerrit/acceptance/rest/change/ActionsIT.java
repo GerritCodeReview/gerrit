@@ -142,28 +142,6 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revisionActionsETagWithHiddenDraftInTopic() throws Exception {
-    String change = createChangeWithTopic().getChangeId();
-    approve(change);
-
-    setApiUser(user);
-    String etag1 = getETag(change);
-
-    setApiUser(admin);
-    String draft = createDraftWithTopic().getChangeId();
-    approve(draft);
-
-    setApiUser(user);
-    String etag2 = getETag(change);
-
-    if (isSubmitWholeTopicEnabled()) {
-      assertThat(etag2).isNotEqualTo(etag1);
-    } else {
-      assertThat(etag2).isEqualTo(etag1);
-    }
-  }
-
-  @Test
   public void revisionActionsAnonymousETag() throws Exception {
     String parent = createChange().getChangeId();
     String change = createChangeWithTopic().getChangeId();
@@ -455,10 +433,5 @@ public class ActionsIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createChangeWithTopic() throws Exception {
     return createChangeWithTopic(testRepo, "foo2", "a message", "a.txt", "content\n");
-  }
-
-  private PushOneCommit.Result createDraftWithTopic() throws Exception {
-    return createCommitAndPush(
-        testRepo, "refs/drafts/master/" + name("foo2"), "a message", "a.txt", "content\n");
   }
 }

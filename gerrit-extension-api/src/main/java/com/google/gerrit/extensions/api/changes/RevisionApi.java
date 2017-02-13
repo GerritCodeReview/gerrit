@@ -30,8 +30,6 @@ import java.util.Map;
 import java.util.Set;
 
 public interface RevisionApi {
-  void delete() throws RestApiException;
-
   String description() throws RestApiException;
 
   void description(String description) throws RestApiException;
@@ -45,8 +43,6 @@ public interface RevisionApi {
   BinaryResult submitPreview() throws RestApiException;
 
   BinaryResult submitPreview(String format) throws RestApiException;
-
-  void publish() throws RestApiException;
 
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
 
@@ -139,10 +135,6 @@ public interface RevisionApi {
    * interface.
    */
   class NotImplemented implements RevisionApi {
-    @Override
-    public void delete() {
-      throw new NotImplementedException();
-    }
 
     @Override
     public void review(ReviewInput in) {
@@ -156,11 +148,6 @@ public interface RevisionApi {
 
     @Override
     public void submit(SubmitInput in) {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void publish() {
       throw new NotImplementedException();
     }
 

@@ -19,7 +19,6 @@ import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -506,30 +505,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "Failed to submit 1 change due to the following problems:\n"
             + "Change "
             + change3.getPatchSetId().getParentKey().get()
-            + ": depends on change that was not submitted");
-
-    assertRefUpdatedEvents();
-    assertChangeMergedEvents();
-  }
-
-  @Test
-  @TestProjectInput(createEmptyCommit = false)
-  public void mergeWithMissingChange() throws Exception {
-    // create a draft change
-    PushOneCommit.Result draftResult = createDraftChange();
-
-    // create a new change based on the draft change
-    PushOneCommit.Result changeResult = createChange();
-
-    // delete the draft change
-    gApi.changes().id(draftResult.getChangeId()).delete();
-
-    // approve and submit the change
-    submitWithConflict(
-        changeResult.getChangeId(),
-        "Failed to submit 1 change due to the following problems:\n"
-            + "Change "
-            + changeResult.getChange().getId()
             + ": depends on change that was not submitted");
 
     assertRefUpdatedEvents();

@@ -91,7 +91,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
   private String description;
   private CommitValidators.Policy validatePolicy = CommitValidators.Policy.GERRIT;
   private boolean checkAddPatchSetPermission = true;
-  private boolean draft;
   private List<String> groups = Collections.emptyList();
   private boolean fireRevisionCreated = true;
   private NotifyHandling notify = NotifyHandling.ALL;
@@ -154,11 +153,6 @@ public class PatchSetInserter extends BatchUpdate.Op {
 
   public PatchSetInserter setCheckAddPatchSetPermission(boolean checkAddPatchSetPermission) {
     this.checkAddPatchSetPermission = checkAddPatchSetPermission;
-    return this;
-  }
-
-  public PatchSetInserter setDraft(boolean draft) {
-    this.draft = draft;
     return this;
   }
 
@@ -239,15 +233,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
     patchSet =
         psUtil.insert(
-            db,
-            ctx.getRevWalk(),
-            ctx.getUpdate(psId),
-            psId,
-            commit,
-            draft,
-            newGroups,
-            null,
-            description);
+            db, ctx.getRevWalk(), ctx.getUpdate(psId), psId, commit, newGroups, null, description);
 
     if (notify != NotifyHandling.NONE) {
       oldReviewers = approvalsUtil.getReviewers(db, ctl.getNotes());
@@ -265,7 +251,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
     }
 
     patchSetInfo = patchSetInfoFactory.get(ctx.getRevWalk(), commit, psId);
-    if (change.getStatus() != Change.Status.DRAFT && !allowClosed) {
+    if (!allowClosed) {
       change.setStatus(Change.Status.NEW);
     }
     change.setCurrentPatchSet(patchSetInfo);

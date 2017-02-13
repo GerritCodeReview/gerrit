@@ -24,5 +24,5 @@
  * @param shortProjectName
  */
 {template .ChangeSubject autoescape="strict" kind="text"}
-  Change in {$shortProjectName}[{$branch.shortName}]: {$change.shortSubject}
+  {$change.shortSubject} - Change in {$shortProjectName}[{$branch.shortName}]
 {/template}

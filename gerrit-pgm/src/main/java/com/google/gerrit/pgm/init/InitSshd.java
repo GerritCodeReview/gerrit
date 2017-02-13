@@ -79,12 +79,6 @@ class InitSshd implements InitStep {
     port = ui.readInt(port, "Listen on port");
     sshd.set("listenAddress", SocketUtil.format(hostname, port));
 
-    if (exists(site.ssh_rsa) || exists(site.ssh_dsa)) {
-      libraries.bouncyCastleSSL.downloadRequired();
-    } else if (!exists(site.ssh_key)) {
-      libraries.bouncyCastleSSL.downloadOptional();
-    }
-
     generateSshHostKeys();
   }
 

@@ -33,8 +33,8 @@ java_library(
     visibility = ["//visibility:public"],
     deps = DEPS + [
         ":gpg",
-        "//lib/bouncycastle:bcpg-without-neverlink",
-        "//lib/bouncycastle:bcprov-without-neverlink",
+        "//lib/bouncycastle:bcpg",
+        "//lib/bouncycastle:bcprov",
     ],
 )
 
@@ -53,7 +53,7 @@ junit_tests(
         "//gerrit-server:testutil",
         "//lib:truth",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/bouncycastle:bcpg-without-neverlink",
-        "//lib/bouncycastle:bcprov-without-neverlink",
+        "//lib/bouncycastle:bcpg",
+        "//lib/bouncycastle:bcprov",
     ],
 )

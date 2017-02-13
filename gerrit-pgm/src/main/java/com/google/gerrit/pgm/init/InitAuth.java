@@ -131,9 +131,5 @@ class InitAuth implements InitStep {
     boolean def = flags.cfg.getBoolean(RECEIVE, ENABLE_SIGNED_PUSH, false);
     boolean enable = ui.yesno(def, "Enable signed push support");
     receive.set("enableSignedPush", Boolean.toString(enable));
-    if (enable) {
-      libraries.bouncyCastleProvider.downloadRequired();
-      libraries.bouncyCastlePGP.downloadRequired();
-    }
   }
 }

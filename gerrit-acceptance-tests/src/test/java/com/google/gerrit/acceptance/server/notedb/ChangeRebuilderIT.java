@@ -42,7 +42,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Side;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -814,20 +813,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     assertThat(nc.getSubject()).isEqualTo(orig + " v2");
     assertThat(nc.getOriginalSubject()).isNotEqualTo(c.getOriginalSubject());
     assertThat(nc.getOriginalSubject()).isEqualTo(orig);
-  }
-
-  @Test
-  public void deleteDraftPS1WithNoOtherEntities() throws Exception {
-    String r = createDraftChangeWith2PS();
-    gApi.changes().id(r).revision(1).delete();
-    ChangeInfo changeInfo = get(r);
-
-    Change.Id id = new Change.Id(changeInfo._number);
-    checker.rebuildAndCheckChanges(id);
-
-    setNotesMigration(true, true);
-    ChangeNotes notes = notesFactory.create(db, project, id);
-    assertThat(notes.getPatchSets().keySet()).hasSize(1);
   }
 
   @Test

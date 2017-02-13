@@ -107,19 +107,6 @@ class DeleteChangeOp implements BatchUpdateOp {
                 id, patchSet.getPatchSetId()));
       }
     }
-
-    if (status == Change.Status.DRAFT) {
-      for (PatchSet ps : patchSets) {
-        if (!ps.isDraft()) {
-          throw new ResourceConflictException(
-              "Cannot delete draft change "
-                  + id
-                  + ": patch set "
-                  + ps.getPatchSetId()
-                  + " is not a draft");
-        }
-      }
-    }
   }
 
   private boolean isPatchSetMerged(ChangeContext ctx, PatchSet patchSet) throws IOException {

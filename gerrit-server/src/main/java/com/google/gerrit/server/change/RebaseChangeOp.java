@@ -186,7 +186,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
         patchSetInserterFactory
             .create(notes, rebasedPatchSetId, rebasedCommit)
             .setDescription("Rebase")
-            .setDraft(originalPatchSet.isDraft())
             .setNotify(NotifyHandling.NONE)
             .setFireRevisionCreated(fireRevisionCreated)
             .setCopyApprovals(copyApprovals)

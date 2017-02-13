@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e21bcb7b_e4ea59b2",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-13T01:40:39Z",
+      "side": 1,
+      "message": "This would be better named DELETE_CHANGES",
+      "range": {
+        "startLine": 31,
+        "startChar": 29,
+        "endLine": 31,
+        "endChar": 43
+      },
+      "revId": "3ccba37af903f4fbe4238580251a07e3308a8831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "562d8126_19510701",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-13T01:40:39Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this part be parenthesised?",
+      "range": {
+        "startLine": 264,
+        "startChar": 29,
+        "endLine": 264,
+        "endChar": 76
+      },
+      "revId": "3ccba37af903f4fbe4238580251a07e3308a8831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

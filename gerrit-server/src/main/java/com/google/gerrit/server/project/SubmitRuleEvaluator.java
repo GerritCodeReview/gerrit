@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
@@ -34,7 +33,6 @@ import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
@@ -97,8 +95,6 @@ public class SubmitRuleEvaluator {
   private final Accounts accounts;
   private final Emails emails;
   private final ProjectCache projectCache;
-  private final Provider<ReviewDb> dbProvider;
-  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeData cd;
 
   private SubmitRuleOptions.Builder optsBuilder = SubmitRuleOptions.defaults();
@@ -118,16 +114,12 @@ public class SubmitRuleEvaluator {
       Accounts accounts,
       Emails emails,
       ProjectCache projectCache,
-      Provider<ReviewDb> dbProvider,
-      ChangeControl.GenericFactory changeControlFactory,
       @Assisted CurrentUser user,
       @Assisted ChangeData cd) {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.emails = emails;
     this.projectCache = projectCache;
-    this.dbProvider = dbProvider;
-    this.changeControlFactory = changeControlFactory;
     this.user = user;
     this.cd = cd;
   }
@@ -192,16 +184,6 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param allow whether to allow {@link #evaluate()} on draft changes.
-   * @return this
-   */
-  public SubmitRuleEvaluator setAllowDraft(boolean allow) {
-    checkNotStarted();
-    optsBuilder.allowDraft(allow);
-    return this;
-  }
-
-  /**
    * @param skip if true, submit filter will not be applied.
    * @return this
    */
@@ -254,11 +236,6 @@ public class SubmitRuleEvaluator {
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
-    if (!opts.allowDraft()) {
-      if (change.getStatus() == Change.Status.DRAFT || patchSet.isDraft()) {
-        return cannotSubmitDraft();
-      }
-    }
 
     List<Term> results;
     try {
@@ -285,25 +262,6 @@ public class SubmitRuleEvaluator {
     }
 
     return resultsToSubmitRecord(getSubmitRule(), results);
-  }
-
-  private List<SubmitRecord> cannotSubmitDraft() {
-    try {
-      if (!changeControlFactory
-          .controlFor(dbProvider.get(), change, user)
-          .isDraftVisible(cd.db(), cd)) {
-        return createRuleError("Patch set " + patchSet.getId() + " not found");
-      }
-      if (patchSet.isDraft()) {
-        return createRuleError("Cannot submit draft patch sets");
-      }
-      return createRuleError("Cannot submit draft changes");
-    } catch (OrmException err) {
-      PatchSet.Id psId = patchSet != null ? patchSet.getId() : patchSet.getId();
-      String msg = "Cannot check visibility of patch set " + psId;
-      log.error(msg, err);
-      return createRuleError(msg);
-    }
   }
 
   /**
@@ -436,25 +394,6 @@ public class SubmitRuleEvaluator {
       init();
     } catch (OrmException e) {
       return typeError("Error looking up change " + cd.getId(), e);
-    }
-
-    try {
-      if (change.getStatus() == Change.Status.DRAFT
-          && !changeControlFactory
-              .controlFor(dbProvider.get(), change, user)
-              .isDraftVisible(cd.db(), cd)) {
-        return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
-      }
-      if (patchSet.isDraft()
-          && !changeControlFactory
-              .controlFor(dbProvider.get(), change, user)
-              .isDraftVisible(cd.db(), cd)) {
-        return SubmitTypeRecord.error("Patch set " + patchSet.getId() + " not found");
-      }
-    } catch (OrmException err) {
-      String msg = "Cannot read patch set " + patchSet.getId();
-      log.error(msg, err);
-      return SubmitTypeRecord.error(msg);
     }
 
     List<Term> results;

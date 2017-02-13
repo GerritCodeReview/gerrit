@@ -610,7 +610,7 @@ public class ChangeJson {
       ctl = changeControlFactory.controlFor(db.get(), cd.change(), userProvider.get());
     }
     if (needMessages) {
-      out.messages = messages(ctl, cd, src);
+      out.messages = messages(ctl, cd);
     }
     finish(out);
 
@@ -1112,8 +1112,8 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<ChangeMessageInfo> messages(
-      ChangeControl ctl, ChangeData cd, Map<PatchSet.Id, PatchSet> map) throws OrmException {
+  private Collection<ChangeMessageInfo> messages(ChangeControl ctl, ChangeData cd)
+      throws OrmException {
     List<ChangeMessage> messages = cmUtil.byChange(db.get(), cd.notes());
     if (messages.isEmpty()) {
       return Collections.emptyList();
@@ -1122,8 +1122,7 @@ public class ChangeJson {
     List<ChangeMessageInfo> result = Lists.newArrayListWithCapacity(messages.size());
     for (ChangeMessage message : messages) {
       PatchSet.Id patchNum = message.getPatchSetId();
-      PatchSet ps = patchNum != null ? map.get(patchNum) : null;
-      if (patchNum == null || ctl.isPatchVisible(ps, db.get())) {
+      if (patchNum == null || ctl.isVisible(db.get())) {
         ChangeMessageInfo cmi = new ChangeMessageInfo();
         cmi.id = message.getKey().get();
         cmi.author = accountLoader.get(message.getAuthor());
@@ -1257,7 +1256,7 @@ public class ChangeJson {
         } else {
           want = id.equals(cd.change().currentPatchSetId());
         }
-        if (want && ctl.isPatchVisible(in, db.get())) {
+        if (want && ctl.isVisible(db.get())) {
           res.put(in.getRevision().get(), toRevisionInfo(cd, in, repo, rw, false, changeInfo));
         }
       }
@@ -1318,7 +1317,6 @@ public class ChangeJson {
     out.ref = in.getRefName();
     out.created = in.getCreatedOn();
     out.uploader = accountLoader.get(in.getUploader());
-    out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(cd, in);
     out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
     out.description = in.getDescription();
@@ -1356,9 +1354,7 @@ public class ChangeJson {
       out.files.remove(Patch.MERGE_LIST);
     }
 
-    if ((out.isCurrent || (out.draft != null && out.draft))
-        && has(CURRENT_ACTIONS)
-        && userProvider.get().isIdentifiedUser()) {
+    if (out.isCurrent && has(CURRENT_ACTIONS) && userProvider.get().isIdentifiedUser()) {
 
       actionJson.addRevisionActions(
           changeInfo,
@@ -1423,7 +1419,7 @@ public class ChangeJson {
         continue;
       }
 
-      if (!scheme.isAuthSupported() && !ctl.isPatchVisible(in, db.get())) {
+      if (!scheme.isAuthSupported() && !ctl.isVisible(db.get())) {
         continue;
       }
 

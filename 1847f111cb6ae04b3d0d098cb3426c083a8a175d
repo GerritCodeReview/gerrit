@@ -16,6 +16,24 @@
       "revId": "1847f111cb6ae04b3d0d098cb3426c083a8a175d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d81dc65_7c4155d0",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-13T13:12:30Z",
+      "side": 1,
+      "message": "\u003e Changing this will break sorting the incoming emails by project,\n\nNever thought about that. I always keep emails sorted by time.\n\n \u003e and probably also break mail filtering for anyone who\u0027s set up a\n \u003e filter using \"starts with \u0027Change in my-project\u0027\".\n\nThese filters should easy to fix: contains \"Change in my-project\"",
+      "parentUuid": "fe404457_65615d7a",
+      "revId": "1847f111cb6ae04b3d0d098cb3426c083a8a175d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

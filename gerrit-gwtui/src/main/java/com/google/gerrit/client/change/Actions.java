@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -48,7 +47,6 @@ class Actions extends Composite {
     "revert",
     "submit",
     "topic",
-    "/",
   };
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
@@ -62,8 +60,6 @@ class Actions extends Composite {
 
   @UiField Button abandon;
   private AbandonAction abandonAction;
-
-  @UiField Button deleteChange;
 
   @UiField Button restore;
   private RestoreAction restoreAction;
@@ -118,7 +114,6 @@ class Actions extends Composite {
 
     if (hasUser) {
       a2b(actions, "abandon", abandon);
-      a2b(actions, "/", deleteChange);
       a2b(actions, "restore", restore);
       a2b(actions, "revert", revert);
       a2b(actions, "followup", followUp);
@@ -183,13 +178,6 @@ class Actions extends Composite {
       abandonAction = new AbandonAction(abandon, changeId);
     }
     abandonAction.show();
-  }
-
-  @UiHandler("deleteChange")
-  void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteChange())) {
-      ChangeActions.delete(changeId, deleteChange);
-    }
   }
 
   @UiHandler("restore")

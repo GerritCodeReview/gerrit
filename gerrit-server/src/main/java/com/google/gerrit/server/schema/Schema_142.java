@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.server.schema;
 
-public class ChangeConfigInfo {
-  public Boolean allowBlame;
-  public Boolean showAssignee;
-  public int largeChange;
-  public String replyLabel;
-  public String replyTooltip;
-  public int updateDelay;
-  public Boolean submitWholeTopic;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+/** Remove DRAFT from Change.Status and remove draft from PatchSet. */
+public class Schema_142 extends SchemaVersion {
+  @Inject
+  Schema_142(Provider<Schema_140> prior) {
+    super(prior);
+  }
 }

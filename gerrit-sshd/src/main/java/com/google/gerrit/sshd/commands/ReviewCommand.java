@@ -130,12 +130,6 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--submit", aliases = "-s", usage = "submit the specified patch set(s)")
   private boolean submitChange;
 
-  @Option(name = "--publish", usage = "publish the specified draft patch set(s)")
-  private boolean publishPatchSet;
-
-  @Option(name = "--delete", usage = "delete the specified draft patch set(s)")
-  private boolean deleteDraftPatchSet;
-
   @Option(name = "--json", aliases = "-j", usage = "read review input json from stdin")
   private boolean json;
 
@@ -185,28 +179,11 @@ public class ReviewCommand extends SshCommand {
       if (submitChange) {
         throw die("abandon and submit actions are mutually exclusive");
       }
-      if (publishPatchSet) {
-        throw die("abandon and publish actions are mutually exclusive");
-      }
-      if (deleteDraftPatchSet) {
-        throw die("abandon and delete actions are mutually exclusive");
-      }
       if (rebaseChange) {
         throw die("abandon and rebase actions are mutually exclusive");
       }
       if (moveToBranch != null) {
         throw die("abandon and move actions are mutually exclusive");
-      }
-    }
-    if (publishPatchSet) {
-      if (restoreChange) {
-        throw die("publish and restore actions are mutually exclusive");
-      }
-      if (submitChange) {
-        throw die("publish and submit actions are mutually exclusive");
-      }
-      if (deleteDraftPatchSet) {
-        throw die("publish and delete actions are mutually exclusive");
       }
     }
     if (json) {
@@ -215,12 +192,6 @@ public class ReviewCommand extends SshCommand {
       }
       if (submitChange) {
         throw die("json and submit actions are mutually exclusive");
-      }
-      if (deleteDraftPatchSet) {
-        throw die("json and delete actions are mutually exclusive");
-      }
-      if (publishPatchSet) {
-        throw die("json and publish actions are mutually exclusive");
       }
       if (abandonChange) {
         throw die("json and abandon actions are mutually exclusive");
@@ -239,15 +210,9 @@ public class ReviewCommand extends SshCommand {
       }
     }
     if (rebaseChange) {
-      if (deleteDraftPatchSet) {
-        throw die("rebase and delete actions are mutually exclusive");
-      }
       if (submitChange) {
         throw die("rebase and submit actions are mutually exclusive");
       }
-    }
-    if (deleteDraftPatchSet && submitChange) {
-      throw die("delete and submit actions are mutually exclusive");
     }
 
     boolean ok = true;
@@ -352,11 +317,6 @@ public class ReviewCommand extends SshCommand {
         revisionApi(patchSet).submit();
       }
 
-      if (publishPatchSet) {
-        revisionApi(patchSet).publish();
-      } else if (deleteDraftPatchSet) {
-        revisionApi(patchSet).delete();
-      }
     } catch (IllegalStateException | RestApiException e) {
       throw die(e);
     }

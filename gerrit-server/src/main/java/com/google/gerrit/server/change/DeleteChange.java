@@ -20,18 +20,14 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.DeleteChange.Input;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class DeleteChange
@@ -41,18 +37,15 @@ public class DeleteChange
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory updateFactory;
   private final Provider<DeleteChangeOp> opProvider;
-  private final boolean allowDrafts;
 
   @Inject
   public DeleteChange(
       Provider<ReviewDb> db,
       BatchUpdate.Factory updateFactory,
-      Provider<DeleteChangeOp> opProvider,
-      @GerritServerConfig Config cfg) {
+      Provider<DeleteChangeOp> opProvider) {
     this.db = db;
     this.updateFactory = updateFactory;
     this.opProvider = opProvider;
-    this.allowDrafts = DeleteChangeOp.allowDrafts(cfg);
   }
 
   @Override
@@ -70,21 +63,16 @@ public class DeleteChange
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
-    try {
-      Change.Status status = rsrc.getChange().getStatus();
-      ChangeControl changeControl = rsrc.getControl();
-      boolean visible =
-          isActionAllowed(changeControl, status) && changeControl.canDelete(db.get(), status);
-      return new UiAction.Description()
-          .setLabel("Delete")
-          .setTitle("Delete change " + rsrc.getId())
-          .setVisible(visible);
-    } catch (OrmException e) {
-      throw new IllegalStateException(e);
-    }
+    Change.Status status = rsrc.getChange().getStatus();
+    ChangeControl changeControl = rsrc.getControl();
+    boolean visible = isActionAllowed(changeControl) && changeControl.canDelete(db.get(), status);
+    return new UiAction.Description()
+        .setLabel("Delete")
+        .setTitle("Delete change " + rsrc.getId())
+        .setVisible(visible);
   }
 
-  private boolean isActionAllowed(ChangeControl changeControl, Status status) {
-    return status != Status.DRAFT || allowDrafts || changeControl.isAdmin();
+  private boolean isActionAllowed(ChangeControl changeControl) {
+    return changeControl.isAdmin();
   }
 }

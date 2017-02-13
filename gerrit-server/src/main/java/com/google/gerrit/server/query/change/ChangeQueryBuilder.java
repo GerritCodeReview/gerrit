@@ -48,7 +48,6 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitDryRun;
@@ -85,7 +84,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
@@ -201,7 +199,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ListMembers> listMembers;
     final StarredChangesUtil starredChangesUtil;
     final AccountCache accountCache;
-    final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
 
@@ -236,8 +233,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
-        AccountCache accountCache,
-        @GerritServerConfig Config cfg) {
+        AccountCache accountCache) {
       this(
           db,
           queryProvider,
@@ -267,8 +263,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           indexConfig,
           listMembers,
           starredChangesUtil,
-          accountCache,
-          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
+          accountCache);
     }
 
     private Arguments(
@@ -300,8 +295,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IndexConfig indexConfig,
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
-        AccountCache accountCache,
-        boolean allowsDrafts) {
+        AccountCache accountCache) {
       this.db = db;
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
@@ -330,7 +324,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.listMembers = listMembers;
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
-      this.allowsDrafts = allowsDrafts;
       this.hasOperands = hasOperands;
     }
 
@@ -364,8 +357,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           indexConfig,
           listMembers,
           starredChangesUtil,
-          accountCache,
-          allowsDrafts);
+          accountCache);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -553,7 +545,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      return ReviewerPredicate.create(args, self());
+      return ReviewerPredicate.create(self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
@@ -928,7 +920,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(ReviewerPredicate.create(args, id));
+      p.add(ReviewerPredicate.create(id));
     }
     return Predicate.or(p);
   }

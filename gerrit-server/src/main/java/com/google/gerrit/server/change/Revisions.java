@@ -95,7 +95,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     }
   }
 
-  private boolean visible(ChangeResource change, PatchSet ps) throws OrmException {
+  private boolean visible(ChangeResource change, PatchSet ps) {
     return change.getControl().isPatchVisible(ps, dbProvider.get());
   }
 

@@ -812,32 +812,6 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteDraftPS1WithNoOtherEntities() throws Exception {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
-    PushOneCommit.Result r = push.to("refs/drafts/master");
-    push =
-        pushFactory.create(
-            db,
-            admin.getIdent(),
-            testRepo,
-            PushOneCommit.SUBJECT,
-            "b.txt",
-            "4711",
-            r.getChangeId());
-    r = push.to("refs/drafts/master");
-    PatchSet.Id psId = r.getPatchSetId();
-    Change.Id id = psId.getParentKey();
-
-    gApi.changes().id(r.getChangeId()).revision(1).delete();
-
-    checker.rebuildAndCheckChanges(id);
-
-    setNotesMigration(true, true);
-    ChangeNotes notes = notesFactory.create(db, project, id);
-    assertThat(notes.getPatchSets().keySet()).containsExactly(psId);
-  }
-
-  @Test
   public void ignorePatchLineCommentsOnPatchSet0() throws Exception {
     PushOneCommit.Result r = createChange();
     Change change = r.getChange().change();

@@ -96,8 +96,6 @@ public class AbandonOp extends BatchUpdate.Op {
     ChangeUpdate update = ctx.getUpdate(psId);
     if (!change.getStatus().isOpen()) {
       throw new ResourceConflictException("change is " + status(change));
-    } else if (change.getStatus() == Change.Status.DRAFT) {
-      throw new ResourceConflictException("draft changes cannot be abandoned");
     }
     patchSet = psUtil.get(ctx.getDb(), ctx.getNotes(), psId);
     change.setStatus(Change.Status.ABANDONED);

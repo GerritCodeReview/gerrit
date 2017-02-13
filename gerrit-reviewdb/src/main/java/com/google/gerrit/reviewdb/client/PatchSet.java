@@ -168,8 +168,7 @@ public final class PatchSet {
   @Column(id = 4)
   protected Timestamp createdOn;
 
-  @Column(id = 5)
-  protected boolean draft;
+  //@Column(id = 5)
 
   /**
    * Opaque group identifier, usually assigned during creation.
@@ -209,7 +208,6 @@ public final class PatchSet {
     this.revision = src.revision;
     this.uploader = src.uploader;
     this.createdOn = src.createdOn;
-    this.draft = src.draft;
     this.groups = src.groups;
     this.pushCertificate = src.pushCertificate;
     this.description = src.description;
@@ -245,14 +243,6 @@ public final class PatchSet {
 
   public void setCreatedOn(final Timestamp ts) {
     createdOn = ts;
-  }
-
-  public boolean isDraft() {
-    return draft;
-  }
-
-  public void setDraft(boolean draftStatus) {
-    draft = draftStatus;
   }
 
   public List<String> getGroups() {

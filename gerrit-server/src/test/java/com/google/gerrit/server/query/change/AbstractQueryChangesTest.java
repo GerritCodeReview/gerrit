@@ -39,7 +39,6 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -105,12 +104,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.SystemReader;
@@ -295,7 +292,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
     Change change1 = insert(repo, ins1);
-    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.DRAFT);
+    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.NEW);
     Change change2 = insert(repo, ins2);
     insert(repo, newChangeWithStatus(repo, Change.Status.MERGED));
 
@@ -311,23 +308,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:pe", expected);
     assertQuery("status:pen", expected);
     assertQuery("is:open", expected);
-  }
-
-  @Test
-  public void byStatusDraft() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
-    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.DRAFT);
-    Change change2 = insert(repo, ins2);
-
-    Change[] expected = new Change[] {change2};
-    assertQuery("status:draft", expected);
-    assertQuery("status:DRAFT", expected);
-    assertQuery("status:d", expected);
-    assertQuery("status:dr", expected);
-    assertQuery("status:dra", expected);
-    assertQuery("status:draf", expected);
-    assertQuery("is:draft", expected);
   }
 
   @Test
@@ -1210,37 +1190,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void implicitVisibleTo() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
-    Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.DRAFT), userId);
-
-    String q = "project:repo";
-    assertQuery(q, change2, change1);
-
-    // Second user cannot see first user's drafts.
-    requestContext.setContext(
-        newRequestContext(
-            accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));
-    assertQuery(q, change1);
-  }
-
-  @Test
-  public void explicitVisibleTo() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
-    Change change2 = insert(repo, newChangeWithStatus(repo, Change.Status.DRAFT), userId);
-
-    String q = "project:repo";
-    assertQuery(q, change2, change1);
-
-    // Second user cannot see first user's drafts.
-    Account.Id user2 =
-        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
-    assertQuery(q + " visibleto:" + user2.get(), change1);
-  }
-
-  @Test
   public void byCommentBy() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
@@ -1265,81 +1214,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("commentby:" + userId.get(), change2, change1);
     assertQuery("commentby:" + user2);
-  }
-
-  @Test
-  public void byDraftBy() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo));
-    Change change2 = insert(repo, newChange(repo));
-
-    DraftInput in = new DraftInput();
-    in.line = 1;
-    in.message = "nit: trailing whitespace";
-    in.path = Patch.COMMIT_MSG;
-    gApi.changes().id(change1.getId().get()).current().createDraft(in);
-
-    in = new DraftInput();
-    in.line = 2;
-    in.message = "nit: point in the end of the statement";
-    in.path = Patch.COMMIT_MSG;
-    gApi.changes().id(change2.getId().get()).current().createDraft(in);
-
-    int user2 =
-        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId().get();
-
-    assertQuery("draftby:" + userId.get(), change2, change1);
-    assertQuery("draftby:" + user2);
-  }
-
-  @Test
-  public void byDraftByExcludesZombieDrafts() throws Exception {
-    assume().that(notesMigration.readChanges()).isTrue();
-
-    Project.NameKey project = new Project.NameKey("repo");
-    TestRepository<Repo> repo = createProject(project.get());
-    Change change = insert(repo, newChange(repo));
-    Change.Id id = change.getId();
-
-    DraftInput in = new DraftInput();
-    in.line = 1;
-    in.message = "nit: trailing whitespace";
-    in.path = Patch.COMMIT_MSG;
-    gApi.changes().id(id.get()).current().createDraft(in);
-
-    assertQuery("draftby:" + userId, change);
-    assertQuery("commentby:" + userId);
-
-    TestRepository<Repo> allUsers = new TestRepository<>(repoManager.openRepository(allUsersName));
-
-    Ref draftsRef = allUsers.getRepository().exactRef(RefNames.refsDraftComments(id, userId));
-    assertThat(draftsRef).isNotNull();
-
-    ReviewInput rin = ReviewInput.dislike();
-    rin.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
-    gApi.changes().id(id.get()).current().review(rin);
-
-    assertQuery("draftby:" + userId);
-    assertQuery("commentby:" + userId, change);
-    assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNull();
-
-    // Re-add drafts ref and ensure it gets filtered out during indexing.
-    allUsers.update(draftsRef.getName(), draftsRef.getObjectId());
-    assertThat(allUsers.getRepository().exactRef(draftsRef.getName())).isNotNull();
-
-    if (PrimaryStorage.of(change) == PrimaryStorage.REVIEW_DB) {
-      // Record draft ref in noteDbState as well.
-      ReviewDb db = ReviewDbUtil.unwrapDb(this.db);
-      change = db.changes().get(id);
-      NoteDbChangeState.applyDelta(
-          change,
-          NoteDbChangeState.Delta.create(
-              id, Optional.empty(), ImmutableMap.of(userId, draftsRef.getObjectId())));
-      db.changes().update(Collections.singleton(change));
-    }
-
-    indexer.index(db, project, id);
-    assertQuery("draftby:" + userId);
   }
 
   @Test

@@ -302,7 +302,6 @@ abstract class SubmitStrategyOp extends BatchUpdate.Op {
         ctx.getUpdate(psId),
         psId,
         alreadyMerged,
-        false,
         groups,
         null,
         null);

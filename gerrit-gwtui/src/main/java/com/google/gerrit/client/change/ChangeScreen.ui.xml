@@ -406,13 +406,6 @@ limitations under the License.
           <g:Button ui:field='deleteEdit' styleName='' visible='false'>
             <div><ui:msg>Delete Edit</ui:msg></div>
           </g:Button>
-          <g:Button ui:field='publish'
-              styleName='{style.highlight}' visible='false'>
-            <div><ui:msg>Publish</ui:msg></div>
-          </g:Button>
-          <g:Button ui:field='deleteRevision' styleName='' visible='false'>
-            <div><ui:msg>Delete Revision</ui:msg></div>
-          </g:Button>
           <g:SimplePanel ui:field='headerExtensionMiddle' styleName='{style.headerExtension}'/>
         </div>
       </div>

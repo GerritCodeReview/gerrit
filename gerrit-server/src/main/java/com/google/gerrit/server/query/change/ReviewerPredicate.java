@@ -15,17 +15,15 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.List;
 
 class ReviewerPredicate extends ChangeIndexPredicate {
-  static Predicate<ChangeData> create(Arguments args, Account.Id id) {
+  static Predicate<ChangeData> create(Account.Id id) {
     List<Predicate<ChangeData>> and = new ArrayList<>(2);
     ReviewerStateInternal[] states = ReviewerStateInternal.values();
     List<Predicate<ChangeData>> or = new ArrayList<>(states.length - 1);
@@ -35,11 +33,6 @@ class ReviewerPredicate extends ChangeIndexPredicate {
       }
     }
     and.add(Predicate.or(or));
-
-    // TODO(dborowitz): This really belongs much higher up e.g. QueryProcessor.
-    if (!args.allowsDrafts) {
-      and.add(Predicate.not(new ChangeStatusPredicate(Change.Status.DRAFT)));
-    }
     return Predicate.and(and);
   }
 

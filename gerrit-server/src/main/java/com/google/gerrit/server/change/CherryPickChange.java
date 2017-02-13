@@ -36,7 +36,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -87,7 +86,6 @@ public class CherryPickChange {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
-  private final PatchSetUtil psUtil;
   private final NotifyUtil notifyUtil;
 
   @Inject
@@ -102,7 +100,6 @@ public class CherryPickChange {
       PatchSetInserter.Factory patchSetInserterFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeMessagesUtil changeMessagesUtil,
-      PatchSetUtil psUtil,
       NotifyUtil notifyUtil) {
     this.dbProvider = dbProvider;
     this.seq = seq;
@@ -114,7 +111,6 @@ public class CherryPickChange {
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeMessagesUtil = changeMessagesUtil;
-    this.psUtil = psUtil;
     this.notifyUtil = notifyUtil;
   }
 
@@ -324,12 +320,9 @@ public class CherryPickChange {
       throws IOException, OrmException, BadRequestException, ConfigInvalidException {
     Change destChange = destCtl.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
-    PatchSet current = psUtil.current(dbProvider.get(), destCtl.getNotes());
-
     PatchSetInserter inserter = patchSetInserterFactory.create(destCtl, psId, cherryPickCommit);
     inserter
         .setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".")
-        .setDraft(current.isDraft())
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
     bu.addOp(destChange.getId(), inserter);

@@ -16,8 +16,6 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
-import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
-import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
 import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
 import static com.google.gerrit.server.index.change.IndexedChangeQuery.convertOptions;
@@ -137,7 +135,7 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
 
   @Test
   public void duplicateCompoundNonIndexOnlyPredicates() throws Exception {
-    Predicate<ChangeData> in = parse("(status:new OR status:draft) bar:p file:a");
+    Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isEqualTo(AndChangeSource.class);
     assertThat(out.getChildren())
@@ -180,14 +178,11 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
   public void getPossibleStatus() throws Exception {
     assertThat(status("file:a")).isEqualTo(EnumSet.allOf(Change.Status.class));
     assertThat(status("is:new")).containsExactly(NEW);
-    assertThat(status("-is:new")).containsExactly(DRAFT, MERGED, ABANDONED);
     assertThat(status("is:new OR is:merged")).containsExactly(NEW, MERGED);
 
     assertThat(status("is:new is:merged")).isEmpty();
-    assertThat(status("(is:new is:draft) (is:merged)")).isEmpty();
-    assertThat(status("(is:new is:draft) (is:merged)")).isEmpty();
-
-    assertThat(status("(is:new is:draft) OR (is:merged)")).containsExactly(MERGED);
+    assertThat(status("(is:new) (is:merged)")).isEmpty();
+    assertThat(status("(is:new) (is:merged)")).isEmpty();
   }
 
   @Test

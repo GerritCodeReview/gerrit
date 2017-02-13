@@ -249,8 +249,7 @@ public class OutputStreamQuery {
 
     if (includeSubmitRecords) {
       eventFactory.addSubmitRecords(
-          c,
-          submitRuleEvaluatorFactory.create(d).setAllowClosed(true).setAllowDraft(true).evaluate());
+          c, submitRuleEvaluatorFactory.create(d).setAllowClosed(true).evaluate());
     }
 
     if (includeCommitMessage) {
@@ -284,7 +283,7 @@ public class OutputStreamQuery {
 
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
-      if (current != null && d.changeControl().forUser(user).isPatchVisible(current, d.db())) {
+      if (current != null && d.changeControl().forUser(user).isVisible(d.db())) {
         c.currentPatchSet = eventFactory.asPatchSetAttribute(db, rw, d.change(), current);
         eventFactory.addApprovals(c.currentPatchSet, d.currentApprovals(), labelTypes);
 

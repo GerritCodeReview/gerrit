@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "2d0e64c7_93940d03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-13T13:05:50Z",
+      "side": 1,
+      "message": "In the current code, there is only one call that can throw the exception. In general, if you have\n\n  try {\n     a().b().c();\n  } catch ( .. ) {\n    // recovery\n  }\n\na change to the implementation of A#b might cause it to throw an exception too, and in that case, the existing recovery path may not be appropriate, so small try blocks seems sensible defensive programming to me. (I\u0027m not big on Java experience, though.)   Do you feel strongly about this?",
+      "parentUuid": "52bc0c15_62a7ec9d",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 54
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2cfceba7_20ef0684",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 11
@@ -155,6 +179,30 @@
       "side": 1,
       "message": "Sure, but couldn\u0027t the same be achieved if we had a HashedPassword#canDecode method? I was thinking of Effective Java #57 and #59 when I saw your code.",
       "parentUuid": "4c1fa867_a29dccd2",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33cfae7d_9b211b95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-13T13:05:50Z",
+      "side": 1,
+      "message": "as API, we can have a boolean, but I would then implement it as a method that throws an exception internally; would you prefer that?\n\nCoupling the error and the successful return value puts the condition (eg. !fields.isEmpty()) close to the place where the condition is used (eg. String algorithm \u003d fields[0]), and minimizes the chances of canDecode() and decode() deviating in their behavior.\n\nI am not sure what to make of #57 - \"exceptional\" conditions are very common, in fact everything that does I/O in Java (which I would argue is common) throws IOException.",
+      "parentUuid": "91d52545_970431a4",
       "range": {
         "startLine": 87,
         "startChar": 11,

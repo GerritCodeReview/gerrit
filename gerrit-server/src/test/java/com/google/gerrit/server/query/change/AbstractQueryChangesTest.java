@@ -1589,6 +1589,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(cds).hasSize(1);
 
     ChangeData cd = cds.get(0);
+    cd.setLazyLoad(false);
     cd.change();
     cd.patchSets();
     cd.currentApprovals();

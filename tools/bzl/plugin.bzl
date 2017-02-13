@@ -23,12 +23,14 @@ def gerrit_plugin(
     resources = [],
     manifest_entries = [],
     target_suffix = "",
+    javacopts = [],
     **kwargs):
   native.java_library(
     name = name + '__plugin',
     srcs = srcs,
     resources = resources,
     deps = provided_deps + deps + GWT_PLUGIN_DEPS_NEVERLINK + PLUGIN_DEPS_NEVERLINK,
+    javacopts = javacopts,
     visibility = ['//visibility:public'],
   )
 
@@ -55,6 +57,7 @@ def gerrit_plugin(
       name = name + '__gwt_module',
       resources = list(set(srcs + resources)),
       runtime_deps = deps + GWT_PLUGIN_DEPS,
+      javacopts = javacopts,
       visibility = ['//visibility:public'],
     )
     genrule2(

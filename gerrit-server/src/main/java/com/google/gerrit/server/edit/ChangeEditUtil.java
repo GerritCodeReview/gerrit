@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -207,11 +206,7 @@ public class ChangeEditUtil {
       try (BatchUpdate bu =
           updateFactory.create(db.get(), change.getProject(), ctl.getUser(), TimeUtil.nowTs())) {
         bu.setRepository(repo, rw, oi);
-        bu.addOp(
-            change.getId(),
-            inserter
-                .setDraft(change.getStatus() == Status.DRAFT || basePatchSet.isDraft())
-                .setMessage(message.toString()));
+        bu.addOp(change.getId(), inserter.setMessage(message.toString()));
         bu.addOp(
             change.getId(),
             new BatchUpdate.Op() {

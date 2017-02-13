@@ -482,37 +482,6 @@ followed by `topic=...`.
   $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
-[[drafts]]
-== Working with Drafts
-
-Changes can be uploaded as drafts. By default draft changes are only
-visible to the change owner. This gives you the possibility to have
-some staging before making your changes visible to the reviewers. Draft
-changes can also be used to backup unfinished changes.
-
-A draft change is created by pushing to the magic
-`refs/drafts/<target-branch>` ref.
-
-.Push a Draft Change
-----
-  $ git commit
-  $ git push origin HEAD:refs/drafts/master
-----
-
-Draft changes have the state link:user-review-ui.html#draft[Draft] and
-can be link:user-review-ui.html#publish[published] or
-link:user-review-ui.html#delete[deleted] from the change screen.
-
-By link:user-review-ui.html#reviewers[adding reviewers] to a draft
-change the change is made visible to these users. This way you can
-collaborate with other users in privacy.
-
-By pushing to `refs/drafts/<target-branch>` you can also upload draft
-patch sets to non-draft changes. Draft patch sets are immediately
-visible to all reviewers of the change, but other users cannot see the
-draft patch set. A draft patch set can be published and deleted in the
-same way as a draft change.
-
 [[inline-edit]]
 == Inline Edit
 

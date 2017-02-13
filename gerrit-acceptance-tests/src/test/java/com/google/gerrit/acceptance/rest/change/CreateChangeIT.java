@@ -24,9 +24,7 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
@@ -138,14 +136,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 "%sAdministrator <%s>", SIGNED_OFF_BY_TAG, admin.getIdent().getEmailAddress()));
   }
 
-  @Test
-  @GerritConfig(name = "change.allowDrafts", value = "true")
-  public void createNewDraftChangeNotAllowed() throws Exception {
-    ChangeInput ci = newChangeInput(ChangeStatus.DRAFT);
-    assertCreateFails(ci, BadRequestException.class, "unsupported change status");
-  }
-
-  @Test
   public void createNewPrivateChange() throws Exception {
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.isPrivate = true;
@@ -388,9 +378,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.workInProgress).isEqualTo(in.workInProgress);
     assertThat(out.revisions).hasSize(1);
     assertThat(out.submitted).isNull();
-    assertThat(out.submitter).isNull();
-    Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
-    assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
+    assertThat(in.status).isEqualTo(ChangeStatus.NEW);
     return out;
   }
 
@@ -400,13 +388,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     exception.expect(errType);
     exception.expectMessage(errSubstring);
     gApi.changes().create(in);
-  }
-
-  private ChangeStatus booleanToDraftStatus(Boolean draft) {
-    if (draft == null) {
-      return ChangeStatus.NEW;
-    }
-    return draft ? ChangeStatus.DRAFT : ChangeStatus.NEW;
   }
 
   // TODO(davido): Expose setting of account preferences in the API

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3c33d10_e57a9037",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-13T18:34:25Z",
+      "side": 1,
+      "message": "Generally, I prefer styling classes rather than IDs. If you feel strongly that this should be an ID though, it should be more descriptive than \"container\" and be renamed to something that is clear would not be used multiple times.",
+      "revId": "5537bff1e94beecf182919f4ff7dda6d6a6b776b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b975fc4_73813a0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-13T18:34:25Z",
+      "side": 1,
+      "message": "Show \"x\" older messages makes sense. However,  \"hide x older messages\" feels unintuitive to me.  As an end user, I don\u0027t really know what \"older\" is referring to (older that what?). I feel like this general idea can be flushed out more.",
+      "revId": "5537bff1e94beecf182919f4ff7dda6d6a6b776b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

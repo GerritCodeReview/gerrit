@@ -194,7 +194,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return new Result(sw, ok.get(), nDone, nFailed);
   }
 
-  private Callable<Void> reindexProject(
+  public Callable<Void> reindexProject(
       final ChangeIndexer indexer,
       final Project.NameKey project,
       final Task done,

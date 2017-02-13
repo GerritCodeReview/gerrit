@@ -29,5 +29,6 @@ public class IndexCommandsModule extends CommandModule {
     command(index, IndexActivateCommand.class);
     command(index, IndexStartCommand.class);
     command(index, IndexChangesCommand.class);
+    command(index, IndexProjectCommand.class);
   }
 }

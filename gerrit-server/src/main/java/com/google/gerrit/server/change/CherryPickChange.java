@@ -37,7 +37,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -96,7 +95,6 @@ public class CherryPickChange {
   private final ProjectControl.GenericFactory projectControlFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil changeMessagesUtil;
-  private final PatchSetUtil psUtil;
   private final NotifyUtil notifyUtil;
 
   @Inject
@@ -114,7 +112,6 @@ public class CherryPickChange {
       ProjectControl.GenericFactory projectControlFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil changeMessagesUtil,
-      PatchSetUtil psUtil,
       NotifyUtil notifyUtil) {
     this.dbProvider = dbProvider;
     this.seq = seq;
@@ -129,7 +126,6 @@ public class CherryPickChange {
     this.projectControlFactory = projectControlFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
-    this.psUtil = psUtil;
     this.notifyUtil = notifyUtil;
   }
 
@@ -325,12 +321,9 @@ public class CherryPickChange {
       throws IOException, OrmException, BadRequestException, ConfigInvalidException {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
-    PatchSet current = psUtil.current(dbProvider.get(), destNotes);
-
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
     inserter
         .setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".")
-        .setDraft(current.isDraft())
         .setNotify(input.notify)
         .setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
     bu.addOp(destChange.getId(), inserter);

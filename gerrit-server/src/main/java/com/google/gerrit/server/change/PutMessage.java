@@ -111,7 +111,7 @@ public class PutMessage
       throw new ResourceConflictException("current revision is missing");
     } else if (!changeControlFactory
         .controlFor(resource.getNotes(), resource.getUser())
-        .isPatchVisible(ps, db.get())) {
+        .isVisible(db.get())) {
       throw new AuthException("current revision not accessible");
     }
 

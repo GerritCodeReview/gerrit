@@ -75,8 +75,8 @@ def load_bower_archives():
   bower_archive(
     name = "mocha",
     package = "mocha",
-    version = "2.5.3",
-    sha1 = "22ef0d1f43ba5e2241369c501ac648f00c0440c0")
+    version = "3.2.0",
+    sha1 = "b77f23f7ad1f1363501bcae96f0f4f47745dad0f")
   bower_archive(
     name = "neon-animation",
     package = "neon-animation",
@@ -105,5 +105,5 @@ def load_bower_archives():
   bower_archive(
     name = "webcomponentsjs",
     package = "webcomponentsjs",
-    version = "0.7.22",
-    sha1 = "8ba97a4a279ec6973a19b171c462a7b5cf454fb9")
+    version = "0.7.23",
+    sha1 = "3d62269e614175573b0a0f3039aab05d40f0a763")

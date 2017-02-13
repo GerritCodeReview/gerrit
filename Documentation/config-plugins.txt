@@ -247,16 +247,6 @@ Documentation] |
 link:https://gerrit.googlesource.com/plugins/emoticons/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
-[[force-draft]]
-=== force-draft
-
-Provides an ssh command to force a change or patch set to draft status.
-This is useful for administrators to be able to easily completely
-delete a change or patch set from the server.
-
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/force-draft[
-Project]
-
 [[gitblit]]
 === gitblit
 
@@ -666,24 +656,6 @@ Project] |
 link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/master/src/main/resources/Documentation/about.md[
 Documentation] |
 link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/master/src/main/resources/Documentation/config.md[
-Configuration]
-
-[[wip]]
-=== wip
-
-This plugin adds a new button that allows a change owner to set a
-change to Work In Progress, and a button to change from WIP back to a
-"Ready For Review" state.
-
-Any change in the WIP state will not show up in anyone's Review
-Requests. Pushing a new patchset will reset the change to Review In
-Progress.
-
-link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/wip[
-Project] |
-link:https://gerrit.googlesource.com/plugins/wip/+doc/master/src/main/resources/Documentation/about.md[
-Documentation] |
-link:https://gerrit.googlesource.com/plugins/wip/+doc/master/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[x-docs]]

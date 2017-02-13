@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "8487da38_a1828bb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T13:09:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9fb8e56e_335658ca",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "059cf9d01fa84a0f73e7d8fcfcd0d6af3a26857b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ae407c0_a30422be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T13:09:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8284f2ef_80d942e3",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "059cf9d01fa84a0f73e7d8fcfcd0d6af3a26857b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2530989b_537586b6",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 5
@@ -154,6 +202,30 @@
       "writtenOn": "2017-02-13T10:47:33Z",
       "side": 1,
       "message": "their own changes",
+      "range": {
+        "startLine": 420,
+        "startChar": 43,
+        "endLine": 420,
+        "endChar": 56
+      },
+      "revId": "059cf9d01fa84a0f73e7d8fcfcd0d6af3a26857b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16bb21c1_8168a075",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-13T13:09:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "47763162_bab3ea03",
       "range": {
         "startLine": 420,
         "startChar": 43,

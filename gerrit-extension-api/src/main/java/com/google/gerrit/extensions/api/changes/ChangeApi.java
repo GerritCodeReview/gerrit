@@ -140,6 +140,7 @@ public interface ChangeApi {
       throws RestApiException;
 
   /** Publishes a draft change. */
+  @Deprecated
   void publish() throws RestApiException;
 
   /** Rebase the current revision of a change using default options. */
@@ -359,6 +360,7 @@ public interface ChangeApi {
       throw new NotImplementedException();
     }
 
+    @Deprecated
     @Override
     public void publish() {
       throw new NotImplementedException();

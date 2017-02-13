@@ -115,8 +115,8 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
     public boolean updateChange(ChangeContext ctx)
         throws OrmException, ResourceConflictException, RepositoryNotFoundException, IOException {
       change = ctx.getChange();
-      if (change.getStatus() != Status.NEW && change.getStatus() != Status.DRAFT) {
-        throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
+      if (change.getStatus() != Status.NEW) {
+	throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
       }
 
       Project.NameKey projectKey = change.getProject();

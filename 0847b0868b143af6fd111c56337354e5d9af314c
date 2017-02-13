@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a391543_18aaa448",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-13T21:42:34Z",
+      "side": 1,
+      "message": "Seems it would make sense to move the padding here as well, instead of having it in both #actions and #unresolvedLabel.  Since you\u0027re using the space-between attribute, I don\u0027t think padding in between the two containers should matter.",
+      "revId": "0847b0868b143af6fd111c56337354e5d9af314c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d5831a8_79c1b9d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-13T21:20:43Z",
+      "side": 1,
+      "message": "Changed to a class.",
+      "parentUuid": "e3c33d10_e57a9037",
+      "revId": "5537bff1e94beecf182919f4ff7dda6d6a6b776b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b975fc4_73813a0b",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-13T18:34:25Z",
       "side": 1,
       "message": "Show \"x\" older messages makes sense. However,  \"hide x older messages\" feels unintuitive to me.  As an end user, I don\u0027t really know what \"older\" is referring to (older that what?). I feel like this general idea can be flushed out more.",
+      "revId": "5537bff1e94beecf182919f4ff7dda6d6a6b776b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e7b9e78_3b66b074",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-13T21:20:43Z",
+      "side": 1,
+      "message": "The feature is labelled this way for feature parity with Rietveld. I\u0027m open to suggestions for better labels, but I think for now this shouldn\u0027t block the change -- we can always change label text later, as we have for the show/hide automated text. Does that sound good to you?",
+      "parentUuid": "1b975fc4_73813a0b",
       "revId": "5537bff1e94beecf182919f4ff7dda6d6a6b776b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

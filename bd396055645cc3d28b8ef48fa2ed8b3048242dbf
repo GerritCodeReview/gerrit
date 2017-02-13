@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "0e9d6502_8892e70f",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-13T15:02:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9a7b88ec_dbec0353",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 41,
+        "endChar": 36
+      },
+      "revId": "bd396055645cc3d28b8ef48fa2ed8b3048242dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b997c99_94019a5b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 13

@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "9671b694_8a851225",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-13T15:02:38Z",
+      "side": 1,
+      "message": "If we established this as a general pattern, I would definitely object. If it\u0027s just this piece of code, I won\u0027t put up much resistance.",
+      "parentUuid": "2d0e64c7_93940d03",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 54
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2cfceba7_20ef0684",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 11
@@ -203,6 +227,30 @@
       "side": 1,
       "message": "as API, we can have a boolean, but I would then implement it as a method that throws an exception internally; would you prefer that?\n\nCoupling the error and the successful return value puts the condition (eg. !fields.isEmpty()) close to the place where the condition is used (eg. String algorithm \u003d fields[0]), and minimizes the chances of canDecode() and decode() deviating in their behavior.\n\nI am not sure what to make of #57 - \"exceptional\" conditions are very common, in fact everything that does I/O in Java (which I would argue is common) throws IOException.",
       "parentUuid": "91d52545_970431a4",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5641d515_546ef934",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-13T15:02:38Z",
+      "side": 1,
+      "message": "In Java, using exceptions for flow control isn\u0027t good style and isn\u0027t efficient. If we expected the encoded string to be always in the correct format (and hence just making the method call), using an exception would be fine because that would be an exceptional case. Given the loop and the continue-statement, we expect the encoded string not to be decodable and just try long enough until we find a decodable one. That\u0027s flow control to me. Whenever we can prevent an exception, we should do so.\n\nRegarding I/O in Java, we normally expect I/O access to succeed. The IOException is only thrown when an error occurred (unexpectedly) and we get a chance to recover from that. If we have a way to check for erroneous conditions (e.g. the specified path is a directory and not a file), we should use those checks before performing the desired I/O action (e.g. writing to the file). If however accessing the file system isn\u0027t possible at the moment (because of a hardware defect for example), we still need to react to that.\nThe old I/O APIs of Java made heavy use of IOExceptions. Newer ones like Java NIO have reduced the amount.\n\nFor our case here: What about having an internal method which checks all conditions and returns an Optional\u003cString\u003e describing the failed condition. The external method canDecode() checks whether the value is absent. The method decode() also calls the internal method and wraps the descriptive string in some kind of RuntimeException if the string is present. Consequently, the two implementations are tightly coupled to each other and shouldn\u0027t deviate.\n\nTo make it work, we probably need to differentiate the exceptional cases. In my opinion, the encoded string should count as not decodable if\n- the algorithm isn\u0027t recognized,\n- the string isn\u0027t separated into exactly 4 fields by a colon, and\n- the cost doesn\u0027t represent a number (which should be checked by a regular expression).\n\nThe other cases:\n- the cost isn\u0027t in range, or\n- the salt doesn\u0027t consist of exactly 16 bytes,\n\nare other failures to me. They aren\u0027t related to encoding/decoding. We could even consider to drop the checks for them as the constructor also contains them and they are redundant at the moment.",
+      "parentUuid": "33cfae7d_9b211b95",
       "range": {
         "startLine": 87,
         "startChar": 11,

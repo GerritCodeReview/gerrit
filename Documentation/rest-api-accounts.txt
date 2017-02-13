@@ -1255,10 +1255,6 @@ any account.
         "name": "Changes"
       },
       {
-        "url": "#/q/owner:self+is:draft",
-        "name": "Drafts"
-      },
-      {
         "url": "#/q/has:draft",
         "name": "Draft Comments"
       },
@@ -1313,10 +1309,6 @@ link:#preferences-input[PreferencesInput] entity.
         "name": "Changes"
       },
       {
-        "url": "#/q/owner:self+is:draft",
-        "name": "Drafts"
-      },
-      {
         "url": "#/q/has:draft",
         "name": "Draft Comments"
       },
@@ -1366,10 +1358,6 @@ link:#preferences-info[PreferencesInfo] entity.
       {
         "url": "#/dashboard/self",
         "name": "Changes"
-      },
-      {
-        "url": "#/q/owner:self+is:draft",
-        "name": "Drafts"
       },
       {
         "url": "#/q/has:draft",

@@ -410,23 +410,6 @@ link:user-upload.html#push_create[Upload changes] page.
 and patch sets.
 
 
-==== refs/drafts/*
-
-Push to `+refs/drafts/*+` creates a change like push to `+refs/for/*+`, except the
-resulting change remains hidden from public review.  You then have the option
-of adding individual reviewers before making the change public to all.  The
-change page will have a 'Publish' button which allows you to convert individual
-draft patch sets of a change into public patch sets for review.
-
-To block push permission to `+refs/drafts/*+` the following permission rule can
-be configured:
-
-----
-  [access "refs/drafts/*"]
-    push = block group Anonymous Users
-----
-
-
 [[access_categories]]
 == Access Categories
 
@@ -859,36 +842,6 @@ The change owner and any explicitly added reviewers can always see
 private changes (even without having the `View Private Changes` access
 right assigned).
 
-[[category_view_drafts]]
-=== View Drafts
-
-This category permits users to view draft changes uploaded by other
-users.
-
-The change owner and any explicitly added reviewers can always see
-draft changes (even without having the `View Drafts` access right
-assigned).
-
-
-[[category_publish_drafts]]
-=== Publish Drafts
-
-This category permits users to publish draft changes uploaded by other
-users.
-
-The change owner can always publish draft changes (even without having
-the `Publish Drafts` access right assigned).
-
-
-[[category_delete_drafts]]
-=== Delete Drafts
-
-This category permits users to delete draft changes uploaded by other
-users.
-
-The change owner can always delete draft changes (even without having
-the `Delete Drafts` access right assigned).
-
 
 [[category_delete_own_changes]]
 === Delete Own Changes
@@ -956,13 +909,7 @@ Suggested access rights to grant:
 If it's desired to have the possibility to upload temporarily hidden
 changes there's a specific permission for that.  This enables someone
 to add specific reviewers for early feedback before making the change
-publicly visible.  If you want to allow others than the owners to
-publish a draft you also need to grant them `Publish Drafts`.
-
-Optional access rights to grant:
-
-* xref:category_push[`Push`] to 'refs/drafts/*'
-* xref:category_publish_drafts[`Publish Drafts`] to 'refs/heads/*'
+publicly visible.
 
 
 [[examples_developer]]

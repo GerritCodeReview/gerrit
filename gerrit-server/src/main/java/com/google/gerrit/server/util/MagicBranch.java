@@ -27,35 +27,20 @@ public final class MagicBranch {
   private static final Logger log = LoggerFactory.getLogger(MagicBranch.class);
 
   public static final String NEW_CHANGE = "refs/for/";
-  public static final String NEW_DRAFT_CHANGE = "refs/drafts/";
-  public static final String NEW_PUBLISH_CHANGE = "refs/publish/";
 
   /** Extracts the destination from a ref name */
   public static String getDestBranchName(String refName) {
     String magicBranch = NEW_CHANGE;
-    if (refName.startsWith(NEW_DRAFT_CHANGE)) {
-      magicBranch = NEW_DRAFT_CHANGE;
-    } else if (refName.startsWith(NEW_PUBLISH_CHANGE)) {
-      magicBranch = NEW_PUBLISH_CHANGE;
-    }
     return refName.substring(magicBranch.length());
   }
 
   /** Checks if the supplied ref name is a magic branch */
   public static boolean isMagicBranch(String refName) {
-    return refName.startsWith(NEW_DRAFT_CHANGE)
-        || refName.startsWith(NEW_PUBLISH_CHANGE)
-        || refName.startsWith(NEW_CHANGE);
+    return refName.startsWith(NEW_CHANGE);
   }
 
   /** Returns the ref name prefix for a magic branch, {@code null} if the branch is not magic */
   public static String getMagicRefNamePrefix(String refName) {
-    if (refName.startsWith(NEW_DRAFT_CHANGE)) {
-      return NEW_DRAFT_CHANGE;
-    }
-    if (refName.startsWith(NEW_PUBLISH_CHANGE)) {
-      return NEW_PUBLISH_CHANGE;
-    }
     if (refName.startsWith(NEW_CHANGE)) {
       return NEW_CHANGE;
     }
@@ -72,14 +57,6 @@ public final class MagicBranch {
    */
   public static Capable checkMagicBranchRefs(Repository repo, Project project) {
     Capable result = checkMagicBranchRef(NEW_CHANGE, repo, project);
-    if (result != Capable.OK) {
-      return result;
-    }
-    result = checkMagicBranchRef(NEW_DRAFT_CHANGE, repo, project);
-    if (result != Capable.OK) {
-      return result;
-    }
-    result = checkMagicBranchRef(NEW_PUBLISH_CHANGE, repo, project);
     if (result != Capable.OK) {
       return result;
     }

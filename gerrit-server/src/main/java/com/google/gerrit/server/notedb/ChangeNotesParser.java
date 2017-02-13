@@ -974,13 +974,6 @@ class ChangeNotesParser {
         case DELETED:
           patchSets.remove(e.getKey());
           break;
-
-        case DRAFT:
-          PatchSet ps = patchSets.get(e.getKey());
-          if (ps != null) {
-            ps.setDraft(true);
-          }
-          break;
       }
     }
 

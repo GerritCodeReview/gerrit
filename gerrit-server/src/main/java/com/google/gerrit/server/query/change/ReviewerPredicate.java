@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.Predicate;
@@ -36,14 +35,14 @@ class ReviewerPredicate extends ChangeIndexPredicate {
       // any reviewer state.
       p = anyReviewerState(id);
     }
-    return create(args, p);
+    return p;
   }
 
-  static Predicate<ChangeData> cc(Arguments args, Account.Id id) {
+  static Predicate<ChangeData> cc(Account.Id id) {
     // As noted above, CC is nebulous without NoteDb, but it certainly doesn't make sense to return
     // Reviewers for cc:foo. Most likely this will just not match anything, but let the index sort
     // it out.
-    return create(args, new ReviewerPredicate(ReviewerStateInternal.CC, id));
+    return new ReviewerPredicate(ReviewerStateInternal.CC, id);
   }
 
   private static Predicate<ChangeData> anyReviewerState(Account.Id id) {
@@ -52,15 +51,6 @@ class ReviewerPredicate extends ChangeIndexPredicate {
             .filter(s -> s != ReviewerStateInternal.REMOVED)
             .map(s -> new ReviewerPredicate(s, id))
             .collect(toList()));
-  }
-
-  private static Predicate<ChangeData> create(Arguments args, Predicate<ChangeData> p) {
-    if (!args.allowsDrafts) {
-      // TODO(dborowitz): This really belongs much higher up e.g. QueryProcessor. Also, why are we
-      // even doing this?
-      return Predicate.and(p, Predicate.not(new ChangeStatusPredicate(Change.Status.DRAFT)));
-    }
-    return p;
   }
 
   private final ReviewerStateInternal state;

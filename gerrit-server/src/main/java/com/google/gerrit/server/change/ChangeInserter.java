@@ -269,11 +269,6 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
-  public ChangeInserter setDraft(boolean draft) {
-    checkState(change == null, "setDraft(boolean) only valid before creating change");
-    return setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
-  }
-
   public ChangeInserter setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
     return this;
@@ -373,7 +368,6 @@ public class ChangeInserter implements InsertChangeOp {
       update.setWorkInProgress(workInProgress);
     }
 
-    boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;
     if (newGroups.isEmpty()) {
       newGroups = GroupCollector.getDefaultGroups(commit);
@@ -385,7 +379,6 @@ public class ChangeInserter implements InsertChangeOp {
             update,
             psId,
             commit,
-            draft,
             newGroups,
             pushCert,
             patchSetDescription);

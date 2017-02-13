@@ -27,7 +27,6 @@ import org.eclipse.jgit.lib.Config;
 class ReceiveConfig {
   final boolean checkMagicRefs;
   final boolean checkReferencedObjectsAreReachable;
-  final boolean allowDrafts;
   final int maxBatchCommits;
   private final int systemMaxBatchChanges;
   private final AccountLimits.Factory limitsFactory;
@@ -37,7 +36,6 @@ class ReceiveConfig {
     checkMagicRefs = config.getBoolean("receive", null, "checkMagicRefs", true);
     checkReferencedObjectsAreReachable =
         config.getBoolean("receive", null, "checkReferencedObjectsAreReachable", true);
-    allowDrafts = config.getBoolean("change", null, "allowDrafts", true);
     maxBatchCommits = config.getInt("receive", null, "maxBatchCommits", 10000);
     systemMaxBatchChanges = config.getInt("receive", "maxBatchChanges", 0);
     this.limitsFactory = limitsFactory;

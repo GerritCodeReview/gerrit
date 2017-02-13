@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.ChangeInfo;
 import com.google.gerrit.client.info.ChangeInfo.CommitInfo;
@@ -23,7 +22,6 @@ import com.google.gerrit.client.info.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.CallbackGroup.Callback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -39,10 +37,6 @@ public class ChangeApi {
 
   /**
    * Create a new change.
-   *
-   * <p>The new change is created as DRAFT unless the draft workflow is disabled by
-   * `change.allowDrafts = false` in the configuration, in which case the new change is created as
-   * NEW.
    */
   public static void createChange(
       String project,
@@ -57,10 +51,6 @@ public class ChangeApi {
     input.topic(emptyToNull(topic));
     input.subject(emptyToNull(subject));
     input.baseChange(emptyToNull(base));
-
-    if (Gerrit.info().change().allowDrafts()) {
-      input.status(Change.Status.DRAFT.toString());
-    }
 
     new RestApi("/changes/").post(input, cb);
   }
@@ -225,20 +215,9 @@ public class ChangeApi {
     call(id, commit, "submit").post(in, cb);
   }
 
-  /** Publish a specific revision of a draft change. */
-  public static void publish(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
-    JavaScriptObject in = JavaScriptObject.createObject();
-    call(id, commit, "publish").post(in, cb);
-  }
-
   /** Delete a specific draft change. */
   public static void deleteChange(int id, AsyncCallback<JavaScriptObject> cb) {
     change(id).delete(cb);
-  }
-
-  /** Delete a specific draft patch set. */
-  public static void deleteRevision(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
-    revision(id, commit).delete(cb);
   }
 
   /** Delete change edit. */

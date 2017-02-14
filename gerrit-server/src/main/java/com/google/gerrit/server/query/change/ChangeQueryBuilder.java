@@ -75,6 +75,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.util.Providers;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -1043,12 +1044,20 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> author(String who) {
-    return new AuthorPredicate(who);
+    String email = parseEmail(who);
+    if (email.isEmpty()) {
+      return new AuthorPredicate(who);
+    }
+    return Predicate.or(Arrays.asList(new AuthorPredicate(email), new AuthorPredicate(who)));
   }
 
   @Operator
   public Predicate<ChangeData> committer(String who) {
-    return new CommitterPredicate(who);
+    String email = parseEmail(who);
+    if (email.isEmpty()) {
+      return new CommitterPredicate(who);
+    }
+    return Predicate.or(Arrays.asList(new CommitterPredicate(email), new CommitterPredicate(who)));
   }
 
   @Operator
@@ -1143,6 +1152,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     throw error("Change " + value + " not found");
+  }
+
+  private String parseEmail(String value) {
+    int lt = value.indexOf('<');
+    int gt = value.indexOf('>');
+    if (lt >= 0 && gt > lt && value.contains("@")) {
+      return value.substring(lt + 1, gt);
+    }
+    return "";
   }
 
   private static String parseChangeId(String value) {

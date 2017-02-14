@@ -410,8 +410,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("author:example", change1);
     assertQuery("author:example.com", change1);
 
+    // By exact name
+    assertQuery("author:JAuthor", change1);
+
     // By name part
     assertQuery("author:Author", change1);
+
+    // By name email
+    assertQuery("author:\"JAuthor <jauthor@example.com>\"", change1);
 
     // Case insensitive
     assertQuery("author:jAuThOr", change1);
@@ -437,8 +443,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("committer:example", change1);
     assertQuery("committer:example.com", change1);
 
+    // By exact name
+    assertQuery("committer:JCommitter", change1);
+
     // By name part
     assertQuery("committer:Committer", change1);
+
+    // By name email
+    assertQuery("committer:\"JCommitter <jcommitter@example.com>\"", change1);
 
     // Case insensitive
     assertQuery("committer:jCoMmItTeR", change1);

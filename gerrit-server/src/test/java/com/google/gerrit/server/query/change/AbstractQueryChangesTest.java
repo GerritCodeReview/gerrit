@@ -404,14 +404,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // By exact email address
     assertQuery("author:jauthor@example.com", change1);
+    assertQuery("author:<jauthor@example.com>", change1);
 
     // By email address part
     assertQuery("author:jauthor", change1);
     assertQuery("author:example", change1);
     assertQuery("author:example.com", change1);
 
+    // By exact name
+    assertQuery("author:JAuthor", change1);
+
     // By name part
     assertQuery("author:Author", change1);
+
+    // By name email
+    assertQuery("author:\"JAuthor <jauthor@example.com>\"", change1);
+    assertQuery("author:\"<jauthor@example.com> JAuthor\"", change1);
 
     // Case insensitive
     assertQuery("author:jAuThOr", change1);
@@ -422,6 +430,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("author:somewhere.com");
     assertQuery("author:jcommitter");
     assertQuery("author:Committer");
+
+    // By wrong name & email combination
+    assertQuery("author:\"JCommitter <jauthor@example.com>\"");
+    assertQuery("author:\"JAut <jauthor@example.com>\"");
+    assertQuery("author:\"JAuthor <jau@example.com>\"");
   }
 
   @Test
@@ -431,14 +444,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // By exact email address
     assertQuery("committer:jcommitter@example.com", change1);
+    assertQuery("committer:<jcommitter@example.com>", change1);
 
     // By email address part
     assertQuery("committer:jcommitter", change1);
     assertQuery("committer:example", change1);
     assertQuery("committer:example.com", change1);
 
+    // By exact name
+    assertQuery("committer:JCommitter", change1);
+
     // By name part
     assertQuery("committer:Committer", change1);
+
+    // By name email
+    assertQuery("committer:\"JCommitter <jcommitter@example.com>\"", change1);
+    assertQuery("committer:\"<jcommitter@example.com> JCommitter\"", change1);
 
     // Case insensitive
     assertQuery("committer:jCoMmItTeR", change1);
@@ -449,6 +470,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("committer:somewhere.com");
     assertQuery("committer:jauthor");
     assertQuery("committer:Author");
+
+    // By wrong name & email combination
+    assertQuery("committer:\"JAuthor <jcommitter@example.com>\"");
+    assertQuery("committer:\"Jcomm <jcommitter@example.com>\"");
+    assertQuery("committer:\"Jcommittor <jcomm@example.com>\"");
   }
 
   @Test

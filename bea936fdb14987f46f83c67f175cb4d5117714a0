@@ -22,6 +22,30 @@
       "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38755f1d_7af200df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-14T12:55:07Z",
+      "side": 1,
+      "message": "I didn\u0027t create predicate with the full name, it\u0027s the original query.\n\nThe two queries are: \"author:Foo \u003cfoo.bar@baz.com\u003e\" and \"foo.bar@baz.com\". So we should union the result?",
+      "parentUuid": "e2a9e190_671202f4",
+      "range": {
+        "startLine": 1051,
+        "startChar": 21,
+        "endLine": 1051,
+        "endChar": 23
+      },
+      "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

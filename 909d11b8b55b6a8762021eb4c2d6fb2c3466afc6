@@ -142,6 +142,30 @@
       "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c4dc0dd_42bc4a0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-14T13:12:03Z",
+      "side": 1,
+      "message": "Yes, 2! Thanks for correcting me :)",
+      "parentUuid": "544733cc_5fafa8ec",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

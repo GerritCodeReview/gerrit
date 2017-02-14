@@ -1,0 +1,180 @@
+= Proposal for Work In Progress (WIP) workflow
+
+== Background
+
+Software development is all about communication. Nowadays distributed teams working together on the
+same project located in different countries or continents. To stream line the communication process
+tools like Code Review Systems should provide a great benefit and make "what is next" action obvious
+and easy to understand for all participants. In this context it is crucial to make it clear for
+change owner and reviewers, that the action is taken, without reading over dozen of patch sets
+and/or communication threads within a change.
+
+The major channels for code review process are notification firehouse and change dashboard.
+From the moment where it is clear to the review process participants, that the change in its current
+state is not ready, also called as work-in-progress (wip) and it is a waste of time to look at it
+for the next time, the change is marked as being in special state wip until the change owner decides
+that the change is in ready state. The implication of the change to be in wip state is:
+
+* notification firehouse is turned off for wip changes: no mail sent to reviewers when new patch set
+is uploaded
+* reviewers's dashboards ignore the wip changes
+
+== Objective and Requirements
+
+GIT:
+
+* git push option is exposed to upload a change as wip:
+
+git push -o wip origin HEAD:refs/for/master
+
+* magic branch options is exposed:
+
+git push origin HEAD:refs/for/master%wip
+
+Note, that `ready` option is the default and thus not exposed. So that if new patch set for wip
+change is uploaded without passing the wip option, the wip bit is cleared.
+
+SSH:
+
+* ssh gerrit review command is extended with --workinprogress option
+* ssh gerrit review command is extended with --readyforreview option
+
+REST endpoints:
+
+* Mark a change as Work In Progress
+  POST /changes/{change-id}/set-wip
+
+Request:
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/set-wip HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message": "Refactoring needs to be done before we can proceed here."
+  }
+
+* Mark a change as Ready For Review
+  POST /changes/{change-id}/set-ready
+
+Request:
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/set-ready HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message": "Refactoring is done."
+  }
+
+Discoverability
+
+* it should be possible to find wip changes per user with secondary index predicate.
+
+Further constrains:
+
+* Only change owner or admins should be able to change the ready/wip bit
+* Wip change cannot be merged
+* Wip bit cannot be set for merged changes
+
+User Interface:
+
+* WIP button is exposed on change screen, on button press, popup dialog is opened to add a message
+* Ready button is exposed on change screen, on button press, popup dialog is opened to add a message
+
+CI:
+
+Stream events are emited when a change wip bit is flipped:
+
+* WorkInProgressEvent
+* ReadyEvent
+
+== Design Proposal
+
+This is basically back-port of 4 years old OpenStack change on current master, but rename DRAFT
+state in Change.Status to WIP: https://gerrit-review.googlesource.com/36091
+
+* wip state and merged state are mutualy exclusive, as it shouldn't be possible to set wip bit on
+merged changes or merge changes in wip state. The natural way to achieve that is to let wip bit
+to be represented with the same enum: Change.State. We do not question that ABANDONED state is
+justified either.
+* this could be possible, when original DRAFT enum state is slated for removal in context of private
+changes workflow implementation
+* instead of removal of DRAFT enum, it could be renamed to WIP
+* that way it is clear that only the following transitions are possible:
+* add ABANDONE_WIP state as well, to allow new => wip => abandoned => wip transition and preserving
+the wip state
+
+NEW -> MEGED
+NEW -> ABANDONED
+NEW -> WIP -> NEW -> MERGED
+NEW -> WIP -> ABDANDONED_WIP -> WIP -> NEW -> MERGED
+
+1. Add new enum value ABANDONED_WIP to Change.State
+2. Rename DRAFT enum in Change.Status to WIP, with value "w" instead of "d"
+3. Rename magic branch from %draft to %wip
+4. Discontinue visibiliy constraints for draft workflow incarnation as WIP worklfow
+5. Dicontinue any removal semantic, of WIP changes
+6. Old Publish draft command would mean: setting status of the change to new
+7. Old Delete draft command would mean: setting the status of th change to wip, withot deleteing anything
+8. the query with predicate status:wip would be the same as status:draft
+9. Migration path:
+   remove draft field from PatchSet and repalce removed status "d" with status "w" in Change.State.
+   This would effectively publish all draft changes and draft pacth sets:
+   update changes set status='w' where status='d';
+
+== Alternative Design Proposal: Semantical transition of current DRAFT to WIP
+
+* add boolean bit wip to Change class
+* persist wip in footer field
+* add WIP secondary index field
+* adjust reviewers predicate to filter out wip changes
+* when sending mails don't send anything if the wip bit is set
+* add UI for flipping WIP bit in GWT UI and PG UI
+* send notification when wip bit is changed
+* Migration path:
+  remove draft field from PatchSet, remove DRAFT from Change.Status. This would effectively publish
+  all draft changes and draft pacth sets:
+  update changes set status='n' where status='d';
+
+== Implementation limitation
+
+* Primary designed porposal
+Change.Status already exists in RviewDb so that this approach is going to work for both backends:
+NoteDb and ReviewDB
+
+* Alternative Design Proposal:
+New wip bit in change entity is implemented only in NoteDb (similar to hashtags feature).
+No ReviewDb integration for alternative design proposal is planned.
+
+== Previous work:
+
+* First attempt to implement the WIP workflow in gerrit core was based on extending Change.Status
+enum with new value WIP
+* Followed up by attempt to extend the Change.Status enum with new value WIP in Gerrit core, but
+extract the WIP feature as a plugin
+* Followed up by adding configuration option to disable draft workflow with
+`changes.allowdrafts=false` in gerrit core, to abuse the free change status value for WIP workflow,
+implemented in wip plugin
+
+== Alternative considered
+
+* Dedicated label can be used, with vote permission granted to change owner only, combined with
+customized dashboard to filter out negative votes on this label
+* Abuse existing label, say CRVW and interpret the blocking-Vote of change owner as virtual WIP
+state. With secondary index label-predicate extension, i added recently, this query can be
+expressed as:
+
+  label:Code-Review-2,owner
+
+Dashboards could be customized to filter out those changes.
+
+Note that in both altenative approaches, only Dashboard filtering issues is addressed. Turning off
+the Notification Firehouse problem is unsolved, unfortunately. Also plugins, see below, cannot guess
+and react on WIP changes.
+
+Pluggability:
+
+Existig plugins that extend notification firehouse (reviewers, owners and friends) may respect the
+wip bit and ignore sending mail for wip changes.
+
+ETA:
+
+ASAP, hopefully, this long-standing feature request could make it in the next Gerrit release (2.14,
+at the time of this writing).

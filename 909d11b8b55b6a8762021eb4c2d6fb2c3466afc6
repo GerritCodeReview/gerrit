@@ -94,6 +94,54 @@
       "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "544733cc_5fafa8ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T13:02:49Z",
+      "side": 1,
+      "message": "\u003e \u003e * 1. DARFT -\u003e /dev/null\n \u003e \u003e * 2. DRAFT -\u003e private changes workflow\n \u003e \u003e * 3. DRAFT -\u003e work in progress workflow\n \u003e \n \u003e Yes, if this is decided by the project owner (or admin), all of\n \u003e those should work.\n \u003e Only if we would need to decide for one, then I would go for 3.\n \u003e since it\u0027s the most restrictive migration, and hence least\n \u003e surprising for users. We would like to use 3. for all of our\n \u003e servers.\n\nYou meant 2. right? ;-) As in 3. (WIP case) the changes would be published and visible for all users and not only change reviewers, as it was the case with draft workflow.",
+      "parentUuid": "010c796b_fe2edf47",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05f2c0d6_8d71305d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T13:02:49Z",
+      "side": 1,
+      "message": "Indeed ;-) Actually a trivial problem, that is surprisingly hard to solve as a plugin. One advantage to make it core feature though, is that other plugins could respect the wip bit, say reviewers plugin, or owners or find_owners and friends. They could consider the wip bit is set, and turn off the notification firehouse. It would be even harder to do if wip is a plugin, as we still don\u0027t support inter-plugin dependencies, that sounds like a topic of another Gerrit Hackathon.\n\nHowever, the implementation in *core* for wip workflow would be really straight forward:\n\n* add boolean bit wip to Change\n* allow to pass wip git option on push:\n\n  git push -o wip origin HEAD:refs/for/master\n\nand set this bit on Change instance\n\n* persist this as footer field\n* add isWip secondary index field, to find all my wip changes\n* adjust reviewers predicate to filter out all wip changes\n* when sending mails don\u0027t send anything if the wip bit is set\n* Add UI for flipping WIP bit in GWT UI and PG UI\n\nFurther constraints, as pointed out by Edwin:\n\n* Changes with WIP bit set, cannot be merged (well, we could probably ignore it for now, to simplify implementation)\n* For merged changes WIP bit cannot be set\n\nAny volunteers to help with implementations/reviews of the WIP workflow? ;-)",
+      "parentUuid": "d4780989_29958d7c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

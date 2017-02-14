@@ -1001,9 +1001,73 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
   }
 
+  @Test
+  public void pushCommitWithSameChangeIdAsPredecessorChange() throws Exception {
+    PushOneCommit push =
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    RevCommit commitChange1 = r.getCommit();
+
+    createCommit(testRepo, commitChange1.getFullMessage());
+
+    pushForReviewRejected(
+        testRepo,
+        "same Change-Id in multiple changes.\n"
+            + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
+            + " commit");
+
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(project, config);
+
+    pushForReviewRejected(
+        testRepo,
+        "same Change-Id in multiple changes.\n"
+            + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
+            + " commit");
+  }
+
+  @Test
+  public void pushTwoCommitWithSameChangeId() throws Exception {
+    RevCommit commitChange1 = createCommitWithChangeId(testRepo, "some change");
+
+    createCommit(testRepo, commitChange1.getFullMessage());
+
+    pushForReviewRejected(
+        testRepo,
+        "same Change-Id in multiple changes.\n"
+            + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
+            + " commit");
+
+    ProjectConfig config = projectCache.checkedGet(project).getConfig();
+    config.getProject().setRequireChangeID(InheritableBoolean.FALSE);
+    saveProjectConfig(project, config);
+
+    pushForReviewRejected(
+        testRepo,
+        "same Change-Id in multiple changes.\n"
+            + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
+            + " commit");
+  }
+
   private static RevCommit createCommit(TestRepository<?> testRepo, String message)
       throws Exception {
     return testRepo.branch("HEAD").commit().message(message).add("a.txt", "content").create();
+  }
+
+  private static RevCommit createCommitWithChangeId(TestRepository<?> testRepo, String message)
+      throws Exception {
+    RevCommit c =
+        testRepo
+            .branch("HEAD")
+            .commit()
+            .message(message)
+            .insertChangeId()
+            .add("a.txt", "content")
+            .create();
+    return testRepo.getRevWalk().parseCommit(c);
   }
 
   @Test

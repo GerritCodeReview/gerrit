@@ -22,6 +22,30 @@
       "revId": "4e6e45f6d78c047103b39ed7d7953c14e1b1aace",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec85e913_a139e509",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T13:05:51Z",
+      "side": 1,
+      "message": "Yes; you can find the email I sent about this was Cc\u0027d to our internal list.\n\nI\u0027m still waiting for confirmation for the right words to put in this commit message.",
+      "parentUuid": "a1479f70_1b98ea47",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "4e6e45f6d78c047103b39ed7d7953c14e1b1aace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

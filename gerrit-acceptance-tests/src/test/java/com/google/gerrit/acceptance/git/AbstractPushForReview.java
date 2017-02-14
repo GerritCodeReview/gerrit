@@ -866,6 +866,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushAFewChanges() throws Exception {
+    testPushAFewChanges();
+  }
+
+  @Test
+  public void pushAFewChangesWithCreateNewChangeForAllNotInTarget() throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testPushAFewChanges();
+  }
+
+  private void testPushAFewChanges() throws Exception {
     int n = 10;
     String r = "refs/for/master";
     ObjectId initialHead = testRepo.getRepository().resolve("HEAD");

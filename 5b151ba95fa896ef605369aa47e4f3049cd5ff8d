@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "59fa6ef8_95c72208",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T09:20:03Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "187d4a9a_985352e1",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 54
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cfceba7_20ef0684",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 11
@@ -308,6 +332,30 @@
       "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f812c07_e1f0ea31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T09:20:03Z",
+      "side": 1,
+      "message": "Okay. I think that in principle we agree in opinion. Let\u0027s keep the code as it is.",
+      "parentUuid": "ccfc2534_93484008",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "5b151ba95fa896ef605369aa47e4f3049cd5ff8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

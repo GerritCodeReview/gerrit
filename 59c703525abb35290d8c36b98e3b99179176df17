@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1522a8b7_54acf916",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T16:29:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5315870_8a3011ee",
+      "range": {
+        "startLine": 5,
+        "startChar": 49,
+        "endLine": 5,
+        "endChar": 56
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcc709d7_3f5f151c",
         "filename": "Documentation/proposal-wip.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-14T16:11:20Z",
       "side": 1,
       "message": "obvious",
+      "range": {
+        "startLine": 7,
+        "startChar": 93,
+        "endLine": 7,
+        "endChar": 99
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "506f4b8f_d2bfa7a2",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T16:29:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcc709d7_3f5f151c",
       "range": {
         "startLine": 7,
         "startChar": 93,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "68a1fc2c_7c12f0c3",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T16:29:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99bda2ed_27c677b5",
+      "range": {
+        "startLine": 15,
+        "startChar": 49,
+        "endLine": 15,
+        "endChar": 51
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79f7d29e_eaa33378",
         "filename": "Documentation/proposal-wip.txt",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-14T16:11:20Z",
       "side": 1,
       "message": "dashboard ignores\n\nor\n\ndashboards ignore",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccd64c0_e90eae0d",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T16:29:58Z",
+      "side": 1,
+      "message": "I fixed it already in next patch set.",
+      "parentUuid": "79f7d29e_eaa33378",
       "range": {
         "startLine": 20,
         "startChar": 2,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "c2987275_d83b1c54",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T16:29:58Z",
+      "side": 1,
+      "message": "copy/paste. Done",
+      "parentUuid": "37aaf8b6_84b3b980",
+      "range": {
+        "startLine": 32,
+        "startChar": 9,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad83ffa8_845f692e",
         "filename": "Documentation/proposal-wip.txt",
         "patchSetId": 2
@@ -128,6 +248,24 @@
       "writtenOn": "2017-02-14T16:11:20Z",
       "side": 1,
       "message": "Or an admin in exceptional cases?",
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b66e706_cbcb8834",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T16:29:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad83ffa8_845f692e",
       "revId": "59c703525abb35290d8c36b98e3b99179176df17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "b5b92157_8072e26f",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T16:29:58Z",
+      "side": 1,
+      "message": "Fixed already.",
+      "parentUuid": "10149d54_046297bb",
+      "range": {
+        "startLine": 75,
+        "startChar": 28,
+        "endLine": 75,
+        "endChar": 34
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45efada4_c50eec31",
         "filename": "Documentation/proposal-wip.txt",
         "patchSetId": 2
@@ -168,6 +330,24 @@
       "writtenOn": "2017-02-14T16:11:20Z",
       "side": 1,
       "message": "what does this mean?",
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34b97e92_bb7ff2de",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T16:29:58Z",
+      "side": 1,
+      "message": "To persist new wip value in NoteDb, grep for e.g.: FOOTER_STATUS.",
+      "parentUuid": "45efada4_c50eec31",
       "revId": "59c703525abb35290d8c36b98e3b99179176df17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

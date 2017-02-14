@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93ea9833_8aee606d",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-14T11:02:53Z",
+      "side": 1,
+      "message": "Does this depend on [1] being merged first?\n\n[1] https://gerrit-review.googlesource.com/97236",
+      "range": {
+        "startLine": 738,
+        "startChar": 19,
+        "endLine": 739,
+        "endChar": 29
+      },
+      "revId": "c106f1a1f9e410c8905f54b9773a56c17f07fa14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

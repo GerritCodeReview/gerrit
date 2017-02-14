@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67939eff_ace455a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T12:46:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e62d09f_63ce17ff",
+      "revId": "a891c20c919912bc5e3726b853e4fcb96bc30b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5f6908b_9ae60ab8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3aec084f_06eb1f86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T12:46:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a5f6908b_9ae60ab8",
+      "revId": "a891c20c919912bc5e3726b853e4fcb96bc30b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e5c8f8_e946d685",
         "filename": "gerrit-gpg/BUILD",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2017-02-14T12:38:47Z",
       "side": 1,
       "message": "Given this is now without neverlink \u003d 1, this will end up in gerrit.war right? Yet, the download.config wasn\u0027t adapted:\n\n  gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config:  url \u003d https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.56/bcprov-jdk15on-1.56.jar\n  gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config:  remove \u003d bcprov-.*[.]jar",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 36
+      },
+      "revId": "a891c20c919912bc5e3726b853e4fcb96bc30b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b31c3961_59582a08",
+        "filename": "gerrit-gpg/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T12:46:56Z",
+      "side": 1,
+      "message": "updated the libraries.config as well.",
+      "parentUuid": "87e5c8f8_e946d685",
       "range": {
         "startLine": 22,
         "startChar": 8,

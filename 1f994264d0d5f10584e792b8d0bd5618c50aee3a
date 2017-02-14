@@ -111,6 +111,24 @@
       "revId": "1f994264d0d5f10584e792b8d0bd5618c50aee3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e3ff619_b2598174",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-14T10:19:28Z",
+      "side": 1,
+      "message": "I think that\u0027s not possible, because at this place we don\u0027t know which open changes (C1) exist.",
+      "parentUuid": "571ae5e4_50973ac5",
+      "revId": "1f994264d0d5f10584e792b8d0bd5618c50aee3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

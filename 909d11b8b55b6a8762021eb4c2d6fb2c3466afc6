@@ -70,6 +70,30 @@
       "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4780989_29958d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T12:41:44Z",
+      "side": 1,
+      "message": "\u003e I agree, we can still move these workflow supports out into a\n \u003e plugins later. No need to keep them in core forever.\n\nLooks like the concept of workflow support is a good candidate for the Munich hackathon :-)",
+      "parentUuid": "010c796b_fe2edf47",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

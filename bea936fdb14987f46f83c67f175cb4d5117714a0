@@ -70,6 +70,30 @@
       "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5873df4a_d447cdac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-14T13:08:11Z",
+      "side": 1,
+      "message": "Ah okay, I missed this. But then \"author:Foo \u003cfoo.bar@baz.com\u003e\" would match \"Other \u003cfoo.bar@baz.com\u003e\" (if 2 users would use the same email)?\n\nCould we use SchemaUtil.getNameParts(String, Iterable\u003cString\u003e) and then have an \u0027and\u0027 query with AuthorPredicates for all name parts?",
+      "parentUuid": "38755f1d_7af200df",
+      "range": {
+        "startLine": 1051,
+        "startChar": 21,
+        "endLine": 1051,
+        "endChar": 23
+      },
+      "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

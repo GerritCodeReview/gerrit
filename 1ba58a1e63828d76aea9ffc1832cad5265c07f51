@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "0221d90b_cb101018",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T09:46:12Z",
+      "side": 1,
+      "message": "Take a look at tests which use com.google.gerrit.server.project.Util#allow or AbstractDaemonTest#allowGlobalCapabilities.",
+      "parentUuid": "c6924079_79539bb4",
+      "range": {
+        "startLine": 407,
+        "startChar": 2,
+        "endLine": 419,
+        "endChar": 3
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13284669_59a05c9b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 9
@@ -363,6 +387,24 @@
       "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fff8c933_53b34f9e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T09:46:12Z",
+      "side": 1,
+      "message": "See my comment above on how to adjust permissions. Examples for the mentioned tests are contained in ChangeIT.",
+      "parentUuid": "51e5bf3d_86f641ab",
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

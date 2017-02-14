@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5315870_8a3011ee",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T16:11:20Z",
+      "side": 1,
+      "message": "Nowadays",
+      "range": {
+        "startLine": 5,
+        "startChar": 49,
+        "endLine": 5,
+        "endChar": 56
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcc709d7_3f5f151c",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T16:11:20Z",
+      "side": 1,
+      "message": "obvious",
+      "range": {
+        "startLine": 7,
+        "startChar": 93,
+        "endLine": 7,
+        "endChar": 99
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99bda2ed_27c677b5",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T16:11:20Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 15,
+        "startChar": 49,
+        "endLine": 15,
+        "endChar": 51
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79f7d29e_eaa33378",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T16:11:20Z",
+      "side": 1,
+      "message": "dashboard ignores\n\nor\n\ndashboards ignore",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37aaf8b6_84b3b980",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T16:11:20Z",
+      "side": 1,
+      "message": "I guess this is not needed when the %wip option is used?",
+      "range": {
+        "startLine": 32,
+        "startChar": 9,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad83ffa8_845f692e",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T16:11:20Z",
+      "side": 1,
+      "message": "Or an admin in exceptional cases?",
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10149d54_046297bb",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T16:11:20Z",
+      "side": 1,
+      "message": "merged",
+      "range": {
+        "startLine": 75,
+        "startChar": 28,
+        "endLine": 75,
+        "endChar": 34
+      },
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45efada4_c50eec31",
+        "filename": "Documentation/proposal-wip.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T16:11:20Z",
+      "side": 1,
+      "message": "what does this mean?",
+      "revId": "59c703525abb35290d8c36b98e3b99179176df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bcfa0d5e_f3b2dff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-14T00:21:56Z",
+      "side": 1,
+      "message": "Nit: I think imgur links belong more in the change discussion than in the commit message. The commit message will stuck around for eternity. Imgur pages, OTOH will not.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "0847b0868b143af6fd111c56337354e5d9af314c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a391543_18aaa448",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
         "patchSetId": 3

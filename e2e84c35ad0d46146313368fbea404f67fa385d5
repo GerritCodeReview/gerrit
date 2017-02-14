@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "040c310e_27647de5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-14T19:46:44Z",
+      "side": 1,
+      "message": "You\u0027re right, I overlooked that case. Thanks.",
+      "parentUuid": "fca95051_a2ae3fc1",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0093cde8_fffbb4a8",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddb76d1d_4709e66d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-14T19:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0093cde8_fffbb4a8",
+      "range": {
+        "startLine": 314,
+        "startChar": 31,
+        "endLine": 314,
+        "endChar": 44
+      },
+      "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "11fef3b4_fb80fe4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-14T19:46:44Z",
+      "side": 1,
+      "message": "Yeah, I like this better. I didn\u0027t put too much thought into this because I\u0027ve never seen a file with more than, say, ten comments on it for a given patchset, but this approach is a bit more legible too.",
+      "parentUuid": "cfbb4bc5_53ce3601",
+      "range": {
+        "startLine": 317,
+        "startChar": 4,
+        "endLine": 317,
+        "endChar": 28
+      },
+      "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf69ad0_c0993cdf",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "dc5e830e_c9ffc656",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-14T19:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf69ad0_c0993cdf",
+      "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4da72f2d_5e5b7be3",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2
@@ -102,6 +192,24 @@
       "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e0cccf4_64cbd677",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-14T19:46:44Z",
+      "side": 1,
+      "message": "To be honest, this was code that helped me debug that I couldn\u0027t hit even if I tried, so I think it\u0027s removable.",
+      "parentUuid": "4da72f2d_5e5b7be3",
+      "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

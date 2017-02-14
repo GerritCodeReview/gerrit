@@ -1,0 +1,111 @@
+= Proposal for Work In Progress (WIP) workflow
+
+== Background
+
+Software development is all about communication. Nowaday distributed teams working together on the
+same project located in different countries or continents. To stream line the communication process
+tools like Code Review Systems should provide a great benefit and make "what is next" action obious
+and easy to understand for all participants. In this context it is crucial to make it clear for
+change owner and reviewers, that the action is taken, without reading over dozen of patch sets
+and/or comunication threads within a change.
+
+The major channels for code review process are notification firehouse and change dashboard.
+From the moment where it is clear to the review process participants, that the change in its current
+state is not ready, also called as work-in-progress (wip) and it is a waste of time to look at it
+for the next time, the change is marked as being is special state wip until the change owner decides
+that the change is in ready state. The implication of the change to be in wip state is:
+
+* notification firehouse is turned off for wip changes: no mail sent to reviewers when new patch set
+is uploaded
+* reviewers's dashboards ignore the wip changes
+
+== Objective and Requirements
+
+GIT:
+
+* git push option is exposed to upload a change as wip:
+
+git push -o wip origin HEAD:refs/for/master
+
+* magic branch options is exposed:
+
+git push -o wip origin HEAD:refs/for/master%wip
+
+Note, that ready option is the default and thus not exposed. So that if new patch set for wip
+change is uploaded without passing the wip option, the wip bit is cleared.
+
+SSH:
+
+* ssh gerrit review command is extended with --workinprogress option
+* ssh gerrit review command is extended with --readyforreview option
+
+REST endpoints:
+
+* Mark a change as Work In Progress
+  POST /changes/{change-id}/set-wip
+
+Request:
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/set-wip HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message": "Refactoring needs to be done before we can proceed here."
+  }
+
+* Mark a change as Ready For Review
+  POST /changes/{change-id}/set-ready
+
+Request:
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/set-ready HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message": "Refactoring is done."
+  }
+
+Discoverability
+
+* it should be possible to find wip changes per user with secondary index predicate
+
+Further constrains:
+
+* Only change owner should be able to change the ready/wip bit
+* Wip change cannot be merged
+* Wip bit cannot be set for merged changes
+
+User Interface:
+
+* WIP button is exposed on change screen, on button press, popup dialog is opened to add a message
+* Ready button is exposed on change screen, on button press, popup dialog is opened to add a message
+
+CI:
+
+Stream events are emited when a wip bit is flipped on a change:
+
+* WorkInProgressEvent
+* ReadyEvent
+
+== Design Proposal
+
+* add boolean bit wip to Change class
+* persist wip in footer field
+* add WIP secondary index field
+* adjust reviewers predicate to filter out wip changes
+* when sending mails don't send anything if the wip bit is set
+* add UI for flipping WIP bit in GWT UI and PG UI
+* send notification when wip bit is changed
+
+== Implementation limitation
+
+This feature is implemented only in NoteDb (similar to hashtags feature).
+Nor ReviewDb integration is planned.
+
+== Previous work:
+
+* First attempt to implement the WIP workflow in gerrit core was based on extending Change.Status
+enum with new value WIP
+* Followed up by attempt to extend the Change.Status enum with new value WIP in Gerrit core, but
+extract the WIP feature as a plugin
+* Followed up by adding configuration option to disable draft workflow with
+`changes.allowdrafts=false` in gerrit core, to abuse the free change status value for WIP workflow,
+implemented in wip plugin

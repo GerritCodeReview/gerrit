@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae341241_5ca08e02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T10:24:38Z",
+      "side": 1,
+      "message": "The logic is a bit different than with patch set 13 (which always returned the result of checkPassword()). Is this intended?",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "218e3599_b6693d9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T10:24:38Z",
+      "side": 1,
+      "message": "optional: I just realized that having codec and secureRandom as static final would be better. We don\u0027t intend to change them during runtime. If you insert the final modifier, please leave the name of the fields as is and don\u0027t switch to capital letters.",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 16
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2167c299_6d31e861",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T10:24:38Z",
+      "side": 1,
+      "message": "That\u0027s again a static call on an object. Why don\u0027t you use codec.decode(..)?",
+      "range": {
+        "startLine": 61,
+        "startChar": 18,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44abf448_78f16464",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T10:24:38Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 65,
+        "startChar": 30,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "556005fb_96a86c54",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T10:24:38Z",
+      "side": 1,
+      "message": "nit: Please remove the unused imports.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

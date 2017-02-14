@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d6bdd43_35bcc3ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-14T07:52:17Z",
+      "side": 1,
+      "message": "Let me add \"migration\" to this list :)\n\nI think the hard parts about removing support for drafts are:\n\n1. smooth transition for users that use drafts today\n2. migration of existing draft changes and patch sets\n\nRegarding 1. there are 2 use cases for which users do use drafts:\n\na) As a staging area for preparing a change (or patch set, although it doesn\u0027t really work for patch sets) before it gets visible to other users. For this users upload a draft change, self-review it in Gerrit and publish it when they think it\u0027s ready. While such a self-review could be done locally with Git command line users prefer to look at their change in Gerrit before publishing as this is the tool they are used to. I think this use-case can be well covered by using change edits, but I think there are a few things for change edits that we need to implement first (e.g. allow having a change that only consists out of a change edit).\n\nb) Collaborate with other users in private. E.g. two users that do pair programming develop a change together and they upload early versions of the change so that they can exchange work, but those early versions are not ready for review yet, hence they want to have them as a draft. This is something that you can\u0027t do with change edits since change edits are not visible to other users. A poor mans solution for this would be to have a \"WIP\" marker in the commit message, but this wouldn\u0027t avoid sending out email to watchers etc.. There are also requests for being able to develop security fixes in private and publish them only after merge. This is something that you can\u0027t do with draft changes today, but also not with change edits. Our idea to solve this is to introduce a new concept for private changes, where the privacy is controlled by a bit on the change, and not a change status [1]. This alone may not be enough justification for implementing this in core, but we also need private changes for the migration (see below).\n\nRegarding 2. there are some problems:\n\na) We can\u0027t just make all existing draft changes public. That would be very unexpected for users that relied on the restricted visibility of draft changes. \n\nb) We can\u0027t delete all existing draft changes, because users don\u0027t want to loose this data.\n\nc) We can\u0027t convert all draft changes and draft patch sets to change edits. Since you can have only a single change edit on a change, this migration would fail if the user already has a change edit, or if there are multiple draft patch sets on the change.\n\nWe think a good solution for this would be to convert them to private changes, but other ideas are welcome. However converting draft changes to private changes requires us to implement private changes as a feature in Gerrit core (although otherwise it would be nice to implement this as a plugin).\n\nAnother aspect regarding 2. is NoteDb. In NoteDb the draft information is stored in the change meta branches. To remove/modify this draft data we must rewrite the history of all change meta branches.\n\nAlso we may want to cleanup project configs and remove draft related permissions from them for all projects.\n\nI guess everyone agrees that drafts don\u0027t work well and that we want to remove the support for the draft workflow. However first I really want to have clarity about how the existing draft use cases are covered when drafts are gone and how the migration problem will be solved. \n\n[1] https://gerrit-review.googlesource.com/94557",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

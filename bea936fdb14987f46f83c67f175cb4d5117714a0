@@ -94,6 +94,30 @@
       "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88cceaa4_df90123c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-14T15:53:19Z",
+      "side": 1,
+      "message": "Actually, I\u0027m not sure it\u0027s better to use AND here. If we use AND, then the results will be empty when querying by \u003cname\u003e or querying by \u003cemail\u003e is empty. \n\n\nThis action is different from what we have in \"owner:\", \"reviewer:\", etc. In these search operators, we first try to extract \u003cemail\u003e, \u003cusername\u003e or \u003cFull Name\u003e from the query text and use them to find possible accounts [2]. Then we use these accountIds to query and *UNION* the results [1].\n\n\nSo we can get the same results for query: \"owner:Chang \u003cxchangcheng@google.com\u003e\" and \"owner: Changcheng Xiao \u003cxchangcheng@google.com\u003e\".\n\n\nSo if we apply SchemaUtil.getNameParts(String, Iterable\u003cString\u003e) only on the FullName part, we may use AND to get the results. But we may still can\u0027t get the results user wants. e.g., \"author: Foo Bar\" will be split into: \"foo\", \"bar\". \"author: Bar Foo\" will be split into the same. So these two queries will get the same results. We don\u0027t like this, I guess. \n\n\nThe above is why I only extract and query by the email address as an additional query.\n\n\n\n[1] ChangeQueryBuilder::owner()\n[2] AccounntResolver::findAll()",
+      "parentUuid": "5873df4a_d447cdac",
+      "range": {
+        "startLine": 1051,
+        "startChar": 21,
+        "endLine": 1051,
+        "endChar": 23
+      },
+      "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

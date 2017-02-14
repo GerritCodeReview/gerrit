@@ -22,6 +22,30 @@
       "revId": "c106f1a1f9e410c8905f54b9773a56c17f07fa14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f565ccf_765fcdbc",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-14T11:50:12Z",
+      "side": 1,
+      "message": "Yup, but the only effect would be a broken link. Let\u0027s wait anyways.",
+      "parentUuid": "93ea9833_8aee606d",
+      "range": {
+        "startLine": 738,
+        "startChar": 19,
+        "endLine": 739,
+        "endChar": 29
+      },
+      "revId": "c106f1a1f9e410c8905f54b9773a56c17f07fa14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "12949883_60ec2484",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T11:40:16Z",
+      "side": 1,
+      "message": "added comment.",
+      "parentUuid": "ae341241_5ca08e02",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "218e3599_b6693d9f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 15
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "33e6e6db_17291da6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T11:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "218e3599_b6693d9f",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 16
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2167c299_6d31e861",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 15
@@ -59,6 +107,30 @@
       "writtenOn": "2017-02-14T10:24:38Z",
       "side": 1,
       "message": "That\u0027s again a static call on an object. Why don\u0027t you use codec.decode(..)?",
+      "range": {
+        "startLine": 61,
+        "startChar": 18,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0afc06a_cc584e32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T11:40:16Z",
+      "side": 1,
+      "message": "duh, I thought I fixed that. Now really fixed.",
+      "parentUuid": "2167c299_6d31e861",
       "range": {
         "startLine": 61,
         "startChar": 18,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "293fcee2_9858c1f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T11:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44abf448_78f16464",
+      "range": {
+        "startLine": 65,
+        "startChar": 30,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "556005fb_96a86c54",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
         "patchSetId": 15
@@ -114,6 +210,30 @@
       "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b77720b6_2f9c1650",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/HashedPasswordTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-14T11:40:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "556005fb_96a86c54",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "b5f30fb12e5bec6d331f60c63f1f9c9030fa42cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

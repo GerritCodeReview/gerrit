@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67a1a87a_e5025cca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T00:35:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "be0160e8_bd8dce1f",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04627843_6d485438",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-13T23:48:58Z",
       "side": 1,
       "message": "their",
+      "range": {
+        "startLine": 887,
+        "startChar": 38,
+        "endLine": 887,
+        "endChar": 43
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d611fe4c_0d83096b",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T00:35:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "04627843_6d485438",
       "range": {
         "startLine": 887,
         "startChar": 38,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fb4e45cf_f3be4cb4",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T00:35:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "325772a8_1084a44c",
+      "range": {
+        "startLine": 887,
+        "startChar": 55,
+        "endLine": 888,
+        "endChar": 38
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80ed66b7_8cc027e0",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 9
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-13T23:48:58Z",
       "side": 1,
       "message": "confused",
+      "range": {
+        "startLine": 890,
+        "startChar": 28,
+        "endLine": 890,
+        "endChar": 37
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34c3eabc_d65caefc",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T00:35:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "80ed66b7_8cc027e0",
       "range": {
         "startLine": 890,
         "startChar": 28,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "df62096a_7c2df649",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1779,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T00:35:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "18e0f207_fd01326f",
+      "range": {
+        "startLine": 1778,
+        "startChar": 0,
+        "endLine": 1779,
+        "endChar": 27
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "892d1f05_bcdae915",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9
@@ -128,6 +248,30 @@
       "writtenOn": "2017-02-13T23:48:58Z",
       "side": 1,
       "message": "Please re-wrap the entire paragraph at \u003c80 columns.",
+      "range": {
+        "startLine": 1778,
+        "startChar": 0,
+        "endLine": 1782,
+        "endChar": 37
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fadeeba0_17c560da",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T00:35:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "892d1f05_bcdae915",
       "range": {
         "startLine": 1778,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "c6924079_79539bb4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T00:35:04Z",
+      "side": 1,
+      "message": "How do i do that please? I\u0027ve been looking for tests that do something similar to what is being asked here, but i carn\u0027t find any.",
+      "parentUuid": "faff166c_4d08de17",
+      "range": {
+        "startLine": 407,
+        "startChar": 2,
+        "endLine": 419,
+        "endChar": 3
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13284669_59a05c9b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 9
@@ -174,6 +342,24 @@
       "writtenOn": "2017-02-13T23:48:58Z",
       "side": 1,
       "message": "We also need to test that a user with Delete Own Change permission\n\n- cannot delete another user\u0027s change\n\n- cannot delete their own merged change",
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51e5bf3d_86f641ab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T00:35:04Z",
+      "side": 1,
+      "message": "Oh, how do i do that please?",
+      "parentUuid": "13284669_59a05c9b",
       "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

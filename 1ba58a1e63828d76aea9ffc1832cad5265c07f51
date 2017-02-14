@@ -447,6 +447,24 @@
       "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "732b5ea8_e6a21667",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T15:00:38Z",
+      "side": 1,
+      "message": "Ignore my comment, sorry.",
+      "parentUuid": "8696c3fa_5c68df6b",
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

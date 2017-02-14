@@ -14,6 +14,12 @@
 (function() {
   'use strict';
 
+  // Eagerly render Polymer components when backgrounded. (Skips
+  // requestAnimationFrame.)
+  // @see https://github.com/Polymer/polymer/issues/3851
+  // TODO(Issue 4699): Reassess after Polymer 2.0 upgrade.
+  Polymer.RenderStatus._makeReady();
+
   Polymer({
     is: 'gr-app',
 
@@ -67,6 +73,7 @@
     },
 
     attached: function() {
+      this.$.router.start();
       this.$.restAPI.getAccount().then(function(account) {
         this._account = account;
       }.bind(this));

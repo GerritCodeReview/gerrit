@@ -23,6 +23,30 @@
       "revId": "1f994264d0d5f10584e792b8d0bd5618c50aee3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74d19fc8_22f43132",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-14T09:36:58Z",
+      "side": 1,
+      "message": "Did you compare against the base? This line is actually not changed by this change.",
+      "parentUuid": "9ad52236_e5cedd42",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 94
+      },
+      "revId": "1f994264d0d5f10584e792b8d0bd5618c50aee3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

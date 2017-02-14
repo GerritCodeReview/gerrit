@@ -355,6 +355,30 @@
     },
     {
       "key": {
+        "uuid": "436bb66a_87cbb1f4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T14:59:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0221d90b_cb101018",
+      "range": {
+        "startLine": 407,
+        "startChar": 2,
+        "endLine": 419,
+        "endChar": 3
+      },
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13284669_59a05c9b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 9
@@ -405,6 +429,24 @@
       "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8696c3fa_5c68df6b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-14T14:59:41Z",
+      "side": 1,
+      "message": "Oh, looking at the current patch, it looks like users can delete other users changes if they are granted the Delete Own Changes permission.\n\nHow do i get it so that it only allows you to delete your own changes please?",
+      "parentUuid": "13284669_59a05c9b",
+      "revId": "1ba58a1e63828d76aea9ffc1832cad5265c07f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

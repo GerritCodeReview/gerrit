@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95c22497_94b39feb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-14T15:39:58Z",
+      "side": 1,
+      "message": "FWIW I think this was the only historical reason for the \"open repo\" naming: I wanted to emphasize that all repos should be opened eagerly early in the process.\n\nBut I completely agree with this change and your reasoning, there is no need to make this distinction in MergeOpRepoManager. I do like keeping the name openRepo for this particular method in MergeOp, but you\u0027ve done that, so that\u0027s great :)",
+      "revId": "4eae398019d1dfe75cedfe433fe3f9c4c195737d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

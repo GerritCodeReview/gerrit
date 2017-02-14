@@ -22,6 +22,30 @@
       "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c33d40_0c4f6c66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T10:16:52Z",
+      "side": 1,
+      "message": "\u003e Let me add \"migration\" to this list :)\n\n:-) see below.\n\n\u003e Regarding 1. there are 2 use cases for which users do use drafts:\n\u003e a) As a staging area for preparing a change ...\n\nI agree, it should be enough to use edits, be able to delete regular changes, and delete regular patch sets (not possible now, but see accepted issue i linked to).\n\n\u003e b) Collaborate with other users in private.\n\nYes it\u0027s possible now. However, this hiding and high secrecy on public repositories feature, so to say to hide changes from own team members, is all very specialized workflow and IMO, it could be easily lost, as with early gerrit migrations:\n\n* Old change screen migration to new change screen lost some features\n* Google abandoned OpenID 2, there was this announcement, done: [1].\n\nI volunteer to write a similar announcement to dev mailing list about removal of draft workflow.\n\n\u003e a) We can\u0027t just make all existing draft changes public\n\nSure we can:\n\n  update changes set status \u003d \u0027n\u0027 where status \u003d \u0027d\u0027\n\nTo make this migration path less painful, we could release intermediate gerrit version where, unconditionally, we warn when users upload drafts changes:\n\n  git push origin HEAD:refs/drafts/master\n\nwith:\n\n  WARNING: the draft workflow is deprecated and is subject to be removed in future gerrit releases.\n\n\u003e We think a good solution for this would be to convert them to private changes, but other ideas are welcome. \n\nAs I said on Patrick\u0027s proposal, i do not fully understand private/protected changes feature request from previous Google code review systems. Is the private bit is sticky? Can private change be turned from private to public? Visa versa?\n\nCan I do this:\n\n* regular change with number of regular patch set is uploaded\n* suddenly someone thinks it\u0027s high secret, at that point change owner has three options:\n\n* 1. remove the regular patch set that turned the change to be high secret\n* 2. remove the change\n* 3. set non-sticky private bit\n\nCan private change be merged? If yes, what happens if I pull the commit from the repository? How could I see the communication thread of private change, if I am a team member, but wasn\u0027t explicitly added as a reviewer of this change. Or should the private change be turned to non-private first before merging? Should I be able to turn private change after it was merged, but x years passed to non private?\n\nIf all transition in every step: before upload, after upload, before merge from non-private to public and visa versa is possible, then the Work-In-Progress (WIP) workflow is very similar: to flip a bit from wip to non wip (ready).\n\nThe only difference between wip and private changes workflows is the implication of flipping the bit: in private/protected changes, all you want is to behave exactly like in draft workflow (please, correct me, if I got it wrong): restrict the visibility. In WIP workflow all what is needed, to shut down the mail firehouse, and take that change down from all reviewers dashboards.\n\nOne migration scenario that I could imagine would be then:\n\n* implement private change workflow\n* implement wip workflow\n\nDefine draft migration strategy (if wanted, it could be even done per project base) to be one of:\n\n* 1. DARFT -\u003e /dev/null\n* 2. DRAFT -\u003e private changes workflow\n* 3. DRAFT -\u003e work in progress workflow\n\nChallenge: it would be very tough time frame to do both alternative workflows as a plugins or gerrit libraries, new extension approach Luca suggested during last hackathon.\n\nIf Chromium team urgently needs that private changes workflow, another option/compromise would be to *temporarily* add both workflows (private changes|wip) to core, make it configurable, to unblock chromium migration. Later add missing extension points and extract those workflows as plugins/libraries, + allow alternative workflows based on change fields.\n\n* [1] https://groups.google.com/d/msg/repo-discuss/Hjn-6BV3KBU/utFpx47DP5MJ",
+      "parentUuid": "3d6bdd43_35bcc3ae",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

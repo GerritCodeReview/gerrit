@@ -46,6 +46,30 @@
       "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb146c15_a7b2f84d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-14T13:03:04Z",
+      "side": 1,
+      "message": "And also query by Fullname is not working. You can try like \"author: Changcheng Xiao\", you will get empty. I haven\u0027t found the reason for this fail yet.",
+      "parentUuid": "e2a9e190_671202f4",
+      "range": {
+        "startLine": 1051,
+        "startChar": 21,
+        "endLine": 1051,
+        "endChar": 23
+      },
+      "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

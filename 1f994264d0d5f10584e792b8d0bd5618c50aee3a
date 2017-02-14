@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3411f653_19347efa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T10:11:56Z",
+      "side": 1,
+      "message": "What about the case where user edited the complete series and the base change should also get a new patch-set. Does this already work as expected?",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "1f994264d0d5f10584e792b8d0bd5618c50aee3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ad52236_e5cedd42",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 5
@@ -68,6 +91,23 @@
         "endLine": 106,
         "endChar": 94
       },
+      "revId": "1f994264d0d5f10584e792b8d0bd5618c50aee3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "571ae5e4_50973ac5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-14T10:11:56Z",
+      "side": 1,
+      "message": "I haven\u0027t yet reviewed this code but have a question: looking at how the all-not-in-target feature was implemented [1], it actually made use of the %base option (magicBranch.baseCommit). By neatly setting the %base it achieved what it wanted.\n\nHave you considered (re)using the same approach? For example if the series is: C1 \u003c C2, and only C2 needs to be updated then setting %base\u003dC1 would likely do the trick.\n\n[1] https://gerrit-review.googlesource.com/#/c/59909/14/gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
       "revId": "1f994264d0d5f10584e792b8d0bd5618c50aee3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

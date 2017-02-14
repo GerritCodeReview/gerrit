@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "16d5ca7a_6517a013",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-14T14:13:52Z",
+      "side": 1,
+      "message": "Yes, added a test for this in the predecessor commit.",
+      "parentUuid": "3411f653_19347efa",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "1f994264d0d5f10584e792b8d0bd5618c50aee3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ad52236_e5cedd42",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 5

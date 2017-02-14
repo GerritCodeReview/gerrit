@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1486125804 +0100\nnonce AHDV6Gnz2F52KgOJ/NJpk8B2h3KnNjK+IU+L+Nqyq9JVjHNRTCgdhomGO0NVz458iHPyfRYayK01\n\n0000000000000000000000000000000000000000 bf3279f45a9be554b4edabebf8fdec337709bbf2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYlHrsAAoJEFG1/Zeg0O9RcFgIAJ1pvbZwymguTPWTB6frAHrY\nw1Bjj9XP9Vs55sPODvZaLq0g+giBSaGk1c2wkYY7Ymb8m8ylOC8efKoiECnYm+sa\nzjHL5u16bvOSW1Xz0TNZr8aCh8pk523qZ8Daw6gI3Vko+n53RtCN17HWYsOCupI3\n56FR/htMF5HAg2EZ1y9GrJfd4D6xFZmvELBhnF573gSz9ROdhVPNbHpPvsgJO93R\n+osfyiOMScKS3f/So6SessgybdZs4/Ub+MFBKAjynv6OFl+ciTacNvtPD7t7TJLg\nTQzFzDEX3Cx4cQjzsvqpL8XKi1+ukAKrlg+IMHYfB6BDHym3s85B5P/q7A409Ws\u003d\n\u003dv/M7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ae439a2_eb8c030f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-14T09:12:42Z",
+      "side": 1,
+      "message": "This must be a LinkedHashMap so that the insertion order is kept.\n\nDone.",
+      "range": {
+        "startLine": 1681,
+        "startChar": 45,
+        "endLine": 1681,
+        "endChar": 61
+      },
+      "revId": "bf3279f45a9be554b4edabebf8fdec337709bbf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

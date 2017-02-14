@@ -57,10 +57,12 @@ import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -85,6 +87,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -1059,13 +1062,29 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> author(String who) {
-    return new AuthorPredicate(who);
+  public Predicate<ChangeData> author(String who) throws QueryParseException {
+    Set<String> nameEmailParts = parseNameEmail(who);
+
+    if (nameEmailParts.isEmpty()) {
+      throw error("Value for 'author' operator is required");
+    }
+
+    List<Predicate<ChangeData>> predicates =
+        nameEmailParts.stream().map(s -> new AuthorPredicate(s)).collect(Collectors.toList());
+    return Predicate.and(predicates);
   }
 
   @Operator
-  public Predicate<ChangeData> committer(String who) {
-    return new CommitterPredicate(who);
+  public Predicate<ChangeData> committer(String who) throws QueryParseException {
+    Set<String> nameEmailParts = parseNameEmail(who);
+
+    if (nameEmailParts.isEmpty()) {
+      throw error("Value for 'committer' operator is required");
+    }
+
+    List<Predicate<ChangeData>> predicates =
+        nameEmailParts.stream().map(s -> new CommitterPredicate(s)).collect(Collectors.toList());
+    return Predicate.and(predicates);
   }
 
   @Operator
@@ -1160,6 +1179,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     throw error("Change " + value + " not found");
+  }
+
+  private Set<String> parseNameEmail(String nameEmail) {
+    Set<String> nameEmailParts = new HashSet<>();
+
+    try {
+      Address address = Address.parse(nameEmail);
+      if (address.getEmail() != null) {
+        nameEmailParts.add(address.getEmail());
+      }
+    } catch (IllegalArgumentException e) {
+      // Fail to extract email address, then use NameEmail parts to query.
+    }
+
+    nameEmailParts.addAll(SchemaUtil.getNameParts(nameEmail));
+    return nameEmailParts;
   }
 
   private static String parseChangeId(String value) {

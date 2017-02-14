@@ -190,6 +190,29 @@
       "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76220d01_0e849c16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-14T21:41:29Z",
+      "side": 1,
+      "message": "This is wrong removal. This change has nothing to do with daft workflow, but with draft comments. The same index version 38 should stay.",
+      "range": {
+        "startLine": 95,
+        "startChar": 55,
+        "endLine": 95,
+        "endChar": 74
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

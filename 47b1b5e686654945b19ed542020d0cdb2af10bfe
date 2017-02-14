@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d42befce_c82b0f4c",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-14T11:48:59Z",
+      "side": 1,
+      "message": "I always forget that constants aren\u0027t reordered automatically :/ Done.\n\nIt\u0027s needed because of @Nullable used in FakeEmailSender. Given that we have it in almost all packages already, it made sense to me to move it to this shared list.",
+      "parentUuid": "d3c8eb2c_5a94dd4d",
+      "revId": "47b1b5e686654945b19ed542020d0cdb2af10bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd410ba5_72f00b28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-14T11:07:28Z",
       "side": 1,
       "message": "consider importing this as static",
+      "range": {
+        "startLine": 158,
+        "startChar": 72,
+        "endLine": 158,
+        "endChar": 81
+      },
+      "revId": "47b1b5e686654945b19ed542020d0cdb2af10bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cebd510b_10f13aed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-14T11:48:59Z",
+      "side": 1,
+      "message": "I would rather leave this as it is, since we (mostly) have the enums referenced like that",
+      "parentUuid": "bd410ba5_72f00b28",
       "range": {
         "startLine": 158,
         "startChar": 72,

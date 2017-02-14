@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7e31d36_4dd2866b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-14T17:45:18Z",
+      "side": 1,
+      "message": "Agreed, I\u0027ll take that out.",
+      "parentUuid": "bcfa0d5e_f3b2dff6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "0847b0868b143af6fd111c56337354e5d9af314c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a391543_18aaa448",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
         "patchSetId": 3

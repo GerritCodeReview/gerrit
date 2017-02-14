@@ -166,6 +166,30 @@
       "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3477d396_60ce47bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-14T13:16:51Z",
+      "side": 1,
+      "message": "\u003e Indeed ;-) Actually a trivial problem, that is surprisingly hard to\n \u003e solve as a plugin. One advantage to make it core feature though, is\n \u003e that other plugins could respect the wip bit, say reviewers plugin,\n \u003e or owners or find_owners and friends. They could consider the wip\n \u003e bit is set, and turn off the notification firehouse. It would be\n \u003e even harder to do if wip is a plugin, as we still don\u0027t support\n \u003e inter-plugin dependencies, that sounds like a topic of another\n \u003e Gerrit Hackathon.\n\nRight, this is another unsolved problem with doing it as a plugin.\n\n \u003e \n \u003e However, the implementation in *core* for wip workflow would be\n \u003e really straight forward:\n \u003e \n \u003e * add boolean bit wip to Change\n \u003e * allow to pass wip git option on push:\n \u003e \n \u003e git push -o wip origin HEAD:refs/for/master\n \u003e \n \u003e and set this bit on Change instance\n \u003e \n \u003e * persist this as footer field\n \u003e * add isWip secondary index field, to find all my wip changes\n \u003e * adjust reviewers predicate to filter out all wip changes\n \u003e * when sending mails don\u0027t send anything if the wip bit is set\n \u003e * Add UI for flipping WIP bit in GWT UI and PG UI\n \u003e \n \u003e Further constraints, as pointed out by Edwin:\n \u003e \n \u003e * Changes with WIP bit set, cannot be merged (well, we could\n \u003e probably ignore it for now, to simplify implementation)\n \u003e * For merged changes WIP bit cannot be set\n \u003e \n \u003e Any volunteers to help with implementations/reviews of the WIP\n \u003e workflow? ;-)\n\nSGTM, I\u0027m definitely interested in helping with reviews. \nI believe the PolyGerrit team also got feature requests for such a workflow. They should have a look at this proposal and see how this matches. Maybe we can then even help with the implementation.",
+      "parentUuid": "05f2c0d6_8d71305d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

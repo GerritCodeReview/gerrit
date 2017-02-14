@@ -16,6 +16,24 @@
       "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1019a5b1_65759fe2",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-14T17:38:58Z",
+      "side": 1,
+      "message": "\"owned by\" reads better to me also, so it\u0027s better this way in my opinion. I also interpreted -0 to mean mild (very mild?), and non blocking -1.\n\nI don\u0027t feel strongly, though. I\u0027m happy with whichever helps merge the change.\n\nIs there any reason to avoid the term \"owned\" in contexts like this? Maybe that wording discourages collaboration. Would \"originally created by\" be better in this regard?",
+      "parentUuid": "c7c5490e_b78aa6b0",
+      "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

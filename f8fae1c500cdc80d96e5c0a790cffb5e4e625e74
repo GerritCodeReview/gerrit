@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "14288808_41719d16",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/NotificationMailFormatIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-14T14:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3391db3_13002f88",
+      "range": {
+        "startLine": 31,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 64
+      },
+      "revId": "f8fae1c500cdc80d96e5c0a790cffb5e4e625e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a55032d_f46d478d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/NotificationMailFormatIT.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-14T14:29:46Z",
       "side": 1,
       "message": "why user? didn\u0027t admin set the preference to receive plaintext emails above?",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 43,
+        "endChar": 22
+      },
+      "revId": "f8fae1c500cdc80d96e5c0a790cffb5e4e625e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e6ff79c_51b5a5a0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/NotificationMailFormatIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-14T14:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a55032d_f46d478d",
       "range": {
         "startLine": 43,
         "startChar": 18,
@@ -82,6 +130,30 @@
       "writtenOn": "2017-02-14T14:29:46Z",
       "side": 1,
       "message": "both HTML and",
+      "range": {
+        "startLine": 64,
+        "startChar": 36,
+        "endLine": 64,
+        "endChar": 40
+      },
+      "revId": "f8fae1c500cdc80d96e5c0a790cffb5e4e625e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11d6b84a_5fdc6d7c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/NotificationMailFormatIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-14T14:33:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576693c0_ad9ef833",
       "range": {
         "startLine": 64,
         "startChar": 36,

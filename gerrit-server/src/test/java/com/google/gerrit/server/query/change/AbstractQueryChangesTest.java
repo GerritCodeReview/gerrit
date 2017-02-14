@@ -63,6 +63,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -110,6 +111,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -149,6 +151,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
+  @Inject protected AccountCache accountCache;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -176,8 +179,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
     Account userAccount = db.accounts().get(userId);
-    userAccount.setPreferredEmail("user@example.com");
+    userAccount.setPreferredEmail("john.doe@example.com");
+    userAccount.setFullName("John Doe");
     db.accounts().update(ImmutableList.of(userAccount));
+    accountCache.evict(userId);
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userAccount.getId()));
   }
@@ -399,56 +404,55 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byAuthor() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
-
-    // By exact email address
-    assertQuery("author:jauthor@example.com", change1);
-
-    // By email address part
-    assertQuery("author:jauthor", change1);
-    assertQuery("author:example", change1);
-    assertQuery("author:example.com", change1);
-
-    // By name part
-    assertQuery("author:Author", change1);
-
-    // Case insensitive
-    assertQuery("author:jAuThOr", change1);
-    assertQuery("author:ExAmPlE", change1);
-
-    // By non-existing email address / name / part
-    assertQuery("author:jcommitter@example.com");
-    assertQuery("author:somewhere.com");
-    assertQuery("author:jcommitter");
-    assertQuery("author:Committer");
+    byAuthorOrCommitter("author:");
   }
 
   @Test
   public void byCommitter() throws Exception {
+    byAuthorOrCommitter("committer:");
+  }
+
+  private void byAuthorOrCommitter(String searchOperator) throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    Change change1 = insert(repo, newChange(repo), userId);
+    Account userAccount = accountCache.get(userId).getAccount();
+    PersonIdent user = new PersonIdent(userAccount.getFullName(), userAccount.getPreferredEmail());
+    RevCommit commit =
+        repo.parseBody(repo.commit().message("message").author(user).committer(user).create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit), userId);
 
     // By exact email address
-    assertQuery("committer:jcommitter@example.com", change1);
+    assertQuery(searchOperator + "john.doe@example.com", change1);
+    assertQuery(searchOperator + "<john.doe@example.com>", change1);
 
     // By email address part
-    assertQuery("committer:jcommitter", change1);
-    assertQuery("committer:example", change1);
-    assertQuery("committer:example.com", change1);
+    assertQuery(searchOperator + "john.doe", change1);
+    assertQuery(searchOperator + "example", change1);
+    assertQuery(searchOperator + "example.com", change1);
+
+    // By exact name
+    assertQuery(searchOperator + "John Doe", change1);
 
     // By name part
-    assertQuery("committer:Committer", change1);
+    assertQuery(searchOperator + "John", change1);
+    assertQuery(searchOperator + "Doe", change1);
+
+    // By name email
+    assertQuery(searchOperator + "\"John Doe <john.doe@example.com>\"", change1);
+    assertQuery(searchOperator + "\"<john.doe@example.com> John Doe\"", change1);
 
     // Case insensitive
-    assertQuery("committer:jCoMmItTeR", change1);
-    assertQuery("committer:ExAmPlE", change1);
+    assertQuery(searchOperator + "john doe", change1);
+    assertQuery(searchOperator + "john.doe@ExAmple.com", change1);
 
     // By non-existing email address / name / part
-    assertQuery("committer:jauthor@example.com");
-    assertQuery("committer:somewhere.com");
-    assertQuery("committer:jauthor");
-    assertQuery("committer:Author");
+    assertQuery(searchOperator + "jo@example.com");
+    assertQuery(searchOperator + "somewhere.com");
+    assertQuery(searchOperator + "Smith");
+
+    // By wrong combination
+    assertQuery(searchOperator + "John Smith");
+    assertQuery(searchOperator + "\"Smith <john.doe@example.com>\"");
+    assertQuery(searchOperator + "\"John Doe <smith@example.com>\"");
   }
 
   @Test
@@ -1205,7 +1209,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("refs/heads/branch6", change6);
 
     Change[] expected = new Change[] {change6, change5, change4, change3, change2, change1};
-    assertQuery("user@example.com", expected);
+    assertQuery("john.doe@example.com", expected);
     assertQuery("repo", expected);
   }
 

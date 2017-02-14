@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3c8eb2c_5a94dd4d",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-14T11:07:28Z",
+      "side": 1,
+      "message": "nit: should be added before \"//gerrit-common:server\"\n\nis this change actually related?",
+      "revId": "47b1b5e686654945b19ed542020d0cdb2af10bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd410ba5_72f00b28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-14T11:07:28Z",
+      "side": 1,
+      "message": "consider importing this as static",
+      "range": {
+        "startLine": 158,
+        "startChar": 72,
+        "endLine": 158,
+        "endChar": 81
+      },
+      "revId": "47b1b5e686654945b19ed542020d0cdb2af10bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

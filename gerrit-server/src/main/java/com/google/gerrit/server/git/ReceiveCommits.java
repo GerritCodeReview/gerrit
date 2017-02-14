@@ -658,12 +658,14 @@ public class ReceiveCommits {
     }
 
     // Update superproject gitlinks if required.
-    try (MergeOpRepoManager orm = ormProvider.get()) {
-      orm.setContext(db, TimeUtil.nowTs(), user, receiveId);
-      SubmoduleOp op = subOpFactory.create(branches, orm);
-      op.updateSuperProjects();
-    } catch (SubmoduleException e) {
-      logError("Can't update the superprojects", e);
+    if (!branches.isEmpty()) {
+      try (MergeOpRepoManager orm = ormProvider.get()) {
+        orm.setContext(db, TimeUtil.nowTs(), user, receiveId);
+        SubmoduleOp op = subOpFactory.create(branches, orm);
+        op.updateSuperProjects();
+      } catch (SubmoduleException e) {
+        logError("Can't update the superprojects", e);
+      }
     }
 
     closeProgress.end();

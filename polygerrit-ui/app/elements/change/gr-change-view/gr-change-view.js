@@ -56,6 +56,7 @@
         value: function() { return {}; },
       },
       backPage: String,
+      hasParent: Boolean,
       serverConfig: Object,
       keyEventTarget: {
         type: Object,
@@ -829,7 +830,8 @@
 
     _updateRebaseAction: function(revisionActions) {
       if (revisionActions && revisionActions.rebase) {
-        this._rebaseOnCurrent = !!revisionActions.rebase.enabled;
+        revisionActions.rebase.rebaseOnCurrent =
+            !!revisionActions.rebase.enabled;
         revisionActions.rebase.enabled = true;
       }
       return revisionActions;

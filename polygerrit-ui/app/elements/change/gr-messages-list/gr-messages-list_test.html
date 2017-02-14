@@ -256,7 +256,7 @@ limitations under the License.
         id: '8c19ccc949c6d482b061be6a28e10782abf0e7af',
       }];
       element.messages = messages;
-      element.comments = comments
+      element.comments = comments;
       flushAsynchronousOperations();
       var messageEls = Polymer.dom(element.root).querySelectorAll('gr-message');
       assert.equal(messageEls.length, 1);

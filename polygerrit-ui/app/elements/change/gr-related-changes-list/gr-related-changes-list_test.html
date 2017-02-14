@@ -238,7 +238,9 @@ limitations under the License.
         element = fixture('basic');
 
         sandbox.stub(element, '_getRelatedChanges',
-            function() { return Promise.resolve(); });
+            function() {
+              return Promise.resolve({changes: []});
+            });
         sandbox.stub(element, '_getSubmittedTogether',
             function() { return Promise.resolve(); });
         sandbox.stub(element, '_getCherryPicks',
@@ -250,6 +252,7 @@ limitations under the License.
       test('request conflicts if open and mergeable', function() {
         element.patchNum = 7;
         element.change = {
+          change_id: 123,
           status: 'NEW',
           mergeable: true,
         };
@@ -260,6 +263,7 @@ limitations under the License.
       test('does not request conflicts if closed and mergeable', function() {
         element.patchNum = 7;
         element.change = {
+          change_id: 123,
           status: 'MERGED',
           mergeable: true,
         };
@@ -270,6 +274,7 @@ limitations under the License.
       test('does not request conflicts if open and not mergeable', function() {
         element.patchNum = 7;
         element.change = {
+          change_id: 123,
           status: 'NEW',
           mergeable: false,
         };
@@ -281,12 +286,30 @@ limitations under the License.
           function() {
         element.patchNum = 7;
         element.change = {
+          change_id: 123,
           status: 'MERGED',
           mergeable: false,
         };
         element.reload();
         assert.isFalse(conflictsStub.called);
       });
+    });
+
+    test('_calculateHasParent', function() {
+      var changeId = 123;
+      var relatedChanges = [];
+
+      assert.equal(element._calculateHasParent(changeId, relatedChanges),
+          false);
+
+      relatedChanges.push({change_id: 123});
+      assert.equal(element._calculateHasParent(changeId, relatedChanges),
+          false);
+
+      relatedChanges.push({change_id: 234});
+      assert.equal(element._calculateHasParent(changeId, relatedChanges),
+          true);
+
     });
   });
 </script>

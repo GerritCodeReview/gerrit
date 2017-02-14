@@ -19,7 +19,12 @@
 
     properties: {
       change: Object,
+      hasParent: {
+        type: Boolean,
+        notify: true,
+      },
       patchNum: String,
+      parentChange: Object,
       hidden: {
         type: Boolean,
         value: false,
@@ -56,6 +61,10 @@
       var promises = [
         this._getRelatedChanges().then(function(response) {
           this._relatedResponse = response;
+
+          this.hasParent = this._calculateHasParent(this.change.change_id,
+            response.changes);
+
         }.bind(this)),
         this._getSubmittedTogether().then(function(response) {
           this._submittedTogether = response;
@@ -86,6 +95,20 @@
       return Promise.all(promises).then(function() {
         this._loading = false;
       }.bind(this));
+    },
+
+    /**
+     * Determines whether or not the given change has a parent change. If there
+     * is a relation chain, and the change id is not the last item of the
+     * relation chain, there is a parent.
+     * @param  {Number} currentChangeId
+     * @param  {Array} relatedChanges
+     * @return {Boolean}
+     */
+    _calculateHasParent: function(currentChangeId, relatedChanges) {
+      return relatedChanges.length > 0 &&
+          relatedChanges[relatedChanges.length - 1].change_id !==
+          currentChangeId;
     },
 
     _getRelatedChanges: function() {

@@ -31,6 +31,8 @@
 
     properties: {
       base: String,
+      branch: String,
+      hasParent: Boolean,
       clearParent: {
         type: Boolean,
         value: false,

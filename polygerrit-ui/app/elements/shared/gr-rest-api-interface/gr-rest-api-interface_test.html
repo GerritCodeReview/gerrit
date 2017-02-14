@@ -383,19 +383,36 @@ limitations under the License.
           ]);
     });
 
-    test('rebase always enabled', function(done) {
+    suite('rebase action', function() {
       var resolveFetchJSON;
-      sandbox.stub(element, 'fetchJSON').returns(
-          new Promise(function(resolve) {
-            resolveFetchJSON = resolve;
-          }));
-      element.getChangeRevisionActions('42', '1337').then(
+      setup(function() {
+        sandbox.stub(element, 'fetchJSON').returns(
+            new Promise(function(resolve) {
+              resolveFetchJSON = resolve;
+            }));
+      });
+
+      test('no rebase on current', function(done) {
+        element.getChangeRevisionActions('42', '1337').then(
           function(response) {
             assert.isTrue(response.rebase.enabled);
+            assert.isFalse(response.rebase.rebaseOnCurrent);
             done();
           });
-      resolveFetchJSON({rebase: {}});
+        resolveFetchJSON({rebase: {}});
+      });
+
+      test('rebase on current', function(done) {
+        element.getChangeRevisionActions('42', '1337').then(
+          function(response) {
+            assert.isTrue(response.rebase.enabled);
+            assert.isTrue(response.rebase.rebaseOnCurrent);
+            done();
+          });
+        resolveFetchJSON({rebase: {enabled: true}});
+      });
     });
+
 
     test('server error', function(done) {
       var getResponseObjectStub = sandbox.stub(element, 'getResponseObject');

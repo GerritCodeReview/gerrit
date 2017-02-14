@@ -707,6 +707,37 @@ commands that need to be copied frequently, such as the Change-Ids, commit IDs
 and download commands. Note that this option is only shown if the Flash plugin
 is available and the JavaScript Clipboard API is unavailable.
 
+[[reply-by-email]]
+== Reply by Email
+
+Gerrit sends out email notifications to users and supports parsing back replies
+on some of them.
++
+Gerrit supports replies on these notification emails:
+- Notifications about new comments
+- Notifications about new labels that were applied or removed
++
+While Gerrit supports a wide range of email clients, the following ones have
+been tested and are known to work:
+- Gmail
+- Gmail Mobile
++
+Gerrit supports parsing back all comment types that can be applied to a change
+via the WebUI:
+- Change messages
+- Inline comments
+- File comments
++
+Please note that comments can only be sent in reply to a comment in the original
+notification email, while the change message is independent of those.
++
+Gerrit supports parsing a user's reply from both HTML and plaintext. Please note
+that some email clients extract the text from the HTML email they have received
+and send this back as a quoted reply if you have set the client to plaintext
+mode. In this case, Gerrit only supports parsing a change message. To work
+around this issue, consider setting a <<email-format,User Preference>> to
+receive only plaintext emails.
+
 [[my-menu]]
 In addition it is possible to customize the menu entries of the `My`
 menu. This can be used to make the navigation to frequently used

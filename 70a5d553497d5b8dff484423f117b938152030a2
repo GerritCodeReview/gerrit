@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5fbd2964_d0b38a72",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-14T12:21:53Z",
+      "side": 1,
+      "message": "Any further ideas?",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 80
+      },
+      "revId": "70a5d553497d5b8dff484423f117b938152030a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c06c0ac7_d7715c43",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 17

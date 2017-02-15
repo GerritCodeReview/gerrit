@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "70fc9e2a_0b5600b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-15T21:13:50Z",
+      "side": 1,
+      "message": "I agree. I\u0027ve seen animations used in the past, but I\u0027m not entirely sure if we can do that since the entire template is restamped.",
+      "parentUuid": "89260a1f_4ece19d2",
+      "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49b4d9da_89315b81",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 4
@@ -53,6 +71,24 @@
       "writtenOn": "2017-02-15T20:04:06Z",
       "side": 1,
       "message": "It feels weird to me that if I had a certain number of messages visible (let\u0027s say the ones that are not \u0027automated\u0027 are visible\n\nAnd then I toggle \u0027show automated\u0027, that I don\u0027t see the 8 messages below.  In this case, I would have expected messages to display the previous list length + the number of automated messages in between.\n\n1\n--automated\n2\n3\n4\n--automated\n5\n6\n7\n--automated",
+      "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32bc58f2_bdac0e00",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-15T21:13:50Z",
+      "side": 1,
+      "message": "This behavior does actually happen. The message list \u0027messages\u0027 is actually the _computedMessagesList, which is itself mutated based on whether or not automated messages are shown. Unless I\u0027m misunderstanding?",
+      "parentUuid": "49b4d9da_89315b81",
       "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

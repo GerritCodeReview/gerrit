@@ -65,7 +65,7 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MailProcessor {
-  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
 
   private final AccountByEmailCache accountByEmailCache;
   private final BatchUpdate.Factory buf;

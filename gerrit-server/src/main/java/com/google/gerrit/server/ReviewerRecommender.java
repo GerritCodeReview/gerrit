@@ -65,7 +65,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ReviewerRecommender {
-  private static final Logger log = LoggerFactory.getLogger(ReviewersUtil.class);
+  private static final Logger log = LoggerFactory.getLogger(ReviewerRecommender.class);
   private static final double BASE_REVIEWER_WEIGHT = 10;
   private static final double BASE_OWNER_WEIGHT = 1;
   private static final double BASE_COMMENT_WEIGHT = 0.5;

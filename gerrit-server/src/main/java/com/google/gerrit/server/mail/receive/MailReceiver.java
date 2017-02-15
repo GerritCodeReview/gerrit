@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 
 /** MailReceiver implements base functionality for receiving emails. */
 public abstract class MailReceiver implements LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(MailReceiver.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(MailReceiver.class);
 
   protected EmailSettings mailSettings;
   protected Set<String> pendingDeletion;

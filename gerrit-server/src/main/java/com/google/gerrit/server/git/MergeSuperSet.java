@@ -72,7 +72,7 @@ import org.slf4j.LoggerFactory;
  * included.
  */
 public class MergeSuperSet {
-  private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
+  private static final Logger log = LoggerFactory.getLogger(MergeSuperSet.class);
 
   public static void reloadChanges(ChangeSet cs) throws OrmException {
     // Clear exactly the fields requested by query() below.

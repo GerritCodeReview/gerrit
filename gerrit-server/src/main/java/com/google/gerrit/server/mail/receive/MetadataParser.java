@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 /** Parse metadata from inbound email */
 public class MetadataParser {
-  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
 
   public static MailMetadata parse(MailMessage m) {
     MailMetadata metadata = new MailMetadata();

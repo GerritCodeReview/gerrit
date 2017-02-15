@@ -1,0 +1,418 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61da025e_80981883",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Remove this word.",
+      "range": {
+        "startLine": 276,
+        "startChar": 52,
+        "endLine": 276,
+        "endChar": 56
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b146600_66506946",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "open or abandoned",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 276,
+        "endChar": 10
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ce5a1a2_c1ba3f59",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "they",
+      "range": {
+        "startLine": 277,
+        "startChar": 56,
+        "endLine": 277,
+        "endChar": 59
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6356954_a614e815",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Drop this part of the sentence.",
+      "range": {
+        "startLine": 277,
+        "startChar": 81,
+        "endLine": 277,
+        "endChar": 115
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "528cf325_dbcf3f2a",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Insert link as below for the \"Delete Drafts\" permission.",
+      "range": {
+        "startLine": 277,
+        "startChar": 20,
+        "endLine": 277,
+        "endChar": 38
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51d3e5a6_090a2828",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "nit: Line too long.",
+      "range": {
+        "startLine": 277,
+        "startChar": 68,
+        "endLine": 277,
+        "endChar": 135
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "741aabac_bb233bdf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Replace with\n\n allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, \"refs/*\");",
+      "range": {
+        "startLine": 410,
+        "startChar": 0,
+        "endLine": 413,
+        "endChar": 36
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "357e4f79_0666fb5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Wrap that part in a try-statement and include a finally containing:\n\n removePermission(Permission.DELETE_OWN_CHANGES, project, \"refs/*\");",
+      "range": {
+        "startLine": 415,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 41
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d12a2652_7aab4dbf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Move this test below deleteNewChangeOfAnotherUserAsAdmin() and rename this test to deleteNewChangeOfAnotherUserWithDeleteOwnChangesPermission() to be more consistent.",
+      "range": {
+        "startLine": 427,
+        "startChar": 14,
+        "endLine": 427,
+        "endChar": 83
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a5839d1_b712d603",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 428,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 36
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4293868_411577bc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Replace with\n\n createChange()",
+      "range": {
+        "startLine": 434,
+        "startChar": 8,
+        "endLine": 434,
+        "endChar": 80
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "146ffc1e_c881833e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Wrap that part in a try-statement as described above.",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 441,
+        "endChar": 41
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1854c8e8_ddeda8db",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "@TestProjectInput(cloneAs \u003d \"user\") is missing.",
+      "range": {
+        "startLine": 444,
+        "startChar": 2,
+        "endLine": 444,
+        "endChar": 7
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a39f009_d3d3bb64",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Move this test below deleteMergedChange().",
+      "range": {
+        "startLine": 445,
+        "startChar": 14,
+        "endLine": 445,
+        "endChar": 64
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b931063_3d9b162d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 446,
+        "startChar": 0,
+        "endLine": 449,
+        "endChar": 36
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bda903e_14cb4758",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Should be\n\n pushFactory.create(db, user.getIdent(), testRepo).to(\"refs/for/master\");",
+      "range": {
+        "startLine": 451,
+        "startChar": 40,
+        "endLine": 451,
+        "endChar": 55
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28896a58_28a15df8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Insert before this line:\n\n setApiUser(user);",
+      "range": {
+        "startLine": 457,
+        "startChar": 4,
+        "endLine": 457,
+        "endChar": 7
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f20c0099_faaf6cc7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-15T09:39:22Z",
+      "side": 1,
+      "message": "Wrap that part in a try-statement as described above.",
+      "range": {
+        "startLine": 451,
+        "startChar": 0,
+        "endLine": 459,
+        "endChar": 41
+      },
+      "revId": "c0e1e736204b4a28f29b430ab9ce7c664c5c3378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

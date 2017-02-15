@@ -27,7 +27,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;

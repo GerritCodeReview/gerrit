@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.account.ExternalId.Key.toAccountExternalIdKeys;
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
-import static com.google.gerrit.server.account.ExternalIds.MAX_NOTE_SZ;
-import static com.google.gerrit.server.account.ExternalIds.readNoteMap;
-import static com.google.gerrit.server.account.ExternalIds.readRevision;
+import static com.google.gerrit.server.account.externalids.ExternalId.Key.toAccountExternalIdKeys;
+import static com.google.gerrit.server.account.externalids.ExternalId.toAccountExternalIds;
+import static com.google.gerrit.server.account.externalids.ExternalIds.MAX_NOTE_SZ;
+import static com.google.gerrit.server.account.externalids.ExternalIds.readNoteMap;
+import static com.google.gerrit.server.account.externalids.ExternalIds.readRevision;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -98,21 +98,27 @@ public class ExternalIdsUpdate {
   public static class Server {
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
+    private final ExternalIdCache externalIdCache;
     private final Provider<PersonIdent> serverIdent;
 
     @Inject
     public Server(
         GitRepositoryManager repoManager,
         AllUsersName allUsersName,
+        ExternalIds externalIds,
+        ExternalIdCache externalIdCache,
         @GerritPersonIdent Provider<PersonIdent> serverIdent) {
       this.repoManager = repoManager;
       this.allUsersName = allUsersName;
+      this.externalIds = externalIds;
+      this.externalIdCache = externalIdCache;
       this.serverIdent = serverIdent;
     }
 
     public ExternalIdsUpdate create() {
       PersonIdent i = serverIdent.get();
-      return new ExternalIdsUpdate(repoManager, allUsersName, i, i);
+      return new ExternalIdsUpdate(repoManager, allUsersName, externalIds, externalIdCache, i, i);
     }
   }
 
@@ -126,6 +132,8 @@ public class ExternalIdsUpdate {
   public static class User {
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
+    private final ExternalIdCache externalIdCache;
     private final Provider<PersonIdent> serverIdent;
     private final Provider<IdentifiedUser> identifiedUser;
 
@@ -133,10 +141,14 @@ public class ExternalIdsUpdate {
     public User(
         GitRepositoryManager repoManager,
         AllUsersName allUsersName,
+        ExternalIds externalIds,
+        ExternalIdCache externalIdCache,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
         Provider<IdentifiedUser> identifiedUser) {
       this.repoManager = repoManager;
       this.allUsersName = allUsersName;
+      this.externalIds = externalIds;
+      this.externalIdCache = externalIdCache;
       this.serverIdent = serverIdent;
       this.identifiedUser = identifiedUser;
     }
@@ -144,7 +156,12 @@ public class ExternalIdsUpdate {
     public ExternalIdsUpdate create() {
       PersonIdent i = serverIdent.get();
       return new ExternalIdsUpdate(
-          repoManager, allUsersName, createPersonIdent(i, identifiedUser.get()), i);
+          repoManager,
+          allUsersName,
+          externalIds,
+          externalIdCache,
+          createPersonIdent(i, identifiedUser.get()),
+          i);
     }
 
     private PersonIdent createPersonIdent(PersonIdent ident, IdentifiedUser user) {
@@ -153,8 +170,8 @@ public class ExternalIdsUpdate {
   }
 
   @VisibleForTesting
-  public static RetryerBuilder<Void> retryerBuilder() {
-    return RetryerBuilder.<Void>newBuilder()
+  public static RetryerBuilder<ObjectId> retryerBuilder() {
+    return RetryerBuilder.<ObjectId>newBuilder()
         .retryIfException(e -> e instanceof LockFailureException)
         .withWaitStrategy(
             WaitStrategies.join(
@@ -163,34 +180,50 @@ public class ExternalIdsUpdate {
         .withStopStrategy(StopStrategies.stopAfterDelay(10, TimeUnit.SECONDS));
   }
 
-  private static final Retryer<Void> RETRYER = retryerBuilder().build();
+  private static final Retryer<ObjectId> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final ExternalIds externalIds;
+  private final ExternalIdCache externalIdCache;
   private final PersonIdent committerIdent;
   private final PersonIdent authorIdent;
   private final Runnable afterReadRevision;
-  private final Retryer<Void> retryer;
+  private final Retryer<ObjectId> retryer;
 
   private ExternalIdsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
+      ExternalIds externalIds,
+      ExternalIdCache externalIdCache,
       PersonIdent committerIdent,
       PersonIdent authorIdent) {
-    this(repoManager, allUsersName, committerIdent, authorIdent, Runnables.doNothing(), RETRYER);
+    this(
+        repoManager,
+        allUsersName,
+        externalIds,
+        externalIdCache,
+        committerIdent,
+        authorIdent,
+        Runnables.doNothing(),
+        RETRYER);
   }
 
   @VisibleForTesting
   public ExternalIdsUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
+      ExternalIds externalIds,
+      ExternalIdCache externalIdCache,
       PersonIdent committerIdent,
       PersonIdent authorIdent,
       Runnable afterReadRevision,
-      Retryer<Void> retryer) {
+      Retryer<ObjectId> retryer) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.allUsersName = checkNotNull(allUsersName, "allUsersName");
     this.committerIdent = checkNotNull(committerIdent, "committerIdent");
+    this.externalIds = checkNotNull(externalIds, "externalIds");
+    this.externalIdCache = checkNotNull(externalIdCache, "externalIdCache");
     this.authorIdent = checkNotNull(authorIdent, "authorIdent");
     this.afterReadRevision = checkNotNull(afterReadRevision, "afterReadRevision");
     this.retryer = checkNotNull(retryer, "retryer");
@@ -216,12 +249,14 @@ public class ExternalIdsUpdate {
       throws IOException, ConfigInvalidException, OrmException {
     db.accountExternalIds().insert(toAccountExternalIds(extIds));
 
-    updateNoteMap(
-        o -> {
-          for (ExternalId extId : extIds) {
-            insert(o.rw(), o.ins(), o.noteMap(), extId);
-          }
-        });
+    ObjectId newRev =
+        updateNoteMap(
+            o -> {
+              for (ExternalId extId : extIds) {
+                insert(o.rw(), o.ins(), o.noteMap(), extId);
+              }
+            });
+    externalIdCache.onCreate(newRev, extIds);
   }
 
   /**
@@ -243,12 +278,14 @@ public class ExternalIdsUpdate {
       throws IOException, ConfigInvalidException, OrmException {
     db.accountExternalIds().upsert(toAccountExternalIds(extIds));
 
-    updateNoteMap(
-        o -> {
-          for (ExternalId extId : extIds) {
-            upsert(o.rw(), o.ins(), o.noteMap(), extId);
-          }
-        });
+    ObjectId newRev =
+        updateNoteMap(
+            o -> {
+              for (ExternalId extId : extIds) {
+                upsert(o.rw(), o.ins(), o.noteMap(), extId);
+              }
+            });
+    externalIdCache.onUpdate(newRev, extIds);
   }
 
   /**
@@ -273,12 +310,14 @@ public class ExternalIdsUpdate {
       throws IOException, ConfigInvalidException, OrmException {
     db.accountExternalIds().delete(toAccountExternalIds(extIds));
 
-    updateNoteMap(
-        o -> {
-          for (ExternalId extId : extIds) {
-            remove(o.rw(), o.noteMap(), extId);
-          }
-        });
+    ObjectId newRev =
+        updateNoteMap(
+            o -> {
+              for (ExternalId extId : extIds) {
+                remove(o.rw(), o.noteMap(), extId);
+              }
+            });
+    externalIdCache.onRemove(newRev, extIds);
   }
 
   /**
@@ -302,18 +341,20 @@ public class ExternalIdsUpdate {
       throws IOException, ConfigInvalidException, OrmException {
     db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(extIdKeys));
 
-    updateNoteMap(
-        o -> {
-          for (ExternalId.Key extIdKey : extIdKeys) {
-            remove(o.rw(), o.noteMap(), accountId, extIdKey);
-          }
-        });
+    ObjectId newRev =
+        updateNoteMap(
+            o -> {
+              for (ExternalId.Key extIdKey : extIdKeys) {
+                remove(o.rw(), o.noteMap(), accountId, extIdKey);
+              }
+            });
+    externalIdCache.onRemove(newRev, accountId, extIdKeys);
   }
 
   /** Deletes all external IDs of the specified account. */
   public void deleteAll(ReviewDb db, Account.Id accountId)
       throws IOException, ConfigInvalidException, OrmException {
-    delete(db, ExternalId.from(db.accountExternalIds().byAccount(accountId).toList()));
+    delete(db, externalIds.byAccount(db, accountId));
   }
 
   /**
@@ -338,16 +379,18 @@ public class ExternalIdsUpdate {
     db.accountExternalIds().deleteKeys(toAccountExternalIdKeys(toDelete));
     db.accountExternalIds().insert(toAccountExternalIds(toAdd));
 
-    updateNoteMap(
-        o -> {
-          for (ExternalId.Key extIdKey : toDelete) {
-            remove(o.rw(), o.noteMap(), accountId, extIdKey);
-          }
+    ObjectId newRev =
+        updateNoteMap(
+            o -> {
+              for (ExternalId.Key extIdKey : toDelete) {
+                remove(o.rw(), o.noteMap(), accountId, extIdKey);
+              }
 
-          for (ExternalId extId : toAdd) {
-            insert(o.rw(), o.ins(), o.noteMap(), extId);
-          }
-        });
+              for (ExternalId extId : toAdd) {
+                insert(o.rw(), o.ins(), o.noteMap(), extId);
+              }
+            });
+    externalIdCache.onReplaceByKeys(newRev, accountId, toDelete, toAdd);
   }
 
   /**
@@ -505,12 +548,12 @@ public class ExternalIdsUpdate {
     noteMap.remove(noteId);
   }
 
-  private void updateNoteMap(MyConsumer<OpenRepo> update)
+  private ObjectId updateNoteMap(MyConsumer<OpenRepo> update)
       throws IOException, ConfigInvalidException, OrmException {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = repo.newObjectInserter()) {
-      retryer.call(new TryNoteMapUpdate(repo, rw, ins, update));
+      return retryer.call(new TryNoteMapUpdate(repo, rw, ins, update));
     } catch (ExecutionException | RetryException e) {
       if (e.getCause() != null) {
         Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
@@ -521,14 +564,14 @@ public class ExternalIdsUpdate {
     }
   }
 
-  private void commit(
+  private ObjectId commit(
       Repository repo, RevWalk rw, ObjectInserter ins, ObjectId rev, NoteMap noteMap)
       throws IOException {
-    commit(repo, rw, ins, rev, noteMap, COMMIT_MSG, committerIdent, authorIdent);
+    return commit(repo, rw, ins, rev, noteMap, COMMIT_MSG, committerIdent, authorIdent);
   }
 
   /** Commits updates to the external IDs. */
-  public static void commit(
+  public static ObjectId commit(
       Repository repo,
       RevWalk rw,
       ObjectInserter ins,
@@ -581,6 +624,7 @@ public class ExternalIdsUpdate {
       default:
         throw new IOException("Updating external IDs failed with " + res);
     }
+    return commitId;
   }
 
   private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
@@ -606,7 +650,7 @@ public class ExternalIdsUpdate {
     abstract NoteMap noteMap();
   }
 
-  private class TryNoteMapUpdate implements Callable<Void> {
+  private class TryNoteMapUpdate implements Callable<ObjectId> {
     private final Repository repo;
     private final RevWalk rw;
     private final ObjectInserter ins;
@@ -621,7 +665,7 @@ public class ExternalIdsUpdate {
     }
 
     @Override
-    public Void call() throws Exception {
+    public ObjectId call() throws Exception {
       ObjectId rev = readRevision(repo);
 
       afterReadRevision.run();
@@ -629,8 +673,7 @@ public class ExternalIdsUpdate {
       NoteMap noteMap = readNoteMap(rw, rev);
       update.accept(OpenRepo.create(repo, rw, ins, noteMap));
 
-      commit(repo, rw, ins, rev, noteMap);
-      return null;
+      return commit(repo, rw, ins, rev, noteMap);
     }
   }
 }

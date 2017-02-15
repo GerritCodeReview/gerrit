@@ -22,6 +22,30 @@
       "revId": "7635930138ab75023a6661afdc25270704a95339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a4dd904_1d921bef",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-15T11:02:56Z",
+      "side": 0,
+      "message": "This is needed because the existing glob pattern does not pick up the resource in its new location, which results in the test failing due to not finding the list of TLDs.\n\nI decided to make it general so that it doesn\u0027t need to be adjusted again if we add other test resources in future.",
+      "parentUuid": "1a4b2306_8d054794",
+      "range": {
+        "startLine": 217,
+        "startChar": 67,
+        "endLine": 217,
+        "endChar": 71
+      },
+      "revId": "7635930138ab75023a6661afdc25270704a95339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

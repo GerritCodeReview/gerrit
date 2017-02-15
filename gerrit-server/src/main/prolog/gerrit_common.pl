@@ -315,6 +315,18 @@ max_no_block(Label, Max, need(Max)) :-
 %  .
 
 
+%% unresolved_block:
+%%
+%%
+%%
+unresolved_block(Label, R) :-
+  resolved(1)
+  .
+unresolved_block(Label, R) :-
+  R = label(Label, need(_))
+  .
+
+
 %% check_label_range_permission:
 %%
 check_label_range_permission(Label, ExpValue, ok(Who)) :-

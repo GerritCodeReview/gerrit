@@ -90,6 +90,11 @@ public final class AccountExternalId {
   @Column(id = 4, notNull = false)
   protected String password;
 
+  // Encoded version of the hashed and salted password, to be interpreted by the
+  // {@link HashedPassword} class.
+  @Column(id = 5, notNull = false)
+  protected String hashedPassword;
+
   /** <i>computed value</i> is this identity trusted by the site administrator? */
   protected boolean trusted;
 
@@ -142,6 +147,14 @@ public final class AccountExternalId {
 
   public String getPassword() {
     return password;
+  }
+
+  public void setHashedPassword(String hashed) {
+    hashedPassword = hashed;
+  }
+
+  public String getHashedPassword() {
+    return hashedPassword;
   }
 
   public void setPassword(String p) {

@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6a4c5438_d72c1398",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T15:37:26Z",
+      "side": 1,
+      "message": "I don\u0027t know exactly. How is this configured today?  Let me have a look.",
+      "parentUuid": "de62e2de_b81b1d63",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9424d28_30f72e6f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 18

@@ -44,7 +44,6 @@ public class AuthConfig {
   private final boolean trustContainerAuth;
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
-  private final boolean gitBasicAuth;
   private final boolean useContributorAgreements;
   private final String loginUrl;
   private final String loginText;
@@ -88,7 +87,6 @@ public class AuthConfig {
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
     enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
-    gitBasicAuth = cfg.getBoolean("auth", "gitBasicAuth", false);
     gitBasicAuthPolicy = getBasicAuthPolicy(cfg);
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
@@ -221,11 +219,6 @@ public class AuthConfig {
   /** Whether user name should be converted to lower-case before validation */
   public boolean isUserNameToLowerCase() {
     return userNameToLowerCase;
-  }
-
-  /** Whether git-over-http should use Gerrit basic authentication scheme. */
-  public boolean isGitBasicAuth() {
-    return gitBasicAuth;
   }
 
   public GitBasicAuthPolicy getGitBasicAuthPolicy() {

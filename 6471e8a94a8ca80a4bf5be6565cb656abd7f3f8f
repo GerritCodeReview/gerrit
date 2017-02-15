@@ -46,6 +46,30 @@
       "revId": "6471e8a94a8ca80a4bf5be6565cb656abd7f3f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aacbcb8e_65338bf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T13:39:10Z",
+      "side": 1,
+      "message": "I see, what you meant. We release and depot on Central or google storage bucket one single WAR, created with: `bazel build release`. The other you mentioned, could be only created during development process. So it\u0027s fine to keep the plural form.",
+      "parentUuid": "bdc8b12a_176c1ce2",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "6471e8a94a8ca80a4bf5be6565cb656abd7f3f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

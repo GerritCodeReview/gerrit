@@ -86,7 +86,6 @@ java_library(
 
 TESTUTIL_DEPS = [
     ":server",
-    "//gerrit-common:annotations",
     "//gerrit-common:server",
     "//gerrit-cache-h2:cache-h2",
     "//gerrit-extension-api:api",
@@ -187,6 +186,7 @@ java_library(
         ":testutil",
         "//gerrit-antlr:query_exception",
         "//gerrit-antlr:query_parser",
+        "//gerrit-common:annotations",
         "//gerrit-server/src/main/prolog:common",
         "//lib/antlr:java_runtime",
     ],
@@ -201,6 +201,7 @@ junit_tests(
         ":testutil",
         "//gerrit-antlr:query_exception",
         "//gerrit-antlr:query_parser",
+        "//gerrit-common:annotations",
         "//gerrit-server/src/main/prolog:common",
         "//lib/antlr:java_runtime",
     ],
@@ -218,6 +219,7 @@ junit_tests(
     deps = TESTUTIL_DEPS + [
         ":testutil",
         "//gerrit-antlr:query_exception",
+        "//gerrit-common:annotations",
         "//gerrit-patch-jgit:server",
         "//gerrit-server/src/main/prolog:common",
         "//lib:args4j",

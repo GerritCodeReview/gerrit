@@ -287,12 +287,6 @@ public interface AccountConstants extends Constants {
 
   String emailFieldLabel();
 
-  String emailFormatFieldLabel();
-
-  String messagePlaintextOnly();
-
-  String messageHtmlPlaintext();
-
   String defaultBaseForMerges();
 
   String autoMerge();

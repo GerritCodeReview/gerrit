@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.Address;
@@ -59,13 +58,9 @@ public class FakeEmailSender implements EmailSender {
   @AutoValue
   public abstract static class Message {
     private static Message create(
-        Address from,
-        Collection<Address> rcpt,
-        Map<String, EmailHeader> headers,
-        String body,
-        String htmlBody) {
+        Address from, Collection<Address> rcpt, Map<String, EmailHeader> headers, String body) {
       return new AutoValue_FakeEmailSender_Message(
-          from, ImmutableList.copyOf(rcpt), ImmutableMap.copyOf(headers), body, htmlBody);
+          from, ImmutableList.copyOf(rcpt), ImmutableMap.copyOf(headers), body);
     }
 
     public abstract Address from();
@@ -75,9 +70,6 @@ public class FakeEmailSender implements EmailSender {
     public abstract ImmutableMap<String, EmailHeader> headers();
 
     public abstract String body();
-
-    @Nullable
-    public abstract String htmlBody();
   }
 
   private final WorkQueue workQueue;
@@ -103,18 +95,7 @@ public class FakeEmailSender implements EmailSender {
   public void send(
       Address from, Collection<Address> rcpt, Map<String, EmailHeader> headers, String body)
       throws EmailException {
-    send(from, rcpt, headers, body, null);
-  }
-
-  @Override
-  public void send(
-      Address from,
-      Collection<Address> rcpt,
-      Map<String, EmailHeader> headers,
-      String body,
-      String htmlBody)
-      throws EmailException {
-    messages.add(Message.create(from, rcpt, headers, body, htmlBody));
+    messages.add(Message.create(from, rcpt, headers, body));
   }
 
   public void clear() {

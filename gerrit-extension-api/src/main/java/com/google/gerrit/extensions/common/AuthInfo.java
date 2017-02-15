@@ -31,6 +31,5 @@ public class AuthInfo {
   public String registerText;
   public String editFullNameUrl;
   public String httpPasswordUrl;
-  public Boolean isGitBasicAuth;
   public GitBasicAuthPolicy gitBasicAuthPolicy;
 }

@@ -230,9 +230,11 @@ junit_tests(
         "//lib:guava",
         "//lib:guava-retrying",
         "//lib:protobuf",
+        "//lib/bouncycastle:bcprov",
         "//lib/dropwizard:dropwizard-core",
         "//lib/guice:guice-assistedinject",
         "//lib/prolog:runtime",
+        "//lib/commons:codec",
     ],
 )
 

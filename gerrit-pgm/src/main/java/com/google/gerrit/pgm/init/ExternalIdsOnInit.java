@@ -14,14 +14,14 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
+import static com.google.gerrit.server.account.externalids.ExternalId.toAccountExternalIds;
 
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.account.ExternalId;
-import com.google.gerrit.server.account.ExternalIds;
-import com.google.gerrit.server.account.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

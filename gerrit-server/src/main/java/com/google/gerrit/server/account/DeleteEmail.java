@@ -27,6 +27,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,17 +45,20 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   private final Realm realm;
   private final Provider<ReviewDb> dbProvider;
   private final AccountManager accountManager;
+  private final ExternalIds externalIds;
 
   @Inject
   DeleteEmail(
       Provider<CurrentUser> self,
       Realm realm,
       Provider<ReviewDb> dbProvider,
-      AccountManager accountManager) {
+      AccountManager accountManager,
+      ExternalIds externalIds) {
     this.self = self;
     this.realm = realm;
     this.dbProvider = dbProvider;
     this.accountManager = accountManager;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -74,13 +79,9 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     }
 
     Set<ExternalId> extIds =
-        dbProvider
-            .get()
-            .accountExternalIds()
-            .byAccount(user.getAccountId())
-            .toList()
+        externalIds
+            .byAccount(dbProvider.get(), user.getAccountId())
             .stream()
-            .map(ExternalId::from)
             .filter(e -> email.equals(e.email()))
             .collect(toSet());
     if (extIds.isEmpty()) {

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
-import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
-import static com.google.gerrit.server.account.ExternalId.SCHEME_UUID;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
-import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;

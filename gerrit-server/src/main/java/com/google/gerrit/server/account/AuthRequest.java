@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_EXTERNAL;
-import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
-import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
+
+import com.google.gerrit.server.account.externalids.ExternalId;
 
 /**
  * Information for {@link AccountManager#authenticate(AuthRequest)}.

@@ -46,6 +46,30 @@
       "revId": "e78b71f8b9d9ce92d9fba804c7e9c318f8e55831",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23bb5412_69050066",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-15T12:56:01Z",
+      "side": 1,
+      "message": "added",
+      "parentUuid": "10da5220_7d52a6b0",
+      "range": {
+        "startLine": 135,
+        "startChar": 63,
+        "endLine": 135,
+        "endChar": 68
+      },
+      "revId": "e78b71f8b9d9ce92d9fba804c7e9c318f8e55831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

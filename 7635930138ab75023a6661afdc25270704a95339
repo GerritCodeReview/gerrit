@@ -46,6 +46,30 @@
       "revId": "7635930138ab75023a6661afdc25270704a95339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e89a3caa_052e4531",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T11:10:14Z",
+      "side": 0,
+      "message": "What is missing? The needed resources is now here, not:\n\n  gerrit-server/src/test/resources/com/google/gerrit/server/mail/send/tlds-alpha-by-domain.txt",
+      "parentUuid": "9a4dd904_1d921bef",
+      "range": {
+        "startLine": 217,
+        "startChar": 67,
+        "endLine": 217,
+        "endChar": 71
+      },
+      "revId": "7635930138ab75023a6661afdc25270704a95339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

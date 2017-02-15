@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5354069c_f056ebb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-15T13:50:49Z",
+      "side": 1,
+      "message": "Would it be better to check if nameEmail.substring(lt + 1, gt) conatins \"@\"?",
+      "range": {
+        "startLine": 1161,
+        "startChar": 4,
+        "endLine": 1161,
+        "endChar": 56
+      },
+      "revId": "676f3062fd575059909910b01a1f7751ffef59b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d54b7cf8_01dcbee7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-15T13:50:49Z",
+      "side": 1,
+      "message": "I wonder if we rather want to fail in this case?\n\ne.g.\n  throw error(\"Invalid committer: \" + query);\n\nIs there any use case for using \"committer:\" with an empty value?",
+      "range": {
+        "startLine": 1175,
+        "startChar": 4,
+        "endLine": 1178,
+        "endChar": 5
+      },
+      "revId": "676f3062fd575059909910b01a1f7751ffef59b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0af85b7c_01713dbe",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-15T13:50:49Z",
+      "side": 1,
+      "message": "Can we test this with a more realistic full name that contains a space?",
+      "range": {
+        "startLine": 415,
+        "startChar": 4,
+        "endLine": 421,
+        "endChar": 69
+      },
+      "revId": "676f3062fd575059909910b01a1f7751ffef59b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -60,6 +60,9 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
 
 |`uploader/1`     |`uploader(user(1000000)).`
     |Uploader as `user(ID)` term. ID is the numeric account ID
+
+|`unresolved_comments_count/1`     |`unresolved_comments_count(0).`
+    |The number of unresolved comments as an integer atom
 |=============================================================================
 
 In addition Gerrit provides a set of built-in helper predicates that can be used

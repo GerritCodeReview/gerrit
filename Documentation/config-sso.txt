@@ -88,7 +88,7 @@ To link another identity to an existing account:
 Login using the other identity can only be performed after the linking is
 successful.
 
-== HTTP Basic/Digest Authentication
+== HTTP Basic Authentication
 
 When using HTTP authentication, Gerrit assumes that the servlet
 container or the frontend web server has performed all user

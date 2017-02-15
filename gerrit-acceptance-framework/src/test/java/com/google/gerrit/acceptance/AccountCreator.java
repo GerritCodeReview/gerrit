@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -87,7 +88,8 @@ public class AccountCreator {
           new AccountExternalId(
               id, new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, username));
       String httpPass = "http-pass";
-      extUser.setPassword(httpPass);
+      extUser.setPassword(HashedPassword.fromPassword(httpPass).encode());
+
       db.accountExternalIds().insert(Collections.singleton(extUser));
 
       if (email != null) {

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e96f64e_1d462516",
+        "filename": "Documentation/proposal-reviewable-patchsets.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "If I understand you correctly, that neither the change nor patch sets are visible to anyone? I upload a change, 10, patch set, then I abandoned the change. How can I or any other see that change again? Only me? Can I restore abandoned changes that was abandoned in self-review phase, before review was \"started\"? Can i continue to work on this change, e.g. upload further patch sets and \"start review process\"?",
+      "range": {
+        "startLine": 3,
+        "startChar": 72,
+        "endLine": 4,
+        "endChar": 17
+      },
+      "revId": "e48d3f24cac3831f824bcce486b09c098d325f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d655cfe_af526123",
+        "filename": "Documentation/proposal-reviewable-patchsets.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "Why it\u0027s importent derive visibility constraints from not inviting the reviewers per notification? Why would it be not acceptable to make the change and all patch set visible een though zthe change is not in reviewable state? IOW, if you put WIP, or *NOT*Reviewable on the header of that change, and don\u0027t invite reviewers, not send any notification, why it is still important for you, to hide, make that change invisible for all gerrit users?",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 74
+      },
+      "revId": "e48d3f24cac3831f824bcce486b09c098d325f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96906ebd_456ccc5f",
+        "filename": "Documentation/proposal-reviewable-patchsets.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "Suppress notification firehouse or make it hidden or both?",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 26
+      },
+      "revId": "e48d3f24cac3831f824bcce486b09c098d325f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c42cec3d_78dc8f55",
+        "filename": "Documentation/proposal-reviewable-patchsets.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "After I start the review process, why it is imporant for your proposal, to interrupt review process and make intermediate patch sets again not visible, hidden? Say, with ps 5, i start review process, then ps_6, ..., ps_10 are reviewable, then again ps_10, ..., ps_20 not reviewable. Should the last non reviewable patch sets be hidden? Why? I already \"started\" the review process. Why it\u0027s not enough to completely separate concerns: only remove the non reviewable changes/patch sets from the reviewers dashboards and suspend any kind of notification, but let alone the whole visibility constraints: everything is visible for everyone. At least after private\nself-review phase passed and review was started.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "e48d3f24cac3831f824bcce486b09c098d325f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

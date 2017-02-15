@@ -36,8 +36,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RebaseSorter {
+  private static final Logger log = LoggerFactory.getLogger(RebaseSorter.class);
+
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
   private final RevCommit initialTip;
@@ -113,6 +117,8 @@ public class RebaseSorter {
       // check if the commit is merged in other branches
       for (RevCommit accepted : alreadyAccepted) {
         if (mirw.isMergedInto(mirw.parseCommit(accepted), mirw.parseCommit(commit))) {
+          log.debug("Dependency {} merged into branch head {}.", commit.getName(),
+              accepted.getName());
           return true;
         }
       }
@@ -123,12 +129,14 @@ public class RebaseSorter {
         if (change.change().getStatus() == Status.MERGED
             && change.change().getDest().equals(dest)
             && !isRework(dest.getParentKey(), commit, change)) {
+          log.debug("Dependency {} associated with merged change {}.", commit.getName(),
+              change.getId());
           return true;
         }
       }
       return false;
     } catch (OrmException e) {
-      return false;
+      throw new IOException(e);
     }
   }
 

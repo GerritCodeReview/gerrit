@@ -15,16 +15,14 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 /** Result from {@link AccountManager#authenticate(AuthRequest)}. */
 public class AuthResult {
   private final Account.Id accountId;
-  private final AccountExternalId.Key externalId;
+  private final ExternalId.Key externalId;
   private final boolean isNew;
 
-  public AuthResult(
-      final Account.Id accountId, final AccountExternalId.Key externalId, final boolean isNew) {
+  public AuthResult(Account.Id accountId, ExternalId.Key externalId, boolean isNew) {
     this.accountId = accountId;
     this.externalId = externalId;
     this.isNew = isNew;
@@ -36,7 +34,7 @@ public class AuthResult {
   }
 
   /** External identity used to authenticate the user. */
-  public AccountExternalId.Key getExternalId() {
+  public ExternalId.Key getExternalId() {
     return externalId;
   }
 

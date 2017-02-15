@@ -438,6 +438,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     soyContext.put("changeId", change.getKey().get());
     soyContext.put("coverLetter", getCoverLetter());
     soyContext.put("fromName", getNameFor(fromId));
+    soyContext.put("fromEmail", getNameEmailFor(fromId));
 
     soyContextEmailData.put("unifiedDiff", getUnifiedDiff());
     soyContextEmailData.put("changeDetail", getChangeDetail());
@@ -447,6 +448,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     Map<String, String> changeData = new HashMap<>();
     changeData.put("subject", change.getSubject());
     changeData.put("originalSubject", change.getOriginalSubject());
+    changeData.put("ownerName", getNameFor(change.getOwner()));
     changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
     changeData.put("changeNumber", Integer.toString(change.getChangeId()));
     soyContext.put("change", changeData);

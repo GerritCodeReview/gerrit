@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "1b26c763_1561a84a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T23:57:58Z",
+      "side": 1,
+      "message": "IMO, if the classname describes the styles, we might as well just use a style attribute. Moreover, can we use a descriptive name, such as...\n\n   .expandInline {",
+      "range": {
+        "startLine": 127,
+        "startChar": 6,
+        "endLine": 127,
+        "endChar": 25
+      },
+      "revId": "7dddfdc51f70159121960e31aecb16c93b2735d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "331b83f3_ecbbbf7b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T23:57:58Z",
+      "side": 1,
+      "message": "Nit: Since these will always have the `row` and `totalchanges` classes anyway, the binding can merely return whether it includes the `no-right-padding` (or `expandInline` class).\n\n class$\u003d\"row totalChanges [[_computeExpandInlineClass(_userPrefs)]]\"",
+      "range": {
+        "startLine": 324,
+        "startChar": 9,
+        "endLine": 324,
+        "endChar": 58
+      },
+      "revId": "7dddfdc51f70159121960e31aecb16c93b2735d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5fc59c97_a8b58b4f",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -18,6 +64,29 @@
         "startChar": 6,
         "endLine": 635,
         "endChar": 40
+      },
+      "revId": "7dddfdc51f70159121960e31aecb16c93b2735d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d14af7_6e329974",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T23:57:58Z",
+      "side": 1,
+      "message": "Since the return value is a string, IMO it\u0027d be simpler to just do\n\n  return \u0027row totalChanges\u0027 +\n      (userPrefs.expand_inline_diffs ? \u0027 no-right-padding\u0027 : \u0027\u0027);",
+      "range": {
+        "startLine": 634,
+        "startChar": 6,
+        "endLine": 638,
+        "endChar": 31
       },
       "revId": "7dddfdc51f70159121960e31aecb16c93b2735d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -40,9 +40,6 @@ class Libraries {
   private final List<String> skippedDownloads;
   private final boolean skipAllDownloads;
 
-  /* final */ LibraryDownloader bouncyCastlePGP;
-  /* final */ LibraryDownloader bouncyCastleProvider;
-  /* final */ LibraryDownloader bouncyCastleSSL;
   /* final */ LibraryDownloader db2Driver;
   /* final */ LibraryDownloader db2DriverLicense;
   /* final */ LibraryDownloader hanaDriver;

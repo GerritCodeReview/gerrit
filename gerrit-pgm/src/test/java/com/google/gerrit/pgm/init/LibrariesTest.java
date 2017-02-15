@@ -45,7 +45,6 @@ public class LibrariesTest {
             Collections.<String>emptyList(),
             false);
 
-    assertNotNull(lib.bouncyCastleProvider);
     assertNotNull(lib.mysqlDriver);
 
     verify(ui);

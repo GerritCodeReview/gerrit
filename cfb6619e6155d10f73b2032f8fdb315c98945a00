@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ba1f022_427de481",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T15:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89b106bc_508f9090",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de62e2de_b81b1d63",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
         "patchSetId": 18
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "b7f11cf5_206b0107",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T15:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9424d28_30f72e6f",
+      "range": {
+        "startLine": 87,
+        "startChar": 10,
+        "endLine": 87,
+        "endChar": 51
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc3d1d62_e943e23e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 18
@@ -82,6 +130,30 @@
       "writtenOn": "2017-02-15T09:21:16Z",
       "side": 1,
       "message": "Should this be logged as a warning?",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 38
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c598e16f_bf6cffca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T15:35:01Z",
+      "side": 1,
+      "message": "We should never be in this state, but if we are, and it is a robot account, the log spam will be bad. (Do we normally log failed logins?)",
+      "parentUuid": "dc3d1d62_e943e23e",
       "range": {
         "startLine": 90,
         "startChar": 8,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "7d4e783f_9bd3d168",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T15:35:01Z",
+      "side": 1,
+      "message": "Done\n\n(I wonder about this though - it\u0027s only 3 chars shorter, and requires more domain knowledge both to read and write.)",
+      "parentUuid": "66ed0da1_322e8549",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c7f947a_a110d330",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 18
@@ -128,6 +224,30 @@
       "writtenOn": "2017-02-15T09:21:16Z",
       "side": 1,
       "message": "just\n\n  int cost;\n\n? Since the initial value will be anyway overwritten below.",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 16
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd8b430_2d68c20b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T15:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c7f947a_a110d330",
       "range": {
         "startLine": 49,
         "startChar": 4,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "d9d8a663_50c488a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T15:35:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a1c4d188_d13865c8",
+      "range": {
+        "startLine": 68,
+        "startChar": 39,
+        "endLine": 68,
+        "endChar": 61
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f2ae75b_ad4c3975",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 18
@@ -174,6 +318,30 @@
       "writtenOn": "2017-02-15T09:21:16Z",
       "side": 1,
       "message": "[optional] make this a constant in this class",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e744b91d_ebe5050d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T15:35:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f2ae75b_ad4c3975",
       "range": {
         "startLine": 76,
         "startChar": 4,

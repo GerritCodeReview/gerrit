@@ -125,7 +125,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
             id, new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, username));
 
     if (input.httpPassword != null) {
-      extUser.setPassword(input.httpPassword);
+      extUser.setPassword(HashedPassword.fromPassword(input.httpPassword).encode());
     }
 
     if (db.accountExternalIds().get(extUser.getKey()) != null) {

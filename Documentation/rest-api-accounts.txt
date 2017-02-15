@@ -458,31 +458,6 @@ Sets the account state to inactive.
 
 If the account was already inactive the response is "`409 Conflict`".
 
-[[get-http-password]]
-=== Get HTTP Password
---
-'GET /accounts/link:#account-id[\{account-id\}]/password.http'
---
-
-Retrieves the HTTP password of an account.
-
-.Request
-----
-  GET /accounts/john.doe@example.com/password.http HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  "Qmxlc21ydCB1YmVyIGFsbGVzIGluIGRlciBXZWx0IQ"
-----
-
-If the account does not have an HTTP password the response is "`404 Not Found`".
-
 [[set-http-password]]
 === Set/Generate HTTP Password
 --
@@ -1028,12 +1003,12 @@ link:#capability-info[CapabilityInfo] entity.
   }
 ----
 
-Administrator that has authenticated with digest authentication:
+Administrator that has authenticated with basic authentication:
 
 .Request
 ----
   GET /a/accounts/self/capabilities HTTP/1.0
-  Authorization: Digest username="admin", realm="Gerrit Code Review", nonce="...
+  Authorization: Basic ABCDECF..
 ----
 
 .Response
@@ -1075,7 +1050,7 @@ possible alternative for the caller.
 .Request
 ----
   GET /a/accounts/self/capabilities?q=createAccount&q=createGroup HTTP/1.0
-  Authorization: Digest username="admin", realm="Gerrit Code Review", nonce="...
+  Authorization: Basic ABCDEF...
 ----
 
 .Response

@@ -470,9 +470,9 @@ The cache names are lexicographically sorted.
 E.g. this could be used to flush all caches:
 +
 ----
-  for c in $(curl --digest --user jdoe:TNAuLkXsIV7w http://gerrit/a/config/server/caches/?format=TEXT_LIST | base64 -D)
+  for c in $(curl --user jdoe:TNAuLkXsIV7w http://gerrit/a/config/server/caches/?format=TEXT_LIST | base64 -D)
   do
-    curl --digest --user jdoe:TNAuLkXsIV7w -X POST http://gerrit/a/config/server/caches/$c/flush
+    curl --user jdoe:TNAuLkXsIV7w -X POST http://gerrit/a/config/server/caches/$c/flush
   done
 ----
 
@@ -1270,11 +1270,6 @@ type] is `LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
 The link:config-gerrit.html#auth.httpPasswordUrl[URL to obtain an HTTP
 password]. Only set if link:config-gerrit.html#auth.type[authentication
 type] is `CUSTOM_EXTENSION`.
-|`is_git_basic_auth`          |optional, not set if `false`|
-Whether link:config-gerrit.html#auth.gitBasicAuth[basic authentication
-is used for Git over HTTP/HTTPS]. Only set if
-link:config-gerrit.html#auth.type[authentication type] is is `LDAP` or
-`LDAP_BIND`.
 |`git_basic_auth_policy`      |optional|
 The link:config-gerrit.html#auth.gitBasicAuthPolicy[policy] to authenticate
 Git over HTTP and REST API requests when

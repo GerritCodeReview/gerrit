@@ -22,6 +22,7 @@ java_library(
         "//lib/commons:codec",
         "//lib/guice",
         "//lib/guice:guice-servlet",
+        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],
 )

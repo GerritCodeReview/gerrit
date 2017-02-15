@@ -23,18 +23,13 @@ import static org.easymock.EasyMock.verify;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.WatchConfig.NotifyType;
-import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
 import com.google.gerrit.server.mail.Address;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
@@ -388,9 +383,6 @@ public class FromAddressGeneratorProviderTest {
     account.setFullName(name);
     account.setPreferredEmail(email);
     return new AccountState(
-        account,
-        Collections.<AccountGroup.UUID>emptySet(),
-        Collections.<AccountExternalId>emptySet(),
-        new HashMap<ProjectWatchKey, Set<NotifyType>>());
+        account, Collections.emptySet(), Collections.emptySet(), new HashMap<>());
   }
 }

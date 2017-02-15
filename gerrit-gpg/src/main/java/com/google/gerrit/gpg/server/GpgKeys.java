@@ -14,7 +14,7 @@
 
 package com.google.gerrit.gpg.server;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -37,10 +37,10 @@ import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -114,7 +114,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     throw new ResourceNotFoundException(id);
   }
 
-  static byte[] parseFingerprint(String str, Iterable<AccountExternalId> existingExtIds)
+  static byte[] parseFingerprint(String str, Iterable<ExternalId> existingExtIds)
       throws ResourceNotFoundException {
     str = CharMatcher.whitespace().removeFrom(str).toUpperCase();
     if ((str.length() != 8 && str.length() != 40)
@@ -122,8 +122,8 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
       throw new ResourceNotFoundException(str);
     }
     byte[] fp = null;
-    for (AccountExternalId extId : existingExtIds) {
-      String fpStr = extId.getSchemeRest();
+    for (ExternalId extId : existingExtIds) {
+      String fpStr = extId.key().id();
       if (!fpStr.endsWith(str)) {
         continue;
       } else if (fp != null) {
@@ -152,8 +152,8 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
       checkVisible(self, rsrc);
       Map<String, GpgKeyInfo> keys = new HashMap<>();
       try (PublicKeyStore store = storeProvider.get()) {
-        for (AccountExternalId extId : getGpgExtIds(rsrc)) {
-          String fpStr = extId.getSchemeRest();
+        for (ExternalId extId : getGpgExtIds(rsrc)) {
+          String fpStr = extId.key().id();
           byte[] fp = BaseEncoding.base16().decode(fpStr);
           boolean found = false;
           for (PGPPublicKeyRing keyRing : store.get(keyId(fp))) {
@@ -199,13 +199,14 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   }
 
   @VisibleForTesting
-  public static FluentIterable<AccountExternalId> getGpgExtIds(ReviewDb db, Account.Id accountId)
+  public static FluentIterable<ExternalId> getGpgExtIds(ReviewDb db, Account.Id accountId)
       throws OrmException {
-    return FluentIterable.from(db.accountExternalIds().byAccount(accountId))
+    return FluentIterable.from(
+            ExternalId.from(db.accountExternalIds().byAccount(accountId).toList()))
         .filter(in -> in.isScheme(SCHEME_GPGKEY));
   }
 
-  private Iterable<AccountExternalId> getGpgExtIds(AccountResource rsrc) throws OrmException {
+  private Iterable<ExternalId> getGpgExtIds(AccountResource rsrc) throws OrmException {
     return getGpgExtIds(db.get(), rsrc.getUser().getAccountId());
   }
 

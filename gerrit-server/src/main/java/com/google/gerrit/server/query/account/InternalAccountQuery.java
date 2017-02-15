@@ -18,6 +18,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.query.InternalQuery;
@@ -67,11 +68,23 @@ public class InternalAccountQuery extends InternalQuery<AccountState> {
     return query(AccountPredicates.defaultPredicate(query));
   }
 
-  public List<AccountState> byExternalId(String externalId) throws OrmException {
-    return query(AccountPredicates.externalId(externalId));
+  public List<AccountState> byExternalId(String scheme, String id) throws OrmException {
+    return byExternalId(ExternalId.Key.create(scheme, id));
+  }
+
+  public List<AccountState> byExternalId(ExternalId.Key externalId) throws OrmException {
+    return query(AccountPredicates.externalId(externalId.toString()));
   }
 
   public AccountState oneByExternalId(String externalId) throws OrmException {
+    return oneByExternalId(ExternalId.Key.parse(externalId));
+  }
+
+  public AccountState oneByExternalId(String scheme, String id) throws OrmException {
+    return oneByExternalId(ExternalId.Key.create(scheme, id));
+  }
+
+  public AccountState oneByExternalId(ExternalId.Key externalId) throws OrmException {
     List<AccountState> accountStates = byExternalId(externalId);
     if (accountStates.size() == 1) {
       return accountStates.get(0);

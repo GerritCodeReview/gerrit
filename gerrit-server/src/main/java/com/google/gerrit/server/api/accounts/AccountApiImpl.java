@@ -372,7 +372,7 @@ public class AccountApiImpl implements AccountApi {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
       createEmailFactory.create(input.email).apply(rsrc, input);
-    } catch (EmailException | OrmException | IOException e) {
+    } catch (EmailException | OrmException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot add email", e);
     }
   }
@@ -382,7 +382,7 @@ public class AccountApiImpl implements AccountApi {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), email);
     try {
       deleteEmail.apply(rsrc, null);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | ConfigInvalidException e) {
       throw new RestApiException("Cannot delete email", e);
     }
   }
@@ -494,7 +494,7 @@ public class AccountApiImpl implements AccountApi {
   public void deleteExternalIds(List<String> externalIds) throws RestApiException {
     try {
       deleteExternalIds.apply(account, externalIds);
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | ConfigInvalidException e) {
       throw new RestApiException("Cannot delete external IDs", e);
     }
   }

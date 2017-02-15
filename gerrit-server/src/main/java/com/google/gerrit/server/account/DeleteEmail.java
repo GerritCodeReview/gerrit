@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -34,6 +33,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class DeleteEmail implements RestModifyView<AccountResource.Email, Input> {
@@ -59,7 +59,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   @Override
   public Response<?> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException,
-          MethodNotAllowedException, OrmException, IOException {
+          MethodNotAllowedException, OrmException, IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to delete email address");
     }
@@ -68,27 +68,28 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   public Response<?> apply(IdentifiedUser user, String email)
       throws ResourceNotFoundException, ResourceConflictException, MethodNotAllowedException,
-          OrmException, IOException {
+          OrmException, IOException, ConfigInvalidException {
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
       throw new MethodNotAllowedException("realm does not allow deleting emails");
     }
 
-    Set<AccountExternalId> extIds =
+    Set<ExternalId> extIds =
         dbProvider
             .get()
             .accountExternalIds()
             .byAccount(user.getAccountId())
             .toList()
             .stream()
-            .filter(e -> email.equals(e.getEmailAddress()))
+            .map(ExternalId::from)
+            .filter(e -> email.equals(e.email()))
             .collect(toSet());
     if (extIds.isEmpty()) {
       throw new ResourceNotFoundException(email);
     }
 
     try {
-      for (AccountExternalId extId : extIds) {
-        AuthRequest authRequest = new AuthRequest(extId.getKey().get());
+      for (ExternalId extId : extIds) {
+        AuthRequest authRequest = new AuthRequest(extId.key());
         authRequest.setEmailAddress(email);
         accountManager.unlink(user.getAccountId(), authRequest);
       }

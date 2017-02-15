@@ -25,16 +25,16 @@ import java.sql.Timestamp;
 /**
  * Information about a single user.
  *
- * <p>A user may have multiple identities they can use to login to Gerrit (see {@link
- * AccountExternalId}), but in such cases they always map back to a single Account entity.
+ * <p>A user may have multiple identities they can use to login to Gerrit (see ExternalId), but in
+ * such cases they always map back to a single Account entity.
  *
  * <p>Entities "owned" by an Account (that is, their primary key contains the {@link Account.Id} key
  * as part of their key structure):
  *
  * <ul>
- *   <li>{@link AccountExternalId}: OpenID identities and email addresses known to be registered to
- *       this user. Multiple records can exist when the user has more than one public identity, such
- *       as a work and a personal email address.
+ *   <li>ExternalId: OpenID identities and email addresses known to be registered to this user.
+ *       Multiple records can exist when the user has more than one public identity, such as a work
+ *       and a personal email address.
  *   <li>{@link AccountGroupMember}: membership of the user in a specific human managed {@link
  *       AccountGroup}. Multiple records can exist when the user is a member of more than one group.
  *   <li>{@link AccountSshKey}: user's public SSH keys, for authentication through the internal SSH

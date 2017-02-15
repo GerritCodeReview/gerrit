@@ -26,6 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -314,7 +315,7 @@ class OpenIdServiceImpl {
     }
 
     final com.google.gerrit.server.account.AuthRequest areq =
-        new com.google.gerrit.server.account.AuthRequest(openidIdentifier);
+        new com.google.gerrit.server.account.AuthRequest(ExternalId.Key.parse(openidIdentifier));
 
     if (sregRsp != null) {
       areq.setDisplayName(sregRsp.getAttributeValue("fullname"));
@@ -369,7 +370,7 @@ class OpenIdServiceImpl {
       // link between the two, so set one up if not present.
       //
       Optional<Account.Id> claimedId = accountManager.lookup(claimedIdentifier);
-      Optional<Account.Id> actualId = accountManager.lookup(areq.getExternalId());
+      Optional<Account.Id> actualId = accountManager.lookup(areq.getExternalIdKey().get());
 
       if (claimedId.isPresent() && actualId.isPresent()) {
         if (claimedId.get().equals(actualId.get())) {
@@ -388,7 +389,7 @@ class OpenIdServiceImpl {
                   + "  Delgate ID: "
                   + actualId.get()
                   + " is "
-                  + areq.getExternalId());
+                  + areq.getExternalIdKey());
           cancelWithError(req, rsp, "Contact site administrator");
           return;
         }
@@ -398,7 +399,8 @@ class OpenIdServiceImpl {
         // was missing due to a bug in Gerrit. Link the claimed.
         //
         final com.google.gerrit.server.account.AuthRequest linkReq =
-            new com.google.gerrit.server.account.AuthRequest(claimedIdentifier);
+            new com.google.gerrit.server.account.AuthRequest(
+                ExternalId.Key.parse(claimedIdentifier));
         linkReq.setDisplayName(areq.getDisplayName());
         linkReq.setEmailAddress(areq.getEmailAddress());
         accountManager.link(actualId.get(), linkReq);
@@ -434,7 +436,8 @@ class OpenIdServiceImpl {
           webSession.get().login(arsp, remember);
           if (arsp.isNew() && claimedIdentifier != null) {
             final com.google.gerrit.server.account.AuthRequest linkReq =
-                new com.google.gerrit.server.account.AuthRequest(claimedIdentifier);
+                new com.google.gerrit.server.account.AuthRequest(
+                    ExternalId.Key.parse(claimedIdentifier));
             linkReq.setDisplayName(areq.getDisplayName());
             linkReq.setEmailAddress(areq.getEmailAddress());
             accountManager.link(arsp.getAccountId(), linkReq);

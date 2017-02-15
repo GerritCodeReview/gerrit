@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.Inject;
@@ -53,8 +52,8 @@ public abstract class AbstractRealm implements Realm {
 
   @Override
   public boolean hasEmailAddress(IdentifiedUser user, String email) {
-    for (AccountExternalId ext : user.state().getExternalIds()) {
-      if (email != null && email.equalsIgnoreCase(ext.getEmailAddress())) {
+    for (ExternalId ext : user.state().getExternalIds()) {
+      if (email != null && email.equalsIgnoreCase(ext.email())) {
         return true;
       }
     }
@@ -63,11 +62,11 @@ public abstract class AbstractRealm implements Realm {
 
   @Override
   public Set<String> getEmailAddresses(IdentifiedUser user) {
-    Collection<AccountExternalId> ids = user.state().getExternalIds();
+    Collection<ExternalId> ids = user.state().getExternalIds();
     Set<String> emails = Sets.newHashSetWithExpectedSize(ids.size());
-    for (AccountExternalId ext : ids) {
-      if (!Strings.isNullOrEmpty(ext.getEmailAddress())) {
-        emails.add(ext.getEmailAddress());
+    for (ExternalId ext : ids) {
+      if (!Strings.isNullOrEmpty(ext.email())) {
+        emails.add(ext.email());
       }
     }
     return emails;

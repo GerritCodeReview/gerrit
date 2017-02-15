@@ -233,6 +233,8 @@ junit_tests(
         "//lib/dropwizard:dropwizard-core",
         "//lib/guice:guice-assistedinject",
         "//lib/prolog:runtime",
+        "//lib/bouncycastle:bcprov",
+        "//lib/commons:codec",
     ],
 )
 

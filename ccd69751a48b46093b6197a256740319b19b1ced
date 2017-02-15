@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ad54d275_37118f8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T20:28:50Z",
+      "side": 1,
+      "message": "Can this say \"Show all [[n]] message(s)\"?",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89260a1f_4ece19d2",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 4

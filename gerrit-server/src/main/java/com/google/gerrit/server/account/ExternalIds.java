@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
@@ -23,12 +24,17 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class to read external IDs from NoteDb.
@@ -47,6 +53,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class ExternalIds {
+  private static final Logger log = LoggerFactory.getLogger(ExternalIds.class);
+
   public static final int MAX_NOTE_SZ = 1 << 19;
 
   public static ObjectId readRevision(Repository repo) throws IOException {
@@ -73,6 +81,45 @@ public class ExternalIds {
   public ObjectId readRevision() throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return readRevision(repo);
+    }
+  }
+
+  /** Reads and returns all external IDs from the HEAD of the refs/meta/external-ids branch. */
+  public Set<ExternalId> all() throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return all(repo, readRevision(repo));
+    }
+  }
+
+  /**
+   * Reads and returns all external IDs from the specified revision of the refs/meta/external-ids
+   * branch.
+   */
+  public Set<ExternalId> all(ObjectId rev) throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return all(repo, rev);
+    }
+  }
+
+  /** Reads and returns all external IDs. */
+  private Set<ExternalId> all(Repository repo, ObjectId rev) throws IOException {
+    if (rev.equals(ObjectId.zeroId())) {
+      return ImmutableSet.of();
+    }
+
+    try (RevWalk rw = new RevWalk(repo)) {
+      NoteMap noteMap = readNoteMap(rw, rev);
+      Set<ExternalId> extIds = new HashSet<>();
+      for (Note note : noteMap) {
+        byte[] raw =
+            rw.getObjectReader().open(note.getData(), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
+        try {
+          extIds.add(ExternalId.parse(note.getName(), raw));
+        } catch (ConfigInvalidException e) {
+          log.error(String.format("Ignoring invalid external ID note %s", note.getName()), e);
+        }
+      }
+      return extIds;
     }
   }
 

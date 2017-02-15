@@ -682,7 +682,7 @@
       return fetch(url, options).then(function(response) {
         if (!response.ok) {
           if (opt_errFn) {
-            opt_errFn.call(null, response);
+            opt_errFn.call(opt_ctx || null, response);
             return undefined;
           }
           this.fire('server-error', {response: response});

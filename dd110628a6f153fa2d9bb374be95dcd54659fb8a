@@ -34,6 +34,24 @@
       "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69e13b0e_fa6fbfc5",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-15T21:31:35Z",
+      "side": 1,
+      "message": "\"originally created by\" is also OK for me, although a bit too long. \"owned by\" may actually discourage sound too strong.\nMy preferences iare in this order:\n\n1. originally created by\n2. owned by\n3. by",
+      "parentUuid": "1019a5b1_65759fe2",
+      "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

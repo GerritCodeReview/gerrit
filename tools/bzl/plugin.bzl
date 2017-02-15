@@ -63,9 +63,9 @@ def gerrit_plugin(
       name = '%s-static' % name,
       cmd = ' && '.join([
         'mkdir -p $$TMP/static',
-        'unzip -qd $$TMP/static $(location %s__gwt_application)' % name,
+        'unzip -o -qd $$TMP/static $(location %s__gwt_application)' % name,
         'cd $$TMP',
-        'zip -qr $$ROOT/$@ .']),
+        'zip -o -qr $$ROOT/$@ .']),
       tools = [':%s__gwt_application' % name],
       outs = ['%s-static.jar' % name],
     )
@@ -87,9 +87,9 @@ def gerrit_plugin(
     cmd = " && ".join([
       "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % name.upper(),
       "cd $$TMP",
-      "unzip -q $$ROOT/$<",
+      "unzip -o -q $$ROOT/$<",
       "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
-      "zip -qr $$ROOT/$@ ."]),
+      "zip -o -qr $$ROOT/$@ ."]),
     outs = ['%s%s.jar' % (name, target_suffix)],
     visibility = ['//visibility:public'],
   )

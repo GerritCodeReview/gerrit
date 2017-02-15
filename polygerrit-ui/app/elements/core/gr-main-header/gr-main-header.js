@@ -14,6 +14,32 @@
 (function() {
   'use strict';
 
+  var ADMIN_LINKS = [
+    {
+      url: '/admin/groups',
+      name: 'Groups',
+    },
+    {
+      url: '/admin/create-group',
+      name: 'Create Group',
+      capability: 'createGroup'
+    },
+    {
+      url: '/admin/projects',
+      name: 'Projects',
+    },
+    {
+      url: '/admin/create-project',
+      name: 'Create Project',
+      capability: 'createProject',
+    },
+    {
+      url: '/admin/plugins',
+      name: 'Plugins',
+      capability: 'viewPlugins',
+    },
+  ];
+
   var DEFAULT_LINKS = [{
     title: 'Changes',
     links: [
@@ -46,6 +72,10 @@
       },
 
       _account: Object,
+      _adminLinks: {
+        type: Array,
+        value: function() { return []; },
+      },
       _defaultLinks: {
         type: Array,
         value: function() {
@@ -54,7 +84,7 @@
       },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks)',
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks)',
       },
       _loginURL: {
         type: String,
@@ -94,12 +124,18 @@
       return '//' + window.location.host + path;
     },
 
-    _computeLinks: function(defaultLinks, userLinks) {
+    _computeLinks: function(defaultLinks, userLinks, adminLinks) {
       var links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
           title: 'Your',
           links: userLinks,
+        });
+      }
+      if (adminLinks && adminLinks.length > 0) {
+        links.push({
+          title: 'Admin',
+          links: adminLinks,
         });
       }
       return links;
@@ -119,6 +155,17 @@
       this.$.restAPI.getPreferences().then(function(prefs) {
         this._userLinks =
             prefs.my.map(this._stripHashPrefix).filter(this._isSupportedLink);
+      }.bind(this));
+      this._loadAccountCapabilities();
+    },
+
+    _loadAccountCapabilities: function() {
+      var params = ['createProject', 'createGroup', 'viewPlugins'];
+      return this.$.restAPI.getAccountCapabilities(params)
+          .then(function(capabilities) {
+        this._adminLinks = ADMIN_LINKS.filter(function(link) {
+          return !link.capability || link.capability in capabilities;
+        });
       }.bind(this));
     },
 

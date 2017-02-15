@@ -219,17 +219,18 @@ limitations under the License.
       assert.equal(element._updateRebaseAction(currentRevisionActions),
         currentRevisionActions);
 
-      assert.isTrue(element._rebaseOnCurrent);
+      assert.isTrue(currentRevisionActions.rebase.enabled);
+      assert.isTrue(currentRevisionActions.rebase.rebaseOnCurrent);
 
-      var newRevisionActions = currentRevisionActions
-      delete newRevisionActions.rebase.enabled;
+      delete currentRevisionActions.rebase.enabled;
 
       // When rebase is not enabled initially, rebaseOnCurrent should be set to
       // false.
-      assert.equal(element._updateRebaseAction(newRevisionActions),
+      assert.equal(element._updateRebaseAction(currentRevisionActions),
         currentRevisionActions);
 
-      assert.isFalse(element._rebaseOnCurrent);
+      assert.isTrue(currentRevisionActions.rebase.enabled);
+      assert.isFalse(currentRevisionActions.rebase.rebaseOnCurrent);
     });
 
     test('_reload is called when an approved label is removed', function() {

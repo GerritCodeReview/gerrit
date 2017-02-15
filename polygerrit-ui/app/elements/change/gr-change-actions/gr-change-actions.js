@@ -129,8 +129,8 @@
       changeNum: String,
       changeStatus: String,
       commitNum: String,
+      hasParent: Boolean,
       patchNum: String,
-      rebaseOnCurrent: Boolean,
       commitMessage: {
         type: String,
         value: '',

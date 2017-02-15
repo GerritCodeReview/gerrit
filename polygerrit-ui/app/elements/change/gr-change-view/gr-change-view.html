@@ -314,8 +314,8 @@ limitations under the License.
                 on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
             <gr-change-actions id="actions"
                 change="[[_change]]"
+                has-parent="[[hasParent]]"
                 actions="[[_change.actions]]"
-                rebase-on-current="[[_rebaseOnCurrent]]"
                 revision-actions="[[_currentRevisionActions]]"
                 change-num="[[_changeNum]]"
                 change-status="[[_change.status]]"
@@ -369,6 +369,7 @@ limitations under the License.
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"
                   change="[[_change]]"
+                  has-parent="{{hasParent}}"
                   patch-num="[[_computeLatestPatchNum(_allPatchSets)]]">
               </gr-related-changes-list>
             </div>

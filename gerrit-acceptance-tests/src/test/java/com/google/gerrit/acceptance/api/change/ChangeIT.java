@@ -74,6 +74,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -2308,6 +2309,66 @@ public class ChangeIT extends AbstractDaemonTest {
     ApprovalInfo approval = codeReview.all.get(0);
     assertThat(approval._accountId).isEqualTo(user.id.get());
     assertThat(approval.permittedVotingRange).isNull();
+  }
+
+  @Test
+  public void unresolvedCommentsBlocked() throws Exception {
+    RevCommit oldHead = getRemoteHead();
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            "Configure",
+            "rules.pl",
+            "submit_rule(submit(CR)) :- \n"
+                + "gerrit:unresolved_comments(0), \n"
+                + "gerrit:max_with_block(-2, 2, 'Code-Review', CR). \n\n");
+    push.to(RefNames.REFS_CONFIG);
+    testRepo.reset(oldHead);
+
+    PushOneCommit.Result result = createChange();
+    addComment(result, "comment 1", true, true, null);
+    Map<String, List<CommentInfo>> comments = gApi.changes().id(result.getChangeId()).comments();
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(FILE_NAME)).hasSize(1);
+    String id = comments.get(FILE_NAME).get(0).id;
+
+    setApiUser(admin);
+    ReviewInput in = new ReviewInput();
+    in.label("Code-Review", 2);
+    gApi.changes().id(result.getChangeId()).current().review(in);
+
+    exception.expect(ResourceConflictException.class);
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+
+    // Resolve the comment. Add after the UnresolvedCount is only counting on leaf comments.
+//    addComment(result, "comment 2", true, false, id);
+//    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+//    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
+//    assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+  }
+
+  private void addComment(
+      PushOneCommit.Result r,
+      String message,
+      boolean omitDuplicateComments,
+      Boolean unresolved,
+      String inReplyTo)
+      throws Exception {
+    ReviewInput.CommentInput c = new ReviewInput.CommentInput();
+    c.line = 1;
+    c.message = message;
+    c.path = FILE_NAME;
+    c.unresolved = unresolved;
+    c.inReplyTo = inReplyTo;
+    ReviewInput in = new ReviewInput();
+    in.comments = new HashMap<>();
+    in.comments.put(c.path, Lists.newArrayList(c));
+    in.omitDuplicateComments = omitDuplicateComments;
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
   }
 
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {

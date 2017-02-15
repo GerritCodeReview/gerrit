@@ -481,6 +481,10 @@ limitations under the License.
       assert.equal(element._computeClass('clazz', '/foo/bar/baz'), 'clazz');
       assert.equal(element._computeClass('clazz', '/COMMIT_MSG'),
           'clazz invisible');
+      assert.equal(element._computeTotalChangeClass(
+          {expand_inline_diffs: true}),'row totalChanges no-right-padding');
+      assert.equal(element._computeTotalChangeClass(
+        {expand_inline_diffs: false}), 'row totalChanges');
     });
 
     test('file review status', function() {

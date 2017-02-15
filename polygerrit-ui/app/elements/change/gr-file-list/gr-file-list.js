@@ -630,6 +630,14 @@
       return classes.join(' ');
     },
 
+    _computeTotalChangeClass: function(userPrefs) {
+      var classes = ['row', 'totalChanges']
+      if(userPrefs.expand_inline_diffs){
+        classes.push('no-right-padding');
+      }
+      return classes.join(' ');
+    },
+
     _computePathClass: function(path, expandedFilesRecord) {
       return this._isFileExpanded(path, expandedFilesRecord) ? 'path expanded' :
           'path';

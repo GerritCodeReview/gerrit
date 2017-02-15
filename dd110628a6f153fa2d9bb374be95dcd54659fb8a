@@ -52,6 +52,24 @@
       "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7777ca44_8835db9b",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-15T21:33:24Z",
+      "side": 1,
+      "message": "My preferences are 1, 3, 2 :)\n\nSo, Wyatt, unless you think \"originally created by\" is too long, let\u0027s go with that.",
+      "parentUuid": "69e13b0e_fa6fbfc5",
+      "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

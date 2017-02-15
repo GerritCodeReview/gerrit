@@ -19,15 +19,27 @@
   var app = document.querySelector('#app');
   if (!app) {
     console.log('No gr-app found (running tests)');
-    return;
   }
 
-  window.addEventListener('WebComponentsReady', function() {
-    var restAPI = document.createElement('gr-rest-api-interface');
-    var reporting = document.createElement('gr-reporting');
+  var _reporting;
+  function getReporting() {
+    if (!_reporting) {
+      _reporting = document.createElement('gr-reporting');
+    }
+    return _reporting;
+  }
 
-    reporting.timeEnd('WebComponentsReady');
-    reporting.pageLoaded();
+  document.onload = function() {
+    getReporting().pageLoaded();
+  };
+
+  window.addEventListener('WebComponentsReady', function() {
+    getReporting().timeEnd('WebComponentsReady');
+  });
+
+  function startRouter() {
+    var restAPI = document.createElement('gr-rest-api-interface');
+    var reporting = getReporting();
 
     // Middleware
     page(function(ctx, next) {
@@ -216,5 +228,13 @@
     });
 
     page.start();
+  }
+
+  Polymer({
+    is: 'gr-router',
+    start: function() {
+      if (!app) { return; }
+      startRouter();
+    },
   });
 })();

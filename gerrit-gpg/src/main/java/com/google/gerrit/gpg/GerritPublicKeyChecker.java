@@ -15,16 +15,16 @@
 package com.google.gerrit.gpg;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GPGKEY;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -155,8 +155,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   }
 
   private CheckResult checkIdsForArbitraryUser(PGPPublicKey key) throws PGPException, OrmException {
-    List<AccountState> accountStates =
-        accountQueryProvider.get().byExternalId(toExtIdKey(key).get());
+    List<AccountState> accountStates = accountQueryProvider.get().byExternalId(toExtIdKey(key));
     if (accountStates.isEmpty()) {
       return CheckResult.bad("Key is not associated with any users");
     }
@@ -202,11 +201,11 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private Set<String> getAllowedUserIds(IdentifiedUser user) {
     Set<String> result = new HashSet<>();
     result.addAll(user.getEmailAddresses());
-    for (AccountExternalId extId : user.state().getExternalIds()) {
+    for (ExternalId extId : user.state().getExternalIds()) {
       if (extId.isScheme(SCHEME_GPGKEY)) {
         continue; // Omit GPG keys.
       }
-      result.add(extId.getExternalId());
+      result.add(extId.key().get());
     }
     return result;
   }
@@ -248,8 +247,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
     return sb.toString();
   }
 
-  static AccountExternalId.Key toExtIdKey(PGPPublicKey key) {
-    return new AccountExternalId.Key(
-        SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint()));
+  static ExternalId.Key toExtIdKey(PGPPublicKey key) {
+    return ExternalId.Key.create(SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint()));
   }
 }

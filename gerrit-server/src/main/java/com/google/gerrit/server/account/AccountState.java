@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
-import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -28,6 +28,7 @@ import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;

@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.auth.container;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
-import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -26,7 +26,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.raw.HostPageServlet;
-import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;

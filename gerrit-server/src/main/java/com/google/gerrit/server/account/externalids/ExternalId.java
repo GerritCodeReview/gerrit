@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.account.externalids;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -28,6 +28,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.account.HashedPassword;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;

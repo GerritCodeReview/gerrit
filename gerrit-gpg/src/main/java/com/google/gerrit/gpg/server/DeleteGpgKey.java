@@ -15,7 +15,7 @@
 package com.google.gerrit.gpg.server;
 
 import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
-import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -26,8 +26,8 @@ import com.google.gerrit.gpg.server.DeleteGpgKey.Input;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.ExternalId;
-import com.google.gerrit.server.account.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

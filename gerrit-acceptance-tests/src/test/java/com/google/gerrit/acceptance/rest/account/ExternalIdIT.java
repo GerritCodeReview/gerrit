@@ -16,7 +16,7 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
-import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.junit.Assert.fail;
 
@@ -32,9 +32,10 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.ExternalId;
-import com.google.gerrit.server.account.ExternalIds;
-import com.google.gerrit.server.account.ExternalIdsUpdate;
+import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gson.reflect.TypeToken;
@@ -51,6 +52,7 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 @Sandboxed
@@ -173,7 +175,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void retryOnLockFailure() throws Exception {
-    Retryer<Void> retryer =
+    Retryer<ObjectId> retryer =
         ExternalIdsUpdate.retryerBuilder()
             .withBlockStrategy(
                 new BlockStrategy() {
@@ -192,6 +194,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
         new ExternalIdsUpdate(
             repoManager,
             allUsers,
+            externalIds,
+            new DisabledExternalIdCache(),
             serverIdent.get(),
             serverIdent.get(),
             () -> {
@@ -208,8 +212,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
     update.insert(db, ExternalId.create(fooId, admin.id));
     assertThat(doneBgUpdate.get()).isTrue();
 
-    assertThat(externalIds.get(fooId)).isNotNull();
-    assertThat(externalIds.get(barId)).isNotNull();
+    assertThat(externalIds.get(db, fooId)).isNotNull();
+    assertThat(externalIds.get(db, barId)).isNotNull();
   }
 
   @Test
@@ -224,6 +228,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
         new ExternalIdsUpdate(
             repoManager,
             allUsers,
+            externalIds,
+            new DisabledExternalIdCache(),
             serverIdent.get(),
             serverIdent.get(),
             () -> {
@@ -235,7 +241,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 // Ignore, the successful insertion of the external ID is asserted later
               }
             },
-            RetryerBuilder.<Void>newBuilder()
+            RetryerBuilder.<ObjectId>newBuilder()
                 .retryIfException(e -> e instanceof LockFailureException)
                 .withStopStrategy(StopStrategies.stopAfterAttempt(extIdsKeys.length))
                 .build());
@@ -248,7 +254,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
     }
     assertThat(bgCounter.get()).isEqualTo(extIdsKeys.length);
     for (ExternalId.Key extIdKey : extIdsKeys) {
-      assertThat(externalIds.get(extIdKey)).isNotNull();
+      assertThat(externalIds.get(db, extIdKey)).isNotNull();
     }
   }
 }

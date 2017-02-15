@@ -127,6 +127,8 @@ public class PermissionEditor extends Composite
       deletePermission.removeFromParent();
       deletePermission = null;
     }
+
+    AdminResources.I.css().ensureInjected();
   }
 
   @UiHandler("deletePermission")

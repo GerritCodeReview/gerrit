@@ -16,6 +16,41 @@
       "revId": "8171a253b2026d788c836d2fe105d41ab693915b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ac9b1ac_02269596",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-02-15T00:38:38Z",
+      "side": 1,
+      "message": "I haven\u0027t found it to be useful, so I\u0027m in favor of removing.",
+      "parentUuid": "693453a2_78d59d64",
+      "revId": "8171a253b2026d788c836d2fe105d41ab693915b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a4f1bfc_abb863a9",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2017-02-15T00:38:38Z",
+      "side": 1,
+      "message": "This is a new TODO convention to me, how about TODO(wyatta): Reassess [...] (Issue 4699)?",
+      "revId": "8171a253b2026d788c836d2fe105d41ab693915b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

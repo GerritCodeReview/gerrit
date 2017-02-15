@@ -94,6 +94,30 @@
       "revId": "7635930138ab75023a6661afdc25270704a95339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e5f091e_74900de7",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T12:42:41Z",
+      "side": 0,
+      "message": "OK, I see. I misread what tests this target is related to. I somehow assumed, that the tests are mail specific, which they are not. So, that\u0027s correct.",
+      "parentUuid": "b5f99fc1_21c35b3e",
+      "range": {
+        "startLine": 217,
+        "startChar": 67,
+        "endLine": 217,
+        "endChar": 71
+      },
+      "revId": "7635930138ab75023a6661afdc25270704a95339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

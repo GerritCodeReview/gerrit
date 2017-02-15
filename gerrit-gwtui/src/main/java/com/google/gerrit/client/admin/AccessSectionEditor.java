@@ -96,6 +96,7 @@ public class AccessSectionEditor extends Composite
 
     initWidget(uiBinder.createAndBindUi(this));
     permissions = ListEditor.of(new PermissionEditorSource());
+    AdminResources.I.css().ensureInjected();
   }
 
   @UiHandler("deleteSection")

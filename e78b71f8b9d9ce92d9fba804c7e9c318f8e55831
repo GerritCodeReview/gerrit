@@ -22,6 +22,30 @@
       "revId": "e78b71f8b9d9ce92d9fba804c7e9c318f8e55831",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10da5220_7d52a6b0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-15T12:47:53Z",
+      "side": 1,
+      "message": "it seems to me that it\u0027s the Gerrit standard to leave a blank line after the PS number (look for \\n\\n in the code) and none of these places has a comment about it, so I\u0027m not sure if I should add one here",
+      "parentUuid": "a9f67d1f_1e12e088",
+      "range": {
+        "startLine": 135,
+        "startChar": 63,
+        "endLine": 135,
+        "endChar": 68
+      },
+      "revId": "e78b71f8b9d9ce92d9fba804c7e9c318f8e55831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -14,5 +14,4 @@
 
 package com.google.gerrit.acceptance;
 
-public class Dummy {
-}
+public class Dummy {}

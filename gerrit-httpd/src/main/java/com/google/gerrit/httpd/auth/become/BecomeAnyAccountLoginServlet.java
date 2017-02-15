@@ -14,7 +14,8 @@
 
 package com.google.gerrit.httpd.auth.become;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_UUID;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -23,13 +24,13 @@ import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
@@ -179,17 +180,16 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return null;
   }
 
-  private AuthResult auth(final AccountExternalId account) {
+  private AuthResult auth(Account.Id account) {
     if (account != null) {
-      return new AuthResult(account.getAccountId(), null, false);
+      return new AuthResult(account, null, false);
     }
     return null;
   }
 
   private AuthResult byUserName(final String userName) {
     try {
-      AccountExternalId.Key extKey = new AccountExternalId.Key(SCHEME_USERNAME, userName);
-      List<AccountState> accountStates = accountQuery.byExternalId(extKey.get());
+      List<AccountState> accountStates = accountQuery.byExternalId(SCHEME_USERNAME, userName);
       if (accountStates.isEmpty()) {
         getServletContext().log("No accounts with username " + userName + " found");
         return null;
@@ -198,7 +198,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         getServletContext().log("Multiple accounts with username " + userName + " found");
         return null;
       }
-      return auth(new AccountExternalId(accountStates.get(0).getAccount().getId(), extKey));
+      return auth(accountStates.get(0).getAccount().getId());
     } catch (OrmException e) {
       getServletContext().log("cannot query account index", e);
       return null;
@@ -231,9 +231,9 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   private AuthResult create() throws IOException {
-    String fakeId = AccountExternalId.SCHEME_UUID + UUID.randomUUID();
     try {
-      return accountManager.authenticate(new AuthRequest(fakeId));
+      return accountManager.authenticate(
+          new AuthRequest(ExternalId.Key.create(SCHEME_UUID, UUID.randomUUID().toString())));
     } catch (AccountException e) {
       getServletContext().log("cannot create new account", e);
       return null;

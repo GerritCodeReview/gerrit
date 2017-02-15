@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -23,7 +23,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.IdentifiedUser;
@@ -34,9 +33,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.codec.DecoderException;
+import org.bouncycastle.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.bouncycastle.util.Arrays;
 
 public class AccountState {
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
@@ -45,14 +44,14 @@ public class AccountState {
 
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;
-  private final Collection<AccountExternalId> externalIds;
+  private final Collection<ExternalId> externalIds;
   private final Map<ProjectWatchKey, Set<NotifyType>> projectWatches;
   private Cache<IdentifiedUser.PropertyKey<Object>, Object> properties;
 
   public AccountState(
       Account account,
       Set<AccountGroup.UUID> actualGroups,
-      Collection<AccountExternalId> externalIds,
+      Collection<ExternalId> externalIds,
       Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
     this.account = account;
     this.internalGroups = actualGroups;
@@ -69,8 +68,7 @@ public class AccountState {
   /**
    * Get the username, if one has been declared for this user.
    *
-   * <p>The username is the {@link AccountExternalId} using the scheme {@link
-   * AccountExternalId#SCHEME_USERNAME}.
+   * <p>The username is the {@link ExternalId} using the scheme {@link ExternalId#SCHEME_USERNAME}.
    */
   public String getUserName() {
     return account.getUserName();
@@ -80,13 +78,13 @@ public class AccountState {
     if (password == null) {
       return false;
     }
-    for (AccountExternalId id : getExternalIds()) {
+    for (ExternalId id : getExternalIds()) {
       // Only process the "username:$USER" entry, which is unique.
-      if (!id.isScheme(AccountExternalId.SCHEME_USERNAME) || !username.equals(id.getSchemeRest())) {
+      if (!id.key().isScheme(SCHEME_USERNAME) || !username.equals(id.key().id())) {
         continue;
       }
 
-      String hashedStr = id.getHashedPassword();
+      String hashedStr = id.password();
       if (!Strings.isNullOrEmpty(hashedStr)) {
         try {
           return HashedPassword.decode(hashedStr).checkPassword(password);
@@ -96,7 +94,8 @@ public class AccountState {
         }
       }
 
-      String want = id.getPassword();
+      // TODO(ekempin): Remove this once plain passwords are gone
+      String want = id.plainPassword();
       if (!Strings.isNullOrEmpty(want)) {
         byte wantBytes[] = want.getBytes();
         byte gotBytes[] = password.getBytes();
@@ -108,7 +107,7 @@ public class AccountState {
   }
 
   /** The external identities that identify the account holder. */
-  public Collection<AccountExternalId> getExternalIds() {
+  public Collection<ExternalId> getExternalIds() {
     return externalIds;
   }
 
@@ -122,20 +121,20 @@ public class AccountState {
     return internalGroups;
   }
 
-  public static String getUserName(Collection<AccountExternalId> ids) {
-    for (AccountExternalId id : ids) {
-      if (id.isScheme(SCHEME_USERNAME)) {
-        return id.getSchemeRest();
+  public static String getUserName(Collection<ExternalId> ids) {
+    for (ExternalId extId : ids) {
+      if (extId.key().isScheme(SCHEME_USERNAME)) {
+        return extId.key().id();
       }
     }
     return null;
   }
 
-  public static Set<String> getEmails(Collection<AccountExternalId> ids) {
+  public static Set<String> getEmails(Collection<ExternalId> ids) {
     Set<String> emails = new HashSet<>();
-    for (AccountExternalId id : ids) {
-      if (id.isScheme(SCHEME_MAILTO)) {
-        emails.add(id.getSchemeRest());
+    for (ExternalId extId : ids) {
+      if (extId.key().isScheme(SCHEME_MAILTO)) {
+        emails.add(extId.key().id());
       }
     }
     return emails;

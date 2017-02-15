@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
+
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -30,7 +32,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -70,6 +71,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final AccountLoader.Factory infoLoader;
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final AuditService auditService;
+  private final ExternalIdsUpdate.User externalIdsUpdateFactory;
   private final String username;
 
   @Inject
@@ -85,6 +87,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       AuditService auditService,
+      ExternalIdsUpdate.User externalIdsUpdateFactory,
       @Assisted String username) {
     this.db = db;
     this.currentUser = currentUser;
@@ -97,6 +100,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.infoLoader = infoLoader;
     this.externalIdCreators = externalIdCreators;
     this.auditService = auditService;
+    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.username = username;
   }
 
@@ -120,20 +124,14 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     Account.Id id = new Account.Id(db.nextAccountId());
 
-    AccountExternalId extUser =
-        new AccountExternalId(
-            id, new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, username));
-
-    if (input.httpPassword != null) {
-      extUser.setPassword(input.httpPassword);
-      extUser.setHashedPassword(HashedPassword.fromPassword(input.httpPassword).encode());
-    }
-
-    if (db.accountExternalIds().get(extUser.getKey()) != null) {
+    ExternalId extUser = ExternalId.createUsername(username, id, input.httpPassword);
+    if (db.accountExternalIds().get(extUser.key().asAccountExternalIdKey()) != null) {
       throw new ResourceConflictException("username '" + username + "' already exists");
     }
     if (input.email != null) {
-      if (db.accountExternalIds().get(getEmailKey(input.email)) != null) {
+      if (db.accountExternalIds()
+              .get(ExternalId.Key.create(SCHEME_MAILTO, input.email).asAccountExternalIdKey())
+          != null) {
         throw new UnprocessableEntityException("email '" + input.email + "' already exists");
       }
       if (!OutgoingEmailValidator.isValid(input.email)) {
@@ -141,27 +139,26 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       }
     }
 
-    List<AccountExternalId> externalIds = new ArrayList<>();
-    externalIds.add(extUser);
+    List<ExternalId> extIds = new ArrayList<>();
+    extIds.add(extUser);
     for (AccountExternalIdCreator c : externalIdCreators) {
-      externalIds.addAll(c.create(id, username, input.email));
+      extIds.addAll(c.create(id, username, input.email));
     }
 
+    ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     try {
-      db.accountExternalIds().insert(externalIds);
+      externalIdsUpdate.insert(db, extIds);
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw new ResourceConflictException("username '" + username + "' already exists");
     }
 
     if (input.email != null) {
-      AccountExternalId extMailto = new AccountExternalId(id, getEmailKey(input.email));
-      extMailto.setEmailAddress(input.email);
       try {
-        db.accountExternalIds().insert(Collections.singleton(extMailto));
+        externalIdsUpdate.insert(db, ExternalId.createEmail(id, input.email));
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
-          db.accountExternalIds().delete(Collections.singleton(extUser));
-        } catch (OrmException cleanupError) {
+          externalIdsUpdate.delete(db, extUser);
+        } catch (IOException | ConfigInvalidException | OrmException cleanupError) {
           // Ignored
         }
         throw new UnprocessableEntityException("email '" + input.email + "' already exists");
@@ -208,9 +205,5 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       }
     }
     return groupIds;
-  }
-
-  private AccountExternalId.Key getEmailKey(String email) {
-    return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
   }
 }

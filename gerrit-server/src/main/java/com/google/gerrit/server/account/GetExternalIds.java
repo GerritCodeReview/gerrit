@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
@@ -54,22 +53,23 @@ public class GetExternalIds implements RestReadView<AccountResource> {
       throw new AuthException("not allowed to get external IDs");
     }
 
-    Collection<AccountExternalId> ids =
-        db.get().accountExternalIds().byAccount(resource.getUser().getAccountId()).toList();
+    Collection<ExternalId> ids =
+        ExternalId.from(
+            db.get().accountExternalIds().byAccount(resource.getUser().getAccountId()).toList());
     if (ids.isEmpty()) {
       return ImmutableList.of();
     }
     List<AccountExternalIdInfo> result = Lists.newArrayListWithCapacity(ids.size());
-    for (AccountExternalId id : ids) {
+    for (ExternalId id : ids) {
       AccountExternalIdInfo info = new AccountExternalIdInfo();
-      info.identity = id.getExternalId();
-      info.emailAddress = id.getEmailAddress();
+      info.identity = id.key().get();
+      info.emailAddress = id.email();
       info.trusted = toBoolean(authConfig.isIdentityTrustable(Collections.singleton(id)));
       // The identity can be deleted only if its not the one used to
       // establish this web session, and if only if an identity was
       // actually used to establish this web session.
-      if (!id.isScheme(SCHEME_USERNAME)) {
-        AccountExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
+      if (!id.key().isScheme(SCHEME_USERNAME)) {
+        ExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
         info.canDelete = toBoolean(last == null || !last.get().equals(info.identity));
       }
       result.add(info);

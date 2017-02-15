@@ -15,30 +15,45 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
 @Sandboxed
 public class ExternalIdIT extends AbstractDaemonTest {
+  @Inject private AllUsersName allUsers;
+
   @Test
   public void getExternalIDs() throws Exception {
-    Collection<AccountExternalId> expectedIds = accountCache.get(user.getId()).getExternalIds();
+    Collection<ExternalId> expectedIds = accountCache.get(user.getId()).getExternalIds();
 
     List<AccountExternalIdInfo> expectedIdInfos = new ArrayList<>();
-    for (AccountExternalId id : expectedIds) {
-      id.setCanDelete(!id.getExternalId().equals("username:" + user.username));
-      id.setTrusted(true);
-      expectedIdInfos.add(toInfo(id));
+    for (ExternalId id : expectedIds) {
+      AccountExternalIdInfo info = new AccountExternalIdInfo();
+      info.identity = id.key().get();
+      info.emailAddress = id.email();
+      info.canDelete = !id.key().isScheme(SCHEME_USERNAME) ? true : null;
+      info.trusted = true;
+      expectedIdInfos.add(info);
     }
 
     RestResponse response = userRestSession.get("/accounts/self/external.ids");
@@ -102,12 +117,27 @@ public class ExternalIdIT extends AbstractDaemonTest {
         .isEqualTo(String.format("External id %s does not exist", externalIdStr));
   }
 
-  private static AccountExternalIdInfo toInfo(AccountExternalId id) {
-    AccountExternalIdInfo info = new AccountExternalIdInfo();
-    info.identity = id.getExternalId();
-    info.emailAddress = id.getEmailAddress();
-    info.trusted = id.isTrusted() ? true : null;
-    info.canDelete = id.canDelete() ? true : null;
-    return info;
+  @Test
+  public void fetchExternalIdsBranch() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+
+    // by default READ access for refs/meta/external-ids is blocked
+    exception.expect(TransportException.class);
+    exception.expectMessage(
+        "Remote does not have " + RefNames.REFS_EXTERNAL_IDS + " available for fetch.");
+    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS);
+  }
+
+  @Test
+  public void pushToExternalIdsBranch() throws Exception {
+    grant(Permission.READ, allUsers, RefNames.REFS_EXTERNAL_IDS);
+    grant(Permission.PUSH, allUsers, RefNames.REFS_EXTERNAL_IDS);
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.REFS_EXTERNAL_IDS + ":externalIds");
+    allUsersRepo.reset("externalIds");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent(), allUsersRepo);
+    push.to(RefNames.REFS_EXTERNAL_IDS)
+        .assertErrorStatus("not allowed to update " + RefNames.REFS_EXTERNAL_IDS);
   }
 }

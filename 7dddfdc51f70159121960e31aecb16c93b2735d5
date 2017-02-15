@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc59c97_a8b58b4f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-15T23:56:03Z",
+      "side": 1,
+      "message": "Nit: space after if and before the {.",
+      "range": {
+        "startLine": 635,
+        "startChar": 6,
+        "endLine": 635,
+        "endChar": 40
+      },
+      "revId": "7dddfdc51f70159121960e31aecb16c93b2735d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

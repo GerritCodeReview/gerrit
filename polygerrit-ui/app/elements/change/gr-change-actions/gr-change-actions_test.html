@@ -252,6 +252,33 @@ limitations under the License.
       });
     });
 
+    test('chain state', function() {
+      assert.equal(element._hasKnownChainState, false);
+      element.hasParent = true;
+      assert.equal(element._hasKnownChainState, true);
+      element.hasParent = false;
+    });
+
+    test('_calculateDisabled', function() {
+      var hasKnownChainState = false;
+      var action = {__key: 'rebase', enabled: true};
+      assert.equal(
+          element._calculateDisabled(action, hasKnownChainState), true);
+
+      action.__key = 'delete';
+      assert.equal(
+          element._calculateDisabled(action, hasKnownChainState), false);
+
+      action.__key = 'rebase';
+      hasKnownChainState = true;
+      assert.equal(
+          element._calculateDisabled(action, hasKnownChainState), false);
+
+      action.enabled = false;
+      assert.equal(
+          element._calculateDisabled(action, hasKnownChainState), true);
+    });
+
     test('rebase change', function(done) {
       var fireActionStub = sinon.stub(element, '_fireAction');
       flush(function() {
@@ -266,18 +293,20 @@ limitations under the License.
           method: 'POST',
           title: 'Rebase onto tip of branch or parent change',
         };
+        // rebase on other
         element.$.confirmRebase.base = '1234';
         element._handleRebaseConfirm();
         assert.deepEqual(fireActionStub.lastCall.args,
           ['/rebase', rebaseAction, true, {base: '1234'}]);
 
-        element.$.confirmRebase.base = '';
+        // rebase on parent
+        element.$.confirmRebase.base = null;
         element._handleRebaseConfirm();
         assert.deepEqual(fireActionStub.lastCall.args,
-          ['/rebase', rebaseAction, true, {}]);
+          ['/rebase', rebaseAction, true, {base: null}]);
 
-        element.$.confirmRebase.base = 'does not matter';
-        element.$.confirmRebase.clearParent = true;
+        // rebase on tip
+        element.$.confirmRebase.base = '';
         element._handleRebaseConfirm();
         assert.deepEqual(fireActionStub.lastCall.args,
           ['/rebase', rebaseAction, true, {base: ''}]);
@@ -288,6 +317,7 @@ limitations under the License.
     });
 
     test('two dialogs are not shown at the same time', function(done) {
+      element._hasKnownChainState = true;
       flush(function() {
         var rebaseButton = element.$$('gr-button[data-action-key="rebase"]');
         assert.ok(rebaseButton);

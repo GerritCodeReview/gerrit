@@ -232,11 +232,11 @@ public class MailProcessor {
       String changeMsg = "Patch Set " + psId.get() + ":";
       if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
         if (parsedComments.size() > 1) {
-          changeMsg += "\n" + numComments(parsedComments.size() - 1);
+          changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
         }
-        changeMsg += "\n" + parsedComments.get(0).message;
+        changeMsg += "\n\n" + parsedComments.get(0).message;
       } else {
-        changeMsg += "\n" + numComments(parsedComments.size());
+        changeMsg += "\n\n" + numComments(parsedComments.size());
       }
 
       changeMessage = ChangeMessagesUtil.newMessage(ctx, changeMsg, tag);

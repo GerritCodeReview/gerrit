@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "902bcd52_fdb1c9c7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T17:03:25Z",
+      "side": 1,
+      "message": "if people use basic auth, they should really use secure HTTP, since it\u0027s almost trivial to sniff the password.\n\nremoved the isGitBasicAuth and all the machinery behind, and tried to update the docs, but a second pair of eyes that is more familiar with the LDAP/OAUTH/etc. technology would be welcome.",
+      "parentUuid": "6a4c5438_d72c1398",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9424d28_30f72e6f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 18

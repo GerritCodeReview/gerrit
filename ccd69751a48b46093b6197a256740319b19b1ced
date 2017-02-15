@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89260a1f_4ece19d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-15T20:04:06Z",
+      "side": 1,
+      "message": "I found when I was looking at this change, that I felt I lost my place in the messages after I clicked \u0027show 5 more\u0027. This is more of a discussion point, but I wonder if it would make sense to scroll to the item that was previously on the top after clicking 5 more, so the user doesn\u0027t lose their spot.",
+      "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49b4d9da_89315b81",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-15T20:04:06Z",
+      "side": 1,
+      "message": "It feels weird to me that if I had a certain number of messages visible (let\u0027s say the ones that are not \u0027automated\u0027 are visible\n\nAnd then I toggle \u0027show automated\u0027, that I don\u0027t see the 8 messages below.  In this case, I would have expected messages to display the previous list length + the number of automated messages in between.\n\n1\n--automated\n2\n3\n4\n--automated\n5\n6\n7\n--automated",
+      "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

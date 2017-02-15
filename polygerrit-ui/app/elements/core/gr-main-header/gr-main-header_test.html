@@ -33,8 +33,10 @@ limitations under the License.
 <script>
   suite('gr-main-header tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getConfig: function() { return Promise.resolve({}); },
       });
@@ -42,6 +44,10 @@ limitations under the License.
         _loadAccount: function() {},
       });
       element = fixture('basic');
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('strip hash prefix', function() {
@@ -69,6 +75,30 @@ limitations under the License.
       ]);
     });
 
+    test('_loadAccountCapabilities admin', function(done) {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', function() {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      element._loadAccountCapabilities().then(function() {
+        assert.equal(element._adminLinks.length, 5);
+        done();
+      });
+    });
+
+    test('_loadAccountCapabilities non admin', function(done) {
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', function() {
+        return Promise.resolve({});
+      });
+      element._loadAccountCapabilities().then(function() {
+        assert.equal(element._adminLinks.length, 2);
+        done();
+      });
+    });
+
     test('user links', function() {
       var defaultLinks = [{
         title: 'Faves',
@@ -81,11 +111,19 @@ limitations under the License.
         name: 'Facebook',
         url: 'https://facebook.com',
       }];
-      assert.deepEqual(element._computeLinks(defaultLinks, []), defaultLinks);
-      assert.deepEqual(element._computeLinks(defaultLinks, userLinks),
+      var adminLinks = [{
+        url: '/admin/groups',
+        name: 'Groups',
+      }]
+
+      assert.deepEqual(element._computeLinks(defaultLinks, [], []), defaultLinks);
+      assert.deepEqual(element._computeLinks(defaultLinks, userLinks, adminLinks),
           defaultLinks.concat({
             title: 'Your',
             links: userLinks,
+          }, {
+            title: 'Admin',
+            links: adminLinks,
           }));
     });
   });

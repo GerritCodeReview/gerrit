@@ -317,6 +317,11 @@
       return this._fetchSharedCacheURL('/accounts/self/groups');
     },
 
+    getAccountCapabilities: function() {
+      return this._fetchSharedCacheURL('/accounts/self/capabilities'+
+        '?q=createProject&q=createGroup&q=viewPlugins');
+    },
+
     getLoggedIn: function() {
       return this.getAccount().then(function(account) {
         return account != null;

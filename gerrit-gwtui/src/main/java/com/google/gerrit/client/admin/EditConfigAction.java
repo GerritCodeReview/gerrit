@@ -31,7 +31,7 @@ public class EditConfigAction {
         project,
         RefNames.REFS_CONFIG,
         null,
-        Util.C.editConfigMessage(),
+        AdminConstants.I.editConfigMessage(),
         null,
         new GerritCallback<ChangeInfo>() {
           @Override

@@ -95,7 +95,7 @@ public class GroupListScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setPageTitle(Util.C.groupListTitle());
+    setPageTitle(AdminConstants.I.groupListTitle());
     initPageHeader();
 
     prev = PagingHyperlink.createPrev();
@@ -117,7 +117,7 @@ public class GroupListScreen extends Screen {
   private void initPageHeader() {
     final HorizontalPanel hp = new HorizontalPanel();
     hp.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
-    final Label filterLabel = new Label(Util.C.projectFilter());
+    final Label filterLabel = new Label(AdminConstants.I.projectFilter());
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     hp.add(filterLabel);
     filterTxt = new NpTextBox();

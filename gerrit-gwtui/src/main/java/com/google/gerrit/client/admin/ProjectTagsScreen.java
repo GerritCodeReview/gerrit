@@ -83,7 +83,7 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
     parseToken();
     HorizontalPanel hp = new HorizontalPanel();
     hp.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
-    Label filterLabel = new Label(Util.C.projectFilter());
+    Label filterLabel = new Label(AdminConstants.I.projectFilter());
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     hp.add(filterLabel);
     filterTxt = new NpTextBox();
@@ -109,8 +109,8 @@ public class ProjectTagsScreen extends PaginatedProjectScreen {
 
     TagsTable() {
       table.setWidth("");
-      table.setText(0, 1, Util.C.columnTagName());
-      table.setText(0, 2, Util.C.columnBranchRevision());
+      table.setText(0, 1, AdminConstants.I.columnTagName());
+      table.setText(0, 2, AdminConstants.I.columnBranchRevision());
 
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());

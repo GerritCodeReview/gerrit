@@ -81,7 +81,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   private void initMemberList() {
     addMemberBox =
         new AddMemberBox(
-            Util.C.buttonAddGroupMember(), Util.C.defaultAccountName(), new AccountSuggestOracle());
+            AdminConstants.I.buttonAddGroupMember(),
+            AdminConstants.I.defaultAccountName(),
+            new AccountSuggestOracle());
 
     addMemberBox.addClickHandler(
         new ClickHandler() {
@@ -94,7 +96,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     members = new MemberTable();
     members.addStyleName(Gerrit.RESOURCES.css().groupMembersTable());
 
-    delMember = new Button(Util.C.buttonDeleteGroupMembers());
+    delMember = new Button(AdminConstants.I.buttonDeleteGroupMembers());
     delMember.addClickHandler(
         new ClickHandler() {
           @Override
@@ -104,7 +106,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         });
 
     memberPanel = new FlowPanel();
-    memberPanel.add(new SmallHeading(Util.C.headingMembers()));
+    memberPanel.add(new SmallHeading(AdminConstants.I.headingMembers()));
     memberPanel.add(addMemberBox);
     memberPanel.add(members);
     memberPanel.add(delMember);
@@ -115,8 +117,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     accountGroupSuggestOracle = new AccountGroupSuggestOracle();
     addIncludeBox =
         new AddMemberBox(
-            Util.C.buttonAddIncludedGroup(),
-            Util.C.defaultAccountGroupName(),
+            AdminConstants.I.buttonAddIncludedGroup(),
+            AdminConstants.I.defaultAccountGroupName(),
             accountGroupSuggestOracle);
 
     addIncludeBox.addClickHandler(
@@ -130,7 +132,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     includes = new IncludeTable();
     includes.addStyleName(Gerrit.RESOURCES.css().groupIncludesTable());
 
-    delInclude = new Button(Util.C.buttonDeleteIncludedGroup());
+    delInclude = new Button(AdminConstants.I.buttonDeleteIncludedGroup());
     delInclude.addClickHandler(
         new ClickHandler() {
           @Override
@@ -140,7 +142,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         });
 
     includePanel = new FlowPanel();
-    includePanel.add(new SmallHeading(Util.C.headingIncludedGroups()));
+    includePanel.add(new SmallHeading(AdminConstants.I.headingIncludedGroups()));
     includePanel.add(addIncludeBox);
     includePanel.add(includes);
     includePanel.add(delInclude);
@@ -150,7 +152,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   private void initNoMembersInfo() {
     noMembersInfo = new FlowPanel();
     noMembersInfo.setVisible(false);
-    noMembersInfo.add(new SmallHeading(Util.C.noMembersInfo()));
+    noMembersInfo.add(new SmallHeading(AdminConstants.I.noMembersInfo()));
     add(noMembersInfo);
   }
 
@@ -231,8 +233,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     private boolean enabled = true;
 
     MemberTable() {
-      table.setText(0, 2, Util.C.columnMember());
-      table.setText(0, 3, Util.C.columnEmailAddress());
+      table.setText(0, 2, AdminConstants.I.columnMember());
+      table.setText(0, 3, AdminConstants.I.columnEmailAddress());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
@@ -341,8 +343,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     private boolean enabled = true;
 
     IncludeTable() {
-      table.setText(0, 2, Util.C.columnGroupName());
-      table.setText(0, 3, Util.C.columnGroupDescription());
+      table.setText(0, 2, AdminConstants.I.columnGroupName());
+      table.setText(0, 3, AdminConstants.I.columnGroupDescription());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());

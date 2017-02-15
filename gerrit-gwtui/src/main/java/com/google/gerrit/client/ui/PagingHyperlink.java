@@ -15,16 +15,16 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.admin.Util;
+import com.google.gerrit.client.admin.AdminConstants;
 
 public class PagingHyperlink extends Hyperlink {
 
   public static PagingHyperlink createPrev() {
-    return new PagingHyperlink(Util.C.pagedListPrev());
+    return new PagingHyperlink(AdminConstants.I.pagedListPrev());
   }
 
   public static PagingHyperlink createNext() {
-    return new PagingHyperlink(Util.C.pagedListNext());
+    return new PagingHyperlink(AdminConstants.I.pagedListNext());
   }
 
   private PagingHyperlink(String text) {

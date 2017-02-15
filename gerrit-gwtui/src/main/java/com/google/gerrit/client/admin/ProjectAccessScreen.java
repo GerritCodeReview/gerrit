@@ -184,7 +184,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     final ProjectAccess access = driver.flush();
 
     if (driver.hasErrors()) {
-      Window.alert(Util.C.errorsMustBeFixed());
+      Window.alert(AdminConstants.I.errorsMustBeFixed());
       return;
     }
 
@@ -264,7 +264,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     final ProjectAccess access = driver.flush();
 
     if (driver.hasErrors()) {
-      Window.alert(Util.C.errorsMustBeFixed());
+      Window.alert(AdminConstants.I.errorsMustBeFixed());
       return;
     }
 

@@ -49,7 +49,7 @@ public abstract class ProjectScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
     if (name != null) {
-      setPageTitle(Util.M.project(name.get()));
+      setPageTitle(AdminMessages.I.project(name.get()));
     }
   }
 

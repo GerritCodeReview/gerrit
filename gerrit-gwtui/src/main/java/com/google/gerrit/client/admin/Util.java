@@ -21,8 +21,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class Util {
-  public static final AdminConstants C = GWT.create(AdminConstants.class);
-  public static final AdminMessages M = GWT.create(AdminMessages.class);
   public static final ProjectAdminService PROJECT_SVC;
 
   static {
@@ -38,17 +36,17 @@ public class Util {
     }
     switch (type) {
       case FAST_FORWARD_ONLY:
-        return C.projectSubmitType_FAST_FORWARD_ONLY();
+        return AdminConstants.I.projectSubmitType_FAST_FORWARD_ONLY();
       case MERGE_IF_NECESSARY:
-        return C.projectSubmitType_MERGE_IF_NECESSARY();
+        return AdminConstants.I.projectSubmitType_MERGE_IF_NECESSARY();
       case REBASE_IF_NECESSARY:
-        return C.projectSubmitType_REBASE_IF_NECESSARY();
+        return AdminConstants.I.projectSubmitType_REBASE_IF_NECESSARY();
       case REBASE_ALWAYS:
-        return C.projectSubmitType_REBASE_ALWAYS();
+        return AdminConstants.I.projectSubmitType_REBASE_ALWAYS();
       case MERGE_ALWAYS:
-        return C.projectSubmitType_MERGE_ALWAYS();
+        return AdminConstants.I.projectSubmitType_MERGE_ALWAYS();
       case CHERRY_PICK:
-        return C.projectSubmitType_CHERRY_PICK();
+        return AdminConstants.I.projectSubmitType_CHERRY_PICK();
       default:
         return type.name();
     }
@@ -60,11 +58,11 @@ public class Util {
     }
     switch (type) {
       case ACTIVE:
-        return C.projectState_ACTIVE();
+        return AdminConstants.I.projectState_ACTIVE();
       case READ_ONLY:
-        return C.projectState_READ_ONLY();
+        return AdminConstants.I.projectState_READ_ONLY();
       case HIDDEN:
-        return C.projectState_HIDDEN();
+        return AdminConstants.I.projectState_HIDDEN();
       default:
         return type.name();
     }

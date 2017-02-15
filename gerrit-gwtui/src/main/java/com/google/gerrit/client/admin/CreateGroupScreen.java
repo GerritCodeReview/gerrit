@@ -70,14 +70,14 @@ public class CreateGroupScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setPageTitle(Util.C.createGroupTitle());
+    setPageTitle(AdminConstants.I.createGroupTitle());
     addCreateGroupPanel();
   }
 
   private void addCreateGroupPanel() {
     VerticalPanel addPanel = new VerticalPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
-    addPanel.add(new SmallHeading(Util.C.headingCreateGroup()));
+    addPanel.add(new SmallHeading(AdminConstants.I.headingCreateGroup()));
 
     addTxt =
         new NpTextBox() {
@@ -112,7 +112,7 @@ public class CreateGroupScreen extends Screen {
         });
     addPanel.add(addTxt);
 
-    addNew = new Button(Util.C.buttonCreateGroup());
+    addNew = new Button(AdminConstants.I.buttonCreateGroup());
     addNew.setEnabled(false);
     addNew.addClickHandler(
         new ClickHandler() {

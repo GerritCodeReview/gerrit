@@ -63,10 +63,10 @@ public class PluginListScreen extends PluginScreen {
 
   private static class PluginTable extends FancyFlexTable<PluginInfo> {
     PluginTable() {
-      table.setText(0, 1, Util.C.columnPluginName());
-      table.setText(0, 2, Util.C.columnPluginSettings());
-      table.setText(0, 3, Util.C.columnPluginVersion());
-      table.setText(0, 4, Util.C.columnPluginStatus());
+      table.setText(0, 1, AdminConstants.I.columnPluginName());
+      table.setText(0, 2, AdminConstants.I.columnPluginSettings());
+      table.setText(0, 3, AdminConstants.I.columnPluginVersion());
+      table.setText(0, 4, AdminConstants.I.columnPluginStatus());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
@@ -99,13 +99,16 @@ public class PluginListScreen extends PluginScreen {
           InlineHyperlink adminScreenLink = new InlineHyperlink();
           adminScreenLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.gear()));
           adminScreenLink.setTargetHistoryToken("/x/" + plugin.name() + "/settings");
-          adminScreenLink.setTitle(Util.C.pluginSettingsToolTip());
+          adminScreenLink.setTitle(AdminConstants.I.pluginSettingsToolTip());
           table.setWidget(row, 2, adminScreenLink);
         }
       }
 
       table.setText(row, 3, plugin.version());
-      table.setText(row, 4, plugin.disabled() ? Util.C.pluginDisabled() : Util.C.pluginEnabled());
+      table.setText(
+          row,
+          4,
+          plugin.disabled() ? AdminConstants.I.pluginDisabled() : AdminConstants.I.pluginEnabled());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());

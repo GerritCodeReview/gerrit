@@ -31,8 +31,8 @@ class CreateChangeAction {
     b.setEnabled(false);
     new CreateChangeDialog(new Project.NameKey(project)) {
       {
-        sendButton.setText(Util.C.buttonCreate());
-        message.setText(Util.C.buttonCreateDescription());
+        sendButton.setText(AdminConstants.I.buttonCreate());
+        message.setText(AdminConstants.I.buttonCreateDescription());
       }
 
       @Override

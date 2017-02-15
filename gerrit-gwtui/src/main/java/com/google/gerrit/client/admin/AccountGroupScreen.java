@@ -40,9 +40,9 @@ public abstract class AccountGroupScreen extends MenuScreen {
     this.membersTabToken = getTabToken(token, MEMBERS);
     this.auditLogTabToken = getTabToken(token, AUDIT_LOG);
 
-    link(Util.C.groupTabGeneral(), getTabToken(token, INFO));
+    link(AdminConstants.I.groupTabGeneral(), getTabToken(token, INFO));
     link(
-        Util.C.groupTabMembers(),
+        AdminConstants.I.groupTabMembers(),
         membersTabToken,
         AccountGroup.isInternalGroup(group.getGroupUUID()));
   }
@@ -57,7 +57,7 @@ public abstract class AccountGroupScreen extends MenuScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    setPageTitle(Util.M.group(group.name()));
+    setPageTitle(AdminMessages.I.group(group.name()));
     display();
     GroupApi.isGroupOwner(
         group.name(),
@@ -66,7 +66,7 @@ public abstract class AccountGroupScreen extends MenuScreen {
           public void onSuccess(Boolean result) {
             if (result) {
               link(
-                  Util.C.groupTabAuditLog(),
+                  AdminConstants.I.groupTabAuditLog(),
                   auditLogTabToken,
                   AccountGroup.isInternalGroup(group.getGroupUUID()));
               setToken(token);

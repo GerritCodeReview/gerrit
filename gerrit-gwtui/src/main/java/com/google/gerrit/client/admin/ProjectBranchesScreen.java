@@ -133,7 +133,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
 
     nameTxtBox = new HintTextBox();
     nameTxtBox.setVisibleLength(texBoxLength);
-    nameTxtBox.setHintText(Util.C.defaultBranchName());
+    nameTxtBox.setHintText(AdminConstants.I.defaultBranchName());
     nameTxtBox.addKeyPressHandler(
         new KeyPressHandler() {
           @Override
@@ -143,12 +143,12 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
             }
           }
         });
-    addGrid.setText(0, 0, Util.C.columnBranchName() + ":");
+    addGrid.setText(0, 0, AdminConstants.I.columnBranchName() + ":");
     addGrid.setWidget(0, 1, nameTxtBox);
 
     irevTxtBox = new HintTextBox();
     irevTxtBox.setVisibleLength(texBoxLength);
-    irevTxtBox.setHintText(Util.C.defaultRevisionSpec());
+    irevTxtBox.setHintText(AdminConstants.I.defaultRevisionSpec());
     irevTxtBox.addKeyPressHandler(
         new KeyPressHandler() {
           @Override
@@ -158,10 +158,10 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
             }
           }
         });
-    addGrid.setText(1, 0, Util.C.initialRevision() + ":");
+    addGrid.setText(1, 0, AdminConstants.I.initialRevision() + ":");
     addGrid.setWidget(1, 1, irevTxtBox);
 
-    addBranch = new Button(Util.C.buttonAddBranch());
+    addBranch = new Button(AdminConstants.I.buttonAddBranch());
     addBranch.addClickHandler(
         new ClickHandler() {
           @Override
@@ -174,7 +174,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
 
     branchTable = new BranchesTable();
 
-    delBranch = new Button(Util.C.buttonDeleteBranch());
+    delBranch = new Button(AdminConstants.I.buttonDeleteBranch());
     delBranch.setStyleName(Gerrit.RESOURCES.css().branchTableDeleteButton());
     delBranch.addClickHandler(
         new ClickHandler() {
@@ -197,7 +197,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
     parseToken();
     HorizontalPanel hp = new HorizontalPanel();
     hp.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
-    Label filterLabel = new Label(Util.C.projectFilter());
+    Label filterLabel = new Label(AdminConstants.I.projectFilter());
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     hp.add(filterLabel);
     filterTxt = new NpTextBox();
@@ -301,8 +301,8 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
 
     BranchesTable() {
       table.setWidth("");
-      table.setText(0, 2, Util.C.columnBranchName());
-      table.setText(0, 3, Util.C.columnBranchRevision());
+      table.setText(0, 2, AdminConstants.I.columnBranchName());
+      table.setText(0, 3, AdminConstants.I.columnBranchRevision());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
@@ -499,11 +499,11 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       input.setValue(headRevision);
       input.setVisible(false);
       final Button save = new Button();
-      save.setText(Util.C.saveHeadButton());
+      save.setText(AdminConstants.I.saveHeadButton());
       save.setVisible(false);
       save.setEnabled(false);
       final Button cancel = new Button();
-      cancel.setText(Util.C.cancelHeadButton());
+      cancel.setText(AdminConstants.I.cancelHeadButton());
       cancel.setVisible(false);
 
       OnEditEnabler e = new OnEditEnabler(save);

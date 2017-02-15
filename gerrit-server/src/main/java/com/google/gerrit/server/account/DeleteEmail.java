@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
@@ -41,19 +40,19 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
-  private final Provider<ReviewDb> dbProvider;
   private final AccountManager accountManager;
+  private final ExternalIdCache externalIdCache;
 
   @Inject
   DeleteEmail(
       Provider<CurrentUser> self,
       Realm realm,
-      Provider<ReviewDb> dbProvider,
-      AccountManager accountManager) {
+      AccountManager accountManager,
+      ExternalIdCache externalIdCache) {
     this.self = self;
     this.realm = realm;
-    this.dbProvider = dbProvider;
     this.accountManager = accountManager;
+    this.externalIdCache = externalIdCache;
   }
 
   @Override
@@ -74,13 +73,9 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
     }
 
     Set<ExternalId> extIds =
-        dbProvider
-            .get()
-            .accountExternalIds()
+        externalIdCache
             .byAccount(user.getAccountId())
-            .toList()
             .stream()
-            .map(ExternalId::from)
             .filter(e -> email.equals(e.email()))
             .collect(toSet());
     if (extIds.isEmpty()) {

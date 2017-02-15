@@ -25,17 +25,16 @@ import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIds;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -318,24 +317,17 @@ class LdapRealm extends AbstractRealm {
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
-    private final SchemaFactory<ReviewDb> schema;
+    private final ExternalIds externalIds;
 
     @Inject
-    UserLoader(SchemaFactory<ReviewDb> schema) {
-      this.schema = schema;
+    UserLoader(ExternalIds externalIds) {
+      this.externalIds = externalIds;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      try (ReviewDb db = schema.open()) {
-        return Optional.ofNullable(
-                ExternalId.from(
-                    db.accountExternalIds()
-                        .get(
-                            ExternalId.Key.create(SCHEME_GERRIT, username)
-                                .asAccountExternalIdKey())))
-            .map(ExternalId::accountId);
-      }
+      return Optional.ofNullable(externalIds.get(ExternalId.Key.create(SCHEME_GERRIT, username)))
+          .map(ExternalId::accountId);
     }
   }
 

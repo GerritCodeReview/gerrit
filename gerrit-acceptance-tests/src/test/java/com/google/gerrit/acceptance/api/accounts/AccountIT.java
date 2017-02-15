@@ -26,6 +26,7 @@ import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testutil.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -58,11 +59,11 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
-import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
@@ -111,6 +112,8 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private AllUsersName allUsers;
 
+  @Inject private ExternalIdCache externalIdCache;
+
   @Inject private ExternalIdsUpdate.User externalIdsUpdateFactory;
 
   private ExternalIdsUpdate externalIdsUpdate;
@@ -131,9 +134,9 @@ public class AccountIT extends AbstractDaemonTest {
       // savedExternalIds is null when we don't run SSH tests and the assume in
       // @Before in AbstractDaemonTest prevents this class' @Before method from
       // being executed.
-      externalIdsUpdate.delete(db, getExternalIds(admin));
-      externalIdsUpdate.delete(db, getExternalIds(user));
-      externalIdsUpdate.insert(db, savedExternalIds);
+      externalIdsUpdate.delete(getExternalIds(admin));
+      externalIdsUpdate.delete(getExternalIds(user));
+      externalIdsUpdate.insert(savedExternalIds);
     }
     accountCache.evict(admin.getId());
     accountCache.evict(user.getId());
@@ -449,7 +452,7 @@ public class AccountIT extends AbstractDaemonTest {
         ImmutableList.of(
             ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email),
             ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
-    externalIdsUpdateFactory.create().insert(db, extIds);
+    externalIdsUpdateFactory.create().insert(extIds);
     accountCache.evict(admin.id);
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
@@ -685,7 +688,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void addOtherUsersGpgKey_Conflict() throws Exception {
     // Both users have a matching external ID for this key.
     addExternalIdEmail(admin, "test5@example.com");
-    externalIdsUpdate.insert(db, ExternalId.create("foo", "myId", user.getId()));
+    externalIdsUpdate.insert(ExternalId.create("foo", "myId", user.getId()));
     accountCache.evict(user.getId());
 
     TestKey key = validKeyWithSecondUserId();
@@ -885,7 +888,11 @@ public class AccountIT extends AbstractDaemonTest {
     Iterable<String> expectedFps =
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
     Iterable<String> actualFps =
-        GpgKeys.getGpgExtIds(db, currAccountId).transform(e -> e.key().id());
+        externalIdCache
+            .byAccount(currAccountId, SCHEME_GPGKEY)
+            .stream()
+            .map(e -> e.key().id())
+            .collect(toSet());
     assertThat(actualFps).named("external IDs in database").containsExactlyElementsIn(expectedFps);
 
     // Check raw stored keys.
@@ -911,7 +918,7 @@ public class AccountIT extends AbstractDaemonTest {
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {
     checkNotNull(email);
     externalIdsUpdate.insert(
-        db, ExternalId.createWithEmail(name("test"), email, account.getId(), email));
+        ExternalId.createWithEmail(name("test"), email, account.getId(), email));
     // Clear saved AccountState and ExternalIds.
     accountCache.evict(account.getId());
     setApiUser(account);

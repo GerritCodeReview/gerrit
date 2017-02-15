@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
@@ -97,7 +98,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
           if (accountState
               .getExternalIds()
               .stream()
-              .filter(e -> email.equals(e.getEmailAddress()))
+              .filter(e -> email.equals(e.email()))
               .findAny()
               .isPresent()) {
             r.add(accountState.getAccount().getId());

@@ -70,6 +70,30 @@
       "revId": "7635930138ab75023a6661afdc25270704a95339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5f99fc1_21c35b3e",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-15T12:19:12Z",
+      "side": 0,
+      "message": "With the previous glob it finds resources in the mail/ folder (which is where it was), but not in subfolders of mail/ which is where it is now.\n\nThen the tests fail, as you can see in the log of the first patch set\u0027s CI run.",
+      "parentUuid": "e89a3caa_052e4531",
+      "range": {
+        "startLine": 217,
+        "startChar": 67,
+        "endLine": 217,
+        "endChar": 71
+      },
+      "revId": "7635930138ab75023a6661afdc25270704a95339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

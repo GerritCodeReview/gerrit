@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b06ea54d_4267e41f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-15T19:15:48Z",
+      "side": 1,
+      "message": "Not anymore.",
+      "parentUuid": "de389ad2_a1124a7f",
+      "range": {
+        "startLine": 330,
+        "startChar": 6,
+        "endLine": 332,
+        "endChar": 9
+      },
+      "revId": "7657130a28963007e8e36718adf93641b71f3d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a73768f7_30930e3f",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e072fc96_a95713bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-15T19:15:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a73768f7_30930e3f",
+      "range": {
+        "startLine": 333,
+        "startChar": 6,
+        "endLine": 334,
+        "endChar": 45
+      },
+      "revId": "7657130a28963007e8e36718adf93641b71f3d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e75dbaeb_66c5321b",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "7657130a28963007e8e36718adf93641b71f3d68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "789bf050_c668e4e2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-15T19:15:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e75dbaeb_66c5321b",
+      "revId": "7657130a28963007e8e36718adf93641b71f3d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

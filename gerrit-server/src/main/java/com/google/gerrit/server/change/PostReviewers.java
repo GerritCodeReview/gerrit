@@ -362,6 +362,7 @@ public class PostReviewers
         }
         List<Account.Id> accounts = Lists.transform(addedReviewers,
             new Function<PatchSetApproval, Account.Id>() {
+              @Override
               public Account.Id apply(PatchSetApproval psa) {
                 return psa.getAccountId();
               }

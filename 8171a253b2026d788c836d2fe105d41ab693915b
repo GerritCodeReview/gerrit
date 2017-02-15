@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "693453a2_78d59d64",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T00:01:23Z",
+      "side": 1,
+      "message": "In light of how the `WebComponentsReady` event only fires after the page has been foregrounded, I question whether this timer is useful to track. The value can be made arbitrarily long by a the tab waiting in the background.\n\nShould this stay or be removed?",
+      "revId": "8171a253b2026d788c836d2fe105d41ab693915b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

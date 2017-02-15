@@ -101,7 +101,7 @@ public class InitAdminUser implements InitStep {
           if (email != null) {
             extIds.add(ExternalId.createEmail(id, email));
           }
-          externalIds.insert(db, "Add external IDs for initial admin user", extIds);
+          externalIds.insert("Add external IDs for initial admin user", extIds);
 
           Account a = new Account(id, TimeUtil.nowTs());
           a.setFullName(name);

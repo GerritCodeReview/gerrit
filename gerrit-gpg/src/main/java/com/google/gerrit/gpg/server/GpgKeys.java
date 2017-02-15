@@ -17,9 +17,7 @@ package com.google.gerrit.gpg.server;
 import static com.google.gerrit.server.account.ExternalId.SCHEME_GPGKEY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -36,11 +34,10 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -66,23 +63,23 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   public static String MIME_TYPE = "application/pgp-keys";
 
   private final DynamicMap<RestView<GpgKey>> views;
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
+  private final ExternalIdCache externalIdCache;
 
   @Inject
   GpgKeys(
       DynamicMap<RestView<GpgKey>> views,
-      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
-      GerritPublicKeyChecker.Factory checkerFactory) {
+      GerritPublicKeyChecker.Factory checkerFactory,
+      ExternalIdCache externalIdCache) {
     this.views = views;
-    this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
+    this.externalIdCache = externalIdCache;
   }
 
   @Override
@@ -198,16 +195,8 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     }
   }
 
-  @VisibleForTesting
-  public static FluentIterable<ExternalId> getGpgExtIds(ReviewDb db, Account.Id accountId)
-      throws OrmException {
-    return FluentIterable.from(
-            ExternalId.from(db.accountExternalIds().byAccount(accountId).toList()))
-        .filter(in -> in.key().isScheme(SCHEME_GPGKEY));
-  }
-
-  private Iterable<ExternalId> getGpgExtIds(AccountResource rsrc) throws OrmException {
-    return getGpgExtIds(db.get(), rsrc.getUser().getAccountId());
+  private Iterable<ExternalId> getGpgExtIds(AccountResource rsrc) throws IOException {
+    return externalIdCache.byAccount(rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
   }
 
   private static long keyId(byte[] fp) {

@@ -40,7 +40,6 @@ import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.PostGpgKeys.Input;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -48,6 +47,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -84,34 +84,34 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final Provider<PersonIdent> serverIdent;
-  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
   private final AddKeySender.Factory addKeyFactory;
   private final AccountCache accountCache;
   private final Provider<InternalAccountQuery> accountQueryProvider;
+  private final ExternalIdCache externalIdCache;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
 
   @Inject
   PostGpgKeys(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      Provider<ReviewDb> db,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
       AddKeySender.Factory addKeyFactory,
       AccountCache accountCache,
       Provider<InternalAccountQuery> accountQueryProvider,
+      ExternalIdCache externalIdCache,
       ExternalIdsUpdate.User externalIdsUpdateFactory) {
     this.serverIdent = serverIdent;
-    this.db = db;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
     this.addKeyFactory = addKeyFactory;
     this.accountCache = accountCache;
     this.accountQueryProvider = accountQueryProvider;
+    this.externalIdCache = externalIdCache;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
   }
 
@@ -122,7 +122,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     GpgKeys.checkVisible(self, rsrc);
 
     Collection<ExternalId> existingExtIds =
-        GpgKeys.getGpgExtIds(db.get(), rsrc.getUser().getAccountId()).toList();
+        externalIdCache.byAccount(rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
     try (PublicKeyStore store = storeProvider.get()) {
       Set<Fingerprint> toRemove = readKeysToRemove(input, existingExtIds);
       List<PGPPublicKeyRing> newKeys = readKeysToAdd(input, toRemove);
@@ -147,7 +147,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
           toRemove.stream().map(fp -> toExtIdKey(fp.get())).collect(toList());
       externalIdsUpdateFactory
           .create()
-          .replace(db.get(), rsrc.getUser().getAccountId(), extIdKeysToRemove, newExtIds);
+          .replace(rsrc.getUser().getAccountId(), extIdKeysToRemove, newExtIds);
       accountCache.evict(rsrc.getUser().getAccountId());
       return toJson(newKeys, toRemove, store, rsrc.getUser());
     }

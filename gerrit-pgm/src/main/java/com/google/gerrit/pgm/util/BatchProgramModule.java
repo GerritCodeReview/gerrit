@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
@@ -151,6 +152,7 @@ public class BatchProgramModule extends FactoryModule {
     install(new PrologModule());
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
+    install(ExternalIdCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(ProjectCacheImpl.module());

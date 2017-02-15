@@ -14,12 +14,10 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
-
 import com.google.gerrit.pgm.init.api.InitFlags;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIds;
 import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
@@ -50,18 +48,16 @@ public class ExternalIdsOnInit {
     this.allUsers = allUsers.get();
   }
 
-  public synchronized void insert(ReviewDb db, String commitMessage, Collection<ExternalId> extIds)
+  public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
       throws OrmException, IOException {
-    db.accountExternalIds().insert(toAccountExternalIds(extIds));
-
     File path = getPath();
     if (path != null) {
       try (Repository repo = new FileRepository(path);
           RevWalk rw = new RevWalk(repo);
           ObjectInserter ins = repo.newObjectInserter()) {
-        ObjectId rev = ExternalIdsUpdate.readRevision(repo);
+        ObjectId rev = ExternalIds.readRevision(repo);
 
-        NoteMap noteMap = ExternalIdsUpdate.readNoteMap(rw, rev);
+        NoteMap noteMap = ExternalIds.readNoteMap(rw, rev);
         for (ExternalId extId : extIds) {
           ExternalIdsUpdate.insert(ins, noteMap, extId);
         }

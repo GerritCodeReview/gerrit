@@ -85,6 +85,7 @@ import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
@@ -212,6 +213,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(AccountCacheImpl.module());
     install(ChangeKindCacheImpl.module());
     install(ConflictsCacheImpl.module());
+    install(ExternalIdCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(MergeabilityCacheImpl.module());

@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
-
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -39,13 +36,14 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *
  * <p>For NoteDb all updates will result in a single commit to the refs/meta/external-ids branch.
  * This means callers can prepare many updates by invoking {@link #replace(ExternalId, ExternalId)}
- * multiple times and when {@link ExternalIdsBatchUpdate#commit(ReviewDb, String)} is invoked a
- * single NoteDb commit is created that contains all the prepared updates.
+ * multiple times and when {@link ExternalIdsBatchUpdate#commit(String)} is invoked a single NoteDb
+ * commit is created that contains all the prepared updates.
  */
 public class ExternalIdsBatchUpdate {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final PersonIdent serverIdent;
+  private final ExternalIdCache externalIdCache;
   private final Set<ExternalId> toAdd = new HashSet<>();
   private final Set<ExternalId> toDelete = new HashSet<>();
 
@@ -53,16 +51,18 @@ public class ExternalIdsBatchUpdate {
   public ExternalIdsBatchUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      @GerritPersonIdent PersonIdent serverIdent,
+      ExternalIdCache externalIdCache) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.serverIdent = serverIdent;
+    this.externalIdCache = externalIdCache;
   }
 
   /**
    * Adds an external ID replacement to the batch.
    *
-   * <p>The actual replacement is only done when {@link #commit(ReviewDb, String)} is invoked.
+   * <p>The actual replacement is only done when {@link #commit(String)} is invoked.
    */
   public void replace(ExternalId extIdToDelete, ExternalId extIdToAdd) {
     ExternalIdsUpdate.checkSameAccount(ImmutableSet.of(extIdToDelete, extIdToAdd));
@@ -82,21 +82,18 @@ public class ExternalIdsBatchUpdate {
    *
    * <p>For NoteDb a single commit is created that contains all the external ID updates.
    */
-  public void commit(ReviewDb db, String commitMessage)
+  public void commit(String commitMessage)
       throws IOException, OrmException, ConfigInvalidException {
     if (toDelete.isEmpty() && toAdd.isEmpty()) {
       return;
     }
 
-    db.accountExternalIds().delete(toAccountExternalIds(toDelete));
-    db.accountExternalIds().insert(toAccountExternalIds(toAdd));
-
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = repo.newObjectInserter()) {
-      ObjectId rev = ExternalIdsUpdate.readRevision(repo);
+      ObjectId rev = ExternalIds.readRevision(repo);
 
-      NoteMap noteMap = ExternalIdsUpdate.readNoteMap(rw, rev);
+      NoteMap noteMap = ExternalIds.readNoteMap(rw, rev);
 
       for (ExternalId extId : toDelete) {
         ExternalIdsUpdate.remove(rw, noteMap, extId);
@@ -106,8 +103,10 @@ public class ExternalIdsBatchUpdate {
         ExternalIdsUpdate.insert(ins, noteMap, extId);
       }
 
-      ExternalIdsUpdate.commit(
-          repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
+      ObjectId newRev =
+          ExternalIdsUpdate.commit(
+              repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
+      externalIdCache.onReplace(newRev, toDelete, toAdd);
     }
 
     toAdd.clear();

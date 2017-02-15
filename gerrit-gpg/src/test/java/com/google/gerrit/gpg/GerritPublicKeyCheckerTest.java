@@ -223,7 +223,7 @@ public class GerritPublicKeyCheckerTest {
   @Test
   public void noExternalIds() throws Exception {
     ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
-    externalIdsUpdate.deleteAll(db, user.getAccountId());
+    externalIdsUpdate.deleteAll(user.getAccountId());
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();
@@ -237,7 +237,7 @@ public class GerritPublicKeyCheckerTest {
     assertProblems(
         checker.check(key.getPublicKey()), Status.BAD, "Key is not associated with any users");
     externalIdsUpdate.insert(
-        db, ExternalId.create(toExtIdKey(key.getPublicKey()), user.getAccountId()));
+        ExternalId.create(toExtIdKey(key.getPublicKey()), user.getAccountId()));
     reloadUser();
     assertProblems(checker.check(key.getPublicKey()), Status.BAD, "No identities found for user");
   }
@@ -406,7 +406,7 @@ public class GerritPublicKeyCheckerTest {
     cb.setCommitter(ident);
     assertThat(store.save(cb)).isAnyOf(NEW, FAST_FORWARD, FORCED);
 
-    externalIdsUpdateFactory.create().insert(db, newExtIds);
+    externalIdsUpdateFactory.create().insert(newExtIds);
     accountCache.evict(user.getAccountId());
   }
 
@@ -432,7 +432,7 @@ public class GerritPublicKeyCheckerTest {
   private void addExternalId(String scheme, String id, String email) throws Exception {
     externalIdsUpdateFactory
         .create()
-        .insert(db, ExternalId.createWithEmail(scheme, id, user.getAccountId(), email));
+        .insert(ExternalId.createWithEmail(scheme, id, user.getAccountId(), email));
     reloadUser();
   }
 }

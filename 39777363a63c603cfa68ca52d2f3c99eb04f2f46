@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "24b5cc89_a48f4296",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-15T00:48:52Z",
+      "side": 1,
+      "message": "The new code style (using google-java-format) has a limit of 100 characters.",
+      "parentUuid": "04217b0f_0a4ecd58",
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72f932ab_245a5ef1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 3

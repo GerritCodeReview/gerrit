@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de389ad2_a1124a7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T17:36:17Z",
+      "side": 1,
+      "message": "Is this sort needed?",
+      "range": {
+        "startLine": 330,
+        "startChar": 6,
+        "endLine": 332,
+        "endChar": 9
+      },
+      "revId": "7657130a28963007e8e36718adf93641b71f3d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a73768f7_30930e3f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T17:36:17Z",
+      "side": 1,
+      "message": "Nit: These comments can be re-flowed for 80ch. I made them so narrow so they wouldn\u0027t overflow in the comment.\n\nAlso consider adding a blank line before this comment.",
+      "range": {
+        "startLine": 333,
+        "startChar": 6,
+        "endLine": 334,
+        "endChar": 45
+      },
+      "revId": "7657130a28963007e8e36718adf93641b71f3d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e75dbaeb_66c5321b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T17:36:17Z",
+      "side": 1,
+      "message": "Minor nit: I\u0027d just use\n\n unresolvedLeaves.length\n\nin place of this var. I had separated it in my comment just for clarity.",
+      "revId": "7657130a28963007e8e36718adf93641b71f3d68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

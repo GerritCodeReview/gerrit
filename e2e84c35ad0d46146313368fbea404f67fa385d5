@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "fce1f3b5_f3005064",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T17:36:17Z",
+      "side": 1,
+      "message": "Cool.\n\nOn second look, I think it\u0027s actually O(n log n) because of the binary search of object-key lookup. No matter, though.",
+      "parentUuid": "11fef3b4_fb80fe4a",
+      "range": {
+        "startLine": 317,
+        "startChar": 4,
+        "endLine": 317,
+        "endChar": 28
+      },
+      "revId": "e2e84c35ad0d46146313368fbea404f67fa385d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf69ad0_c0993cdf",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2

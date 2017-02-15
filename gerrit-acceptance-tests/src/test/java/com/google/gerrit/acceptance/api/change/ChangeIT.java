@@ -75,6 +75,7 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -2406,6 +2407,61 @@ public class ChangeIT extends AbstractDaemonTest {
     ApprovalInfo approval = codeReview.all.get(0);
     assertThat(approval._accountId).isEqualTo(user.id.get());
     assertThat(approval.permittedVotingRange).isNull();
+  }
+
+  @Test
+  public void unresolvedCommentsBlocked() throws Exception {
+    RevCommit oldHead = getRemoteHead();
+    GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
+    testRepo.reset("config");
+    PushOneCommit push =
+        pushFactory.create(
+            db,
+            admin.getIdent(),
+            testRepo,
+            "Configure",
+            "rules.pl",
+            "submit_rule(submit(R)) :- \n"
+                + "gerrit:unresolved_block('All-Comments-Resolved', R). \n\n");
+    push.to(RefNames.REFS_CONFIG);
+    testRepo.reset(oldHead);
+
+    oldHead = getRemoteHead();
+    PushOneCommit.Result result1 =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+    testRepo.reset(oldHead);
+    PushOneCommit.Result result2 =
+        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+
+    //addComment(result1, "comment 1", true, false, null);
+    addComment(result2, "comment 2", true, true, null);
+
+    //gApi.changes().id(result1.getChangeId()).revision(result1.getCommit().name()).submit();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage("Failed to submit 1 change due to the following problems:\n"
+        + "Change 2: needs All-Comments-Resolved");
+    gApi.changes().id(result2.getChangeId()).current().submit();
+  }
+
+  private void addComment(
+      PushOneCommit.Result r,
+      String message,
+      boolean omitDuplicateComments,
+      Boolean unresolved,
+      String inReplyTo)
+      throws Exception {
+    ReviewInput.CommentInput c = new ReviewInput.CommentInput();
+    c.line = 1;
+    c.message = message;
+    c.path = FILE_NAME;
+    c.unresolved = unresolved;
+    c.inReplyTo = inReplyTo;
+    ReviewInput in = new ReviewInput();
+    in.comments = new HashMap<>();
+    in.comments.put(c.path, Lists.newArrayList(c));
+    in.omitDuplicateComments = omitDuplicateComments;
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
   }
 
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {

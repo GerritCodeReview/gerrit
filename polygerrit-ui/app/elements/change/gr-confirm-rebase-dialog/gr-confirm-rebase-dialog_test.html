@@ -38,47 +38,48 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('controls with rebase on current available', function() {
+    test('controls with parent and rebase on current available', function() {
       element.rebaseOnCurrent = true;
+      element.hasParent = true;
       flushAsynchronousOperations();
-      // The correct content is hidden/displayed regarding the ability to rebase
-      // on top of the current branch.
-      assert.isFalse(element.$.clearParentLabel.hasAttribute('hidden'));
-      assert.isTrue(element.$.rebaseUpToDateInfo.hasAttribute('hidden'));
-      assert.isFalse(element.$.optionalText.hasAttribute('hidden'));
-
-      assert.isFalse(!!element.valueSelected);
-      assert.isFalse(element.$.parentInput.hasAttribute('disabled'));
-      assert.isFalse(element.$.clearParent.hasAttribute('disabled'));
-      assert.isFalse(element.$.clearParent.checked);
-      element.base = 'something great';
-      assert.isTrue(!!element.valueSelected);
-      MockInteractions.tap(element.$.clearParent);
-      assert.isTrue(!!element.valueSelected);
-      assert.isTrue(element.$.parentInput.hasAttribute('disabled'));
-      assert.isTrue(element.$.clearParent.checked);
-      assert.equal(element.base, '');
-      MockInteractions.tap(element.$.clearParent);
-      assert.isFalse(!!element.valueSelected);
+      assert.isTrue(element.$.rebaseOnParent.checked);
+      assert.isFalse(element.$.RebaseOnParent.hasAttribute('hidden'));
+      assert.isTrue(element.$.ParentUpToDateMsg.hasAttribute('hidden'));
+      assert.isFalse(element.$.RebaseOnTip.hasAttribute('hidden'));
+      assert.isTrue(element.$.TipUpToDateMsg.hasAttribute('hidden'));
     });
 
-    test('controls without rebase on current available', function() {
+    test('controls with parent rebase on current not available', function() {
       element.rebaseOnCurrent = false;
+      element.hasParent = true;
       flushAsynchronousOperations();
-      // The correct content is hidden/displayed regarding the ability to rebase
-      // on top of the current branch.
-      assert.isTrue(element.$.clearParentLabel.hasAttribute('hidden'));
-      assert.isFalse(element.$.rebaseUpToDateInfo.hasAttribute('hidden'));
-      assert.isTrue(element.$.optionalText.hasAttribute('hidden'));
+      assert.isTrue(element.$.rebaseOnTip.checked);
+      assert.isTrue(element.$.RebaseOnParent.hasAttribute('hidden'));
+      assert.isFalse(element.$.ParentUpToDateMsg.hasAttribute('hidden'));
+      assert.isFalse(element.$.RebaseOnTip.hasAttribute('hidden'));
+      assert.isTrue(element.$.TipUpToDateMsg.hasAttribute('hidden'));
+    });
 
-      assert.isFalse(!!element.valueSelected);
-      assert.isFalse(element.$.parentInput.hasAttribute('disabled'));
-      assert.isTrue(element.$.clearParent.hasAttribute('disabled'));
-      assert.isTrue(element.$.clearParentLabel.hasAttribute('hidden'));
-      assert.isFalse(element.$.rebaseUpToDateInfo.hasAttribute('hidden'));
+    test('controls without parent and rebase on current available', function() {
+      element.rebaseOnCurrent = true;
+      element.hasParent = false;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.rebaseOnTip.checked);
+      assert.isTrue(element.$.RebaseOnParent.hasAttribute('hidden'));
+      assert.isTrue(element.$.ParentUpToDateMsg.hasAttribute('hidden'));
+      assert.isFalse(element.$.RebaseOnTip.hasAttribute('hidden'));
+      assert.isTrue(element.$.TipUpToDateMsg.hasAttribute('hidden'));
+    });
 
-      element.base = 'something great';
-      assert.isTrue(!!element.valueSelected);
+    test('controls without parent rebase on current not available', function() {
+      element.rebaseOnCurrent = false;
+      element.hasParent = false;
+      flushAsynchronousOperations();
+      assert.isTrue(element.$.rebaseOnOther.checked);
+      assert.isTrue(element.$.RebaseOnParent.hasAttribute('hidden'));
+      assert.isTrue(element.$.ParentUpToDateMsg.hasAttribute('hidden'));
+      assert.isTrue(element.$.RebaseOnTip.hasAttribute('hidden'));
+      assert.isFalse(element.$.TipUpToDateMsg.hasAttribute('hidden'));
     });
   });
 </script>

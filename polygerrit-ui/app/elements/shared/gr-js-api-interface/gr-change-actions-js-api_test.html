@@ -50,6 +50,7 @@ breaking changes to gr-change-actions won’t be noticed.
     setup(function() {
       element = fixture('basic');
       element.change = {};
+      element._hasKnownChainState = false;
       var plugin;
       Gerrit.install(function(p) { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
@@ -110,7 +111,7 @@ breaking changes to gr-change-actions won’t be noticed.
         var button = element.$$('[data-action-key="' + key + '"]');
         assert.isOk(button);
         assert.equal(button.getAttribute('data-label'), 'Bork!');
-        assert.isFalse(button.disabled);
+        assert.isFalse(!!button.disabled);
         changeActions.setLabel(key, 'Yo');
         changeActions.setEnabled(key, false);
         flush(function() {

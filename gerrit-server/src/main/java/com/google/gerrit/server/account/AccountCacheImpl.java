@@ -27,7 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
-import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -150,6 +150,7 @@ public class AccountCacheImpl implements AccountCache {
     private final GeneralPreferencesLoader loader;
     private final LoadingCache<String, Optional<Account.Id>> byName;
     private final Provider<WatchConfig.Accessor> watchConfig;
+    private final ExternalIds externalIds;
 
     @Inject
     ByIdLoader(
@@ -157,12 +158,14 @@ public class AccountCacheImpl implements AccountCache {
         GroupCache groupCache,
         GeneralPreferencesLoader loader,
         @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
-        Provider<WatchConfig.Accessor> watchConfig) {
+        Provider<WatchConfig.Accessor> watchConfig,
+        ExternalIds externalIds) {
       this.schema = sf;
       this.groupCache = groupCache;
       this.loader = loader;
       this.byName = byUsername;
       this.watchConfig = watchConfig;
+      this.externalIds = externalIds;
     }
 
     @Override
@@ -185,9 +188,6 @@ public class AccountCacheImpl implements AccountCache {
         return missing(who);
       }
 
-      Set<ExternalId> externalIds =
-          ExternalId.from(db.accountExternalIds().byAccount(who).toList());
-
       Set<AccountGroup.UUID> internalGroups = new HashSet<>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
         final AccountGroup.Id groupId = g.getAccountGroupId();
@@ -206,7 +206,10 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       return new AccountState(
-          account, internalGroups, externalIds, watchConfig.get().getProjectWatches(who));
+          account,
+          internalGroups,
+          externalIds.byAccount(db, who),
+          watchConfig.get().getProjectWatches(who));
     }
   }
 

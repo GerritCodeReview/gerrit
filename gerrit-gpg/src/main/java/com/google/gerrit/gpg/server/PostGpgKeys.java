@@ -48,6 +48,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -91,6 +92,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
   private final AddKeySender.Factory addKeyFactory;
   private final AccountCache accountCache;
   private final Provider<InternalAccountQuery> accountQueryProvider;
+  private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
 
   @Inject
@@ -103,6 +105,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
       AddKeySender.Factory addKeyFactory,
       AccountCache accountCache,
       Provider<InternalAccountQuery> accountQueryProvider,
+      ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdateFactory) {
     this.serverIdent = serverIdent;
     this.db = db;
@@ -112,6 +115,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     this.addKeyFactory = addKeyFactory;
     this.accountCache = accountCache;
     this.accountQueryProvider = accountQueryProvider;
+    this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
   }
 
@@ -122,7 +126,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
     GpgKeys.checkVisible(self, rsrc);
 
     Collection<ExternalId> existingExtIds =
-        GpgKeys.getGpgExtIds(db.get(), rsrc.getUser().getAccountId()).toList();
+        externalIds.byAccount(db.get(), rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
     try (PublicKeyStore store = storeProvider.get()) {
       Set<Fingerprint> toRemove = readKeysToRemove(input, existingExtIds);
       List<PGPPublicKeyRing> newKeys = readKeysToAdd(input, toRemove);

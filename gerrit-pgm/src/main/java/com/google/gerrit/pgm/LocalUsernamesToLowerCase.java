@@ -20,10 +20,13 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsBatchUpdate;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.Collection;
@@ -37,6 +40,8 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
 
   @Inject private SchemaFactory<ReviewDb> database;
 
+  @Inject private ExternalIds externalIds;
+
   @Inject private ExternalIdsBatchUpdate externalIdsBatchUpdate;
 
   @Override
@@ -44,10 +49,22 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     Injector dbInjector = createDbInjector(MULTI_USER);
     manager.add(dbInjector, dbInjector.createChildInjector(SchemaVersionCheck.module()));
     manager.start();
-    dbInjector.injectMembers(this);
+    dbInjector
+        .createChildInjector(
+            new AbstractModule() {
+              @Override
+              protected void configure() {
+                // The LocalUsernamesToLowerCase program needs to access all external IDs only
+                // once to update them. After the update they are not accessed again. Hence the
+                // LocalUsernamesToLowerCase program doesn't benefit from caching external IDs and
+                // the external ID cache can be disabled.
+                install(DisabledExternalIdCache.module());
+              }
+            })
+        .injectMembers(this);
 
     try (ReviewDb db = database.open()) {
-      Collection<ExternalId> todo = ExternalId.from(db.accountExternalIds().all().toList());
+      Collection<ExternalId> todo = externalIds.all(db);
       monitor.beginTask("Converting local usernames", todo.size());
 
       for (ExternalId extId : todo) {
@@ -56,9 +73,9 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
       }
 
       externalIdsBatchUpdate.commit(db, "Convert local usernames to lower case");
+      monitor.endTask();
+      manager.stop();
     }
-    monitor.endTask();
-    manager.stop();
     return 0;
   }
 

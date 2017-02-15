@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.common.Nullable;
@@ -32,10 +33,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.apache.commons.codec.DecoderException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.bouncycastle.util.Arrays;
 
 public class AccountState {
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
       a -> a.getAccount().getId();
+  private static final Logger logger = LoggerFactory.getLogger(AccountState.class);
 
   private final Account account;
   private final Set<AccountGroup.UUID> internalGroups;
@@ -70,14 +76,35 @@ public class AccountState {
     return account.getUserName();
   }
 
-  /** @return the password matching the requested username; or null. */
-  public String getPassword(String username) {
+  public boolean checkPassword(String password, String username) {
+    if (password == null) {
+      return false;
+    }
     for (AccountExternalId id : getExternalIds()) {
-      if (id.isScheme(AccountExternalId.SCHEME_USERNAME) && username.equals(id.getSchemeRest())) {
-        return id.getPassword();
+      // Only process the "username:$USER" entry, which is unique.
+      if (!id.isScheme(AccountExternalId.SCHEME_USERNAME) || !username.equals(id.getSchemeRest())) {
+        continue;
+      }
+
+      String hashedStr = id.getHashedPassword();
+      if (!Strings.isNullOrEmpty(hashedStr)) {
+        try {
+          return HashedPassword.decode(hashedStr).checkPassword(password);
+        } catch (DecoderException e) {
+          logger.error("DecoderException for user " + username, e);
+          return false;
+        }
+      }
+
+      String want = id.getPassword();
+      if (!Strings.isNullOrEmpty(want)) {
+        byte wantBytes[] = want.getBytes();
+        byte gotBytes[] = password.getBytes();
+        // Constant-time comparison.
+        return Arrays.areEqual(wantBytes, gotBytes);
       }
     }
-    return null;
+    return false;
   }
 
   /** The external identities that identify the account holder. */

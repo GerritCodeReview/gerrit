@@ -30,7 +30,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -98,18 +98,18 @@ public class WebSessionManager {
     }
   }
 
-  Val createVal(final Key key, final Val val) {
-    final Account.Id who = val.getAccountId();
-    final boolean remember = val.isPersistentCookie();
-    final AccountExternalId.Key lastLogin = val.getExternalId();
+  Val createVal(Key key, Val val) {
+    Account.Id who = val.getAccountId();
+    boolean remember = val.isPersistentCookie();
+    ExternalId.Key lastLogin = val.getExternalId();
     return createVal(key, who, remember, lastLogin, val.sessionId, val.auth);
   }
 
   Val createVal(
-      final Key key,
-      final Account.Id who,
-      final boolean remember,
-      final AccountExternalId.Key lastLogin,
+      Key key,
+      Account.Id who,
+      boolean remember,
+      ExternalId.Key lastLogin,
       String sid,
       String auth) {
     // Refresh the cookie every hour or when it is half-expired.
@@ -191,19 +191,19 @@ public class WebSessionManager {
     private transient Account.Id accountId;
     private transient long refreshCookieAt;
     private transient boolean persistentCookie;
-    private transient AccountExternalId.Key externalId;
+    private transient ExternalId.Key externalId;
     private transient long expiresAt;
     private transient String sessionId;
     private transient String auth;
 
     Val(
-        final Account.Id accountId,
-        final long refreshCookieAt,
-        final boolean persistentCookie,
-        final AccountExternalId.Key externalId,
-        final long expiresAt,
-        final String sessionId,
-        final String auth) {
+        Account.Id accountId,
+        long refreshCookieAt,
+        boolean persistentCookie,
+        ExternalId.Key externalId,
+        long expiresAt,
+        String sessionId,
+        String auth) {
       this.accountId = accountId;
       this.refreshCookieAt = refreshCookieAt;
       this.persistentCookie = persistentCookie;
@@ -221,7 +221,7 @@ public class WebSessionManager {
       return accountId;
     }
 
-    AccountExternalId.Key getExternalId() {
+    ExternalId.Key getExternalId() {
       return externalId;
     }
 
@@ -253,7 +253,7 @@ public class WebSessionManager {
 
       if (externalId != null) {
         writeVarInt32(out, 4);
-        writeString(out, externalId.get());
+        writeString(out, externalId.toString());
       }
 
       if (sessionId != null) {
@@ -289,7 +289,7 @@ public class WebSessionManager {
             persistentCookie = readVarInt32(in) != 0;
             continue;
           case 4:
-            externalId = new AccountExternalId.Key(readString(in));
+            externalId = ExternalId.Key.parse(readString(in));
             continue;
           case 5:
             sessionId = readString(in);

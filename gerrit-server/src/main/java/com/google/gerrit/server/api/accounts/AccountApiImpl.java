@@ -485,7 +485,7 @@ public class AccountApiImpl implements AccountApi {
   public List<AccountExternalIdInfo> getExternalIds() throws RestApiException {
     try {
       return getExternalIds.apply(account);
-    } catch (OrmException e) {
+    } catch (IOException e) {
       throw new RestApiException("Cannot get external IDs", e);
     }
   }

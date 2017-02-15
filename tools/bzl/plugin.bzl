@@ -23,6 +23,7 @@ def gerrit_plugin(
     resources = [],
     manifest_entries = [],
     target_suffix = "",
+    exclude = "",
     **kwargs):
   native.java_library(
     name = name + '__plugin',
@@ -87,7 +88,7 @@ def gerrit_plugin(
     cmd = " && ".join([
       "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % name.upper(),
       "cd $$TMP",
-      "unzip -q $$ROOT/$<",
+      "unzip -q $$ROOT/$< && zip -d $$ROOT/$< " + exclude,
       "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
       "zip -qr $$ROOT/$@ ."]),
     outs = ['%s%s.jar' % (name, target_suffix)],

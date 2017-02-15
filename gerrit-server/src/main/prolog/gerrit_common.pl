@@ -315,6 +315,22 @@ max_no_block(Label, Max, need(Max)) :-
 %  .
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% unresolved_block:
+%%
+%%   Check whether all comments has been resolved.
+%%
+unresolved_block(Label, R) :-
+  all_comments_resolved(1),
+  commit_author(A),
+  R = label(Label, ok(A))
+  .
+unresolved_block(Label, R) :-
+  R = label(Label, need(_))
+  .
+
+
 %% check_label_range_permission:
 %%
 check_label_range_permission(Label, ExpValue, ok(Who)) :-

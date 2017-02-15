@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09467381_d764acc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T10:58:37Z",
+      "side": 1,
+      "message": "Optional: To provide more context, point to the change that moved the sources into send sub-package, as mail receiver was introduced, but missed to move the tests sources.",
+      "revId": "341ad81d9c6f60636bd981fbe88518c40664c218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

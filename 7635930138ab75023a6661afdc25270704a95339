@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a4b2306_8d054794",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T10:58:37Z",
+      "side": 0,
+      "message": "Why this change? Instead, you could even make it more specific:\n\n  glob([\"src/test/resources/com/google/gerrit/server/mail/send/*\"]),",
+      "range": {
+        "startLine": 217,
+        "startChar": 67,
+        "endLine": 217,
+        "endChar": 71
+      },
+      "revId": "7635930138ab75023a6661afdc25270704a95339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

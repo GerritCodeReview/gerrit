@@ -88,7 +88,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.registerText).isNull();
     assertThat(i.auth.editFullNameUrl).isNull();
     assertThat(i.auth.httpPasswordUrl).isNull();
-    assertThat(i.auth.isGitBasicAuth).isNull();
 
     // change
     assertThat(i.change.allowDrafts).isNull();
@@ -163,7 +162,6 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.registerText).isNull();
     assertThat(i.auth.editFullNameUrl).isNull();
     assertThat(i.auth.httpPasswordUrl).isNull();
-    assertThat(i.auth.isGitBasicAuth).isNull();
 
     // change
     assertThat(i.change.allowDrafts).isTrue();

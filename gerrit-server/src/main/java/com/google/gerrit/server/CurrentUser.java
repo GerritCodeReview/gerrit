@@ -17,8 +17,8 @@ package com.google.gerrit.server;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.inject.servlet.RequestScoped;
 import java.util.function.Consumer;
 

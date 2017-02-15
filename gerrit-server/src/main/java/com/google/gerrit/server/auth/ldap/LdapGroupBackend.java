@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.auth.ldap.Helper.LDAP_UUID;
 import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_CACHE;
 import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
@@ -29,9 +29,9 @@ import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;

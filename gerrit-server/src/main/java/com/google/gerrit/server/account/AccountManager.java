@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static java.util.stream.Collectors.toSet;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
@@ -29,6 +27,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -60,6 +61,7 @@ public class AccountManager {
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final AuditService auditService;
   private final Provider<InternalAccountQuery> accountQueryProvider;
+  private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
 
   @Inject
@@ -73,6 +75,7 @@ public class AccountManager {
       ProjectCache projectCache,
       AuditService auditService,
       Provider<InternalAccountQuery> accountQueryProvider,
+      ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory) {
     this.schema = schema;
     this.byIdCache = byIdCache;
@@ -84,6 +87,7 @@ public class AccountManager {
     this.awaitsFirstAccountCheck = new AtomicBoolean(true);
     this.auditService = auditService;
     this.accountQueryProvider = accountQueryProvider;
+    this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
   }
 
@@ -227,8 +231,7 @@ public class AccountManager {
     try {
       db.accounts().upsert(Collections.singleton(account));
 
-      ExternalId existingExtId =
-          ExternalId.from(db.accountExternalIds().get(extId.key().asAccountExternalIdKey()));
+      ExternalId existingExtId = externalIds.get(db, extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
         // external ID is assigned to another account, do not overwrite
         db.accounts().delete(Collections.singleton(account));
@@ -404,10 +407,7 @@ public class AccountManager {
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     try (ReviewDb db = schema.open()) {
       Collection<ExternalId> filteredExtIdsByScheme =
-          ExternalId.from(db.accountExternalIds().byAccount(to).toList())
-              .stream()
-              .filter(e -> e.isScheme(who.getExternalIdKey().scheme()))
-              .collect(toSet());
+          externalIds.byAccount(db, to, who.getExternalIdKey().scheme());
 
       if (!filteredExtIdsByScheme.isEmpty()
           && (filteredExtIdsByScheme.size() > 1

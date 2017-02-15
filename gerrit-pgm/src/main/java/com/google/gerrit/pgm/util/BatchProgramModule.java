@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeJson;
@@ -146,6 +147,7 @@ public class BatchProgramModule extends FactoryModule {
 
     install(new BatchGitModule());
     install(new DefaultCacheFactory.Module());
+    install(new ExternalIdModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));
     install(new PrologModule());

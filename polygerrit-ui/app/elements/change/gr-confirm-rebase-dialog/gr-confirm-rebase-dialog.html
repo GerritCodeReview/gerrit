@@ -31,7 +31,7 @@ limitations under the License.
       label {
         cursor: pointer;
       }
-      .info {
+      .message {
         font-style: italic;
       }
       .parentRevisionContainer label,
@@ -43,44 +43,65 @@ limitations under the License.
       .parentRevisionContainer label {
         margin-bottom: .2em;
       }
-      .clearParentContainer {
+      .rebaseOption {
         margin: .5em 0;
       }
     </style>
     <gr-confirm-dialog
         confirm-label="Rebase"
         on-confirm="_handleConfirmTap"
-        on-cancel="_handleCancelTap"
-        disabled="[[!valueSelected]]">
+        on-cancel="_handleCancelTap">
       <div class="header">Confirm rebase</div>
       <div class="main">
-        <div class="parentRevisionContainer">
-          <label for="parentInput">
-            Parent revision
-            <span id="optionalText" hidden$="[[!rebaseOnCurrent]]"> (optional)
-            </span>
-            <span hidden$="[[rebaseOnCurrent]]"> (not current branch)</span>
+        <div id="rebaseOnParentContainer" class="rebaseOption"
+            hidden$="[[!_displayParentOption(rebaseOnCurrent, hasParent)]]">
+          <input id="rebaseOnParent"
+              name="rebaseOptions"
+              type="radio"
+              on-tap="_handleRebaseOnParent">
+          <label id="rebaseOnParentLabel" for="rebaseOnParent">
+            Rebase on parent change
           </label>
+        </div>
+        <div id="ParentUpToDateMsg" class="message"
+            hidden$="[[!_displayParentUpToDateMsg(rebaseOnCurrent, hasParent)]]">
+          This change is up to date with its parent.
+        </div>
+        <div id="RebaseOnTip" class="rebaseOption"
+            hidden$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]">
+          <input id="rebaseOnTip"
+              name="rebaseOptions"
+              type="radio"
+              disabled$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]"
+              on-tap="_handleRebaseOnTip">
+          <label id="rebaseOnTipLabel" for="rebaseOnTip">
+            Rebase on top of the [[branch]] branch<span hidden="[[!hasParent]]">
+              (breaks relation chain)
+            </span>
+          </label>
+        </div>
+        <div id="TipUpToDateMsg" class="message"
+            hidden$="[[_displayTipOption(rebaseOnCurrent, hasParent)]]">
+          Change is up to date with the target branch already ([[branch]])
+        </div>
+        <div id="RebaseOnOther" class="rebaseOption">
+          <input id="rebaseOnOther"
+              name="rebaseOptions"
+              type="radio"
+              on-tap="_handleRebaseOnOther">
+          <label id="rebaseOnOtherLabel" for="rebaseOnOther">
+            Rebase on a specific change or ref <span hidden="[[!hasParent]]">
+              (breaks relation chain)
+            </span>
+          </label>
+        </div>
+        <div class="parentRevisionContainer">
           <input is="iron-input"
               type="text"
               id="parentInput"
               bind-value="{{base}}"
+              on-tap="_handleEnterChangeNumberTap"
               placeholder="Change number">
-        </div>
-        <div class="clearParentContainer">
-          <input id="clearParent"
-              hidden$="[[!rebaseOnCurrent]]"
-              type="checkbox"
-              on-tap="_handleClearParentTap"
-              disabled="[[!rebaseOnCurrent]]">
-          <label id="clearParentLabel" for="clearParent"
-              hidden$="[[!rebaseOnCurrent]]">
-            Rebase on top of current branch (clear parent revision).
-          </label>
-          <p id="rebaseUpToDateInfo" class="info" for="clearParent"
-              hidden$="[[rebaseOnCurrent]]">
-            Already up to date with current branch.
-          </p>
         </div>
       </div>
     </gr-confirm-dialog>

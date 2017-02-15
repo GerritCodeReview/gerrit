@@ -24,7 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.SchemaUtil;
 import java.sql.Timestamp;

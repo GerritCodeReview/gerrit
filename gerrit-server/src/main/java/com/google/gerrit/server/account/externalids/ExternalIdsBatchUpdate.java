@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.account.externalids;
 
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
+import static com.google.gerrit.server.account.externalids.ExternalId.toAccountExternalIds;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -46,6 +46,7 @@ public class ExternalIdsBatchUpdate {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final PersonIdent serverIdent;
+  private final ExternalIdCache externalIdCache;
   private final Set<ExternalId> toAdd = new HashSet<>();
   private final Set<ExternalId> toDelete = new HashSet<>();
 
@@ -53,10 +54,12 @@ public class ExternalIdsBatchUpdate {
   public ExternalIdsBatchUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      @GerritPersonIdent PersonIdent serverIdent,
+      ExternalIdCache externalIdCache) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.serverIdent = serverIdent;
+    this.externalIdCache = externalIdCache;
   }
 
   /**
@@ -106,8 +109,10 @@ public class ExternalIdsBatchUpdate {
         ExternalIdsUpdate.insert(rw, ins, noteMap, extId);
       }
 
-      ExternalIdsUpdate.commit(
-          repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
+      ObjectId newRev =
+          ExternalIdsUpdate.commit(
+              repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
+      externalIdCache.onReplace(newRev, toDelete, toAdd);
     }
 
     toAdd.clear();

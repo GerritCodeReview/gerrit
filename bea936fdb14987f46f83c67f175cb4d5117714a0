@@ -142,6 +142,30 @@
       "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0ce0fb0_e9c4805c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-15T08:33:51Z",
+      "side": 1,
+      "message": "So the results should be:\n\n# Predicate(full name parts) **AND** Predicate(email)? \n\nWe can\u0027t use OR here as it will return lots of unrelated results (it\u0027s when it has parts like \"David\"...). But if we use **AND**, we can\u0027t tolerate user\u0027s typo anymore. Query like \"Changcheng Xi \u003cxchangcheng@google.com\u003e\" may get empty result, which is not the current state for \"owner:\" operator.\n\nDo you think we should do like #?",
+      "parentUuid": "279cd10e_7496771a",
+      "range": {
+        "startLine": 1051,
+        "startChar": 21,
+        "endLine": 1051,
+        "endChar": 23
+      },
+      "revId": "bea936fdb14987f46f83c67f175cb4d5117714a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

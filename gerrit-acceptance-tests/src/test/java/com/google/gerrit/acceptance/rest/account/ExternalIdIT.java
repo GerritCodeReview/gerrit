@@ -33,6 +33,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIdCache;
 import com.google.gerrit.server.account.ExternalIds;
 import com.google.gerrit.server.account.ExternalIdsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
@@ -51,6 +52,7 @@ import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 @Sandboxed
@@ -60,6 +62,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ExternalIdsUpdate.Server extIdsUpdate;
 
   @Inject private ExternalIds externalIds;
+
+  @Inject private ExternalIdCache externalIdCache;
 
   @Test
   public void getExternalIDs() throws Exception {
@@ -173,7 +177,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   @Test
   public void retryOnLockFailure() throws Exception {
-    Retryer<Void> retryer =
+    Retryer<ObjectId> retryer =
         ExternalIdsUpdate.retryerBuilder()
             .withBlockStrategy(
                 new BlockStrategy() {
@@ -194,7 +198,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
           public void run() {
             if (!doneBgUpdate.getAndSet(true)) {
               try {
-                extIdsUpdate.create().insert(db, ExternalId.create(barId, admin.id));
+                extIdsUpdate.create().insert(ExternalId.create(barId, admin.id));
               } catch (IOException | ConfigInvalidException | OrmException e) {
                 // Ignore, the successful insertion of the external ID is asserted later
               }
@@ -204,9 +208,15 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
     ExternalIdsUpdate update =
         new ExternalIdsUpdate(
-            repoManager, allUsers, serverIdent.get(), serverIdent.get(), bgUpdate, retryer);
+            repoManager,
+            allUsers,
+            externalIdCache,
+            serverIdent.get(),
+            serverIdent.get(),
+            bgUpdate,
+            retryer);
     assertThat(doneBgUpdate.get()).isFalse();
-    update.insert(db, ExternalId.create(fooId, admin.id));
+    update.insert(ExternalId.create(fooId, admin.id));
     assertThat(doneBgUpdate.get()).isTrue();
 
     assertThat(externalIds.get(fooId)).isNotNull();
@@ -228,7 +238,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
             try {
               extIdsUpdate
                   .create()
-                  .insert(db, ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
+                  .insert(ExternalId.create(extIdsKeys[bgCounter.getAndAdd(1)], admin.id));
             } catch (IOException | ConfigInvalidException | OrmException e) {
               // Ignore, the successful insertion of the external ID is asserted later
             }
@@ -239,16 +249,17 @@ public class ExternalIdIT extends AbstractDaemonTest {
         new ExternalIdsUpdate(
             repoManager,
             allUsers,
+            externalIdCache,
             serverIdent.get(),
             serverIdent.get(),
             bgUpdate,
-            RetryerBuilder.<Void>newBuilder()
+            RetryerBuilder.<ObjectId>newBuilder()
                 .retryIfException(e -> e instanceof LockFailureException)
                 .withStopStrategy(StopStrategies.stopAfterAttempt(extIdsKeys.length))
                 .build());
     assertThat(bgCounter.get()).isEqualTo(0);
     try {
-      update.insert(db, ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));
+      update.insert(ExternalId.create(ExternalId.Key.create("abc", "abc"), admin.id));
       fail("expected LockFailureException");
     } catch (LockFailureException e) {
       // Ignore, expected

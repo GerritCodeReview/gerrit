@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "228e0ecb_7788342d",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2017-02-15T00:49:20Z",
+      "side": 1,
+      "message": "zip -o on mac is \u0027make zipfile as old as latest entry\u0027 which we probably don\u0027t want.",
+      "revId": "c02cc4afc4a175cf5136b61441a5a33dc12ba252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,14 +14,16 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
-import static java.util.stream.Collectors.toSet;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -47,6 +49,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
+  private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
 
   private final ReviewDb db;
@@ -57,12 +60,14 @@ public class ChangeUserName implements Callable<VoidResult> {
   ChangeUserName(
       AccountCache accountCache,
       SshKeyCache sshKeyCache,
+      ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory,
       @Assisted ReviewDb db,
       @Assisted IdentifiedUser user,
       @Nullable @Assisted String newUsername) {
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
+    this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.db = db;
     this.user = user;
@@ -73,11 +78,7 @@ public class ChangeUserName implements Callable<VoidResult> {
   public VoidResult call()
       throws OrmException, NameAlreadyUsedException, InvalidUserNameException, IOException,
           ConfigInvalidException {
-    Collection<ExternalId> old =
-        ExternalId.from(db.accountExternalIds().byAccount(user.getAccountId()).toList())
-            .stream()
-            .filter(e -> e.isScheme(SCHEME_USERNAME))
-            .collect(toSet());
+    Collection<ExternalId> old = externalIds.byAccount(db, user.getAccountId(), SCHEME_USERNAME);
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
@@ -100,8 +101,7 @@ public class ChangeUserName implements Callable<VoidResult> {
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //
-        ExternalId other =
-            ExternalId.from(db.accountExternalIds().get(key.asAccountExternalIdKey()));
+        ExternalId other = externalIds.get(db, key);
         if (other != null && other.accountId().equals(user.getAccountId())) {
           return VoidResult.INSTANCE;
         }

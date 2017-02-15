@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -26,6 +26,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutHttpPassword.Input;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -55,6 +58,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache accountCache;
+  private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdate;
 
   @Inject
@@ -62,10 +66,12 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
       Provider<CurrentUser> self,
       Provider<ReviewDb> dbProvider,
       AccountCache accountCache,
+      ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdate) {
     this.self = self;
     this.dbProvider = dbProvider;
     this.accountCache = accountCache;
+    this.externalIds = externalIds;
     this.externalIdsUpdate = externalIdsUpdate;
   }
 
@@ -109,13 +115,8 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     }
 
     ExternalId extId =
-        ExternalId.from(
-            dbProvider
-                .get()
-                .accountExternalIds()
-                .get(
-                    ExternalId.Key.create(SCHEME_USERNAME, user.getUserName())
-                        .asAccountExternalIdKey()));
+        externalIds.get(
+            dbProvider.get(), ExternalId.Key.create(SCHEME_USERNAME, user.getUserName()));
     if (extId == null) {
       throw new ResourceNotFoundException();
     }

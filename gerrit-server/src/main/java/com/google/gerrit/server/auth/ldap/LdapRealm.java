@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
@@ -30,8 +30,9 @@ import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
-import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -319,21 +320,19 @@ class LdapRealm extends AbstractRealm {
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final ExternalIds externalIds;
 
     @Inject
-    UserLoader(SchemaFactory<ReviewDb> schema) {
+    UserLoader(SchemaFactory<ReviewDb> schema, ExternalIds externalIds) {
       this.schema = schema;
+      this.externalIds = externalIds;
     }
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
       try (ReviewDb db = schema.open()) {
         return Optional.ofNullable(
-                ExternalId.from(
-                    db.accountExternalIds()
-                        .get(
-                            ExternalId.Key.create(SCHEME_GERRIT, username)
-                                .asAccountExternalIdKey())))
+                externalIds.get(db, ExternalId.Key.create(SCHEME_GERRIT, username)))
             .map(ExternalId::accountId);
       }
     }

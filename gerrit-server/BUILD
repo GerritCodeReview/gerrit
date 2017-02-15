@@ -38,6 +38,7 @@ java_library(
         "//lib:args4j",
         "//lib:automaton",
         "//lib:blame-cache",
+        "//lib/bouncycastle:bcprov",
         "//lib:grappa",
         "//lib:gson",
         "//lib:guava",
@@ -231,6 +232,8 @@ junit_tests(
         "//lib/dropwizard:dropwizard-core",
         "//lib/guice:guice-assistedinject",
         "//lib/prolog:runtime",
+        "//lib/bouncycastle:bcprov",
+        "//lib/commons:codec",
     ],
 )
 

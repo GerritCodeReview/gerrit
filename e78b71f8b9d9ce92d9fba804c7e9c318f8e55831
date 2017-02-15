@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9f67d1f_1e12e088",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-15T12:42:15Z",
+      "side": 1,
+      "message": "nit - explian why the 2 \\n\\ns are relevant, either here or in the original code.",
+      "range": {
+        "startLine": 135,
+        "startChar": 63,
+        "endLine": 135,
+        "endChar": 68
+      },
+      "revId": "e78b71f8b9d9ce92d9fba804c7e9c318f8e55831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

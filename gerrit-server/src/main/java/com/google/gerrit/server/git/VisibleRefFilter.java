@@ -110,7 +110,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       String name = ref.getName();
       Change.Id changeId;
       Account.Id accountId;
-      if (name.startsWith(REFS_CACHE_AUTOMERGE) || (!showMetadata && isMetadata(name))) {
+      if (name.startsWith(REFS_CACHE_AUTOMERGE)
+          || (!showMetadata && isMetadata(projectCtl, name))) {
         continue;
       } else if (RefNames.isRefsEdit(name)) {
         // Edits are visible only to the owning user, if change is visible.
@@ -135,6 +136,12 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         }
       } else if (name.startsWith(RefNames.REFS_SEQUENCES)) {
         // Sequences are internal database implementation details.
+        if (viewMetadata) {
+          result.put(name, ref);
+        }
+      } else if (projectCtl.getProjectState().isAllUsers()
+          && name.equals(RefNames.REFS_EXTERNAL_IDS)) {
+        // The notes branch with the external IDs of all users must not be exposed to normal users.
         if (viewMetadata) {
           result.put(name, ref);
         }
@@ -264,8 +271,10 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     }
   }
 
-  private static boolean isMetadata(String name) {
-    return name.startsWith(REFS_CHANGES) || RefNames.isRefsEdit(name);
+  private static boolean isMetadata(ProjectControl projectCtl, String name) {
+    return name.startsWith(REFS_CHANGES)
+        || RefNames.isRefsEdit(name)
+        || (projectCtl.getProjectState().isAllUsers() && name.equals(RefNames.REFS_EXTERNAL_IDS));
   }
 
   private static boolean isTag(Ref ref) {

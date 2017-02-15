@@ -56,6 +56,18 @@ public class AclUtil {
     }
   }
 
+  public static void block(
+      ProjectConfig config, AccessSection section, String permission, GroupReference... groupList) {
+    Permission p = section.getPermission(permission, true);
+    for (GroupReference group : groupList) {
+      if (group != null) {
+        PermissionRule r = rule(config, group);
+        r.setBlock();
+        p.add(r);
+      }
+    }
+  }
+
   public static void grant(
       ProjectConfig config,
       AccessSection section,

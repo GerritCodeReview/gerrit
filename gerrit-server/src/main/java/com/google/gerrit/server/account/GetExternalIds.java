@@ -22,40 +22,38 @@ import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @Singleton
 public class GetExternalIds implements RestReadView<AccountResource> {
-  private final Provider<ReviewDb> db;
+  private final ExternalIdCache externalIdCache;
   private final Provider<CurrentUser> self;
   private final AuthConfig authConfig;
 
   @Inject
-  GetExternalIds(Provider<ReviewDb> db, Provider<CurrentUser> self, AuthConfig authConfig) {
-    this.db = db;
+  GetExternalIds(
+      ExternalIdCache externalIdCache, Provider<CurrentUser> self, AuthConfig authConfig) {
+    this.externalIdCache = externalIdCache;
     this.self = self;
     this.authConfig = authConfig;
   }
 
   @Override
   public List<AccountExternalIdInfo> apply(AccountResource resource)
-      throws RestApiException, OrmException {
+      throws RestApiException, IOException {
     if (self.get() != resource.getUser()) {
       throw new AuthException("not allowed to get external IDs");
     }
 
-    Collection<ExternalId> ids =
-        ExternalId.from(
-            db.get().accountExternalIds().byAccount(resource.getUser().getAccountId()).toList());
+    Collection<ExternalId> ids = externalIdCache.byAccount(resource.getUser().getAccountId());
     if (ids.isEmpty()) {
       return ImmutableList.of();
     }

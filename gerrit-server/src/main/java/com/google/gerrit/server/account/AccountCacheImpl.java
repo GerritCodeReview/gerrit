@@ -149,6 +149,7 @@ public class AccountCacheImpl implements AccountCache {
     private final GeneralPreferencesLoader loader;
     private final LoadingCache<String, Optional<Account.Id>> byName;
     private final Provider<WatchConfig.Accessor> watchConfig;
+    private final ExternalIdCache externalIdCache;
 
     @Inject
     ByIdLoader(
@@ -156,12 +157,14 @@ public class AccountCacheImpl implements AccountCache {
         GroupCache groupCache,
         GeneralPreferencesLoader loader,
         @Named(BYUSER_NAME) LoadingCache<String, Optional<Account.Id>> byUsername,
-        Provider<WatchConfig.Accessor> watchConfig) {
+        Provider<WatchConfig.Accessor> watchConfig,
+        ExternalIdCache externalIdCache) {
       this.schema = sf;
       this.groupCache = groupCache;
       this.loader = loader;
       this.byName = byUsername;
       this.watchConfig = watchConfig;
+      this.externalIdCache = externalIdCache;
     }
 
     @Override
@@ -184,9 +187,6 @@ public class AccountCacheImpl implements AccountCache {
         return missing(who);
       }
 
-      Set<ExternalId> externalIds =
-          ExternalId.from(db.accountExternalIds().byAccount(who).toList());
-
       Set<AccountGroup.UUID> internalGroups = new HashSet<>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
         final AccountGroup.Id groupId = g.getAccountGroupId();
@@ -205,7 +205,10 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       return new AccountState(
-          account, internalGroups, externalIds, watchConfig.get().getProjectWatches(who));
+          account,
+          internalGroups,
+          externalIdCache.byAccount(who),
+          watchConfig.get().getProjectWatches(who));
     }
   }
 

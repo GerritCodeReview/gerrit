@@ -14,13 +14,13 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -103,14 +103,17 @@ public class SshKeyCacheImpl implements SshKeyCache {
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
       try (ReviewDb db = schema.open()) {
-        AccountExternalId.Key key = new AccountExternalId.Key(SCHEME_USERNAME, username);
-        AccountExternalId user = db.accountExternalIds().get(key);
+        ExternalId user =
+            ExternalId.from(
+                db.accountExternalIds()
+                    .get(
+                        ExternalId.Key.create(SCHEME_USERNAME, username).asAccountExternalIdKey()));
         if (user == null) {
           return NO_SUCH_USER;
         }
 
         List<SshKeyCacheEntry> kl = new ArrayList<>(4);
-        for (AccountSshKey k : authorizedKeys.getKeys(user.getAccountId())) {
+        for (AccountSshKey k : authorizedKeys.getKeys(user.accountId())) {
           if (k.isValid()) {
             add(kl, k);
           }

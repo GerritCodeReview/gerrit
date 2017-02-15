@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4fabfd3_5b95aa1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T00:41:34Z",
+      "side": 1,
+      "message": "In principle, at least, we only need to send out two emails. A multipart one for users who haven\u0027t disabled HTML and the text one for those who have. Is that correct? This sounds like it\u0027s sending one email for all multipart users and additional emails for *each* plaintext user. Is this correct?\n\nWhat do you mean by \"making one thread\". Is this using the threading email headers, or is it that mail clients don\u0027t group them in the same way? I don\u0027t think we do anything specific to threading for HTML emails do we?",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 15,
+        "endChar": 58
+      },
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1646d44e_0ddeb100",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T00:41:34Z",
+      "side": 1,
+      "message": "Is the aforementioned caveat that two different kinds of email need to be sent?",
+      "range": {
+        "startLine": 17,
+        "startChar": 49,
+        "endLine": 17,
+        "endChar": 70
+      },
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91f8ffee_60e6b345",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T00:41:34Z",
+      "side": 1,
+      "message": "Is it a problem now? This is confusing.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a9dcb7b_ba412df8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T00:41:34Z",
+      "side": 1,
+      "message": "Include an issue reference?",
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04217b0f_0a4ecd58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T00:41:34Z",
+      "side": 1,
+      "message": "Nit: some of these lines exceed 80 characters in length.",
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72f932ab_245a5ef1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T00:41:34Z",
+      "side": 1,
+      "message": "This also means that users who get multipart emails will not see plaintext reviewers and CCs in the TO and CC lines of the message. The inverse is also the case for plaintext users. Is this not a regression?\n\nIf a user replies to a message that was variously sent to multipart and plaintext users, will they only be sending it to the recipients who have the same format preference as them?\n\nIf so, is there a way around this using Reply-To headers or similar?",
+      "range": {
+        "startLine": 196,
+        "startChar": 6,
+        "endLine": 198,
+        "endChar": 33
+      },
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ae08c54_40c89489",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T00:41:34Z",
+      "side": 1,
+      "message": "This doesn\u0027t change the setting on the backend because changes in this need to be synchronized with the object that gets serialized in the save request.\n\nThankfully, it\u0027s as simple as adding a \u0027email_format\u0027 entry to the `PREFS_SECTION_FIELDS` array at the top of gr-settings-view.js in this same folder.",
+      "range": {
+        "startLine": 182,
+        "startChar": 30,
+        "endLine": 182,
+        "endChar": 58
+      },
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -126,10 +126,17 @@
           ];
         },
       },
+      _hasKnownChainState: {
+        type: Boolean,
+        value: false,
+      },
       changeNum: String,
       changeStatus: String,
       commitNum: String,
-      hasParent: Boolean,
+      hasParent: {
+        type: Boolean,
+        observer: '_computeChainState',
+      },
       patchNum: String,
       commitMessage: {
         type: String,
@@ -489,6 +496,22 @@
       return key === '/' ? key : '/' + key;
     },
 
+    /**
+     * Returns true if hasParent is defined (can be either true or
+     * false). returns false otherwise.
+     * @return {boolean} hasParent
+     */
+    _computeChainState: function(hasParent) {
+      this._hasKnownChainState = true;
+    },
+
+    _calculateDisabled: function(action, hasKnownChainState) {
+      if (action.__key === 'rebase' && hasKnownChainState === false) {
+        return true;
+      }
+      return !action.enabled;
+    },
+
     _handleConfirmDialogCancel: function() {
       this._hideAllDialogs();
     },
@@ -503,19 +526,8 @@
     },
 
     _handleRebaseConfirm: function() {
-      var payload = {};
       var el = this.$.confirmRebase;
-      if (el.clearParent) {
-        // There is a subtle but important difference between setting the base
-        // to an empty string and omitting it entirely from the payload. An
-        // empty string implies that the parent should be cleared and the
-        // change should be rebased on top of the target branch. Leaving out
-        // the base implies that it should be rebased on top of its current
-        // parent.
-        payload.base = '';
-      } else if (el.base && el.base.length > 0) {
-        payload.base = el.base;
-      }
+      var payload = {base: el.base};
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction('/rebase', this.revisionActions.rebase, true, payload);
@@ -617,47 +629,50 @@
     },
 
     _handleResponse: function(action, response) {
+      if (!response) { return; }
       return this.$.restAPI.getResponseObject(response).then(function(obj) {
-        switch (action.__key) {
-          case ChangeActions.REVERT:
-            this._setLabelValuesOnRevert(obj.change_id);
-            /* falls through */
-          case RevisionActions.CHERRYPICK:
-            page.show(this.changePath(obj._number));
-            break;
-          case ChangeActions.DELETE:
-          case RevisionActions.DELETE:
-            if (action.__type === ActionType.CHANGE) {
-              page.show('/');
-            } else {
-              page.show(this.changePath(this.changeNum));
-            }
-            break;
-          default:
-            this.dispatchEvent(new CustomEvent('reload-change',
-                {detail: {action: action.__key}, bubbles: false}));
-            break;
-        }
+          switch (action.__key) {
+            case ChangeActions.REVERT:
+              this._setLabelValuesOnRevert(obj.change_id);
+              /* falls through */
+            case RevisionActions.CHERRYPICK:
+              page.show(this.changePath(obj._number));
+              break;
+            case ChangeActions.DELETE:
+            case RevisionActions.DELETE:
+              if (action.__type === ActionType.CHANGE) {
+                page.show('/');
+              } else {
+                page.show(this.changePath(this.changeNum));
+              }
+              break;
+            default:
+              this.dispatchEvent(new CustomEvent('reload-change',
+                  {detail: {action: action.__key}, bubbles: false}));
+              break;
+          }
       }.bind(this));
     },
 
     _handleResponseError: function(response) {
-      if (response.ok) { return response; }
-
       return response.text().then(function(errText) {
-        alert('Could not perform action: ' + errText);
-        throw Error(errText);
-      });
+        this.fire('show-alert',
+            { message: 'Could not perform action: ' + errText });
+        if (errText.indexOf('Change is already up to date') !== 0) {
+          throw Error(errText);
+        }
+      }.bind(this));
     },
 
     _send: function(method, payload, actionEndpoint, revisionAction,
-        cleanupFn) {
+        cleanupFn, opt_errorFn) {
       var url = this.$.restAPI.getChangeActionURL(this.changeNum,
           revisionAction ? this.patchNum : null, actionEndpoint);
-      return this.$.restAPI.send(method, url, payload).then(function(response) {
-        cleanupFn.call(this);
-        return response;
-      }.bind(this)).then(this._handleResponseError.bind(this));
+      return this.$.restAPI.send(method, url, payload,
+          this._handleResponseError, this).then(function(response) {
+            cleanupFn.call(this);
+            return response;
+      }.bind(this));
     },
 
     _handleAbandonTap: function() {

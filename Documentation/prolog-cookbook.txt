@@ -998,6 +998,56 @@ only_allow_author_to_submit(S, S) :-
 only_allow_author_to_submit(S1, [label('Only-Author-Can-Submit', need(_)) | S1]).
 ----
 
+=== Example 16: Make change submittable if all comments have been resolved
+In this example we will use the `unresolved_comments_count` fact about a
+change. Our goal is to block the submission of any change with some
+unresolved comments. Basically, it can be achieved by the following rules:
+
+`rules.pl`
+[source,prolog]
+----
+submit_rule(submit(R)) :-
+    gerrit:unresolved_comments_count(0),
+    !,
+    gerrit:commit_author(A),
+    R = label('All-Comments-Resolved', ok(A)).
+
+submit_rule(submit(R)) :-
+    gerrit:unresolved_comments_count(U),
+    U > 0,
+    R = label('All-Comments-Resolved', need(_)).
+----
+
+Suppose currently a change is submittable if it gets `+2` for `Code-Review`
+and `+1` for `Verified`. It can be extended to support the above rules as
+follows:
+
+`rules.pl`
+[source,prolog]
+----
+submit_rule(submit(CR, V, R)) :-
+    base(CR, V),
+    gerrit:unresolved_comments_count(0),
+    !,
+    gerrit:commit_author(A),
+    R = label('All-Comments-Resolved', ok(A)).
+
+submit_rule(submit(CR, V, R)) :-
+    base(CR, V),
+    gerrit:unresolved_comments_count(U),
+    U > 0,
+    R = label('All-Comments-Resolved', need(_)).
+
+base(CR, V) :-
+    gerrit:max_with_block(-2, 2, 'Code-Review', CR),
+    gerrit:max_with_block(-1, 1, 'Verified', V).
+----
+
+Note that a new label as `All-Comments-Resolved` should not be configured.
+It's only used to show `'Needs All-Comments-Resolved'` in the UI to clearly
+indicate to the user that all the comments have to be resolved for the
+change to become submittable.
+
 == Examples - Submit Type
 The following examples show how to implement own submit type rules.
 

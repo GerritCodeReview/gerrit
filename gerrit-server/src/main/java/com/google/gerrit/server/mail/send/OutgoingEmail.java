@@ -19,14 +19,12 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
@@ -73,7 +71,6 @@ public abstract class OutgoingEmail {
   private final HashSet<Account.Id> rcptTo = new HashSet<>();
   private final Map<String, EmailHeader> headers;
   private final Set<Address> smtpRcptTo = new HashSet<>();
-  private final Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
   private Address smtpFromAddress;
   private StringBuilder textBody;
   private StringBuilder htmlBody;
@@ -148,19 +145,14 @@ public abstract class OutgoingEmail {
         }
 
         // Check the preferences of all recipients. If any user has disabled
-        // his email notifications then drop him from recipients' list.
-        // In addition, check if users only want to receive plaintext email.
+        // his email notifications then drop him from recipients' list
         for (Account.Id id : rcptTo) {
           Account thisUser = args.accountCache.get(id).getAccount();
           GeneralPreferencesInfo prefs = thisUser.getGeneralPreferencesInfo();
           if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
             removeUser(thisUser);
-          } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
-            removeUser(thisUser);
-            smtpRcptToPlaintextOnly.add(
-                new Address(thisUser.getFullName(), thisUser.getPreferredEmail()));
           }
-          if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
+          if (smtpRcptTo.isEmpty()) {
             return;
           }
         }
@@ -174,7 +166,6 @@ public abstract class OutgoingEmail {
       va.headers = headers;
 
       va.body = textPart;
-
       if (useHtml()) {
         va.htmlBody = htmlBody.toString();
       } else {
@@ -189,27 +180,7 @@ public abstract class OutgoingEmail {
         }
       }
 
-      if (!smtpRcptTo.isEmpty()) {
-        args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
-      }
-
-      // Send plaintext emails: This is different than HTML emails as users have explicitly agreed
-      // to receive this email as plaintext only at the cost of not being in the same email thread
-      // as the other recipients.
-      for (Address a : smtpRcptToPlaintextOnly) {
-        // Shallow copy map
-        Map<String, EmailHeader> shallowCopy = new HashMap<>();
-        shallowCopy.putAll(headers);
-        // Remove To and Cc
-        shallowCopy.remove(HDR_TO);
-        shallowCopy.remove(HDR_CC);
-        // Add new To
-        EmailHeader.AddressList to = new EmailHeader.AddressList();
-        to.add(a);
-        shallowCopy.put(HDR_TO, to);
-        // Send message
-        args.emailSender.send(va.smtpFromAddress, ImmutableList.of(a), shallowCopy, va.body);
-      }
+      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
     }
   }
 

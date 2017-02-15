@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b3c6fc_faf99c47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T18:29:26Z",
+      "side": 1,
+      "message": "Add an issue reference\n\n  Feature: Issue 5349",
+      "revId": "480d0877827e5a20642fab613dc9fe7b84e57e37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

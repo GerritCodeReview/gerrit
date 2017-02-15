@@ -70,6 +70,24 @@
       "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08fe3e4c_82d7706d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T21:38:34Z",
+      "side": 1,
+      "message": "I like that one too! Done.",
+      "parentUuid": "7777ca44_8835db9b",
+      "revId": "dd110628a6f153fa2d9bb374be95dcd54659fb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

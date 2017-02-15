@@ -123,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "7d662bcc_33f731fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T01:00:36Z",
+      "side": 1,
+      "message": "Ah, my mistake.",
+      "parentUuid": "24b5cc89_a48f4296",
+      "revId": "39777363a63c603cfa68ca52d2f3c99eb04f2f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72f932ab_245a5ef1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 3

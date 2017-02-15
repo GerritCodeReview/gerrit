@@ -14,10 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.server.account.ExternalId.toAccountExternalIds;
-
 import com.google.gerrit.pgm.init.api.InitFlags;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.ExternalIds;
@@ -52,10 +49,8 @@ public class ExternalIdsOnInit {
     this.allUsers = allUsers.get();
   }
 
-  public synchronized void insert(ReviewDb db, String commitMessage, Collection<ExternalId> extIds)
+  public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
       throws OrmException, IOException, ConfigInvalidException {
-    db.accountExternalIds().insert(toAccountExternalIds(extIds));
-
     File path = getPath();
     if (path != null) {
       try (Repository repo = new FileRepository(path);

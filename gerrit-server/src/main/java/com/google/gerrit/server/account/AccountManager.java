@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static java.util.stream.Collectors.toSet;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
@@ -60,6 +58,8 @@ public class AccountManager {
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final AuditService auditService;
   private final Provider<InternalAccountQuery> accountQueryProvider;
+  private final ExternalIdCache externalIdCache;
+  private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
 
   @Inject
@@ -73,6 +73,8 @@ public class AccountManager {
       ProjectCache projectCache,
       AuditService auditService,
       Provider<InternalAccountQuery> accountQueryProvider,
+      ExternalIdCache externalIdCache,
+      ExternalIds externalIds,
       ExternalIdsUpdate.Server externalIdsUpdateFactory) {
     this.schema = schema;
     this.byIdCache = byIdCache;
@@ -84,6 +86,8 @@ public class AccountManager {
     this.awaitsFirstAccountCheck = new AtomicBoolean(true);
     this.auditService = auditService;
     this.accountQueryProvider = accountQueryProvider;
+    this.externalIdCache = externalIdCache;
+    this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
   }
 
@@ -164,9 +168,7 @@ public class AccountManager {
       externalIdsUpdateFactory
           .create()
           .replace(
-              db,
-              extId,
-              ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password()));
+              extId, ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password()));
     }
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
@@ -227,8 +229,7 @@ public class AccountManager {
     try {
       db.accounts().upsert(Collections.singleton(account));
 
-      ExternalId existingExtId =
-          ExternalId.from(db.accountExternalIds().get(extId.key().asAccountExternalIdKey()));
+      ExternalId existingExtId = externalIds.get(extId.key());
       if (existingExtId != null && !existingExtId.accountId().equals(extId.accountId())) {
         // external ID is assigned to another account, do not overwrite
         db.accounts().delete(Collections.singleton(account));
@@ -239,7 +240,7 @@ public class AccountManager {
                 + newId
                 + "; external ID already in use.");
       }
-      externalIdsUpdateFactory.create().upsert(db, extId);
+      externalIdsUpdateFactory.create().upsert(extId);
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as
@@ -272,7 +273,7 @@ public class AccountManager {
       //
       IdentifiedUser user = userFactory.create(newId);
       try {
-        changeUserNameFactory.create(db, user, who.getUserName()).call();
+        changeUserNameFactory.create(user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {
         String message =
             "Cannot assign user name \""
@@ -340,7 +341,7 @@ public class AccountManager {
       // this is why the best we can do here is to fail early and cleanup
       // the database
       db.accounts().delete(Collections.singleton(account));
-      externalIdsUpdateFactory.create().delete(db, extId);
+      externalIdsUpdateFactory.create().delete(extId);
       throw new AccountUserNameException(errorMessage, e);
     }
   }
@@ -366,8 +367,7 @@ public class AccountManager {
       } else {
         externalIdsUpdateFactory
             .create()
-            .insert(
-                db, ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
+            .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
 
         if (who.getEmailAddress() != null) {
           Account a = db.accounts().get(to);
@@ -404,10 +404,7 @@ public class AccountManager {
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     try (ReviewDb db = schema.open()) {
       Collection<ExternalId> filteredExtIdsByScheme =
-          ExternalId.from(db.accountExternalIds().byAccount(to).toList())
-              .stream()
-              .filter(e -> e.isScheme(who.getExternalIdKey().scheme()))
-              .collect(toSet());
+          externalIdCache.byAccount(to, who.getExternalIdKey().scheme());
 
       if (!filteredExtIdsByScheme.isEmpty()
           && (filteredExtIdsByScheme.size() > 1
@@ -416,7 +413,7 @@ public class AccountManager {
                   .filter(e -> e.key().equals(who.getExternalIdKey()))
                   .findAny()
                   .isPresent())) {
-        externalIdsUpdateFactory.create().delete(db, filteredExtIdsByScheme);
+        externalIdsUpdateFactory.create().delete(filteredExtIdsByScheme);
       }
       byIdCache.evict(to);
       return link(to, who);
@@ -441,7 +438,7 @@ public class AccountManager {
           throw new AccountException(
               "Identity '" + who.getExternalIdKey().get() + "' in use by another account");
         }
-        externalIdsUpdateFactory.create().delete(db, extId);
+        externalIdsUpdateFactory.create().delete(extId);
 
         if (who.getEmailAddress() != null) {
           Account a = db.accounts().get(from);

@@ -16,6 +16,24 @@
       "revId": "c02cc4afc4a175cf5136b61441a5a33dc12ba252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b59affc3_dddb1b2a",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1019802
+      },
+      "writtenOn": "2017-02-15T01:21:07Z",
+      "side": 1,
+      "message": "Oh, what command do we use on mac?",
+      "parentUuid": "228e0ecb_7788342d",
+      "revId": "c02cc4afc4a175cf5136b61441a5a33dc12ba252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

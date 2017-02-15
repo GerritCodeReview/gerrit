@@ -47,7 +47,7 @@ option instead:
 Example to set a Gerrit project's link:rest-api-projects.html#set-project-description[description]:
 
 ----
- curl -X PUT --digest --user john:2LlAB3K9B0PF --data-binary @project-desc.txt --header "Content-Type: application/json; charset=UTF-8" http://localhost:8080/a/projects/myproject/description
+ curl -X PUT --user john:2LlAB3K9B0PF --data-binary @project-desc.txt --header "Content-Type: application/json; charset=UTF-8" http://localhost:8080/a/projects/myproject/description
 ----
 
 === Authentication
@@ -56,7 +56,7 @@ To test APIs that require authentication, the username and password must be spec
 the command line:
 
 ----
- curl --digest --user username:password http://localhost:8080/a/path/to/api/
+ curl --user username:password http://localhost:8080/a/path/to/api/
 ----
 
 This makes it easy to switch users for testing of permissions.
@@ -65,7 +65,7 @@ It is also possible to test with a username and password from the `.netrc`
 file (on Windows, `_netrc`):
 
 ----
- curl --digest -n http://localhost:8080/a/path/to/api/
+ curl -n http://localhost:8080/a/path/to/api/
 ----
 
 In both cases, the password should be the user's link:user-upload.html#http[HTTP password].
@@ -75,7 +75,7 @@ In both cases, the password should be the user's link:user-upload.html#http[HTTP
 To verify the headers returned from a REST API call, use `curl` in verbose mode:
 
 ----
-  curl -v -n --digest -X DELETE http://localhost:8080/a/path/to/api/
+  curl -v -n -X DELETE http://localhost:8080/a/path/to/api/
 ----
 
 The headers on both the request and the response will be printed.

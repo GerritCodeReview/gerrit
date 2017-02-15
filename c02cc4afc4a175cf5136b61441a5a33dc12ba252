@@ -34,6 +34,24 @@
       "revId": "c02cc4afc4a175cf5136b61441a5a33dc12ba252",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c959686_11ab3e2d",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-15T01:27:58Z",
+      "side": 1,
+      "message": "we will have to use -o here as the command differs on different os.",
+      "parentUuid": "228e0ecb_7788342d",
+      "revId": "c02cc4afc4a175cf5136b61441a5a33dc12ba252",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

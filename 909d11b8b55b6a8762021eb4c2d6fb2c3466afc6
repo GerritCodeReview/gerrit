@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "68d6677c_6a722a32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T07:39:49Z",
+      "side": 1,
+      "message": "\u003e Let me add \"migration\" to this list :)\n\nOn a second thought: after reading Sasa\u0027s and Logan\u0027s comment that WIP is also required for their worklfow, and given the fact that we ae trying to add this workflow for years in many fruitless atempts, and we agree at least for now, to add WIP to gerrit core, and given that the words \"draft\" and \"work in progress\" are synonyms for the same concept, i would like to suggest different approach for introdcution of WIP in gerrit core an migration path:\n\n* 1. Rename DRAFT enum in Change.Status to WIP, with value \"w\" instead of \"d\"\n* 2. Rename magic branch from %draft to %wip\n* 3. Discontinue visibiliy constraints for draft workflow incarnation as WIP worklfow\n* 4. Dicontinue any removal semantic, of WIP changes\n* 5. Old Publish draft command would mean: setting status of the change to new\n* 6. Old Delete draft command would mean: setting the status of th change to wip, withot deleteing anything\n* 7. Migration path:\n\n  update changes set status\u003d\u0027w\u0027 where status\u003d\u0027d\u0027;\n\nAt that point, we agree that we disagree ;-) as you pointed out, that the users would be surprised, but in the same time you agree, that the current DRAFT workflow is extermel hard to grasp and something must be changes, simplified, replace witrh different concept, orthogonal to visibility and status of not ready.\n\nOf course at that point you could implement any different workflow, like \"private changes\", hook in that migration process, and per configuration, do your own \"thing\" instead (in NotesDb, probably):\n\n  pdate changes set private \u003d \u00271\u0027 where status\u003d\u0027d\u0027;\n  update changes set status\u003d\u0027n\u0027 where status\u003d\u0027d\u0027;\n\nThe reason i\u0027m suggesting now (and added this alternative Design Proposal to my WIP proposal change: [1]) is that WIP and MERGED status are mutualy exclusive, and it is very natural to express that in the already existing enum. In the end, we don\u0027t question, why ABANDONED statue in Change.Status is justified?!\n\nSo that all those transition are very easy to grasp, even for gerrit newbie. What is the WIP workflow? this is a special  state WIP of a change, with this two implication:\n\n* shutdown notification firehouse for reviewers\n* take that change down from alle reviewers dashboards\n\nand these possible/allowed transitions: already immediately visualize the concept of WIP:\n\nNEW -\u003e MEGED\nNEW -\u003e ABANDONED [-\u003e NEW]\nNEW -\u003e WIP -\u003e NEW -\u003e MERGED\nNEW -\u003e WIP -\u003e ABDANDONED -\u003e NEW\n\n^^^or do we need here actually yet another state, WIP_ABANDONED, so that restoring WIP change wouldn\u0027t kick the notification firohouse to 42 reviewers, given that the change status is stil wip after restoring:\n\nNEW -\u003e WIP -\u003e ABDANDONED_WIP -\u003e WIP -\u003e NEW -\u003e MERGED\n\n* [1] https://gerrit-review.googlesource.com/#/c/97245/9/Documentation/proposal-wip.txt@98",
+      "parentUuid": "3d6bdd43_35bcc3ae",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "909d11b8b55b6a8762021eb4c2d6fb2c3466afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76220d01_0e849c16",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 3

@@ -619,6 +619,57 @@ submit_rule(submit(Fix)) :-
     Fix = label('Commit-Message-starts-with-Fix', need(_)).
 ----
 
+=== Example 8: Make change submittable if all comments have been resolved
+In this example we will use the `unresolved_comments_count` fact about a
+change, which is automatically exposed by Gerrit. Our goal is to block
+the submission of any change with some unresolved comments. Basically,
+you can achieve this by the following rules:
+
+`rules.pl`
+[source,prolog]
+----
+submit_rule(submit(R)) :-
+  gerrit:unresolved_comments_count(0),
+  gerrit:commit_author(A),
+  R = label('All-Comments-Resolved', ok(A)),
+  !.
+
+submit_rule(submit(R)) :-
+  gerrit:unresolved_comments_count(U),
+  U > 0,
+  R = label('All-Comments-Resolved', need(_)).
+----
+
+Assuming currently for your project, a change is submittable if it gets
+`+2` for Code-Review` and `+1` for `Verified`. If you want to extend
+your submission rules to support the above rules, you can do as:
+
+`rules.pl`
+[source,prolog]
+----
+submit_rule(submit(CR, V, R)) :-
+  base(CR, V),
+  gerrit:unresolved_comments_count(0),
+  gerrit:commit_author(A),
+  R = label('All-Comments-Resolved', ok(A)),
+  !.
+
+submit_rule(submit(CR, V, R)) :-
+  base(CR, V),
+  gerrit:unresolved_comments_count(U),
+  U > 0,
+  R = label('All-Comments-Resolved', need(_)).
+
+base(CR, V) :-
+    gerrit:max_with_block(-2, 2, 'Code-Review', CR),
+    gerrit:max_with_block(-1, 1, 'Verified', V).
+----
+
+Not that, you shouldn't configure a new label as `All-Comments-Resolved`.
+It's only used to show `'Needs All-Comments-Resolved'` in the UI to clearly
+indicate to the user that all the comments have to be resolved for the
+change to become submittable.
+
 == The default submit policy
 All examples until now concentrate on one particular aspect of change data.
 However, in real-life scenarios we would rather want to reuse Gerrit's default
@@ -678,7 +729,7 @@ project_specific_policy(R, S) :- ...
 In the following examples both styles will be shown.
 
 [[NonAuthorCodeReview]]
-=== Example 8: Make change submittable only if `Code-Review+2` is given by a non author
+=== Example 9: Make change submittable only if `Code-Review+2` is given by a non author
 In this example we introduce a new label `Non-Author-Code-Review` and make it
 satisfied if there is at least one `Code-Review+2` from a non author. All other
 default policies like the `Verified` category and vetoing changes still apply.
@@ -760,7 +811,7 @@ invokes the `gerrit:default_submit` and then modifies its result.
 Which of these two behaviors is desired will always depend on how a particular
 Gerrit server is managed.
 
-=== Example 9: Remove the `Verified` category
+=== Example 10: Remove the `Verified` category
 A project has no build and test. It consists of only text files and needs only
 code review.  We want to remove the `Verified` category from this project so
 that `Code-Review+2` is the only criteria for a change to become submittable.
@@ -792,7 +843,7 @@ remove_verified_category([label('Verified', _) | T], R) :- remove_verified_categ
 remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
 ----
 
-=== Example 10: Combine examples 8 and 9
+=== Example 11: Combine examples 9 and 10
 In this example we want to both remove the verified and have the four eyes
 principle.  This means we want a combination of examples 7 and 8.
 
@@ -831,7 +882,7 @@ base(CR) :-
     gerrit:max_with_block(-2, 2, 'Code-Review', CR).
 ----
 
-=== Example 11: Remove the `Verified` category from all projects
+=== Example 12: Remove the `Verified` category from all projects
 Example 9, implements `submit_rule` that removes the `Verified` category from
 one project. In this example we do the same but we want to remove the `Verified`
 category from all projects. This means we have to implement `submit_filter` and
@@ -850,7 +901,7 @@ remove_verified_category([label('Verified', _) | T], R) :- remove_verified_categ
 remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
 ----
 
-=== Example 12: On release branches require DrNo in addition to project rules
+=== Example 13: On release branches require DrNo in addition to project rules
 A new category 'DrNo' is added to the database and is required for release
 branches. To mark a branch as a release branch we use
 `drno('refs/heads/branch')`.
@@ -875,7 +926,7 @@ submit_filter(In, Out) :-
 submit_filter(In, Out) :- In = Out.
 ----
 
-=== Example 13: 1+1=2 Code-Review
+=== Example 14: 1+1=2 Code-Review
 In this example we introduce accumulative voting to determine if a change is
 submittable or not. We modify the standard `Code-Review` to be accumulative, and
 make the change submittable if the total score is `2` or higher.
@@ -939,7 +990,7 @@ sum_list([X|T], Y, S) :- Z is X + Y, sum_list(T, Z, S).
 sum_list([], S, S).
 ----
 
-=== Example 14: Master and apprentice
+=== Example 15: Master and apprentice
 The master and apprentice example allow you to specify a user (the `master`)
 that must approve all changes done by another user (the `apprentice`).
 
@@ -975,7 +1026,7 @@ add_apprentice_master(S1, S2) :-
 add_apprentice_master(S, S).
 ----
 
-=== Example 15: Only allow Author to submit change
+=== Example 16: Only allow Author to submit change
 This example adds a new needed category `Only-Author-Can-Submit` for any user
 that is not the author of the patch. This effectively blocks all users except
 the author from submitting the change. This could result in an impossible

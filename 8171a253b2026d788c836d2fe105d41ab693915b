@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "da78a000_6627ef6f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T17:24:35Z",
+      "side": 1,
+      "message": "@Viktar, would removing the WebComponentsReady disrupt anything in the GA tracking?",
+      "parentUuid": "6ac9b1ac_02269596",
+      "revId": "8171a253b2026d788c836d2fe105d41ab693915b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a4f1bfc_abb863a9",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 3
@@ -51,6 +69,24 @@
       "revId": "8171a253b2026d788c836d2fe105d41ab693915b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "803a11df_f12fc13d",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-15T17:24:35Z",
+      "side": 1,
+      "message": "Done (converted to an unassigned todo with a @see attribute for the issue link)\n\nI have seen this format somewhere, but it appears not in this codebase. I didn\u0027t want to put a name in there because the issue is unassigned.",
+      "parentUuid": "2a4f1bfc_abb863a9",
+      "revId": "8171a253b2026d788c836d2fe105d41ab693915b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

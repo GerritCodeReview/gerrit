@@ -630,6 +630,10 @@
       return classes.join(' ');
     },
 
+    _computeExpandInlineClass: function(userPrefs) {
+      return userPrefs.expand_inline_diffs ? 'expandInline' : '';
+    },
+
     _computePathClass: function(path, expandedFilesRecord) {
       return this._isFileExpanded(path, expandedFilesRecord) ? 'path expanded' :
           'path';

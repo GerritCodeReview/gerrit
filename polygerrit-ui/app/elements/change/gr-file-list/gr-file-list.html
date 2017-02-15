@@ -124,6 +124,9 @@ limitations under the License.
         padding-right: 2.6em;
         text-align: right;
       }
+      .expandInline {
+        padding-right: .25em;
+      }
       .warning {
         color: #666;
       }
@@ -318,7 +321,7 @@ limitations under the License.
           project-config="[[projectConfig]]"
           view-mode="[[_getDiffViewMode(diffViewMode, _userPrefs)]]"></gr-diff>
     </template>
-    <div class="row totalChanges">
+    <div class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]">
       <div class="total-stats" hidden$="[[_hideChangeTotals]]">
         <span
             class="added"
@@ -334,7 +337,7 @@ limitations under the License.
         </span>
       </div>
     </div>
-    <div class="row totalChanges">
+    <div class$="row totalChanges [[_computeExpandInlineClass(_userPrefs)]]">
       <div class="total-stats" hidden$="[[_hideBinaryChangeTotals]]">
         <span class="added" aria-label="Total lines added">
           [[_formatBytes(_patchChange.size_delta_inserted)]]

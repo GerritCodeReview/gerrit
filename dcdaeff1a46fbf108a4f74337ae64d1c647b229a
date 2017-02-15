@@ -39,6 +39,30 @@
       "revId": "dcdaeff1a46fbf108a4f74337ae64d1c647b229a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "748942ac_3bdcae6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-15T20:56:29Z",
+      "side": 1,
+      "message": "I actually don\u0027t think we can specify a branch.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#rebase-change\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#rebase-input\n\nIf I understand correctly, we can only rebase on the current branch by selecting the tip of branch option.  \n\nThis is what the docs say \u0027base\u0027 can be:\nThe new parent revision. This can be a ref or a SHA1 to a concrete patchset.\nAlternatively, a change number can be specified, in which case the current patch set is inferred.\nEmpty string is used for rebasing directly on top of the target branch, which effectively breaks dependency towards a parent change.",
+      "parentUuid": "c636f41f_84fd78a7",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "dcdaeff1a46fbf108a4f74337ae64d1c647b229a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

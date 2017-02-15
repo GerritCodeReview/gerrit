@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -29,11 +29,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {
@@ -48,6 +47,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
+  private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
 
   private final ReviewDb db;
   private final IdentifiedUser user;
@@ -55,14 +55,15 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   @Inject
   ChangeUserName(
-      final AccountCache accountCache,
-      final SshKeyCache sshKeyCache,
-      @Assisted final ReviewDb db,
-      @Assisted final IdentifiedUser user,
-      @Nullable @Assisted final String newUsername) {
+      AccountCache accountCache,
+      SshKeyCache sshKeyCache,
+      ExternalIdsUpdate.Server externalIdsUpdateFactory,
+      @Assisted ReviewDb db,
+      @Assisted IdentifiedUser user,
+      @Nullable @Assisted String newUsername) {
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
-
+    this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.db = db;
     this.user = user;
     this.newUsername = newUsername;
@@ -70,33 +71,38 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   @Override
   public VoidResult call()
-      throws OrmException, NameAlreadyUsedException, InvalidUserNameException, IOException {
-    final Collection<AccountExternalId> old = old();
+      throws OrmException, NameAlreadyUsedException, InvalidUserNameException, IOException,
+          ConfigInvalidException {
+    Collection<ExternalId> old =
+        ExternalId.from(db.accountExternalIds().byAccount(user.getAccountId()).toList())
+            .stream()
+            .filter(e -> e.isScheme(SCHEME_USERNAME))
+            .collect(toSet());
     if (!old.isEmpty()) {
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
 
+    ExternalIdsUpdate externalIdsUpdate = externalIdsUpdateFactory.create();
     if (newUsername != null && !newUsername.isEmpty()) {
       if (!USER_NAME_PATTERN.matcher(newUsername).matches()) {
         throw new InvalidUserNameException();
       }
 
-      final AccountExternalId.Key key = new AccountExternalId.Key(SCHEME_USERNAME, newUsername);
+      ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, newUsername);
       try {
-        final AccountExternalId id = new AccountExternalId(user.getAccountId(), key);
-
-        for (AccountExternalId i : old) {
-          if (i.getPassword() != null) {
-            id.setPassword(i.getPassword());
+        String password = null;
+        for (ExternalId i : old) {
+          if (i.password() != null) {
+            password = i.password();
           }
         }
-
-        db.accountExternalIds().insert(Collections.singleton(id));
+        externalIdsUpdate.insert(db, ExternalId.create(key, user.getAccountId(), null, password));
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //
-        AccountExternalId other = db.accountExternalIds().get(key);
-        if (other != null && other.getAccountId().equals(user.getAccountId())) {
+        ExternalId other =
+            ExternalId.from(db.accountExternalIds().get(key.asAccountExternalIdKey()));
+        if (other != null && other.accountId().equals(user.getAccountId())) {
           return VoidResult.INSTANCE;
         }
 
@@ -108,25 +114,15 @@ public class ChangeUserName implements Callable<VoidResult> {
 
     // If we have any older user names, remove them.
     //
-    db.accountExternalIds().delete(old);
-    for (AccountExternalId i : old) {
-      sshKeyCache.evict(i.getSchemeRest());
-      accountCache.evictByUsername(i.getSchemeRest());
+    externalIdsUpdate.delete(db, old);
+    for (ExternalId extId : old) {
+      sshKeyCache.evict(extId.key().id());
+      accountCache.evictByUsername(extId.key().id());
     }
 
     accountCache.evict(user.getAccountId());
     accountCache.evictByUsername(newUsername);
     sshKeyCache.evict(newUsername);
     return VoidResult.INSTANCE;
-  }
-
-  private Collection<AccountExternalId> old() throws OrmException {
-    final Collection<AccountExternalId> r = new ArrayList<>(1);
-    for (AccountExternalId i : db.accountExternalIds().byAccount(user.getAccountId())) {
-      if (i.isScheme(SCHEME_USERNAME)) {
-        r.add(i);
-      }
-    }
-    return r;
   }
 }

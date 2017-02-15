@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_EXTERNAL;
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
-
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_EXTERNAL;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
 
 /**
  * Information for {@link AccountManager#authenticate(AuthRequest)}.
@@ -30,17 +28,15 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
  */
 public class AuthRequest {
   /** Create a request for a local username, such as from LDAP. */
-  public static AuthRequest forUser(final String username) {
-    final AccountExternalId.Key i = new AccountExternalId.Key(SCHEME_GERRIT, username);
-    final AuthRequest r = new AuthRequest(i.get());
+  public static AuthRequest forUser(String username) {
+    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_GERRIT, username));
     r.setUserName(username);
     return r;
   }
 
   /** Create a request for an external username. */
   public static AuthRequest forExternalUser(String username) {
-    AccountExternalId.Key i = new AccountExternalId.Key(SCHEME_EXTERNAL, username);
-    AuthRequest r = new AuthRequest(i.get());
+    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_EXTERNAL, username));
     r.setUserName(username);
     return r;
   }
@@ -51,14 +47,13 @@ public class AuthRequest {
    * <p>This type of request should be used only to attach a new email address to an existing user
    * account.
    */
-  public static AuthRequest forEmail(final String email) {
-    final AccountExternalId.Key i = new AccountExternalId.Key(SCHEME_MAILTO, email);
-    final AuthRequest r = new AuthRequest(i.get());
+  public static AuthRequest forEmail(String email) {
+    AuthRequest r = new AuthRequest(ExternalId.Key.create(SCHEME_MAILTO, email));
     r.setEmailAddress(email);
     return r;
   }
 
-  private String externalId;
+  private ExternalId.Key externalId;
   private String password;
   private String displayName;
   private String emailAddress;
@@ -67,29 +62,24 @@ public class AuthRequest {
   private String authPlugin;
   private String authProvider;
 
-  public AuthRequest(final String externalId) {
+  public AuthRequest(ExternalId.Key externalId) {
     this.externalId = externalId;
   }
 
-  public String getExternalId() {
+  public ExternalId.Key getExternalIdKey() {
     return externalId;
   }
 
-  public boolean isScheme(final String scheme) {
-    return getExternalId().startsWith(scheme);
-  }
-
   public String getLocalUser() {
-    if (isScheme(SCHEME_GERRIT)) {
-      return getExternalId().substring(SCHEME_GERRIT.length());
+    if (externalId.isScheme(SCHEME_GERRIT)) {
+      return externalId.id();
     }
     return null;
   }
 
-  public void setLocalUser(final String localUser) {
-    if (isScheme(SCHEME_GERRIT)) {
-      final AccountExternalId.Key key = new AccountExternalId.Key(SCHEME_GERRIT, localUser);
-      externalId = key.get();
+  public void setLocalUser(String localUser) {
+    if (externalId.isScheme(SCHEME_GERRIT)) {
+      externalId = ExternalId.Key.create(SCHEME_GERRIT, localUser);
     }
   }
 

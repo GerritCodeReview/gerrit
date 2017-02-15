@@ -22,12 +22,12 @@ import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
@@ -132,7 +132,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   }
 
   @Override
-  public AccountExternalId.Key getLastLoginExternalId() {
+  public ExternalId.Key getLastLoginExternalId() {
     return val != null ? val.getExternalId() : null;
   }
 
@@ -149,9 +149,9 @@ public abstract class CacheBasedWebSession implements WebSession {
   }
 
   @Override
-  public void login(final AuthResult res, final boolean rememberMe) {
-    final Account.Id id = res.getAccountId();
-    final AccountExternalId.Key identity = res.getExternalId();
+  public void login(AuthResult res, boolean rememberMe) {
+    Account.Id id = res.getAccountId();
+    ExternalId.Key identity = res.getExternalId();
 
     if (val != null) {
       manager.destroy(key);

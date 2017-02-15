@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import static com.google.gerrit.server.account.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
 import static com.google.gerrit.server.auth.ldap.Helper.LDAP_UUID;
 import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_CACHE;
@@ -25,10 +26,10 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
@@ -180,10 +181,10 @@ public class LdapGroupBackend implements GroupBackend {
     return new LdapGroupMembership(membershipCache, projectCache, id);
   }
 
-  private static String findId(final Collection<AccountExternalId> ids) {
-    for (final AccountExternalId i : ids) {
-      if (i.isScheme(AccountExternalId.SCHEME_GERRIT)) {
-        return i.getSchemeRest();
+  private static String findId(Collection<ExternalId> extIds) {
+    for (ExternalId extId : extIds) {
+      if (extId.isScheme(SCHEME_GERRIT)) {
+        return extId.key().id();
       }
     }
     return null;

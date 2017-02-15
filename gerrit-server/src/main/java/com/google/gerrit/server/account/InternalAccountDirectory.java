@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.inject.AbstractModule;
@@ -74,7 +73,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   private void fill(
       AccountInfo info,
       Account account,
-      @Nullable Collection<AccountExternalId> externalIds,
+      @Nullable Collection<ExternalId> externalIds,
       Set<FillOptions> options) {
     if (options.contains(FillOptions.ID)) {
       info._accountId = account.getId().get();
@@ -124,8 +123,7 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
   }
 
-  public List<String> getSecondaryEmails(
-      Account account, Collection<AccountExternalId> externalIds) {
+  public List<String> getSecondaryEmails(Account account, Collection<ExternalId> externalIds) {
     List<String> emails = new ArrayList<>(AccountState.getEmails(externalIds));
     if (account.getPreferredEmail() != null) {
       emails.remove(account.getPreferredEmail());

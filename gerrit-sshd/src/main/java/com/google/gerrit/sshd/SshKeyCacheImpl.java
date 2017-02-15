@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.ssh.SshKeyCreator;
@@ -92,22 +93,23 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
   static class Loader extends CacheLoader<String, Iterable<SshKeyCacheEntry>> {
     private final SchemaFactory<ReviewDb> schema;
+    private final ExternalIds externalIds;
     private final VersionedAuthorizedKeys.Accessor authorizedKeys;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema, VersionedAuthorizedKeys.Accessor authorizedKeys) {
+    Loader(
+        SchemaFactory<ReviewDb> schema,
+        ExternalIds externalIds,
+        VersionedAuthorizedKeys.Accessor authorizedKeys) {
       this.schema = schema;
+      this.externalIds = externalIds;
       this.authorizedKeys = authorizedKeys;
     }
 
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
       try (ReviewDb db = schema.open()) {
-        ExternalId user =
-            ExternalId.from(
-                db.accountExternalIds()
-                    .get(
-                        ExternalId.Key.create(SCHEME_USERNAME, username).asAccountExternalIdKey()));
+        ExternalId user = externalIds.get(db, ExternalId.Key.create(SCHEME_USERNAME, username));
         if (user == null) {
           return NO_SUCH_USER;
         }

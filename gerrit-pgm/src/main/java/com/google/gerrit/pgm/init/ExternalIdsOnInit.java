@@ -20,7 +20,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
@@ -61,9 +61,9 @@ public class ExternalIdsOnInit {
       try (Repository repo = new FileRepository(path);
           RevWalk rw = new RevWalk(repo);
           ObjectInserter ins = repo.newObjectInserter()) {
-        ObjectId rev = ExternalIds.readRevision(repo);
+        ObjectId rev = ExternalIdReader.readRevision(repo);
 
-        NoteMap noteMap = ExternalIds.readNoteMap(rw, rev);
+        NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
         for (ExternalId extId : extIds) {
           ExternalIdsUpdate.insert(rw, ins, noteMap, extId);
         }

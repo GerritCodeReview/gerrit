@@ -14,92 +14,72 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * Class to read external IDs from NoteDb.
+ * Class to access external IDs.
  *
- * <p>In NoteDb external IDs are stored in the All-Users repository in a Git Notes branch called
- * refs/meta/external-ids where the sha1 of the external ID is used as note name. Each note content
- * is a git config file that contains an external ID. It has exactly one externalId subsection with
- * an accountId and optionally email and password:
- *
- * <pre>
- * [externalId "username:jdoe"]
- *   accountId = 1003407
- *   email = jdoe@example.com
- *   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
- * </pre>
+ * <p>The external IDs are either read from NoteDb or retrieved from the cache.
  */
 @Singleton
 public class ExternalIds {
-  public static final int MAX_NOTE_SZ = 1 << 19;
-
-  public static ObjectId readRevision(Repository repo) throws IOException {
-    Ref ref = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
-    return ref != null ? ref.getObjectId() : ObjectId.zeroId();
-  }
-
-  public static NoteMap readNoteMap(RevWalk rw, ObjectId rev) throws IOException {
-    if (!rev.equals(ObjectId.zeroId())) {
-      return NoteMap.read(rw.getObjectReader(), rw.parseCommit(rev));
-    }
-    return NoteMap.newEmptyMap();
-  }
-
-  private final GitRepositoryManager repoManager;
-  private final AllUsersName allUsersName;
+  private final ExternalIdReader externalIdReader;
+  private final ExternalIdCache externalIdCache;
 
   @Inject
-  public ExternalIds(GitRepositoryManager repoManager, AllUsersName allUsersName) {
-    this.repoManager = repoManager;
-    this.allUsersName = allUsersName;
+  public ExternalIds(ExternalIdReader externalIdReader, ExternalIdCache externalIdCache) {
+    this.externalIdReader = externalIdReader;
+    this.externalIdCache = externalIdCache;
   }
 
-  public ObjectId readRevision() throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return readRevision(repo);
-    }
+  /** Returns all external IDs. */
+  public Set<ExternalId> all(ReviewDb db) throws IOException, OrmException {
+    return externalIdReader.all(db);
   }
 
-  /** Reads and returns the specified external ID. */
+  /** Returns all external IDs from the specified revision of the refs/meta/external-ids branch. */
+  public Set<ExternalId> all(ObjectId rev) throws IOException {
+    return externalIdReader.all(rev);
+  }
+
+  /** Returns the specified external ID. */
   @Nullable
-  public ExternalId get(ExternalId.Key key) throws IOException, ConfigInvalidException {
-    try (Repository repo = repoManager.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(repo)) {
-      ObjectId rev = readRevision(repo);
-      if (rev.equals(ObjectId.zeroId())) {
-        return null;
-      }
-
-      return parse(key, rw, rev);
-    }
+  public ExternalId get(ReviewDb db, ExternalId.Key key)
+      throws IOException, ConfigInvalidException, OrmException {
+    return externalIdReader.get(db, key);
   }
 
-  private ExternalId parse(ExternalId.Key key, RevWalk rw, ObjectId rev)
+  /** Returns the specified external ID from the given revision. */
+  @Nullable
+  public ExternalId get(ExternalId.Key key, ObjectId rev)
       throws IOException, ConfigInvalidException {
-    NoteMap noteMap = readNoteMap(rw, rev);
-    ObjectId noteId = key.sha1();
-    if (!noteMap.contains(noteId)) {
-      return null;
+    return externalIdReader.get(key, rev);
+  }
+
+  /** Returns the external IDs of the specified account. */
+  public Set<ExternalId> byAccount(ReviewDb db, Account.Id accountId)
+      throws IOException, OrmException {
+    if (externalIdReader.readFromGit()) {
+      return externalIdCache.byAccount(accountId);
     }
 
-    byte[] raw =
-        rw.getObjectReader().open(noteMap.get(noteId), OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
-    return ExternalId.parse(noteId.name(), raw);
+    return ExternalId.from(db.accountExternalIds().byAccount(accountId).toList());
+  }
+
+  /** Returns the external IDs of the specified account that have the given scheme. */
+  public Set<ExternalId> byAccount(ReviewDb db, Account.Id accountId, String scheme)
+      throws IOException, OrmException {
+    return byAccount(db, accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
 }

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -41,6 +42,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class DeleteExternalIds implements RestModifyView<AccountResource, List<String>> {
   private final AccountByEmailCache accountByEmailCache;
   private final AccountCache accountCache;
+  private final ExternalIds externalIds;
   private final ExternalIdsUpdate.User externalIdsUpdateFactory;
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
@@ -49,41 +51,39 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
   DeleteExternalIds(
       AccountByEmailCache accountByEmailCache,
       AccountCache accountCache,
+      ExternalIds externalIds,
       ExternalIdsUpdate.User externalIdsUpdateFactory,
       Provider<CurrentUser> self,
       Provider<ReviewDb> dbProvider) {
     this.accountByEmailCache = accountByEmailCache;
     this.accountCache = accountCache;
+    this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
     this.self = self;
     this.dbProvider = dbProvider;
   }
 
   @Override
-  public Response<?> apply(AccountResource resource, List<String> externalIds)
+  public Response<?> apply(AccountResource resource, List<String> extIds)
       throws RestApiException, IOException, OrmException, ConfigInvalidException {
     if (self.get() != resource.getUser()) {
       throw new AuthException("not allowed to delete external IDs");
     }
 
-    if (externalIds == null || externalIds.size() == 0) {
+    if (extIds == null || extIds.size() == 0) {
       throw new BadRequestException("external IDs are required");
     }
 
     Account.Id accountId = resource.getUser().getAccountId();
     Map<ExternalId.Key, ExternalId> externalIdMap =
-        dbProvider
-            .get()
-            .accountExternalIds()
-            .byAccount(resource.getUser().getAccountId())
-            .toList()
+        externalIds
+            .byAccount(dbProvider.get(), resource.getUser().getAccountId())
             .stream()
-            .map(ExternalId::from)
             .collect(toMap(i -> i.key(), i -> i));
 
     List<ExternalId> toDelete = new ArrayList<>();
     ExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();
-    for (String externalIdStr : externalIds) {
+    for (String externalIdStr : extIds) {
       ExternalId id = externalIdMap.get(ExternalId.Key.parse(externalIdStr));
 
       if (id == null) {

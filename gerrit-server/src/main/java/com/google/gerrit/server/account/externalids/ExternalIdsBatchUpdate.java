@@ -46,6 +46,7 @@ public class ExternalIdsBatchUpdate {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final PersonIdent serverIdent;
+  private final ExternalIdCache externalIdCache;
   private final Set<ExternalId> toAdd = new HashSet<>();
   private final Set<ExternalId> toDelete = new HashSet<>();
 
@@ -53,10 +54,12 @@ public class ExternalIdsBatchUpdate {
   public ExternalIdsBatchUpdate(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      @GerritPersonIdent PersonIdent serverIdent,
+      ExternalIdCache externalIdCache) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.serverIdent = serverIdent;
+    this.externalIdCache = externalIdCache;
   }
 
   /**
@@ -94,9 +97,9 @@ public class ExternalIdsBatchUpdate {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = repo.newObjectInserter()) {
-      ObjectId rev = ExternalIds.readRevision(repo);
+      ObjectId rev = ExternalIdReader.readRevision(repo);
 
-      NoteMap noteMap = ExternalIds.readNoteMap(rw, rev);
+      NoteMap noteMap = ExternalIdReader.readNoteMap(rw, rev);
 
       for (ExternalId extId : toDelete) {
         ExternalIdsUpdate.remove(rw, noteMap, extId);
@@ -106,8 +109,10 @@ public class ExternalIdsBatchUpdate {
         ExternalIdsUpdate.insert(rw, ins, noteMap, extId);
       }
 
-      ExternalIdsUpdate.commit(
-          repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
+      ObjectId newRev =
+          ExternalIdsUpdate.commit(
+              repo, rw, ins, rev, noteMap, commitMessage, serverIdent, serverIdent);
+      externalIdCache.onReplace(newRev, toDelete, toAdd);
     }
 
     toAdd.clear();

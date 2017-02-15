@@ -92,6 +92,7 @@ import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.api.accounts.AccountExternalIdCreator;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
@@ -228,6 +229,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new AccessControlModule());
     install(new CmdLineParserModule());
     install(new EmailModule());
+    install(new ExternalIdModule());
     install(new GitModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));

@@ -71,7 +71,7 @@ public class ProjectListScreen extends PaginatedProjectScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setPageTitle(Util.C.projectListTitle());
+    setPageTitle(AdminConstants.I.projectListTitle());
     initPageHeader();
 
     prev = PagingHyperlink.createPrev();
@@ -85,7 +85,7 @@ public class ProjectListScreen extends PaginatedProjectScreen {
           @Override
           protected void initColumnHeaders() {
             super.initColumnHeaders();
-            table.setText(0, ProjectsTable.C_REPO_BROWSER, Util.C.projectRepoBrowser());
+            table.setText(0, ProjectsTable.C_REPO_BROWSER, AdminConstants.I.projectRepoBrowser());
             table
                 .getFlexCellFormatter()
                 .addStyleName(0, ProjectsTable.C_REPO_BROWSER, Gerrit.RESOURCES.css().dataHeader());
@@ -162,7 +162,7 @@ public class ProjectListScreen extends PaginatedProjectScreen {
   private void initPageHeader() {
     final HorizontalPanel hp = new HorizontalPanel();
     hp.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
-    final Label filterLabel = new Label(Util.C.projectFilter());
+    final Label filterLabel = new Label(AdminConstants.I.projectFilter());
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     hp.add(filterLabel);
     filterTxt = new NpTextBox();

@@ -14,10 +14,13 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Constants;
 import java.util.Map;
 
 public interface AdminConstants extends Constants {
+  AdminConstants I = GWT.create(AdminConstants.class);
+
   String defaultAccountName();
 
   String defaultAccountGroupName();

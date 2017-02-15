@@ -72,7 +72,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   private void initUUID() {
     final VerticalPanel groupUUIDPanel = new VerticalPanel();
     groupUUIDPanel.setStyleName(Gerrit.RESOURCES.css().groupUUIDPanel());
-    groupUUIDPanel.add(new SmallHeading(Util.C.headingGroupUUID()));
+    groupUUIDPanel.add(new SmallHeading(AdminConstants.I.headingGroupUUID()));
     groupUUIDLabel = new CopyableLabel("");
     groupUUIDPanel.add(groupUUIDLabel);
     add(groupUUIDPanel);
@@ -86,7 +86,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     groupNameTxt.setVisibleLength(60);
     groupNamePanel.add(groupNameTxt);
 
-    saveName = new Button(Util.C.buttonRenameGroup());
+    saveName = new Button(AdminConstants.I.buttonRenameGroup());
     saveName.setEnabled(false);
     saveName.addClickHandler(
         new ClickHandler() {
@@ -100,7 +100,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
                   @Override
                   public void onSuccess(final com.google.gerrit.client.VoidResult result) {
                     saveName.setEnabled(false);
-                    setPageTitle(Util.M.group(newName));
+                    setPageTitle(AdminMessages.I.group(newName));
                     groupNameTxt.setText(newName);
                     if (getGroupUUID().equals(getOwnerGroupUUID())) {
                       ownerTxt.setText(newName);
@@ -116,7 +116,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   private void initOwner() {
     final VerticalPanel ownerPanel = new VerticalPanel();
     ownerPanel.setStyleName(Gerrit.RESOURCES.css().groupOwnerPanel());
-    ownerPanel.add(new SmallHeading(Util.C.headingOwner()));
+    ownerPanel.add(new SmallHeading(AdminConstants.I.headingOwner()));
 
     final AccountGroupSuggestOracle accountGroupOracle = new AccountGroupSuggestOracle();
     ownerTxt = new RemoteSuggestBox(accountGroupOracle);
@@ -124,7 +124,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     ownerTxt.setVisibleLength(60);
     ownerPanel.add(ownerTxt);
 
-    saveOwner = new Button(Util.C.buttonChangeGroupOwner());
+    saveOwner = new Button(AdminConstants.I.buttonChangeGroupOwner());
     saveOwner.setEnabled(false);
     saveOwner.addClickHandler(
         new ClickHandler() {
@@ -154,14 +154,14 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   private void initDescription() {
     final VerticalPanel vp = new VerticalPanel();
     vp.setStyleName(Gerrit.RESOURCES.css().groupDescriptionPanel());
-    vp.add(new SmallHeading(Util.C.headingDescription()));
+    vp.add(new SmallHeading(AdminConstants.I.headingDescription()));
 
     descTxt = new NpTextArea();
     descTxt.setVisibleLines(6);
     descTxt.setCharacterWidth(60);
     vp.add(descTxt);
 
-    saveDesc = new Button(Util.C.buttonSaveDescription());
+    saveDesc = new Button(AdminConstants.I.buttonSaveDescription());
     saveDesc.setEnabled(false);
     saveDesc.addClickHandler(
         new ClickHandler() {
@@ -188,13 +188,13 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
     final VerticalPanel vp = new VerticalPanel();
     vp.setStyleName(Gerrit.RESOURCES.css().groupOptionsPanel());
-    vp.add(new SmallHeading(Util.C.headingGroupOptions()));
+    vp.add(new SmallHeading(AdminConstants.I.headingGroupOptions()));
 
-    visibleToAllCheckBox = new CheckBox(Util.C.isVisibleToAll());
+    visibleToAllCheckBox = new CheckBox(AdminConstants.I.isVisibleToAll());
     vp.add(visibleToAllCheckBox);
     groupOptionsPanel.add(vp);
 
-    saveGroupOptions = new Button(Util.C.buttonSaveGroupOptions());
+    saveGroupOptions = new Button(AdminConstants.I.buttonSaveGroupOptions());
     saveGroupOptions.setEnabled(false);
     saveGroupOptions.addClickHandler(
         new ClickHandler() {
@@ -226,7 +226,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     ownerTxt.setText(
         group.owner() != null
             ? group.owner()
-            : Util.M.deletedReference(group.getOwnerUUID().get()));
+            : AdminMessages.I.deletedReference(group.getOwnerUUID().get()));
     descTxt.setText(group.description());
     visibleToAllCheckBox.setValue(group.options().isVisibleToAll());
     setMembersTabVisible(AccountGroup.isInternalGroup(group.getGroupUUID()));

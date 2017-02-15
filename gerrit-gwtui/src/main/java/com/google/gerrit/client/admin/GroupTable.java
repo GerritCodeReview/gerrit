@@ -14,8 +14,6 @@
 
 package com.google.gerrit.client.admin;
 
-import static com.google.gerrit.client.admin.Util.C;
-
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupList;
@@ -46,12 +44,12 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   }
 
   public GroupTable(final String pointerId) {
-    super(C.groupItemHelp());
+    super(AdminConstants.I.groupItemHelp());
     setSavePointerId(pointerId);
 
-    table.setText(0, 1, C.columnGroupName());
-    table.setText(0, 2, C.columnGroupDescription());
-    table.setText(0, 3, C.columnGroupVisibleToAll());
+    table.setText(0, 1, AdminConstants.I.columnGroupName());
+    table.setText(0, 2, AdminConstants.I.columnGroupDescription());
+    table.setText(0, 3, AdminConstants.I.columnGroupVisibleToAll());
     table.addClickHandler(
         new ClickHandler() {
           @Override

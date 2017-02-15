@@ -25,7 +25,7 @@ class PermissionNameRenderer implements Renderer<String> {
 
   static {
     permissions = new HashMap<>();
-    for (Map.Entry<String, String> e : Util.C.permissionNames().entrySet()) {
+    for (Map.Entry<String, String> e : AdminConstants.I.permissionNames().entrySet()) {
       permissions.put(e.getKey(), e.getValue());
       permissions.put(e.getKey().toLowerCase(), e.getValue());
     }
@@ -40,9 +40,9 @@ class PermissionNameRenderer implements Renderer<String> {
   @Override
   public String render(String varName) {
     if (Permission.isLabelAs(varName)) {
-      return Util.M.labelAs(Permission.extractLabel(varName));
+      return AdminMessages.I.labelAs(Permission.extractLabel(varName));
     } else if (Permission.isLabel(varName)) {
-      return Util.M.label(Permission.extractLabel(varName));
+      return AdminMessages.I.label(Permission.extractLabel(varName));
     }
 
     String desc = permissions.get(varName);

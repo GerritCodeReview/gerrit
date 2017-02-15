@@ -112,7 +112,8 @@ public class ProjectListPopup {
   private void createWidgets(final String popupText, final String currentPageLink) {
     filterPanel = new HorizontalPanel();
     filterPanel.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
-    final Label filterLabel = new Label(com.google.gerrit.client.admin.Util.C.projectFilter());
+    final Label filterLabel =
+        new Label(com.google.gerrit.client.admin.AdminConstants.I.projectFilter());
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     filterPanel.add(filterLabel);
     filterTxt = new NpTextBox();

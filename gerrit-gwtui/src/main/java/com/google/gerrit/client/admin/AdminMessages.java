@@ -14,9 +14,12 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Messages;
 
 public interface AdminMessages extends Messages {
+  AdminMessages I = GWT.create(AdminMessages.class);
+
   String group(String name);
 
   String label(String name);

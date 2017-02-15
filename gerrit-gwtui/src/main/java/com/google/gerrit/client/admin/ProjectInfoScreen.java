@@ -108,7 +108,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     super.onInitUI();
 
     Resources.I.style().ensureInjected();
-    saveProject = new Button(Util.C.buttonSaveChanges());
+    saveProject = new Button(AdminConstants.I.buttonSaveChanges());
     saveProject.setStyleName("");
     saveProject.addClickHandler(
         new ClickHandler() {
@@ -203,7 +203,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private void initDescription() {
     final VerticalPanel vp = new VerticalPanel();
-    vp.add(new SmallHeading(Util.C.headingDescription()));
+    vp.add(new SmallHeading(AdminConstants.I.headingDescription()));
 
     descTxt = new NpTextArea();
     descTxt.setVisibleLines(6);
@@ -216,14 +216,14 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void initProjectOptions() {
-    grid.addHeader(new SmallHeading(Util.C.headingProjectOptions()));
+    grid.addHeader(new SmallHeading(AdminConstants.I.headingProjectOptions()));
 
     state = new ListBox();
     for (ProjectState stateValue : ProjectState.values()) {
       state.addItem(Util.toLongString(stateValue), stateValue.name());
     }
     saveEnabler.listenTo(state);
-    grid.add(Util.C.headingProjectState(), state);
+    grid.add(AdminConstants.I.headingProjectState(), state);
 
     submitType = new ListBox();
     for (final SubmitType type : SubmitType.values()) {
@@ -237,32 +237,32 @@ public class ProjectInfoScreen extends ProjectScreen {
           }
         });
     saveEnabler.listenTo(submitType);
-    grid.add(Util.C.headingProjectSubmitType(), submitType);
+    grid.add(AdminConstants.I.headingProjectSubmitType(), submitType);
 
     contentMerge = newInheritedBooleanBox();
     saveEnabler.listenTo(contentMerge);
-    grid.add(Util.C.useContentMerge(), contentMerge);
+    grid.add(AdminConstants.I.useContentMerge(), contentMerge);
 
     newChangeForAllNotInTarget = newInheritedBooleanBox();
     saveEnabler.listenTo(newChangeForAllNotInTarget);
-    grid.add(Util.C.createNewChangeForAllNotInTarget(), newChangeForAllNotInTarget);
+    grid.add(AdminConstants.I.createNewChangeForAllNotInTarget(), newChangeForAllNotInTarget);
 
     requireChangeID = newInheritedBooleanBox();
     saveEnabler.listenTo(requireChangeID);
-    grid.addHtml(Util.C.requireChangeID(), requireChangeID);
+    grid.addHtml(AdminConstants.I.requireChangeID(), requireChangeID);
 
     if (Gerrit.info().receive().enableSignedPush()) {
       enableSignedPush = newInheritedBooleanBox();
       saveEnabler.listenTo(enableSignedPush);
-      grid.add(Util.C.enableSignedPush(), enableSignedPush);
+      grid.add(AdminConstants.I.enableSignedPush(), enableSignedPush);
       requireSignedPush = newInheritedBooleanBox();
       saveEnabler.listenTo(requireSignedPush);
-      grid.add(Util.C.requireSignedPush(), requireSignedPush);
+      grid.add(AdminConstants.I.requireSignedPush(), requireSignedPush);
     }
 
     rejectImplicitMerges = newInheritedBooleanBox();
     saveEnabler.listenTo(rejectImplicitMerges);
-    grid.addHtml(Util.C.rejectImplicitMerges(), rejectImplicitMerges);
+    grid.addHtml(AdminConstants.I.rejectImplicitMerges(), rejectImplicitMerges);
 
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);
@@ -272,7 +272,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     HorizontalPanel p = new HorizontalPanel();
     p.add(maxObjectSizeLimit);
     p.add(effectiveMaxObjectSizeLimit);
-    grid.addHtml(Util.C.headingMaxObjectSizeLimit(), p);
+    grid.addHtml(AdminConstants.I.headingMaxObjectSizeLimit(), p);
   }
 
   private static ListBox newInheritedBooleanBox() {
@@ -301,17 +301,17 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void initAgreements() {
-    grid.addHeader(new SmallHeading(Util.C.headingAgreements()));
+    grid.addHeader(new SmallHeading(AdminConstants.I.headingAgreements()));
 
     contributorAgreements = newInheritedBooleanBox();
     if (Gerrit.info().auth().useContributorAgreements()) {
       saveEnabler.listenTo(contributorAgreements);
-      grid.add(Util.C.useContributorAgreements(), contributorAgreements);
+      grid.add(AdminConstants.I.useContributorAgreements(), contributorAgreements);
     }
 
     signedOffBy = newInheritedBooleanBox();
     saveEnabler.listenTo(signedOffBy);
-    grid.addHtml(Util.C.useSignedOffBy(), signedOffBy);
+    grid.addHtml(AdminConstants.I.useSignedOffBy(), signedOffBy);
   }
 
   private void setSubmitType(final SubmitType newSubmitType) {
@@ -401,9 +401,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     if (result.maxObjectSizeLimit().inheritedValue() != null) {
       effectiveMaxObjectSizeLimit.setVisible(true);
       effectiveMaxObjectSizeLimit.setText(
-          Util.M.effectiveMaxObjectSizeLimit(result.maxObjectSizeLimit().value()));
+          AdminMessages.I.effectiveMaxObjectSizeLimit(result.maxObjectSizeLimit().value()));
       effectiveMaxObjectSizeLimit.setTitle(
-          Util.M.globalMaxObjectSizeLimit(result.maxObjectSizeLimit().inheritedValue()));
+          AdminMessages.I.globalMaxObjectSizeLimit(result.maxObjectSizeLimit().inheritedValue()));
     } else {
       effectiveMaxObjectSizeLimit.setVisible(false);
     }
@@ -421,7 +421,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       Map<String, HasEnabled> widgetMap = new HashMap<>();
       pluginConfigWidgets.put(pluginName, widgetMap);
       LabeledWidgetsGrid g = new LabeledWidgetsGrid();
-      g.addHeader(new SmallHeading(Util.M.pluginProjectOptionsTitle(pluginName)));
+      g.addHeader(new SmallHeading(AdminMessages.I.pluginProjectOptionsTitle(pluginName)));
       pluginOptionsPanel.add(g);
       NativeMap<ConfigParameterInfo> pluginConfig = info.pluginConfig(pluginName);
       pluginConfig.copyKeysIntoChildren("name");
@@ -460,7 +460,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     NpTextBox textBox = param.type().equals("STRING") ? new NpTextBox() : new NpIntTextBox();
     if (param.inheritable()) {
       textBox.setValue(param.configuredValue());
-      Label inheritedLabel = new Label(Util.M.pluginProjectInheritedValue(param.inheritedValue()));
+      Label inheritedLabel =
+          new Label(AdminMessages.I.pluginProjectInheritedValue(param.inheritedValue()));
       inheritedLabel.setStyleName(Gerrit.RESOURCES.css().pluginProjectConfigInheritedValue());
       HorizontalPanel p = new HorizontalPanel();
       p.add(textBox);
@@ -500,7 +501,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
     ListBox listBox = new ListBox();
     if (param.inheritable()) {
-      listBox.addItem(Util.M.pluginProjectInheritedListValue(param.inheritedValue()));
+      listBox.addItem(AdminMessages.I.pluginProjectInheritedListValue(param.inheritedValue()));
       if (param.configuredValue() == null) {
         listBox.setSelectedIndex(0);
       }
@@ -532,7 +533,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         // since the listBox is disabled the inherited value cannot be
         // seen and we have to display it explicitly
         Label inheritedLabel =
-            new Label(Util.M.pluginProjectInheritedValue(param.inheritedValue()));
+            new Label(AdminMessages.I.pluginProjectInheritedValue(param.inheritedValue()));
         inheritedLabel.setStyleName(Gerrit.RESOURCES.css().pluginProjectConfigInheritedValue());
         HorizontalPanel p = new HorizontalPanel();
         p.add(listBox);
@@ -599,11 +600,11 @@ public class ProjectInfoScreen extends ProjectScreen {
       return;
     }
     actions.copyKeysIntoChildren("id");
-    actionsGrid.addHeader(new SmallHeading(Util.C.headingProjectCommands()));
+    actionsGrid.addHeader(new SmallHeading(AdminConstants.I.headingProjectCommands()));
     FlowPanel actionsPanel = new FlowPanel();
     actionsPanel.setStyleName(Gerrit.RESOURCES.css().projectActions());
     actionsPanel.setVisible(true);
-    actionsGrid.add(Util.C.headingCommands(), actionsPanel);
+    actionsGrid.add(AdminConstants.I.headingCommands(), actionsPanel);
 
     for (String id : actions.keySet()) {
       actionsPanel.add(new ActionButton(getProjectKey(), actions.get(id)));
@@ -621,9 +622,9 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private Button createChangeAction() {
-    final Button createChange = new Button(Util.C.buttonCreateChange());
+    final Button createChange = new Button(AdminConstants.I.buttonCreateChange());
     createChange.setStyleName("");
-    createChange.setTitle(Util.C.buttonCreateChangeDescription());
+    createChange.setTitle(AdminConstants.I.buttonCreateChangeDescription());
     createChange.addClickHandler(
         new ClickHandler() {
           @Override
@@ -635,9 +636,9 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private Button createEditConfigAction() {
-    final Button editConfig = new Button(Util.C.buttonEditConfig());
+    final Button editConfig = new Button(AdminConstants.I.buttonEditConfig());
     editConfig.setStyleName("");
-    editConfig.setTitle(Util.C.buttonEditConfigDescription());
+    editConfig.setTitle(AdminConstants.I.buttonEditConfigDescription());
     editConfig.addClickHandler(
         new ClickHandler() {
           @Override

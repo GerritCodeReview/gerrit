@@ -15,7 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.admin.Util;
+import com.google.gerrit.client.admin.AdminConstants;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.DOM;
@@ -25,7 +25,7 @@ public class ProjectSearchLink extends InlineHyperlink {
 
   public ProjectSearchLink(Project.NameKey projectName) {
     super(" ", PageLinks.toProjectDefaultDashboard(projectName));
-    setTitle(Util.C.projectListQueryLink());
+    setTitle(AdminConstants.I.projectListQueryLink());
     final Image image = new Image(Gerrit.RESOURCES.queryIcon());
     image.setStyleName(Gerrit.RESOURCES.css().queryIcon());
     DOM.insertBefore(getElement(), image.getElement(), DOM.getFirstChild(getElement()));

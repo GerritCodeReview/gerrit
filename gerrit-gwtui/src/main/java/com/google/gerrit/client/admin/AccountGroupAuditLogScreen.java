@@ -44,7 +44,7 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    add(new SmallHeading(Util.C.headingAuditLog()));
+    add(new SmallHeading(AdminConstants.I.headingAuditLog()));
     auditEventTable = new AuditEventTable();
     add(auditEventTable);
   }
@@ -63,10 +63,10 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
 
   private class AuditEventTable extends FancyFlexTable<GroupAuditEventInfo> {
     AuditEventTable() {
-      table.setText(0, 1, Util.C.columnDate());
-      table.setText(0, 2, Util.C.columnType());
-      table.setText(0, 3, Util.C.columnMember());
-      table.setText(0, 4, Util.C.columnByUser());
+      table.setText(0, 1, AdminConstants.I.columnDate());
+      table.setText(0, 2, AdminConstants.I.columnType());
+      table.setText(0, 3, AdminConstants.I.columnMember());
+      table.setText(0, 4, AdminConstants.I.columnByUser());
 
       FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
@@ -95,11 +95,11 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
       switch (auditEvent.type()) {
         case ADD_USER:
         case ADD_GROUP:
-          table.setText(row, 2, Util.C.typeAdded());
+          table.setText(row, 2, AdminConstants.I.typeAdded());
           break;
         case REMOVE_USER:
         case REMOVE_GROUP:
-          table.setText(row, 2, Util.C.typeRemoved());
+          table.setText(row, 2, AdminConstants.I.typeRemoved());
           break;
       }
 

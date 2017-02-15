@@ -45,11 +45,11 @@ public class RefPatternBox extends ValueBox<String> {
           String ref = text.toString();
 
           if (ref.isEmpty()) {
-            throw new ParseException(Util.C.refErrorEmpty(), 0);
+            throw new ParseException(AdminConstants.I.refErrorEmpty(), 0);
           }
 
           if (ref.charAt(0) == '/') {
-            throw new ParseException(Util.C.refErrorBeginSlash(), 0);
+            throw new ParseException(AdminConstants.I.refErrorBeginSlash(), 0);
           }
 
           if (ref.charAt(0) == '^') {
@@ -64,15 +64,15 @@ public class RefPatternBox extends ValueBox<String> {
             final char c = ref.charAt(i);
 
             if (c == '/' && 0 < i && ref.charAt(i - 1) == '/') {
-              throw new ParseException(Util.C.refErrorDoubleSlash(), i);
+              throw new ParseException(AdminConstants.I.refErrorDoubleSlash(), i);
             }
 
             if (c == ' ') {
-              throw new ParseException(Util.C.refErrorNoSpace(), i);
+              throw new ParseException(AdminConstants.I.refErrorNoSpace(), i);
             }
 
             if (c < ' ') {
-              throw new ParseException(Util.C.refErrorPrintable(), i);
+              throw new ParseException(AdminConstants.I.refErrorPrintable(), i);
             }
           }
           return ref;

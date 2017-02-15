@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.admin.Util;
+import com.google.gerrit.client.admin.AdminConstants;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.AccountInfo;
 import com.google.gerrit.client.info.GroupBaseInfo;
@@ -75,7 +75,8 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
         this.displayString = replacementString;
       } else {
         this.replacementString = reviewer.group().name();
-        this.displayString = replacementString + " (" + Util.C.suggestedGroupLabel() + ")";
+        this.displayString =
+            replacementString + " (" + AdminConstants.I.suggestedGroupLabel() + ")";
       }
     }
 

@@ -25,7 +25,7 @@ public abstract class PluginScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    setPageTitle(Util.C.plugins());
+    setPageTitle(AdminConstants.I.plugins());
     display();
   }
 }

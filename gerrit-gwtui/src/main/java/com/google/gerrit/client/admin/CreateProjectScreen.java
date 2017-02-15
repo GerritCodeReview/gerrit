@@ -94,7 +94,7 @@ public class CreateProjectScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setPageTitle(Util.C.createProjectTitle());
+    setPageTitle(AdminConstants.I.createProjectTitle());
     addCreateProjectPanel();
 
     /* popup */
@@ -108,7 +108,7 @@ public class CreateProjectScreen extends Screen {
             }
           }
         };
-    projectsPopup.initPopup(Util.C.projects(), PageLinks.ADMIN_PROJECTS);
+    projectsPopup.initPopup(AdminConstants.I.projects(), PageLinks.ADMIN_PROJECTS);
   }
 
   private void addCreateProjectPanel() {
@@ -121,8 +121,8 @@ public class CreateProjectScreen extends Screen {
 
     addGrid(fp);
 
-    emptyCommit = new CheckBox(Util.C.checkBoxEmptyCommit());
-    permissionsOnly = new CheckBox(Util.C.checkBoxPermissionsOnly());
+    emptyCommit = new CheckBox(AdminConstants.I.checkBoxEmptyCommit());
+    permissionsOnly = new CheckBox(AdminConstants.I.checkBoxPermissionsOnly());
     fp.add(emptyCommit);
     fp.add(permissionsOnly);
     fp.add(create);
@@ -168,7 +168,7 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void initCreateButton() {
-    create = new Button(Util.C.buttonCreateProject());
+    create = new Button(AdminConstants.I.buttonCreateProject());
     create.setEnabled(false);
     create.addClickHandler(
         new ClickHandler() {
@@ -178,7 +178,7 @@ public class CreateProjectScreen extends Screen {
           }
         });
 
-    browse = new Button(Util.C.buttonBrowseProjects());
+    browse = new Button(AdminConstants.I.buttonBrowseProjects());
     browse.addClickHandler(
         new ClickHandler() {
           @Override
@@ -207,7 +207,7 @@ public class CreateProjectScreen extends Screen {
     suggestedParentsTab =
         new ProjectsTable() {
           {
-            table.setText(0, 1, Util.C.parentSuggestions());
+            table.setText(0, 1, AdminConstants.I.parentSuggestions());
           }
 
           @Override
@@ -246,9 +246,9 @@ public class CreateProjectScreen extends Screen {
   private void addGrid(final VerticalPanel fp) {
     grid = new Grid(2, 3);
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
-    grid.setText(0, 0, Util.C.columnProjectName() + ":");
+    grid.setText(0, 0, AdminConstants.I.columnProjectName() + ":");
     grid.setWidget(0, 1, project);
-    grid.setText(1, 0, Util.C.headingParentProjectName() + ":");
+    grid.setText(1, 0, AdminConstants.I.headingParentProjectName() + ":");
     grid.setWidget(1, 1, parent);
     grid.setWidget(1, 2, browse);
     fp.add(grid);

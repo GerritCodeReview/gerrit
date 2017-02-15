@@ -88,7 +88,7 @@ public class AccessSectionEditor extends Composite
         new ValueChangeHandler<String>() {
           @Override
           public void onValueChange(ValueChangeEvent<String> event) {
-            if (!Util.C.addPermission().equals(event.getValue())) {
+            if (!AdminConstants.I.addPermission().equals(event.getValue())) {
               onAddPermission(event.getValue());
             }
           }
@@ -113,14 +113,13 @@ public class AccessSectionEditor extends Composite
     isDeleted = true;
 
     if (name.isVisible() && RefConfigSection.isValid(name.getValue())) {
-      deletedName.setInnerText(Util.M.deletedReference(name.getValue()));
-
+      deletedName.setInnerText(AdminMessages.I.deletedReference(name.getValue()));
     } else {
-      String name = Util.C.sectionNames().get(value.getName());
+      String name = AdminConstants.I.sectionNames().get(value.getName());
       if (name == null) {
         name = value.getName();
       }
-      deletedName.setInnerText(Util.M.deletedSection(name));
+      deletedName.setInnerText(AdminMessages.I.deletedSection(name));
     }
 
     normal.getStyle().setDisplay(Display.NONE);
@@ -181,18 +180,18 @@ public class AccessSectionEditor extends Composite
     if (RefConfigSection.isValid(value.getName())) {
       name.setVisible(true);
       name.setIgnoreEditorValue(false);
-      sectionType.setInnerText(Util.C.sectionTypeReference());
+      sectionType.setInnerText(AdminConstants.I.sectionTypeReference());
 
     } else {
       name.setVisible(false);
       name.setIgnoreEditorValue(true);
 
-      String name = Util.C.sectionNames().get(value.getName());
+      String name = AdminConstants.I.sectionNames().get(value.getName());
       if (name != null) {
         sectionType.setInnerText(name);
         sectionName.getStyle().setDisplay(Display.NONE);
       } else {
-        sectionType.setInnerText(Util.C.sectionTypeSection());
+        sectionType.setInnerText(AdminConstants.I.sectionTypeSection());
         sectionName.setInnerText(value.getName());
         sectionName.getStyle().clearDisplay();
       }
@@ -223,7 +222,7 @@ public class AccessSectionEditor extends Composite
       for (LabelType t : projectAccess.getLabelTypes().getLabelTypes()) {
         addPermission(Permission.forLabelAs(t.getName()), perms);
       }
-      for (String varName : Util.C.permissionNames().keySet()) {
+      for (String varName : AdminConstants.I.permissionNames().keySet()) {
         addPermission(varName, perms);
       }
     }
@@ -231,8 +230,8 @@ public class AccessSectionEditor extends Composite
       addContainer.getStyle().setDisplay(Display.NONE);
     } else {
       addContainer.getStyle().setDisplay(Display.BLOCK);
-      perms.add(0, Util.C.addPermission());
-      permissionSelector.setValue(Util.C.addPermission());
+      perms.add(0, AdminConstants.I.addPermission());
+      permissionSelector.setValue(AdminConstants.I.addPermission());
       permissionSelector.setAcceptableValues(perms);
     }
   }

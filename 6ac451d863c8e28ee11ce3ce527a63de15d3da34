@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d989baa_8666dfa0",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T11:27:19Z",
+      "side": 1,
+      "message": "This is controversial, as it stands. Looks on this change in the old change screen. Do you see disabled \"Restore\" button with a tooltip like: \"You cannot restore this button, because it is in status NEW. Only changes in status Abandoned could be restored.\" Would you expect such a button to be there in this specific case? Yes I agree, that in other cases, \"like submit a topic\", a maintainer would like to know why submit whole topic button is disabled, with tooltip: Not all changes are in submittable state. But the wording should be adjust to emphasized that this is use case specific.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65fa822d_b10cc9c3",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T11:27:19Z",
+      "side": 1,
+      "message": "Sounds like something very basic and self explaining to me. I would let it out. (We also don\u0027t write: Visual Basic must not be used).",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 5
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ac2f072_6bf99922",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T11:27:19Z",
+      "side": 1,
+      "message": "Undo change deletion? Undo patch set deletion? Undo change edit deletion? That old be hard to implement. DO you have other examples?",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 76
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "572493d4_2c68b44d",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T11:27:19Z",
+      "side": 1,
+      "message": "What does that mean? Navigate from change list into change screen and back from change to change list? Why mention that?",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6180bc37_e7dd4a67",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-15T11:27:19Z",
+      "side": 1,
+      "message": "Can you point here to any specific link, like Google Java Style guides? If not, I would avoid mentioning any specific companies or individuals in public documents, that supporting that project. Another one could add here:\n\n  Standard UI elements shouldn\u0027t be used in a way which goes against Google, SAP, Ericsson, [...] design standards.",
+      "range": {
+        "startLine": 53,
+        "startChar": 69,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

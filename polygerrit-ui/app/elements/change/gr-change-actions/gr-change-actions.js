@@ -126,10 +126,17 @@
           ];
         },
       },
+      _hasKnownChainState: {
+        type: Boolean,
+        value: false,
+      },
       changeNum: String,
       changeStatus: String,
       commitNum: String,
-      hasParent: Boolean,
+      hasParent: {
+        type: Boolean,
+        observer: '_computeChainState',
+      },
       patchNum: String,
       commitMessage: {
         type: String,
@@ -489,6 +496,26 @@
       return key === '/' ? key : '/' + key;
     },
 
+    /**
+     * This the is used to determine if the rebase button should be enabled or
+     * not. chainState is used as parameter in _calculateDisabled instead of
+     * hasParent because hasParent begins as undefined, and would cause the top
+     * level action buttons to not render until it had a value. Instead, use
+     * the chainState, which is set to have a value initially.
+     */
+    _computeChainState: function(hasParent) {
+      this._hasKnownChainState = true;
+    },
+
+    _calculateDisabled: function(action, hasKnownChainState) {
+      if (action.__key === 'rebase') {
+        if (hasKnownChainState === false) {
+          return true;
+        }
+      }
+      return !action.enabled;
+    },
+
     _handleConfirmDialogCancel: function() {
       this._hideAllDialogs();
     },
@@ -503,19 +530,8 @@
     },
 
     _handleRebaseConfirm: function() {
-      var payload = {};
       var el = this.$.confirmRebase;
-      if (el.clearParent) {
-        // There is a subtle but important difference between setting the base
-        // to an empty string and omitting it entirely from the payload. An
-        // empty string implies that the parent should be cleared and the
-        // change should be rebased on top of the target branch. Leaving out
-        // the base implies that it should be rebased on top of its current
-        // parent.
-        payload.base = '';
-      } else if (el.base && el.base.length > 0) {
-        payload.base = el.base;
-      }
+      var payload = {base: el.base};
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction('/rebase', this.revisionActions.rebase, true, payload);
@@ -617,47 +633,51 @@
     },
 
     _handleResponse: function(action, response) {
-      return this.$.restAPI.getResponseObject(response).then(function(obj) {
-        switch (action.__key) {
-          case ChangeActions.REVERT:
-            this._setLabelValuesOnRevert(obj.change_id);
-            /* falls through */
-          case RevisionActions.CHERRYPICK:
-            page.show(this.changePath(obj._number));
-            break;
-          case ChangeActions.DELETE:
-          case RevisionActions.DELETE:
-            if (action.__type === ActionType.CHANGE) {
-              page.show('/');
-            } else {
-              page.show(this.changePath(this.changeNum));
+      if (response) {
+        return this.$.restAPI.getResponseObject(response).then(function(obj) {
+            switch (action.__key) {
+              case ChangeActions.REVERT:
+                this._setLabelValuesOnRevert(obj.change_id);
+                /* falls through */
+              case RevisionActions.CHERRYPICK:
+                page.show(this.changePath(obj._number));
+                break;
+              case ChangeActions.DELETE:
+              case RevisionActions.DELETE:
+                if (action.__type === ActionType.CHANGE) {
+                  page.show('/');
+                } else {
+                  page.show(this.changePath(this.changeNum));
+                }
+                break;
+              default:
+                this.dispatchEvent(new CustomEvent('reload-change',
+                    {detail: {action: action.__key}, bubbles: false}));
+                break;
             }
-            break;
-          default:
-            this.dispatchEvent(new CustomEvent('reload-change',
-                {detail: {action: action.__key}, bubbles: false}));
-            break;
+        }.bind(this));
+      }
+    },
+
+    _handleResponseError: function(response) {
+      return response.text().then(function(errText) {
+        this.fire('show-alert',
+            { message: 'Could not perform action: ' + errText });
+        if (errText.indexOf('Change is already up to date') !== 0) {
+          throw Error(errText);
         }
       }.bind(this));
     },
 
-    _handleResponseError: function(response) {
-      if (response.ok) { return response; }
-
-      return response.text().then(function(errText) {
-        alert('Could not perform action: ' + errText);
-        throw Error(errText);
-      });
-    },
-
     _send: function(method, payload, actionEndpoint, revisionAction,
-        cleanupFn) {
+        cleanupFn, opt_errorFn) {
       var url = this.$.restAPI.getChangeActionURL(this.changeNum,
           revisionAction ? this.patchNum : null, actionEndpoint);
-      return this.$.restAPI.send(method, url, payload).then(function(response) {
-        cleanupFn.call(this);
-        return response;
-      }.bind(this)).then(this._handleResponseError.bind(this));
+      return this.$.restAPI.send(method, url, payload,
+          this._handleResponseError, this).then(function(response) {
+            cleanupFn.call(this);
+            return response;
+      }.bind(this));
     },
 
     _handleAbandonTap: function() {

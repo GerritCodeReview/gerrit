@@ -33,15 +33,23 @@
       base: String,
       branch: String,
       hasParent: Boolean,
-      clearParent: {
-        type: Boolean,
-        value: false,
-      },
       rebaseOnCurrent: Boolean,
-      valueSelected: {
-        type: Boolean,
-        computed: '_updateValueSelected(base, clearParent)',
-      },
+    },
+
+    observers: [
+      '_updateSelectedOption(rebaseOnCurrent, hasParent)',
+    ],
+
+    _displayParentOption: function(rebaseOnCurrent, hasParent) {
+      return hasParent && rebaseOnCurrent;
+    },
+
+    _displayParentUpToDateMsg: function(rebaseOnCurrent, hasParent) {
+      return hasParent && !rebaseOnCurrent;
+    },
+
+    _displayTipOption: function(rebaseOnCurrent, hasParent) {
+      return !(!rebaseOnCurrent && !hasParent);
     },
 
     _handleConfirmTap: function(e) {
@@ -54,17 +62,44 @@
       this.fire('cancel', null, {bubbles: false});
     },
 
-    _handleClearParentTap: function(e) {
-      var clear = Polymer.dom(e).rootTarget.checked;
-      if (clear) {
-        this.base = '';
-      }
-      this.$.parentInput.disabled = clear;
-      this.clearParent = clear;
+    _handleRebaseOnOther: function(e) {
+      this.$.parentInput.focus();
     },
 
-    _updateValueSelected: function(base, clearParent) {
-      return base.length || clearParent;
+    /**
+     * There is a subtle but important difference between setting the base to an
+     * empty string and omitting it entirely from the payload. An empty string
+     * implies that the parent should be cleared and the change should be
+     * rebased on top of the target branch. Leaving out the base implies that it
+     * should be rebased on top of its current parent.
+     */
+    _handleRebaseOnTip: function(e) {
+      this.base = '';
+    },
+
+    _handleRebaseOnParent: function(e) {
+      this.base = null;
+    },
+
+    _handleEnterChangeNumberTap: function(e) {
+      this.$.rebaseOnOther.checked = true;
+    },
+
+    /**
+     * Sets the default radio button based on the state of the app and
+     * the corresponding value to be submitted.
+     */
+    _updateSelectedOption: function(rebaseOnCurrent, hasParent) {
+      if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
+        this.$.rebaseOnParent.checked = true;
+        this._handleRebaseOnParent();
+      } else if (this._displayTipOption(rebaseOnCurrent, hasParent)) {
+        this.$.rebaseOnTip.checked = true;
+        this._handleRebaseOnTip();
+      } else {
+        this.$.rebaseOnOther.checked = true;
+        this._handleRebaseOnOther();
+      }
     },
   });
 })();

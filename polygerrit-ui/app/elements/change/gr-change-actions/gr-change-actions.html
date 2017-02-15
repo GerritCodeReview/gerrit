@@ -96,7 +96,7 @@ limitations under the License.
               data-action-key$="[[action.__key]]"
               data-action-type$="[[action.__type]]"
               data-label$="[[action.label]]"
-              disabled$="[[!action.enabled]]"
+              disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
               on-tap="_handleActionTap"></gr-button>
         </template>
       </section>

@@ -118,6 +118,30 @@
       "revId": "6fd1b6f1f657e4e9e9561bcd92752b19fe15f366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac58eb75_80bf64bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummary.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T14:10:24Z",
+      "side": 1,
+      "message": "\u003e OK, but everyone else will also need to delete the cache on\n \u003e upgrade.\n\nThere is no official release containing this cache. Only those running the master build may be affected. Right?",
+      "parentUuid": "9ec60f65_e543a850",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "6fd1b6f1f657e4e9e9561bcd92752b19fe15f366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

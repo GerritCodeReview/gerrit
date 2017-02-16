@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "567957c6_839d2c8c",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-16T16:59:05Z",
+      "side": 1,
+      "message": "First item is done.\n\nI don\u0027t think they will ever be false:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#capability-info\n\nEach of the entities states \"not set if false\". Do you think it\u0027s still worth checking as a safeguard?",
+      "parentUuid": "96b51c89_409075ba",
+      "range": {
+        "startLine": 167,
+        "startChar": 37,
+        "endLine": 167,
+        "endChar": 68
+      },
+      "revId": "e22fbc71babb1c1152f879985e8890f95b21443b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65cf09f5_d05586bf",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "e22fbc71babb1c1152f879985e8890f95b21443b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c34b53_978a81fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-16T16:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65cf09f5_d05586bf",
+      "range": {
+        "startLine": 323,
+        "startChar": 30,
+        "endLine": 323,
+        "endChar": 53
+      },
+      "revId": "e22fbc71babb1c1152f879985e8890f95b21443b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

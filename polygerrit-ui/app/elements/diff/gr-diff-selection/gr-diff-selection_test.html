@@ -325,5 +325,12 @@ limitations under the License.
             'is is a co');
       });
     });
+
+    test('cache is reset when diff changes', function() {
+      element._linesCache = {left: 'test', right: 'test'};
+      element.diff = {};
+      flushAsynchronousOperations();
+      assert.deepEqual(element._linesCache, {left: null, right: null});
+    });
   });
 </script>

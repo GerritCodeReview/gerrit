@@ -24,6 +24,8 @@
     RIGHT: 'selected-right',
   };
 
+  var getNewCache = function() { return {left: null, right: null}; };
+
   Polymer({
     is: 'gr-diff-selection',
 
@@ -32,9 +34,13 @@
       _cachedDiffBuilder: Object,
       _linesCache: {
         type: Object,
-        value: function() { return {left: null, right: null}; },
+        value: getNewCache(),
       },
     },
+
+    observers: [
+      '_diffChanged(diff)',
+    ],
 
     listeners: {
       'copy': '_handleCopy',
@@ -51,6 +57,10 @@
             Polymer.dom(this).querySelector('gr-diff-builder');
       }
       return this._cachedDiffBuilder;
+    },
+
+    _diffChanged: function() {
+      this._linesCache = getNewCache();
     },
 
     _handleDown: function(e) {

@@ -192,6 +192,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       checkLabels(revision, input.strictLabels, input.labels);
     }
     if (input.comments != null) {
+      cleanUpComments(input.comments);
       checkComments(revision, input.comments);
     }
     if (input.robotComments != null) {
@@ -200,6 +201,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
       checkRobotComments(revision, input.robotComments);
     }
+
     if (input.notify == null) {
       log.warn("notify = null; assuming notify = NONE");
       input.notify = NotifyHandling.NONE;
@@ -424,8 +426,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private <T extends CommentInput> void checkComments(
       RevisionResource revision, Map<String, List<T>> commentsPerPath)
       throws BadRequestException, OrmException {
-    cleanUpComments(commentsPerPath);
     ensureCommentsAreAddable(revision, commentsPerPath);
+    for (Map.Entry<String, List<T>> e : commentsPerPath.entrySet()) {
+      for (T comment : e.getValue()) {
+        ensureRangeIsValid(e.getKey(), comment.range);
+      }
+    }
   }
 
   private <T extends CommentInput> void cleanUpComments(Map<String, List<T>> commentsPerPath) {
@@ -438,7 +444,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       cleanUpComments(comments);
-
       if (comments.isEmpty()) {
         mapValueIterator.remove();
       }
@@ -517,6 +522,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ensureFixSuggestionsAreAddable(c.fixSuggestions, commentPath);
       }
     }
+    cleanUpComments(in);
     checkComments(revision, in);
   }
 
@@ -623,7 +629,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       throw new BadRequestException(
           String.format(
               "Range (%s:%s - %s:%s) is not"
-                  + " valid for the replacement of the robot comment on %s",
+                  + " valid for the comment on %s",
               range.startLine,
               range.startCharacter,
               range.endLine,

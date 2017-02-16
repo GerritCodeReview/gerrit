@@ -65,6 +65,7 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
@@ -83,9 +84,11 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -1065,6 +1068,34 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
     assertThat(m.rcpt()).containsExactly(user.emailAddress);
+  }
+
+  @Test
+  public void invalidRange() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(changeId).addReviewer(in);
+    sender.clear();
+
+    ReviewInput review = new ReviewInput();
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+
+    comment.range = new Range();
+    comment.range.startLine = 1;
+    comment.range.endLine = 1;
+    comment.range.startCharacter = -1;
+    comment.range.endCharacter = 0;
+
+    comment.path = PushOneCommit.FILE_NAME;
+    comment.side = Side.REVISION;
+    comment.message = "comment 1";
+    review.comments = new HashMap<>();
+    review.comments.put(comment.path, Lists.newArrayList(comment));
+
+    exception.expect(BadRequestException.class);
+    gApi.changes().id(changeId).current().review(review);
   }
 
   @Test

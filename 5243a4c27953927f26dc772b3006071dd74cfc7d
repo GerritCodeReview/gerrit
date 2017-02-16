@@ -156,6 +156,24 @@
       "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2696c931_9460d392",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-16T01:05:34Z",
+      "side": 1,
+      "message": "Why narrow it down instead of accepting all of them? Is it for performance?",
+      "parentUuid": "94faa0eb_6ad94882",
+      "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

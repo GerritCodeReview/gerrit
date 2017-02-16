@@ -40,18 +40,12 @@ import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 class InitSshd implements InitStep {
   private final ConsoleUI ui;
   private final SitePaths site;
-  private final Libraries libraries;
   private final Section sshd;
 
   @Inject
-  InitSshd(
-      final ConsoleUI ui,
-      final SitePaths site,
-      final Libraries libraries,
-      final Section.Factory sections) {
+  InitSshd(final ConsoleUI ui, final SitePaths site, final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
-    this.libraries = libraries;
     this.sshd = sections.get("sshd", null);
   }
 

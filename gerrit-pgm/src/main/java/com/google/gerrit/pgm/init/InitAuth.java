@@ -35,17 +35,15 @@ class InitAuth implements InitStep {
   private final Section auth;
   private final Section ldap;
   private final Section receive;
-  private final Libraries libraries;
   private final InitFlags flags;
 
   @Inject
-  InitAuth(InitFlags flags, ConsoleUI ui, Libraries libraries, Section.Factory sections) {
+  InitAuth(InitFlags flags, ConsoleUI ui, Section.Factory sections) {
     this.flags = flags;
     this.ui = ui;
     this.auth = sections.get("auth", null);
     this.ldap = sections.get("ldap", null);
     this.receive = sections.get(RECEIVE, null);
-    this.libraries = libraries;
   }
 
   @Override

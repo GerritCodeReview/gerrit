@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33d71a0b_cd85940b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-16T14:39:35Z",
+      "side": 1,
+      "message": "Some lines in the commit message are longer than 73 chars. Here and below.",
+      "range": {
+        "startLine": 18,
+        "startChar": 53,
+        "endLine": 18,
+        "endChar": 74
+      },
+      "revId": "ab759e3b67db059538dacf0de389cba887fa9d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79f0ba31_47f565a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-16T14:39:35Z",
+      "side": 1,
+      "message": "noticed",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 27
+      },
+      "revId": "ab759e3b67db059538dacf0de389cba887fa9d39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

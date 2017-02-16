@@ -442,9 +442,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithMessageTwiceWithDifferentMessages() throws Exception {
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config.getProject().setCreateNewChangeForAllNotInTarget(InheritableBoolean.TRUE);
-    saveProjectConfig(project, config);
+    enableCreateNewChangeForAllNotInTarget();
 
     PushOneCommit push =
         pushFactory.create(
@@ -779,6 +777,33 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r2 = push.to("refs/for/otherBranch");
     r2.assertOkStatus();
     assertTwoChangesWithSameRevision(r);
+  }
+
+  @Test
+  public void pushChangeBasedOnChangeOfOtherUserWithCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+
+    // create a change as admin
+    PushOneCommit push =
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+    RevCommit commitChange1 = r.getCommit();
+
+    // create a second change as user (depends on the change from admin)
+    TestRepository<?> userRepo = cloneProject(project, user);
+    GitUtil.fetch(userRepo, r.getPatchSet().getRefName() + ":change");
+    userRepo.reset("change");
+    push =
+        pushFactory.create(
+            db, user.getIdent(), userRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert that no new change was created for the commit of the predecessor change
+    assertThat(query(commitChange1.name())).hasSize(1);
   }
 
   @Test

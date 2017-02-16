@@ -559,7 +559,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return checkNotNull(getPatchSets().get(psId), "missing current patch set %s", psId.get());
   }
 
-  Timestamp getReadOnlyUntil() {
+  @VisibleForTesting
+  public Timestamp getReadOnlyUntil() {
     return state.readOnlyUntil();
   }
 

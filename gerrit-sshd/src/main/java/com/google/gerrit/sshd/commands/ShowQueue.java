@@ -90,7 +90,7 @@ final class ShowQueue extends SshCommand {
             "%-8s %-12s %-12s %-4s %s\n", //
             "Task", "State", "StartTime", "", "Command"));
     stdout.print(
-        "----------------------------------------------" + "--------------------------------\n");
+        "------------------------------------------------------------------------------\n");
 
     List<TaskInfo> tasks;
     try {
@@ -163,7 +163,7 @@ final class ShowQueue extends SshCommand {
       }
     }
     stdout.print(
-        "----------------------------------------------" + "--------------------------------\n");
+        "------------------------------------------------------------------------------\n");
     stdout.print("  " + tasks.size() + " tasks");
     if (threadPoolSize > 0) {
       stdout.print(", " + threadPoolSize + " worker threads");

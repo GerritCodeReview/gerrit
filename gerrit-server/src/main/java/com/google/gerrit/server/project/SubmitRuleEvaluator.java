@@ -246,7 +246,7 @@ public class SubmitRuleEvaluator {
       // whether or not that is actually possible given the permissions.
       return ruleError(
           String.format(
-              "Submit rule '%s' for change %s of %s has " + "no solution.",
+              "Submit rule '%s' for change %s of %s has no solution.",
               getSubmitRuleName(), cd.getId(), getProjectName()));
     }
 
@@ -362,7 +362,7 @@ public class SubmitRuleEvaluator {
   private List<SubmitRecord> invalidResult(Term rule, Term record, String reason) {
     return ruleError(
         String.format(
-            "Submit rule %s for change %s of %s output " + "invalid result: %s%s",
+            "Submit rule %s for change %s of %s output invalid result: %s%s",
             rule,
             cd.getId(),
             getProjectName(),

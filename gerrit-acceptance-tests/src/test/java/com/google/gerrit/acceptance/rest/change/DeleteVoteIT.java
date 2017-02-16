@@ -72,7 +72,7 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     assertThat(msg.rcpt()).containsExactly(user.emailAddress);
     assertThat(msg.body()).contains(admin.fullName + " has removed a vote on this change.\n");
     assertThat(msg.body())
-        .contains("Removed Code-Review+1 by " + user.fullName + " <" + user.email + ">" + "\n");
+        .contains("Removed Code-Review+1 by " + user.fullName + " <" + user.email + ">\n");
 
     endPoint =
         "/changes/"

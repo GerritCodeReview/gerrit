@@ -57,7 +57,7 @@ public class Schema_123 extends SchemaVersion {
         MultimapBuilder.hashKeys().arrayListValues().build();
     try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
         ResultSet rs =
-            stmt.executeQuery("SELECT " + "account_id, " + "change_id " + "FROM starred_changes")) {
+            stmt.executeQuery("SELECT account_id, change_id FROM starred_changes")) {
       while (rs.next()) {
         Account.Id accountId = new Account.Id(rs.getInt(1));
         Change.Id changeId = new Change.Id(rs.getInt(2));

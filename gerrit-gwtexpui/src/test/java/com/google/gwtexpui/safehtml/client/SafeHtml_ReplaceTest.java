@@ -55,7 +55,7 @@ public class SafeHtml_ReplaceTest {
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString())
         .isEqualTo(
-            "A\n" + "<a href=\"?42\">issue 42</a>\n" + "<a href=\"?9918\">issue 9918</a>\n" + "B");
+            "A\n<a href=\"?42\">issue 42</a>\n<a href=\"?9918\">issue 9918</a>\nB");
   }
 
   @Test

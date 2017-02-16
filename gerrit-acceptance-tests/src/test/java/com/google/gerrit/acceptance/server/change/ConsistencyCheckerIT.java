@@ -154,7 +154,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertProblems(
         ctl,
         null,
-        problem("Invalid revision on patch set 1:" + " fooooooooooooooooooooooooooooooooooooooo"));
+        problem("Invalid revision on patch set 1: fooooooooooooooooooooooooooooooooooooooo"));
   }
 
   // No test for ref existing but object missing; InMemoryRepository won't let
@@ -170,7 +170,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         ctl,
         null,
         problem("Ref missing: " + ps.getId().toRefName()),
-        problem("Object missing: patch set 2:" + " deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+        problem("Object missing: patch set 2: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
   }
 
   @Test
@@ -725,7 +725,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         testRepo
             .commit()
             .parent(parent)
-            .message(commit.getShortMessage() + "\n" + "\n" + "Change-Id: " + badId + "\n")
+            .message(commit.getShortMessage() + "\n\nChange-Id: " + badId + "\n")
             .create();
     testRepo.getRevWalk().parseBody(mergedAs);
     assertThat(mergedAs.getFooterLines(FooterConstants.CHANGE_ID)).containsExactly(badId);

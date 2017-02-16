@@ -141,7 +141,7 @@ public class ReviewCommand extends SshCommand {
 
   @Option(
     name = "--strict-labels",
-    usage = "Strictly check if the labels " + "specified can be applied to the given patch set(s)"
+    usage = "Strictly check if the labels specified can be applied to the given patch set(s)"
   )
   private boolean strictLabels;
 

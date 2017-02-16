@@ -207,7 +207,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   public String getChangeMessageThreadId() throws EmailException {
-    return velocify("<gerrit.${change.createdOn.time}.$change.key.get()" + "@$email.gerritHost>");
+    return velocify("<gerrit.${change.createdOn.time}.$change.key.get()@$email.gerritHost>");
   }
 
   /** Format the sender's "cover letter", {@link #getCoverLetter()}. */

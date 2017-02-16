@@ -121,7 +121,7 @@ public class ChangeBundleTest extends GerritBaseTests {
         b1,
         b2,
         "changeId differs for Changes: {" + id1 + "} != {" + id2 + "}",
-        "createdOn differs for Changes:" + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}",
+        "createdOn differs for Changes: {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}",
         "effective last updated time differs for Changes:"
             + " {2009-09-30 17:00:00.0} != {2009-09-30 17:00:06.0}");
   }
@@ -310,7 +310,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     ChangeBundle b2 =
         new ChangeBundle(
             c2, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
-    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " {} != {null}");
+    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ": {} != {null}");
 
     // Topic ignored if ReviewDb is empty and NoteDb is null.
     b1 =
@@ -328,7 +328,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     b2 =
         new ChangeBundle(
             c2, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
-    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " {} != {null}");
+    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ": {} != {null}");
 
     // Null is not equal to a non-empty string.
     Change c3 = clone(c1);
@@ -339,7 +339,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     b2 =
         new ChangeBundle(
             c2, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
-    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " {topic} != {null}");
+    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ": {topic} != {null}");
 
     // Null is equal to a string that is all whitespace.
     Change c4 = clone(c1);
@@ -368,7 +368,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     ChangeBundle b2 =
         new ChangeBundle(
             c2, messages(), patchSets(), approvals(), comments(), reviewers(), REVIEW_DB);
-    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " { abc } != {abc}");
+    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ": { abc } != {abc}");
 
     // Leading whitespace in ReviewDb topic is ignored.
     b1 =
@@ -389,7 +389,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     b2 =
         new ChangeBundle(
             c3, messages(), patchSets(), approvals(), comments(), reviewers(), NOTE_DB);
-    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ":" + " { abc } != {cba}");
+    assertDiffs(b1, b2, "topic differs for Change.Id " + c1.getId() + ": { abc } != {cba}");
   }
 
   @Test
@@ -492,7 +492,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     assertDiffs(
         b1,
         b2,
-        "subject differs for Change.Id " + c1.getId() + ":" + " {Change subject} != {Change sub}");
+        "subject differs for Change.Id " + c1.getId() + ": {Change subject} != {Change sub}");
 
     // ReviewDb has shorter subject, allowed.
     b1 =
@@ -512,7 +512,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     assertDiffs(
         b1,
         b2,
-        "subject differs for Change.Id " + c1.getId() + ":" + " {Change subject} != {Change sub}");
+        "subject differs for Change.Id " + c1.getId() + ": {Change subject} != {Change sub}");
   }
 
   @Test
@@ -645,7 +645,7 @@ public class ChangeBundleTest extends GerritBaseTests {
     assertDiffs(
         b1,
         b2,
-        "currentPatchSetId differs for Change.Id " + c1.getId() + ":" + " {1} != {0}",
+        "currentPatchSetId differs for Change.Id " + c1.getId() + ": {1} != {0}",
         "subject differs for Change.Id "
             + c1.getId()
             + ":"
@@ -808,9 +808,9 @@ public class ChangeBundleTest extends GerritBaseTests {
         new ChangeBundle(
             c, messages(cm1), latest(c), approvals(), comments(), reviewers(), NOTE_DB);
     assertDiffs(
-        b1, b2, "ChangeMessages differ for Change.Id " + id + "\n" + "Only in A:\n  " + cm2);
+        b1, b2, "ChangeMessages differ for Change.Id " + id + "\nOnly in A:\n  " + cm2);
     assertDiffs(
-        b2, b1, "ChangeMessages differ for Change.Id " + id + "\n" + "Only in B:\n  " + cm2);
+        b2, b1, "ChangeMessages differ for Change.Id " + id + "\nOnly in B:\n  " + cm2);
   }
 
   @Test
@@ -1029,7 +1029,7 @@ public class ChangeBundleTest extends GerritBaseTests {
             c, messages(), patchSets(ps1, ps2), approvals(), comments(), reviewers(), REVIEW_DB);
 
     assertDiffs(
-        b1, b2, "PatchSet.Id sets differ:" + " [] only in A; [" + c.getId() + ",1] only in B");
+        b1, b2, "PatchSet.Id sets differ: [] only in A; [" + c.getId() + ",1] only in B");
   }
 
   @Test
@@ -1200,8 +1200,8 @@ public class ChangeBundleTest extends GerritBaseTests {
         b1,
         b2,
         "ChangeMessage.Key sets differ: [] only in A; [" + cm2.getKey() + "] only in B",
-        "PatchSet.Id sets differ:" + " [] only in A; [" + ps2.getId() + "] only in B",
-        "PatchSetApproval.Key sets differ:" + " [] only in A; [" + a2.getKey() + "] only in B");
+        "PatchSet.Id sets differ: [] only in A; [" + ps2.getId() + "] only in B",
+        "PatchSetApproval.Key sets differ: [] only in A; [" + a2.getKey() + "] only in B");
 
     // One NoteDb.
     b1 =
@@ -1219,9 +1219,9 @@ public class ChangeBundleTest extends GerritBaseTests {
     assertDiffs(
         b1,
         b2,
-        "ChangeMessages differ for Change.Id " + c.getId() + "\n" + "Only in B:\n  " + cm2,
-        "PatchSet.Id sets differ:" + " [] only in A; [" + ps2.getId() + "] only in B",
-        "PatchSetApproval.Key sets differ:" + " [] only in A; [" + a2.getKey() + "] only in B");
+        "ChangeMessages differ for Change.Id " + c.getId() + "\nOnly in B:\n  " + cm2,
+        "PatchSet.Id sets differ: [] only in A; [" + ps2.getId() + "] only in B",
+        "PatchSetApproval.Key sets differ: [] only in A; [" + a2.getKey() + "] only in B");
 
     // Both NoteDb.
     b1 =
@@ -1239,9 +1239,9 @@ public class ChangeBundleTest extends GerritBaseTests {
     assertDiffs(
         b1,
         b2,
-        "ChangeMessages differ for Change.Id " + c.getId() + "\n" + "Only in B:\n  " + cm2,
-        "PatchSet.Id sets differ:" + " [] only in A; [" + ps2.getId() + "] only in B",
-        "PatchSetApproval.Key sets differ:" + " [] only in A; [" + a2.getKey() + "] only in B");
+        "ChangeMessages differ for Change.Id " + c.getId() + "\nOnly in B:\n  " + cm2,
+        "PatchSet.Id sets differ: [] only in A; [" + ps2.getId() + "] only in B",
+        "PatchSetApproval.Key sets differ: [] only in A; [" + a2.getKey() + "] only in B");
   }
 
   @Test
@@ -1265,7 +1265,7 @@ public class ChangeBundleTest extends GerritBaseTests {
         new ChangeBundle(
             c, messages(), patchSets(ps2), approvals(), comments(), reviewers(), REVIEW_DB);
     assertDiffs(
-        b1, b2, "description differs for PatchSet.Id " + ps1.getId() + ":" + " { abc } != {abc}");
+        b1, b2, "description differs for PatchSet.Id " + ps1.getId() + ": { abc } != {abc}");
 
     // Whitespace in ReviewDb description is ignored.
     b1 =
@@ -1287,7 +1287,7 @@ public class ChangeBundleTest extends GerritBaseTests {
         new ChangeBundle(
             c, messages(), patchSets(ps3), approvals(), comments(), reviewers(), NOTE_DB);
     assertDiffs(
-        b1, b2, "description differs for PatchSet.Id " + ps1.getId() + ":" + " { abc } != {cba}");
+        b1, b2, "description differs for PatchSet.Id " + ps1.getId() + ": { abc } != {cba}");
   }
 
   @Test
@@ -1617,7 +1617,7 @@ public class ChangeBundleTest extends GerritBaseTests {
         new ChangeBundle(c, messages(), latest(c), approvals(), comments(), r2, REVIEW_DB);
     assertNoDiffs(b1, b1);
     assertNoDiffs(b2, b2);
-    assertDiffs(b1, b2, "reviewer sets differ:" + " [1] only in A;" + " [2] only in B");
+    assertDiffs(b1, b2, "reviewer sets differ: [1] only in A; [2] only in B");
   }
 
   @Test

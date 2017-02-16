@@ -236,7 +236,7 @@ public class MultiProgressMonitor {
         if (!done && workerFuture.isDone()) {
           // The worker may not have called end() explicitly, which is likely a
           // programming error.
-          log.warn("MultiProgressMonitor worker did not call end()" + " before returning");
+          log.warn("MultiProgressMonitor worker did not call end() before returning");
           end();
         }
       }

@@ -107,7 +107,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
           checkGlobalCapabilityPermissions(config.getName());
         } else if (!projectControl.controlForRef(section.getName()).isOwner()) {
           throw new AuthException(
-              "You are not allowed to edit permissions" + "for ref: " + section.getName());
+              "You are not allowed to edit permissionsfor ref: " + section.getName());
         }
       }
       // Perform addition checks
@@ -122,7 +122,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
             throw new BadRequestException("invalid section name");
           }
           if (!projectControl.controlForRef(name).isOwner()) {
-            throw new AuthException("You are not allowed to edit permissions" + "for ref: " + name);
+            throw new AuthException("You are not allowed to edit permissionsfor ref: " + name);
           }
           RefPattern.validate(name);
         }
@@ -273,12 +273,12 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
 
     if (!allProjects.equals(projectName)) {
       throw new BadRequestException(
-          "Cannot edit global capabilities " + "for projects other than " + allProjects.get());
+          "Cannot edit global capabilities for projects other than " + allProjects.get());
     }
 
     if (!identifiedUser.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException(
-          "Editing global capabilities " + "requires " + GlobalCapability.ADMINISTRATE_SERVER);
+          "Editing global capabilities requires " + GlobalCapability.ADMINISTRATE_SERVER);
     }
   }
 }

@@ -377,7 +377,7 @@ public class ChangeEdits
     @Option(
       name = "--base",
       aliases = {"-b"},
-      usage = "whether to load the content on the base revision instead of the" + " change edit"
+      usage = "whether to load the content on the base revision instead of the change edit"
     )
     private boolean base;
 
@@ -478,7 +478,7 @@ public class ChangeEdits
     @Option(
       name = "--base",
       aliases = {"-b"},
-      usage = "whether to load the message on the base revision instead" + " of the change edit"
+      usage = "whether to load the message on the base revision instead of the change edit"
     )
     private boolean base;
 

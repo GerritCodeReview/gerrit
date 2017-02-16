@@ -86,7 +86,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.confirm).isTrue();
     assertThat(result.error)
         .contains(
-            "has " + mediumGroupSize + " members. Do you want to add them" + " all as reviewers?");
+            "has " + mediumGroupSize + " members. Do you want to add them all as reviewers?");
     assertThat(result.reviewers).isNull();
 
     // Add medium group with confirmation.
@@ -515,7 +515,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(reviewerResult.confirm).isTrue();
     assertThat(reviewerResult.error)
         .contains(
-            "has " + mediumGroupSize + " members. Do you want to add them all" + " as reviewers?");
+            "has " + mediumGroupSize + " members. Do you want to add them all as reviewers?");
 
     // No labels should have changed, and no reviewers/CCs should have been added.
     c = gApi.changes().id(r.getChangeId()).get();

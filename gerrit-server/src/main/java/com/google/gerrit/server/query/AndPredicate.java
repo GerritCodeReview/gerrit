@@ -86,7 +86,7 @@ public class AndPredicate<T> extends Predicate<T> implements Matchable<T> {
     for (Predicate<T> c : children) {
       checkState(
           c.isMatchable(),
-          "match invoked, but child predicate %s " + "doesn't implement %s",
+          "match invoked, but child predicate %s doesn't implement %s",
           c,
           Matchable.class.getName());
       if (!c.asMatchable().match(object)) {

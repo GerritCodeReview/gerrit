@@ -552,7 +552,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (description == null) {
       throw new BadRequestException(
           String.format(
-              "A description is required " + "for the suggested fix of the robot comment on %s",
+              "A description is required for the suggested fix of the robot comment on %s",
               commentPath));
     }
   }
@@ -586,7 +586,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (replacementPath == null) {
       throw new BadRequestException(
           String.format(
-              "A file path must be given " + "for the replacement of the robot comment on %s",
+              "A file path must be given for the replacement of the robot comment on %s",
               commentPath));
     }
   }
@@ -608,7 +608,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (range == null) {
       throw new BadRequestException(
           String.format(
-              "A range must be given " + "for the replacement of the robot comment on %s",
+              "A range must be given for the replacement of the robot comment on %s",
               commentPath));
     }
   }

@@ -268,7 +268,7 @@ public class MergeOp implements AutoCloseable {
     } else if (results.isEmpty()) {
       throw new IllegalStateException(
           String.format(
-              "SubmitRuleEvaluator.evaluate for change %s " + "returned empty list for %s in %s",
+              "SubmitRuleEvaluator.evaluate for change %s returned empty list for %s in %s",
               cd.getId(), patchSet.getId(), cd.change().getProject().get()));
     }
 
@@ -733,7 +733,7 @@ public class MergeOp implements AutoCloseable {
     try {
       return orm.openRepo(project);
     } catch (NoSuchProjectException noProject) {
-      logWarn("Project " + noProject.project() + " no longer exists, " + "abandoning open changes");
+      logWarn("Project " + noProject.project() + " no longer exists, abandoning open changes");
       abandonAllOpenChangeForDeletedProject(noProject.project());
     } catch (IOException e) {
       throw new IntegrationException("Error opening project " + project, e);

@@ -197,7 +197,7 @@ public class ReceiveCommits {
     UPDATE(
         "You are not allowed to perform this operation.\n"
             + "To push into this reference you need 'Push' rights."),
-    DELETE("You need 'Push' rights with the 'Force Push'\n" + "flag set to delete references."),
+    DELETE("You need 'Push' rights with the 'Force Push'\nflag set to delete references."),
     DELETE_CHANGES("Cannot delete from '" + REFS_CHANGES + "'"),
     CODE_REVIEW(
         "You need 'Push' rights to upload code review requests.\n"
@@ -762,7 +762,7 @@ public class ReceiveCommits {
         String refName = replace.inputCommand.getRefName();
         checkState(
             NEW_PATCHSET.matcher(refName).matches(),
-            "expected a new patch set command as input when creating %s;" + " got %s",
+            "expected a new patch set command as input when creating %s; got %s",
             replace.cmd.getRefName(),
             refName);
         try {
@@ -2845,7 +2845,7 @@ public class ReceiveCommits {
       }
 
       logDebug(
-          "Auto-closing {} changes with existing patch sets and {} with" + " new patch sets",
+          "Auto-closing {} changes with existing patch sets and {} with new patch sets",
           existingPatchSets,
           newPatchSets);
       bu.execute();

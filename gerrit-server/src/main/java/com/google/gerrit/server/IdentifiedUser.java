@@ -364,7 +364,7 @@ public class IdentifiedUser extends CurrentUser {
     if (user == null) {
       user = "";
     }
-    user = user + "|" + "account-" + ua.getId().toString();
+    user = user + "|account-" + ua.getId().toString();
 
     return new PersonIdent(name, user + "@" + guessHost(), when, tz);
   }

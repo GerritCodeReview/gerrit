@@ -96,7 +96,7 @@ public class HtmlMimeMessage extends RawMailMessage {
         .addTo(new Address("Patrick Hiesel", "hiesel@google.com"))
         .textContent(textContent)
         .htmlContent(unencodedHtmlContent)
-        .subject("Change in gerrit[master]: Implement " + "receiver class structure and bindings")
+        .subject("Change in gerrit[master]: Implement receiver class structure and bindings")
         .addAdditionalHeader("MIME-Version: 1.0")
         .dateReceived(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC));
     return expect.build();

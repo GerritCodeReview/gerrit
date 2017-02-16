@@ -267,7 +267,7 @@ public abstract class AbstractChangeUpdate {
     checkArgument(c.revId != null, "RevId required for comment: %s", c);
     checkArgument(
         c.author.getId().equals(getAccountId()),
-        "The author for the following comment does not match the author of" + " this %s (%s): %s",
+        "The author for the following comment does not match the author of this %s (%s): %s",
         getClass().getSimpleName(),
         getAccountId(),
         c);

@@ -28,7 +28,7 @@ public class Schema_98 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
-    ui.message("Migrate user preference showUserInReview to " + "reviewCategoryStrategy");
+    ui.message("Migrate user preference showUserInReview to reviewCategoryStrategy");
     try (Statement stmt = newStatement(db)) {
       stmt.executeUpdate(
           "UPDATE accounts SET "

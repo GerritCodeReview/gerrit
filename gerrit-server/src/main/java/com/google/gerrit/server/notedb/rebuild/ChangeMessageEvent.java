@@ -32,7 +32,7 @@ class ChangeMessageEvent extends Event {
           Change.Status.ABANDONED, Pattern.compile("^Abandoned(\n.*)*$"),
           Change.Status.MERGED,
               Pattern.compile(
-                  "^Change has been successfully" + " (merged|cherry-picked|rebased|pushed).*$"),
+                  "^Change has been successfully (merged|cherry-picked|rebased|pushed).*$"),
           Change.Status.NEW, Pattern.compile("^Restored(\n.*)*$"));
 
   private static final Pattern TOPIC_SET_REGEXP = Pattern.compile("^Topic set to (.+)$");

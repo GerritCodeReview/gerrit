@@ -668,7 +668,7 @@ public class ChangeData {
     if (project == null) {
       checkState(
           !notesMigration.readChanges(),
-          "should not have created " + " ChangeData without a project when NoteDb is enabled");
+          "should not have created  ChangeData without a project when NoteDb is enabled");
       project = change().getProject();
     }
     return project;

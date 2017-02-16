@@ -61,7 +61,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
   @Option(
     name = "--strategy",
     metaVar = "STRATEGY",
-    usage = "name of the merge strategy, refer to " + "org.eclipse.jgit.merge.MergeStrategy"
+    usage = "name of the merge strategy, refer to org.eclipse.jgit.merge.MergeStrategy"
   )
   public void setStrategy(String strategy) {
     this.strategy = strategy;

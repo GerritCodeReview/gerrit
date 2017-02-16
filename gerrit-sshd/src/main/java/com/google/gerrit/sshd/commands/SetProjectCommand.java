@@ -54,7 +54,7 @@ final class SetProjectCommand extends SshCommand {
   @Option(
     name = "--submit-type",
     aliases = {"-t"},
-    usage = "project submit type\n" + "(default: MERGE_IF_NECESSARY)"
+    usage = "project submit type\n(default: MERGE_IF_NECESSARY)"
   )
   private SubmitType submitType;
 

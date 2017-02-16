@@ -161,7 +161,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r1.assertOkStatus();
     r1.assertChange(Change.Status.NEW, null);
     r1.assertMessage(
-        "New changes:\n" + "  " + url + id1 + " " + r1.getCommit().getShortMessage() + "\n");
+        "New changes:\n  " + url + id1 + " " + r1.getCommit().getShortMessage() + "\n");
 
     testRepo.reset(initialHead);
     String newMsg = r1.getCommit().getShortMessage() + " v2";
@@ -238,7 +238,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     gApi.accounts().self().setWatchedProjects(projectsToWatch);
 
     TestAccount user2 = accounts.user2();
-    String pushSpec = "refs/for/master" + "%reviewer=" + user.email + ",cc=" + user2.email;
+    String pushSpec = "refs/for/master%reviewer=" + user.email + ",cc=" + user2.email;
 
     sender.clear();
     PushOneCommit.Result r = pushTo(pushSpec + ",notify=" + NotifyHandling.NONE);
@@ -991,7 +991,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   private void testpushWithInvalidChangeId() throws Exception {
-    createCommit(testRepo, "Message with invalid Change-Id\n" + "\n" + "Change-Id: X\n");
+    createCommit(testRepo, "Message with invalid Change-Id\n\nChange-Id: X\n");
     pushForReviewRejected(testRepo, "invalid Change-Id line format in commit message footer");
 
     ProjectConfig config = projectCache.checkedGet(project).getConfig();

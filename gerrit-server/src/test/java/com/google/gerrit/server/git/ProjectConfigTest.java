@@ -199,7 +199,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getValidationErrors()).hasSize(1);
     assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
-        .isEqualTo("project.config: Invalid defaultValue \"-2\" " + "for label \"CustomLabel\"");
+        .isEqualTo("project.config: Invalid defaultValue \"-2\" for label \"CustomLabel\"");
   }
 
   @Test

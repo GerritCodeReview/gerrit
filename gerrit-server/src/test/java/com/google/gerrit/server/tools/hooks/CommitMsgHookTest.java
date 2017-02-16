@@ -245,7 +245,7 @@ public class CommitMsgHookTest extends HookTestCase {
             "\n"
             + //
             "Change-Id: Id0b4f42d3d6fc1569595c9b97cb665e738486f5d\n", //
-        call("a\n" + "\n" + "b\n"));
+        call("a\n\nb\n"));
 
     assertEquals(
         "a\n"
@@ -257,7 +257,7 @@ public class CommitMsgHookTest extends HookTestCase {
             "\n"
             + //
             "Change-Id: I7d237b20058a0f46cc3f5fabc4a0476877289d75\n", //
-        call("a\n" + "\n" + "b\nc\nd\ne\n"));
+        call("a\n\nb\nc\nd\ne\n"));
 
     assertEquals(
         "a\n"
@@ -273,7 +273,7 @@ public class CommitMsgHookTest extends HookTestCase {
             "\n"
             + //
             "Change-Id: I382e662f47bf164d6878b7fe61637873ab7fa4e8\n", //
-        call("a\n" + "\n" + "b\nc\nd\ne\n" + "\n" + "f\ng\nh\n"));
+        call("a\n\nb\nc\nd\ne\n\nf\ng\nh\n"));
   }
 
   @Test
@@ -286,7 +286,7 @@ public class CommitMsgHookTest extends HookTestCase {
             "Change-Id: I7fc3876fee63c766a2063df97fbe04a2dddd8d7c\n"
             + //
             SOB1, //
-        call("a\n" + "\n" + SOB1));
+        call("a\n\n" + SOB1));
 
     assertEquals(
         "a\n"
@@ -298,7 +298,7 @@ public class CommitMsgHookTest extends HookTestCase {
             SOB1
             + //
             SOB2, //
-        call("a\n" + "\n" + SOB1 + SOB2));
+        call("a\n\n" + SOB1 + SOB2));
   }
 
   @Test
@@ -319,7 +319,7 @@ public class CommitMsgHookTest extends HookTestCase {
             "Change-Id: I382e662f47bf164d6878b7fe61637873ab7fa4e8\n"
             + //
             SOB1, //
-        call("a\n" + "\n" + "b\nc\nd\ne\n" + "\n" + "f\ng\nh\n" + "\n" + SOB1));
+        call("a\n\nb\nc\nd\ne\n\nf\ng\nh\n\n" + SOB1));
 
     assertEquals(
         "a\n"

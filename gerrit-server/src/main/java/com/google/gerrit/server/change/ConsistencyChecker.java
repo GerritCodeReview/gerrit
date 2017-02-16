@@ -374,7 +374,7 @@ public class ConsistencyChecker {
       if (!rw.isMergedInto(commit, tip)) {
         problem(
             String.format(
-                "Expected merged commit %s is not merged into" + " destination ref %s (%s)",
+                "Expected merged commit %s is not merged into destination ref %s (%s)",
                 commit.name(), change().getDest().get(), tip.name()));
         return;
       }
@@ -412,7 +412,7 @@ public class ConsistencyChecker {
           if (changeId != null && !changeId.equals(change().getKey().get())) {
             problem(
                 String.format(
-                    "Expected merged commit %s has Change-Id: %s," + " but expected %s",
+                    "Expected merged commit %s has Change-Id: %s, but expected %s",
                     commit.name(), changeId, change().getKey().get()));
             return;
           }

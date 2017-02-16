@@ -197,7 +197,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage(
         String.format(
-            "A description is required for the " + "suggested fix of the robot comment on %s",
+            "A description is required for the suggested fix of the robot comment on %s",
             withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
   }
@@ -256,7 +256,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage(
         String.format(
-            "A file path must be given for the " + "replacement of the robot comment on %s",
+            "A file path must be given for the replacement of the robot comment on %s",
             withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
   }
@@ -301,7 +301,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage(
         String.format(
-            "A range must be given for the " + "replacement of the robot comment on %s",
+            "A range must be given for the replacement of the robot comment on %s",
             withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
   }
@@ -315,7 +315,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage(
         String.format(
-            "Range (13:9 - 5:10) is not " + "valid for the replacement of the robot comment on %s",
+            "Range (13:9 - 5:10) is not valid for the replacement of the robot comment on %s",
             withFixRobotCommentInput.path));
     addRobotComment(changeId, withFixRobotCommentInput);
   }

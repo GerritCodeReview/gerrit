@@ -122,7 +122,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     Predicate<ChangeData> pred = getChild(0);
     checkState(
         pred.isMatchable(),
-        "match invoked, but child predicate %s " + "doesn't implement %s",
+        "match invoked, but child predicate %s doesn't implement %s",
         pred,
         Matchable.class.getName());
     return pred.asMatchable().match(cd);

@@ -57,7 +57,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Subject: This is a test change\n");
     assertParseFails(
         writeCommit(
-            "Update change\n" + "\n" + "Patch-set: 1\n",
+            "Update change\n\nPatch-set: 1\n",
             new PersonIdent(
                 "Change Owner",
                 "owner@example.com",
@@ -65,12 +65,12 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
                 serverIdent.getTimeZone())));
     assertParseFails(
         writeCommit(
-            "Update change\n" + "\n" + "Patch-set: 1\n",
+            "Update change\n\nPatch-set: 1\n",
             new PersonIdent(
                 "Change Owner", "x@gerrit", serverIdent.getWhen(), serverIdent.getTimeZone())));
     assertParseFails(
         writeCommit(
-            "Update change\n" + "\n" + "Patch-set: 1\n",
+            "Update change\n\nPatch-set: 1\n",
             new PersonIdent(
                 "Change\n\u1234<Owner>",
                 "\n\nx<@>\u0002gerrit",
@@ -96,9 +96,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Patch-set: 1\n"
             + "Status: new\n"
             + "Subject: This is a test change\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Status: OOPS\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nStatus: OOPS\n");
     assertParseFails(
-        "Update change\n" + "\n" + "Patch-set: 1\n" + "Status: NEW\n" + "Status: NEW\n");
+        "Update change\n\nPatch-set: 1\nStatus: NEW\nStatus: NEW\n");
   }
 
   @Test
@@ -110,8 +110,8 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
             + "Patch-set: 1\n"
             + "Subject: This is a test change\n");
-    assertParseFails("Update change\n" + "\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Patch-set: 1\n");
+    assertParseFails("Update change\n\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nPatch-set: 1\n");
     assertParseSucceeds(
         "Update change\n"
             + "\n"
@@ -119,7 +119,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
             + "Patch-set: 1\n"
             + "Subject: This is a test change\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: x\n");
+    assertParseFails("Update change\n\nPatch-set: x\n");
   }
 
   @Test
@@ -144,14 +144,14 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Label: -Label1\n"
             + "Label: -Label1 Other Account <2@gerrit>\n"
             + "Subject: This is a test change\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Label: Label1=X\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Label: Label1 = 1\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Label: X+Y\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nLabel: Label1=X\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nLabel: Label1 = 1\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nLabel: X+Y\n");
     assertParseFails(
-        "Update change\n" + "\n" + "Patch-set: 1\n" + "Label: Label1 Other Account <2@gerrit>\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Label: -Label!1\n");
+        "Update change\n\nPatch-set: 1\nLabel: Label1 Other Account <2@gerrit>\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nLabel: -Label!1\n");
     assertParseFails(
-        "Update change\n" + "\n" + "Patch-set: 1\n" + "Label: -Label!1 Other Account <2@gerrit>\n");
+        "Update change\n\nPatch-set: 1\nLabel: -Label!1 Other Account <2@gerrit>\n");
   }
 
   @Test
@@ -169,8 +169,8 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Submitted-with: NOT_READY\n"
             + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
             + "Submitted-with: NEED: Alternative-Code-Review\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Submitted-with: OOPS\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Submitted-with: NEED: X+Y\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nSubmitted-with: OOPS\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nSubmitted-with: NEED: X+Y\n");
     assertParseFails(
         "Update change\n"
             + "\n"
@@ -212,7 +212,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Reviewer: Change Owner <1@gerrit>\n"
             + "CC: Other Account <2@gerrit>\n"
             + "Subject: This is a test change\n");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Reviewer: 1@gerrit\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nReviewer: 1@gerrit\n");
   }
 
   @Test
@@ -234,7 +234,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Topic:\n"
             + "Subject: This is a test change\n");
     assertParseFails(
-        "Update change\n" + "\n" + "Patch-set: 1\n" + "Topic: Some Topic\n" + "Topic: Other Topic");
+        "Update change\n\nPatch-set: 1\nTopic: Some Topic\nTopic: Other Topic");
   }
 
   @Test
@@ -453,10 +453,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   @Test
   public void currentPatchSet() throws Exception {
-    assertParseSucceeds("Update change\n" + "\n" + "Patch-set: 1\n" + "Current: true");
-    assertParseSucceeds("Update change\n" + "\n" + "Patch-set: 1\n" + "Current: tRUe");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Current: false");
-    assertParseFails("Update change\n" + "\n" + "Patch-set: 1\n" + "Current: blah");
+    assertParseSucceeds("Update change\n\nPatch-set: 1\nCurrent: true");
+    assertParseSucceeds("Update change\n\nPatch-set: 1\nCurrent: tRUe");
+    assertParseFails("Update change\n\nPatch-set: 1\nCurrent: false");
+    assertParseFails("Update change\n\nPatch-set: 1\nCurrent: blah");
   }
 
   private RevCommit writeCommit(String body) throws Exception {

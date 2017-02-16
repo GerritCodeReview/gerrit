@@ -87,7 +87,7 @@ public class HashtagsTest {
 
   @Test
   public void hashtagsWithAccentedCharacters() throws Exception {
-    String commitMessage = "Jag #måste #öva på min #Svenska!\n\n" + "Jag behöver en #läkare.";
+    String commitMessage = "Jag #måste #öva på min #Svenska!\n\nJag behöver en #läkare.";
     assertThat(HashtagsUtil.extractTags(commitMessage))
         .containsExactlyElementsIn(Sets.newHashSet("måste", "öva", "Svenska", "läkare"));
   }

@@ -204,7 +204,7 @@ public class PushTagIT extends AbstractDaemonTest {
     commit(user.getIdent(), "subject");
 
     boolean createTag = tagName == null;
-    tagName = MoreObjects.firstNonNull(tagName, "v1" + "_" + System.nanoTime());
+    tagName = MoreObjects.firstNonNull(tagName, "v1_" + System.nanoTime());
     switch (tagType) {
       case LIGHTWEIGHT:
         break;

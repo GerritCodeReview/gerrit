@@ -164,7 +164,7 @@ public class RebaseUtil {
       throw new UnprocessableEntityException("Cannot rebase a change with multiple parents.");
     } else if (commit.getParentCount() == 0) {
       throw new UnprocessableEntityException(
-          "Cannot rebase a change without any parents" + " (is this the initial commit?).");
+          "Cannot rebase a change without any parents (is this the initial commit?).");
     }
 
     RevId parentRev = new RevId(commit.getParent(0).name());
@@ -184,7 +184,7 @@ public class RebaseUtil {
         if (depChange.getStatus().isOpen()) {
           if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
             throw new ResourceConflictException(
-                "Change is already based on the latest patch set of the" + " dependent change.");
+                "Change is already based on the latest patch set of the dependent change.");
           }
           baseRev = cd.currentPatchSet().getRevision().get();
         }

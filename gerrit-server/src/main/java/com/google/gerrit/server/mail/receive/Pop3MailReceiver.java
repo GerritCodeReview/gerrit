@@ -65,7 +65,7 @@ public class Pop3MailReceiver extends MailReceiver {
     try {
       try {
         if (!pop3.login(mailSettings.username, mailSettings.password)) {
-          log.error("Could not login to POP3 email server." + " Check username and password");
+          log.error("Could not login to POP3 email server. Check username and password");
           return;
         }
         try {

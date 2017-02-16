@@ -151,7 +151,7 @@ final class CreateProjectCommand extends SshCommand {
     name = "--branch",
     aliases = {"-b"},
     metaVar = "BRANCH",
-    usage = "initial branch name\n" + "(default: master)"
+    usage = "initial branch name\n(default: master)"
   )
   private List<String> branch;
 

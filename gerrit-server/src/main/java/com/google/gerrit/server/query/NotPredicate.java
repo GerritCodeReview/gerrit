@@ -67,7 +67,7 @@ public class NotPredicate<T> extends Predicate<T> implements Matchable<T> {
   public boolean match(final T object) throws OrmException {
     checkState(
         that.isMatchable(),
-        "match invoked, but child predicate %s " + "doesn't implement %s",
+        "match invoked, but child predicate %s doesn't implement %s",
         that,
         Matchable.class.getName());
     return !that.asMatchable().match(object);

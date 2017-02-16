@@ -53,7 +53,7 @@ public class DeleteWatchedProjects
       throws AuthException, UnprocessableEntityException, OrmException, IOException,
           ConfigInvalidException {
     if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("It is not allowed to edit project watches " + "of other users");
+      throw new AuthException("It is not allowed to edit project watches of other users");
     }
     if (input == null) {
       return Response.none();

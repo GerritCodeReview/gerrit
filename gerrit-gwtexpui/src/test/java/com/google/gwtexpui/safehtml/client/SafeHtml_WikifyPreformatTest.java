@@ -32,7 +32,7 @@ public class SafeHtml_WikifyPreformatTest {
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString())
-        .isEqualTo("<p>A</p>" + "<p>" + pre("  This is pre") + pre("  formatted") + "</p>");
+        .isEqualTo("<p>A</p><p>" + pre("  This is pre") + pre("  formatted") + "</p>");
   }
 
   @Test
@@ -72,7 +72,7 @@ public class SafeHtml_WikifyPreformatTest {
     final SafeHtml n = o.wikify();
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString())
-        .isEqualTo("<p>" + pre("  Q") + pre("    &lt;R&gt;") + pre("  S") + "</p>" + "<p>B</p>");
+        .isEqualTo("<p>" + pre("  Q") + pre("    &lt;R&gt;") + pre("  S") + "</p><p>B</p>");
   }
 
   private static SafeHtml html(String text) {

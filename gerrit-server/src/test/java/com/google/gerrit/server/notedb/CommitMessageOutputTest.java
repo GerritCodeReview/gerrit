@@ -84,7 +84,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void changeMessageCommitFormatSimple() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeMessage("Just a little code change.\n" + "How about a new line");
+    update.setChangeMessage("Just a little code change.\nHow about a new line");
     update.commit();
     assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
 
@@ -141,7 +141,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n" + "\n" + "Patch-set: 1\n" + "Label: -Code-Review\n",
+        "Update patch set 1\n\nPatch-set: 1\nLabel: -Code-Review\n",
         update.getResult());
   }
 
@@ -208,7 +208,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
     RevCommit commit = parseCommit(update.getResult());
     assertBodyEquals(
-        "Update patch set 1\n" + "\n" + "Comment on the change.\n" + "\n" + "Patch-set: 1\n",
+        "Update patch set 1\n\nComment on the change.\n\nPatch-set: 1\n",
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
@@ -247,7 +247,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n" + "\n" + "Patch-set: 1\n" + "Reviewer: Change Owner <1@gerrit>\n",
+        "Update patch set 1\n\nPatch-set: 1\nReviewer: Change Owner <1@gerrit>\n",
         update.getResult());
   }
 
@@ -255,7 +255,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void changeMessageWithTrailingDoubleNewline() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeMessage("Testing trailing double newline\n" + "\n");
+    update.setChangeMessage("Testing trailing double newline\n\n");
     update.commit();
 
     assertBodyEquals(
@@ -274,7 +274,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setChangeMessage(
-        "Testing paragraph 1\n" + "\n" + "Testing paragraph 2\n" + "\n" + "Testing paragraph 3");
+        "Testing paragraph 1\n\nTesting paragraph 2\n\nTesting paragraph 3");
     update.commit();
 
     assertBodyEquals(
@@ -384,7 +384,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n" + "\n" + "Patch-set: 1\n" + "Current: true\n", update.getResult());
+        "Update patch set 1\n\nPatch-set: 1\nCurrent: true\n", update.getResult());
   }
 
   private RevCommit parseCommit(ObjectId id) throws Exception {

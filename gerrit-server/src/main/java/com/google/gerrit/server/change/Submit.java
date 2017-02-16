@@ -318,7 +318,7 @@ public class Submit
       cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getControl().getUser());
     } catch (OrmException | IOException e) {
       throw new OrmRuntimeException(
-          "Could not determine complete set of " + "changes to be submitted", e);
+          "Could not determine complete set of changes to be submitted", e);
     }
 
     int topicSize = 0;

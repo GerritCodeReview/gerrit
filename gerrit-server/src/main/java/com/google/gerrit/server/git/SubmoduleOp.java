@@ -530,7 +530,7 @@ public class SubmoduleOp {
       }
     } catch (IOException e) {
       throw new SubmoduleException(
-          "Could not perform a revwalk to " + "create superproject commit message", e);
+          "Could not perform a revwalk to create superproject commit message", e);
     }
   }
 

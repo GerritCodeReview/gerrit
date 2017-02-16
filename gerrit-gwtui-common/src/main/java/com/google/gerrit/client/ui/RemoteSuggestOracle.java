@@ -104,7 +104,11 @@ public class RemoteSuggestOracle extends SuggestOracle {
     }
 
     void start() {
-      oracle.requestSuggestions(request, this);
+      try {
+        oracle.requestSuggestions(request, this);
+      } catch (Exception e){
+        query = null;
+      }
     }
 
     @Override

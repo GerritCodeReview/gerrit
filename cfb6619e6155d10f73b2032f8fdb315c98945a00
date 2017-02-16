@@ -49,6 +49,47 @@
     },
     {
       "key": {
+        "uuid": "4374edb7_fd2f54dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T11:58:07Z",
+      "side": 1,
+      "message": "Is it done? The commit message of the latest patch set (PS24) still states that it will be stored in the user branch.",
+      "parentUuid": "9ba1f022_427de481",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09380be2_ddfa5823",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AuthInfo.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T11:58:07Z",
+      "side": 1,
+      "message": "This parameter is documented in rest-api-config.txt in the AuthInfo section. If it is removed, also it\u0027s documentation should be removed.",
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de62e2de_b81b1d63",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
         "patchSetId": 18

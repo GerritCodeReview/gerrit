@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1487260315 -0500\nnonce AFJA6odMCiqXz/EZ405pHexIAGLNfQ9wkaPX4nsieQc26YqZ+nMdTM1TKCD4rWIZUzgU0Jqyiv3Y\n\n0000000000000000000000000000000000000000 7e811221ebe560ff1cb58500733a277508fda63c refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYpcqbAAoJEF/XxZqaEoiM20YP+wazWXstvyMaAT8u/CIk+1WW\nB4pRt/hEOJ3jylLoHtMf4ucXgaMZ5SMOaT+qYSKfL0DJSIJF/qbH5smic6XL9xnf\nB8o3q0O0G11x9rGkshnB9DirmkIW1LqQHwXkXJIZ5laQ27XV2VXzyqVFinAxm88y\nzmZqJ/uIqDCzNnR8R6oArzAhxXsQKs9Wrxgd3tmYbVSY01EuQZDraCUO9PK6N+Ae\nO08mXcTgS/08Yno0kctGrMOItUcQDKdAjkPIceQKmeE2KcGyS4DCQ2iI0Vo0WU9J\nsDB1a15q1JMPoJmaqdJ0JntvwC0jdAR/zb+OhBAwBklxvV8gaA9l31s3U56VObZB\ncVW97ahjeWrOukVRVNgF6BN9Bsu9KLN7PKWP3+q9z/SLGkthXFwRK5UHKdkPX658\nfbHvybYM3Qx+K1/Dh5RcBKAt05G2cqLEqk1u1LR3v5tEoBZgxBS7rZrj6azH2vPB\nRZBadQ/wJdyx6JeD3fx8gK308p135xo07q/pN4sS3EA+2RDOAQeROjMD32oeh7rv\nxb+9KV8AWGfb9KQaMw1KgkS98gxg02ytIc7XzhITtnVosUncnlx+fqg3I2ZJ2Vsi\nITO143ZJOyK00bc40zIeEOAodusTtlr8Cz2eqZ5K9BIeUd9u5bpGDWCq7FI0zsSX\nNwrXy722IghqcYdTee6w\n\u003d6QGD\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfad0d73_d43bba52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-16T16:20:45Z",
+      "side": 1,
+      "message": "Would this always work or would unwrapping fail for really disabled ReviewDb mode?",
+      "range": {
+        "startLine": 634,
+        "startChar": 4,
+        "endLine": 634,
+        "endChar": 35
+      },
+      "revId": "7e811221ebe560ff1cb58500733a277508fda63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

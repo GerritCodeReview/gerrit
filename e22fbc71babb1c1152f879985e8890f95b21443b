@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d9320e72_fe85115f",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-16T18:06:14Z",
+      "side": 1,
+      "message": "Good point. Sounds like there\u0027s no need to check for false.",
+      "parentUuid": "567957c6_839d2c8c",
+      "range": {
+        "startLine": 167,
+        "startChar": 37,
+        "endLine": 167,
+        "endChar": 68
+      },
+      "revId": "e22fbc71babb1c1152f879985e8890f95b21443b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65cf09f5_d05586bf",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3

@@ -82,6 +82,30 @@
     },
     {
       "key": {
+        "uuid": "54333a06_cc275449",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-16T00:33:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "866a3468_c03f396c",
+      "range": {
+        "startLine": 321,
+        "startChar": 68,
+        "endLine": 321,
+        "endChar": 69
+      },
+      "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1557f9c_40160756",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -96,6 +120,24 @@
       "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94faa0eb_6ad94882",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-16T00:33:26Z",
+      "side": 1,
+      "message": "They just narrow down the things we are looking to return.  I\u0027ve generalized this function to accept optional params so we can use it in multiple places with explicit parameters.",
+      "parentUuid": "b1557f9c_40160756",
+      "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f33eaf9c_be487c33",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T12:31:32Z",
+      "side": 1,
+      "message": "I think we should be careful to make a difference between invisible and disabled controls. The text didn\u0027t mention anything about invisible controls. If we decide to just disable a control instead of not showing it at all, we probably have a good reason for it. In such situations, it shouldn\u0027t be hard to come up with a meaningful message to display to users.",
+      "parentUuid": "5d989baa_8666dfa0",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65fa822d_b10cc9c3",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-15T11:27:19Z",
       "side": 1,
       "message": "Sounds like something very basic and self explaining to me. I would let it out. (We also don\u0027t write: Visual Basic must not be used).",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 5
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f524438d_f5c27d01",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T12:31:32Z",
+      "side": 1,
+      "message": "Glad to hear that this is self-evident for you. It\u0027s still an aspect which could easily be forgotten and it might not be self-evident for everyone. I think it\u0027s important enough to explicitly call attention to it.",
+      "parentUuid": "65fa822d_b10cc9c3",
       "range": {
         "startLine": 27,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f2bcae84_1ad9f028",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T12:31:32Z",
+      "side": 1,
+      "message": "Only because we don\u0027t have any undo functionality doesn\u0027t mean we shouldn\u0027t strive to have it. This sentence describes a nice-to-have, not a must. You\u0027re right that implementing an undo functionality isn\u0027t trivial. Nevertheless, it\u0027s something which users appreciate a lot. They don\u0027t expect everything to be reversible to whichever state in the past. Sometimes being able to directly reverse the last action is sufficient.\n\nFor instance, imagine the deletion of a change edit. Directly after deletion, the commit object is still kept in the Git repository. Given the change ID, the ID of the base patch set and the SHA-1 of the commit, we could restore the change edit. The UI could remember them for a short period of time (say 10 seconds) and hence offer the undo functionality temporarily. I know that in reality we would have to consider harmful use but this should just be an example of what would be possible.",
+      "parentUuid": "8ac2f072_6bf99922",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 76
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "572493d4_2c68b44d",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-15T11:27:19Z",
       "side": 1,
       "message": "What does that mean? Navigate from change list into change screen and back from change to change list? Why mention that?",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1089643_933e9d87",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T12:31:32Z",
+      "side": 1,
+      "message": "For instance, \"Show diffs\" alters the presentation of PolyGerrit\u0027s change screen. It\u0027s essential to also have the possibility to get back to the original presentation by using \"Hide diffs\".",
+      "parentUuid": "572493d4_2c68b44d",
       "range": {
         "startLine": 50,
         "startChar": 2,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "09d8efc7_a9eed3a7",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T12:31:32Z",
+      "side": 1,
+      "message": "I originally had a neutral expression here and changed it upon feedback. I could offer to use \"their design\" for this expression. Does someone object?",
+      "parentUuid": "6180bc37_e7dd4a67",
+      "range": {
+        "startLine": 53,
+        "startChar": 69,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da17d39f_ae30ec05",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 3
@@ -137,6 +257,30 @@
       "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "135571ea_85535620",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T12:31:32Z",
+      "side": 1,
+      "message": "Not really. I would count \"Show more\" and Show less\" as secondary actions.",
+      "parentUuid": "da17d39f_ae30ec05",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

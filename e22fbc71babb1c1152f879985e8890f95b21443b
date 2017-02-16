@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96b51c89_409075ba",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-16T01:14:51Z",
+      "side": 1,
+      "message": "Not a big deal, but consider ...\n\n  capabilities.hasOwnProperty(link.capability)\n\n... to avoid Object.prototype keys.\n\nSince the capabilities map to booleans, should is also test capabilities[link.capability] in case one of them is set to false. Maybe that\u0027ll never happen.",
+      "range": {
+        "startLine": 167,
+        "startChar": 37,
+        "endLine": 167,
+        "endChar": 68
+      },
+      "revId": "e22fbc71babb1c1152f879985e8890f95b21443b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65cf09f5_d05586bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-16T01:14:51Z",
+      "side": 1,
+      "message": "These parameters should probably be encoded.\n\nopt_params\n    .map(function(param) { return encodeUriComponent(param); });\n    .join(\u0027\u0026q\u003d\u0027);",
+      "range": {
+        "startLine": 323,
+        "startChar": 30,
+        "endLine": 323,
+        "endChar": 53
+      },
+      "revId": "e22fbc71babb1c1152f879985e8890f95b21443b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

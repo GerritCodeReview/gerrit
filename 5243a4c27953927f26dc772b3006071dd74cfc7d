@@ -192,6 +192,24 @@
       "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75039bce_cca8ca73",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-16T01:14:51Z",
+      "side": 1,
+      "message": "In the absence of a performance issue (or other concrete reason for it) this smells like a premature optimization.",
+      "parentUuid": "1d77b30b_018db84e",
+      "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

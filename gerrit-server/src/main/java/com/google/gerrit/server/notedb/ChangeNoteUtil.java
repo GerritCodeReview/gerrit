@@ -73,6 +73,7 @@ public class ChangeNoteUtil {
   public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   public static final FooterKey FOOTER_PATCH_SET_DESCRIPTION =
       new FooterKey("Patch-set-description");
+  public static final FooterKey FOOTER_READ_ONLY_UNTIL = new FooterKey("Read-only-until");
   public static final FooterKey FOOTER_REAL_USER = new FooterKey("Real-user");
   public static final FooterKey FOOTER_STATUS = new FooterKey("Status");
   public static final FooterKey FOOTER_SUBJECT = new FooterKey("Subject");

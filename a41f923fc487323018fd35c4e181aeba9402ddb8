@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "296bafb4_d5535391",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-16T14:27:34Z",
+      "side": 1,
+      "message": "I think the problem is related to GWT 2.8 upgrade. It started behave differently after the upgrade. And we did similar adjustment to other parts of the UI IIRC, project search or brand search views. The could be mentioned here as well.",
+      "revId": "a41f923fc487323018fd35c4e181aeba9402ddb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

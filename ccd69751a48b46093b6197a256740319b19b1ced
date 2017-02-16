@@ -134,6 +134,24 @@
       "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537ec7c1_28c3bbd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-16T18:44:57Z",
+      "side": 1,
+      "message": "Ah, cheers, I totally misunderstood your first comment. This helped a lot, I\u0027ll figure out a way to address this ASAP.",
+      "parentUuid": "69e771ce_d8c2a5d0",
+      "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

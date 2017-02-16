@@ -210,6 +210,24 @@
       "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04996f4c_b4244c2a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-16T16:50:29Z",
+      "side": 1,
+      "message": "The reason is performance: each capability you request requires a separate permission check. Permission checks are usually cheap but they aren\u0027t free, and there are dozens of capabilities, many of which are quite irrelevant for the UI.",
+      "parentUuid": "75039bce_cca8ca73",
+      "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

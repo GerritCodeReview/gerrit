@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b357001c_dcc21d48",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T16:54:49Z",
+      "side": 1,
+      "message": "This part is unnecessary.",
+      "range": {
+        "startLine": 1077,
+        "startChar": 0,
+        "endLine": 1080,
+        "endChar": 19
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1e585ce_b3e8644d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T16:54:49Z",
+      "side": 1,
+      "message": "optional: Replace it with\n\n Collections.singletonMap(comment.path, Collections.singletonList(comment));",
+      "range": {
+        "startLine": 1094,
+        "startChar": 22,
+        "endLine": 1096,
+        "endChar": 0
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "626c13c3_e28b2c00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T16:54:49Z",
+      "side": 1,
+      "message": "ensureCommentsAreAddable() contains all checks on comments and also loops over all comments. Why not move the call of ensureRangeIsValid() there? If so, please consider to eliminate either ensureCommentsAreAddable() or checkComments().",
+      "range": {
+        "startLine": 430,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 5
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92dcd60e_0984ef42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T16:54:49Z",
+      "side": 1,
+      "message": "optional: The correct place for this line would be before the loop. I know that it was wrong before your change. It\u0027s something I intended to fix. As you already touched the code, could you please move the line up?",
+      "range": {
+        "startLine": 525,
+        "startChar": 4,
+        "endLine": 525,
+        "endChar": 24
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

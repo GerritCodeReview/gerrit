@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "424f3b85_6a683ee2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T13:37:54Z",
+      "side": 1,
+      "message": "Is this message correct if no patch set was passed in?",
+      "range": {
+        "startLine": 624,
+        "startChar": 6,
+        "endLine": 624,
+        "endChar": 46
+      },
+      "revId": "ceb2efc0fc6768354457dbd0696b5e04d8c5d9df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

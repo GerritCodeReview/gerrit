@@ -139,5 +139,15 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     public Iterable<EntryKey> list() {
       throw new UnsupportedOperationException("not used by tests");
     }
+
+    @Override
+    public boolean isOutdated() {
+      throw new UnsupportedOperationException("not used by tests");
+    }
+
+    @Override
+    public void reload() {
+      throw new UnsupportedOperationException("not used by tests");
+    }
   }
 }

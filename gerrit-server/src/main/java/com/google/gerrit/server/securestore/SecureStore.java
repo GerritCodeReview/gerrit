@@ -150,4 +150,10 @@ public abstract class SecureStore {
 
   /** @return list of stored entries. */
   public abstract Iterable<EntryKey> list();
+
+  /** @return <code>true</code> if currently loaded values are outdated */
+  public abstract boolean isOutdated();
+
+  /** Reload the values */
+  public abstract void reload();
 }

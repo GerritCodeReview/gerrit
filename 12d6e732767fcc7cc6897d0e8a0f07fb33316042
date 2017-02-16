@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "ba68f6a0_f6224acf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:31:32Z",
+      "side": 1,
+      "message": "is there no intellij setting to make them disappear automatically?",
+      "parentUuid": "550eaa05_acb255aa",
+      "range": {
+        "startLine": 1090,
+        "startChar": 0,
+        "endLine": 1090,
+        "endChar": 4
+      },
+      "revId": "12d6e732767fcc7cc6897d0e8a0f07fb33316042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6a019a1_7573ae72",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 3
@@ -59,6 +83,30 @@
       "writtenOn": "2017-02-16T17:27:57Z",
       "side": 1,
       "message": "optional: Preferred way would be to use CoreMatchers.containsString() and add it as static import.",
+      "range": {
+        "startLine": 316,
+        "startChar": 28,
+        "endLine": 316,
+        "endChar": 46
+      },
+      "revId": "12d6e732767fcc7cc6897d0e8a0f07fb33316042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7763fabb_9e1d31b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:31:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a6a019a1_7573ae72",
       "range": {
         "startLine": 316,
         "startChar": 28,
@@ -91,6 +139,30 @@
       "revId": "12d6e732767fcc7cc6897d0e8a0f07fb33316042",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4b8644a_b7d17c9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:31:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26213b26_8174f222",
+      "range": {
+        "startLine": 621,
+        "startChar": 43,
+        "endLine": 621,
+        "endChar": 48
+      },
+      "revId": "12d6e732767fcc7cc6897d0e8a0f07fb33316042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

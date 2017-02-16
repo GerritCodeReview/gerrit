@@ -64,7 +64,6 @@
     'gr-diff gr-syntax gr-syntax-string': true,
     'gr-diff gr-syntax gr-syntax-selector-id': true,
     'gr-diff gr-syntax gr-syntax-title': true,
-    'gr-diff gr-syntax gr-syntax-params': true,
     'gr-diff gr-syntax gr-syntax-comment': true,
     'gr-diff gr-syntax gr-syntax-meta': true,
     'gr-diff gr-syntax gr-syntax-meta-keyword': true,

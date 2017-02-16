@@ -225,7 +225,7 @@
 
     _handleCommentAck: function(e) {
       var comment = this._lastComment;
-      this._createReplyComment(comment, 'Ack', false, comment.unresolved);
+      this._createReplyComment(comment, 'Ack', false, false);
     },
 
     _handleCommentDone: function(e) {

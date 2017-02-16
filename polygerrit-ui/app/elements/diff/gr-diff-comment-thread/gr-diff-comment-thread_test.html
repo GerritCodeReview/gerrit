@@ -278,6 +278,7 @@ limitations under the License.
         assert.equal(drafts.length, 1);
         assert.equal(drafts[0].message, 'Ack');
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+        assert.equal(drafts[0].unresolved, false);
         done();
       });
     });

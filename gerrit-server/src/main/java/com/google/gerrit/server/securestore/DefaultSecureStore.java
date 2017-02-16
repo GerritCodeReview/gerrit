@@ -17,6 +17,7 @@ package com.google.gerrit.server.securestore;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
@@ -105,6 +106,20 @@ public class DefaultSecureStore extends SecureStore {
       }
     }
     return result;
+  }
+
+  @Override
+  public boolean isOutdated() {
+    return sec.isOutdated();
+  }
+
+  @Override
+  public void reload() {
+    try {
+      sec.load();
+    } catch (IOException | ConfigInvalidException e) {
+      throw new ProvisionException("Couldn't reload secure.config", e);
+    }
   }
 
   private void save() {

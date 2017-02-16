@@ -109,6 +109,30 @@
       "revId": "dcdaeff1a46fbf108a4f74337ae64d1c647b229a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77549ecf_fb8e0a93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-16T00:00:34Z",
+      "side": 1,
+      "message": "So, what about ...\n\n  Rebase on a specific change or ref.\n\n... ? My objection really only has to do with the word \"other\".",
+      "parentUuid": "748942ac_3bdcae6c",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 18
+      },
+      "revId": "dcdaeff1a46fbf108a4f74337ae64d1c647b229a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

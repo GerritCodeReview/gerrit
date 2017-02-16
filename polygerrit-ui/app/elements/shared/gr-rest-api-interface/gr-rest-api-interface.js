@@ -317,6 +317,17 @@
       return this._fetchSharedCacheURL('/accounts/self/groups');
     },
 
+    getAccountCapabilities: function(opt_params) {
+      var queryString = '';
+      if (opt_params) {
+        queryString = '?q=' + opt_params
+            .map(function(param) { return encodeURIComponent(param); })
+            .join('&q=');
+      }
+      return this._fetchSharedCacheURL('/accounts/self/capabilities' +
+          queryString);
+    },
+
     getLoggedIn: function() {
       return this.getAccount().then(function(account) {
         return account != null;

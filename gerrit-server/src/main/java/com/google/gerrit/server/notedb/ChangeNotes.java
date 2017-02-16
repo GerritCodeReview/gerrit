@@ -63,6 +63,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -556,6 +557,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public PatchSet getCurrentPatchSet() {
     PatchSet.Id psId = change.currentPatchSetId();
     return checkNotNull(getPatchSets().get(psId), "missing current patch set %s", psId.get());
+  }
+
+  Timestamp getReadOnlyUntil() {
+    return state.readOnlyUntil();
   }
 
   @Override

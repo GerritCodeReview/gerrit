@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.hamcrest.core.StringContains;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -311,12 +312,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assume().that(notesMigration.enabled()).isTrue();
 
     fixReplacementInfo.range = createRange(13, 9, 5, 10);
+    System.err.println("bla");
 
     exception.expect(BadRequestException.class);
-    exception.expectMessage(
-        String.format(
-            "Range (13:9 - 5:10) is not " + "valid for the replacement of the robot comment on %s",
-            withFixRobotCommentInput.path));
+    exception.expectMessage(new StringContains("Range (13:9 - 5:10)"));
     addRobotComment(changeId, withFixRobotCommentInput);
   }
 

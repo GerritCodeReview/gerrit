@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -42,6 +43,7 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -91,6 +93,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeDraftUpdate(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
@@ -102,6 +105,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(
+        cfg,
         migration,
         noteUtil,
         serverIdent,
@@ -117,6 +121,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeDraftUpdate(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
@@ -128,6 +133,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted PersonIdent authorIdent,
       @Assisted Date when) {
     super(
+        cfg,
         migration,
         noteUtil,
         serverIdent,

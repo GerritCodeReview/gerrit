@@ -70,7 +70,8 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ImmutableList.of(),
         ImmutableListMultimap.of(),
-        ImmutableListMultimap.of());
+        ImmutableListMultimap.of(),
+        null);
   }
 
   static ChangeNotesState create(
@@ -98,7 +99,8 @@ public abstract class ChangeNotesState {
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> allChangeMessages,
       ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
-      ListMultimap<RevId, Comment> publishedComments) {
+      ListMultimap<RevId, Comment> publishedComments,
+      @Nullable Timestamp readOnlyUntil) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -128,7 +130,8 @@ public abstract class ChangeNotesState {
         ImmutableList.copyOf(submitRecords),
         ImmutableList.copyOf(allChangeMessages),
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
-        ImmutableListMultimap.copyOf(publishedComments));
+        ImmutableListMultimap.copyOf(publishedComments),
+        readOnlyUntil);
   }
 
   /**
@@ -205,6 +208,9 @@ public abstract class ChangeNotesState {
   abstract ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet();
 
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
+
+  @Nullable
+  abstract Timestamp readOnlyUntil();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");

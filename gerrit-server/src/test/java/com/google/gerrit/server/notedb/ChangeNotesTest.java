@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
@@ -51,13 +52,17 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testutil.TestChanges;
+import com.google.gerrit.testutil.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -3191,6 +3196,76 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setPatchSetState(PatchSetState.DELETED);
     update.commit();
     assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);
+  }
+
+  @Test
+  public void readOnlyUntilExpires() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    Timestamp until = new Timestamp(TimeUtil.nowMs() + 10000);
+    update.setReadOnlyUntil(until);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setTopic("failing-topic");
+    try {
+      update.commit();
+      assert_().fail("expected OrmException");
+    } catch (OrmException e) {
+      assertThat(e.getMessage()).contains("read-only until");
+    }
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getChange().getTopic()).isNotEqualTo("failing-topic");
+    assertThat(notes.getReadOnlyUntil()).isEqualTo(until);
+
+    TestTimeUtil.incrementClock(30, TimeUnit.SECONDS);
+    update = newUpdate(c, changeOwner);
+    update.setTopic("succeeding-topic");
+    update.commit();
+
+    // Write succeeded; lease still exists, even though it's expired.
+    notes = newNotes(c);
+    assertThat(notes.getChange().getTopic()).isEqualTo("succeeding-topic");
+    assertThat(notes.getReadOnlyUntil()).isEqualTo(until);
+
+    // New lease takes precedence.
+    update = newUpdate(c, changeOwner);
+    until = new Timestamp(TimeUtil.nowMs() + 10000);
+    update.setReadOnlyUntil(until);
+    update.commit();
+    assertThat(newNotes(c).getReadOnlyUntil()).isEqualTo(until);
+  }
+
+  @Test
+  public void readOnlyUntilCleared() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    Timestamp until = new Timestamp(TimeUtil.nowMs() + TimeUnit.DAYS.toMillis(30));
+    update.setReadOnlyUntil(until);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setTopic("failing-topic");
+    try {
+      update.commit();
+      assert_().fail("expected OrmException");
+    } catch (OrmException e) {
+      assertThat(e.getMessage()).contains("read-only until");
+    }
+
+    // Sentinel timestamp of 0 can be written to clear lease.
+    update = newUpdate(c, changeOwner);
+    update.setReadOnlyUntil(new Timestamp(0));
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setTopic("succeeding-topic");
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getChange().getTopic()).isEqualTo("succeeding-topic");
+    assertThat(notes.getReadOnlyUntil()).isEqualTo(new Timestamp(0));
   }
 
   private boolean testJson() {

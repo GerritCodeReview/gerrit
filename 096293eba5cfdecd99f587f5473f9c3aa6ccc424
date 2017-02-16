@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "55bc4979_09e6dfbd",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "So far, it is done synchronously so the answer is sent only after the indexing is finished. The downside of this is that indexing could take time if the number of changes is high. Should we do it asynchronously all the time or give it as a possibility as done in GC?",
+      "parentUuid": "1e045eb9_3794eb7f",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef20358a_72620946",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c639ae25_2eb44b3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "I considered that approach at the beginning, but the fact we wanted to remove possible \"stale\" changes in the index, i.e., changes present in the index but not in the repo/DB, made me decide to \"reuse\" only the idea. \n\nThe problem is, I need the set of all changes in the repo/DB in order to compare them with what\u0027a already in the index, so I can find the mentioned \"stale\" changes.",
+      "parentUuid": "ef20358a_72620946",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0e18e69_5e3ae157",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 8
@@ -47,6 +83,30 @@
       "writtenOn": "2017-02-16T15:18:41Z",
       "side": 1,
       "message": "optional: I would name this as \"all\" or \"allById\" because it makes the lines 104-106 easier to understand.",
+      "range": {
+        "startLine": 93,
+        "startChar": 39,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca036b9e_06a6c73a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0e18e69_5e3ae157",
       "range": {
         "startLine": 93,
         "startChar": 39,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "12f22bb9_f0b0f1a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74c37acd_befcc976",
+      "range": {
+        "startLine": 103,
+        "startChar": 35,
+        "endLine": 103,
+        "endChar": 37
+      },
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80bc744b_153d0e4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 8
@@ -93,6 +177,24 @@
       "writtenOn": "2017-02-16T15:18:41Z",
       "side": 1,
       "message": "Swap the order of the lines 103 and 104. After the for loop finished you just computed the byId map. Then make use of it immediately in order to compute the toReindex. Computation of the alreadyPresentOnIndex doesn\u0027t depend on the byId map. Actually line 103 could even be moved to the beginning of this method.",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04c133bf_1e224ccf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80bc744b_153d0e4c",
       "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "f675d9b0_03c8271b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "Not most of the time as index is updated when a change is deleted.\n\nThe corner case we are trying to cover here is, when in the   scenario of active/passive servers, one of the servers loses index synchronization events. In that specific case, there could be deleted changes that are still in the index.",
+      "parentUuid": "8a8ce1ea_6796b809",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4e23e73a_0db9ccd4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 8
@@ -127,6 +247,24 @@
       "writtenOn": "2017-02-16T15:18:41Z",
       "side": 1,
       "message": "i would feel safer if we don\u0027t delete from the index after the indexing is done. Swap the lines 107 and 108?",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acbd98b9_7452dd66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e23e73a_0db9ccd4",
       "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "b9515d4d_bcd635d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ec8125d_55bc4e2b",
+      "range": {
+        "startLine": 109,
+        "startChar": 13,
+        "endLine": 109,
+        "endChar": 22
+      },
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d06f70b9_e46978e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 8
@@ -167,6 +329,30 @@
       "writtenOn": "2017-02-16T15:18:41Z",
       "side": 1,
       "message": "This code is copied from the AllChangesIndexer class. Can we make a better code reuse?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 5
+      },
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d33715c9_29215d8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-16T23:25:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d06f70b9_e46978e0",
       "range": {
         "startLine": 115,
         "startChar": 0,

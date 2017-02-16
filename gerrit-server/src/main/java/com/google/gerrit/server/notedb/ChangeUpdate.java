@@ -29,6 +29,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
@@ -58,6 +59,7 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -67,6 +69,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -79,6 +82,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -144,12 +148,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean isAllowWriteToNewtRef;
   private String psDescription;
   private boolean currentPatchSet;
+  private Timestamp readOnlyUntil;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
 
   @AssistedInject
   private ChangeUpdate(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
@@ -161,6 +167,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted ChangeControl ctl,
       ChangeNoteUtil noteUtil) {
     this(
+        cfg,
         serverIdent,
         anonymousCowardName,
         migration,
@@ -176,6 +183,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
@@ -188,6 +196,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       ChangeNoteUtil noteUtil) {
     this(
+        cfg,
         serverIdent,
         anonymousCowardName,
         migration,
@@ -212,6 +221,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
@@ -223,7 +233,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(migration, ctl, serverIdent, anonymousCowardName, noteUtil, when);
+    super(cfg, migration, ctl, serverIdent, anonymousCowardName, noteUtil, when);
     this.accountCache = accountCache;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -233,6 +243,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   @AssistedInject
   private ChangeUpdate(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent serverIdent,
       @AnonymousCowardName String anonymousCowardName,
       NotesMigration migration,
@@ -248,6 +259,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator) {
     super(
+        cfg,
         migration,
         noteUtil,
         serverIdent,
@@ -695,6 +707,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, realAccountId).append('\n');
     }
 
+    if (readOnlyUntil != null) {
+      addFooter(msg, FOOTER_READ_ONLY_UNTIL, ChangeNoteUtil.formatTime(serverIdent, readOnlyUntil));
+    }
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -740,7 +756,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && groups == null
         && tag == null
         && psDescription == null
-        && !currentPatchSet;
+        && !currentPatchSet
+        && readOnlyUntil == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {
@@ -758,6 +775,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @Override
   public boolean allowWriteToNewRef() {
     return isAllowWriteToNewtRef;
+  }
+
+  void setReadOnlyUntil(Timestamp readOnlyUntil) {
+    this.readOnlyUntil = readOnlyUntil;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {
@@ -781,5 +802,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     PersonIdent.appendSanitized(sb, ident.getEmailAddress());
     sb.append('>');
     return sb;
+  }
+
+  @Override
+  protected void checkNotReadOnly() throws OrmException {
+    // Allow setting Read-only-until to 0 to release an existing lease.
+    if (readOnlyUntil != null && readOnlyUntil.getTime() == 0) {
+      return;
+    }
+    super.checkNotReadOnly();
   }
 }

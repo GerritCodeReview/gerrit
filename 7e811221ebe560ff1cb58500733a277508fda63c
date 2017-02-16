@@ -71,6 +71,30 @@
       "revId": "7e811221ebe560ff1cb58500733a277508fda63c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a41e57f_1578b31b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-16T22:24:30Z",
+      "side": 1,
+      "message": "Good call, done.",
+      "parentUuid": "da0a5d5b_4b2ede9b",
+      "range": {
+        "startLine": 634,
+        "startChar": 4,
+        "endLine": 634,
+        "endChar": 35
+      },
+      "revId": "7e811221ebe560ff1cb58500733a277508fda63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

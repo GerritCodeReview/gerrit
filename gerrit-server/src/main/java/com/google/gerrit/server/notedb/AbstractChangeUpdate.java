@@ -250,7 +250,12 @@ public abstract class AbstractChangeUpdate {
   }
 
   protected void checkNotReadOnly() throws OrmException {
-    Timestamp until = notes.getReadOnlyUntil();
+    ChangeNotes notes = getNotes();
+    if (notes == null) {
+      // Can only happen during ChangeRebuilder, which will never include a read-only lease.
+      return;
+    }
+    Timestamp until = getNotes().getReadOnlyUntil();
     if (until != null && NoteDbChangeState.timeForReadOnlyCheck(readOnlySkewMs).before(until)) {
       throw new OrmException("change " + notes.getChangeId() + " is read-only until " + until);
     }

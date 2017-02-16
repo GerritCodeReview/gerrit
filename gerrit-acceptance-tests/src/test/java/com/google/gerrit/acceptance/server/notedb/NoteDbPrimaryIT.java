@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.formatTime;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -45,18 +46,23 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -70,7 +76,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -86,9 +95,13 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   @Inject private AllUsersName allUsers;
+  @Inject private BatchUpdate.Factory batchUpdateFactory;
   @Inject private ChangeBundleReader bundleReader;
   @Inject private CommentsUtil commentsUtil;
   @Inject private TestChangeRebuilderWrapper rebuilderWrapper;
+  @Inject private ChangeControl.GenericFactory changeControlFactory;
+  @Inject private ChangeUpdate.Factory updateFactory;
+  @Inject private InternalUser.Factory internalUserFactory;
 
   private PrimaryStorageMigrator migrator;
 
@@ -103,7 +116,17 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   private PrimaryStorageMigrator newMigrator(
       @Nullable Retryer<NoteDbChangeState> ensureRebuiltRetryer) {
     return new PrimaryStorageMigrator(
-        cfg, Providers.of(db), repoManager, allUsers, rebuilderWrapper, ensureRebuiltRetryer);
+        cfg,
+        Providers.of(db),
+        repoManager,
+        allUsers,
+        rebuilderWrapper,
+        ensureRebuiltRetryer,
+        changeControlFactory,
+        queryProvider,
+        updateFactory,
+        internalUserFactory,
+        batchUpdateFactory);
   }
 
   @After
@@ -438,6 +461,33 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     exception.expect(OrmException.class);
     exception.expectMessage("primary storage of " + id + " is REVIEW_DB");
     rebuilderWrapper.rebuildReviewDb(db, project, id);
+  }
+
+  @Test
+  public void migrateBackToReviewDbPrimary() throws Exception {
+    Change c = createChange().getChange().change();
+    Change.Id id = c.getId();
+
+    migrator.migrateToNoteDbPrimary(id);
+    assertNoteDbPrimary(id);
+
+    migrator.migrateToReviewDbPrimary(id, null);
+    ObjectId metaId;
+    try (Repository repo = repoManager.openRepository(c.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      metaId = repo.exactRef(RefNames.changeMetaRef(id)).getObjectId();
+      RevCommit commit = rw.parseCommit(metaId);
+      rw.parseBody(commit);
+      assertThat(commit.getFullMessage())
+          .contains("Read-only-until: " + formatTime(serverIdent.get(), new Timestamp(0)));
+    }
+    NoteDbChangeState state = NoteDbChangeState.parse(db.changes().get(id));
+    assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
+    assertThat(state.getChangeMetaId()).isEqualTo(metaId);
+
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getRevision()).isEqualTo(metaId); // No rebuilding, change was up to date.
+    assertThat(notes.getReadOnlyUntil()).isNotNull();
   }
 
   private void setNoteDbPrimary(Change.Id id) throws Exception {

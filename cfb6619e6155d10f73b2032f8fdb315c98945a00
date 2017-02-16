@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "93468307_64cc676f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T15:50:11Z",
+      "side": 1,
+      "message": "it now says \"a branch in All-Users\".",
+      "parentUuid": "4374edb7_fd2f54dc",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09380be2_ddfa5823",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AuthInfo.java",
         "patchSetId": 18
@@ -84,6 +108,24 @@
       "writtenOn": "2017-02-16T11:58:07Z",
       "side": 1,
       "message": "This parameter is documented in rest-api-config.txt in the AuthInfo section. If it is removed, also it\u0027s documentation should be removed.",
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5f6683b_d4cad55f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/AuthInfo.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T15:50:11Z",
+      "side": 1,
+      "message": "Done. \n\nIt\u0027s also being called through the GWT code, though. Delete that too?",
+      "parentUuid": "09380be2_ddfa5823",
       "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -267,6 +309,30 @@
       "side": 1,
       "message": "If we expect that this never happens, I would log this. If it ever happens and we have no log, it gets very difficult to find out why the login fails. Log spam is a concern, and we don\u0027t log normal login failures, but a DecoderException is different from a user providing a wrong password, in the sense that an admin must get active and manually repair something.",
       "parentUuid": "c598e16f_bf6cffca",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 38
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5383418c_8631187f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T15:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c511ca9_0e4adcfb",
       "range": {
         "startLine": 90,
         "startChar": 8,

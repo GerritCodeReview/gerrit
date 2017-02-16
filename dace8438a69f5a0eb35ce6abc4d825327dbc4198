@@ -23,6 +23,23 @@
       "revId": "dace8438a69f5a0eb35ce6abc4d825327dbc4198",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c366a58_b835c8cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-16T22:15:30Z",
+      "side": 1,
+      "message": "This makes the change immediately out-of-date after returning, which is not the goal.\n\nAt the point this method is called, ReviewDb is primary, so this is a NoteDb update without a ReviewDb update, oops. This method just needs to use BatchUpdate to do its dirty work.",
+      "revId": "dace8438a69f5a0eb35ce6abc4d825327dbc4198",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

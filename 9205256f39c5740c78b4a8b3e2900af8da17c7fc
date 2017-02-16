@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4f7cc89_49b4e3be",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-02-16T22:52:16Z",
+      "side": 1,
+      "message": "Nit: use smartquotes:\n\n“?”",
+      "range": {
+        "startLine": 151,
+        "startChar": 16,
+        "endLine": 151,
+        "endChar": 19
+      },
+      "revId": "9205256f39c5740c78b4a8b3e2900af8da17c7fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

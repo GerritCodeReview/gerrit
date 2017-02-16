@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.VersionedMetaData;
 import java.io.File;
@@ -63,7 +64,7 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
   }
 
   public void save(String message) throws IOException, ConfigInvalidException {
-    save(new PersonIdent("Gerrit Initialization", "init@gerrit"), message);
+    save(new GerritPersonIdentProvider(flags.cfg).get(), message);
   }
 
   protected void save(PersonIdent ident, String msg) throws IOException, ConfigInvalidException {

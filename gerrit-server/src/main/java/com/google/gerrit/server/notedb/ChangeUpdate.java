@@ -803,4 +803,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     sb.append('>');
     return sb;
   }
+
+  @Override
+  protected void checkNotReadOnly() throws OrmException {
+    // Allow setting Read-only-until to 0 to release an existing lease.
+    if (readOnlyUntil != null && readOnlyUntil.getTime() == 0) {
+      return;
+    }
+    super.checkNotReadOnly();
+  }
 }

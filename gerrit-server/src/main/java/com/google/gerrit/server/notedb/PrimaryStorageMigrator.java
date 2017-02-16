@@ -26,18 +26,28 @@ import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
@@ -46,11 +56,17 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,10 +76,14 @@ import org.slf4j.LoggerFactory;
 public class PrimaryStorageMigrator {
   private static final Logger log = LoggerFactory.getLogger(PrimaryStorageMigrator.class);
 
-  private final Provider<ReviewDb> db;
-  private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final ChangeRebuilder rebuilder;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final GitRepositoryManager repoManager;
+  private final ChangeUpdate.Factory updateFactory;
+  private final Provider<InternalChangeQuery> queryProvider;
+  private final InternalUser.Factory internalUserFactory;
+  private final Provider<ReviewDb> db;
 
   private final long skewMs;
   private final long timeoutMs;
@@ -75,8 +95,22 @@ public class PrimaryStorageMigrator {
       Provider<ReviewDb> db,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      ChangeRebuilder rebuilder) {
-    this(cfg, db, repoManager, allUsers, rebuilder, null);
+      ChangeRebuilder rebuilder,
+      ChangeControl.GenericFactory changeControlFactory,
+      Provider<InternalChangeQuery> queryProvider,
+      ChangeUpdate.Factory updateFactory,
+      InternalUser.Factory internalUserFactory) {
+    this(
+        cfg,
+        db,
+        repoManager,
+        allUsers,
+        rebuilder,
+        null,
+        changeControlFactory,
+        queryProvider,
+        updateFactory,
+        internalUserFactory);
   }
 
   @VisibleForTesting
@@ -86,12 +120,20 @@ public class PrimaryStorageMigrator {
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       ChangeRebuilder rebuilder,
-      @Nullable Retryer<NoteDbChangeState> testEnsureRebuiltRetryer) {
+      @Nullable Retryer<NoteDbChangeState> testEnsureRebuiltRetryer,
+      ChangeControl.GenericFactory changeControlFactory,
+      Provider<InternalChangeQuery> queryProvider,
+      ChangeUpdate.Factory updateFactory,
+      InternalUser.Factory internalUserFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.rebuilder = rebuilder;
     this.testEnsureRebuiltRetryer = testEnsureRebuiltRetryer;
+    this.changeControlFactory = changeControlFactory;
+    this.queryProvider = queryProvider;
+    this.updateFactory = updateFactory;
+    this.internalUserFactory = internalUserFactory;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
 
     String s = "notedb";
@@ -189,7 +231,7 @@ public class PrimaryStorageMigrator {
     //   failure.
 
     Stopwatch sw = Stopwatch.createStarted();
-    Change readOnlyChange = setReadOnly(id); // MRO
+    Change readOnlyChange = setReadOnlyInReviewDb(id); // MRO
     if (readOnlyChange == null) {
       return; // Already migrated.
     }
@@ -217,7 +259,7 @@ public class PrimaryStorageMigrator {
     log.info("Migrated change {} to NoteDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
   }
 
-  private Change setReadOnly(Change.Id id) throws OrmException {
+  private Change setReadOnlyInReviewDb(Change.Id id) throws OrmException {
     AtomicBoolean alreadyMigrated = new AtomicBoolean(false);
     Change result =
         db().changes()
@@ -315,5 +357,114 @@ public class PrimaryStorageMigrator {
 
   private String badState(NoteDbChangeState actual, NoteDbChangeState expected) {
     return "state changed unexpectedly: " + actual + " != " + expected;
+  }
+
+  public void migrateToNoteDbPrimary(Change.Id id, @Nullable Project.NameKey project)
+      throws OrmException, IOException {
+    // Migrating back to ReviewDb primary is much simpler than the original migration to NoteDb
+    // primary, because when NoteDb is primary, each write only goes to one storage location rather
+    // than both. We only need to consider whether a concurrent writer (OR) conflicts with the first
+    // setReadOnlyInNoteDb step (MR) in this method.
+    //
+    // If OR wins, then either:
+    // * MR will set read-only after OR is completed, which is not a concurrent write.
+    // * MR will fail to set read-only with a lock failure. The caller will have to retry, but the
+    //   change is not in a read-only state, so behavior is not degraded in the meantime.
+    //
+    // If MR wins, then either:
+    // * OR will fail with a read-only exception (via AbstractChangeNotes#apply).
+    // * OR will fail with a lock failure.
+    //
+    // In all of these scenarios, the change is read-only if and only if MR succeeds.
+    //
+    // There will be no concurrent writes to ReviewDb for this change until
+    // setPrimaryStorageReviewDb completes, because ReviewDb writes are not attempted when primary
+    // storage is NoteDb. After the primary storage changes back, it is possible for subsequent
+    // NoteDb writes to conflict with the releaseReadOnlyLeaseInNoteDb step, but at this point,
+    // since ReviewDb is primary, we are back to ignoring them.
+    Stopwatch sw = Stopwatch.createStarted();
+    if (project == null) {
+      project = getProject(id);
+    }
+    ObjectId newMetaId = setReadOnlyInNoteDb(project, id);
+    rebuilder.rebuildReviewDb(db(), project, id);
+    setPrimaryStorageReviewDb(id, newMetaId);
+    releaseReadOnlyLeaseInNoteDb(project, id);
+    log.info("Migrated change {} to ReviewDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
+  }
+
+  private ObjectId setReadOnlyInNoteDb(Project.NameKey project, Change.Id id)
+      throws OrmException, IOException {
+    Timestamp now = TimeUtil.nowTs();
+    Timestamp until = new Timestamp(now.getTime() + timeoutMs);
+    return setReadOnlyUntilInNoteDb(project, id, until);
+  }
+
+  private void setPrimaryStorageReviewDb(Change.Id id, ObjectId newMetaId)
+      throws OrmException, IOException {
+    ImmutableMap.Builder<Account.Id, ObjectId> draftIds = ImmutableMap.builder();
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      for (Ref draftRef :
+          repo.getRefDatabase().getRefs(RefNames.refsDraftCommentsPrefix(id)).values()) {
+        Account.Id accountId = Account.Id.fromRef(draftRef.getName());
+        if (accountId != null) {
+          draftIds.put(accountId, draftRef.getObjectId().copy());
+        }
+      }
+    }
+    NoteDbChangeState newState =
+        new NoteDbChangeState(
+            id,
+            PrimaryStorage.REVIEW_DB,
+            Optional.of(RefState.create(newMetaId, draftIds.build())),
+            Optional.empty());
+    db().changes()
+        .atomicUpdate(
+            id,
+            new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                if (PrimaryStorage.of(change) != PrimaryStorage.NOTE_DB) {
+                  throw new OrmRuntimeException(
+                      "change " + id + " is not NoteDb primary: " + change.getNoteDbState());
+                }
+                change.setNoteDbState(newState.toString());
+                return change;
+              }
+            });
+  }
+
+  private void releaseReadOnlyLeaseInNoteDb(Project.NameKey project, Change.Id id)
+      throws OrmException, IOException {
+    setReadOnlyUntilInNoteDb(project, id, new Timestamp(0));
+  }
+
+  private ObjectId setReadOnlyUntilInNoteDb(Project.NameKey project, Change.Id id, Timestamp until)
+      throws OrmException, IOException {
+    ChangeUpdate update =
+        updateFactory.create(
+            changeControlFactory.controlFor(db.get(), project, id, internalUserFactory.create()));
+    update.setReadOnlyUntil(until);
+    return update.commit();
+  }
+
+  private Project.NameKey getProject(Change.Id id) throws OrmException {
+    List<ChangeData> cds =
+        queryProvider
+            .get()
+            .setRequestedFields(ImmutableSet.of(ChangeField.PROJECT.getName()))
+            .byLegacyChangeId(id);
+    Set<Project.NameKey> projects = new TreeSet<>();
+    for (ChangeData cd : cds) {
+      projects.add(cd.project());
+    }
+    if (projects.size() != 1) {
+      throw new OrmException(
+          "zero or multiple projects found for change "
+              + id
+              + ", must specify project explicitly: "
+              + projects);
+    }
+    return projects.iterator().next();
   }
 }

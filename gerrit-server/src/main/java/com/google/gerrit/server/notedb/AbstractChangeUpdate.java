@@ -241,7 +241,7 @@ public abstract class AbstractChangeUpdate {
     return result;
   }
 
-  private void checkNotReadOnly() throws OrmException {
+  protected void checkNotReadOnly() throws OrmException {
     Timestamp until = notes.getReadOnlyUntil();
     if (until != null && NoteDbChangeState.timeForReadOnlyCheck(readOnlySkewMs).before(until)) {
       throw new OrmException("change " + notes.getChangeId() + " is read-only until " + until);

@@ -305,6 +305,30 @@
       "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6acb4df2_1531d229",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-16T14:17:27Z",
+      "side": 1,
+      "message": "\u003e This means that \"show more\" and \"show less\" are non-navigational actions but they are not primary actions. Instead, they are secondary actions. Right?\n\nYes\n\n\u003e I don\u0027t see any definition of \"primary\", \"secondary\", etc... actions in this document. Do you want to add these definitions here?\n\nI\u0027ll try to come up with one and add it to the document.",
+      "parentUuid": "767535c5_83fe4e47",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

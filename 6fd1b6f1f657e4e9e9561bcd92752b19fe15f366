@@ -70,6 +70,30 @@
       "revId": "6fd1b6f1f657e4e9e9561bcd92752b19fe15f366",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ec60f65_e543a850",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DiffSummary.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T14:07:49Z",
+      "side": 1,
+      "message": "OK, but everyone else will also need to delete the cache on upgrade. Even if this is documented in the release notes, half of the people will forget this step and be confused by these warnings :(",
+      "parentUuid": "b286123e_8f0aacd2",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "6fd1b6f1f657e4e9e9561bcd92752b19fe15f366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

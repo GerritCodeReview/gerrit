@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2a55a1b0_43c6e1c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T12:18:52Z",
+      "side": 1,
+      "message": "Did you forget to upload the new patch set?",
+      "parentUuid": "bb6867be_321703be",
+      "range": {
+        "startLine": 1161,
+        "startChar": 4,
+        "endLine": 1161,
+        "endChar": 56
+      },
+      "revId": "676f3062fd575059909910b01a1f7751ffef59b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d54b7cf8_01dcbee7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 3

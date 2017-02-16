@@ -70,7 +70,7 @@ public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {
 
   /** Connects Velocity to sfl4j. */
   public static class Slf4jLogChute implements LogChute {
-    private static final Logger log = LoggerFactory.getLogger("velocity");
+    private static final Logger log = LoggerFactory.getLogger(Slf4jLogChute.class);
 
     @Override
     public void init(RuntimeServices rs) {}

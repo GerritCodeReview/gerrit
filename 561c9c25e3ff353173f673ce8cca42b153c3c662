@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "40f38169_f4bae215",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:18:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b357001c_dcc21d48",
+      "range": {
+        "startLine": 1077,
+        "startChar": 0,
+        "endLine": 1080,
+        "endChar": 19
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1e585ce_b3e8644d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "not an improvement IMO; compare:\n\nreview.comments.put(comment.path, Lists.newArrayList(comment));\nCollections.singletonMap(comment.path, Collections.singletonList(comment));",
       "parentUuid": "b1e585ce_b3e8644d",
+      "range": {
+        "startLine": 1094,
+        "startChar": 22,
+        "endLine": 1096,
+        "endChar": 0
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d9b5139_8dff15c7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:18:13Z",
+      "side": 1,
+      "message": "used immutablemap.of.",
+      "parentUuid": "d4c9056d_fc9cb9bb",
       "range": {
         "startLine": 1094,
         "startChar": 22,

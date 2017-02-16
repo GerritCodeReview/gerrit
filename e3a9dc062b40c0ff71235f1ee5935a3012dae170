@@ -93,6 +93,30 @@
       "revId": "e3a9dc062b40c0ff71235f1ee5935a3012dae170",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e59d4133_0da41035",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T14:00:28Z",
+      "side": 1,
+      "message": "Maybe we should just handle the case when request.getQuery() is null and return no results in this case.",
+      "parentUuid": "878c9fa8_6d570b8e",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 27,
+        "endChar": 51
+      },
+      "revId": "e3a9dc062b40c0ff71235f1ee5935a3012dae170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

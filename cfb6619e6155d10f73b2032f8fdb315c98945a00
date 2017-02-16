@@ -255,6 +255,30 @@
     },
     {
       "key": {
+        "uuid": "2c511ca9_0e4adcfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T12:08:15Z",
+      "side": 1,
+      "message": "If we expect that this never happens, I would log this. If it ever happens and we have no log, it gets very difficult to find out why the login fails. Log spam is a concern, and we don\u0027t log normal login failures, but a DecoderException is different from a user providing a wrong password, in the sense that an admin must get active and manually repair something.",
+      "parentUuid": "c598e16f_bf6cffca",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 38
+      },
+      "revId": "cfb6619e6155d10f73b2032f8fdb315c98945a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66ed0da1_322e8549",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 18

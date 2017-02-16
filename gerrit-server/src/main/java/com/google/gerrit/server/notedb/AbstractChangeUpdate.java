@@ -133,6 +133,14 @@ public abstract class AbstractChangeUpdate {
     return change.getId();
   }
 
+  /**
+   * @return notes for the state of this change prior to this update. If this update is part of a
+   *     series managed by a {@link NoteDbUpdateManager}, then this reflects the state prior to the
+   *     first update in the series. A null return value can only happen when the change is being
+   *     rebuilt from NoteDb. A change that is in the process of being created will result in a
+   *     non-null return value from this method, but a null return value from {@link
+   *     ChangeNotes#getRevision()}.
+   */
   @Nullable
   public ChangeNotes getNotes() {
     return notes;

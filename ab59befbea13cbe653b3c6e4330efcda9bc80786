@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e6e6097f_26b568b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-16T13:43:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7fd45215_41d1e02e",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "ab59befbea13cbe653b3c6e4330efcda9bc80786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d34201a_892c3e38",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "b25a45e0_5724c1d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-16T13:43:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "577d3081_46daaa28",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "ab59befbea13cbe653b3c6e4330efcda9bc80786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60dcdfcc_c70728b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-16T13:43:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4d34201a_892c3e38",
+      "range": {
+        "startLine": 11,
+        "startChar": 50,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "ab59befbea13cbe653b3c6e4330efcda9bc80786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ccc390d4_4ef01d08",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 23
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-16T13:37:23Z",
       "side": 1,
       "message": "Unused variable. -\u003e Delete the line.",
+      "range": {
+        "startLine": 416,
+        "startChar": 6,
+        "endLine": 416,
+        "endChar": 54
+      },
+      "revId": "ab59befbea13cbe653b3c6e4330efcda9bc80786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb87ff5_0fad05b5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-16T13:43:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ccc390d4_4ef01d08",
       "range": {
         "startLine": 416,
         "startChar": 6,

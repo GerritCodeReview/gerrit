@@ -15,8 +15,6 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gerrit.extensions.client.ProjectState;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -26,43 +24,5 @@ public class Util {
   static {
     PROJECT_SVC = GWT.create(ProjectAdminService.class);
     JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
-  }
-
-  public static String toLongString(final SubmitType type) {
-    if (type == null) {
-      return "";
-    }
-    switch (type) {
-      case FAST_FORWARD_ONLY:
-        return AdminConstants.I.projectSubmitType_FAST_FORWARD_ONLY();
-      case MERGE_IF_NECESSARY:
-        return AdminConstants.I.projectSubmitType_MERGE_IF_NECESSARY();
-      case REBASE_IF_NECESSARY:
-        return AdminConstants.I.projectSubmitType_REBASE_IF_NECESSARY();
-      case REBASE_ALWAYS:
-        return AdminConstants.I.projectSubmitType_REBASE_ALWAYS();
-      case MERGE_ALWAYS:
-        return AdminConstants.I.projectSubmitType_MERGE_ALWAYS();
-      case CHERRY_PICK:
-        return AdminConstants.I.projectSubmitType_CHERRY_PICK();
-      default:
-        return type.name();
-    }
-  }
-
-  public static String toLongString(final ProjectState type) {
-    if (type == null) {
-      return "";
-    }
-    switch (type) {
-      case ACTIVE:
-        return AdminConstants.I.projectState_ACTIVE();
-      case READ_ONLY:
-        return AdminConstants.I.projectState_READ_ONLY();
-      case HIDDEN:
-        return AdminConstants.I.projectState_HIDDEN();
-      default:
-        return type.name();
-    }
   }
 }

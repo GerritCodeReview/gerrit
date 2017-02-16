@@ -1215,7 +1215,7 @@ public class ChangeScreen extends Screen {
           changeInfo.mergeable() ? Util.C.readyToSubmit() : Util.C.mergeConflict());
     }
     setVisible(notMergeable, !changeInfo.mergeable());
-    submitActionText.setInnerText(com.google.gerrit.client.admin.Util.toLongString(submitType));
+    submitActionText.setInnerText(com.google.gerrit.client.ui.Util.toLongString(submitType));
   }
 
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {

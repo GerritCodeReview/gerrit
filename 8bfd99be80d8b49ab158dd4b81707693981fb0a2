@@ -118,6 +118,30 @@
       "revId": "8bfd99be80d8b49ab158dd4b81707693981fb0a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46de5484_fd11a4e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/VelocityRuntimeProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T09:35:21Z",
+      "side": 0,
+      "message": "Yeah, let\u0027s not worry about this.",
+      "parentUuid": "b22375c3_6e257e1a",
+      "range": {
+        "startLine": 73,
+        "startChar": 62,
+        "endLine": 73,
+        "endChar": 72
+      },
+      "revId": "8bfd99be80d8b49ab158dd4b81707693981fb0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

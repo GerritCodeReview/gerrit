@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f271998b_dc6717ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-16T23:29:52Z",
+      "side": 1,
+      "message": "optional: add an expectMessage?",
+      "revId": "06e2f5092b404af064ced88eef28b5f6ee0edec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06f7ed68_fc6a3605",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-16T23:29:52Z",
+      "side": 1,
+      "message": "Why was this changed to a less precise match?\n\nside note:  If I remember correctly, if the expected match is at the beginning of the string it\u0027s enough to just do expectMessage(string) and it\u0027ll still match.",
+      "range": {
+        "startLine": 316,
+        "startChar": 28,
+        "endLine": 316,
+        "endChar": 68
+      },
+      "revId": "06e2f5092b404af064ced88eef28b5f6ee0edec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

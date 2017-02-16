@@ -116,6 +116,24 @@
       "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69e771ce_d8c2a5d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-16T00:41:44Z",
+      "side": 1,
+      "message": "So a simple example is in the first case, where you only see 5 comments. If you toggle \"show all comments\" you still only see 5 comments, but some of the ones you saw originally are no longer in the most recent 5:\n\nhttp://g.recordit.co/PUOMOEadY5.gif",
+      "parentUuid": "32bc58f2_bdac0e00",
+      "revId": "ccd69751a48b46093b6197a256740319b19b1ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

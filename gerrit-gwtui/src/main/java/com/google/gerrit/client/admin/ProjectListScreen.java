@@ -28,6 +28,7 @@ import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
+import com.google.gerrit.client.ui.Util;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;

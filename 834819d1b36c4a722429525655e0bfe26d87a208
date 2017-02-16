@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1487283846 -0500\nnonce AFJA6of4qTyDoxVYgcn3aWabQ+lj8fYGDKli4ufuU0FSioD1nysWpmHSiZ+mrNCOTZiqjLaOgB92\n\n0000000000000000000000000000000000000000 1e98c2ca393d1d01ca29ff7eb6a87d8bc156113e refs/for/master%r\u003dekempin\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYpiaGAAoJEF/XxZqaEoiMnSkP+wRTSD0NkRnm8LT+UzGe24XH\nzAFpNsQYnx4qgHzqmGadQPUkdWKbXbNNDLMuQW0xyTVGat3sDWYTWbO8YNAulpz9\n9LnQEa8auc96Ehu4IgWMaITV8VDkF1xkBEVrApI0UxIGquBFdaQyXF1/878sekZD\n4J8BlPPUMBNfRJcyO0d2rmqq593EZjP39MrYGd5tgLfgZYBtrynaCw9ynv2uprE9\nzUDhpp84UB0wIN8ahVv2og2FFGQXHCsOCzPrq2I9lVcv3hJCnlRHSbD1nWZ62Do0\nLWl/919eS32tT1HygIWTYog4tepfIIFUi+D+4l2VfC1oiWz37buPz6JcJ859UCAT\nG6tcT4awmBYS3tcyUIOAQo7+dTjNLDCK1U1HkvtReeuShrYn1xBfW5J6CC1thVCj\nmORkJqS35BMK+kiDXdzjV5qx7DuklOJ+lT/oLbWBPrOpoXgGVe6bGHxJ65oSeirY\ndSpwvMm/KsRk14gIfUlVF6YxSzpZWjozsdxxRq47hojlVhD+8XNmG8bB7QFjjDHw\nfF1kH1FDZtp3o1b+C1ngTqrtKqGErAKjdfO1WTjWIDfwXL+Svpu6hP/yd8iEsEsk\nWmzMtaJTJ/4DegS/9QuKZ93km6t/JsrlCkGxlbcpPAnrwI4uJqDM60ozystQsHWZ\nEl077roI0TZgMXunznsH\n\u003d/nDy\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "839e834d_66e1d69b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-16T22:58:59Z",
+      "side": 1,
+      "message": "nit: this could have stronger protection by knowing what old_sha1 to use (the sha1 we wrote earlier) and enforcing that.\n\nThe scope of this code is so limited that I am not convinced it would be worth it, though.",
+      "revId": "834819d1b36c4a722429525655e0bfe26d87a208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a78bb52_a44ab528",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-16T22:58:59Z",
+      "side": 1,
+      "message": "Where do these blank lines come from? Doesn\u0027t google-java-format remove them?",
+      "revId": "834819d1b36c4a722429525655e0bfe26d87a208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

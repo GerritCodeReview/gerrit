@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "4c5d0796_92a49fa5",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-16T00:34:35Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m not sure what the best approach is here?  @Logan also proposed having the URLs go directly to GWT, though I think that may warrant a discussion, and I think either is better than what we currently have now.",
+      "parentUuid": "4d427442_870225b9",
+      "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "866a3468_c03f396c",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1

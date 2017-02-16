@@ -39,7 +39,7 @@ public class IsMergePredicate extends ChangeOperatorPredicate {
       RevCommit commit = rw.parseCommit(id);
       return commit.getParentCount() > 1;
     } catch (IOException e) {
-      throw new IllegalStateException(e);
+      throw new OrmException(e);
     }
   }
 

@@ -131,7 +131,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
                 args.conflictsCache.put(conflictsKey, conflicts);
                 return conflicts;
               } catch (IntegrationException | NoSuchProjectException | IOException e) {
-                throw new IllegalStateException(e);
+                throw new OrmException(e);
               }
             }
 

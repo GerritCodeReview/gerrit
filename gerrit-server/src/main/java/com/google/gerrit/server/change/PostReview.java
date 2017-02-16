@@ -192,6 +192,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       checkLabels(revision, input.strictLabels, input.labels);
     }
     if (input.comments != null) {
+      cleanUpComments(input.comments);
       checkComments(revision, input.comments);
     }
     if (input.robotComments != null) {
@@ -200,6 +201,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
       checkRobotComments(revision, input.robotComments);
     }
+
     if (input.notify == null) {
       log.warn("notify = null; assuming notify = NONE");
       input.notify = NotifyHandling.NONE;
@@ -421,13 +423,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private <T extends CommentInput> void checkComments(
-      RevisionResource revision, Map<String, List<T>> commentsPerPath)
-      throws BadRequestException, OrmException {
-    cleanUpComments(commentsPerPath);
-    ensureCommentsAreAddable(revision, commentsPerPath);
-  }
-
   private <T extends CommentInput> void cleanUpComments(Map<String, List<T>> commentsPerPath) {
     Iterator<List<T>> mapValueIterator = commentsPerPath.values().iterator();
     while (mapValueIterator.hasNext()) {
@@ -438,7 +433,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
 
       cleanUpComments(comments);
-
       if (comments.isEmpty()) {
         mapValueIterator.remove();
       }
@@ -461,7 +455,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private <T extends CommentInput> void ensureCommentsAreAddable(
+  private <T extends CommentInput> void checkComments(
       RevisionResource revision, Map<String, List<T>> commentsPerPath)
       throws OrmException, BadRequestException {
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
@@ -474,6 +468,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (T comment : comments) {
         ensureLineIsNonNegative(comment.line, path);
         ensureCommentNotOnMagicFilesOfAutoMerge(path, comment);
+        ensureRangeIsValid(path, comment.range);
       }
     }
   }
@@ -509,6 +504,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private void checkRobotComments(
       RevisionResource revision, Map<String, List<RobotCommentInput>> in)
       throws BadRequestException, OrmException {
+    cleanUpComments(in);
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();
       for (RobotCommentInput c : e.getValue()) {
@@ -608,7 +604,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (range == null) {
       throw new BadRequestException(
           String.format(
-              "A range must be given " + "for the replacement of the robot comment on %s",
+              "A range must be given for the replacement of the robot comment on %s",
               commentPath));
     }
   }
@@ -622,8 +618,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (!range.isValid()) {
       throw new BadRequestException(
           String.format(
-              "Range (%s:%s - %s:%s) is not"
-                  + " valid for the replacement of the robot comment on %s",
+              "Range (%s:%s - %s:%s) is not valid for the comment on %s",
               range.startLine,
               range.startCharacter,
               range.endLine,

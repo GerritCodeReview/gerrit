@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cbce000d_ed3a8912",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-16T13:58:22Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "ea5c2f82_ad3cb247",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 47
+      },
+      "revId": "e3a9dc062b40c0ff71235f1ee5935a3012dae170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07d61d83_d534a5d8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-16T13:45:16Z",
       "side": 1,
       "message": "Instead of catching the exception can we change the code so that it\u0027s not producing this exception?",
+      "range": {
+        "startLine": 27,
+        "startChar": 33,
+        "endLine": 27,
+        "endChar": 51
+      },
+      "revId": "e3a9dc062b40c0ff71235f1ee5935a3012dae170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "878c9fa8_6d570b8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-16T13:58:22Z",
+      "side": 1,
+      "message": "Sorry. I\u0027ve tried but failed to find why request.getQuery() is null. I will try again when I\u0027m free.",
+      "parentUuid": "07d61d83_d534a5d8",
       "range": {
         "startLine": 27,
         "startChar": 33,

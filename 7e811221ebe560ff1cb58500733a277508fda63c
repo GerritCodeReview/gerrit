@@ -23,6 +23,30 @@
       "revId": "7e811221ebe560ff1cb58500733a277508fda63c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ef2a56_7967b477",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/rebuild/ChangeRebuilderImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-16T16:38:51Z",
+      "side": 1,
+      "message": "In really-disabled mode, unwrapping succeeds but returns a ReviewDb that would make this whole method a no-op. This method should just be changed to fail fast in that case. (It can\u0027t yet because that other change hasn\u0027t merged, and likely won\u0027t before this one.)",
+      "parentUuid": "dfad0d73_d43bba52",
+      "range": {
+        "startLine": 634,
+        "startChar": 4,
+        "endLine": 634,
+        "endChar": 35
+      },
+      "revId": "7e811221ebe560ff1cb58500733a277508fda63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

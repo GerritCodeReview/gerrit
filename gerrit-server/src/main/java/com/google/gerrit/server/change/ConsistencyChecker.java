@@ -622,7 +622,11 @@ public class ConsistencyChecker {
       }
     } catch (UpdateException | RestApiException e) {
       String msg = "Error deleting patch set";
-      log.warn(msg + " of change " + ops.get(0).psId.getParentKey(), e);
+      if (!ops.isEmpty()) {
+        msg += " of change " + ops.get(0).psId.getParentKey();
+      }
+      log.warn(msg, e);
+
       for (DeletePatchSetFromDbOp op : ops) {
         // Overwrite existing statuses that were set before the transaction was
         // rolled back.

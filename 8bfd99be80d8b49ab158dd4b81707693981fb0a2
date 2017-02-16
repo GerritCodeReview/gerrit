@@ -22,6 +22,30 @@
       "revId": "8bfd99be80d8b49ab158dd4b81707693981fb0a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "406bf7fc_0a7be43e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/VelocityRuntimeProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-16T09:12:39Z",
+      "side": 0,
+      "message": "Ok, should we change this back?",
+      "parentUuid": "6d4bf263_60ef0001",
+      "range": {
+        "startLine": 73,
+        "startChar": 62,
+        "endLine": 73,
+        "endChar": 72
+      },
+      "revId": "8bfd99be80d8b49ab158dd4b81707693981fb0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

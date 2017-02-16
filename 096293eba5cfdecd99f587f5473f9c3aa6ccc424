@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e045eb9_3794eb7f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "Is index update done synchronously or asynchronously? Do we get the response immediately or only after the indexing is finished?",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef20358a_72620946",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "A general question: Why is AllChangesIndexer.reindexProject not (re)used from here?",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0e18e69_5e3ae157",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "optional: I would name this as \"all\" or \"allById\" because it makes the lines 104-106 easier to understand.",
+      "range": {
+        "startLine": 93,
+        "startChar": 39,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74c37acd_befcc976",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "In?\n\nI am not sure: InIndex sounds for me better than OnIndex",
+      "range": {
+        "startLine": 103,
+        "startChar": 35,
+        "endLine": 103,
+        "endChar": 37
+      },
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80bc744b_153d0e4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "Swap the order of the lines 103 and 104. After the for loop finished you just computed the byId map. Then make use of it immediately in order to compute the toReindex. Computation of the alreadyPresentOnIndex doesn\u0027t depend on the byId map. Actually line 103 could even be moved to the beginning of this method.",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a8ce1ea_6796b809",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "This change doesn\u0027t only reindex all changes of a project but also deletes index entries for non-existing changes.\n\nIs this an existing issue that we have entries in the index for non-existing changes?\nIf yes, should this issue be addressed separately in its own change?",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e23e73a_0db9ccd4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "i would feel safer if we don\u0027t delete from the index after the indexing is done. Swap the lines 107 and 108?",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ec8125d_55bc4e2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "Can we handle more concrete exceptions here?",
+      "range": {
+        "startLine": 109,
+        "startChar": 13,
+        "endLine": 109,
+        "endChar": 22
+      },
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d06f70b9_e46978e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-16T15:18:41Z",
+      "side": 1,
+      "message": "This code is copied from the AllChangesIndexer class. Can we make a better code reuse?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 5
+      },
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

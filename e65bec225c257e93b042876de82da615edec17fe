@@ -34,6 +34,24 @@
       "revId": "e65bec225c257e93b042876de82da615edec17fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b6f1f7d_e472f7ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-16T18:06:50Z",
+      "side": 1,
+      "message": "Well we could keep it at approved and remove val.equals. But only problem with that is that when you reject it with -2 and you have +2, the -2 will get the red cross and the +2 will not get a green cross. How can i fix that please?",
+      "parentUuid": "17d8de6b_4d29399a",
+      "revId": "e65bec225c257e93b042876de82da615edec17fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c01ec66_c38a06bd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcedb5af_56d5b7e7",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 61
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b357001c_dcc21d48",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d4c9056d_fc9cb9bb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:13:24Z",
+      "side": 1,
+      "message": "not an improvement IMO; compare:\n\nreview.comments.put(comment.path, Lists.newArrayList(comment));\nCollections.singletonMap(comment.path, Collections.singletonList(comment));",
+      "parentUuid": "b1e585ce_b3e8644d",
+      "range": {
+        "startLine": 1094,
+        "startChar": 22,
+        "endLine": 1096,
+        "endChar": 0
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "626c13c3_e28b2c00",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "5fe63e45_7f18e684",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "626c13c3_e28b2c00",
+      "range": {
+        "startLine": 430,
+        "startChar": 0,
+        "endLine": 434,
+        "endChar": 5
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92dcd60e_0984ef42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
         "patchSetId": 1
@@ -114,6 +186,30 @@
       "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf928601_9c6b1537",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-16T17:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92dcd60e_0984ef42",
+      "range": {
+        "startLine": 525,
+        "startChar": 4,
+        "endLine": 525,
+        "endChar": 24
+      },
+      "revId": "561c9c25e3ff353173f673ce8cca42b153c3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

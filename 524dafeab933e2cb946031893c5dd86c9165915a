@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acb811fa_867b6075",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/ui/RemoteSuggestOracle.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-16T15:20:30Z",
+      "side": 1,
+      "message": "this breaks reviewer suggestion because reviewer suggestion relies on getting suggestions even for empty queries",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 7
+      },
+      "revId": "524dafeab933e2cb946031893c5dd86c9165915a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

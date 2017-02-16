@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "4d427442_870225b9",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-16T00:12:36Z",
+      "side": 1,
+      "message": "optional: could omit the Create Group and Create Project items, on the assumption that if someone is looking to create a group or a project they can navigate to Groups or Projects and figure out what to do from there.",
+      "revId": "5243a4c27953927f26dc772b3006071dd74cfc7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "866a3468_c03f396c",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1

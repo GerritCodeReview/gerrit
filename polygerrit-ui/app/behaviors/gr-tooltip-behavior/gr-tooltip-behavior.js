@@ -97,16 +97,22 @@
       var rect = this.getBoundingClientRect();
       var boxRect = tooltip.getBoundingClientRect();
       var parentRect = tooltip.parentElement.getBoundingClientRect();
-      var top = rect.top - parentRect.top - boxRect.height - BOTTOM_OFFSET;
-      var left =
-          rect.left - parentRect.left + (rect.width - boxRect.width) / 2;
+      var top = rect.top - parentRect.top;
+      var left = rect.left - parentRect.left + (rect.width - boxRect.width) / 2;
+      var right = parentRect.width - left - boxRect.width;
       if (left < 0) {
         tooltip.updateStyles({
           '--gr-tooltip-arrow-center-offset': left + 'px',
         });
+      } else if (right < 0) {
+        tooltip.updateStyles({
+          '--gr-tooltip-arrow-center-offset': (-0.5 * right) + 'px',
+        });
       }
       tooltip.style.left = Math.max(0, left) + 'px';
       tooltip.style.top = Math.max(0, top) + 'px';
+      tooltip.style.transform = 'translateY(calc(-100% - ' + BOTTOM_OFFSET +
+          'px))';
     },
   };
 

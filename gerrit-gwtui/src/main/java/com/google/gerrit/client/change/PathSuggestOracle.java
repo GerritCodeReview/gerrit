@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.info.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -37,10 +38,11 @@ class PathSuggestOracle extends HighlightSuggestOracle {
 
   @Override
   protected void onRequestSuggestions(final Request req, final Callback cb) {
-    ChangeApi.revision(changeId.get(), revision.name())
-        .view("files")
-        .addParameter("q", req.getQuery())
-        .background()
+    RestApi api = ChangeApi.revision(changeId.get(), revision.name()).view("files");
+    if (req.getQuery() != null) {
+      api.addParameter("q", req.getQuery() == null ? "" : req.getQuery());
+    }
+    api.background()
         .get(
             new AsyncCallback<JsArrayString>() {
               @Override

@@ -549,5 +549,12 @@ limitations under the License.
       element.addOrEditDraft(1);
       assert.equal(element.comments.length, 2);
     });
+
+    test('unresolved label', function() {
+      element._unresolved = false;
+      assert.isTrue(element.$.unresolvedLabel.hasAttribute('hidden'));
+      element._unresolved = true;
+      assert.isFalse(element.$.unresolvedLabel.hasAttribute('hidden'));
+    });
   });
 </script>

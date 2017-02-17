@@ -28,8 +28,7 @@ limitations under the License.
         margin-bottom: 1px;
         white-space: normal;
       }
-      .actions {
-        border-top: 1px dotted #bbb;
+      #actions {
         padding: .5em .7em;
       }
       #container {
@@ -37,6 +36,16 @@ limitations under the License.
       }
       #container.unresolved {
         background-color: #fcfaa6;
+      }
+      #commentInfoContainer {
+        border-top: 1px dotted #bbb;
+        display: flex;
+        justify-content: space-between;
+      }
+      #unresolvedLabel {
+        font-family: var(--font-family);
+        margin: auto 0 auto auto;
+        padding: .5em .7em;
       }
     </style>
     <div id="container" class$="[[_computeHostClass(_unresolved)]]">
@@ -54,16 +63,19 @@ limitations under the License.
             on-create-fix-comment="_handleCommentFix"
             on-comment-discard="_handleCommentDiscard"></gr-diff-comment>
       </template>
-      <div class="actions"
+      <div id="commentInfoContainer"
           hidden$="[[_hideActions(_showActions, _lastComment)]]">
-        <gr-button id="replyBtn" class="action reply"
-            on-tap="_handleCommentReply">Reply</gr-button>
-        <gr-button id="quoteBtn" class="action quote"
-            on-tap="_handleCommentQuote">Quote</gr-button>
-        <gr-button id="ackBtn" class="action ack" on-tap="_handleCommentAck">
-          Ack</gr-button>
-        <gr-button id="doneBtn" class="action done" on-tap="_handleCommentDone">
-          Done</gr-button>
+        <div id="actions">
+          <gr-button id="replyBtn" class="action reply"
+              on-tap="_handleCommentReply">Reply</gr-button>
+          <gr-button id="quoteBtn" class="action quote"
+              on-tap="_handleCommentQuote">Quote</gr-button>
+          <gr-button id="ackBtn" class="action ack" on-tap="_handleCommentAck">
+            Ack</gr-button>
+          <gr-button id="doneBtn" class="action done" on-tap="_handleCommentDone">
+            Done</gr-button>
+        </div>
+        <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

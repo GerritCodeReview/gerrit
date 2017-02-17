@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b15d5c77_02d6e877",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-17T10:44:02Z",
+      "side": 1,
+      "message": "Please add the reason for reverting.",
+      "revId": "23bc1656ef469513827917837bff6cc169683f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

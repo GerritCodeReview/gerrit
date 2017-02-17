@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "e608f156_c626f3fe",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T15:50:53Z",
+      "side": 1,
+      "message": "\u003e Yes, indeed, they are orthogonal, so why compare something totally different,\n\u003e and try hard to find a migration path in combination with change edits?\n\nCurrent drafts are 2 things: privacy + they can be deleted\nSince we allow deletion of normal changes and change edits are deletable patch sets, the only thing that still differentiates drafts from normal changes with change edits is privacy, hence I do think drafts are similar to private changes, and this is why I think they should be migrated to private changes ( don\u0027t hate me yet, but read my reply to the end ;-) )\n\nAs already discussed a migration of draft changes to change edits is not possible, because a user can have at most one change edit per change. This means:\n- for changes with multiple draft patch sets only one could be converted to a change edit\n- for changes with draft patch sets and a change edit, none of the draft patch sets could be converted to a change edit, since a change edit already exists.\n\nI agree that an alternate migration of draft changes to new WIP changes is likely possible. I don\u0027t like it for standard Gerrit instances because draft changes are private now and users expect them to stay private after the migration, but I understand and agree that for Gerrit instances that use the WIP plugin today, a migration of draft changes to WIP changes is preferred (because for those Gerrit instances draft changes are already now not private, but WIP changes).\nDo I understand it correctly that all you want is a possibility for those Gerrit instances to migrate draft changes to WIP changes?\nSo if we make the migration configurable, so that an admin can decide if drafts should be migrated to private change or WIP changes, it should be ok, right?\n\nI would then try to get all of this (private changes, WIP changes, enhanced change edits + removal of drafts) done within one release.",
+      "parentUuid": "0dbcb354_e8b5af91",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457a8bcf_33e1d5a0",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

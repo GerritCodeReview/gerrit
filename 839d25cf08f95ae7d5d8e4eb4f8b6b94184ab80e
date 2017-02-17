@@ -16,6 +16,24 @@
       "revId": "839d25cf08f95ae7d5d8e4eb4f8b6b94184ab80e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c4ef959_e1dd5c57",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-17T22:02:49Z",
+      "side": 1,
+      "message": "On a second thought, I think that this change is OK. We shouldn\u0027t expand its scope too much.\n\nI would just like to see the running indexing task(s) in the show-queue. Once this is done, this change would be OK for me.",
+      "parentUuid": "54dddb01_73d48847",
+      "revId": "839d25cf08f95ae7d5d8e4eb4f8b6b94184ab80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

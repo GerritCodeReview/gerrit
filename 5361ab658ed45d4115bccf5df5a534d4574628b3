@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d034793f_a48b818b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/PathSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-17T14:56:02Z",
+      "side": 1,
+      "message": "don\u0027t add the parameter if the query is null",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 72
+      },
+      "revId": "5361ab658ed45d4115bccf5df5a534d4574628b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

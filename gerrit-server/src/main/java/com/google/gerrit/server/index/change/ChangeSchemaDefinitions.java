@@ -89,6 +89,8 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
 
   static final Schema<ChangeData> V38 = schema(V37, ChangeField.UNRESOLVED_COMMENT_COUNT);
 
+  @Deprecated static final Schema<ChangeData> V39 = schema(V38);
+
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();
 

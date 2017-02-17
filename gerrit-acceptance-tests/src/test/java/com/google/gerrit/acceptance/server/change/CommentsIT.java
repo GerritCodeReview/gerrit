@@ -403,7 +403,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addComment(r1, "nit: trailing whitespace");
     Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
-    addComment(r1, "nit: trailing whitespace", true, false);
+    addComment(r1, "nit: trailing whitespace", true, false, null);
     result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(2);
 
@@ -413,7 +413,7 @@ public class CommentsIT extends AbstractDaemonTest {
             .to("refs/for/master");
     changeId = r2.getChangeId();
     revId = r2.getCommit().getName();
-    addComment(r2, "nit: trailing whitespace", true, false);
+    addComment(r2, "nit: trailing whitespace", true, false, null);
     result = getPublishedComments(changeId, revId);
     assertThat(result.get(FILE_NAME)).hasSize(1);
   }
@@ -698,23 +698,42 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void queryChangesWithUnresolvedCommentCount() throws Exception {
-    PushOneCommit.Result r1 = createChange();
+    // PS1 has three comments in three different threads, PS2 has one comment in one thread.
+    PushOneCommit.Result result = createChange("change 1", FILE_NAME, "content 1");
+    String changeId1 = result.getChangeId();
+    addComment(result, "comment 1", false, true, null);
+    addComment(result, "comment 2", false, null, null);
+    addComment(result, "comment 3", false, false, null);
+    PushOneCommit.Result result2 = amendChange(changeId1);
+    addComment(result2, "comment4", false, true, null);
 
-    addComment(r1, "comment 1", false, true);
-    addComment(r1, "nit: trailing whitespace", false, null);
+    // Change2 has two comments in one thread, the first is unresolved and the second is resolved.
+    result = createChange("change 2", FILE_NAME, "content 2");
+    String changeId2 = result.getChangeId();
+    addComment(result, "comment 1", false, true, null);
+    Map<String, List<CommentInfo>> comments =
+        getPublishedComments(changeId2, result.getCommit().name());
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(FILE_NAME)).hasSize(1);
+    addComment(result, "comment 2", false, false, comments.get(FILE_NAME).get(0).id);
 
-    PushOneCommit.Result r2 =
-        pushFactory
-            .create(
-                db, admin.getIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
-            .to("refs/for/master");
-
-    addComment(r2, "typo: content", false, false);
+    // Change3 has two comments in one thread, the first is resolved, the second is unresolved.
+    result = createChange("change 3", FILE_NAME, "content 3");
+    String changeId3 = result.getChangeId();
+    addComment(result, "comment 1", false, false, null);
+    comments = getPublishedComments(result.getChangeId(), result.getCommit().name());
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(FILE_NAME)).hasSize(1);
+    addComment(result, "comment 2", false, true, comments.get(FILE_NAME).get(0).id);
 
     AcceptanceTestRequestScope.Context ctx = disableDb();
     try {
-      ChangeInfo result = Iterables.getOnlyElement(query(r2.getChangeId()));
-      assertThat(result.unresolvedCommentCount).isEqualTo(1);
+      ChangeInfo changeInfo1 = Iterables.getOnlyElement(query(changeId1));
+      ChangeInfo changeInfo2 = Iterables.getOnlyElement(query(changeId2));
+      ChangeInfo changeInfo3 = Iterables.getOnlyElement(query(changeId3));
+      assertThat(changeInfo1.unresolvedCommentCount).isEqualTo(2);
+      assertThat(changeInfo2.unresolvedCommentCount).isEqualTo(0);
+      assertThat(changeInfo3.unresolvedCommentCount).isEqualTo(1);
     } finally {
       enableDb(ctx);
     }
@@ -735,17 +754,22 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private void addComment(PushOneCommit.Result r, String message) throws Exception {
-    addComment(r, message, false, false);
+    addComment(r, message, false, false, null);
   }
 
   private void addComment(
-      PushOneCommit.Result r, String message, boolean omitDuplicateComments, Boolean unresolved)
+      PushOneCommit.Result r,
+      String message,
+      boolean omitDuplicateComments,
+      Boolean unresolved,
+      String inReplyTo)
       throws Exception {
     CommentInput c = new CommentInput();
     c.line = 1;
     c.message = message;
     c.path = FILE_NAME;
     c.unresolved = unresolved;
+    c.inReplyTo = inReplyTo;
     ReviewInput in = newInput(c);
     in.omitDuplicateComments = omitDuplicateComments;
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);

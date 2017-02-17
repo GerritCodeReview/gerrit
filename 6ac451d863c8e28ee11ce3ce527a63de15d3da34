@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2cea31ba_3333c832",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-17T09:05:04Z",
+      "side": 1,
+      "message": "You are right, I misread it, thanks.",
+      "parentUuid": "f33eaf9c_be487c33",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65fa822d_b10cc9c3",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 3
@@ -143,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "e039c044_f800c255",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-17T09:05:04Z",
+      "side": 1,
+      "message": "While I agree with you in principle, I just think, that this is a wrong place to write any desired features that nobody is going to work on and implement in near future anyway. May be move it to the issue tracker or to User Guide Documentation in local context of the specific feature you are talking about. One place where it could fit is: [1], where we already list non implemented change edits features.\n\nYou also haven\u0027t included: Please implement open source gerrit multi master, as not having it sucks, because when user upload a change with git or with UI, and non multi-master Gerrit is installed and is the single point of failure, and the server crashes just in the moment of upload, git push will fail. From the usability point of view it is very bad and unfortunate.\n\n* [1] https://gerrit-review.googlesource.com/Documentation/user-inline-edit.html#not-implemented-features",
+      "parentUuid": "f2bcae84_1ad9f028",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 76
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "572493d4_2c68b44d",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 3
@@ -190,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "3eb5912f_93371300",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-17T09:05:04Z",
+      "side": 1,
+      "message": "Makes sense. If would be really helpful if you add concrete examples what is exactly meant in what section. General statements are not really helpful in this context.",
+      "parentUuid": "f1089643_933e9d87",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6180bc37_e7dd4a67",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 3
@@ -225,6 +297,30 @@
       "side": 1,
       "message": "I originally had a neutral expression here and changed it upon feedback. I could offer to use \"their design\" for this expression. Does someone object?",
       "parentUuid": "6180bc37_e7dd4a67",
+      "range": {
+        "startLine": 53,
+        "startChar": 69,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a3713e3_7a650ab7",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-17T09:05:04Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "09d8efc7_a9eed3a7",
       "range": {
         "startLine": 53,
         "startChar": 69,

@@ -208,7 +208,7 @@ public class BaseInit extends SiteProgram {
       }
       return names;
     } catch (FileNotFoundException e) {
-      log.warn("Couldn't find distribution archive location." + " No plugin will be installed");
+      log.warn("Couldn't find distribution archive location. No plugin will be installed");
       return null;
     }
   }

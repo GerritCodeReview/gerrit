@@ -57,7 +57,7 @@ public final class UniversalAuthBackend implements AuthBackend {
 
     String msg =
         String.format(
-            "Multiple AuthBackends attempted to handle request:" + " authUsers=%s authExs=%s",
+            "Multiple AuthBackends attempted to handle request: authUsers=%s authExs=%s",
             authUsers, authExs);
     throw new AuthException(msg);
   }

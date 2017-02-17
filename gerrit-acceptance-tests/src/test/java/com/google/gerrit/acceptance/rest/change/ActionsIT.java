@@ -106,7 +106,7 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
       assertThat(info.title)
-          .isEqualTo("This change depends on other " + "changes which are not ready");
+          .isEqualTo("This change depends on other changes which are not ready");
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
 
@@ -307,7 +307,7 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.title)
           .isEqualTo(
               String.format(
-                  "Submit patch set 1 and ancestors (%d changes " + "altogether) into master",
+                  "Submit patch set 1 and ancestors (%d changes altogether) into master",
                   nrChanges));
     }
   }

@@ -104,7 +104,7 @@ public class UploadArchive extends AbstractGitCommand {
     @Argument(
       index = 0,
       required = true,
-      usage = "The tree or commit to " + "produce an archive for."
+      usage = "The tree or commit to produce an archive for."
     )
     private String treeIsh = "master";
 

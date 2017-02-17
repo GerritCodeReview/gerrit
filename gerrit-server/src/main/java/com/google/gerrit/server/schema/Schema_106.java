@@ -151,7 +151,7 @@ public class Schema_106 extends SchemaVersion {
       } catch (IOException e) {
         throw new IOException(
             String.format(
-                "ERROR: Failed to create reflog file for the" + " %s branch in repository %s",
+                "ERROR: Failed to create reflog file for the %s branch in repository %s",
                 RefNames.REFS_CONFIG, project.get()));
       }
     }

@@ -52,7 +52,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   public List<ProjectWatchInfo> apply(AccountResource rsrc)
       throws OrmException, AuthException, IOException, ConfigInvalidException {
     if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("It is not allowed to list project watches " + "of other users");
+      throw new AuthException("It is not allowed to list project watches of other users");
     }
     Account.Id accountId = rsrc.getUser().getAccountId();
     List<ProjectWatchInfo> projectWatchInfos = new ArrayList<>();

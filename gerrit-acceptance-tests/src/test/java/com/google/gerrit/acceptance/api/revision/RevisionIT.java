@@ -367,7 +367,7 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
 
     // Push another new change (change 2)
-    String subject = "Test change\n\n" + "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    String subject = "Test change\n\nChange-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     PushOneCommit push =
         pushFactory.create(
             db, admin.getIdent(), testRepo, subject, "another_file.txt", "another content");
@@ -559,7 +559,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     exception.expect(BadRequestException.class);
     exception.expectMessage(
-        "Cherry Pick: Parent 0 does not exist. Please" + " specify a parent in range [1, 2].");
+        "Cherry Pick: Parent 0 does not exist. Please specify a parent in range [1, 2].");
     gApi.changes().id(mergeChangeResult.getChangeId()).current().cherryPick(cherryPickInput);
   }
 
@@ -580,7 +580,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     exception.expect(BadRequestException.class);
     exception.expectMessage(
-        "Cherry Pick: Parent 3 does not exist. Please" + " specify a parent in range [1, 2].");
+        "Cherry Pick: Parent 3 does not exist. Please specify a parent in range [1, 2].");
     gApi.changes().id(mergeChangeResult.getChangeId()).current().cherryPick(cherryPickInput);
   }
 

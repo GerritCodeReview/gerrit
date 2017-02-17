@@ -69,7 +69,7 @@ public class PrologShell extends AbstractProgram {
         com.google.gerrit.common.Version.getVersion());
     System.err.println();
     System.err.println(
-        "(type Ctrl-D or \"halt.\" to exit," + " \"['path/to/file.pl'].\" to load a file)");
+        "(type Ctrl-D or \"halt.\" to exit, \"['path/to/file.pl'].\" to load a file)");
     System.err.println();
     System.err.flush();
   }

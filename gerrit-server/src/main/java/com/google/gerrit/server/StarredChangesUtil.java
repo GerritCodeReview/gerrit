@@ -134,7 +134,7 @@ public class StarredChangesUtil {
     static IllegalLabelException mutuallyExclusiveLabels(String label1, String label2) {
       return new IllegalLabelException(
           String.format(
-              "The labels %s and %s are mutually exclusive." + " Only one of them can be set.",
+              "The labels %s and %s are mutually exclusive. Only one of them can be set.",
               label1, label2));
     }
 

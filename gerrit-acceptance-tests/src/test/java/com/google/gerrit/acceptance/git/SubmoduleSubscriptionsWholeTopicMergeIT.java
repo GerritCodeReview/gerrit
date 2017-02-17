@@ -320,7 +320,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .getAdvertisedRef("refs/heads/master")
         .getObjectId();
 
-    assertWithMessage("submodule subscription update " + "should have made one commit")
+    assertWithMessage("submodule subscription update should have made one commit")
         .that(superRepo.getRepository().resolve("origin/master^"))
         .isEqualTo(superPreviousId);
   }
@@ -403,7 +403,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .getAdvertisedRef("refs/heads/master")
         .getObjectId();
 
-    assertWithMessage("submodule subscription update " + "should have made one commit")
+    assertWithMessage("submodule subscription update should have made one commit")
         .that(superRepo.getRepository().resolve("origin/master^"))
         .isEqualTo(superPreviousId);
   }
@@ -450,7 +450,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .getAdvertisedRef("refs/heads/master")
         .getObjectId();
 
-    assertWithMessage("submodule subscription update " + "should have made one commit")
+    assertWithMessage("submodule subscription update should have made one commit")
         .that(superRepo.getRepository().resolve("origin/master^"))
         .isEqualTo(superPreviousId);
   }
@@ -492,7 +492,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .getAdvertisedRef("refs/heads/master")
         .getObjectId();
 
-    assertWithMessage("submodule subscription update " + "should have made one commit")
+    assertWithMessage("submodule subscription update should have made one commit")
         .that(superRepo.getRepository().resolve("origin/master^"))
         .isEqualTo(superPreviousId);
   }

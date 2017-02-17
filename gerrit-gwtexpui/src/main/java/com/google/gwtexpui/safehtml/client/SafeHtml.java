@@ -127,9 +127,9 @@ public abstract class SafeHtml implements com.google.gwt.safehtml.shared.SafeHtm
   /** Convert bare http:// and https:// URLs into &lt;a href&gt; tags. */
   public SafeHtml linkify() {
     final String part =
-        "(?:" + "[a-zA-Z0-9$_+!*'%;:@=?#/~-]" + "|&(?!lt;|gt;)" + "|[.,](?!(?:\\s|$))" + ")";
+        "(?:[a-zA-Z0-9$_+!*'%;:@=?#/~-]|&(?!lt;|gt;)|[.,](?!(?:\\s|$)))";
     return replaceAll(
-        "(https?://" + part + "{2,}" + "(?:[(]" + part + "*" + "[)])*" + part + "*" + ")",
+        "(https?://" + part + "{2,}(?:[(]" + part + "*[)])*" + part + "*)",
         "<a href=\"$1\" target=\"_blank\" rel=\"nofollow\">$1</a>");
   }
 

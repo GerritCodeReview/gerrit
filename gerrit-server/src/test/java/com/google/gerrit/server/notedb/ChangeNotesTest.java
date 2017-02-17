@@ -1376,7 +1376,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void changeMessageWithTrailingDoubleNewline() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeMessage("Testing trailing double newline\n" + "\n");
+    update.setChangeMessage("Testing trailing double newline\n\n");
     update.commit();
     PatchSet.Id ps1 = c.currentPatchSetId();
 
@@ -1385,7 +1385,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(changeMessages).hasSize(1);
 
     ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
-    assertThat(cm1.getMessage()).isEqualTo("Testing trailing double newline\n" + "\n");
+    assertThat(cm1.getMessage()).isEqualTo("Testing trailing double newline\n\n");
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
   }
 
@@ -1394,7 +1394,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setChangeMessage(
-        "Testing paragraph 1\n" + "\n" + "Testing paragraph 2\n" + "\n" + "Testing paragraph 3");
+        "Testing paragraph 1\n\nTesting paragraph 2\n\nTesting paragraph 3");
     update.commit();
     PatchSet.Id ps1 = c.currentPatchSetId();
 

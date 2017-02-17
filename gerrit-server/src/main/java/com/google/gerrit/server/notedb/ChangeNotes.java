@@ -166,7 +166,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         checkNotNull(change, "change %s not found in ReviewDb", changeId);
         checkArgument(
             change.getProject().equals(project),
-            "passed project %s when creating ChangeNotes for %s, but actual" + " project is %s",
+            "passed project %s when creating ChangeNotes for %s, but actual project is %s",
             project,
             changeId,
             change.getProject());
@@ -216,7 +216,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private ChangeNotes createFromChangeOnlyWhenNoteDbDisabled(Change change) throws OrmException {
       checkState(
           !args.migration.readChanges(),
-          "do not call" + " createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
+          "do not call createFromChangeWhenNoteDbDisabled when NoteDb is enabled");
       return new ChangeNotes(args, change).load();
     }
 
@@ -327,14 +327,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         if (change == null) {
           if (defaultStorage == PrimaryStorage.REVIEW_DB) {
             log.warn(
-                "skipping change {} found in project {} " + "but not in ReviewDb", id, project);
+                "skipping change {} found in project {} but not in ReviewDb", id, project);
             continue;
           }
           // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.
           change = newNoteDbOnlyChange(project, id);
         } else if (!change.getProject().equals(project)) {
           log.error(
-              "skipping change {} found in project {} " + "because ReviewDb change has project {}",
+              "skipping change {} found in project {} because ReviewDb change has project {}",
               id,
               project,
               change.getProject());

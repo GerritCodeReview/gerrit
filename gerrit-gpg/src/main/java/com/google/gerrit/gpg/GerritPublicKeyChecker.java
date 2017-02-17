@@ -237,7 +237,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private static String missingUserIds(Set<String> allowedUserIds) {
     StringBuilder sb =
         new StringBuilder(
-            "Key must contain a valid" + " certification for one of the following identities:\n");
+            "Key must contain a valid certification for one of the following identities:\n");
     Iterator<String> sorted = allowedUserIds.stream().sorted().iterator();
     while (sorted.hasNext()) {
       sb.append("  ").append(sorted.next());

@@ -197,7 +197,7 @@ public class PublicKeyCheckerTest {
     add(validKeyWithoutExpiration());
     save();
 
-    assertProblems(k, "Key is revoked (key material has been compromised):" + " test6 compromised");
+    assertProblems(k, "Key is revoked (key material has been compromised): test6 compromised");
 
     PGPPublicKeyRing kr = removeRevokers(k.getPublicKeyRing());
     store.add(kr);
@@ -227,7 +227,7 @@ public class PublicKeyCheckerTest {
     TestKey k = add(revokedCompromisedKey());
     save();
 
-    assertProblems(k, "Key is revoked (key material has been compromised):" + " test6 compromised");
+    assertProblems(k, "Key is revoked (key material has been compromised): test6 compromised");
   }
 
   @Test

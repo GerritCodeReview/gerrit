@@ -59,7 +59,7 @@ class ConfigAnnotationParser {
       }
     } else {
       throw new IllegalArgumentException(
-          "GerritConfig.name must be of the format" + " section.subsection.name or section.name");
+          "GerritConfig.name must be of the format section.subsection.name or section.name");
     }
   }
 }

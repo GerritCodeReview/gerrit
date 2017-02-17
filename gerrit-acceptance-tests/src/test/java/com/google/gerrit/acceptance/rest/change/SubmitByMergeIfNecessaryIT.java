@@ -393,7 +393,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         createChange(
             repo3,
             "master",
-            "some accompanying changes for change3a in another repo " + "tied together via topic",
+            "some accompanying changes for change3a in another repo tied together via topic",
             "a.txt",
             "1",
             "a-topic-here");

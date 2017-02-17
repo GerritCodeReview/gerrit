@@ -50,7 +50,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
     final String[] tokens = token.split(",");
     if (tokens.length != 3) {
       throw new CmdLineException(
-          owner, "change should be specified as " + "<project>,<branch>,<change-id>");
+          owner, "change should be specified as <project>,<branch>,<change-id>");
     }
 
     try {

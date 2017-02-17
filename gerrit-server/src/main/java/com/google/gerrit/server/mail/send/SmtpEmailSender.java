@@ -192,7 +192,7 @@ public class SmtpEmailSender implements EmailSender {
       setMissingHeader(
           hdrs,
           "Content-Type",
-          "multipart/alternative; " + "boundary=\"" + boundary + "\"; " + "charset=UTF-8");
+          "multipart/alternative; boundary=\"" + boundary + "\"; charset=UTF-8");
       encodedBody = buildMultipartBody(boundary, textBody, htmlBody);
     }
 

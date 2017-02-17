@@ -97,7 +97,7 @@ public abstract class SiteProgram extends AbstractProgram {
   protected void mustHaveValidSite() throws Die {
     if (!Files.exists(sitePath.resolve("etc").resolve("gerrit.config"))) {
       throw die(
-          "not a Gerrit site: '" + getSitePath() + "'\n" + "Perhaps you need to run init first?");
+          "not a Gerrit site: '" + getSitePath() + "'\nPerhaps you need to run init first?");
     }
   }
 

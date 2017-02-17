@@ -71,7 +71,7 @@ public class WebSessionManager {
     if (sessionMaxAgeMillis < MINUTES.toMillis(5)) {
       log.warn(
           String.format(
-              "cache.%s.maxAge is set to %d milliseconds;" + " it should be at least 5 minutes.",
+              "cache.%s.maxAge is set to %d milliseconds; it should be at least 5 minutes.",
               CACHE_NAME, sessionMaxAgeMillis));
     }
   }

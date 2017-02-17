@@ -1214,7 +1214,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(msg.rcpt()).containsExactly(user.emailAddress);
     assertThat(msg.body()).contains(admin.fullName + " has removed a vote on this change.\n");
     assertThat(msg.body())
-        .contains("Removed Code-Review+1 by " + user.fullName + " <" + user.email + ">" + "\n");
+        .contains("Removed Code-Review+1 by " + user.fullName + " <" + user.email + ">\n");
 
     Map<String, Short> m =
         gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).votes();
@@ -2140,7 +2140,7 @@ public class ChangeIT extends AbstractDaemonTest {
             testRepo,
             "Ignore Verified",
             "rules.pl",
-            "submit_rule(submit(CR)) :-\n" + "  gerrit:max_with_block(-2, 2, 'Code-Review', CR).");
+            "submit_rule(submit(CR)) :-\n  gerrit:max_with_block(-2, 2, 'Code-Review', CR).");
     push2.to(RefNames.REFS_CONFIG);
 
     change = gApi.changes().id(r.getChangeId()).get();

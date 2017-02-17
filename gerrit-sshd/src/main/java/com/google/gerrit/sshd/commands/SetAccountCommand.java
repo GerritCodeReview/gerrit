@@ -155,7 +155,7 @@ final class SetAccountCommand extends SshCommand {
       throw die("--active and --inactive options are mutually exclusive.");
     }
     if (clearHttpPassword && !Strings.isNullOrEmpty(httpPassword)) {
-      throw die("--http-password and --clear-http-password options are " + "mutually exclusive.");
+      throw die("--http-password and --clear-http-password options are mutually exclusive.");
     }
     if (addSshKeys.contains("-") && deleteSshKeys.contains("-")) {
       throw die("Only one option may use the stdin");

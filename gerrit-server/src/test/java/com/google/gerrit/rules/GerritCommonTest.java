@@ -71,7 +71,7 @@ public class GerritCommonTest extends PrologTestCase {
     PrologEnvironment env = envFactory.create(machine);
     setUpEnvironment(env);
 
-    String script = "loopy :- b(5).\n" + "b(N) :- N > 0, !, S = N - 1, b(S).\n" + "b(_) :- true.\n";
+    String script = "loopy :- b(5).\nb(N) :- N > 0, !, S = N - 1, b(S).\nb(_) :- true.\n";
 
     SymbolTerm nameTerm = SymbolTerm.create("testReductionLimit");
     JavaObjectTerm inTerm =

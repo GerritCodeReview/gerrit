@@ -61,7 +61,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   private static synchronized DataSource newDataSource() throws SQLException {
     final Properties p = new Properties();
     p.setProperty("driver", org.h2.Driver.class.getName());
-    p.setProperty("url", "jdbc:h2:mem:" + "Test_" + (++dbCnt));
+    p.setProperty("url", "jdbc:h2:mem:Test_" + (++dbCnt));
     return new SimpleDataSource(p);
   }
 

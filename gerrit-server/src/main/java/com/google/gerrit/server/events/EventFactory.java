@@ -150,7 +150,7 @@ public class EventFactory {
     try {
       a.commitMessage = changeDataFactory.create(db, change).commitMessage();
     } catch (Exception e) {
-      log.error("Error while getting full commit message for" + " change " + a.number);
+      log.error("Error while getting full commit message for change " + a.number);
     }
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());

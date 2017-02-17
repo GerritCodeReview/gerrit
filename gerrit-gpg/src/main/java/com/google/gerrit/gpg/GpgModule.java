@@ -39,7 +39,7 @@ public class GpgModule extends FactoryModule {
     bindConstant().annotatedWith(EnableSignedPush.class).to(enableSignedPush);
 
     if (configEnableSignedPush && !havePgp) {
-      log.info("Bouncy Castle PGP not installed; signed push verification is" + " disabled");
+      log.info("Bouncy Castle PGP not installed; signed push verification is disabled");
     }
     if (enableSignedPush) {
       install(new SignedPushModule());

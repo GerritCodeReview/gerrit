@@ -229,7 +229,7 @@ public class GerritPublicKeyCheckerTest {
     assertProblems(
         checker.check(key.getPublicKey()),
         Status.BAD,
-        "No identities found for user; check" + " http://test/#/settings/web-identities");
+        "No identities found for user; check http://test/#/settings/web-identities");
 
     checker = checkerFactory.create().setStore(store).disableTrust();
     assertProblems(

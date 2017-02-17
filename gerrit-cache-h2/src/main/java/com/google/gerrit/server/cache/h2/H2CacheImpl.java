@@ -572,7 +572,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try (Statement s = c.conn.createStatement()) {
           long used = 0;
           try (ResultSet r =
-              s.executeQuery("SELECT" + " SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))" + " FROM data")) {
+              s.executeQuery("SELECT SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v)) FROM data")) {
             used = r.next() ? r.getLong(1) : 0;
           }
           if (used <= maxSize) {

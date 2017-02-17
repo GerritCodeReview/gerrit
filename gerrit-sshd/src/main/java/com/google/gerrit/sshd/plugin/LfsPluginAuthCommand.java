@@ -65,7 +65,7 @@ public class LfsPluginAuthCommand extends SshCommand {
     LfsSshPluginAuth pluginAuth = auth.get();
     if (pluginAuth == null) {
       throw new Failure(
-          1, "Server configuration error:" + " LFS auth over SSH is not properly configured.");
+          1, "Server configuration error: LFS auth over SSH is not properly configured.");
     }
 
     stdout.print(pluginAuth.authenticate(user.get(), args));

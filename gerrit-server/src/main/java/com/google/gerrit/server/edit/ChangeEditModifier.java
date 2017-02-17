@@ -111,7 +111,7 @@ public class ChangeEditModifier {
     Optional<ChangeEdit> changeEdit = lookupChangeEdit(changeControl);
     if (changeEdit.isPresent()) {
       throw new InvalidChangeOperationException(
-          String.format("A change edit " + "already exists for change %s", changeControl.getId()));
+          String.format("A change edit already exists for change %s", changeControl.getId()));
     }
 
     PatchSet currentPatchSet = lookupCurrentPatchSet(changeControl);

@@ -323,7 +323,7 @@ class LibraryDownloader {
 
     } else if (!ui.yesno(
         null /* force an answer */,
-        "error: SHA-1 checksum does not match\n" + "Use %s anyway", //
+        "error: SHA-1 checksum does not match\nUse %s anyway", //
         dst.getFileName())) {
       deleteDst();
       throw new Die("aborted by user");

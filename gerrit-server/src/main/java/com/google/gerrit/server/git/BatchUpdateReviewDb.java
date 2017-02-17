@@ -93,7 +93,7 @@ public class BatchUpdateReviewDb extends ReviewDbWrapper {
     @Override
     public Change atomicUpdate(Change.Id key, AtomicUpdate<Change> update) {
       throw new UnsupportedOperationException(
-          "do not call atomicUpdate; updateChange is always called within a" + " transaction");
+          "do not call atomicUpdate; updateChange is always called within a transaction");
     }
   }
 }

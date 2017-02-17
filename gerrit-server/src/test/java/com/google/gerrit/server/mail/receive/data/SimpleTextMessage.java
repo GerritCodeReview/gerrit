@@ -123,10 +123,10 @@ public class SimpleTextMessage extends RawMailMessage {
         .addCc(new Address("Jonathan Nieder", "jrn@google.com"))
         .addCc(new Address("Patrick Hiesel", "hiesel@google.com"))
         .textContent(textContent)
-        .subject("Change in gerrit[master]: (Re)enable voting" + " buttons for merged changes")
+        .subject("Change in gerrit[master]: (Re)enable voting buttons for merged changes")
         .dateReceived(new DateTime(2016, 10, 25, 9, 11, 35, 0, DateTimeZone.UTC))
         .addAdditionalHeader(
-            "Authentication-Results: mx.google.com; " + "dkim=pass header.i=@google.com;")
+            "Authentication-Results: mx.google.com; dkim=pass header.i=@google.com;")
         .addAdditionalHeader(
             "In-Reply-To: <gerrit.1477487889000.Iba501e00bee"
                 + "77be3bd0ced72f88fd04ba0accaed@gerrit-review.googlesource.com>")

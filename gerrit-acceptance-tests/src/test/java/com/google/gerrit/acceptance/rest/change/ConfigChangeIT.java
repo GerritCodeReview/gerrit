@@ -155,7 +155,7 @@ public class ConfigChangeIT extends AbstractDaemonTest {
             .asString();
 
     // Append and push malformed project config
-    String pattern = "[access]\n" + "\tinheritFrom = " + allProjects.get() + "\n";
+    String pattern = "[access]\n\tinheritFrom = " + allProjects.get() + "\n";
     String doubleInherit = pattern + "\tinheritFrom = " + parent.get() + "\n";
     config = config.replace(pattern, doubleInherit);
 

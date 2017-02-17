@@ -75,7 +75,7 @@ public class MergeValidators {
     private static final String INVALID_CONFIG =
         "Change contains an invalid project configuration.";
     private static final String PARENT_NOT_FOUND =
-        "Change contains an invalid project configuration:\n" + "Parent project does not exist.";
+        "Change contains an invalid project configuration:\nParent project does not exist.";
     private static final String PLUGIN_VALUE_NOT_EDITABLE =
         "Change contains an invalid project configuration:\n"
             + "One of the plugin configuration parameters is not editable.";

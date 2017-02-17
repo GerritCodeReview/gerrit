@@ -49,7 +49,7 @@ class SitePathFromSystemConfigProvider implements Provider<Path> {
           throw new OrmException("system_config table is empty");
         default:
           throw new OrmException(
-              "system_config must have exactly 1 row;" + " found " + all.size() + " rows instead");
+              "system_config must have exactly 1 row; found " + all.size() + " rows instead");
       }
     }
   }

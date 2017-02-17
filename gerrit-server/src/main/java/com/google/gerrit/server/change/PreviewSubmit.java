@@ -152,7 +152,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
                 }
               } catch (LimitExceededException e) {
                 throw new NotImplementedException(
-                    "The bundle is too big to " + "generate at the server");
+                    "The bundle is too big to generate at the server");
               }
             }
           };

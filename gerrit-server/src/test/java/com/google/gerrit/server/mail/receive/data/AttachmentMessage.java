@@ -72,7 +72,7 @@ public class AttachmentMessage extends RawMailMessage {
     System.out.println("\uD83D\uDE1B test");
     MailMessage.Builder expect = MailMessage.builder();
     expect
-        .id("<CAM7sg=3meaAVUxW3KXeJEVs8sv_ADw1BnvpcHHiYVR2TQQi__w" + "@mail.gmail.com>")
+        .id("<CAM7sg=3meaAVUxW3KXeJEVs8sv_ADw1BnvpcHHiYVR2TQQi__w@mail.gmail.com>")
         .from(new Address("Patrick Hiesel", "hiesel@google.com"))
         .addTo(new Address("Patrick Hiesel", "hiesel@google.com"))
         .textContent("Contains unwanted attachment")

@@ -113,7 +113,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     if (!username.matches(Account.USER_NAME_PATTERN)) {
       throw new BadRequestException(
-          "Username '" + username + "'" + " must contain only letters, numbers, _, - or .");
+          "Username '" + username + "' must contain only letters, numbers, _, - or .");
     }
 
     Set<AccountGroup.Id> groups = parseGroups(input.groups);

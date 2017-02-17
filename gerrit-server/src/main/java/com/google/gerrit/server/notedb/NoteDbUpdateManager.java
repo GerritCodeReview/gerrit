@@ -527,7 +527,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     private MismatchedStateException(Change.Id id, NoteDbChangeState expectedState) {
       super(
           String.format(
-              "cannot apply NoteDb updates for change %s;" + " change meta ref does not match %s",
+              "cannot apply NoteDb updates for change %s; change meta ref does not match %s",
               id, expectedState.getChangeMetaId().name()));
     }
   }

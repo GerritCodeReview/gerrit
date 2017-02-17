@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4783649_a329815a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T08:20:34Z",
+      "side": 1,
+      "message": "Can we make this more concrete?\n\nIf this happens when nameEmail is empty, the error message is always \"Invalid query:\" and it\u0027s not easy to understand what\u0027s wrong.\n\nMaybe check this directly in the author/committer methods like\n\n  if (Strings.nullOrEmpty(who) {\n    throw error(\"Value for \u0027committer\u0027 operator is required\");\n  }",
+      "range": {
+        "startLine": 1181,
+        "startChar": 6,
+        "endLine": 1181,
+        "endChar": 49
+      },
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f91cf91_9e807cb4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T08:20:34Z",
+      "side": 1,
+      "message": "Is this change needed?",
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df6f288b_bae201c1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1875,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T08:20:34Z",
+      "side": 1,
+      "message": "Better keep this right below byAuthor/byCommitter methods, this makes it easier to read those tests.",
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d35bdcdb_49e517a3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1881,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T08:20:34Z",
+      "side": 1,
+      "message": "newChangeForCommit(repo, commit)",
+      "range": {
+        "startLine": 1881,
+        "startChar": 34,
+        "endLine": 1881,
+        "endChar": 75
+      },
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

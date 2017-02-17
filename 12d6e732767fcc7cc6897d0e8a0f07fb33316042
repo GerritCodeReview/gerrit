@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a687e0f9_b23033cf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-17T09:27:54Z",
+      "side": 1,
+      "message": "Settings -\u003e Editor -\u003e General -\u003e Strip trailing spaces on Save -\u003e \"Modified Lines\"",
+      "parentUuid": "c5969a0c_f26079c3",
+      "range": {
+        "startLine": 1090,
+        "startChar": 0,
+        "endLine": 1090,
+        "endChar": 4
+      },
+      "revId": "12d6e732767fcc7cc6897d0e8a0f07fb33316042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6a019a1_7573ae72",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 3

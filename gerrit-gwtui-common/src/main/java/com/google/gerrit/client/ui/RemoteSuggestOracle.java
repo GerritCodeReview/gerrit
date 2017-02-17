@@ -104,9 +104,6 @@ public class RemoteSuggestOracle extends SuggestOracle {
     }
 
     void start() {
-      if (request.getQuery() == null) {
-        request.setQuery("");
-      }
       oracle.requestSuggestions(request, this);
     }
 

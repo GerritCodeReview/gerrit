@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "896aab73_4879803d",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-17T16:34:35Z",
+      "side": 1,
+      "message": "\u003e \u003e Yes, indeed, they are orthogonal, so why compare something\n \u003e totally different,\n \u003e \u003e and try hard to find a migration path in combination with change\n \u003e edits?\n \u003e \n \u003e Current drafts are 2 things: privacy + they can be deleted\n \u003e Since we allow deletion of normal changes and change edits are\n \u003e deletable patch sets, the only thing that still differentiates\n \u003e drafts from normal changes with change edits is privacy, hence I do\n \u003e think drafts are similar to private changes, and this is why I\n \u003e think they should be migrated to private changes ( don\u0027t hate me\n \u003e yet, but read my reply to the end ;-) )\n\nlol\n\n \u003e As already discussed a migration of draft changes to change edits\n \u003e is not possible, because a user can have at most one change edit\n \u003e per change. This means:\n \u003e - for changes with multiple draft patch sets only one could be\n \u003e converted to a change edit\n \u003e - for changes with draft patch sets and a change edit, none of the\n \u003e draft patch sets could be converted to a change edit, since a\n \u003e change edit already exists.\n \u003e \n \u003e I agree that an alternate migration of draft changes to new WIP\n \u003e changes is likely possible. I don\u0027t like it for standard Gerrit\n \u003e instances because draft changes are private now and users expect\n \u003e them to stay private after the migration,\n\nNote, that according to Logan\u0027s proposal, WIP changes can be done soft or even hard private changes. Hopefully, that can be made configurable on different levels, but these are implementation details, i just want to mention it here, that in that case, it would be a viable migratio path for many installation sites.\n\n \u003e but I understand and\n \u003e agree that for Gerrit instances that use the WIP plugin today, a\n \u003e migration of draft changes to WIP changes is preferred (because for\n \u003e those Gerrit instances draft changes are already now not private,\n \u003e but WIP changes).\n \u003e Do I understand it correctly that all you want is a possibility for\n \u003e those Gerrit instances to migrate draft changes to WIP changes?\n \u003e So if we make the migration configurable, so that an admin can\n \u003e decide if drafts should be migrated to private change or WIP\n \u003e changes, it should be ok, right?\n\nYes, exactly!\n\n \u003e \n \u003e I would then try to get all of this (private changes, WIP changes,\n \u003e enhanced change edits + removal of drafts) done within one release.\n\nNeedless to say I would be willing to contribute to all of the above to help it happens ASAP, and I will also ask some folks in the wild to help with the implementation and reviews...\n\nOne question: to not block the next release for undefinite period of time, should we cut 2.14-stable before big changes about to land for the feature set above?",
+      "parentUuid": "e608f156_c626f3fe",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457a8bcf_33e1d5a0",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

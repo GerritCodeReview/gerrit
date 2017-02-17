@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "0dbcb354_e8b5af91",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-17T15:23:52Z",
+      "side": 1,
+      "message": "\u003e David, I thought that we agreed during our discussion on [1], that the concept of private changes is orthogonal to supporting a WIP workflow?\n\nYes, indeed, they are orthogonal, so why compare something totally different, and try hard to find a migration path in combination with change edits?\n\n\u003e And that it makes sense to migrate current draft changes to private changes as the default migration, simply because draft changes are private now and users expect them to stay private after the migration.\n\nCan we make this migration optional? We modify this proposal in term that draft workflow is not removed, but deprecated. We provide optional migration path from current draft workflow to private changes workflow in upcoming release. We release that version. In the next version we offer fixed WIP/reviewable patch set workflow and provide again optional migration path from deprecated draft workflow to new wip/rewviewable patch set workflow for those sites who haven\u0027t migrated from draft workflow to private change workflow in previous upgrade.\n\nWould it make sense to you? Basically (optionally) migrate to private changes in 2.14, and just set changes.allowdrafts \u003d false, without actually removing draft workflow until proper wip/reviewable patch set workflow implemented? Or, alternatively, don\u0027t migrate draft changes to private changes, but use them in addition. changes.private_changes_workflow \u003d true, changes.allowdrafts \u003d true.",
+      "parentUuid": "20fc8d9f_7bf0b9b3",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457a8bcf_33e1d5a0",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

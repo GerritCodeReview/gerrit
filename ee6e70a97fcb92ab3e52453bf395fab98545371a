@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9c7982bc_632a2af3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-17T09:01:50Z",
+      "side": 1,
+      "message": "The result of trim() will never be null.  If we do a null check, it should be on who before calling trim()",
+      "parentUuid": "2246df98_f9dad48b",
+      "range": {
+        "startLine": 1181,
+        "startChar": 6,
+        "endLine": 1181,
+        "endChar": 49
+      },
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f91cf91_9e807cb4",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 4

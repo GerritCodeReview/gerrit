@@ -39,7 +39,7 @@ class PathSuggestOracle extends HighlightSuggestOracle {
   protected void onRequestSuggestions(final Request req, final Callback cb) {
     ChangeApi.revision(changeId.get(), revision.name())
         .view("files")
-        .addParameter("q", req.getQuery())
+        .addParameter("q", req.getQuery() == null ? "" : req.getQuery())
         .background()
         .get(
             new AsyncCallback<JsArrayString>() {

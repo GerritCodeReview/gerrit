@@ -101,6 +101,9 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'gerrit.config' file
    */
   public PluginConfig getFromGerritConfig(String pluginName, boolean refresh) {
+    if (refresh && secureStore.isOutdated()) {
+      secureStore.reload();
+    }
     File configFile = site.gerrit_config.toFile();
     if (refresh && cfgSnapshot.isModified(configFile)) {
       cfgSnapshot = FileSnapshot.save(configFile);

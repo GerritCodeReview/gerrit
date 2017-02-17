@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "edd2cf02_a76983d0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-17T13:39:22Z",
+      "side": 1,
+      "message": "I don\u0027t see much value into doing it synchronously. However, we should expect to see the running project reindexing task in the show-queue output",
+      "parentUuid": "55bc4979_09e6dfbd",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef20358a_72620946",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 8
@@ -248,6 +266,24 @@
       "side": 1,
       "message": "Not most of the time as index is updated when a change is deleted.\n\nThe corner case we are trying to cover here is, when in the   scenario of active/passive servers, one of the servers loses index synchronization events. In that specific case, there could be deleted changes that are still in the index.",
       "parentUuid": "8a8ce1ea_6796b809",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcff4b71_26de2c9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-17T13:39:22Z",
+      "side": 1,
+      "message": "Shall that index cleanup be provided as another REST endpoint, SSH command? Or as an option to the REST endpoint/SSH command you are introducing here?\n\nWhy is this cleanup tied to reindexing of a single project? What if I want to cleanup fantom index entries for all projects? Shall I reindex all projects one by one?",
+      "parentUuid": "f675d9b0_03c8271b",
       "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54dddb01_73d48847",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-17T13:39:22Z",
+      "side": 1,
+      "message": "Will we see this task in the show-queue output? Looks like we will not. However, I believe that we want to see it.\n\nFurther, this will be done single-threaded for the whole project (just like offline reindexing does).\n\nHowever, I wonder what you will do in a future change when you allow reindexing of a set of changes based on a time interval? I guess you will submit one indexing task per change and utilize the index.[batch]threads thread pool?\nIt may be surprising to admins that some reindexing commands utilize that thread pool and others don\u0027t.",
+      "revId": "839d25cf08f95ae7d5d8e4eb4f8b6b94184ab80e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>tooltip-behavior</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+
+<link rel="import" href="../../../bower_components/iron-test-helpers/iron-test-helpers.html">
+<link rel="import" href="gr-tooltip-behavior.html">
+
+<test-fixture id="basic">
+  <template>
+    <test-element></test-element>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-tooltip-behavior tests', function() {
+    var element;
+    var sandbox;
+
+    function makeTooltip(tooltipRect, parentRect) {
+      return {
+        getBoundingClientRect: function() {
+          return tooltipRect;
+        },
+        updateStyles: sinon.stub(),
+        style: {left: 0, top: 0},
+        parentElement: {
+          getBoundingClientRect: function() {
+            return parentRect;
+          },
+        },
+      };
+    }
+
+    suiteSetup(function() {
+      // Define a Polymer element that uses this behavior.
+      Polymer({
+        is: 'test-element',
+        behaviors: [Gerrit.TooltipBehavior],
+      });
+    });
+
+    setup(function() {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(function() {
+      sandbox.restore();
+    });
+
+    test('normal position', function() {
+      sandbox.stub(element, 'getBoundingClientRect', function() {
+        return {top: 100, left: 100, width: 200};
+      });
+      var tooltip = makeTooltip(
+          {height: 30, width: 50},
+          {top: 0, left: 0, width: 1000});
+
+      element._positionTooltip(tooltip);
+      assert.isFalse(tooltip.updateStyles.called);
+      assert.approximately(parseFloat(tooltip.style.left), 175, 5);
+      assert.approximately(parseFloat(tooltip.style.top), 60, 5);
+    });
+
+    test('left side position', function() {
+      sandbox.stub(element, 'getBoundingClientRect', function() {
+        return {top: 100, left: 10, width: 50};
+      });
+      var tooltip = makeTooltip(
+          {height: 30, width: 120},
+          {top: 0, left: 0, width: 1000});
+
+      element._positionTooltip(tooltip);
+      assert.isTrue(tooltip.updateStyles.called);
+      var offset = tooltip.updateStyles
+          .lastCall.args[0]["--gr-tooltip-arrow-center-offset"];
+      assert.isBelow(parseFloat(offset), 0);
+      assert.equal(parseFloat(tooltip.style.left), 0);
+      assert.approximately(parseFloat(tooltip.style.top), 60, 5);
+    });
+
+    test('right side position', function() {
+      sandbox.stub(element, 'getBoundingClientRect', function() {
+        return {top: 100, left: 950, width: 50};
+      });
+      var tooltip = makeTooltip(
+          {height: 30, width: 120},
+          {top: 0, left: 0, width: 1000});
+
+      element._positionTooltip(tooltip);
+      assert.isTrue(tooltip.updateStyles.called);
+      var offset = tooltip.updateStyles
+          .lastCall.args[0]["--gr-tooltip-arrow-center-offset"];
+      assert.isAbove(parseFloat(offset), 0);
+      assert.approximately(parseFloat(tooltip.style.left), 915, 5);
+      assert.approximately(parseFloat(tooltip.style.top), 60, 5);
+    });
+  });
+</script>

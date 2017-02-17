@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
 
 <script src="../../../bower_components/moment/moment.js"></script>
@@ -26,7 +27,7 @@ limitations under the License.
         display: inline;
       }
     </style>
-    <span title$="[[_computeFullDateStr(dateStr, _timeFormat)]]">
+    <span>
       [[_computeDateStr(dateStr, _timeFormat, _relative)]]
     </span>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

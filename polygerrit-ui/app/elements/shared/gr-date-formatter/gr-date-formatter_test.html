@@ -61,7 +61,7 @@ limitations under the License.
       flush(function() {
         var span = element.$$('span');
         assert.equal(span.textContent.trim(), expected);
-        assert.equal(span.title, expectedTooltip);
+        assert.equal(element.title, expectedTooltip);
         done();
       });
     }

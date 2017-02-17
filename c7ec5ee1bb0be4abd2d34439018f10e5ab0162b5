@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa0268f_0b607643",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T09:19:01Z",
+      "side": 1,
+      "message": "As commented by David, this should probably be something like\n\n  who \u003d who !\u003d null ? who.trim() : null;",
+      "revId": "c7ec5ee1bb0be4abd2d34439018f10e5ab0162b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

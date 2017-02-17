@@ -469,8 +469,6 @@ case "$ACTION" in
           fi
         fi
       fi
-      rm -f "$GERRIT_PID" "$GERRIT_RUN"
-      echo OK
     else
       PID=`cat "$GERRIT_PID" 2>/dev/null`
       TIMEOUT=30
@@ -480,9 +478,14 @@ case "$ACTION" in
         TIMEOUT=`expr $TIMEOUT - 1`
       done
       test $TIMEOUT -gt 0 || kill -9 $PID 2>/dev/null
-      rm -f "$GERRIT_PID" "$GERRIT_RUN"
-      echo OK
     fi
+    # netstat output looks like:
+    #  tcp6       0      0 127.0.0.1:34866         127.0.0.1:5432          ESTABLISHED 22771/GerritCodeRev
+    while [ -n "$(netstat -pna|awk '$6=="TIME_WAIT"{next};$7~/^'"$PID"'\//')" ]; do
+      sleep 1
+    done
+    rm -f "$GERRIT_PID" "$GERRIT_RUN"
+    echo OK
   ;;
 
   restart)

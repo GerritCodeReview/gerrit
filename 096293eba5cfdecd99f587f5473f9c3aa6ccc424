@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "3e7b8e83_e846a4ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2017-02-17T00:54:21Z",
+      "side": 1,
+      "message": "What about making AllChangesIndexer.reindexProject remove changes that were deleted and reuse the code?\n\nBefore, online reindexer (which uses AllChangesIndexer.reindexProject) was only used when creating a new index version so it was impossible to end up with change in the index that no longer exist.\n\nNow, it\u0027s possible to force online reindexer to start to reindex for the current index version so AllChangesIndexer.reindexProject should delete changes from the index that no longer exist.",
+      "parentUuid": "c639ae25_2eb44b3b",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0e18e69_5e3ae157",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 8

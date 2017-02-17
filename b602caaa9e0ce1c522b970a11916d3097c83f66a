@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "901ff323_88b1644b",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T09:38:45Z",
+      "side": 1,
+      "message": "Please clarify that only open and abandoned changes can be deleted.",
+      "range": {
+        "startLine": 887,
+        "startChar": 44,
+        "endLine": 887,
+        "endChar": 55
+      },
+      "revId": "b602caaa9e0ce1c522b970a11916d3097c83f66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c51fe422_76b1ccff",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 1779,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T09:38:45Z",
+      "side": 1,
+      "message": "s/Permission/permission",
+      "range": {
+        "startLine": 1779,
+        "startChar": 22,
+        "endLine": 1779,
+        "endChar": 32
+      },
+      "revId": "b602caaa9e0ce1c522b970a11916d3097c83f66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21bf9a5f_23963e54",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 1779,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T09:38:45Z",
+      "side": 1,
+      "message": "please link to the description of this permission",
+      "range": {
+        "startLine": 1779,
+        "startChar": 4,
+        "endLine": 1779,
+        "endChar": 21
+      },
+      "revId": "b602caaa9e0ce1c522b970a11916d3097c83f66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fe5a6f3_c8891183",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T09:38:45Z",
+      "side": 1,
+      "message": "and if the user is the change owner",
+      "range": {
+        "startLine": 276,
+        "startChar": 76,
+        "endLine": 279,
+        "endChar": 10
+      },
+      "revId": "b602caaa9e0ce1c522b970a11916d3097c83f66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc4acc67_86b27488",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T09:38:45Z",
+      "side": 1,
+      "message": "nit: one space too much",
+      "range": {
+        "startLine": 279,
+        "startChar": 28,
+        "endLine": 279,
+        "endChar": 30
+      },
+      "revId": "b602caaa9e0ce1c522b970a11916d3097c83f66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

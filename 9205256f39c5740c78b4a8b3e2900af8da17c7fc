@@ -46,6 +46,30 @@
       "revId": "9205256f39c5740c78b4a8b3e2900af8da17c7fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2cbff85_585aad2c",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1021482
+      },
+      "writtenOn": "2017-02-17T01:32:26Z",
+      "side": 1,
+      "message": "In any messaging that we have, the use of smart quotes is used over plain ascii. While there are not many places in the UI this is the case, it is present in some error dialogs.",
+      "parentUuid": "79ab6202_bc1e7638",
+      "range": {
+        "startLine": 151,
+        "startChar": 16,
+        "endLine": 151,
+        "endChar": 19
+      },
+      "revId": "9205256f39c5740c78b4a8b3e2900af8da17c7fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

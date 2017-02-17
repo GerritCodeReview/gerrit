@@ -22,6 +22,29 @@
       "revId": "6ffaf9747357c34e507f47fb85a0ab7ffc546734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7057a3f_eb830482",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2017-02-17T11:20:24Z",
+      "side": 1,
+      "message": "how about more precise message here, something like \"Failed while reloading secure store configuration file\"",
+      "range": {
+        "startLine": 121,
+        "startChar": 35,
+        "endLine": 121,
+        "endChar": 49
+      },
+      "revId": "6ffaf9747357c34e507f47fb85a0ab7ffc546734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

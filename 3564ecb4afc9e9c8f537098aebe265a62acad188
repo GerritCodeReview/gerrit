@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "20fc8d9f_7bf0b9b3",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-17T13:18:28Z",
+      "side": 1,
+      "message": "David, I thought that we agreed during our discussion on [1], that the concept of private changes is orthogonal to supporting a WIP workflow?\n\nAnd that it makes sense to migrate current draft changes to private changes as the default migration, simply because draft changes are private now and users expect them to stay private after the migration.\n\nI think it\u0027s important that we agree on the details of a WIP workflow too, but I see this as independent of implementing private changes as an replacement for current draft changes. Private changes are a really simple concept (much simpler than WIP) and I don\u0027t see how it can disturb anyone (if we even allow to switch it off completely by configuration). \n\n[1] https://gerrit-review.googlesource.com/#/c/97230/3//COMMIT_MSG",
+      "parentUuid": "2dcda962_e29e1f8d",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457a8bcf_33e1d5a0",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

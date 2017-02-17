@@ -255,8 +255,7 @@ public class PluginLoader implements LifecycleListener {
 
   public void disablePlugins(Set<String> names) {
     if (!isRemoteAdminEnabled()) {
-      log.warn(
-          "Remote plugin administration is disabled, ignoring disablePlugins(" + names + ")");
+      log.warn("Remote plugin administration is disabled, ignoring disablePlugins(" + names + ")");
       return;
     }
 
@@ -296,8 +295,7 @@ public class PluginLoader implements LifecycleListener {
 
   public void enablePlugins(Set<String> names) throws PluginInstallException {
     if (!isRemoteAdminEnabled()) {
-      log.warn(
-          "Remote plugin administration is disabled, ignoring enablePlugins(" + names + ")");
+      log.warn("Remote plugin administration is disabled, ignoring enablePlugins(" + names + ")");
       return;
     }
 

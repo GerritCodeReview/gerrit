@@ -327,8 +327,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         Change change = readOneReviewDbChange(db, id);
         if (change == null) {
           if (defaultStorage == PrimaryStorage.REVIEW_DB) {
-            log.warn(
-                "skipping change {} found in project {} but not in ReviewDb", id, project);
+            log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
             continue;
           }
           // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.

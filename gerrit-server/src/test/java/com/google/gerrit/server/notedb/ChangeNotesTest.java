@@ -1396,8 +1396,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void changeMessageWithMultipleParagraphs() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeMessage(
-        "Testing paragraph 1\n\nTesting paragraph 2\n\nTesting paragraph 3");
+    update.setChangeMessage("Testing paragraph 1\n\nTesting paragraph 2\n\nTesting paragraph 3");
     update.commit();
     PatchSet.Id ps1 = c.currentPatchSetId();
 

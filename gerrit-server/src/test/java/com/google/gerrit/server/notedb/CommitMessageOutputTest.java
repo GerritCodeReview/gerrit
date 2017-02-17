@@ -141,8 +141,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nLabel: -Code-Review\n",
-        update.getResult());
+        "Update patch set 1\n\nPatch-set: 1\nLabel: -Code-Review\n", update.getResult());
   }
 
   @Test
@@ -207,9 +206,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     RevCommit commit = parseCommit(update.getResult());
-    assertBodyEquals(
-        "Update patch set 1\n\nComment on the change.\n\nPatch-set: 1\n",
-        commit);
+    assertBodyEquals("Update patch set 1\n\nComment on the change.\n\nPatch-set: 1\n", commit);
 
     PersonIdent author = commit.getAuthorIdent();
     assertThat(author.getName()).isEqualTo("Anonymous Coward (3)");
@@ -273,8 +270,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void changeMessageWithMultipleParagraphs() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeMessage(
-        "Testing paragraph 1\n\nTesting paragraph 2\n\nTesting paragraph 3");
+    update.setChangeMessage("Testing paragraph 1\n\nTesting paragraph 2\n\nTesting paragraph 3");
     update.commit();
 
     assertBodyEquals(
@@ -383,8 +379,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.setCurrentPatchSet();
     update.commit();
 
-    assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nCurrent: true\n", update.getResult());
+    assertBodyEquals("Update patch set 1\n\nPatch-set: 1\nCurrent: true\n", update.getResult());
   }
 
   private RevCommit parseCommit(ObjectId id) throws Exception {

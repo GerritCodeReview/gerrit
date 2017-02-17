@@ -54,8 +54,7 @@ public class SafeHtml_ReplaceTest {
         o.replaceAll(repls(new RawFindReplace("(issue\\s(\\d+))", "<a href=\"?$2\">$1</a>")));
     assertThat(o).isNotSameAs(n);
     assertThat(n.asString())
-        .isEqualTo(
-            "A\n<a href=\"?42\">issue 42</a>\n<a href=\"?9918\">issue 9918</a>\nB");
+        .isEqualTo("A\n<a href=\"?42\">issue 42</a>\n<a href=\"?9918\">issue 9918</a>\nB");
   }
 
   @Test

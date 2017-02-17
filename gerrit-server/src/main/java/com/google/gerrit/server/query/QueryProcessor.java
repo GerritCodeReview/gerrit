@@ -52,8 +52,7 @@ public abstract class QueryProcessor<T> {
       executionTime =
           metricMaker.newTimer(
               "query/query_latency",
-              new Description(
-                      "Successful query latency, accumulated over the life of the process")
+              new Description("Successful query latency, accumulated over the life of the process")
                   .setCumulative()
                   .setUnit(Description.Units.MILLISECONDS),
               index);

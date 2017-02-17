@@ -807,10 +807,8 @@ public class ChangeBundleTest extends GerritBaseTests {
     b2 =
         new ChangeBundle(
             c, messages(cm1), latest(c), approvals(), comments(), reviewers(), NOTE_DB);
-    assertDiffs(
-        b1, b2, "ChangeMessages differ for Change.Id " + id + "\nOnly in A:\n  " + cm2);
-    assertDiffs(
-        b2, b1, "ChangeMessages differ for Change.Id " + id + "\nOnly in B:\n  " + cm2);
+    assertDiffs(b1, b2, "ChangeMessages differ for Change.Id " + id + "\nOnly in A:\n  " + cm2);
+    assertDiffs(b2, b1, "ChangeMessages differ for Change.Id " + id + "\nOnly in B:\n  " + cm2);
   }
 
   @Test
@@ -1028,8 +1026,7 @@ public class ChangeBundleTest extends GerritBaseTests {
         new ChangeBundle(
             c, messages(), patchSets(ps1, ps2), approvals(), comments(), reviewers(), REVIEW_DB);
 
-    assertDiffs(
-        b1, b2, "PatchSet.Id sets differ: [] only in A; [" + c.getId() + ",1] only in B");
+    assertDiffs(b1, b2, "PatchSet.Id sets differ: [] only in A; [" + c.getId() + ",1] only in B");
   }
 
   @Test

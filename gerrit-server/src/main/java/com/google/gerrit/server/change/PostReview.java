@@ -608,8 +608,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (range == null) {
       throw new BadRequestException(
           String.format(
-              "A range must be given for the replacement of the robot comment on %s",
-              commentPath));
+              "A range must be given for the replacement of the robot comment on %s", commentPath));
     }
   }
 

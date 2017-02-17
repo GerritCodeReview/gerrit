@@ -97,8 +97,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Status: new\n"
             + "Subject: This is a test change\n");
     assertParseFails("Update change\n\nPatch-set: 1\nStatus: OOPS\n");
-    assertParseFails(
-        "Update change\n\nPatch-set: 1\nStatus: NEW\nStatus: NEW\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nStatus: NEW\nStatus: NEW\n");
   }
 
   @Test
@@ -147,11 +146,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     assertParseFails("Update change\n\nPatch-set: 1\nLabel: Label1=X\n");
     assertParseFails("Update change\n\nPatch-set: 1\nLabel: Label1 = 1\n");
     assertParseFails("Update change\n\nPatch-set: 1\nLabel: X+Y\n");
-    assertParseFails(
-        "Update change\n\nPatch-set: 1\nLabel: Label1 Other Account <2@gerrit>\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nLabel: Label1 Other Account <2@gerrit>\n");
     assertParseFails("Update change\n\nPatch-set: 1\nLabel: -Label!1\n");
-    assertParseFails(
-        "Update change\n\nPatch-set: 1\nLabel: -Label!1 Other Account <2@gerrit>\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nLabel: -Label!1 Other Account <2@gerrit>\n");
   }
 
   @Test
@@ -233,8 +230,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Patch-set: 1\n"
             + "Topic:\n"
             + "Subject: This is a test change\n");
-    assertParseFails(
-        "Update change\n\nPatch-set: 1\nTopic: Some Topic\nTopic: Other Topic");
+    assertParseFails("Update change\n\nPatch-set: 1\nTopic: Some Topic\nTopic: Other Topic");
   }
 
   @Test

@@ -181,8 +181,7 @@ class ProjectBasicAuthFilter implements Filter {
 
   private boolean failAuthentication(Response rsp, String username) throws IOException {
     log.warn(
-        "Authentication failed for {}: password does not match the one stored in Gerrit",
-        username);
+        "Authentication failed for {}: password does not match the one stored in Gerrit", username);
     rsp.sendError(SC_UNAUTHORIZED);
     return false;
   }

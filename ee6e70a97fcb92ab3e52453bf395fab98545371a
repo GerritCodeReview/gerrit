@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2246df98_f9dad48b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-17T08:56:40Z",
+      "side": 1,
+      "message": "Done. Maybe like this?\nwho \u003d who.trim();\nif (Strings.isNullOrEmpty(who)) {\n  throw error(\"Value for \u0027author\u0027 operator is required\");\n}",
+      "parentUuid": "e4783649_a329815a",
+      "range": {
+        "startLine": 1181,
+        "startChar": 6,
+        "endLine": 1181,
+        "endChar": 49
+      },
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f91cf91_9e807cb4",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2017-02-17T08:20:34Z",
       "side": 1,
       "message": "Is this change needed?",
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7280e054_60aae2e3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1807,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-17T08:56:40Z",
+      "side": 1,
+      "message": "Hmm. It\u0027s not necessary anymore.",
+      "parentUuid": "8f91cf91_9e807cb4",
       "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "0ca4f139_f01666bf",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1875,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-17T08:56:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df6f288b_bae201c1",
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d35bdcdb_49e517a3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 4
@@ -70,6 +130,30 @@
       "writtenOn": "2017-02-17T08:20:34Z",
       "side": 1,
       "message": "newChangeForCommit(repo, commit)",
+      "range": {
+        "startLine": 1881,
+        "startChar": 34,
+        "endLine": 1881,
+        "endChar": 75
+      },
+      "revId": "ee6e70a97fcb92ab3e52453bf395fab98545371a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab14e4e_b3ff37e9",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1881,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-17T08:56:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d35bdcdb_49e517a3",
       "range": {
         "startLine": 1881,
         "startChar": 34,

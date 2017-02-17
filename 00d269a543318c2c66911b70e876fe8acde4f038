@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d596df14_5fe3a88c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-17T19:18:42Z",
+      "side": 1,
+      "message": "Side note: codehealth-wise, this file should be broken down into smaller, more concrete parts.",
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c09c278_60c97b08",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-17T19:18:42Z",
+      "side": 1,
+      "message": "Am I right that hasKnownChainState always is !hasParent?\nDoes it make sense to use !hasParent instead?",
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbd675f4_92807956",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-17T19:18:42Z",
+      "side": 1,
+      "message": "if (!response) { return} would decrease nesting level.",
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8646cc77_8858a451",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-17T19:18:42Z",
+      "side": 1,
+      "message": "(here and below)\nAny particular reason for CapitalizedCamelCase?\nIt seems a bit inconsistent with the rest of the file.",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 31
+      },
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

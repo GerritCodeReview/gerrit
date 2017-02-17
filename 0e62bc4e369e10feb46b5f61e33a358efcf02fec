@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "f5570137_cbc885f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-17T23:10:31Z",
+      "side": 1,
+      "message": "Can we use more descriptive names?\ncontrols? messageListControls?\n\nIs there another container? Would id be more appropriate here?",
+      "range": {
+        "startLine": 57,
+        "startChar": 18,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6492ab51_b8806ccd",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-17T23:10:31Z",
+      "side": 1,
+      "message": "Side note: It\u0027s a bit strange to have another line with controls, but I don\u0027t have any basis for decision other than that.\nI see logic in current approach, too.",
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09d5a7e1_85b2e2f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-17T23:10:31Z",
+      "side": 1,
+      "message": "s/old/hidden/?\nand it\u0027s not actual messages, right? it\u0027s message controls.",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 32
+      },
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5ec4193_0d8268c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-17T23:10:31Z",
+      "side": 1,
+      "message": "Can this be replaces with `Show all [[messages.length]] messages`?",
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dabeb97f_53bc1769",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 6

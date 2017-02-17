@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "040a1691_2fa67fb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-17T11:38:06Z",
+      "side": 1,
+      "message": "I think I copied this \"concept\" from the GerritServerConfigProvider.get(), which does the same when reloading the gerrit.config. Unless we fix both, I would keep this like it is now.\n\nAnother issue is that SecureStore is an interface with many possible implementations. We cannot assume that every implementation will use file system for storage and throw IOException. Some implementations may use a database and throw an SQL exception etc... Means, we would need to define a SecureStoreReloadException and wrap implementation specific exceptions.",
+      "parentUuid": "1f49103a_ccc51d55",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 120,
+        "endChar": 54
+      },
+      "revId": "6ffaf9747357c34e507f47fb85a0ab7ffc546734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7057a3f_eb830482",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
         "patchSetId": 1

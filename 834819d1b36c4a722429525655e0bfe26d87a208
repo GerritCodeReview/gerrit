@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "1c62e9f4_4d0db97b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-17T01:18:53Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s worth it. ChangeUpdate would have to have access to the parsed ChangeNotes in order to ask it what is the SHA-1 at which the lease was granted so it can verify that the caller has passed in the right one. But if there is a method on ChangeNotes to ask for that SHA-1, then it\u0027s trivial for any caller of ChangeUpdate to claim ownership of the lease by calling that same method on ChangeNotes. It\u0027s adding complexity for no real safety guarantee and only a marginally lower chance of accidentally breaking the lease.",
+      "parentUuid": "839e834d_66e1d69b",
+      "revId": "834819d1b36c4a722429525655e0bfe26d87a208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a78bb52_a44ab528",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -34,6 +52,24 @@
       "revId": "834819d1b36c4a722429525655e0bfe26d87a208",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe0bfe07_124b856d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-17T01:18:53Z",
+      "side": 1,
+      "message": "Bad editor, sorry.",
+      "parentUuid": "3a78bb52_a44ab528",
+      "revId": "834819d1b36c4a722429525655e0bfe26d87a208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.formatTime;
 import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -27,6 +28,8 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -34,6 +37,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -41,14 +45,24 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.notedb.ChangeBundle;
+import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.NoteDbMode;
 import com.google.gerrit.testutil.TestTimeUtil;
@@ -62,7 +76,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -78,8 +95,13 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   }
 
   @Inject private AllUsersName allUsers;
-
+  @Inject private BatchUpdate.Factory batchUpdateFactory;
+  @Inject private ChangeBundleReader bundleReader;
+  @Inject private CommentsUtil commentsUtil;
   @Inject private TestChangeRebuilderWrapper rebuilderWrapper;
+  @Inject private ChangeControl.GenericFactory changeControlFactory;
+  @Inject private ChangeUpdate.Factory updateFactory;
+  @Inject private InternalUser.Factory internalUserFactory;
 
   private PrimaryStorageMigrator migrator;
 
@@ -94,7 +116,17 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   private PrimaryStorageMigrator newMigrator(
       @Nullable Retryer<NoteDbChangeState> ensureRebuiltRetryer) {
     return new PrimaryStorageMigrator(
-        cfg, Providers.of(db), repoManager, allUsers, rebuilderWrapper, ensureRebuiltRetryer);
+        cfg,
+        Providers.of(db),
+        repoManager,
+        allUsers,
+        rebuilderWrapper,
+        ensureRebuiltRetryer,
+        changeControlFactory,
+        queryProvider,
+        updateFactory,
+        internalUserFactory,
+        batchUpdateFactory);
   }
 
   @After
@@ -366,6 +398,105 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
 
     migrator.migrateToNoteDbPrimary(id);
     assertNoteDbPrimary(id);
+  }
+
+  @Test
+  public void rebuildReviewDb() throws Exception {
+    Change c = createChange().getChange().change();
+    Change.Id id = c.getId();
+
+    CommentInput cin = new CommentInput();
+    cin.line = 1;
+    cin.message = "Published comment";
+    ReviewInput rin = ReviewInput.approve();
+    rin.comments = ImmutableMap.of(PushOneCommit.FILE_NAME, ImmutableList.of(cin));
+    gApi.changes().id(id.get()).current().review(ReviewInput.approve());
+
+    DraftInput din = new DraftInput();
+    din.path = PushOneCommit.FILE_NAME;
+    din.line = 1;
+    din.message = "Draft comment";
+    gApi.changes().id(id.get()).current().createDraft(din);
+    gApi.changes().id(id.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(id.get()).current().createDraft(din);
+
+    assertThat(db.changeMessages().byChange(id)).isNotEmpty();
+    assertThat(db.patchSets().byChange(id)).isNotEmpty();
+    assertThat(db.patchSetApprovals().byChange(id)).isNotEmpty();
+    assertThat(db.patchComments().byChange(id)).isNotEmpty();
+
+    ChangeBundle noteDbBundle =
+        ChangeBundle.fromNotes(commentsUtil, notesFactory.create(db, project, id));
+
+    setNoteDbPrimary(id);
+
+    db.changeMessages().delete(db.changeMessages().byChange(id));
+    db.patchSets().delete(db.patchSets().byChange(id));
+    db.patchSetApprovals().delete(db.patchSetApprovals().byChange(id));
+    db.patchComments().delete(db.patchComments().byChange(id));
+    ChangeMessage bogusMessage =
+        ChangeMessagesUtil.newMessage(
+            c.currentPatchSetId(),
+            identifiedUserFactory.create(admin.getId()),
+            TimeUtil.nowTs(),
+            "some message",
+            null);
+    db.changeMessages().insert(Collections.singleton(bogusMessage));
+
+    rebuilderWrapper.rebuildReviewDb(db, project, id);
+
+    assertThat(db.changeMessages().byChange(id)).isNotEmpty();
+    assertThat(db.patchSets().byChange(id)).isNotEmpty();
+    assertThat(db.patchSetApprovals().byChange(id)).isNotEmpty();
+    assertThat(db.patchComments().byChange(id)).isNotEmpty();
+
+    ChangeBundle reviewDbBundle = bundleReader.fromReviewDb(ReviewDbUtil.unwrapDb(db), id);
+    assertThat(reviewDbBundle.differencesFrom(noteDbBundle)).isEmpty();
+  }
+
+  @Test
+  public void rebuildReviewDbRequiresNoteDbPrimary() throws Exception {
+    Change.Id id = createChange().getChange().getId();
+
+    exception.expect(OrmException.class);
+    exception.expectMessage("primary storage of " + id + " is REVIEW_DB");
+    rebuilderWrapper.rebuildReviewDb(db, project, id);
+  }
+
+  @Test
+  public void migrateBackToReviewDbPrimary() throws Exception {
+    Change c = createChange().getChange().change();
+    Change.Id id = c.getId();
+
+    migrator.migrateToNoteDbPrimary(id);
+    assertNoteDbPrimary(id);
+
+    gApi.changes().id(id.get()).topic("new-topic");
+    assertThat(gApi.changes().id(id.get()).topic()).isEqualTo("new-topic");
+    assertThat(db.changes().get(id).getTopic()).isNotEqualTo("new-topic");
+
+    migrator.migrateToReviewDbPrimary(id, null);
+    ObjectId metaId;
+    try (Repository repo = repoManager.openRepository(c.getProject());
+        RevWalk rw = new RevWalk(repo)) {
+      metaId = repo.exactRef(RefNames.changeMetaRef(id)).getObjectId();
+      RevCommit commit = rw.parseCommit(metaId);
+      rw.parseBody(commit);
+      assertThat(commit.getFullMessage())
+          .contains("Read-only-until: " + formatTime(serverIdent.get(), new Timestamp(0)));
+    }
+    NoteDbChangeState state = NoteDbChangeState.parse(db.changes().get(id));
+    assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
+    assertThat(state.getChangeMetaId()).isEqualTo(metaId);
+    assertThat(gApi.changes().id(id.get()).topic()).isEqualTo("new-topic");
+    assertThat(db.changes().get(id).getTopic()).isEqualTo("new-topic");
+
+    ChangeNotes notes = notesFactory.create(db, project, id);
+    assertThat(notes.getRevision()).isEqualTo(metaId); // No rebuilding, change was up to date.
+    assertThat(notes.getReadOnlyUntil()).isNotNull();
+
+    gApi.changes().id(id.get()).topic("reviewdb-topic");
+    assertThat(db.changes().get(id).getTopic()).isEqualTo("reviewdb-topic");
   }
 
   private void setNoteDbPrimary(Change.Id id) throws Exception {

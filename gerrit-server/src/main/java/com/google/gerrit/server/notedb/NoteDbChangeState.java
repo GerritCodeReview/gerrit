@@ -301,7 +301,7 @@ public class NoteDbChangeState {
     return cfg.getTimeUnit("notedb", null, "maxTimestampSkew", 1000, TimeUnit.MILLISECONDS);
   }
 
-  private static Timestamp timeForReadOnlyCheck(long skewMs) {
+  static Timestamp timeForReadOnlyCheck(long skewMs) {
     // Subtract some slop in case the machine that set the change's read-only
     // lease has a clock behind ours.
     return new Timestamp(TimeUtil.nowMs() - skewMs);

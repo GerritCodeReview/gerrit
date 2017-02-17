@@ -23,6 +23,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
@@ -41,6 +42,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
@@ -67,6 +69,8 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gwtorm.client.Key;
+import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -74,6 +78,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -112,7 +117,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private final ChangeBundleReader bundleReader;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final ChangeNoteUtil changeNoteUtil;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeUpdate.Factory updateFactory;
+  private final CommentsUtil commentsUtil;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration migration;
   private final PatchListCache patchListCache;
@@ -130,7 +137,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       ChangeBundleReader bundleReader,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ChangeNoteUtil changeNoteUtil,
+      ChangeNotes.Factory notesFactory,
       ChangeUpdate.Factory updateFactory,
+      CommentsUtil commentsUtil,
       NoteDbUpdateManager.Factory updateManagerFactory,
       NotesMigration migration,
       PatchListCache patchListCache,
@@ -143,7 +152,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     this.bundleReader = bundleReader;
     this.draftUpdateFactory = draftUpdateFactory;
     this.changeNoteUtil = changeNoteUtil;
+    this.notesFactory = notesFactory;
     this.updateFactory = updateFactory;
+    this.commentsUtil = commentsUtil;
     this.updateManagerFactory = updateManagerFactory;
     this.migration = migration;
     this.patchListCache = patchListCache;
@@ -612,5 +623,46 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     update.setChangeId(change.getKey().get());
     update.setBranch(change.getDest().get());
     update.setSubject(change.getOriginalSubject());
+  }
+
+  @Override
+  public void rebuildReviewDb(ReviewDb db, Project.NameKey project, Change.Id changeId)
+      throws OrmException {
+    // TODO(dborowitz): Fail fast if changes tables are disabled in ReviewDb.
+    ChangeNotes notes = notesFactory.create(db, project, changeId);
+    ChangeBundle bundle = ChangeBundle.fromNotes(commentsUtil, notes);
+
+    db = ReviewDbUtil.unwrapDb(db);
+    db.changes().beginTransaction(changeId);
+    try {
+      Change c = db.changes().get(changeId);
+      PrimaryStorage ps = PrimaryStorage.of(c);
+      if (ps != PrimaryStorage.NOTE_DB) {
+        throw new OrmException("primary storage of " + changeId + " is " + ps);
+      }
+      db.changes().upsert(Collections.singleton(c));
+      putExactlyEntities(
+          db.changeMessages(), db.changeMessages().byChange(c.getId()), bundle.getChangeMessages());
+      putExactlyEntities(db.patchSets(), db.patchSets().byChange(c.getId()), bundle.getPatchSets());
+      putExactlyEntities(
+          db.patchSetApprovals(),
+          db.patchSetApprovals().byChange(c.getId()),
+          bundle.getPatchSetApprovals());
+      putExactlyEntities(
+          db.patchComments(),
+          db.patchComments().byChange(c.getId()),
+          bundle.getPatchLineComments());
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+  }
+
+  private static <T, K extends Key<?>> void putExactlyEntities(
+      Access<T, K> access, Iterable<T> existing, Collection<T> ents) throws OrmException {
+    Set<K> toKeep = access.toMap(ents).keySet();
+    access.delete(
+        FluentIterable.from(existing).filter(e -> !toKeep.contains(access.primaryKey(e))));
+    access.upsert(ents);
   }
 }

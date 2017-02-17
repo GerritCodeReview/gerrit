@@ -29,8 +29,10 @@ import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -47,15 +49,17 @@ public abstract class AbstractChangeUpdate {
   protected final Account.Id realAccountId;
   protected final PersonIdent authorIdent;
   protected final Date when;
+  private final long readOnlySkewMs;
 
   @Nullable private final ChangeNotes notes;
   private final Change change;
-  private final PersonIdent serverIdent;
+  protected final PersonIdent serverIdent;
 
   protected PatchSet.Id psId;
   private ObjectId result;
 
   protected AbstractChangeUpdate(
+      Config cfg,
       NotesMigration migration,
       ChangeControl ctl,
       PersonIdent serverIdent,
@@ -73,9 +77,11 @@ public abstract class AbstractChangeUpdate {
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
     this.authorIdent = ident(noteUtil, serverIdent, anonymousCowardName, ctl.getUser(), when);
     this.when = when;
+    this.readOnlySkewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
 
   protected AbstractChangeUpdate(
+      Config cfg,
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
@@ -99,6 +105,7 @@ public abstract class AbstractChangeUpdate {
     this.realAccountId = realAccountId;
     this.authorIdent = authorIdent;
     this.when = when;
+    this.readOnlySkewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
 
   private static void checkUserType(CurrentUser user) {
@@ -133,6 +140,14 @@ public abstract class AbstractChangeUpdate {
     return change.getId();
   }
 
+  /**
+   * @return notes for the state of this change prior to this update. If this update is part of a
+   *     series managed by a {@link NoteDbUpdateManager}, then this reflects the state prior to the
+   *     first update in the series. A null return value can only happen when the change is being
+   *     rebuilt from NoteDb. A change that is in the process of being created will result in a
+   *     non-null return value from this method, but a null return value from {@link
+   *     ChangeNotes#getRevision()}.
+   */
   @Nullable
   public ChangeNotes getNotes() {
     return notes;
@@ -206,6 +221,7 @@ public abstract class AbstractChangeUpdate {
     // to actually store.
 
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
+    checkNotReadOnly();
     ObjectId z = ObjectId.zeroId();
     CommitBuilder cb = applyImpl(rw, ins, curr);
     if (cb == null) {
@@ -231,6 +247,18 @@ public abstract class AbstractChangeUpdate {
     }
     result = ins.insert(cb);
     return result;
+  }
+
+  protected void checkNotReadOnly() throws OrmException {
+    ChangeNotes notes = getNotes();
+    if (notes == null) {
+      // Can only happen during ChangeRebuilder, which will never include a read-only lease.
+      return;
+    }
+    Timestamp until = notes.getReadOnlyUntil();
+    if (until != null && NoteDbChangeState.timeForReadOnlyCheck(readOnlySkewMs).before(until)) {
+      throw new OrmException("change " + notes.getChangeId() + " is read-only until " + until);
+    }
   }
 
   /**

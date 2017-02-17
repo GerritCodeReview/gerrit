@@ -65,6 +65,13 @@
         }
       }, this.removeZeroWidthSpace);
       parser.parse(content);
+
+      // Ensure that links originating from HTML commentlink configs open in a
+      // new tab. @see Issue 5567
+      output.querySelectorAll('a').forEach(function(anchor) {
+        anchor.setAttribute('target', '_blank');
+        anchor.setAttribute('rel', 'noopener');
+      });
     },
   });
 })();

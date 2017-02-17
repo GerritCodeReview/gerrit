@@ -70,6 +70,30 @@
       "revId": "9205256f39c5740c78b4a8b3e2900af8da17c7fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8db0d984_c5a32274",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-02-17T01:39:13Z",
+      "side": 1,
+      "message": "Really?\n\n± git grep “\nDocumentation/config-plugins.txt:the user (usually prefixed by “remote: ”), but will be silently\n± git grep ”\nDocumentation/config-plugins.txt:the user (usually prefixed by “remote: ”), but will be silently\n± git grep ldquo\n± git grep rdquo",
+      "parentUuid": "d2cbff85_585aad2c",
+      "range": {
+        "startLine": 151,
+        "startChar": 16,
+        "endLine": 151,
+        "endChar": 19
+      },
+      "revId": "9205256f39c5740c78b4a8b3e2900af8da17c7fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

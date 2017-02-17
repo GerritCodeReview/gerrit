@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "e8306264_887ed74f",
+        "filename": "Documentation/proposal-remove-drafts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-17T16:51:35Z",
+      "side": 1,
+      "message": "\u003e One question: to not block the next release for undefinite period\n \u003e of time, should we cut 2.14-stable before big changes about to land\n \u003e for the feature set above?\n\nSounds like a reasonable proposal to me. In that case, shall we also try to release 2.15 as soon as this feature set is ready so that admins have one upgrade focused on draft removal only?",
+      "parentUuid": "896aab73_4879803d",
+      "revId": "3564ecb4afc9e9c8f537098aebe265a62acad188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "457a8bcf_33e1d5a0",
         "filename": "Documentation/proposal-remove-drafts.txt",
         "patchSetId": 1

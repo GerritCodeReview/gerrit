@@ -158,12 +158,16 @@ limitations under the License.
         </template>
         <template is="dom-if" if="[[!message.id]]">
           <span class="date">
-            <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
+            <gr-date-formatter
+                has-tooltip
+                date-str="[[message.date]]"></gr-date-formatter>
           </span>
         </template>
         <template is="dom-if" if="[[message.id]]">
           <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
-            <gr-date-formatter date-str="[[message.date]]"></gr-date-formatter>
+            <gr-date-formatter
+                has-tooltip
+                date-str="[[message.date]]"></gr-date-formatter>
           </a>
         </template>
       </div>

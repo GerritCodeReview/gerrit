@@ -23,6 +23,30 @@
       "revId": "1e98c2ca393d1d01ca29ff7eb6a87d8bc156113e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a98de5b_35ccc6eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-17T01:33:59Z",
+      "side": 1,
+      "message": "Moved this hunk to parent, fixed there.",
+      "parentUuid": "5b09a529_e8d370ec",
+      "range": {
+        "startLine": 258,
+        "startChar": 22,
+        "endLine": 258,
+        "endChar": 32
+      },
+      "revId": "1e98c2ca393d1d01ca29ff7eb6a87d8bc156113e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "9205256f39c5740c78b4a8b3e2900af8da17c7fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79ab6202_bc1e7638",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-02-17T01:15:17Z",
+      "side": 1,
+      "message": "Old UI doesn\u0027t use smart quotes, and I don\u0027t see anywhere else in the new UI that uses smart quotes, so, I guess, why? The majority of quotes elsewhere on the page will either be in code or in comments, both of which are generally plain ascii, and so won\u0027t be smart quotes.",
+      "parentUuid": "c4f7cc89_49b4e3be",
+      "range": {
+        "startLine": 151,
+        "startChar": 16,
+        "endLine": 151,
+        "endChar": 19
+      },
+      "revId": "9205256f39c5740c78b4a8b3e2900af8da17c7fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

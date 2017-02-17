@@ -77,6 +77,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -996,9 +997,20 @@ public class ChangeData {
       if (!lazyLoad) {
         return null;
       }
+
+      List<Comment> comments =
+          Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
+      Set<String> nonLeafSet = new HashSet<>();
+      for (Comment c : comments) {
+        if (c.parentUuid != null) {
+          nonLeafSet.add(c.parentUuid);
+        }
+      }
+
       Long count =
-          Stream.concat(publishedComments().stream(), robotComments().stream())
-              .filter(c -> (c.unresolved == Boolean.TRUE))
+          comments
+              .stream()
+              .filter(c -> (c.unresolved == Boolean.TRUE && !nonLeafSet.contains(c.key.uuid)))
               .count();
       unresolvedCommentCount = count.intValue();
     }

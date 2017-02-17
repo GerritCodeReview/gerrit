@@ -38,9 +38,28 @@
         notify: true,
       },
 
+      /**
+       * When true, the detailed date appears in a GR-TOOLTIP rather than in the
+       * native browser tooltip.
+       */
+      hasTooltip: Boolean,
+
+      /**
+       * The title to be used as the native tooltip or by the tooltip behavior.
+       */
+      title: {
+        type: String,
+        reflectToAttribute: true,
+        computed: '_computeFullDateStr(dateStr, _timeFormat)',
+      },
+
       _timeFormat: String, // No default value to prevent flickering.
       _relative: Boolean, // No default value to prevent flickering.
     },
+
+    behaviors: [
+      Gerrit.TooltipBehavior,
+    ],
 
     attached: function() {
       this._loadPreferences();

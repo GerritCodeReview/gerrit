@@ -71,6 +71,7 @@ import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -219,7 +220,7 @@ class RevisionApiImpl implements RevisionApi {
   public void submit(SubmitInput in) throws RestApiException {
     try {
       submit.apply(revision, in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot submit change", e);
     }
   }

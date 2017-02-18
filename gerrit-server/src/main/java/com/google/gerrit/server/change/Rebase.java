@@ -34,6 +34,8 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -83,7 +85,9 @@ public class Rebase
   @Override
   public ChangeInfo apply(RevisionResource rsrc, RebaseInput input)
       throws EmailException, OrmException, UpdateException, RestApiException, IOException,
-          NoSuchChangeException {
+          NoSuchChangeException, PermissionBackendException {
+    rsrc.permissions().check(ChangePermission.REBASE);
+
     ChangeControl control = rsrc.getControl();
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
@@ -92,9 +96,7 @@ public class Rebase
         BatchUpdate bu =
             updateFactory.create(
                 dbProvider.get(), change.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
-      if (!control.canRebase(dbProvider.get())) {
-        throw new AuthException("rebase not permitted");
-      } else if (!change.getStatus().isOpen()) {
+      if (!change.getStatus().isOpen()) {
         throw new ResourceConflictException("change is " + change.getStatus().name().toLowerCase());
       } else if (!hasOneParent(rw, rsrc.getPatchSet())) {
         throw new ResourceConflictException(
@@ -173,15 +175,12 @@ public class Rebase
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet patchSet = resource.getPatchSet();
-    Branch.NameKey dest = resource.getChange().getDest();
-    boolean canRebase = false;
-    try {
-      canRebase = resource.getControl().canRebase(dbProvider.get());
-    } catch (OrmException e) {
-      log.error("Cannot check canRebase status. Assuming false.", e);
-    }
+    Change change = resource.getChange();
+    Branch.NameKey dest = change.getDest();
     boolean visible =
-        resource.getChange().getStatus().isOpen() && resource.isCurrent() && canRebase;
+        change.getStatus().isOpen()
+            && resource.isCurrent()
+            && resource.permissions().testOrFalse(ChangePermission.REBASE);
     boolean enabled = true;
 
     if (visible) {
@@ -194,13 +193,11 @@ public class Rebase
         visible = false;
       }
     }
-    UiAction.Description descr =
-        new UiAction.Description()
-            .setLabel("Rebase")
-            .setTitle("Rebase onto tip of branch or parent change")
-            .setVisible(visible)
-            .setEnabled(enabled);
-    return descr;
+    return new UiAction.Description()
+        .setLabel("Rebase")
+        .setTitle("Rebase onto tip of branch or parent change")
+        .setVisible(visible)
+        .setEnabled(enabled);
   }
 
   public static class CurrentRevision implements RestModifyView<ChangeResource, RebaseInput> {
@@ -214,7 +211,7 @@ public class Rebase
     @Override
     public ChangeInfo apply(ChangeResource rsrc, RebaseInput input)
         throws EmailException, OrmException, UpdateException, RestApiException, IOException,
-            NoSuchChangeException {
+            NoSuchChangeException, PermissionBackendException {
       PatchSet ps = rebase.dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

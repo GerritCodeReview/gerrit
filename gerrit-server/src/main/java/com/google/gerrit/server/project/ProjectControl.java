@@ -25,6 +25,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -42,6 +43,10 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
+import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -52,6 +57,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -543,5 +549,48 @@ public class ProjectControl {
     }
     Map<String, Ref> refs = filter.filter(m, true);
     return !refs.isEmpty() && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
+  }
+
+  ForProject asForProject() {
+    return new ForProjectImpl();
+  }
+
+  private class ForProjectImpl extends ForProject {
+    @Override
+    public ForProject user(CurrentUser user) {
+      return forUser(user).asForProject().database(db);
+    }
+
+    @Override
+    public ForRef ref(String ref) {
+      return controlForRef(ref).asForRef().database(db);
+    }
+
+    @Override
+    public void check(ProjectPermission perm) throws AuthException, PermissionBackendException {
+      if (!can(perm)) {
+        throw new AuthException(perm.describeForException() + " denied");
+      }
+    }
+
+    @Override
+    public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+        throws PermissionBackendException {
+      EnumSet<ProjectPermission> ok = EnumSet.noneOf(ProjectPermission.class);
+      for (ProjectPermission perm : permSet) {
+        if (can(perm)) {
+          ok.add(perm);
+        }
+      }
+      return ok;
+    }
+
+    private boolean can(ProjectPermission perm) throws PermissionBackendException {
+      switch (perm) {
+        case READ:
+          return isReadable();
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
   }
 }

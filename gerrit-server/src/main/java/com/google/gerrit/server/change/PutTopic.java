@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -33,7 +32,8 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -64,16 +64,13 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>, UiAction
 
   @Override
   public Response<String> apply(ChangeResource req, Input input)
-      throws UpdateException, RestApiException {
-    ChangeControl ctl = req.getControl();
-    if (!ctl.canEditTopicName()) {
-      throw new AuthException("changing topic not permitted");
-    }
+      throws UpdateException, RestApiException, PermissionBackendException {
+    req.permissions().check(ChangePermission.EDIT_TOPIC_NAME);
 
     Op op = new Op(input != null ? input : new Input());
     try (BatchUpdate u =
         batchUpdateFactory.create(
-            dbProvider.get(), req.getChange().getProject(), ctl.getUser(), TimeUtil.nowTs())) {
+            dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
       u.addOp(req.getId(), op);
       u.execute();
     }
@@ -128,9 +125,9 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>, UiAction
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource resource) {
+  public UiAction.Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
         .setLabel("Edit Topic")
-        .setVisible(resource.getControl().canEditTopicName());
+        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_TOPIC_NAME));
   }
 }

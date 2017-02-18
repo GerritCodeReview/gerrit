@@ -62,10 +62,9 @@ import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkProvider;
+import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.ProjectCacheImpl;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -141,10 +140,9 @@ public class BatchProgramModule extends FactoryModule {
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
         .annotatedWith(GitReceivePackGroups.class)
         .toInstance(Collections.<AccountGroup.UUID>emptySet());
-    bind(ChangeControl.Factory.class);
-    factory(ProjectControl.AssistedFactory.class);
 
     install(new BatchGitModule());
+    install(new DefaultPermissionBackendModule());
     install(new DefaultCacheFactory.Module());
     install(new GroupModule());
     install(new NoteDbModule(cfg));

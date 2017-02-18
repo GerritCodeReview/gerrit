@@ -200,7 +200,7 @@ public final class GerritLauncher {
       if ((main.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
         res = main.invoke(null, new Object[] {argv});
       } else {
-        res = main.invoke(clazz.newInstance(), new Object[] {argv});
+        res = main.invoke(clazz.getConstructor(new Class[] {}).newInstance(), new Object[] {argv});
       }
     } catch (InvocationTargetException ite) {
       if (ite.getCause() instanceof Exception) {

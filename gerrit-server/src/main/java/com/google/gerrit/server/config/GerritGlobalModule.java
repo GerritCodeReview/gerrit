@@ -155,11 +155,10 @@ import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.AccessControlModule;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkProvider;
+import com.google.gerrit.server.project.DefaultPermissionBackendModule;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
@@ -224,6 +223,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     install(new AccessControlModule());
     install(new CmdLineParserModule());
+    install(new DefaultPermissionBackendModule());
     install(new EmailModule());
     install(new GitModule());
     install(new GroupModule());
@@ -285,8 +285,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
-    bind(ChangeControl.GenericFactory.class);
-    bind(ProjectControl.GenericFactory.class);
     bind(AccountControl.Factory.class);
 
     install(new AuditModule());

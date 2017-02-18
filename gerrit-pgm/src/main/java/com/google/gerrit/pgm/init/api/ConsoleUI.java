@@ -41,7 +41,7 @@ public abstract class ConsoleUI {
   @SuppressWarnings("unchecked")
   protected static <T extends Enum<?>> T[] all(final T value) {
     try {
-      return (T[]) value.getClass().getMethod("values").invoke(null);
+      return (T[]) value.getDeclaringClass().getMethod("values").invoke(null);
     } catch (IllegalArgumentException
         | NoSuchMethodException
         | InvocationTargetException

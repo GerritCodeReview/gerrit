@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "24d8689f_a58783d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-18T00:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5570137_cbc885f2",
+      "range": {
+        "startLine": 57,
+        "startChar": 18,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6492ab51_b8806ccd",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 6
@@ -36,6 +60,24 @@
       "writtenOn": "2017-02-17T23:10:31Z",
       "side": 1,
       "message": "Side note: It\u0027s a bit strange to have another line with controls, but I don\u0027t have any basis for decision other than that.\nI see logic in current approach, too.",
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "061f9826_07d59cf1",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-18T00:47:48Z",
+      "side": 1,
+      "message": "Yeah, Wyatt and I decided that this UX was better than just adding another toggle.",
+      "parentUuid": "6492ab51_b8806ccd",
       "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "50f12e3c_59f13a35",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-18T00:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09d5a7e1_85b2e2f2",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 32
+      },
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5ec4193_0d8268c3",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
         "patchSetId": 6
@@ -79,6 +145,24 @@
       "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a65a5643_5fb7f171",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-18T00:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5ec4193_0d8268c3",
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "0b1e5a9a_7106cd29",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-18T00:47:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dabeb97f_53bc1769",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 27
+      },
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5926508_17d87400",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 6
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "a6ced6e1_7af355ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-18T00:47:48Z",
+      "side": 1,
+      "message": "I think just MESSAGES_INCREMENT. But I see your point.",
+      "parentUuid": "a5926508_17d87400",
+      "range": {
+        "startLine": 18,
+        "startChar": 6,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ac9f4e9_03a686ba",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 6
@@ -148,6 +280,30 @@
       "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283d8a46_47654d74",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-18T00:47:48Z",
+      "side": 1,
+      "message": "It\u0027s the number from which the length of _shownItems is derived.\n\n_shownItems is a computed property is because I reference it more than once, so even though it\u0027s never mutated except by Polymer recomputing it the reference makes life easier. \n\nI\u0027ll update them both with names that make more sense.",
+      "parentUuid": "3ac9f4e9_03a686ba",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 17
+      },
+      "revId": "0e62bc4e369e10feb46b5f61e33a358efcf02fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

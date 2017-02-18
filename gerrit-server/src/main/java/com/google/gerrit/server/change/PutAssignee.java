@@ -31,6 +31,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.PostReviewers.Addition;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
@@ -68,10 +70,10 @@ public class PutAssignee
 
   @Override
   public AccountInfo apply(ChangeResource rsrc, AssigneeInput input)
-      throws RestApiException, UpdateException, OrmException, IOException {
-    if (!rsrc.getControl().canEditAssignee()) {
-      throw new AuthException("Changing Assignee not permitted");
-    }
+      throws RestApiException, UpdateException, OrmException, IOException,
+          PermissionBackendException {
+    rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
+
     if (input.assignee == null || input.assignee.trim().isEmpty()) {
       throw new BadRequestException("missing assignee field");
     }
@@ -114,9 +116,9 @@ public class PutAssignee
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource resource) {
+  public UiAction.Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
         .setLabel("Edit Assignee")
-        .setVisible(resource.getControl().canEditAssignee());
+        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_ASSIGNEE));
   }
 }

@@ -14,17 +14,31 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.FailedPermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
+import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -636,5 +650,78 @@ public class RefControl {
     }
     effective.put(permissionName, mine);
     return mine;
+  }
+
+  ForRef asForRef() {
+    return new ForRefImpl();
+  }
+
+  private class ForRefImpl extends ForRef {
+    @Override
+    public ForRef user(CurrentUser user) {
+      return forUser(user).asForRef().database(db);
+    }
+
+    @Override
+    public ForChange change(ChangeData cd) {
+      try {
+        return cd.changeControl().forUser(getUser()).asForChange(cd, db);
+      } catch (OrmException e) {
+        return FailedPermissionBackend.change("unavailable", e);
+      }
+    }
+
+    @Override
+    public ForChange change(ChangeNotes notes) {
+      Change change = notes.getChange();
+      checkArgument(
+          getProjectControl().getProject().getNameKey().equals(change.getProject()),
+          "mismatched project");
+      return getProjectControl().controlFor(notes).asForChange(null, db);
+    }
+
+    @Override
+    public void check(RefPermission perm) throws AuthException, PermissionBackendException {
+      if (!can(perm)) {
+        throw new AuthException(perm.describeForException() + " not permitted");
+      }
+    }
+
+    @Override
+    public Set<RefPermission> test(Collection<RefPermission> permSet)
+        throws PermissionBackendException {
+      EnumSet<RefPermission> ok = EnumSet.noneOf(RefPermission.class);
+      for (RefPermission perm : permSet) {
+        if (can(perm)) {
+          ok.add(perm);
+        }
+      }
+      return ok;
+    }
+
+    private boolean can(RefPermission perm) throws PermissionBackendException {
+      switch (perm) {
+        case READ:
+          return isVisible();
+        case CREATE:
+          // TODO This isn't an accurate test.
+          return canPerform(perm.permissionName().get());
+        case DELETE:
+          return canDelete();
+        case UPDATE:
+          return canUpdate();
+        case FORCE_UPDATE:
+          return canForceUpdate();
+        case FORGE_AUTHOR:
+          return canForgeAuthor();
+        case FORGE_COMMITTER:
+          return canForgeCommitter();
+        case FORGE_SERVER:
+          return canForgeGerritServerIdentity();
+        case CREATE_CHANGE:
+          return canUpload();
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
   }
 }

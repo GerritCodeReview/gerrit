@@ -375,7 +375,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = admin2.email;
     exception.expect(AuthException.class);
-    exception.expectMessage("submit on behalf of not permitted");
+    exception.expectMessage("submit as not permitted");
     gApi.changes().id(project.get() + "~master~" + r.getChangeId()).current().submit(in);
   }
 
@@ -390,7 +390,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = user.email;
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("on_behalf_of account " + user.id + " cannot see destination ref");
+    exception.expectMessage("on_behalf_of account " + user.id + " cannot see change");
     gApi.changes().id(changeId).current().submit(in);
   }
 

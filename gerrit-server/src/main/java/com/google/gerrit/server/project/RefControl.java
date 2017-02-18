@@ -192,11 +192,6 @@ public class RefControl {
     return canPerform(Permission.SUBMIT, isChangeOwner) && canWrite();
   }
 
-  /** @return true if this user was granted submitAs to this ref */
-  public boolean canSubmitAs() {
-    return canPerform(Permission.SUBMIT_AS);
-  }
-
   /** @return true if the user can update the reference as a fast-forward. */
   public boolean canUpdate() {
     if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
@@ -803,6 +798,7 @@ public class RefControl {
         case EDIT_TOPIC_NAME:
         case REMOVE_REVIEWER:
         case SUBMIT:
+        case SUBMIT_AS:
           return canPerform(perm.permissionName().get());
       }
       throw new PermissionBackendException(perm + " unsupported");

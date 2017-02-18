@@ -1660,7 +1660,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("changing topic not permitted");
+    exception.expectMessage("edit topic name not permitted");
     gApi.changes().id(r.getChangeId()).topic("mytopic");
   }
 

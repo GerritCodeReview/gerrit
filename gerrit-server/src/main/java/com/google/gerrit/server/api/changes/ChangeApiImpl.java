@@ -236,7 +236,7 @@ class ChangeApiImpl implements ChangeApi {
   public void abandon(AbandonInput in) throws RestApiException {
     try {
       abandon.apply(change, in);
-    } catch (OrmException | UpdateException e) {
+    } catch (OrmException | UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot abandon change", e);
     }
   }
@@ -250,7 +250,7 @@ class ChangeApiImpl implements ChangeApi {
   public void restore(RestoreInput in) throws RestApiException {
     try {
       restore.apply(change, in);
-    } catch (OrmException | UpdateException e) {
+    } catch (OrmException | UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot restore change", e);
     }
   }

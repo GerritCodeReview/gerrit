@@ -23,12 +23,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import org.eclipse.jgit.lib.Config;
 
 /** Ticks periodically to force refresh events for {@link ProjectCacheImpl}. */
 @Singleton
 public class ProjectCacheClock {
-  private volatile long generation;
+  private final AtomicLong generation = new AtomicLong();
 
   @Inject
   public ProjectCacheClock(@GerritServerConfig Config serverConfig) {
@@ -39,10 +40,10 @@ public class ProjectCacheClock {
     if (checkFrequencyMillis == Long.MAX_VALUE) {
       // Start with generation 1 (to avoid magic 0 below).
       // Do not begin background thread, disabling the clock.
-      generation = 1;
+      generation.set(1);
     } else if (10 < checkFrequencyMillis) {
       // Start with generation 1 (to avoid magic 0 below).
-      generation = 1;
+      generation.set(1);
       ScheduledExecutorService executor =
           Executors.newScheduledThreadPool(
               1,
@@ -55,9 +56,7 @@ public class ProjectCacheClock {
       Future<?> possiblyIgnoredError =
           executor.scheduleAtFixedRate(
               () -> {
-                // This is not exactly thread-safe, but is OK for our use. The only
-                // thread that writes the volatile is this task.
-                generation = generation + 1;
+                generation.incrementAndGet();
               },
               checkFrequencyMillis,
               checkFrequencyMillis,
@@ -65,12 +64,12 @@ public class ProjectCacheClock {
     } else {
       // Magic generation 0 triggers ProjectState to always
       // check on each needsRefresh() request we make to it.
-      generation = 0;
+      generation.set(0);
     }
   }
 
   long read() {
-    return generation;
+    return generation.get();
   }
 
   private static long checkFrequency(Config serverConfig) {

@@ -442,7 +442,7 @@ public class RefControl {
   }
 
   /** @return true if this user can edit topic names. */
-  public boolean canEditTopicName() {
+  boolean canEditTopicName() {
     return canPerform(Permission.EDIT_TOPIC_NAME);
   }
 

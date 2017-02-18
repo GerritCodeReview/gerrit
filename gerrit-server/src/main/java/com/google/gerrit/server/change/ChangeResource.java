@@ -29,6 +29,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -53,13 +54,22 @@ public class ChangeResource implements RestResource, HasETag {
     ChangeResource create(ChangeControl ctl);
   }
 
+  private final PermissionBackend permissionBackend;
   private final StarredChangesUtil starredChangesUtil;
   private final ChangeControl control;
 
   @AssistedInject
-  ChangeResource(StarredChangesUtil starredChangesUtil, @Assisted ChangeControl control) {
+  ChangeResource(
+      PermissionBackend permissionBackend,
+      StarredChangesUtil starredChangesUtil,
+      @Assisted ChangeControl control) {
+    this.permissionBackend = permissionBackend;
     this.starredChangesUtil = starredChangesUtil;
     this.control = control;
+  }
+
+  public PermissionBackend.ForChange permissions() {
+    return permissionBackend.user(getControl().getUser()).change(getNotes());
   }
 
   public ChangeControl getControl() {

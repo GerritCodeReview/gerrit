@@ -429,7 +429,7 @@ public class ChangeControl {
   }
 
   /** Can this user edit the topic name? */
-  public boolean canEditTopicName() {
+  private boolean canEditTopicName() {
     if (getChange().getStatus().isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit topic
           || getRefControl().isOwner() // branch owner can edit topic

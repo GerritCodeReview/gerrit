@@ -70,6 +70,7 @@ import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.SubmittedTogether;
 import com.google.gerrit.server.change.SuggestChangeReviewers;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -345,7 +346,7 @@ class ChangeApiImpl implements ChangeApi {
     in.topic = topic;
     try {
       putTopic.apply(change, in);
-    } catch (UpdateException e) {
+    } catch (UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot set topic", e);
     }
   }

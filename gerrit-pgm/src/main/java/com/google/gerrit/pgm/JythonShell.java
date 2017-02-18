@@ -78,9 +78,14 @@ public class JythonShell {
         new Object[] {null, env});
 
     try {
-      shell = console.newInstance();
+      shell = console.getConstructor(new Class[] {}).newInstance();
       log.info("Jython shell instance created.");
-    } catch (InstantiationException | IllegalAccessException e) {
+    } catch (InstantiationException
+        | IllegalAccessException
+        | IllegalArgumentException
+        | InvocationTargetException
+        | NoSuchMethodException
+        | SecurityException e) {
       throw noInterpreter(e);
     }
     injectedVariables = new ArrayList<>();

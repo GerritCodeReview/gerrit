@@ -18,7 +18,6 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -38,6 +37,8 @@ import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -79,12 +80,10 @@ public class Restore
 
   @Override
   public ChangeInfo apply(ChangeResource req, RestoreInput input)
-      throws RestApiException, UpdateException, OrmException {
-    ChangeControl ctl = req.getControl();
-    if (!ctl.canRestore(dbProvider.get())) {
-      throw new AuthException("restore not permitted");
-    }
+      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
+    req.permissions().check(ChangePermission.RESTORE);
 
+    ChangeControl ctl = req.getControl();
     Op op = new Op(input);
     try (BatchUpdate u =
         batchUpdateFactory.create(
@@ -149,17 +148,13 @@ public class Restore
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource resource) {
-    boolean canRestore = false;
-    try {
-      canRestore = resource.getControl().canRestore(dbProvider.get());
-    } catch (OrmException e) {
-      log.error("Cannot check canRestore status. Assuming false.", e);
-    }
+  public UiAction.Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
         .setLabel("Restore")
         .setTitle("Restore the change")
-        .setVisible(resource.getChange().getStatus() == Status.ABANDONED && canRestore);
+        .setVisible(
+            rsrc.getChange().getStatus() == Status.ABANDONED
+                && rsrc.permissions().testOrFalse(ChangePermission.RESTORE));
   }
 
   private static String status(Change change) {

@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -34,20 +33,18 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.AbandonOp;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Abandon
     implements RestModifyView<ChangeResource, AbandonInput>, UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Abandon.class);
-
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final BatchUpdate.Factory batchUpdateFactory;
@@ -70,14 +67,15 @@ public class Abandon
 
   @Override
   public ChangeInfo apply(ChangeResource req, AbandonInput input)
-      throws RestApiException, UpdateException, OrmException {
-    ChangeControl control = req.getControl();
-    if (!control.canAbandon(dbProvider.get())) {
-      throw new AuthException("abandon not permitted");
-    }
+      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
+    req.permissions().check(ChangePermission.ABANDON);
+
     Change change =
         abandon(
-            control, input.message, input.notify, notifyUtil.resolveAccounts(input.notifyDetails));
+            req.getControl(),
+            input.message,
+            input.notify,
+            notifyUtil.resolveAccounts(input.notifyDetails));
     return json.create(ChangeJson.NO_OPTIONS).format(change);
   }
 
@@ -159,19 +157,14 @@ public class Abandon
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource resource) {
-    boolean canAbandon = false;
-    try {
-      canAbandon = resource.getControl().canAbandon(dbProvider.get());
-    } catch (OrmException e) {
-      log.error("Cannot check canAbandon status. Assuming false.", e);
-    }
+  public UiAction.Description getDescription(ChangeResource rsrc) {
+    Change change = rsrc.getChange();
     return new UiAction.Description()
         .setLabel("Abandon")
         .setTitle("Abandon the change")
         .setVisible(
-            resource.getChange().getStatus().isOpen()
-                && resource.getChange().getStatus() != Change.Status.DRAFT
-                && canAbandon);
+            change.getStatus().isOpen()
+                && change.getStatus() != Change.Status.DRAFT
+                && rsrc.permissions().testOrFalse(ChangePermission.ABANDON));
   }
 }

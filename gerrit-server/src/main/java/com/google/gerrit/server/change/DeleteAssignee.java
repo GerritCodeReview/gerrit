@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -34,6 +33,8 @@ import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.BatchUpdate.Context;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -68,7 +69,9 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException, OrmException {
+      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
+    rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
+
     try (BatchUpdate bu =
         batchUpdateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op();
@@ -87,9 +90,6 @@ public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws RestApiException, OrmException {
-      if (!ctx.getControl().canEditAssignee()) {
-        throw new AuthException("Delete Assignee not permitted");
-      }
       change = ctx.getChange();
       ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       Account.Id currentAssigneeId = change.getAssignee();

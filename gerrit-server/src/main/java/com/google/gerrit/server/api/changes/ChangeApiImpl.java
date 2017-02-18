@@ -473,7 +473,7 @@ class ChangeApiImpl implements ChangeApi {
   public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
     try {
       return putAssignee.apply(change, input).value();
-    } catch (UpdateException | IOException | OrmException e) {
+    } catch (UpdateException | IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot set assignee", e);
     }
   }
@@ -502,7 +502,7 @@ class ChangeApiImpl implements ChangeApi {
     try {
       Response<AccountInfo> r = deleteAssignee.apply(change, null);
       return r.isNone() ? null : r.value();
-    } catch (UpdateException | OrmException e) {
+    } catch (UpdateException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete assignee", e);
     }
   }

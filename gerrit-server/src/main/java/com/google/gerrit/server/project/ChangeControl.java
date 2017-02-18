@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -467,14 +468,6 @@ public class ChangeControl {
         || getRefControl().canEditHashtags(); // user can edit hashtag on a specific ref
   }
 
-  public boolean canSubmit() {
-    return getRefControl().canSubmit(isOwner());
-  }
-
-  public boolean canSubmitAs() {
-    return getRefControl().canSubmitAs();
-  }
-
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch, getUser());
   }
@@ -574,7 +567,9 @@ public class ChangeControl {
           case RESTORE:
             return canRestore(db());
           case SUBMIT:
-            return canSubmit();
+            return getRefControl().canSubmit(isOwner());
+          case SUBMIT_AS:
+            return getRefControl().canPerform(perm.permissionName().get());
         }
       } catch (OrmException e) {
         throw new PermissionBackendException("unavailable", e);

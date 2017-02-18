@@ -29,7 +29,9 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   REMOVE_REVIEWER(Permission.REMOVE_REVIEWER),
   ADD_PATCH_SET(Permission.ADD_PATCH_SET),
   REBASE(Permission.REBASE),
-  SUBMIT(Permission.SUBMIT);
+  SUBMIT(Permission.SUBMIT),
+
+  SUBMIT_AS(Permission.SUBMIT_AS);
 
   private final String name;
 

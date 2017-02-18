@@ -76,7 +76,7 @@ public abstract class BuildSystem {
       throw new InterruptedIOException("interrupted waiting for " + proc.toString());
     }
     if (status != 0) {
-      log.warn("build failed: " + new String(out));
+      log.warn("build failed: " + new String(out, UTF_8));
       throw new BuildFailureException(out);
     }
 

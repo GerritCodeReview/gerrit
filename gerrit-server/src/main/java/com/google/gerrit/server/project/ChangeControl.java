@@ -469,14 +469,6 @@ public class ChangeControl {
         || getRefControl().canEditHashtags(); // user can edit hashtag on a specific ref
   }
 
-  public boolean canSubmit() {
-    return getRefControl().canSubmit(isOwner());
-  }
-
-  public boolean canSubmitAs() {
-    return getRefControl().canSubmitAs();
-  }
-
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch, getUser());
   }
@@ -578,8 +570,10 @@ public class ChangeControl {
           case RESTORE:
             return canRestore(db());
           case SUBMIT:
-            return canSubmit();
+            return getRefControl().canSubmit(isOwner());
+
           case REMOVE_REVIEWER: // TODO Honor specific removal filters?
+          case SUBMIT_AS:
             return getRefControl().canPerform(perm.permissionName().get());
         }
       } catch (OrmException e) {

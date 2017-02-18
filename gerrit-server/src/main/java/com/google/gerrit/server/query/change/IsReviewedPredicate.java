@@ -50,7 +50,7 @@ class IsReviewedPredicate extends ChangeIndexPredicate {
   @Override
   public boolean match(ChangeData cd) throws OrmException {
     Set<Account.Id> reviewedBy = cd.reviewedBy();
-    return !reviewedBy.isEmpty() ? reviewedBy.contains(id) : id == NOT_REVIEWED;
+    return !reviewedBy.isEmpty() ? reviewedBy.contains(id) : id.equals(NOT_REVIEWED);
   }
 
   @Override

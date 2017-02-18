@@ -453,7 +453,7 @@ public class ChangeControl {
     return false;
   }
 
-  public boolean canEditAssignee() {
+  private boolean canEditAssignee() {
     return isOwner()
         || getProjectControl().isOwner()
         || getRefControl().canEditAssignee()

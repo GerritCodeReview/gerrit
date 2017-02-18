@@ -243,7 +243,7 @@ public class ChangeControl {
   }
 
   /** Can this user abandon this change? */
-  public boolean canAbandon(ReviewDb db) throws OrmException {
+  private boolean canAbandon(ReviewDb db) throws OrmException {
     return (isOwner() // owner (aka creator) of the change can abandon
             || getRefControl().isOwner() // branch owner can abandon
             || getProjectControl().isOwner() // project owner can abandon
@@ -288,7 +288,7 @@ public class ChangeControl {
   }
 
   /** Can this user restore this change? */
-  public boolean canRestore(ReviewDb db) throws OrmException {
+  private boolean canRestore(ReviewDb db) throws OrmException {
     return canAbandon(db) // Anyone who can abandon the change can restore it back
         && getRefControl().canUpload(); // as long as you can upload too
   }

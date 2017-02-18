@@ -402,7 +402,7 @@ public class RefControl {
   }
 
   /** @return true if this user can abandon a change for this ref */
-  public boolean canAbandon() {
+  boolean canAbandon() {
     return canPerform(Permission.ABANDON);
   }
 

@@ -117,8 +117,8 @@ public class RebaseSorter {
       // check if the commit is merged in other branches
       for (RevCommit accepted : alreadyAccepted) {
         if (mirw.isMergedInto(mirw.parseCommit(accepted), mirw.parseCommit(commit))) {
-          log.debug("Dependency {} merged into branch head {}.", commit.getName(),
-              accepted.getName());
+          log.debug(
+              "Dependency {} merged into branch head {}.", commit.getName(), accepted.getName());
           return true;
         }
       }
@@ -129,8 +129,8 @@ public class RebaseSorter {
         if (change.change().getStatus() == Status.MERGED
             && change.change().getDest().equals(dest)
             && !isRework(dest.getParentKey(), commit, change)) {
-          log.debug("Dependency {} associated with merged change {}.", commit.getName(),
-              change.getId());
+          log.debug(
+              "Dependency {} associated with merged change {}.", commit.getName(), change.getId());
           return true;
         }
       }

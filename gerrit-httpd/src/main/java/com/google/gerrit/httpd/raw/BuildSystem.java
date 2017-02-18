@@ -85,7 +85,7 @@ public abstract class BuildSystem {
   }
 
   // Represents a label in either buck or bazel.
-  class Label {
+  static class Label {
     protected final String pkg;
     protected final String name;
 
@@ -120,7 +120,7 @@ public abstract class BuildSystem {
     }
   }
 
-  class BuildFailureException extends Exception {
+  static class BuildFailureException extends Exception {
     private static final long serialVersionUID = 1L;
 
     final byte[] why;

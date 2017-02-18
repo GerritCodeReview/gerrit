@@ -61,7 +61,7 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
         });
   }
 
-  private class AuditEventTable extends FancyFlexTable<GroupAuditEventInfo> {
+  private static class AuditEventTable extends FancyFlexTable<GroupAuditEventInfo> {
     AuditEventTable() {
       table.setText(0, 1, AdminConstants.I.columnDate());
       table.setText(0, 2, AdminConstants.I.columnType());

@@ -230,7 +230,7 @@ final class SetAccountCommand extends SshCommand {
       throws RestApiException, OrmException, IOException, ConfigInvalidException {
     for (final String sshKey : sshKeys) {
       AddSshKey.Input in = new AddSshKey.Input();
-      in.raw = RawInputUtil.create(sshKey.getBytes(), "plain/text");
+      in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "plain/text");
       addSshKey.apply(rsrc, in);
     }
   }

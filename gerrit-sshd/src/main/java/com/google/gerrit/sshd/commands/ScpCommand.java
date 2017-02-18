@@ -137,7 +137,7 @@ final class ScpCommand extends BaseCommand {
 
       try {
         out.write(2);
-        out.write(e.getMessage().getBytes());
+        out.write(e.getMessage().getBytes(UTF_8));
         out.write('\n');
         out.flush();
       } catch (IOException e2) {

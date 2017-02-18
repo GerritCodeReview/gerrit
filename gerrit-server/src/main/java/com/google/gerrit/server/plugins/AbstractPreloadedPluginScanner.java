@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.annotations.Export;
@@ -80,7 +81,7 @@ public abstract class AbstractPreloadedPluginScanner implements PluginContentSca
     appendIfNotNull(manifestString, "Gerrit-SshModule: ", sshModuleClass);
     appendIfNotNull(manifestString, "Gerrit-HttpModule: ", httpModuleClass);
     appendIfNotNull(manifestString, "Gerrit-Module: ", sysModuleClass);
-    return new Manifest(new ByteArrayInputStream(manifestString.toString().getBytes()));
+    return new Manifest(new ByteArrayInputStream(manifestString.toString().getBytes(UTF_8)));
   }
 
   @Override

@@ -96,7 +96,7 @@ public class ChangeResource implements RestResource, HasETag {
 
     if (user.isIdentifiedUser()) {
       for (AccountGroup.UUID uuid : user.getEffectiveGroups().getKnownGroups()) {
-        h.putBytes(uuid.get().getBytes());
+        h.putBytes(uuid.get().getBytes(UTF_8));
       }
     }
 

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
@@ -501,7 +503,7 @@ class PatchScriptBuilder {
 
           } else if (mode.getObjectType() == Constants.OBJ_COMMIT) {
             String strContent = "Subproject commit " + ObjectId.toString(id);
-            srcContent = strContent.getBytes();
+            srcContent = strContent.getBytes(UTF_8);
 
           } else {
             srcContent = Text.NO_BYTES;

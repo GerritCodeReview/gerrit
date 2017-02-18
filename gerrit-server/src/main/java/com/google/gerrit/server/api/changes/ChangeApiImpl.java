@@ -341,7 +341,12 @@ class ChangeApiImpl implements ChangeApi {
   public void rebase(RebaseInput in) throws RestApiException {
     try {
       rebase.apply(change, in);
-    } catch (EmailException | OrmException | UpdateException | RestApiException | IOException e) {
+    } catch (EmailException
+        | OrmException
+        | UpdateException
+        | RestApiException
+        | IOException
+        | PermissionBackendException e) {
       throw new RestApiException("Cannot rebase change", e);
     }
   }

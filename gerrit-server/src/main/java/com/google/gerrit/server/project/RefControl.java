@@ -441,7 +441,7 @@ public class RefControl {
     return canPerform(Permission.EDIT_HASHTAGS);
   }
 
-  public boolean canEditAssignee() {
+  boolean canEditAssignee() {
     return canPerform(Permission.EDIT_ASSIGNEE);
   }
 

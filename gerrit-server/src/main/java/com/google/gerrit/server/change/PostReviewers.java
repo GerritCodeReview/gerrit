@@ -54,6 +54,8 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -79,6 +81,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   private final AccountsCollection accounts;
   private final ReviewerResource.Factory reviewerFactory;
+  private final PermissionBackend permissionBackend;
 
   private final GroupsCollection groupsCollection;
   private final GroupMembers.Factory groupMembersFactory;
@@ -98,6 +101,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   PostReviewers(
       AccountsCollection accounts,
       ReviewerResource.Factory reviewerFactory,
+      PermissionBackend permissionBackend,
       GroupsCollection groupsCollection,
       GroupMembers.Factory groupMembersFactory,
       AccountLoader.Factory accountLoaderFactory,
@@ -113,6 +117,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       PostReviewersOp.Factory postReviewersOpFactory) {
     this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
+    this.permissionBackend = permissionBackend;
     this.groupsCollection = groupsCollection;
     this.groupMembersFactory = groupMembersFactory;
     this.accountLoaderFactory = accountLoaderFactory;
@@ -130,7 +135,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   @Override
   public AddReviewerResult apply(ChangeResource rsrc, AddReviewerInput input)
-      throws IOException, OrmException, RestApiException, UpdateException {
+      throws IOException, OrmException, RestApiException, UpdateException, PermissionBackendException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
@@ -398,14 +403,17 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
               rsrc, this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
     }
 
-    void gatherResults() throws OrmException {
+    void gatherResults() throws OrmException, PermissionBackendException {
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
       PostReviewersOp.Result opResult = op.getResult();
       if (migration.readChanges() && state == CC) {
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {
-          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), reviewers.get(accountId)));
+          ChangeControl ctl = reviewers.get(accountId);
+          PermissionBackend.ForChange perm =
+              permissionBackend.user(ctl.getUser()).database(dbProvider).change(ctl.getNotes());
+          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), perm, ctl));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : reviewersByEmail) {
@@ -415,11 +423,12 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         result.reviewers = Lists.newArrayListWithCapacity(opResult.addedReviewers().size());
         for (PatchSetApproval psa : opResult.addedReviewers()) {
           // New reviewers have value 0, don't bother normalizing.
+          ChangeControl ctl = reviewers.get(psa.getAccountId());
+          PermissionBackend.ForChange perm =
+              permissionBackend.user(ctl.getUser()).database(dbProvider).change(ctl.getNotes());
           result.reviewers.add(
               json.format(
-                  new ReviewerInfo(psa.getAccountId().get()),
-                  reviewers.get(psa.getAccountId()),
-                  ImmutableList.of(psa)));
+                  new ReviewerInfo(psa.getAccountId().get()), perm, ctl, ImmutableList.of(psa)));
         }
         accountLoaderFactory.create(true).fill(result.reviewers);
         for (Address a : reviewersByEmail) {

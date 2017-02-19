@@ -64,6 +64,7 @@ import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
@@ -179,6 +180,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final AccountResolver accountResolver;
     final AllProjectsName allProjectsName;
     final AllUsersName allUsersName;
+    final PermissionBackend permissionBackend;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
@@ -218,6 +220,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         DynamicMap<ChangeHasOperandFactory> hasOperands,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
+        PermissionBackend permissionBackend,
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
@@ -250,6 +253,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           hasOperands,
           userFactory,
           self,
+          permissionBackend,
           capabilityControlFactory,
           changeControlGenericFactory,
           notesFactory,
@@ -284,6 +288,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         DynamicMap<ChangeHasOperandFactory> hasOperands,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
+        PermissionBackend permissionBackend,
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeNotes.Factory notesFactory,
@@ -314,6 +319,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.opFactories = opFactories;
       this.userFactory = userFactory;
       this.self = self;
+      this.permissionBackend = permissionBackend;
       this.capabilityControlFactory = capabilityControlFactory;
       this.notesFactory = notesFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
@@ -350,6 +356,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           hasOperands,
           userFactory,
           Providers.of(otherUser),
+          permissionBackend,
           capabilityControlFactory,
           changeControlGenericFactory,
           notesFactory,

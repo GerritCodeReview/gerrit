@@ -16,7 +16,6 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -24,8 +23,9 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -33,7 +33,7 @@ import com.google.inject.Provider;
 
 class EqualsLabelPredicate extends ChangeIndexPredicate {
   private final ProjectCache projectCache;
-  private final ChangeControl.GenericFactory ccFactory;
+  private final PermissionBackend permissionBackend;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<ReviewDb> dbProvider;
   private final String label;
@@ -43,7 +43,7 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
 
   EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal, Account.Id account) {
     super(args.field, ChangeField.formatLabel(label, expVal, account));
-    this.ccFactory = args.ccFactory;
+    this.permissionBackend = args.permissionBackend;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
     this.dbProvider = args.dbProvider;
@@ -78,7 +78,7 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
     for (PatchSetApproval p : object.currentApprovals()) {
       if (labelType.matches(p)) {
         hasVote = true;
-        if (match(c, p.getValue(), p.getAccountId(), labelType)) {
+        if (match(object, p.getValue(), p.getAccountId(), labelType)) {
           return true;
         }
       }
@@ -104,40 +104,28 @@ class EqualsLabelPredicate extends ChangeIndexPredicate {
     return null;
   }
 
-  private boolean match(Change change, int value, Account.Id approver, LabelType type)
-      throws OrmException {
-    int psVal = value;
-    if (psVal == expVal) {
-      // Double check the value is still permitted for the user.
-      //
-      IdentifiedUser reviewer = userFactory.create(approver);
-      try {
-        ChangeControl cc = ccFactory.controlFor(dbProvider.get(), change, reviewer);
-        if (!cc.isVisible(dbProvider.get())) {
-          // The user can't see the change anymore.
-          //
-          return false;
-        }
-        psVal = cc.getRange(Permission.forLabel(type.getName())).squash(psVal);
-      } catch (NoSuchChangeException e) {
-        // The project has disappeared.
-        //
-        return false;
-      }
-
-      if (account != null && !account.equals(approver)) {
-        return false;
-      }
-
-      if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
-        return false;
-      }
-
-      if (psVal == expVal) {
-        return true;
-      }
+  private boolean match(ChangeData cd, short value, Account.Id approver, LabelType type) {
+    if (value != expVal) {
+      return false;
     }
-    return false;
+
+    if (account != null && !account.equals(approver)) {
+      return false;
+    }
+
+    IdentifiedUser reviewer = userFactory.create(approver);
+    if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
+      return false;
+    }
+
+    // Double check the value is still permitted for the user.
+    try {
+      PermissionBackend.ForChange perm =
+          permissionBackend.user(reviewer).database(dbProvider).change(cd);
+      return perm.test(ChangePermission.READ) && expVal == perm.squashByTest(type, value);
+    } catch (PermissionBackendException e) {
+      return false;
+    }
   }
 
   @Override

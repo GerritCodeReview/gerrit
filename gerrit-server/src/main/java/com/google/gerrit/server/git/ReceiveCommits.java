@@ -2177,6 +2177,7 @@ public class ReceiveCommits {
                 .setUpdateRef(false)
                 .setPatchSetDescription(magicBranch.message));
         if (!magicBranch.hashtags.isEmpty()) {
+          // Any change owner is allowed to add hashtags when creating a change.
           bu.addOp(
               changeId,
               hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags)).setFireEvent(false));

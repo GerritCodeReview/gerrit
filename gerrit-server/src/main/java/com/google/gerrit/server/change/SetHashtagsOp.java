@@ -94,9 +94,7 @@ public class SetHashtagsOp extends BatchUpdate.Op {
       updatedHashtags = ImmutableSortedSet.of();
       return false;
     }
-    if (!ctx.getControl().canEditHashtags()) {
-      throw new AuthException("Editing hashtags not permitted");
-    }
+
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     ChangeNotes notes = update.getNotes().load();

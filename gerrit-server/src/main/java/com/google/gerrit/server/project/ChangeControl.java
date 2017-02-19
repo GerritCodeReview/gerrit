@@ -461,7 +461,7 @@ public class ChangeControl {
   }
 
   /** Can this user edit the hashtag name? */
-  public boolean canEditHashtags() {
+  private boolean canEditHashtags() {
     return isOwner() // owner (aka creator) of the change can edit hashtags
         || getRefControl().isOwner() // branch owner can edit hashtags
         || getProjectControl().isOwner() // project owner can edit hashtags

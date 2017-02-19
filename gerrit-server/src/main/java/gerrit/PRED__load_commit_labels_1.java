@@ -38,7 +38,7 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
     Term listHead = Prolog.Nil;
     try {
       ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
-      LabelTypes types = StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes();
+      LabelTypes types = cd.getLabelTypes();
 
       for (PatchSetApproval a : cd.currentApprovals()) {
         LabelType t = types.byLabel(a.getLabelId());

@@ -51,7 +51,7 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
   public Operation exec(Prolog engine) throws PrologException {
     engine.setB0();
     Term a1 = arg1.dereference();
-    List<LabelType> list = StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes().getLabelTypes();
+    List<LabelType> list = StoredValues.CHANGE_DATA.get(engine).getLabelTypes().getLabelTypes();
     Term head = Prolog.Nil;
     for (int idx = list.size() - 1; 0 <= idx; idx--) {
       head = new ListTerm(export(list.get(idx)), head);

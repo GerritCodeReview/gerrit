@@ -142,16 +142,6 @@ public class LabelNormalizer {
     return Result.create(unchanged, updated, deleted);
   }
 
-  /**
-   * @param ctl change control (for any user).
-   * @param lt label type.
-   * @param id account ID.
-   * @return whether the given account ID has any permissions to vote on this label for this change.
-   */
-  public boolean canVote(ChangeControl ctl, LabelType lt, Account.Id id) {
-    return !getRange(ctl, lt, id).isEmpty();
-  }
-
   private PatchSetApproval copy(PatchSetApproval src) {
     return new PatchSetApproval(src.getPatchSetId(), src);
   }

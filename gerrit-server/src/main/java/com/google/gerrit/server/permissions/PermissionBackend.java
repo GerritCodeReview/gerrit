@@ -221,6 +221,19 @@ public abstract class PermissionBackend {
       return test(valuesOf(checkNotNull(label, "LabelType")));
     }
 
+    /**
+     * Test which values of a group of labels the user may be able to set.
+     *
+     * @param types definition of the labels to test values of.
+     * @return set containing values the user may be able to use; may be empty if none.
+     * @throws PermissionBackendException if failure consulting backend configuration.
+     */
+    public Set<LabelPermission.WithValue> testLabels(Collection<LabelType> types)
+        throws PermissionBackendException {
+      checkNotNull(types, "LabelType");
+      return test(types.stream().flatMap((t) -> valuesOf(t).stream()).collect(toSet()));
+    }
+
     private static Set<LabelPermission.WithValue> valuesOf(LabelType label) {
       return label
           .getValues()

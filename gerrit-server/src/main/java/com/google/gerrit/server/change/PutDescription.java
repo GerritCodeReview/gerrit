@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -31,6 +30,8 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -64,11 +65,10 @@ public class PutDescription
 
   @Override
   public Response<String> apply(RevisionResource rsrc, Input input)
-      throws UpdateException, RestApiException {
+      throws UpdateException, RestApiException, PermissionBackendException {
+    rsrc.permissions().check(ChangePermission.EDIT_DESCRIPTION);
+
     ChangeControl ctl = rsrc.getControl();
-    if (!ctl.canEditDescription()) {
-      throw new AuthException("changing description not permitted");
-    }
     Op op = new Op(input != null ? input : new Input(), rsrc.getPatchSet().getId());
     try (BatchUpdate u =
         batchUpdateFactory.create(
@@ -128,6 +128,6 @@ public class PutDescription
   public UiAction.Description getDescription(RevisionResource rsrc) {
     return new UiAction.Description()
         .setLabel("Edit Description")
-        .setVisible(rsrc.getControl().canEditDescription());
+        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_DESCRIPTION));
   }
 }

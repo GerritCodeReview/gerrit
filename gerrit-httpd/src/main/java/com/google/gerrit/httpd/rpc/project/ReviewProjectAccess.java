@@ -41,6 +41,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -173,7 +174,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       AddReviewerInput input = new AddReviewerInput();
       input.reviewer = projectOwners;
       reviewersProvider.get().apply(rsrc, input);
-    } catch (IOException | OrmException | RestApiException | UpdateException e) {
+    } catch (IOException
+        | OrmException
+        | RestApiException
+        | UpdateException
+        | PermissionBackendException e) {
       // one of the owner groups is not visible to the user and this it why it
       // can't be added as reviewer
     }
@@ -192,7 +197,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         AddReviewerInput input = new AddReviewerInput();
         input.reviewer = r.getGroup().getUUID().get();
         reviewersProvider.get().apply(rsrc, input);
-      } catch (IOException | OrmException | RestApiException | UpdateException e) {
+      } catch (IOException
+          | OrmException
+          | RestApiException
+          | UpdateException
+          | PermissionBackendException e) {
         // ignore
       }
     }

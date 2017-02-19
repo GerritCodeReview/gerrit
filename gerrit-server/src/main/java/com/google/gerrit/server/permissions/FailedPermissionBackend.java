@@ -170,5 +170,10 @@ public class FailedPermissionBackend {
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
+
+    @Override
+    public CurrentUser user() {
+      throw new UnsupportedOperationException("FailedPermissionBackend is not scoped to user");
+    }
   }
 }

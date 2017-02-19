@@ -743,8 +743,13 @@ public class RefControl {
     }
 
     @Override
+    public CurrentUser user() {
+      return getUser();
+    }
+
+    @Override
     public ForChange user(CurrentUser user) {
-      return getUser().equals(user) ? this : forUser(user).asForChangeWithoutData(db);
+      return user().equals(user) ? this : forUser(user).asForChangeWithoutData(db);
     }
 
     @Override

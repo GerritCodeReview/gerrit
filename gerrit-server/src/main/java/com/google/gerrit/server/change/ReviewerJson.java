@@ -106,7 +106,8 @@ public class ReviewerJson {
       ChangeControl ctl,
       Iterable<PatchSetApproval> approvals)
       throws OrmException, PermissionBackendException {
-    LabelTypes labelTypes = ctl.getLabelTypes();
+    ChangeData cd = changeDataFactory.create(db.get(), ctl);
+    LabelTypes labelTypes = cd.getLabelTypes();
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     out.approvals = new TreeMap<>(labelTypes.nameComparator());
@@ -123,7 +124,6 @@ public class ReviewerJson {
 
     // Add dummy approvals for all permitted labels for the user even if they
     // do not exist in the DB.
-    ChangeData cd = changeDataFactory.create(db.get(), ctl);
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
       for (SubmitRecord rec :

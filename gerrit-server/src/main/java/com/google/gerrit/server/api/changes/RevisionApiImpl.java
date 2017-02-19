@@ -205,7 +205,7 @@ class RevisionApiImpl implements RevisionApi {
   public void review(ReviewInput in) throws RestApiException {
     try {
       review.apply(revision, in);
-    } catch (OrmException | UpdateException | IOException e) {
+    } catch (OrmException | UpdateException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot post review", e);
     }
   }

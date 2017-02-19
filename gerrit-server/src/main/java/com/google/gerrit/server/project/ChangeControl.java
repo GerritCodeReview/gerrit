@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -588,7 +589,11 @@ public class ChangeControl {
     }
 
     private boolean can(LabelPermission.WithValue perm) {
-      return label(perm.permissionName().get()).contains(perm.value());
+      PermissionRange r = label(perm.permissionName().get());
+      if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
+        return false;
+      }
+      return r.contains(perm.value());
     }
 
     private PermissionRange label(String permission) {

@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package gerrit;
 
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.LabelPermission;
@@ -32,21 +33,19 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
-import java.util.Set;
 
 /**
- * Resolves the valid range for a label on a CurrentUser.
+ * Checks user can set label to val.
  *
  * <pre>
- *   '_user_label_range'(+Label, +CurrentUser, -Min, -Max)
+ *   '_check_user_label'(+Label, +CurrentUser, +Val)
  * </pre>
  */
-class PRED__user_label_range_4 extends Predicate.P4 {
-  PRED__user_label_range_4(Term a1, Term a2, Term a3, Term a4, Operation n) {
+class PRED__check_user_label_3 extends Predicate.P3 {
+  PRED__check_user_label_3(Term a1, Term a2, Term a3, Operation n) {
     arg1 = a1;
     arg2 = a2;
     arg3 = a3;
-    arg4 = a4;
     cont = n;
   }
 
@@ -56,7 +55,6 @@ class PRED__user_label_range_4 extends Predicate.P4 {
     Term a1 = arg1.dereference();
     Term a2 = arg2.dereference();
     Term a3 = arg3.dereference();
-    Term a4 = arg4.dereference();
 
     if (a1 instanceof VariableTerm) {
       throw new PInstantiationException(this, 1);
@@ -74,36 +72,33 @@ class PRED__user_label_range_4 extends Predicate.P4 {
     }
     CurrentUser user = (CurrentUser) ((JavaObjectTerm) a2).object();
 
+    if (a3 instanceof VariableTerm) {
+      throw new PInstantiationException(this, 3);
+    }
+    if (!(a3 instanceof IntegerTerm)) {
+      throw new IllegalTypeException(this, 3, "integer", a3);
+    }
+    short val = (short) ((IntegerTerm) a3).intValue();
+
     ChangeData cd = StoredValues.CHANGE_DATA.get(engine);
     LabelType type = cd.getLabelTypes().byLabel(label);
     if (type == null) {
       return engine.fail();
     }
 
-    Set<LabelPermission.WithValue> can;
     try {
-      can = StoredValues.PERMISSION_BACKEND.get(engine).user(user).change(cd).test(type);
+      StoredValues.PERMISSION_BACKEND
+          .get(engine)
+          .user(user)
+          .change(cd)
+          .check(new LabelPermission.WithValue(type, val));
+      return cont;
+    } catch (AuthException err) {
+      return engine.fail();
     } catch (PermissionBackendException err) {
       SystemException se = new SystemException(err.getMessage());
       se.initCause(err);
       throw se;
     }
-
-    int min = 0;
-    int max = 0;
-    for (LabelPermission.WithValue v : can) {
-      min = Math.min(min, v.value());
-      max = Math.max(max, v.value());
-    }
-
-    if (!a3.unify(new IntegerTerm(min), engine.trail)) {
-      return engine.fail();
-    }
-
-    if (!a4.unify(new IntegerTerm(max), engine.trail)) {
-      return engine.fail();
-    }
-
-    return cont;
   }
 }

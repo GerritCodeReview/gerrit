@@ -20,6 +20,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -166,6 +167,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     }
 
     private final ProjectCache projectCache;
+    private final PermissionBackend permissionBackend;
     private final GitRepositoryManager repositoryManager;
     private final PatchListCache patchListCache;
     private final PatchSetInfoFactory patchSetInfoFactory;
@@ -177,6 +179,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     @Inject
     Args(
         ProjectCache projectCache,
+        PermissionBackend permissionBackend,
         GitRepositoryManager repositoryManager,
         PatchListCache patchListCache,
         PatchSetInfoFactory patchSetInfoFactory,
@@ -184,6 +187,7 @@ public class PrologEnvironment extends BufferingPrologControl {
         Provider<AnonymousUser> anonymousUser,
         @GerritServerConfig Config config) {
       this.projectCache = projectCache;
+      this.permissionBackend = permissionBackend;
       this.repositoryManager = repositoryManager;
       this.patchListCache = patchListCache;
       this.patchSetInfoFactory = patchSetInfoFactory;
@@ -211,6 +215,10 @@ public class PrologEnvironment extends BufferingPrologControl {
 
     public ProjectCache getProjectCache() {
       return projectCache;
+    }
+
+    public PermissionBackend getPermissionBackend() {
+      return permissionBackend;
     }
 
     public GitRepositoryManager getGitRepositoryManager() {

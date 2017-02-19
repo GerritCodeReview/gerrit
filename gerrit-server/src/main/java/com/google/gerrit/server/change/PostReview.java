@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
@@ -37,8 +38,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -80,6 +79,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
@@ -93,6 +93,10 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.LabelPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
@@ -172,12 +176,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   @Override
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
-      throws RestApiException, UpdateException, OrmException, IOException {
+      throws RestApiException, UpdateException, OrmException, IOException,
+          PermissionBackendException {
     return apply(revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
-      throws RestApiException, UpdateException, OrmException, IOException {
+      throws RestApiException, UpdateException, OrmException, IOException,
+          PermissionBackendException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -322,7 +328,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
-      throws BadRequestException, AuthException, UnprocessableEntityException, OrmException {
+      throws BadRequestException, AuthException, UnprocessableEntityException, OrmException,
+          PermissionBackendException {
     if (in.labels == null || in.labels.isEmpty()) {
       throw new AuthException(
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
@@ -334,11 +341,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       throw new AuthException("not allowed to modify other user's drafts");
     }
 
-    ChangeControl caller = rev.getControl();
+    CurrentUser caller = rev.getUser();
+    PermissionBackend.ForChange perm = rev.permissions().database(db);
+    LabelTypes labelTypes = rev.getControl().getLabelTypes();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
-      LabelType type = caller.getLabelTypes().byLabel(ent.getKey());
+      LabelType type = labelTypes.byLabel(ent.getKey());
       if (type == null && in.strictLabels) {
         throw new BadRequestException(
             String.format("label \"%s\" is not a configured label", ent.getKey()));
@@ -347,16 +356,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         continue;
       }
 
-      if (caller.getUser().isInternalUser()) {
-        continue;
-      }
-
-      PermissionRange r = caller.getRange(Permission.forLabelAs(type.getName()));
-      if (r == null || r.isEmpty() || !r.contains(ent.getValue())) {
-        throw new AuthException(
-            String.format(
-                "not permitted to modify label \"%s\" on behalf of \"%s\"",
-                ent.getKey(), in.onBehalfOf));
+      if (!caller.isInternalUser()) {
+        try {
+          perm.check(new LabelPermission.WithValue(ON_BEHALF_OF, type.getName(), ent.getValue()));
+        } catch (AuthException e) {
+          throw new AuthException(
+              String.format(
+                  "not permitted to modify label \"%s\" on behalf of \"%s\"",
+                  type.getName(), in.onBehalfOf));
+        }
       }
     }
     if (in.labels.isEmpty()) {
@@ -364,25 +372,26 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
-    ChangeControl target =
-        caller.forUser(accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
-    if (!target.getRefControl().isVisible()) {
+    IdentifiedUser reviewer = accounts.parseOnBehalfOf(caller, in.onBehalfOf);
+    try {
+      perm.user(reviewer).check(ChangePermission.READ);
+    } catch (AuthException e) {
       throw new UnprocessableEntityException(
-          String.format(
-              "on_behalf_of account %s cannot see destination ref",
-              target.getUser().getAccountId()));
+          String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));
     }
-    return new RevisionResource(changes.parse(target), rev.getPatchSet());
+
+    ChangeControl ctl = rev.getControl().forUser(reviewer);
+    return new RevisionResource(changes.parse(ctl), rev.getPatchSet());
   }
 
-  private void checkLabels(RevisionResource revision, boolean strict, Map<String, Short> labels)
-      throws BadRequestException, AuthException {
-    ChangeControl ctl = revision.getControl();
+  private void checkLabels(RevisionResource rsrc, boolean strict, Map<String, Short> labels)
+      throws BadRequestException, AuthException, PermissionBackendException {
+    LabelTypes types = rsrc.getControl().getLabelTypes();
+    PermissionBackend.ForChange perm = rsrc.permissions();
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
-
-      LabelType lt = revision.getControl().getLabelTypes().byLabel(ent.getKey());
+      LabelType lt = types.byLabel(ent.getKey());
       if (lt == null) {
         if (strict) {
           throw new BadRequestException(
@@ -407,18 +416,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         continue;
       }
 
-      String name = lt.getName();
-      PermissionRange range = ctl.getRange(Permission.forLabel(name));
-      if (range == null || !range.contains(ent.getValue())) {
+      short val = ent.getValue();
+      try {
+        perm.check(new LabelPermission.WithValue(lt.getName(), val));
+      } catch (AuthException e) {
         if (strict) {
           throw new AuthException(
-              String.format(
-                  "Applying label \"%s\": %d is restricted", ent.getKey(), ent.getValue()));
-        } else if (range == null || range.isEmpty()) {
-          ent.setValue((short) 0);
-        } else {
-          ent.setValue((short) range.squash(ent.getValue()));
+              String.format("Applying label \"%s\": %d is restricted", lt.getName(), val));
         }
+        ent.setValue(perm.squashThenCheck(lt, val));
       }
     }
   }

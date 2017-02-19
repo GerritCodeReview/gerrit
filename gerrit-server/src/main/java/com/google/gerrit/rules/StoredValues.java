@@ -33,6 +33,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -133,6 +134,15 @@ public final class StoredValues {
                 }
               });
           return repo;
+        }
+      };
+
+  public static final StoredValue<PermissionBackend> PERMISSION_BACKEND =
+      new StoredValue<PermissionBackend>() {
+        @Override
+        protected PermissionBackend createValue(Prolog engine) {
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          return env.getArgs().getPermissionBackend();
         }
       };
 

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,7 +48,8 @@ class ListReviewers implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public List<ReviewerInfo> apply(ChangeResource rsrc) throws OrmException {
+  public List<ReviewerInfo> apply(ChangeResource rsrc)
+      throws OrmException, PermissionBackendException {
     Map<Account.Id, ReviewerResource> reviewers = new LinkedHashMap<>();
     ReviewDb db = dbProvider.get();
     for (Account.Id accountId : approvalsUtil.getReviewers(db, rsrc.getNotes()).all()) {

@@ -371,7 +371,7 @@ class ChangeApiImpl implements ChangeApi {
   public void addReviewer(AddReviewerInput in) throws RestApiException {
     try {
       postReviewers.apply(change, in);
-    } catch (OrmException | IOException | UpdateException e) {
+    } catch (OrmException | IOException | UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot add change reviewer", e);
     }
   }

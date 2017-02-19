@@ -41,7 +41,7 @@ public class MergedSender extends ReplyToChangeSender {
   public MergedSender(EmailArguments ea, @Assisted Project.NameKey project, @Assisted Change.Id id)
       throws OrmException {
     super(ea, "merged", newChangeData(ea, project, id));
-    labelTypes = changeData.changeControl().getLabelTypes();
+    labelTypes = changeData.getLabelTypes();
   }
 
   @Override

@@ -176,6 +176,9 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a user, project, reference and change. */
   public abstract static class ForChange extends AcceptsReviewDb<ForChange> {
+    /** @return user this instance is scoped to. */
+    public abstract CurrentUser user();
+
     /** @return new instance rescoped to same change, but different {@code user}. */
     public abstract ForChange user(CurrentUser user);
 

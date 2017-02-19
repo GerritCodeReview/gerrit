@@ -584,8 +584,7 @@ public class ChangeControl {
     }
 
     private boolean can(LabelPermission perm) {
-      PermissionRange r = label(perm.permissionName().get());
-      return r.getMin() < 0 || r.getMax() > 0;
+      return !label(perm.permissionName().get()).isEmpty();
     }
 
     private boolean can(LabelPermission.WithValue perm) {

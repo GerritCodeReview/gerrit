@@ -502,10 +502,11 @@ public class ChangeJson {
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
       // list permitted labels, since users can't vote on those patch sets.
-      if (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId())) {
+      if (user.isIdentifiedUser()
+          && (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId()))) {
         out.permittedLabels =
             cd.change().getStatus() != Change.Status.ABANDONED
-                ? permittedLabels(perm, ctl, cd)
+                ? permittedLabels(perm, cd)
                 : ImmutableMap.of();
       }
 
@@ -593,17 +594,16 @@ public class ChangeJson {
       return null;
     }
 
-    LabelTypes labelTypes = ctl.getLabelTypes();
+    LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelWithStatus> withStatus =
         cd.change().getStatus().isOpen()
-            ? labelsForOpenChange(perm, ctl, cd, labelTypes, standard, detailed)
-            : labelsForClosedChange(perm, ctl, cd, labelTypes, standard, detailed);
+            ? labelsForOpenChange(perm, cd, labelTypes, standard, detailed)
+            : labelsForClosedChange(perm, cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
   private Map<String, LabelWithStatus> labelsForOpenChange(
       PermissionBackend.ForChange perm,
-      ChangeControl ctl,
       ChangeData cd,
       LabelTypes labelTypes,
       boolean standard,
@@ -611,7 +611,7 @@ public class ChangeJson {
       throws OrmException, PermissionBackendException {
     Map<String, LabelWithStatus> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
-      setAllApprovals(perm, ctl, cd, labels);
+      setAllApprovals(perm, cd, labels);
     }
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       LabelType type = labelTypes.byLabel(e.getKey());
@@ -699,7 +699,6 @@ public class ChangeJson {
 
   private void setAllApprovals(
       PermissionBackend.ForChange basePerm,
-      ChangeControl baseCtrl,
       ChangeData cd,
       Map<String, LabelWithStatus> labels)
       throws OrmException, PermissionBackendException {
@@ -716,17 +715,15 @@ public class ChangeJson {
     }
 
     Table<Account.Id, String, PatchSetApproval> current =
-        HashBasedTable.create(allUsers.size(), baseCtrl.getLabelTypes().getLabelTypes().size());
+        HashBasedTable.create(allUsers.size(), cd.getLabelTypes().getLabelTypes().size());
     for (PatchSetApproval psa : cd.currentApprovals()) {
       current.put(psa.getAccountId(), psa.getLabel(), psa);
     }
 
-    LabelTypes labelTypes = baseCtrl.getLabelTypes();
+    LabelTypes labelTypes = cd.getLabelTypes();
     for (Account.Id accountId : allUsers) {
-      IdentifiedUser user = userFactory.create(accountId);
-      PermissionBackend.ForChange perm = basePerm.user(user);
-      ChangeControl ctl = baseCtrl.forUser(user);
-      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(perm, ctl, cd));
+      PermissionBackend.ForChange perm = basePerm.user(userFactory.create(accountId));
+      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = labelTypes.byLabel(e.getKey());
         if (lt == null) {
@@ -805,7 +802,6 @@ public class ChangeJson {
 
   private Map<String, LabelWithStatus> labelsForClosedChange(
       PermissionBackend.ForChange basePerm,
-      ChangeControl baseCtrl,
       ChangeData cd,
       LabelTypes labelTypes,
       boolean standard,
@@ -878,10 +874,8 @@ public class ChangeJson {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
       Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
-        IdentifiedUser user = userFactory.create(accountId);
-        PermissionBackend.ForChange perm = basePerm.user(user);
-        ChangeControl ctl = baseCtrl.forUser(user);
-        pvr = getPermittedVotingRanges(permittedLabels(perm, ctl, cd));
+        PermissionBackend.ForChange perm = basePerm.user(userFactory.create(accountId));
+        pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
           ApprovalInfo ai = approvalInfo(accountId, 0, null, null, null);
           byLabel.put(entry.getKey(), ai);
@@ -956,14 +950,10 @@ public class ChangeJson {
   }
 
   private Map<String, Collection<String>> permittedLabels(
-      PermissionBackend.ForChange perm, ChangeControl ctl, ChangeData cd)
+      PermissionBackend.ForChange perm, ChangeData cd)
       throws OrmException, PermissionBackendException {
-    if (ctl == null || !ctl.getUser().isIdentifiedUser()) {
-      return null;
-    }
-
     boolean isMerged = cd.change().getStatus() == Change.Status.MERGED;
-    LabelTypes labelTypes = ctl.getLabelTypes();
+    LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels != null) {
@@ -993,7 +983,7 @@ public class ChangeJson {
           boolean ok = can.contains(new LabelPermission.WithValue(type, v));
           if (isMerged) {
             if (labels == null) {
-              labels = currentLabels(ctl);
+              labels = currentLabels(perm, cd);
             }
             short prev = labels.getOrDefault(type.getName(), (short) 0);
             ok &= v.getValue() >= prev;
@@ -1017,11 +1007,14 @@ public class ChangeJson {
     return permitted.asMap();
   }
 
-  private Map<String, Short> currentLabels(ChangeControl ctl) throws OrmException {
+  private Map<String, Short> currentLabels(PermissionBackend.ForChange perm, ChangeData cd)
+      throws OrmException {
+    IdentifiedUser user = perm.user().asIdentifiedUser();
+    ChangeControl ctl = cd.changeControl().forUser(user);
     Map<String, Short> result = new HashMap<>();
     for (PatchSetApproval psa :
         approvalsUtil.byPatchSetUser(
-            db.get(), ctl, ctl.getChange().currentPatchSetId(), ctl.getUser().getAccountId())) {
+            db.get(), ctl, cd.change().currentPatchSetId(), user.getAccountId())) {
       result.put(psa.getLabel(), psa.getValue());
     }
     return result;

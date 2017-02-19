@@ -311,7 +311,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.label("Code-Review", 1);
 
     exception.expect(UnprocessableEntityException.class);
-    exception.expectMessage("on_behalf_of account " + user.id + " cannot see destination ref");
+    exception.expectMessage("on_behalf_of account " + user.id + " cannot see change");
     revision.review(in);
   }
 

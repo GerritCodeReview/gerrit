@@ -437,7 +437,7 @@ public class RefControl {
   }
 
   /** @return true if this user can edit hashtag names. */
-  public boolean canEditHashtags() {
+  boolean canEditHashtags() {
     return canPerform(Permission.EDIT_HASHTAGS);
   }
 

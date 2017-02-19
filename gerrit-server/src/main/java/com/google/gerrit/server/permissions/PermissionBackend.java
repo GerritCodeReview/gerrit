@@ -222,14 +222,29 @@ public abstract class PermissionBackend {
      * @throws PermissionBackendException if failure consulting backend configuration.
      */
     public Set<LabelPermission.WithValue> test(LabelType label) throws PermissionBackendException {
-      checkNotNull(label, "LabelType");
-      return test(
-          label
-              .getValues()
-              .stream()
-              .filter((v) -> v.getValue() != 0)
-              .map((v) -> new LabelPermission.WithValue(label.getName(), v.getValue()))
-              .collect(Collectors.toSet()));
+      return test(valuesOf(checkNotNull(label, "LabelType")));
+    }
+
+    /**
+     * Test which values of a group of labels the user may be able to set.
+     *
+     * @param types definition of the labels to test values of.
+     * @return set containing values the user may be able to use; may be empty if none.
+     * @throws PermissionBackendException if failure consulting backend configuration.
+     */
+    public Set<LabelPermission.WithValue> testLabels(Collection<LabelType> types)
+        throws PermissionBackendException {
+      checkNotNull(types, "LabelType");
+      return test(types.stream().flatMap((t) -> valuesOf(t).stream()).collect(Collectors.toSet()));
+    }
+
+    private static Set<LabelPermission.WithValue> valuesOf(LabelType label) {
+      return label
+          .getValues()
+          .stream()
+          .filter((v) -> v.getValue() != 0)
+          .map((v) -> new LabelPermission.WithValue(label, v))
+          .collect(Collectors.toSet());
     }
 
     /**
@@ -257,7 +272,7 @@ public abstract class PermissionBackend {
         return 0;
       }
       try {
-        check(new LabelPermission.WithValue(label.getName(), s));
+        check(new LabelPermission.WithValue(label, s));
         return s;
       } catch (AuthException e) {
         return 0;

@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -47,7 +49,9 @@ public class PostHashtags
 
   @Override
   public Response<ImmutableSortedSet<String>> apply(ChangeResource req, HashtagsInput input)
-      throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException, PermissionBackendException {
+    req.permissions().check(ChangePermission.EDIT_HASHTAGS);
+
     try (BatchUpdate bu =
         batchUpdateFactory.create(
             db.get(), req.getChange().getProject(), req.getControl().getUser(), TimeUtil.nowTs())) {
@@ -59,9 +63,9 @@ public class PostHashtags
   }
 
   @Override
-  public UiAction.Description getDescription(ChangeResource resource) {
+  public UiAction.Description getDescription(ChangeResource rsrc) {
     return new UiAction.Description()
         .setLabel("Edit Hashtags")
-        .setVisible(resource.getControl().canEditHashtags());
+        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_HASHTAGS));
   }
 }

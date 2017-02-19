@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.OrPredicate;
@@ -39,6 +40,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   static class Args {
     final FieldDef<ChangeData, ?> field;
     final ProjectCache projectCache;
+    final PermissionBackend permissionBackend;
     final ChangeControl.GenericFactory ccFactory;
     final IdentifiedUser.GenericFactory userFactory;
     final Provider<ReviewDb> dbProvider;
@@ -49,6 +51,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     private Args(
         FieldDef<ChangeData, ?> field,
         ProjectCache projectCache,
+        PermissionBackend permissionBackend,
         ChangeControl.GenericFactory ccFactory,
         IdentifiedUser.GenericFactory userFactory,
         Provider<ReviewDb> dbProvider,
@@ -57,6 +60,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
         AccountGroup.UUID group) {
       this.field = field;
       this.projectCache = projectCache;
+      this.permissionBackend = permissionBackend;
       this.ccFactory = ccFactory;
       this.userFactory = userFactory;
       this.dbProvider = dbProvider;
@@ -91,6 +95,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
             new Args(
                 a.getSchema().getField(ChangeField.LABEL2, ChangeField.LABEL).get(),
                 a.projectCache,
+                a.permissionBackend,
                 a.changeControlGenericFactory,
                 a.userFactory,
                 a.db,

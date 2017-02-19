@@ -20,6 +20,7 @@ import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BE
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.SELF;
 
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.server.util.LabelVote;
 import java.util.Optional;
@@ -33,6 +34,25 @@ public class LabelPermission implements ChangePermissionOrLabel {
 
   private final ForUser forUser;
   private final String name;
+
+  /**
+   * Construct a reference to a label permission.
+   *
+   * @param type type description of the label.
+   */
+  public LabelPermission(LabelType type) {
+    this(SELF, type);
+  }
+
+  /**
+   * Construct a reference to a label permission.
+   *
+   * @param forUser {@code SELF} (default) or {@code ON_BEHALF_OF} for labelAs behavior.
+   * @param type type description of the label.
+   */
+  public LabelPermission(ForUser forUser, LabelType type) {
+    this(forUser, type.getName());
+  }
 
   /**
    * Construct a reference to a label permission.
@@ -110,6 +130,48 @@ public class LabelPermission implements ChangePermissionOrLabel {
   public static class WithValue implements ChangePermissionOrLabel {
     private final ForUser forUser;
     private final LabelVote label;
+
+    /**
+     * Construct a reference to a label at a specific value.
+     *
+     * @param type description of the label.
+     * @param value numeric score assigned to the label.
+     */
+    public WithValue(LabelType type, LabelValue value) {
+      this(SELF, type, value);
+    }
+
+    /**
+     * Construct a reference to a label at a specific value.
+     *
+     * @param type description of the label.
+     * @param value numeric score assigned to the label.
+     */
+    public WithValue(LabelType type, short value) {
+      this(SELF, type.getName(), value);
+    }
+
+    /**
+     * Construct a reference to a label at a specific value.
+     *
+     * @param forUser {@code SELF} (default) or {@code ON_BEHALF_OF} for labelAs behavior.
+     * @param type description of the label.
+     * @param value numeric score assigned to the label.
+     */
+    public WithValue(ForUser forUser, LabelType type, LabelValue value) {
+      this(forUser, type.getName(), value.getValue());
+    }
+
+    /**
+     * Construct a reference to a label at a specific value.
+     *
+     * @param forUser {@code SELF} (default) or {@code ON_BEHALF_OF} for labelAs behavior.
+     * @param type description of the label.
+     * @param value numeric score assigned to the label.
+     */
+    public WithValue(ForUser forUser, LabelType type, short value) {
+      this(forUser, type.getName(), value);
+    }
 
     /**
      * Construct a reference to a label at a specific value.

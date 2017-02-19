@@ -356,7 +356,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       if (!caller.isInternalUser()) {
         try {
-          perm.check(new LabelPermission.WithValue(ON_BEHALF_OF, type.getName(), ent.getValue()));
+          perm.check(new LabelPermission.WithValue(ON_BEHALF_OF, type, ent.getValue()));
         } catch (AuthException e) {
           throw new AuthException(
               String.format(
@@ -416,7 +416,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       short val = ent.getValue();
       try {
-        perm.check(new LabelPermission.WithValue(lt.getName(), val));
+        perm.check(new LabelPermission.WithValue(lt, val));
       } catch (AuthException e) {
         if (strict) {
           throw new AuthException(

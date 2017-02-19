@@ -442,7 +442,7 @@ public class ChangeControl {
   }
 
   /** Can this user edit the description? */
-  public boolean canEditDescription() {
+  private boolean canEditDescription() {
     if (getChange().getStatus().isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit desc
           || getRefControl().isOwner() // branch owner can edit desc

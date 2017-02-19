@@ -59,8 +59,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -104,13 +102,15 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.api.accounts.AccountInfoComparator;
 import com.google.gerrit.server.api.accounts.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.LabelPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -165,9 +165,9 @@ public class ChangeJson {
   }
 
   private final Provider<ReviewDb> db;
-  private final LabelNormalizer labelNormalizer;
   private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
+  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -196,9 +196,9 @@ public class ChangeJson {
   @AssistedInject
   ChangeJson(
       Provider<ReviewDb> db,
-      LabelNormalizer ln,
       Provider<CurrentUser> user,
       AnonymousUser au,
+      PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
@@ -220,10 +220,10 @@ public class ChangeJson {
       ApprovalsUtil approvalsUtil,
       @Assisted Set<ListChangesOption> options) {
     this.db = db;
-    this.labelNormalizer = ln;
     this.userProvider = user;
     this.anonymous = au;
     this.changeDataFactory = cdf;
+    this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.userFactory = uf;
     this.projectCache = projectCache;
@@ -296,6 +296,7 @@ public class ChangeJson {
         | GpgException
         | OrmException
         | IOException
+        | PermissionBackendException
         | RuntimeException e) {
       if (!has(CHECK)) {
         Throwables.throwIfInstanceOf(e, OrmException.class);
@@ -373,6 +374,7 @@ public class ChangeJson {
             | GpgException
             | OrmException
             | IOException
+            | PermissionBackendException
             | RuntimeException e) {
           if (has(CHECK)) {
             i = checkOnly(cd);
@@ -429,7 +431,8 @@ public class ChangeJson {
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
+          PermissionBackendException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
     ChangeControl ctl = cd.changeControl().forUser(user);
@@ -445,6 +448,7 @@ public class ChangeJson {
       }
     }
 
+    PermissionBackend.ForChange perm = permissionBackend.user(user).database(db).change(cd);
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
@@ -492,7 +496,7 @@ public class ChangeJson {
       out.reviewed = cd.reviewedBy().contains(accountId) ? true : null;
     }
 
-    out.labels = labelsFor(ctl, cd, has(LABELS), has(DETAILED_LABELS));
+    out.labels = labelsFor(perm, ctl, cd, has(LABELS), has(DETAILED_LABELS));
     out.submitted = getSubmittedOn(cd);
 
     if (out.labels != null && has(DETAILED_LABELS)) {
@@ -501,7 +505,7 @@ public class ChangeJson {
       if (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId())) {
         out.permittedLabels =
             cd.change().getStatus() != Change.Status.ABANDONED
-                ? permittedLabels(ctl, cd)
+                ? permittedLabels(perm, ctl, cd)
                 : ImmutableMap.of();
       }
 
@@ -575,7 +579,12 @@ public class ChangeJson {
   }
 
   private Map<String, LabelInfo> labelsFor(
-      ChangeControl ctl, ChangeData cd, boolean standard, boolean detailed) throws OrmException {
+      PermissionBackend.ForChange perm,
+      ChangeControl ctl,
+      ChangeData cd,
+      boolean standard,
+      boolean detailed)
+      throws OrmException, PermissionBackendException {
     if (!standard && !detailed) {
       return null;
     }
@@ -587,17 +596,22 @@ public class ChangeJson {
     LabelTypes labelTypes = ctl.getLabelTypes();
     Map<String, LabelWithStatus> withStatus =
         cd.change().getStatus().isOpen()
-            ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
-            : labelsForClosedChange(ctl, cd, labelTypes, standard, detailed);
+            ? labelsForOpenChange(perm, ctl, cd, labelTypes, standard, detailed)
+            : labelsForClosedChange(perm, ctl, cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
   private Map<String, LabelWithStatus> labelsForOpenChange(
-      ChangeControl ctl, ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
-      throws OrmException {
+      PermissionBackend.ForChange perm,
+      ChangeControl ctl,
+      ChangeData cd,
+      LabelTypes labelTypes,
+      boolean standard,
+      boolean detailed)
+      throws OrmException, PermissionBackendException {
     Map<String, LabelWithStatus> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
-      setAllApprovals(ctl, cd, labels);
+      setAllApprovals(perm, ctl, cd, labels);
     }
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       LabelType type = labelTypes.byLabel(e.getKey());
@@ -684,8 +698,11 @@ public class ChangeJson {
   }
 
   private void setAllApprovals(
-      ChangeControl baseCtrl, ChangeData cd, Map<String, LabelWithStatus> labels)
-      throws OrmException {
+      PermissionBackend.ForChange basePerm,
+      ChangeControl baseCtrl,
+      ChangeData cd,
+      Map<String, LabelWithStatus> labels)
+      throws OrmException, PermissionBackendException {
     Change.Status status = cd.change().getStatus();
     checkState(status.isOpen(), "should not call setAllApprovals on %s change", status);
 
@@ -704,12 +721,14 @@ public class ChangeJson {
       current.put(psa.getAccountId(), psa.getLabel(), psa);
     }
 
+    LabelTypes labelTypes = baseCtrl.getLabelTypes();
     for (Account.Id accountId : allUsers) {
       IdentifiedUser user = userFactory.create(accountId);
+      PermissionBackend.ForChange perm = basePerm.user(user);
       ChangeControl ctl = baseCtrl.forUser(user);
-      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(ctl, cd));
+      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(perm, ctl, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
-        LabelType lt = ctl.getLabelTypes().byLabel(e.getKey());
+        LabelType lt = labelTypes.byLabel(e.getKey());
         if (lt == null) {
           // Ignore submit record for undefined label; likely the submit rule
           // author didn't intend for the label to show up in the table.
@@ -726,7 +745,7 @@ public class ChangeJson {
             // This may be a dummy approval that was inserted when the reviewer
             // was added. Explicitly check whether the user can vote on this
             // label.
-            value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
+            value = perm.test(new LabelPermission(lt)) ? 0 : null;
           }
           tag = psa.getTag();
           date = psa.getGranted();
@@ -737,7 +756,7 @@ public class ChangeJson {
           // Either the user cannot vote on this label, or they were added as a
           // reviewer but have not responded yet. Explicitly check whether the
           // user can vote on this label.
-          value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
+          value = perm.test(new LabelPermission(lt)) ? 0 : null;
         }
         addApproval(
             e.getValue().label(), approvalInfo(accountId, value, permittedVotingRange, tag, date));
@@ -785,12 +804,13 @@ public class ChangeJson {
   }
 
   private Map<String, LabelWithStatus> labelsForClosedChange(
+      PermissionBackend.ForChange basePerm,
       ChangeControl baseCtrl,
       ChangeData cd,
       LabelTypes labelTypes,
       boolean standard,
       boolean detailed)
-      throws OrmException {
+      throws OrmException, PermissionBackendException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
       // Users expect to see all reviewers on closed changes, even if they
@@ -858,8 +878,10 @@ public class ChangeJson {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
       Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
-        ChangeControl ctl = baseCtrl.forUser(userFactory.create(accountId));
-        pvr = getPermittedVotingRanges(permittedLabels(ctl, cd));
+        IdentifiedUser user = userFactory.create(accountId);
+        PermissionBackend.ForChange perm = basePerm.user(user);
+        ChangeControl ctl = baseCtrl.forUser(user);
+        pvr = getPermittedVotingRanges(permittedLabels(perm, ctl, cd));
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
           ApprovalInfo ai = approvalInfo(accountId, 0, null, null, null);
           byLabel.put(entry.getKey(), ai);
@@ -933,15 +955,29 @@ public class ChangeJson {
     }
   }
 
-  private Map<String, Collection<String>> permittedLabels(ChangeControl ctl, ChangeData cd)
-      throws OrmException {
+  private Map<String, Collection<String>> permittedLabels(
+      PermissionBackend.ForChange perm, ChangeControl ctl, ChangeData cd)
+      throws OrmException, PermissionBackendException {
     if (ctl == null || !ctl.getUser().isIdentifiedUser()) {
       return null;
     }
 
-    Map<String, Short> labels = null;
-    boolean isMerged = ctl.getChange().getStatus() == Change.Status.MERGED;
+    boolean isMerged = cd.change().getStatus() == Change.Status.MERGED;
     LabelTypes labelTypes = ctl.getLabelTypes();
+    Map<String, LabelType> toCheck = new HashMap<>();
+    for (SubmitRecord rec : submitRecords(cd)) {
+      if (rec.labels != null) {
+        for (SubmitRecord.Label r : rec.labels) {
+          LabelType type = labelTypes.byLabel(r.label);
+          if (type != null && (!isMerged || type.allowPostSubmit())) {
+            toCheck.put(type.getName(), type);
+          }
+        }
+      }
+    }
+
+    Map<String, Short> labels = null;
+    Set<LabelPermission.WithValue> can = perm.testLabels(toCheck.values());
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
@@ -952,9 +988,9 @@ public class ChangeJson {
         if (type == null || (isMerged && !type.allowPostSubmit())) {
           continue;
         }
-        PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
+
         for (LabelValue v : type.getValues()) {
-          boolean ok = range.contains(v.getValue());
+          boolean ok = can.contains(new LabelPermission.WithValue(type, v));
           if (isMerged) {
             if (labels == null) {
               labels = currentLabels(ctl);
@@ -968,6 +1004,7 @@ public class ChangeJson {
         }
       }
     }
+
     List<String> toClear = Lists.newArrayListWithCapacity(permitted.keySet().size());
     for (Map.Entry<String, Collection<String>> e : permitted.asMap().entrySet()) {
       if (isOnlyZero(e.getValue())) {

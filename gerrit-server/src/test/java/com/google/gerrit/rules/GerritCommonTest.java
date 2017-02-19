@@ -47,7 +47,8 @@ public class GerritCommonTest extends PrologTestCase {
             cfg.setInt("rules", null, "reductionLimit", 1300);
             cfg.setInt("rules", null, "compileReductionLimit", (int) 1e6);
             bind(PrologEnvironment.Args.class)
-                .toInstance(new PrologEnvironment.Args(null, null, null, null, null, null, cfg));
+                .toInstance(
+                    new PrologEnvironment.Args(null, null, null, null, null, null, null, cfg));
           }
         });
   }

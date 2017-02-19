@@ -27,12 +27,16 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.ChangePermissionOrLabel;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
+import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwt.thirdparty.guava.common.collect.Maps;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -676,6 +680,11 @@ public class RefControl {
     }
 
     @Override
+    public ForChange changeWithoutData(Change.Id id) {
+      return asForChangeWithoutData();
+    }
+
+    @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
         throw new AuthException(perm.toString());
@@ -717,6 +726,103 @@ public class RefControl {
           return canUpload();
       }
       throw new PermissionBackendException(perm + " unsupported");
+    }
+  }
+
+  ForChangeWithoutDataImpl asForChangeWithoutData() {
+    return new ForChangeWithoutDataImpl();
+  }
+
+  class ForChangeWithoutDataImpl extends ForChange {
+    private Map<String, PermissionRange> labels;
+
+    @Override
+    public ForChange user(CurrentUser user) {
+      return getUser().equals(user) ? this : forUser(user).asForChangeWithoutData();
+    }
+
+    @Override
+    public void check(ChangePermissionOrLabel perm)
+        throws AuthException, PermissionBackendException {
+      if (!can(perm)) {
+        throw new AuthException(perm.toString());
+      }
+    }
+
+    @Override
+    public <T extends ChangePermissionOrLabel> Set<T> test(Collection<T> permSet)
+        throws PermissionBackendException {
+      Set<T> ok = ChangeControl.newSet(permSet);
+      for (T perm : permSet) {
+        if (can(perm)) {
+          ok.add(perm);
+        }
+      }
+      return ok;
+    }
+
+    private boolean can(ChangePermissionOrLabel perm) throws PermissionBackendException {
+      if (perm instanceof ChangePermission) {
+        return can((ChangePermission) perm);
+      } else if (perm instanceof LabelPermission) {
+        return can((LabelPermission) perm);
+      } else if (perm instanceof LabelPermission.WithValue) {
+        return can((LabelPermission.WithValue) perm);
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    private boolean can(ChangePermission perm) throws PermissionBackendException {
+      switch (perm) {
+        case READ:
+          return isVisible();
+        case ABANDON:
+          return canAbandon();
+        case DELETE:
+          return false;
+        case ADD_PATCH_SET:
+          return canAddPatchSet();
+        case EDIT_ASSIGNEE:
+          return canEditAssignee();
+        case EDIT_DESCRIPTION:
+          return false;
+        case EDIT_HASHTAGS:
+          return canEditHashtags();
+        case EDIT_TOPIC_NAME:
+          return canEditTopicName();
+        case REBASE:
+          return canRebase();
+        case REMOVE_REVIEWER:
+          return canRemoveReviewer();
+        case RESTORE:
+          return canUpload();
+        case SUBMIT:
+          return canPerform(Permission.SUBMIT);
+        case SUBMIT_AS:
+          return canPerform(Permission.SUBMIT_AS);
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    private boolean can(LabelPermission perm) {
+      PermissionRange r = label(perm.permissionName().get());
+      return r.getMin() < 0 || r.getMax() > 0;
+    }
+
+    private boolean can(LabelPermission.WithValue perm) {
+      return label(perm.permissionName().get()).contains(perm.value());
+    }
+
+    private PermissionRange label(String permission) {
+      if (labels == null) {
+        labels = Maps.newHashMapWithExpectedSize(4);
+      }
+      PermissionRange r = labels.get(permission);
+      if (r == null) {
+        r = getRange(permission);
+        labels.put(permission, r);
+      }
+      return r;
     }
   }
 }

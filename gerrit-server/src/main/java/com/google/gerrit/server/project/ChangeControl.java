@@ -21,7 +21,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -460,7 +459,7 @@ public class ChangeControl {
   }
 
   /** Can this user edit the hashtag name? */
-  public boolean canEditHashtags() {
+  private boolean canEditHashtags() {
     return isOwner() // owner (aka creator) of the change can edit hashtags
         || getRefControl().isOwner() // branch owner can edit hashtags
         || getProjectControl().isOwner() // project owner can edit hashtags
@@ -599,7 +598,7 @@ public class ChangeControl {
     }
   }
 
-  private static <T extends ChangePermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
+  static <T extends ChangePermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
     if (permSet instanceof EnumSet) {
       @SuppressWarnings({"unchecked", "rawtypes"})
       Set<T> s = ((EnumSet) permSet).clone();

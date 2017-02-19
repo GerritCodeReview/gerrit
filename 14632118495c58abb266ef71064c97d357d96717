@@ -140,6 +140,30 @@
       "revId": "14632118495c58abb266ef71064c97d357d96717",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cbe1322_f6f2d6a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-19T23:44:54Z",
+      "side": 1,
+      "message": "Nice DSL solution:\n\n  resource.permissions().database(dbProvider).testOrFalse(ChangePermission.REBASE);",
+      "parentUuid": "e3ad5b56_717aa2b9",
+      "range": {
+        "startLine": 505,
+        "startChar": 4,
+        "endLine": 512,
+        "endChar": 5
+      },
+      "revId": "14632118495c58abb266ef71064c97d357d96717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -21,11 +25,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwt.thirdparty.guava.common.collect.Sets;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -160,6 +166,17 @@ public abstract class PermissionBackend {
       } catch (PermissionBackendException e) {
         return false;
       }
+    }
+
+    public Set<LabelPermission.WithValue> test(LabelType type)
+        throws PermissionBackendException {
+      checkNotNull(type, "LabelType");
+      List<LabelValue> vals = type.getValues();
+      Set<LabelPermission.WithValue> r = Sets.newHashSetWithExpectedSize(vals.size());
+      for (LabelValue v : vals) {
+        r.add(new LabelPermission.WithValue(type.getName(), v.getValue()));
+      }
+      return test(r);
     }
   }
 }

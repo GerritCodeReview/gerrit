@@ -93,6 +93,10 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.LabelPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.LabelVote;
@@ -172,12 +176,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   @Override
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
-      throws RestApiException, UpdateException, OrmException, IOException {
+      throws RestApiException, UpdateException, OrmException, IOException,
+          PermissionBackendException {
     return apply(revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
-      throws RestApiException, UpdateException, OrmException, IOException {
+      throws RestApiException, UpdateException, OrmException, IOException,
+          PermissionBackendException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {
@@ -320,7 +326,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, ReviewInput in)
-      throws BadRequestException, AuthException, UnprocessableEntityException, OrmException {
+      throws BadRequestException, AuthException, UnprocessableEntityException, OrmException,
+          PermissionBackendException {
     if (in.labels == null || in.labels.isEmpty()) {
       throw new AuthException(
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
@@ -332,6 +339,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       throw new AuthException("not allowed to modify other user's drafts");
     }
 
+    PermissionBackend.ForChange perm = rev.permissions();
     ChangeControl caller = rev.getControl();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
     while (itr.hasNext()) {
@@ -362,25 +370,27 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
-    ChangeControl target =
-        caller.forUser(accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf));
-    if (!target.getRefControl().isVisible()) {
+    IdentifiedUser reviewer = accounts.parseOnBehalfOf(caller.getUser(), in.onBehalfOf);
+    try {
+      perm.user(reviewer).check(ChangePermission.READ);
+    } catch (AuthException e) {
       throw new UnprocessableEntityException(
           String.format(
-              "on_behalf_of account %s cannot see destination ref",
-              target.getUser().getAccountId()));
+              "on_behalf_of account %s cannot see change", reviewer.getAccountId()));
     }
+
+    ChangeControl target = caller.forUser(reviewer);
     return new RevisionResource(changes.parse(target), rev.getPatchSet());
   }
 
-  private void checkLabels(RevisionResource revision, boolean strict, Map<String, Short> labels)
-      throws BadRequestException, AuthException {
-    ChangeControl ctl = revision.getControl();
+  private void checkLabels(RevisionResource rsrc, boolean strict, Map<String, Short> labels)
+      throws BadRequestException, AuthException, PermissionBackendException {
+    LabelTypes types = rsrc.getControl().getLabelTypes();
+    PermissionBackend.ForChange perm = rsrc.permissions();
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
-
-      LabelType lt = revision.getControl().getLabelTypes().byLabel(ent.getKey());
+      LabelType lt = types.byLabel(ent.getKey());
       if (lt == null) {
         if (strict) {
           throw new BadRequestException(
@@ -405,20 +415,43 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         continue;
       }
 
-      String name = lt.getName();
-      PermissionRange range = ctl.getRange(Permission.forLabel(name));
-      if (range == null || !range.contains(ent.getValue())) {
-        if (strict) {
-          throw new AuthException(
-              String.format(
-                  "Applying label \"%s\": %d is restricted", ent.getKey(), ent.getValue()));
-        } else if (range == null || range.isEmpty()) {
-          ent.setValue((short) 0);
-        } else {
-          ent.setValue((short) range.squash(ent.getValue()));
+      checkOrSquash(perm, lt, strict, ent);
+    }
+  }
+
+  private void checkOrSquash(
+      PermissionBackend.ForChange perm, LabelType lt, boolean strict, Map.Entry<String, Short> ent)
+      throws PermissionBackendException, AuthException {
+    short val = ent.getValue();
+    try {
+      perm.check(new LabelPermission.WithValue(lt.getName(), val));
+    } catch (AuthException e) {
+      if (strict) {
+        throw new AuthException(
+            String.format("Applying label \"%s\": %d is restricted", lt.getName(), val));
+      }
+
+      short s = nearest(perm.test(lt), val);
+      if (s != 0) {
+        try {
+          perm.check(new LabelPermission.WithValue(lt.getName(), s));
+        } catch (AuthException e2) {
+          s = 0;
         }
       }
+      ent.setValue(s);
     }
+  }
+
+  private static short nearest(Set<LabelPermission.WithValue> toTry, short wanted) {
+    short s = 0;
+    for (LabelPermission.WithValue v : toTry) {
+      if ((wanted < 0 && v.value() < 0 && wanted < v.value() && v.value() < s)
+          || (wanted > 0 && v.value() > 0 && wanted > v.value() && v.value() > s)) {
+        s = v.value();
+      }
+    }
+    return s;
   }
 
   private <T extends CommentInput> void checkComments(

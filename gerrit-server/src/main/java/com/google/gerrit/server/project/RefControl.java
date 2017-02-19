@@ -407,12 +407,12 @@ public class RefControl {
   }
 
   /** @return true if this user can abandon a change for this ref */
-  public boolean canAbandon() {
+  boolean canAbandon() {
     return canPerform(Permission.ABANDON);
   }
 
   /** @return true if this user can remove a reviewer for a change. */
-  public boolean canRemoveReviewer() {
+  boolean canRemoveReviewer() {
     return canPerform(Permission.REMOVE_REVIEWER);
   }
 
@@ -432,16 +432,16 @@ public class RefControl {
   }
 
   /** @return true if this user can edit topic names. */
-  public boolean canEditTopicName() {
+  boolean canEditTopicName() {
     return canPerform(Permission.EDIT_TOPIC_NAME);
   }
 
   /** @return true if this user can edit hashtag names. */
-  public boolean canEditHashtags() {
+  boolean canEditHashtags() {
     return canPerform(Permission.EDIT_HASHTAGS);
   }
 
-  public boolean canEditAssignee() {
+  boolean canEditAssignee() {
     return canPerform(Permission.EDIT_ASSIGNEE);
   }
 

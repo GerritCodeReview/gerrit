@@ -105,6 +105,8 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -292,6 +294,7 @@ public class ReceiveCommits {
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
+  private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
   private final CommitValidators.Factory commitValidatorsFactory;
@@ -358,6 +361,7 @@ public class ReceiveCommits {
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
+      PermissionBackend permissionBackend,
       TagCache tagCache,
       AccountCache accountCache,
       @Nullable SearchingChangeCacheImpl changeCache,
@@ -397,6 +401,7 @@ public class ReceiveCommits {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
+    this.permissionBackend = permissionBackend;
     this.canonicalWebUrl = canonicalWebUrl;
     this.tagCache = tagCache;
     this.accountCache = accountCache;
@@ -2177,6 +2182,12 @@ public class ReceiveCommits {
                 .setUpdateRef(false)
                 .setPatchSetDescription(magicBranch.message));
         if (!magicBranch.hashtags.isEmpty()) {
+          permissionBackend
+              .user(user)
+              .project(project.getNameKey())
+              .ref(refName)
+              .changeWithoutData(changeId)
+              .check(ChangePermission.EDIT_HASHTAGS);
           bu.addOp(
               changeId,
               hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags)).setFireEvent(false));

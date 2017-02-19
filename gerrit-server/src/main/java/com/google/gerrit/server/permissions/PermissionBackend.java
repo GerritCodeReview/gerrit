@@ -267,8 +267,8 @@ public abstract class PermissionBackend {
      * @throws PermissionBackendException backend cannot run test or check.
      */
     public short squashThenCheck(LabelType label, short val) throws PermissionBackendException {
-      short s = nearest(test(label), val);
-      if (s == 0) {
+      short s = squashByTest(label, val);
+      if (s == 0 || s == val) {
         return 0;
       }
       try {
@@ -279,11 +279,28 @@ public abstract class PermissionBackend {
       }
     }
 
+    /**
+     * Squash a label value to the nearest allowed value using only test methods.
+     *
+     * <p>Tests all possible values and selects the closet available to {@code val} while matching
+     * the sign of {@code val}. Unlike {@code #squashThenCheck(LabelType, short)} this method only
+     * uses {@code test} methods and should not be used in contexts like a review handler without
+     * checking the resulting score.
+     *
+     * @param label definition of the label to test values of.
+     * @param val previously denied value the user attempted.
+     * @return nearest likely allowed value, or {@code 0} if no value was identified.
+     * @throws PermissionBackendException backend cannot run test.
+     */
+    public short squashByTest(LabelType label, short val) throws PermissionBackendException {
+      return nearest(test(label), val);
+    }
+
     private static short nearest(Iterable<LabelPermission.WithValue> possible, short wanted) {
       short s = 0;
       for (LabelPermission.WithValue v : possible) {
-        if ((wanted < 0 && v.value() < 0 && wanted < v.value() && v.value() < s)
-            || (wanted > 0 && v.value() > 0 && wanted > v.value() && v.value() > s)) {
+        if ((wanted < 0 && v.value() < 0 && wanted <= v.value() && v.value() < s)
+            || (wanted > 0 && v.value() > 0 && wanted >= v.value() && v.value() > s)) {
           s = v.value();
         }
       }

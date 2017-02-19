@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7535e10c_f0e1e8ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-19T06:52:37Z",
+      "side": 1,
+      "message": "Use non GWT Sets from guava.",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 59
+      },
+      "revId": "9dca7ae06d94f07e9a901ce5ac842eef4c3b76a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -49,7 +50,7 @@ class ListRevisionReviewers implements RestReadView<RevisionResource> {
 
   @Override
   public List<ReviewerInfo> apply(RevisionResource rsrc)
-      throws OrmException, MethodNotAllowedException {
+      throws OrmException, MethodNotAllowedException, PermissionBackendException {
     if (!rsrc.isCurrent()) {
       throw new MethodNotAllowedException("Cannot list reviewers on non-current patch set");
     }

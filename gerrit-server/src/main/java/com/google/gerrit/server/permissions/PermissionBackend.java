@@ -16,6 +16,7 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -31,6 +32,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -210,6 +212,66 @@ public abstract class PermissionBackend {
         logger.warn("Cannot test " + perm + "; assuming false", e);
         return false;
       }
+    }
+
+    /**
+     * Test which values of a label the user may be able to set.
+     *
+     * @param label definition of the label to test values of.
+     * @return set containing values the user may be able to use; may be empty if none.
+     * @throws PermissionBackendException if failure consulting backend configuration.
+     */
+    public Set<LabelPermission.WithValue> test(LabelType label) throws PermissionBackendException {
+      checkNotNull(label, "LabelType");
+      return test(
+          label
+              .getValues()
+              .stream()
+              .map((v) -> new LabelPermission.WithValue(label.getName(), v.getValue()))
+              .collect(Collectors.toSet()));
+    }
+
+    /**
+     * Squash a label value to the nearest allowed value.
+     *
+     * <p>For multi-valued labels like Code-Review with values -2..+2 a user may try to use +2, but
+     * only have permission for the -1..+1 range. The caller should have already tried:
+     *
+     * <pre>
+     * check(new LabelPermission.WithValue("Code-Review", 2));
+     * </pre>
+     *
+     * and caught {@link AuthException}. {@code squashThenCheck} will use {@link #test(LabelType)}
+     * to determine potential values of Code-Review the user can use, and select the nearest value
+     * along the same sign, e.g. -1 for -2 and +1 for +2.
+     *
+     * @param label definition of the label to test values of.
+     * @param val previously denied value the user attempted.
+     * @return nearest allowed value, or {@code 0} if no value was allowed.
+     * @throws PermissionBackendException backend cannot run test or check.
+     */
+    public short squashThenCheck(LabelType label, short val) throws PermissionBackendException {
+      short s = nearest(test(label), val);
+      if (s == 0) {
+        return 0;
+      }
+      try {
+        check(new LabelPermission.WithValue(label.getName(), s));
+        return s;
+      } catch (AuthException e) {
+        return 0;
+      }
+    }
+
+    private static short nearest(Iterable<LabelPermission.WithValue> possible, short wanted) {
+      short s = 0;
+      for (LabelPermission.WithValue v : possible) {
+        if ((wanted < 0 && v.value() < 0 && wanted < v.value() && v.value() < s)
+            || (wanted > 0 && v.value() > 0 && wanted > v.value() && v.value() > s)) {
+          s = v.value();
+        }
+      }
+      return s;
     }
   }
 }

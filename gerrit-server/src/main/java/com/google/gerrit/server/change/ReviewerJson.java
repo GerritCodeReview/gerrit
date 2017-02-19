@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
@@ -30,6 +29,9 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.permissions.LabelPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -44,6 +46,7 @@ import java.util.TreeMap;
 @Singleton
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
+  private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountLoader.Factory accountLoaderFactory;
@@ -51,22 +54,29 @@ public class ReviewerJson {
   @Inject
   ReviewerJson(
       Provider<ReviewDb> db,
+      PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       AccountLoader.Factory accountLoaderFactory) {
     this.db = db;
+    this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
-  public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs) throws OrmException {
+  public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
+      throws OrmException, PermissionBackendException {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountLoader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
       ReviewerInfo info =
           format(
               new ReviewerInfo(rsrc.getReviewerUser().getAccountId().get()),
+              permissionBackend
+                  .user(rsrc.getReviewerUser())
+                  .database(db)
+                  .change(rsrc.getChangeResource().getNotes()),
               rsrc.getReviewerControl());
       loader.put(info);
       infos.add(info);
@@ -75,21 +85,27 @@ public class ReviewerJson {
     return infos;
   }
 
-  public List<ReviewerInfo> format(ReviewerResource rsrc) throws OrmException {
+  public List<ReviewerInfo> format(ReviewerResource rsrc)
+      throws OrmException, PermissionBackendException {
     return format(ImmutableList.<ReviewerResource>of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl) throws OrmException {
+  public ReviewerInfo format(ReviewerInfo out, PermissionBackend.ForChange perm, ChangeControl ctl)
+      throws OrmException, PermissionBackendException {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
     return format(
         out,
+        perm,
         ctl,
         approvalsUtil.byPatchSetUser(db.get(), ctl, psId, new Account.Id(out._accountId)));
   }
 
   public ReviewerInfo format(
-      ReviewerInfo out, ChangeControl ctl, Iterable<PatchSetApproval> approvals)
-      throws OrmException {
+      ReviewerInfo out,
+      PermissionBackend.ForChange perm,
+      ChangeControl ctl,
+      Iterable<PatchSetApproval> approvals)
+      throws OrmException, PermissionBackendException {
     LabelTypes labelTypes = ctl.getLabelTypes();
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
@@ -117,8 +133,10 @@ public class ReviewerJson {
         }
         for (SubmitRecord.Label label : rec.labels) {
           String name = label.label;
+          LabelType type = labelTypes.byLabel(name);
           if (!out.approvals.containsKey(name)
-              && !ctl.getRange(Permission.forLabel(name)).isEmpty()) {
+              && type != null
+              && perm.test(new LabelPermission(type))) {
             out.approvals.put(name, formatValue((short) 0));
           }
         }

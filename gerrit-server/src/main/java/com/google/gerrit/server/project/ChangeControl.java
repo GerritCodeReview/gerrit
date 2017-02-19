@@ -461,7 +461,7 @@ public class ChangeControl {
   }
 
   /** Can this user edit the hashtag name? */
-  public boolean canEditHashtags() {
+  private boolean canEditHashtags() {
     return isOwner() // owner (aka creator) of the change can edit hashtags
         || getRefControl().isOwner() // branch owner can edit hashtags
         || getProjectControl().isOwner() // project owner can edit hashtags
@@ -573,13 +573,12 @@ public class ChangeControl {
             return canEditTopicName();
           case REBASE:
             return canRebase(db());
-          case REMOVE_REVIEWER:
-            // TODO Honor specific removal filters?
-            return getRefControl().canRemoveReviewer();
           case RESTORE:
             return canRestore(db());
           case SUBMIT:
             return getRefControl().canSubmit(isOwner());
+
+          case REMOVE_REVIEWER: // TODO Honor specific removal filters?
           case SUBMIT_AS:
             return getRefControl().canPerform(perm.permissionName().get());
         }
@@ -611,7 +610,7 @@ public class ChangeControl {
     }
   }
 
-  private static <T extends ChangePermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
+  static <T extends ChangePermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
     if (permSet instanceof EnumSet) {
       @SuppressWarnings({"unchecked", "rawtypes"})
       Set<T> s = ((EnumSet) permSet).clone();

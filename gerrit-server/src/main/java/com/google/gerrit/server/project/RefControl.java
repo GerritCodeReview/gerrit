@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -27,13 +28,17 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.ChangePermissionOrLabel;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
+import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -402,12 +407,12 @@ public class RefControl {
   }
 
   /** @return true if this user can abandon a change for this ref */
-  public boolean canAbandon() {
+  boolean canAbandon() {
     return canPerform(Permission.ABANDON);
   }
 
   /** @return true if this user can remove a reviewer for a change. */
-  public boolean canRemoveReviewer() {
+  boolean canRemoveReviewer() {
     return canPerform(Permission.REMOVE_REVIEWER);
   }
 
@@ -427,16 +432,16 @@ public class RefControl {
   }
 
   /** @return true if this user can edit topic names. */
-  public boolean canEditTopicName() {
+  boolean canEditTopicName() {
     return canPerform(Permission.EDIT_TOPIC_NAME);
   }
 
   /** @return true if this user can edit hashtag names. */
-  public boolean canEditHashtags() {
+  boolean canEditHashtags() {
     return canPerform(Permission.EDIT_HASHTAGS);
   }
 
-  public boolean canEditAssignee() {
+  boolean canEditAssignee() {
     return canPerform(Permission.EDIT_ASSIGNEE);
   }
 
@@ -676,6 +681,11 @@ public class RefControl {
     }
 
     @Override
+    public ForChange changeWithoutData(Change.Id id) {
+      return asForChangeWithoutData(db);
+    }
+
+    @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
         throw new AuthException(perm.describeForException() + " denied");
@@ -700,7 +710,7 @@ public class RefControl {
           return isVisible();
         case CREATE:
           // TODO This isn't an accurate test.
-          return canPerform(Permission.CREATE);
+          return canPerform(perm.permissionName().get());
         case DELETE:
           return canDelete();
         case UPDATE:
@@ -717,6 +727,102 @@ public class RefControl {
           return canUpload();
       }
       throw new PermissionBackendException(perm + " unsupported");
+    }
+  }
+
+  ForChangeWithoutDataImpl asForChangeWithoutData(Provider<ReviewDb> db) {
+    return new ForChangeWithoutDataImpl(db);
+  }
+
+  class ForChangeWithoutDataImpl extends ForChange {
+    private Map<String, PermissionRange> labels;
+
+    ForChangeWithoutDataImpl(Provider<ReviewDb> db) {
+      this.db = db;
+    }
+
+    @Override
+    public ForChange user(CurrentUser user) {
+      return getUser().equals(user) ? this : forUser(user).asForChangeWithoutData(db);
+    }
+
+    @Override
+    public void check(ChangePermissionOrLabel perm)
+        throws AuthException, PermissionBackendException {
+      if (!can(perm)) {
+        throw new AuthException(perm.describeForException() + " denied");
+      }
+    }
+
+    @Override
+    public <T extends ChangePermissionOrLabel> Set<T> test(Collection<T> permSet)
+        throws PermissionBackendException {
+      Set<T> ok = ChangeControl.newSet(permSet);
+      for (T perm : permSet) {
+        if (can(perm)) {
+          ok.add(perm);
+        }
+      }
+      return ok;
+    }
+
+    private boolean can(ChangePermissionOrLabel perm) throws PermissionBackendException {
+      if (perm instanceof ChangePermission) {
+        return can((ChangePermission) perm);
+      } else if (perm instanceof LabelPermission) {
+        return can((LabelPermission) perm);
+      } else if (perm instanceof LabelPermission.WithValue) {
+        return can((LabelPermission.WithValue) perm);
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    private boolean can(ChangePermission perm) throws PermissionBackendException {
+      switch (perm) {
+        case READ:
+          return isVisible();
+        case DELETE:
+          return false;
+        case ADD_PATCH_SET:
+          return canAddPatchSet();
+        case EDIT_DESCRIPTION:
+          return false;
+        case REBASE:
+          return canRebase();
+        case RESTORE:
+          return canUpload();
+
+        case ABANDON:
+        case EDIT_ASSIGNEE:
+        case EDIT_HASHTAGS:
+        case EDIT_TOPIC_NAME:
+        case REMOVE_REVIEWER:
+        case SUBMIT:
+        case SUBMIT_AS:
+          return canPerform(perm.permissionName().get());
+      }
+      throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    private boolean can(LabelPermission perm) {
+      PermissionRange r = label(perm.permissionName().get());
+      return r.getMin() < 0 || r.getMax() > 0;
+    }
+
+    private boolean can(LabelPermission.WithValue perm) {
+      return label(perm.permissionName().get()).contains(perm.value());
+    }
+
+    private PermissionRange label(String permission) {
+      if (labels == null) {
+        labels = Maps.newHashMapWithExpectedSize(4);
+      }
+      PermissionRange r = labels.get(permission);
+      if (r == null) {
+        r = getRange(permission);
+        labels.put(permission, r);
+      }
+      return r;
     }
   }
 }

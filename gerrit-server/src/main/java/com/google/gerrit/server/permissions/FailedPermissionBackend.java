@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -120,6 +121,11 @@ public class FailedPermissionBackend {
 
     @Override
     public ForChange change(ChangeNotes cd) {
+      return new FailedChange(message, cause);
+    }
+
+    @Override
+    public ForChange changeWithoutData(Change.Id cd) {
       return new FailedChange(message, cause);
     }
 

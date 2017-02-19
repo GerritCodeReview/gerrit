@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8af3485a_aabcb6c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-19T22:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8648c9d5_98d4b120",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 14
+      },
+      "revId": "14632118495c58abb266ef71064c97d357d96717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51c25176_2f96a90a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "db7610ca_4ee5930a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-19T22:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51c25176_2f96a90a",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 59
+      },
+      "revId": "14632118495c58abb266ef71064c97d357d96717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab887241_d9994c79",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2017-02-19T08:41:23Z",
       "side": 1,
       "message": "This can\u0027t work and broke all tests, because some checks require the ReviewDb to be available, like in this NPE stack trace: [1]. It seems like, either ReviewDb or ChangeData should be passed in into ForChange construction, so instead of:\n\n  resource.permissions().testOrFalse(ChangePermission.REBASE);\n\nit should probably be (in which case changeData must be retrieved in all handlers, like in Submit#getDescription()):\n\n  resource.permissions(changeData).testOrFalse(ChangePermission.REBASE);\n\nor passing in ReviewDb, probably better, as ChangeData retrieval wouldn\u0027t be needed:\n\n  resource.permissions(reviewDb).testOrFalse(ChangePermission.REBASE);\n\n* [1] http://paste.openstack.org/show/599561/",
+      "range": {
+        "startLine": 505,
+        "startChar": 4,
+        "endLine": 512,
+        "endChar": 5
+      },
+      "revId": "14632118495c58abb266ef71064c97d357d96717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3ad5b56_717aa2b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-19T22:52:22Z",
+      "side": 1,
+      "message": "Argh, good point. I\u0027ve fixed this by adding a database(Provider\u003cReviewDb\u003e) and database(ReviewDb) to the PermissionBackend \"DSL\" family so that callers can supply the database if they have it available and the permission might need it.\n\nSince we are phasing out the database with NoteDb I\u0027m not going to require it in every location. We\u0027ll just have to be cautious about which permissions need the database.",
+      "parentUuid": "ab887241_d9994c79",
       "range": {
         "startLine": 505,
         "startChar": 4,

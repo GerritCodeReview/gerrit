@@ -771,7 +771,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertDescription(r, "");
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("changing description not permitted");
+    exception.expectMessage("edit description not permitted");
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("test");
   }
 

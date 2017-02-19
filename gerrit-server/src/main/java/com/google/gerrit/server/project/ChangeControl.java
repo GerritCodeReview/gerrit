@@ -518,8 +518,13 @@ public class ChangeControl {
     }
 
     @Override
+    public CurrentUser user() {
+      return getUser();
+    }
+
+    @Override
     public ForChange user(CurrentUser user) {
-      return getUser().equals(user) ? this : forUser(user).asForChange(cd, db);
+      return user().equals(user) ? this : forUser(user).asForChange(cd, db);
     }
 
     @Override

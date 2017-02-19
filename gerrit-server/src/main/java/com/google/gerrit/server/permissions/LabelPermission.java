@@ -16,6 +16,8 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
+import static com.google.gerrit.server.permissions.LabelPermission.ForUser.SELF;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -24,6 +26,12 @@ import java.util.Optional;
 
 /** Permission representing a label. */
 public class LabelPermission implements ChangePermissionOrLabel {
+  public enum ForUser {
+    SELF,
+    ON_BEHALF_OF;
+  }
+
+  private final ForUser forUser;
   private final String name;
 
   /**
@@ -32,7 +40,23 @@ public class LabelPermission implements ChangePermissionOrLabel {
    * @param name name of the label, e.g. {@code "Code-Review"} or {@code "Verified"}.
    */
   public LabelPermission(String name) {
+    this(SELF, name);
+  }
+
+  /**
+   * Construct a reference to a label permission.
+   *
+   * @param forUser {@code SELF} (default) or {@code ON_BEHALF_OF} for labelAs behavior.
+   * @param name name of the label, e.g. {@code "Code-Review"} or {@code "Verified"}.
+   */
+  public LabelPermission(ForUser forUser, String name) {
+    this.forUser = checkNotNull(forUser, "ForUser");
     this.name = LabelType.checkName(name);
+  }
+
+  /** @return {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */
+  public ForUser forUser() {
+    return forUser;
   }
 
   /** @return name of the label, e.g. {@code "Code-Review"}. */
@@ -43,12 +67,21 @@ public class LabelPermission implements ChangePermissionOrLabel {
   /** @return name used in {@code project.config} permissions. */
   @Override
   public Optional<String> permissionName() {
-    return Optional.of(Permission.forLabel(label()));
+    switch (forUser) {
+      case SELF:
+        return Optional.of(Permission.forLabel(name));
+      case ON_BEHALF_OF:
+        return Optional.of(Permission.forLabelAs(name));
+    }
+    return Optional.empty();
   }
 
   @Override
   public String describeForException() {
-    return "label " + label();
+    if (forUser == ON_BEHALF_OF) {
+      return "labelAs " + name;
+    }
+    return "label " + name;
   }
 
   @Override
@@ -58,16 +91,24 @@ public class LabelPermission implements ChangePermissionOrLabel {
 
   @Override
   public boolean equals(Object other) {
-    return other instanceof LabelPermission && name.equals(((LabelPermission) other).name);
+    if (other instanceof LabelPermission) {
+      LabelPermission b = (LabelPermission) other;
+      return forUser == b.forUser && name.equals(b.name);
+    }
+    return false;
   }
 
   @Override
   public String toString() {
+    if (forUser == ON_BEHALF_OF) {
+      return "LabelAs[" + name + ']';
+    }
     return "Label[" + name + ']';
   }
 
   /** A {@link LabelPermission} at a specific value. */
   public static class WithValue implements ChangePermissionOrLabel {
+    private final ForUser forUser;
     private final LabelVote label;
 
     /**
@@ -77,7 +118,18 @@ public class LabelPermission implements ChangePermissionOrLabel {
      * @param value numeric score assigned to the label.
      */
     public WithValue(String name, short value) {
-      this(LabelVote.create(name, value));
+      this(SELF, name, value);
+    }
+
+    /**
+     * Construct a reference to a label at a specific value.
+     *
+     * @param forUser {@code SELF} (default) or {@code ON_BEHALF_OF} for labelAs behavior.
+     * @param name name of the label, e.g. {@code "Code-Review"} or {@code "Verified"}.
+     * @param value numeric score assigned to the label.
+     */
+    public WithValue(ForUser forUser, String name, short value) {
+      this(forUser, LabelVote.create(name, value));
     }
 
     /**
@@ -86,7 +138,23 @@ public class LabelPermission implements ChangePermissionOrLabel {
      * @param label label name and vote.
      */
     public WithValue(LabelVote label) {
+      this(SELF, label);
+    }
+
+    /**
+     * Construct a reference to a label at a specific value.
+     *
+     * @param forUser {@code SELF} (default) or {@code ON_BEHALF_OF} for labelAs behavior.
+     * @param label label name and vote.
+     */
+    public WithValue(ForUser forUser, LabelVote label) {
+      this.forUser = checkNotNull(forUser, "ForUser");
       this.label = checkNotNull(label, "LabelVote");
+    }
+
+    /** @return {@code SELF} or {@code ON_BEHALF_OF} (or labelAs). */
+    public ForUser forUser() {
+      return forUser;
     }
 
     /** @return name of the label, e.g. {@code "Code-Review"}. */
@@ -102,11 +170,20 @@ public class LabelPermission implements ChangePermissionOrLabel {
     /** @return name used in {@code project.config} permissions. */
     @Override
     public Optional<String> permissionName() {
-      return Optional.of(Permission.forLabel(label()));
+      switch (forUser) {
+        case SELF:
+          return Optional.of(Permission.forLabel(label()));
+        case ON_BEHALF_OF:
+          return Optional.of(Permission.forLabelAs(label()));
+      }
+      return Optional.empty();
     }
 
     @Override
     public String describeForException() {
+      if (forUser == ON_BEHALF_OF) {
+        return "labelAs " + label.formatWithEquals();
+      }
       return "label " + label.formatWithEquals();
     }
 
@@ -117,11 +194,18 @@ public class LabelPermission implements ChangePermissionOrLabel {
 
     @Override
     public boolean equals(Object other) {
-      return other instanceof WithValue && label.equals(((WithValue) other).label);
+      if (other instanceof WithValue) {
+        WithValue b = (WithValue) other;
+        return forUser == b.forUser && label.equals(b.label);
+      }
+      return false;
     }
 
     @Override
     public String toString() {
+      if (forUser == ON_BEHALF_OF) {
+        return "LabelAs[" + label.format() + ']';
+      }
       return "Label[" + label.format() + ']';
     }
   }

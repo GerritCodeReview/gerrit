@@ -545,7 +545,7 @@ class RevisionApiImpl implements RevisionApi {
     in.description = description;
     try {
       putDescription.apply(revision, in);
-    } catch (UpdateException e) {
+    } catch (UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot set description", e);
     }
   }

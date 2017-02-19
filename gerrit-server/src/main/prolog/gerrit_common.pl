@@ -92,6 +92,27 @@ index_commit_labels([_ | Rs]) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
+%% check_user_label/3:
+%%
+%%   Check Who can set Label to Val.
+%%
+check_user_label(Label, Who, Val) :-
+  hash_get(commit_labels, '$fast_range', true), !,
+  atom(Label),
+  assume_range_from_label(Label, Who, Min, Max),
+  Min @=< Val, Val @=< Max.
+check_user_label(Label, Who, Val) :-
+  Who = user(_), !,
+  atom(Label),
+  current_user(Who, User),
+  '_check_user_label'(Label, User, Val).
+check_user_label(Label, test_user(Name), Val) :-
+  clause(user:test_grant(Label, test_user(Name), range(Min, Max)), _),
+  Min @=< Val, Val @=< Max
+  .
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
 %% user_label_range/4:
 %%
 %%   Lookup the range allowed to be used.
@@ -319,8 +340,7 @@ max_no_block(Label, Max, need(Max)) :-
 %%
 check_label_range_permission(Label, ExpValue, ok(Who)) :-
   commit_label(label(Label, ExpValue), Who),
-  user_label_range(Label, Who, Min, Max),
-  Min @=< ExpValue, ExpValue @=< Max
+  check_user_label(Label, Who, ExpValue)
   .
 %TODO Uncomment this clause when group suggesting is possible.
 %check_label_range_permission(Label, ExpValue, ask(Group)) :-

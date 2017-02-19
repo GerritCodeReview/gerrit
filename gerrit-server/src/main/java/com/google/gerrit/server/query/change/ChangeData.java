@@ -33,6 +33,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -755,6 +756,10 @@ public class ChangeData {
     change = notes.getChange();
     setPatchSets(null);
     return change;
+  }
+
+  public LabelTypes getLabelTypes() {
+    return changeControl.getLabelTypes();
   }
 
   public ChangeNotes notes() throws OrmException {

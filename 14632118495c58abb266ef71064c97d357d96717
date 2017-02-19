@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8648c9d5_98d4b120",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-19T07:19:23Z",
+      "side": 1,
+      "message": "Optional: Extend example above with testOrElse() usage, e.g.:\n\n  @Override\n  public UiAction.Description getDescription(ChangeResource rsrc) {\n    return new UiAction.Description()\n        .setLabel(\"Edit Topic\")\n        .setVisible(rsrc.permissions().testOrFalse(ChangePermission.EDIT_TOPIC_NAME));\n  }",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 14
+      },
+      "revId": "14632118495c58abb266ef71064c97d357d96717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51c25176_2f96a90a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1

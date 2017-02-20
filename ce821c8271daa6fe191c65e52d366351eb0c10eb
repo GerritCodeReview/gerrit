@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d278567c_fb70a476",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T14:04:08Z",
+      "side": 1,
+      "message": "Good question. I guess that the MERGE is actually something like /MERGE and that that \"/\" prefix ensures that it gets sorted as the first entry.",
+      "revId": "ce821c8271daa6fe191c65e52d366351eb0c10eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

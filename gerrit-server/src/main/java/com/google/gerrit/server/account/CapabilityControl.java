@@ -150,6 +150,11 @@ public class CapabilityControl {
     return !access(permissionName).isEmpty();
   }
 
+  /** @return true if the user has a permission rule specifying the range. */
+  public boolean hasExplicitRange(String permission) {
+    return GlobalCapability.hasRange(permission) && !access(permission).isEmpty();
+  }
+
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
     if (GlobalCapability.hasRange(permission)) {

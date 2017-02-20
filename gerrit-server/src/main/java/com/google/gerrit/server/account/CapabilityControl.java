@@ -112,11 +112,6 @@ public class CapabilityControl {
     return canPerform(GlobalCapability.ACCESS_DATABASE);
   }
 
-  /** @return true if the user can impersonate another user. */
-  public boolean canRunAs() {
-    return canPerform(GlobalCapability.RUN_AS);
-  }
-
   /** @return which priority queue the user's tasks should be submitted to. */
   public QueueProvider.QueueType getQueueType() {
     // If a non-generic group (that is not Anonymous Users or Registered Users)
@@ -240,8 +235,6 @@ public class CapabilityControl {
         return canMaintainServer();
       case MODIFY_ACCOUNT:
         return canModifyAccount();
-      case RUN_AS:
-        return canRunAs();
       case VIEW_ALL_ACCOUNTS:
         return canViewAllAccounts();
       case VIEW_QUEUE:
@@ -260,6 +253,9 @@ public class CapabilityControl {
       case VIEW_CONNECTIONS:
       case VIEW_PLUGINS:
         return canPerform(perm.permissionName()) || canAdministrateServer();
+
+      case RUN_AS:
+        return canPerform(perm.permissionName());
     }
     throw new PermissionBackendException(perm + " unsupported");
   }

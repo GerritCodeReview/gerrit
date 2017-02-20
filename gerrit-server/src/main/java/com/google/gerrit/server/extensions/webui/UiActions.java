@@ -16,20 +16,27 @@ package com.google.gerrit.server.extensions.webui;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityUtils;
+import com.google.gerrit.server.permissions.GlobalOrPluginPermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.util.Objects;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class UiActions {
   private static final Logger log = LoggerFactory.getLogger(UiActions.class);
 
@@ -37,57 +44,70 @@ public class UiActions {
     return UiAction.Description::isEnabled;
   }
 
-  public static <R extends RestResource> FluentIterable<UiAction.Description> from(
-      RestCollection<?, R> collection, R resource, Provider<CurrentUser> userProvider) {
-    return from(collection.views(), resource, userProvider);
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> userProvider;
+
+  @Inject
+  UiActions(PermissionBackend permissionBackend, Provider<CurrentUser> userProvider) {
+    this.permissionBackend = permissionBackend;
+    this.userProvider = userProvider;
   }
 
-  public static <R extends RestResource> FluentIterable<UiAction.Description> from(
-      DynamicMap<RestView<R>> views, R resource, Provider<CurrentUser> userProvider) {
+  public <R extends RestResource> FluentIterable<UiAction.Description> from(
+      RestCollection<?, R> collection, R resource) {
+    return from(collection.views(), resource);
+  }
+
+  public <R extends RestResource> FluentIterable<UiAction.Description> from(
+      DynamicMap<RestView<R>> views, R resource) {
     return FluentIterable.from(views)
-        .transform(
-            (DynamicMap.Entry<RestView<R>> e) -> {
-              int d = e.getExportName().indexOf('.');
-              if (d < 0) {
-                return null;
-              }
-
-              RestView<R> view;
-              try {
-                view = e.getProvider().get();
-              } catch (RuntimeException err) {
-                log.error(
-                    String.format(
-                        "error creating view %s.%s", e.getPluginName(), e.getExportName()),
-                    err);
-                return null;
-              }
-
-              if (!(view instanceof UiAction)) {
-                return null;
-              }
-
-              try {
-                CapabilityUtils.checkRequiresCapability(
-                    userProvider, e.getPluginName(), view.getClass());
-              } catch (AuthException exc) {
-                return null;
-              }
-
-              UiAction.Description dsc = ((UiAction<R>) view).getDescription(resource);
-              if (dsc == null || !dsc.isVisible()) {
-                return null;
-              }
-
-              String name = e.getExportName().substring(d + 1);
-              PrivateInternals_UiActionDescription.setMethod(
-                  dsc, e.getExportName().substring(0, d));
-              PrivateInternals_UiActionDescription.setId(
-                  dsc, "gerrit".equals(e.getPluginName()) ? name : e.getPluginName() + '~' + name);
-              return dsc;
-            })
+        .transform((e) -> describe(e, resource))
         .filter(Objects::nonNull);
   }
 
-  private UiActions() {}
+  @Nullable
+  private <R extends RestResource> UiAction.Description describe(
+      DynamicMap.Entry<RestView<R>> e, R resource) {
+    int d = e.getExportName().indexOf('.');
+    if (d < 0) {
+      return null;
+    }
+
+    RestView<R> view;
+    try {
+      view = e.getProvider().get();
+    } catch (RuntimeException err) {
+      log.error(
+          String.format("error creating view %s.%s", e.getPluginName(), e.getExportName()), err);
+      return null;
+    }
+
+    if (!(view instanceof UiAction)) {
+      return null;
+    }
+
+    try {
+      Set<GlobalOrPluginPermission> need =
+          GlobalPermission.fromAnnotation(e.getPluginName(), view.getClass());
+      if (!need.isEmpty() && permissionBackend.user(userProvider).test(need).isEmpty()) {
+        // A permission is required, but test returned no candidates.
+        return null;
+      }
+    } catch (PermissionBackendException err) {
+      log.error(
+          String.format("exception testing view %s.%s", e.getPluginName(), e.getExportName()), err);
+      return null;
+    }
+
+    UiAction.Description dsc = ((UiAction<R>) view).getDescription(resource);
+    if (dsc == null || !dsc.isVisible()) {
+      return null;
+    }
+
+    String name = e.getExportName().substring(d + 1);
+    PrivateInternals_UiActionDescription.setMethod(dsc, e.getExportName().substring(0, d));
+    PrivateInternals_UiActionDescription.setId(
+        dsc, "gerrit".equals(e.getPluginName()) ? name : e.getPluginName() + '~' + name);
+    return dsc;
+  }
 }

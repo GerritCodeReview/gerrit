@@ -83,10 +83,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     assertThat(userSshSession.hasError()).isTrue();
     String error = userSshSession.getError();
     assertThat(error).isNotNull();
-    assertError(
-        "One of the following capabilities is required to access this"
-            + " resource: [runGC, maintainServer]",
-        error);
+    assertError("maintain server not permitted", error);
   }
 
   @Test

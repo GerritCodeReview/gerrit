@@ -106,6 +106,7 @@ import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventsMetrics;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.AbandonOp;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.EmailMerge;
@@ -290,6 +291,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountControl.Factory.class);
 
     install(new AuditModule());
+    bind(UiActions.class);
     install(new com.google.gerrit.server.access.Module());
     install(new com.google.gerrit.server.account.Module());
     install(new com.google.gerrit.server.api.Module());

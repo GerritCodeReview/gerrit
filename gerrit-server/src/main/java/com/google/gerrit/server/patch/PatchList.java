@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -44,13 +45,29 @@ import org.eclipse.jgit.lib.ObjectId;
 
 public class PatchList implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;
+
   private static final Comparator<PatchListEntry> PATCH_CMP =
       new Comparator<PatchListEntry>() {
         @Override
         public int compare(final PatchListEntry a, final PatchListEntry b) {
-          return a.getNewName().compareTo(b.getNewName());
+          return compareNewNames(a.getNewName(), b.getNewName());
         }
       };
+
+  @VisibleForTesting
+  static int compareNewNames(String a, String b) {
+    int m1 = Patch.isMagic(a) ? (a.equals(Patch.MERGE_LIST) ? 2 : 1): 3;
+    int m2 = Patch.isMagic(b) ? (b.equals(Patch.MERGE_LIST) ? 2 : 1): 3;
+
+    if (m1 != m2) {
+      return m1 - m2;
+    } else if (m1 == 1 || m1 == 2){
+      return 0;
+    }
+
+    // m1 == m2 == 3: normal names.
+    return a.compareTo(b);
+  }
 
   @Nullable private transient ObjectId oldId;
   private transient ObjectId newId;
@@ -71,11 +88,16 @@ public class PatchList implements Serializable {
     this.isMerge = isMerge;
     this.comparisonType = comparisonType;
 
-    // We assume index 0 contains the magic commit message entry.
-    if (patches.length > 1) {
-      Arrays.sort(patches, 1, patches.length, PATCH_CMP);
+    Arrays.sort(patches, 0, patches.length, PATCH_CMP);
+
+    // Skip magic files
+    int i = 0;
+    for (; i < patches.length; i++) {
+      if (!Patch.isMagic(patches[i].getNewName())) {
+        break;
+      }
     }
-    for (int i = 1; i < patches.length; i++) {
+    for (; i < patches.length; i++) {
       insertions += patches[i].getInsertions();
       deletions += patches[i].getDeletions();
     }
@@ -144,27 +166,8 @@ public class PatchList implements Serializable {
   }
 
   private int search(final String fileName) {
-    if (Patch.COMMIT_MSG.equals(fileName)) {
-      return 0;
-    }
-    if (isMerge && Patch.MERGE_LIST.equals(fileName)) {
-      return 1;
-    }
-
-    int high = patches.length;
-    int low = isMerge ? 2 : 1;
-    while (low < high) {
-      final int mid = (low + high) >>> 1;
-      final int cmp = patches[mid].getNewName().compareTo(fileName);
-      if (cmp < 0) {
-        low = mid + 1;
-      } else if (cmp == 0) {
-        return mid;
-      } else {
-        high = mid;
-      }
-    }
-    return -(low + 1);
+    PatchListEntry want = PatchListEntry.empty(fileName);
+    return Arrays.binarySearch(patches, 0, patches.length, want, PATCH_CMP);
   }
 
   private void writeObject(final ObjectOutputStream output) throws IOException {

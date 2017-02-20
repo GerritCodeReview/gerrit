@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f468b7d5_11b596f1",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-20T00:01:58Z",
+      "side": 1,
+      "message": "Don\u0027t need to catch the extra exceptions here?",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 205,
+        "endChar": 45
+      },
+      "revId": "1ba03dc6b0160c92c41f322d49b9843435752953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

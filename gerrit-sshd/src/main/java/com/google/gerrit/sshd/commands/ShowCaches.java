@@ -23,6 +23,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.GetSummary;
@@ -34,6 +35,9 @@ import com.google.gerrit.server.config.GetSummary.ThreadSummaryInfo;
 import com.google.gerrit.server.config.ListCaches;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.ListCaches.CacheType;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
@@ -80,12 +84,10 @@ final class ShowCaches extends SshCommand {
   private boolean showThreads;
 
   @Inject private SshDaemon daemon;
-
   @Inject private ListCaches listCaches;
-
   @Inject private GetSummary getSummary;
-
   @Inject private CurrentUser self;
+  @Inject private PermissionBackend permissionBackend;
 
   @Option(
     name = "--width",
@@ -168,7 +170,15 @@ final class ShowCaches extends SshCommand {
     printDiskCaches(caches);
     stdout.print('\n');
 
-    if (self.getCapabilities().canMaintainServer()) {
+    boolean showJvm;
+    try {
+      permissionBackend.user(self).check(GlobalPermission.MAINTAIN_SERVER);
+      showJvm = true;
+    } catch (AuthException | PermissionBackendException e) {
+      // Silently ignore and do not display detailed JVM information.
+      showJvm = false;
+    }
+    if (showJvm) {
       sshSummary();
 
       SummaryInfo summary = getSummary.setGc(gc).setJvm(showJVM).apply(new ConfigResource());

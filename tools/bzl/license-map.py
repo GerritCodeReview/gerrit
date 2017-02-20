@@ -10,11 +10,6 @@ from shutil import copyfileobj
 from sys import stdout, stderr
 import xml.etree.ElementTree as ET
 
-KNOWN_PROVIDED_DEPS = [
-  "//lib/bouncycastle:bcpg",
-  "//lib/bouncycastle:bcpkix",
-  "//lib/bouncycastle:bcprov",
-]
 
 DO_NOT_DISTRIBUTE = "//lib:LICENSE-DO_NOT_DISTRIBUTE"
 
@@ -46,9 +41,6 @@ for xml in args.xmls:
 
       license_name = c.attrib["name"]
       if LICENSE_PREFIX in license_name:
-        if rule_name in KNOWN_PROVIDED_DEPS:
-          continue
-
         entries[rule_name].append(license_name)
         graph[license_name].append(rule_name)
 

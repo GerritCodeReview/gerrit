@@ -39,6 +39,7 @@ java_library(
         "//lib:automaton",
         "//lib:blame-cache",
         "//lib/bouncycastle:bcprov",
+        "//lib/bouncycastle:bcpkix",
         "//lib:grappa",
         "//lib:gson",
         "//lib:guava",

@@ -28,6 +28,9 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -40,6 +43,7 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
 
   private final Provider<CurrentUser> self;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager gitMgr;
   private final AllUsersName allUsersName;
 
@@ -47,10 +51,12 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
   SetEditPreferences(
       Provider<CurrentUser> self,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      PermissionBackend permissionBackend,
       GitRepositoryManager gitMgr,
       AllUsersName allUsersName) {
     this.self = self;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.permissionBackend = permissionBackend;
     this.gitMgr = gitMgr;
     this.allUsersName = allUsersName;
   }
@@ -58,9 +64,9 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
   @Override
   public EditPreferencesInfo apply(AccountResource rsrc, EditPreferencesInfo in)
       throws AuthException, BadRequestException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("requires Modify Account capability");
+          ConfigInvalidException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     if (in == null) {

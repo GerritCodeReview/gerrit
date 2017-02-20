@@ -71,6 +71,7 @@ import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.account.Stars;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -234,14 +235,18 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public GeneralPreferencesInfo getPreferences() throws RestApiException {
-    return getPreferences.apply(account);
+    try {
+      return getPreferences.apply(account);
+    } catch (PermissionBackendException e) {
+      throw new RestApiException("Cannot get preferences", e);
+    }
   }
 
   @Override
   public GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in) throws RestApiException {
     try {
       return setPreferences.apply(account, in);
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot set preferences", e);
     }
   }
@@ -259,7 +264,7 @@ public class AccountApiImpl implements AccountApi {
   public DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in) throws RestApiException {
     try {
       return setDiffPreferences.apply(account, in);
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot set diff preferences", e);
     }
   }
@@ -268,7 +273,7 @@ public class AccountApiImpl implements AccountApi {
   public EditPreferencesInfo getEditPreferences() throws RestApiException {
     try {
       return getEditPreferences.apply(account);
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot query edit preferences", e);
     }
   }
@@ -277,7 +282,7 @@ public class AccountApiImpl implements AccountApi {
   public EditPreferencesInfo setEditPreferences(EditPreferencesInfo in) throws RestApiException {
     try {
       return setEditPreferences.apply(account, in);
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot set edit preferences", e);
     }
   }
@@ -372,7 +377,7 @@ public class AccountApiImpl implements AccountApi {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
       createEmailFactory.create(input.email).apply(rsrc, input);
-    } catch (EmailException | OrmException | IOException e) {
+    } catch (EmailException | OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot add email", e);
     }
   }
@@ -382,7 +387,7 @@ public class AccountApiImpl implements AccountApi {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), email);
     try {
       deleteEmail.apply(rsrc, null);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete email", e);
     }
   }
@@ -392,7 +397,7 @@ public class AccountApiImpl implements AccountApi {
     PutStatus.Input in = new PutStatus.Input(status);
     try {
       putStatus.apply(account, in);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot set status", e);
     }
   }
@@ -401,7 +406,7 @@ public class AccountApiImpl implements AccountApi {
   public List<SshKeyInfo> listSshKeys() throws RestApiException {
     try {
       return getSshKeys.apply(account);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot list SSH keys", e);
     }
   }
@@ -423,7 +428,7 @@ public class AccountApiImpl implements AccountApi {
       AccountResource.SshKey sshKeyRes =
           sshKeys.parse(account, IdString.fromDecoded(Integer.toString(seq)));
       deleteSshKey.apply(sshKeyRes, null);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete SSH key", e);
     }
   }
@@ -476,7 +481,7 @@ public class AccountApiImpl implements AccountApi {
   public void index() throws RestApiException {
     try {
       index.apply(account, new Index.Input());
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot index account", e);
     }
   }

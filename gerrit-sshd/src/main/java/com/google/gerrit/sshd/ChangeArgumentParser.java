@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -24,6 +25,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -43,6 +47,7 @@ public class ChangeArgumentParser {
   private final ReviewDb db;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   ChangeArgumentParser(
@@ -51,13 +56,15 @@ public class ChangeArgumentParser {
       ChangeFinder changeFinder,
       ReviewDb db,
       ChangeNotes.Factory changeNotesFactory,
-      ChangeControl.GenericFactory changeControlFactory) {
+      ChangeControl.GenericFactory changeControlFactory,
+      PermissionBackend permissionBackend) {
     this.currentUser = currentUser;
     this.changesCollection = changesCollection;
     this.changeFinder = changeFinder;
     this.db = db;
     this.changeNotesFactory = changeNotesFactory;
     this.changeControlFactory = changeControlFactory;
+    this.permissionBackend = permissionBackend;
   }
 
   public void addChange(String id, Map<Change.Id, ChangeResource> changes)
@@ -80,9 +87,13 @@ public class ChangeArgumentParser {
     List<ChangeControl> matched =
         useIndex ? changeFinder.find(id, currentUser) : changeFromNotesFactory(id, currentUser);
     List<ChangeControl> toAdd = new ArrayList<>(changes.size());
-    boolean canMaintainServer =
-        currentUser.isIdentifiedUser()
-            && currentUser.asIdentifiedUser().getCapabilities().canMaintainServer();
+    boolean canMaintainServer;
+    try {
+      permissionBackend.user(currentUser).check(GlobalPermission.MAINTAIN_SERVER);
+      canMaintainServer = true;
+    } catch (AuthException | PermissionBackendException e) {
+      canMaintainServer = false;
+    }
     for (ChangeControl ctl : matched) {
       if (!changes.containsKey(ctl.getId())
           && inProject(projectControl, ctl.getProject())

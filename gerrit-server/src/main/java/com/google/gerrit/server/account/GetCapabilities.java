@@ -29,14 +29,15 @@ import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.AccountResource.Capability;
 import com.google.gerrit.server.git.QueueProvider;
+import com.google.gerrit.server.permissions.GlobalOrPluginPermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.PluginPermission;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -77,11 +78,10 @@ class GetCapabilities implements RestReadView<AccountResource> {
     }
 
     Map<String, Object> have = new LinkedHashMap<>();
-    for (GlobalPermission p : testGlobalPermissions(perm)) {
+    for (GlobalOrPluginPermission p : perm.test(permissionsToTest())) {
       have.put(p.permissionName(), true);
     }
     addRanges(have, rsrc);
-    addPluginCapabilities(have, rsrc);
     addPriority(have, rsrc);
 
     return OutputFormat.JSON
@@ -89,20 +89,23 @@ class GetCapabilities implements RestReadView<AccountResource> {
         .toJsonTree(have, new TypeToken<Map<String, Object>>() {}.getType());
   }
 
-  private Set<GlobalPermission> testGlobalPermissions(PermissionBackend.WithUser perm)
-      throws PermissionBackendException {
-    EnumSet<GlobalPermission> toTest;
-    if (query != null) {
-      toTest = EnumSet.noneOf(GlobalPermission.class);
-      for (GlobalPermission p : GlobalPermission.values()) {
+  private Set<GlobalOrPluginPermission> permissionsToTest() {
+    Set<GlobalOrPluginPermission> toTest = new HashSet<>();
+    for (GlobalPermission p : GlobalPermission.values()) {
+      if (want(p.permissionName())) {
+        toTest.add(p);
+      }
+    }
+
+    for (String pluginName : pluginCapabilities.plugins()) {
+      for (String capability : pluginCapabilities.byPlugin(pluginName).keySet()) {
+        PluginPermission p = new PluginPermission(pluginName, capability);
         if (want(p.permissionName())) {
           toTest.add(p);
         }
       }
-    } else {
-      toTest = EnumSet.allOf(GlobalPermission.class);
     }
-    return perm.test(toTest);
+    return toTest;
   }
 
   private boolean want(String name) {
@@ -114,18 +117,6 @@ class GetCapabilities implements RestReadView<AccountResource> {
     for (String name : GlobalCapability.getRangeNames()) {
       if (want(name) && cc.canPerform(name)) {
         have.put(name, new Range(cc.getRange(name)));
-      }
-    }
-  }
-
-  private void addPluginCapabilities(Map<String, Object> have, AccountResource rsrc) {
-    CapabilityControl cc = rsrc.getUser().getCapabilities();
-    for (String pluginName : pluginCapabilities.plugins()) {
-      for (String capability : pluginCapabilities.byPlugin(pluginName).keySet()) {
-        String name = String.format("%s-%s", pluginName, capability);
-        if (want(name) && cc.canPerform(name)) {
-          have.put(name, true);
-        }
       }
     }
   }

@@ -27,6 +27,9 @@ import com.google.gerrit.server.config.ListTasks;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -60,10 +63,9 @@ final class ShowQueue extends SshCommand {
   )
   private boolean groupByQueue;
 
+  @Inject private PermissionBackend permissionBackend;
   @Inject private ListTasks listTasks;
-
   @Inject private IdentifiedUser currentUser;
-
   @Inject private WorkQueue workQueue;
 
   private int columns = 80;
@@ -83,7 +85,7 @@ final class ShowQueue extends SshCommand {
   }
 
   @Override
-  protected void run() throws UnloggedFailure {
+  protected void run() throws Failure {
     maxCommandWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 12 - 4 - 4;
     stdout.print(
         String.format(
@@ -93,14 +95,19 @@ final class ShowQueue extends SshCommand {
         "------------------------------------------------------------------------------\n");
 
     List<TaskInfo> tasks;
+    boolean viewAll;
     try {
-      tasks = listTasks.apply(new ConfigResource());
-    } catch (AuthException e) {
-      throw die(e);
+      try {
+        tasks = listTasks.apply(new ConfigResource());
+      } catch (AuthException e) {
+        throw die(e);
+      }
+      viewAll = permissionBackend.user(currentUser).test(GlobalPermission.VIEW_QUEUE);
+    } catch (PermissionBackendException e) {
+      throw new Failure(1, "queue unavailable", e);
     }
-    boolean viewAll = currentUser.getCapabilities().canViewQueue();
-    long now = TimeUtil.nowMs();
 
+    long now = TimeUtil.nowMs();
     if (groupByQueue) {
       ListMultimap<String, TaskInfo> byQueue = byQueue(tasks);
       for (String queueName : byQueue.keySet()) {

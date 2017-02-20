@@ -102,11 +102,6 @@ public class CapabilityControl {
     return canPerform(GlobalCapability.MAINTAIN_SERVER) || canAdministrateServer();
   }
 
-  /** @return true if the user can view the entire queue. */
-  public boolean canViewQueue() {
-    return canPerform(GlobalCapability.VIEW_QUEUE) || canMaintainServer();
-  }
-
   /** @return true if the user can access the database (with gsql). */
   public boolean canAccessDatabase() {
     try {
@@ -239,13 +234,12 @@ public class CapabilityControl {
         return canModifyAccount();
       case VIEW_ALL_ACCOUNTS:
         return canViewAllAccounts();
-      case VIEW_QUEUE:
-        return canViewQueue();
 
       case FLUSH_CACHES:
       case KILL_TASK:
       case RUN_GC:
       case VIEW_CACHES:
+      case VIEW_QUEUE:
         return canPerform(perm.permissionName()) || canMaintainServer();
 
       case CREATE_ACCOUNT:

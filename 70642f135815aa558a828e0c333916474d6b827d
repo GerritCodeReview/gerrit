@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7cd920d_7cd33325",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-02-20T11:02:33Z",
+      "side": 1,
+      "message": "Last but not least - Git LFS client uses project names qualified with \u0027.git\u0027 so there is no risk in case when \u0027a\u0027 repository is created and LFS cannot be used with it as it will be called by Git LFS client as \u0027a.git\u0027 which is properly handled by given regexp.\n\nInteresting thing happens when one creates project with \u0027a/x\u0027 name - Gerrit doesn\u0027t allow for anonymous clone anymore and having \u0027a/\u0027 prefix in front of it is also fine as it is handled by default - IOW all \u0027a/\u0027 prefixed projects are handled too :)",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "70642f135815aa558a828e0c333916474d6b827d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

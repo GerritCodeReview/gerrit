@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6d1b4a1_661fcf65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-20T13:44:24Z",
+      "side": 1,
+      "message": "Looks lie tools/eclipse/BUILD is stale now:\n\n  PROVIDED_DEPS \u003d [ \n      \"//lib/bouncycastle:bcprov\",\n      \"//lib/bouncycastle:bcpg\",\n      \"//lib/bouncycastle:bcpkix\",\n  ]\n\nPROVIDED_DEPS can be dropped.",
+      "revId": "d2fd72cdfe0ff13315b148b9b2ffd88506074e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a2540ba_0cd06cff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-20T13:44:24Z",
+      "side": 1,
+      "message": "Because Eclipse project generation was touched, add a test thatEclipse project was generated and the project loads in Eclipse and copies?",
+      "revId": "d2fd72cdfe0ff13315b148b9b2ffd88506074e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d41c0a88_c9851347",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-20T13:44:24Z",
+      "side": 1,
+      "message": "Nit: Swap these lines to sort alphabetically.",
+      "revId": "d2fd72cdfe0ff13315b148b9b2ffd88506074e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

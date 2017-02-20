@@ -72,6 +72,7 @@ public class PatchList implements Serializable {
     this.comparisonType = comparisonType;
 
     // We assume index 0 contains the magic commit message entry.
+    // NOSUBMIT what about the magic MERGE file?
     if (patches.length > 1) {
       Arrays.sort(patches, 1, patches.length, PATCH_CMP);
     }
@@ -151,20 +152,8 @@ public class PatchList implements Serializable {
       return 1;
     }
 
-    int high = patches.length;
-    int low = isMerge ? 2 : 1;
-    while (low < high) {
-      final int mid = (low + high) >>> 1;
-      final int cmp = patches[mid].getNewName().compareTo(fileName);
-      if (cmp < 0) {
-        low = mid + 1;
-      } else if (cmp == 0) {
-        return mid;
-      } else {
-        high = mid;
-      }
-    }
-    return -(low + 1);
+    PatchListEntry want = PatchListEntry.empty(fileName);
+    return Arrays.binarySearch(patches, isMerge ? 2 : 1, patches.length, want, PATCH_CMP);
   }
 
   private void writeObject(final ObjectOutputStream output) throws IOException {

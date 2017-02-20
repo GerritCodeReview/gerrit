@@ -87,11 +87,6 @@ public class CapabilityControl {
     return canEmailReviewers;
   }
 
-  /** @return true if the user can modify an account for another user. */
-  public boolean canModifyAccount() {
-    return canPerform(GlobalCapability.MODIFY_ACCOUNT) || canAdministrateServer();
-  }
-
   /** @return true if the user can view all accounts. */
   public boolean canViewAllAccounts() {
     return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || canAdministrateServer();
@@ -228,8 +223,6 @@ public class CapabilityControl {
         return canAdministrateServer();
       case EMAIL_REVIEWERS:
         return canEmailReviewers();
-      case MODIFY_ACCOUNT:
-        return canModifyAccount();
       case VIEW_ALL_ACCOUNTS:
         return canViewAllAccounts();
 
@@ -246,6 +239,7 @@ public class CapabilityControl {
       case CREATE_GROUP:
       case CREATE_PROJECT:
       case MAINTAIN_SERVER:
+      case MODIFY_ACCOUNT:
       case STREAM_EVENTS:
       case VIEW_CONNECTIONS:
       case VIEW_PLUGINS:

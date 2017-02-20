@@ -29,6 +29,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,6 +46,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
+  private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
@@ -51,11 +55,13 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   DeleteEmail(
       Provider<CurrentUser> self,
       Realm realm,
+      PermissionBackend permissionBackend,
       Provider<ReviewDb> dbProvider,
       AccountManager accountManager,
       ExternalIds externalIds) {
     this.self = self;
     this.realm = realm;
+    this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
     this.accountManager = accountManager;
     this.externalIds = externalIds;
@@ -64,9 +70,10 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   @Override
   public Response<?> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException,
-          MethodNotAllowedException, OrmException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("not allowed to delete email address");
+          MethodNotAllowedException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
     return apply(rsrc.getUser(), rsrc.getEmail());
   }

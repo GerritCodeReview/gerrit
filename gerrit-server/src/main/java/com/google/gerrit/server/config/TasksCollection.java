@@ -21,10 +21,12 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -36,7 +38,8 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
   private final DynamicMap<RestView<TaskResource>> views;
   private final ListTasks list;
   private final WorkQueue workQueue;
-  private final Provider<IdentifiedUser> self;
+  private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
 
   @Inject
@@ -44,12 +47,14 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
       DynamicMap<RestView<TaskResource>> views,
       ListTasks list,
       WorkQueue workQueue,
-      Provider<IdentifiedUser> self,
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
       ProjectCache projectCache) {
     this.views = views;
     this.list = list;
     this.workQueue = workQueue;
     this.self = self;
+    this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
   }
 
@@ -60,30 +65,37 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
 
   @Override
   public TaskResource parse(ConfigResource parent, IdString id)
-      throws ResourceNotFoundException, AuthException {
+      throws ResourceNotFoundException, AuthException, PermissionBackendException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
 
+    int taskId;
     try {
-      int taskId = (int) Long.parseLong(id.get(), 16);
-      Task<?> task = workQueue.getTask(taskId);
-      if (task != null) {
-        if (self.get().getCapabilities().canViewQueue()) {
-          return new TaskResource(task);
-        } else if (task instanceof ProjectTask) {
-          ProjectTask<?> projectTask = ((ProjectTask<?>) task);
-          ProjectState e = projectCache.get(projectTask.getProjectNameKey());
-          if (e != null && e.controlFor(user).isVisible()) {
-            return new TaskResource(task);
-          }
-        }
-      }
-      throw new ResourceNotFoundException(id);
+      taskId = (int) Long.parseLong(id.get(), 16);
     } catch (NumberFormatException e) {
       throw new ResourceNotFoundException(id);
     }
+
+    Task<?> task = workQueue.getTask(taskId);
+    if (task != null) {
+      try {
+        permissionBackend.user(user).check(GlobalPermission.VIEW_QUEUE);
+        return new TaskResource(task);
+      } catch (AuthException e) {
+        // Fall through and try filtering.
+      }
+
+      if (task instanceof ProjectTask) {
+        ProjectTask<?> projectTask = ((ProjectTask<?>) task);
+        ProjectState e = projectCache.get(projectTask.getProjectNameKey());
+        if (e != null && e.controlFor(user).isVisible()) {
+          return new TaskResource(task);
+        }
+      }
+    }
+    throw new ResourceNotFoundException(id);
   }
 
   @Override

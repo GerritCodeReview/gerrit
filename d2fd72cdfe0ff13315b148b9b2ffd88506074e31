@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6e8de185_68c36825",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T14:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6d1b4a1_661fcf65",
+      "revId": "d2fd72cdfe0ff13315b148b9b2ffd88506074e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a2540ba_0cd06cff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "60b2b1f9_66b3bd21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T14:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a2540ba_0cd06cff",
+      "revId": "d2fd72cdfe0ff13315b148b9b2ffd88506074e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d41c0a88_c9851347",
         "filename": "gerrit-server/BUILD",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2017-02-20T13:44:24Z",
       "side": 1,
       "message": "Nit: Swap these lines to sort alphabetically.",
+      "revId": "d2fd72cdfe0ff13315b148b9b2ffd88506074e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9b30f72_d99d8372",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T14:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d41c0a88_c9851347",
       "revId": "d2fd72cdfe0ff13315b148b9b2ffd88506074e31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

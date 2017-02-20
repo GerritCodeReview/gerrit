@@ -16,13 +16,19 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Set;
 
 @Singleton
 class DefaultPermissionBackend extends PermissionBackend {
@@ -56,6 +62,29 @@ class DefaultPermissionBackend extends PermissionBackend {
       } catch (IOException e) {
         return FailedPermissionBackend.project("unavailable", e);
       }
+    }
+
+    @Override
+    public void check(GlobalPermission perm) throws AuthException, PermissionBackendException {
+      if (!can(perm)) {
+        throw new AuthException(perm.describeForException() + " not permitted");
+      }
+    }
+
+    @Override
+    public Set<GlobalPermission> test(Collection<GlobalPermission> permSet)
+        throws PermissionBackendException {
+      EnumSet<GlobalPermission> ok = EnumSet.noneOf(GlobalPermission.class);
+      for (GlobalPermission perm : permSet) {
+        if (can(perm)) {
+          ok.add(perm);
+        }
+      }
+      return ok;
+    }
+
+    private boolean can(GlobalPermission perm) throws PermissionBackendException {
+      return user.getCapabilities().doCanForDefaultPermissionBackend(perm);
     }
   }
 }

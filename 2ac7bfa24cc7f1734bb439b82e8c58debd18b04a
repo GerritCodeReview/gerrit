@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1487608141 +0100\nnonce AFJA6odUfufL69ff8biQuwMMYrCayOr2nMCAaBstbOeQwJ6R8525GyCdexPEPYrwl7YRrrzaxrh3\n\n0000000000000000000000000000000000000000 2ac7bfa24cc7f1734bb439b82e8c58debd18b04a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYqxlNAAoJEFG1/Zeg0O9RaAsH/0BjsjItU4bopPyJiJmivCuN\ndaLWwPW/rsjnK3dwx9lrs5wRwnPxPn4ZX+GFq03J24jxK9or2uvQACItIxXKINLu\nCR5R/SMueMdjHeKT5G5RvQmSYf18qBreEm9Z+AZ7ey5/nf+Y/3hDv1oYIL+MubJe\nN3DOkZMgnP2678Jge0blKR03ltJHN43Qjk5lRBPfpU1yohRDTAw7TYh32Ncj+0yM\nQJsHjR8fDYBO5725/qzHMobuMnVYmX/2ZHv0pr/pSVW/lGqz8rmkhXhy9i6uM0fZ\nbBvDJNJjFhlYo8lcwiwd7e35fEw+t6drL4f1Dl1ieKLMOPlKvdm3XOQiN/xrdOc\u003d\n\u003dH86Y\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e424d86d_2e48efaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-20T17:14:40Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand the problem. There are two options how to do it:\n\n* 1. on the fly conversion. Do not extend the table and do not write to it. You are removing it anyway. Instead, read non hashed password from the database, convert it on the fly to hashed password, write the hashed password to NoteDb. When ready the table is removed.\n* 2. intermediate step conversion. Do not update and delete the table in one single step. Make it in two steps:\n* 2.1 migrate passwd to hash passwords in its own migration step 141 -\u003e 142: after this step the table ACCOUNT_EXTERNAL_IDS doesn\u0027t has passwd column, but only has hashed_passwd column\n* 2.2 do what is done in this step now: drop the table ACCOUNT_EXTERNAL_IDS, you have hashed_passwd populated.",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

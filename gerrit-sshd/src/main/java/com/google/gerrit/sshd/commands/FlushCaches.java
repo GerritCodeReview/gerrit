@@ -26,6 +26,7 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ListCaches;
 import com.google.gerrit.server.config.ListCaches.OutputFormat;
 import com.google.gerrit.server.config.PostCaches;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -81,6 +82,8 @@ final class FlushCaches extends SshCommand {
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());
+    } catch (PermissionBackendException e) {
+      throw new Failure(1, "unavailable", e);
     }
   }
 

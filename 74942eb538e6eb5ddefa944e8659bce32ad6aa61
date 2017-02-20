@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb602fd_24734443",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-20T10:49:32Z",
+      "side": 1,
+      "message": "This should be always true and could be omitted now, as you defined helper array to hold only capabilities with ranges?",
+      "range": {
+        "startLine": 119,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 45
+      },
+      "revId": "74942eb538e6eb5ddefa944e8659bce32ad6aa61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

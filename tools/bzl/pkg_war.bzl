@@ -40,10 +40,6 @@ def _add_file(in_file, output):
   short_path = in_file.short_path
   n = in_file.basename
 
-  # TODO(davido): Drop this when provided_deps added to java_library
-  if n.find('-jdk15on-') != -1:
-    return []
-
   if short_path.startswith('gerrit-'):
     n = short_path.split('/')[0] + '-' + n
 

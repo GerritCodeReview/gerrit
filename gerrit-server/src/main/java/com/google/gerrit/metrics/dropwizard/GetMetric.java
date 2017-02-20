@@ -17,10 +17,14 @@ package com.google.gerrit.metrics.dropwizard;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 class GetMetric implements RestReadView<MetricResource> {
+  private final PermissionBackend permissionBackend;
   private final CurrentUser user;
   private final DropWizardMetricMaker metrics;
 
@@ -28,16 +32,16 @@ class GetMetric implements RestReadView<MetricResource> {
   boolean dataOnly;
 
   @Inject
-  GetMetric(CurrentUser user, DropWizardMetricMaker metrics) {
+  GetMetric(PermissionBackend permissionBackend, CurrentUser user, DropWizardMetricMaker metrics) {
+    this.permissionBackend = permissionBackend;
     this.user = user;
     this.metrics = metrics;
   }
 
   @Override
-  public MetricJson apply(MetricResource resource) throws AuthException {
-    if (!user.getCapabilities().canViewCaches()) {
-      throw new AuthException("restricted to viewCaches");
-    }
+  public MetricJson apply(MetricResource resource)
+      throws AuthException, PermissionBackendException {
+    permissionBackend.user(user).check(GlobalPermission.VIEW_CACHES);
     return new MetricJson(
         resource.getMetric(), metrics.getAnnotations(resource.getName()), dataOnly);
   }

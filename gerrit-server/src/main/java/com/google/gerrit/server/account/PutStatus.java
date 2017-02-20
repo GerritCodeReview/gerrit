@@ -25,6 +25,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutStatus.Input;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,20 +49,27 @@ public class PutStatus implements RestModifyView<AccountResource, Input> {
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
+  private final PermissionBackend permissionBackend;
   private final AccountCache byIdCache;
 
   @Inject
-  PutStatus(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  PutStatus(
+      Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider,
+      PermissionBackend permissionBackend,
+      AccountCache byIdCache) {
     this.self = self;
     this.dbProvider = dbProvider;
+    this.permissionBackend = permissionBackend;
     this.byIdCache = byIdCache;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, OrmException, IOException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("not allowed to set status");
+      throws AuthException, ResourceNotFoundException, OrmException, IOException,
+          PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
     return apply(rsrc.getUser(), input);
   }

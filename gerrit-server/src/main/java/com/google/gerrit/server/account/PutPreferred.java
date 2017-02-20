@@ -23,6 +23,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutPreferred.Input;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -36,20 +39,27 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
+  private final PermissionBackend permissionBackend;
   private final AccountCache byIdCache;
 
   @Inject
-  PutPreferred(Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache byIdCache) {
+  PutPreferred(
+      Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider,
+      PermissionBackend permissionBackend,
+      AccountCache byIdCache) {
     this.self = self;
     this.dbProvider = dbProvider;
+    this.permissionBackend = permissionBackend;
     this.byIdCache = byIdCache;
   }
 
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
-      throws AuthException, ResourceNotFoundException, OrmException, IOException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("not allowed to set preferred email address");
+      throws AuthException, ResourceNotFoundException, OrmException, IOException,
+          PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
     return apply(rsrc.getUser(), rsrc.getEmail());
   }

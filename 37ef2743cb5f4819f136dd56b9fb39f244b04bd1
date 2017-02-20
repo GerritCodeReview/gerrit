@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b29f51c8_87e4d2a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T17:14:24Z",
+      "side": 1,
+      "message": "Does that mean that enforcing of the policy that all comments must be resolved will be done in the gerrit_common.pl? If a project does not want that policy will they have a write a rules.pl in order to disable it?",
+      "parentUuid": "0ec397fd_93b838c0",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "37ef2743cb5f4819f136dd56b9fb39f244b04bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad1e7f26_a40852f7",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_unresolved_comments_1.java",
         "patchSetId": 1

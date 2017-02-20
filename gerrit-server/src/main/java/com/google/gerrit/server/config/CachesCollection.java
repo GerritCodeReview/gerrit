@@ -27,8 +27,10 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -40,6 +42,7 @@ public class CachesCollection
 
   private final DynamicMap<RestView<CacheResource>> views;
   private final Provider<ListCaches> list;
+  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
   private final DynamicMap<Cache<?, ?>> cacheMap;
   private final PostCaches postCaches;
@@ -48,11 +51,13 @@ public class CachesCollection
   CachesCollection(
       DynamicMap<RestView<CacheResource>> views,
       Provider<ListCaches> list,
+      PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       DynamicMap<Cache<?, ?>> cacheMap,
       PostCaches postCaches) {
     this.views = views;
     this.list = list;
+    this.permissionBackend = permissionBackend;
     this.self = self;
     this.cacheMap = cacheMap;
     this.postCaches = postCaches;
@@ -65,15 +70,8 @@ public class CachesCollection
 
   @Override
   public CacheResource parse(ConfigResource parent, IdString id)
-      throws AuthException, ResourceNotFoundException {
-    CurrentUser user = self.get();
-    if (user instanceof AnonymousUser) {
-      throw new AuthException("Authentication required");
-    } else if (!user.isIdentifiedUser()) {
-      throw new ResourceNotFoundException();
-    } else if (!user.getCapabilities().canViewCaches()) {
-      throw new AuthException("not allowed to view caches");
-    }
+      throws AuthException, ResourceNotFoundException, PermissionBackendException {
+    permissionBackend.user(self).check(GlobalPermission.VIEW_CACHES);
 
     String cacheName = id.get();
     String pluginName = "gerrit";

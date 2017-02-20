@@ -97,11 +97,6 @@ public class CapabilityControl {
     return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || canAdministrateServer();
   }
 
-  /** @return true if the user can perform basic server maintenance. */
-  public boolean canMaintainServer() {
-    return canPerform(GlobalCapability.MAINTAIN_SERVER) || canAdministrateServer();
-  }
-
   /** @return true if the user can access the database (with gsql). */
   public boolean canAccessDatabase() {
     try {
@@ -228,8 +223,6 @@ public class CapabilityControl {
         return canAdministrateServer();
       case EMAIL_REVIEWERS:
         return canEmailReviewers();
-      case MAINTAIN_SERVER:
-        return canMaintainServer();
       case MODIFY_ACCOUNT:
         return canModifyAccount();
       case VIEW_ALL_ACCOUNTS:
@@ -240,11 +233,14 @@ public class CapabilityControl {
       case RUN_GC:
       case VIEW_CACHES:
       case VIEW_QUEUE:
-        return canPerform(perm.permissionName()) || canMaintainServer();
+        return canPerform(perm.permissionName())
+            || canPerform(GlobalCapability.MAINTAIN_SERVER)
+            || canAdministrateServer();
 
       case CREATE_ACCOUNT:
       case CREATE_GROUP:
       case CREATE_PROJECT:
+      case MAINTAIN_SERVER:
       case STREAM_EVENTS:
       case VIEW_CONNECTIONS:
       case VIEW_PLUGINS:

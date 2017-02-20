@@ -24,6 +24,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -35,22 +38,27 @@ import org.eclipse.jgit.lib.Repository;
 @Singleton
 public class GetEditPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitMgr;
 
   @Inject
   GetEditPreferences(
-      Provider<CurrentUser> self, AllUsersName allUsersName, GitRepositoryManager gitMgr) {
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
+      AllUsersName allUsersName,
+      GitRepositoryManager gitMgr) {
     this.self = self;
+    this.permissionBackend = permissionBackend;
     this.allUsersName = allUsersName;
     this.gitMgr = gitMgr;
   }
 
   @Override
   public EditPreferencesInfo apply(AccountResource rsrc)
-      throws AuthException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("requires Modify Account capability");
+      throws AuthException, IOException, ConfigInvalidException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     return readFromGit(rsrc.getUser().getAccountId(), gitMgr, allUsersName, null);

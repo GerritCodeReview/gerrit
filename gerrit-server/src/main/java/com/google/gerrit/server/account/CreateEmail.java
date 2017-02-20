@@ -32,6 +32,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,6 +53,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
+  private final PermissionBackend permissionBackend;
   private final AccountManager accountManager;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final PutPreferred putPreferred;
@@ -60,6 +64,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   CreateEmail(
       Provider<CurrentUser> self,
       Realm realm,
+      PermissionBackend permissionBackend,
       AuthConfig authConfig,
       AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
@@ -67,6 +72,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       @Assisted String email) {
     this.self = self;
     this.realm = realm;
+    this.permissionBackend = permissionBackend;
     this.accountManager = accountManager;
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.putPreferred = putPreferred;
@@ -78,9 +84,9 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   public Response<EmailInfo> apply(AccountResource rsrc, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
-          IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("not allowed to add email address");
+          IOException, ConfigInvalidException, PermissionBackendException {
+    if (self.get() != rsrc.getUser() || input.noConfirmation) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     if (input == null) {
@@ -89,10 +95,6 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
     if (!OutgoingEmailValidator.isValid(email)) {
       throw new BadRequestException("invalid email address");
-    }
-
-    if (input.noConfirmation && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("not allowed to use no_confirmation");
     }
 
     if (!realm.allowsEdit(AccountFieldName.REGISTER_NEW_EMAIL)) {
@@ -105,7 +107,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
-          IOException, ConfigInvalidException {
+          IOException, ConfigInvalidException, PermissionBackendException {
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }

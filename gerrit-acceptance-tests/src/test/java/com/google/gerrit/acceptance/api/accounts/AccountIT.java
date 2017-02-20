@@ -492,7 +492,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     // user cannot delete email of admin
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to delete email address");
+    exception.expectMessage("modify account not permitted");
     gApi.accounts().id(admin.id.get()).deleteEmail(admin.email);
   }
 
@@ -845,7 +845,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     // user cannot reindex any account
     exception.expect(AuthException.class);
-    exception.expectMessage("not allowed to index account");
+    exception.expectMessage("modify account not permitted");
     gApi.accounts().id(admin.username).index();
   }
 

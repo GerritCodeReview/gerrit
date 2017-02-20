@@ -36,6 +36,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.UserConfigSections;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -51,6 +54,7 @@ import org.eclipse.jgit.lib.Config;
 public class SetPreferences implements RestModifyView<AccountResource, GeneralPreferencesInfo> {
   private final Provider<CurrentUser> self;
   private final AccountCache cache;
+  private final PermissionBackend permissionBackend;
   private final GeneralPreferencesLoader loader;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
@@ -60,6 +64,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   SetPreferences(
       Provider<CurrentUser> self,
       AccountCache cache,
+      PermissionBackend permissionBackend,
       GeneralPreferencesLoader loader,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllUsersName allUsersName,
@@ -67,6 +72,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     this.self = self;
     this.loader = loader;
     this.cache = cache;
+    this.permissionBackend = permissionBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
     this.downloadSchemes = downloadSchemes;
@@ -74,9 +80,10 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
 
   @Override
   public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo i)
-      throws AuthException, BadRequestException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
-      throw new AuthException("requires Modify Account capability");
+      throws AuthException, BadRequestException, IOException, ConfigInvalidException,
+          PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
     checkDownloadScheme(i.downloadScheme);

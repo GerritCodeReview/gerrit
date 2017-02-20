@@ -26,8 +26,10 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.permissions.GlobalOrPluginPermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.PluginPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -211,8 +213,17 @@ public class CapabilityControl {
   }
 
   /** Do not use unless inside DefaultPermissionBackend. */
-  public boolean doCanForDefaultPermissionBackend(GlobalPermission perm)
+  public boolean doCanForDefaultPermissionBackend(GlobalOrPluginPermission perm)
       throws PermissionBackendException {
+    if (perm instanceof GlobalPermission) {
+      return can((GlobalPermission) perm);
+    } else if (perm instanceof PluginPermission) {
+      return canPerform(perm.permissionName());
+    }
+    throw new PermissionBackendException(perm + " unsupported");
+  }
+
+  private boolean can(GlobalPermission perm) throws PermissionBackendException {
     switch (perm) {
       case ADMINISTRATE_SERVER:
         return canAdministrateServer();

@@ -42,6 +42,7 @@ import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutHttpPassword;
 import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.server.account.PutPreferred;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -174,7 +175,8 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void setAccount()
-      throws OrmException, IOException, UnloggedFailure, ConfigInvalidException {
+      throws OrmException, IOException, UnloggedFailure, ConfigInvalidException,
+          PermissionBackendException {
     user = genericUserFactory.create(id);
     rsrc = new AccountResource(user);
     try {
@@ -237,7 +239,7 @@ final class SetAccountCommand extends SshCommand {
 
   private void deleteSshKeys(List<String> sshKeys)
       throws RestApiException, OrmException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException {
+          ConfigInvalidException, PermissionBackendException {
     List<SshKeyInfo> infos = getSshKeys.apply(rsrc);
     if (sshKeys.contains("ALL")) {
       for (SshKeyInfo i : infos) {
@@ -263,7 +265,8 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void addEmail(String email)
-      throws UnloggedFailure, RestApiException, OrmException, IOException {
+      throws UnloggedFailure, RestApiException, OrmException, IOException,
+          PermissionBackendException {
     EmailInput in = new EmailInput();
     in.email = email;
     in.noConfirmation = true;
@@ -274,7 +277,8 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteEmail(String email) throws RestApiException, OrmException, IOException {
+  private void deleteEmail(String email)
+      throws RestApiException, OrmException, IOException, PermissionBackendException {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc);
       for (EmailInfo e : emails) {
@@ -285,7 +289,8 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void putPreferred(String email) throws RestApiException, OrmException, IOException {
+  private void putPreferred(String email)
+      throws RestApiException, OrmException, IOException, PermissionBackendException {
     for (EmailInfo e : getEmails.apply(rsrc)) {
       if (e.email.equals(email)) {
         putPreferred.apply(new AccountResource.Email(user, email), null);

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c101ac37_2177c738",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T16:26:32Z",
+      "side": 1,
+      "message": "I like the new name even better than what I proposed.",
+      "parentUuid": "d766028e_6974bcb5",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "887ced3d_4fc319e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
         "patchSetId": 3

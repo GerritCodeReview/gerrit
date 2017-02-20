@@ -6,12 +6,6 @@ load(
     "CUSTOM_PLUGINS",
 )
 
-PROVIDED_DEPS = [
-    "//lib/bouncycastle:bcprov",
-    "//lib/bouncycastle:bcpg",
-    "//lib/bouncycastle:bcpkix",
-]
-
 TEST_DEPS = [
     "//gerrit-gpg:gpg_tests",
     "//gerrit-gwtui:ui_tests",
@@ -54,7 +48,7 @@ java_library(
 classpath_collector(
     name = "main_classpath_collect",
     testonly = 1,
-    deps = LIBS + PGMLIBS + DEPS + TEST_DEPS + PROVIDED_DEPS +
+    deps = LIBS + PGMLIBS + DEPS + TEST_DEPS +
            ["//plugins/%s:%s__plugin" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS],
 )
 

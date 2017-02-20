@@ -55,6 +55,8 @@ java_library(
         "//lib:velocity",
         "//lib/antlr:java_runtime",
         "//lib/auto:auto-value",
+        "//lib/bouncycastle:bcpkix",
+        "//lib/bouncycastle:bcprov",
         "//lib/commons:codec",
         "//lib/commons:compress",
         "//lib/commons:dbcp",

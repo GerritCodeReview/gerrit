@@ -10,11 +10,6 @@ from shutil import copyfileobj
 from sys import stdout, stderr
 import xml.etree.ElementTree as ET
 
-KNOWN_PROVIDED_DEPS = [
-  "//lib/bouncycastle:bcpg",
-  "//lib/bouncycastle:bcpkix",
-  "//lib/bouncycastle:bcprov",
-]
 
 DO_NOT_DISTRIBUTE = "//lib:LICENSE-DO_NOT_DISTRIBUTE"
 
@@ -46,9 +41,6 @@ for xml in args.xmls:
 
       license_name = c.attrib["name"]
       if LICENSE_PREFIX in license_name:
-        if rule_name in KNOWN_PROVIDED_DEPS:
-          continue
-
         entries[rule_name].append(license_name)
         graph[license_name].append(rule_name)
 
@@ -96,12 +88,6 @@ uploads of changes directly from `git push` command line clients.
 Gerrit includes an SSH client (JSch), to support authenticated
 replication of changes to remote systems, such as for automatic
 updates of mirror servers, or realtime backups.
-
-For either feature to function, Gerrit requires the
-link:http://java.sun.com/javase/technologies/security/[Java Cryptography extensions]
-and/or the
-link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
-to be installed by the end-user.
 
 == Licenses
 """)

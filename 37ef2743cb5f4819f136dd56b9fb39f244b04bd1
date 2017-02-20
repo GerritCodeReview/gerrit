@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0ec397fd_93b838c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-20T17:08:02Z",
+      "side": 1,
+      "message": "By design, we may hope this rule to be the default for every project. So this feature will be used often.\n\nIf we a project.config entry to configure, it would contradict that all submit rules are managed by rules.pl.",
+      "parentUuid": "8e169763_b112a71c",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "37ef2743cb5f4819f136dd56b9fb39f244b04bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad1e7f26_a40852f7",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_unresolved_comments_1.java",
         "patchSetId": 1

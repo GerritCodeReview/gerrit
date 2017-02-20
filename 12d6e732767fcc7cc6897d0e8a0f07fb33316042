@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "cbfed755_db11ca59",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T10:17:48Z",
+      "side": 1,
+      "message": "I had that. Maybe I should check my emacs config too.\n\nFWIW, our internal style guide says\n\n\"Do not comment on the following issues in code reviews:\n\nTrailing whitespace. [..] the most productive course of action is just to learn to ignore it\"",
+      "parentUuid": "a687e0f9_b23033cf",
+      "range": {
+        "startLine": 1090,
+        "startChar": 0,
+        "endLine": 1090,
+        "endChar": 4
+      },
+      "revId": "12d6e732767fcc7cc6897d0e8a0f07fb33316042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6a019a1_7573ae72",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 3

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "625ea092_13ca9bec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-20T07:12:46Z",
+      "side": 1,
+      "message": "I find the previous if-else structure more readable.",
+      "range": {
+        "startLine": 509,
+        "startChar": 6,
+        "endLine": 509,
+        "endChar": 65
+      },
+      "revId": "38b815fd57bd84f197f9ced560f40929da68750c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

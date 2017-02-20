@@ -109,7 +109,11 @@ public class CapabilityControl {
 
   /** @return true if the user can access the database (with gsql). */
   public boolean canAccessDatabase() {
-    return canPerform(GlobalCapability.ACCESS_DATABASE);
+    try {
+      return doCanForDefaultPermissionBackend(GlobalPermission.ACCESS_DATABASE);
+    } catch (PermissionBackendException e) {
+      return false;
+    }
   }
 
   /** @return which priority queue the user's tasks should be submitted to. */
@@ -225,8 +229,6 @@ public class CapabilityControl {
   public boolean doCanForDefaultPermissionBackend(GlobalPermission perm)
       throws PermissionBackendException {
     switch (perm) {
-      case ACCESS_DATABASE:
-        return canAccessDatabase();
       case ADMINISTRATE_SERVER:
         return canAdministrateServer();
       case EMAIL_REVIEWERS:
@@ -254,6 +256,7 @@ public class CapabilityControl {
       case VIEW_PLUGINS:
         return canPerform(perm.permissionName()) || canAdministrateServer();
 
+      case ACCESS_DATABASE:
       case RUN_AS:
         return canPerform(perm.permissionName());
     }

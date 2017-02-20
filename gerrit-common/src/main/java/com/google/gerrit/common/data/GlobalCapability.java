@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -115,6 +116,9 @@ public class GlobalCapability {
 
   private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;
+  private static final String[] RANGE_NAMES = {
+    QUERY_LIMIT, BATCH_CHANGES_LIMIT,
+  };
 
   static {
     NAMES_ALL = new ArrayList<>();
@@ -158,7 +162,16 @@ public class GlobalCapability {
 
   /** @return true if the capability should have a range attached. */
   public static boolean hasRange(String varName) {
-    return QUERY_LIMIT.equalsIgnoreCase(varName) || BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName);
+    for (String n : RANGE_NAMES) {
+      if (n.equalsIgnoreCase(varName)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static List<String> getRangeNames() {
+    return Collections.unmodifiableList(Arrays.asList(RANGE_NAMES));
   }
 
   /** @return the valid range for the capability if it has one, otherwise null. */

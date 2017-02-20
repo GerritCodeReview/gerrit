@@ -18,8 +18,12 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.Index.Input;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -32,20 +36,28 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   public static class Input {}
 
   private final Provider<ReviewDb> db;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> user;
   private final ChangeIndexer indexer;
 
   @Inject
-  Index(Provider<ReviewDb> db, ChangeIndexer indexer) {
+  Index(
+      Provider<ReviewDb> db,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user,
+      ChangeIndexer indexer) {
     this.db = db;
+    this.permissionBackend = permissionBackend;
+    this.user = user;
     this.indexer = indexer;
   }
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws IOException, AuthException, OrmException {
+      throws IOException, AuthException, OrmException, PermissionBackendException {
     ChangeControl ctl = rsrc.getControl();
-    if (!ctl.isOwner() && !ctl.getUser().getCapabilities().canMaintainServer()) {
-      throw new AuthException("Only change owner or server maintainer can reindex");
+    if (!ctl.isOwner()) {
+      permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
     }
     indexer.index(db.get(), rsrc.getChange());
     return Response.none();

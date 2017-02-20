@@ -527,7 +527,7 @@ class ChangeApiImpl implements ChangeApi {
   public ChangeInfo check(FixInput fix) throws RestApiException {
     try {
       return check.apply(change, fix).value();
-    } catch (OrmException e) {
+    } catch (OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot check change", e);
     }
   }
@@ -536,7 +536,7 @@ class ChangeApiImpl implements ChangeApi {
   public void index() throws RestApiException {
     try {
       index.apply(change, new Index.Input());
-    } catch (IOException | OrmException e) {
+    } catch (IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot index change", e);
     }
   }

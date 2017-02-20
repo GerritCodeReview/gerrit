@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
 
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -39,8 +40,9 @@ class ReceiveConfig {
   }
 
   public int getEffectiveMaxBatchChangesLimit(CurrentUser user) {
-    if (user.getCapabilities().canPerform(BATCH_CHANGES_LIMIT)) {
-      return user.getCapabilities().getRange(BATCH_CHANGES_LIMIT).getMax();
+    CapabilityControl cap = user.getCapabilities();
+    if (cap.hasExplicitRange(BATCH_CHANGES_LIMIT)) {
+      return cap.getRange(BATCH_CHANGES_LIMIT).getMax();
     }
     return systemMaxBatchChanges;
   }

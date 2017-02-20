@@ -85,10 +85,12 @@ class GetCapabilities implements RestReadView<AccountResource> {
     CapabilityControl cc = resource.getUser().getCapabilities();
     Map<String, Object> have = new LinkedHashMap<>();
     for (String name : GlobalCapability.getAllNames()) {
-      if (!name.equals(PRIORITY) && want(name) && cc.canPerform(name)) {
+      if (want(name)) {
         if (GlobalCapability.hasRange(name)) {
-          have.put(name, new Range(cc.getRange(name)));
-        } else {
+          if (cc.hasExplicitRange(name)) {
+            have.put(name, new Range(cc.getRange(name)));
+          }
+        } else if (!name.equals(PRIORITY) && cc.canPerform(name)) {
           have.put(name, true);
         }
       }

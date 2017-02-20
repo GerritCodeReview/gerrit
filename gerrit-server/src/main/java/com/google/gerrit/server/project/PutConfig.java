@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
@@ -62,6 +63,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsName allProjects;
+  private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
 
@@ -75,6 +77,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
+      UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> user) {
     this.serverEnableSignedPush = serverEnableSignedPush;
@@ -85,6 +88,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.pluginConfigEntries = pluginConfigEntries;
     this.cfgFactory = cfgFactory;
     this.allProjects = allProjects;
+    this.uiActions = uiActions;
     this.views = views;
     this.user = user;
   }
@@ -180,6 +184,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           pluginConfigEntries,
           cfgFactory,
           allProjects,
+          uiActions,
           views);
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(projectName.get());

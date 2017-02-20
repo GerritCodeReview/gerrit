@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.api.projects;
 
-import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
-
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -38,6 +36,9 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChildProjectsCollection;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.DeleteBranches;
@@ -69,6 +70,7 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   private final CurrentUser user;
+  private final PermissionBackend permissionBackend;
   private final CreateProject.Factory createProjectFactory;
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
@@ -93,6 +95,7 @@ public class ProjectApiImpl implements ProjectApi {
   @AssistedInject
   ProjectApiImpl(
       CurrentUser user,
+      PermissionBackend permissionBackend,
       CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
@@ -114,6 +117,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Assisted ProjectResource project) {
     this(
         user,
+        permissionBackend,
         createProjectFactory,
         projectApi,
         projects,
@@ -139,6 +143,7 @@ public class ProjectApiImpl implements ProjectApi {
   @AssistedInject
   ProjectApiImpl(
       CurrentUser user,
+      PermissionBackend permissionBackend,
       CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
@@ -160,6 +165,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Assisted String name) {
     this(
         user,
+        permissionBackend,
         createProjectFactory,
         projectApi,
         projects,
@@ -184,6 +190,7 @@ public class ProjectApiImpl implements ProjectApi {
 
   private ProjectApiImpl(
       CurrentUser user,
+      PermissionBackend permissionBackend,
       CreateProject.Factory createProjectFactory,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
@@ -205,6 +212,7 @@ public class ProjectApiImpl implements ProjectApi {
       ProjectResource project,
       String name) {
     this.user = user;
+    this.permissionBackend = permissionBackend;
     this.createProjectFactory = createProjectFactory;
     this.projectApi = projectApi;
     this.projects = projects;
@@ -241,10 +249,11 @@ public class ProjectApiImpl implements ProjectApi {
       if (in.name != null && !name.equals(in.name)) {
         throw new BadRequestException("name must match input.name");
       }
-      checkRequiresCapability(user, null, CreateProject.class);
-      createProjectFactory.create(name).apply(TopLevelResource.INSTANCE, in);
+      CreateProject impl = createProjectFactory.create(name);
+      permissionBackend.user(user).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
+      impl.apply(TopLevelResource.INSTANCE, in);
       return projectApi.create(projects.parse(name));
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot create project: " + e.getMessage(), e);
     }
   }

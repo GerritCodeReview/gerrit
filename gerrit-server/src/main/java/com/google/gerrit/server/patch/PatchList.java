@@ -151,20 +151,13 @@ public class PatchList implements Serializable {
       return 1;
     }
 
-    int high = patches.length;
-    int low = isMerge ? 2 : 1;
-    while (low < high) {
-      final int mid = (low + high) >>> 1;
-      final int cmp = patches[mid].getNewName().compareTo(fileName);
-      if (cmp < 0) {
-        low = mid + 1;
-      } else if (cmp == 0) {
-        return mid;
-      } else {
-        high = mid;
+    PatchListEntry want = PatchListEntry.empty(fileName);
+    return Arrays.binarySearch(patches, isMerge ? 2 : 1, patches.length, want, new Comparator<PatchListEntry>() {
+      @Override
+      public int compare(PatchListEntry o1, PatchListEntry o2) {
+        return o1.getNewName().compareTo(o2.getNewName());
       }
-    }
-    return -(low + 1);
+    });
   }
 
   private void writeObject(final ObjectOutputStream output) throws IOException {

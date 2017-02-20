@@ -134,15 +134,15 @@ public abstract class PermissionBackend {
     }
 
     /** Verify scoped user can {@code perm}, throwing if denied. */
-    public abstract void check(GlobalPermission perm)
+    public abstract void check(GlobalOrPluginPermission perm)
         throws AuthException, PermissionBackendException;
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
-    public abstract Set<GlobalPermission> test(Collection<GlobalPermission> permSet)
+    public abstract <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException;
 
-    public boolean test(GlobalPermission perm) throws PermissionBackendException {
-      return test(EnumSet.of(perm)).contains(perm);
+    public boolean test(GlobalOrPluginPermission perm) throws PermissionBackendException {
+      return test(Collections.singleton(perm)).contains(perm);
     }
   }
 

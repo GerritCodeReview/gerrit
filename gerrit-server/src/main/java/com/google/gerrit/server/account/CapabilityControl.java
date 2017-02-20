@@ -26,6 +26,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -75,21 +77,6 @@ public class CapabilityControl {
     return canAdministrateServer;
   }
 
-  /** @return true if the user can create an account for another user. */
-  public boolean canCreateAccount() {
-    return canPerform(GlobalCapability.CREATE_ACCOUNT) || canAdministrateServer();
-  }
-
-  /** @return true if the user can create a group. */
-  public boolean canCreateGroup() {
-    return canPerform(GlobalCapability.CREATE_GROUP) || canAdministrateServer();
-  }
-
-  /** @return true if the user can create a project. */
-  public boolean canCreateProject() {
-    return canPerform(GlobalCapability.CREATE_PROJECT) || canAdministrateServer();
-  }
-
   /** @return true if the user can email reviewers. */
   public boolean canEmailReviewers() {
     if (canEmailReviewers == null) {
@@ -98,11 +85,6 @@ public class CapabilityControl {
               || !matchAny(capabilities.emailReviewers, not(ALLOWED_RULE));
     }
     return canEmailReviewers;
-  }
-
-  /** @return true if the user can kill any running task. */
-  public boolean canKillTask() {
-    return canPerform(GlobalCapability.KILL_TASK) || canMaintainServer();
   }
 
   /** @return true if the user can modify an account for another user. */
@@ -120,24 +102,9 @@ public class CapabilityControl {
     return canPerform(GlobalCapability.VIEW_CACHES) || canMaintainServer();
   }
 
-  /** @return true if the user can flush the server's caches. */
-  public boolean canFlushCaches() {
-    return canPerform(GlobalCapability.FLUSH_CACHES) || canMaintainServer();
-  }
-
   /** @return true if the user can perform basic server maintenance. */
   public boolean canMaintainServer() {
     return canPerform(GlobalCapability.MAINTAIN_SERVER) || canAdministrateServer();
-  }
-
-  /** @return true if the user can view open connections. */
-  public boolean canViewConnections() {
-    return canPerform(GlobalCapability.VIEW_CONNECTIONS) || canAdministrateServer();
-  }
-
-  /** @return true if the user can view the installed plugins. */
-  public boolean canViewPlugins() {
-    return canPerform(GlobalCapability.VIEW_PLUGINS) || canAdministrateServer();
   }
 
   /** @return true if the user can view the entire queue. */
@@ -148,16 +115,6 @@ public class CapabilityControl {
   /** @return true if the user can access the database (with gsql). */
   public boolean canAccessDatabase() {
     return canPerform(GlobalCapability.ACCESS_DATABASE);
-  }
-
-  /** @return true if the user can stream Gerrit events. */
-  public boolean canStreamEvents() {
-    return canPerform(GlobalCapability.STREAM_EVENTS) || canAdministrateServer();
-  }
-
-  /** @return true if the user can run the Git garbage collection. */
-  public boolean canRunGC() {
-    return canPerform(GlobalCapability.RUN_GC) || canMaintainServer();
   }
 
   /** @return true if the user can impersonate another user. */
@@ -272,5 +229,44 @@ public class CapabilityControl {
 
   private static boolean match(GroupMembership groups, PermissionRule rule) {
     return groups.contains(rule.getGroup().getUUID());
+  }
+
+  /** Do not use unless inside DefaultPermissionBackend. */
+  public boolean doCanForDefaultPermissionBackend(GlobalPermission perm)
+      throws PermissionBackendException {
+    switch (perm) {
+      case ACCESS_DATABASE:
+        return canAccessDatabase();
+      case ADMINISTRATE_SERVER:
+        return canAdministrateServer();
+      case EMAIL_REVIEWERS:
+        return canEmailReviewers();
+      case MAINTAIN_SERVER:
+        return canMaintainServer();
+      case MODIFY_ACCOUNT:
+        return canModifyAccount();
+      case RUN_AS:
+        return canRunAs();
+      case VIEW_ALL_ACCOUNTS:
+        return canViewAllAccounts();
+      case VIEW_CACHES:
+        return canViewCaches();
+      case VIEW_QUEUE:
+        return canViewQueue();
+
+      case FLUSH_CACHES:
+      case KILL_TASK:
+      case RUN_GC:
+        return canPerform(perm.permissionName()) || canMaintainServer();
+
+      case CREATE_ACCOUNT:
+      case CREATE_GROUP:
+      case CREATE_PROJECT:
+      case STREAM_EVENTS:
+      case VIEW_CONNECTIONS:
+      case VIEW_PLUGINS:
+        return canPerform(perm.permissionName()) || canAdministrateServer();
+    }
+    throw new PermissionBackendException(perm + " unsupported");
   }
 }

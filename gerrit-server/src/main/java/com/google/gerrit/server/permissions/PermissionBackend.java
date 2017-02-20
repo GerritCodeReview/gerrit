@@ -36,10 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Checks authorization to perform an action on project, ref, or change.
- *
- * <p>{@code PermissionBackend} should be a singleton for the server, acting as a factory for
- * lightweight request instances.
+ * Checks authorization to perform an action on a project, reference, or change.
  *
  * <p>{@code check} methods should be used during action handlers to verify the user is allowed to
  * exercise the specified permission. For convenience in implementation {@code check} methods throw
@@ -49,6 +46,13 @@ import org.slf4j.LoggerFactory;
  * object needs to include a true/false hint indicating the user's ability to exercise the
  * permission. This is suitable for configuring UI button state, but should not be relied upon to
  * guard handlers before making state changes.
+ *
+ * <p>{@code PermissionBackend} is a singleton for the server, acting as a factory for lightweight
+ * request instances. Implementation classes may cache supporting data inside of {@link WithUser},
+ * {@link ForProject}, {@link ForRef}, and {@link ForChange} instances, in addition to storing
+ * within {@link CurrentUser} using a {@link com.google.gerrit.server.CurrentUser.PropertyKey}.
+ * {@link GlobalPermission} caching for {@link WithUser} may best cached inside {@link CurrentUser}
+ * as {@link WithUser} instances are frequently created.
  *
  * <p>Example use:
  *
@@ -127,6 +131,18 @@ public abstract class PermissionBackend {
     /** @return instance scoped for the change, and its destination ref and project. */
     public ForChange change(ChangeNotes notes) {
       return ref(notes.getChange().getDest()).change(notes);
+    }
+
+    /** Verify scoped user can {@code perm}, throwing if denied. */
+    public abstract void check(GlobalPermission perm)
+        throws AuthException, PermissionBackendException;
+
+    /** Filter {@code permSet} to permissions scoped user might be able to perform. */
+    public abstract Set<GlobalPermission> test(Collection<GlobalPermission> permSet)
+        throws PermissionBackendException;
+
+    public boolean test(GlobalPermission perm) throws PermissionBackendException {
+      return test(EnumSet.of(perm)).contains(perm);
     }
   }
 

@@ -18,11 +18,15 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -45,6 +49,7 @@ import org.kohsuke.args4j.Option;
 public final class SuExec extends BaseCommand {
   private final SshScope sshScope;
   private final DispatchCommandProvider dispatcher;
+  private final PermissionBackend permissionBackend;
 
   private boolean enableRunAs;
   private CurrentUser caller;
@@ -67,6 +72,7 @@ public final class SuExec extends BaseCommand {
   SuExec(
       final SshScope sshScope,
       @CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
+      PermissionBackend permissionBackend,
       final CurrentUser caller,
       final SshSession session,
       final IdentifiedUser.GenericFactory userFactory,
@@ -74,6 +80,7 @@ public final class SuExec extends BaseCommand {
       AuthConfig config) {
     this.sshScope = sshScope;
     this.dispatcher = dispatcher;
+    this.permissionBackend = permissionBackend;
     this.caller = caller;
     this.session = session;
     this.userFactory = userFactory;
@@ -115,8 +122,14 @@ public final class SuExec extends BaseCommand {
       // OK.
     } else if (!enableRunAs) {
       throw die("suexec disabled by auth.enableRunAs = false");
-    } else if (!caller.getCapabilities().canRunAs()) {
-      throw die("suexec not permitted");
+    } else {
+      try {
+        permissionBackend.user(caller).check(GlobalPermission.RUN_AS);
+      } catch (AuthException e) {
+        throw die("suexec not permitted");
+      } catch (PermissionBackendException e) {
+        throw die("suexec not available: " + e);
+      }
     }
   }
 

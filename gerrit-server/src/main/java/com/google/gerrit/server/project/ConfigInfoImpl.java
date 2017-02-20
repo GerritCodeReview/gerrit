@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.inject.util.Providers;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -45,6 +44,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
+      UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views) {
     ProjectState projectState = control.getProjectState();
     Project p = control.getProject();
@@ -122,8 +122,7 @@ public class ConfigInfoImpl extends ConfigInfo {
         getPluginConfig(control.getProjectState(), pluginConfigEntries, cfgFactory, allProjects);
 
     actions = new TreeMap<>();
-    for (UiAction.Description d :
-        UiActions.from(views, new ProjectResource(control), Providers.of(control.getUser()))) {
+    for (UiAction.Description d : uiActions.from(views, new ProjectResource(control))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();

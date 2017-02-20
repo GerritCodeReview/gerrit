@@ -30,6 +30,7 @@ import com.google.inject.util.Providers;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -136,6 +137,35 @@ public abstract class PermissionBackend {
     /** Verify scoped user can {@code perm}, throwing if denied. */
     public abstract void check(GlobalOrPluginPermission perm)
         throws AuthException, PermissionBackendException;
+
+    /**
+     * Verify scoped user can perform at least one listed permission.
+     *
+     * <p>If {@code any} is empty, the method completes normally and allows the caller to continue.
+     * Since no permissions were supplied to check, its assumed no permissions are necessary to
+     * continue with the caller's operation.
+     *
+     * <p>If the user has at least one of the permissions in {@code any}, the method completes
+     * normally, possibly without checking all listed permissions.
+     *
+     * <p>If {@code any} is non-empty and the user has none, {@link AuthException} is thrown for one
+     * of the failed permissions.
+     *
+     * @param any set of permissions to check.
+     */
+    public void checkAny(Set<GlobalOrPluginPermission> any)
+        throws PermissionBackendException, AuthException {
+      for (Iterator<GlobalOrPluginPermission> itr = any.iterator(); itr.hasNext(); ) {
+        try {
+          check(itr.next());
+          return;
+        } catch (AuthException err) {
+          if (!itr.hasNext()) {
+            throw err;
+          }
+        }
+      }
+    }
 
     /** Filter {@code permSet} to permissions scoped user might be able to perform. */
     public abstract <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)

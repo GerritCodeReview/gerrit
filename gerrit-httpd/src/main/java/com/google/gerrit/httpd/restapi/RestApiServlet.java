@@ -95,8 +95,10 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.account.CapabilityUtils;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -186,6 +188,7 @@ public class RestApiServlet extends HttpServlet {
     final Provider<CurrentUser> currentUser;
     final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
+    final PermissionBackend permissionBackend;
     final AuditService auditService;
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
@@ -195,12 +198,14 @@ public class RestApiServlet extends HttpServlet {
         Provider<CurrentUser> currentUser,
         DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
+        PermissionBackend permissionBackend,
         AuditService auditService,
         RestApiMetrics metrics,
         @GerritServerConfig Config cfg) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
+      this.permissionBackend = permissionBackend;
       this.auditService = auditService;
       this.metrics = metrics;
       allowOrigin = makeAllowOrigin(cfg);
@@ -261,7 +266,10 @@ public class RestApiServlet extends HttpServlet {
 
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
-      CapabilityUtils.checkRequiresCapability(globals.currentUser, null, rc.getClass());
+      globals
+          .permissionBackend
+          .user(globals.currentUser)
+          .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
 
       viewData = new ViewData(null, null);
 
@@ -1083,9 +1091,12 @@ public class RestApiServlet extends HttpServlet {
     return "GET".equals(req.getMethod()) || "HEAD".equals(req.getMethod());
   }
 
-  private void checkRequiresCapability(ViewData viewData) throws AuthException {
-    CapabilityUtils.checkRequiresCapability(
-        globals.currentUser, viewData.pluginName, viewData.view.getClass());
+  private void checkRequiresCapability(ViewData d)
+      throws AuthException, PermissionBackendException {
+    globals
+        .permissionBackend
+        .user(globals.currentUser)
+        .checkAny(GlobalPermission.fromAnnotation(d.pluginName, d.view.getClass()));
   }
 
   private static long handleException(

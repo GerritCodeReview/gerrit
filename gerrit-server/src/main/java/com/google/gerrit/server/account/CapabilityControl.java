@@ -142,11 +142,8 @@ public class CapabilityControl {
     return QueueProvider.QueueType.INTERACTIVE;
   }
 
-  /** True if the user has this permission. Works only for non labels. */
-  public boolean canPerform(String permissionName) {
-    if (GlobalCapability.ADMINISTRATE_SERVER.equals(permissionName)) {
-      return canAdministrateServer();
-    }
+  /** @return true if the user has this permission. */
+  private boolean canPerform(String permissionName) {
     return !access(permissionName).isEmpty();
   }
 

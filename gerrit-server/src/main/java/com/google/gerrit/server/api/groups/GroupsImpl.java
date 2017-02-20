@@ -15,7 +15,6 @@
 package com.google.gerrit.server.api.groups;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.account.CapabilityUtils.checkRequiresCapability;
 
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -32,6 +31,9 @@ import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.group.QueryGroups;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -49,6 +51,7 @@ class GroupsImpl implements Groups {
   private final Provider<ListGroups> listGroups;
   private final Provider<QueryGroups> queryGroups;
   private final Provider<CurrentUser> user;
+  private final PermissionBackend permissionBackend;
   private final CreateGroup.Factory createGroup;
   private final GroupApiImpl.Factory api;
 
@@ -60,6 +63,7 @@ class GroupsImpl implements Groups {
       Provider<ListGroups> listGroups,
       Provider<QueryGroups> queryGroups,
       Provider<CurrentUser> user,
+      PermissionBackend permissionBackend,
       CreateGroup.Factory createGroup,
       GroupApiImpl.Factory api) {
     this.accounts = accounts;
@@ -68,6 +72,7 @@ class GroupsImpl implements Groups {
     this.listGroups = listGroups;
     this.queryGroups = queryGroups;
     this.user = user;
+    this.permissionBackend = permissionBackend;
     this.createGroup = createGroup;
     this.api = api;
   }
@@ -89,11 +94,12 @@ class GroupsImpl implements Groups {
     if (checkNotNull(in, "GroupInput").name == null) {
       throw new BadRequestException("GroupInput must specify name");
     }
-    checkRequiresCapability(user, null, CreateGroup.class);
     try {
-      GroupInfo info = createGroup.create(in.name).apply(TopLevelResource.INSTANCE, in);
+      CreateGroup impl = createGroup.create(in.name);
+      permissionBackend.user(user).checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
+      GroupInfo info = impl.apply(TopLevelResource.INSTANCE, in);
       return id(info.id);
-    } catch (OrmException | IOException e) {
+    } catch (OrmException | IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot create group " + in.name, e);
     }
   }

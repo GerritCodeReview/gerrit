@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.PostCaches.Input;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -66,7 +67,8 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
 
   @Override
   public Response<String> apply(ConfigResource rsrc, Input input)
-      throws AuthException, BadRequestException, UnprocessableEntityException {
+      throws AuthException, BadRequestException, UnprocessableEntityException,
+          PermissionBackendException {
     if (input == null || input.operation == null) {
       throw new BadRequestException("operation must be specified");
     }
@@ -90,7 +92,7 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
     }
   }
 
-  private void flushAll() throws AuthException {
+  private void flushAll() throws AuthException, PermissionBackendException {
     for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
       CacheResource cacheResource =
           new CacheResource(e.getPluginName(), e.getExportName(), e.getProvider());
@@ -101,7 +103,8 @@ public class PostCaches implements RestModifyView<ConfigResource, Input> {
     }
   }
 
-  private void flush(List<String> cacheNames) throws UnprocessableEntityException, AuthException {
+  private void flush(List<String> cacheNames)
+      throws UnprocessableEntityException, AuthException, PermissionBackendException {
     List<CacheResource> cacheResources = new ArrayList<>(cacheNames.size());
 
     for (String n : cacheNames) {

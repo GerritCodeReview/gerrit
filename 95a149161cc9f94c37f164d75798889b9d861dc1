@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50f16805_1dc8aaf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T15:28:32Z",
+      "side": 1,
+      "message": "I am not sure this is a good name. This method just compares two patch list entry names. Whether the names are new (or old) is decided by the caller, not by this method.\n\nProposal: comparePathListEntryNames",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "887ced3d_4fc319e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T15:28:32Z",
+      "side": 1,
+      "message": "forgot to run google-java-format on this file?",
+      "range": {
+        "startLine": 64,
+        "startChar": 33,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59deac9a_fa723a71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T15:28:32Z",
+      "side": 1,
+      "message": "optional:\n\n  m1 \u003c 3",
+      "range": {
+        "startLine": 64,
+        "startChar": 15,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "465ecad9_136ea440",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T15:28:32Z",
+      "side": 1,
+      "message": "2017",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4423e0e_dae35733",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T15:28:32Z",
+      "side": 1,
+      "message": "Add also a test for names array without the MERGE_LIST?",
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

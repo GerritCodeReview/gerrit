@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "8e169763_b112a71c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T16:49:56Z",
+      "side": 1,
+      "message": "If this will be only a Prolog rule then one can check for unresolved commend in the rules.pl and add a label named \"All-Comments-Resolved\" with the status \"need()\" to the result of the submit rule.\nThe UI will then automatically show \"Needs All-Comments-Resolved\" and the change will not be submittable.\n\nHowever, if this feature will be used often, requesting every project to update their submit rules in order to activate it is too much. In that case, this should likely be just a project-level (inheritable) property. In this case we probably don\u0027t even need to expose this as a Prolog rule.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "37ef2743cb5f4819f136dd56b9fb39f244b04bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad1e7f26_a40852f7",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_unresolved_comments_1.java",
         "patchSetId": 1

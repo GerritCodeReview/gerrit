@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9198f251_f45ca0e2",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-20T13:16:08Z",
+      "side": 1,
+      "message": "nit: should be after //lib/auto:auto-value",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "bc59f6566c05abdcde11a08dc3cab18964df15c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

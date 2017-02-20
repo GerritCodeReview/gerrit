@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -22,7 +21,13 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource.Capability;
+import com.google.gerrit.server.permissions.GlobalOrPluginPermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.PluginPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -30,15 +35,18 @@ import com.google.inject.Singleton;
 @Singleton
 class Capabilities implements ChildCollection<AccountResource, AccountResource.Capability> {
   private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
   private final DynamicMap<RestView<AccountResource.Capability>> views;
   private final Provider<GetCapabilities> get;
 
   @Inject
   Capabilities(
       Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
       DynamicMap<RestView<AccountResource.Capability>> views,
       Provider<GetCapabilities> get) {
     this.self = self;
+    this.permissionBackend = permissionBackend;
     this.views = views;
     this.get = get;
   }
@@ -50,18 +58,37 @@ class Capabilities implements ChildCollection<AccountResource, AccountResource.C
 
   @Override
   public Capability parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException, AuthException {
-    if (self.get() != parent.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("restricted to administrator");
+      throws ResourceNotFoundException, AuthException, PermissionBackendException {
+    IdentifiedUser target = parent.getUser();
+    if (self.get() != target) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
-    String name = id.get();
-    CapabilityControl cap = parent.getUser().getCapabilities();
-    if (cap.canPerform(name)
-        || (cap.canAdministrateServer() && GlobalCapability.isCapability(name))) {
-      return new AccountResource.Capability(parent.getUser(), name);
+    GlobalOrPluginPermission perm = parse(id);
+    if (permissionBackend.user(target).test(perm)) {
+      return new AccountResource.Capability(target, perm.permissionName());
     }
     throw new ResourceNotFoundException(id);
+  }
+
+  private GlobalOrPluginPermission parse(IdString id) throws ResourceNotFoundException {
+    String name = id.get();
+    GlobalOrPluginPermission perm = GlobalPermission.byName(name);
+    if (perm != null) {
+      return perm;
+    }
+
+    int dash = name.lastIndexOf('-');
+    if (dash < 0) {
+      throw new ResourceNotFoundException(id);
+    }
+
+    String pluginName = name.substring(0, dash);
+    String capability = name.substring(dash + 1);
+    if (pluginName.isEmpty() || capability.isEmpty()) {
+      throw new ResourceNotFoundException(id);
+    }
+    return new PluginPermission(pluginName, capability);
   }
 
   @Override

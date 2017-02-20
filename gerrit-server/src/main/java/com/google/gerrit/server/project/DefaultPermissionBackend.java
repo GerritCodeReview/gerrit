@@ -16,11 +16,12 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.FailedPermissionBackend;
-import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.GlobalOrPluginPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -65,17 +66,18 @@ class DefaultPermissionBackend extends PermissionBackend {
     }
 
     @Override
-    public void check(GlobalPermission perm) throws AuthException, PermissionBackendException {
+    public void check(GlobalOrPluginPermission perm)
+        throws AuthException, PermissionBackendException {
       if (!can(perm)) {
         throw new AuthException(perm.describeForException() + " not permitted");
       }
     }
 
     @Override
-    public Set<GlobalPermission> test(Collection<GlobalPermission> permSet)
+    public <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException {
-      EnumSet<GlobalPermission> ok = EnumSet.noneOf(GlobalPermission.class);
-      for (GlobalPermission perm : permSet) {
+      Set<T> ok = newSet(permSet);
+      for (T perm : permSet) {
         if (can(perm)) {
           ok.add(perm);
         }
@@ -83,8 +85,18 @@ class DefaultPermissionBackend extends PermissionBackend {
       return ok;
     }
 
-    private boolean can(GlobalPermission perm) throws PermissionBackendException {
+    private boolean can(GlobalOrPluginPermission perm) throws PermissionBackendException {
       return user.getCapabilities().doCanForDefaultPermissionBackend(perm);
     }
+  }
+
+  private static <T extends GlobalOrPluginPermission> Set<T> newSet(Collection<T> permSet) {
+    if (permSet instanceof EnumSet) {
+      @SuppressWarnings({"unchecked", "rawtypes"})
+      Set<T> s = ((EnumSet) permSet).clone();
+      s.clear();
+      return s;
+    }
+    return Sets.newHashSetWithExpectedSize(permSet.size());
   }
 }

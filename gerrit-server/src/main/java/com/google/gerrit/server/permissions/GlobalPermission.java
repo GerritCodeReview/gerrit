@@ -17,7 +17,16 @@ package com.google.gerrit.server.permissions;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.CapabilityScope;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Locale;
+import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Global server permissions built into Gerrit. */
 public enum GlobalPermission implements GlobalOrPluginPermission {
@@ -40,6 +49,7 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   VIEW_PLUGINS(GlobalCapability.VIEW_PLUGINS),
   VIEW_QUEUE(GlobalCapability.VIEW_QUEUE);
 
+  private static final Logger log = LoggerFactory.getLogger(GlobalPermission.class);
   private static final ImmutableMap<String, GlobalPermission> BY_NAME;
 
   static {
@@ -53,6 +63,47 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   @Nullable
   public static GlobalPermission byName(String name) {
     return BY_NAME.get(name);
+  }
+
+  /**
+   * Extracts the {@code @RequiresCapability} or {@code @RequiresAnyCapability} annotation.
+   *
+   * @param pluginName name of the declaring plugin. May be {@code null} or {@code "gerrit"} for
+   *     classes originating from the core server.
+   * @param clazz target class to extract annotation from.
+   * @return empty set if no annotations were found, or a collection of permissions, any of which
+   *     are suitable to enable access.
+   * @throws PermissionBackendException the annotation could not be parsed.
+   */
+  public static Set<GlobalOrPluginPermission> fromAnnotation(
+      @Nullable String pluginName, Class<?> clazz) throws PermissionBackendException {
+    RequiresCapability rc = findAnnotation(clazz, RequiresCapability.class);
+    RequiresAnyCapability rac = findAnnotation(clazz, RequiresAnyCapability.class);
+    if (rc != null && rac != null) {
+      log.error(
+          String.format(
+              "Class %s uses both @%s and @%s",
+              clazz.getName(),
+              RequiresCapability.class.getSimpleName(),
+              RequiresAnyCapability.class.getSimpleName()));
+      throw new PermissionBackendException("cannot extract permission");
+    } else if (rc != null) {
+      return Collections.singleton(
+          resolve(pluginName, rc.value(), rc.scope(), clazz, RequiresCapability.class));
+    } else if (rac != null) {
+      Set<GlobalOrPluginPermission> r = new LinkedHashSet<>();
+      for (String capability : rac.value()) {
+        r.add(resolve(pluginName, capability, rac.scope(), clazz, RequiresAnyCapability.class));
+      }
+      return Collections.unmodifiableSet(r);
+    } else {
+      return Collections.emptySet();
+    }
+  }
+
+  public static Set<GlobalOrPluginPermission> fromAnnotation(Class<?> clazz)
+      throws PermissionBackendException {
+    return fromAnnotation(null, clazz);
   }
 
   private final String name;
@@ -70,5 +121,46 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   @Override
   public String describeForException() {
     return toString().toLowerCase(Locale.US).replace('_', ' ');
+  }
+
+  private static GlobalOrPluginPermission resolve(
+      @Nullable String pluginName,
+      String capability,
+      CapabilityScope scope,
+      Class<?> clazz,
+      Class<?> annotationClass)
+      throws PermissionBackendException {
+    if (pluginName != null
+        && !"gerrit".equals(pluginName)
+        && (scope == CapabilityScope.PLUGIN || scope == CapabilityScope.CONTEXT)) {
+      return new PluginPermission(pluginName, capability);
+    }
+
+    if (scope == CapabilityScope.PLUGIN) {
+      log.error(
+          String.format(
+              "Class %s uses @%s(scope=%s), but is not within a plugin",
+              clazz.getName(), annotationClass.getSimpleName(), scope.name()));
+      throw new PermissionBackendException("cannot extract permission");
+    }
+
+    GlobalPermission perm = byName(capability);
+    if (perm == null) {
+      log.error(
+          String.format("Class %s requires unknown capability %s", clazz.getName(), capability));
+      throw new PermissionBackendException("cannot extract permission");
+    }
+    return perm;
+  }
+
+  @Nullable
+  private static <T extends Annotation> T findAnnotation(Class<?> clazz, Class<T> annotation) {
+    for (; clazz != null; clazz = clazz.getSuperclass()) {
+      T t = clazz.getAnnotation(annotation);
+      if (t != null) {
+        return t;
+      }
+    }
+    return null;
   }
 }

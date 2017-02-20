@@ -30,7 +30,6 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,6 +47,7 @@ import org.kohsuke.args4j.Option;
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final DynamicMap<RestView<BranchResource>> branchViews;
+  private final UiActions uiActions;
   private final WebLinks webLinks;
 
   @Option(
@@ -99,9 +99,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
   public ListBranches(
       GitRepositoryManager repoManager,
       DynamicMap<RestView<BranchResource>> branchViews,
+      UiActions uiActions,
       WebLinks webLinks) {
     this.repoManager = repoManager;
     this.branchViews = branchViews;
+    this.uiActions = uiActions;
     this.webLinks = webLinks;
   }
 
@@ -197,16 +199,15 @@ public class ListBranches implements RestReadView<ProjectResource> {
     info.ref = ref.getName();
     info.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
     info.canDelete = !targets.contains(ref.getName()) && refControl.canDelete() ? true : null;
-    for (UiAction.Description d :
-        UiActions.from(
-            branchViews,
-            new BranchResource(refControl.getProjectControl(), info),
-            Providers.of(refControl.getUser()))) {
+
+    BranchResource rsrc = new BranchResource(refControl.getProjectControl(), info);
+    for (UiAction.Description d : uiActions.from(branchViews, rsrc)) {
       if (info.actions == null) {
         info.actions = new TreeMap<>();
       }
       info.actions.put(d.getId(), new ActionInfo(d));
     }
+
     List<WebLinkInfo> links =
         webLinks.getBranchLinks(
             refControl.getProjectControl().getProject().getName(), ref.getName());

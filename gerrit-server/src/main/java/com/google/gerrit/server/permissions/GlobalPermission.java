@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import java.util.Locale;
 
-public enum GlobalPermission {
+/** Global server permissions built into Gerrit. */
+public enum GlobalPermission implements GlobalOrPluginPermission {
   ACCESS_DATABASE(GlobalCapability.ACCESS_DATABASE),
   ADMINISTRATE_SERVER(GlobalCapability.ADMINISTRATE_SERVER),
   CREATE_ACCOUNT(GlobalCapability.CREATE_ACCOUNT),
@@ -37,6 +40,21 @@ public enum GlobalPermission {
   VIEW_PLUGINS(GlobalCapability.VIEW_PLUGINS),
   VIEW_QUEUE(GlobalCapability.VIEW_QUEUE);
 
+  private static final ImmutableMap<String, GlobalPermission> BY_NAME;
+
+  static {
+    ImmutableMap.Builder<String, GlobalPermission> m = ImmutableMap.builder();
+    for (GlobalPermission p : values()) {
+      m.put(p.permissionName(), p);
+    }
+    BY_NAME = m.build();
+  }
+
+  @Nullable
+  public static GlobalPermission byName(String name) {
+    return BY_NAME.get(name);
+  }
+
   private final String name;
 
   GlobalPermission(String name) {
@@ -44,10 +62,12 @@ public enum GlobalPermission {
   }
 
   /** @return name used in {@code project.config} permissions. */
+  @Override
   public String permissionName() {
     return name;
   }
 
+  @Override
   public String describeForException() {
     return toString().toLowerCase(Locale.US).replace('_', ' ');
   }

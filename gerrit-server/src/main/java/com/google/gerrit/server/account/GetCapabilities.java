@@ -115,7 +115,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
   private void addRanges(Map<String, Object> have, AccountResource rsrc) {
     CapabilityControl cc = rsrc.getUser().getCapabilities();
     for (String name : GlobalCapability.getRangeNames()) {
-      if (want(name) && cc.canPerform(name)) {
+      if (want(name) && cc.hasExplicitRange(name)) {
         have.put(name, new Range(cc.getRange(name)));
       }
     }

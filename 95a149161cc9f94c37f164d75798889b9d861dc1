@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d766028e_6974bcb5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T16:19:39Z",
+      "side": 1,
+      "message": "changed the name, but since this is inside PathLIst, the \"PathListEntry\" part seems implied;",
+      "parentUuid": "50f16805_1dc8aaf5",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "887ced3d_4fc319e7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
         "patchSetId": 3
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "3dfb5374_47f075d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T16:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59deac9a_fa723a71",
+      "range": {
+        "startLine": 64,
+        "startChar": 15,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15622c64_bbc342f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T16:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "887ced3d_4fc319e7",
+      "range": {
+        "startLine": 64,
+        "startChar": 33,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "465ecad9_136ea440",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0829ac1e_858d00bd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T16:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "465ecad9_136ea440",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4423e0e_dae35733",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
         "patchSetId": 3
@@ -105,6 +201,24 @@
       "writtenOn": "2017-02-20T15:28:32Z",
       "side": 1,
       "message": "Add also a test for names array without the MERGE_LIST?",
+      "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c8db510_95555b6c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-20T16:19:39Z",
+      "side": 1,
+      "message": "The whole idea of doing MERGE_LIST in the comparator is so there is no need for special casing, but added one anyway.",
+      "parentUuid": "b4423e0e_dae35733",
       "revId": "95a149161cc9f94c37f164d75798889b9d861dc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

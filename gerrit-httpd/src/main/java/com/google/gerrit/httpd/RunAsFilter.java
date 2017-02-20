@@ -19,11 +19,15 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -57,6 +61,7 @@ class RunAsFilter implements Filter {
   private final Provider<ReviewDb> db;
   private final boolean enabled;
   private final DynamicItem<WebSession> session;
+  private final PermissionBackend permissionBackend;
   private final AccountResolver accountResolver;
 
   @Inject
@@ -64,10 +69,12 @@ class RunAsFilter implements Filter {
       Provider<ReviewDb> db,
       AuthConfig config,
       DynamicItem<WebSession> session,
+      PermissionBackend permissionBackend,
       AccountResolver accountResolver) {
     this.db = db;
     this.enabled = config.isRunAsEnabled();
     this.session = session;
+    this.permissionBackend = permissionBackend;
     this.accountResolver = accountResolver;
   }
 
@@ -85,11 +92,19 @@ class RunAsFilter implements Filter {
       }
 
       CurrentUser self = session.get().getUser();
-      if (!self.getCapabilities().canRunAs()
+      try {
+        if (!self.isIdentifiedUser()) {
           // Always disallow for anonymous users, even if permitted by the ACL,
           // because that would be crazy.
-          || !self.isIdentifiedUser()) {
+          throw new AuthException("denied");
+        }
+        permissionBackend.user(self).check(GlobalPermission.RUN_AS);
+      } catch (AuthException e) {
         replyError(req, res, SC_FORBIDDEN, "not permitted to use " + RUN_AS, null);
+        return;
+      } catch (PermissionBackendException e) {
+        log.warn("cannot check runAs", e);
+        replyError(req, res, SC_INTERNAL_SERVER_ERROR, RUN_AS + " unavailable", null);
         return;
       }
 

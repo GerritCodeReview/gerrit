@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d19b571b_ab70a8a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T16:39:05Z",
+      "side": 1,
+      "message": "Do you want to hardcode this policy, add it as a project preference or simply expose the Prolog predicate so that Gerrit users can make use of it when writing submit rules?",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "37ef2743cb5f4819f136dd56b9fb39f244b04bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad1e7f26_a40852f7",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_unresolved_comments_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-20T16:39:05Z",
+      "side": 1,
+      "message": "Looks like most of the PRED_* classes use StoredValues.getChange(engine) instead.",
+      "range": {
+        "startLine": 40,
+        "startChar": 39,
+        "endLine": 40,
+        "endChar": 62
+      },
+      "revId": "37ef2743cb5f4819f136dd56b9fb39f244b04bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

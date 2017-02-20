@@ -97,11 +97,6 @@ public class CapabilityControl {
     return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || canAdministrateServer();
   }
 
-  /** @return true if the user can view the server caches. */
-  public boolean canViewCaches() {
-    return canPerform(GlobalCapability.VIEW_CACHES) || canMaintainServer();
-  }
-
   /** @return true if the user can perform basic server maintenance. */
   public boolean canMaintainServer() {
     return canPerform(GlobalCapability.MAINTAIN_SERVER) || canAdministrateServer();
@@ -249,14 +244,13 @@ public class CapabilityControl {
         return canRunAs();
       case VIEW_ALL_ACCOUNTS:
         return canViewAllAccounts();
-      case VIEW_CACHES:
-        return canViewCaches();
       case VIEW_QUEUE:
         return canViewQueue();
 
       case FLUSH_CACHES:
       case KILL_TASK:
       case RUN_GC:
+      case VIEW_CACHES:
         return canPerform(perm.permissionName()) || canMaintainServer();
 
       case CREATE_ACCOUNT:

@@ -128,6 +128,18 @@ public abstract class PermissionBackend {
     public ForChange change(ChangeNotes notes) {
       return ref(notes.getChange().getDest()).change(notes);
     }
+
+    /** Verify scoped user can {@code perm}, throwing if denied. */
+    public abstract void check(GlobalPermission perm)
+        throws AuthException, PermissionBackendException;
+
+    /** Filter {@code permSet} to permissions scoped user might be able to perform. */
+    public abstract Set<GlobalPermission> test(Collection<GlobalPermission> permSet)
+        throws PermissionBackendException;
+
+    public boolean test(GlobalPermission perm) throws PermissionBackendException {
+      return test(EnumSet.of(perm)).contains(perm);
+    }
   }
 
   /** PermissionBackend scoped to a user and project. */

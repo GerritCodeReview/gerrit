@@ -22,6 +22,30 @@
       "revId": "1ba03dc6b0160c92c41f322d49b9843435752953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5091307_29b608ef",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-20T08:24:23Z",
+      "side": 1,
+      "message": "It could be catched and rethrow, because this method already declares as \"throws Exception\":\n\n  } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {\n      throw e;\n  } catch (InvocationTargetException ite) {\n    if (ite.getCause() instanceof Exception) {\n      throw (Exception) ite.getCause();\n    } else if (ite.getCause() instanceof Error) {\n      throw (Error) ite.getCause();\n    } else {\n      throw ite;\n    }\n  }\n\nBut we also could let it out.",
+      "parentUuid": "f468b7d5_11b596f1",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 205,
+        "endChar": 45
+      },
+      "revId": "1ba03dc6b0160c92c41f322d49b9843435752953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

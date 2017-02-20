@@ -65,10 +65,6 @@ public class AccountResource implements RestResource {
     public String getCapability() {
       return capability;
     }
-
-    public boolean has() {
-      return user.getCapabilities().canPerform(getCapability());
-    }
   }
 
   public static class Email extends AccountResource {

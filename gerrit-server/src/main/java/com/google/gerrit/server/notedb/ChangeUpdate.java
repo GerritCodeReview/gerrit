@@ -26,6 +26,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_IS_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
@@ -149,6 +150,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String psDescription;
   private boolean currentPatchSet;
   private Timestamp readOnlyUntil;
+  private Boolean isPrivate;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -711,6 +713,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_READ_ONLY_UNTIL, ChangeNoteUtil.formatTime(serverIdent, readOnlyUntil));
     }
 
+    addFooter(msg, FOOTER_IS_PRIVATE, isPrivate);
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -757,7 +761,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && tag == null
         && psDescription == null
         && !currentPatchSet
-        && readOnlyUntil == null;
+        && readOnlyUntil == null
+        && isPrivate == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {
@@ -779,6 +784,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   void setReadOnlyUntil(Timestamp readOnlyUntil) {
     this.readOnlyUntil = readOnlyUntil;
+  }
+
+  void setPrivate(boolean isPrivate) {
+    this.isPrivate = isPrivate;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

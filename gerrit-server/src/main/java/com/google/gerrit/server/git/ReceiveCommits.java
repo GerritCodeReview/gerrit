@@ -63,6 +63,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -1327,7 +1328,7 @@ public class ReceiveCommits {
       try {
         LabelType.checkName(v.label());
         ApprovalsUtil.checkLabel(labelTypes, v.label(), v.value());
-      } catch (IllegalArgumentException e) {
+      } catch (BadRequestException e) {
         throw clp.reject(e.getMessage());
       }
       labels.put(v.label(), v.value());

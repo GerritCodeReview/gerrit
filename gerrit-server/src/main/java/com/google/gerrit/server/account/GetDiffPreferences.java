@@ -25,6 +25,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -42,23 +45,26 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
 
   private final Provider<CurrentUser> self;
   private final Provider<AllUsersName> allUsersName;
+  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager gitMgr;
 
   @Inject
   GetDiffPreferences(
       Provider<CurrentUser> self,
       Provider<AllUsersName> allUsersName,
+      PermissionBackend permissionBackend,
       GitRepositoryManager gitMgr) {
     this.self = self;
     this.allUsersName = allUsersName;
+    this.permissionBackend = permissionBackend;
     this.gitMgr = gitMgr;
   }
 
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc)
-      throws AuthException, ConfigInvalidException, IOException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("restricted to administrator");
+      throws AuthException, ConfigInvalidException, IOException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     Account.Id id = rsrc.getUser().getAccountId();

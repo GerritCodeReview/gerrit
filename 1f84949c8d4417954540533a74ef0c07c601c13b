@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "1e879b90_1b1fa704",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T23:51:23Z",
+      "side": 1,
+      "message": "No, that\u0027s not really possible at least without some cryptography. This is basically as auditable as the audit tables in ReviewDb, which is not super auditable.\n\nProbably \"auditable\" is just too strong a word. The rest of the paragraph explains why we like this. Can you think of a better short header for this paragraph?",
+      "parentUuid": "3e1c4b98_5658dc11",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c565e7a5_48bd14d3",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 2

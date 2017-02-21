@@ -93,6 +93,30 @@
       "revId": "c2f5f903a6b2cc3d2651a0efd6ee13c15d49bf29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c39761d_8393e5d0",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/systemd/gerrit.service",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-21T22:37:43Z",
+      "side": 1,
+      "message": "Ignore the comment above.",
+      "parentUuid": "7c5d2b93_7707f0fe",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 93
+      },
+      "revId": "c2f5f903a6b2cc3d2651a0efd6ee13c15d49bf29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

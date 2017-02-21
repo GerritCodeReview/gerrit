@@ -32,6 +32,9 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -301,6 +304,7 @@ public class ApprovalsUtil {
    * @param ps patch set being approved.
    * @param changeCtl change control for user adding approvals.
    * @param approvals approvals to add.
+   * @throws RestApiException
    * @throws OrmException
    */
   public Iterable<PatchSetApproval> addApprovalsForNewPatchSet(
@@ -310,7 +314,7 @@ public class ApprovalsUtil {
       PatchSet ps,
       ChangeControl changeCtl,
       Map<String, Short> approvals)
-      throws OrmException {
+      throws RestApiException, OrmException {
     Account.Id accountId = changeCtl.getUser().getAccountId();
     checkArgument(
         accountId.equals(ps.getUploader()),
@@ -334,25 +338,26 @@ public class ApprovalsUtil {
     return cells;
   }
 
-  public static void checkLabel(LabelTypes labelTypes, String name, Short value) {
+  public static void checkLabel(LabelTypes labelTypes, String name, Short value)
+      throws BadRequestException {
     LabelType label = labelTypes.byLabel(name);
     if (label == null) {
-      throw new IllegalArgumentException(
-          String.format("label \"%s\" is not a configured label", name));
+      throw new BadRequestException(String.format("label \"%s\" is not a configured label", name));
     }
     if (label.getValue(value) == null) {
-      throw new IllegalArgumentException(
+      throw new BadRequestException(
           String.format("label \"%s\": %d is not a valid value", name, value));
     }
   }
 
-  private static void checkApprovals(Map<String, Short> approvals, ChangeControl changeCtl) {
+  private static void checkApprovals(Map<String, Short> approvals, ChangeControl changeCtl)
+      throws AuthException {
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       String name = vote.getKey();
       Short value = vote.getValue();
       PermissionRange range = changeCtl.getRange(Permission.forLabel(name));
       if (range == null || !range.contains(value)) {
-        throw new IllegalArgumentException(
+        throw new AuthException(
             String.format("applying label \"%s\": %d is restricted", name, value));
       }
     }

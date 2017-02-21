@@ -28,6 +28,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -335,7 +336,8 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws OrmException, IOException {
+  public boolean updateChange(ChangeContext ctx)
+      throws RestApiException, OrmException, IOException {
     change = ctx.getChange(); // Use defensive copy created by ChangeControl.
     ReviewDb db = ctx.getDb();
     ChangeControl ctl = ctx.getControl();

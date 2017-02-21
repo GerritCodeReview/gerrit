@@ -99,6 +99,9 @@ limitations under the License.
     .statusText {
       font-weight: bold;
     }
+    .privateText {
+      font-weight: bold;
+    }
 
     div.popdown {
       display: inline-block;
@@ -376,7 +379,8 @@ limitations under the License.
           <span class='{style.changeId}'>
             <ui:msg>Change <g:Anchor ui:field='permalink' title='Reload the change (Shortcut: R)'>
               <ui:attribute name='title'/>
-            </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
+            </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/>
+              <span ui:field='privateText' class='{style.privateText}'/></ui:msg>
           </span>
           <g:SimplePanel ui:field='headerExtension' styleName='{style.headerExtension}'/>
         </div>

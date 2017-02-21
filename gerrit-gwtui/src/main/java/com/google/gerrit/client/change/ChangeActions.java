@@ -37,6 +37,14 @@ public class ChangeActions {
     ChangeApi.deleteChange(id.get(), mine(draftButtons));
   }
 
+  static void markPrivate(Change.Id id, Button... draftButtons) {
+    ChangeApi.markPrivate(id.get(), cs(id, draftButtons));
+  }
+
+  static void unmarkPrivate(Change.Id id, Button... draftButtons) {
+    ChangeApi.unmarkPrivate(id.get(), cs(id, draftButtons));
+  }
+
   public static GerritCallback<JavaScriptObject> cs(
       final Change.Id id, final Button... draftButtons) {
     setEnabled(false, draftButtons);

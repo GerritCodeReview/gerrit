@@ -33,6 +33,8 @@ public interface ChangeConstants extends Constants {
 
   String notCurrent();
 
+  String isPrivate();
+
   String changeEdit();
 
   String myDashboardTitle();

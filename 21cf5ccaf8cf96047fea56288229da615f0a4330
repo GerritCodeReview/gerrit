@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "690ef651_694c188a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-21T14:24:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69858cbe_c4250055",
+      "range": {
+        "startLine": 561,
+        "startChar": 34,
+        "endLine": 561,
+        "endChar": 54
+      },
+      "revId": "21cf5ccaf8cf96047fea56288229da615f0a4330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8dde3f6_9fcd27fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2017-02-21T14:19:03Z",
       "side": 1,
       "message": "Please also document the new operator in user-search.txt",
+      "revId": "21cf5ccaf8cf96047fea56288229da615f0a4330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44988a4_0953ed91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-21T14:24:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8dde3f6_9fcd27fd",
       "revId": "21cf5ccaf8cf96047fea56288229da615f0a4330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

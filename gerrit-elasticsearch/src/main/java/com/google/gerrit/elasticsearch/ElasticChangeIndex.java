@@ -14,6 +14,9 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.gerrit.server.index.change.ChangeField.APPROVAL_CODEC;
+import static com.google.gerrit.server.index.change.ChangeField.CHANGE_CODEC;
+import static com.google.gerrit.server.index.change.ChangeField.PATCH_SET_CODEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -39,9 +42,6 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.index.change.ChangeField.ChangeProtoField;
-import com.google.gerrit.server.index.change.ChangeField.PatchSetApprovalProtoField;
-import com.google.gerrit.server.index.change.ChangeField.PatchSetProtoField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -280,16 +280,15 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
       ChangeData cd =
           changeDataFactory.create(
-              db.get(), ChangeProtoField.CODEC.decode(Base64.decodeBase64(c.getAsString())));
+              db.get(), CHANGE_CODEC.decode(Base64.decodeBase64(c.getAsString())));
 
       // Patch sets.
-      cd.setPatchSets(
-          decodeProtos(source, ChangeField.PATCH_SET.getName(), PatchSetProtoField.CODEC));
+      cd.setPatchSets(decodeProtos(source, ChangeField.PATCH_SET.getName(), PATCH_SET_CODEC));
 
       // Approvals.
       if (source.get(ChangeField.APPROVAL.getName()) != null) {
         cd.setCurrentApprovals(
-            decodeProtos(source, ChangeField.APPROVAL.getName(), PatchSetApprovalProtoField.CODEC));
+            decodeProtos(source, ChangeField.APPROVAL.getName(), APPROVAL_CODEC));
       } else if (fields.contains(ChangeField.APPROVAL.getName())) {
         cd.setCurrentApprovals(Collections.emptyList());
       }

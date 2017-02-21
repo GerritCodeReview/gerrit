@@ -14,74 +14,42 @@
 
 package com.google.gerrit.server.index.group;
 
+import static com.google.gerrit.server.index.FieldDef.exact;
+import static com.google.gerrit.server.index.FieldDef.fullText;
+import static com.google.gerrit.server.index.FieldDef.integer;
+import static com.google.gerrit.server.index.FieldDef.prefix;
+
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
-import com.google.gwtorm.server.OrmException;
 
 /** Secondary index schemas for groups. */
 public class GroupField {
   /** Legacy group ID. */
   public static final FieldDef<AccountGroup, Integer> ID =
-      new FieldDef.Single<AccountGroup, Integer>("id", FieldType.INTEGER, false) {
-        @Override
-        public Integer get(AccountGroup input, FillArgs args) {
-          return input.getId().get();
-        }
-      };
+      integer("id").build(g -> g.getId().get());
 
   /** Group UUID. */
   public static final FieldDef<AccountGroup, String> UUID =
-      new FieldDef.Single<AccountGroup, String>("uuid", FieldType.EXACT, true) {
-        @Override
-        public String get(AccountGroup input, FillArgs args) {
-          return input.getGroupUUID().get();
-        }
-      };
+      exact("uuid").stored().build(g -> g.getGroupUUID().get());
 
   /** Group owner UUID. */
   public static final FieldDef<AccountGroup, String> OWNER_UUID =
-      new FieldDef.Single<AccountGroup, String>("owner_uuid", FieldType.EXACT, false) {
-        @Override
-        public String get(AccountGroup input, FillArgs args) {
-          return input.getOwnerGroupUUID().get();
-        }
-      };
+      exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
 
   /** Group name. */
   public static final FieldDef<AccountGroup, String> NAME =
-      new FieldDef.Single<AccountGroup, String>("name", FieldType.EXACT, false) {
-        @Override
-        public String get(AccountGroup input, FillArgs args) {
-          return input.getName();
-        }
-      };
+      exact("name").build(AccountGroup::getName);
 
   /** Prefix match on group name parts. */
   public static final FieldDef<AccountGroup, Iterable<String>> NAME_PART =
-      new FieldDef.Repeatable<AccountGroup, String>("name_part", FieldType.PREFIX, false) {
-        @Override
-        public Iterable<String> get(AccountGroup input, FillArgs args) {
-          return SchemaUtil.getNameParts(input.getName());
-        }
-      };
+      prefix("name_part").buildRepeatable(g -> SchemaUtil.getNameParts(g.getName()));
 
   /** Group description. */
   public static final FieldDef<AccountGroup, String> DESCRIPTION =
-      new FieldDef.Single<AccountGroup, String>("description", FieldType.FULL_TEXT, false) {
-        @Override
-        public String get(AccountGroup input, FillArgs args) {
-          return input.getDescription();
-        }
-      };
+      fullText("description").build(AccountGroup::getDescription);
 
   /** Whether the group is visible to all users. */
   public static final FieldDef<AccountGroup, String> IS_VISIBLE_TO_ALL =
-      new FieldDef.Single<AccountGroup, String>("is_visible_to_all", FieldType.EXACT, false) {
-        @Override
-        public String get(AccountGroup input, FillArgs args) throws OrmException {
-          return input.isVisibleToAll() ? "1" : "0";
-        }
-      };
+      exact("is_visible_to_all").build(g -> g.isVisibleToAll() ? "1" : "0");
 }

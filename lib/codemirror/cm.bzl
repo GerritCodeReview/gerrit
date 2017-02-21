@@ -214,11 +214,9 @@ CM_MODES = [
     "z80",
 ]
 
-CM_VERSION = "5.22.0"
+CM_VERSION = "5.24.0"
 
 TOP = "META-INF/resources/webjars/codemirror/%s" % CM_VERSION
-
-TOP_MINIFIED = "META-INF/resources/webjars/codemirror-minified/%s" % CM_VERSION
 
 LICENSE = "//lib:LICENSE-codemirror-original"
 
@@ -232,7 +230,6 @@ DIFF_MATCH_PATCH_TOP = ("META-INF/resources/webjars/google-diff-match-patch/%s" 
 def pkg_cm():
   for archive, suffix, top, license in [
       ('@codemirror_original//jar', '', TOP, LICENSE),
-      ('@codemirror_minified//jar', '_r', TOP_MINIFIED, LICENSE_MINIFIED)
   ]:
     # Main JavaScript and addons
     genrule2(

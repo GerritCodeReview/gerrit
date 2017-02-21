@@ -398,11 +398,10 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result changeResult =
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
 
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage(String.format("Deleting change %s is not permitted", id));
+    exception.expectMessage("delete not permitted");
     gApi.changes().id(changeId).delete();
   }
 
@@ -446,11 +445,10 @@ public class ChangeIT extends AbstractDaemonTest {
     try {
       PushOneCommit.Result changeResult = createChange();
       String changeId = changeResult.getChangeId();
-      Change.Id id = changeResult.getChange().getId();
 
       setApiUser(user);
       exception.expect(AuthException.class);
-      exception.expectMessage(String.format("Deleting change %s is not permitted", id));
+      exception.expectMessage("delete not permitted");
       gApi.changes().id(changeId).delete();
     } finally {
       removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
@@ -474,13 +472,12 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result changeResult =
         pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
     String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
 
     setApiUser(user);
     gApi.changes().id(changeId).abandon();
 
     exception.expect(AuthException.class);
-    exception.expectMessage(String.format("Deleting change %s is not permitted", id));
+    exception.expectMessage("delete not permitted");
     gApi.changes().id(changeId).delete();
   }
 
@@ -502,12 +499,11 @@ public class ChangeIT extends AbstractDaemonTest {
   public void deleteMergedChange() throws Exception {
     PushOneCommit.Result changeResult = createChange();
     String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
 
     merge(changeResult);
 
     exception.expect(MethodNotAllowedException.class);
-    exception.expectMessage(String.format("Deleting merged change %s is not allowed", id));
+    exception.expectMessage("delete not permitted");
     gApi.changes().id(changeId).delete();
   }
 
@@ -520,13 +516,12 @@ public class ChangeIT extends AbstractDaemonTest {
       PushOneCommit.Result changeResult =
           pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
       String changeId = changeResult.getChangeId();
-      Change.Id id = changeResult.getChange().getId();
 
       merge(changeResult);
 
       setApiUser(user);
       exception.expect(MethodNotAllowedException.class);
-      exception.expectMessage(String.format("Deleting merged change %s is not allowed", id));
+      exception.expectMessage("delete not permitted");
       gApi.changes().id(changeId).delete();
     } finally {
       removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");

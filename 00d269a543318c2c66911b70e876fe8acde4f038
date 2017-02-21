@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6be6c207_97f16067",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-21T19:41:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccca672f_c47b6ab3",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d596df14_5fe3a88c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "07d29823_e103b065",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-21T19:41:11Z",
+      "side": 1,
+      "message": "No. It is true when hasParent \u003d\u003d true || false,  but false when hasParent \u003d\u003d \u0027undefined\u0027",
+      "parentUuid": "0c09c278_60c97b08",
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cbd675f4_92807956",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3
@@ -76,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "9884dd90_2781d448",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-21T19:41:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbd675f4_92807956",
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8646cc77_8858a451",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
         "patchSetId": 3
@@ -87,6 +147,30 @@
       "writtenOn": "2017-02-17T19:18:42Z",
       "side": 1,
       "message": "(here and below)\nAny particular reason for CapitalizedCamelCase?\nIt seems a bit inconsistent with the rest of the file.",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 31
+      },
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36cec0d5_c029bf36",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-21T19:41:11Z",
+      "side": 1,
+      "message": "I did it because there is another ID with rebaseOnParent (for the input on line 58) and this one was just used for the container.  I believe there are other places in the repo that do it similarly... but I\u0027m open to changing it if you have a different suggestion",
+      "parentUuid": "8646cc77_8858a451",
       "range": {
         "startLine": 56,
         "startChar": 17,

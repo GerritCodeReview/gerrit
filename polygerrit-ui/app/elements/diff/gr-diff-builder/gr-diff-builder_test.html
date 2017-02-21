@@ -97,7 +97,7 @@ limitations under the License.
       assert.equal(buttons[2].textContent, '+10↓');
     });
 
-    test('newlines', function() {
+    test('newlines 1', function() {
       var text = 'abcdef';
       assert.equal(builder._addNewlines(text, text), text);
       text = 'a'.repeat(20);
@@ -105,8 +105,10 @@ limitations under the License.
           'a'.repeat(10) +
           GrDiffBuilder.LINE_FEED_HTML +
           'a'.repeat(10));
+    });
 
-      text = '<span class="thumbsup">👍</span>';
+    test('newlines 2', function() {
+      var text = '<span class="thumbsup">👍</span>';
       var html = '&lt;span class=&quot;thumbsup&quot;&gt;👍&lt;&#x2F;span&gt;';
       assert.equal(builder._addNewlines(text, html),
           '&lt;span clas' +
@@ -116,10 +118,13 @@ limitations under the License.
           'p&quot;&gt;👍&lt;&#x2F;spa' +
           GrDiffBuilder.LINE_FEED_HTML +
           'n&gt;');
+    });
 
-      text = '01234\t56789';
-      assert.equal(builder._addNewlines(text, text),
-          '01234\t5' +
+    test('newlines 3', function() {
+      var text = '01234\t56789';
+      var html = '01234<span>\t</span>56789';
+      assert.equal(builder._addNewlines(text, html),
+          '01234<span>\t</span>5' +
           GrDiffBuilder.LINE_FEED_HTML +
           '6789');
     });
@@ -152,6 +157,17 @@ limitations under the License.
         newLineStub.restore();
         done();
       });
+    });
+
+    test('_createTextEl linewrap with tabs', function() {
+      var text = _.times(7, _.constant('\t')).join('') + '!';
+      var line = {text: text, highlights: []};
+      var el = builder._createTextEl(line);
+      var tabEl = el.querySelector('.contentText > .br');
+      assert.isOk(tabEl);
+      assert.equal(
+          el.querySelector('.contentText .tab:nth-child(2)').nextSibling,
+          tabEl);
     });
 
     test('text length with tabs and unicode', function() {

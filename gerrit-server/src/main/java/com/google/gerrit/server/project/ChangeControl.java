@@ -272,7 +272,7 @@ public class ChangeControl {
 
     switch (status) {
       case DRAFT:
-        return (isOwner() || getRefControl().canDeleteDrafts());
+        return isOwner() || getRefControl().canDeleteDrafts() || isAdmin();
       case NEW:
       case ABANDONED:
         return isAdmin();

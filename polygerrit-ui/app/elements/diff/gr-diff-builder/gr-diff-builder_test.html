@@ -154,6 +154,17 @@ limitations under the License.
       });
     });
 
+    test.only('_createTextEl linewrap with tabs', function() {
+      var text = _.times(7, _.constant('\t')).join('') + '!';
+      var line = {text: text, highlights: []};
+      var el = builder._createTextEl(line);
+      var tabEl = el.querySelector('.contentText > .br');
+      assert.isOk(tabEl);
+      assert.equal(
+          el.querySelector('.contentText .tab:nth-child(2)').nextSibling,
+          tabEl);
+    });
+
     test('text length with tabs and unicode', function() {
       assert.equal(builder._textLength('12345', 4), 5);
       assert.equal(builder._textLength('\t\t12', 4), 10);

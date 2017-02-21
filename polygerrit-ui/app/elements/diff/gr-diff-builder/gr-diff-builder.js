@@ -50,6 +50,7 @@
   GrDiffBuilder.GREATER_THAN_CODE = '>'.charCodeAt(0);
   GrDiffBuilder.AMPERSAND_CODE = '&'.charCodeAt(0);
   GrDiffBuilder.SEMICOLON_CODE = ';'.charCodeAt(0);
+  GrDiffBuilder.TAB_CODE = '\t'.charCodeAt(0);
 
   GrDiffBuilder.LINE_FEED_HTML =
       '<span class="style-scope gr-diff br"></span>';
@@ -480,20 +481,37 @@
     return index + 1;
   };
 
+  GrDiffBuilder.prototype._advanceTagClose = function(html, index) {
+    while (index < html.length &&
+           html.charCodeAt(index) !== GrDiffBuilder.GREATER_THAN_CODE) {
+      index++;
+    }
+    return index + 1;
+  };
+
   GrDiffBuilder.prototype._addNewlines = function(text, html) {
     var htmlIndex = 0;
     var indices = [];
     var numChars = 0;
+    var prevHtmlIndex = 0;
     for (var i = 0; i < text.length; i++) {
       if (numChars > 0 && numChars % this._prefs.line_length === 0) {
         indices.push(htmlIndex);
       }
       htmlIndex = this._advanceChar(html, htmlIndex);
       if (text[i] === '\t') {
+        // Advance past tab closing tag.
+        htmlIndex = this._advanceTagClose(html, htmlIndex);
+        if (~~(numChars / this._prefs.line_length) !==
+            ~~((numChars + this._prefs.tab_size) / this._prefs.line_length)) {
+          // Tab crosses line limit - push it to the next line.
+          indices.push(prevHtmlIndex);
+        }
         numChars += this._prefs.tab_size;
       } else {
         numChars++;
       }
+      prevHtmlIndex = htmlIndex;
     }
     var result = html;
     // Since the result string is being altered in place, start from the end

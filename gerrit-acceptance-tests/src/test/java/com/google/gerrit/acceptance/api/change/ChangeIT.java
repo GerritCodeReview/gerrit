@@ -177,6 +177,17 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void privateStatus() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    assertThat(gApi.changes().id(changeId).isPrivate()).isFalse();
+    gApi.changes().id(changeId).setPrivate(true);
+    assertThat(gApi.changes().id(changeId).isPrivate()).isTrue();
+    gApi.changes().id(changeId).setPrivate(false);
+    assertThat(gApi.changes().id(changeId).isPrivate()).isFalse();
+  }
+
+  @Test
   public void getAmbiguous() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();

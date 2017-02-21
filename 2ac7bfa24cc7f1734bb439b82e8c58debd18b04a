@@ -107,6 +107,97 @@
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2121637_56d2d803",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T17:07:20Z",
+      "side": 1,
+      "message": "Return Set? Otherwise why is this inconsistent with the other byAccount below?",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 12
+      },
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f53579e_e5abcb96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T17:07:20Z",
+      "side": 1,
+      "message": "Move this line to right above the put call, so it\u0027s clear which line might throw?",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e6ec774_618335ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T17:07:20Z",
+      "side": 1,
+      "message": "Just checking the reasoning here: it is possible that the body of this method runs concurrently with a call to Loader#load for the same ObjectId key. Multiple calls to updateCache can\u0027t happen concurrently due to the lock, but the Cache internals don\u0027t know about that lock. But racing with Loader is not a problem, because the actual Multimap value is the same for a given ObjectId, regardless of whether it takes the fast path (here) or the slow path (Loader)",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82dedda2_00f31ae7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T17:07:20Z",
+      "side": 1,
+      "message": "Same comment as in parent change, this seems too big.",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cefb778_7bab0468",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T17:07:20Z",
+      "side": 1,
+      "message": "Move out of the try.",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

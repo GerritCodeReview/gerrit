@@ -15,7 +15,6 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -24,6 +23,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -41,6 +43,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PostWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
   private final Provider<IdentifiedUser> self;
+  private final PermissionBackend permissionBackend;
   private final GetWatchedProjects getWatchedProjects;
   private final ProjectsCollection projectsCollection;
   private final AccountCache accountCache;
@@ -49,11 +52,13 @@ public class PostWatchedProjects
   @Inject
   public PostWatchedProjects(
       Provider<IdentifiedUser> self,
+      PermissionBackend permissionBackend,
       GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
       AccountCache accountCache,
       WatchConfig.Accessor watchConfig) {
     this.self = self;
+    this.permissionBackend = permissionBackend;
     this.getWatchedProjects = getWatchedProjects;
     this.projectsCollection = projectsCollection;
     this.accountCache = accountCache;
@@ -62,10 +67,12 @@ public class PostWatchedProjects
 
   @Override
   public List<ProjectWatchInfo> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
-      throws OrmException, RestApiException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not allowed to edit project watches");
+      throws OrmException, RestApiException, IOException, ConfigInvalidException,
+          PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
+
     Account.Id accountId = rsrc.getUser().getAccountId();
     watchConfig.upsertProjectWatches(accountId, asMap(input));
     accountCache.evict(accountId);

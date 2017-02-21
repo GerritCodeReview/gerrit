@@ -229,7 +229,8 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void addSshKeys(List<String> sshKeys)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     for (final String sshKey : sshKeys) {
       AddSshKey.Input in = new AddSshKey.Input();
       in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "plain/text");
@@ -258,7 +259,7 @@ final class SetAccountCommand extends SshCommand {
 
   private void deleteSshKey(SshKeyInfo i)
       throws AuthException, OrmException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException {
+          ConfigInvalidException, PermissionBackendException {
     AccountSshKey sshKey =
         new AccountSshKey(new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
     deleteSshKey.apply(new AccountResource.SshKey(user, sshKey), null);

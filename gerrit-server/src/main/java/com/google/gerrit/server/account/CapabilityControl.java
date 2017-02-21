@@ -30,7 +30,10 @@ import com.google.gerrit.server.permissions.GlobalOrPluginPermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.PluginPermission;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
@@ -65,8 +68,23 @@ public class CapabilityControl {
     return user;
   }
 
-  /** @return true if the user can administer this server. */
-  public boolean canAdministrateServer() {
+  /**
+   * <b>Do not use.</b> Determine if the user can administer this server.
+   *
+   * <p>This method is visible only for the benefit of the following transitional classes:
+   *
+   * <ul>
+   *   <li>{@link ProjectControl}
+   *   <li>{@link RefControl}
+   *   <li>{@link ChangeControl}
+   *   <li>{@link GroupControl}
+   * </ul>
+   *
+   * Other callers should not use this method, as it is slated to go away.
+   *
+   * @return true if the user can administer this server.
+   */
+  public boolean isAdmin_DoNotUse() {
     if (canAdministrateServer == null) {
       if (user.getRealUser() != user) {
         canAdministrateServer = false;
@@ -91,7 +109,7 @@ public class CapabilityControl {
 
   /** @return true if the user can view all accounts. */
   public boolean canViewAllAccounts() {
-    return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || canAdministrateServer();
+    return canPerform(GlobalCapability.VIEW_ALL_ACCOUNTS) || isAdmin_DoNotUse();
   }
 
   /** @return true if the user can access the database (with gsql). */
@@ -220,7 +238,7 @@ public class CapabilityControl {
     if (perm instanceof GlobalPermission) {
       return can((GlobalPermission) perm);
     } else if (perm instanceof PluginPermission) {
-      return canPerform(perm.permissionName()) || canAdministrateServer();
+      return canPerform(perm.permissionName()) || isAdmin_DoNotUse();
     }
     throw new PermissionBackendException(perm + " unsupported");
   }
@@ -228,7 +246,7 @@ public class CapabilityControl {
   private boolean can(GlobalPermission perm) throws PermissionBackendException {
     switch (perm) {
       case ADMINISTRATE_SERVER:
-        return canAdministrateServer();
+        return isAdmin_DoNotUse();
       case EMAIL_REVIEWERS:
         return canEmailReviewers();
       case VIEW_ALL_ACCOUNTS:
@@ -241,7 +259,7 @@ public class CapabilityControl {
       case VIEW_QUEUE:
         return canPerform(perm.permissionName())
             || canPerform(GlobalCapability.MAINTAIN_SERVER)
-            || canAdministrateServer();
+            || isAdmin_DoNotUse();
 
       case CREATE_ACCOUNT:
       case CREATE_GROUP:
@@ -251,7 +269,7 @@ public class CapabilityControl {
       case STREAM_EVENTS:
       case VIEW_CONNECTIONS:
       case VIEW_PLUGINS:
-        return canPerform(perm.permissionName()) || canAdministrateServer();
+        return canPerform(perm.permissionName()) || isAdmin_DoNotUse();
 
       case ACCESS_DATABASE:
       case RUN_AS:

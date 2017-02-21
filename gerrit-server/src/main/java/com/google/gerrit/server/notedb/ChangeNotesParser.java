@@ -24,6 +24,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DESCRIPTION;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_READ_ONLY_UNTIL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -157,6 +158,7 @@ class ChangeNotesParser {
   private String tag;
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
   private Timestamp readOnlyUntil;
+  private Boolean isPrivate;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -238,7 +240,8 @@ class ChangeNotesParser {
         buildAllMessages(),
         buildMessagesByPatchSet(),
         comments,
-        readOnlyUntil);
+        readOnlyUntil,
+        isPrivate);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -377,6 +380,10 @@ class ChangeNotesParser {
 
     if (readOnlyUntil == null) {
       parseReadOnlyUntil(commit);
+    }
+
+    if (isPrivate == null) {
+      parseIsPrivate(commit);
     }
 
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
@@ -922,6 +929,20 @@ class ChangeNotesParser {
       cie.initCause(e);
       throw cie;
     }
+  }
+
+  private void parseIsPrivate(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String raw = parseOneFooter(commit, FOOTER_PRIVATE);
+    if (raw == null) {
+      return;
+    } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {
+      isPrivate = true;
+      return;
+    } else if (Boolean.FALSE.toString().equalsIgnoreCase(raw)) {
+      isPrivate = false;
+      return;
+    }
+    throw invalidFooter(FOOTER_PRIVATE, raw);
   }
 
   private void pruneReviewers() {

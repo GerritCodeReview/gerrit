@@ -200,6 +200,9 @@ public class ChangeControl {
 
   /** Can this user see this change? */
   public boolean isVisible(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
+    if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
+      return false;
+    }
     if (getChange().getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
       return false;
     }
@@ -476,6 +479,13 @@ public class ChangeControl {
     return isOwner()
         || isReviewer(db, cd)
         || getRefControl().canViewDrafts()
+        || getUser().isInternalUser();
+  }
+
+  public boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
+    return isOwner()
+        || isReviewer(db, cd)
+        || getRefControl().canViewPrivateChanges()
         || getUser().isInternalUser();
   }
 }

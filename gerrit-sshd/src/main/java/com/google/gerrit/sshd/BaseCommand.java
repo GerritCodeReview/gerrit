@@ -20,6 +20,7 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -27,6 +28,9 @@ import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.sshd.SshScope.Context;
@@ -80,6 +84,7 @@ public abstract class BaseCommand implements Command {
 
   @Inject @CommandExecutor private WorkQueue.Executor executor;
 
+  @Inject private PermissionBackend permissionBackend;
   @Inject private CurrentUser user;
 
   @Inject private SshScope.Context context;
@@ -264,7 +269,7 @@ public abstract class BaseCommand implements Command {
   protected void startThread(final CommandRunnable thunk) {
     final TaskThunk tt = new TaskThunk(thunk);
 
-    if (isAdminHighPriorityCommand() && user.getCapabilities().canAdministrateServer()) {
+    if (isAdminHighPriorityCommand()) {
       // Admin commands should not block the main work threads (there
       // might be an interactive shell there), nor should they wait
       // for the main work threads.
@@ -276,7 +281,15 @@ public abstract class BaseCommand implements Command {
   }
 
   private boolean isAdminHighPriorityCommand() {
-    return getClass().getAnnotation(AdminHighPriorityCommand.class) != null;
+    if (getClass().getAnnotation(AdminHighPriorityCommand.class) != null) {
+      try {
+        permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+        return true;
+      } catch (AuthException | PermissionBackendException e) {
+        return false;
+      }
+    }
+    return false;
   }
 
   /**

@@ -18,25 +18,31 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GetHttpPassword implements RestReadView<AccountResource> {
-
+  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
 
   @Inject
-  GetHttpPassword(Provider<CurrentUser> self) {
+  GetHttpPassword(PermissionBackend permissionBackend, Provider<CurrentUser> self) {
+    this.permissionBackend = permissionBackend;
     this.self = self;
   }
 
   @Override
-  public String apply(AccountResource rsrc) throws AuthException, ResourceNotFoundException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not allowed to get http password");
+  public String apply(AccountResource rsrc)
+      throws AuthException, ResourceNotFoundException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
+
     AccountState s = rsrc.getUser().state();
     if (s.getUserName() == null) {
       throw new ResourceNotFoundException();

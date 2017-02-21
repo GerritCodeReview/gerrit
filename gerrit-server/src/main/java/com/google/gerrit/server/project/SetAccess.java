@@ -41,6 +41,9 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -54,6 +57,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessInput> {
   protected final GroupBackend groupBackend;
+  private final PermissionBackend permissionBackend;
   private final GroupsCollection groupsCollection;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllProjectsName allProjects;
@@ -65,6 +69,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   @Inject
   private SetAccess(
       GroupBackend groupBackend,
+      PermissionBackend permissionBackend,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       AllProjectsName allProjects,
       Provider<SetParent> setParent,
@@ -73,6 +78,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser) {
     this.groupBackend = groupBackend;
+    this.permissionBackend = permissionBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjects = allProjects;
     this.setParent = setParent;
@@ -85,7 +91,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   @Override
   public ProjectAccessInfo apply(ProjectResource rsrc, ProjectAccessInput input)
       throws ResourceNotFoundException, ResourceConflictException, IOException, AuthException,
-          BadRequestException, UnprocessableEntityException {
+          BadRequestException, UnprocessableEntityException, PermissionBackendException {
     List<AccessSection> removals = getAccessSections(input.remove);
     List<AccessSection> additions = getAccessSections(input.add);
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
@@ -269,14 +275,15 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   }
 
   private void checkGlobalCapabilityPermissions(Project.NameKey projectName)
-      throws BadRequestException, AuthException {
-
+      throws BadRequestException, AuthException, PermissionBackendException {
     if (!allProjects.equals(projectName)) {
       throw new BadRequestException(
           "Cannot edit global capabilities for projects other than " + allProjects.get());
     }
 
-    if (!identifiedUser.get().getCapabilities().canAdministrateServer()) {
+    try {
+      permissionBackend.user(identifiedUser).check(GlobalPermission.ADMINISTRATE_SERVER);
+    } catch (AuthException e) {
       throw new AuthException(
           "Editing global capabilities requires " + GlobalCapability.ADMINISTRATE_SERVER);
     }

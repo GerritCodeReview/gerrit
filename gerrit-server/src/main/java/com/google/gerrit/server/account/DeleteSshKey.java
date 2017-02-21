@@ -19,6 +19,9 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.DeleteSshKey.Input;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -33,15 +36,18 @@ public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Inpu
   public static class Input {}
 
   private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
 
   @Inject
   DeleteSshKey(
       Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache) {
     this.self = self;
+    this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
   }
@@ -49,9 +55,9 @@ public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Inpu
   @Override
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
       throws AuthException, OrmException, RepositoryNotFoundException, IOException,
-          ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not allowed to delete SSH keys");
+          ConfigInvalidException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     authorizedKeys.deleteKey(rsrc.getUser().getAccountId(), rsrc.getSshKey().getKey().get());

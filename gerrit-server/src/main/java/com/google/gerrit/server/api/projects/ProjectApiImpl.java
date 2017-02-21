@@ -284,7 +284,7 @@ public class ProjectApiImpl implements ProjectApi {
   public ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException {
     try {
       return setAccess.apply(checkExists(), p);
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot put access rights", e);
     }
   }

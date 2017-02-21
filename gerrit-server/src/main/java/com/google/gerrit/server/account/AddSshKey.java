@@ -30,6 +30,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AddSshKey.Input;
 import com.google.gerrit.server.mail.send.AddKeySender;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -50,6 +53,7 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
   }
 
   private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
   private final AddKeySender.Factory addKeyFactory;
@@ -57,10 +61,12 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
   @Inject
   AddSshKey(
       Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
       AddKeySender.Factory addKeyFactory) {
     this.self = self;
+    this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
     this.addKeyFactory = addKeyFactory;
@@ -68,9 +74,10 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<SshKeyInfo> apply(AccountResource rsrc, Input input)
-      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not allowed to add SSH keys");
+      throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
     return apply(rsrc.getUser(), input);
   }

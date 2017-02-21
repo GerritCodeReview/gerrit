@@ -25,6 +25,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.WatchConfig.ProjectWatchKey;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,13 +40,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class DeleteWatchedProjects
     implements RestModifyView<AccountResource, List<ProjectWatchInfo>> {
   private final Provider<IdentifiedUser> self;
+  private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
   private final WatchConfig.Accessor watchConfig;
 
   @Inject
   DeleteWatchedProjects(
-      Provider<IdentifiedUser> self, AccountCache accountCache, WatchConfig.Accessor watchConfig) {
+      Provider<IdentifiedUser> self,
+      PermissionBackend permissionBackend,
+      AccountCache accountCache,
+      WatchConfig.Accessor watchConfig) {
     this.self = self;
+    this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
     this.watchConfig = watchConfig;
   }
@@ -51,9 +59,9 @@ public class DeleteWatchedProjects
   @Override
   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
       throws AuthException, UnprocessableEntityException, OrmException, IOException,
-          ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("It is not allowed to edit project watches of other users");
+          ConfigInvalidException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
     if (input == null) {
       return Response.none();

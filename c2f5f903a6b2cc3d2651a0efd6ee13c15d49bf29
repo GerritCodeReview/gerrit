@@ -22,6 +22,29 @@
       "revId": "c2f5f903a6b2cc3d2651a0efd6ee13c15d49bf29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a540923f_c3e54a9a",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/systemd/gerrit.service",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-21T19:23:20Z",
+      "side": 1,
+      "message": "this should be bin/gerrit.sh as we can then customise it in gerrit.config.\n\nalso add ExecStop and ExecRestart.\n\nBut note, i am not an expert and the way to doing systemd may be different for sockets, but i belive what im suggesting here will work for sockets too.",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 93
+      },
+      "revId": "c2f5f903a6b2cc3d2651a0efd6ee13c15d49bf29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

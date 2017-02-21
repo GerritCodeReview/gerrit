@@ -512,6 +512,10 @@ public final class Change {
   @Column(id = 19, notNull = false)
   protected Account.Id assignee;
 
+  /** Whether the change is private. */
+  @Column(id = 20)
+  protected boolean isPrivate;
+
   /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
   @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
   protected String noteDbState;
@@ -548,6 +552,7 @@ public final class Change {
     originalSubject = other.originalSubject;
     submissionId = other.submissionId;
     topic = other.topic;
+    isPrivate = other.isPrivate;
     noteDbState = other.noteDbState;
   }
 
@@ -692,6 +697,14 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+
+  public boolean isPrivate() {
+    return isPrivate;
+  }
+
+  public void setPrivate(boolean isPrivate) {
+    this.isPrivate = isPrivate;
   }
 
   public String getNoteDbState() {

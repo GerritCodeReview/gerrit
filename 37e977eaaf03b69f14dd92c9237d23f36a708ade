@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9827d4db_83a6958c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T07:58:22Z",
+      "side": 1,
+      "message": "This doesn\u0027t sound like a proper sentence.\n\nMaybe better something like this:\n\n\"This category permits users to delete their own changes if they are not merged yet. This means only own changes that are open or abandoned can be deleted.\"\n\n?",
+      "range": {
+        "startLine": 887,
+        "startChar": 37,
+        "endLine": 888,
+        "endChar": 7
+      },
+      "revId": "37e977eaaf03b69f14dd92c9237d23f36a708ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

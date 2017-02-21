@@ -44,6 +44,7 @@ public class ChangeInfo {
   public Integer insertions;
   public Integer deletions;
   public Integer unresolvedCommentCount;
+  public Boolean isPrivate;
 
   public int _number;
 

@@ -51,6 +51,7 @@ import com.google.gerrit.server.change.Check;
 import com.google.gerrit.server.change.CreateMergePatchSet;
 import com.google.gerrit.server.change.DeleteAssignee;
 import com.google.gerrit.server.change.DeleteChange;
+import com.google.gerrit.server.change.DeletePrivate;
 import com.google.gerrit.server.change.GetAssignee;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetPastAssignees;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutAssignee;
+import com.google.gerrit.server.change.PutPrivate;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.Restore;
@@ -122,6 +124,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Check check;
   private final Index index;
   private final Move move;
+  private final PutPrivate putPrivate;
+  private final DeletePrivate deletePrivate;
 
   @Inject
   ChangeApiImpl(
@@ -157,6 +161,8 @@ class ChangeApiImpl implements ChangeApi {
       Check check,
       Index index,
       Move move,
+      PutPrivate putPrivate,
+      DeletePrivate deletePrivate,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -190,6 +196,8 @@ class ChangeApiImpl implements ChangeApi {
     this.check = check;
     this.index = index;
     this.move = move;
+    this.putPrivate = putPrivate;
+    this.deletePrivate = deletePrivate;
     this.change = change;
   }
 
@@ -267,6 +275,19 @@ class ChangeApiImpl implements ChangeApi {
       move.apply(change, in);
     } catch (OrmException | UpdateException e) {
       throw new RestApiException("Cannot move change", e);
+    }
+  }
+
+  @Override
+  public void setPrivate(boolean value) throws RestApiException {
+    try {
+      if (value) {
+        putPrivate.apply(change, null);
+      } else {
+        deletePrivate.apply(change, null);
+      }
+    } catch (UpdateException e) {
+      throw new RestApiException("Cannot change private status", e);
     }
   }
 

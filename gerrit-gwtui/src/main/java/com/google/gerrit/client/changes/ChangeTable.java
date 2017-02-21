@@ -236,10 +236,11 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
 
     Change.Status status = c.status();
+    String str = (c.isPrivate() ? " (Private)" : "");
     if (status != Change.Status.NEW) {
-      table.setText(row, C_STATUS, Util.toLongString(status));
+      table.setText(row, C_STATUS, Util.toLongString(status) + str);
     } else if (!c.mergeable()) {
-      table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());
+      table.setText(row, C_STATUS, Util.C.changeTableNotMergeable() + str);
     }
 
     if (c.owner() != null) {

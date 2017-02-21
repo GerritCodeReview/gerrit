@@ -49,16 +49,6 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "api_tests",
-    srcs = glob(["src/test/java/**/*Test.java"]),
-    deps = [
-        ":api",
-        "//gerrit-test-util:test_util",
-        "//lib:truth",
-        "//lib/guice",
-    ],
-)
 
 load("//tools/bzl:javadoc.bzl", "java_doc")
 

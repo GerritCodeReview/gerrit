@@ -163,18 +163,6 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "prolog_tests",
-    srcs = PROLOG_TESTS,
-    resources = glob(["src/test/resources/com/google/gerrit/rules/**/*"]),
-    deps = TESTUTIL_DEPS + [
-        ":prolog_test_case",
-        ":testutil",
-        "//gerrit-server/src/main/prolog:common",
-        "//lib/prolog:runtime",
-    ],
-)
-
 QUERY_TESTS = glob(
     ["src/test/java/com/google/gerrit/server/query/**/*.java"],
 )
@@ -194,47 +182,6 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "query_tests",
-    size = "large",
-    srcs = QUERY_TESTS,
-    visibility = ["//visibility:public"],
-    deps = TESTUTIL_DEPS + [
-        ":testutil",
-        "//gerrit-antlr:query_exception",
-        "//gerrit-antlr:query_parser",
-        "//gerrit-common:annotations",
-        "//gerrit-server/src/main/prolog:common",
-        "//lib/antlr:java_runtime",
-    ],
-)
-
-junit_tests(
-    name = "server_tests",
-    size = "large",
-    srcs = glob(
-        ["src/test/java/**/*.java"],
-        exclude = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS,
-    ),
-    resources = glob(["src/test/resources/com/google/gerrit/server/**/*"]),
-    visibility = ["//visibility:public"],
-    deps = TESTUTIL_DEPS + [
-        ":testutil",
-        "//gerrit-antlr:query_exception",
-        "//gerrit-common:annotations",
-        "//gerrit-patch-jgit:server",
-        "//gerrit-server/src/main/prolog:common",
-        "//lib:args4j",
-        "//lib:grappa",
-        "//lib:gson",
-        "//lib:guava",
-        "//lib:guava-retrying",
-        "//lib:protobuf",
-        "//lib/dropwizard:dropwizard-core",
-        "//lib/guice:guice-assistedinject",
-        "//lib/prolog:runtime",
-    ],
-)
 
 load("//tools/bzl:javadoc.bzl", "java_doc")
 

@@ -49,14 +49,3 @@ java_library(
     visibility = ["//visibility:public"],
 )
 
-junit_tests(
-    name = "client_tests",
-    srcs = glob(["src/test/java/**/*.java"]),
-    visibility = ["//visibility:public"],
-    deps = [
-        ":client",
-        "//lib:junit",
-        "//lib/gwt:dev",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-    ],
-)

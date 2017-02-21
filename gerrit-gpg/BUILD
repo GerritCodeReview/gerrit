@@ -38,22 +38,3 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "gpg_tests",
-    srcs = glob(
-        ["src/test/java/**/*.java"],
-        exclude = TESTUTIL_SRCS,
-    ),
-    visibility = ["//visibility:public"],
-    deps = DEPS + [
-        ":gpg",
-        ":testutil",
-        "//gerrit-cache-h2:cache-h2",
-        "//gerrit-lucene:lucene",
-        "//gerrit-server:testutil",
-        "//lib:truth",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/bouncycastle:bcpg",
-        "//lib/bouncycastle:bcprov",
-    ],
-)

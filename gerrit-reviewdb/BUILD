@@ -33,13 +33,3 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "client_tests",
-    srcs = glob([TESTS + "client/**/*.java"]),
-    deps = [
-        ":client",
-        "//gerrit-server:testutil",
-        "//lib:gwtorm",
-        "//lib:truth",
-    ],
-)

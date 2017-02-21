@@ -74,19 +74,6 @@ gwt_module(
     deps = ["//lib/gwt:user"],
 )
 
-junit_tests(
-    name = "SafeHtml_tests",
-    srcs = glob([
-        "src/test/java/com/google/gwtexpui/safehtml/client/**/*.java",
-    ]),
-    deps = [
-        ":SafeHtml",
-        "//lib:truth",
-        "//lib/gwt:dev",
-        "//lib/gwt:user",
-    ],
-)
-
 gwt_module(
     name = "UserAgent",
     srcs = glob([SRC + "user/client/*.java"]),

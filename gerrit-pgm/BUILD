@@ -152,24 +152,6 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "pgm_tests",
-    srcs = glob(["src/test/java/**/*.java"]),
-    deps = [
-        ":init",
-        ":init-api",
-        ":pgm",
-        "//gerrit-common:server",
-        "//gerrit-server:server",
-        "//lib:guava",
-        "//lib:junit",
-        "//lib/easymock",
-        "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
-    ],
-)
-
 license_test(
     name = "pgm_license_test",
     target = ":pgm",

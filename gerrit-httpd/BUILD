@@ -49,29 +49,3 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "httpd_tests",
-    srcs = glob(["src/test/java/**/*.java"]),
-    deps = [
-        ":httpd",
-        "//gerrit-common:server",
-        "//gerrit-extension-api:api",
-        "//gerrit-reviewdb:server",
-        "//gerrit-server:server",
-        "//gerrit-util-http:http",
-        "//gerrit-util-http:testutil",
-        "//lib:gson",
-        "//lib:guava",
-        "//lib:gwtorm",
-        "//lib:jimfs",
-        "//lib:junit",
-        "//lib:servlet-api-3_1-without-neverlink",
-        "//lib:truth",
-        "//lib/easymock",
-        "//lib/guice",
-        "//lib/guice:guice-servlet",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/joda:joda-time",
-    ],
-)

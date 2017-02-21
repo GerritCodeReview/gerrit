@@ -15,16 +15,3 @@ java_library(
         "//lib/log:api",
     ],
 )
-
-junit_tests(
-    name = "tests",
-    srcs = glob(["src/test/java/**/*.java"]),
-    deps = [
-        ":cache-h2",
-        "//gerrit-server:server",
-        "//lib:guava",
-        "//lib:h2",
-        "//lib:junit",
-        "//lib/guice",
-    ],
-)

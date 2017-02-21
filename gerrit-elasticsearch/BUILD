@@ -48,23 +48,3 @@ java_library(
     ],
 )
 
-junit_tests(
-    name = "elasticsearch_tests",
-    size = "large",
-    srcs = glob(["src/test/java/**/*Test.java"]),
-    flaky = 1,
-    tags = [
-        "elastic",
-        "flaky",
-    ],
-    deps = [
-        ":elasticsearch",
-        ":elasticsearch_test_utils",
-        "//gerrit-server:query_tests_code",
-        "//gerrit-server:server",
-        "//gerrit-server:testutil",
-        "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
-    ],
-)

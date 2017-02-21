@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
@@ -23,6 +24,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -33,6 +35,54 @@ import org.eclipse.jgit.lib.Config;
  *     document.
  */
 public abstract class FieldDef<I, T> {
+  public static class Builder<I, T> {
+    private final FieldType<T> type;
+    private final String name;
+    private boolean stored;
+
+    public Builder(FieldType<T> type, String name) {
+      this.type = checkNotNull(type);
+      this.name = checkNotNull(name);
+    }
+
+    public Builder<I, T> stored() {
+      this.stored = true;
+      return this;
+    }
+
+    public FieldDef<I, T> build(Getter<I, T> getter) {
+      return new FieldDef<I, T>(name, type, stored) {
+        @Override
+        public T get(I input, FillArgs args) throws OrmException {
+          return getter.get(input, args);
+        }
+
+        @Override
+        public boolean isRepeatable() {
+          return false;
+        }
+      };
+    }
+
+    public FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
+      return new FieldDef<I, Iterable<T>>(name, type, stored) {
+        @Override
+        public Iterable<T> get(I input, FillArgs args) throws OrmException {
+          return getter.get(input, args);
+        }
+
+        @Override
+        public boolean isRepeatable() {
+          return true;
+        }
+      };
+    }
+  }
+
+  public interface Getter<I, T> {
+    T get(I input, FillArgs args) throws OrmException;
+  }
+
   /** Definition of a single (non-repeatable) field. */
   public abstract static class Single<I, T> extends FieldDef<I, T> {
     protected Single(String name, FieldType<T> type, boolean stored) {

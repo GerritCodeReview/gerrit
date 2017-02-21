@@ -42,6 +42,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.index.FieldDef;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.SchemaUtil;
 import com.google.gerrit.server.index.change.StalenessChecker.RefState;
@@ -85,28 +86,33 @@ public class ChangeField {
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
+  private static FieldDef.Builder<ChangeData, Integer> integer(String name) {
+    return new FieldDef.Builder<>(FieldType.INTEGER, name);
+  }
+
+  private static FieldDef.Builder<ChangeData, String> prefix(String name) {
+    return new FieldDef.Builder<>(FieldType.PREFIX, name);
+  }
+
+  private static FieldDef.Builder<ChangeData, String> exact(String name) {
+    return new FieldDef.Builder<>(FieldType.EXACT, name);
+  }
+
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
-      new FieldDef.Single<ChangeData, Integer>("legacy_id", FieldType.INTEGER, true) {
-        @Override
-        public Integer get(ChangeData input, FillArgs args) {
-          return input.getId().get();
-        }
-      };
+      integer("legacy_id").stored().build((cd, a) -> cd.getId().get());
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
-      new FieldDef.Single<ChangeData, String>(
-          ChangeQueryBuilder.FIELD_CHANGE_ID, FieldType.PREFIX, false) {
-        @Override
-        public String get(ChangeData input, FillArgs args) throws OrmException {
-          Change c = input.change();
-          if (c == null) {
-            return null;
-          }
-          return c.getKey().get();
-        }
-      };
+      prefix(ChangeQueryBuilder.FIELD_CHANGE_ID)
+          .build(
+              (cd, a) -> {
+                Change c = cd.change();
+                if (c == null) {
+                  return null;
+                }
+                return c.getKey().get();
+              });
 
   /** Change status string, in the same format as {@code status:}. */
   public static final FieldDef<ChangeData, String> STATUS =
@@ -211,14 +217,9 @@ public class ChangeField {
 
   /** List of full file paths modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> PATH =
-      new FieldDef.Repeatable<ChangeData, String>(
-          // Named for backwards compatibility.
-          ChangeQueryBuilder.FIELD_FILE, FieldType.EXACT, false) {
-        @Override
-        public Iterable<String> get(ChangeData input, FillArgs args) throws OrmException {
-          return firstNonNull(input.currentFilePaths(), ImmutableList.<String>of());
-        }
-      };
+      // Named for backwards compatibility.
+      exact(ChangeQueryBuilder.FIELD_FILE)
+          .buildRepeatable((cd, a) -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
 
   public static Set<String> getFileParts(ChangeData cd) throws OrmException {
     List<String> paths = cd.currentFilePaths();

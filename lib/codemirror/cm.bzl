@@ -214,7 +214,7 @@ CM_MODES = [
     "z80",
 ]
 
-CM_VERSION = "5.22.0"
+CM_VERSION = "5.24.0"
 
 TOP = "META-INF/resources/webjars/codemirror/%s" % CM_VERSION
 

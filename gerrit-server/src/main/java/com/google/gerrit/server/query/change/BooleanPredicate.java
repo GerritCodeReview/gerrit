@@ -14,15 +14,16 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
-class IsMergeablePredicate extends ChangeIndexPredicate {
+class BooleanPredicate extends ChangeIndexPredicate {
   private final FillArgs args;
 
-  IsMergeablePredicate(FillArgs args) {
-    super(ChangeField.MERGEABLE, "1");
+  BooleanPredicate(FieldDef<ChangeData, String> field, FillArgs args) {
+    super(field, "1");
     this.args = args;
   }
 

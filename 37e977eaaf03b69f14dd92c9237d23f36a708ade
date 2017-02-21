@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c09066b7_9f7fada8",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-21T08:05:12Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fa1fc281_504c3c7c",
+      "range": {
+        "startLine": 887,
+        "startChar": 37,
+        "endLine": 888,
+        "endChar": 7
+      },
+      "revId": "37e977eaaf03b69f14dd92c9237d23f36a708ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15676ea4_dbbc56d5",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 29
@@ -60,6 +84,30 @@
       "writtenOn": "2017-02-21T08:03:28Z",
       "side": 1,
       "message": "Remove this?",
+      "range": {
+        "startLine": 890,
+        "startChar": 0,
+        "endLine": 891,
+        "endChar": 51
+      },
+      "revId": "37e977eaaf03b69f14dd92c9237d23f36a708ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64f2024c_5c1c1520",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-21T08:05:12Z",
+      "side": 1,
+      "message": "Oh sorry just saw this, I will remove this part.",
+      "parentUuid": "15676ea4_dbbc56d5",
       "range": {
         "startLine": 890,
         "startChar": 0,

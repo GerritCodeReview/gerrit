@@ -17,6 +17,24 @@
       "revId": "04ad545e351e43cca4c6a1cb197eb743c9180622",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0ae0d6e_e7065d49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T11:54:40Z",
+      "side": 1,
+      "message": "Yes, we have the canViewPrivate permission on our list and will add it later :)\n\nWe are implementing private changes as a mini-hackathon within our team. As result of this the changes in this topic are quite small and cover only single aspects. We must see in the end how to pile up all those changes into a series, before we can merge anything. Also while we work on it all changes in this topic should be considered as WIP :)",
+      "parentUuid": "0fdf8daa_d3be0676",
+      "revId": "04ad545e351e43cca4c6a1cb197eb743c9180622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

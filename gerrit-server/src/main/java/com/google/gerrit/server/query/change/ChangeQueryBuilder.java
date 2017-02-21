@@ -147,6 +147,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTPROJECT = "parentproject";
   public static final String FIELD_PATH = "path";
+  public static final String FIELD_PRIVATE = "private";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_PROJECTS = "projects";
   public static final String FIELD_REF = "ref";

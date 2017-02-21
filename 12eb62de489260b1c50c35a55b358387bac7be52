@@ -22,6 +22,30 @@
       "revId": "12eb62de489260b1c50c35a55b358387bac7be52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cff3145_e9d961a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-21T18:53:59Z",
+      "side": 1,
+      "message": "Yes, I could have included the PermissionBackend into AccountResource but decided against it given the number of callers that directly create AccountResource. Maybe that was the wrong decision and I should revisit adding it to AccountResource to reduce the number of handlers that need PermissionBackend injected into it.",
+      "parentUuid": "bf0db020_e6db5465",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "12eb62de489260b1c50c35a55b358387bac7be52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

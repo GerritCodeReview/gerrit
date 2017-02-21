@@ -46,6 +46,30 @@
       "revId": "d7d8c6e33e5625ee5922e7a699c57b2b59ad9570",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16e226c3_2ec1099f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-21T18:53:59Z",
+      "side": 0,
+      "message": "I considered these custom messages, and decided to try moving to a generic messages instead. The generic message tells the caller what permission they lack. These custom messages are sometimes vague and don\u0027t tell you what permission would let you do the thing you just tried to do.\n\nI did forget to document that in the commit message, and running the tests under Bazel on my laptop consumes too much battery power to be productive, so I punted on checking every test before uploading code and was hoping to get useful feedback from Gerrit-CI. Now that I\u0027m in the office on my Linux workstation, I can run tests on every commit locally and try to shake out these message changes.",
+      "parentUuid": "6032e629_089aa49f",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "d7d8c6e33e5625ee5922e7a699c57b2b59ad9570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

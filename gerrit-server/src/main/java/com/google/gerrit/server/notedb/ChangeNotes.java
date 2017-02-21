@@ -563,6 +563,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.readOnlyUntil();
   }
 
+  public boolean isPrivate() {
+    return state.isPrivate();
+  }
+
   @Override
   protected void onLoad(LoadHandle handle)
       throws NoSuchChangeException, IOException, ConfigInvalidException {

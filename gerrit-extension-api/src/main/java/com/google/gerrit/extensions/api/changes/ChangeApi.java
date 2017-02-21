@@ -85,6 +85,8 @@ public interface ChangeApi {
 
   void move(MoveInput in) throws RestApiException;
 
+  void setPrivate(boolean value) throws RestApiException;
+
   /**
    * Create a new change that reverts this change.
    *
@@ -297,6 +299,11 @@ public interface ChangeApi {
 
     @Override
     public void move(MoveInput in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setPrivate(boolean value) {
       throw new NotImplementedException();
     }
 

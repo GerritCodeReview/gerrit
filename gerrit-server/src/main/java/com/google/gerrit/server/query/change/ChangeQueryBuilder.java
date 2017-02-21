@@ -147,6 +147,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTPROJECT = "parentproject";
   public static final String FIELD_PATH = "path";
+  public static final String FIELD_PRIVATE = "private";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_PROJECTS = "projects";
   public static final String FIELD_REF = "ref";
@@ -557,7 +558,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new IsMergeablePredicate(args.fillArgs);
+      return new BooleanPredicate.IsMergeablePredicate(args.fillArgs);
+    }
+
+    if ("private".equalsIgnoreCase(value)) {
+      return new BooleanPredicate.IsPrivatePredicate(args.fillArgs);
     }
 
     if ("assigned".equalsIgnoreCase(value)) {

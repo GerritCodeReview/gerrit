@@ -345,6 +345,13 @@ is:mergeable::
 True if the change has no merge conflicts and could be merged into its
 destination branch.
 
+
+[[private]]
+is:private::
++
+True if the change is private, ie. only visible to owner and its
+reviewers.
+
 [[status]]
 status:open, status:pending::
 +

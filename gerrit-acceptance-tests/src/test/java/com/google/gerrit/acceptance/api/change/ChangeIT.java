@@ -177,6 +177,49 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setPrivateByOwner() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    setApiUser(user);
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).isPrivate()).isFalse();
+    gApi.changes().id(changeId).setPrivate(true);
+    assertThat(gApi.changes().id(changeId).isPrivate()).isTrue();
+    gApi.changes().id(changeId).setPrivate(false);
+    assertThat(gApi.changes().id(changeId).isPrivate()).isFalse();
+  }
+
+  @Test
+  public void setPrivateByOtherUser() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    setApiUser(admin);
+    assertThat(gApi.changes().id(result.getChangeId()).isPrivate()).isFalse();
+
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to set private flag");
+    gApi.changes().id(result.getChangeId()).setPrivate(true);
+  }
+
+  @Test
+  public void accessPrivateByOtherUser() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    gApi.changes().id(result.getChangeId()).setPrivate(true);
+
+    // This change should not be visible for other users, except for admins.
+    setApiUser(admin);
+    exception.expect(ResourceNotFoundException.class);
+    assertThat(gApi.changes().id(result.getChangeId()).isPrivate()).isTrue();
+  }
+
+  @Test
   public void getAmbiguous() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();

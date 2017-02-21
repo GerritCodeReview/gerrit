@@ -46,6 +46,7 @@ public class Permission implements Comparable<Permission> {
   public static final String SUBMIT = "submit";
   public static final String SUBMIT_AS = "submitAs";
   public static final String VIEW_DRAFTS = "viewDrafts";
+  public static final String VIEW_PRIVATE_CHANGES = "viewPrivateChanges";
 
   private static final List<String> NAMES_LC;
   private static final int LABEL_INDEX;
@@ -73,6 +74,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(SUBMIT.toLowerCase());
     NAMES_LC.add(SUBMIT_AS.toLowerCase());
     NAMES_LC.add(VIEW_DRAFTS.toLowerCase());
+    NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase());
     NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase());
     NAMES_LC.add(EDIT_HASHTAGS.toLowerCase());
     NAMES_LC.add(EDIT_ASSIGNEE.toLowerCase());

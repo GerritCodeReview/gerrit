@@ -106,6 +106,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     Map<String, Ref> result = new HashMap<>();
     List<Ref> deferredTags = new ArrayList<>();
 
+    Set<Change.Id> privateChangesUserCanSee = new HashSet<>();
+    Set<Change.Id> privateChanges = new HashSet<>();
+
     for (Ref ref : refs.values()) {
       String name = ref.getName();
       Change.Id changeId;
@@ -123,9 +126,17 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
           result.put(name, ref);
         }
       } else if ((accountId = Account.Id.fromRef(name)) != null) {
-        // Account ref is visible only to corresponding account.
-        if (viewMetadata
-            || (accountId.equals(userId) && projectCtl.controlForRef(name).isVisible())) {
+        boolean isOwner = accountId.equals(userId) && projectCtl.controlForRef(name).isVisible();
+        if ((changeId = Change.Id.fromPrivateRef(name)) != null) {
+          // Change IDs from private refs are recorded so that we know if the current user is
+          // able to see the private change in a post-filtering step.
+          if (isOwner) {
+            privateChangesUserCanSee.add(changeId);
+          } else {
+            privateChanges.add(changeId);
+          }
+        } else if (viewMetadata || isOwner) {
+          // Account ref is visible only to corresponding account.
           result.put(name, ref);
         }
       } else if (isTag(ref)) {
@@ -144,6 +155,12 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         // not symbolic then getLeaf() is a no-op returning ref itself.
         result.put(name, ref);
       }
+    }
+
+    // Remove the refs of private changes that the current user can't see.
+    privateChanges.removeAll(privateChangesUserCanSee);
+    for (Change.Id cId : privateChanges) {
+      result.remove(cId.toRefPrefix());
     }
 
     // If we have tags that were deferred, we need to do a revision walk

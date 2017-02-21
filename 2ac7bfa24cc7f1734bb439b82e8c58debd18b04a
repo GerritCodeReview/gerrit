@@ -133,6 +133,23 @@
     },
     {
       "key": {
+        "uuid": "68ebe7e2_d99b7eb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T17:13:21Z",
+      "side": 1,
+      "message": "It occurred to me that we might get extra cache loads during the following race:\n\n* thread 1 reads ref at revision A\n* thread 2 updates ref to revision B, stores data derived from B in the cache\n* thread 1 attempts to read data at A in the cache, and misses\n* later threads attempt to read at B\n\nWe could avoid the load in step 3 by increasing the cache size. However, I don\u0027t think we need to: the race window between reading the ref value and looking it up in the cache is short, and the size of the cached data is potentially pretty large, so doubling the memory usage just to deal with this rare race condition doesn\u0027t seem worth it.",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f53579e_e5abcb96",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 10

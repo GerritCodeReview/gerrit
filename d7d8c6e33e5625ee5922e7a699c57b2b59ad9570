@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2380558b_6b451082",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T07:36:00Z",
+      "side": 0,
+      "message": "Currently, there is no equivalent replacement available for reporting use case speicifc failure messages to the user. Instead all callers of wuld get a generic message on all operatrion that use (and abuse, like re-index) this capability:\n\n  throw new AuthException(perm.describeForException() + \" not permitted\");\n\nPersonally, I would agree to switch to move message. In this case this should be reflected in the commit message, and the tests should be adjusted to reflect this change.",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "d7d8c6e33e5625ee5922e7a699c57b2b59ad9570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

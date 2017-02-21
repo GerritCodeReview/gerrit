@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf0db020_e6db5465",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T07:36:00Z",
+      "side": 1,
+      "message": "This is unexpected. You\u0027ve integrated the new permissionBackend in ChangeResource, so why not to do the same here and avoid acount handlers the consumer bother to inject permissionBackend directly? I would expect to be able to say just that (like it\u0027s the case in change handlers):\n\n  rsrc.permissions().check(GlobalPermission.MODIFY_ACCOUNT);\n\nAccountResource has the user so that short circuit check could be done in AccountResource as well. Or, is this because we don\u0027t want to eagerly instantiate the PermissionBackend instance if the user equals self? In this case this could just be:\n\n  if (self.get() !\u003d rsrc.getUser()) {\n    rsrc.permissions().check(GlobalPermission.MODIFY_ACCOUNT);\n  }",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "12eb62de489260b1c50c35a55b358387bac7be52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

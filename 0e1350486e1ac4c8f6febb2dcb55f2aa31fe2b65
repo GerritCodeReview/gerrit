@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77dd6503_13749754",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-21T16:03:16Z",
+      "side": 1,
+      "message": "doc what this does, or an example?",
+      "range": {
+        "startLine": 157,
+        "startChar": 21,
+        "endLine": 157,
+        "endChar": 35
+      },
+      "revId": "0e1350486e1ac4c8f6febb2dcb55f2aa31fe2b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81cb0193_6cbb14f5",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-21T16:03:16Z",
+      "side": 1,
+      "message": "\"private/\" ? It\u0027s not obvious that this is related to private changes otherwise.",
+      "range": {
+        "startLine": 59,
+        "startChar": 57,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "0e1350486e1ac4c8f6febb2dcb55f2aa31fe2b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3d1cbf7_6c31844e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-21T16:03:16Z",
+      "side": 1,
+      "message": "why not a for ( a : b ) loop?",
+      "range": {
+        "startLine": 163,
+        "startChar": 23,
+        "endLine": 163,
+        "endChar": 29
+      },
+      "revId": "0e1350486e1ac4c8f6febb2dcb55f2aa31fe2b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

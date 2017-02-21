@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d5302d42_286c8671",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2158,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-21T17:20:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72173fbe_e9f3a908",
+      "range": {
+        "startLine": 2158,
+        "startChar": 0,
+        "endLine": 2158,
+        "endChar": 33
+      },
+      "revId": "d3a5aef9cc9c5f888b60f929f9c41855998593e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ead63027_e4a9ac41",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-21T14:33:12Z",
       "side": 1,
       "message": "Don\u0027t use the word \u0027public\u0027 here (see comment above).",
+      "range": {
+        "startLine": 2170,
+        "startChar": 26,
+        "endLine": 2170,
+        "endChar": 32
+      },
+      "revId": "d3a5aef9cc9c5f888b60f929f9c41855998593e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2aad66d_9cd532bd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2170,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-21T17:20:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ead63027_e4a9ac41",
       "range": {
         "startLine": 2170,
         "startChar": 26,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "368e71a0_2cbb4917",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-21T17:20:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc443705_1f0a6fb8",
+      "range": {
+        "startLine": 88,
+        "startChar": 10,
+        "endLine": 88,
+        "endChar": 20
+      },
+      "revId": "d3a5aef9cc9c5f888b60f929f9c41855998593e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1ac2c27_0b4b82fd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-21T14:33:12Z",
       "side": 1,
       "message": "should be \"put\"",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 8
+      },
+      "revId": "d3a5aef9cc9c5f888b60f929f9c41855998593e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0285fee2_80ca4578",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-21T17:20:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1ac2c27_0b4b82fd",
       "range": {
         "startLine": 86,
         "startChar": 4,

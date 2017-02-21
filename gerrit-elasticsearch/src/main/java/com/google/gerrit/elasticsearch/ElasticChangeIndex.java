@@ -315,6 +315,15 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
           cd.setMergeable(false);
         }
       }
+      JsonElement privateElement = source.get(ChangeField.PRIVATE.getName());
+      if (privateElement != null) {
+        String isPrivate = privateElement.getAsString();
+        if ("1".equals(isPrivate)) {
+          cd.setPrivate(true);
+        } else if ("0".equals(isPrivate)) {
+          cd.setPrivate(false);
+        }
+      }
 
       // Reviewed-by.
       if (source.get(ChangeField.REVIEWEDBY.getName()) != null) {

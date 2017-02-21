@@ -116,6 +116,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
   private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
+  private static final String PRIVATE_FIELD = ChangeField.PRIVATE.getName();
   private static final String PATCH_SET_FIELD = ChangeField.PATCH_SET.getName();
   private static final String REF_STATE_FIELD = ChangeField.REF_STATE.getName();
   private static final String REF_STATE_PATTERN_FIELD = ChangeField.REF_STATE_PATTERN.getName();
@@ -445,7 +446,10 @@ public class LuceneChangeIndex implements ChangeIndex {
       decodeChangedLines(doc, cd);
     }
     if (fields.contains(MERGEABLE_FIELD)) {
-      decodeMergeable(doc, cd);
+      decodeBool(MERGEABLE_FIELD, doc, cd);
+    }
+    if (fields.contains(PRIVATE_FIELD)) {
+      decodeBool(PRIVATE_FIELD, doc, cd);
     }
     if (fields.contains(REVIEWEDBY_FIELD)) {
       decodeReviewedBy(doc, cd);
@@ -501,13 +505,13 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
-  private void decodeMergeable(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    IndexableField f = Iterables.getFirst(doc.get(MERGEABLE_FIELD), null);
+  private void decodeBool(String name, ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    IndexableField f = Iterables.getFirst(doc.get(name), null);
     if (f != null) {
-      String mergeable = f.stringValue();
-      if ("1".equals(mergeable)) {
+      String val = f.stringValue();
+      if ("1".equals(val)) {
         cd.setMergeable(true);
-      } else if ("0".equals(mergeable)) {
+      } else if ("0".equals(val)) {
         cd.setMergeable(false);
       }
     }

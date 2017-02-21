@@ -601,6 +601,19 @@ public class ChangeField {
         }
       };
 
+  public static final FieldDef<ChangeData, String> PRIVATE =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_PRIVATE, FieldType.EXACT, /*stored*/ false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          Boolean m = input.isPrivate();
+          if (m == null) {
+            return null;
+          }
+          return m ? "1" : "0";
+        }
+      };
+
   /** Users who have commented on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
       new FieldDef.Repeatable<ChangeData, Integer>(

@@ -343,6 +343,7 @@ public class ChangeData {
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
+  private Boolean isPrivate;
   private Set<String> hashtags;
   private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
@@ -1099,6 +1100,14 @@ public class ChangeData {
       }
     }
     return mergeable;
+  }
+
+  public void setPrivate(boolean isPrivate) {
+    this.isPrivate = isPrivate;
+  }
+
+  public Boolean isPrivate() {
+    return this.isPrivate;
   }
 
   public Set<Account.Id> editsByUser() throws OrmException {

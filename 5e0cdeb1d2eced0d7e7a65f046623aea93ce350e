@@ -16,6 +16,23 @@
       "revId": "5e0cdeb1d2eced0d7e7a65f046623aea93ce350e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ef1af61_f60eaa99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T20:45:54Z",
+      "side": 1,
+      "message": "This can just be\n\n comments.stream().map(c -\u003e c.parentUuid).collect(toSet())\n\nThe set will contain null, but that doesn\u0027t matter for the check below, since c.key.uuid will never be null.",
+      "revId": "5e0cdeb1d2eced0d7e7a65f046623aea93ce350e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

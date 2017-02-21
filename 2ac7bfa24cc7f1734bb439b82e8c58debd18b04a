@@ -53,6 +53,24 @@
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95909151_6e9f7d07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T08:13:54Z",
+      "side": 1,
+      "message": "Okay, let me try explaining the issue in more details:\n\nUpgrade from schema 141 to 142 (works):\n\n- old schema: In the database ACCOUNT_EXTERNAL_IDS has only the \u0027password\u0027 field.\n- new schema: The AccountExternalId class has both fields, \u0027password\u0027 and \u0027hashedPassword\u0027.\n- The migration framework makes all new fields available in the database before it runs the migration, hence the database has both fields when the migration 142 is executed.\n- migration 142 popoulates the \u0027hashed_password\u0027 field\n\nUpgrade from schema 142 to 144 (works):\n\n- old schema: In the database ACCOUNT_EXTERNAL_IDS has both fields \u0027password\u0027 and \u0027hashed_password\u0027\n- new schema: The AccountExternalId class is deleted which deletes the ACCOUNT_EXTERNAL_IDS table.\n- The migration framework applies the table deletion only after the migrations are done, hence the database has both fields when the migration 144 is executed.\n- migration 144 can migrate the external IDs to NoteDb and can access both the plain password and the hashed password from the database\n\nUpgrade from schema 141 to 144 (doesn\u0027t work):\n\n- old schema: In the database ACCOUNT_EXTERNAL_IDS has only the \u0027password\u0027 field.\n- new schema: The AccountExternalId class is deleted which deletes the ACCOUNT_EXTERNAL_IDS table.\n- The migration framework applies the table deletion only after the migrations are done, but it doesn\u0027t know earlier versions of the AccountExternalId class and hence it doesn\u0027t know that the hashed_password field ever existed. This means the \u0027hashed_password\u0027 field is not added to the database.\n- migration 142 fails because it tries to populate the \u0027hashed_password\u0027 field which doesn\u0027t exist",
+      "parentUuid": "e22b24c0_b2932022",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

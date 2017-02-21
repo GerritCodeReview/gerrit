@@ -89,6 +89,24 @@
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c72dbe7e_313c2dd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T09:08:41Z",
+      "side": 1,
+      "message": "Thanks. Now it\u0027s clear. So, then why my first suggestion doesn\u0027t work?\n\n* 1. on the fly conversion.\n\nThis means we can\u0027t squash those changes together and we have (at least) two  migrations:\n* 142: Conversion of plain passwords to hashed passwords in ReviewDb.\n* 144: Migration of external IDs to NoteDb + Deletion of ACCOUNT_EXTERNAL_IDS  table.\n\nWhy do we need 142 in the first place? Why can\u0027t we let non hashed passwords to be forever in the database and always do on-the-fly conversion/hashing in NoteDb? Why it is differently to have two steps to support zero-downtimes for multi master installations? In every single step, every multi master node is either converted or not. If not converted, it is read always from the database  and written always to both backends, dining on-the-fly hashing. The converted nodes read and write from the NoteDb, hashed-only passwords. When all nodes are converted another online conversion step is executed that convert the rest accounts, that weren\u0027t converted during migration phase. Now the table ACCOUNT_EXTERNAL_IDS oddly be dropped.\n\nThe advantage of this approach is that the database preserves forever the plain passwords.",
+      "parentUuid": "95909151_6e9f7d07",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

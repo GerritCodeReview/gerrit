@@ -68,6 +68,30 @@
       "revId": "0e1350486e1ac4c8f6febb2dcb55f2aa31fe2b65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c95aa98_391a830c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-21T16:04:52Z",
+      "side": 1,
+      "message": "because you can\u0027t remove items when you iterate like that",
+      "parentUuid": "c3d1cbf7_6c31844e",
+      "range": {
+        "startLine": 163,
+        "startChar": 23,
+        "endLine": 163,
+        "endChar": 29
+      },
+      "revId": "0e1350486e1ac4c8f6febb2dcb55f2aa31fe2b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

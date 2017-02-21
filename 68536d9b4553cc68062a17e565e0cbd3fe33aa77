@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41b1caee_88eff82d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T07:47:03Z",
+      "side": 1,
+      "message": "I believe the main issue with invalid comment ranges comes from the CreateDraftComment REST endpoint, as this REST endpoint doesn\u0027t check comment ranges at all. Hence you can create draft comments with invalid ranges, and PostReview just publishes those draft comments as they are.",
+      "revId": "68536d9b4553cc68062a17e565e0cbd3fe33aa77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

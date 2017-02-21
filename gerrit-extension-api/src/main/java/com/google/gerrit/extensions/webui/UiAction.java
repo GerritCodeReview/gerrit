@@ -52,7 +52,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     }
 
     /** {@code PrivateInternals_UiActionDescription.setId()} */
-    void setId(String id) {
+    public void setId(String id) {
       this.id = id;
     }
 

@@ -53,6 +53,24 @@
       "revId": "04ad545e351e43cca4c6a1cb197eb743c9180622",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6749e22f_0c2d508e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-21T13:33:10Z",
+      "side": 1,
+      "message": "we can certainly make this more complicated, but we are trying very hard to keep it as simple as possible. \n\nHow about we with just do private first, and see if we need configurable visibility restrictions after we migrated people off draft changes?",
+      "parentUuid": "9de670b7_9efaa4d0",
+      "revId": "04ad545e351e43cca4c6a1cb197eb743c9180622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -71,6 +71,24 @@
       "revId": "04ad545e351e43cca4c6a1cb197eb743c9180622",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92827a8e_d7013358",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T13:36:51Z",
+      "side": 1,
+      "message": "The permission is added in [1].\n\n[1] https://gerrit-review.googlesource.com/98015",
+      "parentUuid": "6749e22f_0c2d508e",
+      "revId": "04ad545e351e43cca4c6a1cb197eb743c9180622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

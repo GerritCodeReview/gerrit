@@ -25,10 +25,10 @@ public class PatchListTest {
   @Test
   public void fileOrder() {
     String[] names = {
-        "zzz", "def/g", "/!xxx", "abc", Patch.MERGE_LIST, "qrx", Patch.COMMIT_MSG,
+      "zzz", "def/g", "/!xxx", "abc", Patch.MERGE_LIST, "qrx", Patch.COMMIT_MSG,
     };
     String[] want = {
-        Patch.COMMIT_MSG, Patch.MERGE_LIST, "/!xxx", "abc", "def/g", "qrx", "zzz",
+      Patch.COMMIT_MSG, Patch.MERGE_LIST, "/!xxx", "abc", "def/g", "qrx", "zzz",
     };
 
     Arrays.sort(
@@ -47,10 +47,10 @@ public class PatchListTest {
   @Test
   public void fileOrderNoMerge() {
     String[] names = {
-        "zzz", "def/g", "/!xxx", "abc", "qrx", Patch.COMMIT_MSG,
+      "zzz", "def/g", "/!xxx", "abc", "qrx", Patch.COMMIT_MSG,
     };
     String[] want = {
-        Patch.COMMIT_MSG, "/!xxx", "abc", "def/g", "qrx", "zzz",
+      Patch.COMMIT_MSG, "/!xxx", "abc", "def/g", "qrx", "zzz",
     };
 
     Arrays.sort(

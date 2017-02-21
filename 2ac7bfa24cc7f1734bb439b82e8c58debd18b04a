@@ -35,6 +35,24 @@
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e22b24c0_b2932022",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T07:54:39Z",
+      "side": 1,
+      "message": "I think I still don\u0027t understand the problem. Can\u0027t we decouple this series eintirely from introducing hash password? And only migrate ACCOUNT_EXTERNAL_IDS later, after this table has both fields: passwd + hashed_passwd? Themost recent schema now is 141. So say all what 142 is dong is adding hashed_passwd. We have two columns. Then this series migrates in 143 from ACCOUNT_EXTERNAL_IDS to NoteDb in two parts, to support multi master installations?",
+      "parentUuid": "295d19c5_fa0c9e38",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

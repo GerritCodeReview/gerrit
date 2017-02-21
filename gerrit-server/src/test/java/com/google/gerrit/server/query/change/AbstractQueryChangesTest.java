@@ -371,6 +371,30 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byPrivate() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo), userId);
+    Account.Id user2 =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+    Change change2 = insert(repo, newChange(repo), user2);
+
+    // No private changes.
+    assertQuery("is:open", change2, change1);
+    assertQuery("is:private");
+
+    gApi.changes().id(change1.getChangeId()).setPrivate(true);
+
+    // Change1 is not private, but should be still visible to its owner.
+    assertQuery("is:open", change1, change2);
+    assertQuery("is:private", change1);
+
+    // Switch request context to user2.
+    requestContext.setContext(newRequestContext(user2));
+    assertQuery("is:open", change2);
+    assertQuery("is:private");
+  }
+
+  @Test
   public void byCommit() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);

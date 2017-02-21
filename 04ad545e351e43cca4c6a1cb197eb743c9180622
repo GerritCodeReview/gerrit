@@ -35,6 +35,24 @@
       "revId": "04ad545e351e43cca4c6a1cb197eb743c9180622",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de670b7_9efaa4d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T12:27:59Z",
+      "side": 1,
+      "message": "\u003e Yes, we have the canViewPrivate permission on our list and will add\n \u003e it later :)\n\nNice.\n\n \u003e We are implementing private changes as a mini-hackathon within our\n \u003e team. As result of this the changes in this topic are quite small\n \u003e and cover only single aspects. We must see in the end how to pile\n \u003e up all those changes into a series, before we can merge anything.\n \u003e Also while we work on it all changes in this topic should be\n \u003e considered as WIP :)\n\nBut one still could see them (yet, before set private) and provide feedback, right? ;-)\n\nSo, here is my feedback. I\u0027m looking into the first changes in this series only. And try (again) explain to someone else and understand better myself, what is going on here? We are marking a change with a bit and try to attach some meaning to this bit. Let put aside the reason for it, and only re-visit the naming: private. Asking thesaurus for assistance for finding the synonyms for this: http://www.thesaurus.com/browse/private reveals the following ideas:\n\n* special\n* individuell\n* own\n* restricted\n\nWhat I\u0027m trying to say. giving better naming for action of marking a change  marking a change with special bit, and allow to do whatever Gerrit users want with it, would open this concept for completely different use cases. So, yes, actually we mark those changes with a bit, http://www.thesaurus.com/browse/mark giving us:\n\n* mark\n* stamp\n\nIOW, when we offer this feature: mark a change with specific bit, and in the same time, allowing that all reviewers and the rest of the world who was granted SpeicialChangeViewCpabaility, why don\u0027t we call those changes stamped or marked, or similar?",
+      "parentUuid": "a0ae0d6e_e7065d49",
+      "revId": "04ad545e351e43cca4c6a1cb197eb743c9180622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

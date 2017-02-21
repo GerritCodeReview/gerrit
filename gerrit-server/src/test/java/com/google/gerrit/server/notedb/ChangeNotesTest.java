@@ -751,7 +751,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (RevWalk walk = new RevWalk(repo)) {
       RevCommit commit = walk.parseCommit(update.getResult());
       walk.parseBody(commit);
-      assertThat(commit.getFullMessage()).endsWith("Hashtags: tag1,tag2\n");
+      assertThat(commit.getFullMessage()).contains("Hashtags: tag1,tag2\n");
     }
   }
 
@@ -3264,6 +3264,43 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getChange().getTopic()).isEqualTo("succeeding-topic");
     assertThat(notes.getReadOnlyUntil()).isEqualTo(new Timestamp(0));
   }
+
+
+  @Test
+  public void privateDefault() throws Exception {
+    Change c = newChange();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.isPrivate()).isFalse();
+  }
+
+  @Test
+  public void privateSetPrivate() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setPrivate(true);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.isPrivate()).isTrue();
+  }
+
+  @Test
+  public void privateSetPrivateMultipleTimes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setPrivate(true);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setPrivate(false);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.isPrivate()).isFalse();
+  }
+
 
   private boolean testJson() {
     return noteUtil.getWriteJson();

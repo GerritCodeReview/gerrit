@@ -85,7 +85,7 @@ public abstract class PermissionBackend {
   public abstract WithUser user(CurrentUser user);
 
   /** @return lightweight factory scoped to answer for the specified user. */
-  public WithUser user(Provider<CurrentUser> user) {
+  public <U extends CurrentUser> WithUser user(Provider<U> user) {
     return user(checkNotNull(user, "Provider<CurrentUser>").get());
   }
 

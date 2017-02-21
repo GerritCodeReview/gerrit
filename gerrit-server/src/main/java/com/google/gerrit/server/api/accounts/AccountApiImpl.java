@@ -255,7 +255,7 @@ public class AccountApiImpl implements AccountApi {
   public DiffPreferencesInfo getDiffPreferences() throws RestApiException {
     try {
       return getDiffPreferences.apply(account);
-    } catch (IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot query diff preferences", e);
     }
   }
@@ -291,7 +291,7 @@ public class AccountApiImpl implements AccountApi {
   public List<ProjectWatchInfo> getWatchedProjects() throws RestApiException {
     try {
       return getWatchedProjects.apply(account);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot get watched projects", e);
     }
   }
@@ -301,7 +301,7 @@ public class AccountApiImpl implements AccountApi {
       throws RestApiException {
     try {
       return postWatchedProjects.apply(account, in);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot update watched projects", e);
     }
   }
@@ -310,7 +310,7 @@ public class AccountApiImpl implements AccountApi {
   public void deleteWatchedProjects(List<ProjectWatchInfo> in) throws RestApiException {
     try {
       deleteWatchedProjects.apply(account, in);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete watched projects", e);
     }
   }
@@ -417,7 +417,7 @@ public class AccountApiImpl implements AccountApi {
     in.raw = RawInputUtil.create(key);
     try {
       return addSshKey.apply(account, in).value();
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (OrmException | IOException | ConfigInvalidException | PermissionBackendException e) {
       throw new RestApiException("Cannot add SSH key", e);
     }
   }

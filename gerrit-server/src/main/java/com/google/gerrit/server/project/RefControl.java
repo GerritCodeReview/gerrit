@@ -200,7 +200,7 @@ public class RefControl {
       // this why for the AllProjects project we allow administrators to push
       // configuration changes if they have push without being project owner.
       if (!(projectControl.getProjectState().isAllProjects()
-          && getUser().getCapabilities().canAdministrateServer())) {
+          && getUser().getCapabilities().isAdmin_DoNotUse())) {
         return false;
       }
     }
@@ -227,7 +227,7 @@ public class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return getUser().getCapabilities().canAdministrateServer()
+        return getUser().getCapabilities().isAdmin_DoNotUse()
             || (isOwner() && !isForceBlocked(Permission.PUSH));
     }
   }
@@ -373,7 +373,7 @@ public class RefControl {
       case UNKNOWN:
       case WEB_BROWSER:
       default:
-        return getUser().getCapabilities().canAdministrateServer()
+        return getUser().getCapabilities().isAdmin_DoNotUse()
             || (isOwner() && !isForceBlocked(Permission.PUSH))
             || canPushWithForce()
             || canPerform(Permission.DELETE);

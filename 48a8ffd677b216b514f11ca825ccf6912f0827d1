@@ -1,4 +1,474 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1487608141 +0100\nnonce AFJA6odUfufL69ff8biQuwMMYrCayOr2nMCAaBstbOeQwJ6R8525GyCdexPEPYrwl7YRrrzaxrh3\n\n0000000000000000000000000000000000000000 2ac7bfa24cc7f1734bb439b82e8c58debd18b04a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYqxlNAAoJEFG1/Zeg0O9RaAsH/0BjsjItU4bopPyJiJmivCuN\ndaLWwPW/rsjnK3dwx9lrs5wRwnPxPn4ZX+GFq03J24jxK9or2uvQACItIxXKINLu\nCR5R/SMueMdjHeKT5G5RvQmSYf18qBreEm9Z+AZ7ey5/nf+Y/3hDv1oYIL+MubJe\nN3DOkZMgnP2678Jge0blKR03ltJHN43Qjk5lRBPfpU1yohRDTAw7TYh32Ncj+0yM\nQJsHjR8fDYBO5725/qzHMobuMnVYmX/2ZHv0pr/pSVW/lGqz8rmkhXhy9i6uM0fZ\nbBvDJNJjFhlYo8lcwiwd7e35fEw+t6drL4f1Dl1ieKLMOPlKvdm3XOQiN/xrdOc\u003d\n\u003dH86Y\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e2c1066_0b1677ce",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Is this smart enough to fail if two formerly-distinct usernames are the same after converting to lowercase? (It\u0027s possible I will figure this out for myself later in the review.)",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77cbe256_d6907f37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "No need to construct an intermediate set here, you can just do:\n\n .stream()\n .filter(e -\u003e e.getKey().equals(who.getExternalId())\n .findAny()\n .isPresent()\n\nAlso, this method name threw me off, it makes it look like we\u0027re comparing an ExternalId to an ExternalId.Key. Maybe rename so it\u0027s e.getKey().equals(who.getExternalIdKey())?",
+      "range": {
+        "startLine": 415,
+        "startChar": 18,
+        "endLine": 417,
+        "endChar": 48
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "578b2be4_b68172af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Is this not already the case now that you\u0027ve rebased on Han-Wen\u0027s change?",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5f24bc5_63ef0303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Nit: ID",
+      "range": {
+        "startLine": 82,
+        "startChar": 78,
+        "endLine": 82,
+        "endChar": 80
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "141b8008_bea92342",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Shorter and probably fewer copies:\n\n ObjectId.fromRaw(Hashing.sha1().hashString(toString(), UTF_8).asBytes())\n\nAlso maybe s/toString/get/ as that seems more guaranteed stable?",
+      "range": {
+        "startLine": 116,
+        "startChar": 13,
+        "endLine": 117,
+        "endChar": 84
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee4d9b69_22ffb0b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "ISTM this could be much smaller, considering we are enforcing there is only 1 external ID section in the config. Maybe like 1MiB? Or maybe even lower?",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "594d366e_d6cbe41d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Needs to be a Provider, otherwise you get the same author timestamp for all commits.",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfc41c69_cf6e94ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Provider",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf8e6c4c_d61a8a49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Are these backwards?",
+      "range": {
+        "startLine": 142,
+        "startChar": 37,
+        "endLine": 142,
+        "endChar": 89
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76c68067_3041f93c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Is there a value to preserving this behavior from ReviewDb once we are NoteDb-only? (Fine for now, preserving compatibility seems safest and easiest to implement/review.)",
+      "range": {
+        "startLine": 169,
+        "startChar": 43,
+        "endLine": 169,
+        "endChar": 97
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0efd1a10_aabbf613",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Why do these methods need to be synchronized? Isn\u0027t a single ExternalIdsUpdate instance only used by one thread? And even if not, is there any non-threadsafe state in an instance?",
+      "range": {
+        "startLine": 181,
+        "startChar": 9,
+        "endLine": 181,
+        "endChar": 21
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4dccfee_985af352",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Except for s/insert/upsert/, this block is exactly the same as lines 185-195. Can you factor something out (possibly with a lambda) to reduce boilerplate?",
+      "range": {
+        "startLine": 217,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 5
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb8df728_136047d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "This is deleting all the ReviewDb IDs from both ReviewDb and NoteDb. Shouldn\u0027t it delete the ReviewDb IDs from ReviewDb, and the NoteDb IDs from NoteDb?",
+      "range": {
+        "startLine": 306,
+        "startChar": 31,
+        "endLine": 306,
+        "endChar": 84
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8956bdee_6df573cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "This is probably fine, but I\u0027m wondering if we should actually use the config API to modify the file without completely overwriting it. What if we want to store additional fields in an ExternalId? During a rollout, we wouldn\u0027t want an old server to overwrite fields added by a new server. Or, what if a plugin wants to store stuff in this file?",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b369c066_618f2ddf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Same question as above about always using the canonical representation instead of parsing a config file.",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a94203f_158b9845",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 459,
+        "startChar": 42,
+        "endLine": 459,
+        "endChar": 47
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a78de163_7e6075b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Why does this method need to be public?",
+      "range": {
+        "startLine": 499,
+        "startChar": 2,
+        "endLine": 499,
+        "endChar": 8
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39ad6b7a_39d673c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "These arguments are in the opposite order from the constructor, which confused me as I was reading.",
+      "range": {
+        "startLine": 506,
+        "startChar": 6,
+        "endLine": 507,
+        "endChar": 32
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "587cc6ca_3b05e0df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Almost everywhere else in Gerrit, we trust the caller to provide a committer ident with an accurate timestamp. Is there a reason not to trust the timestamp here?",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43078519_005aa810",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Optional: you could just add an isScheme method to ExternalId and then you wouldn\u0027t have to change these.",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "928a23f7_d10ac6e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_143.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "Missing space after //?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f00fee97_348140c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_143.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "2017?",
+      "range": {
+        "startLine": 1,
+        "startChar": 16,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72daea55_861bd573",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_143.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T16:17:40Z",
+      "side": 1,
+      "message": "I\u0027m not convinced that visibility of this ref should be controlled by a normal permission, as opposed to e.g. the \"access database\" capability. Convince me? :)",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

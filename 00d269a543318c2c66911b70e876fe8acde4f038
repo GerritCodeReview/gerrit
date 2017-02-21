@@ -101,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "2cc1cb8b_6e3bb48a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-21T23:51:32Z",
+      "side": 1,
+      "message": "Got it. A bit confusing though.",
+      "parentUuid": "07d29823_e103b065",
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbd675f4_92807956",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3
@@ -171,6 +189,30 @@
       "side": 1,
       "message": "I did it because there is another ID with rebaseOnParent (for the input on line 58) and this one was just used for the container.  I believe there are other places in the repo that do it similarly... but I\u0027m open to changing it if you have a different suggestion",
       "parentUuid": "8646cc77_8858a451",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 31
+      },
+      "revId": "00d269a543318c2c66911b70e876fe8acde4f038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c62f75b5_3dc2a7a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-21T23:51:32Z",
+      "side": 1,
+      "message": "Looks like first letter should be lowercase for the sake of consistency.",
+      "parentUuid": "36cec0d5_c029bf36",
       "range": {
         "startLine": 56,
         "startChar": 17,

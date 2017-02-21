@@ -71,6 +71,7 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ImmutableListMultimap.of(),
         ImmutableListMultimap.of(),
+        null,
         null);
   }
 
@@ -100,7 +101,8 @@ public abstract class ChangeNotesState {
       List<ChangeMessage> allChangeMessages,
       ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
       ListMultimap<RevId, Comment> publishedComments,
-      @Nullable Timestamp readOnlyUntil) {
+      @Nullable Timestamp readOnlyUntil,
+      @Nullable Boolean isPrivate) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -119,7 +121,8 @@ public abstract class ChangeNotesState {
             originalSubject,
             submissionId,
             assignee,
-            status),
+            status,
+            isPrivate),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableList.copyOf(patchSets.entrySet()),
@@ -131,7 +134,8 @@ public abstract class ChangeNotesState {
         ImmutableList.copyOf(allChangeMessages),
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
         ImmutableListMultimap.copyOf(publishedComments),
-        readOnlyUntil);
+        readOnlyUntil,
+        isPrivate);
   }
 
   /**
@@ -174,6 +178,9 @@ public abstract class ChangeNotesState {
     // TODO(dborowitz): Use a sensible default other than null
     @Nullable
     abstract Change.Status status();
+
+    @Nullable
+    abstract Boolean isPrivate();
   }
 
   // Only null if NoteDb is disabled.
@@ -211,6 +218,9 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Timestamp readOnlyUntil();
+
+  @Nullable
+  abstract Boolean isPrivate();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
@@ -269,6 +279,7 @@ public abstract class ChangeNotesState {
     change.setLastUpdatedOn(c.lastUpdatedOn());
     change.setSubmissionId(c.submissionId());
     change.setAssignee(c.assignee());
+    change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());

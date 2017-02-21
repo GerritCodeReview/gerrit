@@ -109,6 +109,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
   private String topic;
   private String message;
   private String patchSetDescription;
+  private boolean isPrivate;
   private List<String> groups = Collections.emptyList();
   private CommitValidators.Policy validatePolicy = CommitValidators.Policy.GERRIT;
   private NotifyHandling notify = NotifyHandling.ALL;
@@ -183,6 +184,7 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
             ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
     change.setTopic(topic);
+    change.setPrivate(isPrivate);
     return change;
   }
 
@@ -255,6 +257,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
 
   public ChangeInserter setExtraCC(Set<Account.Id> extraCC) {
     this.extraCC = extraCC;
+    return this;
+  }
+
+  public ChangeInserter setPrivate(boolean isPrivate) {
+    checkState(change == null, "setPrivate(boolean) only valid before creating change");
+    this.isPrivate = isPrivate;
     return this;
   }
 
@@ -350,6 +358,9 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
     update.setBranch(change.getDest().get());
     update.setTopic(change.getTopic());
     update.setPsDescription(patchSetDescription);
+    if (isPrivate) {
+      update.setPrivate(isPrivate);
+    }
 
     boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;

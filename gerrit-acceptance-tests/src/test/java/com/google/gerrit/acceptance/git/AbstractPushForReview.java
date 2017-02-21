@@ -375,6 +375,38 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushPrivateChange() throws Exception {
+    // push a private change
+    PushOneCommit.Result r = pushTo("refs/for/master%private");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isPrivate()).isTrue();
+
+    // pushing a new patch set without --private doesn't remove the privacy flag from the change
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isPrivate()).isTrue();
+
+    // remove the privacy flag from the change
+    r = amendChange(r.getChangeId(), "refs/for/master%remove-private");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isPrivate()).isFalse();
+
+    // normal push, privacy flag is not added back
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isPrivate()).isFalse();
+
+    // make the change private again
+    r = pushTo("refs/for/master%private");
+    r.assertOkStatus();
+    assertThat(r.getChange().change().isPrivate()).isTrue();
+
+    // can't use --private and --remove-private together
+    r = pushTo("refs/for/master%private,remove-private");
+    r.assertErrorStatus("the options 'private' and 'remove-private' are mutually exclusive");
+  }
+
+  @Test
   public void pushForMasterAsDraft() throws Exception {
     // create draft by pushing to 'refs/drafts/'
     PushOneCommit.Result r = pushTo("refs/drafts/master");

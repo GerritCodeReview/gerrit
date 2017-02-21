@@ -1265,6 +1265,12 @@ public class ReceiveCommits {
     @Option(name = "--draft", usage = "mark new/updated changes as draft")
     boolean draft;
 
+    @Option(name = "--private", usage = "mark new/updated change as private")
+    boolean isPrivate;
+
+    @Option(name = "--remove-private", usage = "remove privacy flag from updated change")
+    boolean removePrivate;
+
     @Option(
       name = "--edit",
       aliases = {"-e"},
@@ -1515,6 +1521,11 @@ public class ReceiveCommits {
     if (!magicBranch.ctl.canUpload()) {
       errors.put(Error.CODE_REVIEW, ref);
       reject(cmd, "cannot upload review");
+      return;
+    }
+
+    if (magicBranch.isPrivate && magicBranch.removePrivate) {
+      reject(cmd, "the options 'private' and 'remove-private' are mutually exclusive");
       return;
     }
 
@@ -2126,6 +2137,7 @@ public class ReceiveCommits {
           changeInserterFactory
               .create(changeId, commit, refName)
               .setTopic(magicBranch.topic)
+              .setPrivate(magicBranch.isPrivate)
               // Changes already validated in validateNewCommits.
               .setValidatePolicy(CommitValidators.Policy.NONE);
 

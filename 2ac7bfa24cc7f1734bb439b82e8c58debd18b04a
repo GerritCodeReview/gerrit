@@ -17,6 +17,24 @@
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "295d19c5_fa0c9e38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T07:30:14Z",
+      "side": 1,
+      "message": "Thanks for looking at this. What you are saying basically confirm what I\u0027m thinking about this so far.\n\n\u003e 1. on the fly conversion. Do not extend the table and do not write to it.\n\u003e You are removing it anyway. Instead, read non hashed password from the\n\u003e database, convert it on the fly to hashed password, write the hashed password\n\u003e to NoteDb. When ready the table is removed.\n\nThis is not as straight-forward as it seems. \nHashed passwords are a precondition for migrating external IDs to NoteDb (because we don\u0027t want to have plain passwords in NoteDb) and the external ID migration has to be done in 2 parts (for upgrade of multimaster instances). This means we can\u0027t squash those changes together and we have (at least) two migrations:\n\n- 142: Conversion of plain passwords to hashed passwords in ReviewDb.\n- 144: Migration of external IDs to NoteDb + Deletion of ACCOUNT_EXTERNAL_IDS table.\n\nThe second migration (144) is not a big problem as it can just read the plain password and redo the hashing.\nThe problem is with the first migration (142) as it now can\u0027t write the hashed password to ReviewDb anymore (as the hash_password field is not there).\nSo this would only work if:\n\n- we keep the plain password in the database so that migration 144 can do the rehashing\n- at this point we change migration 142 to a no-op and rely on migration 144 to do the hashing\n\nThe second point feels a little weird.\n\n\u003e 2. intermediate step conversion. Do not update and delete the table in one single step.\n\nIt\u0027s not a single step as explained above.\n\n\u003e Make it in two steps:\n\u003e 2.1 migrate passwd to hash passwords in its own migration step 141 -\u003e 142:\n\u003e after this step the table ACCOUNT_EXTERNAL_IDS doesn\u0027t has passwd column, but only has hashed_passwd column\n\u003e 2.2 do what is done in this step now: drop the table ACCOUNT_EXTERNAL_IDS, you have hashed_passwd populated.\n\nThis is what I wanted to do, but it\u0027s only working if each site does the upgrade in these 2 steps (upgrade to schema 142, then upgrade to 142+).\nIt fails if any site with schema 141 or older attempts to upgrade directly to a schema where the table is deleted. Deleting the table only later is not solving the issue, but just post-pones the problem.\n\nOther possibilities that I proposed to Han-Wen yesterday:\n\n- convert password in schema migration 142 in place: Do not add a new field for hashed passwords, but just write the hashed password back to the existing password field\n\nThis would work, but has the disadvantage that the plain passwords are immediately gone. This means there is no way to go back to recover them if anything went wrong with the hashing.\n\n- Add a new plain_password field to AccountExternalIds instead of a hashed_password field. Schema migration 142 could then copy the plain password from the password field into the plain_password field before writing the hashed password back to the existing password field. This means the plain passwords are still preserved after the migration. We include this migration into the 2.14 release and gain confidence there that hashed passwords work. In 2.15 we then rewrite migration 142 so that it\u0027s only doing the in place hashing of the password in the password field, but no longer copies the plain password to the plain_password field (because this field is not there if an upgrade from an older schema is done to a schema where the table is deleted). This means plain password will now be gone immediately after the hashing, but since this was tested with 2.14 it should be safe.\n\nSuch a migration path would work since we are anyway about to branch of 2.14 soon.",
+      "parentUuid": "e424d86d_2e48efaa",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

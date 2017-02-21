@@ -22,6 +22,30 @@
       "revId": "933dc1c1b9564ae1eca2b0f716a3a48eca54c71a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ac35e36_80d9c7f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-21T11:08:46Z",
+      "side": 1,
+      "message": "Yep gerrit.",
+      "parentUuid": "c5e8643e_3ded3400",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "933dc1c1b9564ae1eca2b0f716a3a48eca54c71a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

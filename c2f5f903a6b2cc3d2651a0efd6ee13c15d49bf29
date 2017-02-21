@@ -45,6 +45,30 @@
       "revId": "c2f5f903a6b2cc3d2651a0efd6ee13c15d49bf29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d944163_0e2ec970",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/systemd/gerrit.service",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1020527
+      },
+      "writtenOn": "2017-02-21T21:43:30Z",
+      "side": 1,
+      "message": "Main Process must be the Java process otherwise socket passing via fd0/fd1 doesn\u0027t work.\nWhy is ExecStop/ExecRestart necessary anyway? Is just a Java process anyway",
+      "parentUuid": "a540923f_c3e54a9a",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 93
+      },
+      "revId": "c2f5f903a6b2cc3d2651a0efd6ee13c15d49bf29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

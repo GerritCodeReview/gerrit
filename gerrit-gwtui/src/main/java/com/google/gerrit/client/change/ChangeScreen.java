@@ -198,6 +198,7 @@ public class ChangeScreen extends Screen {
   @UiField InlineLabel uploaderName;
 
   @UiField Element statusText;
+  @UiField Element privateText;
   @UiField Image projectSettings;
   @UiField AnchorElement projectSettingsLink;
   @UiField InlineHyperlink projectDashboard;
@@ -1374,6 +1375,10 @@ public class ChangeScreen extends Screen {
     } else {
       Status s = info.revision(revision).draft() ? Status.DRAFT : info.status();
       statusText.setInnerText(Util.toLongString(s));
+    }
+
+    if (info.isPrivate()) {
+      privateText.setInnerText(Util.C.isPrivate());
     }
 
     if (Gerrit.isSignedIn()) {

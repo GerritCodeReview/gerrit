@@ -37,6 +37,92 @@
     },
     {
       "key": {
+        "uuid": "c565e7a5_48bd14d3",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T22:59:14Z",
+      "side": 1,
+      "message": "Add also:\n\n* - Extensibility: It was practically impossible to add even one single column to ReviewDb. And those who did that, were locked down forever with forked gerrit version. With NoteDb it should be straight forward to add plugin contributed fields.",
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd6dd8e_0d6b9d9f",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T22:59:14Z",
+      "side": 1,
+      "message": "Mention, that this mode approximately dupliate tha time needed to for write operation and have severe impact on the perfomance. Waiting for 2-5 seconds on adding a comment or voting on a change is severe perfomance degradation and should be taken into account.",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 62
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf2ce8f0_8a481c0b",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T22:59:14Z",
+      "side": 1,
+      "message": "Only relevant for different nodes in multi-master setup, that doesn\u0027t have a corresponding open-source version. Mark as such?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03386f92_abda373f",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T22:59:14Z",
+      "side": 1,
+      "message": "What do you mean by that? The implementation in this mode doesn\u0027t write anything to the database, or it if does, the transaction is rollbacked and never committed.",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cd9588c_51602f0f",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 2

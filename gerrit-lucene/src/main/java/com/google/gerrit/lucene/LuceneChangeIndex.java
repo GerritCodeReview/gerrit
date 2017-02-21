@@ -17,7 +17,10 @@ package com.google.gerrit.lucene;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
+import static com.google.gerrit.server.index.change.ChangeField.APPROVAL_CODEC;
+import static com.google.gerrit.server.index.change.ChangeField.CHANGE_CODEC;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
+import static com.google.gerrit.server.index.change.ChangeField.PATCH_SET_CODEC;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
@@ -47,9 +50,6 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.index.change.ChangeField.ChangeProtoField;
-import com.google.gerrit.server.index.change.ChangeField.PatchSetApprovalProtoField;
-import com.google.gerrit.server.index.change.ChangeField.PatchSetProtoField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -421,7 +421,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       BytesRef proto = cb.binaryValue();
       cd =
           changeDataFactory.create(
-              db.get(), ChangeProtoField.CODEC.decode(proto.bytes, proto.offset, proto.length));
+              db.get(), CHANGE_CODEC.decode(proto.bytes, proto.offset, proto.length));
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
       Change.Id id = new Change.Id(f.numericValue().intValue());
@@ -475,7 +475,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private void decodePatchSets(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    List<PatchSet> patchSets = decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoField.CODEC);
+    List<PatchSet> patchSets = decodeProtos(doc, PATCH_SET_FIELD, PATCH_SET_CODEC);
     if (!patchSets.isEmpty()) {
       // Will be an empty list for schemas prior to when this field was stored;
       // this cannot be valid since a change needs at least one patch set.
@@ -484,7 +484,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private void decodeApprovals(ListMultimap<String, IndexableField> doc, ChangeData cd) {
-    cd.setCurrentApprovals(decodeProtos(doc, APPROVAL_FIELD, PatchSetApprovalProtoField.CODEC));
+    cd.setCurrentApprovals(decodeProtos(doc, APPROVAL_FIELD, APPROVAL_CODEC));
   }
 
   private void decodeChangedLines(ListMultimap<String, IndexableField> doc, ChangeData cd) {

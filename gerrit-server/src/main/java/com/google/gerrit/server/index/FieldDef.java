@@ -15,14 +15,16 @@
 package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Preconditions;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import java.io.IOException;
+import java.sql.Timestamp;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -32,31 +34,43 @@ import org.eclipse.jgit.lib.Config;
  * @param <T> type that should be extracted from the input object when converting to an index
  *     document.
  */
-public abstract class FieldDef<I, T> {
-  /** Definition of a single (non-repeatable) field. */
-  public abstract static class Single<I, T> extends FieldDef<I, T> {
-    protected Single(String name, FieldType<T> type, boolean stored) {
-      super(name, type, stored);
-    }
-
-    @Override
-    public final boolean isRepeatable() {
-      return false;
-    }
+public final class FieldDef<I, T> {
+  public static FieldDef.Builder<String> exact(String name) {
+    return new FieldDef.Builder<>(FieldType.EXACT, name);
   }
 
-  /** Definition of a repeatable field. */
-  public abstract static class Repeatable<I, T> extends FieldDef<I, Iterable<T>> {
-    protected Repeatable(String name, FieldType<T> type, boolean stored) {
-      super(name, type, stored);
-      Preconditions.checkArgument(
-          type != FieldType.INTEGER_RANGE, "Range queries against repeated fields are unsupported");
-    }
+  public static FieldDef.Builder<String> fullText(String name) {
+    return new FieldDef.Builder<>(FieldType.FULL_TEXT, name);
+  }
 
-    @Override
-    public final boolean isRepeatable() {
-      return true;
-    }
+  public static FieldDef.Builder<Integer> intRange(String name) {
+    return new FieldDef.Builder<>(FieldType.INTEGER_RANGE, name).stored();
+  }
+
+  public static FieldDef.Builder<Integer> integer(String name) {
+    return new FieldDef.Builder<>(FieldType.INTEGER, name);
+  }
+
+  public static FieldDef.Builder<String> prefix(String name) {
+    return new FieldDef.Builder<>(FieldType.PREFIX, name);
+  }
+
+  public static FieldDef.Builder<byte[]> storedOnly(String name) {
+    return new FieldDef.Builder<>(FieldType.STORED_ONLY, name).stored();
+  }
+
+  public static FieldDef.Builder<Timestamp> timestamp(String name) {
+    return new FieldDef.Builder<>(FieldType.TIMESTAMP, name);
+  }
+
+  @FunctionalInterface
+  public interface Getter<I, T> {
+    T get(I input) throws OrmException, IOException;
+  }
+
+  @FunctionalInterface
+  public interface GetterWithArgs<I, T> {
+    T get(I input, FillArgs args) throws OrmException, IOException;
   }
 
   /** Arguments needed to fill in missing data in the input object. */
@@ -74,14 +88,55 @@ public abstract class FieldDef<I, T> {
     }
   }
 
+  public static class Builder<T> {
+    private final FieldType<T> type;
+    private final String name;
+    private boolean stored;
+
+    public Builder(FieldType<T> type, String name) {
+      this.type = checkNotNull(type);
+      this.name = checkNotNull(name);
+    }
+
+    public Builder<T> stored() {
+      this.stored = true;
+      return this;
+    }
+
+    public <I> FieldDef<I, T> build(Getter<I, T> getter) {
+      return build((in, a) -> getter.get(in));
+    }
+
+    public <I> FieldDef<I, T> build(GetterWithArgs<I, T> getter) {
+      return new FieldDef<>(name, type, stored, false, getter);
+    }
+
+    public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
+      return buildRepeatable((in, a) -> getter.get(in));
+    }
+
+    public <I> FieldDef<I, Iterable<T>> buildRepeatable(GetterWithArgs<I, Iterable<T>> getter) {
+      return new FieldDef<>(name, type, stored, true, getter);
+    }
+  }
+
   private final String name;
   private final FieldType<?> type;
   private final boolean stored;
+  private final boolean repeatable;
+  private final GetterWithArgs<I, T> getter;
 
-  private FieldDef(String name, FieldType<?> type, boolean stored) {
+  private FieldDef(
+      String name,
+      FieldType<?> type,
+      boolean stored,
+      boolean repeatable,
+      GetterWithArgs<I, T> getter) {
     this.name = checkName(name);
     this.type = type;
     this.stored = stored;
+    this.repeatable = repeatable;
+    this.getter = getter;
   }
 
   private static String checkName(String name) {
@@ -91,17 +146,17 @@ public abstract class FieldDef<I, T> {
   }
 
   /** @return name of the field. */
-  public final String getName() {
+  public String getName() {
     return name;
   }
 
   /** @return type of the field; for repeatable fields, the inner type, not the iterable type. */
-  public final FieldType<?> getType() {
+  public FieldType<?> getType() {
     return type;
   }
 
   /** @return whether the field should be stored in the index. */
-  public final boolean isStored() {
+  public boolean isStored() {
     return stored;
   }
 
@@ -113,8 +168,16 @@ public abstract class FieldDef<I, T> {
    * @return the field value(s) to index.
    * @throws OrmException
    */
-  public abstract T get(I input, FillArgs args) throws OrmException;
+  public T get(I input, FillArgs args) throws OrmException {
+    try {
+      return getter.get(input, args);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
 
   /** @return whether the field is repeatable. */
-  public abstract boolean isRepeatable();
+  public boolean isRepeatable() {
+    return repeatable;
+  }
 }

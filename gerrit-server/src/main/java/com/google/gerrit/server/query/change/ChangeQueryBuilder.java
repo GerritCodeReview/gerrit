@@ -558,7 +558,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new IsMergeablePredicate(args.fillArgs);
+      return new BooleanPredicate.IsMergeablePredicate(args.fillArgs);
+    }
+
+    if ("private".equalsIgnoreCase(value)) {
+      return new BooleanPredicate.IsPrivatePredicate(args.fillArgs);
     }
 
     if ("assigned".equalsIgnoreCase(value)) {

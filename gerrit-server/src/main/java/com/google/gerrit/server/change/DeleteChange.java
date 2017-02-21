@@ -15,19 +15,23 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.DeleteChange.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.UpdateException;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -41,6 +45,8 @@ public class DeleteChange
   private final Provider<ReviewDb> db;
   private final BatchUpdate.Factory updateFactory;
   private final Provider<DeleteChangeOp> opProvider;
+  private final Provider<CurrentUser> user;
+  private final PermissionBackend permissionBackend;
   private final boolean allowDrafts;
 
   @Inject
@@ -48,16 +54,33 @@ public class DeleteChange
       Provider<ReviewDb> db,
       BatchUpdate.Factory updateFactory,
       Provider<DeleteChangeOp> opProvider,
+      Provider<CurrentUser> user,
+      PermissionBackend permissionBackend,
       @GerritServerConfig Config cfg) {
     this.db = db;
     this.updateFactory = updateFactory;
     this.opProvider = opProvider;
+    this.user = user;
+    this.permissionBackend = permissionBackend;
     this.allowDrafts = DeleteChangeOp.allowDrafts(cfg);
   }
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException, PermissionBackendException {
+    if (rsrc.getChange().getStatus() == Change.Status.MERGED) {
+      throw new MethodNotAllowedException("delete not permitted");
+    } else if (!allowDrafts && rsrc.getChange().getStatus() == Change.Status.DRAFT) {
+      // If drafts are disabled, only an administrator can delete a draft.
+      try {
+        permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+      } catch (AuthException e) {
+        throw new MethodNotAllowedException("Draft workflow is disabled");
+      }
+    } else {
+      rsrc.permissions().database(db).check(ChangePermission.DELETE);
+    }
+
     try (BatchUpdate bu =
         updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
@@ -70,21 +93,37 @@ public class DeleteChange
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
-    try {
-      Change.Status status = rsrc.getChange().getStatus();
-      ChangeControl changeControl = rsrc.getControl();
-      boolean visible =
-          isActionAllowed(changeControl, status) && changeControl.canDelete(db.get(), status);
-      return new UiAction.Description()
-          .setLabel("Delete")
-          .setTitle("Delete change " + rsrc.getId())
-          .setVisible(visible);
-    } catch (OrmException e) {
-      throw new IllegalStateException(e);
-    }
+    Change.Status status = rsrc.getChange().getStatus();
+    PermissionBackend.ForChange perm = rsrc.permissions().database(db);
+    return new UiAction.Description()
+        .setLabel("Delete")
+        .setTitle("Delete change " + rsrc.getId())
+        .setVisible(couldDeleteWhenIn(status) && perm.testOrFalse(ChangePermission.DELETE));
   }
 
-  private boolean isActionAllowed(ChangeControl changeControl, Status status) {
-    return status != Status.DRAFT || allowDrafts || changeControl.isAdmin();
+  private boolean couldDeleteWhenIn(Change.Status status) {
+    switch (status) {
+      case NEW:
+      case ABANDONED:
+        // New or abandoned changes can be deleted with the right permissions.
+        return true;
+
+      case MERGED:
+        // Merged changes should never be deleted.
+        return false;
+
+      case DRAFT:
+        if (allowDrafts) {
+          // Drafts can only be deleted if the server has drafts enabled.
+          return true;
+        }
+        try {
+          // If drafts are disabled, only administrators may delete.
+          return permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER);
+        } catch (PermissionBackendException e) {
+          return false;
+        }
+    }
+    return false;
   }
 }

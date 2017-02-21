@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -36,6 +37,8 @@ import com.google.gerrit.server.git.BatchUpdate.RepoContext;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -80,7 +83,12 @@ public class DeleteDraftPatchSet
 
   @Override
   public Response<?> apply(RevisionResource rsrc, Input input)
-      throws RestApiException, UpdateException {
+      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
+    if (isDeletingOnlyPatchSet(rsrc)) {
+      // A change cannot have zero patch sets; the change is deleted instead.
+      rsrc.permissions().database(db).check(ChangePermission.DELETE);
+    }
+
     try (BatchUpdate bu =
         updateFactory.create(db.get(), rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       bu.setOrder(BatchUpdate.Order.DB_BEFORE_REPO);
@@ -88,6 +96,12 @@ public class DeleteDraftPatchSet
       bu.execute();
     }
     return Response.none();
+  }
+
+  private boolean isDeletingOnlyPatchSet(RevisionResource rsrc) throws OrmException {
+    Collection<PatchSet> patchSets = psUtil.byChange(db.get(), rsrc.getNotes());
+    return patchSets.size() == 1
+        && Iterables.getOnlyElement(patchSets).getId().equals(rsrc.getPatchSet().getId());
   }
 
   private class Op extends BatchUpdate.Op {
@@ -183,15 +197,14 @@ public class DeleteDraftPatchSet
   @Override
   public UiAction.Description getDescription(RevisionResource rsrc) {
     try {
-      int psCount = psUtil.byChange(db.get(), rsrc.getNotes()).size();
       return new UiAction.Description()
           .setLabel("Delete")
           .setTitle(String.format("Delete draft revision %d", rsrc.getPatchSet().getPatchSetId()))
           .setVisible(
               allowDrafts
                   && rsrc.getPatchSet().isDraft()
-                  && rsrc.getControl().canDelete(db.get(), Change.Status.DRAFT)
-                  && psCount > 1);
+                  && psUtil.byChange(db.get(), rsrc.getNotes()).size() > 1
+                  && rsrc.getControl().canDelete(db.get(), Change.Status.DRAFT));
     } catch (OrmException e) {
       throw new IllegalStateException(e);
     }

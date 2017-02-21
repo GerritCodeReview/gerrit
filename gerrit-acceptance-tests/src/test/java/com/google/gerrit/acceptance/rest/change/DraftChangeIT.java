@@ -80,14 +80,13 @@ public class DraftChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result changeResult = createDraftChange();
     changeResult.assertOkStatus();
     String changeId = changeResult.getChangeId();
-    Change.Id id = changeResult.getChange().getId();
 
     // The user needs to be able to see the draft change (which reviewers can).
     gApi.changes().id(changeId).addReviewer(user.fullName);
 
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage(String.format("Deleting change %s is not permitted", id));
+    exception.expectMessage("delete not permitted");
     gApi.changes().id(changeId).delete();
   }
 

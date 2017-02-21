@@ -22,6 +22,30 @@
       "revId": "d7d8c6e33e5625ee5922e7a699c57b2b59ad9570",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6032e629_089aa49f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T09:11:17Z",
+      "side": 0,
+      "message": "Aa A different approach, it would be a trivial extension to the current DSL to offer user specific error messages:\n\n  permissions().check(GlobalPermission.MODIFY_ACCOUNT,\n      \"not allowed to index account\");",
+      "parentUuid": "2380558b_6b451082",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 60
+      },
+      "revId": "d7d8c6e33e5625ee5922e7a699c57b2b59ad9570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -236,6 +236,13 @@ public class ReplaceOp extends BatchUpdate.Op {
       if (magicBranch.topic != null && !magicBranch.topic.equals(ctx.getChange().getTopic())) {
         update.setTopic(magicBranch.topic);
       }
+      if (magicBranch.removePrivate) {
+        change.setPrivate(false);
+        update.setPrivate(false);
+      } else if (magicBranch.isPrivate) {
+        change.setPrivate(true);
+        update.setPrivate(true);
+      }
     }
 
     boolean draft = magicBranch != null && magicBranch.draft;

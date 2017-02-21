@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.UpdateException;
+
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +86,10 @@ public interface ChangeApi {
   void move(String destination) throws RestApiException;
 
   void move(MoveInput in) throws RestApiException;
+
+  boolean isPrivate() throws RestApiException;
+
+  void setPrivate(boolean isPrivate) throws RestApiException;
 
   /**
    * Create a new change that reverts this change.
@@ -297,6 +303,16 @@ public interface ChangeApi {
 
     @Override
     public void move(MoveInput in) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean isPrivate() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setPrivate(boolean isPrivate) {
       throw new NotImplementedException();
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2796c6b3_69189a36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T17:17:54Z",
+      "side": 1,
+      "message": "Just \"Private\", to avoid verbosity and to match existing boolean fields (Current, Unresolved)",
+      "revId": "bc3e8dd181df0b0b44cc27cc2b532dd746f62c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

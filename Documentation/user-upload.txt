@@ -212,6 +212,24 @@ updates:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental -o topic=driver/i42
 ----
 
+[[private]]
+==== Private Changes
+
+To push a private change or to turn a change private on push the `private`
+option can be specified:
+
+----
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%private
+----
+
+Omitting the `private` option when pushing updates to a private change
+doesn't remove the privacy flag on the change. To remove the privacy
+flag from a change on push the `remove-private` option can be used:
+
+----
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%remove-private
+----
+
 [[message]]
 ==== Message
 

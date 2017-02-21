@@ -355,7 +355,7 @@ class ChangeApiImpl implements ChangeApi {
   public void delete() throws RestApiException {
     try {
       deleteChange.apply(change, null);
-    } catch (UpdateException e) {
+    } catch (UpdateException | PermissionBackendException e) {
       throw new RestApiException("Cannot delete change", e);
     }
   }

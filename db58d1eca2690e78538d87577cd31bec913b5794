@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8adba5c8_69c7697d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-21T13:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba7aed23_74df2b1a",
+      "range": {
+        "startLine": 939,
+        "startChar": 16,
+        "endLine": 939,
+        "endChar": 44
+      },
+      "revId": "db58d1eca2690e78538d87577cd31bec913b5794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8126aa31_eaa69ea9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-21T13:52:08Z",
       "side": 1,
       "message": "I think it\u0027s not sufficient to only set the footer if isPrivate \u003d\u003d true.\n\nIf a change is set to private then in the corresponding NoteDb commit we add a \"Is-Private: true\" footer. But then if this change later is set to not private, we must add a \"Is-Private: false\" footer to overwrite the previous footer. We can\u0027t go back and remove the \"Is-Private: true\" footer from the history.",
+      "range": {
+        "startLine": 716,
+        "startChar": 3,
+        "endLine": 718,
+        "endChar": 5
+      },
+      "revId": "db58d1eca2690e78538d87577cd31bec913b5794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c689bb9_47533785",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-21T13:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8126aa31_eaa69ea9",
       "range": {
         "startLine": 716,
         "startChar": 3,

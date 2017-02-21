@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1487702789 -0500\nnonce AFJA6odaqTJhHiuYh4aKNm1G5cS52rq20cLPexz4290oC+WWDxfVyhp+cODBSnmbmMaMa7c4z8Re\n\n0000000000000000000000000000000000000000 9ba086463eb803e57366ebe1ecff2838a1f62ae1 refs/for/master%r\u003dekempin,r\u003daliceks,r\u003dhanwen@google.com\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYrIsFAAoJEF/XxZqaEoiMsNMP/jW6KFqY58/bnmjQtFj/4RNx\n7wpfCERmL2GLItg3/6uThPCkbpZWJZjNXIj2QO2hhh5eJOJOx0MOls/HifecSHXj\nuRPAQsp0O6XfqzcHbsPH5hClX4UfKy8betN5onmaQpII+FXizHNn8ap4snDnStrQ\njApeRtyXZalnReMvMkKhNvhiwlPDwjfonMuAeK8OQX+umQVN2JzuH7zapzI8qdIf\n5Qra3DqQltPaj7Ol5qomyBtGcSgLYdo7yMrLZwirhCZySfVnr4WZq66lwp/HVKwE\nTpwKd2q339p3OzvJVC6epvoV6LGJ80qkIGVgFJnwlfC/Exl61GGoKaoVXqS2EzPj\nvFsZRoQsI9GLaENu8QHhmG0o+Pcy64KBC3jk2nbMx3eFN8dW6aSlIVXyZPwzOAHK\n6UDNGRc128sQeuQOTpfALerPq99dRxzjE4+4+xeYzb0pIltHxtXL8O6aZ2miv8+i\n58gTQsXnAug/V/9ufIvqAXNJdsNxrY3l2spBcFQdsocBBs+IozdedxXqTj9etZRc\nbxylDnXF2DfENJHVeYgizeFBwzxhAumI43l6bQagh4F+9OQMzZjgEYy8X/XZsJbo\nkLv2CC7ooPQvDHLDyX1u0aU3yBgYfYBV3ZhbCqG6slpu4rb9DA8WosdBEbycbFIb\n/ErE/4OevQwtEbxWBsue\n\u003d4Pgl\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e22e4d0a_27510132",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-21T18:51:57Z",
+      "side": 1,
+      "message": "The reason for this instead of a method in FieldDef.java like:\n\n static \u003cI\u003e FieldDef.Builder\u003cI, T\u003e integer(String name)\n\nis that then in ChangeField.java you would have to call it with an explicit type specification:\n\n FieldDef.\u003cChangeData\u003einteger(\"foo\").build((cd, a) -\u003e cd.getFoo());\n\nbecause the type inference can\u0027t understand that cd is a ChangeData. Having one that returns Builder\u003cChangeData, Integer\u003e eliminates that boilerplate.\n\nOf course there is still the option of having both, and/or having the type argument overriding version only in ChangeField but not AccountField, etc.",
+      "revId": "9ba086463eb803e57366ebe1ecff2838a1f62ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -850,6 +850,15 @@ when link:rest-api-changes.html#submit-change[submitting using the REST API].
 Note that this permission is named `submitAs` in the `project.config`
 file.
 
+[[category_view_private_changes]]
+=== View Private Changes
+
+This category permits users to view all private changes.
+
+The change owner and any explicitly added reviewers can always see
+private changes (even without having the `View Private Changes` access
+right assigned).
+
 [[category_view_drafts]]
 === View Drafts
 

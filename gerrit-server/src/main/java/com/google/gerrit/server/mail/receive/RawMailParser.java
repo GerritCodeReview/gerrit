@@ -61,8 +61,12 @@ public class RawMailParser {
       throw new MailParsingException("Can't parse email", e);
     }
     // Add general headers
-    messageBuilder.id(mimeMessage.getMessageId());
-    messageBuilder.subject(mimeMessage.getSubject());
+    if (mimeMessage.getMessageId() != null) {
+      messageBuilder.id(mimeMessage.getMessageId());
+    }
+    if (mimeMessage.getSubject() != null) {
+      messageBuilder.subject(mimeMessage.getSubject());
+    }
     messageBuilder.dateReceived(new DateTime(mimeMessage.getDate()));
 
     // Add From, To and Cc

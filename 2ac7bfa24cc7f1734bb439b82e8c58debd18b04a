@@ -71,6 +71,24 @@
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23540e26_1719dbdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T08:15:14Z",
+      "side": 1,
+      "message": "In the meantime I have agreed with Han-Wen that we just do the migration in place without adding any new field. This means schema migration 142 will just overwrite the plain password in the \u0027password\u0027 field with the hashed password.",
+      "parentUuid": "95909151_6e9f7d07",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

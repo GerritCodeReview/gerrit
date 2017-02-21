@@ -2107,6 +2107,46 @@ Only the change owner, a project owner, or an administrator may fix changes.
   }
 ----
 
+[[Mark-private]]
+=== Mark Private
+--
+'PUT /changes/link:#change-id[\{change-id\}]/private'
+--
+
+Marks the change to be private. Note users can only mark own changes as private.
+
+.Request
+----
+  Set /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the change was already private the response is "`200 OK`".
+
+[[unmark-private]]
+=== Unmark Private
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/private'
+--
+
+Marks the change to be non-private. Note users can only mark own private changes.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If the change was already not private, the response is "`409 Conflict`".
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 

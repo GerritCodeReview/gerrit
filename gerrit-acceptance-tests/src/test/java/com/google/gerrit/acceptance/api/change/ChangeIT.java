@@ -178,6 +178,74 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setPrivateByOwner() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    setApiUser(user);
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isFalse();
+    gApi.changes().id(changeId).setPrivate(true);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
+    gApi.changes().id(changeId).setPrivate(false);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isFalse();
+  }
+
+  @Test
+  public void setPrivateByOtherUser() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isFalse();
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to mark private");
+    gApi.changes().id(result.getChangeId()).setPrivate(true);
+  }
+
+  @Test
+  public void accessPrivate() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    setApiUser(user);
+    gApi.changes().id(result.getChangeId()).setPrivate(true);
+    // Owner can always access its private changes.
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
+
+    // Add admin as a reviewer.
+    gApi.changes().id(result.getChangeId()).addReviewer(admin.getId().toString());
+
+    // This change should be visible for admin as a reviewer.
+    setApiUser(admin);
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
+
+    // Remove admin from reviewers.
+    gApi.changes().id(result.getChangeId()).reviewer(admin.getId().toString()).remove();
+
+    // This change should not be visible for admin anymore.
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("Not found: " + result.getChangeId());
+    gApi.changes().id(result.getChangeId());
+  }
+
+  @Test
+  public void privateChangeOfOtherUserCanBeAccessedWithPermission() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).setPrivate(true);
+
+    allow(Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS, "refs/*");
+    try {
+      setApiUser(user);
+      assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
+    } finally {
+      //removePermission(Permission.VIEW_PRIVATE_CHANGES, project, "refs/*");
+    }
+  }
+
+  @Test
   public void getAmbiguous() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();
@@ -1560,7 +1628,7 @@ public class ChangeIT extends AbstractDaemonTest {
             Iterables.getOnlyElement(query("project:{" + project.get() + "} owner:self")).changeId)
         .isEqualTo(r.getChangeId());
     setApiUser(user);
-    assertThat(query("owner:self")).isEmpty();
+    assertThat(query("owner:self project:{" + project.get() + "}")).isEmpty();
   }
 
   @Test

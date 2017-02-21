@@ -1,4 +1,56 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1487713479 -0500\nnonce AFJA6ocjA6mbj3mASXvTNp9V6KK5UNt/vVqYMR9yfz39rOwAiyFQaGUzEPXBxgyHofXQ1ZP0cazs\n\n0000000000000000000000000000000000000000 1f84949c8d4417954540533a74ef0c07c601c13b refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYrLTHAAoJEF/XxZqaEoiMxTMQAMNDxUbVE5wb5T0HWUTeuT5s\n3DR8+Dz47x8JjvctNfSkW8L2uXE+N9rKjoGufHuc6cdteDodq/4ix50g+ESgTI1i\nT+yh0xJIoo/UCPEQ6gpIjw8Bby5fOrHIk0hBNocCetCYjAb8KI/8KqcfbXTYTOCk\nK4pHJMWoj+tmuX2sTdEVuDhcS4glaaBSKuJBY/gbVnmxsFbd7AEVlLZWMYWmqC+r\nwyrc/1udsKllBbU0d0G968ewdRSzPo5k/0GAR5KAuSbsQBxF6z81mn3DBjuAoxAJ\n8qyAPDST6RBSe6IfZG9aAO/y+XAIh6isINx9xXfF1JXyPit3o7SM5FK+WdR29w4x\nwEDbhJWGn+iCFAwaLUuz1Bx2u9yLi9Uo+zvttfE7ZcvvNcMTeav9yV/vpeiLrVtp\nYdTt1LxGtdByvShicb5qkvPijY6MKgVtcRZS6dJVb4rc/nMIdwGm4HRXDtOMenED\nqJZA9GKWRmywbhmEnaTXxkkr8bXag42bX7P7C/I7dLfI26pxr15DGaZamtJJ7hyH\n+fRJRyuh4yVjd0+xTUg/7ePy+pnvskaSxXZLLQ4CJcQhhAUB5BxIeZ8xdrgzX74B\nxJToVDj/kw/xd8Ic/ts4jSAt4mB+rX5jDHF9LUtLs7HHlkdZ6+IBidVA3EnFHzDi\np1KHLnnYSLRV1hS7BlXs\n\u003d/i3E\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a8e99e5_282cd48c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T22:28:49Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65009a13_19857f6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T22:28:49Z",
+      "side": 1,
+      "message": ";)",
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cd9588c_51602f0f",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-21T22:28:49Z",
+      "side": 1,
+      "message": "I wonder, if we could advice a Gerrit site admin through different use cases. What I have in mind is:\n\n* 1. Start new Gerrit site today: How to do it with NoteDb.\n* 2. Offline migration of a site in one step with middle site size, say 1k users and 100 repositories. Offline time ca 1. hour.\n* 3 Offline migration of a site in multiple intemediate steps.\n* 4. Offline migration of huge size installaton, like OpenStack\n* 5. Online migration with pure open source gerrit stack, is that possible? What parts are missing?",
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

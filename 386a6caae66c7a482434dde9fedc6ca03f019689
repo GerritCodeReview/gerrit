@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1487691987 +0100\nnonce AFJA6odMWhLT3O/Tx3MQ2RFsf1d+B02v1PrcyJYQGzBIX8MEAfmoLU1K31HOdyQaIn7UJAFGKrnr\n\n0000000000000000000000000000000000000000 386a6caae66c7a482434dde9fedc6ca03f019689 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYrGDTAAoJEFG1/Zeg0O9RzRoIALFmcKZ9FOH+UhqgrwByPXvv\nMXMYqr8SLj0eQwf+GZ7zDh/RrEKA4tJnEc6NLhRR+DXSdbUg6W5f1GR7n+UFgTbv\ndpFRD0USdqFfXf7ppYkm9cGPRiRQZlM4EBJC6kmcPo9d2thJpUr4sILPLRcIXLVa\n5dUm4zhg/h1lz1IBnlQQcgxrDMj2r/uHJDUatX4+G4DdgNWzCa5BtUfqxswNXo6d\n2ChyRgMkIY+SSKh8mMdMv5HTxpmMOifgzo6pDa5WLvMhDdUn1f5zrl65r16ubVxJ\nues2eA8z8mqkj3UZzmtaGCnVc0y9wBr+0ad0U9C5oCwgRoR0yWUMHv4uZ5uRS/g\u003d\n\u003dMrfQ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b5d02e3_88220519",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-21T18:10:22Z",
+      "side": 1,
+      "message": "As \"is:private\" is supported here, it should be added to \"SearchSuggestOracle\" in this change.",
+      "range": {
+        "startLine": 564,
+        "startChar": 4,
+        "endLine": 566,
+        "endChar": 5
+      },
+      "revId": "386a6caae66c7a482434dde9fedc6ca03f019689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -407,6 +407,11 @@ public class RefControl {
     return canPerform(Permission.VIEW_DRAFTS);
   }
 
+  /** @return true if this user can view private changes. */
+  public boolean canViewPrivateChanges() {
+    return canPerform(Permission.VIEW_PRIVATE_CHANGES);
+  }
+
   /** @return true if this user can publish draft changes. */
   public boolean canPublishDrafts() {
     return canPerform(Permission.PUBLISH_DRAFTS);

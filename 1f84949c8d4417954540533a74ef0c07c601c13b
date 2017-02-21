@@ -37,6 +37,29 @@
     },
     {
       "key": {
+        "uuid": "3e1c4b98_5658dc11",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-21T23:47:37Z",
+      "side": 1,
+      "message": "Do we make any promise about preventing history rewrites on the notes refs?",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c565e7a5_48bd14d3",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 2

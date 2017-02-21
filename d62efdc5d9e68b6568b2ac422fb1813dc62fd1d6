@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2261fe66_e7c1c14d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/LfsPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-21T10:41:15Z",
+      "side": 1,
+      "message": "google formater churn, will remove that",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 63
+      },
+      "revId": "d62efdc5d9e68b6568b2ac422fb1813dc62fd1d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

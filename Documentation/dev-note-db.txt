@@ -1,0 +1,111 @@
+= Gerrit Code Review - NoteDb Backend
+
+NoteDb is the next generation of Gerrit storage backend, which replaces the
+traditional SQL backend for change and account metadata with storing data in the
+same repository as code changes.
+
+.Advantages
+- *Simplicity*: All data is stored in one location in the site directory, rather
+  than being split between the site directory and a possibly external database
+  server.
+- *Consistency*: Replication and backups can use a snapshot of the Git
+  repository refs, which will include both the branch and patch set refs, and
+  the change metadata that points to them.
+- *Auditability*: Rather than storing mutable rows in a database, modifications
+  to changes are stored as a sequence of Git commits, automatically preserving
+  history of the metadata. +
+  There are no strict guarantees, and meta refs may be rewritten, but the
+  default assumption is that all operations are logged.
+- *Extensibility*: Plugin developers can add new fields to metadata without the
+  core database schema having to know about them.
+- *New features*: Enables simple federation between Gerrit servers, as well as
+  offline code review and interoperation with other tools.
+
+== Current Status
+
+- Storing change metadata is fully implemented in master, and is live on the
+  servers behind `googlesource.com`. In other words, if you use
+  link:https://gerrit-review.googlesource.com/[gerrit-review], you're already
+  using NoteDb. +
+  Specifically, `gerrit-review` is running with `noteDb.changes.write=true`,
+  `noteDb.changes.read=true`, `noteDb.changes.primaryStorage=NOTE_DB`, and all
+  old changes have been migrated to NoteDb primary.
+- Storing some account data, e.g. user preferences, is implemented in releases
+  back to 2.13.
+- Storing the rest of account data is a work in progress.
+- Storing group data is a work in progress.
+
+For an example NoteDb change, poke around at this one:
+----
+  git fetch https://gerrit.googlesource.com/gerrit refs/changes/70/98070/meta \
+      && git log -p FETCH_HEAD
+----
+
+== Configuration
+
+Account and group data is migrated to NoteDb automatically using the normal
+schema upgrade process during updates. The remainder of this section details the
+configuration options that control migration of the change data, which is an
+ongoing process.
+
+Change migration state is configured in `gerrit.config` with options like
+`noteDb.changes.*`. These options are undocumented outside of this file, and the
+general approach has been to add one new option for each phase of the migration.
+Assume that each config option in the following list requires all of the
+previous options, unless otherwise noted.
+
+- `noteDb.changes.write=true`: During a ReviewDb write, the state of the change
+  in NoteDb is written to the `note_db_state` field in the `Change` entity.
+  After the ReviewDb write, this state is written into NoteDb, resulting in
+  effectively double the time for write operations. NoteDb write errors are
+  dropped on the floor, and no attempt is made to read from ReviewDb or correct
+  errors (without additional configuration, below). +
+  This state allows for a rolling update in a multi-master setting, where some
+  servers can start reading from NoteDb, but older servers are still reading
+  only from ReviewDb.
+- `noteDb.changes.read=true`: Change data is written
+  to and read from NoteDb, but ReviewDb is still the source of truth. During
+  reads, first read the change from ReviewDb, and compare its `note_db_state`
+  with what is in NoteDb. If it doesn't match, immediately "auto-rebuild" the
+  change, copying data from ReviewDb to NoteDb and returning the result.
+- `noteDb.changes.primaryStorage=NOTE_DB`: New changes are written only to
+  NoteDb, but changes whose primary storage is ReviewDb are still supported.
+  Continues to read from ReviewDb first as in the previous stage, but if the
+  change is not in ReviewDb, falls back to reading from NoteDb. +
+  Migration of existing changes is described in the link:#migration[Migration]
+  section below. +
+  Due to an implementation detail, writes to Changes or related tables still
+  result in write calls to the database layer, but they are inside a transaction
+  that is always rolled back.
+
+[[migration]]
+== Migration
+
+Once configuration options are set, migration to NoteDb is primarily
+accomplished by running the `rebuild-note-db` program. Currently, this program
+bulk copies ReviewDb data into NoteDb, but leaves primary storage of these
+changes in ReviewDb, so the site is runnable with
+`noteDb.changes.{write,read}=true`, but ReviewDb is still required.
+
+Eventually, `rebuild-note-db` will set primary storage to NoteDb for all
+changes by default, so a site will be able to stop using ReviewDb for changes
+immediately after a successful run.
+
+=== Zero-Downtime Multi-Master Migration
+
+Single-master Gerrit sites can use `rebuild-note-db` on an offline site to
+rebuild NoteDb, but this doesn't work in a zero-downtime environment like
+googlesource.com.
+
+Here, the migration process looks like:
+
+- Turn on `noteDb.changes.write=true` to start writing to NoteDb.
+- Run a parallel link:https://research.google.com/pubs/pub35650.html[FlumeJava]
+  pipeline to write NoteDb data for all changes, and update all `note_db_state`
+  fields. (Sorry, this implementation is entirely closed-source.)
+- Turn on `noteDb.changes.read=true` to start reading from NoteDb.
+- Turn on `noteDb.changes.primaryStorage=NOTE_DB` to start writing new changes
+  to NoteDb only.
+- Run a Flume to migrate all existing changes to NoteDb primary. (Also
+  closed-source, but basically just a wrapper around `PrimaryStorageMigrator`.)
+- Turn off access to ReviewDb changes tables.

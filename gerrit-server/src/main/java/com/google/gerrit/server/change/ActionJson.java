@@ -124,6 +124,7 @@ public class ActionJson {
     copy.mergeable = changeInfo.mergeable;
     copy.insertions = changeInfo.insertions;
     copy.deletions = changeInfo.deletions;
+    copy.isPrivate = changeInfo.isPrivate;
     copy.subject = changeInfo.subject;
     copy.status = changeInfo.status;
     copy.owner = changeInfo.owner;

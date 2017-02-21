@@ -304,7 +304,7 @@ public class ProjectControl {
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
     return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER))
-        || user.getCapabilities().canAdministrateServer();
+        || user.getCapabilities().isAdmin_DoNotUse();
   }
 
   private boolean isDeclaredOwner() {
@@ -317,7 +317,7 @@ public class ProjectControl {
 
   /** Does this user have ownership on at least one reference name? */
   public boolean isOwnerAnyRef() {
-    return canPerformOnAnyRef(Permission.OWNER) || user.getCapabilities().canAdministrateServer();
+    return canPerformOnAnyRef(Permission.OWNER) || user.getCapabilities().isAdmin_DoNotUse();
   }
 
   /** @return true if the user can upload to at least one reference */

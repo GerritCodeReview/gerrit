@@ -27,6 +27,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutHttpPassword.Input;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -57,20 +60,29 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
 
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
+  private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
 
   @Inject
   PutHttpPassword(
-      Provider<CurrentUser> self, Provider<ReviewDb> dbProvider, AccountCache accountCache) {
+      Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider,
+      PermissionBackend permissionBackend,
+      AccountCache accountCache) {
     this.self = self;
     this.dbProvider = dbProvider;
+    this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
   }
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException, OrmException,
-          IOException {
+          IOException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+    }
+
     if (input == null) {
       input = new Input();
     }
@@ -78,22 +90,12 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
 
     String newPassword;
     if (input.generate) {
-      if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-        throw new AuthException("not allowed to generate HTTP password");
-      }
       newPassword = generate();
-
     } else if (input.httpPassword == null) {
-      if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-        throw new AuthException("not allowed to clear HTTP password");
-      }
       newPassword = null;
     } else {
-      if (!self.get().getCapabilities().canAdministrateServer()) {
-        throw new AuthException(
-            "not allowed to set HTTP password directly, "
-                + "requires the Administrate Server permission");
-      }
+      // Only administrators can explicitly set the password.
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
       newPassword = input.httpPassword;
     }
     return apply(rsrc.getUser(), newPassword);

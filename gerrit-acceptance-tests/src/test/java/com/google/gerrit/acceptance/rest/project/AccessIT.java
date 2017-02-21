@@ -218,7 +218,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("not administrator");
+    exception.expectMessage("administrate server not permitted");
     gApi.projects().name(newProjectName).access(accessInput);
   }
 

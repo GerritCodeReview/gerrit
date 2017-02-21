@@ -17,12 +17,16 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource.Email;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -34,6 +38,7 @@ public class Emails
   private final DynamicMap<RestView<AccountResource.Email>> views;
   private final GetEmails list;
   private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
   private final CreateEmail.Factory createEmailFactory;
 
   @Inject
@@ -41,10 +46,12 @@ public class Emails
       DynamicMap<RestView<AccountResource.Email>> views,
       GetEmails list,
       Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
       CreateEmail.Factory createEmailFactory) {
     this.views = views;
     this.list = list;
     this.self = self;
+    this.permissionBackend = permissionBackend;
     this.createEmailFactory = createEmailFactory;
   }
 
@@ -55,21 +62,21 @@ public class Emails
 
   @Override
   public AccountResource.Email parse(AccountResource rsrc, IdString id)
-      throws ResourceNotFoundException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new ResourceNotFoundException();
+      throws ResourceNotFoundException, PermissionBackendException, AuthException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     if ("preferred".equals(id.get())) {
       String email = rsrc.getUser().getAccount().getPreferredEmail();
       if (Strings.isNullOrEmpty(email)) {
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(id);
       }
       return new AccountResource.Email(rsrc.getUser(), email);
     } else if (rsrc.getUser().hasEmailAddress(id.get())) {
       return new AccountResource.Email(rsrc.getUser(), id.get());
     } else {
-      throw new ResourceNotFoundException();
+      throw new ResourceNotFoundException(id);
     }
   }
 

@@ -356,7 +356,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   private List<AccountGroup> filterGroups(Collection<AccountGroup> groups) {
     List<AccountGroup> filteredGroups = new ArrayList<>(groups.size());
-    boolean isAdmin = identifiedUser.get().getCapabilities().canAdministrateServer();
     for (AccountGroup group : groups) {
       if (!Strings.isNullOrEmpty(matchSubstring)) {
         if (!group
@@ -372,13 +371,11 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       if (!groupsToInspect.isEmpty() && !groupsToInspect.contains(group.getGroupUUID())) {
         continue;
       }
-      if (!isAdmin) {
-        GroupControl c = groupControlFactory.controlFor(group);
-        if (!c.isVisible()) {
-          continue;
-        }
+
+      GroupControl c = groupControlFactory.controlFor(group);
+      if (c.isVisible()) {
+        filteredGroups.add(group);
       }
-      filteredGroups.add(group);
     }
     Collections.sort(filteredGroups, new GroupComparator());
     return filteredGroups;

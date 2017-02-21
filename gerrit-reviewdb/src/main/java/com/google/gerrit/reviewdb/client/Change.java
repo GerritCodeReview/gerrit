@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gwtorm.client.Column;
@@ -151,6 +152,17 @@ public final class Change {
         return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
       }
       return null;
+    }
+
+    public static Id fromPrivateRef(String ref) {
+      if (!ref.startsWith(REFS_USERS) || !ref.contains(RefNames.PRIVATE_CHANGE_DELIMITER)) {
+        return null;
+      }
+      Integer accountId = RefNames.parseShardedRefPart(ref.substring(REFS_USERS.length()));
+      int cs = REFS_USERS.length() + RefNames.shard(accountId).length() +
+          RefNames.PRIVATE_CHANGE_DELIMITER.length();
+      int ce = nextNonDigit(ref, cs);
+      return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));
     }
 
     public static Id fromAllUsersRef(String ref) {

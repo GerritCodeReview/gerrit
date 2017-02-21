@@ -55,6 +55,9 @@ public class RefNames {
   /** Sequence counters in NoteDb. */
   public static final String REFS_SEQUENCES = "refs/sequences/";
 
+  /** Delimiter to separate change and account id in refs/users/00/0001/changes/00/0001. */
+  public static final String PRIVATE_CHANGE_DELIMITER = "changes/";
+
   /**
    * Prefix applied to merge commit base nodes.
    *

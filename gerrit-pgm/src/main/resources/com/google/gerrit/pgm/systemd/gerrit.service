@@ -1,0 +1,19 @@
+[Unit]
+Description=Gerrit code review tool
+After=network.target
+
+[Service]
+User=gerrit2
+Group=gerrit2
+Type=simple
+PIDFile=/var/lib/gerrit2/review_site/logs/gerrit.pid
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=gerrit2
+EnvironmentFile=/etc/default/gerrit
+ExecStart=/var/lib/gerrit2/review_site/bin/gerrit.sh start
+ExecReload=/var/lib/gerrit2/review_site/bin/gerrit.sh reload
+ExecStop=/var/lib/gerrit2/review_site/bin/gerrit.sh stop
+
+[Install]
+WantedBy=multi-user.target

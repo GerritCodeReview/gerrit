@@ -81,6 +81,12 @@ limitations under the License.
     <g:Button ui:field='followUp' styleName='' visible='false'>
       <div><ui:msg>Follow-Up</ui:msg></div>
     </g:Button>
+    <g:Button ui:field='markPrivate' styleName='' visible='false'>
+      <div><ui:msg>Mark Private</ui:msg></div>
+    </g:Button>
+    <g:Button ui:field='unmarkPrivate' styleName='' visible='false'>
+      <div><ui:msg>Unmark Private</ui:msg></div>
+    </g:Button>
 
     <g:Button ui:field='submit' styleName='{style.submit}' visible='false'/>
   </g:FlowPanel>

@@ -482,8 +482,49 @@ followed by `topic=...`.
   $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
+[[private changes]]
+== Private changes
+
+Private changes are changes that are only visible to their owners and
+reviewers. Private changes are useful in a number of cases:
+
+* You want to check what the change looks before formal review starts.
+  By marking the change private without reviewers, nobody can't
+  prematurely comment on your changes.
+
+* You want to use Gerrit to sync data between different devices. By
+  creating a private throwaway change without reviewers, you can push
+  from one device, and fetch to another device.
+
+* You want to do code review on a change that has sensitive
+  aspects. By reviewing a security fix in a private change,
+  outsiders can't discover the fix before it is pushed out. Even after
+  merging the change, the review can be kept private.
+
+To create a private change, you push it with the `private` option.
+
+.Push a private change
+----
+  $ git commit
+  $ git push origin HEAD:refs/for/master%private
+----
+
+The change will remain private on subsequent pushes until you specify
+the `remove-private` option. Alternatively, the web UI provides buttons
+to mark a change private and non-private again.
+
+For CI systems that must verify private changes, a special permission
+can be granted
+(link:access-control.html#category_view_private_changes[View Private Changes]).
+In that case, care should be taken to prevent the CI system from
+exposing secret details.
+
+
 [[drafts]]
 == Working with Drafts
+
+Drafts is a deprecated feature and will be removed soon. Consider using
+private changes instead.
 
 Changes can be uploaded as drafts. By default draft changes are only
 visible to the change owner. This gives you the possibility to have

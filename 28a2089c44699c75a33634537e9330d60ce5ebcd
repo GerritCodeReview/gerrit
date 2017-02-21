@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "485ddcbe_5d61098f",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-21T23:00:01Z",
+      "side": 1,
+      "message": "I\u0027m using approximately with a tolerance of 5, mostly because I want to avoid roundoff weirdness between browsers. Let me know if we don\u0027t like this approach.",
+      "range": {
+        "startLine": 80,
+        "startChar": 13,
+        "endLine": 80,
+        "endChar": 26
+      },
+      "revId": "28a2089c44699c75a33634537e9330d60ce5ebcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

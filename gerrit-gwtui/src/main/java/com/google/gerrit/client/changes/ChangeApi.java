@@ -121,6 +121,14 @@ public class ChangeApi {
     change(id).view("assignee").put(input, cb);
   }
 
+  public static void markPrivate(int id, AsyncCallback<JavaScriptObject> cb) {
+    change(id).view("private").put(cb);
+  }
+
+  public static void unmarkPrivate(int id, AsyncCallback<JavaScriptObject> cb) {
+    change(id).view("private").delete(cb);
+  }
+
   public static RestApi comments(int id) {
     return call(id, "comments");
   }

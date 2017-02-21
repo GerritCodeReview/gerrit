@@ -2107,6 +2107,70 @@ Only the change owner, a project owner, or an administrator may fix changes.
   }
 ----
 
+[[get-private]]
+=== Get Private
+--
+'GET /changes/link:#change-id[\{change-id\}]/private'
+--
+
+Checks if a change is private.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+----
+
+If the change is private the string `ok` is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+
+  ok
+----
+
+If the change isn't private the response is "`204 No Content`".
+
+[[mark-private]]
+=== Mark Private
+--
+'PUT /changes/link:#change-id[\{change-id\}]/private'
+--
+
+Mark the change as private. Note users can only set the private flag for their own changes.
+
+.Request
+----
+  Set /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the change was already private the response is "`200 OK`".
+
+[[unmark-private]]
+=== Unmark Private
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/private'
+--
+
+Mark the change as not private. Note users can only set the private flag for their own changes.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/private HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If the change was already marked as not private, the response is "`200 OK`".
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 

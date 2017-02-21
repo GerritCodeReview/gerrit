@@ -37,9 +37,17 @@ public class ChangeActions {
     ChangeApi.deleteChange(id.get(), mine(draftButtons));
   }
 
+  static void markPrivate(Change.Id id, Button... buttons) {
+    ChangeApi.markPrivate(id.get(), cs(id, buttons));
+  }
+
+  static void unmarkPrivate(Change.Id id, Button... buttons) {
+    ChangeApi.unmarkPrivate(id.get(), cs(id, buttons));
+  }
+
   public static GerritCallback<JavaScriptObject> cs(
-      final Change.Id id, final Button... draftButtons) {
-    setEnabled(false, draftButtons);
+      final Change.Id id, final Button... buttons) {
+    setEnabled(false, buttons);
     return new GerritCallback<JavaScriptObject>() {
       @Override
       public void onSuccess(JavaScriptObject result) {
@@ -48,7 +56,7 @@ public class ChangeActions {
 
       @Override
       public void onFailure(Throwable err) {
-        setEnabled(true, draftButtons);
+        setEnabled(true, buttons);
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();
           Gerrit.display(PageLinks.toChange(id));

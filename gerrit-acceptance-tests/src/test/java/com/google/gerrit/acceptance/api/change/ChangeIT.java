@@ -177,6 +177,9 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void privateStatus() throws Exception {}
+
+  @Test
   public void getAmbiguous() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();

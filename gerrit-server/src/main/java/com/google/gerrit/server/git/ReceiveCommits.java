@@ -106,6 +106,8 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -289,6 +291,7 @@ public class ReceiveCommits {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
   private final AccountResolver accountResolver;
+  private final PermissionBackend permissionBackend;
   private final CmdLineParser.Factory optionParserFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -354,6 +357,7 @@ public class ReceiveCommits {
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
       AccountResolver accountResolver,
+      PermissionBackend permissionBackend,
       CmdLineParser.Factory optionParserFactory,
       GitReferenceUpdated gitRefUpdated,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -393,6 +397,7 @@ public class ReceiveCommits {
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
     this.accountResolver = accountResolver;
+    this.permissionBackend = permissionBackend;
     this.optionParserFactory = optionParserFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -1037,10 +1042,13 @@ public class ReceiveCommits {
                   continue;
                 }
               } else {
-                if (!oldParent.equals(newParent)
-                    && !user.getCapabilities().canAdministrateServer()) {
-                  reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
-                  continue;
+                if (!oldParent.equals(newParent)) {
+                  try {
+                    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+                  } catch (AuthException e) {
+                    reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
+                    continue;
+                  }
                 }
 
                 if (projectCache.get(newParent) == null) {

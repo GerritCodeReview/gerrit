@@ -25,6 +25,9 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.PutUsername.Input;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,6 +42,7 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
 
   private final Provider<CurrentUser> self;
   private final ChangeUserName.Factory changeUserNameFactory;
+  private final PermissionBackend permissionBackend;
   private final Realm realm;
   private final Provider<ReviewDb> db;
 
@@ -46,10 +50,12 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
   PutUsername(
       Provider<CurrentUser> self,
       ChangeUserName.Factory changeUserNameFactory,
+      PermissionBackend permissionBackend,
       Realm realm,
       Provider<ReviewDb> db) {
     this.self = self;
     this.changeUserNameFactory = changeUserNameFactory;
+    this.permissionBackend = permissionBackend;
     this.realm = realm;
     this.db = db;
   }
@@ -57,9 +63,9 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
   @Override
   public String apply(AccountResource rsrc, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
-          ResourceConflictException, OrmException, IOException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not allowed to set username");
+          ResourceConflictException, OrmException, IOException, PermissionBackendException {
+    if (self.get() != rsrc.getUser()) {
+      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)) {

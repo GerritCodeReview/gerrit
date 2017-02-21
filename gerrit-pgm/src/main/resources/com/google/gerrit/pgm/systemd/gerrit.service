@@ -1,0 +1,27 @@
+[Unit]
+Description=Gerrit code review tool
+After=network.target
+
+[Service]
+# Replace this with the user being run as
+# in gerrit.
+User=gerrit2
+Group=gerrit2
+Type=simple
+# Replace this with your path to your
+# gerrit install path to pid.
+PIDFile=/var/lib/gerrit2/review_site/logs/gerrit.pid
+StandardOutput=syslog
+StandardError=syslog
+# Replace this with the user being run as
+# in gerrit.
+SyslogIdentifier=gerrit2
+EnvironmentFile=/etc/default/gerrit
+# Replace this with your path to your
+# gerrit install gerrit.sh file.
+ExecStart=/var/lib/gerrit2/review_site/bin/gerrit.sh start
+ExecReload=/var/lib/gerrit2/review_site/bin/gerrit.sh reload
+ExecStop=/var/lib/gerrit2/review_site/bin/gerrit.sh stop
+
+[Install]
+WantedBy=multi-user.target

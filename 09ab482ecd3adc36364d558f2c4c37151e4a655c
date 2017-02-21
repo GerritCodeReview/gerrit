@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2b3385e_a810243b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-21T15:35:47Z",
+      "side": 1,
+      "message": "We don\u0027t necessarily have to extract the account ID, but could also check for indexOf(\"changes/\"). However this might be the cleaner way (with an additional null check).",
+      "range": {
+        "startLine": 161,
+        "startChar": 14,
+        "endLine": 161,
+        "endChar": 23
+      },
+      "revId": "09ab482ecd3adc36364d558f2c4c37151e4a655c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84a954a9_ea0ba5d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-21T19:00:58Z",
+      "side": 1,
+      "message": "For future reference, we like to use change IDs to reference past changes. They get auto-linkified by the UI and can also be followed by contributors who just use git log. This is mostly a nit, but good to know for the future :)\n\nI97c6aeb47db48f56f94c5d184dfa36c8d7868cc8 is the ID for the referenced change.",
+      "revId": "5e0cdeb1d2eced0d7e7a65f046623aea93ce350e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

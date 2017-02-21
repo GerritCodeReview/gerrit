@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70390147_49a9c1f4",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-21T23:57:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to get updated when I expand [Show 5 more].",
+      "range": {
+        "startLine": 78,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 94
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfa80e26_0b91caed",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-21T23:57:36Z",
+      "side": 1,
+      "message": "This is still kind of confusing to me. The name doesn\u0027t distinguish the purpose of this property from that of `messages` or `_visibleMessages`. Furthermore, both \"computed\" and \"list\" are slightly redundant to the property definition.",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 27
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "860abb6a_e677421d",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-21T23:57:36Z",
+      "side": 1,
+      "message": "What is this used for?",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af1362f9_ff4abdf0",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-21T23:57:36Z",
+      "side": 1,
+      "message": "Taking the min of the increment with the delta looks like it\u0027s redundant to the way `_getDelta` works. `_getDelta` can\u0027t return a value larger than `MESSAGES_INCREMENT`, can it?",
+      "range": {
+        "startLine": 238,
+        "startChar": 23,
+        "endLine": 238,
+        "endChar": 58
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8b07fb5_4345345a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-21T23:57:36Z",
+      "side": 1,
+      "message": "Does this return truthy iff there is at least one automated message in the hidden segment fo the message list?\n\nIf so, it can use a for loop to quickly return when it finds such a message, rather than looping over the entire list:\n\nvar hiddenMessages \u003d messages.slice(0, messages.length - numVisible);\nfor (var i \u003d 0; i \u003c hiddenMessages.length; i++) {\n  if (this._isAutomated(hiddenMessages[i])) {\n    return true;\n  }\n}\nreturn false;",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 247,
+        "endChar": 18
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f881d3fb_dc6e558f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-21T23:57:36Z",
+      "side": 1,
+      "message": "Consider doing this with a single splice. Potentially this would allow Polymer to be more efficient with its DOM ops.\n\n this.splice.apply(this,\n     [\u0027_visibleMessages\u0027, newMessages.length - 1, 0]\n     .concat(newMessages));",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 7
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

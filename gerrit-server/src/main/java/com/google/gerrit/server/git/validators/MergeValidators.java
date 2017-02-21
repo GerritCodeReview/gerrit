@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -29,6 +30,9 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -36,8 +40,12 @@ import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MergeValidators {
+  private static final Logger log = LoggerFactory.getLogger(MergeValidators.class);
+
   private final DynamicSet<MergeValidationListener> mergeValidationListeners;
   private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
 
@@ -93,6 +101,7 @@ public class MergeValidators {
 
     private final AllProjectsName allProjectsName;
     private final ProjectCache projectCache;
+    private final PermissionBackend permissionBackend;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
 
     public interface Factory {
@@ -103,9 +112,11 @@ public class MergeValidators {
     public ProjectConfigValidator(
         AllProjectsName allProjectsName,
         ProjectCache projectCache,
+        PermissionBackend permissionBackend,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
       this.allProjectsName = allProjectsName;
       this.projectCache = projectCache;
+      this.permissionBackend = permissionBackend;
       this.pluginConfigEntries = pluginConfigEntries;
     }
 
@@ -132,8 +143,13 @@ public class MergeValidators {
             }
           } else {
             if (!oldParent.equals(newParent)) {
-              if (!caller.getCapabilities().canAdministrateServer()) {
+              try {
+                permissionBackend.user(caller).check(GlobalPermission.ADMINISTRATE_SERVER);
+              } catch (AuthException e) {
                 throw new MergeValidationException(SET_BY_ADMIN);
+              } catch (PermissionBackendException e) {
+                log.warn("Cannot check ADMINISTRATE_SERVER", e);
+                throw new MergeValidationException("validation unavailable");
               }
 
               if (projectCache.get(newParent) == null) {

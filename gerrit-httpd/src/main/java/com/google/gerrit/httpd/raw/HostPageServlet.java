@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -220,7 +221,7 @@ public class HostPageServlet extends HttpServlet {
   private DiffPreferencesInfo getDiffPreferences(IdentifiedUser user) {
     try {
       return getDiff.apply(new AccountResource(user));
-    } catch (AuthException | ConfigInvalidException | IOException e) {
+    } catch (AuthException | ConfigInvalidException | IOException | PermissionBackendException e) {
       log.warn("Cannot query account diff preferences", e);
     }
     return DiffPreferencesInfo.defaults();

@@ -36,6 +36,7 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefPattern;
@@ -95,7 +96,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   public final T call()
       throws NoSuchProjectException, IOException, ConfigInvalidException, InvalidNameException,
           NoSuchGroupException, OrmException, UpdateParentFailedException,
-          PermissionDeniedException {
+          PermissionDeniedException, PermissionBackendException {
     final ProjectControl projectControl = projectControlFactory.controlFor(projectName);
 
     Capable r = projectControl.canPushToAtLeastOneRef();

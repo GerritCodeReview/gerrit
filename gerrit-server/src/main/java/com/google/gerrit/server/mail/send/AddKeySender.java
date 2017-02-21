@@ -17,9 +17,13 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.base.Joiner;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.List;
@@ -31,6 +35,7 @@ public class AddKeySender extends OutgoingEmail {
     AddKeySender create(IdentifiedUser user, List<String> gpgKey);
   }
 
+  private final PermissionBackend permissionBackend;
   private final IdentifiedUser callingUser;
   private final IdentifiedUser user;
   private final AccountSshKey sshKey;
@@ -39,10 +44,12 @@ public class AddKeySender extends OutgoingEmail {
   @AssistedInject
   public AddKeySender(
       EmailArguments ea,
+      PermissionBackend permissionBackend,
       IdentifiedUser callingUser,
       @Assisted IdentifiedUser user,
       @Assisted AccountSshKey sshKey) {
     super(ea, "addkey");
+    this.permissionBackend = permissionBackend;
     this.callingUser = callingUser;
     this.user = user;
     this.sshKey = sshKey;
@@ -52,10 +59,12 @@ public class AddKeySender extends OutgoingEmail {
   @AssistedInject
   public AddKeySender(
       EmailArguments ea,
+      PermissionBackend permissionBackend,
       IdentifiedUser callingUser,
       @Assisted IdentifiedUser user,
       @Assisted List<String> gpgKeys) {
     super(ea, "addkey");
+    this.permissionBackend = permissionBackend;
     this.callingUser = callingUser;
     this.user = user;
     this.sshKey = null;
@@ -71,12 +80,25 @@ public class AddKeySender extends OutgoingEmail {
 
   @Override
   protected boolean shouldSendMessage() {
-    /*
-     * Don't send an email if no keys are added, or an admin is adding a key to
-     * a user.
-     */
-    return (sshKey != null || gpgKeys.size() > 0)
-        && (user.equals(callingUser) || !callingUser.getCapabilities().canAdministrateServer());
+    if (sshKey == null && (gpgKeys == null || gpgKeys.isEmpty())) {
+      // Don't email if no keys were added.
+      return false;
+    }
+
+    if (user.equals(callingUser)) {
+      // Send email if the user self-added a key; this notification is necessary to alert
+      // the user if their account was compromised and a key was unexpectedly added.
+      return true;
+    }
+
+    try {
+      // Don't email if an administrator added a key on behalf of the user.
+      permissionBackend.user(callingUser).check(GlobalPermission.ADMINISTRATE_SERVER);
+      return false;
+    } catch (AuthException | PermissionBackendException e) {
+      // Send email if a non-administrator modified the keys, e.g. by MODIFY_ACCOUNT.
+      return true;
+    }
   }
 
   @Override

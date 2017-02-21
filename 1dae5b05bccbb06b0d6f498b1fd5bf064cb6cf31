@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a706ac88_802dedec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T14:11:36Z",
+      "side": 1,
+      "message": "Should this rather result in the same value if m was false?",
+      "range": {
+        "startLine": 610,
+        "startChar": 10,
+        "endLine": 612,
+        "endChar": 11
+      },
+      "revId": "1dae5b05bccbb06b0d6f498b1fd5bf064cb6cf31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73aea8c5_49276d03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-21T14:11:36Z",
+      "side": 1,
+      "message": "Those should not be needed.\n\nYou don\u0027t need the setter since you are not decoding the private bit from the index field and then set it in change data, as the private bit is part of the change proto and the for setting the change we already have the setChange(...) method.\n\nTo get the private bit you would just do:\n\n  changeData.change().isPrivate()",
+      "range": {
+        "startLine": 1105,
+        "startChar": 2,
+        "endLine": 1111,
+        "endChar": 3
+      },
+      "revId": "1dae5b05bccbb06b0d6f498b1fd5bf064cb6cf31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b432fb1d_99f9dfcb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/BooleanPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T09:34:30Z",
+      "side": 1,
+      "message": "unneeded semicolon, this results in warning in Eclipse",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 44,
+        "endChar": 4
+      },
+      "revId": "386a6caae66c7a482434dde9fedc6ca03f019689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b5d02e3_88220519",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 9

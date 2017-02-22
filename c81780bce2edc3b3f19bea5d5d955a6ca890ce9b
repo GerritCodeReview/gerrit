@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "355f6936_6a12b5eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T00:26:30Z",
+      "side": 1,
+      "message": "Nit: nested ifs of this kind can be merged with an \u0026\u0026\n\nif (action.__key \u003d\u003d\u003d \u0027rebase\u0027 \u0026\u0026 !hasKnownChainState) {\n  return true;\n}\n\nShould this block the change? No.",
+      "range": {
+        "startLine": 511,
+        "startChar": 6,
+        "endLine": 515,
+        "endChar": 7
+      },
+      "revId": "c81780bce2edc3b3f19bea5d5d955a6ca890ce9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

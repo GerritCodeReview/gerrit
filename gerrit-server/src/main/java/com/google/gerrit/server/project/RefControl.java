@@ -398,7 +398,7 @@ public class RefControl {
   }
 
   /** @return true if this user can remove a reviewer for a change. */
-  public boolean canRemoveReviewer() {
+  boolean canRemoveReviewer() {
     return canPerform(Permission.REMOVE_REVIEWER);
   }
 

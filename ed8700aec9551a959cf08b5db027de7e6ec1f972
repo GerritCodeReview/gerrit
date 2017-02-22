@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "e61d846e_b4fd283a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T07:33:53Z",
+      "side": 1,
+      "message": "That\u0027s the only place that needs it, and existing usages of BatchUpdate in ReceiveCommits already call addOp directly:\n\n gerrit $ git grep bu.addOp | grep ReceiveCommits | wc -l\n      11",
+      "parentUuid": "7d6b7d5b_6eaa98b1",
+      "range": {
+        "startLine": 661,
+        "startChar": 21,
+        "endLine": 661,
+        "endChar": 44
+      },
+      "revId": "ed8700aec9551a959cf08b5db027de7e6ec1f972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "999e6888_aa1444b7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2

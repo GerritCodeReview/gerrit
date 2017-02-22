@@ -226,6 +226,24 @@ To ignore cached test results:
   bazel test --cache_test_results=NO //...
 ----
 
+To run one or more specific groups of tests:
+
+----
+  bazel test --test_tag_filters=api,git //..
+----
+
+The following values are currently supported for the group name:
+
+* annotation
+* api
+* edit
+* git
+* notedb
+* pgm
+* rest
+* server
+* ssh
+
 == Dependencies
 
 Dependency JARs are normally downloaded as needed, but you can

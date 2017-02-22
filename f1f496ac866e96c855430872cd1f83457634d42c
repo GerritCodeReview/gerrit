@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a915b428_7ea67f23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T10:22:26Z",
+      "side": 1,
+      "message": "This check is now twice: here and in DeleteChangeOp#ensureDeletable(). Is it still needed in ensureDeletable because it\u0027s not checked in DeleteDraftPatchSet#apply()? Can this be fixed, and the check removed from DeleteChangeOp#ensureDeletable()?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "f1f496ac866e96c855430872cd1f83457634d42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3939eaf7_e4fbb196",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T10:22:26Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be just:\n\n  return permissionBackend.user(user).testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);\n\nI added this comment in the corresponding change where, this test method was added to ForUser class.",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 9
+      },
+      "revId": "f1f496ac866e96c855430872cd1f83457634d42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

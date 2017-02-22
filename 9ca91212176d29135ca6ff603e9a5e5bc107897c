@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a92b31d2_c06d36c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T19:10:58Z",
+      "side": 1,
+      "message": "Oh, that\u0027s surprising. I expected it to be the number of messages that have been collapsed -- similar to the collapsed sections of the diff.",
+      "parentUuid": "152eabbf_0b01e596",
+      "range": {
+        "startLine": 78,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 94
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfa80e26_0b91caed",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9
@@ -89,6 +113,53 @@
         "startChar": 6,
         "endLine": 48,
         "endChar": 27
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f7ce61_64e5e05d",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T19:10:58Z",
+      "side": 1,
+      "message": "Thanks for explaining. You\u0027re right, naming it is tricky. Maybe what would be more helpful than the name is a JSDoc that shows what you explained. Like ...\n\n/**\n * The messages after processing and including merged reviewer updates.\n */\n\nWhat about names like...\n\n* _processedMessages\n* _formattedMessages\n* _mergedMessages\n* _messages",
+      "parentUuid": "829a26af_1631cebb",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 27
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e5de3eb_5b27b127",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T19:10:58Z",
+      "side": 1,
+      "message": "Nit: It feels weird to have both a `computed` and an `observer` on the same property. Can this be converted to be an observer defined as a `computed` on `_numAutomated` for consistency?",
+      "range": {
+        "startLine": 50,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 49
       },
       "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -178,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "778f050e_59fa4a71",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T19:10:58Z",
+      "side": 1,
+      "message": "If `hideAutomated` is false it will loop a max of 5 times. Even so, it could just add a short-circuit in this case.\n\nvar numHidden \u003d messages.length - numVisible;\nif (!hideAutomated) {\n  return Math.min(MESSAGES_INCREMENT, numHidden);\n}\n\nvar counter \u003d 0;\nvar i \u003d numHidden;\nwhile (i \u003c messages.length \u0026\u0026 counter \u003c MESSAGES_INCREMENT) {\n  i++;\n  if (this._isAutomated(messages[i])) { continue; }\n  counter++;\n}\nreturn i - numHidden;\n\nNot necessary, though.",
+      "parentUuid": "b6e25aff_bed6a004",
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af1362f9_ff4abdf0",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9
@@ -213,6 +302,30 @@
       "side": 1,
       "message": "Yes, it can. _getDelta is responsible for the \u0027pipe moving\u0027 concept we discussed earlier, and will return a value \u003e 5 when hideAutomated is true and there are five non-automated messages still hidden that have automated messages between them.\n\nClearly this logic is pretty complicated, I\u0027ll add JSDocs to all of these functions in the next patchset.",
       "parentUuid": "af1362f9_ff4abdf0",
+      "range": {
+        "startLine": 238,
+        "startChar": 23,
+        "endLine": 238,
+        "endChar": 58
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e137b7b_a86d05ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T19:10:58Z",
+      "side": 1,
+      "message": "That makes sense. Thanks for explaining.",
+      "parentUuid": "112ae4eb_fabe72ea",
       "range": {
         "startLine": 238,
         "startChar": 23,

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1487764556 +0100\nnonce AFJA6odsd7a5BLW6dQUUCAEUC6HskA6HJvHyIUm4suIeyNr6oiZpMEsXmju7pbMiFuxPLCV+M2aP\n\n0000000000000000000000000000000000000000 81fb36c85b152b93be1641aa4c6354307bb79b9a refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYrXxMAAoJEFG1/Zeg0O9RfnMH/jELFXFyfp32ZcD2XtLKmPoU\nmwQnL/pg6upV/ibfaahJLQBgUSunUR1fVQhgFkiBth/E1hGP2GCc9ayJ2atZAwU2\nJtsyUKfLM9X1M2Zc7VZVsllZSUD0pVCuScANstJeS24wyan9arBqrNZCHrXn5B+3\ngaYkEht2pwfPK3O0cI+CvYpcb32e1sRDXeUit3GwKKcX2Fo9KSNSJOunXNbPl5fH\na9MAX3rwdP8QdWY3ab+OHCvxRxYKsCFp27J309SA7rV/iTVQ4pUoh4/aR5R/T3SW\nWRRqM1ygyavHAYX18xZIX7W5G4U9ZWK1i790RS4GecurLbfRV3OyXyklUISjBdA\u003d\n\u003d1SGB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "07189c44_272de665",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-22T17:03:53Z",
+      "side": 1,
+      "message": "Nit: i\u0027d skip checking the actual message. The precise wording isn\u0027t an API contract, and if anyone changes it, the test breaks for no good reason.",
+      "range": {
+        "startLine": 406,
+        "startChar": 6,
+        "endLine": 406,
+        "endChar": 23
+      },
+      "revId": "81fb36c85b152b93be1641aa4c6354307bb79b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

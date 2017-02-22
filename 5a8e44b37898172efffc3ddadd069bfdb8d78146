@@ -199,6 +199,30 @@
       "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfe380af_b43fe3f5",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T17:25:24Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/98190",
+      "parentUuid": "931a5b49_8ab531f5",
+      "range": {
+        "startLine": 48,
+        "startChar": 63,
+        "endLine": 49,
+        "endChar": 15
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

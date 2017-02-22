@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d593a618_087b76de",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-22T01:26:05Z",
+      "side": 0,
+      "message": "Oh, but it is still stuck at 5.22.0.",
+      "parentUuid": "b7465304_b371b71d",
+      "range": {
+        "startLine": 863,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 1
+      },
+      "revId": "db30d31e1363138885e4ba282f9bedad0e9b6205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3022132a_cad790e2",
         "filename": "WORKSPACE",
         "patchSetId": 4
@@ -60,6 +84,30 @@
       "writtenOn": "2017-02-22T00:42:57Z",
       "side": 0,
       "message": "This should not be removed; it\u0027s needed for the release build.",
+      "range": {
+        "startLine": 863,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 1
+      },
+      "revId": "db30d31e1363138885e4ba282f9bedad0e9b6205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87c2f858_22e5b8ec",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-22T01:26:05Z",
+      "side": 0,
+      "message": "oh but this is still stuck at 5.22.0",
+      "parentUuid": "3022132a_cad790e2",
       "range": {
         "startLine": 863,
         "startChar": 0,

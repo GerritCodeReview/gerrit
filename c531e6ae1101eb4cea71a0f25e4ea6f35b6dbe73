@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff1d3afd_ec6cafbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-02-22T06:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43c3d0f2_b463cfd4",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "c531e6ae1101eb4cea71a0f25e4ea6f35b6dbe73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "270992bd_3d92543e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "0ae0504d_eeaade40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-02-22T06:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f16c80b2_d4311572",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "c531e6ae1101eb4cea71a0f25e4ea6f35b6dbe73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae667bd0_ef693ac4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-02-22T06:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "270992bd_3d92543e",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "c531e6ae1101eb4cea71a0f25e4ea6f35b6dbe73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6138b048_db8e9289",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "3ac1b961_0d49f022",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-02-22T06:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6138b048_db8e9289",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "c531e6ae1101eb4cea71a0f25e4ea6f35b6dbe73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8c08a69_26812eb1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "db617758_82933e4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-02-22T06:35:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c08a69_26812eb1",
+      "revId": "c531e6ae1101eb4cea71a0f25e4ea6f35b6dbe73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ad6e9be_be464470",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
         "patchSetId": 8
@@ -125,6 +239,24 @@
       "revId": "c531e6ae1101eb4cea71a0f25e4ea6f35b6dbe73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fdfa418_62df9758",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModules.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-02-22T06:35:41Z",
+      "side": 1,
+      "message": "yea, it\u0027s better go in its own commit.",
+      "parentUuid": "8ad6e9be_be464470",
+      "revId": "c531e6ae1101eb4cea71a0f25e4ea6f35b6dbe73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

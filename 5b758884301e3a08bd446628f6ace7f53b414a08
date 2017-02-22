@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "888d5018_a29429b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T12:20:25Z",
+      "side": 1,
+      "message": "better call this \u0027private flag\u0027?",
+      "range": {
+        "startLine": 54,
+        "startChar": 54,
+        "endLine": 54,
+        "endChar": 67
+      },
+      "revId": "5b758884301e3a08bd446628f6ace7f53b414a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

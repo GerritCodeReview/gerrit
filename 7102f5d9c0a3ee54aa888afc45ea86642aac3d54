@@ -16,6 +16,24 @@
       "revId": "7102f5d9c0a3ee54aa888afc45ea86642aac3d54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc081feb_36407234",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T23:11:33Z",
+      "side": 1,
+      "message": "Good point. I was being sort of lazy with this. The former code positions tooltips vertically in a way that breaks if the tooltip contents need to be wrapped. The tooltips wrap in this case since they\u0027re so close to the right side of the viewport.\n\nI\u0027ve updated the vertical positioning to use a transform instead of computing the offset in JS.",
+      "parentUuid": "b97668b0_e424c351",
+      "revId": "7102f5d9c0a3ee54aa888afc45ea86642aac3d54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

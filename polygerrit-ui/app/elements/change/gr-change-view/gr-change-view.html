@@ -391,7 +391,8 @@ limitations under the License.
                 on-change="_handlePatchChange">
               <template is="dom-repeat" items="[[_allPatchSets]]"
                   as="patchNum">
-                <option value$="[[patchNum.num]]">
+                <option value$="[[patchNum.num]]"
+                    disabled$="[[_computePatchSetDisabled(patchNum.num, _patchRange.basePatchNum)]]">
                   [[patchNum.num]]
                   /
                   [[_computeLatestPatchNum(_allPatchSets)]]
@@ -429,7 +430,7 @@ limitations under the License.
         <gr-file-list id="fileList"
             change="[[_change]]"
             change-num="[[_changeNum]]"
-            patch-range="[[_patchRange]]"
+            patch-range="{{_patchRange}}"
             comments="[[_comments]]"
             drafts="[[_diffDrafts]]"
             revisions="[[_change.revisions]]"

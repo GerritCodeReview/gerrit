@@ -151,6 +151,19 @@ limitations under the License.
           'Add a patch set description');
     });
 
+    test('_computePatchSetDisabled', function() {
+      var basePatchNum = 'PARENT';
+      var patchNum = 1;
+      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
+          false);
+      basePatchNum = 1;
+      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
+          true);
+      patchNum = 2;
+      assert.equal(element._computePatchSetDisabled(patchNum, basePatchNum),
+          false);
+    });
+
     test('_prepareCommitMsgForLinkify', function() {
       var commitMessage = 'R=test@google.com';
       var result = element._prepareCommitMsgForLinkify(commitMessage);

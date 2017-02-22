@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee6b26ee_9eb0f9f8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-22T17:23:24Z",
+      "side": 1,
+      "message": "inline?",
+      "range": {
+        "startLine": 217,
+        "startChar": 15,
+        "endLine": 217,
+        "endChar": 34
+      },
+      "revId": "9cab97d4f8a4d4904990651483517c102c7dbea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "314498d5_ffbb0765",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-22T17:23:24Z",
+      "side": 1,
+      "message": "didn\u0027t we decide to drop this? the whole function can go, no?",
+      "range": {
+        "startLine": 158,
+        "startChar": 55,
+        "endLine": 158,
+        "endChar": 63
+      },
+      "revId": "9cab97d4f8a4d4904990651483517c102c7dbea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e7c6048_a09b705a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-22T17:23:24Z",
+      "side": 1,
+      "message": "drop.",
+      "range": {
+        "startLine": 58,
+        "startChar": 19,
+        "endLine": 58,
+        "endChar": 27
+      },
+      "revId": "9cab97d4f8a4d4904990651483517c102c7dbea9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

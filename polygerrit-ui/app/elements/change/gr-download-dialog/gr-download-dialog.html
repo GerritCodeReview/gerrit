@@ -49,8 +49,6 @@ limitations under the License.
       input {
         font-family: var(--monospace-font-family);
         font-size: inherit;
-        margin-bottom: .5em;
-        width: 60em;
       }
       li[selected] gr-button {
         color: #000;
@@ -70,6 +68,19 @@ limitations under the License.
         display: flex;
         justify-content: space-between;
         padding-top: .75em;
+      }
+      .command {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: .5em;
+        width: 60em;
+      }
+      .command label {
+        flex: 0 0 100%;
+      }
+      .copyCommand {
+        flex-grow: 1;
+        margin-right: .3em;
       }
       .closeButtonContainer {
         display: flex;
@@ -112,10 +123,14 @@ limitations under the License.
         <div class="command">
           <label>[[command.title]]</label>
           <input is="iron-input"
+              class="copyCommand"
               type="text"
               bind-value="[[command.command]]"
               on-tap="_handleInputTap"
               readonly>
+          <gr-button class="copyToClipboard" on-tap="_copyToClipboard">
+            copy
+          </gr-button>
         </div>
       </template>
     </main>

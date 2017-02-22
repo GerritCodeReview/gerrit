@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9635750_5205474d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T12:12:11Z",
+      "side": 1,
+      "message": "Add tests for this method in ChangeTest.",
+      "revId": "d5cebee435bef2b5c2c75c7993e3cbf03c7f604f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7000093a_c42453c4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T12:12:11Z",
+      "side": 1,
+      "message": "Use a realistic account ID like \u00271000000\u0027",
+      "range": {
+        "startLine": 58,
+        "startChar": 67,
+        "endLine": 58,
+        "endChar": 71
+      },
+      "revId": "d5cebee435bef2b5c2c75c7993e3cbf03c7f604f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0da13287_a59a3a77",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T12:12:11Z",
+      "side": 1,
+      "message": "The change ID should\u0027n be sharded here, should it?",
+      "range": {
+        "startLine": 58,
+        "startChar": 80,
+        "endLine": 58,
+        "endChar": 87
+      },
+      "revId": "d5cebee435bef2b5c2c75c7993e3cbf03c7f604f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "483bce04_223806bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T12:12:11Z",
+      "side": 1,
+      "message": "why is this needed?",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 39
+      },
+      "revId": "d5cebee435bef2b5c2c75c7993e3cbf03c7f604f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be2e9054_e3dd5705",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T12:12:11Z",
+      "side": 1,
+      "message": "Factor this out into an own method?",
+      "range": {
+        "startLine": 161,
+        "startChar": 3,
+        "endLine": 174,
+        "endChar": 5
+      },
+      "revId": "d5cebee435bef2b5c2c75c7993e3cbf03c7f604f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

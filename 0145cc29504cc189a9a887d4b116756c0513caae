@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1a96461_ba2bba15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2017-02-22T22:43:52Z",
+      "side": 1,
+      "message": "reword: visible to owner, reviewers, and users with the configured permission",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "0145cc29504cc189a9a887d4b116756c0513caae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eebd7612_c5a11ce2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2017-02-22T22:43:52Z",
+      "side": 1,
+      "message": "Line 92 refers to the action as \"unmark private\", but this says \"delete private\". Likely better if those were consistent.",
+      "range": {
+        "startLine": 61,
+        "startChar": 35,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "0145cc29504cc189a9a887d4b116756c0513caae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17cb4ce7_69b404de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutPrivate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2017-02-22T22:43:52Z",
+      "side": 1,
+      "message": "Same kind of comment as on DeletePrivate.",
+      "range": {
+        "startLine": 60,
+        "startChar": 31,
+        "endLine": 60,
+        "endChar": 63
+      },
+      "revId": "0145cc29504cc189a9a887d4b116756c0513caae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de621c9_59d3801f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2017-02-22T22:43:52Z",
+      "side": 1,
+      "message": "Needs a javadoc comment.",
+      "revId": "0145cc29504cc189a9a887d4b116756c0513caae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

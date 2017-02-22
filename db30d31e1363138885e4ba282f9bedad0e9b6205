@@ -22,6 +22,53 @@
       "revId": "db30d31e1363138885e4ba282f9bedad0e9b6205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7465304_b371b71d",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T00:42:57Z",
+      "side": 0,
+      "message": "This is needed for the release build.",
+      "parentUuid": "371fa883_2559f564",
+      "range": {
+        "startLine": 863,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 1
+      },
+      "revId": "db30d31e1363138885e4ba282f9bedad0e9b6205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3022132a_cad790e2",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T00:42:57Z",
+      "side": 0,
+      "message": "This should not be removed; it\u0027s needed for the release build.",
+      "range": {
+        "startLine": 863,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 1
+      },
+      "revId": "db30d31e1363138885e4ba282f9bedad0e9b6205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

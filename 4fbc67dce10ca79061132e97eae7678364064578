@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26374e5d_3d6a873c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-02-22T22:08:35Z",
+      "side": 1,
+      "message": "Good point, I took your second suggestion.",
+      "parentUuid": "b492d0bd_6c0e8afb",
+      "range": {
+        "startLine": 257,
+        "startChar": 14,
+        "endLine": 257,
+        "endChar": 56
+      },
+      "revId": "4fbc67dce10ca79061132e97eae7678364064578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2eeaee7_993bc2b7",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "4fbc67dce10ca79061132e97eae7678364064578",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32da7632_c28c1b79",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-02-22T22:08:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2eeaee7_993bc2b7",
+      "revId": "4fbc67dce10ca79061132e97eae7678364064578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

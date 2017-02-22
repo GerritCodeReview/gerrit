@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "155382c7_ae7a2806",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T21:37:20Z",
+      "side": 1,
+      "message": "Ah, okay, Done.",
+      "parentUuid": "a92b31d2_c06d36c8",
+      "range": {
+        "startLine": 78,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 94
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfa80e26_0b91caed",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "274eed66_453a9838",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T21:37:20Z",
+      "side": 1,
+      "message": "I like that. Thanks.",
+      "parentUuid": "56f7ce61_64e5e05d",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 27
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e5de3eb_5b27b127",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9
@@ -164,6 +212,30 @@
       "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "271570f8_81378030",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T21:37:20Z",
+      "side": 1,
+      "message": "I think no, only because _visibleMessages has an initial value that is computed based on this array, but then changes. \n\nI could alternately set _visibleMessages inside _computeItems, but it feels very strange to me to set one property inside a compute function for another property.\n\nAs a side note, _numAutomated is no longer necessary with the change you recommended to the \u0027Show all\u0027 text.",
+      "parentUuid": "3e5de3eb_5b27b127",
+      "range": {
+        "startLine": 50,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 49
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -202,6 +274,30 @@
       "side": 1,
       "message": "Will add docs.",
       "parentUuid": "860abb6a_e677421d",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9461f8f2_2f341179",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T21:37:20Z",
+      "side": 1,
+      "message": "Update: removed it instead :)",
+      "parentUuid": "73a722c2_feb0ef92",
       "range": {
         "startLine": 57,
         "startChar": 6,
@@ -261,6 +357,24 @@
       "side": 1,
       "message": "If `hideAutomated` is false it will loop a max of 5 times. Even so, it could just add a short-circuit in this case.\n\nvar numHidden \u003d messages.length - numVisible;\nif (!hideAutomated) {\n  return Math.min(MESSAGES_INCREMENT, numHidden);\n}\n\nvar counter \u003d 0;\nvar i \u003d numHidden;\nwhile (i \u003c messages.length \u0026\u0026 counter \u003c MESSAGES_INCREMENT) {\n  i++;\n  if (this._isAutomated(messages[i])) { continue; }\n  counter++;\n}\nreturn i - numHidden;\n\nNot necessary, though.",
       "parentUuid": "b6e25aff_bed6a004",
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b706e44c_44aee5b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T21:37:20Z",
+      "side": 1,
+      "message": "I think that bit of code is now more complicated than the original function.",
+      "parentUuid": "778f050e_59fa4a71",
       "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

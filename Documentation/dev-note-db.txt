@@ -45,8 +45,8 @@ For an example NoteDb change, poke around at this one:
 
 Account and group data is migrated to NoteDb automatically using the normal
 schema upgrade process during updates. The remainder of this section details the
-configuration options that control migration of the change data, which is an
-ongoing process.
+configuration options that control migration of the change data, which is mostly
+but not fully implemented.
 
 Change migration state is configured in `gerrit.config` with options like
 `noteDb.changes.*`. These options are undocumented outside of this file, and the

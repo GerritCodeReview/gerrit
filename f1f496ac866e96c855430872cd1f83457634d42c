@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "258eec87_058bc08d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-22T20:33:51Z",
+      "side": 1,
+      "message": "Its needed inside the DeleteChangeOp because DeleteChangeOp does an atomic transaction over the change state, while the RestModifyView handler is working off a snapshot that may be stale if a submit was racing with the delete.\n\nIts needed here inside RestModifyView because the StandardPermissionBackend throws AuthException(\"delete not permitted\") due to the canDelete logic checking the change status before the DeleteOp is even constructed and allowed to consider the change. So we get a 403 auth exception instead of a 405 method not allowed when the state is incorrect.\n\nI think checking it twice like this is fine.",
+      "parentUuid": "a915b428_7ea67f23",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "f1f496ac866e96c855430872cd1f83457634d42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3939eaf7_e4fbb196",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-22T10:22:26Z",
       "side": 1,
       "message": "Shouldn\u0027t this be just:\n\n  return permissionBackend.user(user).testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);\n\nI added this comment in the corresponding change where, this test method was added to ForUser class.",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 9
+      },
+      "revId": "f1f496ac866e96c855430872cd1f83457634d42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9c94af_477996bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-22T20:33:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3939eaf7_e4fbb196",
       "range": {
         "startLine": 120,
         "startChar": 8,

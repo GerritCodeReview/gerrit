@@ -2500,6 +2500,7 @@ public class ReceiveCommits {
         cmd.execute(rp);
       }
       if (magicBranch != null && magicBranch.edit) {
+        bu.addChangeEditMutationOp(notes.getChangeId());
         return;
       }
       RevWalk rw = rp.getRevWalk();

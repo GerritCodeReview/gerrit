@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "5feb6378_999d691c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:48:40Z",
+      "side": 1,
+      "message": "I\u0027d rather keep it as developer-focused documentation for now. The migration process is not yet intended for site administrators who are not also capable of building Gerrit from master and diving into the code when something breaks--in other words, developers.",
+      "parentUuid": "774a5669_0c4338b4",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "f65ca01d4de44814a0afa116bf335ca9edbcfe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "116acdac_50b99a97",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 3

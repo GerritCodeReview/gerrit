@@ -71,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "53dc7370_70533d37",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T00:05:34Z",
+      "side": 1,
+      "message": "Looking for ways to make this function simpler. Would the following work?\n\nvar counter \u003d 0;\nvar numHidden \u003d messages.length - numVisible;\nvar i \u003d numHidden;\nwhile (i \u003c messages.length \u0026\u0026 counter \u003c MESSAGES_INCREMENT) {\n  i++;\n  if (hideAutomated \u0026\u0026 this._isAutomated(messages[i])) { continue; }\n  counter++;\n}\nreturn i - numHidden;\n\nIDK, maybe that\u0027s equally complex.",
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af1362f9_ff4abdf0",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9

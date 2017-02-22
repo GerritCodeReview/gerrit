@@ -142,6 +142,30 @@
       "revId": "8bfd99be80d8b49ab158dd4b81707693981fb0a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "266dd615_305ee590",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/VelocityRuntimeProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T10:11:28Z",
+      "side": 0,
+      "message": "This caused a lot of debug log spam, which is visible particularly when running tests in Eclipse.  See for example:\n\nhttp://paste.openstack.org/show/600003/\n\nPreviously they were suppressed due to this line in log4j.properties\n\n # Silence non-critical messages from Velocity\n #\n log4j.logger.velocity\u003dWARN",
+      "parentUuid": "46de5484_fd11a4e3",
+      "range": {
+        "startLine": 73,
+        "startChar": 62,
+        "endLine": 73,
+        "endChar": 72
+      },
+      "revId": "8bfd99be80d8b49ab158dd4b81707693981fb0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b492d0bd_6c0e8afb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T22:00:40Z",
+      "side": 1,
+      "message": "Meandering aside: I feel like the word \"Insufficient\" is a downer. Especially because some users will see this *every* time they open the reply dialog. Maybe something like ...\n\n You cannot set this label.\n\n... or ...\n\n You don\u0027t have permission to edit this label.\n\nDefinitely not a blocker.",
+      "range": {
+        "startLine": 257,
+        "startChar": 14,
+        "endLine": 257,
+        "endChar": 56
+      },
+      "revId": "4fbc67dce10ca79061132e97eae7678364064578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2eeaee7_993bc2b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T22:00:40Z",
+      "side": 1,
+      "message": "Not a big deal, but it\u0027s slightly safer to use:\n\n return permittedLabels.hasOwnProperty(label);",
+      "revId": "4fbc67dce10ca79061132e97eae7678364064578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

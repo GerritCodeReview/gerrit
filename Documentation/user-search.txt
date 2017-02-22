@@ -118,6 +118,12 @@ Changes that have been, or need to be, reviewed by 'USER'. The
 special case of `reviewer:self` will find changes where the caller
 has been added as a reviewer.
 
+[[cc]]
+cc:'USER'::
++
+Changes that have the given user CC'ed on them. The special case of `cc:self`
+will find changes where the caller has been CC'ed.
+
 [[reviewerin]]
 reviewerin:'GROUP'::
 +

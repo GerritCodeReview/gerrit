@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -21,32 +23,50 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Stream;
 
 class ReviewerPredicate extends ChangeIndexPredicate {
-  static Predicate<ChangeData> create(Arguments args, Account.Id id) {
-    List<Predicate<ChangeData>> and = new ArrayList<>(2);
-    ReviewerStateInternal[] states = ReviewerStateInternal.values();
-    List<Predicate<ChangeData>> or = new ArrayList<>(states.length - 1);
-    for (ReviewerStateInternal state : states) {
-      if (state != ReviewerStateInternal.REMOVED) {
-        or.add(new ReviewerPredicate(state, id));
-      }
+  static Predicate<ChangeData> reviewer(Arguments args, Account.Id id) {
+    Predicate<ChangeData> p;
+    if (args.notesMigration.readChanges()) {
+      // With NoteDb, Reviewer/CC are clearly distinct states, so only choose reviewer.
+      p = new ReviewerPredicate(ReviewerStateInternal.REVIEWER, id);
+    } else {
+      // Without NoteDb, Reviewer/CC are a bit unpredictable; maintain the old behavior of matching
+      // any reviewer state.
+      p = anyReviewerState(id);
     }
-    and.add(Predicate.or(or));
+    return create(args, p);
+  }
 
-    // TODO(dborowitz): This really belongs much higher up e.g. QueryProcessor.
+  static Predicate<ChangeData> cc(Arguments args, Account.Id id) {
+    // As noted above, CC is nebulous without NoteDb, but it certainly doesn't make sense to return
+    // Reviewers for cc:foo. Most likely this will just not match anything, but let the index sort
+    // it out.
+    return create(args, new ReviewerPredicate(ReviewerStateInternal.CC, id));
+  }
+
+  private static Predicate<ChangeData> anyReviewerState(Account.Id id) {
+    return Predicate.or(
+        Stream.of(ReviewerStateInternal.values())
+            .filter(s -> s != ReviewerStateInternal.REMOVED)
+            .map(s -> new ReviewerPredicate(s, id))
+            .collect(toList()));
+  }
+
+  private static Predicate<ChangeData> create(Arguments args, Predicate<ChangeData> p) {
     if (!args.allowsDrafts) {
-      and.add(Predicate.not(new ChangeStatusPredicate(Change.Status.DRAFT)));
+      // TODO(dborowitz): This really belongs much higher up e.g. QueryProcessor. Also, why are we
+      // even doing this?
+      return Predicate.and(p, Predicate.not(new ChangeStatusPredicate(Change.Status.DRAFT)));
     }
-    return Predicate.and(and);
+    return p;
   }
 
   private final ReviewerStateInternal state;
   private final Account.Id id;
 
-  ReviewerPredicate(ReviewerStateInternal state, Account.Id id) {
+  private ReviewerPredicate(ReviewerStateInternal state, Account.Id id) {
     super(ChangeField.REVIEWER, ChangeField.getReviewerFieldValue(state, id));
     this.state = state;
     this.id = id;

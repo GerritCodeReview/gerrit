@@ -51,7 +51,11 @@
     ],
 
     focus: function() {
-      this.$.download.focus();
+      if (this._schemes.length) {
+        this.$$('.copyToClipboard').focus();
+      } else {
+        this.$.download.focus();
+      }
     },
 
     getFocusStops: function() {
@@ -161,6 +165,14 @@
       if (schemes.indexOf(this._selectedScheme) == -1) {
         this._selectedScheme = schemes.sort()[0];
       }
+    },
+
+    _copyToClipboard: function(e) {
+      e.target.parentElement.querySelector('.copyCommand').select();
+      document.execCommand('copy');
+      getSelection().removeAllRanges();
+      e.target.textContent = 'done';
+      setTimeout(function() { e.target.textContent = 'copy'; }, 1000);
     },
   });
 })();

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a412e109_4454aa20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T21:28:58Z",
+      "side": 1,
+      "message": "Sp.",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaa310f0_5a1e1816",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T21:28:58Z",
+      "side": 1,
+      "message": "Nit: unnecessary wrapping",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 14,
+        "endChar": 3
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eddcdc5e_36ae1cb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T21:28:58Z",
+      "side": 1,
+      "message": "Sp.",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b631cb2e_26167f75",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T21:28:58Z",
+      "side": 1,
+      "message": "Doesn\u0027t the patch range have both numbers? Can this just listen to _patchRange.* ?",
+      "range": {
+        "startLine": 395,
+        "startChar": 58,
+        "endLine": 395,
+        "endChar": 96
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

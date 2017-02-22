@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f728669_af60f7ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T10:59:14Z",
+      "side": 1,
+      "message": "We usually import Collectors.toSet statically:\n\n  $ git grep -e \"import.*Collectors.toSet\" | wc -l\n  17",
+      "range": {
+        "startLine": 227,
+        "startChar": 23,
+        "endLine": 227,
+        "endChar": 41
+      },
+      "revId": "a423284fb437555dcd85c9647e1aa052dc655a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

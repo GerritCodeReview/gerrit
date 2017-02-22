@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aba99cf9_35d6dc01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T10:21:30Z",
+      "side": 1,
+      "message": "Add similar idiom to ForChange#testOrFalse() method as well, to avoid the caller producing the following code:\n\n  try {\n     return permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER);\n  } catch (PermissionBackendException e) {\n    return false;\n  }",
+      "revId": "7bdc5927c101d6709800e4b9dbb4b5830d3a743c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

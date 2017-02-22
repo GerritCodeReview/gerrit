@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "362a2d41_8324a67c",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:38:07Z",
+      "side": 1,
+      "message": "Yes, that was the whole reason I wrote this document yesterday, and I am in the process of rebasing that series right now :)",
+      "parentUuid": "116acdac_50b99a97",
+      "revId": "f65ca01d4de44814a0afa116bf335ca9edbcfe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "add4c8e4_62be85db",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 3
@@ -54,6 +72,24 @@
       "writtenOn": "2017-02-22T15:34:53Z",
       "side": 1,
       "message": "There is another migration direction NoteDb -\u003e ReveiwDb, where the source of the truth is the NoteDb. Would it also make sens to mention here and outline the typical use cases, when the user would like to do that?",
+      "revId": "f65ca01d4de44814a0afa116bf335ca9edbcfe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c32189bd_784b23fb",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:38:07Z",
+      "side": 1,
+      "message": "I only wrote that to use as a last resort in case we have problems in production with the NoteDb primary case. I don\u0027t want to have to use it. But I guess there is no harm in mentioning it, and I\u0027ll be clear that it\u0027s not meant for regular use.",
+      "parentUuid": "add4c8e4_62be85db",
       "revId": "f65ca01d4de44814a0afa116bf335ca9edbcfe47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

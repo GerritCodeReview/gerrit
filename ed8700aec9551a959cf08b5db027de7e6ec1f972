@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aaba0335_ca977e46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T07:20:47Z",
+      "side": 1,
+      "message": "was",
+      "range": {
+        "startLine": 9,
+        "startChar": 50,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "ed8700aec9551a959cf08b5db027de7e6ec1f972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4ff340b_3f44565c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T07:20:47Z",
+      "side": 1,
+      "message": "a consequence",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "ed8700aec9551a959cf08b5db027de7e6ec1f972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b5cc22f_16f2bf74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T07:20:47Z",
+      "side": 1,
+      "message": "Instead of adding this new method would it be possible to use the existing addOp method, like other call sites in ReceiveCommits?  See the comment in ReceiveCommits.",
+      "range": {
+        "startLine": 661,
+        "startChar": 21,
+        "endLine": 661,
+        "endChar": 44
+      },
+      "revId": "ed8700aec9551a959cf08b5db027de7e6ec1f972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "999e6888_aa1444b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2503,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T07:20:47Z",
+      "side": 1,
+      "message": "Is it possible to do this?\n\n        bu.addOp(notes.getChangeId(), new BatchUpdate.Op() {\n          @Override\n          public boolean updateChange(ChangeContext ctx) throws Exception {\n            // return pseudo dirty state to trigger reindexing\n            return true;\n          }\n        });",
+      "range": {
+        "startLine": 2503,
+        "startChar": 8,
+        "endLine": 2503,
+        "endChar": 56
+      },
+      "revId": "ed8700aec9551a959cf08b5db027de7e6ec1f972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

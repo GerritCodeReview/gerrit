@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "7659068b_1c350d7d",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c143860_353c05b9",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c565e7a5_48bd14d3",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 2
@@ -149,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "b960b627_6a02c8b8",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c565e7a5_48bd14d3",
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbd6dd8e_0d6b9d9f",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 2
@@ -160,6 +202,30 @@
       "writtenOn": "2017-02-21T22:59:14Z",
       "side": 1,
       "message": "Mention, that this mode approximately dupliate tha time needed to for write operation and have severe impact on the perfomance. Waiting for 2-5 seconds on adding a comment or voting on a change is severe perfomance degradation and should be taken into account.",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 62
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "928ce13a_43ce20a7",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbd6dd8e_0d6b9d9f",
       "range": {
         "startLine": 55,
         "startChar": 2,
@@ -195,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "fcaf0f1d_16042bce",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf2ce8f0_8a481c0b",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 70
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03386f92_abda373f",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 2
@@ -206,6 +296,30 @@
       "writtenOn": "2017-02-21T22:59:14Z",
       "side": 1,
       "message": "What do you mean by that? The implementation in this mode doesn\u0027t write anything to the database, or it if does, the transaction is rollbacked and never committed.",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d80f872_82026af7",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03386f92_abda373f",
       "range": {
         "startLine": 71,
         "startChar": 2,
@@ -247,6 +361,24 @@
       "side": 1,
       "message": "\u003e * 1. Start new Gerrit site today: How to do it with NoteDb.\n\nOne option I thought about, would be to extend in upcoming 2.14 version the init command with alternative backend for change meta data on new site creation, something like:\n\n* [Experimental] Use NoteDb for change metat data [y|N]:",
       "parentUuid": "0cd9588c_51602f0f",
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac3f7b7b_cbcabf81",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:24:59Z",
+      "side": 1,
+      "message": "Good ideas, but I would prefer to elaborate on the steps required in a followup.",
+      "parentUuid": "51f77085_1f91188e",
       "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

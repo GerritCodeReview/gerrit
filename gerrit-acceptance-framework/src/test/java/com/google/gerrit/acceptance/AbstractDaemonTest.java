@@ -29,8 +29,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
+import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.common.Nullable;
@@ -107,10 +107,14 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -121,8 +125,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -1033,33 +1035,51 @@ public abstract class AbstractDaemonTest {
     return ca;
   }
 
+  protected BinaryResult submitPreview(String changeId) throws Exception {
+    return gApi.changes().id(changeId).current().submitPreview();
+  }
+
+  protected BinaryResult submitPreview(String changeId, String format) throws Exception {
+    return gApi.changes().id(changeId).current().submitPreview(format);
+  }
+
+  protected Map<Branch.NameKey, ObjectId> fetchFromSubmitPreview(String changeId) throws Exception {
+    try (BinaryResult result = submitPreview(changeId)) {
+      return fetchFromBundles(result);
+    }
+  }
+
   /**
    * Fetches each bundle into a newly cloned repository, then it applies the bundle, and returns the
    * resulting tree id.
    */
-  protected Map<Branch.NameKey, RevTree> fetchFromBundles(BinaryResult bundles) throws Exception {
-
+  protected Map<Branch.NameKey, ObjectId> fetchFromBundles(BinaryResult bundles) throws Exception {
     assertThat(bundles.getContentType()).isEqualTo("application/x-zip");
 
-    File tempfile = File.createTempFile("test", null);
-    bundles.writeTo(new FileOutputStream(tempfile));
-
-    Map<Branch.NameKey, RevTree> ret = new HashMap<>();
-    try (ZipFile readback = new ZipFile(tempfile); ) {
-      for (ZipEntry entry : ImmutableList.copyOf(Iterators.forEnumeration(readback.entries()))) {
-        String bundleName = entry.getName();
-        InputStream bundleStream = readback.getInputStream(entry);
-
+    FileSystem fs = Jimfs.newFileSystem();
+    Path previewPath = fs.getPath("preview.bundle");
+    try (OutputStream out = Files.newOutputStream(previewPath)) {
+      bundles.writeTo(out);
+    }
+    Map<Branch.NameKey, ObjectId> ret = new HashMap<>();
+    try (FileSystem zipFs = FileSystems.newFileSystem(previewPath, null);
+        DirectoryStream<Path> dirStream =
+            Files.newDirectoryStream(Iterables.getOnlyElement(zipFs.getRootDirectories()))) {
+      for (Path p : dirStream) {
+        if (!Files.isRegularFile(p)) {
+          continue;
+        }
+        String bundleName = p.getFileName().toString();
         int len = bundleName.length();
         assertThat(bundleName).endsWith(".git");
         String repoName = bundleName.substring(0, len - 4);
         Project.NameKey proj = new Project.NameKey(repoName);
         TestRepository<?> localRepo = cloneProject(proj);
 
-        try (TransportBundleStream tbs =
-            new TransportBundleStream(
-                localRepo.getRepository(), new URIish(bundleName), bundleStream); ) {
-
+        try (InputStream bundleStream = Files.newInputStream(p);
+            TransportBundleStream tbs =
+                new TransportBundleStream(
+                    localRepo.getRepository(), new URIish(bundleName), bundleStream)) {
           FetchResult fr =
               tbs.fetch(
                   NullProgressMonitor.INSTANCE,
@@ -1069,16 +1089,17 @@ public abstract class AbstractDaemonTest {
             Branch.NameKey n = new Branch.NameKey(proj, branchName);
 
             RevCommit c = localRepo.getRevWalk().parseCommit(r.getObjectId());
-            ret.put(n, c.getTree());
+            ret.put(n, c.getTree().copy());
           }
         }
       }
     }
+    assertThat(ret).isNotEmpty();
     return ret;
   }
 
   /** Assert that the given branches have the given tree ids. */
-  protected void assertRevTrees(Project.NameKey proj, Map<Branch.NameKey, RevTree> trees)
+  protected void assertTrees(Project.NameKey proj, Map<Branch.NameKey, ObjectId> trees)
       throws Exception {
     TestRepository<?> localRepo = cloneProject(proj);
     GitUtil.fetch(localRepo, "refs/*:refs/*");

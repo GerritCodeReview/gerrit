@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "fa8a46ff_621b6bf3",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T00:06:24Z",
+      "side": 1,
+      "message": "I think we can leave the header as it is, but maybe add a sentence clarifying that there is no prevention of rewrites?",
+      "parentUuid": "1e879b90_1b1fa704",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c565e7a5_48bd14d3",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 2

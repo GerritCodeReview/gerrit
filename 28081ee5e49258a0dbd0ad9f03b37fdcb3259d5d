@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c62221e9_d23d2fdc",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T21:54:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5669b06b_706f5d67",
+      "range": {
+        "startLine": 66,
+        "startChar": 17,
+        "endLine": 66,
+        "endChar": 34
+      },
+      "revId": "28081ee5e49258a0dbd0ad9f03b37fdcb3259d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b76d796_52d7c3f9",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "28081ee5e49258a0dbd0ad9f03b37fdcb3259d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a68de0e2_b3ebebe2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T21:54:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b76d796_52d7c3f9",
+      "range": {
+        "startLine": 70,
+        "startChar": 17,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "28081ee5e49258a0dbd0ad9f03b37fdcb3259d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c6c655fa_3db6dc4c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T21:54:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d0e4abd_137c7e46",
+      "range": {
+        "startLine": 83,
+        "startChar": 17,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "28081ee5e49258a0dbd0ad9f03b37fdcb3259d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e8deb1b_ece0e547",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
         "patchSetId": 6
@@ -91,6 +163,30 @@
       "revId": "28081ee5e49258a0dbd0ad9f03b37fdcb3259d5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24ee276e_799e1b63",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T21:54:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8deb1b_ece0e547",
+      "range": {
+        "startLine": 87,
+        "startChar": 17,
+        "endLine": 87,
+        "endChar": 30
+      },
+      "revId": "28081ee5e49258a0dbd0ad9f03b37fdcb3259d5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

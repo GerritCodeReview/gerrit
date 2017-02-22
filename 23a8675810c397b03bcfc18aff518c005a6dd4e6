@@ -11,9 +11,27 @@
       "author": {
         "id": 1010008
       },
-      "writtenOn": "Feb 8, 2017 9:23:45 AM",
+      "writtenOn": "2017-02-08T17:23:45Z",
       "side": 1,
       "message": "I think we have to do something slightly more than nothing here. commit/rollback on the enclosing db instance should call into the real ReviewDb if we are currently in a transaction on a change table.",
+      "revId": "23a8675810c397b03bcfc18aff518c005a6dd4e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f519852b_e21004f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/NoChangesReviewDbWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T15:50:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f63e9dfe_3df611df",
       "revId": "23a8675810c397b03bcfc18aff518c005a6dd4e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -21,6 +21,7 @@ import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitwebModule;
+import com.google.gerrit.httpd.goget.HttpGoGetModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.RemotePeer;
@@ -50,6 +51,7 @@ public class WebModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    install(new HttpGoGetModule());
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
     bind(HttpRequestContext.class);
 

@@ -49,8 +49,9 @@ public class DeletePrivate implements RestModifyView<ChangeResource, DeletePriva
   @Override
   public Response<String> apply(ChangeResource rsrc, DeletePrivate.Input input)
       throws RestApiException, UpdateException {
-    if (self.get() != rsrc.getUser()) {
-      throw new AuthException("not allowed to set private status");
+    if (!self.get().getAccountId().equals(rsrc.getChange().getOwner())
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("not allowed to delete private status");
     }
 
     if (!rsrc.getChange().isPrivate()) {

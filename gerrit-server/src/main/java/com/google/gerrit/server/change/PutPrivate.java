@@ -48,7 +48,8 @@ public class PutPrivate implements RestModifyView<ChangeResource, PutPrivate.Inp
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().getAccountId().equals(rsrc.getChange().getOwner())
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to set private status");
     }
 

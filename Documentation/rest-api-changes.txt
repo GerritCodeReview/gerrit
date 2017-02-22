@@ -2135,7 +2135,8 @@ If the change isn't private the response is "`204 No Content`".
 'PUT /changes/link:#change-id[\{change-id\}]/private'
 --
 
-Sets the change to be private. Note users can only set the private status for their own changes.
+Sets the change to be private. Note users can only set the private status for their own changes,
+unless they are an link:access-control.html#administrators[Administrator].
 
 .Request
 ----
@@ -2155,7 +2156,8 @@ If the change was already private the response is "`200 OK`".
 'DELETE /changes/link:#change-id[\{change-id\}]/private'
 --
 
-Set the change to be not private. Note users can only set the private status for their own changes.
+Set the change to be not private. Note users can only set the private status for their own changes,
+unless they are an link:access-control.html#administrators[Administrator].
 
 .Request
 ----

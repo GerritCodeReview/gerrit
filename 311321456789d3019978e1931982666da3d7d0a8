@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58e37cd6_913b66ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "optional nit: the scope of this try can be more narrow:\n\n  Map\u003cBranch.NameKey, RevTree\u003e preview;\n  try (BinaryResult result \u003d ...) {\n    preview \u003d fetchFromBundles(result);\n  }\n  ...\n\nAfter the fetchFromBundles call, the BinaryResult has been consumed completely and isn\u0027t needed any more.",
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf03e2bc_eadf02ac",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "796a96f2_0947cbde",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09dfc825_95acfbb7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "This can be made more precise. What type should the exception have?",
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baf8b4d4_ee75b90e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "Likewise (scope can be narrowed by discarding the BinaryResult once it has been fetched from).",
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dde7ddb3_fd721edc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "Likewise.",
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db68b50c_21bb7fbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "Cannot preview submit. \"Cannot submit preview\" would mean that we already have a preview and we\u0027re trying to submit it.\n\nAlternatively, this can say something like \"Cannot get submit preview\".",
+      "range": {
+        "startLine": 238,
+        "startChar": 41,
+        "endLine": 238,
+        "endChar": 55
+      },
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4574492_d3989c48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "Nice.",
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d697c2c_11c3869f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T02:26:26Z",
+      "side": 1,
+      "message": "Should this catch RuntimeException, too?",
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

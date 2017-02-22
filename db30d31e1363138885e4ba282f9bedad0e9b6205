@@ -117,6 +117,30 @@
       "revId": "db30d31e1363138885e4ba282f9bedad0e9b6205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95beb337_42d670b7",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T01:34:53Z",
+      "side": 0,
+      "message": "In that case we need to ask @moz to deploy the latest version to central, rather than just removing it...",
+      "parentUuid": "87c2f858_22e5b8ec",
+      "range": {
+        "startLine": 863,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 1
+      },
+      "revId": "db30d31e1363138885e4ba282f9bedad0e9b6205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

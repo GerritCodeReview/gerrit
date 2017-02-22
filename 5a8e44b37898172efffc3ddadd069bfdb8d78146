@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1487778432 -0500\nnonce AFJA6ofjmN1rqqxXAzfrBxViwaOGVqyKNIbClCltsg3T1CHCPD35lAi9zARbqsghOYjnFhcz6gvy\n\n0000000000000000000000000000000000000000 18781983f22a30b715e57fd89dd358212f5904f8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYrbKAAAoJEF/XxZqaEoiM3v4P/3l5f6jytG2bXBb4HHebsMi0\n+GYysVkyaTwktF+B7SLteLuYZrQiibNXs9t02QeTLjy2Kwc20FubhuYOvEtA+MF+\n4q8BvYfIAwdjF2DNjTkAm/GyPUozy/pzieM0IrsGiahhwyo3+3RCwtsWmJgZBhkG\nGwW62XQFA/7n1iBoxKBL4/mDDRII18qXDuTtuvJQ9lGrgfb2UUCteEi4dnOaG3lA\n0k2zAXBRSECec+nnVz6KCcRLwzXjB/vnx3cKhHGBkG9z72sbLwzAX5HFhj1nEKSM\n6RMVo68YmwKoXqfLpyEiKSXHOWmYG0A9LXYwcAwp1se7ve91YlE6NKARTJbeI5H1\nBDuTDleMApieY802GVKRTxDXEv5CFq0QbXifCovenS42zJ69XLjZg3q0LhTdGrOR\nblEFXjllxzYkdTZce/uD4Qrs4W1rgabGuhFcXrO+mh2L4aZPTsWpVMhjGu14at+f\nHMtMsvf4Rjy3mle2IgCBXeDZwDyJvN8jKoGvRXovu8Fw6uWTnt/ippnssQKSPyCs\n/i1mN0zXVK7v9yXXc/S7rjMwpKmo/grjbhoy9rr8UkBefn/utJ1J9aBMhQAHV37A\n+/lmO9C8yFAqmxges9lCGDZ0cIDiq1cciGrf3DLR1yqSVYVWnZ63OitgGPdZlyLd\nzADXhC9P/w/5ju5G+/xs\n\u003dzJMF\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "03f70b3a_1c86012a",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T16:43:41Z",
+      "side": 1,
+      "message": "It\u0027s tempting to say \"NoteDb is the current standard Gerrit storage backend, which replaces the ...\". But it\u0027s probably too soon for that.",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 32
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "256c3556_fbe85bb9",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T16:43:41Z",
+      "side": 1,
+      "message": "Also transactions.\n\nI assume this doesn\u0027t mention that because jgit\u0027s RefDirectory doesn\u0027t perform atomic transactions so unless you\u0027re using DfsRepository you don\u0027t get the benefit.",
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34874ccf_e15a510c",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T16:43:41Z",
+      "side": 1,
+      "message": "What does this do?",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

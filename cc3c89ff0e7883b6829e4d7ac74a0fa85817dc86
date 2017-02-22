@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0091f594_eec26d7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T08:28:05Z",
+      "side": 1,
+      "message": "I think you want to deprecate V38, not the new V39.",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 13
+      },
+      "revId": "cc3c89ff0e7883b6829e4d7ac74a0fa85817dc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "928505da_6064687f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T08:28:05Z",
+      "side": 1,
+      "message": "Can this just be:\n\nLong count \u003d\n          comments\n              .stream()\n              .filter(c -\u003e (c.unresolved \u003d\u003d Boolean.TRUE \u0026\u0026 c.parentUuid \u003d\u003d null)))\n              .count();\n\n?",
+      "range": {
+        "startLine": 1002,
+        "startChar": 6,
+        "endLine": 1008,
+        "endChar": 23
+      },
+      "revId": "cc3c89ff0e7883b6829e4d7ac74a0fa85817dc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

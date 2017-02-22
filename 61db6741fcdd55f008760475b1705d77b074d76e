@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1487797129 -0500\nnonce AFJA6oeogT0y2TlsK3um5M3S8lpuZRSioARUHxprHscnkfzehx3g0v4QxMbWRKZZ6FuQ3Yed4mc/\n\n0000000000000000000000000000000000000000 61db6741fcdd55f008760475b1705d77b074d76e refs/for/master%r\u003dekempin,r\u003dlogan\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYrfuJAAoJEF/XxZqaEoiMdbsQAMwR4Yq5pg0xV1rYakcgHs0n\ngu67lk1NXZqMuHZKzvS8vOVGAra8AngP06Q3aAyOeoK3UWA1sDKtjpbCDSS0UfRr\nzVe+d8jVdbmNviPUp48gYZce7faK2aPXP8v4nFnXxGIW628eZZeDsXVU8y4/OZ6g\nn/AyemjsuvrsHGL9lzuKWylNR0LsWmj9JHGH7ZKq4KiRS/ThpkBPiNEFEu0/fHFI\nn51+Ws47+puJfJtzHthCaHOludewe/ed38pI+kPVfeBWkYNkLdtt2WCiSO+4hShd\neF+/Qc8XLHz5PmI3xD5S1bjwPHQHmqHMXvA09v9bKYQiALs9CpzeywD0wDYsLgY7\nu55SXveId8Dzlr0hWJ+4UanNRFqoKyTD6Gy4yuGGXSxssHPJl/51Vpntn+EPK3jc\n6dDtpYSozwWcpy2Grv/5NdhYQMc4NIfhuWeTk/DgCGc4WocOZxROTevbCDE0tDAb\nJAB8EGuvQS08SXyA3KVj9ukC0d2g2HP8nNW35Ia60JXTcAVKezbruZMNlx7vVYV3\nrbEZKR1k/xInlCH762OA2xVERKDvdapAJUFs8elcQyF8H8PbYBZ216E7+nNw3/61\nEh1vg1uMbdspnTXOov4q6hvFmCiXHq8O4SXSCxylIF6nlcy7XdSMYxkihoVQcHDo\nLKjEpEc9H2U24/6fpZlw\n\u003d2fRj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "645d0cb8_c783048b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T21:11:54Z",
+      "side": 1,
+      "message": "Nice. Since cc started to work also on GWT UI, i thought about that this operatr is missing ;)\n\nDocument this new operator in Documentation/user-search.txt, around reviewer one?",
+      "revId": "61db6741fcdd55f008760475b1705d77b074d76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2264eaac_98237a19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T21:11:54Z",
+      "side": 1,
+      "message": "With this you mean that both, cc and review would retirn the same result?",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "61db6741fcdd55f008760475b1705d77b074d76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

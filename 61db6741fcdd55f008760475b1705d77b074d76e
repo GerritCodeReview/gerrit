@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "aa889ce2_10a6cc19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T21:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "645d0cb8_c783048b",
+      "revId": "61db6741fcdd55f008760475b1705d77b074d76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2264eaac_98237a19",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2017-02-22T21:11:54Z",
       "side": 1,
       "message": "With this you mean that both, cc and review would retirn the same result?",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "61db6741fcdd55f008760475b1705d77b074d76e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c6c47cb_7e0423fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T21:18:47Z",
+      "side": 1,
+      "message": "Clarified.",
+      "parentUuid": "2264eaac_98237a19",
       "range": {
         "startLine": 10,
         "startChar": 25,

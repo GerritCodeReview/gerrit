@@ -120,6 +120,8 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final native int deletions() /*-{ return this.deletions; }-*/;
 
+  public final native boolean isPrivate() /*-{ return this.is_private ? true : false; }-*/;
+
   private native String statusRaw() /*-{ return this.status; }-*/;
 
   public final native String subject() /*-{ return this.subject; }-*/;

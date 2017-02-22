@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09f78254_ea861223",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T22:50:31Z",
+      "side": 1,
+      "message": "Missing from this document is a comparison of this feature to the existing change edit feature. I understand that the motivation of this feature is to provide a reasonable workflow around notifications. But as a user who is thinking primarily about refining my code, and only secondarily (if at all) about reviewer notifications, how do I decide when to use WIP and when to use change edits?",
+      "revId": "f6f3e7f603d04c8b3b83bbac20b836d4365d7340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74e2e6f8_0fbba75b",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T22:50:31Z",
+      "side": 1,
+      "message": "Is this portion NoteDb-only? If not, how is it implemented in ReviewDb?",
+      "range": {
+        "startLine": 61,
+        "startChar": 23,
+        "endLine": 61,
+        "endChar": 85
+      },
+      "revId": "f6f3e7f603d04c8b3b83bbac20b836d4365d7340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e190fd60_02a8e8b8",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T22:50:31Z",
+      "side": 1,
+      "message": "This is a little surprising in combination with the previous item: IIUC this means that the *first* notification a reviewer may receive about the change is when it is abandoned. Why is this not NONE?",
+      "range": {
+        "startLine": 94,
+        "startChar": 49,
+        "endLine": 94,
+        "endChar": 64
+      },
+      "revId": "f6f3e7f603d04c8b3b83bbac20b836d4365d7340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c579075_eccb1fd6",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T22:50:31Z",
+      "side": 1,
+      "message": "a WIP change",
+      "range": {
+        "startLine": 95,
+        "startChar": 12,
+        "endLine": 95,
+        "endChar": 20
+      },
+      "revId": "f6f3e7f603d04c8b3b83bbac20b836d4365d7340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01aef244_f77ecd47",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T22:50:31Z",
+      "side": 1,
+      "message": "Is there a way for reviewers who want to be notified about updates to WIP changes to receive these notifications?",
+      "revId": "f6f3e7f603d04c8b3b83bbac20b836d4365d7340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2406cb8_0fa08d98",
+        "filename": "Documentation/proposal-wip.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T22:50:31Z",
+      "side": 1,
+      "message": "I might bikeshed this. WIP changes are perfectly reviewable, you can set labels on them and everything.",
+      "range": {
+        "startLine": 106,
+        "startChar": 25,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "f6f3e7f603d04c8b3b83bbac20b836d4365d7340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

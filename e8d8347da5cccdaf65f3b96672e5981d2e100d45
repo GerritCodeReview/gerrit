@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "105ff4ec_a49a2119",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T08:16:33Z",
+      "side": 1,
+      "message": "When?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "e8d8347da5cccdaf65f3b96672e5981d2e100d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8bf4d5b_c52c5cce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T08:16:33Z",
+      "side": 1,
+      "message": "I would prefer to not have this in BatchUpdate. Can it be inlined in the only caller?",
+      "revId": "e8d8347da5cccdaf65f3b96672e5981d2e100d45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

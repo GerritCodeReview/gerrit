@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b97668b0_e424c351",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T19:38:47Z",
+      "side": 1,
+      "message": "Why does this need a different bottom offset than the general behavior? Is there a significance to the number 24? Maybe a comment or a descriptive constant?",
+      "revId": "7102f5d9c0a3ee54aa888afc45ea86642aac3d54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

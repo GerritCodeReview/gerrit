@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f2a98e6_12301794",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T06:23:42Z",
+      "side": 1,
+      "message": "Done in: [1].\n\n* [1] https://gerrit-review.googlesource.com/98150",
+      "range": {
+        "startLine": 15,
+        "startChar": 64,
+        "endLine": 16,
+        "endChar": 40
+      },
+      "revId": "ad301de9e1bd2da10c26b40f1ab27a805f5353c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

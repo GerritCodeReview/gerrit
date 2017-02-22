@@ -26,8 +26,7 @@ import javax.servlet.Filter;
 
 /** Configures Git access over HTTP with authentication. */
 public class GitOverHttpModule extends ServletModule {
-  private static final String LFS_URL_REGEX =
-      "^(?:(?!/a/))" + LFS_REST;
+  private static final String LFS_URL_REGEX = "^(?:(?!/a/))" + LFS_REST;
 
   private final AuthConfig authConfig;
   private final DownloadConfig downloadConfig;

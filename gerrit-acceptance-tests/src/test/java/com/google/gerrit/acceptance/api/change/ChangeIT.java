@@ -518,7 +518,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     try {
       PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+          pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
       String changeId = changeResult.getChangeId();
       Change.Id id = changeResult.getChange().getId();
 

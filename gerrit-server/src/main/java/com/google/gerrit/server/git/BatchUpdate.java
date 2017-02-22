@@ -658,6 +658,17 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+  public BatchUpdate addChangeEditMutationOp(Change.Id id) {
+    ops.put(id, new Op() {
+      @Override
+      public boolean updateChange(ChangeContext ctx) throws Exception {
+        // return pseudo dirty state to trigger reindexing
+        return true;
+      }
+    });
+    return this;
+  }
+  
   public Collection<ReceiveCommand> getRefUpdates() {
     return commands.getCommands().values();
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "152eabbf_0b01e596",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T01:29:40Z",
+      "side": 1,
+      "message": "Erm, I didn\u0027t expect it to. Do you think it should?\n\nI thought it would just be the total number of messages.",
+      "parentUuid": "70390147_49a9c1f4",
+      "range": {
+        "startLine": 78,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 94
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfa80e26_0b91caed",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-21T23:57:36Z",
       "side": 1,
       "message": "This is still kind of confusing to me. The name doesn\u0027t distinguish the purpose of this property from that of `messages` or `_visibleMessages`. Furthermore, both \"computed\" and \"list\" are slightly redundant to the property definition.",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 27
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "829a26af_1631cebb",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T01:29:40Z",
+      "side": 1,
+      "message": "Would love some input on a better name, then.\n\nThis exists because we do some transformations on the messages list that ideally should only be done once, like Viktar\u0027s bundling of reviewers and a labelling of each message with an index. The naive messages object received from the backend is the `messages` prop, and `_visibleMessages` is the array that goes into the dom-repeat.",
+      "parentUuid": "dfa80e26_0b91caed",
       "range": {
         "startLine": 48,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "73a722c2_feb0ef92",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T01:29:40Z",
+      "side": 1,
+      "message": "Will add docs.",
+      "parentUuid": "860abb6a_e677421d",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53dc7370_70533d37",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9
@@ -82,6 +154,24 @@
       "writtenOn": "2017-02-22T00:05:34Z",
       "side": 1,
       "message": "Looking for ways to make this function simpler. Would the following work?\n\nvar counter \u003d 0;\nvar numHidden \u003d messages.length - numVisible;\nvar i \u003d numHidden;\nwhile (i \u003c messages.length \u0026\u0026 counter \u003c MESSAGES_INCREMENT) {\n  i++;\n  if (hideAutomated \u0026\u0026 this._isAutomated(messages[i])) { continue; }\n  counter++;\n}\nreturn i - numHidden;\n\nIDK, maybe that\u0027s equally complex.",
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6e25aff_bed6a004",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T01:29:40Z",
+      "side": 1,
+      "message": "I don\u0027t like this as an alternative because it goes through the loop even when hideAutomated is false.",
+      "parentUuid": "53dc7370_70533d37",
       "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "112ae4eb_fabe72ea",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T01:29:40Z",
+      "side": 1,
+      "message": "Yes, it can. _getDelta is responsible for the \u0027pipe moving\u0027 concept we discussed earlier, and will return a value \u003e 5 when hideAutomated is true and there are five non-automated messages still hidden that have automated messages between them.\n\nClearly this logic is pretty complicated, I\u0027ll add JSDocs to all of these functions in the next patchset.",
+      "parentUuid": "af1362f9_ff4abdf0",
+      "range": {
+        "startLine": 238,
+        "startChar": 23,
+        "endLine": 238,
+        "endChar": 58
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8b07fb5_4345345a",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "488c87a5_4ed4229f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T01:29:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8b07fb5_4345345a",
+      "range": {
+        "startLine": 245,
+        "startChar": 6,
+        "endLine": 247,
+        "endChar": 18
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f881d3fb_dc6e558f",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 9
@@ -154,6 +292,30 @@
       "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0314c5ab_c7c35fdc",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-22T01:29:40Z",
+      "side": 1,
+      "message": "I was looking for a way to do this -- thanks!",
+      "parentUuid": "f881d3fb_dc6e558f",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 261,
+        "endChar": 7
+      },
+      "revId": "9ca91212176d29135ca6ff603e9a5e5bc107897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

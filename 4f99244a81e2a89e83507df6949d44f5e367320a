@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "31da6bc4_63a1a976",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T19:19:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cf047fb7_b485b1f9",
+      "range": {
+        "startLine": 483,
+        "startChar": 26,
+        "endLine": 483,
+        "endChar": 42
+      },
+      "revId": "4f99244a81e2a89e83507df6949d44f5e367320a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c26a63a7_c18a2011",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "~~ is a faster version of Math.floor",
       "parentUuid": "c26a63a7_c18a2011",
+      "range": {
+        "startLine": 504,
+        "startChar": 12,
+        "endLine": 504,
+        "endChar": 14
+      },
+      "revId": "4f99244a81e2a89e83507df6949d44f5e367320a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "681bbedb_3ad0f294",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T19:19:57Z",
+      "side": 1,
+      "message": "Wow, TIL.\n\nConsider adding a comment to this effect, since this is uncommon.",
+      "parentUuid": "0f7b6c12_28f4197b",
       "range": {
         "startLine": 504,
         "startChar": 12,

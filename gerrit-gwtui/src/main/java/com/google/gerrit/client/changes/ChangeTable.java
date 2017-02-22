@@ -237,9 +237,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
-      table.setText(row, C_STATUS, Util.toLongString(status));
+      table.setText(row, C_STATUS, Util.toLongString(status) + (c.isPrivate() ? ", Private" : ""));
     } else if (!c.mergeable()) {
-      table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());
+      table.setText(row, C_STATUS, Util.C.changeTableNotMergeable()
+          + (c.isPrivate() ? ", Private" : ""));
     }
 
     if (c.owner() != null) {

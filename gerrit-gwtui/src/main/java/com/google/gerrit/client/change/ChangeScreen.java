@@ -1212,7 +1212,8 @@ public class ChangeScreen extends Screen {
   private void renderSubmitType(Change.Status status, boolean canSubmit, SubmitType submitType) {
     if (canSubmit && status == Change.Status.NEW) {
       statusText.setInnerText(
-          changeInfo.mergeable() ? Util.C.readyToSubmit() : Util.C.mergeConflict());
+          changeInfo.mergeable() ? Util.C.readyToSubmit() : Util.C.mergeConflict()
+              + (changeInfo.isPrivate() ? ", Private" : ""));
     }
     setVisible(notMergeable, !changeInfo.mergeable());
     submitActionText.setInnerText(com.google.gerrit.client.admin.Util.toLongString(submitType));
@@ -1283,13 +1284,15 @@ public class ChangeScreen extends Screen {
         LabelInfo label = info.label(name);
         switch (label.status()) {
           case NEED:
-            statusText.setInnerText(Util.M.needs(name));
+            statusText.setInnerText(Util.M.needs(name)
+                + (changeInfo.isPrivate() ? ", Private" : ""));
             canSubmit = false;
             break;
           case REJECT:
           case IMPOSSIBLE:
             if (label.blocking()) {
-              statusText.setInnerText(Util.M.blockedOn(name));
+              statusText.setInnerText(Util.M.blockedOn(name)
+                  + (changeInfo.isPrivate() ? ", Private" : ""));
               canSubmit = false;
             }
             break;
@@ -1367,13 +1370,13 @@ public class ChangeScreen extends Screen {
     boolean current = revision.equals(info.currentRevision()) && !revisionInfo.isEdit();
 
     if (revisionInfo.isEdit()) {
-      statusText.setInnerText(Util.C.changeEdit());
+      statusText.setInnerText(Util.C.changeEdit() + (changeInfo.isPrivate() ? ", Private" : ""));
     } else if (!current) {
-      statusText.setInnerText(Util.C.notCurrent());
+      statusText.setInnerText(Util.C.notCurrent() + (changeInfo.isPrivate() ? ", Private" : ""));
       labels.setVisible(false);
     } else {
       Status s = info.revision(revision).draft() ? Status.DRAFT : info.status();
-      statusText.setInnerText(Util.toLongString(s));
+      statusText.setInnerText(Util.toLongString(s) + (changeInfo.isPrivate() ? ", Private" : ""));
     }
 
     if (Gerrit.isSignedIn()) {

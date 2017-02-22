@@ -108,6 +108,42 @@
     },
     {
       "key": {
+        "uuid": "2804cd59_2655f828",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-22T17:41:31Z",
+      "side": 1,
+      "message": "Will do that as a separate change.",
+      "parentUuid": "3e7b8e83_e846a4ea",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f33a404_d896f303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-22T17:41:31Z",
+      "side": 1,
+      "message": "Will do that as a separate change.",
+      "parentUuid": "3e7b8e83_e846a4ea",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0e18e69_5e3ae157",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 8
@@ -284,6 +320,24 @@
       "side": 1,
       "message": "Shall that index cleanup be provided as another REST endpoint, SSH command? Or as an option to the REST endpoint/SSH command you are introducing here?\n\nWhy is this cleanup tied to reindexing of a single project? What if I want to cleanup fantom index entries for all projects? Shall I reindex all projects one by one?",
       "parentUuid": "f675d9b0_03c8271b",
+      "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "894853c7_23dcd353",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-22T17:41:31Z",
+      "side": 1,
+      "message": "Agree it should be more generic but I will address this concern in a future change.",
+      "parentUuid": "bcff4b71_26de2c9b",
       "revId": "096293eba5cfdecd99f587f5473f9c3aa6ccc424",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

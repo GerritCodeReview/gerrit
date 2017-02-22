@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "5b7b5004_e8382bde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-22T08:31:13Z",
+      "side": 1,
+      "message": "Yes. Of course.",
+      "range": {
+        "startLine": 92,
+        "startChar": 14,
+        "endLine": 92,
+        "endChar": 64
+      },
+      "revId": "cc3c89ff0e7883b6829e4d7ac74a0fa85817dc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "928505da_6064687f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -36,6 +59,30 @@
       "writtenOn": "2017-02-22T08:28:05Z",
       "side": 1,
       "message": "Can this just be:\n\nLong count \u003d\n          comments\n              .stream()\n              .filter(c -\u003e (c.unresolved \u003d\u003d Boolean.TRUE \u0026\u0026 c.parentUuid \u003d\u003d null)))\n              .count();\n\n?",
+      "range": {
+        "startLine": 1002,
+        "startChar": 6,
+        "endLine": 1008,
+        "endChar": 23
+      },
+      "revId": "cc3c89ff0e7883b6829e4d7ac74a0fa85817dc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61e3b0e6_cae36731",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-22T08:31:13Z",
+      "side": 1,
+      "message": "No, I think. \u0027parentUuid\u0027 is null means it\u0027s the root comment rather than the leaf comment.",
+      "parentUuid": "928505da_6064687f",
       "range": {
         "startLine": 1002,
         "startChar": 6,

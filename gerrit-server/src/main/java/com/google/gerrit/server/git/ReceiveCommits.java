@@ -94,6 +94,7 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BatchUpdate.ChangeContext;
+import com.google.gerrit.server.git.BatchUpdate.Op;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -2500,6 +2501,15 @@ public class ReceiveCommits {
         cmd.execute(rp);
       }
       if (magicBranch != null && magicBranch.edit) {
+        bu.addOp(
+            notes.getChangeId(),
+            new Op() {
+              @Override
+              public boolean updateChange(ChangeContext ctx) throws Exception {
+                // return pseudo dirty state to trigger reindexing
+                return true;
+              }
+            });
         return;
       }
       RevWalk rw = rp.getRevWalk();

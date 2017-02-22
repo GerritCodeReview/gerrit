@@ -263,6 +263,12 @@ limitations under the License.
         assert.isTrue(topicStub.calledWith('the number', 'the new topic'));
       });
 
+      test('topic href has quotes', function() {
+        var hrefArr = element._computeTopicHref('test')
+            .split('%2522'); // Double-escaped quote.
+        assert.equal(hrefArr[1], 'test');
+      });
+
       test('clicking x on topic chip removes topic', function() {
         var topicStub = sandbox.stub(element.$.restAPI, 'setChangeTopic');
         flushAsynchronousOperations();

@@ -226,7 +226,8 @@
     },
 
     _computeTopicHref: function(topic) {
-      return '/q/topic:' + encodeURIComponent(encodeURIComponent(topic)) +
+      var encodedTopic = encodeURIComponent('\"' + topic + '\"');
+      return '/q/topic:' + encodeURIComponent(encodedTopic) +
           '+(status:open OR status:merged)';
     },
 

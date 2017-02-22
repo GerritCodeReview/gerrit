@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e3f38484_e1c39330",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T23:51:04Z",
+      "side": 1,
+      "message": "unintentional new line?",
+      "revId": "9ba086463eb803e57366ebe1ecff2838a1f62ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e22e4d0a_27510132",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 1

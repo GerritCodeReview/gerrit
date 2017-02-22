@@ -1,4 +1,62 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1487777046 -0500\nnonce AFJA6ofFXd4Bh8S1VMyQ0ZRrJ8i+ajoeJfdbOXUnYzhQF18L5/H8fAwwXBrJS62wQ2ClclU3f1de\n\n0000000000000000000000000000000000000000 f65ca01d4de44814a0afa116bf335ca9edbcfe47 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQIcBAABAgAGBQJYra0WAAoJEF/XxZqaEoiM6S8P/jW+RCHYiYEphaJ/oPdyKQTH\nwoIaHG3A2Eg6NEis1184yPtLp70rzSfun9Zw6CJQAKpCBifOfGHPWRWITLOM7jFk\nGQL+qIHxphYVKrYZvMO8dkh50W6SubFvOjetd2TeTXfLZivzArr2cRgHQjzTPD68\n43AIKTk/Kp+Zjh93iyrqLENwTiQG9a5f1XiqNw4/28tbv0mV1kuyPL8t/CQU5pBw\nFB3YL9zmL8Nt7FbXyl8L+RWG2Em4WTt9dLfUx0UT3ZGVPke4Qh8du82gZ+NhpBgT\nLu1vvHtBcp+GHrrYMQWcNL39gg4Koe8tLy33t9CHkzBLUL6Ao59uaURHhhr0UX7y\nR+RSNFeNgLpnTPkkTaeKl58EA/WBzuZWDSqAmkZNgqwijf4ISeKcz1qe2DNAS5/s\nGLEq1fUj5OmqQFNzGknd0SrLnmChNtd1Uyuw8aKLmQVhjxT8JSgtzdryz5CIpnzE\nvZgs+2jMUcjd9VrU1gFJ3PyPxNpJ+jt67v6biby97fsUFZ+2un8F+ZcfTT/6Mqsp\nXDrFTSe/qvIFytW7OufcVTk+GFes+vwcEhXoMI+PxGUxGhlE19S2xFT9IPp1FkWx\ngxzI9Qz7mKjCPL/uMIiPVQ4iJqF6yxwsOcI8Jv4KHgBEifn1TcWJZP0mZflublTC\npA8uwhluozZuQMjppURF\n\u003dorv3\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "774a5669_0c4338b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T15:34:53Z",
+      "side": 1,
+      "message": "Let this word out? As a user or site administrator I\u0027m also intresting to understand hwo ReviewDb -\u003e NoteDb migration works.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "f65ca01d4de44814a0afa116bf335ca9edbcfe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "116acdac_50b99a97",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T15:34:53Z",
+      "side": 1,
+      "message": "Sorry, I missed to mention two things yesterday:\n\n* 1. There is pending change with yet another option: \"noteDb.changes.disableReviewDb\" in [1]. Can we make sure to describe it either in this change or in: [1]?\n\n* [1] https://gerrit-review.googlesource.com/#/c/96734/3/gerrit-server/src/main/java/com/google/gerrit/server/notedb/ConfigNotesMigration.java@50",
+      "revId": "f65ca01d4de44814a0afa116bf335ca9edbcfe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "add4c8e4_62be85db",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T15:34:53Z",
+      "side": 1,
+      "message": "There is another migration direction NoteDb -\u003e ReveiwDb, where the source of the truth is the NoteDb. Would it also make sens to mention here and outline the typical use cases, when the user would like to do that?",
+      "revId": "f65ca01d4de44814a0afa116bf335ca9edbcfe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

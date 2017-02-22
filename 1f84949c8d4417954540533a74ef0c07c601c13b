@@ -382,6 +382,24 @@
       "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e75211f0_b04f3bdd",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T15:34:53Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "ac3f7b7b_cbcabf81",
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

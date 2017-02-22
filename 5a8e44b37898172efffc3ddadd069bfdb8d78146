@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4cea124f_9ffed839",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T16:54:53Z",
+      "side": 1,
+      "message": "It won\u0027t be standard until 3.0, and by then, this document surely will not exist in anything like its current form.",
+      "parentUuid": "03f70b3a_1c86012a",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 32
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "256c3556_fbe85bb9",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 4
@@ -37,6 +61,24 @@
       "writtenOn": "2017-02-22T16:43:41Z",
       "side": 1,
       "message": "Also transactions.\n\nI assume this doesn\u0027t mention that because jgit\u0027s RefDirectory doesn\u0027t perform atomic transactions so unless you\u0027re using DfsRepository you don\u0027t get the benefit.",
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b3250e2_8cd570fd",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T16:54:53Z",
+      "side": 1,
+      "message": "Yeah, \"snapshot\" is as consistent as your backend, which in the case of JGit FileRepository, isn\u0027t. Obviously we could go into detail but I don\u0027t think this overview section is the place.",
+      "parentUuid": "256c3556_fbe85bb9",
       "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -66,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "e20ac130_f5d7b4e8",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T16:54:53Z",
+      "side": 1,
+      "message": "\u003cbr\u003e",
+      "parentUuid": "34874ccf_e15a510c",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b67d9bd_91cc2ce1",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 4
@@ -86,6 +152,30 @@
       "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb7dc564_b9c1ff10",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T16:54:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3b67d9bd_91cc2ce1",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

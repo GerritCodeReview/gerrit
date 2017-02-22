@@ -40,7 +40,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                   "author:",
                   "committer:",
                   "from:",
-                  "assignee:"),
+                  "assignee:",
+                  "cc:"),
               new AccountSuggestOracle() {
                 @Override
                 public void onRequestSuggestions(final Request request, final Callback done) {
@@ -152,6 +153,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("unresolved:");
 
     if (Gerrit.isNoteDbEnabled()) {
+      suggestions.add("cc:");
       suggestions.add("hashtag:");
     }
 

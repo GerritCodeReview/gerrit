@@ -34,6 +34,7 @@ import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -43,6 +44,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -1480,17 +1482,30 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void reviewer() throws Exception {
+  public void reviewerAndCc() throws Exception {
+    Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
     insert(repo, newChange(repo));
 
-    gApi.changes().id(change1.getId().get()).current().review(ReviewInput.approve());
-    gApi.changes().id(change2.getId().get()).current().review(ReviewInput.approve());
+    AddReviewerInput rin = new AddReviewerInput();
+    rin.reviewer = user1.toString();
+    rin.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change1.getId().get()).addReviewer(rin);
 
-    Account.Id id = user.getAccountId();
-    assertQuery("reviewer:" + id, change2, change1);
+    rin = new AddReviewerInput();
+    rin.reviewer = user1.toString();
+    rin.state = ReviewerState.CC;
+    gApi.changes().id(change2.getId().get()).addReviewer(rin);
+
+    if (notesMigration.readChanges()) {
+      assertQuery("reviewer:" + user1, change1);
+      assertQuery("cc:" + user1, change2);
+    } else {
+      assertQuery("reviewer:" + user1, change2, change1);
+      assertQuery("cc:" + user1);
+    }
   }
 
   @Test

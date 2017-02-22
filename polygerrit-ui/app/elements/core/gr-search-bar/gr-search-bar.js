@@ -22,6 +22,8 @@
     'author',
     'branch',
     'bug',
+    'cc',
+    'cc:self',
     'change',
     'comment',
     'commentby',
@@ -237,6 +239,7 @@
           return this._fetchProjects(predicate, expression);
 
         case 'author':
+        case 'cc':
         case 'commentby':
         case 'committer':
         case 'from':

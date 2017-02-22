@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testutil.ConfigSuite;
@@ -31,7 +30,6 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
@@ -136,10 +134,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     gApi.changes().id(id2).current().review(ReviewInput.approve());
     gApi.changes().id(id3).current().review(ReviewInput.approve());
 
-    Map<Branch.NameKey, RevTree> preview;
-    try (BinaryResult request = gApi.changes().id(id1).current().submitPreview()) {
-      preview = fetchFromBundles(request);
-    }
+    Map<Branch.NameKey, ObjectId> preview = fetchFromSubmitPreview(id1);
     gApi.changes().id(id1).current().submit();
     ObjectId subRepoId =
         subRepo

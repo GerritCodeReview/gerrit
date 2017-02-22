@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc34af95_3d51422f",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T02:00:11Z",
+      "side": 1,
+      "message": "Nit: add trailing comma.",
+      "revId": "616dd8b8b0c98a8c1dbe9d7d7d72ac018468be46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

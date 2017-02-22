@@ -71,6 +71,29 @@
       "revId": "2e8e96ca765cc04877de4e3e181b5028cb3bf7a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "888e0892_493a0384",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T05:59:03Z",
+      "side": 1,
+      "message": "Indeed, only negative tag filtering example is documented, with pre-pending of \u0027-\u0027 char to the tag. We should fix that.",
+      "range": {
+        "startLine": 220,
+        "startChar": 13,
+        "endLine": 220,
+        "endChar": 31
+      },
+      "revId": "2e8e96ca765cc04877de4e3e181b5028cb3bf7a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

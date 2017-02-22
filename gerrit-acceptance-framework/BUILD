@@ -48,6 +48,7 @@ java_library2(
         "//lib/httpcomponents:httpcore",
         "//lib/jetty:servlet",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib:jimfs",
         "//lib/log:impl_log4j",
         "//lib/log:log4j",
     ],

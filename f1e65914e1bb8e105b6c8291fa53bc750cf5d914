@@ -16,6 +16,24 @@
       "revId": "f1e65914e1bb8e105b6c8291fa53bc750cf5d914",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "835a1118_d424733c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-22T20:03:12Z",
+      "side": 1,
+      "message": "Nope, it wasn\u0027t a bad rebase. I always had these edits in this commit because I found them when I was writing this commit and didn\u0027t break it up to squash into the earlier commits where these changes could have happened.\n\nDone.",
+      "parentUuid": "1b7d47c3_5e81988b",
+      "revId": "f1e65914e1bb8e105b6c8291fa53bc750cf5d914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

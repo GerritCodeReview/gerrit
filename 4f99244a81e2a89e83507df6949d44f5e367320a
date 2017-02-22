@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aa2156b_30173ffe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T00:15:55Z",
+      "side": 1,
+      "message": "Does this advance *to* an existing tag close? This could use a test also to confirm that it advances past unicode properly.\n\nMaybe a JSDoc also.",
+      "range": {
+        "startLine": 483,
+        "startChar": 26,
+        "endLine": 483,
+        "endChar": 42
+      },
+      "revId": "4f99244a81e2a89e83507df6949d44f5e367320a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c26a63a7_c18a2011",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T00:15:55Z",
+      "side": 1,
+      "message": "Why double tildes? Is it to convert strings in the preferences to numbers? If so, maybe the coercion ought to be once at the start of the function.\n\n  var lineLength \u003d parseInt(this._prefs.line_length. 10);",
+      "range": {
+        "startLine": 504,
+        "startChar": 12,
+        "endLine": 504,
+        "endChar": 14
+      },
+      "revId": "4f99244a81e2a89e83507df6949d44f5e367320a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d83d379_2c00529c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T00:15:55Z",
+      "side": 1,
+      "message": "Was this the cause of the bug in the first place? Maybe describe the cause of the bug in the commit message.",
+      "range": {
+        "startLine": 506,
+        "startChar": 10,
+        "endLine": 506,
+        "endChar": 63
+      },
+      "revId": "4f99244a81e2a89e83507df6949d44f5e367320a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

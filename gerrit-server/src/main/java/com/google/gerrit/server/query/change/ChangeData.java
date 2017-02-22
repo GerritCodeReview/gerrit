@@ -996,9 +996,15 @@ public class ChangeData {
       if (!lazyLoad) {
         return null;
       }
+
+      List<Comment> comments =
+          Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
+      Set<String> nonLeafSet = comments.stream().map(c -> c.parentUuid).collect(Collectors.toSet());
+
       Long count =
-          Stream.concat(publishedComments().stream(), robotComments().stream())
-              .filter(c -> (c.unresolved == Boolean.TRUE))
+          comments
+              .stream()
+              .filter(c -> (c.unresolved == Boolean.TRUE && !nonLeafSet.contains(c.key.uuid)))
               .count();
       unresolvedCommentCount = count.intValue();
     }

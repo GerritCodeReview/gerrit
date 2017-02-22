@@ -23,6 +23,30 @@
       "revId": "2e8e96ca765cc04877de4e3e181b5028cb3bf7a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a028c8f_91cd24d6",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T05:45:38Z",
+      "side": 1,
+      "message": "How that:[1]?\n\n* http://paste.openstack.org/show/599977",
+      "parentUuid": "686637da_5cf88e5c",
+      "range": {
+        "startLine": 199,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 4
+      },
+      "revId": "2e8e96ca765cc04877de4e3e181b5028cb3bf7a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

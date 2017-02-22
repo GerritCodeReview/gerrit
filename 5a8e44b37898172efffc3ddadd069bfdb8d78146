@@ -63,6 +63,52 @@
       "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b67d9bd_91cc2ce1",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T16:51:57Z",
+      "side": 1,
+      "message": "Same question (there are more of these below; I\u0027ll stop asking about it).",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 17
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "931a5b49_8ab531f5",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-22T16:51:57Z",
+      "side": 1,
+      "message": "I don\u0027t understand this phrase. Do you mean that it\u0027s a live migration, or that it\u0027s a work in process upstream?",
+      "range": {
+        "startLine": 48,
+        "startChar": 63,
+        "endLine": 49,
+        "endChar": 15
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

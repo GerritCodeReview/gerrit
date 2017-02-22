@@ -127,6 +127,29 @@
     },
     {
       "key": {
+        "uuid": "7c3a34ca_0630f0da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T02:39:31Z",
+      "side": 1,
+      "message": "Would it be worth factoring this out to a separate static class that extends from BinaryResult and takes MergeOp in its constructor?\n\nFrom reusability point of view there is of course no gain, since it\u0027s only used here. But it might make it a bit more readable.",
+      "range": {
+        "startLine": 116,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 30
+      },
+      "revId": "311321456789d3019978e1931982666da3d7d0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4574492_d3989c48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PreviewSubmit.java",
         "patchSetId": 4

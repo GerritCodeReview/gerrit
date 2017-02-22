@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "0c143860_353c05b9",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T07:45:21Z",
+      "side": 1,
+      "message": "Given that we have a change under review that will allow to delete review comments, maybe it\u0027s better to explicitly say that history CAN be rewritten?\n\n\nhttps://gerrit-review.googlesource.com/#/c/93450/",
+      "parentUuid": "fa8a46ff_621b6bf3",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "1f84949c8d4417954540533a74ef0c07c601c13b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c565e7a5_48bd14d3",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 2

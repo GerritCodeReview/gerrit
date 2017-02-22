@@ -187,6 +187,30 @@
       "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ac25ea_97285700",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T21:35:35Z",
+      "side": 1,
+      "message": "Oh, sorry. I can\u0027t read.",
+      "parentUuid": "cd8fb38f_5fb2899b",
+      "range": {
+        "startLine": 395,
+        "startChar": 58,
+        "endLine": 395,
+        "endChar": 96
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

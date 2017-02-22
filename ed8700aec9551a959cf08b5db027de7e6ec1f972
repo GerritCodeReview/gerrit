@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "0eb235eb_2289d648",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-22T07:52:10Z",
+      "side": 1,
+      "message": "Right, but that takes an already instantiated InsertChangeOp and does some other processing than simply adding the op.  It\u0027s also referenced in 7 places.\n\nIs it likely that this will be celled from other places in future?  If so then let\u0027s keep it here, maybe with a better name.  Otherwise I would prefer to move the instantiation of this anonymous Op into ReceiveCommits per my previous comment.",
+      "parentUuid": "2ceda8b7_6e502048",
+      "range": {
+        "startLine": 661,
+        "startChar": 21,
+        "endLine": 661,
+        "endChar": 44
+      },
+      "revId": "ed8700aec9551a959cf08b5db027de7e6ec1f972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "999e6888_aa1444b7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2

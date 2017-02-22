@@ -22,6 +22,30 @@
       "revId": "d9add5b0844d903956359f229fbed2b85cd79d48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79453088_49262975",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-22T14:30:18Z",
+      "side": 1,
+      "message": "Why is this even a file at all? It should just use a ByteArrayOutputStream.\n\nThat can be a separate cleanup though.",
+      "parentUuid": "940086ff_dc415410",
+      "range": {
+        "startLine": 552,
+        "startChar": 6,
+        "endLine": 552,
+        "endChar": 51
+      },
+      "revId": "d9add5b0844d903956359f229fbed2b85cd79d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "426fa730_2382242c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T21:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a412e109_4454aa20",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaa310f0_5a1e1816",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "37751a68_b8c1f3cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T21:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaa310f0_5a1e1816",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 14,
+        "endChar": 3
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "555c096c_31abda51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T21:34:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eddcdc5e_36ae1cb1",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b631cb2e_26167f75",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-22T21:28:58Z",
       "side": 1,
       "message": "Doesn\u0027t the patch range have both numbers? Can this just listen to _patchRange.* ?",
+      "range": {
+        "startLine": 395,
+        "startChar": 58,
+        "endLine": 395,
+        "endChar": 96
+      },
+      "revId": "124dbd5f045f1df969db28b2fc7131ba11cbef2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd8fb38f_5fb2899b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-22T21:34:34Z",
+      "side": 1,
+      "message": "patchNum.num is the dropdown item we are trying to figure out whether or not to make disabled, so we can\u0027t use the patchRange for it.",
+      "parentUuid": "b631cb2e_26167f75",
       "range": {
         "startLine": 395,
         "startChar": 58,

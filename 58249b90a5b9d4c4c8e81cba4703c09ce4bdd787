@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee001dfb_1ad806c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-22T17:08:50Z",
+      "side": 1,
+      "message": "Does this need to be dependent on the rebase change?",
+      "revId": "58249b90a5b9d4c4c8e81cba4703c09ce4bdd787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

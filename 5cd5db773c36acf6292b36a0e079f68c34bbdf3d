@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a33f0084_91a017a4",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-22T07:23:58Z",
+      "side": 1,
+      "message": "Should we change this example to include multiple tags at once, e.g.:\n\n  bazel test --test_tag_filters\u003dapi,edit,rest //..",
+      "revId": "5cd5db773c36acf6292b36a0e079f68c34bbdf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

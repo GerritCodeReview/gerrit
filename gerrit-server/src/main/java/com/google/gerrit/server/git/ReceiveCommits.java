@@ -2500,6 +2500,15 @@ public class ReceiveCommits {
         cmd.execute(rp);
       }
       if (magicBranch != null && magicBranch.edit) {
+        bu.addOp(
+            notes.getChangeId(),
+            new BatchUpdate.Op() {
+              @Override
+              public boolean updateChange(ChangeContext ctx) throws Exception {
+                // return pseudo dirty state to trigger reindexing
+                return true;
+              }
+            });
         return;
       }
       RevWalk rw = rp.getRevWalk();

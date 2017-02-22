@@ -150,10 +150,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitToEmptyRepo() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
-    BinaryResult request = submitPreview(change.getChangeId());
+    Map<Branch.NameKey, RevTree> actual;
+    try (BinaryResult request = submitPreview(change.getChangeId())) {
+      actual = fetchFromBundles(request);
+    }
     RevCommit headAfterSubmitPreview = getRemoteHead();
     assertThat(headAfterSubmitPreview).isEqualTo(initialHead);
-    Map<Branch.NameKey, RevTree> actual = fetchFromBundles(request);
     assertThat(actual).hasSize(1);
 
     submit(change.getChangeId());
@@ -165,13 +167,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void submitSingleChange() throws Exception {
     RevCommit initialHead = getRemoteHead();
     PushOneCommit.Result change = createChange();
-    BinaryResult request = submitPreview(change.getChangeId());
+    Map<Branch.NameKey, RevTree> actual;
+    try (BinaryResult request = submitPreview(change.getChangeId())) {
+      actual = fetchFromBundles(request);
+    }
     RevCommit headAfterSubmit = getRemoteHead();
     assertThat(headAfterSubmit).isEqualTo(initialHead);
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
-
-    Map<Branch.NameKey, RevTree> actual = fetchFromBundles(request);
 
     if ((getSubmitType() == SubmitType.CHERRY_PICK)
         || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
@@ -199,21 +202,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result change4 = createChange("Change 4", "e", "e");
     // change 2 is not approved, but we ignore labels
     approve(change3.getChangeId());
-    BinaryResult request = null;
-    String msg = null;
-    try {
-      request = submitPreview(change4.getChangeId());
-    } catch (Exception e) {
-      msg = e.getMessage();
-    }
 
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    try (BinaryResult request = submitPreview(change4.getChangeId())) {
+      assertThat(getSubmitType()).isEqualTo(SubmitType.CHERRY_PICK);
       Map<Branch.NameKey, RevTree> s = fetchFromBundles(request);
       submit(change4.getChangeId());
       assertRevTrees(project, s);
-    } else if (getSubmitType() == SubmitType.FAST_FORWARD_ONLY) {
-      assertThat(msg)
-          .isEqualTo(
+    } catch (RestApiException e) {
+      switch (getSubmitType()) {
+        case FAST_FORWARD_ONLY:
+          assertThat(e.getMessage()).isEqualTo(
               "Failed to submit 3 changes due to the following problems:\n"
                   + "Change "
                   + change2.getChange().getId()
@@ -228,26 +226,19 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
                   + ": Project policy "
                   + "requires all submissions to be a fast-forward. Please "
                   + "rebase the change locally and upload again for review.");
-      RevCommit headAfterSubmit = getRemoteHead();
-      assertThat(headAfterSubmit).isEqualTo(headAfterFirstSubmit);
-      assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
-      assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
-    } else if ((getSubmitType() == SubmitType.REBASE_IF_NECESSARY)
-        || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
-      String change2hash = change2.getChange().currentPatchSet().getRevision().get();
-      assertThat(msg)
-          .isEqualTo(
+          break;
+        case REBASE_IF_NECESSARY:
+        case REBASE_ALWAYS:
+          String change2hash = change2.getChange().currentPatchSet().getRevision().get();
+          assertThat(e.getMessage()).isEqualTo(
               "Cannot rebase "
                   + change2hash
                   + ": The change could "
                   + "not be rebased due to a conflict during merge.");
-      RevCommit headAfterSubmit = getRemoteHead();
-      assertThat(headAfterSubmit).isEqualTo(headAfterFirstSubmit);
-      assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
-      assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
-    } else {
-      assertThat(msg)
-          .isEqualTo(
+          break;
+        case MERGE_ALWAYS:
+        case MERGE_IF_NECESSARY:
+          assertThat(e.getMessage()).isEqualTo(
               "Failed to submit 3 changes due to the following problems:\n"
                   + "Change "
                   + change2.getChange().getId()
@@ -264,6 +255,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
                   + ": Change could not be "
                   + "merged due to a path conflict. Please rebase the change "
                   + "locally and upload the rebased commit for review.");
+          break;
+        default:
+          fail("Should not reach here.");
+          break;
+      }
+
       RevCommit headAfterSubmit = getRemoteHead();
       assertThat(headAfterSubmit).isEqualTo(headAfterFirstSubmit);
       assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
@@ -279,12 +276,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result change4 = createChange("Change 4", "e", "e");
     // change 2 is not approved, but we ignore labels
     approve(change3.getChangeId());
-    BinaryResult request = submitPreview(change4.getChangeId());
-
+    Map<Branch.NameKey, RevTree> actual;
+    try (BinaryResult request = submitPreview(change4.getChangeId())) {
+      actual = fetchFromBundles(request);
+    }
     Map<String, Map<String, Integer>> expected = new HashMap<>();
-    expected.put(project.get(), new HashMap<String, Integer>());
+    expected.put(project.get(), new HashMap<>());
     expected.get(project.get()).put("refs/heads/master", 3);
-    Map<Branch.NameKey, RevTree> actual = fetchFromBundles(request);
 
     assertThat(actual).containsKey(new Branch.NameKey(project, "refs/heads/master"));
     if (getSubmitType() == SubmitType.CHERRY_PICK) {

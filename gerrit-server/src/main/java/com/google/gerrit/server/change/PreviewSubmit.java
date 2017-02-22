@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOpRepoManager;
 import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,7 +41,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.Set;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -77,7 +77,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc) throws RestApiException {
+  public BinaryResult apply(RevisionResource rsrc) throws OrmException, RestApiException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
@@ -100,63 +100,77 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     if (!control.getUser().isIdentifiedUser()) {
       throw new MethodNotAllowedException("Anonymous users cannot submit");
     }
-    try (BinaryResult b = getBundles(rsrc, f)) {
-      b.disableGzip()
-          .setContentType(f.getMimeType())
-          .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
-      return b;
-    } catch (OrmException | IOException e) {
-      throw new RestApiException("Error generating submit preview");
-    }
+
+    return getBundles(rsrc, f);
   }
 
-  private BinaryResult getBundles(RevisionResource rsrc, final ArchiveFormat f)
+  private BinaryResult getBundles(RevisionResource rsrc, ArchiveFormat f)
       throws OrmException, RestApiException {
     ReviewDb db = dbProvider.get();
     ChangeControl control = rsrc.getControl();
     IdentifiedUser caller = control.getUser().asIdentifiedUser();
     Change change = rsrc.getChange();
 
-    BinaryResult bin;
-    try (MergeOp op = mergeOpProvider.get()) {
+    final MergeOp op = mergeOpProvider.get();
+    try {
       op.merge(db, change, caller, false, new SubmitInput(), true);
-      final MergeOpRepoManager orm = op.getMergeOpRepoManager();
-      final Set<Project.NameKey> projects = op.getAllProjects();
-
-      bin =
-          new BinaryResult() {
-            @Override
-            public void writeTo(OutputStream out) throws IOException {
-              try (ArchiveOutputStream aos = f.createArchiveOutputStream(out)) {
-                for (Project.NameKey p : projects) {
-                  OpenRepo or = orm.getRepo(p);
-                  BundleWriter bw = new BundleWriter(or.getRepo());
-                  bw.setObjectCountCallback(null);
-                  bw.setPackConfig(null);
-                  Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
-                  for (ReceiveCommand r : refs) {
-                    bw.include(r.getRefName(), r.getNewId());
-                    ObjectId oldId = r.getOldId();
-                    if (!oldId.equals(ObjectId.zeroId())) {
-                      bw.assume(or.getCodeReviewRevWalk().parseCommit(oldId));
-                    }
-                  }
-                  // This naming scheme cannot produce directory/file conflicts
-                  // as no projects contains ".git/":
-                  String path = p.get() + ".git";
-
-                  LimitedByteArrayOutputStream bos =
-                      new LimitedByteArrayOutputStream(maxBundleSize, 1024);
-                  bw.writeBundle(NullProgressMonitor.INSTANCE, bos);
-                  f.putEntry(aos, path, bos.toByteArray());
-                }
-              } catch (LimitExceededException e) {
-                throw new NotImplementedException(
-                    "The bundle is too big to generate at the server");
-              }
-            }
-          };
+      BinaryResult bin = new SubmitPreviewResult(op, f, maxBundleSize);
+      bin.disableGzip().setContentType(f.getMimeType())
+          .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
+      return bin;
+    } catch (OrmException | RestApiException | RuntimeException e) {
+      op.close();
+      throw e;
     }
-    return bin;
+  }
+
+  private static class SubmitPreviewResult extends BinaryResult {
+
+    private final MergeOp mergeOp;
+    private final ArchiveFormat archiveFormat;
+    private final int maxBundleSize;
+
+    private SubmitPreviewResult(MergeOp mergeOp, ArchiveFormat archiveFormat, int maxBundleSize) {
+      this.mergeOp = mergeOp;
+      this.archiveFormat = archiveFormat;
+      this.maxBundleSize = maxBundleSize;
+    }
+
+    @Override
+    public void writeTo(OutputStream out) throws IOException {
+      try (ArchiveOutputStream aos = archiveFormat
+          .createArchiveOutputStream(out)) {
+        MergeOpRepoManager orm = mergeOp.getMergeOpRepoManager();
+        for (Project.NameKey p : mergeOp.getAllProjects()) {
+          OpenRepo or = orm.getRepo(p);
+          BundleWriter bw = new BundleWriter(or.getRepo());
+          bw.setObjectCountCallback(null);
+          bw.setPackConfig(null);
+          Collection<ReceiveCommand> refs = or.getUpdate().getRefUpdates();
+          for (ReceiveCommand r : refs) {
+            bw.include(r.getRefName(), r.getNewId());
+            ObjectId oldId = r.getOldId();
+            if (!oldId.equals(ObjectId.zeroId())) {
+              bw.assume(or.getCodeReviewRevWalk().parseCommit(oldId));
+            }
+          }
+          LimitedByteArrayOutputStream bos = new LimitedByteArrayOutputStream(maxBundleSize, 1024);
+          bw.writeBundle(NullProgressMonitor.INSTANCE, bos);
+          // This naming scheme cannot produce directory/file conflicts
+          // as no projects contains ".git/":
+          String path = p.get() + ".git";
+          archiveFormat.putEntry(aos, path, bos.toByteArray());
+        }
+      } catch (LimitExceededException e) {
+        throw new NotImplementedException("The bundle is too big to generate at the server");
+      } catch (NoSuchProjectException e) {
+        throw new IOException(e);
+      }
+    }
+
+    @Override
+    public void close() throws IOException {
+      mergeOp.close();
+    }
   }
 }

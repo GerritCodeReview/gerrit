@@ -64,9 +64,8 @@ public class GitModules {
     this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
     logDebug("Loading .gitmodules of {} for project {}", branch, project);
-    OpenRepo or = null;
     try {
-      or = orm.openRepo(project);
+      OpenRepo or = orm.getRepo(project);
       ObjectId id = or.repo.resolve(branch.get());
       if (id == null) {
         throw new IOException("Cannot open branch " + branch.get());
@@ -90,10 +89,6 @@ public class GitModules {
       subscriptions = new SubmoduleSectionParser(bbc, canonicalWebUrl, branch).parseAllSections();
     } catch (NoSuchProjectException e) {
       throw new IOException(e);
-    } finally {
-      if (or != null) {
-        or.close();
-      }
     }
   }
 

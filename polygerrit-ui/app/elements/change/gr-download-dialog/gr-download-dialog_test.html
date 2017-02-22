@@ -97,6 +97,45 @@ limitations under the License.
     };
   }
 
+  function getChangeObjectNoFetch() {
+    return {
+      current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
+      revisions: {
+        '34685798fe548b6d17d1e8e5edc43a26d055cc72': {
+          _number: 1,
+          fetch: {},
+        }
+      }
+    };
+  }
+
+  suite('gr-download-dialog tests with no fetch options', function() {
+    var element;
+
+    setup(function() {
+      element = fixture('basic');
+      element.change = getChangeObjectNoFetch();
+      element.patchNum = 1;
+      element.config = {
+        schemes: {
+          'anonymous http': {},
+          http: {},
+          repo: {},
+          ssh: {},
+        },
+        archives: ['tgz', 'tar', 'tbz2', 'txz'],
+      };
+    });
+
+    test('focuses on first download link if no copy links', function() {
+      flushAsynchronousOperations();
+      var focusStub = sinon.stub(element.$.download, 'focus');
+      element.focus();
+      assert.isTrue(focusStub.called);
+      focusStub.restore();
+    });
+  });
+
   suite('gr-download-dialog tests', function() {
     var element;
 
@@ -115,12 +154,21 @@ limitations under the License.
       };
     });
 
-    test('focuses on first download link', function() {
-      var focusStub = sinon.stub(element.$.download, 'focus');
+    test('focuses on first copy link', function() {
+      flushAsynchronousOperations();
+      var focusStub = sinon.stub(element.$$('.copyToClipboard'), 'focus');
       element.focus();
       flushAsynchronousOperations();
       assert.isTrue(focusStub.called);
       focusStub.restore();
+    });
+
+    test('copy to clipboard', function() {
+      flushAsynchronousOperations();
+      var clipboardSpy = sinon.spy(element, '_copyToClipboard');
+      var copyBtn = element.$$('.copyToClipboard');
+      MockInteractions.tap(copyBtn);
+      assert.isTrue(clipboardSpy.called);
     });
 
     test('element visibility', function() {

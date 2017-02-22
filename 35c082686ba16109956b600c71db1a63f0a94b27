@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3392dad6_0e19851e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/VelocityRuntimeProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-22T11:00:31Z",
+      "side": 1,
+      "message": "Please add a comment that explains why we are hard-coding \"velocity\" here.",
+      "revId": "35c082686ba16109956b600c71db1a63f0a94b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "371fa883_2559f564",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-22T00:21:31Z",
+      "side": 0,
+      "message": "I removed this one because it was still using an older version, please see https://github.com/Dominator008/CodeMirror-minified\n\nand + this just duplicates things if we include the normal files.",
+      "range": {
+        "startLine": 863,
+        "startChar": 0,
+        "endLine": 867,
+        "endChar": 1
+      },
+      "revId": "db30d31e1363138885e4ba282f9bedad0e9b6205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

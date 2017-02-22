@@ -639,6 +639,18 @@
       return 'patchInfo--oldPatchSet';
     },
 
+    /**
+     * Determines if a patch number should be disabled based on value of the
+     * basePatchNum from gr-file-list.
+     * @param {Number} patchNum Patch number available in dropdown
+     * @param {Number|String} basePatchNum Base patch number from file list
+     * @return {Boolean}
+     */
+    _computePatchSetDisabled: function(patchNum, basePatchNum) {
+      basePatchNum = basePatchNum === 'PARENT' ? 0 : basePatchNum;
+      return parseInt(patchNum, 10) <= parseInt(basePatchNum, 10);
+    },
+
     _computeAllPatchSets: function(change) {
       var patchNums = [];
       for (var commit in change.revisions) {

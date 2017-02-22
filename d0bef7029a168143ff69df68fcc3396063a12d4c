@@ -22,6 +22,30 @@
       "revId": "d0bef7029a168143ff69df68fcc3396063a12d4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75233b6d_2194149c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-22T18:45:09Z",
+      "side": 1,
+      "message": "I don\u0027t want to use test here because we are acting on behalf of this user, so we are effectively \"sudo-ing\" to the user and then need to rerun the check(READ) that would have happened in ChangesCollection when parsing the change out of the URL. That should be a check not a test call.",
+      "parentUuid": "9ce08869_0a45f52f",
+      "range": {
+        "startLine": 480,
+        "startChar": 4,
+        "endLine": 482,
+        "endChar": 31
+      },
+      "revId": "d0bef7029a168143ff69df68fcc3396063a12d4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

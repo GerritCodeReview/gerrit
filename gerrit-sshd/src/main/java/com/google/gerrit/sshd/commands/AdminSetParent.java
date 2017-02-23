@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -129,7 +130,11 @@ final class AdminSetParent extends SshCommand {
       childProjects.add(pc.getProject().getNameKey());
     }
     if (oldParent != null) {
-      childProjects.addAll(getChildrenForReparenting(oldParent));
+      try {
+        childProjects.addAll(getChildrenForReparenting(oldParent));
+      } catch (PermissionBackendException e) {
+        throw new Failure(1, "permissions unavailable", e);
+      }
     }
 
     for (final Project.NameKey nameKey : childProjects) {
@@ -185,7 +190,8 @@ final class AdminSetParent extends SshCommand {
    * list of child projects does not contain projects that were specified to be excluded from
    * reparenting.
    */
-  private List<Project.NameKey> getChildrenForReparenting(final ProjectControl parent) {
+  private List<Project.NameKey> getChildrenForReparenting(final ProjectControl parent)
+      throws PermissionBackendException {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
     for (final ProjectControl excludedChild : excludedChildren) {

@@ -24,21 +24,27 @@ import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,27 +62,32 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
   private final GroupBackend groupBackend;
   private final ProjectCache projectCache;
-  private final ProjectControl.Factory projectControlFactory;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> user;
+  private final ProjectControl.GenericFactory projectControlFactory;
   private final GroupControl.Factory groupControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final AllProjectsName allProjectsName;
 
   private final Project.NameKey projectName;
-  private ProjectControl pc;
   private WebLinks webLinks;
 
   @Inject
   ProjectAccessFactory(
-      final GroupBackend groupBackend,
-      final ProjectCache projectCache,
-      final ProjectControl.Factory projectControlFactory,
-      final GroupControl.Factory groupControlFactory,
-      final MetaDataUpdate.Server metaDataUpdateFactory,
-      final AllProjectsName allProjectsName,
-      final WebLinks webLinks,
+      GroupBackend groupBackend,
+      ProjectCache projectCache,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> user,
+      ProjectControl.GenericFactory projectControlFactory,
+      GroupControl.Factory groupControlFactory,
+      MetaDataUpdate.Server metaDataUpdateFactory,
+      AllProjectsName allProjectsName,
+      WebLinks webLinks,
       @Assisted final Project.NameKey name) {
     this.groupBackend = groupBackend;
     this.projectCache = projectCache;
+    this.permissionBackend = permissionBackend;
+    this.user = user;
     this.projectControlFactory = projectControlFactory;
     this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -87,8 +98,10 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   }
 
   @Override
-  public ProjectAccess call() throws NoSuchProjectException, IOException, ConfigInvalidException {
-    pc = open();
+  public ProjectAccess call()
+      throws NoSuchProjectException, IOException, ConfigInvalidException,
+          PermissionBackendException {
+    ProjectControl pc = checkProjectControl();
 
     // Load the current configuration from the repository, ensuring its the most
     // recent version available. If it differs from what was in the project
@@ -97,16 +110,15 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     ProjectConfig config;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
-
       if (config.updateGroupNames(groupBackend)) {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        pc = open();
+        pc = checkProjectControl();
       } else if (config.getRevision() != null
           && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        pc = open();
+        pc = checkProjectControl();
       }
     }
 
@@ -235,9 +247,14 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     return Maps.filterEntries(infos, in -> in.getValue() != null);
   }
 
-  private ProjectControl open() throws NoSuchProjectException {
-    return projectControlFactory.validateFor( //
-        projectName, //
-        ProjectControl.OWNER | ProjectControl.VISIBLE);
+  private ProjectControl checkProjectControl()
+      throws NoSuchProjectException, IOException, PermissionBackendException {
+    ProjectControl pc = projectControlFactory.controlFor(projectName, user.get());
+    try {
+      permissionBackend.user(user).project(projectName).check(ProjectPermission.ACCESS);
+    } catch (AuthException e) {
+      throw new NoSuchProjectException(projectName);
+    }
+    return pc;
   }
 }

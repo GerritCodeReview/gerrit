@@ -587,8 +587,11 @@ public class ProjectControl {
 
     private boolean can(ProjectPermission perm) throws PermissionBackendException {
       switch (perm) {
+        case ACCESS:
+          return isReadable() || isOwner();
+
         case READ:
-          return isReadable();
+          return allRefsAreVisible() || isOwner();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

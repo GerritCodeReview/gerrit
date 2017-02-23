@@ -76,6 +76,29 @@
     },
     {
       "key": {
+        "uuid": "b2b53e6b_8a19749f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T11:30:44Z",
+      "side": 1,
+      "message": "final",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "6e47bee506b9dfb8e3339fce12a4011de163ec5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99f894da_aa093b1c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 14

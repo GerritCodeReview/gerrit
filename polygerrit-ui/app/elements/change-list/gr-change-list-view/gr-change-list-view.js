@@ -134,8 +134,9 @@
       return offset === 0;
     },
 
-    _hideNextArrow: function(loading, changesPerPage) {
-      return loading || !this._changes || this._changes.length < changesPerPage;
+    _hideNextArrow: function(loading) {
+      return loading || !this._changes ||
+          !this._changes[this._changes.length - 1]._more_changes;
     },
 
     _handleNextPage: function() {

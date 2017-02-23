@@ -1212,6 +1212,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byDefaultWithCommitPrefix() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit = repo.parseBody(repo.commit().message("message").create());
+    Change change = insert(repo, newChangeForCommit(repo, commit));
+
+    assertQuery(commit.getId().getName().substring(0, 6), change);
+  }
+
+  @Test
   public void implicitVisibleTo() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);

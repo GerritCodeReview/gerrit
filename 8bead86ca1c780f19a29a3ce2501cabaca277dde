@@ -494,6 +494,24 @@
     },
     {
       "key": {
+        "uuid": "942ee19d_4e30c110",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/BooleanPredicate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T15:17:40Z",
+      "side": 1,
+      "message": "Not, if this would be used by another new predicate, like WorkInProgressPredicate.",
+      "parentUuid": "5a0fbb2c_7f550819",
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5399db36_d757726d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 17

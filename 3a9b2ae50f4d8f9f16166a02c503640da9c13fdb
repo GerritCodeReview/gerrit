@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93c25722_8066b6a9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:53:07Z",
+      "side": 1,
+      "message": "This one should probably also be removed?",
+      "range": {
+        "startLine": 343,
+        "startChar": 6,
+        "endLine": 343,
+        "endChar": 46
+      },
+      "revId": "3a9b2ae50f4d8f9f16166a02c503640da9c13fdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

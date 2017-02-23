@@ -188,6 +188,30 @@
     },
     {
       "key": {
+        "uuid": "001f8e4f_a0bf42e2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T14:37:08Z",
+      "side": 1,
+      "message": "Indeed.",
+      "parentUuid": "7625364f_69d87201",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907879dc_7804dace",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
         "patchSetId": 17

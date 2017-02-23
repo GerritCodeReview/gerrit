@@ -152,6 +152,24 @@
       "revId": "6eb3090885dc81454c8c2661b396ceafd4cc0d5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a25750f_9e9850f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-23T16:07:37Z",
+      "side": 1,
+      "message": "Ack, I was confused by the distinction between showMetadata and viewMetadata.",
+      "parentUuid": "40c58a19_d56fbbfd",
+      "revId": "6eb3090885dc81454c8c2661b396ceafd4cc0d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

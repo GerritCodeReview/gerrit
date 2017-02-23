@@ -601,6 +601,30 @@
     },
     {
       "key": {
+        "uuid": "273bacdb_ddfcb30c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:42:14Z",
+      "side": 1,
+      "message": "Using another structure as Dave suggested is definitely the way we should go.\n\nGeneral note: As I\u0027m using IntelliJ 2016.3.1, it automatically displays the variable names of such literals in code for me. In this case, I see \"stored\" twice because of the comment.",
+      "parentUuid": "88d31b60_4cbecf33",
+      "range": {
+        "startLine": 606,
+        "startChar": 61,
+        "endLine": 606,
+        "endChar": 71
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a254b1d_4ce1e8cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 15

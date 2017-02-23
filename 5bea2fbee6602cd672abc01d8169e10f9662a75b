@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36c8b08c_3de364dc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b03d1b_9033521b",
+      "range": {
+        "startLine": 486,
+        "startChar": 68,
+        "endLine": 486,
+        "endChar": 87
+      },
+      "revId": "5bea2fbee6602cd672abc01d8169e10f9662a75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cd0179e_fde06124",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-23T14:22:23Z",
       "side": 1,
       "message": "Would be also enough to set only new global capability to REGISTERED_USERS: [1]? Add a test for it?\n\n* [1] https://gerrit-review.googlesource.com/#/c/98134/18/gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java@50",
+      "range": {
+        "startLine": 499,
+        "startChar": 4,
+        "endLine": 499,
+        "endChar": 55
+      },
+      "revId": "5bea2fbee6602cd672abc01d8169e10f9662a75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6803b6a9_2d3da63e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:33:46Z",
+      "side": 1,
+      "message": "I only intended to test the different code paths of VisibleRefFilter. The new global capability influences ChangeControl#isVisible, whose code path in VisibileRefFilter is covered by the previous test.\n\nTesting whether ChangeControl#isVisible works as intended for all cases can be tested more easily via the REST/Java Api.",
+      "parentUuid": "6cd0179e_fde06124",
       "range": {
         "startLine": 499,
         "startChar": 4,

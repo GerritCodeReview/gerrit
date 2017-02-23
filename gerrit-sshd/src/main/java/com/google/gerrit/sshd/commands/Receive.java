@@ -49,11 +49,7 @@ final class Receive extends AbstractGitCommand {
   private static final Logger log = LoggerFactory.getLogger(Receive.class);
 
   @Inject private AsyncReceiveCommits.Factory factory;
-
   @Inject private IdentifiedUser currentUser;
-
-  @Inject private IdentifiedUser.GenericFactory identifiedUserFactory;
-
   @Inject private SshSession session;
 
   private final Set<Account.Id> reviewerId = new HashSet<>();
@@ -91,9 +87,6 @@ final class Receive extends AbstractGitCommand {
     if (r != Capable.OK) {
       throw die(r.getMessage());
     }
-
-    verifyProjectVisible("reviewer", reviewerId);
-    verifyProjectVisible("CC", ccId);
 
     receive.init();
     receive.addReviewers(reviewerId);
@@ -170,16 +163,6 @@ final class Receive extends AbstractGitCommand {
 
       IOException detail = new IOException(msg.toString(), badStream);
       throw new Failure(128, "fatal: Unpack error, check server log", detail);
-    }
-  }
-
-  private void verifyProjectVisible(final String type, final Set<Account.Id> who)
-      throws UnloggedFailure {
-    for (final Account.Id id : who) {
-      final IdentifiedUser user = identifiedUserFactory.create(id);
-      if (!projectControl.forUser(user).isVisible()) {
-        throw die(type + " " + user.getAccount().getFullName() + " cannot access the project");
-      }
     }
   }
 }

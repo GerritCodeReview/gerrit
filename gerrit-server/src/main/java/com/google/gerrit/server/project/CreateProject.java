@@ -55,6 +55,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -148,7 +149,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   @Override
   public Response<ProjectInfo> apply(TopLevelResource resource, ProjectInput input)
       throws BadRequestException, UnprocessableEntityException, ResourceConflictException,
-          ResourceNotFoundException, IOException, ConfigInvalidException {
+          ResourceNotFoundException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     if (input == null) {
       input = new ProjectInput();
     }

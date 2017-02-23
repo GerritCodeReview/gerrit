@@ -122,7 +122,7 @@ class GroupsImpl implements Groups {
     for (String project : req.getProjects()) {
       try {
         list.addProject(projects.parse(tlr, IdString.fromDecoded(project)).getControl());
-      } catch (IOException e) {
+      } catch (IOException | PermissionBackendException e) {
         throw new RestApiException("Error looking up project " + project, e);
       }
     }

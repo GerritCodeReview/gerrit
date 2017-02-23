@@ -118,6 +118,30 @@
       "revId": "386a6caae66c7a482434dde9fedc6ca03f019689",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48541231_b7cdd2e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T14:56:01Z",
+      "side": 1,
+      "message": "no (sorry); it was just a quick spreadsheet I threw together, so you\u0027re not missing anything.",
+      "parentUuid": "d1d3b662_541ded4b",
+      "range": {
+        "startLine": 564,
+        "startChar": 4,
+        "endLine": 566,
+        "endChar": 5
+      },
+      "revId": "386a6caae66c7a482434dde9fedc6ca03f019689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

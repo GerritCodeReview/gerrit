@@ -370,6 +370,30 @@
     },
     {
       "key": {
+        "uuid": "efc30bb7_9dca085d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T16:04:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0302ad8a_9309008a",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d0dd9cb_d94f9e67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
         "patchSetId": 15
@@ -381,6 +405,30 @@
       "writtenOn": "2017-02-23T14:11:31Z",
       "side": 1,
       "message": "optional: Please use a more meaningful name.",
+      "range": {
+        "startLine": 70,
+        "startChar": 21,
+        "endLine": 70,
+        "endChar": 22
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7514b9b5_b6524191",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T16:04:18Z",
+      "side": 1,
+      "message": "(seems fine for such a small scope.)",
+      "parentUuid": "9d0dd9cb_d94f9e67",
       "range": {
         "startLine": 70,
         "startChar": 21,

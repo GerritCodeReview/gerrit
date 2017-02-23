@@ -107,6 +107,8 @@ import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -393,7 +395,7 @@ public class ReceiveCommits {
       SetHashtagsOp.Factory hashtagsFactory,
       ReplaceOp.Factory replaceOpFactory,
       MergedByPushOp.Factory mergedByPushOpFactory)
-      throws IOException {
+      throws IOException, PermissionBackendException {
     this.user = projectControl.getUser().asIdentifiedUser();
     this.db = db;
     this.seq = seq;
@@ -468,9 +470,14 @@ public class ReceiveCommits {
           }
         });
 
-    if (!projectControl.allRefsAreVisible()) {
+    // If the user lacks READ permission, some references may be filtered and hidden from view.
+    // Check objects mentioned inside the incoming pack file are reachable from visible refs.
+    try {
+      permissionBackend.user(user).project(project.getNameKey()).check(ProjectPermission.READ);
+    } catch (AuthException e) {
       rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
     }
+
     rp.setAdvertiseRefsHook(
         new VisibleRefFilter(tagCache, notesFactory, changeCache, repo, projectControl, db, false));
     List<AdvertiseRefsHook> advHooks = new ArrayList<>(3);

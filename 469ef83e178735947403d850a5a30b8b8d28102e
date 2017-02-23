@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "790fe3a4_32ed34be",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T07:59:49Z",
+      "side": 1,
+      "message": "Why woul dthat make sense? api has 80 classes under the test, Why would I want to exclude one of them with such obscure regex syntax?",
+      "revId": "469ef83e178735947403d850a5a30b8b8d28102e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

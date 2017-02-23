@@ -83,18 +83,10 @@ limitations under the License.
       .action {
         margin-right: .5em;
       }
-      .danger {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
-      }
       .editMessage {
         display: none;
         margin: .5em 0;
         width: 100%;
-      }
-      .danger .action {
-        margin-right: 0;
       }
       .container:not(.draft) .actions .hideOnPublished {
         display: none;
@@ -118,7 +110,8 @@ limitations under the License.
       .editing .quote,
       .editing .ack,
       .editing .done,
-      .editing .edit {
+      .editing .edit,
+      .editing .unresolved {
         display: none;
       }
       .editing .editMessage {
@@ -171,8 +164,12 @@ limitations under the License.
       #container.collapsed iron-autogrow-textarea {
         display: none;
       }
-      .resolve {
-        margin: auto;
+      .resolve,
+      .unresolved {
+        align-items: center;
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
       }
       .resolve label {
         color: #333;
@@ -236,6 +233,8 @@ limitations under the License.
             disabled$="[[_computeSaveDisabled(_messageText)]]">Save</gr-button>
         <gr-button class="action cancel hideOnPublished"
             on-tap="_handleCancel" hidden>Cancel</gr-button>
+        <gr-button class="action discard hideOnPublished"
+            on-tap="_handleDiscard">Discard</gr-button>
         <div class="action resolve hideOnPublished">
           <label>
             <input type="checkbox"
@@ -244,9 +243,8 @@ limitations under the License.
             Resolved
           </label>
         </div>
-        <div class="danger">
-          <gr-button class="action discard hideOnPublished"
-              on-tap="_handleDiscard">Discard</gr-button>
+        <div class="action unresolved hideOnPublished" hidden$="[[resolved]]">
+          Unresolved
         </div>
       </div>
       <div class="actions robotActions" hidden$="[[!_showRobotActions]]">

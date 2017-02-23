@@ -52,6 +52,24 @@
       "revId": "270930dd7e0a58bdaf6b585fdfd047abd2669378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa8d1666_67c445a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T08:56:06Z",
+      "side": 1,
+      "message": "Strange, how could I missed that? Wasn\u0027t this change based on that you\u0027ve pointed to?",
+      "parentUuid": "0f1ec9ea_95d7102b",
+      "revId": "270930dd7e0a58bdaf6b585fdfd047abd2669378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

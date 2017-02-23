@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f257694a_466ac9b2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: Can be omitted.",
+      "range": {
+        "startLine": 230,
+        "startChar": 43,
+        "endLine": 230,
+        "endChar": 49
+      },
+      "revId": "29413b23ede489f5cd8e3fde7214624f1a2d946d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bdd374b_c4257a04",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: Could we please use a more meaningful name?",
+      "range": {
+        "startLine": 380,
+        "startChar": 25,
+        "endLine": 380,
+        "endChar": 26
+      },
+      "revId": "29413b23ede489f5cd8e3fde7214624f1a2d946d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

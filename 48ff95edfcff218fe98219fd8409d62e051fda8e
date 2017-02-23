@@ -1,0 +1,694 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e989c1ec_f45cbd6f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2109,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "What about \"Is Private\"?",
+      "range": {
+        "startLine": 2109,
+        "startChar": 4,
+        "endLine": 2109,
+        "endChar": 15
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2656299e_f58cb2c8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2114,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: Maybe we should mention that visibility of private changes is restricted.",
+      "range": {
+        "startLine": 2114,
+        "startChar": 0,
+        "endLine": 2114,
+        "endChar": 30
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47575889_2838867b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2138,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Is this still accurate?",
+      "range": {
+        "startLine": 2138,
+        "startChar": 31,
+        "endLine": 2138,
+        "endChar": 94
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47892ad4_6e6ca39b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2153,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "This headline is a bit misleading. We should rather use \"Unmark Private\" (and call the previous section \"Mark Private\") or use \"Set Non-Private\".",
+      "range": {
+        "startLine": 2153,
+        "startChar": 4,
+        "endLine": 2153,
+        "endChar": 18
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66201dec_08623916",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2158,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Is this still accurate?",
+      "range": {
+        "startLine": 2158,
+        "startChar": 34,
+        "endLine": 2158,
+        "endChar": 97
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec976c83_caecfbed",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2170,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Why do we respond with a conflict in this situation but respond with a 200 when marking an already private change as private?",
+      "range": {
+        "startLine": 2170,
+        "startChar": 55,
+        "endLine": 2170,
+        "endChar": 71
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b18bcd02_ce4a9fe7",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: That isn\u0027t absolutely accurate. Someone with the permission to view all private changes can view them too.",
+      "range": {
+        "startLine": 352,
+        "startChar": 31,
+        "endLine": 353,
+        "endChar": 10
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc4fb02_642c0241",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: We could use the annotation @TestProjectInput(cloneAs \u003d \"user\") instead and work directly on the testRepo. The same holds for the next two tests.",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 181,
+        "endChar": 78
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5486880_46127ded",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiAction.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Why do we need the public modifier?",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 10
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "860cdad0_a82d3450",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "What do we need this for?",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9352ae74_35468585",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeActions.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "We shouldn\u0027t call them draftButtons. I know that the previous method (as well as cs()) erroneously does it too but we should try to do better.",
+      "range": {
+        "startLine": 40,
+        "startChar": 50,
+        "endLine": 40,
+        "endChar": 62
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b353c4b_40b821b7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Why don\u0027t we use \"Util.C.isPrivate()\"?",
+      "range": {
+        "startLine": 240,
+        "startChar": 82,
+        "endLine": 240,
+        "endChar": 91
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1fa245c_d6340fd4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: Is there a reason why we don\u0027t use Void? If it\u0027s because Void cannot be instantiated, why don\u0027t we introduce a VoidInput which we use throughout Gerrit?",
+      "range": {
+        "startLine": 38,
+        "startChar": 69,
+        "endLine": 38,
+        "endChar": 88
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "496be1f9_475d08f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: What about \"DeletePrivateFlag\" or \"UnmarkPrivate?",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 26
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb4462a4_a9442764",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Please use the correct class.",
+      "range": {
+        "startLine": 40,
+        "startChar": 60,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0302ad8a_9309008a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Don\u0027t we need to check whether the user is the identified user?",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0dd9cb_d94f9e67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: Please use a more meaningful name.",
+      "range": {
+        "startLine": 70,
+        "startChar": 21,
+        "endLine": 70,
+        "endChar": 22
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0bef9eb_3f7df6bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeletePrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Why don\u0027t we move this to ChangeControl and use it here as well as for apply()?",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 57
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eca9bad8_08cd6048",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: What about \"IsPrivate\"?",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6367f5f3_c4326b1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "What do we need this string for?",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcba09af_96bdb387",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutPrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: What about \"SetPrivateFlag\" or \"MarkPrivate\"?",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db758c08_49946292",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutPrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Please use the correct class.",
+      "range": {
+        "startLine": 39,
+        "startChar": 60,
+        "endLine": 39,
+        "endChar": 67
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c39f4a2c_02459152",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutPrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: Please use a more meaningful name.",
+      "range": {
+        "startLine": 69,
+        "startChar": 21,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c5a9d18_57b9939f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutPrivate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Same as for DeletePrivate.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 57
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a1d698e_d16bc9d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Why do we need this comment?",
+      "range": {
+        "startLine": 606,
+        "startChar": 61,
+        "endLine": 606,
+        "endChar": 71
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a254b1d_4ce1e8cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: Store the value in a local variable which is checked against null.",
+      "range": {
+        "startLine": 570,
+        "startChar": 11,
+        "endLine": 570,
+        "endChar": 28
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13a7659d_259eff74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 485,
+        "startChar": 2,
+        "endLine": 485,
+        "endChar": 8
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e3b282f_29ce3dd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: What about \"canSeePrivateChange()\" or \"canViewPrivateChange()\"?",
+      "range": {
+        "startLine": 485,
+        "startChar": 17,
+        "endLine": 485,
+        "endChar": 33
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e431502_11a95ce0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/BooleanPredicate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "Why do we need these class definitions? Can\u0027t we use e.g. new BooleanPredicate(ChangeField.MERGEABLE, args.fillArgs) in ChangeQueryBuilder?",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f166ac96_73745ae3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 3289,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T14:11:31Z",
+      "side": 1,
+      "message": "optional: Please use a more meaningful name.",
+      "range": {
+        "startLine": 3289,
+        "startChar": 11,
+        "endLine": 3289,
+        "endChar": 12
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

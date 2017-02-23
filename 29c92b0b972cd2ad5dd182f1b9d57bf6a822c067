@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ed56adb_8a65ec91",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T16:07:26Z",
+      "side": 1,
+      "message": "Maybe \"To push a private change or to turn a change to be private, push with the `private` option:\"",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 24
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59b9b581_4cc43057",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T16:07:26Z",
+      "side": 1,
+      "message": "why not use private?",
+      "range": {
+        "startLine": 226,
+        "startChar": 19,
+        "endLine": 226,
+        "endChar": 26
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "001d1e7e_1b95cd57",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T16:07:26Z",
+      "side": 1,
+      "message": "Maybe \"change, push with `remove-private` option:",
+      "range": {
+        "startLine": 227,
+        "startChar": 12,
+        "endLine": 227,
+        "endChar": 67
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4319baa2_d1300c20",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T16:07:26Z",
+      "side": 1,
+      "message": "Comment should start with uppercase letter. same below.",
+      "range": {
+        "startLine": 379,
+        "startChar": 7,
+        "endLine": 379,
+        "endChar": 11
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82e49239_2760b8ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T16:07:26Z",
+      "side": 1,
+      "message": "Choose a shorter name?",
+      "range": {
+        "startLine": 477,
+        "startChar": 14,
+        "endLine": 477,
+        "endChar": 64
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7406e355_6a536d25",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T16:07:26Z",
+      "side": 1,
+      "message": "Choose a shorter name?",
+      "range": {
+        "startLine": 498,
+        "startChar": 14,
+        "endLine": 498,
+        "endChar": 75
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

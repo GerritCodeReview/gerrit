@@ -57,10 +57,12 @@ limitations under the License.
           selected-index="{{viewState.selectedChangeIndex}}"
           show-star="[[loggedIn]]"></gr-change-list>
       <nav>
-        <a href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
-           hidden$="[[_hidePrevArrow(_offset)]]" hidden>&larr; Prev</a>
-        <a href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
-           hidden$="[[_hideNextArrow(_loading, _changesPerPage)]]" hidden>
+        <a id="prevArrow"
+            href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
+            hidden$="[[_hidePrevArrow(_offset)]]" hidden>&larr; Prev</a>
+        <a id="nextArrow"
+            href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
+            hidden$="[[_hideNextArrow(_loading, _changesPerPage)]]" hidden>
           Next &rarr;</a>
       </nav>
     </div>

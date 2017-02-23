@@ -18,6 +18,7 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-change-list-view</title>
 
+<script src="../../../bower_components/page/page.js"></script>
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 
@@ -32,12 +33,18 @@ limitations under the License.
 <script>
   suite('gr-change-list-view tests', function() {
     var element;
+    var sandbox;
 
     setup(function() {
       stub('gr-rest-api-interface', {
         getLoggedIn: function() { return Promise.resolve(false); },
       });
       element = fixture('basic');
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(function() {
+      sandbox.restore();
     });
 
     test('url is properly encoded', function() {
@@ -49,6 +56,66 @@ limitations under the License.
           'status:open project:platform/frameworks/base', 0, 1, 25),
           '/q/status:open+project:platform%252Fframeworks%252Fbase,25'
       );
+    });
+
+    test('_computeNavLink', function() {
+      var query = 'status:open';
+      var offset = 0;
+      var direction = 1;
+      var changesPerPage = 5;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/q/status:open,5');
+      direction = -1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/q/status:open');
+      offset = 5;
+      direction = 1;
+      assert.equal(
+          element._computeNavLink(query, offset, direction, changesPerPage),
+          '/q/status:open,10');
+    });
+
+    test('_hidePrevArrow', function() {
+      var offset = 0;
+      assert.isTrue(element._hidePrevArrow(offset));
+      offset = 5;
+      assert.isFalse(element._hidePrevArrow(offset));
+    });
+
+    test('_hideNextArrow', function() {
+      var loading = true;
+      var changesPerPage = 25;
+      assert.isTrue(element._hideNextArrow(loading, changesPerPage));
+      loading = false;
+      assert.isTrue(element._hideNextArrow(loading, changesPerPage));
+      element._changes =
+          Array.apply(null, Array(5)).map(Number.prototype.valueOf, 0);
+      assert.isTrue(element._hideNextArrow(loading, changesPerPage));
+      element._changes =
+          Array.apply(null, Array(25)).map(Number.prototype.valueOf, 0);
+      assert.isFalse(element._hideNextArrow(loading, changesPerPage));
+    });
+
+    test('_handleNextPage', function() {
+      var showStub = sandbox.stub(page, 'show');
+      element.$.nextArrow.hidden = true;
+      element._handleNextPage();
+      assert.isFalse(showStub.called);
+      element.$.nextArrow.hidden = false;
+      element._handleNextPage();
+      assert.isTrue(showStub.called);
+    });
+
+    test('_handlePreviousPage', function() {
+      var showStub = sandbox.stub(page, 'show');
+      element.$.prevArrow.hidden = true;
+      element._handlePreviousPage();
+      assert.isFalse(showStub.called);
+      element.$.prevArrow.hidden = false;
+      element._handlePreviousPage();
+      assert.isTrue(showStub.called);
     });
   });
 </script>

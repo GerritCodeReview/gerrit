@@ -140,6 +140,29 @@
     },
     {
       "key": {
+        "uuid": "3a52d32c_af9c2ea9",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T17:38:10Z",
+      "side": 1,
+      "message": "\"View Private Changes\" link to the corresponding section access-control.txt: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/98134/25/Documentation/access-control.txt@853",
+      "range": {
+        "startLine": 517,
+        "startChar": 16,
+        "endLine": 517,
+        "endChar": 26
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57efd75c_61239321",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1

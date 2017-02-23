@@ -204,7 +204,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void accessPrivateByOtherUser() throws Exception {
+  public void accessPrivateByOthers() throws Exception {
     TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
     PushOneCommit.Result result =
         pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
@@ -212,10 +212,20 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(user);
     gApi.changes().id(result.getChangeId()).setPrivate(true);
 
-    // This change should not be visible for other users
+    // Add admin as a reviewer.
+    gApi.changes().id(result.getChangeId()).addReviewer(admin.getId().toString());
+
+    // This change should be visible for admin as a reviewer.
     setApiUser(admin);
-    exception.expect(ResourceNotFoundException.class);
     assertThat(gApi.changes().id(result.getChangeId()).isPrivate()).isTrue();
+
+    // Remove admin from reviewers.
+    gApi.changes().id(result.getChangeId()).reviewer(admin.getId().toString()).remove();
+
+    // This change should not be visible for admin anymore.
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("Not found: " + result.getChangeId());
+    gApi.changes().id(result.getChangeId()).get();
   }
 
   @Test

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7102938_1685efc5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-23T19:21:14Z",
+      "side": 1,
+      "message": "Should it also account for when this._changes is an empty array?\n\nreturn loading || !this._changes || !this._changes.length ||\n    !this._changes[this._changes.length - 1]._more_changes;",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 65
+      },
+      "revId": "0079556a3d2fdfd8f35d5744f1703c3a7b03448b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

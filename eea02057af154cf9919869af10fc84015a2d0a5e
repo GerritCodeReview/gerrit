@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13c0920c_99c379f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T23:27:31Z",
+      "side": 1,
+      "message": "optional: do this in a separate commit",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "eea02057af154cf9919869af10fc84015a2d0a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7120d06a_2de8461a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T23:27:31Z",
+      "side": 1,
+      "message": "Do we need this prefix?  We can already see from the log channel name MailProcessor that it\u0027s mail-related.",
+      "range": {
+        "startLine": 128,
+        "startChar": 17,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "eea02057af154cf9919869af10fc84015a2d0a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -170,11 +170,17 @@ public class TagsIT extends AbstractDaemonTest {
     TagInfo result = tag(input.ref).create(input).get();
     assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
     assertThat(result.revision).isEqualTo(input.revision);
+    assertThat(result.canDelete).isTrue();
 
     input.ref = "refs/tags/v2.0";
     result = tag(input.ref).create(input).get();
     assertThat(result.ref).isEqualTo(input.ref);
     assertThat(result.revision).isEqualTo(input.revision);
+    assertThat(result.canDelete).isTrue();
+
+    setApiUser(user);
+    result = tag(input.ref).get();
+    assertThat(result.canDelete).isFalse();
 
     eventRecorder.assertRefUpdatedEvents(project.get(), result.ref, null, result.revision);
   }

@@ -121,10 +121,11 @@ public class ListTags implements RestReadView<ProjectResource> {
 
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
+      ProjectControl control = resource.getControl();
       Map<String, Ref> all =
-          visibleTags(resource.getControl(), repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
+          visibleTags(control, repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
-        tags.add(createTagInfo(ref, rw));
+        tags.add(createTagInfo(ref, rw, control.controlForRef(ref.getName())));
       }
     }
 
@@ -154,16 +155,16 @@ public class ListTags implements RestReadView<ProjectResource> {
         tagName = Constants.R_TAGS + tagName;
       }
       Ref ref = repo.getRefDatabase().exactRef(tagName);
+      ProjectControl control = resource.getControl();
       if (ref != null
-          && !visibleTags(resource.getControl(), repo, ImmutableMap.of(ref.getName(), ref))
-              .isEmpty()) {
-        return createTagInfo(ref, rw);
+          && !visibleTags(control, repo, ImmutableMap.of(ref.getName(), ref)).isEmpty()) {
+        return createTagInfo(ref, rw, control.controlForRef(ref.getName()));
       }
     }
     throw new ResourceNotFoundException(id);
   }
 
-  public static TagInfo createTagInfo(Ref ref, RevWalk rw)
+  public static TagInfo createTagInfo(Ref ref, RevWalk rw, RefControl control)
       throws MissingObjectException, IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
     if (object instanceof RevTag) {
@@ -175,10 +176,11 @@ public class ListTags implements RestReadView<ProjectResource> {
           tag.getName(),
           tag.getObject().getName(),
           tag.getFullMessage().trim(),
-          tagger != null ? CommonConverters.toGitPerson(tag.getTaggerIdent()) : null);
+          tagger != null ? CommonConverters.toGitPerson(tag.getTaggerIdent()) : null,
+          control.canDelete());
     }
     // Lightweight tag
-    return new TagInfo(ref.getName(), ref.getObjectId().getName());
+    return new TagInfo(ref.getName(), ref.getObjectId().getName(), control.canDelete());
   }
 
   private Repository getRepository(Project.NameKey project)

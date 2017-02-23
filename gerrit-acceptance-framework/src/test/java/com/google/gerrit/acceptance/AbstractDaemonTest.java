@@ -999,6 +999,7 @@ public abstract class AbstractDaemonTest {
 
   protected void grantTagPermissions() throws Exception {
     grant(Permission.CREATE, project, R_TAGS + "*");
+    grant(Permission.DELETE, project, R_TAGS + "");
     grant(Permission.CREATE_TAG, project, R_TAGS + "*");
     grant(Permission.CREATE_SIGNED_TAG, project, R_TAGS + "*");
   }

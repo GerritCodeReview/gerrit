@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d83363d_54ef2452",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/TagInfo.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:43:49Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "385c9cc6_f8c27fd3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:43:49Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 28,
+        "startChar": 36,
+        "endLine": 28,
+        "endChar": 48
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d0907_acb62e31",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:43:49Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 34,
+        "startChar": 35,
+        "endLine": 34,
+        "endChar": 48
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "933af610_dbe1fa68",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:43:49Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 54,
+        "startChar": 37,
+        "endLine": 54,
+        "endChar": 42
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "292e550d_300816f7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:43:49Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 56,
+        "startChar": 37,
+        "endLine": 56,
+        "endChar": 48
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44597287_54e1dccd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:43:49Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 59,
+        "startChar": 37,
+        "endLine": 59,
+        "endChar": 43
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39a2d5d9_8daa2de1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:43:49Z",
+      "side": 1,
+      "message": "This is checking if it\u0027s possible to add refs under refs/heads, not refs/tags.\n\nAs a result, if the user has permission to create refs under ref/heads but not under refs/tags, the button is shown but the action fails with 403.",
+      "range": {
+        "startLine": 95,
+        "startChar": 32,
+        "endLine": 95,
+        "endChar": 51
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3833381_bfd1d0c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T01:43:49Z",
+      "side": 1,
+      "message": "Why is this added?  Looking at the tag list there is an empty column at the right [1].  Is it caused by this?\n\n[1] http://imgur.com/a/nEBEV",
+      "range": {
+        "startLine": 290,
+        "startChar": 6,
+        "endLine": 290,
+        "endChar": 66
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -204,18 +205,19 @@ public class Rebase
   }
 
   public static class CurrentRevision implements RestModifyView<ChangeResource, RebaseInput> {
+    private final PatchSetUtil psUtil;
     private final Rebase rebase;
 
     @Inject
-    CurrentRevision(Rebase rebase) {
+    CurrentRevision(PatchSetUtil psUtil, Rebase rebase) {
+      this.psUtil = psUtil;
       this.rebase = rebase;
     }
 
     @Override
     public ChangeInfo apply(ChangeResource rsrc, RebaseInput input)
-        throws EmailException, OrmException, UpdateException, RestApiException, IOException,
-            NoSuchChangeException {
-      PatchSet ps = rebase.dbProvider.get().patchSets().get(rsrc.getChange().currentPatchSetId());
+        throws EmailException, OrmException, UpdateException, RestApiException, IOException {
+      PatchSet ps = psUtil.current(rebase.dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
       } else if (!rsrc.getControl().isPatchVisible(ps, rebase.dbProvider.get())) {

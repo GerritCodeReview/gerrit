@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.MoveInput;
+import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.ReviewerApi;
@@ -63,6 +65,7 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PublishDraftPatchSet;
 import com.google.gerrit.server.change.PutAssignee;
 import com.google.gerrit.server.change.PutTopic;
+import com.google.gerrit.server.change.Rebase;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Reviewers;
@@ -99,6 +102,7 @@ class ChangeApiImpl implements ChangeApi {
   private final CreateMergePatchSet updateByMerge;
   private final Provider<SubmittedTogether> submittedTogether;
   private final PublishDraftPatchSet.CurrentRevision publishDraftChange;
+  private final Rebase.CurrentRevision rebase;
   private final DeleteChange deleteChange;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
@@ -133,6 +137,7 @@ class ChangeApiImpl implements ChangeApi {
       CreateMergePatchSet updateByMerge,
       Provider<SubmittedTogether> submittedTogether,
       PublishDraftPatchSet.CurrentRevision publishDraftChange,
+      Rebase.CurrentRevision rebase,
       DeleteChange deleteChange,
       GetTopic getTopic,
       PutTopic putTopic,
@@ -165,6 +170,7 @@ class ChangeApiImpl implements ChangeApi {
     this.updateByMerge = updateByMerge;
     this.submittedTogether = submittedTogether;
     this.publishDraftChange = publishDraftChange;
+    this.rebase = rebase;
     this.deleteChange = deleteChange;
     this.getTopic = getTopic;
     this.putTopic = putTopic;
@@ -322,6 +328,20 @@ class ChangeApiImpl implements ChangeApi {
       publishDraftChange.apply(change, null);
     } catch (UpdateException e) {
       throw new RestApiException("Cannot publish change", e);
+    }
+  }
+
+  @Override
+  public void rebase() throws RestApiException {
+    rebase(new RebaseInput());
+  }
+
+  @Override
+  public void rebase(RebaseInput in) throws RestApiException {
+    try {
+      rebase.apply(change, in);
+    } catch (EmailException | OrmException | UpdateException | RestApiException | IOException e) {
+      throw new RestApiException("Cannot rebase change", e);
     }
   }
 

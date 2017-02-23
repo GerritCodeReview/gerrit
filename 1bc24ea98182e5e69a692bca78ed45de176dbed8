@@ -47,6 +47,30 @@
       "revId": "1bc24ea98182e5e69a692bca78ed45de176dbed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "429f978a_95fb31ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalId.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T16:31:25Z",
+      "side": 1,
+      "message": "Gerrit-auth-provider-plugin also has a bug, that is, the ids are 24387564985762. See: [1] and the fix fore newer ids: [2].\n\n* [1] https://github.com/davido/gerrit-oauth-provider/issues/82\n* [2] https://gerrit-review.googlesource.com/#/c/96422/",
+      "parentUuid": "53071502_867875f7",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 5
+      },
+      "revId": "1bc24ea98182e5e69a692bca78ed45de176dbed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

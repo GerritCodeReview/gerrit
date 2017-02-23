@@ -229,7 +229,7 @@ To ignore cached test results:
 To run one or more specific groups of tests:
 
 ----
-  bazel test --test_tag_filters=api,git //..
+  bazel test --test_tag_filters=api,git //...
 ----
 
 The following values are currently supported for the group name:

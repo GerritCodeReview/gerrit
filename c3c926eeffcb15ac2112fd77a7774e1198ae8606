@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1e94e31_03eceae7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeCommentUpdate.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-23T15:00:24Z",
+      "side": 1,
+      "message": "nit:add javadoc",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 8
+      },
+      "revId": "c3c926eeffcb15ac2112fd77a7774e1198ae8606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

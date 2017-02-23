@@ -26,8 +26,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,18 +44,15 @@ import java.util.concurrent.TimeUnit;
 public class ListTasks implements RestReadView<ConfigResource> {
   private final PermissionBackend permissionBackend;
   private final WorkQueue workQueue;
-  private final ProjectCache projectCache;
   private final Provider<CurrentUser> self;
 
   @Inject
   public ListTasks(
       PermissionBackend permissionBackend,
       WorkQueue workQueue,
-      ProjectCache projectCache,
       Provider<CurrentUser> self) {
     this.permissionBackend = permissionBackend;
     this.workQueue = workQueue;
-    this.projectCache = projectCache;
     this.self = self;
   }
 
@@ -82,8 +78,15 @@ public class ListTasks implements RestReadView<ConfigResource> {
       if (task.projectName != null) {
         Boolean visible = visibilityCache.get(task.projectName);
         if (visible == null) {
-          ProjectState e = projectCache.get(new Project.NameKey(task.projectName));
-          visible = e != null ? e.controlFor(user).isVisible() : false;
+          try {
+            permissionBackend
+                .user(user)
+                .project(new Project.NameKey(task.projectName))
+                .check(ProjectPermission.ACCESS);
+            visible = true;
+          } catch (AuthException e) {
+            visible = false;
+          }
           visibilityCache.put(task.projectName, visible);
         }
         if (visible) {

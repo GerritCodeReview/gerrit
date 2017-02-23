@@ -27,8 +27,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -40,7 +39,6 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
   private final WorkQueue workQueue;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
 
   @Inject
   TasksCollection(
@@ -48,14 +46,12 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
       ListTasks list,
       WorkQueue workQueue,
       Provider<CurrentUser> self,
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      PermissionBackend permissionBackend) {
     this.views = views;
     this.list = list;
     this.workQueue = workQueue;
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
   }
 
   @Override
@@ -79,22 +75,27 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
     }
 
     Task<?> task = workQueue.getTask(taskId);
+    if (task instanceof ProjectTask) {
+      try {
+        permissionBackend
+            .user(user)
+            .project(((ProjectTask<?>) task).getProjectNameKey())
+            .check(ProjectPermission.ACCESS);
+        return new TaskResource(task);
+      } catch (AuthException e) {
+        // Fall through and try view queue permission.
+      }
+    }
+
     if (task != null) {
       try {
         permissionBackend.user(user).check(GlobalPermission.VIEW_QUEUE);
         return new TaskResource(task);
       } catch (AuthException e) {
-        // Fall through and try filtering.
-      }
-
-      if (task instanceof ProjectTask) {
-        ProjectTask<?> projectTask = ((ProjectTask<?>) task);
-        ProjectState e = projectCache.get(projectTask.getProjectNameKey());
-        if (e != null && e.controlFor(user).isVisible()) {
-          return new TaskResource(task);
-        }
+        // Fall through and return not found.
       }
     }
+
     throw new ResourceNotFoundException(id);
   }
 

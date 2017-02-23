@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ae18f6a_ff191d26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T22:29:02Z",
+      "side": 0,
+      "message": "Heh! It wasn\u0027t detected for so long time. Let me guess, you\u0027ve disabled the database, deployed that version to gerrit-review and someone pressed rebase button?",
+      "range": {
+        "startLine": 218,
+        "startChar": 20,
+        "endLine": 218,
+        "endChar": 97
+      },
+      "revId": "e32ed73ac25f418395b74fb0722dbc5441bcd81f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

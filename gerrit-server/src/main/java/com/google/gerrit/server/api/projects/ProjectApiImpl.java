@@ -378,7 +378,11 @@ public class ProjectApiImpl implements ProjectApi {
   public List<ProjectInfo> children(boolean recursive) throws RestApiException {
     ListChildProjects list = children.list();
     list.setRecursive(recursive);
-    return list.apply(checkExists());
+    try {
+      return list.apply(checkExists());
+    } catch (PermissionBackendException e) {
+      throw new RestApiException("Cannot list children", e);
+    }
   }
 
   @Override

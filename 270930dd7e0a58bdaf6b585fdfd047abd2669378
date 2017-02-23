@@ -88,6 +88,24 @@
       "revId": "270930dd7e0a58bdaf6b585fdfd047abd2669378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ccff86d_1de38a8f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-23T09:03:29Z",
+      "side": 1,
+      "message": "It isn\u0027t only set in https://gerrit-review.googlesource.com/#/c/98251/1/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/TagInfo.java\n\nThis patch here sets it in this file.",
+      "parentUuid": "d51e2745_0e107576",
+      "revId": "270930dd7e0a58bdaf6b585fdfd047abd2669378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,6 +70,29 @@
       "revId": "b6ea2e36bb379958c0da55272220c2575a0cfee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7ba9f41_aff2d0f2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T12:14:36Z",
+      "side": 1,
+      "message": "isn\u0027t this flaky? The commit ID has a timestamp, so it will vary between runs? Or do we have a reproducible clock in our tests?",
+      "range": {
+        "startLine": 1199,
+        "startChar": 53,
+        "endLine": 1199,
+        "endChar": 60
+      },
+      "revId": "b6ea2e36bb379958c0da55272220c2575a0cfee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

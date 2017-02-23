@@ -1,4 +1,470 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1487847627 +0100\nnonce AFJA6od9KqOjkDQ5TscJyc1Z6lv/+Y+ITnRLb7bVWsUQqblVW8r0+frFGEK4BwvldFMG8e8VeU0p\n\n0000000000000000000000000000000000000000 8bead86ca1c780f19a29a3ce2501cabaca277dde refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYrsDLAAoJEFG1/Zeg0O9RpkoIAJzWT/tvm6iQjgRf+jZ6Kuh9\nb/kwGcYrE7jDwQM6lo5l1g+2nWJA5AotNqYJY4BFXtc6AHNbKcMrWZmcxLbe3CRD\nEnRMkLwDfxevMx6IwRM7esxZEKXNegJpzI2YBa0NQxP6Wk3WrGn2aSj650wYWmRD\nb4Y3wzB94GkJVDX8GyUj5II46ZKBv0llCq7gwN49cw+ZC7zwfaZmPJwRokx0csVa\nMWyDaZ2kDCY83UZZCxZI3BTAvfzc0m5Pr4K+Uyk4aSOKvMPnOIDCrb9QGeIvIAQ9\nvWPxYpreTHj8ah4GIjinSF93YFx7P/AjShJgURV1J831V54Rfba2nKrolHNE5hE\u003d\n\u003dHR2H\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "18b93db8_74daedc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "This filed should be named Privatem like the footer in the NoteDb.",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d600bc0e_a0cf81c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "The foot is called Private.",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "693b6f31_12997d05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "PUT/DELETE",
+      "range": {
+        "startLine": 19,
+        "startChar": 28,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "691cbda0_e77e20bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "I don\u0027t thin it\u0027s needed. GET /changes/\u003cid\u003e/detail should die the job. If I write a client, and want render change information, and need to retrieve 47 change attributes, it would be a wrong approach to expose 47 REST endpoints, one per attribute.",
+      "range": {
+        "startLine": 19,
+        "startChar": 24,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2fa58c33_25fe4c08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "What protocol is used and what user name is, is irrelevant information in this context:\n\n  git push host HEAD:refs/for/master%private",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 63
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4b17839_2bb06f08",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "This looks wrong. I don\u0027t think every single change attribute should be exposed in the API. Caller ask get() or info() and access private bit, like it would access other attributes. If still in doubt, there is no dedicated API methods here (and REST endpoints) for:\n\n* Boolean starred;\n* public Boolean reviewed;\n* public SubmitType submitType;\n* public Boolean mergeable;\n* public Boolean submittable;",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 46
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef7de0a7_c1d7cde9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "This should be called just private to be consistent with starred, amerceable and submittable above.",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "907879dc_7804dace",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Just private, to be consistent with starred and reviewed.",
+      "range": {
+        "startLine": 141,
+        "startChar": 59,
+        "endLine": 141,
+        "endChar": 69
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "797093c6_76f17665",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Here is this called correctly private and not is:isPrivate.",
+      "range": {
+        "startLine": 134,
+        "startChar": 24,
+        "endLine": 134,
+        "endChar": 31
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f959049_bb66c6b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Left over debugging code?",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 0
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d98e1e8f_d0934cbd",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "This should be named just private like the NoteDb footer and PatchSet.draft column.",
+      "range": {
+        "startLine": 518,
+        "startChar": 20,
+        "endLine": 518,
+        "endChar": 29
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66a0302d_38b0a82f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 707,
+        "startChar": 33,
+        "endLine": 707,
+        "endChar": 42
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "602c5941_ce9b2334",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPrivate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Why this handler is needed? ChangeInfo has 49 attributes. Add another one there.",
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2527f774_151c7680",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Does it need to be public?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbf5ce7b_fabcbd8b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetPrivateOp.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "final",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a50f2013_9881b038",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "private to be consistent with draft and edi.",
+      "range": {
+        "startLine": 1270,
+        "startChar": 12,
+        "endLine": 1270,
+        "endChar": 21
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6481ff25_618a5ed3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Also here, I would consistently name variable: private, getter method isProvate().",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 27
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f392490d_75523b4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Would it AutoValue get the mapping right, if this would be called just private, but the method below isPrivate()?",
+      "range": {
+        "startLine": 105,
+        "startChar": 24,
+        "endLine": 105,
+        "endChar": 33
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db60b16d_e710ce77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/BooleanPredicate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Extract this refactoring out from this series.",
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5399db36_d757726d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "private, when the column name is renamed.",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 17
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff734c13_f98ee5aa",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 3302,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-23T13:43:11Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

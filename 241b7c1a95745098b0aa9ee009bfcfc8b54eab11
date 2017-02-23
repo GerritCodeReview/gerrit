@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b32fc8ef_8e490413",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T17:27:04Z",
+      "side": 1,
+      "message": "Maybe \"looks like\" ?",
+      "range": {
+        "startLine": 491,
+        "startChar": 36,
+        "endLine": 491,
+        "endChar": 41
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9340dff8_afec948a",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T17:27:04Z",
+      "side": 1,
+      "message": "\"can\"",
+      "range": {
+        "startLine": 492,
+        "startChar": 57,
+        "endLine": 492,
+        "endChar": 62
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9980a51_0ff34cce",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T17:27:04Z",
+      "side": 1,
+      "message": "Maybe \"marking\"?",
+      "range": {
+        "startLine": 492,
+        "startChar": 5,
+        "endLine": 492,
+        "endChar": 11
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "817b7173_54b7130f",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T17:27:04Z",
+      "side": 1,
+      "message": "Maybe \"view your changes.\" ?",
+      "range": {
+        "startLine": 493,
+        "startChar": 14,
+        "endLine": 493,
+        "endChar": 38
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cd4a2f_42ac831d",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T17:27:04Z",
+      "side": 1,
+      "message": "How about \"You want to sync a change between different devices. You can now push a private change from one device, and then fetch it back to another device.\"",
+      "range": {
+        "startLine": 495,
+        "startChar": 2,
+        "endLine": 497,
+        "endChar": 47
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5279a21f_f8e010f6",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T17:27:04Z",
+      "side": 1,
+      "message": "Maybe \"mark\"?",
+      "range": {
+        "startLine": 514,
+        "startChar": 3,
+        "endLine": 514,
+        "endChar": 7
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57efd75c_61239321",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T17:27:04Z",
+      "side": 1,
+      "message": "Drafts will be deprecated soon.",
+      "range": {
+        "startLine": 524,
+        "startChar": 0,
+        "endLine": 524,
+        "endChar": 30
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

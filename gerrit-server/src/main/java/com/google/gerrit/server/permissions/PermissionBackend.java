@@ -17,6 +17,7 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -183,6 +184,30 @@ public abstract class PermissionBackend {
         return false;
       }
     }
+
+    /**
+     * Filter a set of projects using {@code check(perm)}.
+     *
+     * @param perm required permission in a project to be included in result.
+     * @param projects candidate set of projects; may be empty.
+     * @return filtered set of {@code projects} where {@code check(perm)} was successful.
+     * @throws PermissionBackendException backend cannot access its internal state.
+     */
+    public Set<Project.NameKey> filter(ProjectPermission perm, Collection<Project.NameKey> projects)
+        throws PermissionBackendException {
+      checkNotNull(perm, "ProjectPermission");
+      checkNotNull(projects, "projects");
+      Set<Project.NameKey> allowed = Sets.newHashSetWithExpectedSize(projects.size());
+      for (Project.NameKey project : projects) {
+        try {
+          project(project).check(perm);
+          allowed.add(project);
+        } catch (AuthException e) {
+          // Do not include this project in allowed.
+        }
+      }
+      return allowed;
+    }
   }
 
   /** PermissionBackend scoped to a user and project. */
@@ -203,6 +228,15 @@ public abstract class PermissionBackend {
 
     public boolean test(ProjectPermission perm) throws PermissionBackendException {
       return test(EnumSet.of(perm)).contains(perm);
+    }
+
+    public boolean testOrFalse(ProjectPermission perm) {
+      try {
+        return test(perm);
+      } catch (PermissionBackendException e) {
+        logger.warn("Cannot test " + perm + "; assuming false", e);
+        return false;
+      }
     }
   }
 

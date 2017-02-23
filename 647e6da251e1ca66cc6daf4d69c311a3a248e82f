@@ -1,4 +1,96 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1487851948 +0100\nnonce AFJA6oeznPSehWeq3O/zTXw/+xTAjfFXvWTEQCQnCobdyh/hHClD1Thp8E9YQtytDH8tBoSqaYw3\n\n0000000000000000000000000000000000000000 6ba88abb71cb4ca4d6d1975397457a0276c92da0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYrtGsAAoJEFG1/Zeg0O9RgisIAIELeNILaGnv15B/8zP1GVz8\nX/w1lXVOadWHqtfBsiBqrAyHg6jS3XDmaCw4q7Yljz7qTMjapOFpVZ27oO+aHf9p\nXmN2Z+bKhP2xzhHL9AcND41XU6PHqlwkna2hPoYCstdT3TH6w8bpoZH7KT/SzygB\nKtdsO32SbVwotJdm81AC5UwVnZI1r9cDcziCpikLTIgywiTd/IJRnVVWthBbBfCk\naYUZC0/v6XhOZ/JAV1PyggYrQO76iDgYeCMOb/wgjkGC/NRhNLQ1wcl3D+RAAIH1\nkzDhEzDkRHKEhzYBxBZ65CPnK41TkeQCX7IDVb7GuNSFvvMxEuGB2uA6WKI54cA\u003d\n\u003d3zXm\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1309dba_068f6e23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-23T14:08:59Z",
+      "side": 1,
+      "message": "ALGORITHM is always immediately concatenated with \":\", so maybe just include the : in here? Call it ALGORITHM_PREFIX if that makes it sound better.",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c71fb48b_1a04d081",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-23T14:08:59Z",
+      "side": 1,
+      "message": "I would generally recommend Guava (BaseEncoding.base64()) over Apache Commons, but I can\u0027t bring myself to care that much in this case.",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49499da7_abd794f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-23T14:08:59Z",
+      "side": 1,
+      "message": "I would prefer com.google.common.primitives.Ints.tryParse so you don\u0027t have to catch an exception for control flow here.",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb83820_bd8a3010",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-23T14:08:59Z",
+      "side": 1,
+      "message": "Use JDK\u0027s Arrays.equal, no need for a third-party library here.",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03968b82_3934497c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-23T14:08:59Z",
+      "side": 1,
+      "message": "Nit: style guide (and consistency) says this should be Ids",
+      "range": {
+        "startLine": 34,
+        "startChar": 28,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

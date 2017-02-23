@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
@@ -84,7 +85,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
     return n;
   }
 
-  private void service() throws IOException, Failure {
+  private void service() throws IOException, PermissionBackendException, Failure {
     project = projectControl.getProjectState().getProject();
 
     try {
@@ -100,5 +101,5 @@ public abstract class AbstractGitCommand extends BaseCommand {
     }
   }
 
-  protected abstract void runImpl() throws IOException, Failure;
+  protected abstract void runImpl() throws IOException, PermissionBackendException, Failure;
 }

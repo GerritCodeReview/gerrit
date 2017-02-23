@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.CreateChange;
 import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
@@ -87,7 +88,11 @@ class ChangesImpl implements Changes {
     try {
       ChangeInfo out = createChange.apply(TopLevelResource.INSTANCE, in).value();
       return api.create(changes.parse(new Change.Id(out._number)));
-    } catch (OrmException | IOException | InvalidChangeOperationException | UpdateException e) {
+    } catch (OrmException
+        | IOException
+        | InvalidChangeOperationException
+        | UpdateException
+        | PermissionBackendException e) {
       throw new RestApiException("Cannot create change", e);
     }
   }

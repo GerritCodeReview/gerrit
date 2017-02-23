@@ -86,16 +86,21 @@ limitations under the License.
 
     test('_hideNextArrow', function() {
       var loading = true;
-      var changesPerPage = 25;
-      assert.isTrue(element._hideNextArrow(loading, changesPerPage));
+      assert.isTrue(element._hideNextArrow(loading));
       loading = false;
-      assert.isTrue(element._hideNextArrow(loading, changesPerPage));
+      assert.isTrue(element._hideNextArrow(loading));
+      element._changes = [];
+      assert.isTrue(element._hideNextArrow(loading));
       element._changes =
-          Array.apply(null, Array(5)).map(Number.prototype.valueOf, 0);
-      assert.isTrue(element._hideNextArrow(loading, changesPerPage));
+          Array.apply(null, Array(5)).map(Object.prototype.valueOf, {});
+      assert.isTrue(element._hideNextArrow(loading));
       element._changes =
-          Array.apply(null, Array(25)).map(Number.prototype.valueOf, 0);
-      assert.isFalse(element._hideNextArrow(loading, changesPerPage));
+          Array.apply(null, Array(25)).map(Object.prototype.valueOf,
+          {_more_changes: true});
+      assert.isFalse(element._hideNextArrow(loading));
+      element._changes =
+          Array.apply(null, Array(25)).map(Object.prototype.valueOf, {});
+      assert.isTrue(element._hideNextArrow(loading));
     });
 
     test('_handleNextPage', function() {

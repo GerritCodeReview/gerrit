@@ -16,6 +16,24 @@
       "revId": "469ef83e178735947403d850a5a30b8b8d28102e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19d7e1a7_ee9f3ae1",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-02-23T10:43:30Z",
+      "side": 1,
+      "message": "there are cases :) on the other hand I am opened for less obscure regexp or the other way how it could be achieved ;)",
+      "parentUuid": "790fe3a4_32ed34be",
+      "revId": "469ef83e178735947403d850a5a30b8b8d28102e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

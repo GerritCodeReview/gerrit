@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "03bc2682_fb5ce07f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-23T16:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60276dc0_7de01c5b",
+      "range": {
+        "startLine": 170,
+        "startChar": 12,
+        "endLine": 175,
+        "endChar": 40
+      },
+      "revId": "fcc94c5da5f4f717afe2298739c55f25e8337a24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ead03182_49cdea3d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-23T16:36:52Z",
       "side": 1,
       "message": "Probably you should also fail if more than 1 change is found?\nAt least in other places we pretend that nothing was found if there is more than 1 match.",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 178,
+        "endChar": 44
+      },
+      "revId": "fcc94c5da5f4f717afe2298739c55f25e8337a24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86287276_91778446",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-23T16:47:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ead03182_49cdea3d",
       "range": {
         "startLine": 177,
         "startChar": 6,

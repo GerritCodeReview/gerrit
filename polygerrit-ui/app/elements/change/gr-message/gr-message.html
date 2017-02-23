@@ -124,7 +124,7 @@ limitations under the License.
         padding: .5em 0 1em;
       }
     </style>
-    <div class$="[[_computeClass(expanded, showAvatar)]]">
+    <div class$="[[_computeClass(_expanded, showAvatar)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
         <div class="name" on-tap="_handleNameTap">[[author.name]]</div>

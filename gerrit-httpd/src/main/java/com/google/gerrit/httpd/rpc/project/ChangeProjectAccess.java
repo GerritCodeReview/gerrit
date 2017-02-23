@@ -24,6 +24,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -89,7 +90,8 @@ class ChangeProjectAccess extends ProjectAccessHandler<ProjectAccess> {
       ProjectConfig config,
       MetaDataUpdate md,
       boolean parentProjectUpdate)
-      throws IOException, NoSuchProjectException, ConfigInvalidException {
+      throws IOException, NoSuchProjectException, ConfigInvalidException,
+          PermissionBackendException {
     RevCommit commit = config.commit(md);
 
     gitRefUpdated.fire(

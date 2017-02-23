@@ -17,6 +17,24 @@
       "revId": "a0d93be9e9cfdbf8222801752404919fd7a8a1c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2445517_00bfd74d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-02-23T04:57:26Z",
+      "side": 1,
+      "message": "I think I do want to move VisibleRefFilter to PermissionBackend, but I\u0027m trying to do the entire migration in smaller commits so we can review the changes, test them individually, and have a bit more context if there is a regression and we bisect to the breakage.\n\nI tried changing ProjectControl.isVisible() today in one commit (not published yet to gerrit-review) and it turned out to be too large for a single commit. I need to break that up. RefControl.isVisible() is an even bigger project.",
+      "parentUuid": "e43d9798_e49f1d49",
+      "revId": "a0d93be9e9cfdbf8222801752404919fd7a8a1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

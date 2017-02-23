@@ -16,6 +16,24 @@
       "revId": "270930dd7e0a58bdaf6b585fdfd047abd2669378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f1ec9ea_95d7102b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T07:55:13Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/98251",
+      "parentUuid": "99c9128b_2bcbef0c",
+      "revId": "270930dd7e0a58bdaf6b585fdfd047abd2669378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

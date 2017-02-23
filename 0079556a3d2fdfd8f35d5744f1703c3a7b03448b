@@ -22,6 +22,30 @@
       "revId": "0079556a3d2fdfd8f35d5744f1703c3a7b03448b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d741330f_3bfe23cb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-23T21:17:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure, so I\u0027ll add it to be safe.",
+      "parentUuid": "d7102938_1685efc5",
+      "range": {
+        "startLine": 138,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 65
+      },
+      "revId": "0079556a3d2fdfd8f35d5744f1703c3a7b03448b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

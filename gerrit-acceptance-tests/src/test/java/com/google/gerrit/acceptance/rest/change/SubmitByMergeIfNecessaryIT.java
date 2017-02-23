@@ -41,8 +41,8 @@ import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
@@ -171,10 +171,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     approve(change3.getChangeId());
 
     // get a preview before submitting:
-    Map<Branch.NameKey, RevTree> preview;
-    try (BinaryResult request = submitPreview(change1b.getChangeId())) {
-      preview = fetchFromBundles(request);
-    }
+    Map<Branch.NameKey, ObjectId> preview = fetchFromSubmitPreview(change1b.getChangeId());
     submit(change1b.getChangeId());
 
     RevCommit tip1 = getRemoteLog(p1, "master").get(0);
@@ -191,13 +188,13 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
       assertThat(preview).hasSize(3);
 
       assertThat(preview).containsKey(new Branch.NameKey(p1, "refs/heads/master"));
-      assertRevTrees(p1, preview);
+      assertTrees(p1, preview);
 
       assertThat(preview).containsKey(new Branch.NameKey(p2, "refs/heads/master"));
-      assertRevTrees(p2, preview);
+      assertTrees(p2, preview);
 
       assertThat(preview).containsKey(new Branch.NameKey(p3, "refs/heads/master"));
-      assertRevTrees(p3, preview);
+      assertTrees(p3, preview);
     } else {
       assertThat(tip2.getShortMessage()).isEqualTo(initialHead2.getShortMessage());
       assertThat(tip3.getShortMessage()).isEqualTo(initialHead3.getShortMessage());

@@ -111,11 +111,13 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
     IdentifiedUser caller = control.getUser().asIdentifiedUser();
     Change change = rsrc.getChange();
 
-    final MergeOp op = mergeOpProvider.get();
+    @SuppressWarnings("resource") // Returned BinaryResult takes ownership and handles closing.
+    MergeOp op = mergeOpProvider.get();
     try {
       op.merge(db, change, caller, false, new SubmitInput(), true);
       BinaryResult bin = new SubmitPreviewResult(op, f, maxBundleSize);
-      bin.disableGzip().setContentType(f.getMimeType())
+      bin.disableGzip()
+          .setContentType(f.getMimeType())
           .setAttachmentName("submit-preview-" + change.getChangeId() + "." + format);
       return bin;
     } catch (OrmException | RestApiException | RuntimeException e) {
@@ -138,8 +140,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
 
     @Override
     public void writeTo(OutputStream out) throws IOException {
-      try (ArchiveOutputStream aos = archiveFormat
-          .createArchiveOutputStream(out)) {
+      try (ArchiveOutputStream aos = archiveFormat.createArchiveOutputStream(out)) {
         MergeOpRepoManager orm = mergeOp.getMergeOpRepoManager();
         for (Project.NameKey p : mergeOp.getAllProjects()) {
           OpenRepo or = orm.getRepo(p);

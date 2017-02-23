@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "119f8472_c5dde1ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 55
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-23T02:26:37Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "38a11284_15bb2456",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d83363d_54ef2452",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/TagInfo.java",
         "patchSetId": 55
@@ -390,6 +414,30 @@
       "side": 1,
       "message": "OK, it looks like this is a bit broken also for the create branch UI.\n\nIf I remove all Create Ref permissions, i.e. from refs/heads, refs/meta/config and refs/tags, it still shows me the option to create branch from the UI and then fails with 403.\n\nReason is that I am project owner and this clause:\n\n  || isOwnerAnyRef()\n\nin canAddRefs causes it to return true.\n\nI think for now we can leave this as it is here.  If it needs to be fixed it can be done in a follow-up commit.",
       "parentUuid": "fe83526f_2a14f47b",
+      "range": {
+        "startLine": 95,
+        "startChar": 32,
+        "endLine": 95,
+        "endChar": 51
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4ed1328_cfa28dff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-23T02:26:37Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "2f0a2325_afbceba7",
       "range": {
         "startLine": 95,
         "startChar": 32,

@@ -54,6 +54,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -469,6 +472,49 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(c4, 1));
   }
+
+  @Test
+  public void advertisedReferencesOmitPrivateChangesOfOtherUsers() throws Exception {
+    allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+
+    TestRepository<?> userTestRepository = cloneProject(project, user);
+    try (Git git = userTestRepository.git()) {
+      LsRemoteCommand lsRemoteCommand = git.lsRemote();
+      String change3RefName = c3.currentPatchSet().getRefName();
+
+      List<String> initialRefNames =
+          lsRemoteCommand.call().stream().map(Ref::getName).collect(Collectors.toList());
+      assertWithMessage("Precondition violated").that(initialRefNames).contains(change3RefName);
+
+      gApi.changes().id(c3.getId().get()).setPrivate(true);
+
+      List<String> refNames =
+          lsRemoteCommand.call().stream().map(Ref::getName).collect(Collectors.toList());
+      assertThat(refNames).doesNotContain(change3RefName);
+    }
+  }
+
+  @Test
+  public void advertisedReferencesIncludePrivateChangesWhenAllRefsMayBeRead() throws Exception {
+    allow(Permission.READ, REGISTERED_USERS, "refs/*");
+
+    TestRepository<?> userTestRepository = cloneProject(project, user);
+    try (Git git = userTestRepository.git()) {
+      LsRemoteCommand lsRemoteCommand = git.lsRemote();
+      String change3RefName = c3.currentPatchSet().getRefName();
+
+      List<String> initialRefNames =
+          lsRemoteCommand.call().stream().map(Ref::getName).collect(Collectors.toList());
+      assertWithMessage("Precondition violated").that(initialRefNames).contains(change3RefName);
+
+      gApi.changes().id(c3.getId().get()).setPrivate(true);
+
+      List<String> refNames =
+          lsRemoteCommand.call().stream().map(Ref::getName).collect(Collectors.toList());
+      assertThat(refNames).contains(change3RefName);
+    }
+  }
+
 
   /**
    * Assert that refs seen by a non-admin user match expected.

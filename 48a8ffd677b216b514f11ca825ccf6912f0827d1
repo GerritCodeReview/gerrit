@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "c2ffa5d6_7e76c6f7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/LocalUsernamesToLowerCase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2017-02-23T14:29:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8cc7ad53_05c40242",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77cbe256_d6907f37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 12

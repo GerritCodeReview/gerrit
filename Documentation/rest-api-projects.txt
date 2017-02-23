@@ -2862,6 +2862,8 @@ tag points.
 the signature.
 |`tagger`|Only set for annotated tags, if present in the tag.|The tagger as a
 link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
+|`can_delete`|`false` if not set|
+Whether the calling user can delete this tag.
 |=========================
 
 [[tag-input]]

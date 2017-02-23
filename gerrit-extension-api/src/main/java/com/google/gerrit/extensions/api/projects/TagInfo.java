@@ -21,13 +21,20 @@ public class TagInfo extends RefInfo {
   public String message;
   public GitPerson tagger;
 
-  public TagInfo(String ref, String revision) {
+  public TagInfo(String ref, String revision, boolean canDelete) {
     this.ref = ref;
     this.revision = revision;
+    this.canDelete = canDelete;
   }
 
-  public TagInfo(String ref, String revision, String object, String message, GitPerson tagger) {
-    this(ref, revision);
+  public TagInfo(
+      String ref,
+      String revision,
+      String object,
+      String message,
+      GitPerson tagger,
+      boolean canDelete) {
+    this(ref, revision, canDelete);
     this.object = object;
     this.message = message;
     this.tagger = tagger;

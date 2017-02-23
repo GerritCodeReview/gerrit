@@ -72,9 +72,6 @@ import org.slf4j.LoggerFactory;
 
 /** Access control management for a user accessing a project's data. */
 public class ProjectControl {
-  public static final int VISIBLE = 1 << 0;
-  public static final int OWNER = 1 << 1;
-
   private static final Logger log = LoggerFactory.getLogger(ProjectControl.class);
 
   public static class GenericFactory {
@@ -93,18 +90,6 @@ public class ProjectControl {
       }
       return p.controlFor(user);
     }
-
-    public ProjectControl validateFor(Project.NameKey nameKey, int need, CurrentUser user)
-        throws NoSuchProjectException, IOException {
-      final ProjectControl c = controlFor(nameKey, user);
-      if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
-        return c;
-      }
-      if ((need & OWNER) == OWNER && c.isOwner()) {
-        return c;
-      }
-      throw new NoSuchProjectException(nameKey);
-    }
   }
 
   public static class Factory {
@@ -117,26 +102,6 @@ public class ProjectControl {
 
     public ProjectControl controlFor(final Project.NameKey nameKey) throws NoSuchProjectException {
       return userCache.get().get(nameKey);
-    }
-
-    public ProjectControl validateFor(final Project.NameKey nameKey) throws NoSuchProjectException {
-      return validateFor(nameKey, VISIBLE);
-    }
-
-    public ProjectControl ownerFor(final Project.NameKey nameKey) throws NoSuchProjectException {
-      return validateFor(nameKey, OWNER);
-    }
-
-    public ProjectControl validateFor(final Project.NameKey nameKey, final int need)
-        throws NoSuchProjectException {
-      final ProjectControl c = controlFor(nameKey);
-      if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
-        return c;
-      }
-      if ((need & OWNER) == OWNER && c.isOwner()) {
-        return c;
-      }
-      throw new NoSuchProjectException(nameKey);
     }
   }
 
@@ -260,21 +225,6 @@ public class ProjectControl {
     return getProject().getState().equals(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
   }
 
-  /**
-   * Returns whether the project is readable to the current user. Note that the project could still
-   * be hidden.
-   */
-  public boolean isReadable() {
-    return (user.isInternalUser() || canPerformOnAnyRef(Permission.READ));
-  }
-
-  /**
-   * Returns whether the project is accessible to the current user, i.e. readable and not hidden.
-   */
-  public boolean isVisible() {
-    return isReadable() && !isHidden();
-  }
-
   public boolean canAddRefs() {
     return (canPerformOnAnyRef(Permission.CREATE) || isOwnerAnyRef());
   }
@@ -292,16 +242,11 @@ public class ProjectControl {
     return false;
   }
 
-  /** Can this user see all the refs in this projects? */
-  public boolean allRefsAreVisible() {
-    return allRefsAreVisible(Collections.<String>emptySet());
-  }
-
   public boolean allRefsAreVisible(Set<String> ignore) {
     return user.isInternalUser() || canPerformOnAllRefs(Permission.READ, ignore);
   }
 
-  /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
+  /** Is this user a project owner? */
   public boolean isOwner() {
     return (isDeclaredOwner() && !controlForRef("refs/*").isBlocked(Permission.OWNER))
         || user.getCapabilities().isAdmin_DoNotUse();
@@ -588,10 +533,11 @@ public class ProjectControl {
     private boolean can(ProjectPermission perm) throws PermissionBackendException {
       switch (perm) {
         case ACCESS:
-          return (!isHidden() && isReadable()) || isOwner();
+          return (!isHidden() && (user.isInternalUser() || canPerformOnAnyRef(Permission.READ)))
+              || isOwner();
 
         case READ:
-          return (!isHidden() && allRefsAreVisible()) || isOwner();
+          return (!isHidden() && allRefsAreVisible(Collections.emptySet())) || isOwner();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

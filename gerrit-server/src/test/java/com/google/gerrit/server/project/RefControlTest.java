@@ -58,6 +58,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -109,12 +110,14 @@ public class RefControlTest {
     assertThat(u.controlForRef(ref).isOwner()).named("NOT OWN " + ref).isFalse();
   }
 
-  private void assertCanRead(ProjectControl u) {
-    assertThat(u.isVisible()).named("can read").isTrue();
+  private void assertCanAccess(ProjectControl u) {
+    boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
+    assertThat(access).named("can access").isTrue();
   }
 
-  private void assertCannotRead(ProjectControl u) {
-    assertThat(u.isVisible()).named("cannot read").isFalse();
+  private void assertAccessDenied(ProjectControl u) {
+    boolean access = u.asForProject().testOrFalse(ProjectPermission.ACCESS);
+    assertThat(access).named("cannot access").isFalse();
   }
 
   private void assertCanRead(String ref, ProjectControl u) {
@@ -437,13 +440,13 @@ public class RefControlTest {
   public void inheritDuplicateSections() throws Exception {
     allow(parent, READ, ADMIN, "refs/*");
     allow(local, READ, DEVS, "refs/heads/*");
-    assertCanRead(user(local, "a", ADMIN));
+    assertCanAccess(user(local, "a", ADMIN));
 
     local = new ProjectConfig(localKey);
     local.load(newRepository(localKey));
     local.getProject().setParentName(parentKey);
     allow(local, READ, DEVS, "refs/*");
-    assertCanRead(user(local, "d", DEVS));
+    assertCanAccess(user(local, "d", DEVS));
   }
 
   @Test
@@ -451,7 +454,7 @@ public class RefControlTest {
     allow(parent, READ, REGISTERED_USERS, "refs/*");
     deny(local, READ, REGISTERED_USERS, "refs/*");
 
-    assertCannotRead(user(local));
+    assertAccessDenied(user(local));
   }
 
   @Test
@@ -460,7 +463,7 @@ public class RefControlTest {
     deny(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = user(local);
-    assertCanRead(u);
+    assertCanAccess(u);
     assertCanRead("refs/master", u);
     assertCanRead("refs/tags/foobar", u);
     assertCanRead("refs/heads/master", u);
@@ -473,7 +476,7 @@ public class RefControlTest {
     allow(local, READ, REGISTERED_USERS, "refs/heads/*");
 
     ProjectControl u = user(local);
-    assertCanRead(u);
+    assertCanAccess(u);
     assertCannotRead("refs/foobar", u);
     assertCannotRead("refs/tags/foobar", u);
     assertCanRead("refs/heads/foobar", u);

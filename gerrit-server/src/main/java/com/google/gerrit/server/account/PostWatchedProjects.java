@@ -80,7 +80,8 @@ public class PostWatchedProjects
   }
 
   private Map<ProjectWatchKey, Set<NotifyType>> asMap(List<ProjectWatchInfo> input)
-      throws BadRequestException, UnprocessableEntityException, IOException {
+      throws BadRequestException, UnprocessableEntityException, IOException,
+          PermissionBackendException {
     Map<ProjectWatchKey, Set<NotifyType>> m = new HashMap<>();
     for (ProjectWatchInfo info : input) {
       if (info.project == null) {

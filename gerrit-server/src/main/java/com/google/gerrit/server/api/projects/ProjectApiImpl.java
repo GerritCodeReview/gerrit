@@ -373,7 +373,7 @@ public class ProjectApiImpl implements ProjectApi {
   public ChildProjectApi child(String name) throws RestApiException {
     try {
       return childApi.create(children.parse(checkExists(), IdString.fromDecoded(name)));
-    } catch (IOException e) {
+    } catch (IOException | PermissionBackendException e) {
       throw new RestApiException("Cannot parse child project", e);
     }
   }

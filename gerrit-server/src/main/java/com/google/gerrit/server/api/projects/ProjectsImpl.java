@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.server.project.ListProjects.FilterType;
 import com.google.gerrit.server.project.ProjectsCollection;
@@ -52,8 +53,8 @@ class ProjectsImpl implements Projects {
       return api.create(projects.parse(name));
     } catch (UnprocessableEntityException e) {
       return api.create(name);
-    } catch (IOException e) {
-      throw new RestApiException("Cannot retrieve project");
+    } catch (IOException | PermissionBackendException e) {
+      throw new RestApiException("Cannot retrieve project", e);
     }
   }
 

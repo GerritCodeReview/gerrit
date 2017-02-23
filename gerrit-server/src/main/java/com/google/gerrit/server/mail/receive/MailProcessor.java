@@ -124,13 +124,9 @@ public class MailProcessor {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         log.warn(
-            "Mail: Message "
-                + message.id()
-                + " filtered by plugin "
-                + filter.getPluginName()
-                + " "
-                + filter.getExportName()
-                + ". Will delete message.");
+            String.format(
+                "Mail: Message %s filtered by plugin %s %s. Will delete message.",
+                message.id(), filter.getPluginName(), filter.getExportName()));
         return;
       }
     }
@@ -138,33 +134,37 @@ public class MailProcessor {
     MailMetadata metadata = MetadataParser.parse(message);
     if (!metadata.hasRequiredFields()) {
       log.error(
-          "Mail: Message "
-              + message.id()
-              + " is missing required metadata, have "
-              + metadata
-              + ". Will delete message.");
+          String.format(
+              "Mail: Message %s is missing required metadata, have %s. Will delete message.",
+              message.id(), metadata));
       return;
     }
 
     Set<Account.Id> accounts = accountByEmailCache.get(metadata.author);
     if (accounts.size() != 1) {
       log.error(
-          "Mail: Address "
-              + metadata.author
-              + " could not be matched to a unique account. It was matched to "
-              + accounts
-              + ". Will delete message.");
+          String.format(
+              "Mail: Address %s could not be matched to a unique account. It was matched to %s. Will delete message.",
+              metadata.author, accounts));
       return;
     }
     Account.Id account = accounts.iterator().next();
     if (!reviewDb.get().accounts().get(account).isActive()) {
-      log.warn("Mail: Account " + account + " is inactive. Will delete message.");
+      log.warn(String.format("Mail: Account %s is inactive. Will delete message.", account));
       return;
     }
 
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(account)) {
-      ChangeData cd =
-          queryProvider.get().setLimit(1).byKey(Change.Key.parse(metadata.changeId)).get(0);
+      List<ChangeData> changeDataList =
+          queryProvider.get().byKey(Change.Key.parse(metadata.changeId));
+      if (changeDataList.size() != 1) {
+        log.error(
+            String.format(
+                "Mail: Message %s references unique change %s, but there are %d matching changes in the index. Will delete message.",
+                message.id(), metadata.changeId, changeDataList.size()));
+        return;
+      }
+      ChangeData cd = changeDataList.get(0);
       if (existingMessageIds(cd).contains(message.id())) {
         log.info("Mail: Message " + message.id() + " was already processed. Will delete message.");
         return;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0383f6fb_2ca622cd",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-23T08:44:19Z",
+      "side": 1,
+      "message": "Mention that this schedules reindexing and returns immediately?",
+      "revId": "71903b23fcdf25fa5cf38e77caa73ed8e1224bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

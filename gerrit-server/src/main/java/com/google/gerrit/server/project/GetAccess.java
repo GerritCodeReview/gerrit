@@ -96,7 +96,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   public ProjectAccessInfo apply(Project.NameKey nameKey)
       throws ResourceNotFoundException, ResourceConflictException, IOException {
     try {
-      return this.apply(new ProjectResource(projectControlFactory.controlFor(nameKey, self.get())));
+      return apply(new ProjectResource(projectControlFactory.controlFor(nameKey, self.get())));
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(nameKey.get());
     }
@@ -112,7 +112,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     Project.NameKey projectName = rsrc.getNameKey();
     ProjectAccessInfo info = new ProjectAccessInfo();
     ProjectConfig config;
-    ProjectControl pc = open(projectName);
+    ProjectControl pc = createProjectControl(projectName);
     RefControl metaConfigControl = pc.controlForRef(RefNames.REFS_CONFIG);
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       config = ProjectConfig.read(md);
@@ -121,11 +121,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        pc = open(projectName);
+        pc = createProjectControl(projectName);
       } else if (config.getRevision() != null
           && !config.getRevision().equals(pc.getProjectState().getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        pc = open(projectName);
+        pc = createProjectControl(projectName);
       }
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(e.getMessage());
@@ -253,11 +253,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
     return accessSectionInfo;
   }
 
-  private ProjectControl open(Project.NameKey projectName)
-      throws ResourceNotFoundException, IOException {
+
+  private ProjectControl createProjectControl(Project.NameKey projectName)
+      throws IOException, ResourceNotFoundException {
     try {
-      return projectControlFactory.validateFor(
-          projectName, ProjectControl.OWNER | ProjectControl.VISIBLE, self.get());
+      return projectControlFactory.controlFor(projectName, self.get());
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(projectName.get());
     }

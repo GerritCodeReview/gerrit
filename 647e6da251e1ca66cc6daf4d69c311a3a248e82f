@@ -54,6 +54,52 @@
     },
     {
       "key": {
+        "uuid": "1892db92_84f239b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T14:41:59Z",
+      "side": 1,
+      "message": "byte[] pwBytes\n\nOtherwise ErrorProne doesn\u0027t like it.",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 18
+      },
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "343147b7_5cb99d04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T14:41:59Z",
+      "side": 1,
+      "message": "byte[] bytes",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 16
+      },
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cb83820_bd8a3010",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 32

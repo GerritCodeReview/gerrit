@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "eee6a2ce_03096f1b",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-02-23T23:02:50Z",
+      "side": 1,
+      "message": "This sounds to me the \"Draft\" changes, which has little or nothing to do with \"Private\" changes.\n\nI may want to flag a change as \"draft\" to tell the people \"Hey, I haven\u0027t finished yet with this change, so don\u0027t spend time on it\".\nThere was the misconception of \"draft\" changes as a \"private thing\" and the corresponding abuse of it.\n\nBy introducing the \"private\" changes we will then open the doors to having a proper \"draft\" state.",
+      "range": {
+        "startLine": 491,
+        "startChar": 14,
+        "endLine": 491,
+        "endChar": 69
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9340dff8_afec948a",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1
@@ -87,6 +110,29 @@
         "startChar": 14,
         "endLine": 493,
         "endChar": 38
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3fe1a8f_af802904",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-02-23T23:02:50Z",
+      "side": 1,
+      "message": "Seems to me a hijack use-case which company may highly dislike and try to limit or even completely forbid / disable.",
+      "range": {
+        "startLine": 495,
+        "startChar": 28,
+        "endLine": 495,
+        "endChar": 63
       },
       "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

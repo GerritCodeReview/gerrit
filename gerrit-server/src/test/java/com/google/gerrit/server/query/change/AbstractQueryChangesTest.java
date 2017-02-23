@@ -1196,7 +1196,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     Change change6 = insert(repo, newChangeForBranch(repo, "branch6"));
 
-    assertQuery(change1.getId().get(), change1);
+    // This query will also get change2 as the id of commit2 starts with '1'.
+    assertQuery(change1.getId().get(), change2, change1);
     assertQuery(ChangeTriplet.format(change1), change1);
     assertQuery("foosubject", change2);
     assertQuery("Foo.java", change3);

@@ -39,6 +39,29 @@
       "revId": "71903b23fcdf25fa5cf38e77caa73ed8e1224bea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e62790e5_80cfd82a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T10:35:42Z",
+      "side": 1,
+      "message": "We should probably return Response.accepted(...) here.  Have a look for example at the implementation of GarbageCollect.",
+      "range": {
+        "startLine": 84,
+        "startChar": 11,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "71903b23fcdf25fa5cf38e77caa73ed8e1224bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

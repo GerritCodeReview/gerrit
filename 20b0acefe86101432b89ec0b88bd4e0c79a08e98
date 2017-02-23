@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55f9548e_143e4a67",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T04:08:56Z",
+      "side": 1,
+      "message": "This should only be done when k.canDelete() returns true.\n\nIt\u0027s not going to work properly anyway, since the canDelete field of TagInfo is not being populated in ListTags.createTagInfo.  That needs to be fixed separately.",
+      "range": {
+        "startLine": 416,
+        "startChar": 6,
+        "endLine": 419,
+        "endChar": 23
+      },
+      "revId": "20b0acefe86101432b89ec0b88bd4e0c79a08e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2b960f1_a5f992d5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T04:08:56Z",
+      "side": 1,
+      "message": "This needs to be imported.",
+      "range": {
+        "startLine": 446,
+        "startChar": 8,
+        "endLine": 446,
+        "endChar": 14
+      },
+      "revId": "20b0acefe86101432b89ec0b88bd4e0c79a08e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

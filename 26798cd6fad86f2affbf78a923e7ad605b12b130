@@ -331,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "fe83526f_2a14f47b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
+        "patchSetId": 55
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-02-23T02:01:16Z",
+      "side": 1,
+      "message": "It shows here https://github.com/gerrit-review/gerrit/blob/49df12cb7da00f9298d8a37e231d55ecc83fa0c5/gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java#L273 that the owner or a user can delete this. It dosent show refs/heads.",
+      "parentUuid": "7d38e62b_28b57503",
+      "range": {
+        "startLine": 95,
+        "startChar": 32,
+        "endLine": 95,
+        "endChar": 51
+      },
+      "revId": "26798cd6fad86f2affbf78a923e7ad605b12b130",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3833381_bfd1d0c0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectTagsScreen.java",
         "patchSetId": 55

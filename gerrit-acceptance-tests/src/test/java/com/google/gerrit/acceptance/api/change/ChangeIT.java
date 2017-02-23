@@ -219,6 +219,31 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void accessPrivateByReviewers() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    setApiUser(user);
+    gApi.changes().id(result.getChangeId()).setPrivate(true);
+
+    // Add admin as a reviewer.
+    gApi.changes().id(result.getChangeId()).addReviewer(admin.getId().toString());
+
+    // This change should be visible for admin as a reviewer.
+    setApiUser(admin);
+    assertThat(gApi.changes().id(result.getChangeId()).isPrivate()).isTrue();
+
+    // Remove admin from reviewers.
+    gApi.changes().id(result.getChangeId()).reviewer(admin.getId().toString()).remove();
+
+    // This change should not be visible for admin anymore.
+    exception.expect(ResourceNotFoundException.class);
+    assertThat(gApi.changes().id(result.getChangeId()).isPrivate()).isTrue();
+  }
+
+
+  @Test
   public void getAmbiguous() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();

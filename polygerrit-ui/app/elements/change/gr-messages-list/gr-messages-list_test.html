@@ -122,6 +122,55 @@ limitations under the License.
       assert.isTrue(element.$.messageControlsContainer.hasAttribute('hidden'));
     });
 
+    test('show all messages respects expand', function() {
+      element.messages = _.times(10, randomAutomated)
+          .concat(_.times(11, randomMessage));
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$$('#collapse-messages')); // Expand all.
+      flushAsynchronousOperations();
+
+      var messages = getMessages();
+      assert.equal(messages.length, 20);
+      for (var i = 0; i < messages.length; i++) {
+        assert.isTrue(messages[i].expanded);
+      }
+
+      MockInteractions.tap(element.$.oldMessagesBtn);
+      flushAsynchronousOperations();
+
+      messages = getMessages();
+      assert.equal(messages.length, 21);
+      for (var i = 0; i < messages.length; i++) {
+        assert.isTrue(messages[i].expanded);
+      }
+    });
+
+    test('show all messages respects collapse', function() {
+      element.messages = _.times(10, randomAutomated)
+          .concat(_.times(11, randomMessage));
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$$('#collapse-messages')); // Expand all.
+      MockInteractions.tap(element.$$('#collapse-messages')); // Collapse all.
+      flushAsynchronousOperations();
+
+      var messages = getMessages();
+      assert.equal(messages.length, 20);
+      for (var i = 0; i < messages.length; i++) {
+        assert.isFalse(messages[i].expanded);
+      }
+
+      MockInteractions.tap(element.$.oldMessagesBtn);
+      flushAsynchronousOperations();
+
+      messages = getMessages();
+      assert.equal(messages.length, 21);
+      for (var i = 0; i < messages.length; i++) {
+        assert.isFalse(messages[i].expanded);
+      }
+    });
+
     test('expand/collapse all', function() {
       var allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
@@ -395,5 +444,7 @@ limitations under the License.
       assert.equal(element._getDelta(2, messages, false), 5);
       assert.equal(element._getDelta(2, messages, true), 7);
     });
+
+
   });
 </script>

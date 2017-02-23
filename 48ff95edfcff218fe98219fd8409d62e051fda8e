@@ -741,6 +741,30 @@
     },
     {
       "key": {
+        "uuid": "c0b4f1ea_e2876491",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/BooleanPredicate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T15:06:00Z",
+      "side": 1,
+      "message": "good point. Let me try.",
+      "parentUuid": "5e431502_11a95ce0",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f166ac96_73745ae3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 15

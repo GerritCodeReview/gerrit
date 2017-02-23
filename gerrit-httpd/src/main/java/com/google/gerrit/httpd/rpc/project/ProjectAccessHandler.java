@@ -183,7 +183,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       MetaDataUpdate md,
       boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException, OrmException,
-          PermissionDeniedException;
+          PermissionDeniedException, PermissionBackendException;
 
   private void replace(ProjectConfig config, Set<String> toDelete, AccessSection section)
       throws NoSuchGroupException {

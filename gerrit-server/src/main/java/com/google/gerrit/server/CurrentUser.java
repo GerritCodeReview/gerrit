@@ -117,10 +117,11 @@ public abstract class CurrentUser {
         getClass().getSimpleName() + " is not an IdentifiedUser");
   }
 
-  /** Return account ID if {@link #isIdentifiedUser} is true.
+  /**
+   * Return account ID if {@link #isIdentifiedUser} is true.
    *
    * @throws UnsupportedOperationException if the user is not logged in.
-   * */
+   */
   public Account.Id getAccountId() {
     throw new UnsupportedOperationException(
         getClass().getSimpleName() + " is not an IdentifiedUser");

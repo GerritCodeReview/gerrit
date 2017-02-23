@@ -122,42 +122,91 @@ limitations under the License.
       assert.isTrue(element.$.messageControlsContainer.hasAttribute('hidden'));
     });
 
+    test('show all messages respects expand', function() {
+      element.messages = _.times(10, randomAutomated)
+          .concat(_.times(11, randomMessage));
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$$('#collapse-messages')); // Expand all.
+      flushAsynchronousOperations();
+
+      var messages = getMessages();
+      assert.equal(messages.length, 20);
+      for (var i = 0; i < messages.length; i++) {
+        assert.isTrue(messages[i]._expanded);
+      }
+
+      MockInteractions.tap(element.$.oldMessagesBtn);
+      flushAsynchronousOperations();
+
+      messages = getMessages();
+      assert.equal(messages.length, 21);
+      for (var i = 0; i < messages.length; i++) {
+        assert.isTrue(messages[i]._expanded);
+      }
+    });
+
+    test('show all messages respects collapse', function() {
+      element.messages = _.times(10, randomAutomated)
+          .concat(_.times(11, randomMessage));
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$$('#collapse-messages')); // Expand all.
+      MockInteractions.tap(element.$$('#collapse-messages')); // Collapse all.
+      flushAsynchronousOperations();
+
+      var messages = getMessages();
+      assert.equal(messages.length, 20);
+      for (var i = 0; i < messages.length; i++) {
+        assert.isFalse(messages[i]._expanded);
+      }
+
+      MockInteractions.tap(element.$.oldMessagesBtn);
+      flushAsynchronousOperations();
+
+      messages = getMessages();
+      assert.equal(messages.length, 21);
+      for (var i = 0; i < messages.length; i++) {
+        assert.isFalse(messages[i]._expanded);
+      }
+    });
+
     test('expand/collapse all', function() {
       var allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
-        allMessageEls[i].expanded = false;
+        allMessageEls[i]._expanded = false;
       }
       MockInteractions.tap(allMessageEls[1]);
-      assert.isTrue(allMessageEls[1].expanded);
+      assert.isTrue(allMessageEls[1]._expanded);
 
       MockInteractions.tap(element.$$('#collapse-messages'));
       allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isTrue(allMessageEls[i].expanded);
+        assert.isTrue(allMessageEls[i]._expanded);
       }
 
       MockInteractions.tap(element.$$('#collapse-messages'));
       allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isFalse(allMessageEls[i].expanded);
+        assert.isFalse(allMessageEls[i]._expanded);
       }
     });
 
     test('expand/collapse from external keypress', function() {
-      element.handleExpandCollapse(true);
+      MockInteractions.tap(element.$$('#collapse-messages'));
       var allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isTrue(allMessageEls[i].expanded);
+        assert.isTrue(allMessageEls[i]._expanded);
       }
 
       // Expand/collapse all text also changes.
       assert.equal(element.$$('#collapse-messages').textContent.trim(),
           'Collapse all');
 
-      element.handleExpandCollapse(false);
+      MockInteractions.tap(element.$$('#collapse-messages'));
       allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isFalse(allMessageEls[i].expanded);
+        assert.isFalse(allMessageEls[i]._expanded);
       }
       // Expand/collapse all text also changes.
       assert.equal(element.$$('#collapse-messages').textContent.trim(),
@@ -172,7 +221,7 @@ limitations under the License.
     test('scroll to message', function() {
       var allMessageEls = getMessages();
       for (var i = 0; i < allMessageEls.length; i++) {
-        allMessageEls[i].expanded = false;
+        allMessageEls[i].set('message.expanded', false);
       }
 
       var scrollToStub = sinon.stub(window, 'scrollTo');
@@ -181,14 +230,14 @@ limitations under the License.
       element.scrollToMessage('invalid');
 
       for (var i = 0; i < allMessageEls.length; i++) {
-        assert.isFalse(allMessageEls[i].expanded,
+        assert.isFalse(allMessageEls[i]._expanded,
             'expected gr-message ' + i + ' to not be expanded');
       }
 
       var messageID = messages[1].id;
       element.scrollToMessage(messageID);
       assert.isTrue(
-          element.$$('[data-message-id="' + messageID + '"]').expanded);
+          element.$$('[data-message-id="' + messageID + '"]')._expanded);
 
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);

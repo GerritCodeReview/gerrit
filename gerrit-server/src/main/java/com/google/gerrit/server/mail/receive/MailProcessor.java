@@ -163,8 +163,19 @@ public class MailProcessor {
     }
 
     try (ManualRequestContext ctx = oneOffRequestContext.openAs(account)) {
-      ChangeData cd =
-          queryProvider.get().setLimit(1).byKey(Change.Key.parse(metadata.changeId)).get(0);
+      List<ChangeData> changeDataList =
+          queryProvider.get().setLimit(1).byKey(Change.Key.parse(metadata.changeId));
+      if (changeDataList.isEmpty()) {
+        log.error(
+            "Mail: Message "
+                + message.id()
+                + " references change "
+                + metadata.changeId
+                + " but this change was not found."
+                + "Will delete message.");
+        return;
+      }
+      ChangeData cd = changeDataList.get(0);
       if (existingMessageIds(cd).contains(message.id())) {
         log.info("Mail: Message " + message.id() + " was already processed. Will delete message.");
         return;

@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "fbca5f98_d6409f1d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T16:14:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4319baa2_d1300c20",
+      "range": {
+        "startLine": 379,
+        "startChar": 7,
+        "endLine": 379,
+        "endChar": 11
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82e49239_2760b8ed",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
         "patchSetId": 20
@@ -105,6 +129,30 @@
       "writtenOn": "2017-02-23T16:07:26Z",
       "side": 1,
       "message": "Choose a shorter name?",
+      "range": {
+        "startLine": 477,
+        "startChar": 14,
+        "endLine": 477,
+        "endChar": 64
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfc989b8_58735eed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T16:14:37Z",
+      "side": 1,
+      "message": "it\u0027s long, but it explains what\u0027s going on. Let\u0027s leave it? Nobody has to ever type or read it elsewhere.",
+      "parentUuid": "82e49239_2760b8ed",
       "range": {
         "startLine": 477,
         "startChar": 14,

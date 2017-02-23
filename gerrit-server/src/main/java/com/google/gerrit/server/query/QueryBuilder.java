@@ -25,6 +25,7 @@ import static com.google.gerrit.server.query.QueryParser.NOT;
 import static com.google.gerrit.server.query.QueryParser.OR;
 import static com.google.gerrit.server.query.QueryParser.SINGLE_WORD;
 
+import com.google.common.base.Strings;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -181,6 +182,9 @@ public abstract class QueryBuilder<T> {
    *     an invalid value being passed to a recognized operator.
    */
   public Predicate<T> parse(final String query) throws QueryParseException {
+    if (Strings.isNullOrEmpty(query)) {
+      throw new QueryParseException("query is empty");
+    }
     return toPredicate(QueryParser.parse(query));
   }
 

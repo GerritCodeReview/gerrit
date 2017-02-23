@@ -16,6 +16,7 @@ package com.google.gerrit.common;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -28,6 +29,9 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -54,6 +58,7 @@ public class EventBroker implements EventDispatcher {
   /** Listeners to receive all changes as they happen. */
   protected final DynamicSet<EventListener> unrestrictedListeners;
 
+  private final PermissionBackend permissionBackend;
   protected final ProjectCache projectCache;
 
   protected final ChangeNotes.Factory notesFactory;
@@ -64,11 +69,13 @@ public class EventBroker implements EventDispatcher {
   public EventBroker(
       DynamicSet<UserScopedEventListener> listeners,
       DynamicSet<EventListener> unrestrictedListeners,
+      PermissionBackend permissionBackend,
       ProjectCache projectCache,
       ChangeNotes.Factory notesFactory,
       Provider<ReviewDb> dbProvider) {
     this.listeners = listeners;
     this.unrestrictedListeners = unrestrictedListeners;
+    this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.notesFactory = notesFactory;
     this.dbProvider = dbProvider;
@@ -137,11 +144,12 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
-    ProjectState pe = projectCache.get(project);
-    if (pe == null) {
+    try {
+      permissionBackend.user(user).project(project).check(ProjectPermission.ACCESS);
+      return true;
+    } catch (AuthException | PermissionBackendException e) {
       return false;
     }
-    return pe.controlFor(user).isVisible();
   }
 
   protected boolean isVisibleTo(Change change, CurrentUser user) throws OrmException {

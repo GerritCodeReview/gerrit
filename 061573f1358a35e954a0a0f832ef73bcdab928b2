@@ -22,6 +22,30 @@
       "revId": "061573f1358a35e954a0a0f832ef73bcdab928b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b45a473f_94c34c4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/TagInfo.java",
+        "patchSetId": 60
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-23T07:59:49Z",
+      "side": 1,
+      "message": "Right, looks like they\u0027re not needed.  Removed in https://gerrit-review.googlesource.com/98252",
+      "parentUuid": "55ccf321_f8fbef94",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 87
+      },
+      "revId": "061573f1358a35e954a0a0f832ef73bcdab928b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

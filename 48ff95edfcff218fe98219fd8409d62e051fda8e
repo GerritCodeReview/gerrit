@@ -577,6 +577,30 @@
     },
     {
       "key": {
+        "uuid": "88d31b60_4cbecf33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T14:29:22Z",
+      "side": 1,
+      "message": "when you read\n \n    someFunc(false)\n\nit is not obvious what the argument is for (unless you already know the codebase by heart).\n\nDave suggested a more structural solution in https://gerrit-review.googlesource.com/c/98050/",
+      "parentUuid": "4a1d698e_d16bc9d1",
+      "range": {
+        "startLine": 606,
+        "startChar": 61,
+        "endLine": 606,
+        "endChar": 71
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a254b1d_4ce1e8cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 15

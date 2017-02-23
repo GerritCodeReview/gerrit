@@ -164,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "7625364f_69d87201",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T14:29:22Z",
+      "side": 1,
+      "message": "you cannot name things \u0027private\u0027 in java; it\u0027s a reserved word.",
+      "parentUuid": "ef7de0a7_c1d7cde9",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "907879dc_7804dace",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/info/ChangeInfo.java",
         "patchSetId": 17

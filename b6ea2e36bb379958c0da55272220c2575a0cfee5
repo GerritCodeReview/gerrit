@@ -16,6 +16,24 @@
       "revId": "b6ea2e36bb379958c0da55272220c2575a0cfee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "622a274d_b7f2f408",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T12:03:19Z",
+      "side": 1,
+      "message": "Yeah. Then how about we set the minimum length to be 4? Or more, like 8?",
+      "parentUuid": "9a3b039e_0c084af5",
+      "revId": "b6ea2e36bb379958c0da55272220c2575a0cfee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

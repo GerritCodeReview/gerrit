@@ -899,6 +899,54 @@
     },
     {
       "key": {
+        "uuid": "d9cce26e_0fc5773e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_143.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T15:56:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "928a23f7_d10ac6e0",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7764bff1_daa7e70d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_143.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T15:56:34Z",
+      "side": 1,
+      "message": "This migration was already written last year, it only had a different number.",
+      "parentUuid": "f00fee97_348140c2",
+      "range": {
+        "startLine": 1,
+        "startChar": 16,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "72daea55_861bd573",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_143.java",
         "patchSetId": 12
@@ -928,6 +976,24 @@
       "side": 1,
       "message": "I think I agree that checking the \"access database\" capability for this is better. Will address this with the next patch set.",
       "parentUuid": "72daea55_861bd573",
+      "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "542658ad_091734b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_143.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T15:56:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "119b77a2_8a9f4c08",
       "revId": "48a8ffd677b216b514f11ca825ccf6912f0827d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

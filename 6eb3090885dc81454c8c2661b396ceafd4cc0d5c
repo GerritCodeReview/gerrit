@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "b1d9662a_4e299691",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T15:56:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b9e14bd_07b10ca4",
+      "revId": "6eb3090885dc81454c8c2661b396ceafd4cc0d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f8f6043_a98d6b4f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
         "patchSetId": 16
@@ -31,6 +49,30 @@
       "writtenOn": "2017-02-23T14:29:21Z",
       "side": 1,
       "message": "Since you call the provider twice this can return a different timestamp from a few lines up in create()\n\nYou should call serverIdent.get() only once at the top of create(), to ensure you\u0027re using the same timestamp",
+      "range": {
+        "startLine": 149,
+        "startChar": 54,
+        "endLine": 149,
+        "endChar": 63
+      },
+      "revId": "6eb3090885dc81454c8c2661b396ceafd4cc0d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07779256_e3b6038b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T15:56:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f8f6043_a98d6b4f",
       "range": {
         "startLine": 149,
         "startChar": 54,
@@ -60,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "0c6b8cb4_473cf834",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdsUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T15:56:34Z",
+      "side": 1,
+      "message": "Yeah, I will just leave it as it is then.",
+      "parentUuid": "8681acec_dceeee1c",
+      "revId": "6eb3090885dc81454c8c2661b396ceafd4cc0d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94c384ac_80bfe026",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 16
@@ -71,6 +131,24 @@
       "writtenOn": "2017-02-23T14:29:21Z",
       "side": 1,
       "message": "ISTM this is redundant with line 114?",
+      "revId": "6eb3090885dc81454c8c2661b396ceafd4cc0d5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40c58a19_d56fbbfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T15:56:34Z",
+      "side": 1,
+      "message": "I think not. Line 114 is a short-cut if showMetadata is false, because in this case we can skip all metadata refs immediately without doing a permission check for them.",
+      "parentUuid": "94c384ac_80bfe026",
       "revId": "6eb3090885dc81454c8c2661b396ceafd4cc0d5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

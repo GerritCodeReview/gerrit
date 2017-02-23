@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3b039e_0c084af5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T12:00:42Z",
+      "side": 1,
+      "message": "Would it make sense to require a minimum length of the query string before we add the commit predicate? Finding all commit IDs that start with 1 as shown in the test doesn\u0027t make much sense to me.",
+      "revId": "b6ea2e36bb379958c0da55272220c2575a0cfee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

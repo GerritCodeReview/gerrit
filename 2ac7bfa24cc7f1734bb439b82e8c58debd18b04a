@@ -133,6 +133,30 @@
     },
     {
       "key": {
+        "uuid": "f5c233d8_ad1f8041",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T10:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2121637_56d2d803",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 12
+      },
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "68ebe7e2_d99b7eb6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 10
@@ -144,6 +168,24 @@
       "writtenOn": "2017-02-21T17:13:21Z",
       "side": 1,
       "message": "It occurred to me that we might get extra cache loads during the following race:\n\n* thread 1 reads ref at revision A\n* thread 2 updates ref to revision B, stores data derived from B in the cache\n* thread 1 attempts to read data at A in the cache, and misses\n* later threads attempt to read at B\n\nWe could avoid the load in step 3 by increasing the cache size. However, I don\u0027t think we need to: the race window between reading the ref value and looking it up in the cache is short, and the size of the cached data is potentially pretty large, so doubling the memory usage just to deal with this rare race condition doesn\u0027t seem worth it.",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c124d832_34925ea3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T10:46:54Z",
+      "side": 1,
+      "message": "Good point. I also think that this race is rare and it\u0027s not worth to double the memory usage to avoid it. \n\nI\u0027ve added this information as a comment so we can remember it later.\n\nI guess, another way to prevent this is to synchronize also reads on the lock, but that\u0027s probably a bad idea.",
+      "parentUuid": "68ebe7e2_d99b7eb6",
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -167,6 +209,24 @@
     },
     {
       "key": {
+        "uuid": "5bdf1891_00403ab9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T10:46:54Z",
+      "side": 1,
+      "message": "Can\u0027t do this, since extIdsByAccount.get(...) in the next statement already may throw the exception.",
+      "parentUuid": "0f53579e_e5abcb96",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e6ec774_618335ae",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 10
@@ -178,6 +238,24 @@
       "writtenOn": "2017-02-21T17:07:20Z",
       "side": 1,
       "message": "Just checking the reasoning here: it is possible that the body of this method runs concurrently with a call to Loader#load for the same ObjectId key. Multiple calls to updateCache can\u0027t happen concurrently due to the lock, but the Cache internals don\u0027t know about that lock. But racing with Loader is not a problem, because the actual Multimap value is the same for a given ObjectId, regardless of whether it takes the fast path (here) or the slow path (Loader)",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea9bb5fd_3aa5ebf3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T10:46:54Z",
+      "side": 1,
+      "message": "Yes, only this leads to extra cache loads as discussed above.",
+      "parentUuid": "7e6ec774_618335ae",
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -201,6 +279,24 @@
     },
     {
       "key": {
+        "uuid": "a7da9b36_d0cbd824",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T10:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82dedda2_00f31ae7",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0cefb778_7bab0468",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
         "patchSetId": 10
@@ -212,6 +308,24 @@
       "writtenOn": "2017-02-21T17:07:20Z",
       "side": 1,
       "message": "Move out of the try.",
+      "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cfb9efc_00d4f18d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIds.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-23T10:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cefb778_7bab0468",
       "revId": "2ac7bfa24cc7f1734bb439b82e8c58debd18b04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

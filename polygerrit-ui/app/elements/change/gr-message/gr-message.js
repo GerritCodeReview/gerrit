@@ -78,6 +78,11 @@
       },
     },
 
+    observers: [
+      '_messageChanged(message)',
+      '_messageExpandedChanged(message.expanded)',
+    ],
+
     ready: function() {
       this.$.restAPI.getConfig().then(function(config) {
         this.config = config;
@@ -85,6 +90,17 @@
       this.$.restAPI.getLoggedIn().then(function(loggedIn) {
         this._loggedIn = loggedIn;
       }.bind(this));
+    },
+
+    _messageExpandedChanged: function(expanded) {
+      if (expanded === undefined) { return; }
+      this.expanded = expanded;
+    },
+
+    _messageChanged: function(message) {
+      if (message.expanded !== undefined) {
+        this.expanded = message.expanded;
+      }
     },
 
     _computeAuthor: function(message) {
@@ -100,18 +116,23 @@
     },
 
     _commentsChanged: function(value) {
+      if (this.message && this.message.expanded !== undefined) {
+        return;
+      }
       this.expanded = Object.keys(value || {}).length > 0;
     },
 
     _handleTap: function(e) {
       if (this.expanded) { return; }
       this.expanded = true;
+      this.message.expanded = true;
     },
 
     _handleNameTap: function(e) {
       if (!this.expanded) { return; }
       e.stopPropagation();
       this.expanded = false;
+      this.message.expanded = false;
     },
 
     _computeIsAutomated: function(message) {

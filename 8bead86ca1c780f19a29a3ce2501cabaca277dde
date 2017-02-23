@@ -476,6 +476,24 @@
     },
     {
       "key": {
+        "uuid": "5a0fbb2c_7f550819",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/BooleanPredicate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T15:02:36Z",
+      "side": 1,
+      "message": "I think the refactoring doesn\u0027t make senses on its own, since without PrivatePredicate, it would be superfluous abstraction.",
+      "parentUuid": "db60b16d_e710ce77",
+      "revId": "8bead86ca1c780f19a29a3ce2501cabaca277dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5399db36_d757726d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 17

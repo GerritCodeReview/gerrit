@@ -625,6 +625,30 @@
     },
     {
       "key": {
+        "uuid": "b8586fa2_63f0f5f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T15:02:36Z",
+      "side": 1,
+      "message": "ok. I mostly read code inside Gerrit, though.",
+      "parentUuid": "273bacdb_ddfcb30c",
+      "range": {
+        "startLine": 606,
+        "startChar": 61,
+        "endLine": 606,
+        "endChar": 71
+      },
+      "revId": "48ff95edfcff218fe98219fd8409d62e051fda8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a254b1d_4ce1e8cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 15

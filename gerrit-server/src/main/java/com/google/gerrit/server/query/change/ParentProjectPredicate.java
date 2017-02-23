@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
@@ -27,8 +28,12 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class ParentProjectPredicate extends OrPredicate<ChangeData> {
+  private static final Logger log = LoggerFactory.getLogger(ParentProjectPredicate.class);
+
   private final String value;
 
   ParentProjectPredicate(
@@ -52,10 +57,15 @@ class ParentProjectPredicate extends OrPredicate<ChangeData> {
 
     List<Predicate<ChangeData>> r = new ArrayList<>();
     r.add(new ProjectPredicate(projectState.getProject().getName()));
-    ListChildProjects children = listChildProjects.get();
-    children.setRecursive(true);
-    for (ProjectInfo p : children.apply(new ProjectResource(projectState.controlFor(self.get())))) {
-      r.add(new ProjectPredicate(p.name));
+    try {
+      ProjectResource proj = new ProjectResource(projectState.controlFor(self.get()));
+      ListChildProjects children = listChildProjects.get();
+      children.setRecursive(true);
+      for (ProjectInfo p : children.apply(proj)) {
+        r.add(new ProjectPredicate(p.name));
+      }
+    } catch (PermissionBackendException e) {
+      log.warn("cannot check permissions to expand child projects", e);
     }
     return r;
   }

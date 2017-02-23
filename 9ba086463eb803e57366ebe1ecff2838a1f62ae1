@@ -20,6 +20,52 @@
     },
     {
       "key": {
+        "uuid": "94fe686d_c588edc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T17:00:32Z",
+      "side": 1,
+      "message": "The class Repeatable checks whether the type isn\u0027t an integer range. Don\u0027t we need this check here?",
+      "range": {
+        "startLine": 67,
+        "startChar": 36,
+        "endLine": 67,
+        "endChar": 51
+      },
+      "revId": "9ba086463eb803e57366ebe1ecff2838a1f62ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98cd7b23_79332b5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T17:00:32Z",
+      "side": 1,
+      "message": "optional: Annotate with @FunctionalInterface.",
+      "range": {
+        "startLine": 82,
+        "startChar": 9,
+        "endLine": 82,
+        "endChar": 31
+      },
+      "revId": "9ba086463eb803e57366ebe1ecff2838a1f62ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e22e4d0a_27510132",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 1
@@ -31,6 +77,24 @@
       "writtenOn": "2017-02-21T18:51:57Z",
       "side": 1,
       "message": "The reason for this instead of a method in FieldDef.java like:\n\n static \u003cI\u003e FieldDef.Builder\u003cI, T\u003e integer(String name)\n\nis that then in ChangeField.java you would have to call it with an explicit type specification:\n\n FieldDef.\u003cChangeData\u003einteger(\"foo\").build((cd, a) -\u003e cd.getFoo());\n\nbecause the type inference can\u0027t understand that cd is a ChangeData. Having one that returns Builder\u003cChangeData, Integer\u003e eliminates that boilerplate.\n\nOf course there is still the option of having both, and/or having the type argument overriding version only in ChangeField but not AccountField, etc.",
+      "revId": "9ba086463eb803e57366ebe1ecff2838a1f62ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6136df2d_b93abda6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-23T17:00:32Z",
+      "side": 1,
+      "message": "I think I might have a solution for this. At least it compiles locally when I tried it. ;-)\n\nMy suggestion:\n- Remove type I from Builder.\n- Introduce generic type I on methods build() and buildRepeatable().\n\nResult: You can move the methods to FieldDef without the need for the explicit type specification.",
+      "parentUuid": "e22e4d0a_27510132",
       "revId": "9ba086463eb803e57366ebe1ecff2838a1f62ae1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

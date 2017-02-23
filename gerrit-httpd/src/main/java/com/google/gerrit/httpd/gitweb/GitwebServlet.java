@@ -33,6 +33,7 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
@@ -44,8 +45,10 @@ import com.google.gerrit.server.config.GitwebConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -92,7 +95,8 @@ class GitwebServlet extends HttpServlet {
   private final Path gitwebCgi;
   private final URI gitwebUrl;
   private final LocalDiskRepositoryManager repoManager;
-  private final ProjectControl.Factory projectControl;
+  private final ProjectCache projectCache;
+  private final PermissionBackend permissionBackend;
   private final Provider<AnonymousUser> anonymousUserProvider;
   private final Provider<CurrentUser> userProvider;
   private final EnvList _env;
@@ -100,7 +104,8 @@ class GitwebServlet extends HttpServlet {
   @Inject
   GitwebServlet(
       GitRepositoryManager repoManager,
-      ProjectControl.Factory projectControl,
+      ProjectCache projectCache,
+      PermissionBackend permissionBackend,
       Provider<AnonymousUser> anonymousUserProvider,
       Provider<CurrentUser> userProvider,
       SitePaths site,
@@ -113,7 +118,8 @@ class GitwebServlet extends HttpServlet {
       throw new ProvisionException("Gitweb can only be used with LocalDiskRepositoryManager");
     }
     this.repoManager = (LocalDiskRepositoryManager) repoManager;
-    this.projectControl = projectControl;
+    this.projectCache = projectCache;
+    this.permissionBackend = permissionBackend;
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
     this.gitwebCgi = gitwebCgiConfig.getGitwebCgi();
@@ -402,32 +408,37 @@ class GitwebServlet extends HttpServlet {
       name = name.substring(0, name.length() - 4);
     }
 
-    final Project.NameKey nameKey = new Project.NameKey(name);
-    final ProjectControl project;
+    Project.NameKey nameKey = new Project.NameKey(name);
     try {
-      project = projectControl.validateFor(nameKey);
-      if (!project.allRefsAreVisible() && !project.isOwner()) {
-        // Pretend the project doesn't exist
-        throw new NoSuchProjectException(nameKey);
+      if (projectCache.checkedGet(nameKey) == null) {
+        notFound(req, rsp);
+        return;
       }
-    } catch (NoSuchProjectException e) {
-      if (userProvider.get().isIdentifiedUser()) {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-      } else {
-        // Allow anonymous users a chance to login.
-        // Avoid leaking information by not distinguishing between
-        // project not existing and no access rights.
-        rsp.sendRedirect(getLoginRedirectUrl(req));
-      }
+      permissionBackend.user(userProvider).project(nameKey).check(ProjectPermission.READ);
+    } catch (AuthException e) {
+      notFound(req, rsp);
+      return;
+    } catch (IOException | PermissionBackendException err) {
+      log.error("cannot load " + name, err);
+      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
     }
 
     try (Repository repo = repoManager.openRepository(nameKey)) {
       CacheHeaders.setNotCacheable(rsp);
-      exec(req, rsp, project);
+      exec(req, rsp, nameKey);
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  private void notFound(HttpServletRequest req, HttpServletResponse rsp)
+      throws IOException {
+    if (userProvider.get().isIdentifiedUser()) {
+      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+    } else {
+      rsp.sendRedirect(getLoginRedirectUrl(req));
     }
   }
 
@@ -462,8 +473,7 @@ class GitwebServlet extends HttpServlet {
     return params;
   }
 
-  private void exec(
-      final HttpServletRequest req, final HttpServletResponse rsp, final ProjectControl project)
+  private void exec(HttpServletRequest req, HttpServletResponse rsp, Project.NameKey project)
       throws IOException {
     final Process proc =
         Runtime.getRuntime()
@@ -512,7 +522,7 @@ class GitwebServlet extends HttpServlet {
     }
   }
 
-  private String[] makeEnv(final HttpServletRequest req, final ProjectControl project) {
+  private String[] makeEnv(HttpServletRequest req, Project.NameKey nameKey) {
     final EnvList env = new EnvList(_env);
     final int contentLength = Math.max(0, req.getContentLength());
 
@@ -551,20 +561,23 @@ class GitwebServlet extends HttpServlet {
     }
 
     env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
-    env.set("GERRIT_PROJECT_NAME", project.getProject().getName());
+    env.set("GERRIT_PROJECT_NAME", nameKey.get());
 
     env.set(
         "GITWEB_PROJECTROOT",
-        repoManager.getBasePath(project.getProject().getNameKey()).toAbsolutePath().toString());
+        repoManager.getBasePath(nameKey).toAbsolutePath().toString());
 
-    if (project.forUser(anonymousUserProvider.get()).isVisible()) {
+    if (permissionBackend
+        .user(anonymousUserProvider.get())
+        .project(nameKey)
+        .testOrFalse(ProjectPermission.READ)) {
       env.set("GERRIT_ANONYMOUS_READ", "1");
     }
 
     String remoteUser = null;
-    if (project.getUser().isIdentifiedUser()) {
-      final IdentifiedUser u = project.getUser().asIdentifiedUser();
-      final String user = u.getUserName();
+    if (userProvider.get().isIdentifiedUser()) {
+      IdentifiedUser u = userProvider.get().asIdentifiedUser();
+      String user = u.getUserName();
       env.set("GERRIT_USER_NAME", user);
       if (user != null && !user.isEmpty()) {
         remoteUser = user;

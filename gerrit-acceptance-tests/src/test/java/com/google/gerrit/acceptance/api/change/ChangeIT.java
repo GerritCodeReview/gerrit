@@ -88,6 +88,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -328,8 +329,22 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revert();
   }
 
+  @FunctionalInterface
+  private interface Rebase {
+    void call(String id) throws RestApiException;
+  }
+
   @Test
-  public void rebase() throws Exception {
+  public void rebaseViaRevisionApi() throws Exception {
+    testRebase(id -> gApi.changes().id(id).current().rebase());
+  }
+
+  @Test
+  public void rebaseViaChangeApi() throws Exception {
+    testRebase(id -> gApi.changes().id(id).rebase());
+  }
+
+  private void testRebase(Rebase rebase) throws Exception {
     // Create two changes both with the same parent
     PushOneCommit.Result r = createChange();
     testRepo.reset("HEAD~1");
@@ -342,7 +357,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     String changeId = r2.getChangeId();
     // Rebase the second change
-    gApi.changes().id(changeId).current().rebase();
+    rebase.call(changeId);
 
     // Second change should have 2 patch sets
     ChangeInfo c2 = gApi.changes().id(changeId).get();

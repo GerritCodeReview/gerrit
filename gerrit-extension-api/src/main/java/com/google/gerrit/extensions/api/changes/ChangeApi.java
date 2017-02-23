@@ -114,6 +114,12 @@ public interface ChangeApi {
   /** Publishes a draft change. */
   void publish() throws RestApiException;
 
+  /** Rebase the current revision of a change using default options. */
+  void rebase() throws RestApiException;
+
+  /** Rebase the current revision of a change. */
+  void rebase(RebaseInput in) throws RestApiException;
+
   /** Deletes a change. */
   void delete() throws RestApiException;
 
@@ -312,6 +318,16 @@ public interface ChangeApi {
 
     @Override
     public void publish() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void rebase() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void rebase(RebaseInput in) {
       throw new NotImplementedException();
     }
 

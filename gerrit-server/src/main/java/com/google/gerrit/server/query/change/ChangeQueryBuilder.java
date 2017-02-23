@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -61,6 +62,7 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
@@ -173,34 +175,35 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @VisibleForTesting
   public static class Arguments {
-    final Provider<ReviewDb> db;
-    final Provider<InternalChangeQuery> queryProvider;
-    final ChangeIndexRewriter rewriter;
-    final DynamicMap<ChangeOperatorFactory> opFactories;
-    final DynamicMap<ChangeHasOperandFactory> hasOperands;
-    final IdentifiedUser.GenericFactory userFactory;
-    final CapabilityControl.Factory capabilityControlFactory;
-    final ChangeControl.GenericFactory changeControlGenericFactory;
-    final ChangeNotes.Factory notesFactory;
-    final ChangeData.Factory changeDataFactory;
-    final FieldDef.FillArgs fillArgs;
-    final CommentsUtil commentsUtil;
+    final AccountCache accountCache;
     final AccountResolver accountResolver;
-    final GroupBackend groupBackend;
     final AllProjectsName allProjectsName;
     final AllUsersName allUsersName;
-    final PatchListCache patchListCache;
-    final GitRepositoryManager repoManager;
-    final ProjectCache projectCache;
-    final Provider<ListChildProjects> listChildProjects;
-    final SubmitDryRun submitDryRun;
-    final ConflictsCache conflictsCache;
-    final TrackingFooters trackingFooters;
+    final CapabilityControl.Factory capabilityControlFactory;
+    final ChangeControl.GenericFactory changeControlGenericFactory;
+    final ChangeData.Factory changeDataFactory;
     final ChangeIndex index;
+    final ChangeIndexRewriter rewriter;
+    final ChangeNotes.Factory notesFactory;
+    final CommentsUtil commentsUtil;
+    final ConflictsCache conflictsCache;
+    final DynamicMap<ChangeHasOperandFactory> hasOperands;
+    final DynamicMap<ChangeOperatorFactory> opFactories;
+    final FieldDef.FillArgs fillArgs;
+    final GitRepositoryManager repoManager;
+    final GroupBackend groupBackend;
+    final IdentifiedUser.GenericFactory userFactory;
     final IndexConfig indexConfig;
+    final NotesMigration notesMigration;
+    final PatchListCache patchListCache;
+    final ProjectCache projectCache;
+    final Provider<InternalChangeQuery> queryProvider;
+    final Provider<ListChildProjects> listChildProjects;
     final Provider<ListMembers> listMembers;
+    final Provider<ReviewDb> db;
     final StarredChangesUtil starredChangesUtil;
-    final AccountCache accountCache;
+    final SubmitDryRun submitDryRun;
+    final TrackingFooters trackingFooters;
     final boolean allowsDrafts;
 
     private final Provider<CurrentUser> self;
@@ -237,7 +240,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        @GerritServerConfig Config cfg) {
+        @GerritServerConfig Config cfg,
+        NotesMigration notesMigration) {
       this(
           db,
           queryProvider,
@@ -268,7 +272,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listMembers,
           starredChangesUtil,
           accountCache,
-          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
+          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true),
+          notesMigration);
     }
 
     private Arguments(
@@ -301,7 +306,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ListMembers> listMembers,
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
-        boolean allowsDrafts) {
+        boolean allowsDrafts,
+        NotesMigration notesMigration) {
       this.db = db;
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
@@ -332,6 +338,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.accountCache = accountCache;
       this.allowsDrafts = allowsDrafts;
       this.hasOperands = hasOperands;
+      this.notesMigration = notesMigration;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -365,7 +372,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           listMembers,
           starredChangesUtil,
           accountCache,
-          allowsDrafts);
+          allowsDrafts,
+          notesMigration);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -553,7 +561,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      return ReviewerPredicate.create(args, self());
+      return ReviewerPredicate.reviewer(args, self());
+    }
+
+    if ("cc".equalsIgnoreCase(value)) {
+      return ReviewerPredicate.cc(args, self());
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
@@ -925,12 +937,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> reviewer(String who) throws QueryParseException, OrmException {
-    Set<Account.Id> m = parseAccount(who);
-    List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
-    for (Account.Id id : m) {
-      p.add(ReviewerPredicate.create(args, id));
-    }
-    return Predicate.or(p);
+    return Predicate.or(
+        parseAccount(who)
+            .stream()
+            .map(id -> ReviewerPredicate.reviewer(args, id))
+            .collect(toList()));
+  }
+
+  @Operator
+  public Predicate<ChangeData> cc(String who) throws QueryParseException, OrmException {
+    return Predicate.or(
+        parseAccount(who).stream().map(id -> ReviewerPredicate.cc(args, id)).collect(toList()));
   }
 
   @Operator

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f31033b4_28d429a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-23T01:18:33Z",
+      "side": 1,
+      "message": "Typo?",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "c0e322e11be51f79cf1f42b76e37f29d22f9a478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2036ad5_9cd0d70b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-23T01:18:33Z",
+      "side": 1,
+      "message": "Alphabetize script tags.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c0e322e11be51f79cf1f42b76e37f29d22f9a478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9d7e301_02ad8faf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-23T01:18:33Z",
+      "side": 1,
+      "message": "Very thorough :D",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 7
+      },
+      "revId": "c0e322e11be51f79cf1f42b76e37f29d22f9a478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

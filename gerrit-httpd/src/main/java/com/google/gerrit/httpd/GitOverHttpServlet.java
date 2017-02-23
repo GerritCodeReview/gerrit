@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
@@ -34,6 +35,9 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.AbstractModule;
@@ -67,6 +71,7 @@ import org.eclipse.jgit.transport.PostUploadHookChain;
 import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
@@ -142,18 +147,25 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class Resolver implements RepositoryResolver<HttpServletRequest> {
     private final GitRepositoryManager manager;
-    private final ProjectControl.Factory projectControlFactory;
+    private final PermissionBackend permissionBackend;
+    private final Provider<CurrentUser> userProvider;
+    private final ProjectControl.GenericFactory projectControlFactory;
 
     @Inject
-    Resolver(GitRepositoryManager manager, ProjectControl.Factory projectControlFactory) {
+    Resolver(GitRepositoryManager manager,
+        PermissionBackend permissionBackend,
+        Provider<CurrentUser> userProvider,
+        ProjectControl.GenericFactory projectControlFactory) {
       this.manager = manager;
+      this.permissionBackend = permissionBackend;
+      this.userProvider = userProvider;
       this.projectControlFactory = projectControlFactory;
     }
 
     @Override
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
-            ServiceNotEnabledException {
+            ServiceNotEnabledException, ServiceMayNotContinueException {
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }
@@ -168,28 +180,31 @@ public class GitOverHttpServlet extends GitServlet {
         }
       }
 
-      final ProjectControl pc;
-      try {
-        pc = projectControlFactory.controlFor(new Project.NameKey(projectName));
-      } catch (NoSuchProjectException err) {
-        throw new RepositoryNotFoundException(projectName);
-      }
-
-      CurrentUser user = pc.getUser();
+      CurrentUser user = userProvider.get();
       user.setAccessPath(AccessPath.GIT);
 
-      if (!pc.isVisible()) {
-        if (user instanceof AnonymousUser) {
-          throw new ServiceNotAuthorizedException();
-        }
-        throw new ServiceNotEnabledException();
-      }
-      req.setAttribute(ATT_CONTROL, pc);
-
       try {
-        return manager.openRepository(pc.getProject().getNameKey());
-      } catch (IOException e) {
-        throw new RepositoryNotFoundException(pc.getProject().getNameKey().get(), e);
+        Project.NameKey nameKey = new Project.NameKey(projectName);
+        ProjectControl pc;
+        try {
+          pc = projectControlFactory.controlFor(nameKey, user);
+        } catch (NoSuchProjectException err) {
+          throw new RepositoryNotFoundException(projectName);
+        }
+        req.setAttribute(ATT_CONTROL, pc);
+
+        try {
+          permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+        } catch (AuthException e) {
+          if (user instanceof AnonymousUser) {
+            throw new ServiceNotAuthorizedException();
+          }
+          throw new ServiceNotEnabledException(e.getMessage());
+        }
+
+        return manager.openRepository(nameKey);
+      } catch (IOException | PermissionBackendException err) {
+        throw new ServiceMayNotContinueException(projectName + " unavailable", err);
       }
     }
   }

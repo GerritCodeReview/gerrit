@@ -181,6 +181,9 @@ public abstract class QueryBuilder<T> {
    *     an invalid value being passed to a recognized operator.
    */
   public Predicate<T> parse(final String query) throws QueryParseException {
+    if (query.isEmpty()) {
+      throw new QueryParseException("query is empty");
+    }
     return toPredicate(QueryParser.parse(query));
   }
 

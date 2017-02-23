@@ -52,6 +52,24 @@
       "revId": "b6ea2e36bb379958c0da55272220c2575a0cfee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbdc2c2b_79ef521c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-23T12:06:45Z",
+      "side": 1,
+      "message": "OK. Then let\u0027s do like this.",
+      "parentUuid": "c2c8e416_2affa2be",
+      "revId": "b6ea2e36bb379958c0da55272220c2575a0cfee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

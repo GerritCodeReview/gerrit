@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4659012c_986e3c2b",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T16:18:00Z",
+      "side": 1,
+      "message": "i think the original  is better, actually.",
+      "parentUuid": "6ed56adb_8a65ec91",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 24
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59b9b581_4cc43057",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 20
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "58563ca8_782f08b9",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T16:18:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59b9b581_4cc43057",
+      "range": {
+        "startLine": 226,
+        "startChar": 19,
+        "endLine": 226,
+        "endChar": 26
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "001d1e7e_1b95cd57",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 20
@@ -59,6 +107,30 @@
       "writtenOn": "2017-02-23T16:07:26Z",
       "side": 1,
       "message": "Maybe \"change, push with `remove-private` option:",
+      "range": {
+        "startLine": 227,
+        "startChar": 12,
+        "endLine": 227,
+        "endChar": 67
+      },
+      "revId": "29c92b0b972cd2ad5dd182f1b9d57bf6a822c067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d43de07_10deda14",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2017-02-23T16:18:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "001d1e7e_1b95cd57",
       "range": {
         "startLine": 227,
         "startChar": 12,

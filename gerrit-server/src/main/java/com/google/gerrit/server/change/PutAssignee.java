@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
@@ -74,18 +75,19 @@ public class PutAssignee
           PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 
-    if (input.assignee == null || input.assignee.trim().isEmpty()) {
+    input.assignee = Strings.nullToEmpty(input.assignee).trim();
+    if (input.assignee.isEmpty()) {
       throw new BadRequestException("missing assignee field");
     }
 
-    IdentifiedUser assignee = accounts.parse(input.assignee.trim());
+    IdentifiedUser assignee = accounts.parse(input.assignee);
     if (!assignee.getAccount().isActive()) {
-      throw new UnprocessableEntityException(
-          String.format("Account of %s is not active", input.assignee));
+      throw new UnprocessableEntityException(input.assignee + " is not active");
     }
-    if (!rsrc.getControl().forUser(assignee).isRefVisible()) {
-      throw new AuthException(
-          String.format("Change %s is not visible to %s.", rsrc.getId(), input.assignee));
+    try {
+      rsrc.permissions().database(db).user(assignee).check(ChangePermission.READ);
+    } catch (AuthException e) {
+      throw new AuthException("read not permitted for " + input.assignee);
     }
 
     try (BatchUpdate bu =

@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a43d2a19_f0857463",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T15:46:42Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 496,
+        "startChar": 31,
+        "endLine": 496,
+        "endChar": 38
+      },
+      "revId": "ba382b816b06167f253da83789699e32f028fe52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e247e80_fb3874dd",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T15:46:42Z",
+      "side": 1,
+      "message": "remove-private",
+      "range": {
+        "startLine": 513,
+        "startChar": 5,
+        "endLine": 513,
+        "endChar": 16
+      },
+      "revId": "ba382b816b06167f253da83789699e32f028fe52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaeba2ba_f30de78e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 2116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T15:46:42Z",
+      "side": 1,
+      "message": "maybe better: \"mark only own changes as private\"",
+      "range": {
+        "startLine": 2116,
+        "startChar": 51,
+        "endLine": 2116,
+        "endChar": 86
+      },
+      "revId": "ba382b816b06167f253da83789699e32f028fe52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c683eed1_7d6ec8dc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 2136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T15:46:42Z",
+      "side": 1,
+      "message": "\"unmark own private changes\"",
+      "range": {
+        "startLine": 2136,
+        "startChar": 56,
+        "endLine": 2136,
+        "endChar": 90
+      },
+      "revId": "ba382b816b06167f253da83789699e32f028fe52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "563d18f5_d7747641",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T15:46:42Z",
+      "side": 1,
+      "message": "Is this needed? Don\u0027t we get a fresh project for each test method?",
+      "range": {
+        "startLine": 244,
+        "startChar": 4,
+        "endLine": 246,
+        "endChar": 5
+      },
+      "revId": "ba382b816b06167f253da83789699e32f028fe52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5eb868b_50801f99",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1633,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T15:46:42Z",
+      "side": 1,
+      "message": "[optional] instead of using @Sandboxed on this test, can we just include the project into the query as done above in line 1630?",
+      "revId": "ba382b816b06167f253da83789699e32f028fe52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecf01b55_e7fcaf35",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiAction.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T15:46:42Z",
+      "side": 1,
+      "message": "Why was this made public? Seems to be not needed?",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 10
+      },
+      "revId": "ba382b816b06167f253da83789699e32f028fe52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

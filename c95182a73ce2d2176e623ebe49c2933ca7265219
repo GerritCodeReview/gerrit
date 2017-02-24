@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd626e3f_e6a83ef7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-24T07:02:55Z",
+      "side": 1,
+      "message": "You missed to inject the private state from columns to cange instance here and thus all attempts to set private state in NoteDb code path is a no op, because of broken loading.",
+      "revId": "c95182a73ce2d2176e623ebe49c2933ca7265219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

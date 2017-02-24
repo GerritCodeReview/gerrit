@@ -53,6 +53,10 @@
           '_conflicts, _cherryPicks, _sameTopic)',
     ],
 
+    clear: function() {
+      this._loading = true;
+    },
+
     reload: function() {
       if (!this.change || !this.patchNum) {
         return Promise.resolve();

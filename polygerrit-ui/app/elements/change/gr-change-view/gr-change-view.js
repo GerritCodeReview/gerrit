@@ -409,6 +409,7 @@
 
       this._changeNum = value.changeNum;
       this._patchRange = patchRange;
+      this.$.relatedChanges.clear();
 
       this._reload().then(function() {
         this._performPostLoadTasks();

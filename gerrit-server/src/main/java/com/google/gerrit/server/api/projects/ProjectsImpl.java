@@ -78,12 +78,17 @@ class ProjectsImpl implements Projects {
     return new ListRequest() {
       @Override
       public SortedMap<String, ProjectInfo> getAsMap() throws RestApiException {
-        return list(this);
+        try {
+          return list(this);
+        } catch (PermissionBackendException e) {
+          throw new RestApiException("project list unavailable", e);
+        }
       }
     };
   }
 
-  private SortedMap<String, ProjectInfo> list(ListRequest request) throws RestApiException {
+  private SortedMap<String, ProjectInfo> list(ListRequest request)
+      throws RestApiException, PermissionBackendException {
     ListProjects lp = listProvider.get();
     lp.setShowDescription(request.getDescription());
     lp.setLimit(request.getLimit());

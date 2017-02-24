@@ -20,7 +20,7 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -61,13 +62,16 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -81,9 +85,8 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -106,6 +109,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeData.Factory changeDataFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -130,6 +134,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       GroupMembers.Factory groupMembersFactory,
       AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
+      ChangeData.Factory changeDataFactory,
       BatchUpdate.Factory batchUpdateFactory,
       Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory identifiedUserFactory,
@@ -151,6 +156,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.groupMembersFactory = groupMembersFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
+    this.changeDataFactory = changeDataFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.user = user;
     this.identifiedUserFactory = identifiedUserFactory;
@@ -190,7 +196,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   // TODO(hiesel) Refactor this as it starts to become unreadable
   public Addition prepareApplication(
       ChangeResource rsrc, AddReviewerInput input, boolean allowGroup)
-      throws OrmException, RestApiException, IOException {
+      throws OrmException, RestApiException, IOException, PermissionBackendException {
     Account.Id accountId;
     try {
       accountId = accounts.parse(input.reviewer).getAccountId();
@@ -230,7 +236,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     return new Addition(
         user.getUserName(),
         revision.getChangeResource(),
-        ImmutableMap.of(user.getAccountId(), revision.getControl()),
+        ImmutableSet.of(user.getAccountId()),
         null,
         CC,
         NotifyHandling.NONE,
@@ -243,14 +249,15 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ReviewerState state,
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
-      throws UnprocessableEntityException {
+      throws UnprocessableEntityException, PermissionBackendException {
     Account member = rsrc.getReviewerUser().getAccount();
-    ChangeControl control = rsrc.getReviewerControl();
-    if (isValidReviewer(member, control)) {
+    PermissionBackend.ForRef perm =
+        permissionBackend.user(rsrc.getReviewerUser()).ref(rsrc.getChange().getDest());
+    if (isValidReviewer(member, perm)) {
       return new Addition(
           reviewer,
           rsrc.getChangeResource(),
-          ImmutableMap.of(member.getId(), control),
+          ImmutableSet.of(member.getId()),
           null,
           state,
           notify,
@@ -289,7 +296,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   }
 
   private Addition putGroup(ChangeResource rsrc, AddReviewerInput input)
-      throws RestApiException, OrmException, IOException {
+      throws RestApiException, OrmException, IOException, PermissionBackendException {
     GroupDescription.Basic group = groupsCollection.parseInternal(input.reviewer);
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
       return fail(
@@ -297,7 +304,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
           MessageFormat.format(ChangeMessages.get().groupIsNotAllowed, group.getName()));
     }
 
-    Map<Account.Id, ChangeControl> reviewers = new HashMap<>();
+    Set<Account.Id> reviewers = new HashSet<>();
     ChangeControl control = rsrc.getControl();
     Set<Account> members;
     try {
@@ -333,9 +340,10 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
               ChangeMessages.get().groupManyMembersConfirmation, group.getName(), members.size()));
     }
 
+    PermissionBackend.ForRef perm = permissionBackend.user(user).ref(rsrc.getChange().getDest());
     for (Account member : members) {
-      if (isValidReviewer(member, control)) {
-        reviewers.put(member.getId(), control);
+      if (isValidReviewer(member, perm)) {
+        reviewers.add(member.getId());
       }
     }
 
@@ -349,12 +357,16 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         notifyUtil.resolveAccounts(input.notifyDetails));
   }
 
-  private boolean isValidReviewer(Account member, ChangeControl control) {
+  private boolean isValidReviewer(Account member, PermissionBackend.ForRef perm)
+      throws PermissionBackendException {
     if (member.isActive()) {
       IdentifiedUser user = identifiedUserFactory.create(member.getId());
-      // Does not account for draft status as a user might want to let a
-      // reviewer see a draft.
-      return control.forUser(user).isRefVisible();
+      try {
+        perm.user(user).check(RefPermission.READ);
+        return true;
+      } catch (AuthException e) {
+        return false;
+      }
     }
     return false;
   }
@@ -373,8 +385,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   public class Addition {
     final AddReviewerResult result;
     final Op op;
-
-    private final Map<Account.Id, ChangeControl> reviewers;
+    final ChangeNotes notes;
     private final Collection<Address> reviewersByEmail;
 
     protected Addition(String reviewer) {
@@ -384,31 +395,34 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     protected Addition(
         String reviewer,
         ChangeResource rsrc,
-        @Nullable Map<Account.Id, ChangeControl> reviewers,
+        Set<Account.Id> reviewers,
         @Nullable Collection<Address> reviewersByEmail,
         ReviewerState state,
         NotifyHandling notify,
         ListMultimap<RecipientType, Account.Id> accountsToNotify) {
       result = new AddReviewerResult(reviewer);
-      this.reviewers = reviewers == null ? ImmutableMap.of() : reviewers;
       this.reviewersByEmail = reviewersByEmail == null ? ImmutableList.of() : reviewersByEmail;
       if (reviewers == null && reviewersByEmail == null) {
         op = null;
+        notes = null;
         return;
       }
-      op = new Op(rsrc, this.reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
+      op = new Op(rsrc, reviewers, this.reviewersByEmail, state, notify, accountsToNotify);
+      notes = rsrc.getNotes();
     }
 
     void gatherResults() throws OrmException, PermissionBackendException {
+      ChangeData cd = changeDataFactory.create(dbProvider.get(), notes);
+      PermissionBackend.ForChange perm =
+          permissionBackend.user(user).database(dbProvider).change(cd);
+
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
       if (migration.readChanges() && op.state == CC) {
         result.ccs = Lists.newArrayListWithCapacity(op.addedCCs.size());
         for (Account.Id accountId : op.addedCCs) {
-          ChangeControl ctl = reviewers.get(accountId);
-          PermissionBackend.ForChange perm =
-              permissionBackend.user(ctl.getUser()).database(dbProvider).change(ctl.getNotes());
-          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), perm, ctl));
+          IdentifiedUser u = identifiedUserFactory.create(accountId);
+          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), perm.user(u), cd));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : reviewersByEmail) {
@@ -418,12 +432,13 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         result.reviewers = Lists.newArrayListWithCapacity(op.addedReviewers.size());
         for (PatchSetApproval psa : op.addedReviewers) {
           // New reviewers have value 0, don't bother normalizing.
-          ChangeControl ctl = reviewers.get(psa.getAccountId());
-          PermissionBackend.ForChange perm =
-              permissionBackend.user(ctl.getUser()).database(dbProvider).change(ctl.getNotes());
+          IdentifiedUser u = identifiedUserFactory.create(psa.getAccountId());
           result.reviewers.add(
               json.format(
-                  new ReviewerInfo(psa.getAccountId().get()), perm, ctl, ImmutableList.of(psa)));
+                  new ReviewerInfo(psa.getAccountId().get()),
+                  perm.user(u),
+                  cd,
+                  ImmutableList.of(psa)));
         }
         accountLoaderFactory.create(true).fill(result.reviewers);
         for (Address a : reviewersByEmail) {
@@ -434,7 +449,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   }
 
   public class Op implements BatchUpdateOp {
-    final Map<Account.Id, ChangeControl> reviewers;
+    final Set<Account.Id> reviewers;
     final Collection<Address> reviewersByEmail;
     final ReviewerState state;
     final NotifyHandling notify;
@@ -448,7 +463,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
     Op(
         ChangeResource rsrc,
-        Map<Account.Id, ChangeControl> reviewers,
+        Set<Account.Id> reviewers,
         Collection<Address> reviewersByEmail,
         ReviewerState state,
         NotifyHandling notify,
@@ -468,9 +483,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
         if (migration.readChanges() && state == CC) {
           addedCCs =
               approvalsUtil.addCcs(
-                  ctx.getNotes(),
-                  ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-                  reviewers.keySet());
+                  ctx.getNotes(), ctx.getUpdate(ctx.getChange().currentPatchSetId()), reviewers);
           if (addedCCs.isEmpty()) {
             return false;
           }
@@ -482,7 +495,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
                   ctx.getUpdate(ctx.getChange().currentPatchSetId()),
                   rsrc.getControl().getLabelTypes(),
                   rsrc.getChange(),
-                  reviewers.keySet());
+                  reviewers);
           if (addedReviewers.isEmpty()) {
             return false;
           }

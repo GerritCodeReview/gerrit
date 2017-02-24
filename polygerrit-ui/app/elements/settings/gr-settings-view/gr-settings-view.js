@@ -117,7 +117,7 @@
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleDiffPrefsChanged(_diffPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
-      '_handleChangeTableChanged(_localChangeTableColumns.splices)',
+      '_handleChangeTableChanged(_localChangeTableColumns)',
     ],
 
     attached: function() {

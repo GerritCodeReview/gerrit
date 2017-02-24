@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6eca3580_b59f20c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-24T11:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32e7862c_3ad04f66",
+      "range": {
+        "startLine": 59,
+        "startChar": 9,
+        "endLine": 59,
+        "endChar": 15
+      },
+      "revId": "7f8c3bd243eb4ba97431f8c7db6bfe19c84babbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95b67b47_eee9f8a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 13
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "8fc0388a_fe33557d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-24T11:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84c30e1b_a55a5dcc",
+      "range": {
+        "startLine": 60,
+        "startChar": 76,
+        "endLine": 60,
+        "endChar": 85
+      },
+      "revId": "7f8c3bd243eb4ba97431f8c7db6bfe19c84babbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b71814ad_60c80a38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-24T11:07:02Z",
+      "side": 1,
+      "message": "In fact, none.",
+      "parentUuid": "95b67b47_eee9f8a5",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 74
+      },
+      "revId": "7f8c3bd243eb4ba97431f8c7db6bfe19c84babbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6c2d328_ac7e541d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 13
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-23T23:47:56Z",
       "side": 1,
       "message": "Not sure about this.  Should it return something more useful?",
+      "range": {
+        "startLine": 68,
+        "startChar": 31,
+        "endLine": 68,
+        "endChar": 33
+      },
+      "revId": "7f8c3bd243eb4ba97431f8c7db6bfe19c84babbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2367adc_73827f1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-24T11:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6c2d328_ac7e541d",
       "range": {
         "startLine": 68,
         "startChar": 31,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1dabed41_4d4fed94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-24T11:07:02Z",
+      "side": 1,
+      "message": "The idea here was to try to catch any uncaught exception and return an error message, but the code inside the try is not throwing any exception. It would be better to just remove the surrounding try, I guess.",
+      "parentUuid": "45b6230f_c435ffff",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "7f8c3bd243eb4ba97431f8c7db6bfe19c84babbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa56f766_9febd7b8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
         "patchSetId": 13
@@ -128,6 +248,30 @@
       "writtenOn": "2017-02-23T23:47:56Z",
       "side": 1,
       "message": "RestApiException?",
+      "range": {
+        "startLine": 70,
+        "startChar": 16,
+        "endLine": 70,
+        "endChar": 25
+      },
+      "revId": "7f8c3bd243eb4ba97431f8c7db6bfe19c84babbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "940dc841_b4dc208d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Index.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-02-24T11:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa56f766_9febd7b8",
       "range": {
         "startLine": 70,
         "startChar": 16,

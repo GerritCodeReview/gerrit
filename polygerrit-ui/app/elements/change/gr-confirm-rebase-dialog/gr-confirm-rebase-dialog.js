@@ -91,10 +91,10 @@
      */
     _updateSelectedOption: function(rebaseOnCurrent, hasParent) {
       if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
-        this.$.rebaseOnParent.checked = true;
+        this.$.rebaseOnParentInput.checked = true;
         this._handleRebaseOnParent();
       } else if (this._displayTipOption(rebaseOnCurrent, hasParent)) {
-        this.$.rebaseOnTip.checked = true;
+        this.$.rebaseOnTipInput.checked = true;
         this._handleRebaseOnTip();
       } else {
         this.$.rebaseOnOtherInput.checked = true;

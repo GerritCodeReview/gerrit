@@ -42,8 +42,8 @@ limitations under the License.
       element.rebaseOnCurrent = true;
       element.hasParent = true;
       flushAsynchronousOperations();
-      assert.isTrue(element.$.rebaseOnParent.checked);
-      assert.isFalse(element.$.rebaseOnParentContainer.hasAttribute('hidden'));
+      assert.isTrue(element.$.rebaseOnParentInput.checked);
+      assert.isFalse(element.$.rebaseOnParent.hasAttribute('hidden'));
       assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
       assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
@@ -53,8 +53,8 @@ limitations under the License.
       element.rebaseOnCurrent = false;
       element.hasParent = true;
       flushAsynchronousOperations();
-      assert.isTrue(element.$.rebaseOnTip.checked);
-      assert.isTrue(element.$.rebaseOnParentContainer.hasAttribute('hidden'));
+      assert.isTrue(element.$.rebaseOnTipInput.checked);
+      assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
       assert.isFalse(element.$.parentUpToDateMsg.hasAttribute('hidden'));
       assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
@@ -64,8 +64,8 @@ limitations under the License.
       element.rebaseOnCurrent = true;
       element.hasParent = false;
       flushAsynchronousOperations();
-      assert.isTrue(element.$.rebaseOnTip.checked);
-      assert.isTrue(element.$.rebaseOnParentContainer.hasAttribute('hidden'));
+      assert.isTrue(element.$.rebaseOnTipInput.checked);
+      assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
       assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
       assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
       assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
@@ -76,7 +76,7 @@ limitations under the License.
       element.hasParent = false;
       flushAsynchronousOperations();
       assert.isTrue(element.$.rebaseOnOtherInput.checked);
-      assert.isTrue(element.$.rebaseOnParentContainer.hasAttribute('hidden'));
+      assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
       assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
       assert.isTrue(element.$.rebaseOnTip.hasAttribute('hidden'));
       assert.isFalse(element.$.tipUpToDateMsg.hasAttribute('hidden'));

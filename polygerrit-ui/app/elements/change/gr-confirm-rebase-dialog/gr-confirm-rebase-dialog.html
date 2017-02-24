@@ -53,13 +53,13 @@ limitations under the License.
         on-cancel="_handleCancelTap">
       <div class="header">Confirm rebase</div>
       <div class="main">
-        <div id="rebaseOnParentContainer" class="rebaseOption"
+        <div id="rebaseOnParent" class="rebaseOption"
             hidden$="[[!_displayParentOption(rebaseOnCurrent, hasParent)]]">
-          <input id="rebaseOnParent"
+          <input id="rebaseOnParentInput"
               name="rebaseOptions"
               type="radio"
               on-tap="_handleRebaseOnParent">
-          <label id="rebaseOnParentLabel" for="rebaseOnParent">
+          <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
             Rebase on parent change
           </label>
         </div>
@@ -69,12 +69,12 @@ limitations under the License.
         </div>
         <div id="rebaseOnTip" class="rebaseOption"
             hidden$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]">
-          <input id="rebaseOnTip"
+          <input id="rebaseOnTipInput"
               name="rebaseOptions"
               type="radio"
               disabled$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]"
               on-tap="_handleRebaseOnTip">
-          <label id="rebaseOnTipLabel" for="rebaseOnTip">
+          <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
             Rebase on top of the [[branch]] branch<span hidden="[[!hasParent]]">
               (breaks relation chain)
             </span>

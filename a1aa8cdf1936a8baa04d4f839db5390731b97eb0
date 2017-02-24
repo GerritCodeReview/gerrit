@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a2b5cd6_c5b52f2c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2017-02-24T16:50:24Z",
+      "side": 1,
+      "message": "Looks like you have 3 identical tests (hide item, remove item, and hide item), instead of two different tests (hide item, show item).",
+      "revId": "a1aa8cdf1936a8baa04d4f839db5390731b97eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

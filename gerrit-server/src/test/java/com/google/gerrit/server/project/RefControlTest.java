@@ -59,6 +59,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
@@ -161,19 +162,23 @@ public class RefControlTest {
   }
 
   private void assertCanUpdate(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canUpdate()).named("can update " + ref).isTrue();
+    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
+    assertThat(update).named("can update " + ref).isTrue();
   }
 
   private void assertCannotUpdate(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canUpdate()).named("cannot update " + ref).isFalse();
+    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.UPDATE);
+    assertThat(update).named("cannot update " + ref).isFalse();
   }
 
   private void assertCanForceUpdate(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canForceUpdate()).named("can force push " + ref).isTrue();
+    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
+    assertThat(update).named("can force push " + ref).isTrue();
   }
 
   private void assertCannotForceUpdate(String ref, ProjectControl u) {
-    assertThat(u.controlForRef(ref).canForceUpdate()).named("cannot force push " + ref).isFalse();
+    boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
+    assertThat(update).named("cannot force push " + ref).isFalse();
   }
 
   private void assertCanVote(int score, PermissionRange range) {

@@ -31,19 +31,9 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-settings-view tests', function() {
+  suite('gr-change-table-editor tests', function() {
     var element;
     var columns;
-
-    // Click the up/down button (according to direction) for the index'th row.
-    // The index of the first row is 0, corresponding to the array.
-    function move(element, index, direction) {
-      var selector =
-          'tr:nth-child(' + (index + 1) + ') .move-' + direction + '-button';
-      var button = element.$$('tbody').querySelector(selector);
-      MockInteractions.tap(button);
-      flushAsynchronousOperations();
-    }
 
     setup(function() {
       element = fixture('basic');
@@ -56,10 +46,7 @@ limitations under the License.
         'Updated',
       ];
 
-      columnsNotDisplayed = ['Size'];
-
-      element.set('changeTableItems', columns);
-      element.set('changeTableNotDisplayed', columnsNotDisplayed);
+      element.set('changeTableDisplayed', columns);
       flushAsynchronousOperations();
     });
 
@@ -67,127 +54,120 @@ limitations under the License.
       var rows = element.$$('tbody').querySelectorAll('tr');
       var tds;
 
-      assert.equal(rows.length, columns.length);
+      assert.equal(rows.length, element.CHANGE_TABLE_COLUMNS.length);
       for (var i = 0; i < columns.length; i++) {
         tds = rows[i].querySelectorAll('td');
         assert.equal(tds[0].textContent, columns[i]);
       }
     });
 
-    test('add hidden item', function() {
-      var originalNumberColumns = element.changeTableItems.length;
-      var originalNumberHiddenColumns = element.changeTableNotDisplayed.length;
+    test('hide item', function() {
+      var toggleBtn = element.$$('table gr-button');
+      var columnName = element.$$('table tr td').innerHTML;
+      var isShown = element._changeTableColumnsWithState[0].isShown;
+      var displayedLength = element.changeTableDisplayed.length;
+      assert.isTrue(isShown);
+      assert.equal(element.$$('table').style.display, '');
 
-      var addBtn = element.$$('.addOptions gr-button');
-      var columnName = element.$$('.addOptions tr td').innerHTML;
-
-      assert.equal(element.$$('.addOptions').style.display, '');
-
-      MockInteractions.tap(addBtn);
+      MockInteractions.tap(toggleBtn);
       flushAsynchronousOperations();
 
-      assert.equal(element.changeTableItems.length, originalNumberColumns + 1);
-      assert.equal(element.changeTableNotDisplayed.length,
-          originalNumberHiddenColumns - 1);
+      assert.isTrue(element._changeTableColumnsWithState[0].isShown ===
+          !isShown);
 
-      assert.equal(
-          element.changeTableItems[element.changeTableItems.length - 1],
-          columnName);
-
-      assert.equal(element.$$('.addOptions').style.display, 'none');
+      assert.equal(element.changeTableDisplayed.length,
+          displayedLength - 1);
     });
 
     test('remove item', function() {
-      var columns = element.changeTableItems.length;
-      assert.deepEqual(element.changeTableItems, [
-        'Subject',
-        'Status',
-        'Owner',
-        'Project',
-        'Branch',
-        'Updated',
-      ]);
+      var toggleBtn = element.$$('table gr-button');
+      var columnName = element.$$('table tr td').innerHTML;
+      var isShown = element._changeTableColumnsWithState[0].isShown;
+      var displayedLength = element.changeTableDisplayed.length;
+      assert.isTrue(isShown);
+      assert.equal(element.$$('table').style.display, '');
 
-      // Tap the delete button for the second item.
-      MockInteractions.tap(
-          element.$$('tbody').querySelector('tr:nth-child(2) .remove-button'));
+      MockInteractions.tap(toggleBtn);
+      flushAsynchronousOperations();
 
-      assert.deepEqual(element.changeTableItems, [
-        'Subject',
-        'Owner',
-        'Project',
-        'Branch',
-        'Updated',
-      ]);
+      assert.isTrue(element._changeTableColumnsWithState[0].isShown ===
+          !isShown);
 
-      assert.deepEqual(element.changeTableNotDisplayed, [
-        'Status',
-        'Size',
-      ]);
-
-      // Delete remaining items.
-      for (var i = 0; i < columns - 1; i++) {
-        MockInteractions.tap(
-            element.$$('tbody').querySelector('tr:first-child .remove-button'));
-      }
-      assert.deepEqual(element.changeTableItems, []);
-      assert.deepEqual(element.changeTableNotDisplayed, [
-        'Subject',
-        'Status',
-        'Owner',
-        'Project',
-        'Branch',
-        'Updated',
-        'Size',
-      ]);
+      assert.equal(element.changeTableDisplayed.length,
+          displayedLength - 1);
     });
 
-    test('add item', function() {
+    test('hide item', function() {
+      var toggleBtn = element.$$('table gr-button');
+      var columnName = element.$$('table tr td').innerHTML;
+      var isShown = element._changeTableColumnsWithState[0].isShown;
+      var displayedLength = element.changeTableDisplayed.length;
+      assert.isTrue(isShown);
+      assert.equal(element.$$('table').style.display, '');
 
-      element.set('changeTableItems', [
-        'Status',
-        'Owner',
-        'Project',
-        'Branch',
-        'Updated',
-      ]);
-
-      element.set('changeTableNotDisplayed', ['Subject', 'Size']);
-
-      var columns = element.changeTableItems.length;
+      MockInteractions.tap(toggleBtn);
       flushAsynchronousOperations();
 
-      // Tap the add button for the second item.
-      MockInteractions.tap(
-          element.$$('.addOptions').querySelector(
-              'tr:nth-child(2) .add-button'));
+      assert.isTrue(element._changeTableColumnsWithState[0].isShown ===
+          !isShown);
 
-      flushAsynchronousOperations();
-      assert.deepEqual(element.changeTableItems, [
-        'Status',
-        'Owner',
-        'Project',
-        'Branch',
-        'Updated',
-        'Size',
-      ]);
-      assert.deepEqual(element.changeTableNotDisplayed, ['Subject']);
+      assert.equal(element.changeTableDisplayed.length,
+          displayedLength - 1);
+    });
 
-      // Add remaining item.
-      MockInteractions.tap(
-            element.$$('.addOptions').querySelector('.add-button'));
-      flushAsynchronousOperations();
+    test('_getButtonText', function() {
+      var isShown = true;
+      assert.equal(element._getButtonText(isShown), 'Hide');
+      isShown = false;
+      assert.equal(element._getButtonText(isShown), 'Show');
+    });
 
-      assert.deepEqual(element.changeTableNotDisplayed, []);
-      assert.deepEqual(element.changeTableItems, [
-        'Subject',
-        'Status',
-        'Owner',
-        'Project',
-        'Branch',
-        'Updated',
-        'Size'
-      ]);
+    suite('change table item manipulation', function() {
+      var stateArray;
+      var nameArray;
+      setup(function() {
+        stateArray = [
+          {
+            'column': 'Subject',
+            'isShown': true
+          },
+          {
+            'column': 'Status',
+            'isShown': false
+          },
+          {
+            'column': 'Owner',
+            'isShown': true
+          },
+          {
+            'column': 'Project',
+            'isShown': false
+          },
+          {
+            'column': 'Branch',
+            'isShown': true
+          },
+          {
+            'column': 'Updated',
+            'isShown': false
+          },{
+            'column': 'Size',
+            'isShown': true
+          }
+        ];
+        nameArray = ['Subject', 'Owner', 'Branch', 'Size'];
+      });
+
+      test('_getChangeTableColumnNames', function() {
+        assert.deepEqual(element._getChangeTableColumnNames(stateArray),
+            nameArray);
+      });
+
+      test('_getColumnsWithState', function() {
+        var expectedOutput = ['Subject', 'Owner', 'Branch', 'Size'];
+        assert.deepEqual(element._getColumnsWithState(nameArray),
+            stateArray);
+      });
     });
   });
 </script>

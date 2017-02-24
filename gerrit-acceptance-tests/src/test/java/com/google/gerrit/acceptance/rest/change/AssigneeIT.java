@@ -148,7 +148,7 @@ public class AssigneeIT extends AbstractDaemonTest {
     testRepo.reset(RefNames.REFS_CONFIG);
     PushOneCommit.Result r = createChange("refs/for/refs/meta/config");
     exception.expect(AuthException.class);
-    exception.expectMessage("is not visible to");
+    exception.expectMessage("read not permitted");
     setAssignee(r, user.email);
   }
 

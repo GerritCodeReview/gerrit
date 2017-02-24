@@ -27,6 +27,8 @@ import com.google.gerrit.server.ReviewersUtil;
 import com.google.gerrit.server.ReviewersUtil.VisibilityControl;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +47,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
   )
   boolean excludeGroups;
 
+  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
 
   @Inject
@@ -52,10 +55,12 @@ public class SuggestChangeReviewers extends SuggestReviewers
       AccountVisibility av,
       GenericFactory identifiedUserFactory,
       Provider<ReviewDb> dbProvider,
+      PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       @GerritServerConfig Config cfg,
       ReviewersUtil reviewersUtil) {
     super(av, identifiedUserFactory, dbProvider, cfg, reviewersUtil);
+    this.permissionBackend = permissionBackend;
     this.self = self;
   }
 
@@ -73,7 +78,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
         excludeGroups);
   }
 
-  private VisibilityControl getVisibility(final ChangeResource rsrc) {
+  private VisibilityControl getVisibility(ChangeResource rsrc) {
     if (rsrc.getControl().getRefControl().isVisibleByRegisteredUsers()) {
       return new VisibilityControl() {
         @Override
@@ -82,13 +87,15 @@ public class SuggestChangeReviewers extends SuggestReviewers
         }
       };
     }
+
+    // Use the destination reference, not the change, as drafts may deny
+    // anyone who is not already a reviewer.
+    PermissionBackend.ForRef perm = permissionBackend.user(self).ref(rsrc.getChange().getDest());
     return new VisibilityControl() {
       @Override
       public boolean isVisibleTo(Account.Id account) throws OrmException {
         IdentifiedUser who = identifiedUserFactory.create(account);
-        // we can't use changeControl directly as it won't suggest reviewers
-        // to drafts
-        return rsrc.getControl().forUser(who).isRefVisible();
+        return perm.user(who).testOrFalse(RefPermission.READ);
       }
     };
   }

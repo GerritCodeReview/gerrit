@@ -261,6 +261,15 @@ public abstract class PermissionBackend {
     public boolean test(RefPermission perm) throws PermissionBackendException {
       return test(EnumSet.of(perm)).contains(perm);
     }
+
+    public boolean testOrFalse(RefPermission perm) {
+      try {
+        return test(perm);
+      } catch (PermissionBackendException e) {
+        logger.warn("Cannot test " + perm + "; assuming false", e);
+        return false;
+      }
+    }
   }
 
   /** PermissionBackend scoped to a user, project, reference and change. */

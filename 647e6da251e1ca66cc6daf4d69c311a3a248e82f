@@ -237,6 +237,24 @@
     },
     {
       "key": {
+        "uuid": "9bd5f005_127d4ba9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:21:24Z",
+      "side": 1,
+      "message": "Alice made me aware that this was discussed before and that the usage of Arrays.areEqual is intended because if guarantees constant-time comparison, as noted by the comment above.\n\nI changed this back with PS 34.",
+      "parentUuid": "f37d1e0d_2ddc7d44",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03968b82_3934497c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 32

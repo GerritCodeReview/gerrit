@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac92a656_458497dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-24T07:46:46Z",
+      "side": 1,
+      "message": "I was confused, to have yet another change in this series tat claiming conversion of PutAsignee to PermissionBackend: [1]. This could be squashed, as one change per topic/handler should be enough and would be fine grained enough?\n\n* [1] https://gerrit-review.googlesource.com/#/c/97814/",
+      "revId": "dcc31ea822d598d5ef774dfffce66c728810cc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "162f5cd5_18db55d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-24T07:46:46Z",
+      "side": 1,
+      "message": "Should we really care about draft workflow? It will be probably removed/replaced at the time of merging of this series: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/97230/",
+      "range": {
+        "startLine": 11,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "dcc31ea822d598d5ef774dfffce66c728810cc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

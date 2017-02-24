@@ -479,6 +479,7 @@ limitations under the License.
       var reloadPatchDependentStub = sandbox.stub(element,
           '_reloadPatchNumDependentResources',
           function() { return Promise.resolve(); });
+      var relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
 
       var value = {
         view: 'gr-change-view',
@@ -486,6 +487,8 @@ limitations under the License.
       };
       element._paramsChanged(value);
       assert.isTrue(reloadStub.calledOnce);
+      assert.isTrue(relatedClearSpy.calledOnce);
+
       element._initialLoadComplete = true;
 
       value.basePatchNum = '1';
@@ -493,7 +496,7 @@ limitations under the License.
       element._paramsChanged(value);
       assert.isFalse(reloadStub.calledTwice);
       assert.isTrue(reloadPatchDependentStub.calledOnce);
-
+      assert.isTrue(relatedClearSpy.calledOnce);
     });
 
     test('reload entire page when patchRange doesnt change', function() {

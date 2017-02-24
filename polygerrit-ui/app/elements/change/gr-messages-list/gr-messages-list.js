@@ -17,6 +17,15 @@
   var MAX_INITIAL_SHOWN_MESSAGES = 5;
   var MESSAGES_INCREMENT = 5;
 
+  var Reporting = {
+    TYPE: 'interaction',
+    CATEGORY: 'message-list',
+    Event: {
+      SHOW_ALL: 'show-all-messages',
+      SHOW_MORE: 'show-more-messages',
+    },
+  };
+
   Polymer({
     is: 'gr-messages-list',
 
@@ -272,6 +281,8 @@
 
     _handleShowAllTap: function() {
       this._visibleMessages = this._processedMessages;
+            this.$.reporting.reporter(Reporting.TYPE, Reporting.CATEGORY,
+          Reporting.Event.SHOW_ALL);
     },
 
     _handleIncrementShownMessages: function() {
@@ -281,6 +292,8 @@
       var newMessages = this._processedMessages.slice(-(len + delta), -len);
       // Add newMessages to the beginning of _visibleMessages
       this.splice.apply(this, ['_visibleMessages', 0, 0].concat(newMessages));
+      this.$.reporting.reporter(Reporting.TYPE, Reporting.CATEGORY,
+          Reporting.Event.SHOW_MORE);
     },
 
     _processedMessagesChanged: function(messages) {

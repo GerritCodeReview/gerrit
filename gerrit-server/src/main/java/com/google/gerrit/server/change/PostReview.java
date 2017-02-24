@@ -338,10 +338,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     List<Address> ccByEmail = new ArrayList<>();
     for (PostReviewers.Addition addition : reviewerAdditions) {
       if (addition.state == ReviewerState.REVIEWER) {
-        to.addAll(addition.reviewers.keySet());
+        to.addAll(addition.reviewers);
         toByEmail.addAll(addition.reviewersByEmail);
       } else if (addition.state == ReviewerState.CC) {
-        cc.addAll(addition.reviewers.keySet());
+        cc.addAll(addition.reviewers);
         ccByEmail.addAll(addition.reviewersByEmail);
       }
     }

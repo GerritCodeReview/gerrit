@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -43,7 +42,6 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -55,7 +53,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +63,7 @@ public class PostReviewersOp implements BatchUpdateOp {
   public interface Factory {
     PostReviewersOp create(
         ChangeResource rsrc,
-        Map<Account.Id, ChangeControl> reviewers,
+        Set<Account.Id> reviewers,
         Collection<Address> reviewersByEmail,
         ReviewerState state,
         @Nullable NotifyHandling notify,
@@ -101,11 +99,11 @@ public class PostReviewersOp implements BatchUpdateOp {
   private final Provider<IdentifiedUser> user;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeResource rsrc;
-  private final Map<Id, ChangeControl> reviewers;
+  private final Set<Account.Id> reviewers;
   private final Collection<Address> reviewersByEmail;
   private final ReviewerState state;
   private final NotifyHandling notify;
-  private final ListMultimap<RecipientType, Id> accountsToNotify;
+  private final ListMultimap<RecipientType, Account.Id> accountsToNotify;
 
   private List<PatchSetApproval> addedReviewers = new ArrayList<>();
   private Collection<Account.Id> addedCCs = new ArrayList<>();
@@ -124,7 +122,7 @@ public class PostReviewersOp implements BatchUpdateOp {
       Provider<IdentifiedUser> user,
       Provider<ReviewDb> dbProvider,
       @Assisted ChangeResource rsrc,
-      @Assisted Map<Account.Id, ChangeControl> reviewers,
+      @Assisted Set<Account.Id> reviewers,
       @Assisted Collection<Address> reviewersByEmail,
       @Assisted ReviewerState state,
       @Assisted @Nullable NotifyHandling notify,
@@ -153,9 +151,7 @@ public class PostReviewersOp implements BatchUpdateOp {
       if (migration.readChanges() && state == CC) {
         addedCCs =
             approvalsUtil.addCcs(
-                ctx.getNotes(),
-                ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-                reviewers.keySet());
+                ctx.getNotes(), ctx.getUpdate(ctx.getChange().currentPatchSetId()), reviewers);
         if (addedCCs.isEmpty()) {
           return false;
         }
@@ -167,7 +163,7 @@ public class PostReviewersOp implements BatchUpdateOp {
                 ctx.getUpdate(ctx.getChange().currentPatchSetId()),
                 rsrc.getControl().getLabelTypes(),
                 rsrc.getChange(),
-                reviewers.keySet());
+                reviewers);
         if (addedReviewers.isEmpty()) {
           return false;
         }

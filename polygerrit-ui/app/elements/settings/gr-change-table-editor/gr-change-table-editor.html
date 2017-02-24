@@ -28,18 +28,11 @@ limitations under the License.
       th.nameHeader {
         width: 11em;
       }
-      tbody tr:first-of-type td .move-up-button,
-      tbody tr:last-of-type td .move-down-button {
-        display: none;
-      }
-      .newTitleInput {
-        width: 10em;
-      }
-      .newUrlInput {
-        width: 23em;
-      }
-      .addOptions {
+      table {
         margin-top: 1em;
+      }
+      .checkboxContainer {
+        text-align: center;
       }
     </style>
     <style include="gr-settings-styles"></style>
@@ -48,47 +41,25 @@ limitations under the License.
         <thead>
           <tr>
             <th class="nameHeader">Column</th>
+            <th>Visible</th>
           </tr>
         </thead>
         <tbody>
-          <template is="dom-repeat" items="[[changeTableItems]]">
+          <template is="dom-repeat" items="[[columnNames]]">
             <tr>
               <td>[[item]]</td>
-              <td>
-                <gr-button
-                    data-index="[[index]]"
-                    on-tap="_handleDeleteButton"
-                    class="remove-button">Delete</gr-button>
+              <td class="checkboxContainer"
+                on-tap="_handleTargetTap">
+                <input
+                    type="checkbox"
+                    name="[[item]]"
+                    checked$="[[!isColumnHidden(item, displayedColumns)]]"
+                    >
               </td>
             </tr>
           </template>
         </tbody>
       </table>
-
-      <template is="dom-if" if="[[changeTableNotDisplayed.length]]">
-        <table class="addOptions">
-          <thead>
-            <tr>
-              <th class="nameHeader">Hidden</th>
-            </tr>
-          </thead>
-          <tbody>
-            <template is="dom-repeat" items="[[changeTableNotDisplayed]]">
-              <tr>
-                <td>[[item]]</td>
-                <td>
-                  <gr-button
-                      on-tap="_handleAddButton"
-                      class="add-button"
-                      data-index="[[index]]">
-                    Add
-                  </gr-button>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </template>
     </div>
   </template>
   <script src="gr-change-table-editor.js"></script>

@@ -266,7 +266,7 @@ limitations under the License.
       });
 
       test('all columns visible', function() {
-        element.CHANGE_TABLE_COLUMNS.forEach(function(column) {
+        element.columnNames.forEach(function(column) {
           var elementClass = '.' + element._lowerCase(column);
           assert.isFalse(element.$$(elementClass).hidden);
         });

@@ -19,22 +19,28 @@ limitations under the License.
 
   /** @polymerBehavior Gerrit.ChangeTableBehavior */
   var ChangeTableBehavior = {
-    CHANGE_TABLE_COLUMNS: [
-      'Subject',
-      'Status',
-      'Owner',
-      'Project',
-      'Branch',
-      'Updated',
-      'Size',
-    ],
+    properties: {
+      columnNames: {
+        type: Array,
+        value: [
+          'Subject',
+          'Status',
+          'Owner',
+          'Project',
+          'Branch',
+          'Updated',
+          'Size',
+        ],
+        readOnly: true,
+      }
+    },
 
     /**
      * Returns the complement to the given column array
      * @param {Array} columns
      */
     getComplementColumns: function(columns) {
-      return this.CHANGE_TABLE_COLUMNS.filter(function(column) {
+      return this.columnNames.filter(function(column) {
         return columns.indexOf(column) === -1;
       });
     },

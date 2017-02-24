@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "cb1b2ad0_ff72cc03",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-24T12:58:42Z",
+      "side": 1,
+      "message": "I see your concerns here, Luca, but once drafts are gone users might hijack the feature to have throwaway changes that only they can see. WiP will help with this but there might be cases where you just want to look at your work in the browser before anyone else sees it.\n\nI think it might be good to mention that in the docs? What do you say?",
+      "parentUuid": "eee6a2ce_03096f1b",
+      "range": {
+        "startLine": 491,
+        "startChar": 14,
+        "endLine": 491,
+        "endChar": 69
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9340dff8_afec948a",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "4592d17d_58de3a67",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-24T12:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9980a51_0ff34cce",
+      "range": {
+        "startLine": 492,
+        "startChar": 5,
+        "endLine": 492,
+        "endChar": 11
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "817b7173_54b7130f",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1
@@ -105,6 +153,30 @@
       "writtenOn": "2017-02-23T17:27:04Z",
       "side": 1,
       "message": "Maybe \"view your changes.\" ?",
+      "range": {
+        "startLine": 493,
+        "startChar": 14,
+        "endLine": 493,
+        "endChar": 38
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a88d7f12_8d064859",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-24T12:58:42Z",
+      "side": 1,
+      "message": "let\u0027s leave the current version",
+      "parentUuid": "817b7173_54b7130f",
       "range": {
         "startLine": 493,
         "startChar": 14,
@@ -163,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "f0122a36_6c571008",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-24T12:58:42Z",
+      "side": 1,
+      "message": "let\u0027s leave the current version",
+      "parentUuid": "02cd4a2f_42ac831d",
+      "range": {
+        "startLine": 495,
+        "startChar": 2,
+        "endLine": 497,
+        "endChar": 47
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5279a21f_f8e010f6",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1
@@ -174,6 +270,30 @@
       "writtenOn": "2017-02-23T17:27:04Z",
       "side": 1,
       "message": "Maybe \"mark\"?",
+      "range": {
+        "startLine": 514,
+        "startChar": 3,
+        "endLine": 514,
+        "endChar": 7
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8522435_fb7960f5",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-24T12:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5279a21f_f8e010f6",
       "range": {
         "startLine": 514,
         "startChar": 3,
@@ -209,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "92191346_d0b8fe24",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-24T12:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a52d32c_af9c2ea9",
+      "range": {
+        "startLine": 517,
+        "startChar": 16,
+        "endLine": 517,
+        "endChar": 26
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57efd75c_61239321",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1
@@ -220,6 +364,30 @@
       "writtenOn": "2017-02-23T17:27:04Z",
       "side": 1,
       "message": "Drafts will be deprecated soon.",
+      "range": {
+        "startLine": 524,
+        "startChar": 0,
+        "endLine": 524,
+        "endChar": 30
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73221c0e_7785411c",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-24T12:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57efd75c_61239321",
       "range": {
         "startLine": 524,
         "startChar": 0,

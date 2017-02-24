@@ -151,7 +151,7 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      element.CHANGE_TABLE_COLUMNS.forEach(function(column) {
+      element.columnNames.forEach(function(column) {
         var elementClass = '.' + column.toLowerCase();
         assert.isFalse(element.$$(elementClass).hidden);
       });
@@ -170,7 +170,7 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      element.CHANGE_TABLE_COLUMNS.forEach(function(column) {
+      element.columnNames.forEach(function(column) {
         var elementClass = '.' + column.toLowerCase();
         assert.isFalse(element.$$(elementClass).hidden);
       });
@@ -188,7 +188,7 @@ limitations under the License.
 
       flushAsynchronousOperations();
 
-      element.CHANGE_TABLE_COLUMNS.forEach(function(column) {
+      element.columnNames.forEach(function(column) {
         var elementClass = '.' + column.toLowerCase();
         if (column === 'Project') {
           assert.isTrue(element.$$(elementClass).hidden);

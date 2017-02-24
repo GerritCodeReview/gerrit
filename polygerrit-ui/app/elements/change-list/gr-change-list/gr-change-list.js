@@ -111,18 +111,18 @@
 
     _loadPreferences: function() {
       return this._getLoggedIn().then(function(loggedIn) {
-        this.changeTableColumns = this.CHANGE_TABLE_COLUMNS;
+        this.changeTableColumns = this.columnNames;
 
         if (!loggedIn) {
           this.showNumber = false;
-          this.visibleChangeTableColumns = this.CHANGE_TABLE_COLUMNS;
+          this.visibleChangeTableColumns = this.columnNames;
           return;
         }
         return this._getPreferences().then(function(preferences) {
           this.showNumber = !!(preferences &&
               preferences.legacycid_in_change_table);
           this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
-              preferences.change_table : this.CHANGE_TABLE_COLUMNS;
+              preferences.change_table : this.columnNames;
         }.bind(this));
       }.bind(this));
     },

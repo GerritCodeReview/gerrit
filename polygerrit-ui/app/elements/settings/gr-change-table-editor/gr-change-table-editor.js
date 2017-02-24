@@ -18,33 +18,46 @@
     is: 'gr-change-table-editor',
 
     properties: {
-      changeTableItems: Array,
-      changeTableNotDisplayed: Array,
+      changeTableDisplayed: {
+        type: Array,
+        notify: true,
+      },
+      _changeTableColumnsWithState: {
+        type: Array,
+        computed: '_getColumnsWithState(changeTableDisplayed)',
+      },
     },
 
     behaviors: [
       Gerrit.ChangeTableBehavior,
     ],
 
-    _handleDeleteButton: function(e) {
-      var index = e.target.dataIndex;
-      this.splice('changeTableItems', index, 1);
-
-      // Use the change table behavior to make sure ordering of unused
-      // columns ends up in the correct order. If the removed item is appended
-      // to the end, when it is saved, the unused column order may shift around.
-      this.set('changeTableNotDisplayed',
-          this.getComplementColumns(this.changeTableItems));
-
+    _getButtonText: function(isShown) {
+      return isShown ? 'Hide' : 'Show';
     },
 
-    _handleAddButton: function(e) {
-      var index = e.target.dataIndex;
-      var newColumn = this.changeTableNotDisplayed[index];
-      this.splice('changeTableNotDisplayed', index, 1);
+    _getChangeTableColumnNames: function(changeTableColumnsWithState) {
+      return changeTableColumnsWithState.filter(function(column) {
+        return column.isShown === true;
+      }).map(function(column) {
+        return column.column;
+      });
+    },
 
-      this.splice('changeTableItems', this.getComplementColumns(
-          this.changeTableNotDisplayed).indexOf(newColumn), 0, newColumn);
+    _getColumnsWithState: function(changeTableDisplayed) {
+      return this.CHANGE_TABLE_COLUMNS.map(function(column) {
+        return {
+          column: column,
+          isShown: changeTableDisplayed.indexOf(column) !== -1,
+        };
+      });
+    },
+
+    _handleButtonToggle: function(e) {
+      var model = e.model;
+      model.set('item.isShown', !model.item.isShown);
+      this.set('changeTableDisplayed',
+          this._getChangeTableColumnNames(this._changeTableColumnsWithState));
     },
   });
 })();

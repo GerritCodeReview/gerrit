@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd3bf61f_6f74626e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-24T07:30:10Z",
+      "side": 1,
+      "message": "Bad rebase.",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 12
+      },
+      "revId": "ac24fbf2706d564e85b7ba8a6867780c00240fc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,7 +14,7 @@
 (function() {
   'use strict';
 
-  var MAX_INITIAL_SHOWN_MESSAGES = 5;
+  var MAX_INITIAL_SHOWN_MESSAGES = 20;
   var MESSAGES_INCREMENT = 5;
 
   Polymer({

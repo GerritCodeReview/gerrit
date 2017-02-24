@@ -74,44 +74,44 @@ limitations under the License.
 
     test('show some old messages', function() {
       assert.isTrue(element.$.messageControlsContainer.hasAttribute('hidden'));
-      element.messages = _.times(11, randomMessage);
+      element.messages = _.times(26, randomMessage);
       flushAsynchronousOperations();
 
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
-      assert.equal(getMessages().length, 5);
+      assert.equal(getMessages().length, 20);
       assert.equal(element.$.incrementMessagesBtn.innerText,
           'Show 5 more');
       MockInteractions.tap(element.$.incrementMessagesBtn);
       flushAsynchronousOperations();
 
-      assert.equal(getMessages().length, 10);
+      assert.equal(getMessages().length, 25);
       assert.equal(element.$.incrementMessagesBtn.innerText,
           'Show 1 more');
       MockInteractions.tap(element.$.incrementMessagesBtn);
       flushAsynchronousOperations();
 
       assert.isTrue(element.$.messageControlsContainer.hasAttribute('hidden'));
-      assert.equal(getMessages().length, 11);
+      assert.equal(getMessages().length, 26);
     });
 
     test('show all old messages', function() {
       assert.isTrue(element.$.messageControlsContainer.hasAttribute('hidden'));
-      element.messages = _.times(11, randomMessage);
+      element.messages = _.times(26, randomMessage);
       flushAsynchronousOperations();
 
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
-      assert.equal(getMessages().length, 5);
+      assert.equal(getMessages().length, 20);
       assert.equal(element.$.oldMessagesBtn.innerText, 'Show all 6 messages');
       MockInteractions.tap(element.$.oldMessagesBtn);
       flushAsynchronousOperations();
 
-      assert.equal(getMessages().length, 11);
+      assert.equal(getMessages().length, 26);
       assert.isTrue(element.$.messageControlsContainer.hasAttribute('hidden'));
     });
 
     test('message count respects automated', function() {
-      element.messages = _.times(3, randomAutomated)
-          .concat(_.times(3, randomMessage));
+      element.messages = _.times(10, randomAutomated)
+          .concat(_.times(11, randomMessage));
       flushAsynchronousOperations();
 
       assert.equal(element.$.oldMessagesBtn.innerText, 'Show 1 message');

@@ -28,17 +28,7 @@ limitations under the License.
       th.nameHeader {
         width: 11em;
       }
-      tbody tr:first-of-type td .move-up-button,
-      tbody tr:last-of-type td .move-down-button {
-        display: none;
-      }
-      .newTitleInput {
-        width: 10em;
-      }
-      .newUrlInput {
-        width: 23em;
-      }
-      .addOptions {
+      table {
         margin-top: 1em;
       }
     </style>
@@ -51,44 +41,20 @@ limitations under the License.
           </tr>
         </thead>
         <tbody>
-          <template is="dom-repeat" items="[[changeTableItems]]">
+          <template is="dom-repeat" items="[[_changeTableColumnsWithState]]">
             <tr>
-              <td>[[item]]</td>
+              <td>[[item.column]]</td>
               <td>
                 <gr-button
                     data-index="[[index]]"
-                    on-tap="_handleDeleteButton"
-                    class="remove-button">Delete</gr-button>
+                    on-tap="_handleButtonToggle">
+                    [[_getButtonText(item.isShown)]]
+                </gr-button>
               </td>
             </tr>
           </template>
         </tbody>
       </table>
-
-      <template is="dom-if" if="[[changeTableNotDisplayed.length]]">
-        <table class="addOptions">
-          <thead>
-            <tr>
-              <th class="nameHeader">Hidden</th>
-            </tr>
-          </thead>
-          <tbody>
-            <template is="dom-repeat" items="[[changeTableNotDisplayed]]">
-              <tr>
-                <td>[[item]]</td>
-                <td>
-                  <gr-button
-                      on-tap="_handleAddButton"
-                      class="add-button"
-                      data-index="[[index]]">
-                    Add
-                  </gr-button>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </template>
     </div>
   </template>
   <script src="gr-change-table-editor.js"></script>

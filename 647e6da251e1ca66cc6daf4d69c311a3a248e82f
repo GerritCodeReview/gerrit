@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "1f559e2e_711a4eec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1309dba_068f6e23",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c71fb48b_1a04d081",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 32
@@ -31,6 +49,24 @@
       "writtenOn": "2017-02-23T14:08:59Z",
       "side": 1,
       "message": "I would generally recommend Guava (BaseEncoding.base64()) over Apache Commons, but I can\u0027t bring myself to care that much in this case.",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e23e649_fb3d391b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c71fb48b_1a04d081",
       "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "79d8c049_6df2ddb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49499da7_abd794f5",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1892db92_84f239b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 32
@@ -65,6 +119,30 @@
       "writtenOn": "2017-02-23T14:41:59Z",
       "side": 1,
       "message": "byte[] pwBytes\n\nOtherwise ErrorProne doesn\u0027t like it.",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 18
+      },
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b00bc69_f45e068d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1892db92_84f239b1",
       "range": {
         "startLine": 72,
         "startChar": 4,
@@ -100,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "312173d9_2020375d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "343147b7_5cb99d04",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 16
+      },
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cb83820_bd8a3010",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
         "patchSetId": 32
@@ -117,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "f37d1e0d_2ddc7d44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cb83820_bd8a3010",
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03968b82_3934497c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
         "patchSetId": 32
@@ -128,6 +248,30 @@
       "writtenOn": "2017-02-23T14:08:59Z",
       "side": 1,
       "message": "Nit: style guide (and consistency) says this should be Ids",
+      "range": {
+        "startLine": 34,
+        "startChar": 28,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "647e6da251e1ca66cc6daf4d69c311a3a248e82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44684407_5468a5ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_142.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03968b82_3934497c",
       "range": {
         "startLine": 34,
         "startChar": 28,

@@ -60,4 +60,12 @@
         {$patchSet.refName}
     {\n}
   {/if}
+
+  // @see Issue 5599
+  {if $email.includeDiff}
+    {\n}
+    {\n}
+    {$email.unifiedDiff}
+    {\n}
+  {/if}
 {/template}

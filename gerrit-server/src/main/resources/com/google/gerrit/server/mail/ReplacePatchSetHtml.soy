@@ -49,4 +49,9 @@
           {$patchSet.refName}
     {/param}{/call}
   {/if}
+
+  // @see Issue 5599
+  {if $email.includeDiff}
+    {call .Pre}{param content: $email.unifiedDiff /}{/call}
+  {/if}
 {/template}

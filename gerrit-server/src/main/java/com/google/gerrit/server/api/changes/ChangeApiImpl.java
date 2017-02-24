@@ -477,7 +477,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public AccountInfo setAssignee(AssigneeInput input) throws RestApiException {
     try {
-      return putAssignee.apply(change, input).value();
+      return putAssignee.apply(change, input);
     } catch (UpdateException | IOException | OrmException | PermissionBackendException e) {
       throw new RestApiException("Cannot set assignee", e);
     }

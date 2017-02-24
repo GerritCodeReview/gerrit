@@ -14,15 +14,20 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -38,6 +43,9 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.GroupsCollection;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
@@ -50,6 +58,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -79,11 +89,21 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       boolean matches(Repository git) throws IOException {
         return !PERMISSIONS.matches(git);
       }
+
+      @Override
+      boolean useMatch() {
+        return true;
+      }
     },
     PARENT_CANDIDATES {
       @Override
       boolean matches(Repository git) {
         return true;
+      }
+
+      @Override
+      boolean useMatch() {
+        return false;
       }
     },
     PERMISSIONS {
@@ -94,15 +114,25 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             && head.isSymbolic()
             && RefNames.REFS_CONFIG.equals(head.getLeaf().getName());
       }
+
+      @Override
+      boolean useMatch() {
+        return true;
+      }
     },
     ALL {
       @Override
       boolean matches(Repository git) {
         return true;
       }
+      @Override
+      boolean useMatch() {
+        return false;
+      }
     };
 
     abstract boolean matches(Repository git) throws IOException;
+    abstract boolean useMatch();
   }
 
   private final CurrentUser currentUser;
@@ -110,6 +140,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final GroupsCollection groupsCollection;
   private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
+  private final PermissionBackend permissionBackend;
   private final ProjectNode.Factory projectNodeFactory;
   private final WebLinks webLinks;
 
@@ -229,6 +260,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       GroupsCollection groupsCollection,
       GroupControl.Factory groupControlFactory,
       GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
       ProjectNode.Factory projectNodeFactory,
       WebLinks webLinks) {
     this.currentUser = currentUser;
@@ -236,6 +268,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.groupsCollection = groupsCollection;
     this.groupControlFactory = groupControlFactory;
     this.repoManager = repoManager;
+    this.permissionBackend = permissionBackend;
     this.projectNodeFactory = projectNodeFactory;
     this.webLinks = webLinks;
   }
@@ -262,7 +295,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource) throws BadRequestException {
+  public Object apply(TopLevelResource resource)
+      throws BadRequestException, PermissionBackendException {
     if (format == OutputFormat.TEXT) {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
       display(buf);
@@ -273,141 +307,123 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return apply();
   }
 
-  public SortedMap<String, ProjectInfo> apply() throws BadRequestException {
+  public SortedMap<String, ProjectInfo> apply()
+      throws BadRequestException, PermissionBackendException {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public SortedMap<String, ProjectInfo> display(OutputStream displayOutputStream)
-      throws BadRequestException {
+  public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
+      throws BadRequestException, PermissionBackendException {
+    if (groupUuid != null) {
+      try {
+        if (!groupControlFactory.controlFor(groupUuid).isVisible()) {
+          return Collections.emptySortedMap();
+        }
+      } catch (NoSuchGroupException ex) {
+        return Collections.emptySortedMap();
+      }
+    }
+
     PrintWriter stdout = null;
     if (displayOutputStream != null) {
       stdout =
           new PrintWriter(new BufferedWriter(new OutputStreamWriter(displayOutputStream, UTF_8)));
     }
 
+    if (type == FilterType.PARENT_CANDIDATES) {
+      // Historically, PARENT_CANDIDATES implied showDescription.
+      showDescription = true;
+    }
+
     int foundIndex = 0;
     int found = 0;
     TreeMap<String, ProjectInfo> output = new TreeMap<>();
     Map<String, String> hiddenNames = new HashMap<>();
-    Set<String> rejected = new HashSet<>();
-
+    Map<Project.NameKey, Boolean> accessibleParents = new HashMap<>();
+    PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
-      for (final Project.NameKey projectName : scan()) {
+      for (final Project.NameKey projectName : filter(perm)) {
         final ProjectState e = projectCache.get(projectName);
-        if (e == null) {
+        if (e == null || (!all && e.getProject().getState() == HIDDEN)) {
           // If we can't get it from the cache, pretend its not present.
-          //
+          // If all wasn't selected, and its HIDDEN, pretend its not present.
           continue;
         }
 
         final ProjectControl pctl = e.controlFor(currentUser);
-        if (groupUuid != null) {
-          try {
-            if (!groupControlFactory.controlFor(groupUuid).isVisible()) {
-              break;
-            }
-          } catch (NoSuchGroupException ex) {
-            break;
-          }
-          if (!pctl.getLocalGroups()
-              .contains(GroupReference.forGroup(groupsCollection.parseId(groupUuid.get())))) {
-            continue;
-          }
+        if (groupUuid != null
+            && !pctl.getLocalGroups()
+                .contains(GroupReference.forGroup(groupsCollection.parseId(groupUuid.get())))) {
+          continue;
         }
 
         ProjectInfo info = new ProjectInfo();
-        if (type == FilterType.PARENT_CANDIDATES) {
-          ProjectState parentState = Iterables.getFirst(e.parents(), null);
-          if (parentState != null
-              && !output.keySet().contains(parentState.getProject().getName())
-              && !rejected.contains(parentState.getProject().getName())) {
-            ProjectControl parentCtrl = parentState.controlFor(currentUser);
-            if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
-              info.name = parentState.getProject().getName();
-              info.description = Strings.emptyToNull(parentState.getProject().getDescription());
-              info.state = parentState.getProject().getState();
+        if (showTree && !format.isJson()) {
+          treeMap.put(projectName, projectNodeFactory.create(pctl.getProject(), true));
+          continue;
+        }
+
+        info.name = projectName.get();
+        if (showTree && format.isJson()) {
+          ProjectState parent = Iterables.getFirst(e.parents(), null);
+          if (parent != null) {
+            if (isParentAccessible(accessibleParents, perm, parent)) {
+              info.parent = parent.getProject().getName();
             } else {
-              rejected.add(parentState.getProject().getName());
-              continue;
-            }
-          } else {
-            continue;
-          }
-
-        } else {
-          final boolean isVisible = pctl.isVisible() || (all && pctl.isOwner());
-          if (showTree && !format.isJson()) {
-            treeMap.put(projectName, projectNodeFactory.create(pctl.getProject(), isVisible));
-            continue;
-          }
-
-          if (!isVisible && !(showTree && pctl.isOwner())) {
-            // Require the project itself to be visible to the user.
-            //
-            continue;
-          }
-
-          info.name = projectName.get();
-          if (showTree && format.isJson()) {
-            ProjectState parent = Iterables.getFirst(e.parents(), null);
-            if (parent != null) {
-              ProjectControl parentCtrl = parent.controlFor(currentUser);
-              if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
-                info.parent = parent.getProject().getName();
-              } else {
-                info.parent = hiddenNames.get(parent.getProject().getName());
-                if (info.parent == null) {
-                  info.parent = "?-" + (hiddenNames.size() + 1);
-                  hiddenNames.put(parent.getProject().getName(), info.parent);
-                }
+              info.parent = hiddenNames.get(parent.getProject().getName());
+              if (info.parent == null) {
+                info.parent = "?-" + (hiddenNames.size() + 1);
+                hiddenNames.put(parent.getProject().getName(), info.parent);
               }
             }
           }
-          if (showDescription) {
-            info.description = Strings.emptyToNull(e.getProject().getDescription());
-          }
+        }
 
-          info.state = e.getProject().getState();
+        if (showDescription) {
+          info.description = Strings.emptyToNull(e.getProject().getDescription());
+        }
+        info.state = e.getProject().getState();
 
-          try {
-            if (!showBranch.isEmpty()) {
-              try (Repository git = repoManager.openRepository(projectName)) {
-                if (!type.matches(git)) {
-                  continue;
-                }
+        try {
+          if (!showBranch.isEmpty()) {
+            try (Repository git = repoManager.openRepository(projectName)) {
+              if (!type.matches(git)) {
+                continue;
+              }
 
-                List<Ref> refs = getBranchRefs(projectName, pctl);
-                if (!hasValidRef(refs)) {
-                  continue;
-                }
+              List<Ref> refs = getBranchRefs(projectName, pctl);
+              if (!hasValidRef(refs)) {
+                continue;
+              }
 
-                for (int i = 0; i < showBranch.size(); i++) {
-                  Ref ref = refs.get(i);
-                  if (ref != null && ref.getObjectId() != null) {
-                    if (info.branches == null) {
-                      info.branches = new LinkedHashMap<>();
-                    }
-                    info.branches.put(showBranch.get(i), ref.getObjectId().name());
+              for (int i = 0; i < showBranch.size(); i++) {
+                Ref ref = refs.get(i);
+                if (ref != null && ref.getObjectId() != null) {
+                  if (info.branches == null) {
+                    info.branches = new LinkedHashMap<>();
                   }
-                }
-              }
-            } else if (!showTree && type != FilterType.ALL) {
-              try (Repository git = repoManager.openRepository(projectName)) {
-                if (!type.matches(git)) {
-                  continue;
+                  info.branches.put(showBranch.get(i), ref.getObjectId().name());
                 }
               }
             }
-
-          } catch (RepositoryNotFoundException err) {
-            // If the Git repository is gone, the project doesn't actually exist anymore.
-            continue;
-          } catch (IOException err) {
-            log.warn("Unexpected error reading " + projectName, err);
-            continue;
+          } else if (!showTree && type.useMatch()) {
+            try (Repository git = repoManager.openRepository(projectName)) {
+              if (!type.matches(git)) {
+                continue;
+              }
+            }
           }
+        } catch (RepositoryNotFoundException err) {
+          // If the Git repository is gone, the project doesn't actually exist anymore.
+          continue;
+        } catch (IOException err) {
+          log.warn("Unexpected error reading " + projectName, err);
+          continue;
+        }
+
+        if (type != FilterType.PARENT_CANDIDATES) {
           List<WebLinkInfo> links = webLinks.getProjectLinks(projectName.get());
           info.webLinks = links.isEmpty() ? null : links;
         }
@@ -415,7 +431,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         if (foundIndex++ < start) {
           continue;
         }
-
         if (limit > 0 && ++found > limit) {
           break;
         }
@@ -465,6 +480,46 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         stdout.flush();
       }
     }
+  }
+
+  private Collection<Project.NameKey> filter(PermissionBackend.WithUser perm)
+      throws BadRequestException, PermissionBackendException {
+    Collection<Project.NameKey> matches = Lists.newArrayList(scan());
+    if (type == FilterType.PARENT_CANDIDATES) {
+      matches = parentsOf(matches);
+    }
+    return perm.filter(ProjectPermission.ACCESS, matches).stream().sorted().collect(toList());
+  }
+
+  private Collection<Project.NameKey> parentsOf(Collection<Project.NameKey> matches) {
+    Set<Project.NameKey> parents = new HashSet<>();
+    for (Project.NameKey p : matches) {
+      ProjectState ps = projectCache.get(p);
+      if (ps != null) {
+        Project.NameKey parent = ps.getProject().getParent();
+        if (parent != null) {
+          parents.add(parent);
+        }
+      }
+    }
+    return parents;
+  }
+
+  private boolean isParentAccessible(
+      Map<Project.NameKey, Boolean> checked, PermissionBackend.WithUser perm, ProjectState p)
+      throws PermissionBackendException {
+    Project.NameKey name = p.getProject().getNameKey();
+    Boolean b = checked.get(name);
+    if (b == null) {
+      try {
+        perm.project(name).check(ProjectPermission.ACCESS);
+        b = true;
+      } catch (AuthException denied) {
+        b = false;
+      }
+      checked.put(name, b);
+    }
+    return b;
   }
 
   private Iterable<Project.NameKey> scan() throws BadRequestException {

@@ -305,7 +305,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     for (int n = range.startLine; n <= range.endLine; n++) {
       String s = getLine(fileData, side, n);
-      if (n == range.startLine && n == range.endLine) {
+      if (n == range.startLine && n == range.endLine && range.startChar < range.endChar) {
         s = s.substring(Math.min(range.startChar, s.length()), Math.min(range.endChar, s.length()));
       } else if (n == range.startLine) {
         s = s.substring(Math.min(range.startChar, s.length()));

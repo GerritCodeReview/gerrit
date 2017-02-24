@@ -100,7 +100,8 @@
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       } else {
-        console.log(eventName + ': ' + eventValue);
+        console.log(eventName + (eventValue !== undefined ?
+            (': ' + eventValue) : ''));
       }
     },
 

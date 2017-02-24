@@ -17,16 +17,12 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.BatchUpdate.Context;
@@ -45,93 +41,74 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   private static final Logger log = LoggerFactory.getLogger(SetAssigneeOp.class);
 
   public interface Factory {
-    SetAssigneeOp create(String assignee);
+    SetAssigneeOp create(IdentifiedUser assignee);
   }
 
-  private final AccountsCollection accounts;
   private final ChangeMessagesUtil cmUtil;
   private final DynamicSet<AssigneeValidationListener> validationListeners;
-  private final String assignee;
+  private final IdentifiedUser newAssignee;
   private final AssigneeChanged assigneeChanged;
   private final SetAssigneeSender.Factory setAssigneeSenderFactory;
   private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory userFactory;
 
   private Change change;
-  private Account newAssignee;
-  private Account oldAssignee;
+  private IdentifiedUser oldAssignee;
 
   @AssistedInject
   SetAssigneeOp(
-      AccountsCollection accounts,
       ChangeMessagesUtil cmUtil,
       DynamicSet<AssigneeValidationListener> validationListeners,
       AssigneeChanged assigneeChanged,
       SetAssigneeSender.Factory setAssigneeSenderFactory,
       Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory userFactory,
-      @Assisted String assignee) {
-    this.accounts = accounts;
+      @Assisted IdentifiedUser newAssignee) {
     this.cmUtil = cmUtil;
     this.validationListeners = validationListeners;
     this.assigneeChanged = assigneeChanged;
     this.setAssigneeSenderFactory = setAssigneeSenderFactory;
     this.user = user;
     this.userFactory = userFactory;
-    this.assignee = checkNotNull(assignee);
+    this.newAssignee = checkNotNull(newAssignee, "assignee");
   }
 
   @Override
   public boolean updateChange(BatchUpdate.ChangeContext ctx) throws OrmException, RestApiException {
     change = ctx.getChange();
-    ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
-    IdentifiedUser newAssigneeUser = accounts.parse(assignee);
-    newAssignee = newAssigneeUser.getAccount();
-    IdentifiedUser oldAssigneeUser = null;
-    if (change.getAssignee() != null) {
-      oldAssigneeUser = userFactory.create(change.getAssignee());
-      oldAssignee = oldAssigneeUser.getAccount();
-      if (newAssignee.equals(oldAssignee)) {
-        return false;
-      }
-    }
-    if (!newAssignee.isActive()) {
-      throw new UnprocessableEntityException(
-          String.format("Account of %s is not active", assignee));
-    }
-    if (!ctx.getControl().forUser(newAssigneeUser).isRefVisible()) {
-      throw new AuthException(
-          String.format("Change %s is not visible to %s.", change.getChangeId(), assignee));
+    if (newAssignee.getAccountId().equals(change.getAssignee())) {
+      return false;
     }
     try {
       for (AssigneeValidationListener validator : validationListeners) {
-        validator.validateAssignee(change, newAssignee);
+        validator.validateAssignee(change, newAssignee.getAccount());
       }
     } catch (ValidationException e) {
       throw new ResourceConflictException(e.getMessage());
     }
+
+    if (change.getAssignee() != null) {
+      oldAssignee = userFactory.create(change.getAssignee());
+    }
+
+    ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     // notedb
-    update.setAssignee(newAssignee.getId());
+    update.setAssignee(newAssignee.getAccountId());
     // reviewdb
-    change.setAssignee(newAssignee.getId());
-    addMessage(ctx, update, oldAssigneeUser, newAssigneeUser);
+    change.setAssignee(newAssignee.getAccountId());
+    addMessage(ctx, update);
     return true;
   }
 
-  private void addMessage(
-      BatchUpdate.ChangeContext ctx,
-      ChangeUpdate update,
-      IdentifiedUser previousAssignee,
-      IdentifiedUser newAssignee)
-      throws OrmException {
+  private void addMessage(BatchUpdate.ChangeContext ctx, ChangeUpdate update) throws OrmException {
     StringBuilder msg = new StringBuilder();
     msg.append("Assignee ");
-    if (previousAssignee == null) {
+    if (oldAssignee == null) {
       msg.append("added: ");
       msg.append(newAssignee.getNameEmail());
     } else {
       msg.append("changed from: ");
-      msg.append(previousAssignee.getNameEmail());
+      msg.append(oldAssignee.getNameEmail());
       msg.append(" to: ");
       msg.append(newAssignee.getNameEmail());
     }
@@ -144,16 +121,17 @@ public class SetAssigneeOp extends BatchUpdate.Op {
   public void postUpdate(Context ctx) throws OrmException {
     try {
       SetAssigneeSender cm =
-          setAssigneeSenderFactory.create(change.getProject(), change.getId(), newAssignee.getId());
+          setAssigneeSenderFactory.create(
+              change.getProject(), change.getId(), newAssignee.getAccountId());
       cm.setFrom(user.get().getAccountId());
       cm.send();
     } catch (Exception err) {
       log.error("Cannot send email to new assignee of change " + change.getId(), err);
     }
-    assigneeChanged.fire(change, ctx.getAccount(), oldAssignee, ctx.getWhen());
-  }
-
-  public Account.Id getNewAssignee() {
-    return newAssignee != null ? newAssignee.getId() : null;
+    assigneeChanged.fire(
+        change,
+        ctx.getAccount(),
+        oldAssignee != null ? oldAssignee.getAccount() : null,
+        ctx.getWhen());
   }
 }

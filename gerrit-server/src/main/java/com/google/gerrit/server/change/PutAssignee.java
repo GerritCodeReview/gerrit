@@ -20,13 +20,16 @@ import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.PostReviewers.Addition;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.UpdateException;
@@ -42,6 +45,7 @@ import java.io.IOException;
 public class PutAssignee
     implements RestModifyView<ChangeResource, AssigneeInput>, UiAction<ChangeResource> {
 
+  private final AccountsCollection accounts;
   private final SetAssigneeOp.Factory assigneeFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final Provider<ReviewDb> db;
@@ -50,11 +54,13 @@ public class PutAssignee
 
   @Inject
   PutAssignee(
+      AccountsCollection accounts,
       SetAssigneeOp.Factory assigneeFactory,
       BatchUpdate.Factory batchUpdateFactory,
       Provider<ReviewDb> db,
       PostReviewers postReviewers,
       AccountLoader.Factory accountLoaderFactory) {
+    this.accounts = accounts;
     this.assigneeFactory = assigneeFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.db = db;
@@ -63,7 +69,7 @@ public class PutAssignee
   }
 
   @Override
-  public Response<AccountInfo> apply(ChangeResource rsrc, AssigneeInput input)
+  public AccountInfo apply(ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
           PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
@@ -72,20 +78,30 @@ public class PutAssignee
       throw new BadRequestException("missing assignee field");
     }
 
+    IdentifiedUser assignee = accounts.parse(input.assignee.trim());
+    if (!assignee.getAccount().isActive()) {
+      throw new UnprocessableEntityException(
+          String.format("Account of %s is not active", input.assignee));
+    }
+    if (!rsrc.getControl().forUser(assignee).isRefVisible()) {
+      throw new AuthException(
+          String.format("Change %s is not visible to %s.", rsrc.getId(), input.assignee));
+    }
+
     try (BatchUpdate bu =
         batchUpdateFactory.create(
             db.get(),
             rsrc.getChange().getProject(),
             rsrc.getControl().getUser(),
             TimeUtil.nowTs())) {
-      SetAssigneeOp op = assigneeFactory.create(input.assignee);
+      SetAssigneeOp op = assigneeFactory.create(assignee);
       bu.addOp(rsrc.getId(), op);
 
       PostReviewers.Addition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
       bu.addOp(rsrc.getId(), reviewersAddition.op);
 
       bu.execute();
-      return Response.ok(accountLoaderFactory.create(true).fillOne(op.getNewAssignee()));
+      return accountLoaderFactory.create(true).fillOne(assignee.getAccountId());
     }
   }
 

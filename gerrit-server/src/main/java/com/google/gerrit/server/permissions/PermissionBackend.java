@@ -261,6 +261,24 @@ public abstract class PermissionBackend {
     public boolean test(RefPermission perm) throws PermissionBackendException {
       return test(EnumSet.of(perm)).contains(perm);
     }
+
+    /**
+     * Test if user may be able to perform the permission.
+     *
+     * <p>Similar to {@link #test(RefPermission)} except this method returns {@code false} instead
+     * of throwing an exception.
+     *
+     * @param perm the permission to test.
+     * @return true if the user might be able to perform the permission; false if the user may be
+     *     missing the necessary grants or state, or if the backend threw an exception.
+     */
+    public boolean testOrFalse(RefPermission perm) {
+      try {
+        return test(perm);
+      } catch (PermissionBackendException e) {
+        return false;
+      }
+    }
   }
 
   /** PermissionBackend scoped to a user, project, reference and change. */

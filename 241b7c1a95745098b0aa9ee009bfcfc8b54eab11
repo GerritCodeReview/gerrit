@@ -259,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "cf0d0e97_78aa6558",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-02-24T13:00:59Z",
+      "side": 1,
+      "message": "Then \"changes\" -\u003e \"change\".",
+      "parentUuid": "f0122a36_6c571008",
+      "range": {
+        "startLine": 495,
+        "startChar": 2,
+        "endLine": 497,
+        "endChar": 47
+      },
+      "revId": "241b7c1a95745098b0aa9ee009bfcfc8b54eab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5279a21f_f8e010f6",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 1

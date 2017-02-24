@@ -110,6 +110,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -294,6 +295,7 @@ public class ReceiveCommits {
   private final ChangeNotes.Factory notesFactory;
   private final AccountResolver accountResolver;
   private final PermissionBackend permissionBackend;
+  private final PermissionBackend.ForProject permissions;
   private final CmdLineParser.Factory optionParserFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -469,8 +471,9 @@ public class ReceiveCommits {
 
     // If the user lacks READ permission, some references may be filtered and hidden from view.
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
+    permissions = permissionBackend.user(user).project(project.getNameKey());
     try {
-      permissionBackend.user(user).project(project.getNameKey()).check(ProjectPermission.READ);
+      permissions.check(ProjectPermission.READ);
     } catch (AuthException e) {
       rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
     }
@@ -588,7 +591,16 @@ public class ReceiveCommits {
     batch.setRefLogIdent(rp.getRefLogIdent());
     batch.setRefLogMessage("push", true);
 
-    parseCommands(commands);
+    try {
+      parseCommands(commands);
+    } catch (PermissionBackendException err) {
+      for (ReceiveCommand cmd : batch.getCommands()) {
+        if (cmd.getResult() == NOT_ATTEMPTED) {
+          cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
+        }
+      }
+      logError(String.format("Failed to process refs in %s", project.getName()), err);
+    }
     if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
       selectNewAndReplacedChangesFromMagicBranch();
     }
@@ -930,7 +942,8 @@ public class ReceiveCommits {
     return displayName;
   }
 
-  private void parseCommands(Collection<ReceiveCommand> commands) {
+  private void parseCommands(Collection<ReceiveCommand> commands)
+      throws PermissionBackendException {
     List<String> optionList = rp.getPushOptions();
     if (optionList != null) {
       for (String option : optionList) {
@@ -1161,24 +1174,29 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseUpdate(ReceiveCommand cmd) {
+  private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
     logDebug("Updating {}", cmd);
-    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canUpdate()) {
+    boolean ok;
+    try {
+      permissions.ref(cmd.getRefName()).check(RefPermission.UPDATE);
+      ok = true;
+    } catch (AuthException err) {
+      ok = false;
+    }
+    if (ok) {
       if (isHead(cmd) && !isCommit(cmd)) {
         return;
       }
-
       if (!validRefOperation(cmd)) {
         return;
       }
-      validateNewCommits(ctl, cmd);
+      validateNewCommits(projectControl.controlForRef(cmd.getRefName()), cmd);
       batch.addCommand(cmd);
     } else {
-      if (RefNames.REFS_CONFIG.equals(ctl.getRefName())) {
+      if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
         errors.put(Error.CONFIG_UPDATE, RefNames.REFS_CONFIG);
       } else {
-        errors.put(Error.UPDATE, ctl.getRefName());
+        errors.put(Error.UPDATE, cmd.getRefName());
       }
       reject(cmd);
     }
@@ -1222,7 +1240,7 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseRewind(ReceiveCommand cmd) {
+  private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException {
     RevCommit newObject;
     try {
       newObject = rp.getRevWalk().parseCommit(cmd.getNewId());
@@ -1245,7 +1263,14 @@ public class ReceiveCommits {
       }
     }
 
-    if (ctl.canForceUpdate()) {
+    boolean ok;
+    try {
+      permissions.ref(cmd.getRefName()).check(RefPermission.FORCE_UPDATE);
+      ok = true;
+    } catch (AuthException err) {
+      ok = false;
+    }
+    if (ok) {
       if (!validRefOperation(cmd)) {
         return;
       }

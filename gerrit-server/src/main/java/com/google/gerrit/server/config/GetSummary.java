@@ -144,6 +144,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
 
     List<String> prefixes =
         Arrays.asList(
+            "H2",
             "HTTP",
             "IntraLineDiff",
             "ReceiveCommits",
@@ -151,7 +152,8 @@ public class GetSummary implements RestReadView<ConfigResource> {
             "SSH git-upload-pack",
             "SSH-Interactive-Worker",
             "SSH-Stream-Worker",
-            "SshCommandStart");
+            "SshCommandStart",
+            "sshd-SshServer");
     String other = "Other";
     ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 

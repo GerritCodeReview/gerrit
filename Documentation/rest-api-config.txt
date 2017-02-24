@@ -1721,13 +1721,13 @@ The total number of current threads.
 |`counts`       |
 Detailed thread counts as a map that maps a thread kind to a map that
 maps a thread state to the thread count. The thread kinds group the
-counts by threads that have the same name prefix (`HTTP`,
+counts by threads that have the same name prefix (`H2`, `HTTP`,
 `IntraLineDiff`, `ReceiveCommits`, `SSH git-receive-pack`,
 `SSH git-upload-pack`, `SSH-Interactive-Worker`, `SSH-Stream-Worker`,
-`SshCommandStart`). The counts for other threads are available under
-the thread kind `Other`. Counts for the following thread states can be
-included: `NEW`, `RUNNABLE`, `BLOCKED`, `WAITING`, `TIMED_WAITING` and
-`TERMINATED`.
+`SshCommandStart`, `sshd-SshServer`). The counts for other threads are
+available under the thread kind `Other`. Counts for the following thread
+states can be included: `NEW`, `RUNNABLE`, `BLOCKED`, `WAITING`,
+`TIMED_WAITING` and `TERMINATED`.
 |===========================
 
 [[top-menu-entry-info]]

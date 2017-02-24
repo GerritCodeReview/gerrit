@@ -188,7 +188,7 @@ public class RefControl {
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
-  public boolean canUpdate() {
+  private boolean canUpdate() {
     if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
@@ -208,7 +208,7 @@ public class RefControl {
   }
 
   /** @return true if the user can rewind (force push) the reference. */
-  public boolean canForceUpdate() {
+  private boolean canForceUpdate() {
     if (!canWrite()) {
       return false;
     }

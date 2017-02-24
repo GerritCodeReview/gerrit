@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c9c58ba_494c8f50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:09:13Z",
+      "side": 1,
+      "message": "Should we also enter this block is the user is an administrator, because by default admins have all capabilities (with the complete range)?",
+      "range": {
+        "startLine": 90,
+        "startChar": 10,
+        "endLine": 90,
+        "endChar": 42
+      },
+      "revId": "db250a99c98a127e7b2943f7a77d2f216330c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56fd2ece_3fdfcf54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-24T09:09:13Z",
+      "side": 1,
+      "message": "Now this is only true for administrators if they have a permission range assigned. Is this change in behavior intended?",
+      "revId": "db250a99c98a127e7b2943f7a77d2f216330c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

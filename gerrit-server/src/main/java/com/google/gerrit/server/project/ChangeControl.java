@@ -217,11 +217,6 @@ public class ChangeControl {
     if (getChange().getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
       return false;
     }
-    return isRefVisible();
-  }
-
-  /** Can the user see this change? Does not account for draft status */
-  public boolean isRefVisible() {
     return getRefControl().isVisible();
   }
 

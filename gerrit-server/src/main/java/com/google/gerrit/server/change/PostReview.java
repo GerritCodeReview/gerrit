@@ -319,9 +319,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     List<Account.Id> cc = new ArrayList<>();
     for (PostReviewers.Addition addition : reviewerAdditions) {
       if (addition.op.state == ReviewerState.REVIEWER) {
-        to.addAll(addition.op.reviewers.keySet());
+        to.addAll(addition.op.reviewers);
       } else if (addition.op.state == ReviewerState.CC) {
-        cc.addAll(addition.op.reviewers.keySet());
+        cc.addAll(addition.op.reviewers);
       }
     }
     postReviewers.emailReviewers(change, to, cc, notify, accountsToNotify);

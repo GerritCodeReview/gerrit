@@ -108,7 +108,7 @@ public class PutAssignee
   }
 
   private Addition addAssigneeAsCC(ChangeResource rsrc, String assignee)
-      throws OrmException, RestApiException, IOException {
+      throws OrmException, RestApiException, IOException, PermissionBackendException {
     AddReviewerInput reviewerInput = new AddReviewerInput();
     reviewerInput.reviewer = assignee;
     reviewerInput.state = ReviewerState.CC;

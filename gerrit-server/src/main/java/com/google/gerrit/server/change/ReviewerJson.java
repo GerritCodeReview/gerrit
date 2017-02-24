@@ -69,15 +69,16 @@ public class ReviewerJson {
       throws OrmException, PermissionBackendException {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountLoader loader = accountLoaderFactory.create(true);
+    ChangeData cd = null;
     for (ReviewerResource rsrc : rsrcs) {
+      if (cd == null || !cd.getId().equals(rsrc.getChangeId())) {
+        cd = changeDataFactory.create(db.get(), rsrc.getControl().getNotes());
+      }
       ReviewerInfo info =
           format(
               new ReviewerInfo(rsrc.getReviewerUser().getAccountId().get()),
-              permissionBackend
-                  .user(rsrc.getReviewerUser())
-                  .database(db)
-                  .change(rsrc.getChangeResource().getNotes()),
-              rsrc.getReviewerControl());
+              permissionBackend.user(rsrc.getReviewerUser()).database(db).change(cd),
+              cd);
       loader.put(info);
       infos.add(info);
     }
@@ -90,29 +91,29 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource>of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, PermissionBackend.ForChange perm, ChangeControl ctl)
+  public ReviewerInfo format(ReviewerInfo out, PermissionBackend.ForChange perm, ChangeData cd)
       throws OrmException, PermissionBackendException {
-    PatchSet.Id psId = ctl.getChange().currentPatchSetId();
+    PatchSet.Id psId = cd.change().currentPatchSetId();
+    ChangeControl ctl = cd.changeControl().forUser(perm.user());
     return format(
         out,
         perm,
-        ctl,
+        cd,
         approvalsUtil.byPatchSetUser(db.get(), ctl, psId, new Account.Id(out._accountId)));
   }
 
   public ReviewerInfo format(
       ReviewerInfo out,
       PermissionBackend.ForChange perm,
-      ChangeControl ctl,
+      ChangeData cd,
       Iterable<PatchSetApproval> approvals)
       throws OrmException, PermissionBackendException {
-    ChangeData cd = changeDataFactory.create(db.get(), ctl);
     LabelTypes labelTypes = cd.getLabelTypes();
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     out.approvals = new TreeMap<>(labelTypes.nameComparator());
     for (PatchSetApproval ca : approvals) {
-      for (PermissionRange pr : ctl.getLabelRanges()) {
+      for (PermissionRange pr : cd.changeControl().getLabelRanges()) {
         if (!pr.isEmpty()) {
           LabelType at = labelTypes.byLabel(ca.getLabelId());
           if (at != null) {

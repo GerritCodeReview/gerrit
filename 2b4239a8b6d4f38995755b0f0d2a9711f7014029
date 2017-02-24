@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cfbb0c4_a0d0538f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexProjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-24T13:25:41Z",
+      "side": 1,
+      "message": "modern style :-)",
+      "revId": "2b4239a8b6d4f38995755b0f0d2a9711f7014029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

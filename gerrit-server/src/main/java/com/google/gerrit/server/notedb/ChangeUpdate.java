@@ -38,6 +38,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_I
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.sanitizeFooter;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -153,6 +154,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean currentPatchSet;
   private Timestamp readOnlyUntil;
   private Boolean isPrivate;
+  private Boolean workInProgress;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -732,6 +734,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_PRIVATE, isPrivate);
     }
 
+    if (workInProgress != null) {
+      addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
+    }
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -780,7 +786,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && psDescription == null
         && !currentPatchSet
         && readOnlyUntil == null
-        && isPrivate == null;
+        && isPrivate == null
+        && workInProgress == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {
@@ -802,6 +809,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setPrivate(boolean isPrivate) {
     this.isPrivate = isPrivate;
+  }
+
+  public void setWorkInProgress(boolean workInProgress) {
+    this.workInProgress = workInProgress;
   }
 
   void setReadOnlyUntil(Timestamp readOnlyUntil) {

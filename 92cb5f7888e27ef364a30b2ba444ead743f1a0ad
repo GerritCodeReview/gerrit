@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6db5c97_72d45b65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-25T17:20:39Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 41,
+        "startChar": 34,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "92cb5f7888e27ef364a30b2ba444ead743f1a0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

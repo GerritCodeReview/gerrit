@@ -33,6 +33,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_I
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WIP;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.stream.Collectors.joining;
 
@@ -159,6 +160,7 @@ class ChangeNotesParser {
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
   private Timestamp readOnlyUntil;
   private Boolean isPrivate;
+  private Boolean wip;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -241,7 +243,8 @@ class ChangeNotesParser {
         buildMessagesByPatchSet(),
         comments,
         readOnlyUntil,
-        isPrivate);
+        isPrivate,
+        wip);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -384,6 +387,10 @@ class ChangeNotesParser {
 
     if (isPrivate == null) {
       parseIsPrivate(commit);
+    }
+
+    if (wip == null) {
+      parseWip(commit);
     }
 
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
@@ -943,6 +950,14 @@ class ChangeNotesParser {
       return;
     }
     throw invalidFooter(FOOTER_PRIVATE, raw);
+  }
+
+  private void parseWip(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String raw = parseOneFooter(commit, FOOTER_WIP);
+    if (raw == null) {
+      return;
+    }
+    wip = Boolean.parseBoolean(raw);
   }
 
   private void pruneReviewers() {

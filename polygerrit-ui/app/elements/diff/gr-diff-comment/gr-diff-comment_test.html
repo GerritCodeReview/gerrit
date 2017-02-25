@@ -175,19 +175,67 @@ limitations under the License.
           'header middle content is is not visible');
     });
 
-    test('esc does not close comment unless text is empty', function(done) {
-      element.editing = true;
-      element._messageText = 'test';
-      var textarea = element.$.editTextarea;
-      var closeSpy = sandbox.spy(element, '_handleCancel');
+    suite('while editing', function() {
+      setup(function() {
+        element.editing = true;
+        element._messageText = 'test';
+        sandbox.stub(element, '_handleCancel');
+        sandbox.stub(element, '_handleSave');
+        flushAsynchronousOperations();
+      });
 
-      flush(function() {
-        MockInteractions.pressAndReleaseKeyOn(textarea, 27); // esc
-        assert.isFalse(closeSpy.called);
-        element._messageText = '';
-        MockInteractions.pressAndReleaseKeyOn(textarea, 27); // esc
-        assert.isTrue(closeSpy.called);
-        done();
+      suite('when text is empty', function() {
+        setup(function() {
+          element._messageText = '';
+        });
+
+        test('esc closes comment when text is empty', function() {
+          MockInteractions.pressAndReleaseKeyOn(
+              element.$.editTextarea, 27); // esc
+          assert.isTrue(element._handleCancel.called);
+        });
+
+        test('ctrl+enter does not save', function() {
+          MockInteractions.pressAndReleaseKeyOn(
+              element.$.editTextarea, 13, 'ctrl'); // ctrl + enter
+          assert.isFalse(element._handleSave.called);
+        });
+
+        test('meta+enter does not save', function() {
+          MockInteractions.pressAndReleaseKeyOn(
+              element.$.editTextarea, 13, 'meta'); // meta + enter
+          assert.isFalse(element._handleSave.called);
+        });
+
+        test('ctrl+s does not save', function() {
+          MockInteractions.pressAndReleaseKeyOn(
+              element.$.editTextarea, 83, 'ctrl'); // ctrl + s
+          assert.isFalse(element._handleSave.called);
+        });
+      });
+
+      test('esc does not close comment that has content', function() {
+        MockInteractions.pressAndReleaseKeyOn(
+            element.$.editTextarea, 27); // esc
+        assert.isFalse(element._handleCancel.called);
+      });
+
+      test('ctrl+enter saves', function() {
+        MockInteractions.pressAndReleaseKeyOn(
+            element.$.editTextarea, 13, 'ctrl'); // ctrl + enter
+        assert.isTrue(element._handleSave.called);
+      });
+
+      test('meta+enter saves', function() {
+        MockInteractions.pressAndReleaseKeyOn(
+            element.$.editTextarea, 13, 'meta'); // meta + enter
+        assert.isTrue(element._handleSave.called);
+      });
+
+      test('ctrl+s saves', function() {
+        MockInteractions.pressAndReleaseKeyOn(
+            element.$.editTextarea, 83, 'ctrl'); // ctrl + s
+        assert.isTrue(element._handleSave.called);
       });
     });
   });

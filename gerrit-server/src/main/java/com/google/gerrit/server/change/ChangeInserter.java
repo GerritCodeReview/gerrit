@@ -112,6 +112,7 @@ public class ChangeInserter implements InsertChangeOp {
   private String message;
   private String patchSetDescription;
   private boolean isPrivate;
+  private boolean workInProgress;
   private List<String> groups = Collections.emptyList();
   private boolean validate = true;
   private NotifyHandling notify = NotifyHandling.ALL;
@@ -187,6 +188,7 @@ public class ChangeInserter implements InsertChangeOp {
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
     change.setTopic(topic);
     change.setPrivate(isPrivate);
+    change.setWorkInProgress(workInProgress);
     return change;
   }
 
@@ -273,6 +275,11 @@ public class ChangeInserter implements InsertChangeOp {
   public ChangeInserter setDraft(boolean draft) {
     checkState(change == null, "setDraft(boolean) only valid before creating change");
     return setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
+  }
+
+  public ChangeInserter setWorkInProgress(boolean workInProgress) {
+    this.workInProgress = workInProgress;
+    return this;
   }
 
   public ChangeInserter setStatus(Change.Status status) {
@@ -364,6 +371,7 @@ public class ChangeInserter implements InsertChangeOp {
     update.setTopic(change.getTopic());
     update.setPsDescription(patchSetDescription);
     update.setPrivate(isPrivate);
+    update.setWorkInProgress(workInProgress);
 
     boolean draft = status == Change.Status.DRAFT;
     List<String> newGroups = groups;

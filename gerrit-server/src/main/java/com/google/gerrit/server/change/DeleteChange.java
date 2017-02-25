@@ -85,6 +85,6 @@ public class DeleteChange
   }
 
   private boolean isActionAllowed(ChangeControl changeControl, Status status) {
-    return status != Status.DRAFT || allowDrafts || changeControl.isAdmin();
+    return status != Status.DRAFT || allowDrafts;
   }
 }

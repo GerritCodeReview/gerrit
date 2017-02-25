@@ -243,13 +243,18 @@
 
     _handleTextareaKeydown: function(e) {
       switch (e.keyCode) {
+        case 13: // 'enter'
+          if (this._messageText.length !== 0 && (e.metaKey || e.ctrlKey)) {
+            this._handleSave(e);
+          }
+          break;
         case 27: // 'esc'
           if (this._messageText.length === 0) {
             this._handleCancel(e);
           }
           break;
         case 83: // 's'
-          if (e.ctrlKey) {
+          if (this._messageText.length !== 0 && e.ctrlKey) {
             this._handleSave(e);
           }
           break;

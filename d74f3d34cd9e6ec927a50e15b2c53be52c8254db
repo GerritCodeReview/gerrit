@@ -46,6 +46,30 @@
       "revId": "d74f3d34cd9e6ec927a50e15b2c53be52c8254db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f2d7312_fe030c09",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-25T01:01:01Z",
+      "side": 1,
+      "message": "Inbox appears to be doing some sniffing for the OS because that doesn\u0027t appear for me in Ubuntu.\n\n... I also don\u0027t think we should do fancy OS sniffing here.",
+      "parentUuid": "5eab48cc_d85af52d",
+      "range": {
+        "startLine": 382,
+        "startChar": 41,
+        "endLine": 382,
+        "endChar": 42
+      },
+      "revId": "d74f3d34cd9e6ec927a50e15b2c53be52c8254db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd71f3e4_6218cd1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-25T00:00:16Z",
+      "side": 1,
+      "message": "Side note: I think we should make reporter private..\n\nWould it be easier to expose a pure js function interface here? Something like reporting.reportAllMessages() or something like that?\n\nSee examples.\n\nhttps://gerrit.googlesource.com/gerrit/+/3a69d82777b856377ae60a697bfeb328edfebcab/polygerrit-ui/app/elements/gr-app.js#90\n\nhttps://gerrit.googlesource.com/gerrit/+/3a69d82777b856377ae60a697bfeb328edfebcab/polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html#138",
+      "revId": "7fdfaa004225cfa006f69b972151497d785518d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

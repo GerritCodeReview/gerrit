@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0da706d3_bd9affed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-25T20:58:08Z",
+      "side": 0,
+      "message": "This is wrong. DELETE /changes/\u003cid\u003e/ endpoint is needed for deletion of regular changes.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 8
+      },
+      "revId": "9fd513d4c604d992a1bb58968244c66a3df28a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ee02d76_0ad5159a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-25T20:58:08Z",
+      "side": 0,
+      "message": "Wrong. It\u0027s used and must stay. And in case of removal, the corresponding place in Actions.ui.xml was missed.",
+      "revId": "9fd513d4c604d992a1bb58968244c66a3df28a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "828eb8d9_29a534e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-25T20:58:08Z",
+      "side": 0,
+      "message": "Same here.",
+      "revId": "9fd513d4c604d992a1bb58968244c66a3df28a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e48b2c2_aedd9eee",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-25T20:58:08Z",
+      "side": 0,
+      "message": "Same here.",
+      "revId": "9fd513d4c604d992a1bb58968244c66a3df28a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de9bc8d_07e59eb7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeActions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-25T20:58:08Z",
+      "side": 0,
+      "message": "Still needed.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 3
+      },
+      "revId": "9fd513d4c604d992a1bb58968244c66a3df28a0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

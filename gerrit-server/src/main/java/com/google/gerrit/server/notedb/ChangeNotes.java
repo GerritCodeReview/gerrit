@@ -570,6 +570,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.isPrivate();
   }
 
+  public boolean isWorkInProgress() {
+    if (state.isWorkInProgress() == null) {
+      return false;
+    }
+    return state.isWorkInProgress();
+  }
+
   @Override
   protected void onLoad(LoadHandle handle)
       throws NoSuchChangeException, IOException, ConfigInvalidException {

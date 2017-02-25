@@ -82,6 +82,7 @@ public class ChangeNoteUtil {
   public static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
   public static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
   public static final FooterKey FOOTER_TAG = new FooterKey("Tag");
+  public static final FooterKey FOOTER_WIP = new FooterKey("Wip");
 
   private static final String AUTHOR = "Author";
   private static final String BASE_PATCH_SET = "Base-for-patch-set";

@@ -72,6 +72,7 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.of(),
         ImmutableListMultimap.of(),
         null,
+        null,
         null);
   }
 
@@ -102,7 +103,8 @@ public abstract class ChangeNotesState {
       ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
       ListMultimap<RevId, Comment> publishedComments,
       @Nullable Timestamp readOnlyUntil,
-      @Nullable Boolean isPrivate) {
+      @Nullable Boolean isPrivate,
+      @Nullable Boolean workInProgress) {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
@@ -122,7 +124,8 @@ public abstract class ChangeNotesState {
             submissionId,
             assignee,
             status,
-            isPrivate),
+            isPrivate,
+            workInProgress),
         ImmutableSet.copyOf(pastAssignees),
         ImmutableSet.copyOf(hashtags),
         ImmutableList.copyOf(patchSets.entrySet()),
@@ -135,7 +138,8 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
         ImmutableListMultimap.copyOf(publishedComments),
         readOnlyUntil,
-        isPrivate);
+        isPrivate,
+        workInProgress);
   }
 
   /**
@@ -181,6 +185,9 @@ public abstract class ChangeNotesState {
 
     @Nullable
     abstract Boolean isPrivate();
+
+    @Nullable
+    abstract Boolean isWorkInProgress();
   }
 
   // Only null if NoteDb is disabled.
@@ -221,6 +228,9 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Boolean isPrivate();
+
+  @Nullable
+  abstract Boolean isWorkInProgress();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
@@ -280,6 +290,7 @@ public abstract class ChangeNotesState {
     change.setSubmissionId(c.submissionId());
     change.setAssignee(c.assignee());
     change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
+    change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());

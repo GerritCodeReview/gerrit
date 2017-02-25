@@ -497,6 +497,10 @@ public final class Change {
   @Column(id = 20)
   protected boolean isPrivate;
 
+  /** Whether the change is wip. */
+  @Column(id = 21)
+  protected boolean wip;
+
   /** @see com.google.gerrit.server.notedb.NoteDbChangeState */
   @Column(id = 101, notNull = false, length = Integer.MAX_VALUE)
   protected String noteDbState;
@@ -534,6 +538,7 @@ public final class Change {
     submissionId = other.submissionId;
     topic = other.topic;
     isPrivate = other.isPrivate;
+    wip = other.wip;
     noteDbState = other.noteDbState;
   }
 
@@ -686,6 +691,14 @@ public final class Change {
 
   public void setPrivate(boolean isPrivate) {
     this.isPrivate = isPrivate;
+  }
+
+  public boolean isWip() {
+    return wip;
+  }
+
+  public void setWip(boolean wip) {
+    this.wip = wip;
   }
 
   public String getNoteDbState() {

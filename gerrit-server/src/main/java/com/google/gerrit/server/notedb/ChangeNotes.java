@@ -570,6 +570,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.isPrivate();
   }
 
+  public boolean isWip() {
+    if (state.isWip() == null) {
+      return false;
+    }
+    return state.isWip();
+  }
+
   @Override
   protected void onLoad(LoadHandle handle)
       throws NoSuchChangeException, IOException, ConfigInvalidException {

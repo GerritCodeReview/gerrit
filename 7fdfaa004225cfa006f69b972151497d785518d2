@@ -16,6 +16,24 @@
       "revId": "7fdfaa004225cfa006f69b972151497d785518d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dfd5516_79b86857",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-25T00:27:33Z",
+      "side": 1,
+      "message": "\u003e Side note: I think we should make reporter private..\n\nThanks. Should it perhaps be underscore prefixed?\n\n _reporter\n\n\u003e Would it be easier to expose a pure js function interface here? Something like reporting.reportAllMessages() or something like that?\n\nI pushed an updated version, let me know what you think.\n\nLong term, I think we should ultimately be reporting many more interactions than we do currently. I\u0027d like to avoid ending up with GR-REPORTING having a huge number of methods that are only invoked once each. IMO the method should be at-least-slightly generic.\n\nIn PS3 I add a `reportInteraction` method on GR-REPORTING. In this way, the details of the report that have to do with the messages list can appear in the messages list element.\n\nDo you think we need to have better documentation of what events get invoked? I can imagine a spreadsheet of all the reporting strings we use, in what cases they apply, what versions they were added in, etc..",
+      "parentUuid": "cd71f3e4_6218cd1a",
+      "revId": "7fdfaa004225cfa006f69b972151497d785518d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

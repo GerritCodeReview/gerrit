@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81b819b2_1290b852",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-25T14:00:07Z",
+      "side": 0,
+      "message": "May be revert this unrelated removal of draft comment refs?",
+      "range": {
+        "startLine": 906,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 85
+      },
+      "revId": "2c50d4bfb3f9be5bb06cc0ad5d756cff6d1b1b53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

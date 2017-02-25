@@ -33,6 +33,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_I
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.stream.Collectors.joining;
 
@@ -162,6 +163,7 @@ class ChangeNotesParser {
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
   private Timestamp readOnlyUntil;
   private Boolean isPrivate;
+  private Boolean workInProgress;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -247,7 +249,8 @@ class ChangeNotesParser {
         buildMessagesByPatchSet(),
         comments,
         readOnlyUntil,
-        isPrivate);
+        isPrivate,
+        workInProgress);
   }
 
   private PatchSet.Id buildCurrentPatchSetId() {
@@ -393,6 +396,10 @@ class ChangeNotesParser {
 
     if (isPrivate == null) {
       parseIsPrivate(commit);
+    }
+
+    if (workInProgress == null) {
+      parseWorkInProgress(commit);
     }
 
     if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
@@ -965,6 +972,20 @@ class ChangeNotesParser {
       return;
     }
     throw invalidFooter(FOOTER_PRIVATE, raw);
+  }
+
+  private void parseWorkInProgress(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String raw = parseOneFooter(commit, FOOTER_WORK_IN_PROGRESS);
+    if (raw == null) {
+      return;
+    } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {
+      workInProgress = true;
+      return;
+    } else if (Boolean.FALSE.toString().equalsIgnoreCase(raw)) {
+      workInProgress = false;
+      return;
+    }
+    throw invalidFooter(FOOTER_WORK_IN_PROGRESS, raw);
   }
 
   private void pruneReviewers() {

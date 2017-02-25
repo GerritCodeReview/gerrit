@@ -517,11 +517,6 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  private void initChangeAction(ChangeInfo info) {
-    NativeMap<ActionInfo> actions = info.hasActions() ? info.actions() : NativeMap.create();
-    actions.copyKeysIntoChildren("id");
-  }
-
   private void updatePatchSetsTextStyle(boolean isPatchSetCurrent) {
     if (isPatchSetCurrent) {
       patchSetsText.removeClassName(style.notCurrentPatchSet());
@@ -1316,7 +1311,6 @@ public class ChangeScreen extends Screen {
     renderDiffBaseListBox(info);
     initReplyButton(info, revision);
     initIncludedInAction(info);
-    initChangeAction(info);
     initDownloadAction(info, revision);
     initProjectLinks(info);
     initBranchLink(info);

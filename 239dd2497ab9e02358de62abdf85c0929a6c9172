@@ -45,6 +45,75 @@
       "revId": "239dd2497ab9e02358de62abdf85c0929a6c9172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b6697ed_d595855d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-25T00:49:09Z",
+      "side": 1,
+      "message": "Nit: Since we\u0027re already in the gr-change-table-editor, would just ...\n\n displayedColumns\n\n... be a good name for this? This name feels a little cumbersome.",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "239dd2497ab9e02358de62abdf85c0929a6c9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "428e60b6_564bb1dd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-25T00:49:09Z",
+      "side": 1,
+      "message": "This property seems kind of redundant. Why not just generate the DOM by looping over `this.CHANGE_TABLE_COLUMNS` and for each one, set the checked state by checking whether the column appears in the existing `changeTableDisplayed` array.\n\nThat way, modifying the visible columns can be done by splicing in and out of `changeTableDisplayed`. Would that work?",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 34
+      },
+      "revId": "239dd2497ab9e02358de62abdf85c0929a6c9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a5fde5d_c24da16f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-25T00:49:09Z",
+      "side": 1,
+      "message": "Nit: the quotes around these property are unneeded.",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 20
+      },
+      "revId": "239dd2497ab9e02358de62abdf85c0929a6c9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -15,12 +15,15 @@
 package com.google.gerrit.extensions.client;
 
 public enum ReviewerState {
-  /** The user has contributed at least one nonzero vote on the change. */
+  /** Reviewers. */
   REVIEWER,
 
   /** The reviewer was added to the change, but has not voted. */
   CC,
 
   /** The user was previously a reviewer on the change, but was removed. */
-  REMOVED;
+  REMOVED,
+
+  /** The user has contributed at least one nonzero vote on the change. **/
+  VOTED;
 }

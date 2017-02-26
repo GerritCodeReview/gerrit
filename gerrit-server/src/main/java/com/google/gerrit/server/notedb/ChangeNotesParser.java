@@ -262,11 +262,18 @@ class ChangeNotesParser {
           && !reviewers.containsRow(a.getAccountId())) {
         continue; // Reviewer was explicitly removed.
       }
+
       result.put(a.getPatchSetId(), a);
+
+      // TODO(davido): Find better place to record voted reviewer state
+      if (a.getValue() != 0) {
+        reviewers.put(a.getAccountId(), ReviewerStateInternal.VOTED, a.getGranted());
+      }
     }
     for (Collection<PatchSetApproval> v : result.asMap().values()) {
       Collections.sort((List<PatchSetApproval>) v, ChangeNotes.PSA_BY_TIME);
     }
+
     return result;
   }
 
@@ -368,6 +375,10 @@ class ChangeNotesParser {
     }
 
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
+      // TODO(davido): Ugly, VOTED is virtual state, ignore here
+      if (state == ReviewerStateInternal.VOTED) {
+        continue;
+      }
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
         parseReviewer(ts, state, line);
       }

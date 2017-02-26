@@ -163,6 +163,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_UNRESOLVED_COMMENT_COUNT = "unresolved";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
+  public static final String FIELD_WIP = "wip";
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
@@ -554,7 +555,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("reviewer".equalsIgnoreCase(value)) {
-      return ReviewerPredicate.reviewer(args, self());
+      return Predicate.and(
+          Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)),
+          ReviewerPredicate.reviewer(args, self()));
     }
 
     if ("cc".equalsIgnoreCase(value)) {
@@ -579,6 +582,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     if ("submittable".equalsIgnoreCase(value)) {
       return new SubmittablePredicate(SubmitRecord.Status.OK);
+    }
+
+    if ("wip".equalsIgnoreCase(value)) {
+      return new BooleanPredicate(ChangeField.WIP, args.fillArgs);
     }
 
     try {
@@ -934,11 +941,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> reviewer(String who) throws QueryParseException, OrmException {
-    return Predicate.or(
-        parseAccount(who)
-            .stream()
-            .map(id -> ReviewerPredicate.reviewer(args, id))
-            .collect(toList()));
+    Predicate<ChangeData> reviewer =
+        Predicate.or(
+            parseAccount(who)
+                .stream()
+                .map(id -> ReviewerPredicate.reviewer(args, id))
+                .collect(toList()));
+    return Predicate.and(
+        Predicate.not(new BooleanPredicate(ChangeField.WIP, args.fillArgs)), reviewer);
   }
 
   @Operator

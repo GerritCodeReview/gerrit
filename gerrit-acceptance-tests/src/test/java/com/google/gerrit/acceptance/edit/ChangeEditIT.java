@@ -201,6 +201,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.reviewer = user.email;
     gApi.changes().id(changeId).addReviewer(in);
 
+    setApiUser(user);
+    gApi.changes().id(changeId).current().review(ReviewInput.dislike());
+
+    setApiUser(admin);
     createArbitraryEditFor(changeId);
 
     sender.clear();

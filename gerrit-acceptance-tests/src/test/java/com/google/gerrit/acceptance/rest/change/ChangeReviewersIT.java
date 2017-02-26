@@ -222,15 +222,9 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     m = messages.get(0);
     expectedAddresses = new ArrayList<>(4);
-    for (int i = 0; i < 3; i++) {
-      expectedAddresses.add(users.get(users.size() - i - 1).emailAddress);
+    for (int i = 3; i < 6; i++) {
+      expectedAddresses.add(users.get(i).emailAddress);
     }
-    if (!notesMigration.readChanges()) {
-      for (int i = 0; i < 3; i++) {
-        expectedAddresses.add(users.get(i).emailAddress);
-      }
-    }
-    expectedAddresses.add(reviewer.emailAddress);
     assertThat(m.rcpt()).containsExactlyElementsIn(expectedAddresses);
   }
 

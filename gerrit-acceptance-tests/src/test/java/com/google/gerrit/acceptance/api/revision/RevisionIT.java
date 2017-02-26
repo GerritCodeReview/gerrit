@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -72,6 +73,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.GetRevisionActions;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
@@ -976,6 +978,32 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(message.message).isEqualTo("Removed Code-Review+1 by User <user@example.com>\n");
     assertThat(getReviewers(c.reviewers.get(REVIEWER)))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
+  }
+
+  @Test
+  public void dontSpamNonVotedReviewersOnNewPatchSetUpload() throws Exception {
+    PushOneCommit.Result r = createChange(); // patch set 1
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    sender.clear();
+
+    amendChange(r.getChangeId());
+    assertThat(sender.getMessages()).isEmpty();
+
+    setApiUser(user);
+    recommend(r.getChangeId());
+
+    sender.clear();
+
+    setApiUser(admin);
+    amendChange(r.getChangeId());
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(user.emailAddress);
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r, String content)

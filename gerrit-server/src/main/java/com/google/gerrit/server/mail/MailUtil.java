@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
-import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.VOTED;
 
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.errors.NoSuchAccountException;
@@ -63,7 +63,7 @@ public class MailUtil {
 
   public static MailRecipients getRecipientsFromReviewers(ReviewerSet reviewers) {
     MailRecipients recipients = new MailRecipients();
-    recipients.reviewers.addAll(reviewers.byState(REVIEWER));
+    recipients.reviewers.addAll(reviewers.byState(VOTED));
     recipients.cc.addAll(reviewers.byState(CC));
     return recipients;
   }

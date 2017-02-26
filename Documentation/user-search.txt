@@ -369,6 +369,11 @@ is:private::
 True if the change is private, ie. only visible to owner and its
 reviewers.
 
+[[workInProgress]]
+is:wip::
++
+True if the change is Work In Progress.
+
 [[status]]
 status:open, status:pending::
 +

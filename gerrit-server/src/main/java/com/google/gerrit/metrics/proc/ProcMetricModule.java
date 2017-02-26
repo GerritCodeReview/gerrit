@@ -72,34 +72,38 @@ public class ProcMetricModule extends MetricModule {
   }
 
   private void procCpuUsage(MetricMaker metrics) {
-    final OperatingSystemMXBean sys =
-        (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-    if (sys.getProcessCpuTime() != -1) {
-      metrics.newCallbackMetric(
-          "proc/cpu/usage",
-          Double.class,
-          new Description("CPU time used by the process").setCumulative().setUnit(Units.SECONDS),
-          new Supplier<Double>() {
-            @Override
-            public Double get() {
-              return sys.getProcessCpuTime() / 1e9;
-            }
-          });
-    }
-    if (sys instanceof UnixOperatingSystemMXBean) {
-      final UnixOperatingSystemMXBean unix = (UnixOperatingSystemMXBean) sys;
-      if (unix.getOpenFileDescriptorCount() != -1) {
+    try {
+      final OperatingSystemMXBean sys =
+          (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+      if (sys.getProcessCpuTime() != -1) {
         metrics.newCallbackMetric(
-            "proc/num_open_fds",
-            Long.class,
-            new Description("Number of open file descriptors").setGauge().setUnit("fds"),
-            new Supplier<Long>() {
+            "proc/cpu/usage",
+            Double.class,
+            new Description("CPU time used by the process").setCumulative().setUnit(Units.SECONDS),
+            new Supplier<Double>() {
               @Override
-              public Long get() {
-                return unix.getOpenFileDescriptorCount();
+              public Double get() {
+                return sys.getProcessCpuTime() / 1e9;
               }
             });
       }
+      if (sys instanceof UnixOperatingSystemMXBean) {
+        final UnixOperatingSystemMXBean unix = (UnixOperatingSystemMXBean) sys;
+        if (unix.getOpenFileDescriptorCount() != -1) {
+          metrics.newCallbackMetric(
+              "proc/num_open_fds",
+              Long.class,
+              new Description("Number of open file descriptors").setGauge().setUnit("fds"),
+              new Supplier<Long>() {
+                @Override
+                public Long get() {
+                  return unix.getOpenFileDescriptorCount();
+                }
+              });
+        }
+      }
+    } catch (ClassCastException e) {
+    } catch (NoClassDefFoundError e) {
     }
   }
 

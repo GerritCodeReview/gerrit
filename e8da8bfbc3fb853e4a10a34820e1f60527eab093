@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbc61dd_366d9916",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewerSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-26T21:04:45Z",
+      "side": 1,
+      "message": "Moving out this statement out of the if (psa.getValue() !\u003d 0) { ... is serious behavioural and semantical change for REVIEWER state.\n\nAnd the description of this enum value wasn\u0027t adjusted and is still claiming:\n\n  public enum ReviewerStateInternal {\n  /** The user has contributed at least one nonzero vote on the change. */\n  REVIEWER(new FooterKey(\"Reviewer\"), ReviewerState.REVIEWER),\n\nLet\u0027s forget the differences between NoteDb and ReviewDb and PG and GWT UIs for a moment. The original differentiation between Reviewer and Cc state was just that: voted vs. non voted reviewers. This is exactly what the callers before this change were expected to get back. Moving this line broke the callers expectations without providing an alternative state, like say re-incarnation of the previous semantical meaning under the different name e.g.: \"VOTED\".\n\nThe callers of this method that requested REVIEWER state, expected to get only those \"Users who have non-zero approval codes on the change\", as can be seen in the description to those caller sites:\n\n  /** Users who have non-zero approval codes on the change. */\n  protected void ccExistingReviewers() {\n    if (!NotifyHandling.ALL.equals(notify) \u0026\u0026 !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {\n      return;\n    }\n\n    try {\n      for (Account.Id id : changeData.reviewers().byState(ReviewerStateInternal.REVIEWER)) {\n        add(RecipientType.CC, id);\n      }\n    } catch (OrmException err) {\n      log.warn(\"Cannot CC users that commented on updated change\", err);\n    }\n  }\n\nThis change made those callers description stale (without removing or fixing them) and broke notification firehose for \"Add reviewers\" use case in the UI, where all existing (also non voted) reviewers getting excessive amount of mails. This also broke reviewers plugin, and was reported here: [1] and here: [2].\n\nIn a nutshell, if I add Logan and Wyatt as reviewers to my change and Logan hasn\u0027t voted on it yet, but Wyatt approved it with CRVW+2 vote, and I add later Dave as reviewer to the same change, only Wyatt should be notified.\n\n* [1] https://groups.google.com/d/topic/repo-discuss/7HgKwtycKGM/discussion\n* [2] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d5190",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 52
+      },
+      "revId": "e8da8bfbc3fb853e4a10a34820e1f60527eab093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,12 +15,18 @@
 package com.google.gerrit.extensions.client;
 
 public enum ReviewerState {
-  /** The user has contributed at least one nonzero vote on the change. */
+  /** Reviewers with or without nonzero votes on the change. */
   REVIEWER,
 
-  /** The reviewer was added to the change, but has not voted. */
+  /**
+   * CCs are users that were added through new Gerrit UI that is able to differentiate between
+   * reviewers and cc state.
+   */
   CC,
 
   /** The user was previously a reviewer on the change, but was removed. */
-  REMOVED;
+  REMOVED,
+
+  /** The user has contributed at least one nonzero vote on the change. * */
+  VOTED;
 }

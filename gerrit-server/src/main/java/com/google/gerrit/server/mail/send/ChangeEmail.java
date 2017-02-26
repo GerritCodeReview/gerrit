@@ -366,7 +366,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     try {
-      for (Account.Id id : changeData.reviewers().byState(ReviewerStateInternal.REVIEWER)) {
+      for (Account.Id id : changeData.reviewers().byState(ReviewerStateInternal.VOTED)) {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {

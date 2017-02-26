@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.VOTED;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
@@ -57,6 +58,7 @@ public class ReviewerSet {
       Account.Id id = psa.getAccountId();
       reviewers.put(REVIEWER, id, psa.getGranted());
       if (psa.getValue() != 0) {
+        reviewers.put(VOTED, id, psa.getGranted());
         reviewers.remove(CC, id);
       }
     }

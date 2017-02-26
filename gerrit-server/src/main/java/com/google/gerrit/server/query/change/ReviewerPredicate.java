@@ -49,7 +49,7 @@ class ReviewerPredicate extends ChangeIndexPredicate {
   private static Predicate<ChangeData> anyReviewerState(Account.Id id) {
     return Predicate.or(
         Stream.of(ReviewerStateInternal.values())
-            .filter(s -> s != ReviewerStateInternal.REMOVED)
+            .filter(s -> (s != ReviewerStateInternal.REMOVED && s != ReviewerStateInternal.VOTED))
             .map(s -> new ReviewerPredicate(s, id))
             .collect(toList()));
   }

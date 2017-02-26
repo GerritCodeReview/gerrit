@@ -389,6 +389,10 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> PRIVATE =
       exact(ChangeQueryBuilder.FIELD_PRIVATE).build(cd -> cd.change().isPrivate() ? "1" : "0");
 
+  /** Determines if this change is work in progress. */
+  public static final FieldDef<ChangeData, String> WIP =
+      exact(ChangeQueryBuilder.FIELD_WIP).build(cd -> cd.change().isWorkInProgress() ? "1" : "0");
+
   /** Users who have commented on this change. */
   public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
       integer(ChangeQueryBuilder.FIELD_COMMENTBY)

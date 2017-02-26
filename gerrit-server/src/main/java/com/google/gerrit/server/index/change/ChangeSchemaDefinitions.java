@@ -75,7 +75,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V41 = schema(V40, ChangeField.REVIEWER_BY_EMAIL);
 
   // Removal of draft change workflow requires reindexing
-  static final Schema<ChangeData> V42 = schema(V41);
+  @Deprecated static final Schema<ChangeData> V42 = schema(V41);
+
+  static final Schema<ChangeData> V43 = schema(V42, ChangeField.WIP);
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

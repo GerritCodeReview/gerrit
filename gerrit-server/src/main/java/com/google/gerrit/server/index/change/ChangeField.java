@@ -557,17 +557,20 @@ public class ChangeField {
         }
       };
 
+  private static String formatBoolean(Boolean m) {
+    if (m == null) {
+      return null;
+    }
+    return m ? "1" : "0";
+  }
+
   /** Whether the change is mergeable. */
   public static final FieldDef<ChangeData, String> MERGEABLE =
       new FieldDef.Single<ChangeData, String>(
           ChangeQueryBuilder.FIELD_MERGEABLE, FieldType.EXACT, true) {
         @Override
         public String get(ChangeData input, FillArgs args) throws OrmException {
-          Boolean m = input.isMergeable();
-          if (m == null) {
-            return null;
-          }
-          return m ? "1" : "0";
+          return formatBoolean(input.isMergeable());
         }
       };
 
@@ -607,7 +610,17 @@ public class ChangeField {
           ChangeQueryBuilder.FIELD_PRIVATE, FieldType.EXACT, /*stored*/ false) {
         @Override
         public String get(ChangeData input, FillArgs args) throws OrmException {
-          return input.change().isPrivate() ? "1" : "0";
+          return formatBoolean(input.change().isPrivate());
+        }
+      };
+
+  /** Wip bit of the change. */
+  public static final FieldDef<ChangeData, String> WIP =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_WIP, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          return formatBoolean(input.change().isWorkInProgress());
         }
       };
 

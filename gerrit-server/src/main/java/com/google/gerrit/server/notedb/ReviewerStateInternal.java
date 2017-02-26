@@ -20,14 +20,20 @@ import org.eclipse.jgit.revwalk.FooterKey;
 
 /** State of a reviewer on a change. */
 public enum ReviewerStateInternal {
-  /** The user has contributed at least one nonzero vote on the change. */
+  /** Reviewers with or without nonzero votes on the change. */
   REVIEWER(new FooterKey("Reviewer"), ReviewerState.REVIEWER),
 
-  /** The reviewer was added to the change, but has not voted. */
+  /**
+   * CCs are users that were added through new Gerrit UI that is able to differentiate between
+   * reviewers and cc state.
+   */
   CC(new FooterKey("CC"), ReviewerState.CC),
 
   /** The user was previously a reviewer on the change, but was removed. */
-  REMOVED(new FooterKey("Removed"), ReviewerState.REMOVED);
+  REMOVED(new FooterKey("Removed"), ReviewerState.REMOVED),
+
+  /** Virtual state, only used for caller sites that require users with non-zero votes. */
+  VOTED(new FooterKey("Voted"), ReviewerState.VOTED);
 
   static {
     boolean ok = true;

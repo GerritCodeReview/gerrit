@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
-import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.VOTED;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -286,7 +286,7 @@ public class PatchSetInserter extends BatchUpdate.Op {
         cm.setFrom(ctx.getAccountId());
         cm.setPatchSet(patchSet, patchSetInfo);
         cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
-        cm.addReviewers(oldReviewers.byState(REVIEWER));
+        cm.addReviewers(oldReviewers.byState(VOTED));
         cm.addExtraCC(oldReviewers.byState(CC));
         cm.setNotify(notify);
         cm.setAccountsToNotify(accountsToNotify);

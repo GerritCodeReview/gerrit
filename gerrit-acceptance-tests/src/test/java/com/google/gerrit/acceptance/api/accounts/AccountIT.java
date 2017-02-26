@@ -311,6 +311,50 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addReviewersShouldNotNotifyExistingReviewersWithoutVotes() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    sender.clear();
+
+    TestAccount user2 = accounts.user2();
+    in = new AddReviewerInput();
+    in.reviewer = user2.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(user2.emailAddress);
+  }
+
+  @Test
+  public void addReviewersShouldNotifyExistingReviewersWithVotes() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    AddReviewerInput in = new AddReviewerInput();
+    in.reviewer = user.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    setApiUser(user);
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.dislike());
+
+    setApiUser(admin);
+    sender.clear();
+
+    TestAccount user2 = accounts.user2();
+    in = new AddReviewerInput();
+    in.reviewer = user2.email;
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    assertThat(messages.get(0).rcpt()).containsExactly(user.emailAddress, user2.emailAddress);
+  }
+
+  @Test
   public void ignoreChange() throws Exception {
     PushOneCommit.Result r = createChange();
 

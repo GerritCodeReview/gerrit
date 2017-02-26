@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2d7d3be_4f18324d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/metrics/proc/ProcMetricModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-26T23:46:13Z",
+      "side": 1,
+      "message": "This just drops the exceptions on the floor, and the CPU time and open file descriptor metrics will be unavailable when running on IBM\u0027s JVM.\n\nI see that IBM provides an interface:\n\n com.ibm.lang.management.UnixOperatingSystemMXBean\n\nwhich includes the getProecssCpuTime and getOpenFileDescriptorCount methods.  Would it be feasible to add support for those here?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 38
+      },
+      "revId": "e1e19de4b329ce82644afd52974251fab80c8a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

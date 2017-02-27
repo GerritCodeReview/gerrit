@@ -21,6 +21,9 @@ ON accounts (full_name);
 CREATE INDEX account_external_ids_byAccount
 ON account_external_ids (account_id);
 
+--    covers:             byEmailAddress
+CREATE INDEX account_external_ids_byEmail
+ON account_external_ids (email_address);
 
 -- *********************************************************************
 -- AccountGroupMemberAccess

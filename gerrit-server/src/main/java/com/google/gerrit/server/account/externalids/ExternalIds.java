@@ -179,4 +179,8 @@ public class ExternalIds {
   public Set<ExternalId> byAccount(Account.Id accountId, String scheme) throws IOException {
     return byAccount(accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
+
+  public Set<ExternalId> byEmail(String email) throws IOException {
+    return externalIdCache.get().byEmail(email);
+  }
 }

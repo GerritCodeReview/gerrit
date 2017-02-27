@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1f9aaf9_d61e8ad5",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-27T20:34:24Z",
+      "side": 1,
+      "message": "I think this should be camel-cased since it\u0027s a property now ...\n\n  changeTableColumns\n\n... or maybe just ...\n\n  columnNames\n\n... since this is the change-table behavior.",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "591b766e4154b0f19b60f8a38e85d42c89941300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e11532c_a13c236c",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-27T20:34:24Z",
+      "side": 1,
+      "message": "s/Type/type/",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 12
+      },
+      "revId": "591b766e4154b0f19b60f8a38e85d42c89941300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57eba897_3d2f09f9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-27T20:34:24Z",
+      "side": 1,
+      "message": "Nice: my only nit with these is that they could be centered and given the click/hover-target of the whole cell to look consistent with the gr-watched-projects-editor.",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 22
+      },
+      "revId": "591b766e4154b0f19b60f8a38e85d42c89941300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

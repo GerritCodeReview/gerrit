@@ -624,9 +624,6 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     exception.expectMessage("subscribed-to-project");
     exception.expectMessage("super-project");
     gApi.changes().id(getChangeId(subRepo, subMasterHead).get()).current().submit();
-
-    assertThat(hasSubmodule(superRepo, "master", "subscribed-to-project")).isFalse();
-    assertThat(hasSubmodule(subRepo, "dev", "super-project")).isFalse();
   }
 
   @Test

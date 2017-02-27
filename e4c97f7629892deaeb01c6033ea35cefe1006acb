@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e9b7244_3e2f8393",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2017-02-27T21:47:18Z",
+      "side": 1,
+      "message": "Just discovered this doesn\u0027t work in the shadow dom. e.target.tagname ends up being gr-change-table-editor.",
+      "revId": "e4c97f7629892deaeb01c6033ea35cefe1006acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

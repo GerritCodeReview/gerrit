@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.MoreObjects;
@@ -67,6 +68,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -390,6 +392,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
         Collections.<Account.Id>emptySet());
     approvalsUtil.addApprovalsForNewPatchSet(
         db, update, labelTypes, patchSet, ctx.getControl(), approvals);
+    // Check if approvals are changing in with this update. If so, add current user to reviewers.
+    // Note that this is done separately as addReviewers is filtering out the change owner as
+    // reviewer which is needed in several other code paths.
+    if (!approvals.isEmpty()) {
+      update.putReviewer(ctx.getAccountId(), REVIEWER);
+    }
     if (message != null) {
       changeMessage =
           ChangeMessagesUtil.newMessage(

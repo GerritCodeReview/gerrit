@@ -63,7 +63,7 @@ import org.slf4j.LoggerFactory;
 public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   private static final Logger log = LoggerFactory.getLogger(GpgKeys.class);
 
-  public static String MIME_TYPE = "application/pgp-keys";
+  public static final String MIME_TYPE = "application/pgp-keys";
 
   private final DynamicMap<RestView<GpgKey>> views;
   private final Provider<ReviewDb> db;

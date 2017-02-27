@@ -51,7 +51,7 @@ import org.kohsuke.args4j.Option;
 
 @Singleton
 public class PreviewSubmit implements RestReadView<RevisionResource> {
-  private static int MAX_DEFAULT_BUNDLE_SIZE = 100 * 1024 * 1024;
+  private static final int MAX_DEFAULT_BUNDLE_SIZE = 100 * 1024 * 1024;
 
   private final Provider<ReviewDb> dbProvider;
   private final Provider<MergeOp> mergeOpProvider;

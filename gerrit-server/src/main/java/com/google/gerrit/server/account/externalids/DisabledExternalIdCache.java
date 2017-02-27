@@ -17,6 +17,7 @@ package com.google.gerrit.server.account.externalids;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import java.io.IOException;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -71,6 +72,11 @@ public class DisabledExternalIdCache implements ExternalIdCache {
 
   @Override
   public Set<ExternalId> byAccount(Account.Id accountId) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public Set<ExternalId> byEmail(String email) throws IOException {
     throw new UnsupportedOperationException();
   }
 }

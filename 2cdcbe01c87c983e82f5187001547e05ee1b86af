@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "d4c46b5b_b3daf89a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-27T14:19:10Z",
+      "side": 1,
+      "message": "\u003e What exactly do you mean?\n\nI mean that it checks more than it indicates in the method name, which makes this method less reusable.\nFor example, if I have a ChangeInfo ci with both REVIEWER and CC in the keySet and the account A is a reviewer, then\nI would expect this to succeed:\n\n  assertThatUserIsReviewer(ci, A);\n\nHowever, it will fail at the line 1379.\n\n\u003e This checks that there are reviewers (which is a must otherwise we see NPEs). and then just checks that the only reviewer is the user provided.\n\u003e \n\u003e Would you rather name it \"assertThatUserIsOnlyReviewer\" ?\n\nEither the method name has to be more precise or the method body has to only check what it really needs to check.\nI would prefer the latter.",
+      "parentUuid": "c97c0f13_8fb54b18",
+      "range": {
+        "startLine": 1378,
+        "startChar": 0,
+        "endLine": 1381,
+        "endChar": 35
+      },
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce4aa975_0c09aa33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

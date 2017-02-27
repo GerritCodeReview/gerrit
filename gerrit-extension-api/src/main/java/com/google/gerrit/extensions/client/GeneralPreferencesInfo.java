@@ -87,6 +87,11 @@ public class GeneralPreferencesInfo {
     DISABLED
   }
 
+  public enum EmailFormat {
+    PLAINTEXT,
+    HTML_PLAINTEXT
+  }
+
   public enum DefaultBase {
     AUTO_MERGE(null),
     FIRST_PARENT(-1);
@@ -150,6 +155,7 @@ public class GeneralPreferencesInfo {
   public List<String> changeTable;
   public Map<String, String> urlAliases;
   public EmailStrategy emailStrategy;
+  public EmailFormat emailFormat;
   public DefaultBase defaultBaseForMerges;
 
   public boolean isShowInfoInReviewCategory() {
@@ -191,12 +197,20 @@ public class GeneralPreferencesInfo {
     return emailStrategy;
   }
 
+  public EmailFormat getEmailFormat() {
+    if (emailFormat == null) {
+      return EmailFormat.HTML_PLAINTEXT;
+    }
+    return emailFormat;
+  }
+
   public static GeneralPreferencesInfo defaults() {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.showSiteHeader = true;
     p.useFlashClipboard = true;
     p.emailStrategy = EmailStrategy.ENABLED;
+    p.emailFormat = EmailFormat.HTML_PLAINTEXT;
     p.reviewCategoryStrategy = ReviewCategoryStrategy.NONE;
     p.downloadScheme = null;
     p.downloadCommand = DownloadCommand.CHECKOUT;

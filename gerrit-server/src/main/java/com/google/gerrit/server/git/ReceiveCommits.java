@@ -2166,8 +2166,14 @@ public class ReceiveCommits {
           msg.append("\n").append(magicBranch.message);
         }
 
+        Set<Account.Id> reviewers = new HashSet<>(recipients.getReviewers());
+        if (!approvals.isEmpty()) {
+          // Add owner as a reviewer if an approval was applied during the push.
+          reviewers.add(me);
+        }
+
         bu.insertChange(
-            ins.setReviewers(recipients.getReviewers())
+            ins.setReviewers(reviewers)
                 .setExtraCC(recipients.getCcOnly())
                 .setApprovals(approvals)
                 .setMessage(msg.toString())

@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -506,6 +507,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 2: Code-Review+2.");
 
+    // Check that the user who pushed the change was added as a reviewer since they added a vote
+    assertThatUserIsReviewer(ci, admin);
+
     assertThat(cr.all).hasSize(1);
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
     assertThat(cr.all.get(0).value).isEqualTo(2);
@@ -566,6 +570,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all.get(indexUser).value.intValue()).isEqualTo(0);
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 1: Code-Review+1.");
+    // Check that the user who pushed the change was added as a reviewer since they added a vote
+    assertThatUserIsReviewer(ci, admin);
   }
 
   @Test
@@ -594,6 +600,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     cr = ci.labels.get("Custom-Label");
     assertThat(cr.all).hasSize(1);
+    // Check that the user who pushed the change was added as a reviewer since they added a vote
+    assertThatUserIsReviewer(ci, admin);
   }
 
   @Test
@@ -1364,6 +1372,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info.revisions.keySet()).containsExactly(c1.name(), c2.name());
     // TODO(dborowitz): Fix ReceiveCommits to also auto-close the change.
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  private void assertThatUserIsReviewer(ChangeInfo ci, TestAccount reviewer) {
+    assertThat(ci.reviewers).isNotNull();
+    assertThat(ci.reviewers.keySet()).containsExactly(ReviewerState.REVIEWER);
+    assertThat(ci.reviewers.get(ReviewerState.REVIEWER).iterator().next().email)
+        .isEqualTo(reviewer.email);
   }
 
   private void pushWithReviewerInFooter(String nameEmail, TestAccount expectedReviewer)

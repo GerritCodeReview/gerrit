@@ -46,6 +46,30 @@
       "revId": "e5125561e6948347b0bb0cedf3daa635a93e2668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaba0634_9bafbc39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-27T20:20:18Z",
+      "side": 1,
+      "message": "If I understand right, the three states correspond to\n* true → expand-all\n* false → collapse-all\n* undefined → no-preference\n\nIs this accurate? And is the problem with using a boolean is that Polymer won\u0027t pass-along undefined?\n\nIf we\u0027re using a boolean to encode three states, maybe they should be converted to descriptive strings like the three above. That way it\u0027s easier to interpret and the bindings would work naturally.",
+      "parentUuid": "412ca512_25cc9de3",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "e5125561e6948347b0bb0cedf3daa635a93e2668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

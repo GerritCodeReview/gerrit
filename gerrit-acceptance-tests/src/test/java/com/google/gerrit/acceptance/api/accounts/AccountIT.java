@@ -35,6 +35,7 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
@@ -63,6 +64,7 @@ import com.google.gerrit.gpg.testutil.TestKey;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.config.AllUsersName;
@@ -81,6 +83,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
@@ -110,6 +113,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Provider<PublicKeyStore> publicKeyStoreProvider;
 
   @Inject private AllUsersName allUsers;
+
+  @Inject AccountByEmailCache byEmailCache;
 
   private List<AccountExternalId> savedExternalIds;
 
@@ -484,6 +489,27 @@ public class AccountIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to delete email address");
     gApi.accounts().id(admin.id.get()).deleteEmail(admin.email);
+  }
+
+  @Test
+  public void lookUpFromCacheByEmail() throws Exception {
+    // exact match with scheme "mailto:"
+    assertEmail(byEmailCache.get(admin.email), admin);
+
+    // exact match with other scheme
+    String email = "foo.bar@example.com";
+    db.accountExternalIds().insert(ImmutableList.of(createExternalIdWithEmail("foo:bar", email)));
+    accountCache.evict(admin.id);
+    assertEmail(byEmailCache.get(email), admin);
+
+    // wrong case doesn't match
+    assertThat(byEmailCache.get(admin.email.toUpperCase(Locale.US))).isEmpty();
+
+    // prefix doesn't match
+    assertThat(byEmailCache.get(admin.email.substring(0, admin.email.indexOf('@')))).isEmpty();
+
+    // non-existing doesn't match
+    assertThat(byEmailCache.get("non-existing@example.com")).isEmpty();
   }
 
   @Test
@@ -936,5 +962,10 @@ public class AccountIT extends AbstractDaemonTest {
     AccountExternalId extId = new AccountExternalId(admin.id, new AccountExternalId.Key(id));
     extId.setEmailAddress(email);
     return extId;
+  }
+
+  private void assertEmail(Set<Account.Id> accounts, TestAccount expectedAccount) {
+    assertThat(accounts).hasSize(1);
+    assertThat(Iterables.getOnlyElement(accounts)).isEqualTo(expectedAccount.getId());
   }
 }

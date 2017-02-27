@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a657339_a144a608",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3556,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T16:02:25Z",
+      "side": 1,
+      "message": "Maybe just \"filter\"?",
+      "range": {
+        "startLine": 3556,
+        "startChar": 15,
+        "endLine": 3556,
+        "endChar": 25
+      },
+      "revId": "7e146ebce46552606a9eeb9cdbf069ff8814cbb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a79c786e_0a527591",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3568,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T16:02:25Z",
+      "side": 1,
+      "message": "Mention the default value?",
+      "revId": "7e146ebce46552606a9eeb9cdbf069ff8814cbb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88b73303_48dde245",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T16:02:25Z",
+      "side": 1,
+      "message": "Missing licence header.",
+      "revId": "7e146ebce46552606a9eeb9cdbf069ff8814cbb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de959bbb_857bd530",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T16:02:25Z",
+      "side": 1,
+      "message": "Move this to the top of the class?",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 3
+      },
+      "revId": "7e146ebce46552606a9eeb9cdbf069ff8814cbb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

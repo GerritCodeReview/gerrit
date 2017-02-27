@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "29e4ea31_147772e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-27T14:38:09Z",
+      "side": 1,
+      "message": "I only pointed to the other comment in order to show that the behavioral change was intended. The line of code wasn\u0027t relevant.\n\nI don\u0027t think that the UI and the underlying implementation differ at the moment. The line you linked [1] explicitly allows admins to delete the change even if the draft workflow is disabled. So, if you want to change the behavior, you need to adjust that line too (and the test for it in DraftChangeIT). If you do so, please mention in the commit message that you\u0027re adjusting the behavior (and not just fixing the UI).\n\n[1] https://gerrit-review.googlesource.com/c/89610/4/gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeOp.java#127",
+      "parentUuid": "861b68f3_e9b39bb7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "0d1ba44d9f59baaec3defcfcf66865450c5fdb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "206aa19e_9362389a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

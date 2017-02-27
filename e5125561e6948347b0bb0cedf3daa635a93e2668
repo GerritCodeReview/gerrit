@@ -22,6 +22,30 @@
       "revId": "e5125561e6948347b0bb0cedf3daa635a93e2668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "412ca512_25cc9de3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-27T19:22:33Z",
+      "side": 1,
+      "message": "I tried that approach initially and ran into several issues, largely due to the fact that this isn\u0027t a real boolean prop that tracks this information. It has three valid states: true, false, and undefined. \n\nThis doesn\u0027t work if I repurpose the _expanded prop in message-list, as there is at least one computed field that is dependent on that prop.\n\nSetting this field on the message object itself gives me the \u0027three state boolean\u0027 that I need here, and also lets the gr-message determine whether or not it should be expanded based on its parameters.",
+      "parentUuid": "9a887d49_735d0bae",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "e5125561e6948347b0bb0cedf3daa635a93e2668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

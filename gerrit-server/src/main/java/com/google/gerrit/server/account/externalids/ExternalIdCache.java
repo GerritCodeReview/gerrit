@@ -50,6 +50,8 @@ interface ExternalIdCache {
 
   Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
+  Set<ExternalId> byEmail(String email) throws IOException;
+
   default void onCreate(ObjectId newNotesRev, ExternalId extId) throws IOException {
     onCreate(newNotesRev, Collections.singleton(extId));
   }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "34287699_b094669d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T14:03:03Z",
+      "side": 1,
+      "message": "Please mention in the commit message that otherwise deletion of this vote is not possible.",
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1d9c4bc_4bab54f9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1
@@ -46,6 +63,29 @@
       "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce4aa975_0c09aa33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T14:03:03Z",
+      "side": 1,
+      "message": "Would it make sense to move this code into ChangeInserter#updateChange(...) so that no other caller of ChangeInserter can do this mistake?\n\nDo we need a similar fix in ReplaceOp if voting is done when pushing a new patch set to an existing change?",
+      "range": {
+        "startLine": 2169,
+        "startChar": 8,
+        "endLine": 2173,
+        "endChar": 9
+      },
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7987d7cc_37ca65ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-27T10:52:44Z",
+      "side": 1,
+      "message": "This behavioral change was deliberately introduced [1]. Effectively, this change reverts the behavior for draft changes. As result, draft changes which contain sensitive data can\u0027t be deleted anymore when the draft workflow is disabled. Do we really want that?\n\n[1] https://gerrit-review.googlesource.com/c/89301/2/gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraftPatchSet.java#118",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "0d1ba44d9f59baaec3defcfcf66865450c5fdb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "206aa19e_9362389a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-02-27T10:52:44Z",
+      "side": 1,
+      "message": "This isn\u0027t accurate. ChangeControl#canDelete only checks ChangeControl#isAdmin for new or abandoned changes. DeleteChange#isActionAllowed only checks ChangeControl#isAdmin for draft changes. So, different code paths are affected and hence the check isn\u0027t done twice. Please remove this paragraph from the commit message.",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 26,
+        "endChar": 66
+      },
+      "revId": "0d1ba44d9f59baaec3defcfcf66865450c5fdb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

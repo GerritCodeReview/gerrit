@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account.externalids;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -220,7 +222,22 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     try {
       return extIdsByAccount.get(externalIdReader.readRevision()).get(accountId);
     } catch (ExecutionException e) {
-      log.warn("Cannot list external ids", e);
+      log.warn("Cannot list external ids by account", e);
+      return Collections.emptySet();
+    }
+  }
+
+  @Override
+  public Set<ExternalId> byEmail(String email) throws IOException {
+    try {
+      return extIdsByAccount
+          .get(externalIdReader.readRevision())
+          .values()
+          .stream()
+          .filter(e -> email.equals(e.email()))
+          .collect(toSet());
+    } catch (ExecutionException e) {
+      log.warn("Cannot list external ids by email", e);
       return Collections.emptySet();
     }
   }

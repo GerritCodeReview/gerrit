@@ -94,6 +94,30 @@
       "revId": "d74f3d34cd9e6ec927a50e15b2c53be52c8254db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c6df698_776435a3",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-27T17:47:12Z",
+      "side": 1,
+      "message": "+1 for \u0027Meta\u0027 over ⌘",
+      "parentUuid": "79a2fcef_8002ae06",
+      "range": {
+        "startLine": 382,
+        "startChar": 41,
+        "endLine": 382,
+        "endChar": 42
+      },
+      "revId": "d74f3d34cd9e6ec927a50e15b2c53be52c8254db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

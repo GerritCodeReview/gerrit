@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f85d54fd_298cdd94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-27T11:24:41Z",
+      "side": 1,
+      "message": "Thanks for the pointer. I see now, that indeed, that the behavioral change was deliberate, as the exception is not thrown any more:\n\n  if (!allowDrafts) {\n      throw new MethodNotAllowedException(\"Draft workflow is disabled\");\n  }\n\nI consider not mentioning of this serious behavioral change as being commit message bug, as it wasn\u0027t mentioned, that suddenly, removal of draft changes was allowed for admins even in allowSradft \u003d\u003d false case.\n\nSo, we could eventually re-establish the throw new MethodNotAllowedException(\"Draft workflow is disabled\"); in !allowDrafts use here. But, I don\u0027t really care much, as draft workflow is going to be removed anyway, so i can easily squash this change to the deletion of WIP workflow change.\n\n* [1] https://gerrit-review.googlesource.com/97230",
+      "parentUuid": "7987d7cc_37ca65ec",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "0d1ba44d9f59baaec3defcfcf66865450c5fdb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "206aa19e_9362389a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-27T10:52:44Z",
       "side": 1,
       "message": "This isn\u0027t accurate. ChangeControl#canDelete only checks ChangeControl#isAdmin for new or abandoned changes. DeleteChange#isActionAllowed only checks ChangeControl#isAdmin for draft changes. So, different code paths are affected and hence the check isn\u0027t done twice. Please remove this paragraph from the commit message.",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 26,
+        "endChar": 66
+      },
+      "revId": "0d1ba44d9f59baaec3defcfcf66865450c5fdb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8defa01_0cdde867",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-27T11:24:41Z",
+      "side": 1,
+      "message": "Indeed. Removed.",
+      "parentUuid": "206aa19e_9362389a",
       "range": {
         "startLine": 17,
         "startChar": 21,

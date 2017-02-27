@@ -22,6 +22,30 @@
       "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c97c0f13_8fb54b18",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-27T13:58:31Z",
+      "side": 1,
+      "message": "What exactly do you mean? This checks that there are reviewers (which is a must otherwise we see NPEs). and then just checks that the only reviewer is the user provided.\n\nWould you rather name it \"assertThatUserIsOnlyReviewer\" ?",
+      "parentUuid": "d1d9c4bc_4bab54f9",
+      "range": {
+        "startLine": 1378,
+        "startChar": 0,
+        "endLine": 1381,
+        "endChar": 35
+      },
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

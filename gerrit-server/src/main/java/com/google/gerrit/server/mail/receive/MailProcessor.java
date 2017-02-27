@@ -189,8 +189,7 @@ public class MailProcessor {
       }
 
       if (parsedComments.isEmpty()) {
-        log.warn(
-            "Could not parse any comments from " + message.id() + ". Will delete message.");
+        log.warn("Could not parse any comments from " + message.id() + ". Will delete message.");
         return;
       }
 

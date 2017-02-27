@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -21,11 +22,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
@@ -79,12 +78,12 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
 
   static class Loader extends CacheLoader<String, Set<Account.Id>> {
     private final SchemaFactory<ReviewDb> schema;
-    private final Provider<InternalAccountQuery> accountQueryProvider;
+    private final ExternalIdCache externalIdCache;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema, Provider<InternalAccountQuery> accountQueryProvider) {
+    Loader(SchemaFactory<ReviewDb> schema, ExternalIdCache externalIdCache) {
       this.schema = schema;
-      this.accountQueryProvider = accountQueryProvider;
+      this.externalIdCache = externalIdCache;
     }
 
     @Override
@@ -94,16 +93,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
         for (Account a : db.accounts().byPreferredEmail(email)) {
           r.add(a.getId());
         }
-        for (AccountState accountState : accountQueryProvider.get().byEmailPrefix(email)) {
-          if (accountState
-              .getExternalIds()
-              .stream()
-              .filter(e -> email.equals(e.email()))
-              .findAny()
-              .isPresent()) {
-            r.add(accountState.getAccount().getId());
-          }
-        }
+        r.addAll(externalIdCache.byEmail(email).stream().map(e -> e.accountId()).collect(toSet()));
         return ImmutableSet.copyOf(r);
       }
     }

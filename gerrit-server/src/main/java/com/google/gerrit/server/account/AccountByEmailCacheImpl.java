@@ -14,22 +14,22 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
@@ -78,32 +78,21 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
 
   static class Loader extends CacheLoader<String, Set<Account.Id>> {
     private final SchemaFactory<ReviewDb> schema;
-    private final Provider<InternalAccountQuery> accountQueryProvider;
+    private final ExternalIds externalIds;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema, Provider<InternalAccountQuery> accountQueryProvider) {
+    Loader(SchemaFactory<ReviewDb> schema, ExternalIds externalIds) {
       this.schema = schema;
-      this.accountQueryProvider = accountQueryProvider;
+      this.externalIds = externalIds;
     }
 
     @Override
     public Set<Account.Id> load(String email) throws Exception {
       try (ReviewDb db = schema.open()) {
-        Set<Account.Id> r = new HashSet<>();
-        for (Account a : db.accounts().byPreferredEmail(email)) {
-          r.add(a.getId());
-        }
-        for (AccountState accountState : accountQueryProvider.get().byEmailPrefix(email)) {
-          if (accountState
-              .getExternalIds()
-              .stream()
-              .filter(e -> email.equals(e.email()))
-              .findAny()
-              .isPresent()) {
-            r.add(accountState.getAccount().getId());
-          }
-        }
-        return ImmutableSet.copyOf(r);
+        return Streams.concat(
+                Streams.stream(db.accounts().byPreferredEmail(email)).map(a -> a.getId()),
+                externalIds.byEmail(db, email).stream().map(e -> e.accountId()))
+            .collect(toImmutableSet());
       }
     }
   }

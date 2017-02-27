@@ -30,6 +30,9 @@ public interface AccountExternalIdAccess extends Access<AccountExternalId, Accou
   @Query("WHERE accountId = ?")
   ResultSet<AccountExternalId> byAccount(Account.Id id) throws OrmException;
 
+  @Query("WHERE emailAddress = ?")
+  ResultSet<AccountExternalId> byEmailAddress(String email) throws OrmException;
+
   @Query
   ResultSet<AccountExternalId> all() throws OrmException;
 }

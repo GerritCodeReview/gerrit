@@ -200,4 +200,12 @@ public class ExternalIds {
       throws IOException, OrmException {
     return byAccount(db, accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
+
+  public Set<ExternalId> byEmail(ReviewDb db, String email) throws IOException, OrmException {
+    if (readFromGit) {
+      return externalIdCache.get().byEmail(email);
+    }
+
+    return ExternalId.from(db.accountExternalIds().byEmailAddress(email).toList());
+  }
 }

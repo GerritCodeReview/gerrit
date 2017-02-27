@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "51e84b7e_52480cf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-27T14:42:27Z",
+      "side": 1,
+      "message": "Yes, you are right. I misread this condition:\n\n  if (!allowDrafts \u0026\u0026 !ctx.getControl().isAdmin()) {\n\nSo, let\u0027s postpone this to the draft removal change.",
+      "parentUuid": "29e4ea31_147772e0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "0d1ba44d9f59baaec3defcfcf66865450c5fdb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "206aa19e_9362389a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

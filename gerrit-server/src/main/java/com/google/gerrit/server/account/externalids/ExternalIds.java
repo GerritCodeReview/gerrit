@@ -200,4 +200,8 @@ public class ExternalIds {
       throws IOException, OrmException {
     return byAccount(db, accountId).stream().filter(e -> e.key().isScheme(scheme)).collect(toSet());
   }
+
+  public Set<ExternalId> byEmail(String email) throws IOException {
+    return externalIdCache.get().byEmail(email);
+  }
 }

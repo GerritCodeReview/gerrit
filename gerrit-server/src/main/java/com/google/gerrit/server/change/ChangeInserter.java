@@ -67,6 +67,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -377,6 +378,12 @@ public class ChangeInserter extends BatchUpdate.InsertChangeOp {
      * instead of setting the status directly?
      */
     update.fixStatus(change.getStatus());
+
+    // Check if approvals are changing in with this update. If so, add current user to reviewers
+    Set<Account.Id> reviewers = new HashSet<>(this.reviewers);
+    if (!approvals.isEmpty()) {
+      reviewers.add(ctx.getAccountId());
+    }
 
     LabelTypes labelTypes = ctl.getProjectControl().getLabelTypes();
     approvalsUtil.addReviewers(

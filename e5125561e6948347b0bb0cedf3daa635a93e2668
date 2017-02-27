@@ -70,6 +70,30 @@
       "revId": "e5125561e6948347b0bb0cedf3daa635a93e2668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a772a72_7deb8b0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-02-27T20:42:53Z",
+      "side": 1,
+      "message": "You\u0027re correct on all points :D\n\nI explored using an enum for this already, actually, and it resulted in code that was both less clear and longer than this. Using an enum would make a lot of sense if we ever needed to go back to the no-preference state, but we don\u0027t currently support that and I see no reason to enable that (especially because it adds UI complexity too). \n\nThis approach is simpler because adding the prop to the object maps 1-1 to the logic that I need in this scenario -- the undefined boolean one we\u0027ve been discussing. \n\nThe only drawback I see to this is the need to update each individual message when the state is toggled, as opposed to just one field that is native to the message list, but looping over a bunch of objects in memory adds negligible overhead when you consider how expensive the DOM redraw this action triggers is in the first place.",
+      "parentUuid": "aaba0634_9bafbc39",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "e5125561e6948347b0bb0cedf3daa635a93e2668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

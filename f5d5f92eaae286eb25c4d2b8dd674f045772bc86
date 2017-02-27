@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c818ef30_5e28d8fb",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T16:30:15Z",
+      "side": 1,
+      "message": "Are those \u0027+\u0027 characters to separate paragraphs needed?\nI think they can be removed.",
+      "range": {
+        "startLine": 715,
+        "startChar": 0,
+        "endLine": 715,
+        "endChar": 1
+      },
+      "revId": "f5d5f92eaae286eb25c4d2b8dd674f045772bc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "169145cb_7d4d8c1c",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T16:30:15Z",
+      "side": 1,
+      "message": "Do we need an empty line before the bullet points?",
+      "revId": "f5d5f92eaae286eb25c4d2b8dd674f045772bc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3729f45_701a264c",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T16:30:15Z",
+      "side": 1,
+      "message": "I think in this case it even idents the following paragraphs so that they appear as part of the \"Notifications about new labels that were applied or removed\" list point above.",
+      "range": {
+        "startLine": 719,
+        "startChar": 0,
+        "endLine": 719,
+        "endChar": 1
+      },
+      "revId": "f5d5f92eaae286eb25c4d2b8dd674f045772bc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a838526_d294556d",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-27T16:30:15Z",
+      "side": 1,
+      "message": "Enclose the example with:\n\n----\n\nlines",
+      "revId": "f5d5f92eaae286eb25c4d2b8dd674f045772bc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

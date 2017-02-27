@@ -2443,7 +2443,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeStatus).isEqualTo(newStatus.asChangeStatus());
   }
 
-  private class ChangeStatusUpdateOp extends BatchUpdate.Op {
+  private static class ChangeStatusUpdateOp extends BatchUpdate.Op {
     private final Change.Status newStatus;
 
     ChangeStatusUpdateOp(Change.Status newStatus) {

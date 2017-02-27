@@ -118,6 +118,30 @@
       "revId": "d74f3d34cd9e6ec927a50e15b2c53be52c8254db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b4f3163_3dffc567",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2017-02-27T19:02:09Z",
+      "side": 1,
+      "message": "Counting votes:\n⌘: Me, Andy\nMeta: Kasper, Wyatt\nI guess we need a tie breaker.\nOr should we finally import modernizr?",
+      "parentUuid": "5c6df698_776435a3",
+      "range": {
+        "startLine": 382,
+        "startChar": 41,
+        "endLine": 382,
+        "endChar": 42
+      },
+      "revId": "d74f3d34cd9e6ec927a50e15b2c53be52c8254db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

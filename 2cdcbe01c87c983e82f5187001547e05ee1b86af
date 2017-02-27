@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1d9c4bc_4bab54f9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-02-27T13:56:41Z",
+      "side": 1,
+      "message": "This asserts much more than the method name says.",
+      "range": {
+        "startLine": 1378,
+        "startChar": 0,
+        "endLine": 1381,
+        "endChar": 35
+      },
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

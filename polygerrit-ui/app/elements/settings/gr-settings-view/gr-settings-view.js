@@ -21,6 +21,7 @@
     'email_strategy',
     'diff_view',
     'expand_inline_diffs',
+    'email_format',
   ];
 
   Polymer({

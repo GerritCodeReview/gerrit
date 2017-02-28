@@ -210,7 +210,7 @@
               return;
             }
 
-            if (state.sectionIndex !== 0 && state.lineIndex % 100 === 0) {
+            if (state.lineIndex % 100 === 0) {
               this._notify(state);
               this._processHandle = this.async(nextStep, ASYNC_DELAY);
             } else {

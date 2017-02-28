@@ -8,5 +8,5 @@ CORE_PLUGINS = [
 ]
 
 CUSTOM_PLUGINS = [
-    "cookbook-plugin",
+    # Add custom core plugins here
 ]

@@ -7,6 +7,4 @@ CORE_PLUGINS = [
     "singleusergroup",
 ]
 
-CUSTOM_PLUGINS = [
-    "cookbook-plugin",
-]
+CUSTOM_PLUGINS = []

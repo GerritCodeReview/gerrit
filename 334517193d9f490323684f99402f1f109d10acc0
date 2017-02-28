@@ -23,6 +23,30 @@
       "revId": "334517193d9f490323684f99402f1f109d10acc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c04741a7_629d4784",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T07:23:37Z",
+      "side": 1,
+      "message": "No, emails in Gerrit are case sensitive.\n\nAlso RFC 5321 says that at least the local-part of a mailbox must be treated case sensitive [1].\n\n[1] https://tools.ietf.org/html/rfc5321#section-2.4",
+      "parentUuid": "57797636_c5da3307",
+      "range": {
+        "startLine": 100,
+        "startChar": 33,
+        "endLine": 100,
+        "endChar": 39
+      },
+      "revId": "334517193d9f490323684f99402f1f109d10acc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

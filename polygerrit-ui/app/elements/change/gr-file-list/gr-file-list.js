@@ -399,7 +399,8 @@
     _handleFileClick: function(e) {
       // If the user prefers to expand inline diffs rather than opening the diff
       // view, intercept the click event.
-      if (this._userPrefs && this._userPrefs.expand_inline_diffs) {
+      if ((!e.metaKey && !e.ctrlKey) && this._userPrefs &&
+          this._userPrefs.expand_inline_diffs) {
         e.preventDefault();
         this._handleHiddenChange(e);
       }

@@ -16,6 +16,24 @@
       "revId": "ff27753dfbccc06386647ab513a5b7bd4b50e68b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca8427b_99d42937",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-28T08:55:22Z",
+      "side": 1,
+      "message": "This comes from another change, will fix it there",
+      "parentUuid": "66810e3a_d0e149ec",
+      "revId": "ff27753dfbccc06386647ab513a5b7bd4b50e68b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

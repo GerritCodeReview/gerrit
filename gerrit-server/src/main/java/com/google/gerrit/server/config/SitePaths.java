@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -22,6 +23,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton
@@ -66,7 +68,7 @@ public final class SitePaths {
   public final boolean isNew;
 
   @Inject
-  public SitePaths(@SitePath Path sitePath) throws IOException {
+  public SitePaths(@SitePath Path sitePath, @GerritServerConfig Config cfg) throws IOException {
     site_path = sitePath;
     Path p = sitePath;
 
@@ -74,7 +76,10 @@ public final class SitePaths {
     etc_dir = p.resolve("etc");
     lib_dir = p.resolve("lib");
     tmp_dir = p.resolve("tmp");
-    plugins_dir = p.resolve("plugins");
+    String pluginsDir = cfg.getString("plugins", null, "directory");
+    plugins_dir = Strings.isNullOrEmpty(pluginsDir)
+      ? p.resolve("plugins")
+      : Paths.get(pluginsDir);
     db_dir = p.resolve("db");
     data_dir = p.resolve("data");
     logs_dir = p.resolve("logs");

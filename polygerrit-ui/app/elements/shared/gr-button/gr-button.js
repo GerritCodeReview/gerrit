@@ -27,6 +27,10 @@
         observer: '_disabledChanged',
         reflectToAttribute: true,
       },
+      short: {
+        type: Boolean,
+        value: false,
+      },
       _enabledTabindex: {
         type: String,
         value: '0',
@@ -50,6 +54,12 @@
 
     keyBindings: {
       'space enter': '_handleCommitKey',
+    },
+
+    ready: function() {
+      if (this.short) {
+        this.classList.add('short');
+      }
     },
 
     _handleAction: function(e) {

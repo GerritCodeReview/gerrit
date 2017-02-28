@@ -34,6 +34,24 @@
       "revId": "ff27753dfbccc06386647ab513a5b7bd4b50e68b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "517f1150_4693dc23",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-28T09:00:08Z",
+      "side": 1,
+      "message": "Ah, sorry, my bad.  I had diffed this against the previous patch set and it was showing as a new file.",
+      "parentUuid": "5ca8427b_99d42937",
+      "revId": "ff27753dfbccc06386647ab513a5b7bd4b50e68b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

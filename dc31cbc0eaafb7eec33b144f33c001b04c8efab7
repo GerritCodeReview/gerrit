@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0340d4af_d0cedda9",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T10:00:33Z",
+      "side": 1,
+      "message": "empty lines between the list points are not needed",
+      "revId": "dc31cbc0eaafb7eec33b144f33c001b04c8efab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2efff442_d78f853e",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T10:00:33Z",
+      "side": 1,
+      "message": "this empty lines is not needed",
+      "revId": "dc31cbc0eaafb7eec33b144f33c001b04c8efab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

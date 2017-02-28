@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "b6a24aaf_e0a6a6b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-28T10:18:58Z",
+      "side": 1,
+      "message": "I\u0027ve changed the method name since for these tests we want to check that the owner was added as the only reviewer.",
+      "parentUuid": "d4c46b5b_b3daf89a",
+      "range": {
+        "startLine": 1378,
+        "startChar": 0,
+        "endLine": 1381,
+        "endChar": 35
+      },
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce4aa975_0c09aa33",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -101,6 +125,30 @@
       "writtenOn": "2017-02-27T14:03:03Z",
       "side": 1,
       "message": "Would it make sense to move this code into ChangeInserter#updateChange(...) so that no other caller of ChangeInserter can do this mistake?\n\nDo we need a similar fix in ReplaceOp if voting is done when pushing a new patch set to an existing change?",
+      "range": {
+        "startLine": 2169,
+        "startChar": 8,
+        "endLine": 2173,
+        "endChar": 9
+      },
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c755e1b8_397c8d98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2173,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-28T10:18:58Z",
+      "side": 1,
+      "message": "Done. In ReplaceOp#updateChange we explicitly remove the current user in l.262 which is very old (pre 2012). So I am not sure if we should add it back there.",
+      "parentUuid": "ce4aa975_0c09aa33",
       "range": {
         "startLine": 2169,
         "startChar": 8,

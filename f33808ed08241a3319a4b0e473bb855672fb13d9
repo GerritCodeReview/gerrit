@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "a2936b92_26d14446",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 36
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T08:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85fada7f_dead8555",
+      "revId": "f33808ed08241a3319a4b0e473bb855672fb13d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe85b0f3_d0aaf990",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 36
@@ -31,6 +49,30 @@
       "writtenOn": "2017-02-28T08:01:50Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 469,
+        "startChar": 80,
+        "endLine": 469,
+        "endChar": 88
+      },
+      "revId": "f33808ed08241a3319a4b0e473bb855672fb13d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b2732e9_4ec21885",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 36
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T08:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe85b0f3_d0aaf990",
       "range": {
         "startLine": 469,
         "startChar": 80,
@@ -66,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "b39a0f93_748d375f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 36
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T08:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eea8b286_e9dc36d6",
+      "range": {
+        "startLine": 470,
+        "startChar": 0,
+        "endLine": 470,
+        "endChar": 20
+      },
+      "revId": "f33808ed08241a3319a4b0e473bb855672fb13d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d94af7cf_c3be4f65",
         "filename": "gerrit-server/BUILD",
         "patchSetId": 36
@@ -83,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "aeae4fed_64b406bf",
+        "filename": "gerrit-server/BUILD",
+        "patchSetId": 36
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T08:10:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d94af7cf_c3be4f65",
+      "revId": "f33808ed08241a3319a4b0e473bb855672fb13d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3da00e2a_9df78645",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 36
@@ -94,6 +178,30 @@
       "writtenOn": "2017-02-28T08:01:50Z",
       "side": 1,
       "message": "Do we want to log the entire stack trace?",
+      "range": {
+        "startLine": 94,
+        "startChar": 64,
+        "endLine": 94,
+        "endChar": 65
+      },
+      "revId": "f33808ed08241a3319a4b0e473bb855672fb13d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83efac98_94d4e13d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T08:10:28Z",
+      "side": 1,
+      "message": "Maybe not. Done.",
+      "parentUuid": "3da00e2a_9df78645",
       "range": {
         "startLine": 94,
         "startChar": 64,

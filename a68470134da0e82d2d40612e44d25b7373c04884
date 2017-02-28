@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4428c118_4473c345",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T09:34:55Z",
+      "side": 1,
+      "message": "Changes that are pushed like this are always owned by the admin user, and not the provided changeOwner. Passing changeOwner.getIdent() to the create method only makes this user author and committer of the commit, but not change owner.\n\nIf changeOwner should own the change you you must clone the repository as that user and use the TestRepository of that clone instead of testRepo.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 98
+      },
+      "revId": "a68470134da0e82d2d40612e44d25b7373c04884",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

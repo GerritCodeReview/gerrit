@@ -151,12 +151,13 @@ Gerrit generally follows the
 link:https://google.github.io/styleguide/javaguide.html[Google Java Style
 Guide].
 
-To format source code, Gerrit uses the
+To format Java source code, Gerrit uses the
 link:https://github.com/google/google-java-format[`google-java-format`]
-tool (version 1.3), which automatically formats code to follow the
-style guide. Using this tool streamlines code review by reducing the
-need for time-consuming, tedious, and contentious discussions about
-trivial issues like whitespace.
+tool (version 1.3), and to format Bazel BUILD and WORKSPACE files the
+link:https://github.com/bazelbuild/buildifier[`buildifier`] tool. These
+tools automatically apply format according to the style guides; this
+streamlines code review by reducing the need for time-consuming, tedious,
+and contentious discussions about trivial issues like whitespace.
 
 You may download and run `google-java-format` on your own, or you may
 run `./tools/setup_gjf.sh` to download a local copy and set up a

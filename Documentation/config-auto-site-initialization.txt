@@ -27,18 +27,10 @@ If the `gerrit.site_path` system property is defined then the init is
 run for that site. The database connectivity, in that case, is defined
 in the `etc/gerrit.config`.
 
-If `gerrit.site_path` is not defined then Gerrit will try to find an
-existing site by looking into the `system_config` table in the database
-defined via the `jdbc/ReviewDb` JNDI property. If the `system_config`
-table exists then the `site_path` from that table is used for the
-initialization. The database connectivity is defined by the
-`jdbc/ReviewDb` JNDI property.
-
-Finally, if neither the `gerrit.site_path` property nor the
-`system_config` table exists, the `gerrit.init_path` system property,
-if defined, will be used to determine the site path. The database
-connectivity, also for this case, is defined by the `jdbc/ReviewDb`
-JNDI property.
+If `gerrit.site_path` is not defined then Gerrit will try to find the
+`gerrit.init_path` system property. If defined this property will be
+used to determine the site path. The database connectivity, also for
+this case, is defined by the `jdbc/ReviewDb` JNDI property.
 
 [WARNING]
 Defining the `jdbc/ReviewDb` JNDI property for an H2 database under the
@@ -69,18 +61,6 @@ database is defined in `etc/gerrit.config` of that site:
 ----
 
 === Example 2
-
-Prepare Tomcat so that an existing site with the path defined in the
-`system_config` table is initialized (upgraded) on Gerrit startup. The
-assumption is that the `jdbc/ReviewDb` JNDI property is defined in
-Tomcat:
-
-----
-  $ export CATALINA_OPTS='-Dgerrit.init'
-  $ catalina.sh start
-----
-
-=== Example 3
 
 Assuming the database schema doesn't exist in the database defined
 via the `jdbc/ReviewDb` JNDI property, initialize a new site using that

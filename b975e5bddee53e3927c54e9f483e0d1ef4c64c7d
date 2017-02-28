@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46206fd2_bb7d0b72",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-28T09:44:05Z",
+      "side": 1,
+      "message": "Should this be in quotes?",
+      "range": {
+        "startLine": 804,
+        "startChar": 16,
+        "endLine": 804,
+        "endChar": 50
+      },
+      "revId": "b975e5bddee53e3927c54e9f483e0d1ef4c64c7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

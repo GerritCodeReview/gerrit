@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "f4c4da09_ba702d2e",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T09:48:08Z",
+      "side": 1,
+      "message": "Maybe, but like this it renders the complete list in one line.",
+      "parentUuid": "fe5c0532_220c0c3a",
+      "revId": "f5d5f92eaae286eb25c4d2b8dd674f045772bc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3729f45_701a264c",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 3

@@ -151,10 +151,15 @@ labels are defined in `All-Projects`.
 === Inheritance
 
 Labels are inherited from parent projects. A child project may add,
-override, or remove labels defined in its parents.  Overriding a label
-in a child project overrides all its properties and values.  To remove
-a label in a child project, add an empty label with the same name as
-in the parent.
+override, or remove labels defined in its parents.
+
+Overriding a label in a child project overrides all its properties and
+values. It is not possible to modify an inherited label by adding
+properties in the child project's configuration; all properties from
+the parent definition must be redefined in the child.
+
+To remove a label in a child project, add an empty label with the same
+name as in the parent.
 
 [[label_layout]]
 === Layout

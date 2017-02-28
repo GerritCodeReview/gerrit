@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.server.account.ExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_UUID;
+
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -44,7 +48,6 @@ public class AuthConfig {
   private final boolean trustContainerAuth;
   private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
-  private final boolean gitBasicAuth;
   private final boolean useContributorAgreements;
   private final String loginUrl;
   private final String loginText;
@@ -88,7 +91,6 @@ public class AuthConfig {
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
     enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
-    gitBasicAuth = cfg.getBoolean("auth", "gitBasicAuth", false);
     gitBasicAuthPolicy = getBasicAuthPolicy(cfg);
     useContributorAgreements = cfg.getBoolean("auth", "contributoragreements", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
@@ -223,11 +225,6 @@ public class AuthConfig {
     return userNameToLowerCase;
   }
 
-  /** Whether git-over-http should use Gerrit basic authentication scheme. */
-  public boolean isGitBasicAuth() {
-    return gitBasicAuth;
-  }
-
   public GitBasicAuthPolicy getGitBasicAuthPolicy() {
     return gitBasicAuthPolicy;
   }
@@ -237,7 +234,7 @@ public class AuthConfig {
     return useContributorAgreements;
   }
 
-  public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
+  public boolean isIdentityTrustable(Collection<ExternalId> ids) {
     switch (getAuthType()) {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case HTTP:
@@ -258,7 +255,7 @@ public class AuthConfig {
       case OPENID:
         // All identities must be trusted in order to trust the account.
         //
-        for (final AccountExternalId e : ids) {
+        for (ExternalId e : ids) {
           if (!isTrusted(e)) {
             return false;
           }
@@ -272,8 +269,8 @@ public class AuthConfig {
     }
   }
 
-  private boolean isTrusted(final AccountExternalId id) {
-    if (id.isScheme(AccountExternalId.SCHEME_MAILTO)) {
+  private boolean isTrusted(ExternalId id) {
+    if (id.isScheme(SCHEME_MAILTO)) {
       // mailto identities are created by sending a unique validation
       // token to the address and asking them to come back to the site
       // with that token.
@@ -281,20 +278,20 @@ public class AuthConfig {
       return true;
     }
 
-    if (id.isScheme(AccountExternalId.SCHEME_UUID)) {
+    if (id.isScheme(SCHEME_UUID)) {
       // UUID identities are absolutely meaningless and cannot be
       // constructed through any normal login process we use.
       //
       return true;
     }
 
-    if (id.isScheme(AccountExternalId.SCHEME_USERNAME)) {
+    if (id.isScheme(SCHEME_USERNAME)) {
       // We can trust their username, its local to our server only.
       //
       return true;
     }
 
-    for (final OpenIdProviderPattern p : trustedOpenIDs) {
+    for (OpenIdProviderPattern p : trustedOpenIDs) {
       if (p.matches(id)) {
         return true;
       }

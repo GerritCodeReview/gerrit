@@ -36,10 +36,8 @@ Users (and programs) may authenticate by prefixing the endpoint URL with
 `/a/`. For example to authenticate to `/projects/`, request the URL
 `/a/projects/`.
 
-By default Gerrit uses HTTP digest authentication with the HTTP password
-from the user's account settings page. HTTP basic authentication is used
-if link:config-gerrit.html#auth.gitBasicAuth[`auth.gitBasicAuth`] is set
-to true in the Gerrit configuration.
+Gerrit uses HTTP basic authentication with the HTTP password from the
+user's account settings page.
 
 [[preconditions]]
 === Preconditions

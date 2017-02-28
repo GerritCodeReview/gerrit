@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.openid;
 
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.account.ExternalId;
 
 public class OpenIdProviderPattern {
   public static OpenIdProviderPattern create(String pattern) {
@@ -33,8 +33,8 @@ public class OpenIdProviderPattern {
     return regex ? id.matches(pattern) : id.startsWith(pattern);
   }
 
-  public boolean matches(AccountExternalId id) {
-    return matches(id.getExternalId());
+  public boolean matches(ExternalId extId) {
+    return matches(extId.key().get());
   }
 
   @Override

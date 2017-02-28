@@ -17,6 +17,7 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
+import java.util.Objects;
 
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
@@ -87,6 +88,8 @@ public final class AccountExternalId {
   @Column(id = 3, notNull = false)
   protected String emailAddress;
 
+  // Encoded version of the hashed and salted password, to be interpreted by the
+  // {@link HashedPassword} class.
   @Column(id = 4, notNull = false)
   protected String password;
 
@@ -140,12 +143,12 @@ public final class AccountExternalId {
     return null != scheme ? getExternalId().substring(scheme.length() + 1) : null;
   }
 
-  public String getPassword() {
-    return password;
+  public void setPassword(String hashed) {
+    password = hashed;
   }
 
-  public void setPassword(String p) {
-    password = p;
+  public String getPassword() {
+    return password;
   }
 
   public boolean isTrusted() {
@@ -162,5 +165,22 @@ public final class AccountExternalId {
 
   public void setCanDelete(final boolean t) {
     canDelete = t;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof AccountExternalId) {
+      AccountExternalId extId = (AccountExternalId) o;
+      return Objects.equals(key, extId.key)
+          && Objects.equals(accountId, extId.accountId)
+          && Objects.equals(emailAddress, extId.emailAddress)
+          && Objects.equals(password, extId.password);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(key, accountId, emailAddress, password);
   }
 }

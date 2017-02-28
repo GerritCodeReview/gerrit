@@ -1443,7 +1443,7 @@ can be accessed from any REST client, i. e.:
 ----
   curl -X POST -H "Content-Type: application/json" \
     -d '{message: "François", french: true}' \
-    --digest --user joe:secret \
+    --user joe:secret \
     http://host:port/a/changes/1/revisions/1/cookbook~say-hello
   "Bonjour François from change 1, patch set 1!"
 ----
@@ -2451,18 +2451,18 @@ is an error. Errors are always handled by the Gerrit core UI which
 shows the error dialog. This means currently plugins cannot do any
 error handling and e.g. ignore expected errors.
 
-In the following example the REST endpoint would return '404 Not Found'
-if there is no HTTP password and the Gerrit core UI would display an
-error dialog for this. However having no HTTP password is not an error
-and the plugin may like to handle this case.
+In the following example the REST endpoint would return '404 Not
+Found' if the user has no username and the Gerrit core UI would
+display an error dialog for this. However having no username is
+not an error and the plugin may like to handle this case.
 
 [source,java]
 ----
-new RestApi("accounts").id("self").view("password.http")
+new RestApi("accounts").id("self").view("username")
     .get(new AsyncCallback<NativeString>() {
 
   @Override
-  public void onSuccess(NativeString httpPassword) {
+  public void onSuccess(NativeString username) {
     // TODO
   }
 

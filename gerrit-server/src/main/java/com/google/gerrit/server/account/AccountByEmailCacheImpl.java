@@ -18,7 +18,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -94,12 +93,15 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
         for (Account a : db.accounts().byPreferredEmail(email)) {
           r.add(a.getId());
         }
-        for (AccountState accountState :
-            accountQueryProvider
-                .get()
-                .byExternalId(
-                    (new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email)).get())) {
-          r.add(accountState.getAccount().getId());
+        for (AccountState accountState : accountQueryProvider.get().byEmailPrefix(email)) {
+          if (accountState
+              .getExternalIds()
+              .stream()
+              .filter(e -> email.equals(e.email()))
+              .findAny()
+              .isPresent()) {
+            r.add(accountState.getAccount().getId());
+          }
         }
         return ImmutableSet.copyOf(r);
       }

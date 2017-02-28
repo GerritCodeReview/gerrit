@@ -66,15 +66,21 @@ public final class SitePaths {
   public final boolean isNew;
 
   @Inject
-  public SitePaths(@SitePath Path sitePath) throws IOException {
+  public SitePaths(@SitePath Path sitePath, PluginConfig plugin_path) throws IOException {
     site_path = sitePath;
     Path p = sitePath;
+    plugin_path = pluginPath;
+    Path pa = pluginPath;
 
     bin_dir = p.resolve("bin");
     etc_dir = p.resolve("etc");
     lib_dir = p.resolve("lib");
     tmp_dir = p.resolve("tmp");
-    plugins_dir = p.resolve("plugins");
+    if (pluginPath !== null) {
+      plugins_dir = pa.resolve("");
+    } else {
+      plugins_dir = p.resolve("plugins");
+    }
     db_dir = p.resolve("db");
     data_dir = p.resolve("data");
     logs_dir = p.resolve("logs");

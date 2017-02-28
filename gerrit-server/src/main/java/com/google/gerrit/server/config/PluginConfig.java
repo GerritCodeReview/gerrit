@@ -27,10 +27,15 @@ import org.eclipse.jgit.lib.Config;
 
 public class PluginConfig {
   private static final String PLUGIN = "plugin";
+  private final String plugin_dir;
 
   private final String pluginName;
   private Config cfg;
   private final ProjectConfig projectConfig;
+
+  public PluginConfig(@GerritServerConfig final Config cfg) {
+    plugin_dir = cfg.getString("plugins", null, "directory");
+  }
 
   public PluginConfig(String pluginName, Config cfg) {
     this(pluginName, cfg, null);
@@ -151,5 +156,9 @@ public class PluginConfig {
 
   public Set<String> getNames() {
     return cfg.getNames(PLUGIN, pluginName, true);
+  }
+
+  public String getPluginDir() {
+    return plugin_dir;
   }
 }

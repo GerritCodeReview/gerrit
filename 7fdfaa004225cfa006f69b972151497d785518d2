@@ -52,6 +52,24 @@
       "revId": "7fdfaa004225cfa006f69b972151497d785518d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cb2f5b7_722f1034",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-28T17:39:09Z",
+      "side": 1,
+      "message": "Spreadsheet created.",
+      "parentUuid": "7a2d31c2_da96010f",
+      "revId": "7fdfaa004225cfa006f69b972151497d785518d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

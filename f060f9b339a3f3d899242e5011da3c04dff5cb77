@@ -16,6 +16,24 @@
       "revId": "f060f9b339a3f3d899242e5011da3c04dff5cb77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f7bb2cd_2712162a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-28T17:39:09Z",
+      "side": 1,
+      "message": "I like that a lot! Done.",
+      "parentUuid": "dd562078_0a99c9c1",
+      "revId": "f060f9b339a3f3d899242e5011da3c04dff5cb77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -117,7 +117,7 @@
       '_handlePrefsChanged(_localPrefs.*)',
       '_handleDiffPrefsChanged(_diffPrefs.*)',
       '_handleMenuChanged(_localMenu.splices)',
-      '_handleChangeTableChanged(_localChangeTableColumns.splices)',
+      '_handleChangeTableChanged(_localChangeTableColumns)',
     ],
 
     attached: function() {
@@ -220,7 +220,7 @@
       var columns = this.prefs.change_table;
 
       if (columns.length === 0) {
-        columns = this.CHANGE_TABLE_COLUMNS;
+        columns = this.columnNames;
         this._changeTableColumnsNotDisplayed = [];
       } else {
         this._changeTableColumnsNotDisplayed = this.getComplementColumns(

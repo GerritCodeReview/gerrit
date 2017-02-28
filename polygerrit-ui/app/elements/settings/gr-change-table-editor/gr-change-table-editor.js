@@ -18,33 +18,44 @@
     is: 'gr-change-table-editor',
 
     properties: {
-      changeTableItems: Array,
-      changeTableNotDisplayed: Array,
+      displayedColumns: {
+        type: Array,
+        notify: true,
+      },
     },
 
     behaviors: [
       Gerrit.ChangeTableBehavior,
     ],
 
-    _handleDeleteButton: function(e) {
-      var index = e.target.dataIndex;
-      this.splice('changeTableItems', index, 1);
-
-      // Use the change table behavior to make sure ordering of unused
-      // columns ends up in the correct order. If the removed item is appended
-      // to the end, when it is saved, the unused column order may shift around.
-      this.set('changeTableNotDisplayed',
-          this.getComplementColumns(this.changeTableItems));
-
+    _getButtonText: function(isShown) {
+      return isShown ? 'Hide' : 'Show';
     },
 
-    _handleAddButton: function(e) {
-      var index = e.target.dataIndex;
-      var newColumn = this.changeTableNotDisplayed[index];
-      this.splice('changeTableNotDisplayed', index, 1);
+    _updateDisplayedColumns: function(displayedColumns, name, checked) {
+      if (!checked) {
+        return displayedColumns.filter(function(column) {
+          return name.toLowerCase() !== column.toLowerCase();
+        });
+      } else {
+        return displayedColumns.concat([name]);
+      }
+    },
 
-      this.splice('changeTableItems', this.getComplementColumns(
-          this.changeTableNotDisplayed).indexOf(newColumn), 0, newColumn);
+    /**
+     * Handles tap on either the checkbox itself or the surrounding table cell.
+     */
+    _handleTargetTap: function(e) {
+      var checkbox = Polymer.dom(e.target).querySelector('input');
+      if (checkbox) {
+        checkbox.click();
+      } else {
+        // The target is the checkbox itself.
+        checkbox = Polymer.dom(event).rootTarget;
+      }
+      this.set('displayedColumns',
+          this._updateDisplayedColumns(
+              this.displayedColumns, checkbox.name, checkbox.checked));
     },
   });
 })();

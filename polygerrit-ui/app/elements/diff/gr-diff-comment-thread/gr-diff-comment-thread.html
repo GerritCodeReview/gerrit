@@ -66,14 +66,24 @@ limitations under the License.
       <div id="commentInfoContainer"
           hidden$="[[_hideActions(_showActions, _lastComment)]]">
         <div id="actions">
-          <gr-button id="replyBtn" class="action reply"
+          <gr-button id="replyBtn" class="action reply" short
               on-tap="_handleCommentReply">Reply</gr-button>
-          <gr-button id="quoteBtn" class="action quote"
+          <gr-button id="quoteBtn" class="action quote" short
               on-tap="_handleCommentQuote">Quote</gr-button>
-          <gr-button id="ackBtn" class="action ack" on-tap="_handleCommentAck">
-            Ack</gr-button>
-          <gr-button id="doneBtn" class="action done" on-tap="_handleCommentDone">
-            Done</gr-button>
+          <gr-button
+              id="ackBtn"
+              class="action ack"
+              short
+              on-tap="_handleCommentAck">
+            Ack
+          </gr-button>
+          <gr-button
+              id="doneBtn"
+              class="action done"
+              short
+              on-tap="_handleCommentDone">
+            Done
+          </gr-button>
         </div>
         <span id="unresolvedLabel" hidden$="[[!_unresolved]]">Unresolved</span>
       </div>

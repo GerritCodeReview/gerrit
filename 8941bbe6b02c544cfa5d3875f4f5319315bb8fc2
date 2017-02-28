@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8de29ae_b0f50b80",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-28T22:17:33Z",
+      "side": 1,
+      "message": "The `_handleMetaClick` method hasn\u0027t been added has it?",
+      "range": {
+        "startLine": 137,
+        "startChar": 21,
+        "endLine": 137,
+        "endChar": 37
+      },
+      "revId": "8941bbe6b02c544cfa5d3875f4f5319315bb8fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "612b7959_4e82e1d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2017-02-28T22:17:33Z",
+      "side": 1,
+      "message": "On Windows and Linux, Ctrl+Click is used to open a link in a new tab rather than Meta.",
+      "range": {
+        "startLine": 403,
+        "startChar": 10,
+        "endLine": 403,
+        "endChar": 20
+      },
+      "revId": "8941bbe6b02c544cfa5d3875f4f5319315bb8fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

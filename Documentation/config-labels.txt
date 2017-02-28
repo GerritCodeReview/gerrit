@@ -128,9 +128,10 @@ behavior.
 
 
 [[label_custom]]
-== Your Label Here
+== Customized Labels
 
-Site administrators and project owners can also define their own labels.
+Site administrators and project owners can define their own labels,
+or customize labels inherited from parent projects.
 
 See above for descriptions of how <<label_Verified,`Verified`>>
 and <<label_Code-Review,`Code-Review`>> work, and add your own
@@ -144,11 +145,19 @@ added, permission categories for those labels will show up in the
 permission editor web UI.
 
 Labels may be added to any project's `project.config`; the default
-labels are defined in `All-Projects`. Labels are inherited from parent
-projects; a child project may add, override, or remove labels defined in
-its parents.  Overriding a label in a child project overrides all its
-properties and values.  To remove a label in a child project, add an
-empty label with the same name as in the parent.
+labels are defined in `All-Projects`.
+
+[[label_inheritance]]
+=== Inheritance
+
+Labels are inherited from parent projects. A child project may add,
+override, or remove labels defined in its parents.  Overriding a label
+in a child project overrides all its properties and values.  To remove
+a label in a child project, add an empty label with the same name as
+in the parent.
+
+[[label_layout]]
+=== Layout
 
 Labels are laid out in the order they are specified in project.config,
 with inherited labels appearing first, providing some layout control to

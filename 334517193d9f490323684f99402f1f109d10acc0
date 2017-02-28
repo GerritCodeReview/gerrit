@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1488190949 +0100\nnonce AFJA6od66JCkDr+I/YxSZLS3kY5GbljlsjlLL/hWrdueGQ+ASVLXZE835SRKXA96/xh46gmQYvgF\n\n0000000000000000000000000000000000000000 334517193d9f490323684f99402f1f109d10acc0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYs/3lAAoJEHFVO370GiZW3rIIAJZWvMS38x1Ck93/wiT18dNW\nISPopu1bwPexvuwt+W0S0X2XXYxmgcmQT1O1OtWobKwpQgJnhk+hIrRQlpnDdbBF\nV4cQ6UPg2lGuUuxU4BTU3qyKQxBKzu8s0P9vb35TUAk3y6srTaLkO3XBRepe3T1a\nrj0a0klyfCxyGPKG4PRRMDSSF1EWwaWQwUKSHZP64eWEss/Kps9/tW55e2d5Z51R\n0TQPHWtiKOfhefKo/EyS+MXm1kcFw2fH6BeLhv+6OnoziF0QXTpG8OwUuw3LvJ5K\nz02xxYeor4ynKPq9Xq3dosPhsukHu3kSrJp2h09ftfY4GnZmovC75YvA5UQ2Gi8\u003d\n\u003dvV/D\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "57797636_c5da3307",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-02-28T02:07:01Z",
+      "side": 1,
+      "message": "equalsIgnoreCase?",
+      "range": {
+        "startLine": 100,
+        "startChar": 33,
+        "endLine": 100,
+        "endChar": 39
+      },
+      "revId": "334517193d9f490323684f99402f1f109d10acc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

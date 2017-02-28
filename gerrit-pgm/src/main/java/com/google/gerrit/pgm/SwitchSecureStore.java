@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Option;
@@ -64,8 +65,8 @@ public class SwitchSecureStore extends SiteProgram {
   private String newSecureStoreLib;
 
   @Override
-  public int run() throws Exception {
-    SitePaths sitePaths = new SitePaths(getSitePath());
+  public int run(Config config) throws Exception {
+    SitePaths sitePaths = new SitePaths(getSitePath(), config);
     Path newSecureStorePath = Paths.get(newSecureStoreLib);
     if (!Files.exists(newSecureStorePath)) {
       log.error(String.format("File %s doesn't exist", newSecureStorePath.toAbsolutePath()));

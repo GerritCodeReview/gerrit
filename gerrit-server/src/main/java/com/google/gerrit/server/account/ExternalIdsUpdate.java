@@ -434,7 +434,7 @@ public class ExternalIdsUpdate {
    *
    * <p>If the external ID already exists it is overwritten.
    */
-  private static void upsert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
+  public static void upsert(RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
     Config c = new Config();

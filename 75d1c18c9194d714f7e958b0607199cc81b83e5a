@@ -34,6 +34,24 @@
       "revId": "75d1c18c9194d714f7e958b0607199cc81b83e5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a4a2db2_4678d2c7",
+        "filename": "plugins/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-28T23:59:27Z",
+      "side": 1,
+      "message": "Oh, right. We don\u0027t want the custom plugin to be part of release.war, but we do want ths cookbook-plugin to be part of eclipse project generation. Looks like we need additional variable for that.",
+      "parentUuid": "36b33cd1_220dd89c",
+      "revId": "75d1c18c9194d714f7e958b0607199cc81b83e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

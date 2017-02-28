@@ -163,6 +163,30 @@
       "revId": "457b7f18e3be8c4321f9394d75f8d0e778f7fb8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6f04db7_de0b6d8f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-02-28T09:29:51Z",
+      "side": 1,
+      "message": "ah sorry, just ignore this",
+      "parentUuid": "825c573c_1c1ec44f",
+      "range": {
+        "startLine": 167,
+        "startChar": 11,
+        "endLine": 167,
+        "endChar": 33
+      },
+      "revId": "457b7f18e3be8c4321f9394d75f8d0e778f7fb8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

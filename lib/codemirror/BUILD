@@ -4,8 +4,8 @@ load("//lib/codemirror:cm.bzl", "pkg_cm")
 # js_licenses.txt.
 java_library(
     name = "diff-match-patch",
-    runtime_deps = [ "@diff_match_patch//jar" ],
-    data = [ "//lib:LICENSE-Apache2.0" ],
+    data = ["//lib:LICENSE-Apache2.0"],
+    runtime_deps = ["@diff_match_patch//jar"],
 )
 
 pkg_cm()

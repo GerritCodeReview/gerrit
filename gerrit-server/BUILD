@@ -70,7 +70,7 @@ java_library(
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/joda:joda-time",
-        "//lib/jsoup:jsoup",
+        "//lib/jsoup",
         "//lib/log:api",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",

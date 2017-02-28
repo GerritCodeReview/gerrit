@@ -47,7 +47,7 @@ java_library(
         ":init-api",
         ":util",
         "//gerrit-common:annotations",
-        '//gerrit-elasticsearch:elasticsearch',
+        "//gerrit-elasticsearch:elasticsearch",
         "//gerrit-launcher:launcher",  # We want this dep to be provided_deps
         "//gerrit-lucene:lucene",
         "//lib:args4j",

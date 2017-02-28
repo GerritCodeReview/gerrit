@@ -1,4 +1,3 @@
-
 java_library(
     name = "bcprov",
     data = ["//lib:LICENSE-bouncycastle"],

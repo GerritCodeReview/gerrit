@@ -537,6 +537,7 @@ maven_jar(
 )
 
 PROLOG_VERS = "1.4.3"
+
 PROLOG_REPO = GERRIT
 
 maven_jar(
@@ -1114,4 +1115,5 @@ bower_archive(
 load("//lib/js:bower_archives.bzl", "load_bower_archives")
 
 load_bower_archives()
+
 external_plugin_deps()

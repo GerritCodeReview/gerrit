@@ -1,7 +1,7 @@
 java_library(
     name = "lib",
-    srcs = ["src/test/java/com/google/gerrit/acceptance/Dummy.java"],
     testonly = 1,
+    srcs = ["src/test/java/com/google/gerrit/acceptance/Dummy.java"],
     visibility = ["//visibility:public"],
     exports = [
         "//gerrit-acceptance-framework:lib",

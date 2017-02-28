@@ -134,6 +134,7 @@
       'n': '_handleNKey',
       'p': '_handlePKey',
       'shift+a': '_handleCapitalAKey',
+      'meta+click': '_handleMetaClick',
     },
 
     reload: function() {
@@ -399,7 +400,8 @@
     _handleFileClick: function(e) {
       // If the user prefers to expand inline diffs rather than opening the diff
       // view, intercept the click event.
-      if (this._userPrefs && this._userPrefs.expand_inline_diffs) {
+      if (!e.metaKey && this._userPrefs &&
+          this._userPrefs.expand_inline_diffs) {
         e.preventDefault();
         this._handleHiddenChange(e);
       }

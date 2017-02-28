@@ -768,6 +768,23 @@ limitations under the License.
       element.push('_expandedFilePaths', path);
     });
 
+    test('_handleFileClick', function() {
+      var e = { metaKey: true, preventDefault: function() {} };
+      var hiddenChangeStub = sandbox.stub(element, '_handleHiddenChange');
+      element._userPrefs = { expand_inline_diffs: true };
+
+      element._handleFileClick(e);
+      assert.isFalse(hiddenChangeStub.called);
+
+      delete e.metaKey;
+      element._handleFileClick(e);
+      assert.equal(hiddenChangeStub.callCount, 1);
+
+      element._userPrefs = { expand_inline_diffs: false };
+      element._handleFileClick(e);
+      assert.equal(hiddenChangeStub.callCount, 1);
+    });
+
     test('_renderInOrder', function(done) {
       var callCount = 0;
       var diffs = [{

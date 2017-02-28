@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "17f08645_c5bc2589",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T10:28:44Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "34287699_b094669d",
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1d9c4bc_4bab54f9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1
@@ -149,6 +167,30 @@
       "side": 1,
       "message": "Done. In ReplaceOp#updateChange we explicitly remove the current user in l.262 which is very old (pre 2012). So I am not sure if we should add it back there.",
       "parentUuid": "ce4aa975_0c09aa33",
+      "range": {
+        "startLine": 2169,
+        "startChar": 8,
+        "endLine": 2173,
+        "endChar": 9
+      },
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd5404e8_1ce8064e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T10:28:44Z",
+      "side": 1,
+      "message": "But what happens if I push a new patch set to your change and I apply a label during this push? So there is a vote from me, but I\u0027m not added as reviewer, hence we have the same problem and my vote is not deletable?\n\nEven if it works, we probably want a test for this.",
+      "parentUuid": "c755e1b8_397c8d98",
       "range": {
         "startLine": 2169,
         "startChar": 8,

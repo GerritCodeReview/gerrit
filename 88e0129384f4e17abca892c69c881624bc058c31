@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d858686_3e012b5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-02-28T10:28:44Z",
+      "side": 1,
+      "message": "just \n\nif (!approvals.isEmpty()) {\n\n?\n\nSince we are creating a new change, there can\u0027t be any previous approvals.",
+      "range": {
+        "startLine": 385,
+        "startChar": 4,
+        "endLine": 385,
+        "endChar": 85
+      },
+      "revId": "88e0129384f4e17abca892c69c881624bc058c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc0b01d6_05737a1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-02-28T09:07:39Z",
+      "side": 1,
+      "message": "Note to the reviewers: By that I mean that it\u0027s not reflected in NoteDb.\n\nI considered to split the reviewer footer in real two reviewer (without votes) and voted (with votes). I would like o hear your opinion on that.\n\nThis would have a nice effect that the callers that requesting specific states, would always get disjunct set of account ids. In this case ALL virtual state should be added to the ReviewerState, so that the caller could request both voted and non voted reviewers (without CC and REMOVED, of course). I also think, it is easy to grasp the meaning of 4 different states and obvious to reason about the state transitions:\n\n* |--user add as cc--\u003e CC --user votes on a change--\u003e VOTED --vote removed--\u003e REVIEWER --reviewer removed--\u003e REMOVED\n* |--user add as reviewer--\u003e REVIEWERS --user votes on a change--\u003e VOTED --vote removed--\u003e REVIEWER --reviewer removed--\u003e REMOVED\n\nIt would be also straight forward to support 4 different secondary index predicates:\n\n* cc:USER (already exists)\n* reviewer:USER -- implementation would use union between two real states: reviewer + votes -- (already exists)\n* voted:USER\n* removed:USER",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "5c340d58fcfc57962f26b5918fe6a0f46e22503b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

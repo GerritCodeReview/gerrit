@@ -51,7 +51,7 @@
         checkbox.click();
       } else {
         // The target is the checkbox itself.
-        checkbox = Polymer.dom(event).rootTarget;
+        checkbox = Polymer.dom(e).rootTarget;
       }
       this.set('displayedColumns',
           this._updateDisplayedColumns(

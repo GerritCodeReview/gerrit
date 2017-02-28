@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36b33cd1_220dd89c",
+        "filename": "plugins/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-02-28T23:53:57Z",
+      "side": 1,
+      "message": "CUSTOM_PLUGINS includes cookbook-plugin by default in the bazel build but didn\u0027t in the buck build. Which one is right?",
+      "revId": "75d1c18c9194d714f7e958b0607199cc81b83e5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

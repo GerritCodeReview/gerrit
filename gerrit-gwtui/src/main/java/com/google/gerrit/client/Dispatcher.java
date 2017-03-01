@@ -592,9 +592,7 @@ public class Dispatcher {
               return new MyPasswordScreen();
             }
 
-            if (matchExact(SETTINGS_OAUTH_TOKEN, token)
-                && Gerrit.info().auth().isOAuth()
-                && Gerrit.info().auth().isGitBasicAuth()) {
+            if (matchExact(SETTINGS_OAUTH_TOKEN, token) && Gerrit.info().auth().isOAuth()) {
               return new MyOAuthTokenScreen();
             }
 

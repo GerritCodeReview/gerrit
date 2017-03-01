@@ -81,7 +81,7 @@ public class AuthInfo extends JavaScriptObject {
   }
 
   public final boolean isHttpPasswordSettingsEnabled() {
-    if (isGitBasicAuth() && gitBasicAuthPolicy() == GitBasicAuthPolicy.LDAP) {
+    if (gitBasicAuthPolicy() == GitBasicAuthPolicy.LDAP) {
       return false;
     }
     return true;
@@ -107,8 +107,6 @@ public class AuthInfo extends JavaScriptObject {
   public final native String editFullNameUrl() /*-{ return this.edit_full_name_url; }-*/;
 
   public final native String httpPasswordUrl() /*-{ return this.http_password_url; }-*/;
-
-  public final native boolean isGitBasicAuth() /*-{ return this.is_git_basic_auth || false; }-*/;
 
   private native String gitBasicAuthPolicyRaw() /*-{ return this.git_basic_auth_policy; }-*/;
 

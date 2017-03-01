@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c6533cb_20ac83f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-01T00:06:55Z",
+      "side": 1,
+      "message": "I will need to ask Chad that question as i doint use scap. But they use scap to maintain wikipedia.",
+      "parentUuid": "b5e825d4_d4f87e37",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 82
+      },
+      "revId": "f6923a7b0ce2b830ae7daa55f5ed8254044875c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e338bf64_b8701989",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-01T00:00:31Z",
       "side": 1,
       "message": "Where is this used?",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 3
+      },
+      "revId": "f6923a7b0ce2b830ae7daa55f5ed8254044875c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b711844_8732670c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-01T00:06:55Z",
+      "side": 1,
+      "message": "Thanks, done. Now unneeded :)",
+      "parentUuid": "e338bf64_b8701989",
       "range": {
         "startLine": 36,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3cdb2b91_58cd898f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-01T00:06:55Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "466b732d_97864156",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 27
+      },
+      "revId": "f6923a7b0ce2b830ae7daa55f5ed8254044875c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57593456_007fdfe8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2017-03-01T00:00:31Z",
       "side": 1,
       "message": "Should get the server config here, i.e.\n\n @GerritServerConfig Config cfg",
+      "range": {
+        "startLine": 70,
+        "startChar": 44,
+        "endLine": 70,
+        "endChar": 68
+      },
+      "revId": "f6923a7b0ce2b830ae7daa55f5ed8254044875c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "403c48b7_315569db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-01T00:06:55Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "57593456_007fdfe8",
       "range": {
         "startLine": 70,
         "startChar": 44,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "89bb8da3_e0bf5883",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-01T00:06:55Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8584be50_ecd4ea61",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "f6923a7b0ce2b830ae7daa55f5ed8254044875c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e6c4c00_3122c33e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
         "patchSetId": 5
@@ -128,6 +248,30 @@
       "writtenOn": "2017-03-01T00:00:31Z",
       "side": 1,
       "message": "Should be something like:\n\n String pluginsDir \u003d cfg.getString(\"plugins\", null, \"directory\");\n plugins_dir \u003d Strings.isNullOrEmpty(pluginsDir)\n   ? p.resolve(\"plugins\")\n   : Paths.get(pluginsDir);\n\nyou\u0027ll probably also need to make sure the path is absolute.",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "f6923a7b0ce2b830ae7daa55f5ed8254044875c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7682906_86189e3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-01T00:06:55Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6e6c4c00_3122c33e",
       "range": {
         "startLine": 80,
         "startChar": 4,

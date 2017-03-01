@@ -203,6 +203,7 @@ public class RefControlTest {
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private Provider<InternalChangeQuery> queryProvider;
+  @Inject private ProjectControl.Metrics metrics;
 
   @Before
   public void setUp() throws Exception {
@@ -902,7 +903,8 @@ public class RefControlTest {
         null,
         canonicalWebUrl,
         new MockUser(name, memberOf),
-        newProjectState(local));
+        newProjectState(local),
+        metrics);
   }
 
   private ProjectState newProjectState(ProjectConfig local) {

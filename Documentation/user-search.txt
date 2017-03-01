@@ -124,6 +124,12 @@ cc:'USER'::
 Changes that have the given user CC'ed on them. The special case of `cc:self`
 will find changes where the caller has been CC'ed.
 
+[[voted]]
+voted:'USER'::
++
+Changes that have been reviewed by 'USER' and was given a nonzero vote on any
+patch set of the change.
+
 [[reviewerin]]
 reviewerin:'GROUP'::
 +

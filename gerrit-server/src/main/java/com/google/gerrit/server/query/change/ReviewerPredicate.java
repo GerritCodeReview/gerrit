@@ -46,6 +46,10 @@ class ReviewerPredicate extends ChangeIndexPredicate {
     return create(args, new ReviewerPredicate(ReviewerStateInternal.CC, id));
   }
 
+  static Predicate<ChangeData> voted(Arguments args, Account.Id id) {
+    return create(args, new ReviewerPredicate(ReviewerStateInternal.VOTED, id));
+  }
+
   private static Predicate<ChangeData> anyReviewerState(Account.Id id) {
     return Predicate.or(
         Stream.of(ReviewerStateInternal.values())

@@ -41,7 +41,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                   "committer:",
                   "from:",
                   "assignee:",
-                  "cc:"),
+                  "cc:",
+                  "voted:"),
               new AccountSuggestOracle() {
                 @Override
                 public void onRequestSuggestions(final Request request, final Callback done) {

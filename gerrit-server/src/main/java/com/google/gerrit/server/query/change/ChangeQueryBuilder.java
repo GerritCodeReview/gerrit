@@ -567,6 +567,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if ("cc".equalsIgnoreCase(value)) {
       return ReviewerPredicate.cc(args, self());
     }
+    
+    if ("voted".equalsIgnoreCase(value)) {
+      return ReviewerPredicate.voted(args, self());
+    }
 
     if ("mergeable".equalsIgnoreCase(value)) {
       return new IsMergeablePredicate(args.fillArgs);
@@ -948,6 +952,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> cc(String who) throws QueryParseException, OrmException {
     return Predicate.or(
         parseAccount(who).stream().map(id -> ReviewerPredicate.cc(args, id)).collect(toList()));
+  }
+
+  @Operator
+  public Predicate<ChangeData> voted(String who) throws QueryParseException, OrmException {
+    return Predicate.or(
+        parseAccount(who).stream().map(id -> ReviewerPredicate.voted(args, id)).collect(toList()));
   }
 
   @Operator

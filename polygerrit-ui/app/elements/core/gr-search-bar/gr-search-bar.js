@@ -78,6 +78,8 @@
     'status:reviewed',
     'topic',
     'tr',
+    'voted',
+    'voted:self',
   ];
 
   var MAX_AUTOCOMPLETE_RESULTS = 10;

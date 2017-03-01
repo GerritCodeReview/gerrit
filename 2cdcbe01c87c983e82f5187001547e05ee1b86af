@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bd0cb49a_c1049c53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-01T12:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f08645_c5bc2589",
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1d9c4bc_4bab54f9",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1
@@ -191,6 +209,30 @@
       "side": 1,
       "message": "But what happens if I push a new patch set to your change and I apply a label during this push? So there is a vote from me, but I\u0027m not added as reviewer, hence we have the same problem and my vote is not deletable?\n\nEven if it works, we probably want a test for this.",
       "parentUuid": "c755e1b8_397c8d98",
+      "range": {
+        "startLine": 2169,
+        "startChar": 8,
+        "endLine": 2173,
+        "endChar": 9
+      },
+      "revId": "2cdcbe01c87c983e82f5187001547e05ee1b86af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "177c342c_55643292",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2173,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-01T12:44:30Z",
+      "side": 1,
+      "message": "That works. I\u0027ve added a test for this case.",
+      "parentUuid": "fd5404e8_1ce8064e",
       "range": {
         "startLine": 2169,
         "startChar": 8,

@@ -52,6 +52,23 @@
       "revId": "817621e115266ee69f1a593e64b0bdaba2a0d1b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12fed58_33509b26",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-01T05:36:18Z",
+      "side": 0,
+      "message": "This broke now Eclipse project generation: cookbook-plugin will be omitted:\n\n  classpath_collector(\n    name \u003d \"main_classpath_collect\",\n    testonly \u003d 1,\n    deps \u003d LIBS + PGMLIBS + DEPS + TEST_DEPS +\n           [\"//plugins/%s:%s__plugin\" % (n, n) for n in CORE_PLUGINS + CUSTOM_PLUGINS],\n)",
+      "revId": "817621e115266ee69f1a593e64b0bdaba2a0d1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

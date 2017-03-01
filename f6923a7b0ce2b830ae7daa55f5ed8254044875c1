@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "c85d5c58_e81ec661",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-01T00:35:36Z",
+      "side": 1,
+      "message": "Is there a way to do that without needing to define this here please?\n\nOtherwise i would need to update every file that calls SitePaths.",
+      "parentUuid": "57593456_007fdfe8",
+      "range": {
+        "startLine": 70,
+        "startChar": 44,
+        "endLine": 70,
+        "endChar": 68
+      },
+      "revId": "f6923a7b0ce2b830ae7daa55f5ed8254044875c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8584be50_ecd4ea61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
         "patchSetId": 5

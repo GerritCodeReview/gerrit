@@ -94,6 +94,30 @@
       "revId": "63542c8c602dfc612299ec5a2d6e754490ec00e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e438f73_f5ac5883",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-01T10:28:54Z",
+      "side": 1,
+      "message": "This convenience method could be moved in a follow-up change, so that we can submit the base functionality \"all_comments_resolved\" without having to agree on how it will be used in the same change.",
+      "parentUuid": "f2bef9b3_406a215c",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 331,
+        "endChar": 3
+      },
+      "revId": "63542c8c602dfc612299ec5a2d6e754490ec00e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

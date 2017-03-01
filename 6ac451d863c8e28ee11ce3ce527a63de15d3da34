@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "ef6bbd3a_c9857156",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-01T15:06:59Z",
+      "side": 1,
+      "message": "The example I provided should only illustrate that providing an undo functionality would be possible if we wanted to add one. It wasn\u0027t intended to be a feature request.\n\nThis document mentions principles and recommendations, not feature requests. A reminder to think about an undo functionality when adding a new feature which could cause irreversible data loss doesn\u0027t seem like a bad thing to me.",
+      "parentUuid": "e039c044_f800c255",
+      "range": {
+        "startLine": 49,
+        "startChar": 16,
+        "endLine": 49,
+        "endChar": 76
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "572493d4_2c68b44d",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 3
@@ -262,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "e1878aa6_b292778f",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-01T15:06:59Z",
+      "side": 1,
+      "message": "This document lists general principles and recommendations. Not all of them can be covered completely with concrete examples.",
+      "parentUuid": "3eb5912f_93371300",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6180bc37_e7dd4a67",
         "filename": "Documentation/dev-ux.txt",
         "patchSetId": 3
@@ -321,6 +369,30 @@
       "side": 1,
       "message": "+1.",
       "parentUuid": "09d8efc7_a9eed3a7",
+      "range": {
+        "startLine": 53,
+        "startChar": 69,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c2b08a0_5c696a2e",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-01T15:06:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3713e3_7a650ab7",
       "range": {
         "startLine": 53,
         "startChar": 69,
@@ -425,6 +497,30 @@
       "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e234c964_299c9c5f",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2017-03-01T15:06:59Z",
+      "side": 1,
+      "message": "I added the definitions to the glossary.",
+      "parentUuid": "6acb4df2_1531d229",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "6ac451d863c8e28ee11ce3ce527a63de15d3da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,6 +70,30 @@
       "revId": "63542c8c602dfc612299ec5a2d6e754490ec00e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2bef9b3_406a215c",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-01T10:26:28Z",
+      "side": 1,
+      "message": "For now, I would prefer to just expose the number of unresolved comments as a new fact (property), like any other facts listed in [1].\n\nThis way, the authors of submit rules can make use of it in their rules.pl if and how they want. It would be good if an example is provided in the prolog cookbook.\n\nThe unresolved_block predicate here is just a small convenience. Can we, and should we, assume that all submit rules would like to use the all_comments_resolved in exactly this way as the unresolved_block predicate suggests?\n\n[1] https://gerrit-review.googlesource.com/Documentation/prolog-change-facts.html",
+      "parentUuid": "380fa56f_e62b526d",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 331,
+        "endChar": 3
+      },
+      "revId": "63542c8c602dfc612299ec5a2d6e754490ec00e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

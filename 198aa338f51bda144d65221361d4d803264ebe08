@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a774e86a_b2e1890d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-01T00:05:01Z",
+      "side": 1,
+      "message": "CUSTOM_PLUGINS",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "198aa338f51bda144d65221361d4d803264ebe08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe29a160_30d8da2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2017-03-01T00:05:01Z",
+      "side": 1,
+      "message": "The commit message is meant to be mostly self-contained when you have gerrit\u0027s git history. Can that discussion be summarized here?\n\nE.g. something like this:\n\nDo not include cookbook plugin in release.war\n\n1164e53283187b8a2a79052f5ea85471f6f0b6d4 (Allow to add custom core\nplugins in release build, 2015-12-11) added an item CUSTOM to the buck\nplugin rules to make it easier for people to add additional \u0027core\u0027\nplugins in a release build of a forked copy of Gerrit.\n\nWhen that was ported to bazel, it included cookbook-plugin by mistake.\nAs a result, when someone runs\n\n  bazel build release\n\nthey get a copy of gerrit with the cookbook plugin included and\nenabled, which is almost never what they wanted.\n\nFix it by making the default list of custom plugins an empty list\nagain.",
+      "revId": "198aa338f51bda144d65221361d4d803264ebe08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

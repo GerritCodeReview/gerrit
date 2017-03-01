@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "851851ae_67aa3f7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-03-01T18:11:17Z",
+      "side": 1,
+      "message": "Is license a better name than query?",
+      "range": {
+        "startLine": 153,
+        "startChar": 15,
+        "endLine": 153,
+        "endChar": 20
+      },
+      "revId": "85b9e6f6948cb392ed008a1b9547bf77cde65b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

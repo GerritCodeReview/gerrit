@@ -60,4 +60,11 @@
         {$patchSet.refName}
     {\n}
   {/if}
+
+  {if $email.includeDiff}
+    {\n}
+    {\n}
+    {$email.unifiedDiff}
+    {\n}
+  {/if}
 {/template}

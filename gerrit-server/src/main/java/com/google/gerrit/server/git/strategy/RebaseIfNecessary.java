@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
@@ -186,8 +187,10 @@ public class RebaseIfNecessary extends SubmitStrategy {
           !args.submoduleOp.hasSubscription(args.destBranch)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {
+        PersonIdent caller = ctx.getIdentifiedUser().newCommitterIdent(
+            ctx.getWhen(), ctx.getTimeZone());
         CodeReviewCommit newTip = args.mergeUtil.mergeOneCommit(
-            args.serverIdent, args.serverIdent, args.repo, args.rw,
+            caller, caller, args.repo, args.rw,
             args.inserter, args.destBranch, mergeTip.getCurrentTip(), toMerge);
         mergeTip.moveTipTo(amendGitlink(newTip), toMerge);
       }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5c16a935_17cfcb9d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_all_comments_resolved_1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-01T10:39:13Z",
+      "side": 1,
+      "message": "Thinking more about it, I lean towards exposing the number of unresolved comments:\n\n  PRED_unresolved_comment_count\n\nIn the gerrit_common.pl you can still provide the all_comments_resolved as:\n\n  all_commnets_resolved :- unresolved_comment_count(0).\n\nBy exposting the gerrit:unresolved_comment_count(U) to the authors of submit rules one could then embed the number of resolved comments in a label name:\n\n  gerrit:unresolved_comment_count(U),\n  U \u003e 0,\n  label(\u0027Resolve-\u0027 + U + \u0027-comments\u0027, need(_)).\n\nNOTE: this string concatenation is probably not proper Prolog code.\n\nThe UI would then automatically show:\n\n  Need: Resolve-3-comments.",
+      "range": {
+        "startLine": 27,
+        "startChar": 18,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "fc838f70abd1e9de8ab2dbb85ef041340319a2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a571e3c_1523a30f",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_all_comments_resolved_1.java",
         "patchSetId": 4

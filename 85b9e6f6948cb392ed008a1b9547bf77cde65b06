@@ -68,6 +68,30 @@
       "revId": "85b9e6f6948cb392ed008a1b9547bf77cde65b06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e76ee234_f16970b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-01T23:18:01Z",
+      "side": 1,
+      "message": "Yes.  I don\u0027t think this belongs under the \"query\" root.",
+      "parentUuid": "851851ae_67aa3f7f",
+      "range": {
+        "startLine": 153,
+        "startChar": 15,
+        "endLine": 153,
+        "endChar": 20
+      },
+      "revId": "85b9e6f6948cb392ed008a1b9547bf77cde65b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

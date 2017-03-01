@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1488269382 +0100\nnonce AFJA6ofhFUq6mIC43ZcYyHtxcgjRDzo3eiyflJvxj1WjzRts/KJu+YaytpdtlI5gRmQvVJMT47Jk\n\n0000000000000000000000000000000000000000 2d238eb7564095c389d59b795cfdedf0bb67cc81 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJYtTBGAAoJEFG1/Zeg0O9RDtAH/3/tvZinL5yNdYnLl53uJL15\n3/FLpWAyS+XcW76syfMS1Yn/Nn+j+TK2cb/nZ3M1bjmLWCuphSPLu+ANoq1tX7VO\ngZc2x7FbbtOHBpkpjnl1CqxHQNsoT5IWN2jw34YRuo/MUPNN0CZoXZU7vI5bUzlx\nKiiVDzjXZdMlFh7hEh7rr9GrBRPoab5WDqkdN2FRKtv45zluApsmTNAtXKr4tHuP\n5tv2OkL16aYb530tAQKITHkkHLtUazTOsPb6S1fCi0KwX9XQjR5wenIF4MFtM+NF\nL7vZMga5Dnm6nTMQ8C/4iYS4emMsHNSlPw+A+YRM2xPRdRVEZ5SbRW7/qM/A2hU\u003d\n\u003dFs4d\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "daa99eba_d78aabca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-01T13:22:16Z",
+      "side": 1,
+      "message": "nit: you are only using this once and might spare the import\n\nalthough I see the argument for fitting this in one line below :)",
+      "range": {
+        "startLine": 17,
+        "startChar": 42,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "2d238eb7564095c389d59b795cfdedf0bb67cc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5db748a1_3a39a826",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-01T13:22:16Z",
+      "side": 1,
+      "message": "nit: you are only using this once and might spare the import",
+      "range": {
+        "startLine": 17,
+        "startChar": 42,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "2d238eb7564095c389d59b795cfdedf0bb67cc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

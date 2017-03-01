@@ -163,6 +163,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final SubmitType DEFAULT_SUBMIT_ACTION = SubmitType.MERGE_IF_NECESSARY;
   private static final ProjectState DEFAULT_STATE_VALUE = ProjectState.ACTIVE;
 
+  private static final String EXTENSION_PANELS = "extension-panels";
+  private static final String KEY_PANEL = "panel";
+
   private Project.NameKey projectName;
   private Project project;
   private AccountsSection accountsSection;
@@ -182,6 +185,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
+  private Map<String, List<String>> extensionPanelSections;
 
   public static ProjectConfig read(MetaDataUpdate update)
       throws IOException, ConfigInvalidException {
@@ -195,6 +199,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     ProjectConfig r = new ProjectConfig(update.getProjectName());
     r.load(update, id);
     return r;
+  }
+
+  public Map<String, List<String>> getExtensionPanelSections() {
+    return extensionPanelSections;
   }
 
   public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
@@ -526,12 +534,30 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     mimeTypes = new ConfiguredMimeTypes(projectName.get(), rc);
     loadPluginSections(rc);
     loadReceiveSection(rc);
+    loadExtensionPanelSections(rc);
   }
 
   private void loadAccountsSection(Config rc, Map<String, GroupReference> groupsByName) {
     accountsSection = new AccountsSection();
     accountsSection.setSameGroupVisibility(
         loadPermissionRules(rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, groupsByName, false));
+  }
+
+  private void loadExtensionPanelSections(Config rc) throws IOException {
+    Map<String, String> lowerNames = Maps.newHashMapWithExpectedSize(2);
+    extensionPanelSections = Maps.newLinkedHashMap();
+    for (String name : rc.getSubsections(EXTENSION_PANELS)) {
+      String lower = name.toLowerCase();
+      if (lowerNames.containsKey(lower)) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Extension Panels \"%s\" conflicts with \"%s\"",
+            name, lowerNames.get(lower))));
+      }
+      lowerNames.put(lower, name);
+      extensionPanelSections.put(name,
+          new ArrayList<String>(Arrays.asList(
+              rc.getStringList(EXTENSION_PANELS, name, KEY_PANEL))));
+    }
   }
 
   private void loadContributorAgreements(Config rc, Map<String, GroupReference> groupsByName) {

@@ -309,8 +309,7 @@ public class ChangeScreen extends Screen {
               @Override
               public void onSuccess(final ChangeInfo info) {
                 info.init();
-                addExtensionPoints(info, initCurrentRevision(info));
-
+                initCurrentRevision(info);
                 final RevisionInfo rev = info.revision(revision);
                 CallbackGroup group = new CallbackGroup();
                 loadCommit(rev, group);
@@ -379,7 +378,8 @@ public class ChangeScreen extends Screen {
     return resolveRevisionToDisplay(info);
   }
 
-  private void addExtensionPoints(ChangeInfo change, RevisionInfo rev) {
+  private void addExtensionPoints(ChangeInfo change, RevisionInfo rev,
+      Entry result) {
     addExtensionPoint(GerritUiExtensionPoint.CHANGE_SCREEN_HEADER, headerExtension, change, rev);
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_HEADER_RIGHT_OF_BUTTONS,
@@ -392,7 +392,10 @@ public class ChangeScreen extends Screen {
         change,
         rev);
     addExtensionPoint(
-        GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK, changeExtension, change, rev);
+        GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
+        changeExtension, change, rev,
+        result.getExtensionPanelNames(
+            GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK.toString()));
     addExtensionPoint(
         GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_RELATED_INFO_BLOCK,
         relatedExtension,
@@ -408,11 +411,17 @@ public class ChangeScreen extends Screen {
   }
 
   private void addExtensionPoint(
-      GerritUiExtensionPoint extensionPoint, Panel p, ChangeInfo change, RevisionInfo rev) {
-    ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint);
+      GerritUiExtensionPoint extensionPoint, Panel p, ChangeInfo change,
+      RevisionInfo rev, List<String> panelNames) {
+    ExtensionPanel extensionPanel = new ExtensionPanel(extensionPoint, panelNames);
     extensionPanel.putObject(GerritUiExtensionPoint.Key.CHANGE_INFO, change);
     extensionPanel.putObject(GerritUiExtensionPoint.Key.REVISION_INFO, rev);
     p.add(extensionPanel);
+  }
+
+  private void addExtensionPoint(
+      GerritUiExtensionPoint extensionPoint, Panel p, ChangeInfo change, RevisionInfo rev) {
+    addExtensionPoint(extensionPoint, p, change, rev, Collections.emptyList());
   }
 
   private boolean enableSignedPush() {
@@ -1029,6 +1038,14 @@ public class ChangeScreen extends Screen {
             setTheme(result.getTheme());
             renderChangeInfo(info);
             loadRevisionInfo();
+          }
+        });
+    ConfigInfoCache.get(
+        info.projectNameKey(),
+        new GerritCallback<Entry>() {
+          @Override
+          public void onSuccess(Entry entry) {
+            addExtensionPoints(info, rev, entry);
           }
         });
   }

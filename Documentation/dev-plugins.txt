@@ -1209,6 +1209,7 @@ public class MyPlugin extends PluginEntryPoint {
   @Override
   public void onPluginLoad() {
     Plugin.get().panel(GerritUiExtensionPoint.CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK,
+        "my_panel_name",
         new Panel.EntryPoint() {
           @Override
           public void onLoad(Panel panel) {
@@ -1219,6 +1220,23 @@ public class MyPlugin extends PluginEntryPoint {
   }
 }
 ----
+
+Change Screen panel ordering may be specified in the
+project config. Values may be either "plugin name" or
+"plugin name"."panel name".
+Panels not specified in the config will be added
+to the end in load order. Panels specified in the config that
+are not found will be ignored.
+
+Example config:
+----
+[extension-panels "CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK"]
+        panel = helloworld.change_id
+        panel = myotherplugin
+        panel = myplugin.my_panel_name
+----
+
+
 
 [[actions]]
 === Actions

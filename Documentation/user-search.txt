@@ -124,6 +124,12 @@ cc:'USER'::
 Changes that have the given user CC'ed on them. The special case of `cc:self`
 will find changes where the caller has been CC'ed.
 
+[[voteby]]
+voteby:'USER'::
++
+Changes that have been given a nonzero vote by 'USER' on any label on any
+patch set of the change.
+
 [[reviewerin]]
 reviewerin:'GROUP'::
 +
@@ -287,6 +293,11 @@ True if the change has inline edit created by the current user.
 has:unresolved::
 +
 True if the change has unresolved comments.
+
+has:vote::
++
+True id change has been given a nonzero vote by current user on any label
+on any patch set.
 
 [[is]]
 [[is-starred]]

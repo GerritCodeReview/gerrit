@@ -39,6 +39,7 @@
     'has:edit',
     'has:star',
     'has:stars',
+    'has:vote',
     'intopic',
     'is',
     'is:abandoned',
@@ -78,6 +79,7 @@
     'status:reviewed',
     'topic',
     'tr',
+    'voteby',
   ];
 
   var SELF_EXPRESSION = 'self';

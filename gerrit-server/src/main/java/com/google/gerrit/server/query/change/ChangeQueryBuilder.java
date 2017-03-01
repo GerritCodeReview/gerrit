@@ -526,6 +526,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return new IsUnresolvedPredicate();
     }
 
+    if ("vote".equalsIgnoreCase(value)) {
+      return ReviewerPredicate.voteby(args, self());
+    }
+
+
     // for plugins the value will be operandName_pluginName
     String[] names = value.split("_");
     if (names.length == 2) {
@@ -948,6 +953,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> cc(String who) throws QueryParseException, OrmException {
     return Predicate.or(
         parseAccount(who).stream().map(id -> ReviewerPredicate.cc(args, id)).collect(toList()));
+  }
+
+  @Operator
+  public Predicate<ChangeData> voteby(String who) throws QueryParseException, OrmException {
+    return Predicate.or(
+        parseAccount(who).stream().map(id -> ReviewerPredicate.voteby(args, id)).collect(toList()));
   }
 
   @Operator

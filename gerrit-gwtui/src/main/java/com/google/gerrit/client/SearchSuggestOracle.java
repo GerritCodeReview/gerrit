@@ -41,7 +41,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                   "committer:",
                   "from:",
                   "assignee:",
-                  "cc:"),
+                  "cc:",
+                  "voteby:"),
               new AccountSuggestOracle() {
                 @Override
                 public void onRequestSuggestions(final Request request, final Callback done) {
@@ -120,6 +121,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("has:star");
     suggestions.add("has:stars");
     suggestions.add("has:unresolved");
+    suggestions.add("has:vote");
     suggestions.add("star:");
 
     suggestions.add("is:");

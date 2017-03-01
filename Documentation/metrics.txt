@@ -52,6 +52,7 @@ objects needing finalization.
 
 * `query/query_latency`: Successful query latency, accumulated over the life
 of the process.
+* `query/cla_check_count`: Total number of CLA check requests
 
 === SSH sessions
 

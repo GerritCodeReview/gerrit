@@ -41,6 +41,8 @@ public class ConfigInfo {
   public Map<String, CommentLinkInfo> commentlinks;
   public ThemeInfo theme;
 
+  public Map<String, List<String>> extensionPanelNames;
+
   public static class InheritedBooleanInfo {
     public Boolean value;
     public InheritableBoolean configuredValue;

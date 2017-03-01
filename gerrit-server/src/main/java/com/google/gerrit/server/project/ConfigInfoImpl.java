@@ -131,6 +131,8 @@ public class ConfigInfoImpl extends ConfigInfo {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();
+
+    this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
   }
 
   private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(

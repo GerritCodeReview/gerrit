@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b52c2c2e_f98b19a0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2017-03-01T11:20:39Z",
+      "side": 1,
+      "message": "Keep the colon and move lines 32-34 after it? Then continue with the explanation about the project?",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 7
+      },
+      "revId": "68777373e3be88acefbd397850e9a3c4de8f5f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

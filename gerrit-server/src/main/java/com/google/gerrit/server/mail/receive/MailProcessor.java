@@ -296,6 +296,10 @@ public class MailProcessor {
 
     @Override
     public void postUpdate(BatchUpdate.Context ctx) throws Exception {
+      String patchSetComment = null;
+      if (parsedComments.get(0).type == MailComment.CommentType.CHANGE_MESSAGE) {
+        patchSetComment = parsedComments.get(0).message;
+      }
       // Send email notifications
       outgoingMailFactory
           .create(
@@ -306,7 +310,7 @@ public class MailProcessor {
               ctx.getUser().asIdentifiedUser(),
               changeMessage,
               comments,
-              null,
+              patchSetComment,
               ImmutableList.of())
           .sendAsync();
       // Get previous approvals from this user

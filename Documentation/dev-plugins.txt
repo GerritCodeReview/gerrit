@@ -26,15 +26,13 @@ Most of this documentation refers to either type as a plugin.
 == Getting started
 
 To get started with the development of a plugin clone the sample
-plugin:
-+
-This is a project that demonstrates the various features of the
+plugin. This is a project that demonstrates the various features of the
 plugin API. It can be taken as an example to develop an own plugin.
-+
+
 ----
 $ git clone https://gerrit.googlesource.com/plugins/cookbook-plugin
 ----
-+
+
 When starting from this example one should take care to adapt the
 `Gerrit-ApiVersion` in the `BUILD` to the version of Gerrit for which
 the plugin is developed.

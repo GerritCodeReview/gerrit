@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb5bd62e_662b8c04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-03-01T18:23:12Z",
+      "side": 1,
+      "message": "Add",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "85b9e6f6948cb392ed008a1b9547bf77cde65b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe9095e2_9ca1fe15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026258
+      },
+      "writtenOn": "2017-03-01T18:23:12Z",
+      "side": 1,
+      "message": "not need in the title.",
+      "range": {
+        "startLine": 7,
+        "startChar": 48,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "85b9e6f6948cb392ed008a1b9547bf77cde65b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "851851ae_67aa3f7f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 2

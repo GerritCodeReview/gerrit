@@ -1002,10 +1002,7 @@ public class ChangeData {
       Set<String> nonLeafSet = comments.stream().map(c -> c.parentUuid).collect(Collectors.toSet());
 
       Long count =
-          comments
-              .stream()
-              .filter(c -> (c.unresolved == Boolean.TRUE && !nonLeafSet.contains(c.key.uuid)))
-              .count();
+          comments.stream().filter(c -> (c.unresolved && !nonLeafSet.contains(c.key.uuid))).count();
       unresolvedCommentCount = count.intValue();
     }
     return unresolvedCommentCount;

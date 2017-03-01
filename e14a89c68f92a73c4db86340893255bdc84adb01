@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c69b39cc_93272756",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T06:57:36Z",
+      "side": 1,
+      "message": "nit: incorrect import order",
+      "revId": "e14a89c68f92a73c4db86340893255bdc84adb01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f50c9cb_ffb95e6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T06:57:36Z",
+      "side": 1,
+      "message": "Please document this new metric in Documentation/metrics.txt.\n\nAlso it would be good if we could find a better category than \"project_control\" that fits better with the existing metric categories (see documentation). We normally don\u0027t use the class name as category.",
+      "range": {
+        "startLine": 153,
+        "startChar": 15,
+        "endLine": 153,
+        "endChar": 46
+      },
+      "revId": "e14a89c68f92a73c4db86340893255bdc84adb01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6268b974_89b9a0bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T06:57:36Z",
+      "side": 1,
+      "message": "nit: incorrect formatting (should be a single line)",
+      "range": {
+        "startLine": 154,
+        "startChar": 14,
+        "endLine": 156,
+        "endChar": 36
+      },
+      "revId": "e14a89c68f92a73c4db86340893255bdc84adb01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

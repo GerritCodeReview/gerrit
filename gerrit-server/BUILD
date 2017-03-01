@@ -224,6 +224,7 @@ junit_tests(
         "//gerrit-common:annotations",
         "//gerrit-patch-jgit:server",
         "//gerrit-server/src/main/prolog:common",
+        "//gerrit-test-util:test_util",
         "//lib:args4j",
         "//lib:grappa",
         "//lib:gson",

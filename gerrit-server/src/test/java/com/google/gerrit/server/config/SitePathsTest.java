@@ -14,14 +14,12 @@
 
 package com.google.gerrit.server.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.extensions.common.PathSubject;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.testutil.GerritBaseTests;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
@@ -34,9 +32,9 @@ public class SitePathsTest extends GerritBaseTests {
   public void create_NotExisting() throws IOException {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
-    assertTrue(site.isNew);
-    assertEquals(root, site.site_path);
-    assertEquals(root.resolve("etc"), site.etc_dir);
+    assertThat(site.isNew).isTrue();
+    PathSubject.assertThat(site.site_path).isEqualTo(root);
+    PathSubject.assertThat(site.etc_dir).isEqualTo(root.resolve("etc"));
   }
 
   @Test
@@ -46,8 +44,8 @@ public class SitePathsTest extends GerritBaseTests {
       Files.createDirectory(root);
 
       final SitePaths site = new SitePaths(root);
-      assertTrue(site.isNew);
-      assertEquals(root, site.site_path);
+      assertThat(site.isNew).isTrue();
+      PathSubject.assertThat(site.site_path).isEqualTo(root);
     } finally {
       Files.delete(root);
     }
@@ -62,8 +60,8 @@ public class SitePathsTest extends GerritBaseTests {
       Files.createFile(txt);
 
       final SitePaths site = new SitePaths(root);
-      assertFalse(site.isNew);
-      assertEquals(root, site.site_path);
+      assertThat(site.isNew).isFalse();
+      PathSubject.assertThat(site.site_path).isEqualTo(root);
     } finally {
       Files.delete(txt);
       Files.delete(root);
@@ -87,15 +85,15 @@ public class SitePathsTest extends GerritBaseTests {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
 
-    assertNull(site.resolve(null));
-    assertNull(site.resolve(""));
+    PathSubject.assertThat(site.resolve(null)).isNull();
+    PathSubject.assertThat(site.resolve("")).isNull();
 
-    assertNotNull(site.resolve("a"));
-    assertEquals(root.resolve("a").toAbsolutePath().normalize(), site.resolve("a"));
+    PathSubject.assertThat(site.resolve("a")).isNotNull();
+    PathSubject.assertThat(site.resolve("a")).isEqualTo(root.resolve("a").toAbsolutePath().normalize());
 
     final String pfx = HostPlatform.isWin32() ? "C:/" : "/";
-    assertNotNull(site.resolve(pfx + "a"));
-    assertEquals(Paths.get(pfx + "a"), site.resolve(pfx + "a"));
+    PathSubject.assertThat(site.resolve(pfx + "a")).isNotNull();
+    PathSubject.assertThat(site.resolve(pfx + "a")).isEqualTo(Paths.get(pfx + "a"));
   }
 
   private static Path random() throws IOException {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a571e3c_1523a30f",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_all_comments_resolved_1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-01T10:16:43Z",
+      "side": 1,
+      "message": "The name of this predicate indicates a boolean result type. I think that we don\u0027t need to unify an input parameter to an  integer (0/1) and we also don\u0027t need to force the caller to pass an argument:\n\n  my_predicate :- \n    all_comments_resolved(1),\n    ...\n\nInstead, it should be possible to write just:\n\n  my_predicate :-\n    all_comments_resolved(),\n    ...\n\nPassing a variable would only make sense it this predicate would be named unresolved_comment_count:\n\n  my_predicate :-\n    unresolved_comment_count(U),\n    U \u003e 0,\n    ...\n\nor:\n\n  my_predicate :-\n    unresolved_comment_count(0),\n    ...",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 19
+      },
+      "revId": "fc838f70abd1e9de8ab2dbb85ef041340319a2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20aa73d5_aea442ae",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-01T10:16:43Z",
+      "side": 1,
+      "message": "The result R is never unified to a value in this predicate.\nTherefore, Prolog engine will backtrack to the next one (line 327) and return a need(_) status always.\n\nThere is no code unifying the R to label(Label, ok(_)) when all comments are resolved.\n\nI guess, with the current implementation of the all_comments_resolved this code should be:\n\n  unresolved_block(Label, R) :-\n    all_comments_resolved(1),\n    R \u003d label(Label, ok(_)),\n    !,\n    .\n\nSee also my comment about the all_comment_resolved predicate. I think that we don\u0027t need a parameter.",
+      "range": {
+        "startLine": 324,
+        "startChar": 24,
+        "endLine": 324,
+        "endChar": 25
+      },
+      "revId": "fc838f70abd1e9de8ab2dbb85ef041340319a2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

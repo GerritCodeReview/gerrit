@@ -105,6 +105,24 @@
       "revId": "817621e115266ee69f1a593e64b0bdaba2a0d1b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f0350f9_cedaa60e",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2017-03-01T07:22:14Z",
+      "side": 0,
+      "message": "First: thanks for spotting this issue guys :)\n\nSecond: can we just add `cookbook-plugin` to list of dependencies for Eclipse project file generation? I don\u0027t believe that people are going to maintain cookbook-like plugins in their dev env...",
+      "parentUuid": "56874903_c859cbbd",
+      "revId": "817621e115266ee69f1a593e64b0bdaba2a0d1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0496ae73_7bf85d78",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-01T09:40:59Z",
+      "side": 1,
+      "message": "I wouldn\u0027t add it here just yet, but wait for GWT support or GWT deprecation.\n\nUntil then, let projects decide if they want to use this rule.",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 331,
+        "endChar": 3
+      },
+      "revId": "63542c8c602dfc612299ec5a2d6e754490ec00e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

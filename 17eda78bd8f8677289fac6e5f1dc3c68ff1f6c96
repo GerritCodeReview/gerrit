@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ebc8936_48887069",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T08:32:01Z",
+      "side": 1,
+      "message": "Maybe better name it \u0027voteby\u0027?\n\nThis would be consistent with the existing \u0027commentby\u0027 operator.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 5
+      },
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d16fea09_d61ef9da",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T08:32:01Z",
+      "side": 1,
+      "message": "Mention that the vote can be on any label?",
+      "range": {
+        "startLine": 130,
+        "startChar": 66,
+        "endLine": 130,
+        "endChar": 70
+      },
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "524c99bf_c072a09a",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T08:32:01Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this operator be more useful if it only considers current votes (and not votes on old patch sets that have been overwritten or were not copied over to new patch sets).",
+      "range": {
+        "startLine": 130,
+        "startChar": 71,
+        "endLine": 131,
+        "endChar": 24
+      },
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2107128_ed24cbd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T08:32:01Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cb95ba9_d90541b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T08:32:01Z",
+      "side": 1,
+      "message": "The documentation for this is missing. I would also rather call this operator \"has:vote\" instead of \"is:voted\".",
+      "range": {
+        "startLine": 571,
+        "startChar": 9,
+        "endLine": 571,
+        "endChar": 14
+      },
+      "revId": "17eda78bd8f8677289fac6e5f1dc3c68ff1f6c96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

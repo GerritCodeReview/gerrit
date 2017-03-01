@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e1b82a8e_f86234a9",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_all_comments_resolved_1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-01T10:29:05Z",
+      "side": 1,
+      "message": "But we don\u0027t have Preciate with 0 parameters to extends from.",
+      "parentUuid": "5a571e3c_1523a30f",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 19
+      },
+      "revId": "fc838f70abd1e9de8ab2dbb85ef041340319a2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20aa73d5_aea442ae",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 4

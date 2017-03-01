@@ -111,6 +111,10 @@ remote destination.
 * `plugins/replication/replication_retries`: Number of retries when pushing to
 remote destination.
 
+=== License
+
+* `license/cla_check_count`: Total number of CLA check requests
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

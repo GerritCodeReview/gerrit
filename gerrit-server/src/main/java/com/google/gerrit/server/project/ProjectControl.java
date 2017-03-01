@@ -25,6 +25,9 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -47,6 +50,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -138,6 +142,21 @@ public class ProjectControl {
     ProjectControl create(CurrentUser who, ProjectState ps);
   }
 
+  @Singleton
+  protected static class Metrics {
+    final Counter0 claCheckCount;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      claCheckCount =
+          metricMaker.newCounter(
+              "project_control/cla_check_count",
+              new Description("Total number of CLA check requests")
+              .setRate()
+              .setUnit("requests"));
+    }
+  }
+
   private final Set<AccountGroup.UUID> uploadGroups;
   private final Set<AccountGroup.UUID> receiveGroups;
 
@@ -151,6 +170,7 @@ public class ProjectControl {
   private final TagCache tagCache;
   @Nullable private final SearchingChangeCacheImpl changeCache;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final Metrics metrics;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -171,7 +191,8 @@ public class ProjectControl {
       @Nullable SearchingChangeCacheImpl changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted CurrentUser who,
-      @Assisted ProjectState ps) {
+      @Assisted ProjectState ps,
+      Metrics metrics) {
     this.changeNotesFactory = changeNotesFactory;
     this.changeControlFactory = changeControlFactory;
     this.tagCache = tagCache;
@@ -182,6 +203,7 @@ public class ProjectControl {
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
     this.queryProvider = queryProvider;
+    this.metrics = metrics;
     user = who;
     state = ps;
   }
@@ -348,6 +370,7 @@ public class ProjectControl {
   }
 
   private Capable verifyActiveContributorAgreement() {
+    metrics.claCheckCount.increment();
     if (!(user.isIdentifiedUser())) {
       return new Capable("Must be logged in to verify Contributor Agreement");
     }

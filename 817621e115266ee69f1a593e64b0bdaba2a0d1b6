@@ -69,6 +69,24 @@
       "revId": "817621e115266ee69f1a593e64b0bdaba2a0d1b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11872212_6a5d382d",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-01T05:47:43Z",
+      "side": 0,
+      "message": "*sigh*\n\nHow did this work under the buck build?  We need to have the same behaviour here, i.e. cookbook is included in the Eclipse project, but not in the release.war",
+      "parentUuid": "f12fed58_33509b26",
+      "revId": "817621e115266ee69f1a593e64b0bdaba2a0d1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

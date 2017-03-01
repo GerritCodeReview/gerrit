@@ -46,6 +46,30 @@
       "revId": "63542c8c602dfc612299ec5a2d6e754490ec00e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "380fa56f_e62b526d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-01T10:03:00Z",
+      "side": 1,
+      "message": "Ah sorry, my fault. I am not sure if all of this is needed though. Maybe Saša can advise here?",
+      "parentUuid": "9625cbe0_77186427",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 331,
+        "endChar": 3
+      },
+      "revId": "63542c8c602dfc612299ec5a2d6e754490ec00e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb5ad960_94dbdf62",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-01T00:56:50Z",
+      "side": 1,
+      "message": "???\n\nThis is a method call, not a declaration.   What you need to pass in here is an instance of Config that already exists.",
+      "range": {
+        "startLine": 69,
+        "startChar": 53,
+        "endLine": 69,
+        "endChar": 68
+      },
+      "revId": "1d0b65c7ab34fe888123ee9e1ff3393453ec3bf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

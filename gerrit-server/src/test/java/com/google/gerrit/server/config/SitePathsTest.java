@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class SitePathsTest extends GerritBaseTests {
@@ -94,6 +95,23 @@ public class SitePathsTest extends GerritBaseTests {
     final String pfx = HostPlatform.isWin32() ? "C:/" : "/";
     PathSubject.assertThat(site.resolve(pfx + "a")).isNotNull();
     PathSubject.assertThat(site.resolve(pfx + "a")).isEqualTo(Paths.get(pfx + "a"));
+  }
+
+  @Test
+  public void defaultPluginsDirectory() throws Exception {
+    Path root = random();
+    SitePaths site = new SitePaths(root);
+    PathSubject.assertThat(site.plugins_dir).isEqualTo(root.resolve("plugins"));
+  }
+
+  @Test
+  public void customPluginsDirectory() throws Exception {
+    final String PLUGINS = "/etc/path/to/my/plugins";
+    Path root = random();
+    Config config = new Config();
+    config.setString("plugins", null, "directory", PLUGINS);
+    SitePaths site = new SitePaths(root, config);
+    PathSubject.assertThat(site.plugins_dir).isEqualTo(Paths.get(PLUGINS));
   }
 
   private static Path random() throws IOException {

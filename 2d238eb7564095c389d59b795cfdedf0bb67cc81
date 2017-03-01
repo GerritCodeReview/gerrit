@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "21d0e6e1_b2581348",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountByEmailCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-01T13:23:43Z",
+      "side": 1,
+      "message": "I think we prefer the static import to have it consistent across all files.",
+      "parentUuid": "daa99eba_d78aabca",
+      "range": {
+        "startLine": 17,
+        "startChar": 42,
+        "endLine": 17,
+        "endChar": 47
+      },
+      "revId": "2d238eb7564095c389d59b795cfdedf0bb67cc81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5db748a1_3a39a826",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ExternalIdCacheImpl.java",
         "patchSetId": 2

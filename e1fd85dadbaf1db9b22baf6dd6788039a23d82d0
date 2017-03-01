@@ -46,6 +46,30 @@
       "revId": "e1fd85dadbaf1db9b22baf6dd6788039a23d82d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a2baa2a_98f9a3ea",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_unresolved_comments_count_1.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2017-03-01T14:29:12Z",
+      "side": 1,
+      "message": "If count \u003d\u003d null then count \u003e 0 will fail with NPE. I think you wanted here something like:\n\n  new IntegerTerm(nullToZero(count))",
+      "parentUuid": "5602d1f8_ecd49ffa",
+      "range": {
+        "startLine": 40,
+        "startChar": 36,
+        "endLine": 40,
+        "endChar": 57
+      },
+      "revId": "e1fd85dadbaf1db9b22baf6dd6788039a23d82d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -87,6 +87,24 @@
       "revId": "817621e115266ee69f1a593e64b0bdaba2a0d1b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56874903_c859cbbd",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-01T06:24:15Z",
+      "side": 0,
+      "message": "In Buck it was dynamically retrieved. It cannot be done in Bazel that way. As suggested in my comment in: [1], we need different variable here, e.g.:\n\nCORE_PLUGINS_NON_SHIPPED \u003d [\n    \"cookbook-plugin\",\n]\n\nAn then extend the Eclipse project file generation like this:\n\n  classpath_collector(\n    name \u003d \"main_classpath_collect\",\n    testonly \u003d 1,\n    deps \u003d LIBS + PGMLIBS + DEPS + TEST_DEPS +\n           [\"//plugins/%s:%s__plugin\" % (n, n) for n in CORE_PLUGINS + CORE_PLUGINS_NON_SHIPPED + CUSTOM_PLUGINS],\n  )\n\n* [1] https://gerrit-review.googlesource.com/#/c/98753/4/plugins/BUILD@10",
+      "parentUuid": "11872212_6a5d382d",
+      "revId": "817621e115266ee69f1a593e64b0bdaba2a0d1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

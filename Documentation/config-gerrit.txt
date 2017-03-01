@@ -3185,6 +3185,13 @@ Values can be specified using standard time unit abbreviations ('ms',
 +
 Default is 5 seconds. Negative values will be converted to 0.
 
+[[plugins.directory]]plugins.directory::
++
+Set the directory from which to load plugins. If not specified,
+defaults to `$site_path/plugins`.
++
+By default not set.
+
 [[receive]]
 === Section receive
 

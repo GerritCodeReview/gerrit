@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -22,6 +24,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.eclipse.jgit.lib.Config;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton
@@ -66,7 +70,7 @@ public final class SitePaths {
   public final boolean isNew;
 
   @Inject
-  public SitePaths(@SitePath Path sitePath) throws IOException {
+  public SitePaths(@SitePath Path sitePath, @GerritServerConfig Config config) throws IOException {
     site_path = sitePath;
     Path p = sitePath;
 
@@ -74,7 +78,6 @@ public final class SitePaths {
     etc_dir = p.resolve("etc");
     lib_dir = p.resolve("lib");
     tmp_dir = p.resolve("tmp");
-    plugins_dir = p.resolve("plugins");
     db_dir = p.resolve("db");
     data_dir = p.resolve("data");
     logs_dir = p.resolve("logs");
@@ -83,6 +86,10 @@ public final class SitePaths {
     static_dir = p.resolve("static");
     themes_dir = p.resolve("themes");
     index_dir = p.resolve("index");
+
+    String pluginsDir = config != null ? config.getString("plugins", null, "directory") : null;
+
+    plugins_dir = Strings.isNullOrEmpty(pluginsDir) ? p.resolve("plugins") : Paths.get(pluginsDir);
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");
     gerrit_war = bin_dir.resolve("gerrit.war");
@@ -108,6 +115,10 @@ public final class SitePaths {
       isNew = true;
     }
     this.isNew = isNew;
+  }
+
+  public SitePaths(Path sitePath) throws IOException {
+    this(sitePath, null);
   }
 
   /**

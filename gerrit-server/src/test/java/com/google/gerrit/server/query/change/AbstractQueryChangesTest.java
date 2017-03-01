@@ -1482,11 +1482,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void reviewerAndCc() throws Exception {
+  public void reviewerAndCcAndVoteby() throws Exception {
     Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
     insert(repo, newChange(repo));
 
     AddReviewerInput rin = new AddReviewerInput();
@@ -1499,13 +1500,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
+    // post a review with user1
+    requestContext.setContext(newRequestContext(user1));
+    gApi.changes().id(change3.getId().get()).current().review(ReviewInput.dislike());
+
+    requestContext.setContext(newRequestContext(userId));
     if (notesMigration.readChanges()) {
-      assertQuery("reviewer:" + user1, change1);
+      assertQuery("reviewer:" + user1, change3, change1);
       assertQuery("cc:" + user1, change2);
     } else {
-      assertQuery("reviewer:" + user1, change2, change1);
+      assertQuery("reviewer:" + user1, change3, change2, change1);
       assertQuery("cc:" + user1);
     }
+
+    assertQuery("voteby:" + user1, change3);
   }
 
   @Test

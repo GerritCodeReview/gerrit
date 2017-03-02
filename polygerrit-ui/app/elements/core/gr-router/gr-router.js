@@ -34,6 +34,8 @@
   };
 
   window.addEventListener('WebComponentsReady', function() {
+    var myLocation = window.location.pathname;
+    page.base(myLocation);
     getReporting().timeEnd('WebComponentsReady');
   });
 

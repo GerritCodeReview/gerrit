@@ -807,10 +807,13 @@ limitations under the License.
       });
 
       test('render-start and render are fired', function(done) {
-        var fireStub = sinon.stub(element, 'fire');
+        var dispatchEventStub = sinon.stub(element, 'dispatchEvent');
         element.render({left: [], right: []}, {}).then(function() {
-          assert.isTrue(fireStub.calledWithExactly('render-start'));
-          assert.isTrue(fireStub.calledWithExactly('render'));
+          var firedEventTypes = dispatchEventStub.getCalls()
+              .map(function(c) { return c.args[0].type; });
+          assert.include(firedEventTypes, 'render-start');
+          assert.include(firedEventTypes, 'render-content');
+          assert.include(firedEventTypes, 'render');
           done();
         });
       });

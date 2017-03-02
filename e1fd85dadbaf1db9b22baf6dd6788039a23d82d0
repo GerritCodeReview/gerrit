@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "75fa75bf_410a62c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2017-03-02T07:30:15Z",
+      "side": 1,
+      "message": "Seems like the commit message is out of sync with the implementation.",
+      "revId": "e1fd85dadbaf1db9b22baf6dd6788039a23d82d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f8677fe_41a29136",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_unresolved_comments_count_1.java",
         "patchSetId": 6

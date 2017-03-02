@@ -80,6 +80,13 @@ limitations under the License.
          * @event render
          */
 
+        /**
+         * Fired when the diff finishes rendering text content, but not
+         * necessarily syntax highlights.
+         *
+         * @event render-content
+         */
+
         properties: {
           diff: Object,
           viewMode: String,
@@ -137,11 +144,13 @@ limitations under the License.
 
           reporting.time(TimingLabel.TOTAL);
           reporting.time(TimingLabel.CONTENT);
-          this.fire('render-start');
+          this.dispatchEvent(new CustomEvent('render-start', {bubbles: true}));
           return this.$.processor.process(this.diff.content).then(function() {
             if (this.isImageDiff) {
               this._builder.renderDiffImages();
             }
+            this.dispatchEvent(new CustomEvent('render-content',
+                {bubbles: true}));
 
             if (this._anyLineTooLong()) {
               this.$.syntaxLayer.enabled = false;
@@ -152,7 +161,7 @@ limitations under the License.
             return this.$.syntaxLayer.process().then(function() {
               reporting.timeEnd(TimingLabel.SYNTAX);
               reporting.timeEnd(TimingLabel.TOTAL);
-              this.fire('render');
+              this.dispatchEvent(new CustomEvent('render', {bubbles: true}));
             }.bind(this));
           }.bind(this));
         },

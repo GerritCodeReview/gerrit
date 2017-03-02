@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "d1e6b54e_738fef7a",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-02T07:07:46Z",
+      "side": 1,
+      "message": "Typically because they were written before those JS API even existed :-)",
+      "range": {
+        "startLine": 50,
+        "startChar": 88,
+        "endLine": 50,
+        "endChar": 114
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c0be1e_32935373",
+        "filename": "polygerrit-ui/plugins.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-02T07:07:46Z",
+      "side": 1,
+      "message": "Yes, but I believe the plugin API would need to allow to easily resolve one for all the authentication problems associated:\n- X-Auth\n- GerritAccount\n\nIt would not be nice to see every single plugin to manage those sort of things: the framework should provide a mechanism.",
+      "range": {
+        "startLine": 64,
+        "startChar": 404,
+        "endLine": 64,
+        "endChar": 521
+      },
+      "revId": "5dded8c0e0fc16754fb87d32435a612f4125c227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa70e344_48116da2",
         "filename": "polygerrit-ui/plugins.md",
         "patchSetId": 2

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "b11d089d_28e6946e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:58:00Z",
+      "side": 1,
+      "message": "Rephrased.\n\nDone",
+      "parentUuid": "5a98ea7d_4c273b6a",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "73ddb39ffe493a9a6533cefc6365c5f883bb8b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8198c77b_9f437c74",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2017-03-02T09:40:27Z",
       "side": 1,
       "message": "nit:contains.",
+      "range": {
+        "startLine": 19,
+        "startChar": 17,
+        "endLine": 19,
+        "endChar": 24
+      },
+      "revId": "73ddb39ffe493a9a6533cefc6365c5f883bb8b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66d7c0ea_ba826fe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8198c77b_9f437c74",
       "range": {
         "startLine": 19,
         "startChar": 17,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b284427c_06d060b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed8c73b1_54a0ac95",
+      "range": {
+        "startLine": 21,
+        "startChar": 60,
+        "endLine": 22,
+        "endChar": 12
+      },
+      "revId": "73ddb39ffe493a9a6533cefc6365c5f883bb8b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67b29c03_b3ada816",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
         "patchSetId": 2
@@ -83,6 +155,30 @@
       "writtenOn": "2017-03-02T09:40:27Z",
       "side": 1,
       "message": "nit:External",
+      "range": {
+        "startLine": 311,
+        "startChar": 44,
+        "endLine": 311,
+        "endChar": 52
+      },
+      "revId": "73ddb39ffe493a9a6533cefc6365c5f883bb8b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7668cb77_1d662a6b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67b29c03_b3ada816",
       "range": {
         "startLine": 311,
         "startChar": 44,
@@ -118,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "020ca1b3_be23f411",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de42eb69_e7fa5706",
+      "range": {
+        "startLine": 317,
+        "startChar": 44,
+        "endLine": 317,
+        "endChar": 52
+      },
+      "revId": "73ddb39ffe493a9a6533cefc6365c5f883bb8b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c882540_2be84e61",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
         "patchSetId": 2
@@ -129,6 +249,30 @@
       "writtenOn": "2017-03-02T09:40:27Z",
       "side": 1,
       "message": "Format it as Google Java Style.",
+      "range": {
+        "startLine": 330,
+        "startChar": 4,
+        "endLine": 332,
+        "endChar": 67
+      },
+      "revId": "73ddb39ffe493a9a6533cefc6365c5f883bb8b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8ebc91c_03264cc5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ExternalIdIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c882540_2be84e61",
       "range": {
         "startLine": 330,
         "startChar": 4,
@@ -164,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "6a4ffbb7_75bfc110",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f99e55a_56e00ca7",
+      "range": {
+        "startLine": 649,
+        "startChar": 8,
+        "endLine": 649,
+        "endChar": 90
+      },
+      "revId": "73ddb39ffe493a9a6533cefc6365c5f883bb8b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0381918f_ad9282dc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 2
@@ -175,6 +343,30 @@
       "writtenOn": "2017-03-02T09:40:27Z",
       "side": 1,
       "message": "remove the outside \u0027try\u0027? it should not be need?",
+      "range": {
+        "startLine": 675,
+        "startChar": 0,
+        "endLine": 677,
+        "endChar": 13
+      },
+      "revId": "73ddb39ffe493a9a6533cefc6365c5f883bb8b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b059520_ff33c104",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0381918f_ad9282dc",
       "range": {
         "startLine": 675,
         "startChar": 0,

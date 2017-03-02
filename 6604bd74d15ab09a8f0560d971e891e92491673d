@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9c0a3015_0a3957ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-02T22:06:35Z",
+      "side": 1,
+      "message": "IIRC we had issues before with mobile \u0027taps\u0027 not firing a click event, but I could be misremembering.",
+      "parentUuid": "1b9817df_620cbb10",
+      "range": {
+        "startLine": 399,
+        "startChar": 4,
+        "endLine": 399,
+        "endChar": 20
+      },
+      "revId": "6604bd74d15ab09a8f0560d971e891e92491673d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ba84b96_176c3bd6",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 5
@@ -93,6 +117,30 @@
       "revId": "6604bd74d15ab09a8f0560d971e891e92491673d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "567b317d_960e3f17",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-02T22:06:35Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "1350dde3_bb7de4af",
+      "range": {
+        "startLine": 402,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 48
+      },
+      "revId": "6604bd74d15ab09a8f0560d971e891e92491673d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

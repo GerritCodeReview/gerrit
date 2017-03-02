@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd8d1c86_b63b9a28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T12:54:18Z",
+      "side": 1,
+      "message": "a remote Gerrit server",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bf2afcb_c0be0ed5",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T12:54:18Z",
+      "side": 1,
+      "message": "As discussed offline, this is fine for a remote server as people might want to debug their production server, but only a workaround for the fact that we can\u0027t start Gerrit from IntelliJ ATM. Hope we\u0027ll fix this soon.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 16
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbfb2b62_6e637e9c",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T12:54:18Z",
+      "side": 1,
+      "message": "a remote",
+      "range": {
+        "startLine": 150,
+        "startChar": 14,
+        "endLine": 150,
+        "endChar": 21
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d698663c_afaaf67a",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T12:54:18Z",
+      "side": 1,
+      "message": "a remote",
+      "range": {
+        "startLine": 170,
+        "startChar": 38,
+        "endLine": 170,
+        "endChar": 45
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "e549092b_3b33d53a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2017-03-02T13:29:10Z",
+      "side": 1,
+      "message": "What if the query only contains \u0027name\u0027? Then we can\u0027t get any results for this. If you check the \u0027AUTHOR\u0027 field in ChangeField. You can find that, it constructs the index with both name parts and email parts.",
+      "parentUuid": "a769e7c4_d8c37d95",
+      "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50dfc92e_587b720f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 7

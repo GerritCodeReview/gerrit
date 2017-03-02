@@ -119,7 +119,7 @@
         headers: opt_opts.headers,
       };
 
-      var urlWithParams = this._urlWithParams(url, opt_params);
+      var urlWithParams = this._urlWithParams(this.getBaseUrl() + url, opt_params);
       return fetch(urlWithParams, fetchOptions).then(function(response) {
         if (opt_cancelCondition && opt_cancelCondition()) {
           response.body.cancel();
@@ -380,25 +380,25 @@
     },
 
     _fetchSharedCacheURL: function(url, opt_errFn) {
-      if (this._sharedFetchPromises[url]) {
-        return this._sharedFetchPromises[url];
+      if (this._sharedFetchPromises[this.getBaseUrl() + url]) {
+        return this._sharedFetchPromises[this.getBaseUrl() + url];
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[url] !== undefined) {
-        return Promise.resolve(this._cache[url]);
+      if (this._cache[this.getBaseUrl() + url] !== undefined) {
+        return Promise.resolve(this._cache[this.getBaseUrl() + url]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn).then(
+      this._sharedFetchPromises[this.getBaseUrl() + url] = this.fetchJSON(url, opt_errFn).then(
         function(response) {
           if (response !== undefined) {
-            this._cache[url] = response;
+            this._cache[this.getBaseUrl() + url] = response;
           }
-          this._sharedFetchPromises[url] = undefined;
+          this._sharedFetchPromises[this.getBaseUrl() + url] = undefined;
           return response;
         }.bind(this)).catch(function(err) {
-          this._sharedFetchPromises[url] = undefined;
+          this._sharedFetchPromises[this.getBaseUrl() + url] = undefined;
           throw err;
         }.bind(this));
-      return this._sharedFetchPromises[url];
+      return this._sharedFetchPromises[this.getBaseUrl() + url];
     },
 
     _isNarrowScreen: function() {
@@ -690,7 +690,7 @@
         }
         options.body = opt_body;
       }
-      return fetch(url, options).then(function(response) {
+      return fetch(this.getBaseUrl() + url, options).then(function(response) {
         if (!response.ok) {
           if (opt_errFn) {
             opt_errFn.call(opt_ctx || null, response);
@@ -864,7 +864,7 @@
     },
 
     _changeBaseURL: function(changeNum, opt_patchNum) {
-      var v = '/changes/' + changeNum;
+      var v = this.getBaseUrl() + '/changes/' + changeNum;
       if (opt_patchNum) {
         v += '/revisions/' + opt_patchNum;
       }
@@ -1043,6 +1043,14 @@
     deleteAssignee: function(changeNum) {
       return this.send('DELETE',
           this.getChangeActionURL(changeNum, null, '/assignee'));
+    },
+
+    getBaseUrl: function() {
+      if (window.polygerrit_baseurl) {
+        return polygerrit_baseurl;
+      }
+
+      return '';
     },
   });
 })();

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3dbca2e_5e9a6aac",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:35:42Z",
+      "side": 1,
+      "message": "It took me two or three readings to understand what you meant here. A user does not expect a hyperlink such as:\n\n  \u003ca href\u003d\"#\" javascript\u003d\"doDelete()\"\u003eDelete\u003c/a\u003e\n\nand so this should not be a link. Instead, it should be a button. Can we spell out the use of hyperlinks vs. buttons vs. checkboxes vs. radio buttons vs. popup/select lists better?\n\nIts certainly tempting in some web UIs to use hyperlinks in bad ways; I\u0027m sure I\u0027ve done it more times than I can count. They can save space and are certainly easy to use. But I think what you are striving for here is hyperlinks should be reserved for navigational use; moving to another view, and maybe in limited circumstances expanding an existing view with \"Show more\" or \"Next\". While buttons should be used for actions that cause a change in the system that cannot be restored by simply clicking the browser\u0027s \"Back\" button.",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "093265ca_f71489b8",
+        "filename": "Documentation/dev-ux.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2017-03-02T04:35:42Z",
+      "side": 1,
+      "message": "Hah. This is a great suggestion!  But its going to be hard to keep. There is always something that will surprise someone.",
+      "range": {
+        "startLine": 62,
+        "startChar": 79,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "c207881fcc4eb0045f721366518ecc66867f3971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

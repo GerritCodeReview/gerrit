@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -57,7 +58,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang.mutable.MutableDouble;
 import org.eclipse.jgit.lib.Config;
@@ -191,7 +191,7 @@ public class ReviewerRecommender {
             .entrySet()
             .stream()
             .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
-    List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(Collectors.toList());
+    List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(toList());
     return sortedSuggestions;
   }
 

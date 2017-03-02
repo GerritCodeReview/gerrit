@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static java.util.stream.Collectors.joining;
+
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -26,7 +28,6 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -70,6 +71,6 @@ public class Schema_130 extends SchemaVersion {
       }
     }
     ui.message("\tMigration completed:  " + repoUpgraded.size() + " repositories updated:");
-    ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(Collectors.joining(" ")));
+    ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(joining(" ")));
   }
 }

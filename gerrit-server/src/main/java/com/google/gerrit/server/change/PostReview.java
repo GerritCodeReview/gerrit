@@ -20,6 +20,7 @@ import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
@@ -112,7 +113,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -885,7 +885,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private List<FixReplacement> toFixReplacements(List<FixReplacementInfo> fixReplacementInfos) {
-      return fixReplacementInfos.stream().map(this::toFixReplacement).collect(Collectors.toList());
+      return fixReplacementInfos.stream().map(this::toFixReplacement).collect(toList());
     }
 
     private FixReplacement toFixReplacement(FixReplacementInfo fixReplacementInfo) {

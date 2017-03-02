@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -33,7 +34,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class DeleteExternalIds implements RestModifyView<AccountResource, List<String>> {
@@ -77,7 +77,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
             .toList()
             .stream()
             .map(ExternalId::from)
-            .collect(Collectors.toMap(i -> i.key(), i -> i));
+            .collect(toMap(i -> i.key(), i -> i));
 
     List<ExternalId> toDelete = new ArrayList<>();
     ExternalId.Key last = resource.getUser().getLastLoginExternalIdKey();

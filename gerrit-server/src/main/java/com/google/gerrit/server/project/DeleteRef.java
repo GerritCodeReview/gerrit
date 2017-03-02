@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
@@ -31,7 +32,6 @@ import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -174,7 +174,7 @@ public class DeleteRef {
             : refsToDelete
                 .stream()
                 .map(ref -> ref.startsWith(prefix) ? ref : prefix + ref)
-                .collect(Collectors.toList());
+                .collect(toList());
     for (String ref : refs) {
       batchUpdate.addCommand(createDeleteCommand(resource, r, ref));
     }

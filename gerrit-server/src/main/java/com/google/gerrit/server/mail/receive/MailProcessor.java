@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -59,7 +61,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -177,7 +178,7 @@ public class MailProcessor {
               .stream()
               .filter(c -> (c.writtenOn.getTime() / 1000) == (metadata.timestamp.getTime() / 1000))
               .sorted(CommentsUtil.COMMENT_ORDER)
-              .collect(Collectors.toList());
+              .collect(toList());
       Project.NameKey project = cd.project();
       String changeUrl = canonicalUrl.get() + "#/c/" + cd.getId().get();
 

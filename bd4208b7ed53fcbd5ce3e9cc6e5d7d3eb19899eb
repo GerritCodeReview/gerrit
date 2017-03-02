@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46609df5_0b4f48a3",
+        "filename": "polygerrit-ui/app/index.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2017-03-02T21:38:38Z",
+      "side": 1,
+      "message": "This will fix the html part. But it seems that the page still dosen\u0027t load.\n\nI belive this https://github.com/web-animations/web-animations-js/commit/6f5b499a86ab122b6d8060ca3ff53be661a29337 fixes one error i see. We need to someone try to use that.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 84
+      },
+      "revId": "bd4208b7ed53fcbd5ce3e9cc6e5d7d3eb19899eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

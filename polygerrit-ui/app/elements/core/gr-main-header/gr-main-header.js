@@ -16,25 +16,25 @@
 
   var ADMIN_LINKS = [
     {
-      url: '/admin/groups',
+      url: baseUrl() + '/admin/groups',
       name: 'Groups',
     },
     {
-      url: '/admin/create-group',
+      url: baseUrl() + '/admin/create-group',
       name: 'Create Group',
       capability: 'createGroup'
     },
     {
-      url: '/admin/projects',
+      url: baseUrl() + '/admin/projects',
       name: 'Projects',
     },
     {
-      url: '/admin/create-project',
+      url: baseUrl() + '/admin/create-project',
       name: 'Create Project',
       capability: 'createProject',
     },
     {
-      url: '/admin/plugins',
+      url: baseUrl() + '/admin/plugins',
       name: 'Plugins',
       capability: 'viewPlugins',
     },
@@ -44,15 +44,15 @@
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open',
+        url: baseUrl() + '/q/status:open',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: baseUrl() + '/q/status:merged',
         name: 'Merged',
       },
       {
-        url: '/q/status:abandoned',
+        url: baseUrl() + '/q/status:abandoned',
         name: 'Abandoned',
       },
     ],
@@ -88,7 +88,7 @@
       },
       _loginURL: {
         type: String,
-        value: '/login',
+        value: baseUrl() + '/login',
       },
       _userLinks: {
         type: Array,
@@ -114,7 +114,7 @@
     },
 
     _handleLocationChange: function(e) {
-      this._loginURL = '/login/' + encodeURIComponent(
+      this._loginURL = baseUrl() + '/login/' + encodeURIComponent(
           window.location.pathname +
           window.location.search +
           window.location.hash);

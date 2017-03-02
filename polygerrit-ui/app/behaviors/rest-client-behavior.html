@@ -99,7 +99,7 @@ limitations under the License.
     },
 
     changeBaseURL: function(changeNum, patchNum) {
-      var v = '/changes/' + changeNum;
+      var v = baseUrl() + '/changes/' + changeNum;
       if (patchNum) {
         v += '/revisions/' + patchNum;
       }
@@ -107,7 +107,7 @@ limitations under the License.
     },
 
     changePath: function(changeNum) {
-      return '/c/' + changeNum;
+      return baseUrl() + '/c/' + changeNum;
     },
 
     changeIsOpen: function(status) {

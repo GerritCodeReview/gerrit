@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a8c57a6_875b1eca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-02T00:45:27Z",
+      "side": 1,
+      "message": "Super nit: this grammar is kind of weird. How about...\n\nPreviously, diff cursors initialized when diffs finished rendering,\nincluding processing and syntax highlighting. This change initializes\nthe cursors once the text content of the diff finishes rendering.\n\n...?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "d9e84843c25cb835839e24230132e4298d08f9be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411099a1_ff3aa924",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-02T00:45:27Z",
+      "side": 1,
+      "message": "\"Fired when the diff finishes rendering text content.\"?",
+      "range": {
+        "startLine": 84,
+        "startChar": 11,
+        "endLine": 84,
+        "endChar": 79
+      },
+      "revId": "d9e84843c25cb835839e24230132e4298d08f9be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "683899ee_bf539f71",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2017-03-02T00:45:27Z",
+      "side": 1,
+      "message": "Use this.dispatchEvent to make upgrading to Polymer 2.0 easier :)\n\nhttps://github.com/Polymer/docs/blob/master/app/2.0/docs/upgrade.md \u003c- bottom of the page",
+      "range": {
+        "startLine": 151,
+        "startChar": 12,
+        "endLine": 151,
+        "endChar": 40
+      },
+      "revId": "d9e84843c25cb835839e24230132e4298d08f9be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

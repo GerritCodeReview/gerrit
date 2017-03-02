@@ -15,12 +15,14 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.WatchConfig.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
@@ -344,5 +346,39 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
     // assert email notification
     assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNotifyForDraftChange() throws Exception {
+    // watch project
+    String watchedProject = createProject("watchedProject").get();
+    setApiUser(user);
+    watch(watchedProject, null);
+
+    grant(
+        Permission.VIEW_DRAFTS,
+        new Project.NameKey(watchedProject),
+        "refs/*",
+        false,
+        REGISTERED_USERS);
+
+    // push a draft change to watched project -> should trigger email notification since watcher
+    // can view drafts
+    setApiUser(admin);
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(new Project.NameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "TRIGGER", "a", "a1")
+            .to("refs/for/master%draft");
+    r.assertOkStatus();
+
+    // assert email notification
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.rcpt()).containsExactly(user.emailAddress);
+    assertThat(m.body()).contains("Change subject: TRIGGER\n");
+    assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
 }

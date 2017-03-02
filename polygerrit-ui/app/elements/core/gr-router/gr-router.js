@@ -34,12 +34,15 @@
   };
 
   window.addEventListener('WebComponentsReady', function() {
+    var myLocation = window.location.pathname;
+    page.base(myLocation);
     getReporting().timeEnd('WebComponentsReady');
   });
 
   function startRouter() {
     var restAPI = document.createElement('gr-rest-api-interface');
     var reporting = getReporting();
+    var myLocation = window.location.pathname;
 
     // Middleware
     page(function(ctx, next) {
@@ -78,38 +81,38 @@
         }
         var newUrl = data.hash;
         if (newUrl.indexOf('/VE/') === 0) {
-          newUrl = '/settings' + data.hash;
+          newUrl = myLocation + '/settings' + data.hash;
         }
         page.redirect(newUrl);
         return;
       }
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
-          page.redirect('/dashboard/self');
+          page.redirect(myLocation + '/dashboard/self');
         } else {
-          page.redirect('/q/status:open');
+          page.redirect(myLocation + '/q/status:open');
         }
       });
     });
 
-    page('/dashboard/(.*)', loadUser, function(data) {
+    page(myLocation + '/dashboard/(.*)', loadUser, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           data.params.view = 'gr-dashboard-view';
           app.params = data.params;
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          page.redirect(myLocation + '/login/' + encodeURIComponent(data.canonicalPath));
         }
       });
     });
 
-    page('/admin/(.*)', loadUser, function(data) {
+    page(myLocation + '/admin/(.*)', loadUser, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           data.params.view = 'gr-admin-view';
           app.params = data.params;
         } else {
-          page.redirect('/login/' + encodeURIComponent(data.canonicalPath));
+          page.redirect(myLocation + '/login/' + encodeURIComponent(data.canonicalPath));
         }
       });
     });
@@ -119,11 +122,11 @@
       app.params = data.params;
     }
 
-    page('/q/:query,:offset', queryHandler);
-    page('/q/:query', queryHandler);
+    page(myLocation + '/q/:query,:offset', queryHandler);
+    page(myLocation + '/q/:query', queryHandler);
 
-    page(/^\/(\d+)\/?/, function(ctx) {
-      page.redirect('/c/' + encodeURIComponent(ctx.params[0]));
+    page(myLocation + /^\/(\d+)\/?/, function(ctx) {
+      page.redirect(myLocation + '/c/' + encodeURIComponent(ctx.params[0]));
     });
 
     function normalizePatchRangeParams(params) {
@@ -134,7 +137,7 @@
     }
 
     // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>].
-    page(/^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, function(ctx) {
+    page(myLocation + /^\/c\/(\d+)\/?(((\d+)(\.\.(\d+))?))?$/, function(ctx) {
       // Parameter order is based on the regex group number matched.
       var params = {
         changeNum: ctx.params[0],
@@ -146,7 +149,7 @@
       // Don't allow diffing the same patch number against itself.
       if (params.basePatchNum != null &&
           params.basePatchNum === params.patchNum) {
-        page.redirect('/c/' +
+        page.redirect(myLocation + '/c/' +
             encodeURIComponent(params.changeNum) +
             '/' +
             encodeURIComponent(params.patchNum) +
@@ -158,7 +161,7 @@
     });
 
     // Matches /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
-    page(/^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
+    page(myLocation + /^\/c\/(\d+)\/((\d+)(\.\.(\d+))?)\/(.+)/, function(ctx) {
       // Parameter order is based on the regex group number matched.
       var params = {
         changeNum: ctx.params[0],
@@ -198,7 +201,7 @@
       app.params = params;
     });
 
-    page(/^\/settings\/VE\/(\S+)/, function(data) {
+    page(myLocation + /^\/settings\/VE\/(\S+)/, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           app.params = {
@@ -211,7 +214,7 @@
       });
     });
 
-    page(/^\/settings\/?/, function(data) {
+    page(myLocation + /^\/settings\/?/, function(data) {
       restAPI.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
           app.params = {view: 'gr-settings-view'};
@@ -221,7 +224,7 @@
       });
     });
 
-    page(/^\/register(\/.*)?/, function(ctx) {
+    page(myLocation + /^\/register(\/.*)?/, function(ctx) {
       app.params = {justRegistered: true};
       var path = ctx.params[0] || '/';
       page.show(path);

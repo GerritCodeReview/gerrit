@@ -16,10 +16,15 @@ package com.google.gerrit.server.git.validators;
 
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.server.account.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.git.ReceiveCommits.NEW_PATCHSET;
+import static java.util.stream.Collectors.joining;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -28,14 +33,20 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.ExternalId;
+import com.google.gerrit.server.account.ExternalIds;
+import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.account.WatchConfig;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -50,10 +61,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.apache.commons.codec.DecoderException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -86,6 +100,8 @@ public class CommitValidators {
     private final String canonicalWebUrl;
     private final DynamicSet<CommitValidationListener> pluginValidators;
     private final AllUsersName allUsers;
+    private final AccountCache accountCache;
+    private final GitRepositoryManager repoManager;
     private final String installCommitMsgHookCommand;
 
     @Inject
@@ -94,11 +110,15 @@ public class CommitValidators {
         @CanonicalWebUrl @Nullable String canonicalWebUrl,
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
-        AllUsersName allUsers) {
+        AllUsersName allUsers,
+        AccountCache accountCache,
+        GitRepositoryManager repoManager) {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
       this.allUsers = allUsers;
+      this.accountCache = accountCache;
+      this.repoManager = repoManager;
       this.installCommitMsgHookCommand =
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
     }
@@ -135,7 +155,7 @@ public class CommitValidators {
                 new ConfigValidator(refControl, repo, allUsers),
                 new BannedCommitsValidator(rejectCommits),
                 new PluginCommitValidationListener(pluginValidators),
-                new BlockExternalIdUpdateListener(allUsers)));
+                new ExternalIdUpdateListener(accountCache, repoManager, allUsers)));
       }
     }
 
@@ -151,7 +171,7 @@ public class CommitValidators {
                   refControl, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
               new ConfigValidator(refControl, repo, allUsers),
               new PluginCommitValidationListener(pluginValidators),
-              new BlockExternalIdUpdateListener(allUsers)));
+              new ExternalIdUpdateListener(accountCache, repoManager, allUsers)));
     }
 
     private CommitValidators forMergedCommits(RefControl refControl) {
@@ -620,10 +640,15 @@ public class CommitValidators {
   }
 
   /** Blocks any update to refs/meta/external-ids */
-  public static class BlockExternalIdUpdateListener implements CommitValidationListener {
+  public static class ExternalIdUpdateListener implements CommitValidationListener {
+    private final AccountCache accountCache;
+    private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
 
-    public BlockExternalIdUpdateListener(AllUsersName allUsers) {
+    public ExternalIdUpdateListener(
+        AccountCache accountCache, GitRepositoryManager repoManager, AllUsersName allUsers) {
+      this.accountCache = accountCache;
+      this.repoManager = repoManager;
       this.allUsers = allUsers;
     }
 
@@ -632,9 +657,107 @@ public class CommitValidators {
         throws CommitValidationException {
       if (allUsers.equals(receiveEvent.project.getNameKey())
           && RefNames.REFS_EXTERNAL_IDS.equals(receiveEvent.refName)) {
-        throw new CommitValidationException("not allowed to update " + RefNames.REFS_EXTERNAL_IDS);
+        List<CommitValidationMessage> msgs = validateExternalIds(receiveEvent.commit);
+        if (msgs.stream().filter(m -> m.isError()).findAny().isPresent()) {
+          throw new CommitValidationException("invalid external IDs", ImmutableList.copyOf(msgs));
+        }
+        return msgs;
       }
       return Collections.emptyList();
+    }
+
+    private List<CommitValidationMessage> validateExternalIds(ObjectId commit)
+        throws CommitValidationException {
+      List<CommitValidationMessage> msgs = new ArrayList<>();
+
+      ListMultimap<String, ExternalId.Key> emails =
+          MultimapBuilder.hashKeys().arrayListValues().build();
+
+      try (Repository repo = repoManager.openRepository(allUsers);
+          RevWalk rw = new RevWalk(repo)) {
+        NoteMap noteMap = ExternalIds.readNoteMap(rw, commit);
+        for (Note note : noteMap) {
+          byte[] raw =
+              rw.getObjectReader()
+                  .open(note.getData(), OBJ_BLOB)
+                  .getCachedBytes(ExternalIds.MAX_NOTE_SZ);
+          try {
+            ExternalId extId = ExternalId.parse(note.getName(), raw);
+            msgs.addAll(validateExternalId(note.getName(), extId));
+
+            if (extId.email() != null) {
+              emails.put(extId.email(), extId.key());
+            }
+          } catch (ConfigInvalidException e) {
+            addError(
+                String.format("Invalid config for note %s: %s", note.getName(), e.getMessage()),
+                msgs);
+          }
+        }
+      } catch (IOException e) {
+        String m = "error validating external IDs";
+        log.warn(m, e);
+        throw new CommitValidationException(m, e);
+      }
+
+      emails
+          .asMap()
+          .entrySet()
+          .stream()
+          .filter(e -> e.getValue().size() > 1)
+          .forEach(
+              e ->
+                  addError(
+                      String.format(
+                          "Email %s is not unique, it's used by the following external IDs: %s",
+                          e.getKey(),
+                          e.getValue()
+                              .stream()
+                              .map(k -> "'" + k.get() + "'")
+                              .collect(joining(","))),
+                      msgs));
+
+      return msgs;
+    }
+
+    private List<CommitValidationMessage> validateExternalId(String noteId, ExternalId extId) {
+      List<CommitValidationMessage> msgs = new ArrayList<>();
+
+      if (!extId.key().sha1().getName().equals(noteId)) {
+        addError(
+            String.format(
+                "The note ID %s of external ID %s doesn't match the SHA1 of the external ID key",
+                noteId, extId.key().get()),
+            msgs);
+      }
+
+      if (accountCache.getIfPresent(extId.accountId()) == null) {
+        addError(
+            String.format(
+                "External ID %s belongs to account that doesn't exist: %s",
+                extId.key().get(), extId.accountId().get()),
+            msgs);
+      }
+
+      if (extId.email() != null && !OutgoingEmailValidator.isValid(extId.email())) {
+        addError(
+            String.format(
+                "External ID %s has an invalid email: %s", extId.key().get(), extId.email()),
+            msgs);
+      }
+
+      if (extId.password() != null && extId.isScheme(SCHEME_USERNAME)) {
+        try {
+          HashedPassword.decode(extId.password());
+        } catch (DecoderException e) {
+          addError(
+              String.format(
+                  "External ID %s has an invalid password: %s", extId.key().get(), e.getMessage()),
+              msgs);
+        }
+      }
+
+      return msgs;
     }
   }
 

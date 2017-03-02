@@ -33,6 +33,32 @@
     getReporting().pageLoaded();
   };
 
+  var pathArray = window.location.pathname.indexOf("/", 1);
+  var myLocation = window.location.pathname.substr(0,pathArray+1 );
+  var myLocation2 = window.location.pathname.substr(0,pathArray );
+
+  if (
+      myLocation.match(/^\/components\/?$/) ||
+      myLocation.match(/^\/c\/?$/) ||
+      myLocation.match(/^\/changes\/?$/) ||
+      myLocation.match(/^\/q\/?$/) ||
+      myLocation.match(/^\/settings\/?$/) ||
+      myLocation.match(/^\/dashboard\/?$/) ||
+      myLocation.match(/^\/login\/?$/) ||
+      myLocation.match(/^\/settings\/?$/) ||
+      myLocation.match(/^\/register\/?$/) ||
+      myLocation.match(/^\/admin\/?$/) ||
+      myLocation.match(/^\/logout\/?$/) ||
+      myLocation.match(/^\/x\/?$/) ||
+      myLocation.match(/^\/projects\/?$/) ||
+      myLocation.match(/^\/accounts\/?$/) ||
+      myLocation.match(/^\/groups\/?$/)
+  ) {
+    // do nothing
+  } else {
+    page.base(myLocation2);
+  }
+
   window.addEventListener('WebComponentsReady', function() {
     getReporting().timeEnd('WebComponentsReady');
   });

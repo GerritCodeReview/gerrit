@@ -179,22 +179,22 @@
     },
 
     getConfig: function() {
-      return this._fetchSharedCacheURL('/config/server/info');
+      return this._fetchSharedCacheURL(this.baseUrl() + '/config/server/info');
     },
 
     getProjectConfig: function(project) {
       return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(project) + '/config');
+          this.baseUrl() + '/projects/' + encodeURIComponent(project) + '/config');
     },
 
     getVersion: function() {
-      return this._fetchSharedCacheURL('/config/server/version');
+      return this._fetchSharedCacheURL(this.baseUrl() + '/config/server/version');
     },
 
     getDiffPreferences: function() {
       return this.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
-          return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
+          return this._fetchSharedCacheURL(this.baseUrl() + '/accounts/self/preferences.diff');
         }
         // These defaults should match the defaults in
         // gerrit-extension-api/src/main/jcg/gerrit/extensions/client/DiffPreferencesInfo.java
@@ -226,46 +226,46 @@
         prefs.download_scheme = prefs.download_scheme.toLowerCase();
       }
 
-      return this.send('PUT', '/accounts/self/preferences', prefs, opt_errFn,
+      return this.send('PUT', this.baseUrl() + '/accounts/self/preferences', prefs, opt_errFn,
           opt_ctx);
     },
 
     saveDiffPreferences: function(prefs, opt_errFn, opt_ctx) {
       // Invalidate the cache.
-      this._cache['/accounts/self/preferences.diff'] = undefined;
-      return this.send('PUT', '/accounts/self/preferences.diff', prefs,
+      this._cache[this.baseUrl() + '/accounts/self/preferences.diff'] = undefined;
+      return this.send('PUT', this.baseUrl() + '/accounts/self/preferences.diff', prefs,
           opt_errFn, opt_ctx);
     },
 
     getAccount: function() {
-      return this._fetchSharedCacheURL('/accounts/self/detail', function(resp) {
+      return this._fetchSharedCacheURL(this.baseUrl() + '/accounts/self/detail', function(resp) {
         if (resp.status === 403) {
-          this._cache['/accounts/self/detail'] = null;
+          this._cache[this.baseUrl() + '/accounts/self/detail'] = null;
         }
       }.bind(this));
     },
 
     getAccountEmails: function() {
-      return this._fetchSharedCacheURL('/accounts/self/emails');
+      return this._fetchSharedCacheURL(this.baseUrl() + '/accounts/self/emails');
     },
 
     addAccountEmail: function(email, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/emails/' +
+      return this.send('PUT', this.baseUrl() + '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
     deleteAccountEmail: function(email, opt_errFn, opt_ctx) {
-      return this.send('DELETE', '/accounts/self/emails/' +
+      return this.send('DELETE', this.baseUrl() + '/accounts/self/emails/' +
           encodeURIComponent(email), null, opt_errFn, opt_ctx);
     },
 
     setPreferredAccountEmail: function(email, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/emails/' +
+      return this.send('PUT', this.baseUrl() + '/accounts/self/emails/' +
           encodeURIComponent(email) + '/preferred', null,
           opt_errFn, opt_ctx).then(function() {
         // If result of getAccountEmails is in cache, update it in the cache
         // so we don't have to invalidate it.
-        var cachedEmails = this._cache['/accounts/self/emails'];
+        var cachedEmails = this._cache[this.baseUrl() + '/accounts/self/emails'];
         if (cachedEmails) {
           var emails = cachedEmails.map(function(entry) {
             if (entry.email === email) {
@@ -274,22 +274,22 @@
               return {email: email};
             }
           });
-          this._cache['/accounts/self/emails'] = emails;
+          this._cache[this.baseUrl() + '/accounts/self/emails'] = emails;
         }
       }.bind(this));
     },
 
     setAccountName: function(name, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/name', {name: name}, opt_errFn,
+      return this.send('PUT', this.baseUrl() + '/accounts/self/name', {name: name}, opt_errFn,
           opt_ctx).then(function(response) {
             // If result of getAccount is in cache, update it in the cache
             // so we don't have to invalidate it.
-            var cachedAccount = this._cache['/accounts/self/detail'];
+            var cachedAccount = this._cache[this.baseUrl() + '/accounts/self/detail'];
             if (cachedAccount) {
               return this.getResponseObject(response).then(function(newName) {
                 // Replace object in cache with new object to force UI updates.
                 // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
+                this._cache[this.baseUrl() + '/accounts/self/detail'] = Object.assign(
                     {}, cachedAccount, {name: newName});
               }.bind(this));
             }
@@ -297,16 +297,16 @@
     },
 
     setAccountStatus: function(status, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/status', {status: status},
+      return this.send('PUT', this.baseUrl() + '/accounts/self/status', {status: status},
           opt_errFn, opt_ctx).then(function(response) {
             // If result of getAccount is in cache, update it in the cache
             // so we don't have to invalidate it.
-            var cachedAccount = this._cache['/accounts/self/detail'];
+            var cachedAccount = this._cache[this.baseUrl() + '/accounts/self/detail'];
             if (cachedAccount) {
               return this.getResponseObject(response).then(function(newStatus) {
                 // Replace object in cache with new object to force UI updates.
                 // TODO(logan): Polyfill for Object.assign in IE
-                this._cache['/accounts/self/detail'] = Object.assign(
+                this._cache[this.baseUrl() + '/accounts/self/detail'] = Object.assign(
                     {}, cachedAccount, {status: newStatus});
               }.bind(this));
             }
@@ -314,7 +314,7 @@
     },
 
     getAccountGroups: function() {
-      return this._fetchSharedCacheURL('/accounts/self/groups');
+      return this._fetchSharedCacheURL(this.baseUrl() + '/accounts/self/groups');
     },
 
     getAccountCapabilities: function(opt_params) {
@@ -324,7 +324,7 @@
             .map(function(param) { return encodeURIComponent(param); })
             .join('&q=');
       }
-      return this._fetchSharedCacheURL('/accounts/self/capabilities' +
+      return this._fetchSharedCacheURL(this.baseUrl() + '/accounts/self/capabilities' +
           queryString);
     },
 
@@ -342,7 +342,7 @@
     getPreferences: function() {
       return this.getLoggedIn().then(function(loggedIn) {
         if (loggedIn) {
-          return this._fetchSharedCacheURL('/accounts/self/preferences').then(
+          return this._fetchSharedCacheURL(this.baseUrl() + '/accounts/self/preferences').then(
               function(res) {
             if (this._isNarrowScreen()) {
               res.default_diff_view = DiffViewMode.UNIFIED;
@@ -363,11 +363,11 @@
     },
 
     getWatchedProjects: function() {
-      return this._fetchSharedCacheURL('/accounts/self/watched.projects');
+      return this._fetchSharedCacheURL(this.baseUrl() + '/accounts/self/watched.projects');
     },
 
     saveWatchedProjects: function(projects, opt_errFn, opt_ctx) {
-      return this.send('POST', '/accounts/self/watched.projects', projects,
+      return this.send('POST', this.baseUrl() + '/accounts/self/watched.projects', projects,
           opt_errFn, opt_ctx)
           .then(function(response) {
             return this.getResponseObject(response);
@@ -375,7 +375,7 @@
     },
 
     deleteWatchedProjects: function(projects, opt_errFn, opt_ctx) {
-      return this.send('POST', '/accounts/self/watched.projects:delete',
+      return this.send('POST', this.baseUrl() + '/accounts/self/watched.projects:delete',
           projects, opt_errFn, opt_ctx);
     },
 
@@ -422,7 +422,7 @@
       if (opt_query && opt_query.length > 0) {
         params.q = opt_query;
       }
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(this.baseUrl() + '/changes/', null, null, params);
     },
 
     getDashboardChanges: function() {
@@ -440,7 +440,7 @@
             'limit:10',
         ],
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(this.baseUrl() + '/changes/', null, null, params);
     },
 
     getChangeActionURL: function(changeNum, opt_patchNum, endpoint) {
@@ -544,19 +544,19 @@
     getSuggestedGroups: function(inputVal, opt_n, opt_errFn, opt_ctx) {
       var params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }
-      return this.fetchJSON('/groups/', opt_errFn, opt_ctx, params);
+      return this.fetchJSON(this.baseUrl() + '/groups/', opt_errFn, opt_ctx, params);
     },
 
     getSuggestedProjects: function(inputVal, opt_n, opt_errFn, opt_ctx) {
       var params = {p: inputVal};
       if (opt_n) { params.n = opt_n; }
-      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, params);
+      return this.fetchJSON(this.baseUrl() + '/projects/', opt_errFn, opt_ctx, params);
     },
 
     getSuggestedAccounts: function(inputVal, opt_n, opt_errFn, opt_ctx) {
       var params = {q: inputVal, suggest: null};
       if (opt_n) { params.n = opt_n; }
-      return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
+      return this.fetchJSON(this.baseUrl() + '/accounts/', opt_errFn, opt_ctx, params);
     },
 
     addChangeReviewer: function(changeNum, reviewerID) {
@@ -603,7 +603,7 @@
         O: options,
         q: 'status:open is:mergeable conflicts:' + changeNum,
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(this.baseUrl() + '/changes/', null, null, params);
     },
 
     getChangeCherryPicks: function(project, changeID, changeNum) {
@@ -621,7 +621,7 @@
         O: options,
         q: query,
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(this.baseUrl() + '/changes/', null, null, params);
     },
 
     getChangesWithSameTopic: function(topic) {
@@ -635,7 +635,7 @@
         O: options,
         q: 'status:open topic:' + topic,
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this.fetchJSON(this.baseUrl() + '/changes/', null, null, params);
     },
 
     getReviewedFiles: function(changeNum, patchNum) {
@@ -669,7 +669,7 @@
     },
 
     saveChangeStarred: function(changeNum, starred) {
-      var url = '/accounts/self/starred.changes/' + changeNum;
+      var url = this.baseUrl() + '/accounts/self/starred.changes/' + changeNum;
       var method = starred ? 'PUT' : 'DELETE';
       return this.send(method, url);
     },
@@ -864,7 +864,7 @@
     },
 
     _changeBaseURL: function(changeNum, opt_patchNum) {
-      var v = '/changes/' + changeNum;
+      var v = this.baseUrl() + '/changes/' + changeNum;
       if (opt_patchNum) {
         v += '/revisions/' + opt_patchNum;
       }
@@ -898,7 +898,7 @@
 
     getCommitInfo: function(project, commit) {
       return this.fetchJSON(
-          '/projects/' + encodeURIComponent(project) +
+          this.baseUrl() + '/projects/' + encodeURIComponent(project) +
           '/commits/' + encodeURIComponent(commit));
     },
 
@@ -914,7 +914,7 @@
 
     getChangeFileContents: function(changeId, patchNum, path) {
       return this._fetchB64File(
-          '/changes/' + encodeURIComponent(changeId) +
+          this.baseUrl() + '/changes/' + encodeURIComponent(changeId) +
           '/revisions/' + encodeURIComponent(patchNum) +
           '/files/' + encodeURIComponent(path) +
           '/content');
@@ -922,7 +922,7 @@
 
     getCommitFileContents: function(projectName, commit, path) {
       return this._fetchB64File(
-          '/projects/' + encodeURIComponent(projectName) +
+          this.baseUrl() + '/projects/' + encodeURIComponent(projectName) +
           '/commits/' + encodeURIComponent(commit) +
           '/files/' + encodeURIComponent(path) +
           '/content');
@@ -977,25 +977,25 @@
     },
 
     setChangeTopic: function(changeNum, topic) {
-      return this.send('PUT', '/changes/' + encodeURIComponent(changeNum) +
+      return this.send('PUT', this.baseUrl() + '/changes/' + encodeURIComponent(changeNum) +
           '/topic', {topic: topic});
     },
 
     deleteAccountHttpPassword: function() {
-      return this.send('DELETE', '/accounts/self/password.http');
+      return this.send('DELETE', this.baseUrl() + '/accounts/self/password.http');
     },
 
     generateAccountHttpPassword: function() {
-      return this.send('PUT', '/accounts/self/password.http', {generate: true})
+      return this.send('PUT', this.baseUrl() + '/accounts/self/password.http', {generate: true})
           .then(this.getResponseObject);
     },
 
     getAccountSSHKeys: function() {
-      return this._fetchSharedCacheURL('/accounts/self/sshkeys');
+      return this._fetchSharedCacheURL(this.baseUrl() + '/accounts/self/sshkeys');
     },
 
     addAccountSSHKey: function(key) {
-      return this.send('POST', '/accounts/self/sshkeys', key, null, null,
+      return this.send('POST', this.baseUrl() + '/accounts/self/sshkeys', key, null, null,
           'plain/text')
           .then(function(response) {
             if (response.status < 200 && response.status >= 300) {
@@ -1010,11 +1010,11 @@
     },
 
     deleteAccountSSHKey: function(id) {
-      return this.send('DELETE', '/accounts/self/sshkeys/' + id);
+      return this.send('DELETE', this.baseUrl() + '/accounts/self/sshkeys/' + id);
     },
 
     deleteVote: function(changeID, account, label) {
-      return this.send('DELETE', '/changes/' + changeID +
+      return this.send('DELETE', this.baseUrl() + '/changes/' + changeID +
           '/reviewers/' + account + '/votes/' + encodeURIComponent(label));
     },
 
@@ -1043,6 +1043,33 @@
     deleteAssignee: function(changeNum) {
       return this.send('DELETE',
           this.getChangeActionURL(changeNum, null, '/assignee'));
+    },
+
+    baseUrl: function() {
+      var pathArray = window.location.pathname.indexOf("/", 1);
+      var myLocation = window.location.pathname.substr(0,pathArray+1 );
+      var myLocation2 = window.location.pathname.substr(0,pathArray );
+      if (
+          myLocation.match(/^\/components\/?$/) ||
+          myLocation.match(/^\/c\/?$/) ||
+          myLocation.match(/^\/changes\/?$/) ||
+          myLocation.match(/^\/q\/?$/) ||
+          myLocation.match(/^\/settings\/?$/) ||
+          myLocation.match(/^\/login\/?$/) ||
+          myLocation.match(/^\/dashboard\/?$/) ||
+          myLocation.match(/^\/settings\/?$/) ||
+          myLocation.match(/^\/register\/?$/) ||
+          myLocation.match(/^\/admin\/?$/) ||
+          myLocation.match(/^\/logout\/?$/) ||
+          myLocation.match(/^\/x\/?$/) ||
+          myLocation.match(/^\/projects\/?$/) ||
+          myLocation.match(/^\/accounts\/?$/) ||
+          myLocation.match(/^\/groups\/?$/)
+       ) {
+        return '';
+      } else {
+        return myLocation2;
+      }
     },
   });
 })();

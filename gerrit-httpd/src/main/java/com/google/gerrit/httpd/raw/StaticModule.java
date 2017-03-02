@@ -41,6 +41,7 @@ import com.google.inject.servlet.ServletModule;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import javax.servlet.Filter;
@@ -251,7 +252,7 @@ public class StaticModule extends ServletModule {
     @Named(POLYGERRIT_INDEX_SERVLET)
     HttpServlet getPolyGerritUiIndexServlet(@Named(CACHE) Cache<Path, Resource> cache) {
       return new SingleFileServlet(
-          cache, polyGerritBasePath().resolve("index.html"), getPaths().isDev(), false);
+          cache, polyGerritBasePath().resolve("app"), getPaths().isDev(), false);
     }
 
     @Provides
@@ -469,6 +470,41 @@ public class StaticModule extends ServletModule {
 
       if (isPolyGerritIndex(path)) {
         polyGerritIndex.service(reqWrapper, res);
+        PrintWriter out = res.getWriter();
+        out.println("<!DOCTYPE html>");
+        out.println("<html lang=\"en\">");
+        out.println("<meta charset=\"utf-8\">");
+        out.println("<meta name=\"description\" content=\"Gerrit Code Review\">");
+        out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0\">");
+
+        out.println("<!--");
+        out.println("SourceCodePro fonts are used in styles/fonts.css");
+        out.println("@see https://github.com/w3c/preload/issues/32 regarding crossorigin");
+        out.println("-->");
+
+        out.println("<script>");
+        if (options.polyGerritBaseUrl()) {
+          out.println("var polygerrit_baseurl ='" + options.polyGerritBaseUrl() + "';");
+        }
+
+        out.println("if (typeof polygerrit_baseurl !== \"undefined\") {");
+        out.println("  var base_url = polygerrit_baseurl;");
+        out.println("} else {");
+        out.println("  var base_url = '';");
+        out.println("}");
+
+        out.println("document.write('<link rel=\"preload\" href=\"'+base_url+'/fonts/SourceCodePro-Regular.woff2'+'\" as=\"font\" type=\"font/woff2\" crossorigin>');");
+        out.println("document.write('<link rel=\"preload\" href=\"'+base_url+'/fonts/SourceCodePro-Regular.woff'+'\" as=\"font\" type=\"font/woff\" crossorigin>');");
+        out.println("document.write('<link rel=\"stylesheet\" href=\"'+base_url+'/styles/fonts.css'+'\">');");
+        out.println("document.write('<link rel=\"stylesheet\" href=\"'+base_url+'/styles/main.css'+'\">');");
+
+        out.println("document.write('<script src=\"'+base_url+'/bower_components/webcomponentsjs/webcomponents-lite.js'+'\"></scr'+'ipt>');");
+        out.println("document.write('<link rel=\"preload\" href=\"'+base_url+'/elements/gr-app.js'+'\" as=\"script\" crossorigin=\"anonymous\">');");
+        out.println("document.write('<link rel=\"import\" href=\"'+base_url+'/elements/gr-app.html'+'\">');");
+        out.println("</script>");
+
+        out.println("<body unresolved>");
+        out.println("<gr-app id=\"app\"></gr-app>");
         return;
       }
       if (isPolyGerritAsset(path)) {

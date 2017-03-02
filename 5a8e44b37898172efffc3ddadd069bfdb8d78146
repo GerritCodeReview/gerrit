@@ -197,6 +197,29 @@
     },
     {
       "key": {
+        "uuid": "9eb9f845_0a2f85d1",
+        "filename": "Documentation/dev-note-db.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2017-03-02T18:31:07Z",
+      "side": 1,
+      "message": "+the",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "5a8e44b37898172efffc3ddadd069bfdb8d78146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "931a5b49_8ab531f5",
         "filename": "Documentation/dev-note-db.txt",
         "patchSetId": 4

@@ -151,6 +151,11 @@ The copied run configurations will be added automatically to the available run
 configurations of the IntelliJ project.
 
 ==== Gerrit Daemon
+WARNING: At the moment running this configuration results in a
+`java.io.FileNotFoundException`. To debug a local Gerrit server with IntelliJ,
+use the instructions of <<dev-readme#run_daemon,Running the Daemon>> in
+combination with <<remote-debug,Debugging a remote Gerrit server>>.
+
 Copy `$(gerrit_source_code)/tools/intellij/gerrit_daemon.xml` to
 `$(project_data_directory)/.idea/runConfigurations/`.
 
@@ -172,6 +177,17 @@ run configuration instead, which can be used just like the standard ones.
 TIP: If you would like to execute a test in NoteDb mode, add
 `--test_env=GERRIT_NOTEDB=READ_WRITE` to the *Bazel flags* of your run
 configuration.
+
+[[remote-debug]]
+=== Debugging a remote Gerrit server
+If a remote Gerrit server is running and has opened a debug port, you can attach
+IntelliJ via a `Remote debug configuration`.
+
+. Go to *Run -> Edit Configurations*.
+. Click on the *+* to add a new configuration.
+. Choose *Remote*.
+. Adjust *Configuration -> Settings -> Host* and *Port*.
+. Start this configuration in `Debug` mode.
 
 GERRIT
 ------

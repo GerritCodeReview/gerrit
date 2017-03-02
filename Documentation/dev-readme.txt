@@ -159,6 +159,16 @@ copying to the test site:
 NOTE: Please refer to <<special_bazel_java_version,this explanation>>
 for details why using `java -jar` isn't sufficient.
 
+If you want to debug the Gerrit server of this test site, you can open a debug
+port (for example port 5005) by inserting
+
+----
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+----
+
+directly after `-jar` of the previous command. Please refer to
+<<dev-intellij#remote-debug,Debugging a remote Gerrit server>> for instructions
+of how to attach IntelliJ.
 
 === Running the Daemon with Gerrit Inspector
 

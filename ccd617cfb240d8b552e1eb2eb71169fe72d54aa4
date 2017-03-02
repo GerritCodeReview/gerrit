@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "0a172d12_0cc4ea5f",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-02T13:31:12Z",
+      "side": 1,
+      "message": "Remote debugging of production server is 1% of customers compared to 99% of developers that are working with local development server. Wile it is fine to provide documentation for 1% of your customers, i would start with 99% use case and explain the folks, that is currently broken and what the workaround is ;)",
+      "parentUuid": "b29bec0a_77bdb881",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 16
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbfb2b62_6e637e9c",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1

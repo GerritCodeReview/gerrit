@@ -324,4 +324,25 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // assert email notification
     assertThat(sender.getMessages()).isEmpty();
   }
+
+  @Test
+  public void watchProjectNoNotificationForDraftChange() throws Exception {
+    // watch project
+    String watchedProject = createProject("watchedProject").get();
+    setApiUser(user);
+    watch(watchedProject, null);
+
+    // push a draft change to watched project -> should not trigger email notification
+    setApiUser(admin);
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(new Project.NameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(db, admin.getIdent(), watchedRepo, "draft change", "a", "a1")
+            .to("refs/for/master%draft");
+    r.assertOkStatus();
+
+    // assert email notification
+    assertThat(sender.getMessages()).isEmpty();
+  }
 }

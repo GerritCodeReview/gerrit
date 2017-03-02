@@ -33,6 +33,10 @@
     getReporting().pageLoaded();
   };
 
+  if (typeof window.CONFIG_BASE_URL !== "undefined") {
+    page.base(window.CONFIG_BASE_URL);
+  }
+
   window.addEventListener('WebComponentsReady', function() {
     getReporting().timeEnd('WebComponentsReady');
   });

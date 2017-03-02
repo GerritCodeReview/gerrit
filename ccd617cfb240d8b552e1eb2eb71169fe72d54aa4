@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b29bec0a_77bdb881",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T13:26:44Z",
+      "side": 1,
+      "message": "Remote debugging would also be fine on it\u0027s own. One could debug their staging or prod servers remotely.\n\nBut I think you have a valid point in saying we should add a line to that that this is currently also a workaround for the broken \"Start Gerrit from IJ\" workflow",
+      "parentUuid": "47ace6d7_564d9736",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 16
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbfb2b62_6e637e9c",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1

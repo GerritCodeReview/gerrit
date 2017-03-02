@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ca01ac5_d3288783",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T13:18:56Z",
+      "side": 1,
+      "message": "predicate",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e1d8aa2_b73e879e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T13:18:56Z",
+      "side": 1,
+      "message": "predicates",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a769e7c4_d8c37d95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T13:18:56Z",
+      "side": 1,
+      "message": "I think we should just use the email and don\u0027t construct a compound AND query. The email should be unique already - no need do search by the name too.",
+      "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50dfc92e_587b720f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2017-03-02T13:18:56Z",
+      "side": 1,
+      "message": "Try reusing com.google.gerrit.server.mail.Address",
+      "range": {
+        "startLine": 1183,
+        "startChar": 22,
+        "endLine": 1183,
+        "endChar": 36
+      },
+      "revId": "162acf1596690f7bfd36bd43b44af94d1c8b5565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

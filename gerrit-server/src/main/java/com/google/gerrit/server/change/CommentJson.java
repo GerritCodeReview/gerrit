@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.CommentsUtil.COMMENT_INFO_ORDER;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
@@ -38,7 +39,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 class CommentJson {
 
@@ -191,7 +191,7 @@ class CommentJson {
         return null;
       }
 
-      return fixSuggestions.stream().map(this::toFixSuggestionInfo).collect(Collectors.toList());
+      return fixSuggestions.stream().map(this::toFixSuggestionInfo).collect(toList());
     }
 
     private FixSuggestionInfo toFixSuggestionInfo(FixSuggestion fixSuggestion) {
@@ -199,11 +199,7 @@ class CommentJson {
       fixSuggestionInfo.fixId = fixSuggestion.fixId;
       fixSuggestionInfo.description = fixSuggestion.description;
       fixSuggestionInfo.replacements =
-          fixSuggestion
-              .replacements
-              .stream()
-              .map(this::toFixReplacementInfo)
-              .collect(Collectors.toList());
+          fixSuggestion.replacements.stream().map(this::toFixReplacementInfo).collect(toList());
       return fixSuggestionInfo;
     }
 

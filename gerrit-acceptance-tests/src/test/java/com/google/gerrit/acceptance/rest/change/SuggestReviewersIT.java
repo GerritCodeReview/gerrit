@@ -41,7 +41,6 @@ import com.google.gerrit.server.group.GroupsCollection;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -298,14 +297,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     setApiUser(user1);
     String changeId3 = createChangeFromApi();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId3, null, 4);
-    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(Collectors.toList()))
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
         .containsExactly(reviewer1.id.get(), reviewer2.id.get())
         .inOrder();
 
     // check that existing reviewers are filtered out
     gApi.changes().id(changeId3).addReviewer(reviewer1.email);
     reviewers = suggestReviewers(changeId3, null, 4);
-    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(Collectors.toList()))
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
         .containsExactly(reviewer2.id.get())
         .inOrder();
   }
@@ -358,7 +357,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     setApiUser(userWhoLooksForSuggestions);
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), "Pri", 4);
-    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(Collectors.toList()))
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
         .containsExactly(
             reviewer1.id.get(), reviewer2.id.get(), userWhoOwns.id.get(), userWhoComments.id.get())
         .inOrder();
@@ -398,7 +397,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     // Assert that reviewer1 is on top, even though reviewer2 has more reviews
     // in other projects
-    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(Collectors.toList()))
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
         .containsExactly(reviewer1.id.get(), reviewer2.id.get())
         .inOrder();
   }

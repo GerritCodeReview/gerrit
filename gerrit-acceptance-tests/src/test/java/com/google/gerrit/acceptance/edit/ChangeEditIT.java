@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.restapi.BinaryResultSubject.assertTha
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -64,7 +65,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -824,7 +824,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(ci.messages).isNotNull();
     assertThat(ci.messages).hasSize(expectedMessages.size());
     List<String> actualMessages =
-        ci.messages.stream().map(message -> message.message).collect(Collectors.toList());
+        ci.messages.stream().map(message -> message.message).collect(toList());
     assertThat(actualMessages).containsExactlyElementsIn(expectedMessages).inOrder();
   }
 }

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
@@ -76,7 +77,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -500,12 +500,7 @@ public class MergeOp implements AutoCloseable {
     List<SubmitStrategy> strategies = new ArrayList<>();
     Set<Branch.NameKey> allBranches = submoduleOp.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
-        toSubmit
-            .values()
-            .stream()
-            .map(BranchBatch::commits)
-            .flatMap(Set::stream)
-            .collect(Collectors.toSet());
+        toSubmit.values().stream().map(BranchBatch::commits).flatMap(Set::stream).collect(toSet());
     for (Branch.NameKey branch : allBranches) {
       OpenRepo or = orm.getRepo(branch.getParentKey());
       if (toSubmit.containsKey(branch)) {

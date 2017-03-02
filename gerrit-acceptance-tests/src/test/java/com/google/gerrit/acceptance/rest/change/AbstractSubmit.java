@@ -24,6 +24,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
@@ -83,7 +84,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -464,8 +464,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     // Check that the repo has the expected commits
     List<RevCommit> log = getRemoteLog();
-    List<String> commitsInRepo =
-        log.stream().map(c -> c.getShortMessage()).collect(Collectors.toList());
+    List<String> commitsInRepo = log.stream().map(c -> c.getShortMessage()).collect(toList());
     int expectedCommitCount =
         getSubmitType() == SubmitType.MERGE_ALWAYS
             ? 5 // initial commit + 3 commits + merge commit

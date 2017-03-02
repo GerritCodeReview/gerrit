@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
@@ -83,7 +85,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -108,7 +109,7 @@ public class ChangeData {
   }
 
   public static Map<Change.Id, ChangeData> asMap(List<ChangeData> changes) {
-    return changes.stream().collect(Collectors.toMap(ChangeData::getId, cd -> cd));
+    return changes.stream().collect(toMap(ChangeData::getId, cd -> cd));
   }
 
   public static void ensureChangeLoaded(Iterable<ChangeData> changes) throws OrmException {
@@ -999,7 +1000,7 @@ public class ChangeData {
 
       List<Comment> comments =
           Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
-      Set<String> nonLeafSet = comments.stream().map(c -> c.parentUuid).collect(Collectors.toSet());
+      Set<String> nonLeafSet = comments.stream().map(c -> c.parentUuid).collect(toSet());
 
       Long count =
           comments.stream().filter(c -> (c.unresolved && !nonLeafSet.contains(c.key.uuid))).count();

@@ -690,7 +690,7 @@
         }
         options.body = opt_body;
       }
-      return fetch(url, options).then(function(response) {
+      return fetch(this.getBaseUrl() + url, options).then(function(response) {
         if (!response.ok) {
           if (opt_errFn) {
             opt_errFn.call(opt_ctx || null, response);
@@ -1043,6 +1043,14 @@
     deleteAssignee: function(changeNum) {
       return this.send('DELETE',
           this.getChangeActionURL(changeNum, null, '/assignee'));
+    },
+
+    getBaseUrl: function() {
+      if (window.polygerrit_baseurl) {
+        return polygerrit_baseurl;
+      }
+
+      return '';
     },
   });
 })();

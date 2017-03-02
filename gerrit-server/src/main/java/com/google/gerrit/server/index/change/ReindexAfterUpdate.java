@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -92,7 +93,8 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
           public void onFailure(Throwable ignored) {
             // Logged by {@link GetChanges#call()}.
           }
-        });
+        },
+        directExecutor());
   }
 
   private abstract class Task<V> implements Callable<V> {

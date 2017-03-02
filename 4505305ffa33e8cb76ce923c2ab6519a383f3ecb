@@ -17,6 +17,24 @@
       "revId": "4505305ffa33e8cb76ce923c2ab6519a383f3ecb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2541753_ad71c2d3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2017-03-02T09:39:53Z",
+      "side": 1,
+      "message": "Done as follow-up since this required a fix.",
+      "parentUuid": "bf7d1f3c_0ea893c3",
+      "revId": "4505305ffa33e8cb76ce923c2ab6519a383f3ecb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

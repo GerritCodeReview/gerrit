@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "47ace6d7_564d9736",
+        "filename": "Documentation/dev-intellij.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2017-03-02T13:23:42Z",
+      "side": 1,
+      "message": "That is the only question that I was asking all the time as I read this instruction: This can only be a workaround for something that doesn\u0027t work. In this case, I would expect to provide a section:\n\n[[debug local gerrit server]]\n\n* This currently doesn\u0027t work. When we are trying to start Gerrit from IJ, we are getting this exception: CNFE, or some such. For now, use the workaround described in remote-debug section to debug local server.",
+      "parentUuid": "4bf2afcb_c0be0ed5",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 16
+      },
+      "revId": "ccd617cfb240d8b552e1eb2eb71169fe72d54aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbfb2b62_6e637e9c",
         "filename": "Documentation/dev-intellij.txt",
         "patchSetId": 1
